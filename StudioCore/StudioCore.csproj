@@ -1,0 +1,124 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Shaders\Collision.frag.spv" />
+    <None Remove="Assets\Shaders\Collision.vert.spv" />
+    <None Remove="Assets\Shaders\DebugWire.frag.spv" />
+    <None Remove="Assets\Shaders\DebugWire.vert.spv" />
+    <None Remove="Assets\Shaders\NavSolid.frag.spv" />
+    <None Remove="Assets\Shaders\NavSolid.vert.spv" />
+    <None Remove="Assets\Shaders\NavWire.frag.spv" />
+    <None Remove="Assets\Shaders\NavWire.vert.spv" />
+    <None Remove="Assets\Shaders\SimpleFlver.frag.spv" />
+    <None Remove="Assets\Shaders\SimpleFlver.vert.spv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Shaders\DebugWire.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Lib\SDL2.dll" Link="SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\Collision.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\Collision.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\DebugWire.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\NavSolid.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\NavWire.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\NavWire.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\SimpleFlver.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\SimpleFlver.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Lib\libveldrid-spirv.dll" Link="libveldrid-spirv.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="SoulsFormats.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.72.0" />
+    <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Veldrid">
+      <HintPath>..\Lib\Veldrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.ImageSharp">
+      <HintPath>..\Lib\Veldrid.ImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.ImGui">
+      <HintPath>..\Lib\Veldrid.ImGui.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.RenderDoc">
+      <HintPath>..\Lib\Veldrid.RenderDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.SDL2">
+      <HintPath>..\Lib\Veldrid.SDL2.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.SPIRV">
+      <HintPath>..\Lib\Veldrid.SPIRV.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.StartupUtilities">
+      <HintPath>..\Lib\Veldrid.StartupUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Veldrid.Utilities">
+      <HintPath>..\Lib\Veldrid.Utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Shaders\NavSolid.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MapStudioNew.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+</Project>
