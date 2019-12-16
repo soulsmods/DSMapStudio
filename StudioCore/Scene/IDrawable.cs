@@ -23,7 +23,7 @@ namespace StudioCore.Scene
         /// A selectable object that is attached to this scene object and can be selected
         /// with a raycast
         /// </summary>
-        public ISelectable Selectable { get; set; }
+        public WeakReference<ISelectable> Selectable { get; set; }
 
         /// <summary>
         /// Render mask of this object. Used to hide objects of certain classes from the scene
@@ -52,6 +52,12 @@ namespace StudioCore.Scene
         /// Unregister this object from the scene, effectively removing it
         /// </summary>
         public void UnregisterWithScene();
+
+        /// <summary>
+        /// Unregister this object from the scene and release the resource it holds onto. Should be done
+        /// when the object is ultimately destroyed but potentially not collected yet
+        /// </summary>
+        public void UnregisterAndRelease();
 
         public void SubmitRenderObjects(Scene.Renderer.RenderQueue queue);
         public BoundingBox GetBounds();

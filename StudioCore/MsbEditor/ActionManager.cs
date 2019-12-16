@@ -52,5 +52,11 @@ namespace StudioCore.MsbEditor
         {
             return RedoStack.Count() > 0;
         }
+
+        public void Clear()
+        {
+            UndoStack.Clear();
+            RedoStack.Clear();
+        }
     }
 }

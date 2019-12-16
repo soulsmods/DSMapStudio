@@ -260,34 +260,38 @@ namespace StudioCore
             if (!IsVisible)
                 return;
 
-            if (FlverResource == null || FlverResource.Get() == null)
+            if (FlverResource == null || !FlverResource.IsLoaded || FlverResource.Get() == null)
                 return;
 
             //if (mask != null && ModelMaskIndex >= 0 && !mask[ModelMaskIndex])
             //    return;
 
-            var resource = FlverResource.Get();
-            var mesh = resource.GPUMeshes[FlverMeshIndex];
-            var vertbuffer = mesh.VertBuffer;
-
-            cl.SetPipeline(RenderPipeline);
-            cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-            uint offset = 0;
-            cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-            cl.SetVertexBuffer(0, vertbuffer);
-
-            foreach (var faceSet in mesh.MeshFacesets)
+            if (FlverResource.TryLock())
             {
-                if (faceSet.IndexCount == 0)
-                    continue;
-                if (faceSet.LOD != 0)
-                    continue;
+                var resource = FlverResource.Get();
+                var mesh = resource.GPUMeshes[FlverMeshIndex];
+                var vertbuffer = mesh.VertBuffer;
 
-                //GFX.Device.DrawIndexedPrimitives(faceSet.IsTriangleStrip ? PrimitiveType.TriangleStrip : PrimitiveType.TriangleList, 0, 0,
-                //    faceSet.IsTriangleStrip ? (faceSet.IndexCount - 2) : (faceSet.IndexCount / 3));
+                cl.SetPipeline(RenderPipeline);
+                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
+                uint offset = 0;
+                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
+                cl.SetVertexBuffer(0, vertbuffer);
 
-                cl.SetIndexBuffer(faceSet.IndexBuffer, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
-                cl.DrawIndexed(faceSet.IndexBuffer.SizeInBytes / (faceSet.Is32Bit ? 4u : 2u), 1, 0, 0, 0);
+                foreach (var faceSet in mesh.MeshFacesets)
+                {
+                    if (faceSet.IndexCount == 0)
+                        continue;
+                    if (faceSet.LOD != 0)
+                        continue;
+
+                    //GFX.Device.DrawIndexedPrimitives(faceSet.IsTriangleStrip ? PrimitiveType.TriangleStrip : PrimitiveType.TriangleList, 0, 0,
+                    //    faceSet.IsTriangleStrip ? (faceSet.IndexCount - 2) : (faceSet.IndexCount / 3));
+
+                    cl.SetIndexBuffer(faceSet.IndexBuffer, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
+                    cl.DrawIndexed(faceSet.IndexBuffer.SizeInBytes / (faceSet.Is32Bit ? 4u : 2u), 1, 0, 0, 0);
+                }
+                FlverResource.Unlock();
             }
         }
 

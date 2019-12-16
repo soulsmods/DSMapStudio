@@ -38,5 +38,10 @@ namespace StudioCore.MsbEditor
                 MapObjects.Add(new MapObject(p, MapObject.ObjectType.TypeEvent));
             }*/
         }
+
+        public void Clear()
+        {
+            MapObjects.Clear();
+        }
     }
 }

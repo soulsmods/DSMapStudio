@@ -104,7 +104,7 @@ namespace StudioCore.MsbEditor
                 newobj.Name = obj.Name + "_1";
                 Map.MapObjects.Insert(Map.MapObjects.IndexOf(obj) + 1, newobj);
                 newobj.UpdateRenderTransform();
-                newobj.RenderSceneMesh.Selectable = newobj;
+                newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
                 Clones.Add(newobj);
             }
             if (SetSelection)

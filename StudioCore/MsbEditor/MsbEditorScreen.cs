@@ -153,16 +153,20 @@ namespace StudioCore.MsbEditor
                                 //try
                                 //{
                                 var ad = AssetLocator.GetMapMSB(map);
-                                    IMsb msb;
-                                    if (AssetLocator.Type == GameType.DarkSoulsIII)
-                                    {
-                                        msb = MSB3.Read(ad.AssetPath);
-                                    }
-                                    else
-                                    {
-                                        msb = MSB1.Read(ad.AssetPath);
-                                    }
-                                    CurrentMap.LoadMSB(msb);
+                                IMsb msb;
+                                if (AssetLocator.Type == GameType.DarkSoulsIII)
+                                {
+                                    msb = MSB3.Read(ad.AssetPath);
+                                }
+                                else if (AssetLocator.Type == GameType.Sekiro)
+                                {
+                                    msb = MSBS.Read(ad.AssetPath);
+                                }
+                                else
+                                {
+                                    msb = MSB1.Read(ad.AssetPath);
+                                }
+                                CurrentMap.LoadMSB(msb);
 
                                 // Temporary garbage
                                 foreach (var obj in CurrentMap.MapObjects)
@@ -215,7 +219,7 @@ namespace StudioCore.MsbEditor
                                             var mesh = new Scene.CollisionMesh(RenderScene, res, false);
                                             mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                                             obj.RenderSceneMesh = mesh;
-                                            mesh.Selectable = obj;
+                                            mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                                         }
                                         else if (loadnav)
                                         {
@@ -223,7 +227,7 @@ namespace StudioCore.MsbEditor
                                             var mesh = new Scene.NvmMesh(RenderScene, res, false);
                                             mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                                             obj.RenderSceneMesh = mesh;
-                                            mesh.Selectable = obj;
+                                            mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                                         }
                                         else
                                         {
@@ -232,7 +236,7 @@ namespace StudioCore.MsbEditor
                                             model.DrawFilter = filt;
                                             model.WorldMatrix = obj.GetTransform().WorldMatrix;
                                             obj.RenderSceneMesh = model;
-                                            model.Selectable = obj;
+                                            model.Selectable = new WeakReference<Scene.ISelectable>(obj);
                                         }
                                     }
                                     if (obj.MsbObject is MSB1.Region r && r.Shape is MSB1.Shape.Box b)
@@ -240,7 +244,7 @@ namespace StudioCore.MsbEditor
                                         var mesh = Scene.Region.GetBoxRegion(RenderScene, b.Width, b.Height, b.Depth);
                                         mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                                         obj.RenderSceneMesh = mesh;
-                                        mesh.Selectable = obj;
+                                        mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                                     }
                                 }
                                 //}
@@ -317,6 +321,13 @@ namespace StudioCore.MsbEditor
                             }
                         }
                         ImGui.EndMenu();
+                    }
+                    if (ImGui.MenuItem("Close Map"))
+                    {
+                        Selection.ClearSelection();
+                        EditorActionManager.Clear();
+                        CurrentMap.Clear();
+                        GC.Collect();
                     }
                     if (ImGui.MenuItem("Save MSB", "CTRL+S") || InputTracker.GetControlShortcut(Key.S)) { }
                     ImGui.EndMenu();

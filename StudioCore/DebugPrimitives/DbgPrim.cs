@@ -182,7 +182,7 @@ namespace StudioCore.DebugPrimitives
         /// </summary>
         public virtual string[] ShaderTechniquesSelection => null;
 
-        public ISelectable Selectable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public WeakReference<ISelectable> Selectable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Highlighted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AutoRegister { get; set; } = false;
 
@@ -308,6 +308,11 @@ namespace StudioCore.DebugPrimitives
         }
 
         public void UnregisterWithScene()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnregisterAndRelease()
         {
             throw new NotImplementedException();
         }

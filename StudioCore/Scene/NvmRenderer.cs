@@ -147,26 +147,30 @@ namespace StudioCore.Scene
             if (!IsVisible)
                 return;
 
-            if (NvmResource == null || NvmResource.Get() == null)
+            if (NvmResource == null || !NvmResource.IsLoaded || NvmResource.Get() == null)
                 return;
 
-            var resource = NvmResource.Get();
-            var vertbuffer = resource.VertBuffer;
+            if (NvmResource.TryLock())
+            {
+                var resource = NvmResource.Get();
+                var vertbuffer = resource.VertBuffer;
 
-            cl.SetPipeline(RenderPipeline);
-            cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-            uint offset = 0;
-            cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-            cl.SetVertexBuffer(0, vertbuffer);
-            cl.SetIndexBuffer(resource.IndexBuffer, IndexFormat.UInt32);
-            cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                cl.SetPipeline(RenderPipeline);
+                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
+                uint offset = 0;
+                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
+                cl.SetVertexBuffer(0, vertbuffer);
+                cl.SetIndexBuffer(resource.IndexBuffer, IndexFormat.UInt32);
+                cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
 
-            cl.SetPipeline(RenderWirePipeline);
-            cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-            cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-            cl.SetVertexBuffer(0, vertbuffer);
-            cl.SetIndexBuffer(resource.IndexBuffer, IndexFormat.UInt32);
-            cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                cl.SetPipeline(RenderWirePipeline);
+                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
+                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
+                cl.SetVertexBuffer(0, vertbuffer);
+                cl.SetIndexBuffer(resource.IndexBuffer, IndexFormat.UInt32);
+                cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                NvmResource.Unlock();
+            }
         }
 
         public void Dispose()

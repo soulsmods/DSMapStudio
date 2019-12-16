@@ -56,6 +56,14 @@ namespace StudioCore.MsbEditor
             Type = type;
         }
 
+        ~MapObject()
+        {
+            if (RenderSceneMesh != null)
+            {
+                RenderSceneMesh.UnregisterAndRelease();
+            }
+        }
+
         public MapObject Clone()
         {
             var typ = MsbObject.GetType();

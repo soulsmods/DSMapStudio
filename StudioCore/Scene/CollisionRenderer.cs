@@ -132,20 +132,24 @@ namespace StudioCore.Scene
             if (!IsVisible)
                 return;
 
-            if (ColResource == null || ColResource.Get() == null)
+            if (ColResource == null || !ColResource.IsLoaded || ColResource.Get() == null)
                 return;
 
-            var resource = ColResource.Get();
-            var mesh = resource.GPUMeshes[ColMeshIndex];
-            var vertbuffer = mesh.VertBuffer;
+            if (ColResource.TryLock())
+            {
+                var resource = ColResource.Get();
+                var mesh = resource.GPUMeshes[ColMeshIndex];
+                var vertbuffer = mesh.VertBuffer;
 
-            cl.SetPipeline(RenderPipeline);
-            cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-            uint offset = 0;
-            cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-            cl.SetVertexBuffer(0, vertbuffer);
-            cl.SetIndexBuffer(mesh.IndexBuffer, IndexFormat.UInt32);
-            cl.DrawIndexed(mesh.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                cl.SetPipeline(RenderPipeline);
+                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
+                uint offset = 0;
+                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
+                cl.SetVertexBuffer(0, vertbuffer);
+                cl.SetIndexBuffer(mesh.IndexBuffer, IndexFormat.UInt32);
+                cl.DrawIndexed(mesh.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                ColResource.Unlock();
+            }
         }
 
         public void Dispose()

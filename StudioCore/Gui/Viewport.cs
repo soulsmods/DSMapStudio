@@ -156,12 +156,22 @@ namespace StudioCore.Gui
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
                         {
-                            MsbEditor.Selection.AddSelection(hit.Selectable);
+                            Scene.ISelectable sel;
+                            var b = hit.Selectable.TryGetTarget(out sel);
+                            if (b)
+                            {
+                                MsbEditor.Selection.AddSelection(sel);
+                            }
                         }
                         else
                         {
-                            MsbEditor.Selection.ClearSelection();
-                            MsbEditor.Selection.AddSelection(hit.Selectable);
+                            Scene.ISelectable sel;
+                            var b = hit.Selectable.TryGetTarget(out sel);
+                            if (b)
+                            {
+                                MsbEditor.Selection.ClearSelection();
+                                MsbEditor.Selection.AddSelection(sel);
+                            }
                         }
                     }
                     else

@@ -264,7 +264,8 @@ namespace StudioCore
             }
             else
             {
-                var mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", @"*.flver").ToList();
+                var ext = Type == GameType.Bloodborne ? @"*.flver" : @"*.flver.dcx";
+                var mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", ext).ToList();
                 foreach (var f in mapfiles)
                 {
                     var ad = new AssetDescription();
@@ -331,7 +332,7 @@ namespace StudioCore
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
                 ret.AssetVirtualPath = $@"map/{mapid}/nav/{model}.nvm";
             }
-            else
+                        else
             {
                 return GetNullAsset();
             }

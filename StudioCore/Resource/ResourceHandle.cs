@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StudioCore.Resource
@@ -45,6 +46,19 @@ namespace StudioCore.Resource
         public bool _LoadResource(byte[] data, AccessLevel al);
         public bool _LoadResource(string file, AccessLevel al);
 
+        public int GetReferenceCounts();
+        public void Acquire();
+        public void Release();
+
+        /// <summary>
+        /// Tries to lock the resource if it is loaded. While locked the resource can't be
+        /// unloaded.
+        /// </summary>
+        /// <returns>True if the resource is successfully locked</returns>
+        public bool TryLock();
+
+        public void Unlock();
+
         public bool IsLoaded();
     }
 
@@ -61,6 +75,9 @@ namespace StudioCore.Resource
 
         private object LoadingLock = new object();
         private object HandlerLock = new object();
+        private object AcquireFreeLock = new object();
+
+        private int ReferenceCount = 0;
 
         public bool IsLoaded { get; private set; } = false;
 
@@ -68,8 +85,13 @@ namespace StudioCore.Resource
 
         private T Resource = null;
 
-        private List<Action<ResourceHandle<T>>> LoadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
-        private List<Action<ResourceHandle<T>>> UnloadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
+        //private List<Action<ResourceHandle<T>>> LoadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
+        //private List<Action<ResourceHandle<T>>> UnloadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
+
+        private List<WeakReference<IResourceEventListener>> EventListeners = new List<WeakReference<IResourceEventListener>>();
+
+        private int LockCounter = 0;
+        private object ResourceLock = new object();
 
         public ResourceHandle(string virtualPath)
         {
@@ -92,6 +114,31 @@ namespace StudioCore.Resource
 
         }
 
+        public bool TryLock()
+        {
+            if (!IsLoaded)
+            {
+                return false;
+            }
+            lock (ResourceLock)
+            {
+                if (IsLoaded)
+                {
+                    LockCounter++;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void Unlock()
+        {
+            lock (ResourceLock)
+            {
+                LockCounter--;
+            }
+        }
+
         bool IResourceHandle._LoadResource(byte[] data, AccessLevel al)
         {
             lock (LoadingLock)
@@ -108,11 +155,16 @@ namespace StudioCore.Resource
                 lock (HandlerLock)
                 {
                     IsLoaded = true;
-                    foreach (var handle in LoadCompletionHandlers)
+                    foreach (var listener in EventListeners)
                     {
                         try
                         {
-                            handle.Invoke(this);
+                            IResourceEventListener l;
+                            bool succ = listener.TryGetTarget(out l);
+                            if (succ)
+                            {
+                                l.OnResourceLoaded(this);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -150,9 +202,21 @@ namespace StudioCore.Resource
                 lock (HandlerLock)
                 {
                     IsLoaded = true;
-                    foreach (var handle in LoadCompletionHandlers)
+                    foreach (var listener in EventListeners)
                     {
-                        handle.Invoke(this);
+                        try
+                        {
+                            IResourceEventListener l;
+                            bool succ = listener.TryGetTarget(out l);
+                            if (succ)
+                            {
+                                l.OnResourceLoaded(this);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            System.Console.WriteLine("blah");
+                        }
                     }
                 }
                 AccessLevel = al;
@@ -166,29 +230,20 @@ namespace StudioCore.Resource
         /// To prevent deadlock, these handlers should not trigger a load/unload of the resource
         /// </summary>
         /// <param name="handler"></param>
-        public void AddResourceLoadedHandler(Action<ResourceHandle<T>> handler)
+        public void AddResourceEventListener(IResourceEventListener listener)
         {
             // Prevent modification of loading status while doing this check
             lock (HandlerLock)
             {
                 if (IsLoaded)
                 {
-                    handler.Invoke(this);
+                    listener.OnResourceLoaded(this);
                 }
-                LoadCompletionHandlers.Add(handler);
-            }
-        }
-
-        public void AddResourceUnloadedHandler(Action<ResourceHandle<T>> handler)
-        {
-            // Prevent modification of loading status while doing this check
-            lock (HandlerLock)
-            {
                 if (!IsLoaded)
                 {
-                    handler.Invoke(this);
+                    listener.OnResourceUnloaded(this);
                 }
-                UnloadCompletionHandlers.Add(handler);
+                EventListeners.Add(new WeakReference<IResourceEventListener>(listener));
             }
         }
 
@@ -201,10 +256,29 @@ namespace StudioCore.Resource
             // Make sure any outstanding handlers are added before changing
             lock (HandlerLock)
             {
-                IsLoaded = false;
-                foreach (var handler in UnloadCompletionHandlers)
+                bool spin = true;
+                while (spin)
                 {
-                    handler.Invoke(this);
+                    // Wait until the resource isn't locked
+                    while (LockCounter > 0) ;
+                    lock (ResourceLock)
+                    {
+                        if (LockCounter <= 0)
+                        {
+                            spin = false;
+                            IsLoaded = false;
+                        }
+                    }
+                }
+                
+                foreach (var listener in EventListeners)
+                {
+                    IResourceEventListener l;
+                    bool succ = listener.TryGetTarget(out l);
+                    if (succ)
+                    {
+                        l.OnResourceUnloaded(this);
+                    }
                 }
             }
             var handle = Resource;
@@ -215,6 +289,45 @@ namespace StudioCore.Resource
         bool IResourceHandle.IsLoaded()
         {
             return IsLoaded;
+        }
+
+        public int GetReferenceCounts()
+        {
+            return ReferenceCount;
+        }
+
+        public void Acquire()
+        {
+            lock (AcquireFreeLock)
+            {
+                ReferenceCount++;
+            }
+        }
+
+        public void Release()
+        {
+            bool unload = false;
+            lock (AcquireFreeLock)
+            {
+                ReferenceCount--;
+                if (ReferenceCount <= 0 && IsLoaded)
+                {
+                    unload = true;
+                }
+                if (ReferenceCount <= 0)
+                {
+                    ReferenceCount = 0;
+                }
+            }
+            if (unload)
+            {
+                Unload();
+            }
+        }
+
+        public override string ToString()
+        {
+            return AssetVirtualPath;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace StudioCore.Scene
                 OnWorldMatrixChanged();
             }
         }
-        public ISelectable Selectable { get; set; } = null;
+        public WeakReference<ISelectable> Selectable { get; set; } = null;
         public RenderFilter DrawFilter { get; set; } = RenderFilter.Region;
         public bool Highlighted { get; set; } = false;
         public bool AutoRegister { get; set; } = true;
@@ -123,6 +123,11 @@ namespace StudioCore.Scene
                 RenderScene.RemoveObject(this);
                 Registered = false;
             }
+        }
+
+        public void UnregisterAndRelease()
+        {
+            UnregisterWithScene();
         }
 
         public void SubmitRenderObjects(Renderer.RenderQueue queue)

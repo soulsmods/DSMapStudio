@@ -79,7 +79,7 @@ namespace StudioCore
                gdOptions,
                //VeldridStartup.GetPlatformDefaultBackend(),
                //GraphicsBackend.Metal,
-               // GraphicsBackend.Vulkan,
+               //GraphicsBackend.Vulkan,
                GraphicsBackend.Direct3D11,
                //GraphicsBackend.OpenGL,
                //GraphicsBackend.OpenGLES,

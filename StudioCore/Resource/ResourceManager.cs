@@ -485,7 +485,7 @@ namespace StudioCore.Resource
 
         public ResourceManager()
         {
-            ThreadPool.SetMaxThreads(12, 12);
+            ThreadPool.SetMaxThreads(4, 4);
         }
 
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)
@@ -574,7 +574,7 @@ namespace StudioCore.Resource
                 ImGui.End();
                 return;
             }
-            ImGui.Columns(2);
+            ImGui.Columns(3);
             ImGui.Separator();
             int id = 0;
             foreach (var item in ResourceDatabase)
@@ -585,6 +585,9 @@ namespace StudioCore.Resource
                 ImGui.NextColumn();
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text(item.Value.IsLoaded() ? "Loaded" : "Unloaded");
+                ImGui.NextColumn();
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text(item.Value.GetReferenceCounts().ToString());
                 ImGui.NextColumn();
                 ImGui.PopID();
             }

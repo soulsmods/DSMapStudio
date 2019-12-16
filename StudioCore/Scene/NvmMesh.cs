@@ -8,10 +8,11 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
 using StudioCore.Scene;
+using StudioCore.Resource;
 
 namespace StudioCore.Scene
 {
-    public class NvmMesh : Scene.IDrawable, IDisposable
+    public class NvmMesh : Scene.IDrawable, Resource.IResourceEventListener, IDisposable
     {
         public NvmRenderer RenderMesh;
 
@@ -27,7 +28,7 @@ namespace StudioCore.Scene
         private bool Registered = false;
         private DebugPrimitives.DbgPrimWireBox DebugBoundingBox = null;
 
-        public Scene.ISelectable Selectable { get; set; }
+        public WeakReference<ISelectable> Selectable { get; set; }
 
         public RenderFilter DrawFilter { get; set; } = RenderFilter.Navmesh;
 
@@ -85,37 +86,59 @@ namespace StudioCore.Scene
         {
             RenderScene = scene;
             Resource = res;
-            res.AddResourceLoadedHandler((handle) =>
-            {
-                CreateSubmeshes();
-                OnWorldMatrixChanged();
-                Renderer.AddBackgroundUploadTask((d, cl) =>
-                {
-                    RenderMesh.CreateDeviceObjects(d, cl, null);
-                    if (AutoRegister)
-                    {
-                        RegisterWithScene(RenderScene);
-                    }
-                    Created = true;
-                });
-            });
+            Resource.Acquire();
+            res.AddResourceEventListener(this);
         }
 
         public NvmMesh(NvmMesh mesh)
         {
             RenderScene = mesh.RenderScene;
             Resource = mesh.Resource;
-            Resource.AddResourceLoadedHandler((handle) =>
+            Resource.Acquire();
+            Resource.AddResourceEventListener(this);
+        }
+
+        ~NvmMesh()
+        {
+            if (Registered)
+            {
+                UnregisterWithScene();
+            }
+            if (Resource != null)
+            {
+                Resource.Release();
+            }
+        }
+
+        public void OnResourceLoaded(IResourceHandle handle)
+        {
+            if (Resource != null)
             {
                 CreateSubmeshes();
                 OnWorldMatrixChanged();
                 Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
-                    RenderMesh.CreateDeviceObjects(d, cl, null);
-                    RegisterWithScene(RenderScene);
-                    Created = true;
+                    if (RenderMesh != null)
+                    {
+                        RenderMesh.CreateDeviceObjects(d, cl, null);
+                        if (AutoRegister)
+                        {
+                            RegisterWithScene(RenderScene);
+                        }
+                        Created = true;
+                    }
                 });
-            });
+            }
+        }
+
+        public void OnResourceUnloaded(IResourceHandle handle)
+        {
+            if (Resource != null)
+            {
+                Created = false;
+                UnregisterWithScene();
+                RenderMesh = null;
+            }
         }
 
         private void OnWorldMatrixChanged()
@@ -224,6 +247,21 @@ namespace StudioCore.Scene
                 RenderScene.RemoveObject(this);
                 Registered = false;
             }
+        }
+
+        public void UnregisterAndRelease()
+        {
+            if (Registered)
+            {
+                UnregisterWithScene();
+            }
+            if (Resource != null)
+            {
+                Resource.Release();
+            }
+            Resource = null;
+            Created = false;
+            RenderMesh = null;
         }
     }
 }
