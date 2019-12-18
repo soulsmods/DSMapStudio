@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoulsFormats", "SoulsFormat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMapStudio", "DSMapStudio\DSMapStudio.csproj", "{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.ImGui", "Veldrid.ImGui\Veldrid.ImGui.csproj", "{0E86A67F-64EE-47D2-AB29-50289C9A8F59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E86A67F-64EE-47D2-AB29-50289C9A8F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E86A67F-64EE-47D2-AB29-50289C9A8F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E86A67F-64EE-47D2-AB29-50289C9A8F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E86A67F-64EE-47D2-AB29-50289C9A8F59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

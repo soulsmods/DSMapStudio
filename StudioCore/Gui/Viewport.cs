@@ -8,6 +8,7 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
+using ImGuiNET;
 
 namespace StudioCore.Gui
 {
@@ -28,6 +29,8 @@ namespace StudioCore.Gui
 
         private int PrevWidth;
         private int PrevHeight;
+        public int X;
+        public int Y;
         public int Width;
         public int Height;
 
@@ -48,6 +51,10 @@ namespace StudioCore.Gui
 
         private MsbEditor.ActionManager ActionManager;
 
+        private GraphicsDevice Device;
+
+        private bool CanInteract = false;
+
         //public RenderTarget2D SceneRenderTarget = null;
 
         public Viewport(GraphicsDevice device, Scene.RenderScene scene, MsbEditor.ActionManager am, int width, int height)
@@ -56,6 +63,7 @@ namespace StudioCore.Gui
             PrevHeight = height;
             Width = width;
             Height = height;
+            Device = device;
             float depth = device.IsDepthRangeZeroToOne ? 1 : 0;
             RenderViewport = new Veldrid.Viewport(0, 0, Width, Height, depth, 1.0f - depth);
 
@@ -74,7 +82,9 @@ namespace StudioCore.Gui
             {
                 cl.SetFramebuffer(device.SwapchainFramebuffer);
                 cl.SetViewport(0, RenderViewport);
-                cl.SetFullViewports();
+                //cl.SetFullViewports();
+                //cl.SetScissorRect(0, (uint)RenderViewport.X, (uint)RenderViewport.Y, (uint)RenderViewport.Width, (uint)RenderViewport.Height);
+                //cl.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
                 ViewportGrid.UpdatePerFrameResources(device, cl, ViewPipeline);
                 ViewportGrid.Render(device, cl, ViewPipeline);
             });
@@ -84,7 +94,7 @@ namespace StudioCore.Gui
             {
                 cl.SetFramebuffer(device.SwapchainFramebuffer);
                 cl.SetViewport(0, RenderViewport);
-                cl.SetFullViewports();
+                //cl.SetFullViewports();
                 cl.ClearDepthStencil(1.0f);
             });
             Scene.Renderer.RegisterRenderQueue(DebugRenderer);
@@ -126,27 +136,60 @@ namespace StudioCore.Gui
             return new Ray(WorldView.CameraTransform.Position, worldCoords);
         }
 
+        private bool MouseInViewport()
+        {
+            var mp = InputTracker.MousePosition;
+            if ((int)mp.X < X || (int)mp.X >= X + Width)
+            {
+                return false;
+            }
+            if ((int)mp.Y < Y || (int)mp.Y >= Y + Height)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void OnGui()
+        {
+            if (ImGui.Begin("Viewport", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
+            {
+                var p = ImGui.GetWindowPos();
+                var s = ImGui.GetWindowSize();
+                var newvp = new Veldrid.Rectangle((int)p.X, (int)p.Y, (int)s.X, (int)s.Y);
+                ResizeViewport(Device, newvp);
+                if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
+                {
+                    ImGui.SetWindowFocus();
+                }
+                CanInteract = ImGui.IsWindowFocused();
+                ImGui.End();
+            }
+        }
+
         public void ResizeViewport(GraphicsDevice device, Veldrid.Rectangle newvp)
         {
             PrevWidth = Width;
             PrevHeight = Height;
             Width = newvp.Width;
             Height = newvp.Height;
+            X = newvp.X;
+            Y = newvp.Y;
             WorldView.UpdateBounds(newvp);
             float depth = device.IsDepthRangeZeroToOne ? 0 : 1;
-            RenderViewport = new Veldrid.Viewport(0, 0, Width, Height, depth, 1.0f - depth);
+            RenderViewport = new Veldrid.Viewport(newvp.X, newvp.Y, Width, Height, depth, 1.0f - depth);
         }
 
         public bool Update(Sdl2Window window, float dt)
         {
             var pos = InputTracker.MousePosition;
-            var ray = GetRay((float)pos.X, (float)pos.Y);
+            var ray = GetRay((float)pos.X - (float)X, (float)pos.Y - (float)Y);
 
-            Gizmos.Update(ray);
+            Gizmos.Update(ray, CanInteract && MouseInViewport());
 
             bool kbbusy = false;
 
-            if (!Gizmos.IsMouseBusy() && !ImGuiNET.ImGui.GetIO().WantCaptureMouse)
+            if (!Gizmos.IsMouseBusy() && CanInteract && MouseInViewport())
             {
                 kbbusy = WorldView.UpdateInput(window, dt);
                 if (InputTracker.GetMouseButtonDown(MouseButton.Left))

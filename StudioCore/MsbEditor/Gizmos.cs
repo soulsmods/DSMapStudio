@@ -155,7 +155,7 @@ namespace StudioCore.MsbEditor
             return objt;
         }
 
-        public void Update(Ray ray)
+        public void Update(Ray ray, bool canCaptureMouse)
         {
             if (!IsTransforming)
             {
@@ -184,7 +184,7 @@ namespace StudioCore.MsbEditor
                         }
                         OriginalTransform = new Transform(accumPos / (float)Selection.GetSelection().Count, Vector3.Zero);
                     }
-                    if (!ImGuiNET.ImGui.GetIO().WantCaptureMouse && InputTracker.GetMouseButtonDown(MouseButton.Left))
+                    if (canCaptureMouse && InputTracker.GetMouseButtonDown(MouseButton.Left))
                     {
                         Axis res = Axis.None;
                         switch (Mode)

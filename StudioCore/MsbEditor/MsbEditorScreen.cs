@@ -100,7 +100,7 @@ namespace StudioCore.MsbEditor
         {
             Window = window;
             Rect = window.Bounds;
-            Viewport.ResizeViewport(device, new Rectangle(0, 0, window.Width, window.Height));
+            //Viewport.ResizeViewport(device, new Rectangle(0, 0, window.Width, window.Height));
         }
 
         bool MapObjectListOpen = true;
@@ -109,6 +109,22 @@ namespace StudioCore.MsbEditor
         //    SpriteFont font, GameTime gameTime, SpriteFont smallFont, Texture2D scrollbarArrowTex, ImGuiSystem.ImGuiRenderer guiRenderer)
         public void OnGUI()
         {
+            // Docking setup
+            var vp = ImGui.GetMainViewport();
+            ImGui.SetNextWindowPos(vp.Pos);
+            ImGui.SetNextWindowSize(vp.Size);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
+            flags |= ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+            flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+            flags |= ImGuiWindowFlags.NoBackground;
+            ImGui.Begin("DockSpace_W", flags);
+            ImGui.PopStyleVar(3);
+            var dsid = ImGui.GetID("DockSpace");
+            ImGui.DockSpace(dsid, new Vector2(0, 0));
+
             if (ImGui.BeginMainMenuBar())
             {
                 if (ImGui.BeginMenu("File"))
@@ -476,6 +492,8 @@ namespace StudioCore.MsbEditor
             //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");
             //ImGui.Text(string.Format("Application average {0:F3} ms/frame ({1:F1} FPS)", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
+            Viewport.OnGui();
+
             if (ImGui.Begin("Map Object List", ref MapObjectListOpen))
             {
                 foreach (var obj in CurrentMap.MapObjects)
@@ -493,6 +511,7 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
+                ImGui.End();
             }
 
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
@@ -500,6 +519,8 @@ namespace StudioCore.MsbEditor
             ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 
             //guiRenderer.AfterLayout();
+
+            ImGui.End();
         }
 
         public void Draw(GraphicsDevice device, CommandList cl)

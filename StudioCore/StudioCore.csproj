@@ -67,11 +67,13 @@
     <Content Include="..\Lib\libveldrid-spirv.dll" Link="libveldrid-spirv.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Lib\cimgui.dll" Link="cimgui.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="SoulsFormats.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ImGui.NET" Version="1.72.0" />
     <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
@@ -81,17 +83,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+    <ProjectReference Include="..\Veldrid.ImGui\Veldrid.ImGui.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\Lib\ImGui.NET.dll</HintPath>
+    </Reference>
     <Reference Include="Veldrid">
       <HintPath>..\Lib\Veldrid.dll</HintPath>
     </Reference>
     <Reference Include="Veldrid.ImageSharp">
       <HintPath>..\Lib\Veldrid.ImageSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.ImGui">
-      <HintPath>..\Lib\Veldrid.ImGui.dll</HintPath>
     </Reference>
     <Reference Include="Veldrid.RenderDoc">
       <HintPath>..\Lib\Veldrid.RenderDoc.dll</HintPath>
@@ -117,6 +120,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="DDSDeswizzler.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="MapStudioNew.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>

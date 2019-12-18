@@ -231,7 +231,7 @@ namespace StudioCore
             MainWindowCommandList.Begin();
             //cl2.SetFramebuffer(_gd.SwapchainFramebuffer);
             MainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
-            MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
+            MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.022f, 0.022f, 0.024f, 1.0f));
             float depthClear = _gd.IsDepthRangeZeroToOne ? 1f : 0f;
             MainWindowCommandList.ClearDepthStencil(depthClear);
             MainWindowCommandList.SetFullViewport(0);
