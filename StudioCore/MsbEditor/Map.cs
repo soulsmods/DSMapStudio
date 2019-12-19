@@ -14,23 +14,31 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public class Map
     {
+        public string MapId { get; private set; }
         public List<MapObject> MapObjects = new List<MapObject>();
+        public MapObject RootObject { get; private set; }
 
-        public Map()
+        public Map(string mapid)
         {
-
+            MapId = mapid;
+            var t = new TransformNode(mapid);
+            RootObject = new MapObject(t, MapObject.ObjectType.TypeEditor);
         }
 
         public void LoadMSB(IMsb msb)
         {
             foreach (var p in msb.Parts.GetEntries())
             {
-                MapObjects.Add(new MapObject(p, MapObject.ObjectType.TypePart));
+                var n = new MapObject(p, MapObject.ObjectType.TypePart);
+                MapObjects.Add(n);
+                RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Regions.GetEntries())
             {
-                MapObjects.Add(new MapObject(p, MapObject.ObjectType.TypeRegion));
+                var n = new MapObject(p, MapObject.ObjectType.TypeRegion);
+                MapObjects.Add(n);
+                RootObject.AddChild(n);
             }
 
             /*foreach (var p in msb.Events.GetEntries())

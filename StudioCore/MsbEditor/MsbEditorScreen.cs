@@ -21,7 +21,7 @@ namespace StudioCore.MsbEditor
 
         public PropertyEditor PropEditor;
 
-        public Map CurrentMap;
+        public Universe Universe;
 
         public enum ScreenMouseHoverKind
         {
@@ -73,7 +73,7 @@ namespace StudioCore.MsbEditor
             Window = window;
 
             Viewport = new Gui.Viewport(device, RenderScene, EditorActionManager, Rect.Width, Rect.Height);
-            CurrentMap = new Map();
+            Universe = new Universe(AssetLocator, ResourceMan, RenderScene);
 
             PropEditor = new PropertyEditor(EditorActionManager);
         }
@@ -162,178 +162,7 @@ namespace StudioCore.MsbEditor
                         {
                             if (ImGui.MenuItem(map)) 
                             {
-                                var chrsToLoad = new HashSet<AssetDescription>();
-                                var objsToLoad = new HashSet<AssetDescription>();
-                                var colsToLoad = new HashSet<AssetDescription>();
-                                var navsToLoad = new HashSet<AssetDescription>();
-                                //try
-                                //{
-                                var ad = AssetLocator.GetMapMSB(map);
-                                IMsb msb;
-                                if (AssetLocator.Type == GameType.DarkSoulsIII)
-                                {
-                                    msb = MSB3.Read(ad.AssetPath);
-                                }
-                                else if (AssetLocator.Type == GameType.Sekiro)
-                                {
-                                    msb = MSBS.Read(ad.AssetPath);
-                                }
-                                else
-                                {
-                                    msb = MSB1.Read(ad.AssetPath);
-                                }
-                                CurrentMap.LoadMSB(msb);
-
-                                // Temporary garbage
-                                foreach (var obj in CurrentMap.MapObjects)
-                                {
-                                    if (obj.MsbObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "")
-                                    {
-                                        AssetDescription asset;
-                                        bool loadcol = false;
-                                        bool loadnav = false;
-                                        Scene.RenderFilter filt = Scene.RenderFilter.All;
-                                        if (mp.ModelName.StartsWith("m"))
-                                        {
-                                            asset = AssetLocator.GetMapModel(map, AssetLocator.MapModelNameToAssetName(map, mp.ModelName));
-                                            filt = Scene.RenderFilter.MapPiece;
-                                        }
-                                        else if (mp.ModelName.StartsWith("c"))
-                                        {
-                                            asset = AssetLocator.GetChrModel(mp.ModelName);
-                                            filt = Scene.RenderFilter.Character;
-                                            chrsToLoad.Add(asset);
-                                        }
-                                        else if (mp.ModelName.StartsWith("o"))
-                                        {
-                                            asset = AssetLocator.GetObjModel(mp.ModelName);
-                                            filt = Scene.RenderFilter.Object;
-                                            objsToLoad.Add(asset);
-                                        }
-                                        else if (mp.ModelName.StartsWith("h"))
-                                        {
-                                            loadcol = true;
-                                            asset = AssetLocator.GetMapCollisionModel(map, AssetLocator.MapModelNameToAssetName(map, mp.ModelName));
-                                            filt = Scene.RenderFilter.Collision;
-                                            colsToLoad.Add(asset);
-                                        }
-                                        else if (mp.ModelName.StartsWith("n"))
-                                        {
-                                            loadnav = true;
-                                            asset = AssetLocator.GetMapNVMModel(map, AssetLocator.MapModelNameToAssetName(map, mp.ModelName));
-                                            filt = Scene.RenderFilter.Navmesh;
-                                            navsToLoad.Add(asset);
-                                        }
-                                        else
-                                        {
-                                            asset = AssetLocator.GetNullAsset();
-                                        }
-
-                                        if (loadcol)
-                                        {
-                                            var res = ResourceMan.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                                            var mesh = new Scene.CollisionMesh(RenderScene, res, false);
-                                            mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                                            obj.RenderSceneMesh = mesh;
-                                            mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
-                                        }
-                                        else if (loadnav)
-                                        {
-                                            var res = ResourceMan.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                                            var mesh = new Scene.NvmMesh(RenderScene, res, false);
-                                            mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                                            obj.RenderSceneMesh = mesh;
-                                            mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
-                                        }
-                                        else
-                                        {
-                                            var res = ResourceMan.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                                            var model = new NewMesh(RenderScene, res, false);
-                                            model.DrawFilter = filt;
-                                            model.WorldMatrix = obj.GetTransform().WorldMatrix;
-                                            obj.RenderSceneMesh = model;
-                                            model.Selectable = new WeakReference<Scene.ISelectable>(obj);
-                                        }
-                                    }
-                                    if (obj.MsbObject is MSB1.Region r && r.Shape is MSB1.Shape.Box b)
-                                    {
-                                        var mesh = Scene.Region.GetBoxRegion(RenderScene, b.Width, b.Height, b.Depth);
-                                        mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                                        obj.RenderSceneMesh = mesh;
-                                        mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
-                                    }
-                                }
-                                //}
-                                /*catch (Exception e)
-                                {
-
-                                }*/
-                                var job = ResourceMan.CreateNewJob($@"Loading {map} geometry");
-                                foreach (var mappiece in AssetLocator.GetMapModels(map))
-                                {
-                                    if (mappiece.AssetArchiveVirtualPath != null)
-                                    {
-                                        job.AddLoadArchiveTask(mappiece.AssetArchiveVirtualPath, false);
-                                    }
-                                    else if (mappiece.AssetVirtualPath != null)
-                                    {
-                                        job.AddLoadFileTask(mappiece.AssetVirtualPath);
-                                    }
-                                }
-                                job.StartJobAsync();
-                                job = ResourceMan.CreateNewJob($@"Loading {map} collisions");
-                                foreach (var col in colsToLoad)
-                                {
-                                    if (col.AssetArchiveVirtualPath != null)
-                                    {
-                                        job.AddLoadArchiveTask(col.AssetArchiveVirtualPath, false);
-                                    }
-                                    else if (col.AssetVirtualPath != null)
-                                    {
-                                        job.AddLoadFileTask(col.AssetVirtualPath);
-                                    }
-                                }
-                                job.StartJobAsync();
-                                job = ResourceMan.CreateNewJob($@"Loading chrs");
-                                foreach (var chr in chrsToLoad)
-                                {
-                                    if (chr.AssetArchiveVirtualPath != null)
-                                    {
-                                        job.AddLoadArchiveTask(chr.AssetArchiveVirtualPath, false);
-                                    }
-                                    else if (chr.AssetVirtualPath != null)
-                                    {
-                                        job.AddLoadFileTask(chr.AssetVirtualPath);
-                                    }
-                                }
-                                job.StartJobAsync();
-                                job = ResourceMan.CreateNewJob($@"Loading objs");
-                                foreach (var obj in objsToLoad)
-                                {
-                                    if (obj.AssetArchiveVirtualPath != null)
-                                    {
-                                        job.AddLoadArchiveTask(obj.AssetArchiveVirtualPath, false);
-                                    }
-                                    else if (obj.AssetVirtualPath != null)
-                                    {
-                                        job.AddLoadFileTask(obj.AssetVirtualPath);
-                                    }
-                                }
-                                job.StartJobAsync();
-
-                                job = ResourceMan.CreateNewJob($@"Loading Navmeshes");
-                                foreach (var nav in navsToLoad)
-                                {
-                                    if (nav.AssetArchiveVirtualPath != null)
-                                    {
-                                        job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, false);
-                                    }
-                                    else if (nav.AssetVirtualPath != null)
-                                    {
-                                        job.AddLoadFileTask(nav.AssetVirtualPath);
-                                    }
-                                }
-                                job.StartJobAsync();
+                                Universe.LoadMap(map);
                             }
                         }
                         ImGui.EndMenu();
@@ -342,7 +171,7 @@ namespace StudioCore.MsbEditor
                     {
                         Selection.ClearSelection();
                         EditorActionManager.Clear();
-                        CurrentMap.Clear();
+                        //CurrentMap.Clear();
                         GC.Collect();
                     }
                     if (ImGui.MenuItem("Save MSB", "CTRL+S") || InputTracker.GetControlShortcut(Key.S)) { }
@@ -360,13 +189,13 @@ namespace StudioCore.MsbEditor
                     }
                     if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
                     {
-                        var action = new DeleteMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                        EditorActionManager.ExecuteAction(action);
+                        //var action = new DeleteMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                        //EditorActionManager.ExecuteAction(action);
                     }
                     if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
                     {
-                        var action = new CloneMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                        EditorActionManager.ExecuteAction(action);
+                        //var action = new CloneMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                        //EditorActionManager.ExecuteAction(action);
                     }
                     ImGui.EndMenu();
                 }
@@ -454,13 +283,13 @@ namespace StudioCore.MsbEditor
                 }
                 if (InputTracker.GetControlShortcut(Key.D) && Selection.IsSelection())
                 {
-                    var action = new CloneMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                    EditorActionManager.ExecuteAction(action);
+                    //var action = new CloneMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    //EditorActionManager.ExecuteAction(action);
                 }
                 if (InputTracker.GetKeyDown(Key.Delete) && Selection.IsSelection())
                 {
-                    var action = new DeleteMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                    EditorActionManager.ExecuteAction(action);
+                    //var action = new DeleteMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    //EditorActionManager.ExecuteAction(action);
                 }
                 if (InputTracker.GetKeyDown(Key.W))
                 {
@@ -496,19 +325,44 @@ namespace StudioCore.MsbEditor
 
             if (ImGui.Begin("Map Object List", ref MapObjectListOpen))
             {
-                foreach (var obj in CurrentMap.MapObjects)
+                foreach (var map in Universe.LoadedMaps)
                 {
-                    if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj)))
+                    var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
+                    if (Selection.GetSelection().Contains(map.RootObject))
+                    {
+                        treeflags |= ImGuiTreeNodeFlags.Selected;
+                    }
+                    var nodeopen = ImGui.TreeNodeEx(map.MapId, treeflags);
+                    if (ImGui.IsItemClicked())
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
                         {
-                            Selection.AddSelection(obj);
+                            Selection.AddSelection(map.RootObject);
                         }
                         else
                         {
                             Selection.ClearSelection();
-                            Selection.AddSelection(obj);
+                            Selection.AddSelection(map.RootObject);
                         }
+                    }
+                    if (nodeopen)
+                    {
+                        foreach (var obj in map.MapObjects)
+                        {
+                            if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj)))
+                            {
+                                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                                {
+                                    Selection.AddSelection(obj);
+                                }
+                                else
+                                {
+                                    Selection.ClearSelection();
+                                    Selection.AddSelection(obj);
+                                }
+                            }
+                        }
+                        ImGui.TreePop();
                     }
                 }
                 ImGui.End();

@@ -16,6 +16,7 @@ namespace StudioCore.MsbEditor
     {
         public enum ObjectType
         {
+            TypeEditor,
             TypePart,
             TypeRegion,
             TypeEvent
@@ -26,6 +27,9 @@ namespace StudioCore.MsbEditor
         public object MsbObject;
 
         private string CachedName = null;
+
+        public MapObject Parent { get; private set; } = null;
+        public List<MapObject> Children { get; private set; } = new List<MapObject>();
 
         public Scene.IDrawable RenderSceneMesh { set; get; } = null;
 
@@ -62,6 +66,16 @@ namespace StudioCore.MsbEditor
             {
                 RenderSceneMesh.UnregisterAndRelease();
             }
+        }
+
+        public void AddChild(MapObject child)
+        {
+            if (child.Parent != null)
+            {
+                Parent.Children.Remove(child);
+            }
+            child.Parent = this;
+            Children.Add(child);
         }
 
         public MapObject Clone()
@@ -151,16 +165,20 @@ namespace StudioCore.MsbEditor
 
         public void UpdateRenderTransform()
         {
+            Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetTransform().WorldMatrix;
+            var p = Parent;
+            while (p != null)
+            {
+                t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetTransform().WorldMatrix);
+                p = p.Parent;
+            }
             if (RenderSceneMesh != null)
             {
-                if (UseTempTransform)
-                {
-                    RenderSceneMesh.WorldMatrix = TempTransform.WorldMatrix;
-                }
-                else
-                {
-                    RenderSceneMesh.WorldMatrix = GetTransform().WorldMatrix;
-                }
+                RenderSceneMesh.WorldMatrix = t;
+            }
+            foreach (var c in Children)
+            {
+                c.UpdateRenderTransform();
             }
         }
 
