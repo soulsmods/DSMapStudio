@@ -85,6 +85,8 @@ namespace StudioCore
         public BoundingBox Bounds { get; private set; }
         public RenderFilter DrawFilter { get; set; } = RenderFilter.MapPiece;
 
+        public DrawGroup DrawGroups { get; set; } = new DrawGroup();
+
         public void DefaultAllMaskValues()
         {
             //for (int i = 0; i < Model.DRAW_MASK_LENGTH; i++)
@@ -149,13 +151,13 @@ namespace StudioCore
 
         public void OnResourceLoaded(IResourceHandle handle)
         {
-            if (Resource != null)
+            if (Resource != null && Resource.TryLock())
             {
                 CreateSubmeshes();
                 OnWorldMatrixChanged();
                 Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
-                    if (Submeshes != null)
+                    if (Submeshes != null && Resource.TryLock())
                     {
                         foreach (var sm in Submeshes)
                         {
@@ -166,8 +168,10 @@ namespace StudioCore
                             RegisterWithScene(RenderScene);
                         }
                         Created = true;
+                        Resource.Unlock();
                     }
                 });
+                Resource.Unlock();
             }
         }
 

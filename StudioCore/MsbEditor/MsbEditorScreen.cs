@@ -20,6 +20,7 @@ namespace StudioCore.MsbEditor
         public ActionManager EditorActionManager = new ActionManager();
 
         public PropertyEditor PropEditor;
+        public DisplayGroupsEditor DispGroupEditor;
 
         public Universe Universe;
 
@@ -76,6 +77,7 @@ namespace StudioCore.MsbEditor
             Universe = new Universe(AssetLocator, ResourceMan, RenderScene);
 
             PropEditor = new PropertyEditor(EditorActionManager);
+            DispGroupEditor = new DisplayGroupsEditor(RenderScene);
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -214,6 +216,14 @@ namespace StudioCore.MsbEditor
                         if (ImGui.MenuItem("Collision", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Collision)))
                         {
                             RenderScene.ToggleDrawFilter(Scene.RenderFilter.Collision);
+                        }
+                        if (ImGui.MenuItem("Object", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Object)))
+                        {
+                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Object);
+                        }
+                        if (ImGui.MenuItem("Character", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Character)))
+                        {
+                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Character);
                         }
                         if (ImGui.MenuItem("Navmesh", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Navmesh)))
                         {
@@ -369,6 +379,7 @@ namespace StudioCore.MsbEditor
             }
 
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
+            DispGroupEditor.OnGui(AssetLocator.Type);
 
             ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 

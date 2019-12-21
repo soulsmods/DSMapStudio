@@ -32,6 +32,8 @@ namespace StudioCore.Scene
 
         public RenderFilter DrawFilter { get; set; } = RenderFilter.Collision;
 
+        public DrawGroup DrawGroups { get; set; } = new DrawGroup();
+
         private bool _DebugDrawBounds = false;
         public bool Highlighted
         {
@@ -112,13 +114,13 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle)
         {
-            if (Resource != null)
+            if (Resource != null && Resource.TryLock())
             {
                 CreateSubmeshes();
                 OnWorldMatrixChanged();
                 Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
-                    if (Submeshes != null)
+                    if (Submeshes != null && Resource.TryLock())
                     {
                         foreach (var sm in Submeshes)
                         {
@@ -129,8 +131,10 @@ namespace StudioCore.Scene
                             RegisterWithScene(RenderScene);
                         }
                         Created = true;
+                        Resource.Unlock();
                     }
                 });
+                Resource.Unlock();
             }
         }
 

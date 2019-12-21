@@ -31,7 +31,21 @@ namespace StudioCore.MsbEditor
         public MapObject Parent { get; private set; } = null;
         public List<MapObject> Children { get; private set; } = new List<MapObject>();
 
-        public Scene.IDrawable RenderSceneMesh { set; get; } = null;
+        private Scene.IDrawable _RenderSceneMesh = null;
+        public Scene.IDrawable RenderSceneMesh
+        {
+            set
+            {
+                _RenderSceneMesh = value;
+                UpdateRenderTransform();
+            }
+            get
+            {
+                return _RenderSceneMesh;
+            }
+        }
+
+        public bool UseDrawGroups { set; get; } = false;
 
         public string Name
         {
@@ -48,6 +62,32 @@ namespace StudioCore.MsbEditor
             {
                 MsbObject.GetType().GetProperty("Name").SetValue(MsbObject, value);
                 CachedName = value;
+            }
+        }
+
+        public uint[] Drawgroups
+        {
+            get
+            {
+                var prop = MsbObject.GetType().GetProperty("DrawGroups");
+                if (prop != null)
+                {
+                    return (uint[])prop.GetValue(MsbObject);
+                }
+                return null;
+            }
+        }
+
+        public uint[] Dispgroups
+        {
+            get
+            {
+                var prop = MsbObject.GetType().GetProperty("DispGroups");
+                if (prop != null)
+                {
+                    return (uint[])prop.GetValue(MsbObject);
+                }
+                return null;
             }
         }
 
@@ -179,6 +219,16 @@ namespace StudioCore.MsbEditor
             foreach (var c in Children)
             {
                 c.UpdateRenderTransform();
+            }
+
+            if (UseDrawGroups)
+            {
+                var prop = MsbObject.GetType().GetProperty("DrawGroups");
+                if (prop != null)
+                {
+                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(MsbObject);
+                }
             }
         }
 

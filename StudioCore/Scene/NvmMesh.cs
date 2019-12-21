@@ -80,6 +80,7 @@ namespace StudioCore.Scene
         }
 
         public BoundingBox Bounds { get; private set; }
+        public DrawGroup DrawGroups { get; set; } = new DrawGroup();
 
         public NvmMesh(Scene.RenderScene scene, Resource.ResourceHandle<Resource.NVMNavmeshResource> res, bool useSecondUV, Dictionary<string, int> boneIndexRemap = null,
             bool ignoreStaticTransforms = false)
@@ -112,13 +113,13 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle)
         {
-            if (Resource != null)
+            if (Resource != null && Resource.TryLock())
             {
                 CreateSubmeshes();
                 OnWorldMatrixChanged();
                 Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
-                    if (RenderMesh != null)
+                    if (RenderMesh != null && Resource.TryLock())
                     {
                         RenderMesh.CreateDeviceObjects(d, cl, null);
                         if (AutoRegister)
@@ -126,8 +127,10 @@ namespace StudioCore.Scene
                             RegisterWithScene(RenderScene);
                         }
                         Created = true;
+                        Resource.Unlock();
                     }
                 });
+                Resource.Unlock();
             }
         }
 

@@ -31,6 +31,11 @@ namespace StudioCore.Scene
         public RenderFilter DrawFilter { get; set; }
 
         /// <summary>
+        /// Optional draw groups that implement Dark Souls' drawgroup system
+        /// </summary>
+        public DrawGroup DrawGroups { get; set; }
+
+        /// <summary>
         /// The drawable is highlighted. 
         /// </summary>
         public bool Highlighted { get; set; }

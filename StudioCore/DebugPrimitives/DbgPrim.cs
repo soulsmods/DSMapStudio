@@ -66,6 +66,8 @@ namespace StudioCore.DebugPrimitives
 
         public RenderFilter DrawFilter { get; set; } = RenderFilter.Debug;
 
+        public DrawGroup DrawGroups { get; set; } = new DrawGroup();
+
         protected short[] Indices = new short[0];
         protected VertexPositionColorNormal[] Vertices = new VertexPositionColorNormal[0];
         //protected VertexBuffer VertBuffer;

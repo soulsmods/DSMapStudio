@@ -36,6 +36,9 @@ namespace StudioCore.Scene
         }
         public WeakReference<ISelectable> Selectable { get; set; } = null;
         public RenderFilter DrawFilter { get; set; } = RenderFilter.Region;
+
+        public DrawGroup DrawGroups { get; set; } = new DrawGroup();
+
         public bool Highlighted { get; set; } = false;
         public bool AutoRegister { get; set; } = true;
 

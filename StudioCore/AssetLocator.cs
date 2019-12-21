@@ -264,7 +264,7 @@ namespace StudioCore
             }
             else
             {
-                var ext = Type == GameType.Bloodborne ? @"*.flver" : @"*.flver.dcx";
+                var ext = Type == GameType.DarkSoulsPTDE ? @"*.flver" : @"*.flver.dcx";
                 var mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", ext).ToList();
                 foreach (var f in mapfiles)
                 {

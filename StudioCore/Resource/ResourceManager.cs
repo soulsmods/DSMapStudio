@@ -301,6 +301,8 @@ namespace StudioCore.Resource
             private readonly object ProgressLock = new object();
             private readonly object TaskListLock = new object();
 
+            public bool Finished { get; private set; } = false;
+
             public ResourceJob(string name, List<IResourceTask> tasks)
             {
                 Name = name;
@@ -389,6 +391,7 @@ namespace StudioCore.Resource
                     {
                         TaskList.Clear();
                     }
+                    Finished = true;
                 });
             }
         }
@@ -465,9 +468,13 @@ namespace StudioCore.Resource
                 {
                     await jobtask;
                     int o;
-                    ResourceMan.ActiveJobProgress.TryRemove(job, out o);
+                    bool removed = false;
+                    while (!removed)
+                    {
+                        removed = ResourceMan.ActiveJobProgress.TryRemove(job, out o);
+                    }
                 });
-                posttask.RunSynchronously();
+                //posttask.Start();
                 return jobtask;
             }
         }
@@ -551,19 +558,32 @@ namespace StudioCore.Resource
                     ImGui.End();
                     return;
                 }
+                HashSet<ResourceJob> toRemove = new HashSet<ResourceJob>();
                 foreach (var job in ActiveJobProgress)
                 {
-                    var size = job.Key.GetEstimateTaskSize();
-                    ImGui.Text(job.Key.Name);
-                    if (size == 0)
+                    if (!job.Key.Finished)
                     {
-                        ImGui.ProgressBar(0.0f);
+                        var size = job.Key.GetEstimateTaskSize();
+                        ImGui.Text(job.Key.Name);
+                        if (size == 0)
+                        {
+                            ImGui.ProgressBar(0.0f);
+                        }
+                        else
+                        {
+                            //ImGui.ProgressBar((float)Finished / (float)Math.Max(Pending, 1.0));
+                            ImGui.ProgressBar((float)job.Value / (float)size);
+                        }
                     }
                     else
                     {
-                        //ImGui.ProgressBar((float)Finished / (float)Math.Max(Pending, 1.0));
-                        ImGui.ProgressBar((float)job.Value / (float)size);
+                        toRemove.Add(job.Key);
                     }
+                }
+                foreach (var rm in toRemove)
+                {
+                    int o;
+                    ActiveJobProgress.TryRemove(rm, out o);
                 }
                 ImGui.End();
             }
@@ -574,7 +594,7 @@ namespace StudioCore.Resource
                 ImGui.End();
                 return;
             }
-            ImGui.Columns(3);
+            ImGui.Columns(4);
             ImGui.Separator();
             int id = 0;
             foreach (var item in ResourceDatabase)
@@ -585,6 +605,9 @@ namespace StudioCore.Resource
                 ImGui.NextColumn();
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text(item.Value.IsLoaded() ? "Loaded" : "Unloaded");
+                ImGui.NextColumn();
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text(item.Value.AccessLevel.ToString());
                 ImGui.NextColumn();
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text(item.Value.GetReferenceCounts().ToString());

@@ -26,6 +26,8 @@ namespace StudioCore.Scene
 
         public RenderFilter DrawFilter { get; set; } = RenderFilter.All;
 
+        public DrawGroup DisplayGroup { get; set; } = new DrawGroup();
+
         public void ToggleDrawFilter(RenderFilter toggle)
         {
             if ((DrawFilter & toggle) > 0)
@@ -125,13 +127,6 @@ namespace StudioCore.Scene
 
         public void Render(Renderer.RenderQueue queue, BoundingFrustum frustum, SceneRenderPipeline pipeline)
         {
-            /*foreach (var obj in Objects)
-            {
-                //obj.UpdatePerFrameResources(device, cl, pipeline);
-                //obj.Render(device, cl, pipeline);
-                //queue.Add(obj, new RenderKey(0));
-                obj.SubmitRenderObjects(queue);
-            }*/
             CulledObjects.Clear();
             lock (SceneUpdateLock)
             {
@@ -140,7 +135,7 @@ namespace StudioCore.Scene
             }
             foreach (var obj in CulledObjects)
             {
-                if ((obj.DrawFilter & DrawFilter) > 0)
+                if (((obj.DrawFilter & DrawFilter) > 0 && obj.DrawGroups.IsInDisplayGroup(DisplayGroup)) || obj.Highlighted)
                 {
                     obj.SubmitRenderObjects(queue);
                 }

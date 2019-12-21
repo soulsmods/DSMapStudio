@@ -14,6 +14,8 @@ namespace StudioCore.MsbEditor
     {
         public ActionManager ContextActionManager;
 
+        private Dictionary<string, PropertyInfo[]> PropCache = new Dictionary<string, PropertyInfo[]>();
+
         public PropertyEditor(ActionManager manager)
         {
             ContextActionManager = manager;
@@ -32,13 +34,17 @@ namespace StudioCore.MsbEditor
             }
             var obj = selection.MsbObject;
             var type = obj.GetType();
-            //var properties = type.GetProperties();
-            var properties = from property in type.GetProperties()
-                             where Attribute.IsDefined(property, typeof(OrderAttribute))
-                             orderby ((OrderAttribute)property
-                                       .GetCustomAttributes(typeof(OrderAttribute), false)
-                                       .Single()).Order
-                             select property;
+            if (!PropCache.ContainsKey(type.FullName))
+            {
+                PropCache.Add(type.FullName, type.GetProperties());
+            }
+            var properties = PropCache[type.FullName];
+            //var properties = from property in type.GetProperties()
+            //                 where Attribute.IsDefined(property, typeof(OrderAttribute))
+            //                 orderby ((OrderAttribute)property
+            //                           .GetCustomAttributes(typeof(OrderAttribute), false)
+            //                           .Single()).Order
+            //                 select property;
             ImGui.Columns(2);
             ImGui.Separator();
             int id = 0;

@@ -57,11 +57,13 @@ namespace StudioCore.MsbEditor
                     AssetDescription asset;
                     bool loadcol = false;
                     bool loadnav = false;
+                    bool usedrawgroups = false;
                     Scene.RenderFilter filt = Scene.RenderFilter.All;
                     if (mp.ModelName.StartsWith("m"))
                     {
                         asset = AssetLocator.GetMapModel(mapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
                         filt = Scene.RenderFilter.MapPiece;
+                        obj.UseDrawGroups = true;
                     }
                     else if (mp.ModelName.StartsWith("c"))
                     {

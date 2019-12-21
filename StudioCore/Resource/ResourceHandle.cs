@@ -43,6 +43,8 @@ namespace StudioCore.Resource
 
     public interface IResourceHandle
     {
+        public AccessLevel AccessLevel { get; }
+
         public bool _LoadResource(byte[] data, AccessLevel al);
         public bool _LoadResource(string file, AccessLevel al);
 
