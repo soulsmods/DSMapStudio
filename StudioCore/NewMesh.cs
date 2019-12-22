@@ -132,6 +132,7 @@ namespace StudioCore
         public NewMesh(NewMesh mesh)
         {
             RenderScene = mesh.RenderScene;
+            DrawFilter = mesh.DrawFilter;
             Resource = mesh.Resource;
             Resource.Acquire();
             Resource.AddResourceEventListener(this);

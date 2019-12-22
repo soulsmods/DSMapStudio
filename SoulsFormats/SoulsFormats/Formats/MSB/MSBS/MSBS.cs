@@ -19,6 +19,7 @@ namespace SoulsFormats
         /// Dynamic or interactive systems such as item pickups, levers, enemy spawners, etc.
         /// </summary>
         public EventParam Events { get; set; }
+        IMsbParam<IMsbEvent> IMsb.Events => Events;
 
         /// <summary>
         /// Points or areas of space that trigger some sort of behavior.

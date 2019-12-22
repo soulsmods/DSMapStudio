@@ -133,6 +133,11 @@ namespace SoulsFormats
             {
                 entry.Write(bw, id);
             }
+
+            public void Add(IMsbPart item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal enum PartsType : uint

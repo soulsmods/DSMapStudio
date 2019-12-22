@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -22,6 +23,21 @@ namespace StudioCore.MsbEditor
             AssetLocator = al;
             ResourceMan = rm;
             RenderScene = scene;
+        }
+
+        public Map GetLoadedMap(string id)
+        {
+            if (id != null)
+            {
+                foreach (var m in LoadedMaps)
+                {
+                    if (m.MapId == id)
+                    {
+                        return m;
+                    }
+                }
+            }
+            return null;
         }
 
         public void LoadMap(string mapid)
@@ -198,6 +214,56 @@ namespace StudioCore.MsbEditor
                 }
             }
             job.StartJobAsync();
+        }
+
+        private void SaveMap(Map map)
+        {
+            var ad = AssetLocator.GetMapMSB(map.MapId);
+            IMsb msb;
+            if (AssetLocator.Type == GameType.DarkSoulsIII)
+            {
+                msb = new MSB3();
+            }
+            else if (AssetLocator.Type == GameType.Sekiro)
+            {
+                msb = new MSBS();
+            }
+            else
+            {
+                msb = new MSB1();
+                //var t = MSB1.Read(ad.AssetPath);
+                //((MSB1)msb).Models = t.Models;
+            }
+
+            map.SerializeToMSB(msb);
+
+            // Write as a temporary file to make sure there are no errors before overwriting current file 
+            string mapPath = ad.AssetPath;
+            //if (GetModProjectPathForFile(mapPath) != null)
+            //{
+            //    mapPath = GetModProjectPathForFile(mapPath);
+            //}
+
+            if (File.Exists(mapPath + ".temp"))
+            {
+                File.Delete(mapPath + ".temp");
+            }
+            msb.Write(mapPath + ".temp", SoulsFormats.DCX.Type.None);
+
+            // Make a copy of the previous map
+            File.Copy(mapPath, mapPath + ".prev", true);
+
+            // Move temp file as new map file
+            File.Delete(mapPath);
+            File.Move(mapPath + ".temp", mapPath);
+        }
+
+        public void SaveAllMaps()
+        {
+            foreach (var m in LoadedMaps)
+            {
+                SaveMap(m);
+            }
         }
     }
 }

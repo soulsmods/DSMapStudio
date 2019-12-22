@@ -114,6 +114,36 @@ namespace SoulsFormats
                 for (int i = 0; i < Navmeshes.Count; i++)
                     Navmeshes[i].Discriminate(ModelType.Navmesh, i);
             }
+
+            public void Add(IMsbModel item)
+            {
+                var m = (Model)item;
+                switch (m.Type)
+                {
+                    case ModelType.MapPiece:
+                        MapPieces.Add(m);
+                        break;
+                    case ModelType.Object:
+                        Objects.Add(m);
+                        break;
+                    case ModelType.Enemy:
+                        Enemies.Add(m);
+                        break;
+                    case ModelType.Player:
+                        Players.Add(m);
+                        break;
+                    case ModelType.Collision:
+                        Collisions.Add(m);
+                        break;
+                    case ModelType.Navmesh:
+                        Navmeshes.Add(m);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
+            }
         }
 
         /// <summary>
@@ -122,7 +152,7 @@ namespace SoulsFormats
         public class Model : Entry, IMsbModel
         {
             // Since models have no type data in DS1, this is just set before writing based on the list it's in.
-            private ModelType Type;
+            public ModelType Type { get; set; }
             private int ID;
 
             /// <summary>

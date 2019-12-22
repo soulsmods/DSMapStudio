@@ -20,6 +20,11 @@ namespace StudioCore.MsbEditor
             return GetFilteredSelection<T>().Count > 0;
         }
 
+        public static bool IsFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        {
+            return GetFilteredSelection<T>(filt).Count > 0;
+        }
+
         public static bool IsSingleSelection()
         {
             return _selected.Count == 1;
@@ -28,6 +33,11 @@ namespace StudioCore.MsbEditor
         public static bool IsSingleFilteredSelection<T>() where T : Scene.ISelectable
         {
             return GetFilteredSelection<T>().Count == 1;
+        }
+
+        public static bool IsSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        {
+            return GetFilteredSelection<T>(filt).Count == 1;
         }
 
         public static Scene.ISelectable GetSingleSelection()
@@ -49,6 +59,16 @@ namespace StudioCore.MsbEditor
             return default(T);
         }
 
+        public static T GetSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        {
+            var f = GetFilteredSelection<T>(filt);
+            if (f.Count() == 1)
+            {
+                return f.First();
+            }
+            return default(T);
+        }
+
         public static HashSet<Scene.ISelectable> GetSelection()
         {
             return _selected;
@@ -60,6 +80,19 @@ namespace StudioCore.MsbEditor
             foreach (var sel in _selected)
             {
                 if (sel is T filsel)
+                {
+                    filtered.Add(filsel);
+                }
+            }
+            return filtered;
+        }
+
+        public static HashSet<T> GetFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        {
+            var filtered = new HashSet<T>();
+            foreach (var sel in _selected)
+            {
+                if (sel is T filsel && filt.Invoke(filsel))
                 {
                     filtered.Add(filsel);
                 }

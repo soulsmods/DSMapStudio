@@ -9,7 +9,7 @@ namespace SoulsFormats
         /// <summary>
         /// Events controlling various interactive or dynamic features in the map.
         /// </summary>
-        public class EventParam : Param<Event>
+        public class EventParam : Param<Event>, IMsbParam<IMsbEvent>
         {
             internal override string Type => "EVENT_PARAM_ST";
 
@@ -76,6 +76,7 @@ namespace SoulsFormats
                 return SFUtil.ConcatAll<Event>(
                     Treasures, Generators, ObjActs, MapOffsets, PseudoMultiplayers, WalkRoutes, GroupTours, Others);
             }
+            IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
 
             internal override Event ReadEntry(BinaryReaderEx br)
             {
@@ -132,6 +133,11 @@ namespace SoulsFormats
             {
                 entry.Write(bw, id);
             }
+
+            public void Add(IMsbEvent item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal enum EventType : uint
@@ -159,7 +165,7 @@ namespace SoulsFormats
         /// <summary>
         /// An interactive or dynamic feature of the map.
         /// </summary>
-        public abstract class Event : Entry
+        public abstract class Event : Entry, IMsbEvent
         {
             internal abstract EventType Type { get; }
 

@@ -19,6 +19,7 @@ namespace SoulsFormats
         /// Abstract entities that set map properties or control behaviors.
         /// </summary>
         public EventParam Events { get; set; }
+        IMsbParam<IMsbEvent> IMsb.Events => Events;
 
         /// <summary>
         /// Points or volumes that trigger certain behaviors.

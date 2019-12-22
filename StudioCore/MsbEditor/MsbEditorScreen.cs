@@ -176,7 +176,10 @@ namespace StudioCore.MsbEditor
                         //CurrentMap.Clear();
                         GC.Collect();
                     }
-                    if (ImGui.MenuItem("Save MSB", "CTRL+S") || InputTracker.GetControlShortcut(Key.S)) { }
+                    if (ImGui.MenuItem("Save MSB", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
+                    {
+                        Universe.SaveAllMaps();
+                    }
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Edit"))
@@ -191,16 +194,17 @@ namespace StudioCore.MsbEditor
                     }
                     if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
                     {
-                        //var action = new DeleteMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                        //EditorActionManager.ExecuteAction(action);
+                        var action = new DeleteMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                        EditorActionManager.ExecuteAction(action);
                     }
                     if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
                     {
-                        //var action = new CloneMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                        //EditorActionManager.ExecuteAction(action);
+                        var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                        EditorActionManager.ExecuteAction(action);
                     }
                     ImGui.EndMenu();
                 }
+                
                 if (ImGui.BeginMenu("Display"))
                 {
                     if (ImGui.BeginMenu("Object Types"))
@@ -232,6 +236,22 @@ namespace StudioCore.MsbEditor
                         if (ImGui.MenuItem("Region", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Region)))
                         {
                             RenderScene.ToggleDrawFilter(Scene.RenderFilter.Region);
+                        }
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("Display Presets"))
+                    {
+                        if (ImGui.MenuItem("Map Piece/Character/Objects"))
+                        {
+                            RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                        }
+                        if (ImGui.MenuItem("Collision/Character/Objects"))
+                        {
+                            RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                        }
+                        if (ImGui.MenuItem("Collision/Navmesh/Character/Objects"))
+                        {
+                            RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                         }
                         ImGui.EndMenu();
                     }
@@ -293,13 +313,13 @@ namespace StudioCore.MsbEditor
                 }
                 if (InputTracker.GetControlShortcut(Key.D) && Selection.IsSelection())
                 {
-                    //var action = new CloneMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                    //EditorActionManager.ExecuteAction(action);
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    EditorActionManager.ExecuteAction(action);
                 }
                 if (InputTracker.GetKeyDown(Key.Delete) && Selection.IsSelection())
                 {
-                    //var action = new DeleteMapObjectsAction(CurrentMap, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                    //EditorActionManager.ExecuteAction(action);
+                    var action = new DeleteMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    EditorActionManager.ExecuteAction(action);
                 }
                 if (InputTracker.GetKeyDown(Key.W))
                 {
@@ -359,6 +379,7 @@ namespace StudioCore.MsbEditor
                     {
                         foreach (var obj in map.MapObjects)
                         {
+                            ImGui.PushID(obj.Type.ToString() + obj.Name);
                             if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj)))
                             {
                                 if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
@@ -371,6 +392,7 @@ namespace StudioCore.MsbEditor
                                     Selection.AddSelection(obj);
                                 }
                             }
+                            ImGui.PopID();
                         }
                         ImGui.TreePop();
                     }

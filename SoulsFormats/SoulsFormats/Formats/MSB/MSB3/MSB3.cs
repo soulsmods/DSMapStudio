@@ -19,6 +19,7 @@ namespace SoulsFormats
         /// Events in this MSB.
         /// </summary>
         public EventParam Events { get; set; }
+        IMsbParam<IMsbEvent> IMsb.Events => Events;
 
         /// <summary>
         /// Regions in this MSB.

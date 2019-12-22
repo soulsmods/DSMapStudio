@@ -112,6 +112,11 @@ namespace SoulsFormats
             }
 
             IReadOnlyList<IMsbModel> IMsbParam<IMsbModel>.GetEntries() => GetEntries();
+
+            public void Add(IMsbModel item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal enum ModelType : uint

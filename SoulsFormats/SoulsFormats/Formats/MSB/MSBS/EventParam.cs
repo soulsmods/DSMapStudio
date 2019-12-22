@@ -29,7 +29,7 @@ namespace SoulsFormats
         /// <summary>
         /// Dynamic or interactive systems such as item pickups, levers, enemy spawners, etc.
         /// </summary>
-        public class EventParam : Param<Event>
+        public class EventParam : Param<Event>, IMsbParam<IMsbEvent>
         {
             /// <summary>
             /// Item pickups out in the open or inside containers.
@@ -212,12 +212,18 @@ namespace SoulsFormats
                     GroupTours, Event17s, Event18s, Event20s, Event21s,
                     PartsGroups, Talks, AutoDrawGroups, Others);
             }
+            IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
+
+            public void Add(IMsbEvent item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
         /// A dynamic or interactive system.
         /// </summary>
-        public abstract class Event : Entry
+        public abstract class Event : Entry, IMsbEvent
         {
             /// <summary>
             /// The specific type of this Event.

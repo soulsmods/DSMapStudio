@@ -16,6 +16,7 @@ namespace StudioCore.MsbEditor
     {
         public enum ObjectType
         {
+            TypeMapRoot,
             TypeEditor,
             TypePart,
             TypeRegion,
@@ -30,6 +31,14 @@ namespace StudioCore.MsbEditor
 
         public MapObject Parent { get; private set; } = null;
         public List<MapObject> Children { get; private set; } = new List<MapObject>();
+
+        public bool HasTransform
+        { 
+            get
+            {
+                return Type != ObjectType.TypeEvent;
+            }
+        }
 
         private Scene.IDrawable _RenderSceneMesh = null;
         public Scene.IDrawable RenderSceneMesh
@@ -91,6 +100,23 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public string MapID
+        {
+            get
+            {
+                var parent = Parent;
+                while (parent != null)
+                {
+                    if (parent.Type == ObjectType.TypeMapRoot)
+                    {
+                        return parent.Name;
+                    }
+                    parent = parent.Parent;
+                }
+                return null;
+            }
+        }
+
         private bool UseTempTransform = false;
         private Transform TempTransform = Transform.Default;
 
@@ -105,6 +131,7 @@ namespace StudioCore.MsbEditor
             if (RenderSceneMesh != null)
             {
                 RenderSceneMesh.UnregisterAndRelease();
+                RenderSceneMesh = null;
             }
         }
 
@@ -116,6 +143,43 @@ namespace StudioCore.MsbEditor
             }
             child.Parent = this;
             Children.Add(child);
+        }
+
+        public void AddChild(MapObject child, int index)
+        {
+            if (child.Parent != null)
+            {
+                Parent.Children.Remove(child);
+            }
+            child.Parent = this;
+            Children.Insert(index, child);
+        }
+
+        public int ChildIndex(MapObject child)
+        {
+            for (int i = 0; i < Children.Count(); i++)
+            {
+                if (Children[i] == child)
+                {
+
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int RemoveChild(MapObject child)
+        {
+            for (int i = 0; i < Children.Count(); i++)
+            {
+                if (Children[i] == child)
+                {
+                    Children[i].Parent = null;
+                    Children.RemoveAt(i);
+                    return i;
+                }
+            }
+            return -1;
         }
 
         public MapObject Clone()
@@ -131,6 +195,8 @@ namespace StudioCore.MsbEditor
                 var clone = constructor.Invoke(new object[] { MsbObject });
                 var obj = new MapObject(clone, Type);
                 obj.RenderSceneMesh = new NewMesh((NewMesh)RenderSceneMesh);
+                obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                obj.UseDrawGroups = UseDrawGroups;
                 return obj;
             }
             else
@@ -158,6 +224,7 @@ namespace StudioCore.MsbEditor
                 }
                 var obj = new MapObject(clone, Type);
                 obj.RenderSceneMesh = new NewMesh((NewMesh)RenderSceneMesh);
+                obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
                 return obj;
             }
         }
@@ -218,7 +285,10 @@ namespace StudioCore.MsbEditor
             }
             foreach (var c in Children)
             {
-                c.UpdateRenderTransform();
+                if (c.HasTransform)
+                {
+                    c.UpdateRenderTransform();
+                }
             }
 
             if (UseDrawGroups)

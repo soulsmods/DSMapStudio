@@ -147,6 +147,11 @@ namespace SoulsFormats
                     Winds, EnvLights, Fogs);
             }
             IReadOnlyList<IMsbRegion> IMsbParam<IMsbRegion>.GetEntries() => GetEntries();
+
+            public void Add(IMsbRegion item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>

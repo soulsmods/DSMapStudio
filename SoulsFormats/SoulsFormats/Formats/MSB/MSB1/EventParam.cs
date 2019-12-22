@@ -28,7 +28,7 @@ namespace SoulsFormats
         /// <summary>
         /// Contains abstract entities that control various dynamic elements in the map.
         /// </summary>
-        public class EventParam : Param<Event>
+        public class EventParam : Param<Event>, IMsbParam<IMsbEvent>
         {
             internal override string Name => "EVENT_PARAM_ST";
 
@@ -127,6 +127,7 @@ namespace SoulsFormats
                     Generators, Messages, ObjActs, SpawnPoints, MapOffsets,
                     Navmeshes, Environments, PseudoMultiplayers);
             }
+            IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
 
             internal override Event ReadEntry(BinaryReaderEx br)
             {
@@ -202,12 +203,62 @@ namespace SoulsFormats
                         throw new NotImplementedException($"Unsupported event type: {type}");
                 }
             }
+
+            public void Add(IMsbEvent item)
+            {
+                switch (item)
+                {
+                    case Event.Light e:
+                        Lights.Add(e);
+                        break;
+                    case Event.Sound e:
+                        Sounds.Add(e);
+                        break;
+                    case Event.SFX e:
+                        SFXs.Add(e);
+                        break;
+                    case Event.WindSFX e:
+                        WindSFXs.Add(e);
+                        break;
+                    case Event.Treasure e:
+                        Treasures.Add(e);
+                        break;
+                    case Event.Generator e:
+                        Generators.Add(e);
+                        break;
+                    case Event.Message e:
+                        Messages.Add(e);
+                        break;
+                    case Event.ObjAct e:
+                        ObjActs.Add(e);
+                        break;
+                    case Event.SpawnPoint e:
+                        SpawnPoints.Add(e);
+                        break;
+                    case Event.MapOffset e:
+                        MapOffsets.Add(e);
+                        break;
+                    case Event.Navmesh e:
+                        Navmeshes.Add(e);
+                        break;
+                    case Event.Environment e:
+                        Environments.Add(e);
+                        break;
+                    case Event.PseudoMultiplayer e:
+                        PseudoMultiplayers.Add(e);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
+            }
         }
 
         /// <summary>
         /// Common data for all dynamic events.
         /// </summary>
-        public abstract class Event : Entry
+        public abstract class Event : Entry, IMsbEvent
         {
             /// <summary>
             /// Unknown, should be unique.

@@ -101,6 +101,11 @@ namespace SoulsFormats
                 for (short i = 0; i < Navmeshes.Count; i++)
                     Navmeshes[i].Discriminate(ModelType.Navmesh, i);
             }
+
+            public void Add(IMsbModel item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>

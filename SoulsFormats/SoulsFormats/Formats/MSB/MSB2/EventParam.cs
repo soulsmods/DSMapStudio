@@ -26,7 +26,7 @@ namespace SoulsFormats
         /// <summary>
         /// Abstract entities that control map properties or behaviors.
         /// </summary>
-        public class EventParam : Param<Event>
+        public class EventParam : Param<Event>, IMsbParam<IMsbEvent>
         {
             internal override string Name => "EVENT_PARAM_ST";
             internal override int Version => 5;
@@ -134,12 +134,18 @@ namespace SoulsFormats
                     Lights, Shadows, Fogs, BGColors, MapOffsets,
                     Warps, CheapModes);
             }
+            IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
+
+            public void Add(IMsbEvent item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
         /// An abstract entity that controls map properties or behaviors.
         /// </summary>
-        public abstract class Event : NamedEntry
+        public abstract class Event : NamedEntry, IMsbEvent
         {
             /// <summary>
             /// Specific type of this event.

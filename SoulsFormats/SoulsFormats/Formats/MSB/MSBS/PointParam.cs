@@ -286,6 +286,11 @@ namespace SoulsFormats
                     Region23s, Region24s, PartsGroups, AutoDrawGroups, Others);
             }
             IReadOnlyList<IMsbRegion> IMsbParam<IMsbRegion>.GetEntries() => GetEntries();
+
+            public void Add(IMsbRegion item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>

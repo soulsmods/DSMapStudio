@@ -103,6 +103,11 @@ namespace SoulsFormats
                     MapPieces, Objects, Enemies, Players, Collisions);
             }
             IReadOnlyList<IMsbModel> IMsbParam<IMsbModel>.GetEntries() => GetEntries();
+
+            public void Add(IMsbModel item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>

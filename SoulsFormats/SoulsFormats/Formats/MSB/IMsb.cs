@@ -11,10 +11,20 @@ namespace SoulsFormats
         IMsbParam<IMsbPart> Parts { get; }
 
         IMsbParam<IMsbRegion> Regions { get; }
+
+        IMsbParam<IMsbEvent> Events { get;  }
+
+        // Writing methods
+        public byte[] Write();
+        public byte[] Write(DCX.Type compression);
+        public void Write(string path);
+        public void Write(string path, DCX.Type compression);
     }
 
     public interface IMsbParam<T> where T : IMsbEntry
     {
+        void Add(T item);
+
         IReadOnlyList<T> GetEntries();
     }
 
@@ -42,5 +52,7 @@ namespace SoulsFormats
 
         Vector3 Rotation { get; set; }
     }
+
+    public interface IMsbEvent : IMsbEntry { }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

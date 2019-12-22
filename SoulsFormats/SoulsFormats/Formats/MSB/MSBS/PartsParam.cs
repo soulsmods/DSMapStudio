@@ -140,6 +140,11 @@ namespace SoulsFormats
                     DummyObjects, DummyEnemies, ConnectCollisions);
             }
             IReadOnlyList<IMsbPart> IMsbParam<IMsbPart>.GetEntries() => GetEntries();
+
+            public void Add(IMsbPart item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>

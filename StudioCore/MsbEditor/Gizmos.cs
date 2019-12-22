@@ -159,11 +159,11 @@ namespace StudioCore.MsbEditor
         {
             if (!IsTransforming)
             {
-                if (Selection.IsFilteredSelection<MapObject>())
+                if (Selection.IsFilteredSelection<MapObject>((o) => o.HasTransform))
                 {
-                    if (Selection.IsSingleFilteredSelection<MapObject>())
+                    if (Selection.IsSingleFilteredSelection<MapObject>((o) => o.HasTransform))
                     {
-                        var sel = Selection.GetSingleFilteredSelection<MapObject>();
+                        var sel = Selection.GetSingleFilteredSelection<MapObject>((o) => o.HasTransform);
                         OriginalTransform = sel.GetTransform();
                         if (Origin == GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
                         {
@@ -178,7 +178,7 @@ namespace StudioCore.MsbEditor
                     {
                         // Average the positions of the selections and use a neutral rotation
                         Vector3 accumPos = Vector3.Zero;
-                        foreach (var sel in Selection.GetFilteredSelection<MapObject>())
+                        foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
                         {
                             accumPos += sel.GetTransform().Position;
                         }
@@ -225,7 +225,7 @@ namespace StudioCore.MsbEditor
                         ActionManager.ExecuteAction(act);
                     }*/
                     var actlist = new List<Action>();
-                    foreach (var sel in Selection.GetFilteredSelection<MapObject>())
+                    foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
                     {
                         sel.ClearTemporaryTransform();
                         actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetTransform())));
@@ -270,7 +270,7 @@ namespace StudioCore.MsbEditor
                 if (Selection.IsSelection())
                 {
                     //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
-                    foreach (var sel in Selection.GetFilteredSelection<MapObject>())
+                    foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
                     {
                         sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetTransform()));
                     }

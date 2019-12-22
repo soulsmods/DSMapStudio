@@ -41,6 +41,20 @@ namespace SoulsFormats
                 Regions.Add(region);
                 return region;
             }
+
+            public void Add(IMsbRegion item)
+            {
+                switch (item)
+                {
+                    case Region r:
+                        Regions.Add(r);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
+            }
         }
 
         /// <summary>

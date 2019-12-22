@@ -82,15 +82,16 @@ namespace StudioCore.MsbEditor
 
     public class CloneMapObjectsAction : Action
     {
-        private Map Map;
+        private Universe Universe;
         private Scene.RenderScene Scene;
         private List<MapObject> Clonables = new List<MapObject>();
         private List<MapObject> Clones = new List<MapObject>();
+        private List<Map> CloneMaps = new List<Map>();
         private bool SetSelection;
 
-        public CloneMapObjectsAction(Map map, Scene.RenderScene scene, List<MapObject> objects, bool setSelection)
+        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapObject> objects, bool setSelection)
         {
-            Map = map;
+            Universe = univ;
             Scene = scene;
             Clonables.AddRange(objects);
             SetSelection = setSelection;
@@ -100,12 +101,22 @@ namespace StudioCore.MsbEditor
         {
             foreach (var obj in Clonables)
             {
-                var newobj = obj.Clone();
-                newobj.Name = obj.Name + "_1";
-                Map.MapObjects.Insert(Map.MapObjects.IndexOf(obj) + 1, newobj);
-                newobj.UpdateRenderTransform();
-                newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
-                Clones.Add(newobj);
+                var m = Universe.GetLoadedMap(obj.MapID);
+                if (m != null)
+                {
+                    var newobj = obj.Clone();
+                    newobj.Name = obj.Name + "_1";
+                    m.MapObjects.Insert(m.MapObjects.IndexOf(obj) + 1, newobj);
+                    if (obj.Parent != null)
+                    {
+                        int idx = obj.Parent.ChildIndex(obj);
+                        obj.Parent.AddChild(newobj, idx);
+                    }
+                    newobj.UpdateRenderTransform();
+                    newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
+                    Clones.Add(newobj);
+                    CloneMaps.Add(m);
+                }
             }
             if (SetSelection)
             {
@@ -119,11 +130,15 @@ namespace StudioCore.MsbEditor
 
         public override void Undo()
         {
-            foreach (var clone in Clones)
+            for (int i = 0; i < Clones.Count(); i++)
             {
-                Map.MapObjects.Remove(clone);
-                clone.RenderSceneMesh.AutoRegister = false;
-                clone.RenderSceneMesh.UnregisterWithScene();
+                CloneMaps[i].MapObjects.Remove(Clones[i]);
+                if (Clones[i] != null)
+                {
+                    Clones[i].Parent.RemoveChild(Clones[i]);
+                }
+                Clones[i].RenderSceneMesh.AutoRegister = false;
+                Clones[i].RenderSceneMesh.UnregisterWithScene();
             }
             Clones.Clear();
             if (SetSelection)
@@ -139,15 +154,18 @@ namespace StudioCore.MsbEditor
 
     public class DeleteMapObjectsAction : Action
     {
-        private Map Map;
+        private Universe Universe;
         private Scene.RenderScene Scene;
         private List<MapObject> Deletables = new List<MapObject>();
         private List<int> RemoveIndices = new List<int>();
+        private List<Map> RemoveMaps = new List<Map>();
+        private List<MapObject> RemoveParent = new List<MapObject>();
+        private List<int> RemoveParentIndex = new List<int>();
         private bool SetSelection;
 
-        public DeleteMapObjectsAction(Map map, Scene.RenderScene scene, List<MapObject> objects, bool setSelection)
+        public DeleteMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapObject> objects, bool setSelection)
         {
-            Map = map;
+            Universe = univ;
             Scene = scene;
             Deletables.AddRange(objects);
             SetSelection = setSelection;
@@ -157,10 +175,24 @@ namespace StudioCore.MsbEditor
         {
             foreach (var obj in Deletables)
             {
-                RemoveIndices.Add(Map.MapObjects.IndexOf(obj));
-                Map.MapObjects.RemoveAt(RemoveIndices.Last());
-                obj.RenderSceneMesh.AutoRegister = false;
-                obj.RenderSceneMesh.UnregisterWithScene();
+                var m = Universe.GetLoadedMap(obj.MapID);
+                if (m != null)
+                {
+                    RemoveMaps.Add(m);
+                    RemoveIndices.Add(m.MapObjects.IndexOf(obj));
+                    m.MapObjects.RemoveAt(RemoveIndices.Last());
+                    obj.RenderSceneMesh.AutoRegister = false;
+                    obj.RenderSceneMesh.UnregisterWithScene();
+                    RemoveParent.Add(obj.Parent);
+                    if (obj.Parent != null)
+                    {
+                        RemoveParentIndex.Add(obj.Parent.RemoveChild(obj));
+                    }
+                    else
+                    {
+                        RemoveParentIndex.Add(-1);
+                    }
+                }
             }
             if (SetSelection)
             {
@@ -172,9 +204,13 @@ namespace StudioCore.MsbEditor
         {
             for (int i = 0; i < Deletables.Count(); i++)
             {
-                Map.MapObjects.Insert(RemoveIndices[i], Deletables[i]);
+                RemoveMaps[i].MapObjects.Insert(RemoveIndices[i], Deletables[i]);
                 Deletables[i].RenderSceneMesh.AutoRegister = true;
                 Deletables[i].RenderSceneMesh.RegisterWithScene(Scene);
+                if (RemoveParent[i] != null)
+                {
+                    RemoveParent[i].AddChild(Deletables[i], RemoveParentIndex[i]);
+                }
             }
             if (SetSelection)
             {

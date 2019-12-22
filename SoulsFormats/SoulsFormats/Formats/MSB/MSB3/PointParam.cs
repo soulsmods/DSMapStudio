@@ -246,6 +246,11 @@ namespace SoulsFormats
             {
                 entry.Write(bw, id);
             }
+
+            public void Add(IMsbRegion item)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal enum RegionType : uint
