@@ -40,6 +40,112 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public void LoadDS2Generators(string mapid, Map map)
+        {
+            Dictionary<long, PARAM.Row> registParams = new Dictionary<long, PARAM.Row>();
+            Dictionary<long, MergedParamRow> generatorParams = new Dictionary<long, MergedParamRow>();
+            Dictionary<long, MapObject> generatorObjs = new Dictionary<long, MapObject>();
+
+            var regparamad = AssetLocator.GetDS2GeneratorRegistParam(mapid);
+            var regparam = PARAM.Read(regparamad.AssetPath);
+            var reglayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{regparam.ID}.xml");
+            regparam.SetLayout(reglayout);
+            foreach (var row in regparam.Rows)
+            {
+                if (row.Name == null || row.Name == "")
+                {
+                    row.Name = "regist_" + row.ID.ToString();
+                }
+                registParams.Add(row.ID, row);
+
+                var obj = new MapObject(row, MapObject.ObjectType.TypeEvent);
+                map.AddObject(obj);
+            }
+
+            var locparamad = AssetLocator.GetDS2GeneratorLocationParam(mapid);
+            var locparam = PARAM.Read(locparamad.AssetPath);
+            var loclayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{locparam.ID}.xml");
+            locparam.SetLayout(loclayout);
+            foreach (var row in locparam.Rows)
+            {
+                if (row.Name == null || row.Name == "")
+                {
+                    row.Name = "generator_" + row.ID.ToString();
+                }
+
+                // Offset the generators by the map offset
+                row["PositionX"].Value = (float)row["PositionX"].Value + map.MapOffset.Position.X;
+                row["PositionY"].Value = (float)row["PositionY"].Value + map.MapOffset.Position.Y;
+                row["PositionZ"].Value = (float)row["PositionZ"].Value + map.MapOffset.Position.Z;
+
+                var mergedRow = new MergedParamRow();
+                mergedRow.AddRow(row);
+                generatorParams.Add(row.ID, mergedRow);
+
+                var obj = new MapObject(mergedRow, MapObject.ObjectType.TypePart);
+                generatorObjs.Add(row.ID, obj);
+                map.AddObject(obj);
+            }
+
+            var chrsToLoad = new HashSet<AssetDescription>();
+            var genparamad = AssetLocator.GetDS2GeneratorParam(mapid);
+            var genparam = PARAM.Read(genparamad.AssetPath);
+            var genlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{genparam.ID}.xml");
+            genparam.SetLayout(genlayout);
+            foreach (var row in genparam.Rows)
+            {
+                if (row.Name == null || row.Name == "")
+                {
+                    row.Name = "generator_" + row.ID.ToString();
+                }
+
+                if (generatorParams.ContainsKey(row.ID))
+                {
+                    generatorParams[row.ID].AddRow(row);
+                }
+                else
+                {
+                    var mergedRow = new MergedParamRow();
+                    mergedRow.AddRow(row);
+                    generatorParams.Add(row.ID, mergedRow);
+                    var obj = new MapObject(mergedRow, MapObject.ObjectType.TypePart);
+                    generatorObjs.Add(row.ID, obj);
+                    map.AddObject(obj);
+                }
+
+                uint registid = (uint)row["GeneratorRegistParam"].Value;
+                if (registParams.ContainsKey(registid))
+                {
+                    var regist = registParams[registid];
+                    var chrid = ParamBank.GetChrIDForEnemy((uint)regist["EnemyParam"].Value);
+                    if (chrid != null)
+                    {
+                        var asset = AssetLocator.GetChrModel($@"c{chrid}");
+                        var res = ResourceMan.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+                        var model = new NewMesh(RenderScene, res, false);
+                        model.DrawFilter = Scene.RenderFilter.Character;
+                        generatorObjs[row.ID].RenderSceneMesh = model;
+                        model.Selectable = new WeakReference<Scene.ISelectable>(generatorObjs[row.ID]);
+                        chrsToLoad.Add(asset);
+                    }
+                }
+            }
+
+            var job = ResourceMan.CreateNewJob($@"Loading chrs");
+            foreach (var chr in chrsToLoad)
+            {
+                if (chr.AssetArchiveVirtualPath != null)
+                {
+                    job.AddLoadArchiveTask(chr.AssetArchiveVirtualPath, false, Resource.ResourceManager.ResourceType.Flver);
+                }
+                else if (chr.AssetVirtualPath != null)
+                {
+                    job.AddLoadFileTask(chr.AssetVirtualPath);
+                }
+            }
+            job.StartJobAsync();
+        }
+
         public void LoadMap(string mapid)
         {
             var map = new Map(mapid);
@@ -58,6 +164,10 @@ namespace StudioCore.MsbEditor
             else if (AssetLocator.Type == GameType.Sekiro)
             {
                 msb = MSBS.Read(ad.AssetPath);
+            }
+            else if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                msb = MSB2.Read(ad.AssetPath);
             }
             else
             {
@@ -115,18 +225,22 @@ namespace StudioCore.MsbEditor
                     if (loadcol)
                     {
                         var res = ResourceMan.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                        var mesh = new Scene.CollisionMesh(RenderScene, res, false);
+                        var mesh = new Scene.CollisionMesh(RenderScene, res, AssetLocator.Type == GameType.DarkSoulsIISOTFS);
                         mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                         obj.RenderSceneMesh = mesh;
                         mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                     }
-                    else if (loadnav)
+                    else if (loadnav && AssetLocator.Type != GameType.DarkSoulsIISOTFS)
                     {
                         var res = ResourceMan.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                         var mesh = new Scene.NvmMesh(RenderScene, res, false);
                         mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                         obj.RenderSceneMesh = mesh;
                         mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                    }
+                    else if (loadnav && AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                    {
+
                     }
                     else
                     {
@@ -145,8 +259,21 @@ namespace StudioCore.MsbEditor
                     obj.RenderSceneMesh = mesh;
                     mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                 }
+
+                // Try to find the map offset
+                if (obj.MsbObject is MSB2.Event.MapOffset mo)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo.Translation;
+                    map.MapOffset = t;
+                }
             }
             LoadedMaps.Add(map);
+
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                LoadDS2Generators(mapid, map);
+            }
 
             var job = ResourceMan.CreateNewJob($@"Loading {mapid} geometry");
             foreach (var mappiece in AssetLocator.GetMapModels(mapid))
@@ -160,6 +287,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(mappiece.AssetVirtualPath);
                 }
             }
+            
             job.StartJobAsync();
             job = ResourceMan.CreateNewJob($@"Loading {mapid} collisions");
             foreach (var col in colsToLoad)
@@ -179,7 +307,7 @@ namespace StudioCore.MsbEditor
             {
                 if (chr.AssetArchiveVirtualPath != null)
                 {
-                    job.AddLoadArchiveTask(chr.AssetArchiveVirtualPath, false);
+                    job.AddLoadArchiveTask(chr.AssetArchiveVirtualPath, false, Resource.ResourceManager.ResourceType.Flver);
                 }
                 else if (chr.AssetVirtualPath != null)
                 {
@@ -192,7 +320,7 @@ namespace StudioCore.MsbEditor
             {
                 if (obj.AssetArchiveVirtualPath != null)
                 {
-                    job.AddLoadArchiveTask(obj.AssetArchiveVirtualPath, false);
+                    job.AddLoadArchiveTask(obj.AssetArchiveVirtualPath, false, Resource.ResourceManager.ResourceType.Flver);
                 }
                 else if (obj.AssetVirtualPath != null)
                 {

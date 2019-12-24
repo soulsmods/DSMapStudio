@@ -67,7 +67,10 @@ namespace StudioCore.MsbEditor
             {
                 change.Property.SetValue(ChangedObject, change.NewValue);
             }
-            PostExecutionAction.Invoke(false);
+            if (PostExecutionAction != null)
+            {
+                PostExecutionAction.Invoke(false);
+            }
         }
 
         public override void Undo()
@@ -76,7 +79,10 @@ namespace StudioCore.MsbEditor
             {
                 change.Property.SetValue(ChangedObject, change.OldValue);
             }
-            PostExecutionAction.Invoke(true);
+            if (PostExecutionAction != null)
+            {
+                PostExecutionAction.Invoke(true);
+            }
         }
     }
 
@@ -227,16 +233,30 @@ namespace StudioCore.MsbEditor
     {
         private List<Action> Actions;
 
+        private Action<bool> PostExecutionAction = null;
+
         public CompoundAction(List<Action> actions)
         {
             Actions = actions;
+        }
+
+        public void SetPostExecutionAction(Action<bool> action)
+        {
+            PostExecutionAction = action;
         }
 
         public override void Execute()
         {
             foreach (var act in Actions)
             {
-                act.Execute();
+                if (act != null)
+                {
+                    act.Execute();
+                }
+            }
+            if (PostExecutionAction != null)
+            {
+                PostExecutionAction.Invoke(false);
             }
         }
 
@@ -244,7 +264,14 @@ namespace StudioCore.MsbEditor
         {
             foreach (var act in Actions)
             {
-                act.Undo();
+                if (act != null)
+                {
+                    act.Undo();
+                }
+            }
+            if (PostExecutionAction != null)
+            {
+                PostExecutionAction.Invoke(true);
             }
         }
     }

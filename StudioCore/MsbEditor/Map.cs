@@ -18,6 +18,11 @@ namespace StudioCore.MsbEditor
         public List<MapObject> MapObjects = new List<MapObject>();
         public MapObject RootObject { get; private set; }
 
+        /// <summary>
+        /// The map offset used to transform light and ds2 generators
+        /// </summary>
+        public Transform MapOffset { get; set; } = Transform.Default;
+
         // This keeps all models that exist when loading a map, so that saves
         // can be byte perfect
         private HashSet<string> LoadedModels = new HashSet<string>();
@@ -56,6 +61,12 @@ namespace StudioCore.MsbEditor
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
+        }
+
+        public void AddObject(MapObject obj)
+        {
+            MapObjects.Add(obj);
+            RootObject.AddChild(obj);
         }
 
         private void AddModelDS1(IMsb m, MSB1.ModelType typ, string name)

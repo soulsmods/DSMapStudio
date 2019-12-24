@@ -21,6 +21,15 @@ namespace StudioCore.MsbEditor
             RedoStack.Clear();
         }
 
+        public Action PeekUndoAction()
+        {
+            if (UndoStack.Count() == 0)
+            {
+                return null;
+            }
+            return UndoStack.Peek();
+        }
+
         public void UndoAction()
         {
             if (UndoStack.Count() == 0)

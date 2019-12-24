@@ -27,6 +27,7 @@ namespace StudioCore.Scene
         private Scene.RenderScene RenderScene;
         private bool Registered = false;
         private DebugPrimitives.DbgPrimWireBox DebugBoundingBox = null;
+        private bool WindCW = false;
 
         public WeakReference<ISelectable> Selectable { get; set; }
 
@@ -83,13 +84,13 @@ namespace StudioCore.Scene
 
         public BoundingBox Bounds { get; private set; }
 
-        public CollisionMesh(Scene.RenderScene scene, Resource.ResourceHandle<Resource.HavokCollisionResource> res, bool useSecondUV, Dictionary<string, int> boneIndexRemap = null,
-            bool ignoreStaticTransforms = false)
+        public CollisionMesh(Scene.RenderScene scene, Resource.ResourceHandle<Resource.HavokCollisionResource> res, bool windcw)
         {
             RenderScene = scene;
             Resource = res;
             Resource.Acquire();
             res.AddResourceEventListener(this);
+            WindCW = windcw;
         }
 
         public CollisionMesh(CollisionMesh mesh)
@@ -98,6 +99,7 @@ namespace StudioCore.Scene
             Resource = mesh.Resource;
             Resource.Acquire();
             Resource.AddResourceEventListener(this);
+            WindCW = mesh.WindCW;
         }
 
         ~CollisionMesh()
@@ -179,7 +181,7 @@ namespace StudioCore.Scene
                 {
                     lock (_lock_submeshes)
                     {
-                        var sm = new CollisionRenderer(this, Resource, i);
+                        var sm = new CollisionRenderer(this, Resource, i, WindCW);
                         Submeshes.Add(sm);
                     }
                 }

@@ -18,10 +18,14 @@ namespace StudioCore.Resource
     /// </summary>
     public class ResourceManager
     {
+        [Flags]
         public enum ResourceType
         {
-            Flver,
-            Texture,
+            Flver = 1,
+            Texture = 2,
+            CollisionHKX = 4,
+            Navmesh = 8,
+            All = 0xFFFFFFF,
         }
 
         private IResourceHandle InstantiateResource(ResourceType type, string path)
@@ -123,17 +127,19 @@ namespace StudioCore.Resource
             private List<int> TaskSizes = new List<int>();
             private List<int> TaskProgress = new List<int>();
             private int TotalSize = 0;
+            private ResourceType ResourceMask = ResourceType.All;
 
             private List<Tuple<IResourceHandle, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceHandle, string, BinderFileHeader>>();
             private List<BinderFileHeader> PendingTPFs = new List<BinderFileHeader>();
 
             private readonly object ProgressLock = new object();
 
-            public LoadBinderResourcesTask(ResourceManager rm, string virtpath, bool populateOnly)
+            public LoadBinderResourcesTask(ResourceManager rm, string virtpath, bool populateOnly, ResourceType mask)
             {
                 ResourceMan = rm;
                 BinderVirtualPath = virtpath;
                 PopulateResourcesOnly = populateOnly;
+                ResourceMask = mask;
             }
 
             public void ProcessBinder()
@@ -159,18 +165,28 @@ namespace StudioCore.Resource
                     {
                         handle = ResourceMan.ResourceDatabase[filevirtpath];
                     }*/
+
                     if (filevirtpath.ToUpper().EndsWith(".TPF"))
                     {
 
                     }
                     else
                     {
-                        if (filevirtpath.ToUpper().EndsWith(".FLVER"))
+                        if (ResourceMask.HasFlag(ResourceType.Flver) &&
+                            (filevirtpath.ToUpper().EndsWith(".FLVER") ||
+                             filevirtpath.ToUpper().EndsWith(".FLV") ||
+                             filevirtpath.ToUpper().EndsWith(".FLV.DCX")))
                         {
                             //handle = new ResourceHandle<FlverResource>();
                             handle = ResourceMan.GetResource<FlverResource>(filevirtpath);
                         }
-                        else if (filevirtpath.ToUpper().EndsWith(".NVM"))
+                        else if (ResourceMask.HasFlag(ResourceType.CollisionHKX) &&
+                            (filevirtpath.ToUpper().EndsWith(".HKX") ||
+                             filevirtpath.ToUpper().EndsWith(".HKX.DCX")))
+                        {
+                            handle = ResourceMan.GetResource<HavokCollisionResource>(filevirtpath);
+                        }
+                        else if (ResourceMask.HasFlag(ResourceType.Navmesh) && filevirtpath.ToUpper().EndsWith(".NVM"))
                         {
                             handle = ResourceMan.GetResource<NVMNavmeshResource>(filevirtpath);
                         }
@@ -422,7 +438,21 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly);
+                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, ResourceType.All);
+                    Tasks.Add(task);
+                }
+            }
+
+            public void AddLoadArchiveTask(string virtualPath, bool populateOnly, ResourceType filter)
+            {
+                if (virtualPath == "null")
+                {
+                    return;
+                }
+                if (!archivesToLoad.Contains(virtualPath))
+                {
+                    archivesToLoad.Add(virtualPath);
+                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, filter);
                     Tasks.Add(task);
                 }
             }
@@ -499,10 +529,18 @@ namespace StudioCore.Resource
         {
             if (type == GameType.DemonsSouls || type == GameType.DarkSoulsPTDE || type == GameType.DarkSoulsRemastered)
             {
+                if (filePath.ToUpper().EndsWith("BHD"))
+                {
+                    return new BXF3Reader(filePath, filePath.Substring(filePath.Length - 3) + "bdt");
+                }
                 return new BND3Reader(filePath);
             }
             else
             {
+                if (filePath.ToUpper().EndsWith("BHD"))
+                {
+                    return new BXF4Reader(filePath, filePath.Substring(0, filePath.Length - 3) + "bdt");
+                }
                 return new BND4Reader(filePath);
             }
         }

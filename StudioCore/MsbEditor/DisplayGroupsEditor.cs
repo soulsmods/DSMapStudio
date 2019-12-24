@@ -33,7 +33,7 @@ namespace StudioCore.MsbEditor
             if (ImGui.Begin("Display Groups"))
             {
                 var dg = Scene.DisplayGroup;
-                var count = (game == GameType.DemonsSouls || game == GameType.DarkSoulsPTDE) ? 4 : 8;
+                var count = (game == GameType.DemonsSouls || game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsIISOTFS) ? 4 : 8;
                 if (dg.AlwaysVisible || dg.Drawgroups.Length != count)
                 {
                     dg.Drawgroups = new uint[count];
@@ -103,7 +103,6 @@ namespace StudioCore.MsbEditor
                             ImGui.PopStyleColor(2);
                         }
                     }
-                    ImGui.NewLine();
                 }
             }
             ImGui.End();

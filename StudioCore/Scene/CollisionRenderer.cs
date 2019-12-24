@@ -20,6 +20,8 @@ namespace StudioCore.Scene
         private Resource.ResourceHandle<Resource.HavokCollisionResource> ColResource;
         private int ColMeshIndex;
 
+        private bool WindClockwise = false;
+
         bool WorldDirty = false;
         private Matrix4x4 _World = Matrix4x4.Identity;
         public Matrix4x4 WorldTransform
@@ -46,10 +48,11 @@ namespace StudioCore.Scene
 
         public bool IsVisible { get; set; } = true;
 
-        public CollisionRenderer(CollisionMesh parent, Resource.ResourceHandle<Resource.HavokCollisionResource> resourceHandle, int meshIndex)
+        public CollisionRenderer(CollisionMesh parent, Resource.ResourceHandle<Resource.HavokCollisionResource> resourceHandle, int meshIndex, bool windCW)
         {
             ColResource = resourceHandle;
             ColMeshIndex = meshIndex;
+            WindClockwise = windCW;
         }
 
         public override void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -101,7 +104,7 @@ namespace StudioCore.Scene
             pipelineDescription.RasterizerState = new RasterizerStateDescription(
                 cullMode: FaceCullMode.Back,
                 fillMode: PolygonFillMode.Solid,
-                frontFace: FrontFace.CounterClockwise,
+                frontFace: WindClockwise ? FrontFace.Clockwise : FrontFace.CounterClockwise,
                 depthClipEnabled: true,
                 scissorTestEnabled: false);
             pipelineDescription.PrimitiveTopology = isTriStrip ? PrimitiveTopology.TriangleStrip : PrimitiveTopology.TriangleList;

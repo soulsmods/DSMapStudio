@@ -49,7 +49,7 @@ namespace StudioCore
 
         private const bool UseRenderdoc = false;
 
-        public MapStudioNew()
+        unsafe public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
 
@@ -105,6 +105,34 @@ namespace StudioCore
             MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
+            var fonts = ImGui.GetIO().Fonts;
+            var fileJp = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\NotoSansCJKtc-Light.otf");
+            var fontJp = File.ReadAllBytes(fileJp);
+            var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
+            var fontEn = File.ReadAllBytes(fileEn);
+            //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
+            fonts.Clear();
+            fixed (byte* p = fontEn)
+            {
+                var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
+                var cfg = new ImFontConfigPtr(ptr);
+                cfg.GlyphMinAdvanceX = 5.0f;
+                cfg.OversampleH = 5;
+                cfg.OversampleV = 5;
+                var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
+            }
+            fixed (byte* p = fontJp)
+            {
+                var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
+                var cfg = new ImFontConfigPtr(ptr);
+                cfg.MergeMode = true;
+                cfg.GlyphMinAdvanceX = 7.0f;
+                cfg.OversampleH = 5;
+                cfg.OversampleV = 5;
+                var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontJp.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+            }
+            fonts.Build();
+            ImguiRenderer.RecreateFontDeviceTexture();
         }
 
         public void Run()

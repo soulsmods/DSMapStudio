@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Numerics;
+using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
@@ -69,8 +70,15 @@ namespace StudioCore.MsbEditor
             }
             set
             {
-                MsbObject.GetType().GetProperty("Name").SetValue(MsbObject, value);
-                CachedName = value;
+                if (Name == null)
+                {
+                    CachedName = null;
+                }
+                else
+                {
+                    MsbObject.GetType().GetProperty("Name").SetValue(MsbObject, value);
+                    CachedName = value;
+                }
             }
         }
 
@@ -229,16 +237,156 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public object GetPropertyValue(string prop)
+        {
+            if (MsbObject == null)
+            {
+                return null;
+            }
+            if (MsbObject is PARAM.Row row)
+            {
+                var pp = row[prop];
+                if (pp != null)
+                {
+                    return pp.Value;
+                }
+            }
+            else if (MsbObject is MergedParamRow mrow)
+            {
+                var pp = mrow[prop];
+                if (pp != null)
+                {
+                    return pp.Value;
+                }
+            }
+            var p = MsbObject.GetType().GetProperty(prop);
+            if (p != null)
+            {
+                return p.GetValue(MsbObject, null);
+            }
+            return null;
+        }
+
+        public PropertyInfo GetProperty(string prop)
+        {
+            if (MsbObject == null)
+            {
+                return null;
+            }
+            if (MsbObject is PARAM.Row row)
+            {
+                var pp = row[prop];
+                if (pp != null)
+                {
+                    return pp.GetType().GetProperty("Value");
+                }
+            }
+            else if (MsbObject is MergedParamRow mrow)
+            {
+                var pp = mrow[prop];
+                if (pp != null)
+                {
+                    return pp.GetType().GetProperty("Value");
+                }
+            }
+            var p = MsbObject.GetType().GetProperty(prop);
+            if (p != null)
+            {
+                return p;
+            }
+            return null;
+        }
+
+        public PropertiesChangedAction GetPropertyChangeAction(string prop, object newval)
+        {
+            if (MsbObject == null)
+            {
+                return null;
+            }
+            if (MsbObject is PARAM.Row row)
+            {
+                var pp = row[prop];
+                if (pp != null)
+                {
+                    var pprop = pp.GetType().GetProperty("Value");
+                    return new PropertiesChangedAction(pprop, pp, newval);
+                }
+            }
+            if (MsbObject is MergedParamRow mrow)
+            {
+                var pp = mrow[prop];
+                if (pp != null)
+                {
+                    var pprop = pp.GetType().GetProperty("Value");
+                    return new PropertiesChangedAction(pprop, pp, newval);
+                }
+            }
+            var p = MsbObject.GetType().GetProperty(prop);
+            if (p != null)
+            {
+                return new PropertiesChangedAction(p, MsbObject, newval);
+            }
+            return null;
+        }
+
         public Transform GetTransform()
         {
             var t = Transform.Default;
-            t.Position = (Vector3)MsbObject.GetType().GetProperty("Position").GetValue(MsbObject, null);
-            var rot = (Vector3)MsbObject.GetType().GetProperty("Rotation").GetValue(MsbObject, null);
-            t.EulerRotation = new Vector3(Utils.DegToRadians(rot.X), Utils.DegToRadians(rot.Y), Utils.DegToRadians(rot.Z));
-            var scaleprop = MsbObject.GetType().GetProperty("Scale");
-            if (scaleprop != null)
+            var pos = GetPropertyValue("Position");
+            if (pos != null)
             {
-                t.Scale = (Vector3)scaleprop.GetValue(MsbObject, null);
+                t.Position = (Vector3)pos;
+            }
+            else
+            {
+                var px = GetPropertyValue("PositionX");
+                var py = GetPropertyValue("PositionY");
+                var pz = GetPropertyValue("PositionZ");
+                if (px != null)
+                {
+                    t.Position.X = (float)px;
+                }
+                if (py != null)
+                {
+                    t.Position.Y = (float)py;
+                }
+                if (pz != null)
+                {
+                    t.Position.Z = (float)pz;
+                }
+            }
+
+            var rot = GetPropertyValue("Rotation");
+            if (rot != null)
+            {
+                var r = (Vector3)rot;
+                t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+            }
+            else
+            {
+                var rx = GetPropertyValue("RotationX");
+                var ry = GetPropertyValue("RotationY");
+                var rz = GetPropertyValue("RotationZ");
+                Vector3 r = Vector3.Zero;
+                if (rx != null)
+                {
+                    r.X = (float)rx;
+                }
+                if (ry != null)
+                {
+                    r.Y = (float)ry;
+                }
+                if (rz != null)
+                {
+                    r.Z = (float)rz;
+                }
+                t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+            }
+
+            var scale = GetPropertyValue("Scale");
+            if (scale != null)
+            {
+                t.Scale = (Vector3)scale;
             }
             return t;
         }
@@ -258,20 +406,43 @@ namespace StudioCore.MsbEditor
 
         public Action GetUpdateTransformAction(Transform newt)
         {
-            var act = new PropertiesChangedAction(MsbObject);
-            var prop = MsbObject.GetType().GetProperty("Position");
-            act.AddPropertyChange(prop, newt.Position);
-            prop = MsbObject.GetType().GetProperty("Rotation");
-            act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
-            act.SetPostExecutionAction((undo) =>
+            if (MsbObject is PARAM.Row || MsbObject is MergedParamRow)
             {
-                UpdateRenderTransform();
-            });
-            return act;
+                var actions = new List<Action>();
+                actions.Add(GetPropertyChangeAction("PositionX", newt.Position.X));
+                actions.Add(GetPropertyChangeAction("PositionY", newt.Position.Y));
+                actions.Add(GetPropertyChangeAction("PositionZ", newt.Position.Z));
+                actions.Add(GetPropertyChangeAction("RotationX", newt.EulerRotation.X * Utils.Rad2Deg));
+                actions.Add(GetPropertyChangeAction("RotationY", newt.EulerRotation.Y * Utils.Rad2Deg));
+                actions.Add(GetPropertyChangeAction("RotationZ", newt.EulerRotation.Z * Utils.Rad2Deg));
+                var act = new CompoundAction(actions);
+                act.SetPostExecutionAction((undo) =>
+                {
+                    UpdateRenderTransform();
+                });
+                return act;
+            }
+            else
+            {
+                var act = new PropertiesChangedAction(MsbObject);
+                var prop = MsbObject.GetType().GetProperty("Position");
+                act.AddPropertyChange(prop, newt.Position);
+                prop = MsbObject.GetType().GetProperty("Rotation");
+                act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
+                act.SetPostExecutionAction((undo) =>
+                {
+                    UpdateRenderTransform();
+                });
+                return act;
+            }
         }
 
         public void UpdateRenderTransform()
         {
+            if (!HasTransform)
+            {
+                return;
+            }
             Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetTransform().WorldMatrix;
             var p = Parent;
             while (p != null)

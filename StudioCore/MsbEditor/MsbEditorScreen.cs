@@ -78,6 +78,8 @@ namespace StudioCore.MsbEditor
 
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
+
+            ParamBank.LoadParams(AssetLocator);
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -155,6 +157,10 @@ namespace StudioCore.MsbEditor
                                 System.Windows.Forms.MessageBox.Show("The game you selected could not be detected as a valid supported game", "Error",
                                     System.Windows.Forms.MessageBoxButtons.OK,
                                     System.Windows.Forms.MessageBoxIcon.None);
+                            }
+                            else
+                            {
+                                ParamBank.ReloadParams();
                             }
                         }
                     }
@@ -301,16 +307,16 @@ namespace StudioCore.MsbEditor
             }
 
             // Keyboard shortcuts
+            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            {
+                EditorActionManager.UndoAction();
+            }
+            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+            {
+                EditorActionManager.RedoAction();
+            }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
-                {
-                    EditorActionManager.UndoAction();
-                }
-                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
-                {
-                    EditorActionManager.RedoAction();
-                }
                 if (InputTracker.GetControlShortcut(Key.D) && Selection.IsSelection())
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);

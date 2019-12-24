@@ -220,6 +220,15 @@ namespace StudioCore
             AssetDescription ad = new AssetDescription();
             if (Type == GameType.DarkSoulsIISOTFS)
             {
+                var path = $@"map\{mapid}\{mapid}";
+                if (File.Exists($@"{GameModDirectory}\{path}.msb"))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}.msb"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb";
+                }
             }
             else
             {
@@ -245,6 +254,54 @@ namespace StudioCore
             return ad;
         }
 
+        public AssetDescription GetDS2GeneratorParam(string mapid)
+        {
+            AssetDescription ad = new AssetDescription();
+            var path = $@"Param\generatorparam_{mapid}";
+            if (File.Exists($@"{GameModDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            }
+            ad.AssetName = mapid + "_generators";
+            return ad;
+        }
+
+        public AssetDescription GetDS2GeneratorLocationParam(string mapid)
+        {
+            AssetDescription ad = new AssetDescription();
+            var path = $@"Param\generatorlocation_{mapid}";
+            if (File.Exists($@"{GameModDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            }
+            ad.AssetName = mapid + "_generator_locations";
+            return ad;
+        }
+
+        public AssetDescription GetDS2GeneratorRegistParam(string mapid)
+        {
+            AssetDescription ad = new AssetDescription();
+            var path = $@"Param\generatorregistparam_{mapid}";
+            if (File.Exists($@"{GameModDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            }
+            ad.AssetName = mapid + "_generator_registrations";
+            return ad;
+        }
+
         public List<AssetDescription> GetMapModels(string mapid)
         {
             var ret = new List<AssetDescription>();
@@ -261,6 +318,14 @@ namespace StudioCore
                     ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
                     ret.Add(ad);
                 }
+            }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                var ad = new AssetDescription();
+                var name = mapid;
+                ad.AssetName = name;
+                ad.AssetArchiveVirtualPath = $@"map/{mapid}/model";
+                ret.Add(ad);
             }
             else
             {
@@ -286,6 +351,10 @@ namespace StudioCore
             {
                 return $@"{modelname}A{mapid.Substring(1, 2)}";
             }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                return modelname;
+            }
             return $@"{mapid}_{modelname.Substring(1)}";
         }
 
@@ -296,13 +365,25 @@ namespace StudioCore
             {
                 ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.flver";
             }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                ret.AssetPath = $@"{GameRootDirectory}\model\map\{mapid}.mapbhd";
+            }
             else
             {
                 ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.mapbnd.dcx";
             }
             ret.AssetName = model;
-            ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
-            ret.AssetVirtualPath = $@"map/{mapid}/model/{model}/{model}.flver";
+            if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                ret.AssetArchiveVirtualPath = $@"map/{mapid}/model";
+                ret.AssetVirtualPath = $@"map/{mapid}/model/{model}.flv.dcx";
+            }
+            else
+            {
+                ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
+                ret.AssetVirtualPath = $@"map/{mapid}/model/{model}.flver";
+            }
             return ret;
         }
 
@@ -314,6 +395,13 @@ namespace StudioCore
                 ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.hkx";
                 ret.AssetName = model;
                 ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx";
+            }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                ret.AssetPath = $@"{GameRootDirectory}\model\map\h{mapid.Substring(1)}.hkxbhd";
+                ret.AssetName = model;
+                ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx.dcx";
+                ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
             }
             else
             {
@@ -332,7 +420,7 @@ namespace StudioCore
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
                 ret.AssetVirtualPath = $@"map/{mapid}/nav/{model}.nvm";
             }
-                        else
+            else
             {
                 return GetNullAsset();
             }
@@ -344,7 +432,14 @@ namespace StudioCore
             var ret = new AssetDescription();
             ret.AssetName = chr;
             ret.AssetArchiveVirtualPath = $@"chr/{chr}/model";
-            ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flver";
+            if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flv";
+            }
+            else
+            {
+                ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flver";
+            }
             return ret;
         }
 
@@ -353,7 +448,14 @@ namespace StudioCore
             var ret = new AssetDescription();
             ret.AssetName = obj;
             ret.AssetArchiveVirtualPath = $@"obj/{obj}/model";
-            ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flver";
+            if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flv";
+            }
+            else
+            {
+                ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flver";
+            }
             return ret;
         }
 
@@ -396,6 +498,10 @@ namespace StudioCore
                         {
                             return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.flver";
                         }
+                        else if (Type == GameType.DarkSoulsIISOTFS)
+                        {
+                            return $@"{GameRootDirectory}\model\map\{mapid}.mapbhd";
+                        }
                         return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.mapbnd.dcx";
                     }
                     else if (pathElements[i].Equals("hit"))
@@ -407,6 +513,11 @@ namespace StudioCore
                         {
                             bndpath = "";
                             return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}";
+                        }
+                        else if (Type == GameType.DarkSoulsIISOTFS)
+                        {
+                            bndpath = "";
+                            return $@"{GameRootDirectory}\model\map\h{mapid.Substring(1)}.hkxbhd";
                         }
                         bndpath = "";
                         return null;
@@ -443,6 +554,10 @@ namespace StudioCore
                     {
                         return $@"{GameRootDirectory}\chr\{chrid}.chrbnd";
                     }
+                    else if (Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        return $@"{GameRootDirectory}\model\chr\{chrid}.bnd";
+                    }
                     return $@"{GameRootDirectory}\chr\{chrid}.chrbnd.dcx";
                 }
             }
@@ -457,6 +572,10 @@ namespace StudioCore
                     if (Type == GameType.DarkSoulsPTDE)
                     {
                         return $@"{GameRootDirectory}\obj\{chrid}.objbnd";
+                    }
+                    else if (Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        return $@"{GameRootDirectory}\model\obj\{chrid}.bnd";
                     }
                     return $@"{GameRootDirectory}\obj\{chrid}.objbnd.dcx";
                 }

@@ -313,6 +313,22 @@ namespace SoulsFormats
                     Cells.Add(new Cell(entry, entry.Default));
             }
 
+            /// <summary>
+            /// Copy constructor for a row. Does not add to the param.
+            /// </summary>
+            /// <param name="clone">The row that is being copied</param>
+            public Row(Row clone)
+            {
+                ID = clone.ID;
+                Name = clone.Name;
+                Cells = new List<Cell>(clone.Cells.Count);
+
+                foreach (var cell in clone.Cells)
+                {
+                    Cells.Add(new Cell(cell));
+                }
+            }
+
             internal Row(BinaryReaderEx br, byte format2D)
             {
                 long nameOffset;
@@ -548,6 +564,12 @@ namespace SoulsFormats
             {
                 Layout = layout;
                 Value = value;
+            }
+
+            internal Cell(Cell clone)
+            {
+                Layout = clone.Layout;
+                Value = clone.Value;
             }
         }
     }
