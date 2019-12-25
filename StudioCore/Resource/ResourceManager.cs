@@ -522,7 +522,7 @@ namespace StudioCore.Resource
 
         public ResourceManager()
         {
-            ThreadPool.SetMaxThreads(4, 4);
+            ThreadPool.SetMaxThreads(1, 1);
         }
 
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)

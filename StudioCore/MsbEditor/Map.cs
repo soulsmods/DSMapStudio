@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -191,12 +192,22 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void SerializeDS2Generators(PARAM locations, PARAM generators)
+        public bool SerializeDS2Generators(PARAM locations, PARAM generators)
         {
+            HashSet<long> ids = new HashSet<long>();
             foreach (var m in MapObjects)
             {
                 if (m.Type == MapObject.ObjectType.TypeDS2Generator && m.MsbObject is MergedParamRow mp)
                 {
+                    if (!ids.Contains(mp.ID))
+                    {
+                        ids.Add(mp.ID);
+                    }
+                    else
+                    {
+                        MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                     var loc = mp.GetRow("generator-loc");
                     if (loc != null)
                     {
@@ -214,17 +225,29 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
+            return true;
         }
 
-        public void SerializeDS2Regist(PARAM regist)
+        public bool SerializeDS2Regist(PARAM regist)
         {
+            HashSet<long> ids = new HashSet<long>();
             foreach (var m in MapObjects)
             {
                 if (m.Type == MapObject.ObjectType.TypeDS2GeneratorRegist && m.MsbObject is PARAM.Row mp)
                 {
+                    if (!ids.Contains(mp.ID))
+                    {
+                        ids.Add(mp.ID);
+                    }
+                    else
+                    {
+                        MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                     regist.Rows.Add(mp);
                 }
             }
+            return true;
         }
 
         public void Clear()

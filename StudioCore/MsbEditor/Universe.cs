@@ -369,8 +369,14 @@ namespace StudioCore.MsbEditor
             genparam.Rows.Clear();
 
             // Serialize objects
-            map.SerializeDS2Generators(locparam, genparam);
-            map.SerializeDS2Regist(regparam);
+            if (!map.SerializeDS2Generators(locparam, genparam))
+            {
+                return;
+            }
+            if (!map.SerializeDS2Regist(regparam))
+            {
+                return;
+            }
 
             // Save all the params
             if (File.Exists(regparamad.AssetPath + ".temp"))
