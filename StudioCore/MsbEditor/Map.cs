@@ -97,6 +97,14 @@ namespace StudioCore.MsbEditor
             m.Models.Add(model);
         }
 
+        private void AddModelDS2(IMsb m, MSB2.ModelType typ, string name)
+        {
+            var model = new MSB2.Model();
+            model.Name = name;
+            model.Type = typ;
+            m.Models.Add(model);
+        }
+
         private void AddModel<T>(IMsb m, string name) where T : IMsbModel, new()
         {
             var model = new T();
@@ -104,25 +112,8 @@ namespace StudioCore.MsbEditor
             m.Models.Add(model);
         }
 
-        public void SerializeToMSB(IMsb msb)
+        private void AddModelsDS1(IMsb msb)
         {
-            foreach (var m in MapObjects)
-            {
-                if (m.MsbObject != null && m.MsbObject is IMsbPart p)
-                {
-                    msb.Parts.Add(p);
-                    LoadedModels.Add(p.ModelName);
-                }
-                else if (m.MsbObject != null && m.MsbObject is IMsbRegion r)
-                {
-                    msb.Regions.Add(r);
-                }
-                else if (m.MsbObject != null && m.MsbObject is IMsbEvent e)
-                {
-                    msb.Events.Add(e);
-                }
-            }
-
             foreach (var m in LoadedModels.OrderBy(q => q))
             {
                 if (m.StartsWith("m"))
@@ -144,6 +135,94 @@ namespace StudioCore.MsbEditor
                 if (m.StartsWith("n"))
                 {
                     AddModelDS1(msb, MSB1.ModelType.Navmesh, m);
+                }
+            }
+        }
+
+        private void AddModelsDS2(IMsb msb)
+        {
+            foreach (var m in LoadedModels.OrderBy(q => q))
+            {
+                if (m.StartsWith("m"))
+                {
+                    AddModelDS2(msb, MSB2.ModelType.MapPiece, m);
+                }
+                if (m.StartsWith("h"))
+                {
+                    AddModelDS2(msb, MSB2.ModelType.Collision, m);
+                }
+                if (m.StartsWith("o"))
+                {
+                    AddModelDS2(msb, MSB2.ModelType.Object, m);
+                }
+                if (m.StartsWith("n"))
+                {
+                    AddModelDS2(msb, MSB2.ModelType.Navmesh, m);
+                }
+            }
+        }
+
+        public void SerializeToMSB(IMsb msb, GameType game)
+        {
+            foreach (var m in MapObjects)
+            {
+                if (m.MsbObject != null && m.MsbObject is IMsbPart p)
+                {
+                    msb.Parts.Add(p);
+                    LoadedModels.Add(p.ModelName);
+                }
+                else if (m.MsbObject != null && m.MsbObject is IMsbRegion r)
+                {
+                    msb.Regions.Add(r);
+                }
+                else if (m.MsbObject != null && m.MsbObject is IMsbEvent e)
+                {
+                    msb.Events.Add(e);
+                }
+            }
+
+            if (game == GameType.DarkSoulsPTDE)
+            {
+                AddModelsDS1(msb);
+            }
+            else if (game == GameType.DarkSoulsIISOTFS)
+            {
+                AddModelsDS2(msb);
+            }
+        }
+
+        public void SerializeDS2Generators(PARAM locations, PARAM generators)
+        {
+            foreach (var m in MapObjects)
+            {
+                if (m.Type == MapObject.ObjectType.TypeDS2Generator && m.MsbObject is MergedParamRow mp)
+                {
+                    var loc = mp.GetRow("generator-loc");
+                    if (loc != null)
+                    {
+                        // Adjust the location to be relative to the mapoffset
+                        var newloc = new PARAM.Row(loc);
+                        newloc["PositionX"].Value = (float)loc["PositionX"].Value - MapOffset.Position.X;
+                        newloc["PositionY"].Value = (float)loc["PositionY"].Value - MapOffset.Position.Y;
+                        newloc["PositionZ"].Value = (float)loc["PositionZ"].Value - MapOffset.Position.Z;
+                        locations.Rows.Add(newloc);
+                    }
+                    var gen = mp.GetRow("generator");
+                    if (gen != null)
+                    {
+                        generators.Rows.Add(gen);
+                    }
+                }
+            }
+        }
+
+        public void SerializeDS2Regist(PARAM regist)
+        {
+            foreach (var m in MapObjects)
+            {
+                if (m.Type == MapObject.ObjectType.TypeDS2GeneratorRegist && m.MsbObject is PARAM.Row mp)
+                {
+                    regist.Rows.Add(mp);
                 }
             }
         }

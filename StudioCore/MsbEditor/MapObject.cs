@@ -21,7 +21,9 @@ namespace StudioCore.MsbEditor
             TypeEditor,
             TypePart,
             TypeRegion,
-            TypeEvent
+            TypeEvent,
+            TypeDS2Generator,
+            TypeDS2GeneratorRegist,
         }
 
         public ObjectType Type { get; private set; }
@@ -37,7 +39,7 @@ namespace StudioCore.MsbEditor
         { 
             get
             {
-                return Type != ObjectType.TypeEvent;
+                return Type != ObjectType.TypeEvent && Type != ObjectType.TypeDS2GeneratorRegist;
             }
         }
 
@@ -70,7 +72,7 @@ namespace StudioCore.MsbEditor
             }
             set
             {
-                if (Name == null)
+                if (value == null)
                 {
                     CachedName = null;
                 }

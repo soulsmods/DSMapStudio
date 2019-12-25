@@ -5,7 +5,7 @@ namespace SoulsFormats
 {
     public partial class MSB2
     {
-        internal enum ModelType : ushort
+        public enum ModelType : ushort
         {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             MapPiece = 0,
@@ -104,7 +104,26 @@ namespace SoulsFormats
 
             public void Add(IMsbModel item)
             {
-                throw new NotImplementedException();
+                var m = (Model)item;
+                switch (m.Type)
+                {
+                    case ModelType.MapPiece:
+                        MapPieces.Add(m);
+                        break;
+                    case ModelType.Object:
+                        Objects.Add(m);
+                        break;
+                    case ModelType.Collision:
+                        Collisions.Add(m);
+                        break;
+                    case ModelType.Navmesh:
+                        Navmeshes.Add(m);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 
@@ -113,7 +132,7 @@ namespace SoulsFormats
         /// </summary>
         public class Model : NamedEntry, IMsbModel
         {
-            internal ModelType Type;
+            public ModelType Type;
             internal short Index;
 
             /// <summary>

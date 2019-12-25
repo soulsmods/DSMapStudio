@@ -58,7 +58,7 @@ namespace StudioCore.MsbEditor
                 }
                 registParams.Add(row.ID, row);
 
-                var obj = new MapObject(row, MapObject.ObjectType.TypeEvent);
+                var obj = new MapObject(row, MapObject.ObjectType.TypeDS2GeneratorRegist);
                 map.AddObject(obj);
             }
 
@@ -79,10 +79,10 @@ namespace StudioCore.MsbEditor
                 row["PositionZ"].Value = (float)row["PositionZ"].Value + map.MapOffset.Position.Z;
 
                 var mergedRow = new MergedParamRow();
-                mergedRow.AddRow(row);
+                mergedRow.AddRow("generator-loc", row);
                 generatorParams.Add(row.ID, mergedRow);
 
-                var obj = new MapObject(mergedRow, MapObject.ObjectType.TypePart);
+                var obj = new MapObject(mergedRow, MapObject.ObjectType.TypeDS2Generator);
                 generatorObjs.Add(row.ID, obj);
                 map.AddObject(obj);
             }
@@ -101,14 +101,14 @@ namespace StudioCore.MsbEditor
 
                 if (generatorParams.ContainsKey(row.ID))
                 {
-                    generatorParams[row.ID].AddRow(row);
+                    generatorParams[row.ID].AddRow("generator", row);
                 }
                 else
                 {
                     var mergedRow = new MergedParamRow();
-                    mergedRow.AddRow(row);
+                    mergedRow.AddRow("generator", row);
                     generatorParams.Add(row.ID, mergedRow);
-                    var obj = new MapObject(mergedRow, MapObject.ObjectType.TypePart);
+                    var obj = new MapObject(mergedRow, MapObject.ObjectType.TypeDS2Generator);
                     generatorObjs.Add(row.ID, obj);
                     map.AddObject(obj);
                 }
@@ -344,6 +344,63 @@ namespace StudioCore.MsbEditor
             job.StartJobAsync();
         }
 
+        private void SaveDS2Generators(Map map)
+        {
+            // Load all the params
+            var regparamad = AssetLocator.GetDS2GeneratorRegistParam(map.MapId);
+            var regparam = PARAM.Read(regparamad.AssetPath);
+            var reglayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{regparam.ID}.xml");
+            regparam.SetLayout(reglayout);
+
+            var locparamad = AssetLocator.GetDS2GeneratorLocationParam(map.MapId);
+            var locparam = PARAM.Read(locparamad.AssetPath);
+            var loclayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{locparam.ID}.xml");
+            locparam.SetLayout(loclayout);
+
+            var chrsToLoad = new HashSet<AssetDescription>();
+            var genparamad = AssetLocator.GetDS2GeneratorParam(map.MapId);
+            var genparam = PARAM.Read(genparamad.AssetPath);
+            var genlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{genparam.ID}.xml");
+            genparam.SetLayout(genlayout);
+
+            // Clear them out
+            regparam.Rows.Clear();
+            locparam.Rows.Clear();
+            genparam.Rows.Clear();
+
+            // Serialize objects
+            map.SerializeDS2Generators(locparam, genparam);
+            map.SerializeDS2Regist(regparam);
+
+            // Save all the params
+            if (File.Exists(regparamad.AssetPath + ".temp"))
+            {
+                File.Delete(regparamad.AssetPath + ".temp");
+            }
+            regparam.Write(regparamad.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            File.Copy(regparamad.AssetPath, regparamad.AssetPath + ".prev", true);
+            File.Delete(regparamad.AssetPath);
+            File.Move(regparamad.AssetPath + ".temp", regparamad.AssetPath);
+
+            if (File.Exists(locparamad.AssetPath + ".temp"))
+            {
+                File.Delete(locparamad.AssetPath + ".temp");
+            }
+            locparam.Write(locparamad.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            File.Copy(locparamad.AssetPath, locparamad.AssetPath + ".prev", true);
+            File.Delete(locparamad.AssetPath);
+            File.Move(locparamad.AssetPath + ".temp", locparamad.AssetPath);
+
+            if (File.Exists(genparamad.AssetPath + ".temp"))
+            {
+                File.Delete(genparamad.AssetPath + ".temp");
+            }
+            genparam.Write(genparamad.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            File.Copy(genparamad.AssetPath, genparamad.AssetPath + ".prev", true);
+            File.Delete(genparamad.AssetPath);
+            File.Move(genparamad.AssetPath + ".temp", genparamad.AssetPath);
+        }
+
         private void SaveMap(Map map)
         {
             var ad = AssetLocator.GetMapMSB(map.MapId);
@@ -351,6 +408,13 @@ namespace StudioCore.MsbEditor
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
                 msb = new MSB3();
+            }
+            else if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                MSB2 prev = MSB2.Read(ad.AssetPath);
+                MSB2 n = new MSB2();
+                n.PartPoses = prev.PartPoses;
+                msb = n;
             }
             else if (AssetLocator.Type == GameType.Sekiro)
             {
@@ -363,7 +427,7 @@ namespace StudioCore.MsbEditor
                 //((MSB1)msb).Models = t.Models;
             }
 
-            map.SerializeToMSB(msb);
+            map.SerializeToMSB(msb, AssetLocator.Type);
 
             // Write as a temporary file to make sure there are no errors before overwriting current file 
             string mapPath = ad.AssetPath;
@@ -384,6 +448,11 @@ namespace StudioCore.MsbEditor
             // Move temp file as new map file
             File.Delete(mapPath);
             File.Move(mapPath + ".temp", mapPath);
+
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                SaveDS2Generators(map);
+            }
         }
 
         public void SaveAllMaps()

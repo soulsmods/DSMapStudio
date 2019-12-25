@@ -138,7 +138,34 @@ namespace SoulsFormats
 
             public void Add(IMsbEvent item)
             {
-                throw new NotImplementedException();
+                switch (item)
+                {
+                    case Event.Light e:
+                        Lights.Add(e);
+                        break;
+                    case Event.Shadow e:
+                        Shadows.Add(e);
+                        break;
+                    case Event.Fog e:
+                        Fogs.Add(e);
+                        break;
+                    case Event.BGColor e:
+                        BGColors.Add(e);
+                        break;
+                    case Event.MapOffset e:
+                        MapOffsets.Add(e);
+                        break;
+                    case Event.Warp e:
+                        Warps.Add(e);
+                        break;
+                    case Event.CheapMode e:
+                        CheapModes.Add(e);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 

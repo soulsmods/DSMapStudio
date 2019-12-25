@@ -150,7 +150,37 @@ namespace SoulsFormats
 
             public void Add(IMsbRegion item)
             {
-                throw new NotImplementedException();
+                switch (item)
+                {
+                    case Region.Region0 r:
+                        Region0s.Add(r);
+                        break;
+                    case Region.Light r:
+                        Lights.Add(r);
+                        break;
+                    case Region.StartPoint r:
+                        StartPoints.Add(r);
+                        break;
+                    case Region.Sound r:
+                        Sounds.Add(r);
+                        break;
+                    case Region.SFX r:
+                        SFXs.Add(r);
+                        break;
+                    case Region.Wind r:
+                        Winds.Add(r);
+                        break;
+                    case Region.EnvLight r:
+                        EnvLights.Add(r);
+                        break;
+                    case Region.Fog r:
+                        Fogs.Add(r);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 

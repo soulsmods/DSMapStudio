@@ -25,6 +25,7 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
+
         public string Name
         {
             get
@@ -54,24 +55,37 @@ namespace StudioCore.MsbEditor
         }
 
         private List<PARAM.Row> Rows = new List<PARAM.Row>();
+        private Dictionary<string, PARAM.Row> RowMap = new Dictionary<string, PARAM.Row>();
 
         public MergedParamRow() { }
 
         public MergedParamRow(MergedParamRow clone)
         {
-            foreach (var row in clone.Rows)
+            foreach (var entry in clone.RowMap)
             {
-                Rows.Add(new PARAM.Row(row));
+                var n = new PARAM.Row(entry.Value);
+                RowMap.Add(entry.Key, n);
+                Rows.Add(n);
             }
         }
 
-        public void AddRow(PARAM.Row row)
+        public void AddRow(string key, PARAM.Row row)
         {
             if (Rows.Count > 0 && row.ID != Rows[0].ID)
             {
                 throw new ArgumentException("All IDs must match for param rows to be merged");
             }
+            RowMap.Add(key, row);
             Rows.Add(row);
+        }
+
+        public PARAM.Row GetRow(string key)
+        {
+            if (RowMap.ContainsKey(key))
+            {
+                return RowMap[key];
+            }
+            return null;
         }
 
         public PARAM.Cell this[string name]
