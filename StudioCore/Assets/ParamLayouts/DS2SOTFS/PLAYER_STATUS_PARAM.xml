@@ -1,373 +1,446 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
     <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Soul Level</name>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Vigor</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Endurance</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Attunement</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Vitality</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Strength</name>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Dexterity</name>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Intelligence</name>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Faith</name>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Adaptability</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk1C</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk20</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk24</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk20</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk28</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk2C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk30</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 3 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk34</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 4 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk38</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 5 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk3C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 6 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk40</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 7 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk44</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 8 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk48</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 9 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk4C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 10 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk50</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 1 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk54</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 2 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk58</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 3 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk5C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 4 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk60</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 5 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk64</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 6 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk68</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 7 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk6C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 8 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk70</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 9 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk74</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item 10 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk78</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk7C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk80</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 3 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk84</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 4 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk88</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 5 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk8C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 6 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk90</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 7 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk94</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 8 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk98</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 9 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk9C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spell 10 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Right Weapon 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Right Weapon 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Right Weapon 3 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkAC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Left Weapon 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Left Weapon 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Left Weapon 3 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Head Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkBC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Chest Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Hands Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Legs Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Ring 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkCC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Ring 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Ring 3 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Ring 4 ID</name>
+    <type>s32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Right Weapon 1 Reinforcement</name>
+    <type>u32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Right Weapon 2 Reinforcement</name>
+    <type>u32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Right Weapon 3 Reinforcement</name>
+    <type>u32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Left Weapon 1 Reinforcement</name>
+    <type>u32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Left Weapon 2 Reinforcement</name>
+    <type>u32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Left Weapon 3 Reinforcement</name>
+    <type>u32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkD8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkDC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Player Status Item ID</name>
+    <type>s32</type>
+    <default>0</default>
+    <description>Determines starting inventory.</description>
   </entry>
   <entry>
-    <name>UnkE0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Player Status Item ID</name>
+    <type>s32</type>
+    <default>0</default>
+    <description>Determines starting inventory.</description>
   </entry>
   <entry>
-    <name>UnkE4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Player Status Item ID</name>
+    <type>s32</type>
+    <default>0</default>
+    <description>Determines starting inventory.</description>
   </entry>
   <entry>
     <name>UnkE8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkEC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Arrow 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Arrow 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Bolt 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Bolt 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkFC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Arrow 1 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk100</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Arrow 2 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk104</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Bolt 1 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk108</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Bolt 2 Amount</name>
+    <type>u16</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Gesture 1 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk110</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Gesture 2 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk114</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Gesture 3 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk118</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Gesture 4 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk11C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Gesture 5 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk120</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Gesture 6 ID</name>
+    <type>s32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Gesture 7 ID</name>
+    <type>s32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Gesture 8 ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk124</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
 </layout>

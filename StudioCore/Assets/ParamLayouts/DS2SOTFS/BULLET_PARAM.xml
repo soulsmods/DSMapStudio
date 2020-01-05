@@ -1,403 +1,571 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
-    <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Effect ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spawn Location</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spawn Flag</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Is Visible Online</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spawn Flag</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Upward Spawn Distance</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk Spawn Distance</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Forward Spawn Distance</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk20</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Shooter Horizontal Angle</name>
+    <type>f32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Shooter Unk Angle</name>
+    <type>f32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Shooter Vertical Angle</name>
+    <type>f32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Shooter Unk Angle</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk24</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk25</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk26</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk27</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk28</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk29</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Vertical Angle Randomizer</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Horizontal Angle Randomizer</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk2C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk2D</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Number to Shoot at Once</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Number to Shoot sequentially</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk30</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk31</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk32</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk33</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk34</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk38</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Shoot Interval</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk3C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Vertical Spread</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk40</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Horizontal Spread</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk44</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk48</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk45</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk4C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk46</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk50</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk47</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk54</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Life</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk58</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Initial Horizontal Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk5C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Horizontal Acceleration Start Delay</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk60</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Horizontal Target Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk64</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Horizontal Max Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk68</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Initial Vertical Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk6C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Vertical Acceleration Start Delay</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk70</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Vertical Target Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk74</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Vertical Max Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk78</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Initial Tangential Vertical Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk7C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Tangential Vertical Acceleration Start Delay</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk80</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Tangential Vertical Target Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk84</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Tangential Vertical Max Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk88</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Initial Tangential Horizontal Velocity</name>
+    <type>f32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Tangential Horizontal Acceleration Start Delay</name>
+    <type>f32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Tangential Horizontal Target Velocity</name>
+    <type>f32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Tangential Horizontal Max Velocity</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk8C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk90</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Angle Change</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk94</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Tracking Max Angle Change</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk98</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Tracking Time</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk9C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkA0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkA4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkA8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkAC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Collision - Character</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Collision - Wall</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Collision - Floor / Ceiling</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Collision - Water</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Effect on Fire</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkB8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkBC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>UnkB9</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>UnkBA</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>UnkBB</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Effect on Collision</name>
+    <type>s32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Effect on Death</name>
+    <type>s32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Effect on Death Duration</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkC8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkCC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Behavior on Collision</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkD0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet 1 - ID 1</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet 1 - ID 2</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkDC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet 2 - ID 1</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet 2 - ID 2</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet 3 - ID 1</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet 3 - ID 2</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkEC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Spawn Child Bullets on Collision</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Spawn Child Bullets on Timeout</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Spawn Child Bullets on ?</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Spawn Child Bullets on Alive</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkF0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkF4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkF8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkFC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
+  
   <entry>
     <name>Unk100</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
+  <entry>
+    <name>Unk101</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk102</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk103</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  
   <entry>
     <name>Unk104</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
+    <name>Unk105</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk106</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk107</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  
+  <entry>
     <name>Unk108</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk10C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk110</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk114</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk118</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk11C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk120</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk124</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk128</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Child Bullet Spawn Delay</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk12C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk130</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk134</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk138</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk13C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
 </layout>

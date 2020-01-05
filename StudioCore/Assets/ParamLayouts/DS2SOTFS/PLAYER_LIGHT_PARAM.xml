@@ -1,44 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
-    <name>Unk00</name>
+    <name>Offset X</name>
     <type>f32</type>
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk04</name>
+    <name>Offset Y</name>
     <type>f32</type>
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk08</name>
+    <name>Offset Z</name>
     <type>f32</type>
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk0C</name>
-    <type>x32</type>
-    <default>0</default>
+    <name>Diffuse R</name>
+    <type>u8</type>
+    <default>255</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0</default>
+    <name>Diffuse G</name>
+    <type>u8</type>
+    <default>255</default>
   </entry>
   <entry>
-    <name>Unk14</name>
+    <name>Diffuse B</name>
+    <type>u8</type>
+    <default>255</default>
+  </entry>
+  <entry>
+    <name>Diffuse A</name>
+    <type>u8</type>
+    <default>255</default>
+  </entry>
+  <entry>
+    <name>Specular R</name>
+    <type>u8</type>
+    <default>255</default>
+  </entry>
+  <entry>
+    <name>Specular G</name>
+    <type>u8</type>
+    <default>255</default>
+  </entry>
+  <entry>
+    <name>Specular B</name>
+    <type>u8</type>
+    <default>255</default>
+  </entry>
+  <entry>
+    <name>Specular A</name>
+    <type>u8</type>
+    <default>255</default>
+  </entry>
+  <entry>
+    <name>Diffuse Intensity</name>
     <type>s16</type>
-    <default>0</default>
+    <default>255</default>
   </entry>
   <entry>
-    <name>Unk16</name>
+    <name>Specular Intensity</name>
     <type>s16</type>
-    <default>0</default>
+    <default>255</default>
   </entry>
   <entry>
-    <name>Unk18</name>
+    <name>Radius</name>
     <type>f32</type>
-    <default>0</default>
+    <default>10</default>
   </entry>
   <entry>
     <name>Unk1C</name>
@@ -46,9 +76,9 @@
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk20</name>
+    <name>Shadow Strength</name>
     <type>f32</type>
-    <default>0</default>
+    <default>1</default>
   </entry>
   <entry>
     <name>Unk24</name>
@@ -67,12 +97,12 @@
   </entry>
   <entry>
     <name>Unk2C</name>
-    <type>x32</type>
+    <type>f32</type>
     <default>0</default>
   </entry>
   <entry>
     <name>Unk30</name>
-    <type>x32</type>
+    <type>f32</type>
     <default>0</default>
   </entry>
   <entry>
@@ -81,8 +111,8 @@
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk38</name>
-    <type>x32</type>
-    <default>0</default>
+    <name>Cast Shadows</name>
+    <type>b32</type>
+    <default>false</default>
   </entry>
 </layout>

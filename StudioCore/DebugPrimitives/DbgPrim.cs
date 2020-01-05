@@ -298,7 +298,7 @@ namespace StudioCore.DebugPrimitives
             return new BoundingBox();
         }
 
-        public bool RayCast(Ray ray, out float dist)
+        public virtual bool RayCast(Ray ray, out float dist)
         {
             dist = float.MaxValue;
             return false;

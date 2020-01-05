@@ -97,7 +97,7 @@ namespace StudioCore.Scene
         {
             if (RegionMesh != null)
             {
-                //return RegionMesh.RayCast(ray, WorldMatrix, out dist);
+                return RegionMesh.RayCast(ray, out dist);
             }
             dist = float.MaxValue;
             return false;

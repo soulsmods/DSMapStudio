@@ -2,62 +2,103 @@
 <layout>
   <entry>
     <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk01</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk02</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk03</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  
+  <entry>
+    <name>Conversation ID</name>
+    <type>s32</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Conversation Exit ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Item ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Itemlot ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>NPC Info ID</name>
+    <type>u16</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk18</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk19</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk20</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk21</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk22</name>
+    <type>u8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk23</name>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk24</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk28</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk2C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
 </layout>

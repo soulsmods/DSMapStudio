@@ -1,508 +1,508 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
-    <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Base Damage Multiplier</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Magic Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Lightning Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Fire Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Dark Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk20</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk24</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk28</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+0 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk2C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk30</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk34</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk38</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk3C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk40</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk44</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk48</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk4C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+1 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk50</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Physical Scaling STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk54</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Physical Scaling DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk58</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk5C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk60</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk64</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk68</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk6C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk70</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+2 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk74</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk78</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk7C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk80</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk84</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk88</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk8C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk90</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk94</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+3 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk98</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk9C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkAC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+4 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkBC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkCC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkD8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkDC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+5 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkEC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkFC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk100</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+6 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk104</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk108</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk110</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk114</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk118</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk11C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk120</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk124</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+7 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk128</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk12C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk130</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk134</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk138</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk13C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk140</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk144</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk148</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+8 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk14C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk150</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk154</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk158</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk15C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk160</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk164</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk168</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk16C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+9 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk170</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Physical Scaling: STR</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk174</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Physical Scaling: DEX</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk178</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Magic Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk17C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Lightning Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk180</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Fire Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk184</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Dark Scaling</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk188</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Poison Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk18C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Bleed Scaling:</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk190</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>+10 - Unk</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
 </layout>

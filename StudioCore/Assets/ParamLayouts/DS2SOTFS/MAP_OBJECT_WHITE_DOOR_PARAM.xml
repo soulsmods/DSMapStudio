@@ -2,42 +2,42 @@
 <layout>
   <entry>
     <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Object Instance ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
 </layout>

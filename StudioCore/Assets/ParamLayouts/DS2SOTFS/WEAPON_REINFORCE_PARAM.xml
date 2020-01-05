@@ -1,308 +1,308 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
-    <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Physical</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Magic</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Fire</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Lightning</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Dark</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Poison (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Bleed (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Petrify (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk20</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage: Curse (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk24</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Physical</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk28</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Magic</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk2C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Fire</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk30</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Lightning</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk34</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Dark</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk38</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Poison (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk3C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Bleed (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk40</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Petrify (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk44</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Damage: Curse (Float / 5)</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk48</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Max Reinforcement Level</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk4C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Weapon Stats Affect ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk50</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Absorption: Physical</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk54</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Absorption: Magic</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk58</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Absorption: Fire</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk5C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Absorption: Lightning</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk60</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Absorption: Dark</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk64</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Resistance: Poison</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk68</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Resistance: Bleed</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk6C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Resistance: Petrify</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk70</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Resistance: Curse</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk74</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +0</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk78</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +1</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk7C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +2</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk80</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +3</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk84</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +4</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk88</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +5</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk8C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +6</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk90</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +7</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk94</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +8</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk98</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +9</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk9C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Stability: +10</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Physical</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Magic</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkA8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Lightning</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkAC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Fire</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Dark</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Poison</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkB8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Bleed</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkBC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Petrify</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkC0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Damage %: Curse</name>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkC4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkC8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkCC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkD0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkD4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkD8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkDC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkE0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>UnkE4</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkE8</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>CustomAttrSpecParam ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkEC</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>CustomAttrCostParam ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>UnkF0</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Reinforce Cost ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
 </layout>

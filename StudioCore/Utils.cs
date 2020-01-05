@@ -258,5 +258,40 @@ namespace StudioCore
             dist = Vector3.Dot(planePoint - origin, normal) / d;
             return true;
         }
+
+        public static bool RayCylinderIntersection(Vector3 origin,
+            Vector3 direction,
+            Vector3 center,
+            float height,
+            float radius,
+            out float dist)
+        {
+            dist = float.MaxValue;
+            Vector3 torigin = origin - center;
+            float a = direction.X * direction.X + direction.Z * direction.Z;
+            float b = direction.X * torigin.X + direction.Z * torigin.Z;
+            float c = torigin.X * torigin.X + torigin.Z * torigin.Z - radius * radius;
+
+            float delta = b * b - a * c;
+
+            if (delta < 0.0000001)
+            {
+                return false;
+            }
+
+            dist = (-b - MathF.Sqrt(delta)) / a;
+            if (dist < 0.0000001)
+            {
+                return false;
+            }
+
+            float y = torigin.Y + dist * direction.Y;
+            if (y > height || y < 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

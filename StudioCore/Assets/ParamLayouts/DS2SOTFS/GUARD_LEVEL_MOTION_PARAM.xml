@@ -2,22 +2,22 @@
 <layout>
   <entry>
     <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk04</name>
-    <type>x8</type>
-    <default>0x00</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk05</name>
-    <type>x8</type>
-    <default>0x00</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk06</name>
-    <type>x8</type>
-    <default>0x00</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
 </layout>

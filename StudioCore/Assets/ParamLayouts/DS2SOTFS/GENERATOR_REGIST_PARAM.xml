@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
-    <name>EnemyParam</name>
+    <name>EnemyParamID</name>
     <type>u32</type>
     <default>0</default>
   </entry>
@@ -16,12 +16,12 @@
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk0C</name>
+    <name>SpawnState</name>
     <type>u16</type>
     <default>0</default>
   </entry>
   <entry>
-    <name>Unk0E</name>
+    <name>DrawGroup</name>
     <type>u8</type>
     <default>0</default>
   </entry>

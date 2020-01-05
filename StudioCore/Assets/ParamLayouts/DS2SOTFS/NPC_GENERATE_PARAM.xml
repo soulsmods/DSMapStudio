@@ -1,98 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <entry>
-    <name>Unk00</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>NPC ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk04</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk08</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk0C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk10</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk14</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>f32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk18</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk1C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Right Weapon ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk20</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Right Weapon ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk24</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Right Weapon ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk28</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Left Weapon ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk2C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Left Weapon ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk30</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Left Weapon ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk34</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Head Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk38</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Chest Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk3C</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Hands Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
-    <name>Unk40</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <name>Legs Armor ID</name>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk44</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Unk48</name>
-    <type>x32</type>
-    <default>0x00000000</default>
+    <type>s32</type>
+    <default>0</default>
   </entry>
 </layout>

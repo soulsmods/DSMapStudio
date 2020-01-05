@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Numerics;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -12,6 +13,8 @@ namespace StudioCore.DebugPrimitives
     {
         public Vector3 LocalMax = Vector3.One / 2;
         public Vector3 LocalMin = -Vector3.One / 2;
+
+        private List<(Vector3, Vector3)> Lines = new List<(Vector3, Vector3)>();
 
         public void UpdateTransform(Transform newTransform)
         {
@@ -58,21 +61,33 @@ namespace StudioCore.DebugPrimitives
 
                 // Top Face
                 AddLine(tfl, tfr, color);
+                Lines.Add((tfl, tfr));
                 AddLine(tfr, tbr, color);
+                Lines.Add((tfr, tbr));
                 AddLine(tbr, tbl, color);
+                Lines.Add((tbr, tbl));
                 AddLine(tbl, tfl, color);
+                Lines.Add((tbl, tfl));
 
                 // Bottom Face
                 AddLine(bfl, bfr, color);
+                Lines.Add((bfl, bfr));
                 AddLine(bfr, bbr, color);
+                Lines.Add((bfr, bbr));
                 AddLine(bbr, bbl, color);
+                Lines.Add((bbr, bbl));
                 AddLine(bbl, bfl, color);
+                Lines.Add((bbl, bfl));
 
                 // Four Vertical Pillars
                 AddLine(bfl, tfl, color);
+                Lines.Add((bfl, tfl));
                 AddLine(bfr, tfr, color);
+                Lines.Add((bfr, tfr));
                 AddLine(bbl, tbl, color);
+                Lines.Add((bbl, tbl));
                 AddLine(bbr, tbr, color);
+                Lines.Add((bbr, tbr));
 
                 //FinalizeBuffers(true);
 
@@ -82,6 +97,35 @@ namespace StudioCore.DebugPrimitives
                     IndexBuffer = IndexBuffer,
                 };
             }
+        }
+
+        public override bool RayCast(Ray ray, out float dist)
+        {
+            var invw = Transform.WorldMatrix.Inverse();
+            var newo = Vector3.Transform(ray.Origin, invw);
+            var newd = Vector3.TransformNormal(ray.Direction, invw);
+            var tray = new Ray(newo, newd);
+            if (tray.Intersects(new BoundingBox(LocalMin, LocalMax)))
+            {
+                foreach (var line in Lines)
+                {
+                    var a = line.Item1;
+                    var b = line.Item2;
+                    var c = a + b / 2.0f;
+                    var dir = Vector3.Normalize(b - a);
+                    var mag = new Vector3(Vector3.Dot(dir, Vector3.UnitY) + Vector3.Dot(dir, Vector3.UnitZ),
+                                          Vector3.Dot(dir, Vector3.UnitX) + Vector3.Dot(dir, Vector3.UnitZ),
+                                          Vector3.Dot(dir, Vector3.UnitX) + Vector3.Dot(dir, Vector3.UnitY));
+                    var tol = 0.008f * Vector3.Distance(newo, c);
+                    if (tray.Intersects(new BoundingBox(a - mag*tol, b + mag*tol)))
+                    {
+                        dist = 0.0f;
+                        return true;
+                    }
+                }
+            }
+            dist = float.MaxValue;
+            return false;
         }
     }
 }

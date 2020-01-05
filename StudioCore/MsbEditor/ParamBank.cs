@@ -54,7 +54,7 @@ namespace StudioCore.MsbEditor
             {
                 if (EnemyParam[(int)enemyID] != null)
                 {
-                    return $@"{EnemyParam[(int)enemyID]["ChrID"].Value:D4}";
+                    return $@"{EnemyParam[(int)enemyID]["Chr ID"].Value:D4}";
                 }
             }
             return null;

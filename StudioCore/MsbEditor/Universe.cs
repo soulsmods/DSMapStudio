@@ -117,7 +117,7 @@ namespace StudioCore.MsbEditor
                 if (registParams.ContainsKey(registid))
                 {
                     var regist = registParams[registid];
-                    var chrid = ParamBank.GetChrIDForEnemy((uint)regist["EnemyParam"].Value);
+                    var chrid = ParamBank.GetChrIDForEnemy((uint)regist["EnemyParamID"].Value);
                     if (chrid != null)
                     {
                         var asset = AssetLocator.GetChrModel($@"c{chrid}");

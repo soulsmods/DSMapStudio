@@ -382,7 +382,7 @@ namespace StudioCore
             else
             {
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
-                ret.AssetVirtualPath = $@"map/{mapid}/model/{model}.flver";
+                ret.AssetVirtualPath = $@"map/{mapid}/model/{model}/{model}.flver";
             }
             return ret;
         }

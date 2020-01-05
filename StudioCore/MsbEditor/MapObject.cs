@@ -211,9 +211,20 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                // Otherwise use standard constructor and abuse reflection
-                constructor = typ.GetConstructor(System.Type.EmptyTypes);
-                var clone = constructor.Invoke(null);
+                // Try either default constructor or name constructor
+                typs[0] = typeof(string);
+                constructor = typ.GetConstructor(typs);
+                object clone;
+                if (constructor != null)
+                {
+                    clone = constructor.Invoke(new object[] { "" });
+                }
+                else
+                {
+                    // Otherwise use standard constructor and abuse reflection
+                    constructor = typ.GetConstructor(System.Type.EmptyTypes);
+                    clone = constructor.Invoke(null);
+                }
                 foreach (PropertyInfo sourceProperty in typ.GetProperties())
                 {
                     PropertyInfo targetProperty = typ.GetProperty(sourceProperty.Name);
