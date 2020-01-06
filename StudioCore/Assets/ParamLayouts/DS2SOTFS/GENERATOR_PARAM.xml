@@ -2,13 +2,24 @@
 <layout>
   <entry>
     <name>Unk00</name>
-    <type>u16</type>
+    <type>x8</type>
+    <default>0</default>
+  </entry>
+  <entry>
+    <name>Unk01</name>
+    <type>x8</type>
     <default>0</default>
   </entry>
   <entry>
     <name>Unk02</name>
-    <type>u16</type>
+    <type>x8</type>
     <default>0</default>
+  </entry>
+  <entry>
+    <name>AggroGroup</name>
+    <type>x8</type>
+    <default>0</default>
+	<description>Enemies that share the same group number with this enemy will aggro when this enemy is aggroed.</description>
   </entry>
   <entry>
     <name>DeathEventID</name>
