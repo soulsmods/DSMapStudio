@@ -348,17 +348,20 @@ namespace StudioCore.MsbEditor
         {
             // Load all the params
             var regparamad = AssetLocator.GetDS2GeneratorRegistParam(map.MapId);
+            var regparamadw = AssetLocator.GetDS2GeneratorRegistParam(map.MapId, true);
             var regparam = PARAM.Read(regparamad.AssetPath);
             var reglayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{regparam.ID}.xml");
             regparam.SetLayout(reglayout);
 
             var locparamad = AssetLocator.GetDS2GeneratorLocationParam(map.MapId);
+            var locparamadw = AssetLocator.GetDS2GeneratorLocationParam(map.MapId, true);
             var locparam = PARAM.Read(locparamad.AssetPath);
             var loclayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{locparam.ID}.xml");
             locparam.SetLayout(loclayout);
 
             var chrsToLoad = new HashSet<AssetDescription>();
             var genparamad = AssetLocator.GetDS2GeneratorParam(map.MapId);
+            var genparamadw = AssetLocator.GetDS2GeneratorParam(map.MapId, true);
             var genparam = PARAM.Read(genparamad.AssetPath);
             var genlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{genparam.ID}.xml");
             genparam.SetLayout(genlayout);
@@ -379,37 +382,38 @@ namespace StudioCore.MsbEditor
             }
 
             // Save all the params
-            if (File.Exists(regparamad.AssetPath + ".temp"))
+            if (File.Exists(regparamadw.AssetPath + ".temp"))
             {
-                File.Delete(regparamad.AssetPath + ".temp");
+                File.Delete(regparamadw.AssetPath + ".temp");
             }
-            regparam.Write(regparamad.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
-            File.Copy(regparamad.AssetPath, regparamad.AssetPath + ".prev", true);
-            File.Delete(regparamad.AssetPath);
-            File.Move(regparamad.AssetPath + ".temp", regparamad.AssetPath);
+            regparam.Write(regparamadw.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            File.Copy(regparamadw.AssetPath, regparamadw.AssetPath + ".prev", true);
+            File.Delete(regparamadw.AssetPath);
+            File.Move(regparamadw.AssetPath + ".temp", regparamadw.AssetPath);
 
-            if (File.Exists(locparamad.AssetPath + ".temp"))
+            if (File.Exists(locparamadw.AssetPath + ".temp"))
             {
-                File.Delete(locparamad.AssetPath + ".temp");
+                File.Delete(locparamadw.AssetPath + ".temp");
             }
-            locparam.Write(locparamad.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
-            File.Copy(locparamad.AssetPath, locparamad.AssetPath + ".prev", true);
-            File.Delete(locparamad.AssetPath);
-            File.Move(locparamad.AssetPath + ".temp", locparamad.AssetPath);
+            locparam.Write(locparamadw.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            File.Copy(locparamadw.AssetPath, locparamadw.AssetPath + ".prev", true);
+            File.Delete(locparamadw.AssetPath);
+            File.Move(locparamadw.AssetPath + ".temp", locparamadw.AssetPath);
 
-            if (File.Exists(genparamad.AssetPath + ".temp"))
+            if (File.Exists(genparamadw.AssetPath + ".temp"))
             {
-                File.Delete(genparamad.AssetPath + ".temp");
+                File.Delete(genparamadw.AssetPath + ".temp");
             }
-            genparam.Write(genparamad.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
-            File.Copy(genparamad.AssetPath, genparamad.AssetPath + ".prev", true);
-            File.Delete(genparamad.AssetPath);
-            File.Move(genparamad.AssetPath + ".temp", genparamad.AssetPath);
+            genparam.Write(genparamadw.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            File.Copy(genparamadw.AssetPath, genparamadw.AssetPath + ".prev", true);
+            File.Delete(genparamadw.AssetPath);
+            File.Move(genparamadw.AssetPath + ".temp", genparamadw.AssetPath);
         }
 
         private void SaveMap(Map map)
         {
             var ad = AssetLocator.GetMapMSB(map.MapId);
+            var adw = AssetLocator.GetMapMSB(map.MapId, true);
             IMsb msb;
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
@@ -436,7 +440,7 @@ namespace StudioCore.MsbEditor
             map.SerializeToMSB(msb, AssetLocator.Type);
 
             // Write as a temporary file to make sure there are no errors before overwriting current file 
-            string mapPath = ad.AssetPath;
+            string mapPath = adw.AssetPath;
             //if (GetModProjectPathForFile(mapPath) != null)
             //{
             //    mapPath = GetModProjectPathForFile(mapPath);

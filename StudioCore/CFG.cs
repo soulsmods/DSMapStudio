@@ -208,6 +208,7 @@ namespace StudioCore
         //    = InterrootLoader.InterrootType.InterrootDS1;
 
         public string Interroot_Directory { get; set; } = "";
+        public string Mod_Directory { get; set; } = "";
         public GameType Game_Type { get; set; } = GameType.Undefined;
 
         public int GFX_Display_Width { get; set; } = 1920;

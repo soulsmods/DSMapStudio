@@ -162,7 +162,7 @@ namespace StudioCore.MsbEditor
         }
 
         private void ChangeProperty(object prop, MapObject selection, object obj, object newval,
-            bool changed, bool committed, bool shouldUpdateVisual)
+            bool changed, bool committed, bool shouldUpdateVisual, int arrayindex = -1)
         {
             if (changed)
             {
@@ -182,7 +182,15 @@ namespace StudioCore.MsbEditor
                     LastUncommittedAction = null;
                 }
 
-                var action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
+                PropertiesChangedAction action;
+                if (arrayindex != -1)
+                {
+                    action = new PropertiesChangedAction((PropertyInfo)prop, arrayindex, obj, newval);
+                }
+                else
+                {
+                    action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
+                }
                 if (shouldUpdateVisual)
                 {
                     action.SetPostExecutionAction((undo) =>
@@ -295,41 +303,94 @@ namespace StudioCore.MsbEditor
             ImGui.Columns(1);
         }
 
-        private void PropEditorGeneric(MapObject selection)
+        private void PropEditorGeneric(MapObject selection, object target=null, bool decorate=true)
         {
-            var obj = selection.MsbObject;
+            var obj = (target == null) ? selection.MsbObject : target;
             var type = obj.GetType();
             if (!PropCache.ContainsKey(type.FullName))
             {
-                PropCache.Add(type.FullName, type.GetProperties());
+                PropCache.Add(type.FullName, type.GetProperties(BindingFlags.Instance | BindingFlags.Public));
             }
             var properties = PropCache[type.FullName];
-            ImGui.Columns(2);
-            ImGui.Separator();
+            if (decorate)
+            {
+                ImGui.Columns(2);
+                ImGui.Separator();
+            }
             int id = 0;
             foreach (var prop in properties)
             {
+                if (!prop.CanWrite && !prop.PropertyType.IsArray)
+                {
+                    continue;
+                }
+
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(prop.Name);
-                ImGui.NextColumn();
-                ImGui.SetNextItemWidth(-1);
                 //ImGui.AlignTextToFramePadding();
                 var typ = prop.PropertyType;
-                var oldval = prop.GetValue(obj);
-                bool shouldUpdateVisual = false;
-                bool changed = false;
-                object newval = null;
+                if (typ.IsClass && typ != typeof(string) && !typ.IsArray)
+                {
+                    bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var o = prop.GetValue(obj);
+                    ImGui.Text(o.GetType().Name);
+                    ImGui.NextColumn();
+                    if (open)
+                    {
+                        PropEditorGeneric(selection, o, false);
+                        ImGui.TreePop();
+                    }
+                    ImGui.PopID();
+                }
+                else if (typ.IsArray)
+                {
+                    Array a = (Array)prop.GetValue(obj);
+                    for (int i = 0; i < a.Length; i++)
+                    {
+                        ImGui.PushID(i);
 
-                changed = PropertyRow(typ, oldval, out newval);
-                bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual);
+                        ImGui.Text($@"{prop.Name}[{i}]");
+                        ImGui.NextColumn();
+                        ImGui.SetNextItemWidth(-1);
+                        var oldval = a.GetValue(i);
+                        bool shouldUpdateVisual = false;
+                        bool changed = false;
+                        object newval = null;
 
-                ImGui.NextColumn();
-                ImGui.PopID();
+                        changed = PropertyRow(typ.GetElementType(), oldval, out newval);
+                        bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                        ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, i);
+
+                        ImGui.NextColumn();
+                        ImGui.PopID();
+                    }
+                    ImGui.PopID();
+                }
+                else
+                {
+                    ImGui.Text(prop.Name);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var oldval = prop.GetValue(obj);
+                    bool shouldUpdateVisual = false;
+                    bool changed = false;
+                    object newval = null;
+
+                    changed = PropertyRow(typ, oldval, out newval);
+                    bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                    ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual);
+
+                    ImGui.NextColumn();
+                    ImGui.PopID();
+                }
                 id++;
             }
-            ImGui.Columns(1);
+            if (decorate)
+            {
+                ImGui.Columns(1);
+            }
         }
 
         public void OnGui(MapObject selection, float w, float h)

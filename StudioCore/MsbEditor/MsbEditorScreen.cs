@@ -144,12 +144,6 @@ namespace StudioCore.MsbEditor
                             //ShowReadOnly = true,
                         };
 
-                        /*if (System.IO.File.Exists(FileContainerName))
-                        {
-                            browseDlg.InitialDirectory = System.IO.Path.GetDirectoryName(FileContainerName);
-                            browseDlg.FileName = System.IO.Path.GetFileName(FileContainerName);
-                        }*/
-
                         if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             if (!AssetLocator.SetGameRootDirectoryByExePath(browseDlg.FileName))
@@ -162,6 +156,19 @@ namespace StudioCore.MsbEditor
                             {
                                 ParamBank.ReloadParams();
                             }
+                        }
+                    }
+                    if (ImGui.MenuItem("Set Mod Project Directory..", ""))
+                    {
+                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog()
+                        {
+                            SelectedPath = AssetLocator.GameRootDirectory
+                        };
+
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            AssetLocator.SetModProjectDirectory(browseDlg.SelectedPath);
+                            ParamBank.ReloadParams();
                         }
                     }
                     if (ImGui.BeginMenu("Open map", AssetLocator.Type != GameType.Undefined))

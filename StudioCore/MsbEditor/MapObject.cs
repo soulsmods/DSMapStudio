@@ -387,7 +387,7 @@ namespace StudioCore.MsbEditor
                 }
                 if (ry != null)
                 {
-                    r.Y = (float)ry;
+                    r.Y = (float)ry + 180.0f; // According to Vawser, DS2 enemies are flipped 180 relative to map rotations
                 }
                 if (rz != null)
                 {
@@ -422,11 +422,12 @@ namespace StudioCore.MsbEditor
             if (MsbObject is PARAM.Row || MsbObject is MergedParamRow)
             {
                 var actions = new List<Action>();
+                float roty = newt.EulerRotation.Y * Utils.Rad2Deg - 180.0f;
                 actions.Add(GetPropertyChangeAction("PositionX", newt.Position.X));
                 actions.Add(GetPropertyChangeAction("PositionY", newt.Position.Y));
                 actions.Add(GetPropertyChangeAction("PositionZ", newt.Position.Z));
                 actions.Add(GetPropertyChangeAction("RotationX", newt.EulerRotation.X * Utils.Rad2Deg));
-                actions.Add(GetPropertyChangeAction("RotationY", newt.EulerRotation.Y * Utils.Rad2Deg));
+                actions.Add(GetPropertyChangeAction("RotationY", roty));
                 actions.Add(GetPropertyChangeAction("RotationZ", newt.EulerRotation.Z * Utils.Rad2Deg));
                 var act = new CompoundAction(actions);
                 act.SetPostExecutionAction((undo) =>

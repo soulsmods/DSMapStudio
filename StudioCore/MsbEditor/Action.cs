@@ -26,6 +26,7 @@ namespace StudioCore.MsbEditor
             public PropertyInfo Property;
             public object OldValue;
             public object NewValue;
+            public int ArrayIndex;
         }
 
         private object ChangedObject;
@@ -44,15 +45,44 @@ namespace StudioCore.MsbEditor
             change.Property = prop;
             change.OldValue = prop.GetValue(ChangedObject);
             change.NewValue = newval;
+            change.ArrayIndex = -1;
             Changes.Add(change);
         }
 
-        public void AddPropertyChange(PropertyInfo prop, object newval)
+        public PropertiesChangedAction(PropertyInfo prop, int index, object changed, object newval)
+        {
+            ChangedObject = changed;
+            var change = new PropertyChange();
+            change.Property = prop;
+            if (index != -1 && prop.PropertyType.IsArray)
+            {
+                Array a = (Array)change.Property.GetValue(ChangedObject);
+                change.OldValue = a.GetValue(index);
+            }
+            else
+            {
+                change.OldValue = prop.GetValue(ChangedObject);
+            }
+            change.NewValue = newval;
+            change.ArrayIndex = index;
+            Changes.Add(change);
+        }
+
+        public void AddPropertyChange(PropertyInfo prop, object newval, int index = -1)
         {
             var change = new PropertyChange();
             change.Property = prop;
-            change.OldValue = prop.GetValue(ChangedObject);
+            if (index != -1 && prop.PropertyType.IsArray)
+            {
+                Array a = (Array)change.Property.GetValue(ChangedObject);
+                change.OldValue = a.GetValue(index);
+            }
+            else
+            {
+                change.OldValue = prop.GetValue(ChangedObject);
+            }
             change.NewValue = newval;
+            change.ArrayIndex = index;
             Changes.Add(change);
         }
 
@@ -65,7 +95,15 @@ namespace StudioCore.MsbEditor
         {
             foreach (var change in Changes)
             {
-                change.Property.SetValue(ChangedObject, change.NewValue);
+                if (change.Property.PropertyType.IsArray && change.ArrayIndex != -1)
+                {
+                    Array a = (Array)change.Property.GetValue(ChangedObject);
+                    a.SetValue(change.NewValue, change.ArrayIndex);
+                }
+                else
+                {
+                    change.Property.SetValue(ChangedObject, change.NewValue);
+                }
             }
             if (PostExecutionAction != null)
             {
@@ -77,7 +115,15 @@ namespace StudioCore.MsbEditor
         {
             foreach (var change in Changes)
             {
-                change.Property.SetValue(ChangedObject, change.OldValue);
+                if (change.Property.PropertyType.IsArray && change.ArrayIndex != -1)
+                {
+                    Array a = (Array)change.Property.GetValue(ChangedObject);
+                    a.SetValue(change.OldValue, change.ArrayIndex);
+                }
+                else
+                {
+                    change.Property.SetValue(ChangedObject, change.OldValue);
+                }
             }
             if (PostExecutionAction != null)
             {
