@@ -32,6 +32,12 @@ namespace StudioCore.MsbEditor
 
         private string CachedName = null;
 
+        public Map ContainingMap { get; set; } = null;
+        public Universe Universe { get
+            {
+                return (ContainingMap != null) ? ContainingMap.Universe : null;
+            }
+        }
         public MapObject Parent { get; private set; } = null;
         public List<MapObject> Children { get; private set; } = new List<MapObject>();
 
@@ -49,7 +55,7 @@ namespace StudioCore.MsbEditor
             set
             {
                 _RenderSceneMesh = value;
-                UpdateRenderTransform();
+                UpdateRenderModel();
             }
             get
             {
@@ -83,6 +89,8 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
+
+        private string CurrentModel = "";
 
         public uint[] Drawgroups
         {
@@ -130,10 +138,12 @@ namespace StudioCore.MsbEditor
         private bool UseTempTransform = false;
         private Transform TempTransform = Transform.Default;
 
-        public MapObject(object msbo, ObjectType type)
+        public MapObject(Map map, object msbo, ObjectType type)
         {
+            ContainingMap = map;
             MsbObject = msbo;
             Type = type;
+            CurrentModel = GetPropertyValue<string>("ModelName");
         }
 
         ~MapObject()
@@ -203,7 +213,7 @@ namespace StudioCore.MsbEditor
             if (constructor != null)
             {
                 var clone = constructor.Invoke(new object[] { MsbObject });
-                var obj = new MapObject(clone, Type);
+                var obj = new MapObject(ContainingMap, clone, Type);
                 obj.RenderSceneMesh = new NewMesh((NewMesh)RenderSceneMesh);
                 obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
                 obj.UseDrawGroups = UseDrawGroups;
@@ -243,7 +253,7 @@ namespace StudioCore.MsbEditor
                         // Console.WriteLine($"Can't copy {type.Name} {sourceProperty.Name} of type {sourceProperty.PropertyType}");
                     }
                 }
-                var obj = new MapObject(clone, Type);
+                var obj = new MapObject(ContainingMap, clone, Type);
                 obj.RenderSceneMesh = new NewMesh((NewMesh)RenderSceneMesh);
                 obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
                 return obj;
@@ -278,6 +288,36 @@ namespace StudioCore.MsbEditor
                 return p.GetValue(MsbObject, null);
             }
             return null;
+        }
+
+        public T GetPropertyValue<T>(string prop)
+        {
+            if (MsbObject == null)
+            {
+                return default(T);
+            }
+            if (MsbObject is PARAM.Row row)
+            {
+                var pp = row[prop];
+                if (pp != null)
+                {
+                    return (T)pp.Value;
+                }
+            }
+            else if (MsbObject is MergedParamRow mrow)
+            {
+                var pp = mrow[prop];
+                if (pp != null)
+                {
+                    return (T)pp.Value;
+                }
+            }
+            var p = MsbObject.GetType().GetProperty(prop);
+            if (p != null && p.PropertyType == typeof(T))
+            {
+                return (T)p.GetValue(MsbObject, null);
+            }
+            return default(T);
         }
 
         public PropertyInfo GetProperty(string prop)
@@ -408,13 +448,13 @@ namespace StudioCore.MsbEditor
         {
             TempTransform = t;
             UseTempTransform = true;
-            UpdateRenderTransform();
+            UpdateRenderModel();
         }
 
         public void ClearTemporaryTransform()
         {
             UseTempTransform = false;
-            UpdateRenderTransform();
+            UpdateRenderModel();
         }
 
         public Action GetUpdateTransformAction(Transform newt)
@@ -432,7 +472,7 @@ namespace StudioCore.MsbEditor
                 var act = new CompoundAction(actions);
                 act.SetPostExecutionAction((undo) =>
                 {
-                    UpdateRenderTransform();
+                    UpdateRenderModel();
                 });
                 return act;
             }
@@ -445,14 +485,28 @@ namespace StudioCore.MsbEditor
                 act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
                 act.SetPostExecutionAction((undo) =>
                 {
-                    UpdateRenderTransform();
+                    UpdateRenderModel();
                 });
                 return act;
             }
         }
 
-        public void UpdateRenderTransform()
+        public void UpdateRenderModel()
         {
+            // If the model field changed, then update the visible model
+            var model = GetPropertyValue<string>("ModelName");
+            if (model != null && model != CurrentModel)
+            {
+                RenderSceneMesh.AutoRegister = false;
+                RenderSceneMesh.UnregisterAndRelease();
+                CurrentModel = model;
+                RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
+                if (Selection.IsSelected(this))
+                {
+                    OnSelected();
+                }
+            }
+
             if (!HasTransform)
             {
                 return;
@@ -472,7 +526,7 @@ namespace StudioCore.MsbEditor
             {
                 if (c.HasTransform)
                 {
-                    c.UpdateRenderTransform();
+                    c.UpdateRenderModel();
                 }
             }
 

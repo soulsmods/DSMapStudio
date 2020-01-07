@@ -129,5 +129,17 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
+
+        public static bool IsSelected(Scene.ISelectable selected)
+        {
+            foreach (var sel in _selected)
+            {
+                if (sel == selected)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

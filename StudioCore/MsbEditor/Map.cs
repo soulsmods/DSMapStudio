@@ -18,6 +18,7 @@ namespace StudioCore.MsbEditor
         public string MapId { get; private set; }
         public List<MapObject> MapObjects = new List<MapObject>();
         public MapObject RootObject { get; private set; }
+        public Universe Universe { get; private set; }
 
         /// <summary>
         /// The map offset used to transform light and ds2 generators
@@ -28,11 +29,12 @@ namespace StudioCore.MsbEditor
         // can be byte perfect
         private HashSet<string> LoadedModels = new HashSet<string>();
 
-        public Map(string mapid)
+        public Map(Universe u, string mapid)
         {
             MapId = mapid;
+            Universe = u;
             var t = new TransformNode(mapid);
-            RootObject = new MapObject(t, MapObject.ObjectType.TypeMapRoot);
+            RootObject = new MapObject(this, t, MapObject.ObjectType.TypeMapRoot);
         }
 
         public void LoadMSB(IMsb msb)
@@ -44,21 +46,21 @@ namespace StudioCore.MsbEditor
 
             foreach (var p in msb.Parts.GetEntries())
             {
-                var n = new MapObject(p, MapObject.ObjectType.TypePart);
+                var n = new MapObject(this, p, MapObject.ObjectType.TypePart);
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Regions.GetEntries())
             {
-                var n = new MapObject(p, MapObject.ObjectType.TypeRegion);
+                var n = new MapObject(this, p, MapObject.ObjectType.TypeRegion);
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Events.GetEntries())
             {
-                var n = new MapObject(p, MapObject.ObjectType.TypeEvent);
+                var n = new MapObject(this, p, MapObject.ObjectType.TypeEvent);
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }

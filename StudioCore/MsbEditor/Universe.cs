@@ -40,6 +40,122 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        /// <summary>
+        /// Creates a drawable for a model and registers it with the scene. Will load
+        /// the required assets in the background if they aren't already loaded.
+        /// </summary>
+        /// <param name="modelname"></param>
+        /// <returns></returns>
+        public Scene.IDrawable GetModelDrawable(Map map, MapObject obj, string modelname)
+        {
+            AssetDescription asset;
+            bool loadcol = false;
+            bool loadnav = false;
+            Scene.RenderFilter filt = Scene.RenderFilter.All;
+            var job = ResourceMan.CreateNewJob($@"Loading mesh");
+            if (modelname.StartsWith("m"))
+            {
+                asset = AssetLocator.GetMapModel(map.MapId, AssetLocator.MapModelNameToAssetName(map.MapId, modelname));
+                filt = Scene.RenderFilter.MapPiece;
+            }
+            else if (modelname.StartsWith("c"))
+            {
+                asset = AssetLocator.GetChrModel(modelname);
+                filt = Scene.RenderFilter.Character;
+            }
+            else if (modelname.StartsWith("o"))
+            {
+                asset = AssetLocator.GetObjModel(modelname);
+                filt = Scene.RenderFilter.Object;
+            }
+            else if (modelname.StartsWith("h"))
+            {
+                loadcol = true;
+                asset = AssetLocator.GetMapCollisionModel(map.MapId, AssetLocator.MapModelNameToAssetName(map.MapId, modelname));
+                filt = Scene.RenderFilter.Collision;
+            }
+            else if (modelname.StartsWith("n"))
+            {
+                loadnav = true;
+                asset = AssetLocator.GetMapNVMModel(map.MapId, AssetLocator.MapModelNameToAssetName(map.MapId, modelname));
+                filt = Scene.RenderFilter.Navmesh;
+            }
+            else
+            {
+                asset = AssetLocator.GetNullAsset();
+            }
+
+            if (loadcol)
+            {
+                var res = ResourceMan.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
+                var mesh = new Scene.CollisionMesh(RenderScene, res, AssetLocator.Type == GameType.DarkSoulsIISOTFS);
+                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                obj.RenderSceneMesh = mesh;
+                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                if (!res.IsLoaded)
+                {
+                    if (asset.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, false);
+                    }
+                    else if (asset.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(asset.AssetVirtualPath);
+                    }
+                    job.StartJobAsync();
+                }
+                return mesh;
+            }
+            else if (loadnav && AssetLocator.Type != GameType.DarkSoulsIISOTFS)
+            {
+                var res = ResourceMan.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
+                var mesh = new Scene.NvmMesh(RenderScene, res, false);
+                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                obj.RenderSceneMesh = mesh;
+                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                if (!res.IsLoaded)
+                {
+                    if (asset.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, false);
+                    }
+                    else if (asset.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(asset.AssetVirtualPath);
+                    }
+                    job.StartJobAsync();
+                }
+                return mesh;
+            }
+            else if (loadnav && AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+
+            }
+            else
+            {
+                var res = ResourceMan.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+                var model = new NewMesh(RenderScene, res, false);
+                model.DrawFilter = filt;
+                model.WorldMatrix = obj.GetTransform().WorldMatrix;
+                obj.RenderSceneMesh = model;
+                model.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                if (!res.IsLoaded)
+                {
+                    if (asset.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, false, Resource.ResourceManager.ResourceType.Flver);
+                    }
+                    else if (asset.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(asset.AssetVirtualPath);
+                    }
+                    job.StartJobAsync();
+                }
+                return model;
+            }
+            return null;
+        }
+
         public void LoadDS2Generators(string mapid, Map map)
         {
             Dictionary<long, PARAM.Row> registParams = new Dictionary<long, PARAM.Row>();
@@ -58,7 +174,7 @@ namespace StudioCore.MsbEditor
                 }
                 registParams.Add(row.ID, row);
 
-                var obj = new MapObject(row, MapObject.ObjectType.TypeDS2GeneratorRegist);
+                var obj = new MapObject(map, row, MapObject.ObjectType.TypeDS2GeneratorRegist);
                 map.AddObject(obj);
             }
 
@@ -82,7 +198,7 @@ namespace StudioCore.MsbEditor
                 mergedRow.AddRow("generator-loc", row);
                 generatorParams.Add(row.ID, mergedRow);
 
-                var obj = new MapObject(mergedRow, MapObject.ObjectType.TypeDS2Generator);
+                var obj = new MapObject(map, mergedRow, MapObject.ObjectType.TypeDS2Generator);
                 generatorObjs.Add(row.ID, obj);
                 map.AddObject(obj);
             }
@@ -108,7 +224,7 @@ namespace StudioCore.MsbEditor
                     var mergedRow = new MergedParamRow();
                     mergedRow.AddRow("generator", row);
                     generatorParams.Add(row.ID, mergedRow);
-                    var obj = new MapObject(mergedRow, MapObject.ObjectType.TypeDS2Generator);
+                    var obj = new MapObject(map, mergedRow, MapObject.ObjectType.TypeDS2Generator);
                     generatorObjs.Add(row.ID, obj);
                     map.AddObject(obj);
                 }
@@ -148,7 +264,7 @@ namespace StudioCore.MsbEditor
 
         public void LoadMap(string mapid)
         {
-            var map = new Map(mapid);
+            var map = new Map(this, mapid);
 
             var chrsToLoad = new HashSet<AssetDescription>();
             var objsToLoad = new HashSet<AssetDescription>();

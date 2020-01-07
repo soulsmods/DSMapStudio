@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Numerics;
+using System.IO;
 using SoulsFormats;
 using ImGuiNET;
 
@@ -149,6 +150,10 @@ namespace StudioCore.Resource
                     string o;
                     var path = ResourceMan.Locator.VirtualToRealPath(BinderVirtualPath, out o);
                     Binder = InstantiateBinderReaderForFile(path, ResourceMan.Locator.Type);
+                    if (Binder == null)
+                    {
+                        return;
+                    }
                 }
 
                 for (int i = 0; i < Binder.Files.Count(); i++)
@@ -197,14 +202,6 @@ namespace StudioCore.Resource
                         }
                     }
                 }
-
-                /*foreach (var p in PendingResources)
-                {
-                    if (!ResourceMan.ResourceDatabase.ContainsKey(p.Item2))
-                    {
-                        ResourceMan.ResourceDatabase[p.Item2] = p.Item1;
-                    }
-                }*/
             }
 
             public void Run()
@@ -527,6 +524,10 @@ namespace StudioCore.Resource
 
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)
         {
+            if (!File.Exists(filePath))
+            {
+                return null;
+            }
             if (type == GameType.DemonsSouls || type == GameType.DarkSoulsPTDE || type == GameType.DarkSoulsRemastered)
             {
                 if (filePath.ToUpper().EndsWith("BHD"))

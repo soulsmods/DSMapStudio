@@ -195,7 +195,7 @@ namespace StudioCore.MsbEditor
                 {
                     action.SetPostExecutionAction((undo) =>
                     {
-                        selection.UpdateRenderTransform();
+                        selection.UpdateRenderModel();
                     });
                 }
                 ContextActionManager.ExecuteAction(action);
@@ -219,7 +219,7 @@ namespace StudioCore.MsbEditor
                         ContextActionManager.UndoAction();
                         a.SetPostExecutionAction((undo) =>
                         {
-                            selection.UpdateRenderTransform();
+                            selection.UpdateRenderModel();
                         });
                         ContextActionManager.ExecuteAction(a);
                     }

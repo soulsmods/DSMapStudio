@@ -164,7 +164,7 @@ namespace StudioCore.MsbEditor
                         int idx = obj.Parent.ChildIndex(obj);
                         obj.Parent.AddChild(newobj, idx);
                     }
-                    newobj.UpdateRenderTransform();
+                    newobj.UpdateRenderModel();
                     newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
                     Clones.Add(newobj);
                     CloneMaps.Add(m);
