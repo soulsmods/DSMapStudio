@@ -308,7 +308,7 @@ namespace SoulsFormats
             /// <summary>
             /// The shape of the region.
             /// </summary>
-            public Shape Shape { get; set; }
+            public MSB.Shape Shape { get; set; }
 
             /// <summary>
             /// The location of the region.
@@ -354,7 +354,7 @@ namespace SoulsFormats
             internal Region()
             {
                 Name = "";
-                Shape = new Shape.Point();
+                Shape = new MSB.Shape.Point();
                 MapStudioLayer = 0xFFFFFFFF;
                 UnkA = new List<short>();
                 UnkB = new List<short>();
@@ -391,31 +391,31 @@ namespace SoulsFormats
                 switch (shapeType)
                 {
                     case ShapeType.Point:
-                        Shape = new Shape.Point();
+                        Shape = new MSB.Shape.Point();
                         break;
 
                     case ShapeType.Circle:
-                        Shape = new Shape.Circle(br);
+                        Shape = new MSB.Shape.Circle(br);
                         break;
 
                     case ShapeType.Sphere:
-                        Shape = new Shape.Sphere(br);
+                        Shape = new MSB.Shape.Sphere(br);
                         break;
 
                     case ShapeType.Cylinder:
-                        Shape = new Shape.Cylinder(br);
+                        Shape = new MSB.Shape.Cylinder(br);
                         break;
 
                     case ShapeType.Rect:
-                        Shape = new Shape.Rect(br);
+                        Shape = new MSB.Shape.Rect(br);
                         break;
 
                     case ShapeType.Box:
-                        Shape = new Shape.Box(br);
+                        Shape = new MSB.Shape.Box(br);
                         break;
 
                     case ShapeType.Composite:
-                        Shape = new Shape.Composite(br);
+                        Shape = new MSB.Shape.Composite(br);
                         break;
 
                     default:
@@ -497,9 +497,9 @@ namespace SoulsFormats
             internal virtual void GetNames(Entries entries)
             {
                 ActivationPartName = MSB.FindName(entries.Parts, ActivationPartIndex);
-                if (Shape is Shape.Composite composite)
+                if (Shape is MSB.Shape.Composite composite)
                 {
-                    foreach (Shape.Composite.Child child in composite.Children)
+                    foreach (MSB.Shape.Composite.Child child in composite.Children)
                         child.GetNames(entries);
                 }
             }
@@ -507,9 +507,9 @@ namespace SoulsFormats
             internal virtual void GetIndices(Entries entries)
             {
                 ActivationPartIndex = MSB.FindIndex(entries.Parts, ActivationPartName);
-                if (Shape is Shape.Composite composite)
+                if (Shape is MSB.Shape.Composite composite)
                 {
-                    foreach (Shape.Composite.Child child in composite.Children)
+                    foreach (MSB.Shape.Composite.Child child in composite.Children)
                         child.GetIndices(entries);
                 }
             }

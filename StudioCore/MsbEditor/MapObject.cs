@@ -441,6 +441,17 @@ namespace StudioCore.MsbEditor
             {
                 t.Scale = (Vector3)scale;
             }
+
+            // If this is a region scale the region primitive by its respective parameters
+            if (Type == ObjectType.TypeRegion)
+            {
+                var shape = GetPropertyValue("Shape");
+                if (shape != null && shape is MSB.Shape.Box b2)
+                {
+                    t.Scale = new Vector3(b2.Width, b2.Height, b2.Depth);
+                }
+            }
+
             return t;
         }
 

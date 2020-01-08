@@ -368,9 +368,9 @@ namespace StudioCore.MsbEditor
                         model.Selectable = new WeakReference<Scene.ISelectable>(obj);
                     }
                 }
-                if (obj.MsbObject is MSB1.Region r && r.Shape is MSB1.Shape.Box b)
+                if (obj.MsbObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
                 {
-                    var mesh = Scene.Region.GetBoxRegion(RenderScene, b.Width, b.Height, b.Depth);
+                    var mesh = Scene.Region.GetBoxRegion(RenderScene);
                     mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                     obj.RenderSceneMesh = mesh;
                     mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
@@ -396,7 +396,7 @@ namespace StudioCore.MsbEditor
             {
                 if (mappiece.AssetArchiveVirtualPath != null)
                 {
-                    job.AddLoadArchiveTask(mappiece.AssetArchiveVirtualPath, false);
+                    job.AddLoadArchiveTask(mappiece.AssetArchiveVirtualPath, false, Resource.ResourceManager.ResourceType.Flver);
                 }
                 else if (mappiece.AssetVirtualPath != null)
                 {

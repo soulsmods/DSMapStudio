@@ -300,7 +300,7 @@ namespace SoulsFormats
             /// <summary>
             /// The shape of this region.
             /// </summary>
-            public Shape Shape;
+            public MSB.Shape Shape { get; set; }
 
             /// <summary>
             /// Controls whether the event is present in different ceremonies. Maybe only used for Messages?
@@ -338,7 +338,7 @@ namespace SoulsFormats
                 Name = name;
                 Position = Vector3.Zero;
                 Rotation = Vector3.Zero;
-                Shape = new Shape.Point();
+                Shape = new MSB.Shape.Point();
                 ActivationPartName = null;
                 EventEntityID = -1;
                 UnkA = new List<short>();
@@ -394,23 +394,23 @@ namespace SoulsFormats
                 switch (shapeType)
                 {
                     case ShapeType.Point:
-                        Shape = new Shape.Point();
+                        Shape = new MSB.Shape.Point();
                         break;
 
                     case ShapeType.Circle:
-                        Shape = new Shape.Circle(br);
+                        Shape = new MSB.Shape.Circle(br);
                         break;
 
                     case ShapeType.Sphere:
-                        Shape = new Shape.Sphere(br);
+                        Shape = new MSB.Shape.Sphere(br);
                         break;
 
                     case ShapeType.Cylinder:
-                        Shape = new Shape.Cylinder(br);
+                        Shape = new MSB.Shape.Cylinder(br);
                         break;
 
                     case ShapeType.Box:
-                        Shape = new Shape.Box(br);
+                        Shape = new MSB.Shape.Box(br);
                         break;
 
                     default:
@@ -462,7 +462,16 @@ namespace SoulsFormats
                 bw.WriteInt16s(UnkB);
                 bw.Pad(8);
 
-                Shape.Write(bw, start);
+                //Shape.Write(bw, start);
+                if (Shape.HasShapeData)
+                {
+                    bw.FillInt64("ShapeDataOffset", bw.Position - start);
+                    Shape.WriteShapeData(bw);
+                }
+                else
+                {
+                    bw.FillInt64("ShapeDataOffset", 0);
+                }
 
                 bw.FillInt64("BaseDataOffset3", bw.Position - start);
                 bw.WriteInt32(ActivationPartIndex);

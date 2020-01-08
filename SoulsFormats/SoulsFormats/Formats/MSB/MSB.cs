@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace SoulsFormats
 {
-    internal static class MSB
+    public static partial class MSB
     {
         public static void DisambiguateNames<T>(List<T> entries) where T : IMsbEntry
         {

@@ -77,11 +77,13 @@ namespace StudioCore.Scene
             });
         }
 
-        public static Region GetBoxRegion(RenderScene scene, float width, float height, float depth)
+        public static Region GetBoxRegion(RenderScene scene)
         {
             var r = new Region(scene);
-            Vector3 min = new Vector3(-width / 2.0f, 0.0f, -depth / 2.0f);
-            Vector3 max = new Vector3(width / 2.0f, height, depth / 2.0f);
+            //Vector3 min = new Vector3(-width / 2.0f, 0.0f, -depth / 2.0f);
+            //Vector3 max = new Vector3(width / 2.0f, height, depth / 2.0f);
+            Vector3 min = new Vector3(-0.5f, 0.0f, -0.5f);
+            Vector3 max = new Vector3(0.5f, 1.0f, 0.5f);
             r.RegionMesh = new DebugPrimitives.DbgPrimWireBox(Transform.Default, min, max, Color.Blue);
             r.Bounds = new BoundingBox(min, max);
             r.RegisterMesh();

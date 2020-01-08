@@ -65,7 +65,7 @@ namespace SoulsFormats
             /// <summary>
             /// Describes the physical shape of the region.
             /// </summary>
-            public Shape Shape { get; set; }
+            public MSB.Shape Shape { get; set; }
 
             /// <summary>
             /// Location of the region.
@@ -88,7 +88,7 @@ namespace SoulsFormats
             public Region()
             {
                 Name = "";
-                Shape = new Shape.Point();
+                Shape = new MSB.Shape.Point();
                 EntityID = -1;
             }
 
@@ -118,27 +118,27 @@ namespace SoulsFormats
                 switch (shapeType)
                 {
                     case ShapeType.Point:
-                        Shape = new Shape.Point();
+                        Shape = new MSB.Shape.Point();
                         break;
 
                     case ShapeType.Circle:
-                        Shape = new Shape.Circle(br);
+                        Shape = new MSB.Shape.Circle(br);
                         break;
 
                     case ShapeType.Sphere:
-                        Shape = new Shape.Sphere(br);
+                        Shape = new MSB.Shape.Sphere(br);
                         break;
 
                     case ShapeType.Cylinder:
-                        Shape = new Shape.Cylinder(br);
+                        Shape = new MSB.Shape.Cylinder(br);
                         break;
 
                     case ShapeType.Rect:
-                        Shape = new Shape.Rect(br);
+                        Shape = new MSB.Shape.Rect(br);
                         break;
 
                     case ShapeType.Box:
-                        Shape = new Shape.Box(br);
+                        Shape = new MSB.Shape.Box(br);
                         break;
 
                     default:

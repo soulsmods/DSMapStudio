@@ -48,6 +48,8 @@ namespace SoulsFormats
 
     public interface IMsbRegion : IMsbEntry
     {
+        MSB.Shape Shape { get; set; }
+
         Vector3 Position { get; set; }
 
         Vector3 Rotation { get; set; }
