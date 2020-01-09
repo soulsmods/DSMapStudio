@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using System.Drawing;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -12,7 +13,7 @@ namespace StudioCore.DebugPrimitives
     {
         private static DbgPrimGeometryData GeometryData = null;
 
-        public DbgPrimWireSphere(Transform location, Color color)
+        public DbgPrimWireSphere(Transform location, float radius, Color color, int numVerticalSegments = 11, int numSidesPerSegment=12)
         {
             NameColor = color;
             Transform = location;
@@ -23,11 +24,6 @@ namespace StudioCore.DebugPrimitives
             }
             else
             {
-                int numVerticalSegments = 11;
-                int numSidesPerSegment = 12;
-
-                float radius = 1;
-
                 var topPoint = Vector3.UnitY * radius;
                 var bottomPoint = -Vector3.UnitY * radius;
                 var points = new Vector3[numVerticalSegments, numSidesPerSegment];
@@ -88,15 +84,19 @@ namespace StudioCore.DebugPrimitives
 
                 //FinalizeBuffers(true);
 
-                GeometryData = new DbgPrimGeometryData()
+                /*GeometryData = new DbgPrimGeometryData()
                 {
                     VertBuffer = VertBuffer,
                     IndexBuffer = IndexBuffer,
-                };
+                };*/
             }
-
-
-
         }
+
+        public override bool RayCast(Ray ray, out float dist)
+        {
+            dist = float.MaxValue;
+            return false;
+        }
+    
     }
 }

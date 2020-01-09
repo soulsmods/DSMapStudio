@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Veldrid;
 
 namespace StudioCore.Scene
@@ -50,6 +51,8 @@ namespace StudioCore.Scene
 
             public int Count => Renderables.Count;
 
+            public float CPURenderTime { get; private set; } = 0.0f;
+
             public RenderQueue(GraphicsDevice device, SceneRenderPipeline pipeline)
             {
                 Device = device;
@@ -82,6 +85,7 @@ namespace StudioCore.Scene
 
             public void Execute()
             {
+                var watch = Stopwatch.StartNew();
                 Sort();
                 DrawCommandList.Begin();
                 PreDrawSetup.Invoke(Device, DrawCommandList);
@@ -93,6 +97,8 @@ namespace StudioCore.Scene
                 }
                 DrawCommandList.End();
                 Device.SubmitCommands(DrawCommandList);
+                watch.Stop();
+                CPURenderTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
             }
         }
 

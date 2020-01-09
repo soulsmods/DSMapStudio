@@ -25,6 +25,8 @@ namespace StudioCore.Scene
 
         private Renderer.RenderQueue RenderQueue;
 
+        public float CPURenderTime { get => RenderQueue.CPURenderTime; }
+
         public SceneRenderPipeline(RenderScene scene, GraphicsDevice device, int width, int height)
         {
             Scene = scene;

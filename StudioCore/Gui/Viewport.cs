@@ -165,6 +165,15 @@ namespace StudioCore.Gui
                 CanInteract = ImGui.IsWindowFocused();
                 ImGui.End();
             }
+
+            if (ImGui.Begin("Profiling"))
+            {
+                ImGui.Text($@"Cull time: {RenderScene.OctreeCullTime} ms");
+                ImGui.Text($@"Work creation time: {RenderScene.CPUDrawTime} ms");
+                ImGui.Text($@"Scene Render CPU time: {ViewPipeline.CPURenderTime} ms");
+                ImGui.Text($@"Visible objects: {RenderScene.RenderObjectCount}");
+                ImGui.End();
+            }
         }
 
         public void ResizeViewport(GraphicsDevice device, Veldrid.Rectangle newvp)

@@ -3,7 +3,8 @@ DS Map Studio is a standalone map editor for all the souls games. It's currently
 
 ## System Requirements:
 * Windows 7/8/8.1/10 (64-bit only)
-* [Microsoft .Net Core 3.0 Runtime](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+* [Microsoft .Net Core 3.1 **Desktop** Runtime](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* [Visual C++ Redistributable x64 - INSTALL THIS IF THE PROGRAM CRASHES ON STARTUP] (https://aka.ms/vs/16/release/vc_redist.x64.exe)
 * **A DirectX 11 Compatible Graphics Device**, even if you're just modding DS1: PTDE
 
 ## Special Thanks
@@ -12,6 +13,7 @@ DS Map Studio is a standalone map editor for all the souls games. It's currently
 * [Meowmaritus](https://github.com/meowmaritus) - Made DSAnimStudio, which DSMapStudio is loosely based on
 * [PredatorCZ](https://github.com/PredatorCZ) - Reverse engineered Spline-Compressed Animation entirely.
 * [Horkrux](https://github.com/horkrux) - Reverse engineered the header and swizzling used on non-PC platform textures.
+* [Vawser] (https://github.com/vawser) - DS2/3 Documentation
 
 ## Libraries Utilized
 * Soulsformats

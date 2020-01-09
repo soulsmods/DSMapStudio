@@ -375,6 +375,20 @@ namespace StudioCore.MsbEditor
                     obj.RenderSceneMesh = mesh;
                     mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                 }
+                else if (obj.MsbObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
+                {
+                    var mesh = Scene.Region.GetSphereRegion(RenderScene);
+                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                }
+                else if (obj.MsbObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
+                {
+                    var mesh = Scene.Region.GetPointRegion(RenderScene);
+                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                }
 
                 // Try to find the map offset
                 if (obj.MsbObject is MSB2.Event.MapOffset mo)

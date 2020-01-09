@@ -90,6 +90,28 @@ namespace StudioCore.Scene
             return r;
         }
 
+        public static Region GetSphereRegion(RenderScene scene)
+        {
+            var r = new Region(scene);
+            r.RegionMesh = new DebugPrimitives.DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
+            Vector3 min = new Vector3(-0.5f, -0.5f, -0.5f);
+            Vector3 max = new Vector3(0.5f, 0.5f, 0.5f);
+            r.Bounds = new BoundingBox(min, max);
+            r.RegisterMesh();
+            return r;
+        }
+
+        public static Region GetPointRegion(RenderScene scene)
+        {
+            var r = new Region(scene);
+            r.RegionMesh = new DebugPrimitives.DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
+            Vector3 min = new Vector3(-0.5f, -0.5f, -0.5f);
+            Vector3 max = new Vector3(0.5f, 0.5f, 0.5f);
+            r.Bounds = new BoundingBox(min, max);
+            r.RegisterMesh();
+            return r;
+        }
+
         public BoundingBox GetBounds()
         {
             return BoundingBox.Transform(Bounds, WorldMatrix);

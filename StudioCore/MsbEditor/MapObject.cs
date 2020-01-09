@@ -450,6 +450,10 @@ namespace StudioCore.MsbEditor
                 {
                     t.Scale = new Vector3(b2.Width, b2.Height, b2.Depth);
                 }
+                else if (shape != null && shape is MSB.Shape.Sphere s)
+                {
+                    t.Scale = new Vector3(s.Radius);
+                }
             }
 
             return t;
