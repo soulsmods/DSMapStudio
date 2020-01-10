@@ -202,6 +202,33 @@ namespace StudioCore.MsbEditor
             return -1;
         }
 
+        private void CloneRenderable(MapObject obj)
+        {
+            if (RenderSceneMesh != null)
+            {
+                if (RenderSceneMesh is NewMesh m)
+                {
+                    obj.RenderSceneMesh = new NewMesh(m);
+                    obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                }
+                else if (RenderSceneMesh is Scene.CollisionMesh c)
+                {
+                    obj.RenderSceneMesh = new Scene.CollisionMesh(c);
+                    obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                }
+                else if (RenderSceneMesh is Scene.NvmMesh n)
+                {
+                    obj.RenderSceneMesh = new Scene.NvmMesh(n);
+                    obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                }
+                else if (RenderSceneMesh is Scene.Region r)
+                {
+                    //obj.RenderSceneMesh = new Scene.Region(r);
+                    //obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                }
+            }
+        }
+
         public MapObject Clone()
         {
             var typ = MsbObject.GetType();
@@ -214,8 +241,7 @@ namespace StudioCore.MsbEditor
             {
                 var clone = constructor.Invoke(new object[] { MsbObject });
                 var obj = new MapObject(ContainingMap, clone, Type);
-                obj.RenderSceneMesh = new NewMesh((NewMesh)RenderSceneMesh);
-                obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                CloneRenderable(obj);
                 obj.UseDrawGroups = UseDrawGroups;
                 return obj;
             }
@@ -254,8 +280,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 var obj = new MapObject(ContainingMap, clone, Type);
-                obj.RenderSceneMesh = new NewMesh((NewMesh)RenderSceneMesh);
-                obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                CloneRenderable(obj);
                 return obj;
             }
         }

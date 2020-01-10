@@ -165,7 +165,10 @@ namespace StudioCore.MsbEditor
                         obj.Parent.AddChild(newobj, idx);
                     }
                     newobj.UpdateRenderModel();
-                    newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
+                    if (newobj.RenderSceneMesh != null)
+                    {
+                        newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
+                    }
                     Clones.Add(newobj);
                     CloneMaps.Add(m);
                 }
@@ -189,8 +192,11 @@ namespace StudioCore.MsbEditor
                 {
                     Clones[i].Parent.RemoveChild(Clones[i]);
                 }
-                Clones[i].RenderSceneMesh.AutoRegister = false;
-                Clones[i].RenderSceneMesh.UnregisterWithScene();
+                if (Clones[i].RenderSceneMesh != null)
+                {
+                    Clones[i].RenderSceneMesh.AutoRegister = false;
+                    Clones[i].RenderSceneMesh.UnregisterWithScene();
+                }
             }
             Clones.Clear();
             if (SetSelection)
