@@ -24,6 +24,8 @@ namespace StudioCore.MsbEditor
 
         public Universe Universe;
 
+        private bool GCNeedsCollection = false;
+
         public enum ScreenMouseHoverKind
         {
             None,
@@ -87,10 +89,11 @@ namespace StudioCore.MsbEditor
         public void Update(float dt)
         {
 
-            // Always update playback regardless of GUI memes.
-            // Still only allow hitting spacebar to play/pause
-            // if the window is in focus.
-            // Also for Interactor
+            if (GCNeedsCollection)
+            {
+                GC.Collect();
+                GCNeedsCollection = false;
+            }
 
             if (PauseUpdate)
             {
@@ -182,14 +185,14 @@ namespace StudioCore.MsbEditor
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Close Map"))
+                    if (ImGui.MenuItem("Unload All Open Maps"))
                     {
                         Selection.ClearSelection();
                         EditorActionManager.Clear();
-                        //CurrentMap.Clear();
+                        Universe.UnloadAllMaps();
                         GC.Collect();
                     }
-                    if (ImGui.MenuItem("Save MSB", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
+                    if (ImGui.MenuItem("Save All Open Maps", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
                     {
                         Universe.SaveAllMaps();
                     }
@@ -368,6 +371,7 @@ namespace StudioCore.MsbEditor
 
             if (ImGui.Begin("Map Object List", ref MapObjectListOpen))
             {
+                Map pendingUnload = null;
                 foreach (var map in Universe.LoadedMaps)
                 {
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
@@ -376,6 +380,21 @@ namespace StudioCore.MsbEditor
                         treeflags |= ImGuiTreeNodeFlags.Selected;
                     }
                     var nodeopen = ImGui.TreeNodeEx(map.MapId, treeflags);
+                    // Right click context menu
+                    if (ImGui.BeginPopupContextItem($@"mapcontext_{map.MapId}"))
+                    {
+                        if (ImGui.Selectable("Save Map"))
+                        {
+                            Universe.SaveMap(map);
+                        }
+                        if (ImGui.Selectable("Unload Map"))
+                        {
+                            Selection.ClearSelection();
+                            EditorActionManager.Clear();
+                            pendingUnload = map;
+                        }
+                        ImGui.EndPopup();
+                    }
                     if (ImGui.IsItemClicked())
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
@@ -411,6 +430,13 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 ImGui.End();
+
+                if (pendingUnload != null)
+                {
+                    Universe.UnloadMap(pendingUnload);
+                    GC.Collect();
+                    GCNeedsCollection = true;
+                }
             }
 
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);

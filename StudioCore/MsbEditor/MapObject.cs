@@ -573,7 +573,7 @@ namespace StudioCore.MsbEditor
             if (UseDrawGroups)
             {
                 var prop = MsbObject.GetType().GetProperty("DrawGroups");
-                if (prop != null)
+                if (prop != null && RenderSceneMesh != null)
                 {
                     RenderSceneMesh.DrawGroups.AlwaysVisible = false;
                     RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(MsbObject);

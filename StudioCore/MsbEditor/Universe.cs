@@ -540,7 +540,7 @@ namespace StudioCore.MsbEditor
             File.Move(genparamadw.AssetPath + ".temp", genparamadw.AssetPath);
         }
 
-        private void SaveMap(Map map)
+        public void SaveMap(Map map)
         {
             var ad = AssetLocator.GetMapMSB(map.MapId);
             var adw = AssetLocator.GetMapMSB(map.MapId, true);
@@ -600,6 +600,23 @@ namespace StudioCore.MsbEditor
             foreach (var m in LoadedMaps)
             {
                 SaveMap(m);
+            }
+        }
+
+        public void UnloadMap(Map map)
+        {
+            if (LoadedMaps.Contains(map))
+            {
+                map.Clear();
+                LoadedMaps.Remove(map);
+            }
+        }
+
+        public void UnloadAllMaps()
+        {
+            for (int i = LoadedMaps.Count - 1; i >= 0; i--)
+            {
+                UnloadMap(LoadedMaps[i]);
             }
         }
     }

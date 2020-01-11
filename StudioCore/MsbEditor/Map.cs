@@ -256,5 +256,27 @@ namespace StudioCore.MsbEditor
         {
             MapObjects.Clear();
         }
+
+        public byte GetNextUnique(string prop, byte value)
+        {
+            HashSet<byte> usedvals = new HashSet<byte>();
+            foreach (var obj in MapObjects)
+            {
+                if (obj.GetPropertyValue(prop) != null)
+                {
+                    byte val = obj.GetPropertyValue<byte>(prop);
+                    usedvals.Add(val);
+                }
+            }
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (!usedvals.Contains((byte)((value + i) % 256)))
+                {
+                    return (byte)((value + i) % 256);
+                }
+            }
+            return value;
+        }
     }
 }

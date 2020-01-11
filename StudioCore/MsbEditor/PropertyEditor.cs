@@ -26,7 +26,7 @@ namespace StudioCore.MsbEditor
             ContextActionManager = manager;
         }
 
-        private bool PropertyRow(Type typ, object oldval, out object newval)
+        private bool PropertyRow(Type typ, object oldval, out object newval, MapObject obj=null, string propname=null)
         {
             if (typ == typeof(long))
             {
@@ -109,6 +109,17 @@ namespace StudioCore.MsbEditor
                         newval = val;
                         return true;
                     }
+                }
+                if (obj != null && ImGui.BeginPopupContextItem(propname))
+                {
+                    bool r = false;
+                    if (ImGui.Selectable("Set Next Unique Value"))
+                    {
+                        newval = obj.ContainingMap.GetNextUnique(propname, val);
+                        ImGui.EndPopup();
+                        return true;
+                    }
+                    ImGui.EndPopup();
                 }
             }
             else if (typ == typeof(bool))
@@ -292,7 +303,7 @@ namespace StudioCore.MsbEditor
                 bool changed = false;
                 object newval = null;
 
-                changed = PropertyRow(typ, oldval, out newval);
+                changed = PropertyRow(typ, oldval, out newval, selection, cell.Name);
                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
                 ChangeProperty(cell.GetType().GetProperty("Value"), selection, cell, newval, changed, committed, shouldUpdateVisual);
 
@@ -378,7 +389,7 @@ namespace StudioCore.MsbEditor
                     bool changed = false;
                     object newval = null;
 
-                    changed = PropertyRow(typ, oldval, out newval);
+                    changed = PropertyRow(typ, oldval, out newval, selection, prop.Name);
                     bool committed = ImGui.IsItemDeactivatedAfterEdit();
                     ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual);
 
