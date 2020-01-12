@@ -164,7 +164,7 @@ namespace StudioCore.Resource
             return LoadInternal(al);
         }
 
-        public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)
+        public bool RayCast(Ray ray, Matrix4x4 transform, Utils.RayCastCull cull, out float dist)
         {
             bool hit = false;
             float mindist = float.MaxValue;
@@ -178,19 +178,13 @@ namespace StudioCore.Resource
                 {
                     continue;
                 }
-                for (int index = 0; index < mesh.PickingIndices.Count(); index += 3)
+                float locdist;
+                if (Utils.RayMeshIntersection(tray, mesh.PickingVertices, mesh.PickingIndices, cull, out locdist))
                 {
-                    float locdist;
-                    if (tray.Intersects(ref mesh.PickingVertices[mesh.PickingIndices[index]],
-                        ref mesh.PickingVertices[mesh.PickingIndices[index + 1]],
-                        ref mesh.PickingVertices[mesh.PickingIndices[index + 2]],
-                        out locdist))
+                    hit = true;
+                    if (locdist < mindist)
                     {
-                        hit = true;
-                        if (locdist < mindist)
-                        {
-                            mindist = locdist;
-                        }
+                        mindist = locdist;
                     }
                 }
             }

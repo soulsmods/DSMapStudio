@@ -260,5 +260,18 @@ namespace StudioCore.Gui
             DebugRenderer.Add(Gizmos, new Scene.RenderKey(0));
             //RenderScene.Render(device, cl, ViewPipeline);
         }
+
+        /// <summary>
+        /// Moves the camera position such that it is directly looking at the center of a
+        /// bounding box. Camera will face the same direction as before.
+        /// </summary>
+        /// <param name="box">The bounding box to frame</param>
+        public void FrameBox(BoundingBox box)
+        {
+            var camdir = Vector3.Transform(Vector3.UnitZ, WorldView.CameraTransform.RotationMatrix);
+            var pos = box.GetCenter();
+            var radius = Vector3.Distance(box.Max, box.Min);
+            WorldView.CameraTransform.Position = pos - (camdir * radius);
+        }
     }
 }

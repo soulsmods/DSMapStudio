@@ -6,6 +6,7 @@ using System.Text;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Sdl2;
+using Veldrid.Utilities;
 using ImGuiNET;
 
 namespace StudioCore.MsbEditor
@@ -358,6 +359,33 @@ namespace StudioCore.MsbEditor
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
                 }
+
+                // F key frames the selection
+                if (InputTracker.GetKeyDown(Key.F))
+                {
+                    var selected = Selection.GetFilteredSelection<MapObject>();
+                    bool first = false;
+                    BoundingBox box = new BoundingBox();
+                    foreach (var s in selected)
+                    {
+                        if (s.RenderSceneMesh != null)
+                        {
+                            if (!first)
+                            {
+                                box = s.RenderSceneMesh.GetBounds();
+                                first = true;
+                            }
+                            else
+                            {
+                                box = BoundingBox.Combine(box, s.RenderSceneMesh.GetBounds());
+                            }
+                        }
+                    }
+                    if (first)
+                    {
+                        Viewport.FrameBox(box);
+                    }
+                }
             }
 
             ImGui.SetNextWindowSize(new Vector2(300, 500), ImGuiCond.FirstUseEver);
@@ -412,7 +440,7 @@ namespace StudioCore.MsbEditor
                         foreach (var obj in map.MapObjects)
                         {
                             ImGui.PushID(obj.Type.ToString() + obj.Name);
-                            if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj)))
+                            if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
                             {
                                 if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
                                 {
@@ -422,6 +450,14 @@ namespace StudioCore.MsbEditor
                                 {
                                     Selection.ClearSelection();
                                     Selection.AddSelection(obj);
+                                }
+                                // If double clicked frame the selection in the viewport
+                                if (ImGui.IsMouseDoubleClicked(0))
+                                {
+                                    if (obj.RenderSceneMesh != null)
+                                    {
+                                        Viewport.FrameBox(obj.RenderSceneMesh.GetBounds());
+                                    }
                                 }
                             }
                             ImGui.PopID();

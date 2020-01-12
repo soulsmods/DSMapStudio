@@ -65,6 +65,11 @@ namespace StudioCore.Scene
         public void UnregisterAndRelease();
 
         public void SubmitRenderObjects(Scene.Renderer.RenderQueue queue);
+
+        /// <summary>
+        /// Get the world space bounding box of this renderable
+        /// </summary>
+        /// <returns>World space bounding box</returns>
         public BoundingBox GetBounds();
 
         public bool RayCast(Ray ray, out float dist);

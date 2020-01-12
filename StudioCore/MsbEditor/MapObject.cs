@@ -491,10 +491,13 @@ namespace StudioCore.MsbEditor
             UpdateRenderModel();
         }
 
-        public void ClearTemporaryTransform()
+        public void ClearTemporaryTransform(bool updaterender=true)
         {
             UseTempTransform = false;
-            UpdateRenderModel();
+            if (updaterender)
+            {
+                UpdateRenderModel();
+            }
         }
 
         public Action GetUpdateTransformAction(Transform newt)

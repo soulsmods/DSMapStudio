@@ -2,6 +2,7 @@
 using System;
 using System.Text;
 using Veldrid;
+using Veldrid.Utilities;
 using System.Numerics;
 
 namespace StudioCore
@@ -241,6 +242,59 @@ namespace StudioCore
             result.M43 = near * negFarRange;
 
             return result;
+        }
+
+        public enum RayCastCull
+        {
+            CullNone,
+            CullFront,
+            CullBack
+        }
+
+        public static bool RayMeshIntersection(Ray ray,
+            Vector3[] verts,
+            int[] indices,
+            RayCastCull cull,
+            out float dist)
+        {
+            bool hit = false;
+            float mindist = float.MaxValue;
+
+            for (int index = 0; index < indices.Length; index += 3)
+            {
+                if (cull != RayCastCull.CullNone)
+                {
+                    // Get the face normal
+                    var normal = Vector3.Normalize(Vector3.Cross(
+                        verts[indices[index + 1]] - verts[indices[index]],
+                        verts[indices[index + 2]] - verts[indices[index]]));
+                    var ratio = Vector3.Dot(ray.Direction, normal);
+                    if (cull == RayCastCull.CullBack && ratio < 0.0f)
+                    {
+                        continue;
+                    }
+                    else if (cull == RayCastCull.CullFront && ratio > 0.0f)
+                    {
+                        continue;
+                    }
+                }
+
+                float locdist;
+                if (ray.Intersects(ref verts[indices[index]],
+                    ref verts[indices[index + 1]],
+                    ref verts[indices[index + 2]],
+                    out locdist))
+                {
+                    hit = true;
+                    if (locdist < mindist)
+                    {
+                        mindist = locdist;
+                    }
+                }
+            }
+
+            dist = mindist;
+            return hit;
         }
 
         public static bool RayPlaneIntersection(Vector3 origin,

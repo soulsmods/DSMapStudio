@@ -157,6 +157,65 @@ namespace StudioCore.MsbEditor
 
         public void Update(Ray ray, bool canCaptureMouse)
         {
+            if (IsTransforming)
+            {
+                if (!InputTracker.GetMouseButton(MouseButton.Left))
+                {
+                    IsTransforming = false;
+                    var actlist = new List<Action>();
+                    foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
+                    {
+                        sel.ClearTemporaryTransform(false);
+                        actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetTransform())));
+                    }
+                    var action = new CompoundAction(actlist);
+                    ActionManager.ExecuteAction(action);
+                }
+                else
+                {
+                    if (Mode == GizmosMode.Translate)
+                    {
+                        var delta = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis) - OriginProjection;
+                        CurrentTransform.Position = OriginalTransform.Position + delta;
+                    }
+                    else if (Mode == GizmosMode.Rotate)
+                    {
+                        Vector3 axis = Vector3.Zero;
+                        switch (TransformAxis)
+                        {
+                            case Axis.PosX:
+                                axis = Vector3.Transform(new Vector3(1.0f, 0.0f, 0.0f), OriginalTransform.Rotation);
+                                break;
+                            case Axis.PosY:
+                                axis = Vector3.Transform(new Vector3(0.0f, 1.0f, 0.0f), OriginalTransform.Rotation);
+                                break;
+                            case Axis.PosZ:
+                                axis = Vector3.Transform(new Vector3(0.0f, 0.0f, 1.0f), OriginalTransform.Rotation);
+                                break;
+                        }
+                        axis = Vector3.Normalize(axis);
+                        var newproj = GetAxisPlaneProjection(ray, OriginalTransform, TransformAxis);
+                        var delta = Vector3.Normalize(newproj - OriginalTransform.Position);
+                        var deltaorig = Vector3.Normalize(OriginProjection - OriginalTransform.Position);
+                        var side = Vector3.Cross(axis, deltaorig);
+                        float y = Math.Max(-1.0f, Math.Min(1.0f, Vector3.Dot(delta, deltaorig)));
+                        float x = Math.Max(-1.0f, Math.Min(1.0f, Vector3.Dot(delta, side)));
+                        float angle = (float)Math.Atan2(x, y);
+                        DebugAxis = axis;
+                        DebugAngle = angle;
+                        //CurrentTransform.EulerRotation.Y = OriginalTransform.EulerRotation.Y + angle;
+                        CurrentTransform.Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * OriginalTransform.Rotation);
+                    }
+                    if (Selection.IsSelection())
+                    {
+                        //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
+                        foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
+                        {
+                            sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetTransform()));
+                        }
+                    }
+                }
+            }
             if (!IsTransforming)
             {
                 if (Selection.IsFilteredSelection<MapObject>((o) => o.HasTransform))
@@ -210,69 +269,6 @@ namespace StudioCore.MsbEditor
                                 OriginProjection = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis);
                             }
                         }
-                    }
-                }
-            }
-            else
-            {
-                if (!InputTracker.GetMouseButton(MouseButton.Left))
-                {
-                    IsTransforming = false;
-                    /*if (Selection.IsSingleSelection())
-                    {
-                        Selection.GetSingleSelection().ClearTemporaryTransform();
-                        var act = Selection.GetSingleSelection().GetUpdateTransformAction(CurrentTransform);
-                        ActionManager.ExecuteAction(act);
-                    }*/
-                    var actlist = new List<Action>();
-                    foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
-                    {
-                        sel.ClearTemporaryTransform();
-                        actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetTransform())));
-                    }
-                    var action = new CompoundAction(actlist);
-                    ActionManager.ExecuteAction(action);
-                    return;
-                }
-                if (Mode == GizmosMode.Translate)
-                {
-                    var delta = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis) - OriginProjection;
-                    CurrentTransform.Position = OriginalTransform.Position + delta;
-                }
-                else if (Mode == GizmosMode.Rotate)
-                {
-                    Vector3 axis = Vector3.Zero;
-                    switch (TransformAxis)
-                    {
-                        case Axis.PosX:
-                            axis = Vector3.Transform(new Vector3(1.0f, 0.0f, 0.0f), OriginalTransform.Rotation);
-                            break;
-                        case Axis.PosY:
-                            axis = Vector3.Transform(new Vector3(0.0f, 1.0f, 0.0f), OriginalTransform.Rotation);
-                            break;
-                        case Axis.PosZ:
-                            axis = Vector3.Transform(new Vector3(0.0f, 0.0f, 1.0f), OriginalTransform.Rotation);
-                            break;
-                    }
-                    axis = Vector3.Normalize(axis);
-                    var newproj = GetAxisPlaneProjection(ray, OriginalTransform, TransformAxis);
-                    var delta = Vector3.Normalize(newproj - OriginalTransform.Position);
-                    var deltaorig = Vector3.Normalize(OriginProjection - OriginalTransform.Position);
-                    var side = Vector3.Cross(axis, deltaorig);
-                    float y = Math.Max(-1.0f, Math.Min(1.0f, Vector3.Dot(delta, deltaorig)));
-                    float x = Math.Max(-1.0f, Math.Min(1.0f, Vector3.Dot(delta, side)));
-                    float angle = (float)Math.Atan2(x, y);
-                    DebugAxis = axis;
-                    DebugAngle = angle;
-                    //CurrentTransform.EulerRotation.Y = OriginalTransform.EulerRotation.Y + angle;
-                    CurrentTransform.Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * OriginalTransform.Rotation);
-                }
-                if (Selection.IsSelection())
-                {
-                    //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
-                    foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
-                    {
-                        sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetTransform()));
                     }
                 }
             }

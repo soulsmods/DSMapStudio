@@ -416,7 +416,7 @@ namespace StudioCore.Resource
             return LoadInternal(al);
         }
 
-        public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)
+        public bool RayCast(Ray ray, Matrix4x4 transform, Utils.RayCastCull cull, out float dist)
         {
             bool hit = false;
             float mindist = float.MaxValue;
@@ -430,26 +430,14 @@ namespace StudioCore.Resource
                 {
                     continue;
                 }
+                float locdist;
                 var fc = mesh.MeshFacesets[0];
-                for (int index = 0; index < fc.PickingIndices.Count(); index += 3)
+                if (Utils.RayMeshIntersection(tray, mesh.PickingVertices, fc.PickingIndices, cull, out locdist))
                 {
-                    //var a = Vector3.Transform(mesh.PickingVertices[fc.PickingIndices[index]], transform);
-                    //var b = Vector3.Transform(mesh.PickingVertices[fc.PickingIndices[index + 1]], transform);
-                    //var c = Vector3.Transform(mesh.PickingVertices[fc.PickingIndices[index + 2]], transform);
-                    //var a = mesh.PickingVertices[fc.PickingIndices[index]];
-                    //var b = mesh.PickingVertices[fc.PickingIndices[index + 1]];
-                    //var c = mesh.PickingVertices[fc.PickingIndices[index + 2]];
-                    float locdist;
-                    if (tray.Intersects(ref mesh.PickingVertices[fc.PickingIndices[index]],
-                        ref mesh.PickingVertices[fc.PickingIndices[index + 1]],
-                        ref mesh.PickingVertices[fc.PickingIndices[index + 2]],
-                        out locdist))
+                    hit = true;
+                    if (locdist < mindist)
                     {
-                        hit = true;
-                        if (locdist < mindist)
-                        {
-                            mindist = locdist;
-                        }
+                        mindist = locdist;
                     }
                 }
             }
