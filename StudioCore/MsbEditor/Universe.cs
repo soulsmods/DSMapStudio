@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Reflection;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -618,6 +619,22 @@ namespace StudioCore.MsbEditor
             {
                 UnloadMap(LoadedMaps[i]);
             }
+        }
+
+        public Type GetPropertyType(string name)
+        {
+            foreach (var m in LoadedMaps)
+            {
+                foreach (var o in m.MapObjects)
+                {
+                    var p = o.GetProperty(name);
+                    if (p != null)
+                    {
+                        return p.PropertyType;
+                    }
+                }
+            }
+            return null;
         }
     }
 }

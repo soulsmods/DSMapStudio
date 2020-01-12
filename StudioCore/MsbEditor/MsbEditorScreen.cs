@@ -21,6 +21,7 @@ namespace StudioCore.MsbEditor
         public ActionManager EditorActionManager = new ActionManager();
 
         public PropertyEditor PropEditor;
+        public SearchProperties PropSearch;
         public DisplayGroupsEditor DispGroupEditor;
 
         public Universe Universe;
@@ -81,6 +82,7 @@ namespace StudioCore.MsbEditor
 
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
+            PropSearch = new SearchProperties(Universe);
 
             ParamBank.LoadParams(AssetLocator);
         }
@@ -477,6 +479,7 @@ namespace StudioCore.MsbEditor
 
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
+            PropSearch.OnGui();
 
             ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 
