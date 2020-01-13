@@ -444,7 +444,7 @@ namespace StudioCore.MsbEditor
                             ImGui.PushID(obj.Type.ToString() + obj.Name);
                             if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
                             {
-                                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                                 {
                                     Selection.AddSelection(obj);
                                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Veldrid;
 using ImGuiNET;
 
 namespace StudioCore.MsbEditor
@@ -13,7 +14,7 @@ namespace StudioCore.MsbEditor
         private Type PropertyType = null;
         private bool ValidType = false;
 
-        private List<MapObject> FoundObjects = new List<MapObject>();
+        private Dictionary<string, List<MapObject>> FoundObjects = new Dictionary<string, List<MapObject>>();
 
         public SearchProperties(Universe universe)
         {
@@ -122,18 +123,47 @@ namespace StudioCore.MsbEditor
                                 var p = o.GetPropertyValue(PropertyName);
                                 if (p != null && p.Equals(PropertyValue))
                                 {
-                                    FoundObjects.Add(o);
+                                    if (!FoundObjects.ContainsKey(o.ContainingMap.MapId))
+                                    {
+                                        FoundObjects.Add(o.ContainingMap.MapId, new List<MapObject>());
+                                    }
+                                    FoundObjects[o.ContainingMap.MapId].Add(o);
                                 }
                             }
                         }
                     }
                 }
                 ImGui.Columns(1);
-                foreach (var f in FoundObjects)
+                if (FoundObjects.Count > 0)
                 {
-                    ImGui.Text(f.Name);
+                    ImGui.Text("Search Results");
+                    ImGui.Separator();
+                    ImGui.BeginChild("Search Results");
+                    foreach (var f in FoundObjects)
+                    {
+                        if (ImGui.TreeNodeEx(f.Key, ImGuiTreeNodeFlags.DefaultOpen))
+                        {
+                            foreach (var o in f.Value)
+                            {
+                                if (ImGui.Selectable(o.Name, Selection.GetSelection().Contains(o), ImGuiSelectableFlags.AllowDoubleClick))
+                                {
+                                    if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                                    {
+                                        Selection.AddSelection(o);
+                                    }
+                                    else
+                                    {
+                                        Selection.ClearSelection();
+                                        Selection.AddSelection(o);
+                                    }
+                                }
+                            }
+                            ImGui.TreePop();
+                        }
+                    }
+                    ImGui.EndChild();
+                    ImGui.End();
                 }
-                ImGui.End();
             }
         }
     }
