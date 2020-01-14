@@ -110,6 +110,8 @@ namespace StudioCore
             var fontJp = File.ReadAllBytes(fileJp);
             var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
             var fontEn = File.ReadAllBytes(fileEn);
+            var fileIcon = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\forkawesome-webfont.ttf");
+            var fontIcon = File.ReadAllBytes(fileIcon);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
             fixed (byte* p = fontEn)
@@ -130,6 +132,22 @@ namespace StudioCore
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
                 var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontJp.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+            }
+            fixed (byte* p = fontIcon)
+            {
+                ushort[] ranges = { ForkAwesome.IconMin, ForkAwesome.IconMax, 0 };
+                var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
+                var cfg = new ImFontConfigPtr(ptr);
+                cfg.MergeMode = true;
+                cfg.GlyphMinAdvanceX = 12.0f;
+                cfg.OversampleH = 5;
+                cfg.OversampleV = 5;
+                ImFontGlyphRangesBuilder b = new ImFontGlyphRangesBuilder();
+
+                fixed (ushort* r = ranges)
+                {
+                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f, cfg, (IntPtr)r);
+                }
             }
             fonts.Build();
             ImguiRenderer.RecreateFontDeviceTexture();

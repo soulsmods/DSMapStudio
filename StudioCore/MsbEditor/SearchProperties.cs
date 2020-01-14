@@ -14,7 +14,7 @@ namespace StudioCore.MsbEditor
         private Type PropertyType = null;
         private bool ValidType = false;
 
-        private Dictionary<string, List<MapObject>> FoundObjects = new Dictionary<string, List<MapObject>>();
+        private Dictionary<string, List<WeakReference<MapObject>>> FoundObjects = new Dictionary<string, List<WeakReference<MapObject>>>();
 
         public SearchProperties(Universe universe)
         {
@@ -125,9 +125,9 @@ namespace StudioCore.MsbEditor
                                 {
                                     if (!FoundObjects.ContainsKey(o.ContainingMap.MapId))
                                     {
-                                        FoundObjects.Add(o.ContainingMap.MapId, new List<MapObject>());
+                                        FoundObjects.Add(o.ContainingMap.MapId, new List<WeakReference<MapObject>>());
                                     }
-                                    FoundObjects[o.ContainingMap.MapId].Add(o);
+                                    FoundObjects[o.ContainingMap.MapId].Add(new WeakReference<MapObject>(o));
                                 }
                             }
                         }
@@ -145,16 +145,20 @@ namespace StudioCore.MsbEditor
                         {
                             foreach (var o in f.Value)
                             {
-                                if (ImGui.Selectable(o.Name, Selection.GetSelection().Contains(o), ImGuiSelectableFlags.AllowDoubleClick))
+                                MapObject obj;
+                                if (o.TryGetTarget(out obj))
                                 {
-                                    if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                                    if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
                                     {
-                                        Selection.AddSelection(o);
-                                    }
-                                    else
-                                    {
-                                        Selection.ClearSelection();
-                                        Selection.AddSelection(o);
+                                        if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                                        {
+                                            Selection.AddSelection(obj);
+                                        }
+                                        else
+                                        {
+                                            Selection.ClearSelection();
+                                            Selection.AddSelection(obj);
+                                        }
                                     }
                                 }
                             }

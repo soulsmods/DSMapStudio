@@ -36,6 +36,11 @@ namespace StudioCore.Scene
         public DrawGroup DrawGroups { get; set; }
 
         /// <summary>
+        /// Master visibility toggle
+        /// </summary>
+        public bool IsVisible { get; set; }
+
+        /// <summary>
         /// The drawable is highlighted. 
         /// </summary>
         public bool Highlighted { get; set; }

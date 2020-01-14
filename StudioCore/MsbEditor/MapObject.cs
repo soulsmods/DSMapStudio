@@ -90,6 +90,36 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public string PrettyName
+        {
+            get
+            {
+                string icon = "";
+                if (Type == ObjectType.TypePart)
+                {
+                    icon = ForkAwesome.PuzzlePiece;
+                }
+                else if (Type == ObjectType.TypeEvent)
+                {
+                    icon = ForkAwesome.Flag;
+                }
+                else if (Type == ObjectType.TypeRegion)
+                {
+                    icon = ForkAwesome.LocationArrow;
+                }
+                else if (Type == ObjectType.TypeDS2Generator)
+                {
+                    icon = ForkAwesome.Male;
+                }
+                else if (Type == ObjectType.TypeDS2GeneratorRegist)
+                {
+                    icon = ForkAwesome.UserCircleO;
+                }
+
+                return $@"{icon} {Name}";
+            }
+        }
+
         private string CurrentModel = "";
 
         public uint[] Drawgroups
@@ -115,6 +145,23 @@ namespace StudioCore.MsbEditor
                     return (uint[])prop.GetValue(MsbObject);
                 }
                 return null;
+            }
+        }
+
+        private bool _EditorVisible = true;
+        public bool EditorVisible
+        {
+            get
+            {
+                return _EditorVisible;
+            }
+            set
+            {
+                _EditorVisible = value;
+                if (RenderSceneMesh != null)
+                {
+                    RenderSceneMesh.IsVisible = _EditorVisible;
+                }
             }
         }
 
@@ -581,6 +628,11 @@ namespace StudioCore.MsbEditor
                     RenderSceneMesh.DrawGroups.AlwaysVisible = false;
                     RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(MsbObject);
                 }
+            }
+
+            if (RenderSceneMesh != null)
+            {
+                RenderSceneMesh.IsVisible = _EditorVisible;
             }
         }
 

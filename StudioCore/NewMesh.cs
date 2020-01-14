@@ -87,6 +87,8 @@ namespace StudioCore
 
         public DrawGroup DrawGroups { get; set; } = new DrawGroup();
 
+        public bool IsVisible { get; set; }
+
         public void DefaultAllMaskValues()
         {
             //for (int i = 0; i < Model.DRAW_MASK_LENGTH; i++)

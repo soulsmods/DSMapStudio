@@ -146,7 +146,8 @@ namespace StudioCore.Scene
             var watch2 = Stopwatch.StartNew();
             foreach (var obj in CulledObjects)
             {
-                if (((obj.DrawFilter & DrawFilter) > 0 && obj.DrawGroups.IsInDisplayGroup(DisplayGroup)) || obj.Highlighted)
+                if (((obj.DrawFilter & DrawFilter) > 0 && obj.DrawGroups.IsInDisplayGroup(DisplayGroup) && obj.IsVisible)
+                    || obj.Highlighted)
                 {
                     obj.SubmitRenderObjects(queue);
                 }

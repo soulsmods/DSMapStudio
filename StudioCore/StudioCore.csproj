@@ -18,9 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\forkawesome-webfont.ttf" />
     <None Remove="Assets\Fonts\NotoSansCJKtc-Light.otf" />
     <None Remove="Assets\Fonts\NotoSansCJKtc-Medium.otf" />
     <None Remove="Assets\Fonts\NotoSansMonoCJKtc-Regular.otf" />
+    <None Remove="Assets\Fonts\OpenFontIcons.ttf" />
     <None Remove="Assets\Fonts\RobotoMono-Light.ttf" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\AREA_PARAM.xml" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\ARMOR_HANDS_UP_F_PARAM.xml" />
@@ -221,6 +223,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Assets\Fonts\forkawesome-webfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Fonts\NotoSansCJKtc-Light.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -229,6 +234,9 @@
     </Content>
     <Content Include="Assets\Fonts\NotoSansMonoCJKtc-Regular.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\OpenFontIcons.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Fonts\RobotoMono-Light.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

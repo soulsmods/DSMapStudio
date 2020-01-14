@@ -33,6 +33,9 @@ namespace StudioCore.Scene
         public RenderFilter DrawFilter { get; set; } = RenderFilter.Navmesh;
 
         private bool _DebugDrawBounds = false;
+
+        public bool IsVisible { get; set; }
+
         public bool Highlighted
         {
             set

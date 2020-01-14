@@ -187,6 +187,7 @@ namespace StudioCore.DebugPrimitives
         public WeakReference<ISelectable> Selectable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Highlighted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AutoRegister { get; set; } = false;
+        public bool IsVisible { get; set; }
 
         private void DrawPrimitive(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp)
         {

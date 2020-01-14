@@ -39,6 +39,8 @@ namespace StudioCore.Scene
 
         public DrawGroup DrawGroups { get; set; } = new DrawGroup();
 
+        public bool IsVisible { get; set; }
+
         public bool Highlighted { get; set; } = false;
         public bool AutoRegister { get; set; } = true;
 

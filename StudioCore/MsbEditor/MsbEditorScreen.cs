@@ -409,7 +409,7 @@ namespace StudioCore.MsbEditor
                     {
                         treeflags |= ImGuiTreeNodeFlags.Selected;
                     }
-                    var nodeopen = ImGui.TreeNodeEx(map.MapId, treeflags);
+                    var nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {map.MapId}", treeflags);
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{map.MapId}"))
                     {
@@ -441,8 +441,40 @@ namespace StudioCore.MsbEditor
                     {
                         foreach (var obj in map.MapObjects)
                         {
+                            // Main selectable
                             ImGui.PushID(obj.Type.ToString() + obj.Name);
-                            if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
+                            bool doSelect = false;
+                            if (ImGui.Selectable(obj.PrettyName, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+                            {
+                                // If double clicked frame the selection in the viewport
+                                if (ImGui.IsMouseDoubleClicked(0))
+                                {
+                                    if (obj.RenderSceneMesh != null)
+                                    {
+                                        Viewport.FrameBox(obj.RenderSceneMesh.GetBounds());
+                                    }
+                                }
+                            }
+                            if (ImGui.IsItemClicked(0))
+                            {
+                                doSelect = true;
+                            }
+
+                            // Visibility icon
+                            bool visible = obj.EditorVisible;
+                            ImGui.SameLine(ImGui.GetWindowContentRegionWidth() - 12.0f);
+                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                            ImGui.PopStyleColor();
+                            if (ImGui.IsItemClicked(0))
+                            {
+                                obj.EditorVisible = !obj.EditorVisible;
+                                doSelect = false;
+                            }
+
+                            // If the visibility icon wasn't clicked actually perform the selection
+                            if (doSelect)
                             {
                                 if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                                 {
@@ -453,15 +485,8 @@ namespace StudioCore.MsbEditor
                                     Selection.ClearSelection();
                                     Selection.AddSelection(obj);
                                 }
-                                // If double clicked frame the selection in the viewport
-                                if (ImGui.IsMouseDoubleClicked(0))
-                                {
-                                    if (obj.RenderSceneMesh != null)
-                                    {
-                                        Viewport.FrameBox(obj.RenderSceneMesh.GetBounds());
-                                    }
-                                }
                             }
+
                             ImGui.PopID();
                         }
                         ImGui.TreePop();
