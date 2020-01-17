@@ -40,7 +40,7 @@ namespace SoulsFormats
                 BufferOffset = br.ReadInt32();
             }
 
-            internal void ReadBuffer(BinaryReaderEx br, List<BufferLayout> layouts, List<FLVER.Vertex> vertices, int dataOffset, FLVERHeader header)
+            internal void ReadBuffer(BinaryReaderEx br, List<BufferLayout> layouts, FLVER.Vertex[] vertices, int count, int dataOffset, FLVERHeader header)
             {
                 BufferLayout layout = layouts[LayoutIndex];
                 if (VertexSize != layout.Size)
@@ -52,7 +52,7 @@ namespace SoulsFormats
                     if (header.Version >= 0x2000F)
                         uvFactor = 2048;
 
-                    for (int i = 0; i < vertices.Count; i++)
+                    for (int i = 0; i < count; i++)
                         vertices[i].Read(br, layout, uvFactor);
                 }
                 br.StepOut();
@@ -77,7 +77,7 @@ namespace SoulsFormats
                 bw.ReserveInt32($"VertexBufferOffset{index}");
             }
 
-            internal void WriteBuffer(BinaryWriterEx bw, int index, List<BufferLayout> layouts, List<FLVER.Vertex> Vertices, int dataStart, FLVERHeader header)
+            internal void WriteBuffer(BinaryWriterEx bw, int index, List<BufferLayout> layouts, FLVER.Vertex[] Vertices, int dataStart, FLVERHeader header)
             {
                 BufferLayout layout = layouts[LayoutIndex];
                 bw.FillInt32($"VertexBufferOffset{index}", (int)bw.Position - dataStart);

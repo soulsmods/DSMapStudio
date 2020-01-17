@@ -35,8 +35,10 @@ namespace StudioCore.DebugPrimitives
         {
             var startVert = new VertexPositionColorNormal(start, startColor, Vector3.Zero);
             var endVert = new VertexPositionColorNormal(end, endColor, Vector3.Zero);
-            int startIndex = Array.IndexOf(Vertices, startVert);
-            int endIndex = Array.IndexOf(Vertices, endVert);
+            //int startIndex = Array.IndexOf(Vertices, startVert);
+            //int endIndex = Array.IndexOf(Vertices, endVert);
+            int startIndex = -1;
+            int endIndex = -1;
 
             //If start vertex can't be recycled from an old one, make a new one.
             if (startIndex == -1)

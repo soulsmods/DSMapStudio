@@ -155,6 +155,7 @@ namespace Veldrid
                 outputDescription,
                 ResourceBindingModel.Default);
             _pipeline = factory.CreateGraphicsPipeline(ref pd);
+            _pipeline.Name = "ImGuiPipeline";
 
             _mainResourceSet = factory.CreateResourceSet(new ResourceSetDescription(_layout,
                 _projMatrixBuffer,
@@ -589,6 +590,7 @@ namespace Veldrid
                     }
                     else
                     {
+                        //cl.SetGraphicsResourceSet(1, _fontTextureResourceSet);
                         if (pcmd.TextureId != IntPtr.Zero)
                         {
                             if (pcmd.TextureId == _fontAtlasID)

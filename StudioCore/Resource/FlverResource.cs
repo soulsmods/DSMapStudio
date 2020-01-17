@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Buffers;
 //using Microsoft.Xna.Framework.Graphics;
 using Veldrid;
 using Veldrid.Utilities;
@@ -13,6 +14,35 @@ namespace StudioCore.Resource
 {
     public class FlverResource : IResource, IDisposable
     {
+        private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();
+        private static object CacheLock = new object();
+
+        private static ArrayPool<MapFlverLayout> VerticesPool = ArrayPool<MapFlverLayout>.Create();
+
+        private FlverCache GetCache()
+        {
+            lock (CacheLock)
+            {
+                if (FlverCaches.Count > 0)
+                {
+                    return FlverCaches.Pop();
+                }
+            }
+            return new FlverCache();
+        }
+
+        private void ReleaseCache(FlverCache cache)
+        {
+            if (cache != null)
+            {
+                cache.ResetUsage();
+                lock (CacheLock)
+                {
+                    FlverCaches.Push(cache);
+                }
+            }
+        }
+
         public class FlverSubmesh
         {
             public struct FlverSubmeshFaceSet
@@ -106,9 +136,10 @@ namespace StudioCore.Resource
                 return result;
             }
 
-            var MeshVertices = new MapFlverLayout[mesh.Vertices.Count];
-            dest.PickingVertices = new Vector3[mesh.Vertices.Count];
-            for (int i = 0; i < mesh.Vertices.Count; i++)
+            //var MeshVertices = new MapFlverLayout[mesh.VertexCount];
+            var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
+            dest.PickingVertices = new Vector3[mesh.VertexCount];
+            for (int i = 0; i < mesh.VertexCount; i++)
             {
 
                 var vert = mesh.Vertices[i];
@@ -229,7 +260,7 @@ namespace StudioCore.Resource
                 MeshVertices[i].Normal[1] = (sbyte)(n.Y * 127.0f);
                 MeshVertices[i].Normal[2] = (sbyte)(n.Z * 127.0f);
 
-                if (vert.Colors.Count >= 1)
+                /*if (vert.Colors.Count >= 1)
                 {
                     //MeshVertices[i].Color = new Vector4(vert.Colors[0].R, vert.Colors[0].G, vert.Colors[0].B, vert.Colors[0].A);
                     MeshVertices[i].Color[0] = (byte)(vert.Colors[0].R * 255.0f);
@@ -249,25 +280,27 @@ namespace StudioCore.Resource
                     MeshVertices[i].Binormal[0] = (sbyte)(bn.X * 127.0f);
                     MeshVertices[i].Binormal[1] = (sbyte)(bn.Y * 127.0f);
                     MeshVertices[i].Binormal[2] = (sbyte)(bn.Z * 127.0f);
-                }
+                }*/
 
 
-                if (vert.UVs.Count > 0)
+                if (vert.UVCount > 0)
                 {
-                    if (useSecondUV && vert.UVs.Count > 1)
+                    if (useSecondUV && vert.UVCount > 1)
                     {
                         //MeshVertices[i].TextureCoordinate = new Vector2(vert.UVs[1].X, vert.UVs[1].Y);
-                        MeshVertices[i].Uv1[0] = (short)(vert.UVs[1].X * 2048.0f);
-                        MeshVertices[i].Uv1[1] = (short)(vert.UVs[1].Y * 2048.0f);
+                        var uv = vert.GetUV(1);
+                        MeshVertices[i].Uv1[0] = (short)(uv.X * 2048.0f);
+                        MeshVertices[i].Uv1[1] = (short)(uv.Y * 2048.0f);
                     }
                     else
                     {
                         //MeshVertices[i].TextureCoordinate = new Vector2(vert.UVs[0].X, vert.UVs[0].Y);
-                        MeshVertices[i].Uv1[0] = (short)(vert.UVs[0].X * 2048.0f);
-                        MeshVertices[i].Uv1[1] = (short)(vert.UVs[0].Y * 2048.0f);
+                        var uv = vert.GetUV(0);
+                        MeshVertices[i].Uv1[0] = (short)(uv.X * 2048.0f);
+                        MeshVertices[i].Uv1[1] = (short)(uv.Y * 2048.0f);
                     }
 
-                    if (vert.UVs.Count >= 2)
+                    if (vert.UVCount >= 2)
                     {
                         //MeshVertices[i].TextureCoordinate2 = new Vector2(vert.UVs[1].X, vert.UVs[1].Y);
                     }
@@ -291,20 +324,20 @@ namespace StudioCore.Resource
 
             foreach (var faceset in facesets)
             {
-                if (faceset.Indices.Count == 0)
+                if (faceset.Indices.Length == 0)
                     continue;
 
                 //At this point they use 32-bit faceset vertex indices
-                bool is32bit = Flver.Header.Version > 0x20005 && mesh.Vertices.Count() > 65535;
+                bool is32bit = Flver.Header.Version > 0x20005 && mesh.VertexCount > 65535;
 
-                uint buffersize = (uint)faceset.Indices.Count * (is32bit ? 4u : 2u);
+                uint buffersize = (uint)faceset.IndicesCount * (is32bit ? 4u : 2u);
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
                 {
                     BackfaceCulling = faceset.CullBackfaces,
                     IsTriangleStrip = faceset.TriangleStrip,
                     IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer)),
 
-                    IndexCount = faceset.Indices.Count,
+                    IndexCount = faceset.IndicesCount,
                     Is32Bit = is32bit,
                     PickingIndices = faceset.TriangleStrip ? faceset.Triangulate(true).ToArray() : faceset.Indices.ToArray(),
                 };
@@ -332,12 +365,12 @@ namespace StudioCore.Resource
                 {
                     if (is32bit)
                     {
-                        cl.UpdateBuffer(newFaceSet.IndexBuffer, 0, faceset.Indices.Select(x => (x == 0xFFFF && x > mesh.Vertices.Count) ? -1 : x).ToArray());
+                        cl.UpdateBuffer(newFaceSet.IndexBuffer, 0, faceset.Indices.Select(x => (x == 0xFFFF && x > mesh.Vertices.Length) ? -1 : x).Take(faceset.IndicesCount).ToArray());
                         //newFaceSet.IndexBuffer.SetData(faceset.Indices.Select(x => (x == 0xFFFF && x > mesh.Vertices.Count) ? -1 : x).ToArray());
                     }
                     else
                     {
-                        cl.UpdateBuffer(newFaceSet.IndexBuffer, 0, faceset.Indices.Select<int, ushort>(x => (ushort)((x == 0xFFFF && x > mesh.Vertices.Count) ? 0xFFFF : (ushort)x)).ToArray());
+                        cl.UpdateBuffer(newFaceSet.IndexBuffer, 0, faceset.Indices.Select<int, ushort>(x => (ushort)((x == 0xFFFF && x > mesh.Vertices.Length) ? 0xFFFF : (ushort)x)).Take(faceset.IndicesCount).ToArray());
                         //newFaceSet.IndexBuffer.SetData(faceset.Indices.Select(x => (x == 0xFFFF && x > mesh.Vertices.Count) ? -1 : (ushort)x).ToArray());
                     }
                     fsUploadsPending--;
@@ -362,12 +395,16 @@ namespace StudioCore.Resource
             //    typeof(FlverShaderVertInput), MeshVertices.Length, BufferUsage.WriteOnly);
             //dest.VertBuffer.SetData(MeshVertices);
 
-            uint vbuffersize = (uint)MeshVertices.Length * MapFlverLayout.SizeInBytes;
+            uint vbuffersize = (uint)mesh.VertexCount * MapFlverLayout.SizeInBytes;
             dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
 
             Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
             {
-                cl.UpdateBuffer(dest.VertBuffer, 0, MeshVertices);
+                fixed (MapFlverLayout* l = MeshVertices)
+                {
+                    cl.UpdateBuffer(dest.VertBuffer, 0, (IntPtr)l, (uint)mesh.VertexCount * MapFlverLayout.SizeInBytes);
+                }
+                VerticesPool.Return(MeshVertices);
                 MeshVertices = null;
             });
         }
@@ -406,14 +443,20 @@ namespace StudioCore.Resource
 
         bool IResource._Load(byte[] bytes, AccessLevel al)
         {
-            Flver = FLVER2.Read(bytes);
-            return LoadInternal(al);
+            var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
+            Flver = FLVER2.Read(bytes, cache);
+            bool ret = LoadInternal(al);
+            ReleaseCache(cache);
+            return ret;
         }
 
         bool IResource._Load(string file, AccessLevel al)
         {
-            Flver = FLVER2.Read(file);
-            return LoadInternal(al);
+            var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
+            Flver = FLVER2.Read(file, cache);
+            bool ret = LoadInternal(al);
+            ReleaseCache(cache);
+            return ret;
         }
 
         public bool RayCast(Ray ray, Matrix4x4 transform, Utils.RayCastCull cull, out float dist)

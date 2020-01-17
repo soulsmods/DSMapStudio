@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 using System.Threading;
 using System.Numerics;
 using System.IO;
@@ -19,6 +20,14 @@ namespace StudioCore.Resource
     /// </summary>
     public class ResourceManager
     {
+        private static QueuedTaskScheduler JobScheduler = new QueuedTaskScheduler(4, "JobMaster");
+        private static QueuedTaskScheduler BinderWorkerScheduler = new QueuedTaskScheduler(6, "BinderWorker");
+        private static QueuedTaskScheduler ResourceWorkerScheduler = new QueuedTaskScheduler(6, "ResourceWorker");
+
+        private static TaskFactory JobTaskFactory = new TaskFactory(JobScheduler);
+        private static TaskFactory BinderTaskFactory = new TaskFactory(BinderWorkerScheduler);
+        private static TaskFactory ResourceTaskFactory = new TaskFactory(ResourceWorkerScheduler);
+
         [Flags]
         public enum ResourceType
         {
@@ -77,7 +86,7 @@ namespace StudioCore.Resource
 
             public Task RunAsync(IProgress<int> progress)
             {
-                return Task.Run(() =>
+                return ResourceTaskFactory.StartNew(() =>
                 {
                     Run();
                     progress.Report(1);
@@ -109,7 +118,7 @@ namespace StudioCore.Resource
 
             public Task RunAsync(IProgress<int> progress)
             {
-                return Task.Run(() =>
+                return ResourceTaskFactory.StartNew(() =>
                 {
                     Run();
                     progress.Report(1);
@@ -239,7 +248,7 @@ namespace StudioCore.Resource
 
             public Task RunAsync(IProgress<int> progress)
             {
-                return Task.Run(() =>
+                return BinderTaskFactory.StartNew(() =>
                 {
                     ProcessBinder();
                     if (!PopulateResourcesOnly)
@@ -368,7 +377,7 @@ namespace StudioCore.Resource
 
             public Task RunAsync(IProgress<int> progress)
             {
-                return Task.Run(() =>
+                return JobTaskFactory.StartNew(() =>
                 {
                     TotalSize = 0;
                     int i = 0;
@@ -519,7 +528,7 @@ namespace StudioCore.Resource
 
         public ResourceManager()
         {
-            ThreadPool.SetMaxThreads(1, 1);
+            //ThreadPool.SetMaxThreads(6, 6);
         }
 
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)

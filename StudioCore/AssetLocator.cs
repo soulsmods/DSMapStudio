@@ -251,7 +251,7 @@ namespace StudioCore
             if (Type == GameType.DarkSoulsIISOTFS)
             {
                 var path = $@"map\{mapid}\{mapid}";
-                if (File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
                 {
                     ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
                 }
@@ -263,7 +263,7 @@ namespace StudioCore
             else
             {
                 var path = $@"\map\MapStudio\{mapid}";
-                if (File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
                 {
                     ad.AssetPath = $@"{GameModDirectory}\{path}.msb.dcx";
                 }
@@ -271,7 +271,7 @@ namespace StudioCore
                 {
                     ad.AssetPath = $@"{GameRootDirectory}\{path}.msb.dcx";
                 }
-                else if (File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
+                else if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
                 {
                     ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
                 }
@@ -288,7 +288,7 @@ namespace StudioCore
         {
             AssetDescription ad = new AssetDescription();
             var path = $@"Param\generatorparam_{mapid}";
-            if (File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
             {
                 ad.AssetPath = $@"{GameModDirectory}\{path}.param";
             }
@@ -304,7 +304,7 @@ namespace StudioCore
         {
             AssetDescription ad = new AssetDescription();
             var path = $@"Param\generatorlocation_{mapid}";
-            if (File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
             {
                 ad.AssetPath = $@"{GameModDirectory}\{path}.param";
             }
@@ -320,7 +320,7 @@ namespace StudioCore
         {
             AssetDescription ad = new AssetDescription();
             var path = $@"Param\generatorregistparam_{mapid}";
-            if (File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
             {
                 ad.AssetPath = $@"{GameModDirectory}\{path}.param";
             }

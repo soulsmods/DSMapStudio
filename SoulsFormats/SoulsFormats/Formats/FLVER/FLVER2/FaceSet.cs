@@ -63,10 +63,12 @@ namespace SoulsFormats
             /// </summary>
             public byte Unk07 { get; set; }
 
+            public int IndicesCount { get; set; }
+
             /// <summary>
             /// Indices to vertices in a mesh.
             /// </summary>
-            public List<int> Indices { get; set; }
+            public int[] Indices { get; set; }
 
             /// <summary>
             /// Creates a new FaceSet with default values and no indices.
@@ -76,13 +78,13 @@ namespace SoulsFormats
                 Flags = FSFlags.None;
                 TriangleStrip = false;
                 CullBackfaces = true;
-                Indices = new List<int>();
+                Indices = null;
             }
 
             /// <summary>
             /// Creates a new FaceSet with the specified values.
             /// </summary>
-            public FaceSet(FSFlags flags, bool triangleStrip, bool cullBackfaces, byte unk06, byte unk07, List<int> indices)
+            public FaceSet(FSFlags flags, bool triangleStrip, bool cullBackfaces, byte unk06, byte unk07, int[] indices)
             {
                 Flags = flags;
                 TriangleStrip = triangleStrip;
@@ -92,7 +94,7 @@ namespace SoulsFormats
                 Indices = indices;
             }
 
-            internal FaceSet(BinaryReaderEx br, FLVERHeader header, int headerIndexSize, int dataOffset)
+            internal FaceSet(BinaryReaderEx br, FLVERHeader header, FlverCache cache, int headerIndexSize, int dataOffset)
             {
                 Flags = (FSFlags)br.ReadUInt32();
                 TriangleStrip = br.ReadBoolean();
@@ -116,13 +118,20 @@ namespace SoulsFormats
 
                 if (indexSize == 16)
                 {
-                    Indices = new List<int>(indexCount);
+                    //Indices = new int[indexCount];
+                    IndicesCount = indexCount;
+                    Indices = cache.GetCachedIndices(indexCount);
+                    int i = 0;
                     foreach (ushort index in br.GetUInt16s(dataOffset + indicesOffset, indexCount))
-                        Indices.Add(index);
+                    {
+                        Indices[i] = index;
+                        i++;
+                    }
                 }
                 else if (indexSize == 32)
                 {
-                    Indices = new List<int>(br.GetInt32s(dataOffset + indicesOffset, indexCount));
+                    IndicesCount = indexCount;
+                    Indices = br.GetInt32s(dataOffset + indicesOffset, indexCount);
                 }
                 else
                 {
@@ -137,12 +146,12 @@ namespace SoulsFormats
                 bw.WriteBoolean(CullBackfaces);
                 bw.WriteByte(Unk06);
                 bw.WriteByte(Unk07);
-                bw.WriteInt32(Indices.Count);
+                bw.WriteInt32(IndicesCount);
                 bw.ReserveInt32($"FaceSetVertices{index}");
 
                 if (header.Version > 0x20005)
                 {
-                    bw.WriteInt32(Indices.Count * (indexSize / 8));
+                    bw.WriteInt32(IndicesCount * (indexSize / 8));
                     bw.WriteInt32(0);
                     bw.WriteInt32(header.Version >= 0x20013 ? indexSize : 0);
                     bw.WriteInt32(0);
@@ -154,8 +163,8 @@ namespace SoulsFormats
                 bw.FillInt32($"FaceSetVertices{index}", (int)bw.Position - dataStart);
                 if (indexSize == 16)
                 {
-                    foreach (int i in Indices)
-                        bw.WriteUInt16((ushort)i);
+                    for (int i = 0; i < IndicesCount; i++)
+                        bw.WriteUInt16((ushort)Indices[i]);
                 }
                 else if (indexSize == 32)
                 {
@@ -175,7 +184,7 @@ namespace SoulsFormats
             {
                 if (TriangleStrip)
                 {
-                    for (int i = 0; i < Indices.Count - 2; i++)
+                    for (int i = 0; i < IndicesCount - 2; i++)
                     {
                         int vi1 = Indices[i];
                         int vi2 = Indices[i + 1];
@@ -193,8 +202,8 @@ namespace SoulsFormats
                 }
                 else
                 {
-                    totalFaceCount += Indices.Count / 3;
-                    trueFaceCount += Indices.Count / 3;
+                    totalFaceCount += IndicesCount / 3;
+                    trueFaceCount += IndicesCount / 3;
                 }
             }
 
@@ -209,7 +218,7 @@ namespace SoulsFormats
                 {
                     var triangles = new List<int>();
                     bool flip = false;
-                    for (int i = 0; i < Indices.Count - 2; i++)
+                    for (int i = 0; i < IndicesCount - 2; i++)
                     {
                         int vi1 = Indices[i];
                         int vi2 = Indices[i + 1];
