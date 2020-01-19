@@ -340,22 +340,7 @@ namespace StudioCore.MsbEditor
                 ImGui.AlignTextToFramePadding();
                 //ImGui.AlignTextToFramePadding();
                 var typ = prop.PropertyType;
-                if (typ.IsClass && typ != typeof(string) && !typ.IsArray)
-                {
-                    bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
-                    ImGui.NextColumn();
-                    ImGui.SetNextItemWidth(-1);
-                    var o = prop.GetValue(obj);
-                    ImGui.Text(o.GetType().Name);
-                    ImGui.NextColumn();
-                    if (open)
-                    {
-                        PropEditorGeneric(selection, o, false);
-                        ImGui.TreePop();
-                    }
-                    ImGui.PopID();
-                }
-                else if (typ.IsArray)
+                if (typ.IsArray)
                 {
                     Array a = (Array)prop.GetValue(obj);
                     for (int i = 0; i < a.Length; i++)
@@ -376,6 +361,47 @@ namespace StudioCore.MsbEditor
 
                         ImGui.NextColumn();
                         ImGui.PopID();
+                    }
+                    ImGui.PopID();
+                }
+                else if (typ.IsGenericType && typ.GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    object l = prop.GetValue(obj);
+                    PropertyInfo itemprop = l.GetType().GetProperty("Item");
+                    int count = (int)l.GetType().GetProperty("Count").GetValue(l);
+                    for (int i = 0; i < count; i++)
+                    {
+                        ImGui.PushID(i);
+
+                        ImGui.Text($@"{prop.Name}[{i}]");
+                        ImGui.NextColumn();
+                        ImGui.SetNextItemWidth(-1);
+                        var oldval = itemprop.GetValue(l, new object[] { i });
+                        bool shouldUpdateVisual = false;
+                        bool changed = false;
+                        object newval = null;
+
+                        changed = PropertyRow(typ.GetElementType(), oldval, out newval);
+                        bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                        ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, i);
+
+                        ImGui.NextColumn();
+                        ImGui.PopID();
+                    }
+                    ImGui.PopID();
+                }
+                else if (typ.IsClass && typ != typeof(string) && !typ.IsArray)
+                {
+                    bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var o = prop.GetValue(obj);
+                    ImGui.Text(o.GetType().Name);
+                    ImGui.NextColumn();
+                    if (open)
+                    {
+                        PropEditorGeneric(selection, o, false);
+                        ImGui.TreePop();
                     }
                     ImGui.PopID();
                 }

@@ -643,8 +643,8 @@ namespace StudioCore
 
 
 
-                    float camH = mouseDelta.X * 1 * CameraTurnSpeedMouse * dt;
-                    float camV = mouseDelta.Y * -1 * CameraTurnSpeedMouse * dt;
+                    float camH = mouseDelta.X * 1 * CameraTurnSpeedMouse * 0.0160f;
+                    float camV = mouseDelta.Y * -1 * CameraTurnSpeedMouse * 0.0160f;
 
                     if (IsOrbitCam && !isMoveLightKeyPressed)
                     {

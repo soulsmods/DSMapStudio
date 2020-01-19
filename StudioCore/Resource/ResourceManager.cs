@@ -666,5 +666,15 @@ namespace StudioCore.Resource
             ImGui.Separator();
             ImGui.End();
         }
+
+        public static void Shutdown()
+        {
+            JobScheduler.Dispose();
+            BinderWorkerScheduler.Dispose();
+            ResourceWorkerScheduler.Dispose();
+            JobScheduler = null;
+            BinderWorkerScheduler = null;
+            ResourceWorkerScheduler = null;
+        }
     }
 }

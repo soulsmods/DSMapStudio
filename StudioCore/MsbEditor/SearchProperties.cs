@@ -90,6 +90,19 @@ namespace StudioCore.MsbEditor
                     ret = true;
                 }
             }
+            else if (PropertyType == typeof(string))
+            {
+                string val = (string)PropertyValue;
+                if (val == null)
+                {
+                    val = "";
+                }
+                if (ImGui.InputText("##value2", ref val, 40))
+                {
+                    PropertyValue = val;
+                    ret = true;
+                }
+            }
             ImGui.NextColumn();
             return ret;
         }

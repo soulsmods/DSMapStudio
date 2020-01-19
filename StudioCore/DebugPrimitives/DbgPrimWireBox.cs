@@ -117,9 +117,9 @@ namespace StudioCore.DebugPrimitives
                                           Vector3.Dot(dir, Vector3.UnitX) + Vector3.Dot(dir, Vector3.UnitZ),
                                           Vector3.Dot(dir, Vector3.UnitX) + Vector3.Dot(dir, Vector3.UnitY));
                     var tol = 0.008f * Vector3.Distance(newo, c);
-                    if (tray.Intersects(new BoundingBox(a - mag*tol, b + mag*tol)))
+                    var bb = new BoundingBox(a - mag * tol, b + mag * tol);
+                    if (Utils.RayBoxIntersection(ref tray, ref bb, out dist))
                     {
-                        dist = 0.0f;
                         return true;
                     }
                 }

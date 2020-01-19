@@ -24,8 +24,8 @@ namespace StudioCore
         private bool _windowMoved = true;
         private bool _colorSrgb = true;
 
-        private static double _desiredFrameLengthSeconds = 1.0 / 60.0;
-        private static bool _limitFrameRate = false;
+        private static double _desiredFrameLengthSeconds = 1.0 / 60.0f;
+        private static bool _limitFrameRate = true;
         //private static FrameTimeAverager _fta = new FrameTimeAverager(0.666);
 
         private event Action<int, int> _resizeHandled;
@@ -160,6 +160,15 @@ namespace StudioCore
             sw.Start();
             while (_window.Exists)
             {
+                bool focused = _window.Focused;
+                if (!focused)
+                {
+                    _desiredFrameLengthSeconds = 1.0 / 20.0f;
+                }
+                else
+                {
+                    _desiredFrameLengthSeconds = 1.0 / 60.0f;
+                }
                 long currentFrameTicks = sw.ElapsedTicks;
                 double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
 
@@ -167,6 +176,7 @@ namespace StudioCore
                 {
                     currentFrameTicks = sw.ElapsedTicks;
                     deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
+                    System.Threading.Thread.Sleep(focused ? 0 : 1);
                 }
 
                 previousFrameTicks = currentFrameTicks;
@@ -181,12 +191,18 @@ namespace StudioCore
                     break;
                 }
 
-                Draw();
+                if (_window.Focused)
+                {
+                    Draw();
+                }
             }
 
             //DestroyAllObjects();
+            Resource.ResourceManager.Shutdown();
             _gd.Dispose();
             CFG.Save();
+
+            System.Windows.Forms.Application.Exit();
         }
 
         private void Update(float deltaseconds)
