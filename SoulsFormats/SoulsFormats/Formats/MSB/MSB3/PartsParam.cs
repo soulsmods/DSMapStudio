@@ -136,7 +136,37 @@ namespace SoulsFormats
 
             public void Add(IMsbPart item)
             {
-                throw new NotImplementedException();
+                switch (item)
+                {
+                    case Part.MapPiece m:
+                        MapPieces.Add(m);
+                        break;
+                    case Part.DummyObject m:
+                        DummyObjects.Add(m);
+                        break;
+                    case Part.Object m:
+                        Objects.Add(m);
+                        break;
+                    case Part.DummyEnemy m:
+                        DummyEnemies.Add(m);
+                        break;
+                    case Part.Enemy m:
+                        Enemies.Add(m);
+                        break;
+                    case Part.Player m:
+                        Players.Add(m);
+                        break;
+                    case Part.Collision m:
+                        Collisions.Add(m);
+                        break;
+                    case Part.ConnectCollision m:
+                        ConnectCollisions.Add(m);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 

@@ -136,7 +136,37 @@ namespace SoulsFormats
 
             public void Add(IMsbEvent item)
             {
-                throw new NotImplementedException();
+                switch (item)
+                {
+                    case Event.Treasure e:
+                        Treasures.Add(e);
+                        break;
+                    case Event.Generator e:
+                        Generators.Add(e);
+                        break;
+                    case Event.ObjAct e:
+                        ObjActs.Add(e);
+                        break;
+                    case Event.MapOffset e:
+                        MapOffsets.Add(e);
+                        break;
+                    case Event.PseudoMultiplayer e:
+                        PseudoMultiplayers.Add(e);
+                        break;
+                    case Event.WalkRoute e:
+                        WalkRoutes.Add(e);
+                        break;
+                    case Event.GroupTour e:
+                        GroupTours.Add(e);
+                        break;
+                    case Event.Other e:
+                        Others.Add(e);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 

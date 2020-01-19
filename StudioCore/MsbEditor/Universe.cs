@@ -548,7 +548,13 @@ namespace StudioCore.MsbEditor
             IMsb msb;
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
-                msb = new MSB3();
+                MSB3 prev = MSB3.Read(ad.AssetPath);
+                MSB3 n = new MSB3();
+                n.PartsPoses = prev.PartsPoses;
+                n.BoneNames = prev.BoneNames;
+                n.Layers = prev.Layers;
+                n.Routes = prev.Routes;
+                msb = n;
             }
             else if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {

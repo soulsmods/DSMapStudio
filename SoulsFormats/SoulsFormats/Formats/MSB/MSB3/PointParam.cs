@@ -249,7 +249,67 @@ namespace SoulsFormats
 
             public void Add(IMsbRegion item)
             {
-                throw new NotImplementedException();
+                switch (item)
+                {
+                    case Region.General r:
+                        General.Add(r);
+                        break;
+                    case Region.Unk00 r:
+                        Unk00s.Add(r);
+                        break;
+                    case Region.InvasionPoint r:
+                        InvasionPoints.Add(r);
+                        break;
+                    case Region.EnvironmentMapPoint r:
+                        EnvironmentMapPoints.Add(r);
+                        break;
+                    case Region.Sound r:
+                        Sounds.Add(r);
+                        break;
+                    case Region.SFX r:
+                        SFX.Add(r);
+                        break;
+                    case Region.WindSFX r:
+                        WindSFX.Add(r);
+                        break;
+                    case Region.SpawnPoint r:
+                        SpawnPoints.Add(r);
+                        break;
+                    case Region.Message r:
+                        Messages.Add(r);
+                        break;
+                    case Region.WalkRoute r:
+                        WalkRoutes.Add(r);
+                        break;
+                    case Region.Unk12 r:
+                        Unk12s.Add(r);
+                        break;
+                    case Region.WarpPoint r:
+                        WarpPoints.Add(r);
+                        break;
+                    case Region.ActivationArea r:
+                        ActivationAreas.Add(r);
+                        break;
+                    case Region.Event r:
+                        Events.Add(r);
+                        break;
+                    case Region.EnvironmentMapEffectBox r:
+                        EnvironmentMapEffectBoxes.Add(r);
+                        break;
+                    case Region.WindArea r:
+                        WindAreas.Add(r);
+                        break;
+                    case Region.MufflingBox r:
+                        MufflingBoxes.Add(r);
+                        break;
+                    case Region.MufflingPortal r:
+                        MufflingPortals.Add(r);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 

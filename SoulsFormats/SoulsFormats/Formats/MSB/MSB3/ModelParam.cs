@@ -115,7 +115,31 @@ namespace SoulsFormats
 
             public void Add(IMsbModel item)
             {
-                throw new NotImplementedException();
+                switch (item)
+                {
+                    case Model.MapPiece m:
+                        MapPieces.Add(m);
+                        break;
+                    case Model.Object m:
+                        Objects.Add(m);
+                        break;
+                    case Model.Enemy m:
+                        Enemies.Add(m);
+                        break;
+                    case Model.Player m:
+                        Players.Add(m);
+                        break;
+                    case Model.Collision m:
+                        Collisions.Add(m);
+                        break;
+                    case Model.Other m:
+                        Others.Add(m);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            message: "Item is not recognized",
+                            paramName: nameof(item));
+                }
             }
         }
 
