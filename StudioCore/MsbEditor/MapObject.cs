@@ -526,6 +526,10 @@ namespace StudioCore.MsbEditor
                 {
                     t.Scale = new Vector3(s.Radius);
                 }
+                else if (shape != null && shape is MSB.Shape.Cylinder c)
+                {
+                    t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
+                }
             }
 
             return t;

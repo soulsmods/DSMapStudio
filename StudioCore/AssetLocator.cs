@@ -532,6 +532,10 @@ namespace StudioCore
                         {
                             return $@"{GameRootDirectory}\model\map\{mapid}.mapbhd";
                         }
+                        else if (Type == GameType.Bloodborne)
+                        {
+                            return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.flver.dcx";
+                        }
                         return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.mapbnd.dcx";
                     }
                     else if (pathElements[i].Equals("hit"))

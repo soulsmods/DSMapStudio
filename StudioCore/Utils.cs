@@ -244,6 +244,24 @@ namespace StudioCore
             return result;
         }
 
+        public static void ExtractScale(Matrix4x4 mat, out Vector3 scale, out Matrix4x4 post)
+        {
+            post = mat;
+            var sx = new Vector3(post.M11, post.M12, post.M13).Length();
+            var sy = new Vector3(post.M21, post.M22, post.M23).Length();
+            var sz = new Vector3(post.M31, post.M32, post.M33).Length();
+            scale = new Vector3(sx, sy, sz);
+            post.M11 /= sx;
+            post.M12 /= sx;
+            post.M13 /= sx;
+            post.M21 /= sy;
+            post.M22 /= sy;
+            post.M23 /= sy;
+            post.M31 /= sz;
+            post.M32 /= sz;
+            post.M33 /= sz;
+        }
+
         public enum RayCastCull
         {
             CullNone,
@@ -363,8 +381,28 @@ namespace StudioCore
                 tmax = tzmax;
             }
 
-            dist = tmin;
+            dist = tmin < 0.0f ? tmax : tmin;
             return true;
+        }
+
+        public static bool RaySphereIntersection(ref Ray ray,
+            Vector3 pos, float radius, out float dist)
+        {
+            var oc = ray.Origin - pos;
+            var a = Vector3.Dot(ray.Direction, ray.Direction);
+            var b = 2.0f * Vector3.Dot(oc, ray.Direction);
+            float c = Vector3.Dot(oc, oc) - radius * radius;
+            float discriminant = b * b - 4.0f * a * c;
+            if (discriminant < 0)
+            {
+                dist = float.MaxValue;
+                return false;
+            }
+            else
+            {
+                dist = (-b - MathF.Sqrt(discriminant)) / (2.0f * a);
+                return true;
+            }
         }
 
         public static bool RayPlaneIntersection(Vector3 origin,

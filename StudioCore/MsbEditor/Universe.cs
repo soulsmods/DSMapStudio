@@ -286,6 +286,10 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSB2.Read(ad.AssetPath);
             }
+            else if (AssetLocator.Type == GameType.Bloodborne)
+            {
+                msb = MSBB.Read(ad.AssetPath);
+            }
             else
             {
                 msb = MSB1.Read(ad.AssetPath);
@@ -347,7 +351,7 @@ namespace StudioCore.MsbEditor
                         obj.RenderSceneMesh = mesh;
                         mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                     }
-                    else if (loadnav && AssetLocator.Type != GameType.DarkSoulsIISOTFS)
+                    else if (loadnav && AssetLocator.Type != GameType.DarkSoulsIISOTFS && AssetLocator.Type != GameType.Bloodborne)
                     {
                         var res = ResourceMan.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                         var mesh = new Scene.NvmMesh(RenderScene, res, false);
@@ -355,7 +359,7 @@ namespace StudioCore.MsbEditor
                         obj.RenderSceneMesh = mesh;
                         mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                     }
-                    else if (loadnav && AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                    else if (loadnav && (AssetLocator.Type == GameType.DarkSoulsIISOTFS || AssetLocator.Type == GameType.Bloodborne))
                     {
 
                     }
@@ -386,6 +390,13 @@ namespace StudioCore.MsbEditor
                 else if (obj.MsbObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
                 {
                     var mesh = Scene.Region.GetPointRegion(RenderScene);
+                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                }
+                else if (obj.MsbObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
+                {
+                    var mesh = Scene.Region.GetCylinderRegion(RenderScene);
                     mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                     obj.RenderSceneMesh = mesh;
                     mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
@@ -567,6 +578,10 @@ namespace StudioCore.MsbEditor
             {
                 msb = new MSBS();
             }
+            else if (AssetLocator.Type == GameType.Bloodborne)
+            {
+                msb = new MSBB();
+            }
             else
             {
                 msb = new MSB1();
@@ -590,7 +605,10 @@ namespace StudioCore.MsbEditor
             msb.Write(mapPath + ".temp", SoulsFormats.DCX.Type.None);
 
             // Make a copy of the previous map
-            File.Copy(mapPath, mapPath + ".prev", true);
+            if (File.Exists(mapPath + ".prev"))
+            {
+                File.Copy(mapPath, mapPath + ".prev", true);
+            }
 
             // Move temp file as new map file
             File.Delete(mapPath);

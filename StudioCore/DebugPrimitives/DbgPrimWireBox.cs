@@ -101,16 +101,19 @@ namespace StudioCore.DebugPrimitives
 
         public override bool RayCast(Ray ray, out float dist)
         {
-            var invw = Transform.WorldMatrix.Inverse();
+            Vector3 scale;
+            Matrix4x4 transformNoScale;
+            Utils.ExtractScale(Transform.WorldMatrix, out scale, out transformNoScale);
+            var invw = transformNoScale.Inverse();
             var newo = Vector3.Transform(ray.Origin, invw);
             var newd = Vector3.TransformNormal(ray.Direction, invw);
             var tray = new Ray(newo, newd);
-            if (tray.Intersects(new BoundingBox(LocalMin, LocalMax)))
+            if (tray.Intersects(new BoundingBox(LocalMin * scale, LocalMax * scale)))
             {
                 foreach (var line in Lines)
                 {
-                    var a = line.Item1;
-                    var b = line.Item2;
+                    var a = line.Item1 * scale;
+                    var b = line.Item2 * scale;
                     var c = a + b / 2.0f;
                     var dir = Vector3.Normalize(b - a);
                     var mag = new Vector3(Vector3.Dot(dir, Vector3.UnitY) + Vector3.Dot(dir, Vector3.UnitZ),
@@ -120,7 +123,10 @@ namespace StudioCore.DebugPrimitives
                     var bb = new BoundingBox(a - mag * tol, b + mag * tol);
                     if (Utils.RayBoxIntersection(ref tray, ref bb, out dist))
                     {
-                        return true;
+                        if (dist > 0.0f)
+                        {
+                            return true;
+                        }
                     }
                 }
             }

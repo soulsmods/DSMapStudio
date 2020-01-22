@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using System.Drawing;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -15,8 +16,8 @@ namespace StudioCore.DebugPrimitives
             NameColor = color;
             Transform = location;
 
-            float top = height / 2;
-            float bottom = -top;
+            float top = height; //height / 2;
+            float bottom = 0.0f; //-top;
 
             for (int i = 0; i < numSegments; i++)
             {
@@ -50,6 +51,14 @@ namespace StudioCore.DebugPrimitives
                 // Make pillar from top to bottom
                 AddLine(new Vector3(x, bottom, z), new Vector3(x, top, z), color);
             }
+        }
+
+        public override bool RayCast(Ray ray, out float dist)
+        {
+            // Use an AABB to approximate this I don't care cylinder intersections are scary
+            var bb = BoundingBox.Transform(new BoundingBox(new Vector3(-1.0f, 0.0f, -1.0f),
+                new Vector3(1.0f, 1.0f, 1.0f)), Transform.WorldMatrix);
+            return Utils.RayBoxIntersection(ref ray, ref bb, out dist);
         }
     }
 }

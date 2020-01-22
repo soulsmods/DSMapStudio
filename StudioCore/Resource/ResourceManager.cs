@@ -265,7 +265,10 @@ namespace StudioCore.Resource
                             {
                                 var progress1 = new Progress<int>();
                                 TaskSizes.Add(size);
-                                TaskProgress.Add(0);
+                                lock (ProgressLock)
+                                {
+                                    TaskProgress.Add(0);
+                                }
                                 int bindi = i;
                                 progress1.ProgressChanged += (x, e) =>
                                 {

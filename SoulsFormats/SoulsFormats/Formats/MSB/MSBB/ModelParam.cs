@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace SoulsFormats
 {
-    public partial class MSB3
+    public partial class MSBB
     {
         /// <summary>
         /// A section containing all the models available to parts in this map.
         /// </summary>
-        public class ModelParam : Param<Model>, IMsbParam<IMsbModel>
+        public class ModelParam : Section<Model>, IMsbParam<IMsbModel>
         {
             internal override string Type => "MODEL_PARAM_ST";
 
@@ -29,6 +29,11 @@ namespace SoulsFormats
             public List<Model.Enemy> Enemies;
 
             /// <summary>
+            /// Item models in this section.
+            /// </summary>
+            public List<Model.Item> Items;
+
+            /// <summary>
             /// Player models in this section.
             /// </summary>
             public List<Model.Player> Players;
@@ -39,20 +44,27 @@ namespace SoulsFormats
             public List<Model.Collision> Collisions;
 
             /// <summary>
+            /// Navmesh models in this section.
+            /// </summary>
+            public List<Model.Navmesh> Navmeshes;
+
+            /// <summary>
             /// Other models in this section.
             /// </summary>
             public List<Model.Other> Others;
 
             /// <summary>
-            /// Creates a new ModelParam with no models.
+            /// Creates a new ModelSection with no models.
             /// </summary>
             public ModelParam(int unk1 = 3) : base(unk1)
             {
                 MapPieces = new List<Model.MapPiece>();
                 Objects = new List<Model.Object>();
                 Enemies = new List<Model.Enemy>();
+                Items = new List<Model.Item>();
                 Players = new List<Model.Player>();
                 Collisions = new List<Model.Collision>();
+                Navmeshes = new List<Model.Navmesh>();
                 Others = new List<Model.Other>();
             }
 
@@ -62,7 +74,7 @@ namespace SoulsFormats
             public override List<Model> GetEntries()
             {
                 return SFUtil.ConcatAll<Model>(
-                    MapPieces, Objects, Enemies, Players, Collisions, Others);
+                    MapPieces, Objects, Enemies, Items, Players, Collisions, Navmeshes, Others);
             }
 
             internal override Model ReadEntry(BinaryReaderEx br)
@@ -86,6 +98,12 @@ namespace SoulsFormats
                         Enemies.Add(enemy);
                         return enemy;
 
+                    // Potential from mistake in m36 :trashcat:
+                    case ModelType.Item:
+                        var item = new Model.Item(br);
+                        Items.Add(item);
+                        return item;
+
                     case ModelType.Player:
                         var player = new Model.Player(br);
                         Players.Add(player);
@@ -95,6 +113,11 @@ namespace SoulsFormats
                         var collision = new Model.Collision(br);
                         Collisions.Add(collision);
                         return collision;
+
+                    case ModelType.Navmesh:
+                        var navmesh = new Model.Navmesh(br);
+                        Navmeshes.Add(navmesh);
+                        return navmesh;
 
                     case ModelType.Other:
                         var other = new Model.Other(br);
@@ -132,6 +155,9 @@ namespace SoulsFormats
                     case Model.Collision m:
                         Collisions.Add(m);
                         break;
+                    case Model.Navmesh m:
+                        Navmeshes.Add(m);
+                        break;
                     case Model.Other m:
                         Others.Add(m);
                         break;
@@ -163,8 +189,6 @@ namespace SoulsFormats
         public abstract class Model : Entry, IMsbModel
         {
             internal abstract ModelType Type { get; }
-
-            internal abstract bool HasTypeData { get; }
 
             /// <summary>
             /// The name of this model.
@@ -200,11 +224,11 @@ namespace SoulsFormats
                 long placeholderOffset = br.ReadInt64();
                 InstanceCount = br.ReadInt32();
                 br.AssertInt32(0);
-                long typeDataOffset = br.ReadInt64();
+                br.AssertInt32(0);
+                br.AssertInt32(0);
 
                 Name = br.GetUTF16(start + nameOffset);
                 Placeholder = br.GetUTF16(start + placeholderOffset);
-                br.Position = start + typeDataOffset;
             }
 
             internal void Write(BinaryWriterEx bw, int id)
@@ -217,28 +241,14 @@ namespace SoulsFormats
                 bw.ReserveInt64("PlaceholderOffset");
                 bw.WriteInt32(InstanceCount);
                 bw.WriteInt32(0);
-                bw.ReserveInt64("TypeDataOffset");
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
 
                 bw.FillInt64("NameOffset", bw.Position - start);
-                bw.WriteUTF16(MSB.ReambiguateName(Name), true);
+                bw.WriteUTF16(ReambiguateName(Name), true);
                 bw.FillInt64("PlaceholderOffset", bw.Position - start);
                 bw.WriteUTF16(Placeholder, true);
                 bw.Pad(8);
-
-                if (HasTypeData)
-                {
-                    bw.FillInt64("TypeDataOffset", bw.Position - start);
-                    WriteTypeData(bw);
-                }
-                else
-                {
-                    bw.FillInt64("TypeDataOffset", 0);
-                }
-            }
-
-            internal virtual void WriteTypeData(BinaryWriterEx bw)
-            {
-                throw new InvalidOperationException("Type data should not be written for models with no type data.");
             }
 
             internal void CountInstances(List<Part> parts)
@@ -247,7 +257,7 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Returns the type and name of this model.
+            /// Returns the model type, ID and name of this model.
             /// </summary>
             public override string ToString()
             {
@@ -261,27 +271,11 @@ namespace SoulsFormats
             {
                 internal override ModelType Type => ModelType.MapPiece;
 
-                internal override bool HasTypeData => true;
-
                 /// <summary>
-                /// Unknown.
-                /// </summary>
-                public byte UnkT00 { get; set; }
-                public byte UnkT01 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public bool UnkT02 { get; set; }
-                public bool UnkT03 { get; set; }
-
-                /// <summary>
-                /// Creates a new MapPiece with the given name.
+                /// Creates a new MapPiece with the given ID and name.
                 /// </summary>
                 public MapPiece(string name) : base(name)
                 {
-                    UnkT02 = true;
-                    UnkT03 = true;
                 }
 
                 /// <summary>
@@ -289,35 +283,9 @@ namespace SoulsFormats
                 /// </summary>
                 public MapPiece(MapPiece clone) : base(clone)
                 {
-                    UnkT00 = clone.UnkT00;
-                    UnkT01 = clone.UnkT01;
-                    UnkT02 = clone.UnkT02;
-                    UnkT03 = clone.UnkT03;
                 }
 
-                internal MapPiece(BinaryReaderEx br) : base(br)
-                {
-                    UnkT00 = br.ReadByte();
-                    UnkT01 = br.ReadByte();
-                    UnkT02 = br.ReadBoolean();
-                    UnkT03 = br.ReadBoolean();
-
-                    br.AssertInt32(0);
-                    br.AssertInt32(0);
-                    br.AssertInt32(0);
-                }
-
-                internal override void WriteTypeData(BinaryWriterEx bw)
-                {
-                    bw.WriteByte(UnkT00);
-                    bw.WriteByte(UnkT01);
-                    bw.WriteBoolean(UnkT02);
-                    bw.WriteBoolean(UnkT03);
-
-                    bw.WriteInt32(0);
-                    bw.WriteInt32(0);
-                    bw.WriteInt32(0);
-                }
+                internal MapPiece(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
@@ -327,27 +295,11 @@ namespace SoulsFormats
             {
                 internal override ModelType Type => ModelType.Object;
 
-                internal override bool HasTypeData => true;
-
                 /// <summary>
-                /// Unknown.
-                /// </summary>
-                public byte UnkT00 { get; set; }
-                public byte UnkT01 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public bool UnkT02 { get; set; }
-                public bool UnkT03 { get; set; }
-
-                /// <summary>
-                /// Creates a new Object with the given name.
+                /// Creates a new Object with the given ID and name.
                 /// </summary>
                 public Object(string name) : base(name)
                 {
-                    UnkT02 = true;
-                    UnkT03 = true;
                 }
 
                 /// <summary>
@@ -355,35 +307,9 @@ namespace SoulsFormats
                 /// </summary>
                 public Object(Object clone) : base(clone)
                 {
-                    UnkT00 = clone.UnkT00;
-                    UnkT01 = clone.UnkT01;
-                    UnkT02 = clone.UnkT02;
-                    UnkT03 = clone.UnkT03;
                 }
 
-                internal Object(BinaryReaderEx br) : base(br)
-                {
-                    UnkT00 = br.ReadByte();
-                    UnkT01 = br.ReadByte();
-                    UnkT02 = br.ReadBoolean();
-                    UnkT03 = br.ReadBoolean();
-
-                    br.AssertInt32(0);
-                    br.AssertInt32(0);
-                    br.AssertInt32(0);
-                }
-
-                internal override void WriteTypeData(BinaryWriterEx bw)
-                {
-                    bw.WriteByte(UnkT00);
-                    bw.WriteByte(UnkT01);
-                    bw.WriteBoolean(UnkT02);
-                    bw.WriteBoolean(UnkT03);
-
-                    bw.WriteInt32(0);
-                    bw.WriteInt32(0);
-                    bw.WriteInt32(0);
-                }
+                internal Object(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
@@ -393,10 +319,8 @@ namespace SoulsFormats
             {
                 internal override ModelType Type => ModelType.Enemy;
 
-                internal override bool HasTypeData => false;
-
                 /// <summary>
-                /// Creates a new Enemy with the given name.
+                /// Creates a new Enemy with the given ID and name.
                 /// </summary>
                 public Enemy(string name) : base(name) { }
 
@@ -409,16 +333,34 @@ namespace SoulsFormats
             }
 
             /// <summary>
+            /// This only exists because one BB map seems to use this by accident :trashcat:
+            /// </summary>
+            public class Item : Model
+            {
+                internal override ModelType Type => ModelType.Item;
+
+                /// <summary>
+                /// Creates a new Item with the given ID and name.
+                /// </summary>
+                public Item(string name) : base(name) { }
+
+                /// <summary>
+                /// Creates a new Item with values copied from another.
+                /// </summary>
+                public Item(Item clone) : base(clone) { }
+
+                internal Item(BinaryReaderEx br) : base(br) { }
+            }
+
+            /// <summary>
             /// The player character.
             /// </summary>
             public class Player : Model
             {
                 internal override ModelType Type => ModelType.Player;
 
-                internal override bool HasTypeData => false;
-
                 /// <summary>
-                /// Creates a new Player with the given name.
+                /// Creates a new Player with the given ID and name.
                 /// </summary>
                 public Player(string name) : base(name) { }
 
@@ -437,10 +379,8 @@ namespace SoulsFormats
             {
                 internal override ModelType Type => ModelType.Collision;
 
-                internal override bool HasTypeData => false;
-
                 /// <summary>
-                /// Creates a new Collision with the given name.
+                /// Creates a new Collision with the given ID and name.
                 /// </summary>
                 public Collision(string name) : base(name) { }
 
@@ -453,16 +393,34 @@ namespace SoulsFormats
             }
 
             /// <summary>
+            /// Navimesh
+            /// </summary>
+            public class Navmesh : Model
+            {
+                internal override ModelType Type => ModelType.Navmesh;
+
+                /// <summary>
+                /// Creates a new Navmesh with the given ID and name.
+                /// </summary>
+                public Navmesh(string name) : base(name) { }
+
+                /// <summary>
+                /// Creates a new Navmesh with values copied from another.
+                /// </summary>
+                public Navmesh(Navmesh clone) : base(clone) { }
+
+                internal Navmesh(BinaryReaderEx br) : base(br) { }
+            }
+
+            /// <summary>
             /// Unknown.
             /// </summary>
             public class Other : Model
             {
                 internal override ModelType Type => ModelType.Other;
 
-                internal override bool HasTypeData => false;
-
                 /// <summary>
-                /// Creates a new Other with the given name.
+                /// Creates a new Other with the given ID and name.
                 /// </summary>
                 public Other(string name) : base(name) { }
 

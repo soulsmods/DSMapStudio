@@ -94,8 +94,9 @@ namespace StudioCore.DebugPrimitives
 
         public override bool RayCast(Ray ray, out float dist)
         {
-            dist = float.MaxValue;
-            return false;
+            var radius = Vector3.TransformNormal(Vector3.UnitX, Transform.WorldMatrix).Length();
+            var pos = Vector3.Transform(Vector3.Zero, Transform.WorldMatrix);
+            return Utils.RaySphereIntersection(ref ray, pos, radius, out dist);
         }
     
     }

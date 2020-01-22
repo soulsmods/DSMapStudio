@@ -27,7 +27,7 @@ namespace StudioCore.MsbEditor
 
         // This keeps all models that exist when loading a map, so that saves
         // can be byte perfect
-        private HashSet<string> LoadedModels = new HashSet<string>();
+        private Dictionary<string, IMsbModel> LoadedModels = new Dictionary<string, IMsbModel>();
 
         public Map(Universe u, string mapid)
         {
@@ -41,7 +41,7 @@ namespace StudioCore.MsbEditor
         {
             foreach (var m in msb.Models.GetEntries())
             {
-                LoadedModels.Add(m.Name);
+                LoadedModels.Add(m.Name, m);
             }
 
             foreach (var p in msb.Parts.GetEntries())
@@ -74,6 +74,11 @@ namespace StudioCore.MsbEditor
 
         private void AddModelDS1(IMsb m, MSB1.ModelType typ, string name)
         {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
             var model = new MSB1.Model();
             model.Name = name;
             model.Type = typ;
@@ -102,9 +107,90 @@ namespace StudioCore.MsbEditor
 
         private void AddModelDS2(IMsb m, MSB2.ModelType typ, string name)
         {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
             var model = new MSB2.Model();
             model.Name = name;
             model.Type = typ;
+            m.Models.Add(model);
+        }
+
+        private void AddModelBB(IMsb m, MSBB.Model model, string name)
+        {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
+            var a = $@"A{MapId.Substring(1, 2)}";
+            model.Name = name;
+            if (model is MSBB.Model.MapPiece)
+            {
+                model.Placeholder = $@"N:\SPRJ\data\Model\map\{MapId}\sib\{name}{a}.sib";
+            }
+            else if (model is MSBB.Model.Object)
+            {
+                model.Placeholder = $@"N:\SPRJ\data\Model\obj\{name.Substring(0, 3)}\{name}\sib\{name}.sib";
+            }
+            else if (model is MSBB.Model.Enemy)
+            {
+                // Not techincally required but doing so means that unedited bloodborne maps
+                // will write identical to the original byte for byte
+                if (name == "c0000")
+                {
+                    model.Placeholder = $@"N:\SPRJ\data\Model\chr\{name}\sib\{name}.SIB";
+                }
+                else
+                {
+                    model.Placeholder = $@"N:\SPRJ\data\Model\chr\{name}\sib\{name}.sib";
+                }
+            }
+            else if (model is MSBB.Model.Collision)
+            {
+                model.Placeholder = $@"N:\SPRJ\data\Model\map\{MapId}\hkt\{name}{a}.hkt";
+            }
+            else if (model is MSBB.Model.Navmesh)
+            {
+                model.Placeholder = $@"N:\SPRJ\data\Model\map\{MapId}\navimesh\{name}{a}.sib";
+            }
+            else if (model is MSBB.Model.Other)
+            {
+                model.Placeholder = $@"";
+            }
+            m.Models.Add(model);
+        }
+
+        private void AddModelDS3(IMsb m, MSB3.Model model, string name)
+        {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
+            model.Name = name;
+            if (model is MSB3.Model.MapPiece)
+            {
+                model.Placeholder = $@"N:\FDP\data\Model\map\{MapId}\sib\{name}.sib";
+            }
+            else if (model is MSB3.Model.Object)
+            {
+                model.Placeholder = $@"N:\FDP\data\Model\obj\{name}\sib\{name}.sib";
+            }
+            else if (model is MSB3.Model.Enemy)
+            {
+                model.Placeholder = $@"N:\FDP\data\Model\chr\{name}\sib\{name}.sib";
+            }
+            else if (model is MSB3.Model.Collision)
+            {
+                model.Placeholder = $@"N:\FDP\data\Model\map\{MapId}\hkt\{name}.hkt";
+            }
+            else if (model is MSB3.Model.Other)
+            {
+                model.Placeholder = $@"";
+            }
             m.Models.Add(model);
         }
 
@@ -117,8 +203,9 @@ namespace StudioCore.MsbEditor
 
         private void AddModelsDS1(IMsb msb)
         {
-            foreach (var m in LoadedModels.OrderBy(q => q))
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
             {
+                var m = mk.Key;
                 if (m.StartsWith("m"))
                 {
                     AddModelDS1(msb, MSB1.ModelType.MapPiece, m);
@@ -144,8 +231,9 @@ namespace StudioCore.MsbEditor
 
         private void AddModelsDS2(IMsb msb)
         {
-            foreach (var m in LoadedModels.OrderBy(q => q))
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
             {
+                var m = mk.Key;
                 if (m.StartsWith("m"))
                 {
                     AddModelDS2(msb, MSB2.ModelType.MapPiece, m);
@@ -165,6 +253,58 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void AddModelsBB(IMsb msb)
+        {
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
+            {
+                var m = mk.Key;
+                if (m.StartsWith("m"))
+                {
+                    AddModelBB(msb, new MSBB.Model.MapPiece(m), m);
+                }
+                if (m.StartsWith("h"))
+                {
+                    AddModelBB(msb, new MSBB.Model.Collision(m), m);
+                }
+                if (m.StartsWith("o"))
+                {
+                    AddModelBB(msb, new MSBB.Model.Object(m), m);
+                }
+                if (m.StartsWith("c"))
+                {
+                    AddModelBB(msb, new MSBB.Model.Enemy(m), m);
+                }
+                if (m.StartsWith("n"))
+                {
+                    AddModelBB(msb, new MSBB.Model.Navmesh(m), m);
+                }
+            }
+        }
+
+        private void AddModelsDS3(IMsb msb)
+        {
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
+            {
+                var m = mk.Key;
+                if (m.StartsWith("m"))
+                {
+                    AddModelDS3(msb, new MSB3.Model.MapPiece(m), m);
+                }
+                if (m.StartsWith("h"))
+                {
+                    AddModelDS3(msb, new MSB3.Model.Collision(m), m);
+                }
+                if (m.StartsWith("o"))
+                {
+                    AddModelDS3(msb, new MSB3.Model.Object(m), m);
+                }
+                if (m.StartsWith("c"))
+                {
+                    AddModelDS3(msb, new MSB3.Model.Enemy(m), m);
+                }
+            }
+        }
+
         public void SerializeToMSB(IMsb msb, GameType game)
         {
             foreach (var m in MapObjects)
@@ -172,7 +312,10 @@ namespace StudioCore.MsbEditor
                 if (m.MsbObject != null && m.MsbObject is IMsbPart p)
                 {
                     msb.Parts.Add(p);
-                    LoadedModels.Add(p.ModelName);
+                    if (!LoadedModels.ContainsKey(p.ModelName))
+                    {
+                        LoadedModels.Add(p.ModelName, null);
+                    }
                 }
                 else if (m.MsbObject != null && m.MsbObject is IMsbRegion r)
                 {
@@ -191,6 +334,14 @@ namespace StudioCore.MsbEditor
             else if (game == GameType.DarkSoulsIISOTFS)
             {
                 AddModelsDS2(msb);
+            }
+            else if (game == GameType.Bloodborne)
+            {
+                AddModelsBB(msb);
+            }
+            else if (game == GameType.DarkSoulsIII)
+            {
+                AddModelsDS3(msb);
             }
         }
 
