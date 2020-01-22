@@ -460,6 +460,11 @@ namespace StudioCore.MsbEditor
                                 doSelect = true;
                             }
 
+                            if (ImGui.IsItemFocused() && !Selection.IsSelected(obj))
+                            {
+                                doSelect = true;
+                            }
+
                             // Visibility icon
                             bool visible = obj.EditorVisible;
                             ImGui.SameLine(ImGui.GetWindowContentRegionWidth() - 12.0f);
