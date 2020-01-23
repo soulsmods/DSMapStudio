@@ -67,11 +67,13 @@ namespace StudioCore.Resource
             private IResourceHandle handle = null;
             private byte[] bytes = null;
             private AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            public LoadResourceFromBytesTask(IResourceHandle handle, byte[] bytes, AccessLevel al)
+            private GameType Game;
+            public LoadResourceFromBytesTask(IResourceHandle handle, byte[] bytes, AccessLevel al, GameType type)
             {
                 this.handle = handle;
                 this.bytes = bytes;
                 this.AccessLevel = al;
+                Game = type;
             }
 
             public int GetEstimateTaskSize()
@@ -81,7 +83,7 @@ namespace StudioCore.Resource
 
             public void Run()
             {
-                handle._LoadResource(bytes, AccessLevel);
+                handle._LoadResource(bytes, AccessLevel, Game);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -99,11 +101,13 @@ namespace StudioCore.Resource
             private IResourceHandle handle = null;
             private string file = null;
             private AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            public LoadResourceFromFileTask(IResourceHandle handle, string file, AccessLevel al)
+            private GameType Game;
+            public LoadResourceFromFileTask(IResourceHandle handle, string file, AccessLevel al, GameType type)
             {
                 this.handle = handle;
                 this.file = file;
                 this.AccessLevel = al;
+                this.Game = type;
             }
 
             public int GetEstimateTaskSize()
@@ -113,7 +117,7 @@ namespace StudioCore.Resource
 
             public void Run()
             {
-                handle._LoadResource(file, AccessLevel);
+                handle._LoadResource(file, AccessLevel, Game);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -221,7 +225,7 @@ namespace StudioCore.Resource
                     foreach (var p in PendingResources)
                     {
                         var f = Binder.ReadFile(p.Item3);
-                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly);
+                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
                         task.Run();
                     }
                 }
@@ -258,7 +262,7 @@ namespace StudioCore.Resource
                         foreach (var p in PendingResources)
                         {
                             var f = Binder.ReadFile(p.Item3);
-                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly);
+                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)
@@ -487,7 +491,7 @@ namespace StudioCore.Resource
                 }
                 string bndout;
                 var path = ResourceMan.Locator.VirtualToRealPath(virtualPath, out bndout);
-                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly);
+                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
                 Tasks.Add(task);
             }
 
@@ -568,7 +572,7 @@ namespace StudioCore.Resource
                 IBinder bnd = BND4.Read(path);
                 var flverbytes = bnd.Files.First(x => x.Name.ToUpper().Contains("FLVER")).Bytes;
                 IResourceHandle res = new ResourceHandle<FlverResource>(resourceVirtual);
-                res._LoadResource(flverbytes, AccessLevel.AccessGPUOptimizedOnly);
+                res._LoadResource(flverbytes, AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
                 ResourceDatabase[resourceVirtual] = res;
                 Finished++;
             });

@@ -8,7 +8,7 @@ namespace StudioCore.Resource
 {
     public interface IResource
     {
-        internal bool _Load(byte[] bytes, AccessLevel al);
-        internal bool _Load(string file, AccessLevel al);
+        internal bool _Load(byte[] bytes, AccessLevel al, GameType type);
+        internal bool _Load(string file, AccessLevel al, GameType type);
     }
 }

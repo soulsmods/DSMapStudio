@@ -441,7 +441,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al)
+        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
         {
             var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
             Flver = FLVER2.Read(bytes, cache);
@@ -450,7 +450,7 @@ namespace StudioCore.Resource
             return ret;
         }
 
-        bool IResource._Load(string file, AccessLevel al)
+        bool IResource._Load(string file, AccessLevel al, GameType type)
         {
             var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
             Flver = FLVER2.Read(file, cache);

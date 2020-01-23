@@ -116,6 +116,183 @@ namespace StudioCore.Resource
             });
         }
 
+        internal static Vector3 TransformVert(System.Numerics.Vector3 vert, HKX.HKNPBodyCInfo body)
+        {
+            var newVert = new Vector3(vert.X, vert.Y, vert.Z);
+            if (body == null)
+            {
+                return newVert;
+            }
+
+            Vector3 trans = new Vector3(body.Position.Vector.X, body.Position.Vector.Y, body.Position.Vector.Z);
+            Quaternion quat = new Quaternion(body.Orientation.Vector.X, body.Orientation.Vector.Y, body.Orientation.Vector.Z, body.Orientation.Vector.W);
+            return Vector3.Transform(newVert, quat) + trans;
+        }
+
+        unsafe private void ProcessMesh(HKX.FSNPCustomParamCompressedMeshShape mesh, HKX.HKNPBodyCInfo bodyinfo, CollisionSubmesh dest)
+        {
+            var verts = new List<Vector3>();
+            var indices = new List<int>();
+
+            var coldata = mesh.GetMeshShapeData();
+            foreach (var chunk in coldata.Chunks.GetArrayData().Elements)
+            {
+                for (int i = 0; i < chunk.ByteIndicesLength; i++)
+                {
+                    var tri = coldata.MeshIndices.GetArrayData().Elements[i + chunk.ByteIndicesIndex];
+                    //if (tri.Idx2 == tri.Idx3 && tri.Idx1 != tri.Idx2)
+                    //{
+                    if (tri.Idx0 < chunk.VertexIndicesLength)
+                    {
+                        ushort index = (ushort)((uint)tri.Idx0 + chunk.SmallVerticesBase);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.SmallVertices.GetArrayData().Elements[index].Decompress(chunk.SmallVertexScale, chunk.SmallVertexOffset);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+                    else
+                    {
+                        ushort index = (ushort)(coldata.VertexIndices.GetArrayData().Elements[tri.Idx0 + chunk.VertexIndicesIndex - chunk.VertexIndicesLength].data);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.LargeVertices.GetArrayData().Elements[index].Decompress(coldata.BoundingBoxMin, coldata.BoundingBoxMax);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+
+                    if (tri.Idx1 < chunk.VertexIndicesLength)
+                    {
+                        ushort index = (ushort)((uint)tri.Idx1 + chunk.SmallVerticesBase);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.SmallVertices.GetArrayData().Elements[index].Decompress(chunk.SmallVertexScale, chunk.SmallVertexOffset);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+                    else
+                    {
+                        ushort index = (ushort)(coldata.VertexIndices.GetArrayData().Elements[tri.Idx1 + chunk.VertexIndicesIndex - chunk.VertexIndicesLength].data);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.LargeVertices.GetArrayData().Elements[index].Decompress(coldata.BoundingBoxMin, coldata.BoundingBoxMax);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+
+                    if (tri.Idx2 < chunk.VertexIndicesLength)
+                    {
+                        ushort index = (ushort)((uint)tri.Idx2 + chunk.SmallVerticesBase);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.SmallVertices.GetArrayData().Elements[index].Decompress(chunk.SmallVertexScale, chunk.SmallVertexOffset);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+                    else
+                    {
+                        ushort index = (ushort)(coldata.VertexIndices.GetArrayData().Elements[tri.Idx2 + chunk.VertexIndicesIndex - chunk.VertexIndicesLength].data);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.LargeVertices.GetArrayData().Elements[index].Decompress(coldata.BoundingBoxMin, coldata.BoundingBoxMax);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+
+                    if (tri.Idx2 != tri.Idx3)
+                    {
+                        verts.Add(verts[verts.Count - 2]);
+                        verts.Add(verts[verts.Count - 1]);
+                        indices.Add(indices[indices.Count - 2]);
+                        indices.Add(indices[indices.Count - 1]);
+                        if (tri.Idx3 < chunk.VertexIndicesLength)
+                        {
+                            ushort index = (ushort)((uint)tri.Idx3 + chunk.SmallVerticesBase);
+                            indices.Add(verts.Count);
+
+                            var vert = coldata.SmallVertices.GetArrayData().Elements[index].Decompress(chunk.SmallVertexScale, chunk.SmallVertexOffset);
+                            verts.Add(TransformVert(vert, bodyinfo));
+                        }
+                        else
+                        {
+                            ushort index = (ushort)(coldata.VertexIndices.GetArrayData().Elements[tri.Idx3 + chunk.VertexIndicesIndex - chunk.VertexIndicesLength].data);
+                            indices.Add(verts.Count);
+
+                            var vert = coldata.LargeVertices.GetArrayData().Elements[index].Decompress(coldata.BoundingBoxMin, coldata.BoundingBoxMax);
+                            verts.Add(TransformVert(vert, bodyinfo));
+                        }
+                    }
+                }
+            }
+
+            dest.PickingIndices = indices.ToArray();
+            dest.PickingVertices = verts.ToArray();
+
+            var MeshIndices = new int[indices.Count];
+            var MeshVertices = new CollisionLayout[indices.Count];
+            var factory = Scene.Renderer.Factory;
+
+            for (int i = 0; i < indices.Count; i += 3)
+            {
+                var vert1 = verts[indices[i]];
+                var vert2 = verts[indices[i + 1]];
+                var vert3 = verts[indices[i + 2]];
+
+                MeshVertices[i] = new CollisionLayout();
+                MeshVertices[i + 1] = new CollisionLayout();
+                MeshVertices[i + 2] = new CollisionLayout();
+
+                MeshVertices[i].Position = vert1;
+                MeshVertices[i + 1].Position = vert2;
+                MeshVertices[i + 2].Position = vert3;
+                var n = Vector3.Normalize(Vector3.Cross(MeshVertices[i + 2].Position - MeshVertices[i].Position, MeshVertices[i + 1].Position - MeshVertices[i].Position));
+                MeshVertices[i].Normal[0] = (sbyte)(n.X * 127.0f);
+                MeshVertices[i].Normal[1] = (sbyte)(n.Y * 127.0f);
+                MeshVertices[i].Normal[2] = (sbyte)(n.Z * 127.0f);
+                MeshVertices[i + 1].Normal[0] = (sbyte)(n.X * 127.0f);
+                MeshVertices[i + 1].Normal[1] = (sbyte)(n.Y * 127.0f);
+                MeshVertices[i + 1].Normal[2] = (sbyte)(n.Z * 127.0f);
+                MeshVertices[i + 2].Normal[0] = (sbyte)(n.X * 127.0f);
+                MeshVertices[i + 2].Normal[1] = (sbyte)(n.Y * 127.0f);
+                MeshVertices[i + 2].Normal[2] = (sbyte)(n.Z * 127.0f);
+
+                MeshVertices[i].Color[0] = (byte)(53);
+                MeshVertices[i].Color[1] = (byte)(157);
+                MeshVertices[i].Color[2] = (byte)(255);
+                MeshVertices[i].Color[3] = (byte)(255);
+                MeshVertices[i + 1].Color[0] = (byte)(53);
+                MeshVertices[i + 1].Color[1] = (byte)(157);
+                MeshVertices[i + 1].Color[2] = (byte)(255);
+                MeshVertices[i + 1].Color[3] = (byte)(255);
+                MeshVertices[i + 2].Color[0] = (byte)(53);
+                MeshVertices[i + 2].Color[1] = (byte)(157);
+                MeshVertices[i + 2].Color[2] = (byte)(255);
+                MeshVertices[i + 2].Color[3] = (byte)(255);
+
+                MeshIndices[i] = i;
+                MeshIndices[i + 1] = i + 1;
+                MeshIndices[i + 2] = i + 2;
+            }
+
+            dest.VertexCount = MeshVertices.Length;
+            dest.IndexCount = MeshIndices.Length;
+
+            uint buffersize = (uint)dest.IndexCount * 4u;
+            dest.IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer));
+            Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
+            {
+                cl.UpdateBuffer(dest.IndexBuffer, 0, MeshIndices);
+            });
+
+            fixed (void* ptr = dest.PickingVertices)
+            {
+                dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, dest.PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+            }
+
+            uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
+            dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
+
+            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            {
+                cl.UpdateBuffer(dest.VertBuffer, 0, MeshVertices);
+                MeshVertices = null;
+            });
+        }
+
         private bool LoadInternal(AccessLevel al)
         {
             if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
@@ -140,6 +317,47 @@ namespace StudioCore.Resource
                         }
                         submeshes.Add(mesh);
                     }
+                    if (obj is HKX.FSNPCustomParamCompressedMeshShape ncol)
+                    {
+                        // Find a body data for this
+                        HKX.HKNPBodyCInfo bodyInfo = null;
+                        foreach (var scene in Hkx.DataSection.Objects)
+                        {
+                            if (scene is HKX.HKNPPhysicsSystemData)
+                            {
+                                var sys = (HKX.HKNPPhysicsSystemData)scene;
+                                foreach (HKX.HKNPBodyCInfo info in sys.Bodies.GetArrayData().Elements)
+                                {
+                                    if (info.ShapeReference.DestObject == ncol)
+                                    {
+                                        bodyInfo = info;
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+
+                            try
+                            {
+                                var mesh = new CollisionSubmesh();
+                                ProcessMesh(ncol, bodyInfo, mesh);
+                                if (first)
+                                {
+                                    Bounds = mesh.Bounds;
+                                    first = false;
+                                }
+                                else
+                                {
+                                    Bounds = BoundingBox.Combine(Bounds, mesh.Bounds);
+                                }
+                                submeshes.Add(mesh);
+                            }
+                            catch (Exception e)
+                            {
+                                // Debug failing cases later
+                            }
+                        }
+                    }
                     //Bounds = BoundingBox.CreateMerged(Bounds, GPUMeshes[i].Bounds);
                 }
                 GPUMeshes = submeshes.ToArray();
@@ -152,15 +370,29 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al)
+        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
         {
-            Hkx = HKX.Read(bytes);
+            if (type == GameType.Bloodborne)
+            {
+                Hkx = HKX.Read(bytes, HKX.HKXVariation.HKXBloodBorne);
+            }
+            else
+            {
+                Hkx = HKX.Read(bytes);
+            }
             return LoadInternal(al);
         }
 
-        bool IResource._Load(string file, AccessLevel al)
+        bool IResource._Load(string file, AccessLevel al, GameType type)
         {
-            Hkx = HKX.Read(file);
+            if (type == GameType.Bloodborne)
+            {
+                Hkx = HKX.Read(file, HKX.HKXVariation.HKXBloodBorne);
+            }
+            else
+            {
+                Hkx = HKX.Read(file);
+            }
             return LoadInternal(al);
         }
 

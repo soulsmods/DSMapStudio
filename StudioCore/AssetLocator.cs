@@ -433,6 +433,13 @@ namespace StudioCore
                 ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx.dcx";
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
             }
+            else if (Type == GameType.DarkSoulsIII || Type == GameType.Bloodborne)
+            {
+                ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
+                ret.AssetName = model;
+                ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/h{model.Substring(1)}.hkx.dcx";
+                ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
+            }
             else
             {
                 return GetNullAsset();
@@ -552,6 +559,11 @@ namespace StudioCore
                         {
                             bndpath = "";
                             return $@"{GameRootDirectory}\model\map\h{mapid.Substring(1)}.hkxbhd";
+                        }
+                        else if (Type == GameType.DarkSoulsIII || Type == GameType.Bloodborne)
+                        {
+                            bndpath = "";
+                            return $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
                         }
                         bndpath = "";
                         return null;

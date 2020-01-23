@@ -346,7 +346,9 @@ namespace StudioCore.MsbEditor
                     if (loadcol)
                     {
                         var res = ResourceMan.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                        var mesh = new Scene.CollisionMesh(RenderScene, res, AssetLocator.Type == GameType.DarkSoulsIISOTFS);
+                        var mesh = new Scene.CollisionMesh(RenderScene, res, AssetLocator.Type == GameType.DarkSoulsIISOTFS
+                                                                || AssetLocator.Type == GameType.DarkSoulsIII
+                                                                || AssetLocator.Type == GameType.Bloodborne);
                         mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                         obj.RenderSceneMesh = mesh;
                         mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);

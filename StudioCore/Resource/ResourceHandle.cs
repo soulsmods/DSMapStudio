@@ -45,8 +45,8 @@ namespace StudioCore.Resource
     {
         public AccessLevel AccessLevel { get; }
 
-        public bool _LoadResource(byte[] data, AccessLevel al);
-        public bool _LoadResource(string file, AccessLevel al);
+        public bool _LoadResource(byte[] data, AccessLevel al, GameType type);
+        public bool _LoadResource(string file, AccessLevel al, GameType type);
 
         public int GetReferenceCounts();
         public void Acquire();
@@ -141,7 +141,7 @@ namespace StudioCore.Resource
             }
         }
 
-        bool IResourceHandle._LoadResource(byte[] data, AccessLevel al)
+        bool IResourceHandle._LoadResource(byte[] data, AccessLevel al, GameType type)
         {
             lock (LoadingLock)
             {
@@ -151,7 +151,7 @@ namespace StudioCore.Resource
                 }
                 AccessLevel = AccessLevel.AccessLoading;
                 Resource = new T();
-                Resource._Load(data, al);
+                Resource._Load(data, al, type);
                 // Prevent any new completion handlers from being added while executing them all
                 // Any subsequent pending handlers will be executed after this is done
                 lock (HandlerLock)
@@ -179,7 +179,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResourceHandle._LoadResource(string file, AccessLevel al)
+        bool IResourceHandle._LoadResource(string file, AccessLevel al, GameType type)
         {
             lock (LoadingLock)
             {
@@ -191,7 +191,7 @@ namespace StudioCore.Resource
                 Resource = new T();
                 try
                 {
-                    Resource._Load(file, al);
+                    Resource._Load(file, al, type);
                 }
                 catch (System.IO.FileNotFoundException)
                 {

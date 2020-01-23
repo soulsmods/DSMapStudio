@@ -126,13 +126,13 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al)
+        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
         {
             Nvm = NVM.Read(bytes);
             return LoadInternal(al);
         }
 
-        bool IResource._Load(string file, AccessLevel al)
+        bool IResource._Load(string file, AccessLevel al, GameType type)
         {
             Nvm = NVM.Read(file);
             return LoadInternal(al);
