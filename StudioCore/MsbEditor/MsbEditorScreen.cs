@@ -23,6 +23,7 @@ namespace StudioCore.MsbEditor
         public PropertyEditor PropEditor;
         public SearchProperties PropSearch;
         public DisplayGroupsEditor DispGroupEditor;
+        public NavmeshEditor NavMeshEditor;
 
         public Universe Universe;
 
@@ -83,6 +84,7 @@ namespace StudioCore.MsbEditor
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
             PropSearch = new SearchProperties(Universe);
+            NavMeshEditor = new NavmeshEditor(RenderScene);
 
             ParamBank.LoadParams(AssetLocator);
         }
@@ -226,6 +228,10 @@ namespace StudioCore.MsbEditor
                 
                 if (ImGui.BeginMenu("Display"))
                 {
+                    if (ImGui.MenuItem("Grid", "", Viewport.DrawGrid))
+                    {
+                        Viewport.DrawGrid = !Viewport.DrawGrid;
+                    }
                     if (ImGui.BeginMenu("Object Types"))
                     {
                         if (ImGui.MenuItem("Debug", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Debug)))
@@ -510,6 +516,7 @@ namespace StudioCore.MsbEditor
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
             PropSearch.OnGui();
+            NavMeshEditor.OnGui(AssetLocator.Type);
 
             ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 

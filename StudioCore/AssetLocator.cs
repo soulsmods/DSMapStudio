@@ -417,14 +417,23 @@ namespace StudioCore
             return ret;
         }
 
-        public AssetDescription GetMapCollisionModel(string mapid, string model)
+        public AssetDescription GetMapCollisionModel(string mapid, string model, bool hi=true)
         {
             var ret = new AssetDescription();
             if (Type == GameType.DarkSoulsPTDE)
             {
-                ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.hkx";
-                ret.AssetName = model;
-                ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx";
+                if (hi)
+                {
+                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.hkx";
+                    ret.AssetName = model;
+                    ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx";
+                }
+                else
+                {
+                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\l{model.Substring(1)}.hkx";
+                    ret.AssetName = model;
+                    ret.AssetVirtualPath = $@"map/{mapid}/hit/lo/l{model.Substring(1)}.hkx";
+                }
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {

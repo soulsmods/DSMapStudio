@@ -34,6 +34,8 @@ namespace StudioCore.Gui
         public int Width;
         public int Height;
 
+        public bool DrawGrid { get; set; } = true;
+
         private DebugPrimitives.DbgPrimWireGrid ViewportGrid;
 
         private Veldrid.Viewport RenderViewport;
@@ -85,8 +87,11 @@ namespace StudioCore.Gui
                 //cl.SetFullViewports();
                 //cl.SetScissorRect(0, (uint)RenderViewport.X, (uint)RenderViewport.Y, (uint)RenderViewport.Width, (uint)RenderViewport.Height);
                 //cl.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
-                ViewportGrid.UpdatePerFrameResources(device, cl, ViewPipeline);
-                ViewportGrid.Render(device, cl, ViewPipeline);
+                if (DrawGrid)
+                {
+                    ViewportGrid.UpdatePerFrameResources(device, cl, ViewPipeline);
+                    ViewportGrid.Render(device, cl, ViewPipeline);
+                }
             });
 
             DebugRenderer = new Scene.Renderer.RenderQueue(device, ViewPipeline);

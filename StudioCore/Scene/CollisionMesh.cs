@@ -16,7 +16,7 @@ namespace StudioCore.Scene
     {
         public List<CollisionRenderer> Submeshes = new List<CollisionRenderer>();
 
-        private Resource.ResourceHandle<Resource.HavokCollisionResource> Resource;
+        public Resource.ResourceHandle<Resource.HavokCollisionResource> Resource { get; private set; }
         private bool Created = false;
 
         private object _lock_submeshes = new object();
