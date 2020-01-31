@@ -238,7 +238,8 @@ namespace StudioCore
                 shaders: Shaders);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            //RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }
 
         public override void DestroyDeviceObjects()
@@ -272,25 +273,29 @@ namespace StudioCore
                 var mesh = resource.GPUMeshes[FlverMeshIndex];
                 var vertbuffer = mesh.VertBuffer;
 
-                cl.SetPipeline(RenderPipeline);
+                //cl.SetPipeline(RenderPipeline);
                 cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
                 uint offset = 0;
                 cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-                cl.SetVertexBuffer(0, vertbuffer);
+                //cl.SetVertexBuffer(0, vertbuffer);
+                //Renderer.VertexBufferAllocator.BindAsVertexBuffer(cl);
 
-                foreach (var faceSet in mesh.MeshFacesets)
-                {
-                    if (faceSet.IndexCount == 0)
-                        continue;
-                    if (faceSet.LOD != 0)
-                        continue;
+                //foreach (var faceSet in mesh.MeshFacesets)
+                //{
+                var faceSet = mesh.MeshFacesets[0];
+                    //if (faceSet.IndexCount == 0)
+                    //    continue;
+                    //if (faceSet.LOD != 0)
+                    //    continue;
 
                     //GFX.Device.DrawIndexedPrimitives(faceSet.IsTriangleStrip ? PrimitiveType.TriangleStrip : PrimitiveType.TriangleList, 0, 0,
                     //    faceSet.IsTriangleStrip ? (faceSet.IndexCount - 2) : (faceSet.IndexCount / 3));
 
-                    cl.SetIndexBuffer(faceSet.IndexBuffer, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
-                    cl.DrawIndexed(faceSet.IndexBuffer.SizeInBytes / (faceSet.Is32Bit ? 4u : 2u), 1, 0, 0, 0);
-                }
+                    //cl.SetIndexBuffer(faceSet.IndexBuffer, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
+                    uint indexStart = faceSet.IndexBuffer.AllocationStart / (faceSet.Is32Bit ? 4u : 2u);
+                    Renderer.IndexBufferAllocator.BindAsIndexBuffer(cl, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
+                    cl.DrawIndexed(faceSet.IndexBuffer.AllocationSize / (faceSet.Is32Bit ? 4u : 2u), 1, indexStart, (int)(vertbuffer.AllocationStart / Resource.MapFlverLayout.SizeInBytes), 0);
+                //}
                 FlverResource.Unlock();
             }
         }
@@ -302,6 +307,11 @@ namespace StudioCore
 
             // Just leave the texture data as-is, since 
             // TexturePool handles memory cleanup
+        }
+
+        public override Pipeline GetPipeline()
+        {
+            return RenderPipeline;
         }
     }
 }

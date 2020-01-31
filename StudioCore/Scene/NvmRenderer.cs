@@ -267,7 +267,7 @@ namespace StudioCore.Scene
                 var resource = NvmResource.Get();
                 var vertbuffer = resource.VertBuffer;
 
-                cl.SetPipeline(RenderPipeline);
+                //cl.SetPipeline(RenderPipeline);
                 cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
                 uint offset = 0;
                 cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
@@ -283,6 +283,11 @@ namespace StudioCore.Scene
                 cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
                 NvmResource.Unlock();
             }
+        }
+
+        public override Pipeline GetPipeline()
+        {
+            return RenderPipeline;
         }
 
         public void Dispose()

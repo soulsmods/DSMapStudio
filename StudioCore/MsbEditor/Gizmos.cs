@@ -310,6 +310,18 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public override Pipeline GetPipeline()
+        {
+            switch (Mode)
+            {
+                case GizmosMode.Translate:
+                    return TranslateGizmo.GetPipeline();
+                case GizmosMode.Rotate:
+                    return RotateGizmo.GetPipeline();
+            }
+            return null;
+        }
+
         public override void UpdatePerFrameResources(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             if (MsbEditor.Selection.IsSelection())

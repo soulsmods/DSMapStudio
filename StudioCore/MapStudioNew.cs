@@ -22,7 +22,7 @@ namespace StudioCore
 
         private bool _windowResized = true;
         private bool _windowMoved = true;
-        private bool _colorSrgb = true;
+        private bool _colorSrgb = false;
 
         private static double _desiredFrameLengthSeconds = 1.0 / 60.0f;
         private static bool _limitFrameRate = true;
@@ -47,7 +47,7 @@ namespace StudioCore
 
         public static RenderDoc RenderDocManager;
 
-        private const bool UseRenderdoc = false;
+        private const bool UseRenderdoc = true;
 
         unsafe public MapStudioNew()
         {
@@ -79,9 +79,9 @@ namespace StudioCore
                gdOptions,
                //VeldridStartup.GetPlatformDefaultBackend(),
                //GraphicsBackend.Metal,
-               //GraphicsBackend.Vulkan,
+               GraphicsBackend.Vulkan,
                
-               GraphicsBackend.Direct3D11,
+               //GraphicsBackend.Direct3D11,
                //GraphicsBackend.OpenGL,
                //GraphicsBackend.OpenGLES,
                out _window,
@@ -98,7 +98,7 @@ namespace StudioCore
                new ResourceLayoutElementDescription("SourceSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
 
             ImguiRenderer = new ImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription, CFG.Current.GFX_Display_Width,
-                CFG.Current.GFX_Display_Height, ColorSpaceHandling.Linear);
+                CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
             MainWindowCommandList = factory.CreateCommandList();
             GuiCommandList = factory.CreateCommandList();
 
@@ -294,7 +294,7 @@ namespace StudioCore
             MainWindowCommandList.Begin();
             //cl2.SetFramebuffer(_gd.SwapchainFramebuffer);
             MainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
-            MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.022f, 0.022f, 0.024f, 1.0f));
+            MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.082f, 0.082f, 0.084f, 1.0f));
             float depthClear = _gd.IsDepthRangeZeroToOne ? 1f : 0f;
             MainWindowCommandList.ClearDepthStencil(depthClear);
             MainWindowCommandList.SetFullViewport(0);

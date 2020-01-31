@@ -49,7 +49,8 @@ namespace StudioCore.Resource
             {
                 public int IndexCount;
                 //public IndexBuffer IndexBuffer;
-                public DeviceBuffer IndexBuffer;
+                //public DeviceBuffer IndexBuffer;
+                public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
                 public int[] PickingIndices;
                 public bool BackfaceCulling;
                 public bool IsTriangleStrip;
@@ -60,7 +61,7 @@ namespace StudioCore.Resource
 
             public List<FlverSubmeshFaceSet> MeshFacesets { get; set; } = new List<FlverSubmeshFaceSet>();
 
-            public DeviceBuffer VertBuffer { get; set; }
+            public Scene.GPUBufferAllocator.GPUBufferHandle VertBuffer { get; set; }
 
             public int VertexCount { get; set; }
 
@@ -335,7 +336,8 @@ namespace StudioCore.Resource
                 {
                     BackfaceCulling = faceset.CullBackfaces,
                     IsTriangleStrip = faceset.TriangleStrip,
-                    IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer)),
+                    //IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer)),
+                    IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, 4),
 
                     IndexCount = faceset.IndicesCount,
                     Is32Bit = is32bit,
@@ -361,7 +363,7 @@ namespace StudioCore.Resource
                     newFaceSet.IsMotionBlur = true;
                 }
 
-                Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
+                /*Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
                     if (is32bit)
                     {
@@ -378,7 +380,35 @@ namespace StudioCore.Resource
                     {
                         facesets = null;
                     }
-                });
+                });*/
+                if (is32bit)
+                {
+                    newFaceSet.IndexBuffer.FillBuffer(
+                        faceset.Indices.Select(x => (x == 0xFFFF && x > mesh.Vertices.Length) ? -1 : x).Take(faceset.IndicesCount).ToArray(),
+                        () =>
+                        {
+                            fsUploadsPending--;
+                            if (fsUploadsPending <= 0)
+                            {
+                                facesets = null;
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    newFaceSet.IndexBuffer.FillBuffer(
+                        faceset.Indices.Select<int, ushort>(x => (ushort)((x == 0xFFFF && x > mesh.Vertices.Length) ? 0xFFFF : (ushort)x)).Take(faceset.IndicesCount).ToArray(),
+                        () =>
+                        {
+                            fsUploadsPending--;
+                            if (fsUploadsPending <= 0)
+                            {
+                                facesets = null;
+                            }
+                        }
+                    );
+                }
 
                 dest.MeshFacesets.Add(newFaceSet);
 
@@ -396,9 +426,10 @@ namespace StudioCore.Resource
             //dest.VertBuffer.SetData(MeshVertices);
 
             uint vbuffersize = (uint)mesh.VertexCount * MapFlverLayout.SizeInBytes;
-            dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
+            //dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
+            dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)MapFlverLayout.SizeInBytes);
 
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            /*Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
             {
                 fixed (MapFlverLayout* l = MeshVertices)
                 {
@@ -406,6 +437,19 @@ namespace StudioCore.Resource
                 }
                 VerticesPool.Return(MeshVertices);
                 MeshVertices = null;
+            });*/
+            /*fixed (MapFlverLayout* l = MeshVertices)
+            {
+                dest.VertBuffer.FillBuffer((IntPtr)l, (uint)mesh.VertexCount * MapFlverLayout.SizeInBytes, () =>
+                {
+                    //VerticesPool.Return(MeshVertices);
+                    //MeshVertices = null;
+                });
+            }*/
+            dest.VertBuffer.FillBuffer(MeshVertices, () =>
+            {
+                //VerticesPool.Return(MeshVertices);
+                //MeshVertices = null;
             });
         }
 
@@ -504,11 +548,11 @@ namespace StudioCore.Resource
                 {
                     foreach (var m in GPUMeshes)
                     {
-                        m.VertBuffer.Dispose();
+                        /*m.VertBuffer.Dispose();
                         foreach (var fs in m.MeshFacesets)
                         {
                             fs.IndexBuffer.Dispose();
-                        }
+                        }*/
                     }
                 }
 

@@ -68,7 +68,7 @@ namespace StudioCore
         public float FarClipDistance = 10000;
         public float CameraTurnSpeedGamepad = 1.5f * 0.1f;
         public float CameraTurnSpeedMouse = 1.5f * 0.25f;
-        public float CameraMoveSpeed = 1;
+        public float CameraMoveSpeed = 20.0f;
 
         public static readonly Vector3 CameraDefaultPos = new Vector3(0, 0.25f, -5);
         public static readonly Vector3 CameraDefaultRot = new Vector3(0, 0, 0);
@@ -537,12 +537,12 @@ namespace StudioCore
 
             if (isSpeedupKeyPressed)
             {
-                moveMult *= 30f;
+                moveMult *= 10f;
             }
 
             if (isSlowdownKeyPressed)
             {
-                moveMult /= 10f;
+                moveMult /= 20f;
             }
 
             var cameraDist = CameraOrigin.Position - CameraTransform.Position;

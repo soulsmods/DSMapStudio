@@ -155,6 +155,11 @@ namespace StudioCore.Scene
             }
         }
 
+        public override Pipeline GetPipeline()
+        {
+            return RenderPipeline;
+        }
+
         public void Dispose()
         {
 

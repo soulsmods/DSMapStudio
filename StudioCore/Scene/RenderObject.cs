@@ -14,6 +14,8 @@ namespace StudioCore.Scene
         public abstract void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyDeviceObjects();
 
+        public abstract Pipeline GetPipeline();
+
         public void Dispose()
         {
             DestroyDeviceObjects();

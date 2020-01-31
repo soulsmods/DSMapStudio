@@ -178,6 +178,11 @@ namespace StudioCore.DebugPrimitives
 
         public abstract DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null);
 
+        public override Pipeline GetPipeline()
+        {
+            return RenderPipeline;
+        }
+
         /// <summary>
         /// Set this to choose specific technique(s).
         /// Null to just use the current technique.
@@ -214,7 +219,7 @@ namespace StudioCore.DebugPrimitives
 
             //GFX.Device.DrawIndexedPrimitives(PrimType, 0, 0, IndexBuffer.IndexCount);
 
-            cl.SetPipeline(RenderPipeline);
+            //cl.SetPipeline(RenderPipeline);
             cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
             uint offset = 0;
             cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);

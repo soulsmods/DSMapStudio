@@ -87,11 +87,6 @@ namespace StudioCore.Gui
                 //cl.SetFullViewports();
                 //cl.SetScissorRect(0, (uint)RenderViewport.X, (uint)RenderViewport.Y, (uint)RenderViewport.Width, (uint)RenderViewport.Height);
                 //cl.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
-                if (DrawGrid)
-                {
-                    ViewportGrid.UpdatePerFrameResources(device, cl, ViewPipeline);
-                    ViewportGrid.Render(device, cl, ViewPipeline);
-                }
             });
 
             DebugRenderer = new Scene.Renderer.RenderQueue(device, ViewPipeline);
@@ -259,6 +254,13 @@ namespace StudioCore.Gui
             if (RayDebug != null)
             {
                 DebugRenderer.Add(RayDebug, new Scene.RenderKey(0));
+            }
+
+            if (DrawGrid)
+            {
+                DebugRenderer.Add(ViewportGrid, new Scene.RenderKey(0));
+                //ViewportGrid.UpdatePerFrameResources(device, cl, ViewPipeline);
+                //ViewportGrid.Render(device, cl, ViewPipeline);
             }
 
             Gizmos.CameraPosition = WorldView.CameraTransform.Position;

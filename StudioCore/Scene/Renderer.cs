@@ -49,6 +49,8 @@ namespace StudioCore.Scene
 
             private Action<GraphicsDevice, CommandList> PreDrawSetup = null;
 
+            private Pipeline ActivePipeline = null;
+
             public int Count => Renderables.Count;
 
             public float CPURenderTime { get; private set; } = 0.0f;
@@ -87,12 +89,24 @@ namespace StudioCore.Scene
             {
                 var watch = Stopwatch.StartNew();
                 Sort();
+                ActivePipeline = null;
                 DrawCommandList.Begin();
                 PreDrawSetup.Invoke(Device, DrawCommandList);
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
                     o.UpdatePerFrameResources(Device, DrawCommandList, Pipeline);
+                }
+                foreach (var obj in Indices)
+                {
+                    var o = Renderables[obj.ItemIndex];
+                    var p = o.GetPipeline();
+                    if (p != ActivePipeline)
+                    {
+                        DrawCommandList.SetPipeline(p);
+                        Renderer.VertexBufferAllocator.BindAsVertexBuffer(DrawCommandList);
+                        ActivePipeline = p;
+                    }
                     o.Render(Device, DrawCommandList, Pipeline);
                 }
                 DrawCommandList.End();
@@ -109,6 +123,9 @@ namespace StudioCore.Scene
         private static List<RenderQueue> RenderQueues;
         private static Queue<Action<GraphicsDevice, CommandList>> BackgroundUploadQueue;
 
+        public static GPUBufferAllocator VertexBufferAllocator { get; private set; }
+        public static GPUBufferAllocator IndexBufferAllocator { get; private set; }
+
         public static ResourceFactory Factory
         {
             get
@@ -124,6 +141,9 @@ namespace StudioCore.Scene
             RenderWorkQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
+
+            VertexBufferAllocator = new GPUBufferAllocator(2 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            IndexBufferAllocator = new GPUBufferAllocator(1024 * 1024 * 1024, BufferUsage.IndexBuffer);
         }
 
         public static void RegisterRenderQueue(RenderQueue queue)
