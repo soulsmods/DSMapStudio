@@ -294,17 +294,17 @@ namespace StudioCore.MsbEditor
             RotateGizmo.DestroyDeviceObjects();
         }
 
-        public override void Render(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             if (MsbEditor.Selection.IsSelection())
             {
                 switch (Mode)
                 {
                     case GizmosMode.Translate:
-                        TranslateGizmo.Render(gd, cl, sp);
+                        TranslateGizmo.Render(encoder, sp);
                         break;
                     case GizmosMode.Rotate:
-                        RotateGizmo.Render(gd, cl, sp);
+                        RotateGizmo.Render(encoder, sp);
                         break;
                 }
             }

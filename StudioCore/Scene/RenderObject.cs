@@ -10,7 +10,8 @@ namespace StudioCore.Scene
     public abstract class RenderObject
     {
         public abstract void UpdatePerFrameResources(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
-        public abstract void Render(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+        //public abstract void Render(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+        public abstract void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp);
         public abstract void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyDeviceObjects();
 

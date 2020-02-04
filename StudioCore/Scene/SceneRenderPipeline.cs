@@ -69,6 +69,11 @@ namespace StudioCore.Scene
             });
         }
 
+        public void BindResources(CommandList cl)
+        {
+            cl.SetGraphicsResourceSet(0, ProjViewRS);
+        }
+
         public void RenderScene(BoundingFrustum frustum)
         {
             Scene.Render(RenderQueue, frustum, this);

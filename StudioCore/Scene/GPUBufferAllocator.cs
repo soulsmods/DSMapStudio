@@ -15,7 +15,7 @@ namespace StudioCore.Scene
         private List<GPUBufferHandle> _allocations = new List<GPUBufferHandle>();
 
         private DeviceBuffer _stagingBuffer = null;
-        private DeviceBuffer _backingBuffer = null;
+        public DeviceBuffer _backingBuffer { get; private set; } = null;
 
         public GPUBufferAllocator(uint initialSize, BufferUsage usage)
         {
@@ -28,12 +28,23 @@ namespace StudioCore.Scene
             _bufferSize = initialSize;
         }
 
+        public GPUBufferAllocator(uint initialSize, BufferUsage usage, uint stride)
+        {
+            BufferDescription desc = new BufferDescription(
+                initialSize, usage, stride);
+            _backingBuffer = Renderer.Factory.CreateBuffer(desc);
+            _bufferSize = initialSize;
+        }
+
         public GPUBufferHandle Allocate(uint size, int alignment)
         {
             GPUBufferHandle handle;
             lock (_allocationLock)
             {
-                _allocatedbytes += (alignment - (_allocatedbytes % alignment));
+                if ((_allocatedbytes % alignment) != 0)
+                {
+                    _allocatedbytes += (alignment - (_allocatedbytes % alignment));
+                }
                 handle = new GPUBufferHandle(this, (uint)_allocatedbytes, size);
                 _allocatedbytes += size;
                 if (_allocatedbytes > _bufferSize)
@@ -69,13 +80,38 @@ namespace StudioCore.Scene
                 AllocationSize = size;
             }
 
-            public void FillBuffer<T>(T[] data, Action completionHandler) where T : struct
+            public void FillBuffer<T>(T[] data, Action completionHandler=null) where T : struct
             {
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
                     cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, data);
-                    completionHandler.Invoke();
+                    if (completionHandler != null)
+                    {
+                        completionHandler.Invoke();
+                    }
                 });
+            }
+
+            public void FillBuffer<T>(CommandList cl, T[] data) where T : struct
+            {
+                cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, data);
+            }
+
+            public void FillBuffer<T>(T data, Action completionHandler = null) where T : struct
+            {
+                Renderer.AddBackgroundUploadTask((device, cl) =>
+                {
+                    cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, ref data);
+                    if (completionHandler != null)
+                    {
+                        completionHandler.Invoke();
+                    }
+                });
+            }
+
+            public void FillBuffer<T>(CommandList cl, ref T data) where T : struct
+            {
+                cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, ref data);
             }
 
             public void FillBuffer(IntPtr data, uint size, Action completionHandler)

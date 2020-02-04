@@ -76,6 +76,8 @@ namespace StudioCore.Gui
             ViewportGrid = new DebugPrimitives.DbgPrimWireGrid(Color.Green, Color.DarkGreen, 50, 5.0f);
             ViewportGrid.CreateDeviceObjects(device, null, ViewPipeline);
 
+            RenderScene.AddObject(ViewportGrid);
+
             ProjectionMat = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 1000.0f);
             Frustum = new BoundingFrustum(ProjectionMat);
             ActionManager = am;
@@ -258,7 +260,7 @@ namespace StudioCore.Gui
 
             if (DrawGrid)
             {
-                DebugRenderer.Add(ViewportGrid, new Scene.RenderKey(0));
+                //DebugRenderer.Add(ViewportGrid, new Scene.RenderKey(0));
                 //ViewportGrid.UpdatePerFrameResources(device, cl, ViewPipeline);
                 //ViewportGrid.Render(device, cl, ViewPipeline);
             }

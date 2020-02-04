@@ -85,7 +85,7 @@ namespace StudioCore.DebugPrimitives
 
         protected override void DisposeBuffers()
         {
-            VertBuffer?.Dispose();
+            //VertBuffer?.Dispose();
         }
 
         public override DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null)
@@ -107,7 +107,7 @@ namespace StudioCore.DebugPrimitives
             return newPrim;
         }
 
-        public override void Render(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             throw new NotImplementedException();
         }

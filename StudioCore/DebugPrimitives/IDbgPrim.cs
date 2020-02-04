@@ -27,7 +27,7 @@ namespace StudioCore.DebugPrimitives
         List<IDbgPrim> Children { get; set; }
         List<IDbgPrim> UnparentedChildren { get; set; }
 
-        void Draw(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp, IDbgPrim parent, Matrix4x4 world);
+        void Draw(Scene.Renderer.IndirectDrawEncoder encoder, Scene.SceneRenderPipeline sp, IDbgPrim parent, Matrix4x4 world);
         void LabelDraw(Matrix4x4 world);
 
         void LabelDraw_Billboard(Matrix4x4 world);

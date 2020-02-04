@@ -401,6 +401,11 @@ namespace StudioCore
             else
             {
                 dist = (-b - MathF.Sqrt(discriminant)) / (2.0f * a);
+                if (dist < 0)
+                {
+                    dist = float.MaxValue;
+                    return false;
+                }
                 return true;
             }
         }

@@ -5,12 +5,160 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Veldrid;
 
 namespace StudioCore.Scene
 {
     public class Renderer
     {
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct IndirectDrawIndexedArgumentsPacked
+        {
+            public uint IndexCount;
+            public uint InstanceCount;
+            public uint FirstIndex;
+            public int VertexOffset;
+            public uint FirstInstance;
+        }
+
+        /// <summary>
+        /// A class used to hold, encode, and dispatch indirect draw calls
+        /// </summary>
+        public class IndirectDrawEncoder
+        {
+            private DeviceBuffer _indirectBuffer = null;
+
+            private IndirectDrawIndexedArgumentsPacked[] _indirectStagingBuffer = null;
+
+            private int _stagingSet = 0;
+            private int _renderSet = -1;
+
+            private uint[] _indirectDrawCount = null;
+            private uint[] _batchCount = null;
+
+            /// <summary>
+            /// All the unique parameters for a batched indirect draw call
+            /// </summary>
+            private struct BatchInfo
+            {
+                public Pipeline _pipeline;
+                public ResourceSet _objectRS;
+                public IndexFormat _indexFormat;
+                public uint _batchStart;
+            }
+
+            private BatchInfo[] _batches = null;
+
+            unsafe public IndirectDrawEncoder(uint initialCallCount)
+            {
+                BufferDescription desc = new BufferDescription(
+                    initialCallCount * 20, BufferUsage.IndirectBuffer);
+                _indirectBuffer = Factory.CreateBuffer(desc);
+                _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
+                _batches = new BatchInfo[2 * 50];
+
+                _indirectDrawCount = new uint[2];
+                _batchCount = new uint[2];
+            }
+
+            /// <summary>
+            /// Resets the buffer to prepare for a new frame
+            /// </summary>
+            public void Reset()
+            {
+                _stagingSet++;
+                if (_stagingSet > 1)
+                {
+                    _stagingSet = 0;
+                }
+                _renderSet++;
+                if (_renderSet > 1)
+                {
+                    _renderSet = 0;
+                }
+                _indirectDrawCount[_stagingSet] = 0;
+                _batchCount[_stagingSet] = 0;
+            }
+
+            /// <summary>
+            /// Encodes an instanced draw with all the information needed to batch the calls. For best results,
+            /// draws should be presorted into batches before submission.
+            /// </summary>
+            /// <param name="args">Indexed draw parameters</param>
+            /// <param name="p">The pipeline to use with rendering</param>
+            /// <param name="instanceData">Per instance data resource set</param>
+            /// <param name="indexf">Format of the indices (16 or 32-bit)</param>
+            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, Pipeline p, ResourceSet instanceData, IndexFormat indexf)
+            {
+                // Encode the draw
+                if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
+                {
+                    throw new Exception("Indirect buffer not large enough for draw");
+                }
+                if (p == null)
+                {
+                    throw new Exception("Pipeline is null");
+                }
+                _indirectStagingBuffer[_indirectDrawCount[_stagingSet]] = args;
+                _indirectDrawCount[_stagingSet]++;
+
+                // Determine if we need a new batch
+                if (_batchCount[_stagingSet] == 0 ||
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != p ||
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != instanceData ||
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != indexf)
+                {
+                    if (_batchCount[_stagingSet] >= 50)
+                    {
+                        throw new Exception("Batch count is not large enough");
+                    }
+                    // Add a new batch
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._pipeline = p;
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._objectRS = instanceData;
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._indexFormat = indexf;
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
+                    _batchCount[_stagingSet]++;
+                }
+            }
+
+            public void UpdateBuffer(CommandList cl)
+            {
+                // Copy the indirect buffer to the gpu
+                cl.UpdateBuffer(_indirectBuffer, 0, _indirectStagingBuffer);
+            }
+
+            /// <summary>
+            /// Submit the encoded batches as indirect draw calls
+            /// </summary>
+            /// <param name="cl"></param>
+            public unsafe void SubmitBatches(CommandList cl, SceneRenderPipeline pipeline)
+            {
+                // If renderset is -1, no work has actually been uploaded to the gpu yet
+                if (_renderSet == -1)
+                {
+                    return;
+                }
+
+                // Dispatch indirect calls for each batch
+                VertexBufferAllocator.BindAsVertexBuffer(cl);
+                uint c = _batchCount[_renderSet] > 0 ? _batchCount[_renderSet] - 1 : 0;
+                for (int i = 0; i < _batchCount[_renderSet]; i++)
+                {
+                    cl.SetPipeline(_batches[50 * _renderSet + i]._pipeline);
+                    pipeline.BindResources(cl);
+                    cl.SetGraphicsResourceSet(1, _batches[50 * _renderSet + i]._objectRS);
+                    IndexBufferAllocator.BindAsIndexBuffer(cl, _batches[50 * _renderSet + i]._indexFormat);
+                    uint count = _indirectDrawCount[_renderSet] - _batches[50 * _renderSet + i]._batchStart;
+                    if (i < _batchCount[_renderSet] - 1)
+                    {
+                        count = _batches[50 * _renderSet + i + 1]._batchStart - _batches[50 * _renderSet + i]._batchStart;
+                    }
+                    cl.DrawIndexedIndirect(_indirectBuffer, _batches[50 * _renderSet + i]._batchStart * 20, count, 20);
+                }
+            }
+        }
+
         public class RenderQueue
         {
             private struct KeyIndex : IComparable<KeyIndex>, IComparable
@@ -42,7 +190,12 @@ namespace StudioCore.Scene
 
             public SceneRenderPipeline Pipeline { get; private set; }
             private GraphicsDevice Device;
+            private CommandList ResourceUpdateCommandList;
             private CommandList DrawCommandList;
+            private Fence ResourcesUpdatedFence;
+            private Fence DrawFence;
+
+            private IndirectDrawEncoder DrawEncoder;
 
             private readonly List<KeyIndex> Indices = new List<KeyIndex>(1000);
             private readonly List<RenderObject> Renderables = new List<RenderObject>(1000);
@@ -59,7 +212,11 @@ namespace StudioCore.Scene
             {
                 Device = device;
                 Pipeline = pipeline;
+                ResourceUpdateCommandList = device.ResourceFactory.CreateCommandList();
                 DrawCommandList = device.ResourceFactory.CreateCommandList();
+                ResourcesUpdatedFence = device.ResourceFactory.CreateFence(false);
+                DrawFence = device.ResourceFactory.CreateFence(true);
+                DrawEncoder = new IndirectDrawEncoder(40000);
             }
 
             public void SetPredrawSetupAction(Action<GraphicsDevice, CommandList> setup)
@@ -71,6 +228,8 @@ namespace StudioCore.Scene
             {
                 Indices.Clear();
                 Renderables.Clear();
+                DrawEncoder.Reset();
+                ResourcesUpdatedFence.Reset();
             }
 
             public void Add(RenderObject item, RenderKey key)
@@ -91,26 +250,38 @@ namespace StudioCore.Scene
                 Sort();
                 ActivePipeline = null;
                 DrawCommandList.Begin();
+                ResourceUpdateCommandList.Begin();
+                ResourceUpdateCommandList.PushDebugGroup("Update resources");
                 PreDrawSetup.Invoke(Device, DrawCommandList);
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
-                    o.UpdatePerFrameResources(Device, DrawCommandList, Pipeline);
+                    o.UpdatePerFrameResources(Device, ResourceUpdateCommandList, Pipeline);
                 }
+                ResourceUpdateCommandList.InsertDebugMarker("Indirect buffer update");
+                DrawEncoder.UpdateBuffer(ResourceUpdateCommandList);
+                ResourceUpdateCommandList.PopDebugGroup();
+                ResourceUpdateCommandList.End();
+                //Device.WaitForFence(DrawFence);
+                DrawFence.Reset();
+                Device.SubmitCommands(ResourceUpdateCommandList, ResourcesUpdatedFence);
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
-                    var p = o.GetPipeline();
+                    /*var p = o.GetPipeline();
                     if (p != ActivePipeline)
                     {
                         DrawCommandList.SetPipeline(p);
                         Renderer.VertexBufferAllocator.BindAsVertexBuffer(DrawCommandList);
                         ActivePipeline = p;
                     }
-                    o.Render(Device, DrawCommandList, Pipeline);
+                    o.Render(Device, DrawCommandList, Pipeline);*/
+                    o.Render(DrawEncoder, Pipeline);
                 }
+                DrawEncoder.SubmitBatches(DrawCommandList, Pipeline);
                 DrawCommandList.End();
-                Device.SubmitCommands(DrawCommandList);
+                Device.WaitForFence(ResourcesUpdatedFence);
+                Device.SubmitCommands(DrawCommandList, DrawFence);
                 watch.Stop();
                 CPURenderTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
             }
@@ -125,6 +296,7 @@ namespace StudioCore.Scene
 
         public static GPUBufferAllocator VertexBufferAllocator { get; private set; }
         public static GPUBufferAllocator IndexBufferAllocator { get; private set; }
+        public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
 
         public static ResourceFactory Factory
         {
@@ -144,6 +316,7 @@ namespace StudioCore.Scene
 
             VertexBufferAllocator = new GPUBufferAllocator(2 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
             IndexBufferAllocator = new GPUBufferAllocator(1024 * 1024 * 1024, BufferUsage.IndexBuffer);
+            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 64);
         }
 
         public static void RegisterRenderQueue(RenderQueue queue)

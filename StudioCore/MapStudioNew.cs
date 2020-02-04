@@ -24,7 +24,7 @@ namespace StudioCore
         private bool _windowMoved = true;
         private bool _colorSrgb = false;
 
-        private static double _desiredFrameLengthSeconds = 1.0 / 60.0f;
+        private static double _desiredFrameLengthSeconds = 1.0 / 20.0f;
         private static bool _limitFrameRate = true;
         //private static FrameTimeAverager _fta = new FrameTimeAverager(0.666);
 
@@ -68,7 +68,7 @@ namespace StudioCore
                 WindowInitialState = WindowState.Maximized,
                 WindowTitle = "Dark Souls Map Studio",
             };
-            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, false, ResourceBindingModel.Improved, true, true, _colorSrgb);
+            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 
 #if DEBUG
             gdOptions.Debug = true;
@@ -168,7 +168,7 @@ namespace StudioCore
                 }
                 else
                 {
-                    _desiredFrameLengthSeconds = 1.0 / 60.0f;
+                    _desiredFrameLengthSeconds = 1.0 / 75.0f;
                 }
                 long currentFrameTicks = sw.ElapsedTicks;
                 double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;

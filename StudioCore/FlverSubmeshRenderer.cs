@@ -37,7 +37,7 @@ namespace StudioCore
 
         protected Pipeline RenderPipeline;
         protected Shader[] Shaders;
-        protected DeviceBuffer WorldBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
         protected ResourceSet PerObjRS;
 
         public int VertexCount { get; private set; }
@@ -179,8 +179,10 @@ namespace StudioCore
         public override void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             var factory = gd.ResourceFactory;
-            WorldBuffer = factory.CreateBuffer(new BufferDescription(64, Veldrid.BufferUsage.UniformBuffer | Veldrid.BufferUsage.Dynamic));
-            gd.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+            //WorldBuffer = factory.CreateBuffer(new BufferDescription(64, Veldrid.BufferUsage.UniformBuffer | Veldrid.BufferUsage.Dynamic));
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            //gd.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+            WorldBuffer.FillBuffer(cl, ref _World);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
@@ -209,11 +211,10 @@ namespace StudioCore
                 StaticResourceCache.ProjViewLayoutDescription);
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.DynamicBinding)));
+                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
-
-            PerObjRS = factory.CreateResourceSet(new ResourceSetDescription(mainPerObjectLayout,
-                WorldBuffer));
+            PerObjRS = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
+                Renderer.UniformBufferAllocator._backingBuffer));
 
             bool isTriStrip = false;
             var fres = FlverResource.Get();
@@ -251,12 +252,41 @@ namespace StudioCore
         {
             if (WorldDirty)
             {
-                cl.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+                //cl.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+                WorldBuffer.FillBuffer(cl, ref _World);
                 WorldDirty = false;
             }
         }
 
-        public override void Render(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        private bool _cacheIndexSize = false;
+        private bool _is32Bit = false;
+
+        public RenderKey GetRenderKey()
+        {
+            ulong code = RenderPipeline != null ? (ulong)RenderPipeline.GetHashCode() : 0;
+            ulong index = 0;
+
+            if (!_cacheIndexSize && FlverResource != null && FlverResource.IsLoaded && FlverResource.Get() != null)
+            {
+                if (FlverResource.TryLock())
+                {
+                    var resource = FlverResource.Get();
+                    var mesh = resource.GPUMeshes[FlverMeshIndex];
+                    var faceSet = mesh.MeshFacesets[0];
+                    index = faceSet.Is32Bit ? 1u : 0;
+                    _is32Bit = faceSet.Is32Bit;
+                    _cacheIndexSize = true;
+                }
+            }
+            else if (_cacheIndexSize)
+            {
+                index = _is32Bit ? 1u : 0;
+            }
+
+            return new RenderKey(code << 1 | index);
+        }
+
+        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             if (!IsVisible)
                 return;
@@ -264,38 +294,26 @@ namespace StudioCore
             if (FlverResource == null || !FlverResource.IsLoaded || FlverResource.Get() == null)
                 return;
 
-            //if (mask != null && ModelMaskIndex >= 0 && !mask[ModelMaskIndex])
-            //    return;
-
             if (FlverResource.TryLock())
             {
                 var resource = FlverResource.Get();
                 var mesh = resource.GPUMeshes[FlverMeshIndex];
                 var vertbuffer = mesh.VertBuffer;
 
-                //cl.SetPipeline(RenderPipeline);
-                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-                uint offset = 0;
-                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-                //cl.SetVertexBuffer(0, vertbuffer);
-                //Renderer.VertexBufferAllocator.BindAsVertexBuffer(cl);
-
-                //foreach (var faceSet in mesh.MeshFacesets)
-                //{
                 var faceSet = mesh.MeshFacesets[0];
                     //if (faceSet.IndexCount == 0)
                     //    continue;
                     //if (faceSet.LOD != 0)
                     //    continue;
 
-                    //GFX.Device.DrawIndexedPrimitives(faceSet.IsTriangleStrip ? PrimitiveType.TriangleStrip : PrimitiveType.TriangleList, 0, 0,
-                    //    faceSet.IsTriangleStrip ? (faceSet.IndexCount - 2) : (faceSet.IndexCount / 3));
-
-                    //cl.SetIndexBuffer(faceSet.IndexBuffer, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
-                    uint indexStart = faceSet.IndexBuffer.AllocationStart / (faceSet.Is32Bit ? 4u : 2u);
-                    Renderer.IndexBufferAllocator.BindAsIndexBuffer(cl, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
-                    cl.DrawIndexed(faceSet.IndexBuffer.AllocationSize / (faceSet.Is32Bit ? 4u : 2u), 1, indexStart, (int)(vertbuffer.AllocationStart / Resource.MapFlverLayout.SizeInBytes), 0);
-                //}
+                uint indexStart = faceSet.IndexBuffer.AllocationStart / (faceSet.Is32Bit ? 4u : 2u);
+                var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
+                args.FirstInstance = WorldBuffer.AllocationStart / 64;
+                args.VertexOffset = (int)(vertbuffer.AllocationStart / Resource.MapFlverLayout.SizeInBytes);
+                args.InstanceCount = 1;
+                args.FirstIndex = indexStart;
+                args.IndexCount = faceSet.IndexBuffer.AllocationSize / (faceSet.Is32Bit ? 4u : 2u);
+                encoder.AddDraw(ref args, RenderPipeline, PerObjRS, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
                 FlverResource.Unlock();
             }
         }

@@ -10,7 +10,7 @@ namespace StudioCore.DebugPrimitives
 {
     public class DbgPrimGeometryData
     {
-        public DeviceBuffer VertBuffer;
-        public DeviceBuffer IndexBuffer;
+        public Scene.GPUBufferAllocator.GPUBufferHandle VertBuffer;
+        public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
     }
 }

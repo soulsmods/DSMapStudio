@@ -448,8 +448,8 @@ namespace StudioCore.Resource
             }*/
             dest.VertBuffer.FillBuffer(MeshVertices, () =>
             {
-                //VerticesPool.Return(MeshVertices);
-                //MeshVertices = null;
+                VerticesPool.Return(MeshVertices);
+                MeshVertices = null;
             });
         }
 

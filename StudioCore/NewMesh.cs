@@ -324,11 +324,12 @@ namespace StudioCore
             {
                 foreach (var sm in Submeshes)
                 {
-                    queue.Add(sm, new RenderKey(0));
+                    queue.Add(sm, sm.GetRenderKey());
                 }
                 if (DebugBoundingBox != null)
                 {
-                    queue.Add(DebugBoundingBox, new RenderKey(0));
+                    //queue.Add(DebugBoundingBox, new RenderKey(0));
+                    DebugBoundingBox.SubmitRenderObjects(queue);
                 }
             }
         }

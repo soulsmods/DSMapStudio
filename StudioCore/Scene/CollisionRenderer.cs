@@ -39,7 +39,7 @@ namespace StudioCore.Scene
 
         protected Pipeline RenderPipeline;
         protected Shader[] Shaders;
-        protected DeviceBuffer WorldBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
         protected ResourceSet PerObjRS;
 
         public int VertexCount { get; private set; }
@@ -58,8 +58,8 @@ namespace StudioCore.Scene
         public override void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             var factory = gd.ResourceFactory;
-            WorldBuffer = factory.CreateBuffer(new BufferDescription(64, Veldrid.BufferUsage.UniformBuffer | Veldrid.BufferUsage.Dynamic));
-            gd.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            WorldBuffer.FillBuffer(cl, ref _World);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
@@ -85,11 +85,10 @@ namespace StudioCore.Scene
                 StaticResourceCache.ProjViewLayoutDescription);
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.DynamicBinding)));
+                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
-
-            PerObjRS = factory.CreateResourceSet(new ResourceSetDescription(mainPerObjectLayout,
-                WorldBuffer));
+            PerObjRS = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
+                Renderer.UniformBufferAllocator._backingBuffer));
 
             bool isTriStrip = false;
             var fres = ColResource.Get();
@@ -113,7 +112,7 @@ namespace StudioCore.Scene
                 shaders: Shaders);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }
 
         public override void DestroyDeviceObjects()
@@ -125,12 +124,12 @@ namespace StudioCore.Scene
         {
             if (WorldDirty)
             {
-                cl.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+                WorldBuffer.FillBuffer(cl, ref _World);
                 WorldDirty = false;
             }
         }
 
-        public override void Render(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             if (!IsVisible)
                 return;
@@ -144,13 +143,14 @@ namespace StudioCore.Scene
                 var mesh = resource.GPUMeshes[ColMeshIndex];
                 var vertbuffer = mesh.VertBuffer;
 
-                cl.SetPipeline(RenderPipeline);
-                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-                uint offset = 0;
-                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-                cl.SetVertexBuffer(0, vertbuffer);
-                cl.SetIndexBuffer(mesh.IndexBuffer, IndexFormat.UInt32);
-                cl.DrawIndexed(mesh.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                uint indexStart = mesh.IndexBuffer.AllocationStart / 4u;
+                var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
+                args.FirstInstance = WorldBuffer.AllocationStart / 64;
+                args.VertexOffset = (int)(vertbuffer.AllocationStart / Resource.CollisionLayout.SizeInBytes);
+                args.InstanceCount = 1;
+                args.FirstIndex = indexStart;
+                args.IndexCount = mesh.IndexBuffer.AllocationSize / 4u;
+                encoder.AddDraw(ref args, RenderPipeline, PerObjRS, IndexFormat.UInt32);
                 ColResource.Unlock();
             }
         }

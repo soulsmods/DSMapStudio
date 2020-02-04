@@ -240,11 +240,12 @@ namespace StudioCore.Scene
             {
                 foreach (var sm in Submeshes)
                 {
-                    queue.Add(sm, new RenderKey(0));
+                    ulong code = sm.GetPipeline() != null ? (ulong)sm.GetPipeline().GetHashCode() : 0;
+                    queue.Add(sm, new RenderKey(code));
                 }
                 if (DebugBoundingBox != null)
                 {
-                    queue.Add(DebugBoundingBox, new RenderKey(0));
+                    DebugBoundingBox.SubmitRenderObjects(queue);
                 }
             }
         }

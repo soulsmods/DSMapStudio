@@ -42,7 +42,19 @@ namespace StudioCore.DebugPrimitives
 
     public abstract class DbgPrim : Scene.RenderObject, Scene.IDrawable, IDbgPrim
     {
-        public Transform Transform { get; set; } = Transform.Default;
+        private bool WorldDirty = true;
+        private Transform _transform = Transform.Default;
+        public Transform Transform { 
+            get
+            {
+                return _transform;
+            }
+            set
+            {
+                _transform = value;
+                WorldDirty = true;
+            }
+        }
 
         public Matrix4x4 WorldMatrix { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -74,9 +86,9 @@ namespace StudioCore.DebugPrimitives
         //protected IndexBuffer IndexBuffer;
         protected Pipeline RenderPipeline;
         protected Shader[] Shaders;
-        protected DeviceBuffer WorldBuffer;
-        protected DeviceBuffer VertBuffer;
-        protected DeviceBuffer IndexBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle VertBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle IndexBuffer;
         protected ResourceSet PerObjRS;
         protected bool NeedToRecreateVertBuffer = true;
         protected bool NeedToRecreateIndexBuffer = true;
@@ -88,7 +100,7 @@ namespace StudioCore.DebugPrimitives
         public int VertexCount => Vertices.Length;
         public int IndexCount => Indices.Length;
 
-        protected void SetBuffers(DeviceBuffer vertBuffer, DeviceBuffer indexBuffer)
+        protected void SetBuffers(GPUBufferAllocator.GPUBufferHandle vertBuffer, GPUBufferAllocator.GPUBufferHandle indexBuffer)
         {
             VertBuffer = vertBuffer;
             IndexBuffer = indexBuffer;
@@ -100,7 +112,7 @@ namespace StudioCore.DebugPrimitives
         {
             if (NeedToRecreateVertBuffer)
             {
-                VertBuffer?.Dispose();
+                //VertBuffer?.Dispose();
                 VertBuffer = null;
                 if (Vertices.Length > 0)
                 {
@@ -109,20 +121,23 @@ namespace StudioCore.DebugPrimitives
                     //VertBuffer.SetData(Vertices);
                     //Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                     //{
-                        VertBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(28 * (uint)Vertices.Length, Veldrid.BufferUsage.VertexBuffer));
-                        cl.UpdateBuffer(VertBuffer, 0, Vertices);
+                    //VertBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(28 * (uint)Vertices.Length, Veldrid.BufferUsage.VertexBuffer));
+                    //cl.UpdateBuffer(VertBuffer, 0, Vertices);
                     //});
+                    VertBuffer = Renderer.VertexBufferAllocator.Allocate(28 * (uint)Vertices.Length, 28);
+                    VertBuffer.FillBuffer(Vertices);
                 }
                 else
                 {
                     throw new Exception("WTF");
                 }
                 NeedToRecreateVertBuffer = false;
+                WorldDirty = true;
             }
 
             if (NeedToRecreateIndexBuffer)
             {
-                IndexBuffer?.Dispose();
+                //IndexBuffer?.Dispose();
                 IndexBuffer = null;
                 if (Indices.Length > 0)
                 {
@@ -130,14 +145,23 @@ namespace StudioCore.DebugPrimitives
                     //IndexBuffer.SetData(Indices);
                     //Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                     //{
-                        IndexBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(2 * (uint)Indices.Length, Veldrid.BufferUsage.IndexBuffer));
-                        cl.UpdateBuffer(IndexBuffer, 0, Indices);
+                    //IndexBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(2 * (uint)Indices.Length, Veldrid.BufferUsage.IndexBuffer));
+                    //cl.UpdateBuffer(IndexBuffer, 0, Indices);
                     //});
+                    IndexBuffer = Renderer.IndexBufferAllocator.Allocate(2 * (uint)Indices.Length, 2);
+                    IndexBuffer.FillBuffer(Indices);
                 }
                 NeedToRecreateIndexBuffer = false;
+                WorldDirty = true;
             }
-            var mat = Transform.WorldMatrix;
-            cl.UpdateBuffer(WorldBuffer, 0, ref mat, 64);
+
+            if (WorldDirty)
+            {
+                var mat = Transform.WorldMatrix;
+                //cl.UpdateBuffer(WorldBuffer, 0, ref mat, 64);
+                WorldBuffer.FillBuffer(cl, ref mat);
+                WorldDirty = false;
+            }
         }
 
         protected void AddVertex(Vector3 pos, Color color, Vector3? normal = null)
@@ -194,11 +218,11 @@ namespace StudioCore.DebugPrimitives
         public bool AutoRegister { get; set; } = false;
         public bool IsVisible { get; set; }
 
-        private void DrawPrimitive(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp)
+        private void DrawPrimitive(Renderer.IndirectDrawEncoder encoder, Scene.SceneRenderPipeline sp)
         {
             //FinalizeBuffers(device, cl);
 
-            if (VertBuffer == null || IndexBuffer == null || VertBuffer.SizeInBytes == 0 || IndexBuffer.SizeInBytes == 0)
+            if (VertBuffer == null || IndexBuffer == null || VertBuffer.AllocationSize == 0 || IndexBuffer.AllocationSize == 0)
             {
                 // This is some dummy parent thing with no geometry.
                 if (Children.Count > 0 || UnparentedChildren.Count > 0)
@@ -220,12 +244,19 @@ namespace StudioCore.DebugPrimitives
             //GFX.Device.DrawIndexedPrimitives(PrimType, 0, 0, IndexBuffer.IndexCount);
 
             //cl.SetPipeline(RenderPipeline);
-            cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-            uint offset = 0;
-            cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-            cl.SetVertexBuffer(0, VertBuffer);
-            cl.SetIndexBuffer(IndexBuffer, IndexFormat.UInt16);
-            cl.DrawIndexed(IndexBuffer.SizeInBytes / 2, 1, 0, 0, 0);
+            //cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
+            //cl.SetGraphicsResourceSet(1, PerObjRS);
+            //cl.SetVertexBuffer(0, VertBuffer);
+            //cl.SetIndexBuffer(IndexBuffer, IndexFormat.UInt16);
+            //Renderer.IndexBufferAllocator.BindAsIndexBuffer(cl, IndexFormat.UInt16);
+            //cl.DrawIndexed(IndexBuffer.AllocationSize / 2, 1, IndexBuffer.AllocationStart / 2, (int)(VertBuffer.AllocationStart / 28), WorldBuffer.AllocationStart / 64);
+            var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
+            args.FirstInstance = WorldBuffer.AllocationStart / 64;
+            args.VertexOffset = (int)(VertBuffer.AllocationStart / 28);
+            args.InstanceCount = 1;
+            args.FirstIndex = IndexBuffer.AllocationStart / 2;
+            args.IndexCount = IndexBuffer.AllocationSize / 2;
+            encoder.AddDraw(ref args, RenderPipeline, PerObjRS, IndexFormat.UInt16);
         }
 
         protected virtual void PreDraw()
@@ -233,21 +264,21 @@ namespace StudioCore.DebugPrimitives
 
         }
 
-        public void Draw(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp, IDbgPrim parentPrim, Matrix4x4 world)
+        public void Draw(Renderer.IndirectDrawEncoder encoder, Scene.SceneRenderPipeline sp, IDbgPrim parentPrim, Matrix4x4 world)
         {
             PreDraw();
 
             // Always draw unparented children :fatcat:
             foreach (var c in UnparentedChildren)
-                c.Draw(device, cl, sp, this, world);
+                c.Draw(encoder, sp, this, world);
 
             if (!EnableDraw)
                 return;
 
-            DrawPrimitive(device, cl, sp);
+            DrawPrimitive(encoder, sp);
 
             foreach (var c in Children)
-                c.Draw(device, cl, sp, this, Transform.WorldMatrix * world);
+                c.Draw(encoder, sp, this, Transform.WorldMatrix * world);
         }
 
         public void LabelDraw(Matrix4x4 world)
@@ -296,7 +327,8 @@ namespace StudioCore.DebugPrimitives
 
         public void SubmitRenderObjects(Renderer.RenderQueue queue)
         {
-            queue.Add(this, new RenderKey(0));
+            ulong code = RenderPipeline != null ? (ulong)RenderPipeline.GetHashCode() : 0;
+            queue.Add(this, new RenderKey(code));
         }
 
         public virtual BoundingBox GetBounds()

@@ -172,7 +172,8 @@ namespace StudioCore.Scene
         {
             if (RegionMesh != null)
             {
-                queue.Add(RegionMesh, new RenderKey(0));
+                //queue.Add(RegionMesh, new RenderKey(0));
+                RegionMesh.SubmitRenderObjects(queue);
             }
         }
 

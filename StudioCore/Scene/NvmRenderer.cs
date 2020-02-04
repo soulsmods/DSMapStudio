@@ -235,12 +235,12 @@ namespace StudioCore.Scene
             }
         }
 
-        public override void Render(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             if (!IsVisible)
                 return;
 
-            if (VertBuffer != null && IndexBuffer != null)
+            /*if (VertBuffer != null && IndexBuffer != null)
             {
                 cl.SetPipeline(RenderPipeline);
                 cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
@@ -282,7 +282,7 @@ namespace StudioCore.Scene
                 cl.SetIndexBuffer(resource.IndexBuffer, IndexFormat.UInt32);
                 cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
                 NvmResource.Unlock();
-            }
+            }*/
         }
 
         public override Pipeline GetPipeline()

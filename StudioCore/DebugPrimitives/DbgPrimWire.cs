@@ -97,17 +97,16 @@ namespace StudioCore.DebugPrimitives
             return newPrim;
         }
 
-        public override void Render(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
-            Draw(gd, cl, sp, null, new Matrix4x4());
+            Draw(encoder, sp, null, new Matrix4x4());
         }
 
         public override void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             var factory = gd.ResourceFactory;
-            WorldBuffer = factory.CreateBuffer(new BufferDescription(64, Veldrid.BufferUsage.UniformBuffer | Veldrid.BufferUsage.Dynamic));
-            var identity = System.Numerics.Matrix4x4.Identity;
-            gd.UpdateBuffer(WorldBuffer, 0, ref identity, 64);
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            WorldBuffer.FillBuffer(Transform.WorldMatrix);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
@@ -130,11 +129,10 @@ namespace StudioCore.DebugPrimitives
             Shaders = new Shader[] { res.Item1, res.Item2 };
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.DynamicBinding)));
+                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
-
-            PerObjRS = factory.CreateResourceSet(new ResourceSetDescription(mainPerObjectLayout,
-                WorldBuffer));
+            PerObjRS = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
+                            Renderer.UniformBufferAllocator._backingBuffer));
 
             GraphicsPipelineDescription pipelineDescription = new GraphicsPipelineDescription();
             pipelineDescription.BlendState = BlendStateDescription.SingleOverrideBlend;
@@ -156,7 +154,7 @@ namespace StudioCore.DebugPrimitives
                 gd.ResourceFactory,
                 StaticResourceCache.ProjViewLayoutDescription), mainPerObjectLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }
 
         public override void DestroyDeviceObjects()

@@ -15,10 +15,10 @@ namespace StudioCore.Resource
         public class CollisionSubmesh
         {
             public int IndexCount;
-            public DeviceBuffer IndexBuffer;
+            public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
             public int[] PickingIndices;
 
-            public DeviceBuffer VertBuffer { get; set; }
+            public Scene.GPUBufferAllocator.GPUBufferHandle VertBuffer { get; set; }
 
             public int VertexCount { get; set; }
 
@@ -95,10 +95,11 @@ namespace StudioCore.Resource
             dest.IndexCount = MeshIndices.Length;
 
             uint buffersize = (uint)dest.IndexCount * 4u;
-            dest.IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer));
-            Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
+            //dest.IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer));
+            dest.IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, (int)4);
+            dest.IndexBuffer.FillBuffer(MeshIndices, () =>
             {
-                cl.UpdateBuffer(dest.IndexBuffer, 0, MeshIndices);
+                MeshIndices = null;
             });
 
             fixed (void* ptr = dest.PickingVertices)
@@ -107,11 +108,11 @@ namespace StudioCore.Resource
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-            dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
+            //dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
+            dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)CollisionLayout.SizeInBytes);
 
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            dest.VertBuffer.FillBuffer(MeshVertices, () =>
             {
-                cl.UpdateBuffer(dest.VertBuffer, 0, MeshVertices);
                 MeshVertices = null;
             });
         }
@@ -272,10 +273,10 @@ namespace StudioCore.Resource
             dest.IndexCount = MeshIndices.Length;
 
             uint buffersize = (uint)dest.IndexCount * 4u;
-            dest.IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer));
-            Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
+            dest.IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, (int)4);
+            dest.IndexBuffer.FillBuffer(MeshIndices, () =>
             {
-                cl.UpdateBuffer(dest.IndexBuffer, 0, MeshIndices);
+                MeshIndices = null;
             });
 
             fixed (void* ptr = dest.PickingVertices)
@@ -284,11 +285,9 @@ namespace StudioCore.Resource
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-            dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
-
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)CollisionLayout.SizeInBytes);
+            dest.VertBuffer.FillBuffer(MeshVertices, () =>
             {
-                cl.UpdateBuffer(dest.VertBuffer, 0, MeshVertices);
                 MeshVertices = null;
             });
         }
