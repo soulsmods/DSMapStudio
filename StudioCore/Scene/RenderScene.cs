@@ -106,7 +106,8 @@ namespace StudioCore.Scene
             //var dist = (ray.Origin - bb.GetCenter()).Length();
             float dist;
             //if (ray.Intersects(bb) && dist < RCDist)
-            if ((d.DrawFilter & DrawFilter) > 0 && ray.Intersects(bb) && d.RayCast(ray, out dist) && dist < RCDist)
+            if ((((d.DrawFilter & DrawFilter) > 0 && d.DrawGroups.IsInDisplayGroup(DisplayGroup) && d.IsVisible) || d.Highlighted)
+                && ray.Intersects(bb) && d.RayCast(ray, out dist) && dist < RCDist)
             {
                 RCDist = dist;
                 hits.Clear();

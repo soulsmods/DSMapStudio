@@ -516,7 +516,9 @@ namespace StudioCore.MsbEditor
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
             PropSearch.OnGui();
-            NavMeshEditor.OnGui(AssetLocator.Type);
+
+            // Not usable yet
+            //NavMeshEditor.OnGui(AssetLocator.Type);
 
             ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 

@@ -202,11 +202,12 @@ namespace StudioCore.Scene
         {
             if (RenderMesh != null && Created)
             {
-                queue.Add(RenderMesh, new RenderKey(0));
+                ulong code = RenderMesh.GetPipeline() != null ? (ulong)RenderMesh.GetPipeline().GetHashCode() : 0;
+                queue.Add(RenderMesh, new RenderKey(code));
             }
             if (DebugBoundingBox != null)
             {
-                queue.Add(DebugBoundingBox, new RenderKey(0));
+                DebugBoundingBox.SubmitRenderObjects(queue);
             }
         }
 

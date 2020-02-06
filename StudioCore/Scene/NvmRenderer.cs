@@ -42,7 +42,7 @@ namespace StudioCore.Scene
         protected Pipeline RenderWirePipeline;
         protected Shader[] Shaders;
         protected Shader[] ShadersWire;
-        protected DeviceBuffer WorldBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
         protected ResourceSet PerObjRS;
 
         public int VertexCount { get; private set; }
@@ -148,8 +148,8 @@ namespace StudioCore.Scene
         public override void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             var factory = gd.ResourceFactory;
-            WorldBuffer = factory.CreateBuffer(new BufferDescription(64, Veldrid.BufferUsage.UniformBuffer | Veldrid.BufferUsage.Dynamic));
-            gd.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            WorldBuffer.FillBuffer(cl, ref _World);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
@@ -178,11 +178,10 @@ namespace StudioCore.Scene
                 StaticResourceCache.ProjViewLayoutDescription);
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.DynamicBinding)));
+                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
-
-            PerObjRS = factory.CreateResourceSet(new ResourceSetDescription(mainPerObjectLayout,
-                WorldBuffer));
+            PerObjRS = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
+                Renderer.UniformBufferAllocator._backingBuffer));
 
             bool isTriStrip = false;
 
@@ -201,7 +200,7 @@ namespace StudioCore.Scene
                 shaders: Shaders);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
 
             pipelineDescription = new GraphicsPipelineDescription();
             pipelineDescription.BlendState = BlendStateDescription.SingleOverrideBlend;
@@ -218,7 +217,7 @@ namespace StudioCore.Scene
                 shaders: ShadersWire);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderWirePipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            RenderWirePipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }
 
         public override void DestroyDeviceObjects()
@@ -230,7 +229,7 @@ namespace StudioCore.Scene
         {
             if (WorldDirty)
             {
-                cl.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
+                WorldBuffer.FillBuffer(cl, ref _World);
                 WorldDirty = false;
             }
         }
@@ -257,7 +256,7 @@ namespace StudioCore.Scene
                 cl.SetIndexBuffer(IndexBuffer, IndexFormat.UInt32);
                 cl.DrawIndexed(IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
                 return;
-            }
+            }*/
 
             if (NvmResource == null || !NvmResource.IsLoaded || NvmResource.Get() == null)
                 return;
@@ -268,7 +267,7 @@ namespace StudioCore.Scene
                 var vertbuffer = resource.VertBuffer;
 
                 //cl.SetPipeline(RenderPipeline);
-                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
+                /*cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
                 uint offset = 0;
                 cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
                 cl.SetVertexBuffer(0, vertbuffer);
@@ -280,9 +279,17 @@ namespace StudioCore.Scene
                 cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
                 cl.SetVertexBuffer(0, vertbuffer);
                 cl.SetIndexBuffer(resource.IndexBuffer, IndexFormat.UInt32);
-                cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
+                cl.DrawIndexed(resource.IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);*/
+                uint indexStart = resource.IndexBuffer.AllocationStart / 4u;
+                var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
+                args.FirstInstance = WorldBuffer.AllocationStart / 64;
+                args.VertexOffset = (int)(vertbuffer.AllocationStart / Resource.CollisionLayout.SizeInBytes);
+                args.InstanceCount = 1;
+                args.FirstIndex = indexStart;
+                args.IndexCount = resource.IndexBuffer.AllocationSize / 4u;
+                encoder.AddDraw(ref args, RenderPipeline, PerObjRS, IndexFormat.UInt32);
                 NvmResource.Unlock();
-            }*/
+            }
         }
 
         public override Pipeline GetPipeline()

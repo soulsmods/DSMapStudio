@@ -13,14 +13,14 @@ namespace StudioCore.Resource
     public class NVMNavmeshResource : IResource, IDisposable
     {
         public int IndexCount;
-            public DeviceBuffer IndexBuffer;
-            public int[] PickingIndices;
+        public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
+        public int[] PickingIndices;
 
-            public DeviceBuffer VertBuffer { get; set; }
+        public Scene.GPUBufferAllocator.GPUBufferHandle VertBuffer { get; set; }
 
-            public int VertexCount { get; set; }
+        public int VertexCount { get; set; }
 
-            public Vector3[] PickingVertices;
+        public Vector3[] PickingVertices;
 
         public NVM Nvm = null;
 
@@ -90,10 +90,10 @@ namespace StudioCore.Resource
             IndexCount = MeshIndices.Length;
 
             uint buffersize = (uint)IndexCount * 4u;
-            IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer));
-            Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
+            IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, (int)4);
+            IndexBuffer.FillBuffer(MeshIndices, () =>
             {
-                cl.UpdateBuffer(IndexBuffer, 0, MeshIndices);
+                MeshIndices = null;
             });
 
             fixed (void* ptr = PickingVertices)
@@ -102,11 +102,10 @@ namespace StudioCore.Resource
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-            VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
+            VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)CollisionLayout.SizeInBytes);
 
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            VertBuffer.FillBuffer(MeshVertices, () =>
             {
-                cl.UpdateBuffer(VertBuffer, 0, MeshVertices);
                 MeshVertices = null;
             });
         }

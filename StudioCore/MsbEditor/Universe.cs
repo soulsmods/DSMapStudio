@@ -559,6 +559,7 @@ namespace StudioCore.MsbEditor
             var ad = AssetLocator.GetMapMSB(map.MapId);
             var adw = AssetLocator.GetMapMSB(map.MapId, true);
             IMsb msb;
+            DCX.Type compressionType = DCX.Type.None;
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
                 MSB3 prev = MSB3.Read(ad.AssetPath);
@@ -568,6 +569,7 @@ namespace StudioCore.MsbEditor
                 n.Layers = prev.Layers;
                 n.Routes = prev.Routes;
                 msb = n;
+                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
             }
             else if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -575,6 +577,7 @@ namespace StudioCore.MsbEditor
                 MSB2 n = new MSB2();
                 n.PartPoses = prev.PartPoses;
                 msb = n;
+                compressionType = DCX.Type.DCX_DFLT_10000_24_9;
             }
             else if (AssetLocator.Type == GameType.Sekiro)
             {
@@ -583,6 +586,7 @@ namespace StudioCore.MsbEditor
             else if (AssetLocator.Type == GameType.Bloodborne)
             {
                 msb = new MSBB();
+                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
             }
             else
             {
@@ -604,7 +608,7 @@ namespace StudioCore.MsbEditor
             {
                 File.Delete(mapPath + ".temp");
             }
-            msb.Write(mapPath + ".temp", SoulsFormats.DCX.Type.None);
+            msb.Write(mapPath + ".temp", compressionType);
 
             // Make a copy of the previous map
             if (File.Exists(mapPath + ".prev"))

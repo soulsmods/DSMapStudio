@@ -47,7 +47,7 @@ namespace StudioCore
 
         public static RenderDoc RenderDocManager;
 
-        private const bool UseRenderdoc = true;
+        private const bool UseRenderdoc = false;
 
         unsafe public MapStudioNew()
         {
@@ -168,7 +168,7 @@ namespace StudioCore
                 }
                 else
                 {
-                    _desiredFrameLengthSeconds = 1.0 / 75.0f;
+                    _desiredFrameLengthSeconds = 1.0 / 60.0f;
                 }
                 long currentFrameTicks = sw.ElapsedTicks;
                 double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;

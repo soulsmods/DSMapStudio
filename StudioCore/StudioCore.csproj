@@ -882,7 +882,7 @@
 
   <ItemGroup>
     <Content Include="Assets\Shaders\NavSolid.vert.spv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
