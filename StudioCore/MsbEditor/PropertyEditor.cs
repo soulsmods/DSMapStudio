@@ -177,7 +177,7 @@ namespace StudioCore.MsbEditor
         {
             if (changed)
             {
-                if (prop == ChangingPropery && selection.MsbObject == ChangingObject && LastUncommittedAction != null)
+                if (prop == ChangingPropery && LastUncommittedAction != null)
                 {
                     if (ContextActionManager.PeekUndoAction() == LastUncommittedAction)
                     {
@@ -193,27 +193,34 @@ namespace StudioCore.MsbEditor
                     LastUncommittedAction = null;
                 }
 
-                PropertiesChangedAction action;
-                if (arrayindex != -1)
+                if (ChangingObject != null && selection.MsbObject != ChangingObject)
                 {
-                    action = new PropertiesChangedAction((PropertyInfo)prop, arrayindex, obj, newval);
+                    committed = true;
                 }
                 else
                 {
-                    action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
-                }
-                if (shouldUpdateVisual)
-                {
-                    action.SetPostExecutionAction((undo) =>
+                    PropertiesChangedAction action;
+                    if (arrayindex != -1)
                     {
-                        selection.UpdateRenderModel();
-                    });
-                }
-                ContextActionManager.ExecuteAction(action);
+                        action = new PropertiesChangedAction((PropertyInfo)prop, arrayindex, obj, newval);
+                    }
+                    else
+                    {
+                        action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
+                    }
+                    if (shouldUpdateVisual)
+                    {
+                        action.SetPostExecutionAction((undo) =>
+                        {
+                            selection.UpdateRenderModel();
+                        });
+                    }
+                    ContextActionManager.ExecuteAction(action);
 
-                LastUncommittedAction = action;
-                ChangingPropery = prop;
-                ChangingObject = selection.MsbObject;
+                    LastUncommittedAction = action;
+                    ChangingPropery = prop;
+                    ChangingObject = selection.MsbObject;
+                }
             }
             if (committed)
             {
@@ -356,6 +363,10 @@ namespace StudioCore.MsbEditor
                         object newval = null;
 
                         changed = PropertyRow(typ.GetElementType(), oldval, out newval);
+                        if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
+                        {
+                            ImGui.SetItemDefaultFocus();
+                        }
                         bool committed = ImGui.IsItemDeactivatedAfterEdit();
                         ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, i);
 
@@ -382,6 +393,10 @@ namespace StudioCore.MsbEditor
                         object newval = null;
 
                         changed = PropertyRow(typ.GetElementType(), oldval, out newval);
+                        if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
+                        {
+                            ImGui.SetItemDefaultFocus();
+                        }
                         bool committed = ImGui.IsItemDeactivatedAfterEdit();
                         ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, i);
 
@@ -416,6 +431,10 @@ namespace StudioCore.MsbEditor
                     object newval = null;
 
                     changed = PropertyRow(typ, oldval, out newval, selection, prop.Name);
+                    if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
+                    {
+                        ImGui.SetItemDefaultFocus();
+                    }
                     bool committed = ImGui.IsItemDeactivatedAfterEdit();
                     ChangeProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual);
 

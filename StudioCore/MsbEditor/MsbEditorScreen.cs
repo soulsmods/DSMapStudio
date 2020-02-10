@@ -266,15 +266,15 @@ namespace StudioCore.MsbEditor
                     }
                     if (ImGui.BeginMenu("Display Presets"))
                     {
-                        if (ImGui.MenuItem("Map Piece/Character/Objects"))
+                        if (ImGui.MenuItem("Map Piece/Character/Objects", "Ctrl-1"))
                         {
                             RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                         }
-                        if (ImGui.MenuItem("Collision/Character/Objects"))
+                        if (ImGui.MenuItem("Collision/Character/Objects", "Ctrl-2"))
                         {
                             RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                         }
-                        if (ImGui.MenuItem("Collision/Navmesh/Character/Objects"))
+                        if (ImGui.MenuItem("Collision/Navmesh/Character/Objects", "Ctrl-3"))
                         {
                             RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                         }
@@ -393,6 +393,20 @@ namespace StudioCore.MsbEditor
                     {
                         Viewport.FrameBox(box);
                     }
+                }
+
+                // Render settings
+                if (InputTracker.GetControlShortcut(Key.Number1))
+                {
+                    RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                }
+                else if (InputTracker.GetControlShortcut(Key.Number2))
+                {
+                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                }
+                else if (InputTracker.GetControlShortcut(Key.Number3))
+                {
+                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                 }
             }
 

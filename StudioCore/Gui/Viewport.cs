@@ -74,11 +74,11 @@ namespace StudioCore.Gui
             WorldView = new WorldView(new Veldrid.Rectangle(0, 0, Width, Height));
             ViewPipeline = new Scene.SceneRenderPipeline(scene, device, width, height);
             ViewportGrid = new DebugPrimitives.DbgPrimWireGrid(Color.Green, Color.DarkGreen, 50, 5.0f);
-            ViewportGrid.CreateDeviceObjects(device, null, ViewPipeline);
+            //ViewportGrid.CreateDeviceObjects(device, null, ViewPipeline);
 
-            RenderScene.AddObject(ViewportGrid);
+            //RenderScene.AddObject(ViewportGrid);
 
-            ProjectionMat = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 1000.0f);
+            ProjectionMat = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
             Frustum = new BoundingFrustum(ProjectionMat);
             ActionManager = am;
 
@@ -174,6 +174,8 @@ namespace StudioCore.Gui
                 ImGui.Text($@"Work creation time: {RenderScene.CPUDrawTime} ms");
                 ImGui.Text($@"Scene Render CPU time: {ViewPipeline.CPURenderTime} ms");
                 ImGui.Text($@"Visible objects: {RenderScene.RenderObjectCount}");
+                ImGui.Text($@"Vertex Buffers: {Scene.Renderer.VertexBufferAllocator.AllocatedSize / 1024 / 1024} / {Scene.Renderer.VertexBufferAllocator.BufferSize / 1024 / 1024} MB");
+                ImGui.Text($@"Index Buffers: {Scene.Renderer.IndexBufferAllocator.AllocatedSize / 1024 / 1024} / {Scene.Renderer.IndexBufferAllocator.BufferSize / 1024 / 1024} MB");
                 ImGui.End();
             }
         }

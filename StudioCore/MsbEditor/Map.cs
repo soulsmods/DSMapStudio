@@ -403,6 +403,58 @@ namespace StudioCore.MsbEditor
             return true;
         }
 
+        public bool SerializeDS2Events(PARAM evs)
+        {
+            HashSet<long> ids = new HashSet<long>();
+            foreach (var m in MapObjects)
+            {
+                if (m.Type == MapObject.ObjectType.TypeDS2Event && m.MsbObject is PARAM.Row mp)
+                {
+                    if (!ids.Contains(mp.ID))
+                    {
+                        ids.Add(mp.ID);
+                    }
+                    else
+                    {
+                        MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+
+                    var newloc = new PARAM.Row(mp);
+                    evs.Rows.Add(newloc);
+                }
+            }
+            return true;
+        }
+
+        public bool SerializeDS2EventLocations(PARAM locs)
+        {
+            HashSet<long> ids = new HashSet<long>();
+            foreach (var m in MapObjects)
+            {
+                if (m.Type == MapObject.ObjectType.TypeDS2EventLocation && m.MsbObject is PARAM.Row mp)
+                {
+                    if (!ids.Contains(mp.ID))
+                    {
+                        ids.Add(mp.ID);
+                    }
+                    else
+                    {
+                        MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+
+                    // Adjust the location to be relative to the mapoffset
+                    var newloc = new PARAM.Row(mp);
+                    newloc["PositionX"].Value = (float)mp["PositionX"].Value - MapOffset.Position.X;
+                    newloc["PositionY"].Value = (float)mp["PositionY"].Value - MapOffset.Position.Y;
+                    newloc["PositionZ"].Value = (float)mp["PositionZ"].Value - MapOffset.Position.Z;
+                    locs.Rows.Add(newloc);
+                }
+            }
+            return true;
+        }
+
         public void Clear()
         {
             MapObjects.Clear();

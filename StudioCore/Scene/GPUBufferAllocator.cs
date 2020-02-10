@@ -10,6 +10,9 @@ namespace StudioCore.Scene
         private long _bufferSize = 0;
         private long _allocatedbytes = 0;
 
+        public long BufferSize { get => _bufferSize; }
+        public long AllocatedSize { get => _allocatedbytes; }
+
         private object _allocationLock = new object();
 
         private List<GPUBufferHandle> _allocations = new List<GPUBufferHandle>();

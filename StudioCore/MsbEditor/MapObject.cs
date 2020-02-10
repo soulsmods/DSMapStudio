@@ -24,6 +24,8 @@ namespace StudioCore.MsbEditor
             TypeEvent,
             TypeDS2Generator,
             TypeDS2GeneratorRegist,
+            TypeDS2Event,
+            TypeDS2EventLocation,
         }
 
         public ObjectType Type { get; private set; }
@@ -45,7 +47,7 @@ namespace StudioCore.MsbEditor
         { 
             get
             {
-                return Type != ObjectType.TypeEvent && Type != ObjectType.TypeDS2GeneratorRegist;
+                return Type != ObjectType.TypeEvent && Type != ObjectType.TypeDS2GeneratorRegist && Type != ObjectType.TypeDS2Event;
             }
         }
 
@@ -114,6 +116,14 @@ namespace StudioCore.MsbEditor
                 else if (Type == ObjectType.TypeDS2GeneratorRegist)
                 {
                     icon = ForkAwesome.UserCircleO;
+                }
+                else if (Type == ObjectType.TypeDS2EventLocation)
+                {
+                    icon = ForkAwesome.FlagO;
+                }
+                else if (Type == ObjectType.TypeDS2Event)
+                {
+                    icon = ForkAwesome.FlagCheckered;
                 }
 
                 return $@"{icon} {Name}";
@@ -529,6 +539,26 @@ namespace StudioCore.MsbEditor
                 else if (shape != null && shape is MSB.Shape.Cylinder c)
                 {
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
+                }
+            }
+
+            // DS2 event regions
+            if (Type == ObjectType.TypeDS2EventLocation)
+            {
+                var sx = GetPropertyValue("ScaleX");
+                var sy = GetPropertyValue("ScaleY");
+                var sz = GetPropertyValue("ScaleZ");
+                if (sx != null)
+                {
+                    t.Scale.X = (float)sx;
+                }
+                if (sy != null)
+                {
+                    t.Scale.Y = (float)sy;
+                }
+                if (sz != null)
+                {
+                    t.Scale.Z = (float)sz;
                 }
             }
 

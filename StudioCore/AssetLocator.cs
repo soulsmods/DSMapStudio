@@ -214,7 +214,10 @@ namespace StudioCore
                 var maps = Directory.GetFileSystemEntries(GameRootDirectory + @"\map", @"m*").ToList();
                 if (GameModDirectory != null)
                 {
-                    maps.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map", @"m*").ToList());
+                    if (Directory.Exists(GameModDirectory + @"\map"))
+                    {
+                        maps.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map", @"m*").ToList());
+                    }
                 }
                 foreach (var map in maps)
                 {
@@ -329,6 +332,38 @@ namespace StudioCore
                 ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
             }
             ad.AssetName = mapid + "_generator_registrations";
+            return ad;
+        }
+
+        public AssetDescription GetDS2EventParam(string mapid, bool writemode = false)
+        {
+            AssetDescription ad = new AssetDescription();
+            var path = $@"Param\eventparam_{mapid}";
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            }
+            ad.AssetName = mapid + "_event_params";
+            return ad;
+        }
+
+        public AssetDescription GetDS2EventLocationParam(string mapid, bool writemode = false)
+        {
+            AssetDescription ad = new AssetDescription();
+            var path = $@"Param\eventlocation_{mapid}";
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            }
+            ad.AssetName = mapid + "_event_locations";
             return ad;
         }
 

@@ -314,8 +314,8 @@ namespace StudioCore.Scene
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
 
-            VertexBufferAllocator = new GPUBufferAllocator(2 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            IndexBufferAllocator = new GPUBufferAllocator(1024 * 1024 * 1024, BufferUsage.IndexBuffer);
+            VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 64);
         }
 

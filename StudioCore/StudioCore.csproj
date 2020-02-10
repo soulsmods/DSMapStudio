@@ -108,6 +108,7 @@
     <None Remove="Assets\ParamLayouts\DS2SOTFS\EVENT_COMMON_PARAM_FLOAT_ST.xml" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\EVENT_COMMON_PARAM_ST.xml" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\EVENT_FLAG_LIST_PARAM.xml" />
+    <None Remove="Assets\ParamLayouts\DS2SOTFS\EVENT_PARAM.xml" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\EZSTATE_SHARED_PARAM.xml" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\FACE_EDIT_PARAM.xml" />
     <None Remove="Assets\ParamLayouts\DS2SOTFS\FACE_EDIT_PARAM_COLOR_A_PRESET.xml" />
@@ -491,6 +492,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\ParamLayouts\DS2SOTFS\EVENT_FLAG_LIST_PARAM.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\ParamLayouts\DS2SOTFS\EVENT_PARAM.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\ParamLayouts\DS2SOTFS\EZSTATE_SHARED_PARAM.xml">
