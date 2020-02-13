@@ -64,6 +64,11 @@ namespace StudioCore.MsbEditor
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
+
+            foreach (var m in MapObjects)
+            {
+                m.BuildReferenceMap();
+            }
         }
 
         public void AddObject(MapObject obj)
@@ -458,6 +463,18 @@ namespace StudioCore.MsbEditor
         public void Clear()
         {
             MapObjects.Clear();
+        }
+
+        public MapObject GetObjectByName(string name)
+        {
+            foreach (var m in MapObjects)
+            {
+                if (m.Name == name)
+                {
+                    return m;
+                }
+            }
+            return null;
         }
 
         public byte GetNextUnique(string prop, byte value)

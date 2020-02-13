@@ -334,6 +334,10 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.Columns(2);
                 ImGui.Separator();
+                ImGui.Text("Object Type");
+                ImGui.NextColumn();
+                ImGui.Text(type.Name);
+                ImGui.NextColumn();
             }
             int id = 0;
             foreach (var prop in properties)
@@ -446,6 +450,24 @@ namespace StudioCore.MsbEditor
             if (decorate)
             {
                 ImGui.Columns(1);
+                if (selection.References != null)
+                {
+                    ImGui.NewLine();
+                    ImGui.Text("References: ");
+                    foreach (var m in selection.References)
+                    {
+                        foreach (var n in m.Value)
+                        {
+                            ImGui.Text(n.PrettyName);
+                        }
+                    }
+                }
+                ImGui.NewLine();
+                ImGui.Text("Objects referencing this object:");
+                foreach (var m in selection.GetReferencingObjects())
+                {
+                    ImGui.Text(m.PrettyName);
+                }
             }
         }
 

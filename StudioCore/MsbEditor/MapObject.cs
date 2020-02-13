@@ -35,13 +35,19 @@ namespace StudioCore.MsbEditor
         private string CachedName = null;
 
         public Map ContainingMap { get; set; } = null;
-        public Universe Universe { get
+        public Universe Universe { 
+            get
             {
                 return (ContainingMap != null) ? ContainingMap.Universe : null;
             }
         }
         public MapObject Parent { get; private set; } = null;
         public List<MapObject> Children { get; private set; } = new List<MapObject>();
+
+        /// <summary>
+        /// A map that contains references for each property
+        /// </summary>
+        public Dictionary<string, MapObject[]> References { get; private set; } = new Dictionary<string, MapObject[]>();
 
         public bool HasTransform
         { 
@@ -462,6 +468,78 @@ namespace StudioCore.MsbEditor
                 return new PropertiesChangedAction(p, MsbObject, newval);
             }
             return null;
+        }
+
+        public void BuildReferenceMap()
+        {
+            if (!(MsbObject is PARAM.Row) && !(MsbObject is MergedParamRow))
+            {
+                var type = MsbObject.GetType();
+                var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                foreach (var p in props)
+                {
+                    var att = p.GetCustomAttribute<MSBReference>();
+                    if (att != null)
+                    {
+                        if (p.PropertyType.IsArray)
+                        {
+
+                        }
+                        else
+                        {
+                            var sref = (string)p.GetValue(MsbObject);
+                            if (sref != null && sref != "")
+                            {
+                                var obj = ContainingMap.GetObjectByName(sref);
+                                if (obj != null)
+                                {
+                                    References.Add(p.Name, new[] { obj });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private HashSet<MapObject> ReferencingObjects = null;
+
+        public IReadOnlyCollection<MapObject> GetReferencingObjects()
+        {
+            if (ContainingMap == null)
+            {
+                return new List<MapObject>();
+            }
+
+            if (ReferencingObjects != null)
+            {
+                return ReferencingObjects;
+            }
+
+            ReferencingObjects = new HashSet<MapObject>();
+            foreach (var m in ContainingMap.MapObjects)
+            {
+                if (m.References != null)
+                {
+                    foreach (var n in m.References)
+                    {
+                        foreach (var o in n.Value)
+                        {
+                            if (o == this)
+                            {
+                                ReferencingObjects.Add(m);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ReferencingObjects;
+        }
+
+        public void InvalidateReferencingObjectsCache()
+        {
+            ReferencingObjects = null;
         }
 
         public Transform GetTransform()

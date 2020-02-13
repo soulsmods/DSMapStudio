@@ -47,7 +47,7 @@ namespace StudioCore
 
         public static RenderDoc RenderDocManager;
 
-        private const bool UseRenderdoc = false;
+        private const bool UseRenderdoc = true;
 
         unsafe public MapStudioNew()
         {
