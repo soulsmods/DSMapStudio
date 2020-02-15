@@ -193,7 +193,7 @@ namespace StudioCore.MsbEditor
                     LastUncommittedAction = null;
                 }
 
-                if (ChangingObject != null && selection.MsbObject != ChangingObject)
+                if (ChangingObject != null && selection != null && selection.MsbObject != ChangingObject)
                 {
                     committed = true;
                 }
@@ -208,7 +208,7 @@ namespace StudioCore.MsbEditor
                     {
                         action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
                     }
-                    if (shouldUpdateVisual)
+                    if (shouldUpdateVisual && selection != null)
                     {
                         action.SetPostExecutionAction((undo) =>
                         {
@@ -219,13 +219,17 @@ namespace StudioCore.MsbEditor
 
                     LastUncommittedAction = action;
                     ChangingPropery = prop;
-                    ChangingObject = selection.MsbObject;
+                    //ChangingObject = selection.MsbObject;
+                    ChangingObject = selection != null ? selection.MsbObject : obj;
                 }
             }
             if (committed)
             {
                 // Invalidate name cache
-                selection.Name = null;
+                if (selection != null)
+                {
+                    selection.Name = null;
+                }
 
                 // Undo and redo the last action with a rendering update
                 if (LastUncommittedAction != null && ContextActionManager.PeekUndoAction() == LastUncommittedAction)
@@ -235,10 +239,13 @@ namespace StudioCore.MsbEditor
                         // Kinda a hack to prevent a jumping glitch
                         a.SetPostExecutionAction(null);
                         ContextActionManager.UndoAction();
-                        a.SetPostExecutionAction((undo) =>
+                        if (selection != null)
                         {
-                            selection.UpdateRenderModel();
-                        });
+                            a.SetPostExecutionAction((undo) =>
+                            {
+                                selection.UpdateRenderModel();
+                            });
+                        }
                         ContextActionManager.ExecuteAction(a);
                     }
                 }
@@ -313,6 +320,70 @@ namespace StudioCore.MsbEditor
                 changed = PropertyRow(typ, oldval, out newval, selection, cell.Name);
                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
                 ChangeProperty(cell.GetType().GetProperty("Value"), selection, cell, newval, changed, committed, shouldUpdateVisual);
+
+                ImGui.NextColumn();
+                ImGui.PopID();
+                id++;
+            }
+            ImGui.Columns(1);
+        }
+
+        public void PropEditorParamRow(PARAM.Row row)
+        {
+            List<PARAM.Cell> cells = new List<PARAM.Cell>();
+            cells = row.Cells;
+            ImGui.Columns(2);
+            ImGui.Separator();
+            int id = 0;
+
+            // This should be rewritten somehow it's super ugly
+            var nameProp = row.GetType().GetProperty("Name");
+            var idProp = row.GetType().GetProperty("ID");
+            object oval = nameProp.GetValue(row);
+            object nval = null;
+            ImGui.PushID(id);
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("Name");
+            ImGui.NextColumn();
+            ImGui.SetNextItemWidth(-1);
+            bool ch = PropertyRow(nameProp.PropertyType, oval, out nval);
+            bool cm = ImGui.IsItemDeactivatedAfterEdit();
+            ChangeProperty(nameProp, null, row, nval, ch, cm, false);
+            ImGui.NextColumn();
+            ImGui.PopID();
+            id++;
+
+            oval = idProp.GetValue(row);
+            nval = null;
+            ImGui.PushID(id);
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("ID");
+            ImGui.NextColumn();
+            ImGui.SetNextItemWidth(-1);
+            ch = PropertyRow(idProp.PropertyType, oval, out nval);
+            cm = ImGui.IsItemDeactivatedAfterEdit();
+            ChangeProperty(idProp, null, row, nval, ch, cm, false);
+            ImGui.NextColumn();
+            ImGui.PopID();
+            id++;
+
+            foreach (var cell in cells)
+            {
+                ImGui.PushID(id);
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text(cell.Name);
+                ImGui.NextColumn();
+                ImGui.SetNextItemWidth(-1);
+                //ImGui.AlignTextToFramePadding();
+                var typ = cell.Value.GetType();
+                var oldval = cell.Value;
+                bool shouldUpdateVisual = false;
+                bool changed = false;
+                object newval = null;
+
+                changed = PropertyRow(typ, oldval, out newval, null, cell.Name);
+                bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
 
                 ImGui.NextColumn();
                 ImGui.PopID();

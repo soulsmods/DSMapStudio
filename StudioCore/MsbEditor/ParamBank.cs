@@ -15,6 +15,16 @@ namespace StudioCore.MsbEditor
         private static PARAM EnemyParam = null;
         private static AssetLocator AssetLocator = null;
 
+        private static Dictionary<string, PARAM> _params = null;
+
+        public static IReadOnlyDictionary<string, PARAM> Params
+        {
+            get
+            {
+                return _params;
+            }
+        }
+
         private static PARAM GetParam(BND4 parambnd, string paramfile)
         {
             var bndfile = parambnd.Files.Find(x => Path.GetFileName(x.Name) == paramfile);
@@ -60,6 +70,20 @@ namespace StudioCore.MsbEditor
             {
                 PARAM.Layout layout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{EnemyParam.ID}.xml");
                 EnemyParam.SetLayout(layout);
+            }
+
+            // Load every param in the regulation
+            _params = new Dictionary<string, PARAM>();
+            foreach (var f in paramBnd.Files)
+            {
+                if (!f.Name.ToUpper().EndsWith(".PARAM"))
+                {
+                    continue;
+                }
+                PARAM p = PARAM.Read(f.Bytes);
+                PARAM.Layout layout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{p.ID}.xml");
+                p.SetLayout(layout);
+                _params.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
         }
 

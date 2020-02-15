@@ -42,8 +42,10 @@ namespace StudioCore
 
         private ImGuiRenderer ImguiRenderer;
 
-        // Asset management
         private MsbEditor.MsbEditorScreen MSBEditor;
+        private MsbEditor.ParamEditorScreen ParamEditor;
+
+        private bool MSBEditorActive = false;
 
         public static RenderDoc RenderDocManager;
 
@@ -104,6 +106,7 @@ namespace StudioCore
 
             Scene.Renderer.Initialize(_gd);
             MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd);
+            ParamEditor = new MsbEditor.ParamEditorScreen(_window, _gd);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
             var fonts = ImGui.GetIO().Fonts;
@@ -210,8 +213,44 @@ namespace StudioCore
         {
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
             //ImGui.
-            MSBEditor.Update(deltaseconds);
-            MSBEditor.OnGUI();
+
+            var vp = ImGui.GetMainViewport();
+            ImGui.SetNextWindowPos(vp.Pos);
+            ImGui.SetNextWindowSize(vp.Size);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
+            flags |= ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.MenuBar;
+            flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+            flags |= ImGuiWindowFlags.NoBackground;
+            ImGui.Begin("DockSpace_W", flags);
+            var dsid = ImGui.GetID("DockSpace");
+            ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
+            ImGui.PopStyleVar(1);
+
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            if (ImGui.Begin("Map Editor"))
+            {
+                ImGui.PopStyleVar(1);
+                MSBEditor.OnGUI();
+                ImGui.End();
+                MSBEditorActive = true;
+                MSBEditor.Update(deltaseconds);
+            }
+            else
+            {
+                ImGui.PopStyleVar(1);
+                MSBEditorActive = false;
+            }
+
+            if (ImGui.Begin("Param Editor"))
+            {
+                ParamEditor.OnGUI();
+                ImGui.End();
+            }
+
+            ImGui.PopStyleVar(2);
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)
@@ -300,7 +339,10 @@ namespace StudioCore
             MainWindowCommandList.SetFullViewport(0);
             MainWindowCommandList.End();
             _gd.SubmitCommands(MainWindowCommandList);
-            MSBEditor.Draw(_gd, MainWindowCommandList);
+            if (MSBEditorActive)
+            {
+                MSBEditor.Draw(_gd, MainWindowCommandList);
+            }
             Scene.Renderer.Frame();
             GuiCommandList.Begin();
             GuiCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);

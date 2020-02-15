@@ -122,19 +122,24 @@ namespace StudioCore.MsbEditor
         public void OnGUI()
         {
             // Docking setup
-            var vp = ImGui.GetMainViewport();
-            ImGui.SetNextWindowPos(vp.Pos);
-            ImGui.SetNextWindowSize(vp.Size);
+            //var vp = ImGui.GetMainViewport();
+            var wins = ImGui.GetWindowSize();
+            var winp = ImGui.GetWindowPos();
+            winp.Y += 20.0f;
+            wins.Y -= 20.0f;
+            ImGui.SetNextWindowPos(winp);
+            ImGui.SetNextWindowSize(wins);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0.0f);
             ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
             flags |= ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
             flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
             flags |= ImGuiWindowFlags.NoBackground;
-            ImGui.Begin("DockSpace_W", flags);
-            ImGui.PopStyleVar(3);
-            var dsid = ImGui.GetID("DockSpace");
+            //ImGui.Begin("DockSpace_MapEdit", flags);
+            ImGui.PopStyleVar(4);
+            var dsid = ImGui.GetID("DockSpace_MapEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
             if (ImGui.BeginMainMenuBar())
@@ -538,7 +543,7 @@ namespace StudioCore.MsbEditor
 
             //guiRenderer.AfterLayout();
 
-            ImGui.End();
+            //ImGui.End();
         }
 
         public void Draw(GraphicsDevice device, CommandList cl)
