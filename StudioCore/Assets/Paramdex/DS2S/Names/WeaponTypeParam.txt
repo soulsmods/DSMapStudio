@@ -1,0 +1,144 @@
+0 UNKNOWN
+10 Fists
+11 Pyromancy Flame
+20 Claws
+21 Work Hook
+22 Malformed Claws
+30 UNKNOWN
+40 Broken Thief Sword
+41 Thief Dagger / Retainer's Short Sword
+42 Parrying Dagger / Blue Dagger
+43 Black Flamestone Dagger
+44 Dagger
+45 Royal Dirk
+60 Black Scorpion Stinger
+61 Estoc
+62 Rapier
+63 Spider's Silk
+70 Whip
+90 Curved Twinblade
+91 Twinblade
+92 Stone Twinblade
+100 Spear
+101 Gargoyle Bident
+110 Heide Lance
+120 Red Rust Scimitar
+121 Falchion
+122 Warped Sword
+130 Washing Pole
+131 UNKNOWN
+132 Uchigatana
+133 Chaos Blade
+140 Broken Straight Sword
+141 Longsword
+142 Shortsword
+145 Blue Flame
+150 Great Scythe
+151 Silverblack Sickle
+160 Mastodon Greatsword
+161 Claymore
+162 Bastard Sword
+163 Key to the Embedded
+164 Drakeblood Greatsword
+170 Zweihander
+171 King's Ultra Greatsword
+172 Pursuer's Ultra Greatsword
+180 Murakumo
+200 Blacksmith's Hammer
+201 Mace of the Insolent
+202 Handmaid's Ladle
+203 Archdrake Mace
+204 Club
+205 Craftsman's Hammer
+240 Large Club
+241 Pickaxe
+245 UNKNOWN
+246 Drakekeeper's Warpick
+270 Hand Axe
+271 Battle Axe
+272 Dragonslayer's Crescent Axe
+275 Gyrm Axe
+276 UNKNOWN
+277 Butcher's Knife
+280 UNKNOWN
+281 Bandit Greataxe
+285 Giant Stone Axe
+286 Crescent Axe
+287 Greataxe
+290 Halberd
+330 Staff of Amana
+331 Sunset Staff
+332 UNKNOWN
+333 UNKNOWN
+334 Lizard Staff
+335 Bat Staff
+336 Sorcerer's Staff
+337 Witchtree Branch
+338 Archdrake Staff
+339 Bone Staff
+340 Black Witch's Staff
+341 Staff of Wisdom
+342 Azal's Staff
+343 Olenford's Staff
+350 Witchtree Bellvine
+351 Protective Chime
+352 Idol's Chime
+353 Priest's Chime
+354 Chime of Want
+355 Disc Chime
+356 Cleric's Sacred Chime
+357 Dragon Chime
+358 Caitha's Chime
+360 Composite Bow
+361 Short Bow
+362 Long Bow
+363 Hunter's Blackbow
+364 Sea Bow
+365 Bow of Want
+370 Alonne Greatbow
+371 UNKNOWN
+380 Light Crossbow
+381 Shield Crossbow
+385 Avelyn
+386 Heavy Crossbow
+410 Buckler
+420 Cleric's Parma
+430 Large Leather Shield
+431 Archdrake Shield
+440 Spirit Tree Shield
+450 UNKNOWN
+460 Tower Shield
+461 King's Mirror
+465 Orma's Greatshield
+466 Reeve's Greatshield
+470 UNKNOWN
+480 Binoculars
+500 Sorcerer's Twinblade
+510 Ivory Straight Sword
+520 UNKNOWN
+530 Fume Ultra Greatsword
+540 Twin-headed Greatbow
+550 UNKNOWN
+560 Sanctum Crossbow
+570 Sanctum Repeating Crossbow
+580 Sanctum Shield
+590 Bewitched Alonne Sword
+600 Bone Fist
+610 Sanctum Mace
+620 Pilgrim's Spontoon
+630 Ice Rapier
+640 UNKNOWN
+641 Yorgh's Spear
+650 Chime of Screams
+660 UNKNOWN
+670 Crypt Blacksword
+680 Helix Halberd
+690 Smelter Hammer
+700 Spitfire Spear
+710 UNKNOWN
+720 UNKNOWN
+730 Retainer Staff
+740 Bandit's Knife
+741 Shadow Dagger
+742 Umbral Dagger
+745 Manikin Knife

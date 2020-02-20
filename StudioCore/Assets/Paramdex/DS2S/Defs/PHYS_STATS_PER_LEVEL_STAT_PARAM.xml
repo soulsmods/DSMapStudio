@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>PHYS_STATS_PER_LEVEL_STAT_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u16 Level" />
+    <Field Def="u16 Human HP" />
+    <Field Def="u16 Base HP" />
+    <Field Def="u16 Base Stamina (*10)" />
+    <Field Def="f32 Max Equip Load" />
+    <Field Def="u32 Strength Bonus" />
+    <Field Def="u32 Dexterity Bonus" />
+    <Field Def="u32 Magic Bonus" />
+    <Field Def="u32 Fire Bonus" />
+    <Field Def="u32 Lightning Bonus" />
+    <Field Def="u32 Dark Bonus" />
+    <Field Def="u32 Poison Bonus" />
+    <Field Def="u32 Bleed Bonus" />
+    <Field Def="u32 Unk2C" />
+    <Field Def="f32 Unk30" />
+    <Field Def="f32 Unk34" />
+    <Field Def="f32 Unk38" />
+    <Field Def="f32 Unk3C" />
+    <Field Def="f32 Unk40" />
+    <Field Def="f32 Unk44" />
+    <Field Def="f32 Unk48" />
+    <Field Def="f32 Unk4C" />
+    <Field Def="f32 Unk50" />
+    <Field Def="f32 Unk54" />
+    <Field Def="f32 Unk58" />
+    <Field Def="f32 Unk5C" />
+    <Field Def="f32 Unk60" />
+    <Field Def="f32 Unk64" />
+    <Field Def="f32 Strike Defence" />
+    <Field Def="f32 Slash Defence" />
+    <Field Def="f32 Thrust Defence" />
+    <Field Def="f32 Unk74" />
+    <Field Def="f32 Unk78" />
+    <Field Def="f32 Unk7C" />
+    <Field Def="u32 Unk80" />
+    <Field Def="u16 Unk84" />
+    <Field Def="u16 Unk86" />
+    <Field Def="u16 Unk88" />
+    <Field Def="u16 Unk90" />
+    <Field Def="u32 Mundane Scaling" />
+    <Field Def="f32 Poise" />
+  </Fields>
+</PARAMDEF>

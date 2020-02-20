@@ -1,0 +1,293 @@
+0 For testing -- テスト用
+1 For not doing anything -- なにもしない用
+2 Atarisawari data (copy and paste recommended) -- あたりさわりのないデータ（コピペ元推奨）
+10 Logic for animation check: near -- アニメチェック用ロジック：近
+11 Logic for animation check: Far -- アニメチェック用ロジック：遠
+50 Ishizaki Test -- 石崎テスト
+100 Automatic patrol (default) -- 自動巡回用(デフォルト)
+540 For automatic patrol (running) -- 自動巡回用(走り)
+541 Automatic patrol (walking) -- 自動巡回用(歩き)
+542 Automatic patrol (super dash) -- 自動巡回用(スーパーダッシュ)
+10000 Collective Patrol dummy leader -- 集団巡回ダミーリーダー
+10001 For funnels -- ファンネル用
+10010 City Map Sniper Platoon target dummy character -- 街マップスナイパーの小隊ターゲット用ダミーキャラ
+10200 For NPC Logic Testing -- NPCロジックテスト用
+20000 NPC Sub-goal Test 00: Combat -- NPCサブゴールテスト00:戦闘
+20001 NPC Sub-goal Test 01: walking and Running -- NPCサブゴールテスト01:歩行・走行
+20002 NPC Sub-goal Test 02: Quick Turn/left/right movement -- NPCサブゴールテスト02:クイックターン・左右移動
+20003 NPC Sub-goal Test 03: Retreat/Step -- NPCサブゴールテスト03:後退・ステップ
+20010 NPC Test 00: Test -- NPCテスト00：テスト
+90390 Dungeon Objects (for bullet owners) -- 地下牢 器オブジェ（弾丸オーナー用）
+107000 Skeleton (King of the Evil Kin) -- スケルトン（死霊の王 眷属）
+107001 Skeleton (song sword) -- スケルトン（曲剣）
+107002 Skeleton (Sword) -- スケルトン（大曲剣）
+107003 Skeleton (bow) -- スケルトン（弓）
+107004 Skeleton (song sword) * Always running -- スケルトン（曲剣）※必ず走る
+107005 Skeleton (Sword) * Always running -- スケルトン（大曲剣）※必ず走る
+107006 Skeleton (Flame vase) -- スケルトン（火炎壺）
+107081 Skeleton (Sword for suspension bridge) -- スケルトン（吊り橋用 剣）
+107082 Skeleton (torch for suspension bridge) -- スケルトン（吊り橋用 松明）
+109000 Dead Soldier: Segunda State -- 亡者兵士 ：グンダ状態
+110000 Dead Soldier (Straight Sword + shield) -- 亡者兵士 （直剣＋盾）
+110001 Dead Soldier (Straight Sword + shield): Oil pot possible -- 亡者兵士 （直剣＋盾）：油壺可能
+110003 Dead Soldier (Straight Sword + shield): Flame bottle possible -- 亡者兵士 （直剣＋盾）：火炎瓶可能
+110004 Dead Soldier (Straight Sword + shield): Love Molotov cocktails -- 亡者兵士 （直剣＋盾）：火炎瓶大好き
+110005 Dead Soldier (Straight sword only) -- 亡者兵士 （直剣のみ）
+110006 Dead Soldier (Straight sword only): Love Molotov cocktails -- 亡者兵士 （直剣のみ）：火炎瓶大好き
+110007 Dead Soldier (Straight sword only): Flame bottle possible -- 亡者兵士 （直剣のみ）：火炎瓶可能
+110008 Dead Soldier (Straight sword only): Oil pot possible -- 亡者兵士 （直剣のみ）：油壷可能
+110010 Dead soldier (Spear + large shield) -- 亡者兵士 （槍＋大盾）
+110020 Dead Soldier (Crossbow) -- 亡者兵士 （クロスボウ）
+110030 Dead Soldier (Lantern) -- 亡者兵士 （ランタン）
+110050 Dead Soldier (broken) -- 亡者兵士 （折れ直）
+110053 Dead Soldier (Ojo 1) -- 亡者兵士 （折れ直　嗅覚有　王城1）
+110054 Dead soldier (for a broken straight makeover. Only closer) -- 亡者兵士 （折れ直 変身用。近づくだけ）
+110060 Dead Soldier (Dagger) -- 亡者兵士 （短剣）
+110070 Dead Soldier (Common) special standby ※ When you become a combat state, change to another thought ID on the event side -- 亡者兵士 （共通）特殊待機時　※戦闘状態になったら、イベント側で別の思考IDに変更する
+110090 [Monster House] dead soldier (Straight sword) -- 【モンスターハウス】亡者兵士 （直剣）
+110091 [Monster House] dead soldier (Spear + large shield) -- 【モンスターハウス】亡者兵士 （槍＋大盾）
+110093 [Monster House] dead soldier (lantern) -- 【モンスターハウス】亡者兵士 （ランタン）
+110094 [For City Test] dead Sniper -- 【街テスト用】亡者スナイパー
+110098 Dead soldier Test: Straight Sword + Shield -- 亡者兵士テスト用：直剣+盾
+110500 Dead Soldier (Large) _ Axe -- 亡者兵士（大）_斧
+110501 Dead Soldier (Large) _ Axe visibility Low Ojo 1 -- 亡者兵士（大）_斧 視界低い　王城1
+110510 Dead Soldier (Large) _ Halle Bird -- 亡者兵士（大）_ハルバード
+110511 Dead Soldier (Large) _ Halle Bird Vision/Hearing Low Ojo 1 -- 亡者兵士（大）_ハルバード 視界/聴覚低い　王城1
+110580 Dead Soldier (Large) _ Axe _interupttest -- 亡者兵士（大）_斧_INTERUPTTest
+110590 Dead Soldier (Large) _ for Umeda test -- 亡者兵士（大）_梅田テスト用
+111000 Dark Knight Straight Sword + Shield -- ダークナイト 直剣 + 盾
+111001 Dark Knight Straight Sword + shield (olfactory parameters for events) -- ダークナイト 直剣 + 盾　　（イベント用嗅覚パラメータ）
+111050 Dark Knight Straight Sword + shield for Avatar -- ダークナイト 直剣 + 盾　アバター用
+111098 For the Dark Knight Test (Nakano) -- ダークナイト テスト用（中野）
+112000 Dead Knight (Sword shield) -- 亡者騎士(剣盾）
+113000 Small slugs of caries -- 蝕のナメクジ小
+113010 It's a small arm slug. -- 蝕のナメクジ小　腕だし
+113200 A slug of the caries (dead dumpling) -- 蝕のナメクジ(亡者団子）
+115000 Dead Shi Mace + Large Shield -- 亡者僧兵　メイス＋大盾
+115010 Dead Shi both hand held hammer -- 亡者僧兵　両手持ちハンマー
+115020 Dead Shi Ice-ax -- 亡者僧兵　ピッケル
+115030 Dead Shi Mace + Miracle -- 亡者僧兵　メイス＋奇跡
+115040 Dead Shi Long Distance miracle -- 亡者僧兵　遠距離奇跡
+115070 Narrow visual range for dead Shi circuit -- 亡者僧兵　巡回用 視覚範囲狭い
+117000 Skeleton Warrior a Scimitar + shield -- スケルトン戦士A　シミター+盾
+117010 Skeleton Warrior A Nodachi -- スケルトン戦士A　野太刀
+117030 Skeleton Warrior A bow (pre-creation) -- スケルトン戦士A　弓（先行作成）
+118000 Skeleton Warrior B: Scimitar one hand -- スケルトン戦士B：シミター片手
+118010 Skeleton Warrior B: Scimitar Nitori -- スケルトン戦士B：シミター二刀流
+119000 Dead Priest Grey Tome + Cathedral Church of the Great Shield -- 亡者僧騎士　グレートメイス＋大盾　聖堂教会
+119005 Dead Priest Grey tome + great Shield Bow Switching Basilica Association -- 亡者僧騎士　グレートメイス＋大盾　弓持ち替え可　聖堂協会
+119010 Dead Priest the Great Sword Basilica Church -- 亡者僧騎士　グレートソード　聖堂教会
+119050 Dead Knight Grey Tome + Large shield (avatar) -- 亡者僧騎士　グレートメイス＋大盾（アバター）
+120000 Dwarf man hatchet/ice-ax: blowgun possible -- 矮小人 ハチェット/ピッケル ：吹き矢可能
+120001 Dwarf man hatchet/ice-ax: blowgun narrow View -- 矮小人 ハチェット/ピッケル ：吹き矢可能　視野狭い
+120002 Dwarf man hatchet/ice-ax: blowgun possible?? -- 矮小人 ハチェット/ピッケル ：吹き矢可能　？？
+120003 Dwarf man hatchet/ice-ax: Flame pots available -- 矮小人 ハチェット/ピッケル ：火炎壺可能
+120004 Dwarf man hatchet/ice-ax: Fire Pot battery -- 矮小人 ハチェット/ピッケル ：火炎壺砲台
+120005 Dwarf man hatchet/ice-ax: blowgun/flame vase not available -- 矮小人 ハチェット/ピッケル ：吹き矢/火炎壺　不可
+120010 Dwarf man hatchet/ice-ax: blowgun Main -- 矮小人 ハチェット/ピッケル ：吹き矢メイン
+120020 Dwarf Man Large Sword -- 矮小人 大剣
+120050 Dwarf man hatchet/ice-ax (avatar) -- 矮小人 ハチェット/ピッケル （アバター）
+121000 Blue _ Spear + Shield -- ブルー_槍+盾
+121001 Blue _ Spear + Shield: Arimoro -- ブルー_槍+盾：専守
+121010 Blue _ Sword -- ブルー_剣
+121020 Deep Blue -- ブルー_ディープ
+121030 Blue _ Estrus -- ブルー_発情
+121040 Blue _ quadruped -- ブルー_四足
+122000 Resurrection (first to second form) patrol -- よみがえり（第１～２形態）　巡回
+122010 Resurrection (first to second form) fixed battery -- よみがえり（第１～２形態）　固定砲台
+122020 Resurrection (first to second form) body appearance solid -- よみがえり（第１～２形態）　本体出現固体
+122030 Resurrection (first to second form) body injection solid -- よみがえり（第１～２形態）　本体射出固体
+123000 Missionary -- 宣教師
+123001 Long distance attack version until missionary PC approaches -- 宣教師　PCが近づくまで遠距離攻撃版
+123051 Missionary (Avatar: Retreat) -- 宣教師（アバター：後退）
+123098 Missionaries (for snipers) -- 宣教師(スナイパー用)
+123099 Missionary -- 宣教師
+124000 Poor dead (hatchet) -- 貧民亡者（鉈）
+124001 Poor Dead (hatchet): Fire pot fixed Battery -- 貧民亡者（鉈）：火炎壺固定砲台
+124002 Poor Dead (hatchet): Use of flame pots -- 貧民亡者（鉈）：火炎壺使用
+124003 Poor Dead (hatchet): Oil pot fixed Battery -- 貧民亡者（鉈）：油壺固定砲台
+124004 Poor Dead (hatchet): Oil jar use -- 貧民亡者（鉈）：油壷使用
+124010 Poor dead (hatchet + lantern) -- 貧民亡者（鉈+ランタン）
+124020 The poor dead (sickle + dagger) -- 貧民亡者（鎌+短剣）
+124030 Poor dead (Mallet) -- 貧民亡者（木槌）
+124040 Poor dead (hoe) -- 貧民亡者（鍬）
+125000 Poor dead Elite -- 貧民亡者エリート
+125099 Poor dead Elite patrol test -- 貧民亡者エリート巡回テスト用
+126000 Poor dead servant: common -- 貧民亡者下男：共通
+126090 Poor dead servant: sawing -- 貧民亡者下男：鋸
+126091 Poor dead servant: common/Upper Visibility Limited edition -- 貧民亡者下男：共通/上視界制限版
+128000 Shin Ojo Knight: Straight Sword + Shield -- 新王城騎士：直剣+盾
+128010 New Ojo Knight: Spear + Shield -- 新王城騎士：槍+盾
+128020 New Ojo Knight: the Great Sword -- 新王城騎士：大剣
+128030 Shin Ojo Knight: Crossbow -- 新王城騎士：クロスボウ
+129000 Ojo Deb: Long axe -- 王城デブ：長斧
+129010 Ojo Deb: Short Axe Nitori -- 王城デブ：短斧二刀流
+130000 Black Knight: Sword -- 黒騎士：剣
+130010 Black Knight: Oversized Sword -- 黒騎士：特大剣
+130020 Black Knight: The Great Axe -- 黒騎士：大斧
+130030 Black Knight: Axe Spear -- 黒騎士：斧槍
+131000 Dark Knight Beast -- ダークナイトビースト
+132000 Crystal Elders -- 結晶の古老
+132010 Elders alter ego of Crystal -- 結晶の古老　分身
+132200 Crystal Elders Funnel -- 結晶の古老　ファンネル
+133000 The Keeper of the Forest: Long axe -- 森の番人：長斧
+133010 The Keeper of the Forest: the Great Sword -- 森の番人：大剣
+133098 Forest keeper: Long axe for bug test -- 森の番人：長斧バグテスト用
+133099 The Keeper of the Forest: the Great Sword test -- 森の番人：大剣 テスト
+134000 Dead Wax: Whip + Magic -- 蝋の死人：鞭＋魔法
+134010 Dead Wax: Beating -- 蝋の死人：殴り
+135000 Slave Spirits: Dagger -- 奴隷霊：短剣
+135010 Slave Spirits: fetters -- 奴隷霊：足枷
+135020 Slave Spirits: no Legs -- 奴隷霊：足なし
+135030 Slave Spirit: Straight Sword -- 奴隷霊：直剣
+136000 Crucifixion dead A -- 磔亡者A
+137000 Crucifixion dead B -- 磔亡者B
+137090 Crucifixion dead b * old -- 磔亡者B　※古い
+138000 Snake Man priest -- 蛇人の司祭
+139000 Snake Assassin (Dagger x 2) -- 蛇人の暗殺者(短刀×2)
+139010 Snake Assassin (shorty + small shield) -- 蛇人の暗殺者（ショーテル+小盾）
+139100 Snake Assassin (Large) (Kusarigama) -- 蛇人の暗殺者（大）　(鎖鎌)
+141000 Silver Knight Sword + Shield -- 銀騎士 剣＋盾
+141010 Silver Knight Spear + Shield -- 銀騎士 槍＋盾
+141020 Silver Knight Bow → Sword + shield -- 銀騎士 弓　→　剣＋盾
+141030 Silver Knight bow → Spear + shield -- 銀騎士 弓　→　槍＋盾
+146000 Painting Protection (phantom) -- 絵画守り（幻影）
+147000 Wheel skeleton -- 車輪スケルトン
+148000 Dark Knight (spirit body) -- ダークナイト（霊体）
+149000 A tracker (spirit body) -- 追跡者（霊体）
+200000 Eclipse Wolf -- 蝕のオオカミ
+200096 Eclipse Wolf: Kayukawa test -- 蝕のオオカミ：粥川テスト
+200097 Eclipse Wolf (heat up): Yoshida test -- 蝕のオオカミ（ヒートアップ）：吉田テスト
+200098 Eclipse Wolf: Yoshida Test -- 蝕のオオカミ：吉田テスト
+200099 Eclipse Wolf: Kayukawa test -- 蝕のオオカミ：粥川テスト
+202000 Dead Dog (Large) -- 亡者犬（大）
+202050 Dead Dog (Large): Avatar test -- 亡者犬（大）：アバタ―テスト
+202099 Dead Dog (Large): test -- 亡者犬（大）：テスト
+202100 Dead Dog (Large) visual range minimum, hearing lower forest first half (dog skeleton instead) -- 亡者犬（大）　視覚範囲極小，聴覚低め　森前半（犬スケルトン代わり）
+202101 Dead Dog (small) -- 亡者犬（小）
+202102 Dead Dog (small) visibility Low Ojo 1 -- 亡者犬（小） 視界低い　王城1
+202200 Dead Dog (Large) (Salivan dog instead) -- 亡者犬（大）（サリヴァーン犬代わり）
+202201 Dead Dog (Large) (Salivan dog instead) _ Olfactory strong -- 亡者犬（大）（サリヴァーン犬代わり）_嗅覚強い
+203000 Salivan Reaper (song sword) -- サリヴァーンの死神（曲剣）
+203010 Salivan's death (sickle) -- サリヴァーンの死神（鎌）
+203099 Salivan Reaper: Test -- サリヴァーンの死神：テスト
+204000 Hungry Jack -- はらぺこジャック
+204050 Hungry Jack: The 12-end Avatar Edition -- はらぺこジャック：12末アバタ―版
+204099 Hungry Jack: Test -- はらぺこジャック：テスト
+206000 Resurrection (Third form) -- よみがえり（第３形態）
+206010 Resurrection (third form) Poison swamp forest -- よみがえり（第３形態）　毒沼の森
+207000 Prisoners in Dungeons (bare hands) -- 地下牢の囚人たち（素手）
+207010 Prisoners in Dungeons (spear) -- 地下牢の囚人たち（槍）
+207020 Prisoners in Dungeons (Daggers) -- 地下牢の囚人たち（短剣）
+208000 Dead Dog (Jibara) -- 亡者犬（うじばら）
+209000 The Angel of the Dragon -- 竜の御使い
+210000 Drifting Stuff -- 漂うもの
+210010 Drifting Stuff (mimicry) -- 漂うもの（擬態）
+211000 Dog Rats -- 犬ネズミ
+211098 Dog Rat (Test ai) -- 犬ネズミ（テストAI）
+212000 Mimic _ Normal -- ミミック_ノーマル
+212010 Mimic _ Exorcist -- ミミック_エクソシスト
+213000 Wriggles Carrion -- 蠢く腐肉
+213090 Wriggles Carrion (underground test) -- 蠢く腐肉(地下テスト）
+214000 Basilisk -- バジリスク
+215000 Crystal Lizard -- 結晶トカゲ
+216000 What we call Eclipse (small) -- 蝕を呼ぶもの（小）
+218000 Maggots (slug type) -- 蛆人（ナメクジタイプ）
+218010 Maggots (witch type) -- 蛆人（魔法使いタイプ）
+218100 Maggots (slug type): for Salivan warfare -- 蛆人（ナメクジタイプ）：サリヴァーン戦用
+218110 Maggots (witch type): for Salivan warfare -- 蛆人（魔法使いタイプ）：サリヴァーン戦用
+219000 Ojo Gargoyle: Lights -- 王城のガーゴイル：灯火
+219010 Ojo Gargoyle: Spear -- 王城のガーゴイル：槍
+220000 Sand worm in the waste city -- 廃都のサンドワーム
+220100 Sand worm in the Waste City (queen) -- 廃都のサンドワーム（女王）
+221000 Zombie Glass (dagger) -- ゾンビガラス（短剣）
+221001 Zombie Glass (scythe) -- ゾンビガラス（大鎌）
+221002 Zombie Glass (Cane) -- ゾンビガラス（杖）
+223000 New Shing -- 新獄吏
+223010 New Shing Sniper -- 新獄吏 スナイパー
+224000 Full Armor Beast -- フルアーマー獣
+224100 Full Armor Beast Ojo 2 small -- フルアーマー獣　王城2　雑魚
+225000 Tindalos -- ティンダロス
+226000 3-Ream Varistor -- 3連バリスタ
+227000 Stench crab -- 死臭蟹
+227100 Stench Crab (small) -- 死臭蟹（小）
+229000 Salivan watchdog (Large) -- サリヴァーンの番犬（大）
+229100 Salivan watchdog (small) -- サリヴァーンの番犬（小）
+302000 Golem (Bare hands) -- ゴーレム（素手）
+302010 Golem (Iron Sphere) -- ゴーレム（鉄球）
+302100 Golem (Large) -- ゴーレム（大）
+302197 Golem (Large) olfactory test -- ゴーレム（大） 嗅覚テスト
+302198 Golem (Large) Dungeon -- ゴーレム（大） 地下牢
+302199 Golem Cathedral -- ゴーレム（大） 聖堂
+304000 Observer of the Abyss -- 深淵の監視者
+304090 Observer of the Abyss * old -- 深淵の監視者　※古い
+304098 Observer of the Abyss: Yoshida Test -- 深淵の監視者：吉田テスト
+305000 Ash Daemon -- 灰のデーモン
+306000 Firewood Daemon -- 薪のデーモン
+306099 Firewood Daemon (old) -- 薪のデーモン（古い）
+306100 Fire Wood Demon Street entrance square -- 薪のデーモン 街　入口広場
+307000 Daemon Priest -- デーモン司祭
+308000 Butterfly in caries -- 蝕の蝶
+308001 Butterfly of caries (not landing) -- 蝕の蝶（着地しない）
+309000 The prison spider -- 牢蜘蛛
+310000 Crystal Lizard God -- 結晶トカゲの神
+310050 Crystal Lizard God-avatar-bver- -- 結晶トカゲの神-アバタ-Bver-
+311000 Eclipse Spider -- 蝕の蜘蛛
+312000 Sacred Beast of the Forest -- 森の霊獣
+312020 Sacred Beast in the Forest (test) -- 森の霊獣(テスト)
+314000 The Flying Dragon of the bridge _ Hashimoto -- 橋の飛竜_ヘルカイト_橋下
+314010 The Flying Dragon of the bridge _ the Climb 2 -- 橋の飛竜_ヘルカイト_登る2
+314020 The bridge Flying Dragon _ hellfire _ Normal Combat -- 橋の飛竜_ヘルカイト_通常戦闘
+314100 The Flying Dragon of the bridge _ Ojo 1 (without sight or hearing) -- 橋の飛竜_ヘルカイト_王城1　（視覚・聴覚なし）
+316000 Dragon's Guardian Knight -- 竜の守護騎士
+317000 Dark Wraith -- ダークレイス
+501000 King of storms, simple -- 嵐の王・単体
+502000 Crimson Bat -- クリムゾンバット
+503000 The King of the Storm: riding -- 嵐の王：騎乗
+511000 Hero Segunda -- 英雄グンダ
+511080 Segunda (for throwing sync confirmation) -- グンダ（投げ同期確認用）
+511090 Segunda (Dead soldier control) monster House -- グンダ（亡者兵士系制御）モンスターハウス
+511091 Segunda (tracker-based control) monster House -- グンダ（追跡者系制御）モンスターハウス
+511098 Segunda (servant) -- グンダ（下男）
+511099 Segunda (tracker-based control) -- グンダ（追跡者系制御）
+512000 Snake Spirit -- 蛇霊
+512092 Snake Spirit Test _ Monster House -- 蛇霊テスト_モンスターハウス
+512099 Snake Spirit Test -- 蛇霊テスト
+514000 The Old king of caries -- 蝕の老王
+514010 The old king of caries _ an apparition -- 蝕の老王_幻影
+514099 The old king of caries test -- 蝕の老王テスト
+515000 Salivan -- サリヴァーン
+516000 King of the Dead -- 死霊の王
+518000 Cursed Colossus -- 呪われた巨像
+518001 Cursed Colossus (heat up Test) -- 呪われた巨像（ヒートアップテスト）
+518002 Cursed Colossus (normal test) -- 呪われた巨像（通常時テスト）
+519000 King of the disused city -- 廃都の孤王
+520000 Fat Daemon -- デブデーモン
+520001 Deb Demon Ojo 1 (Mausoleum) -- デブデーモン 王城1（霊廟）
+520002 Fat Demon Dungeon (surrogate) -- デブデーモン ダンジョン（代理）
+522000 Cardinal (Long) -- 枢機卿団（長）
+522099 Cardinal Test -- 枢機卿団テスト
+522100 Cardinal (Deb) -- 枢機卿団（デブ）
+522101 Cardinal (long guards Deb) -- 枢機卿団（長親衛デブ）
+522200 Cardinal (tall) -- 枢機卿団（のっぽ）
+522300 Cardinal (Normal) -- 枢機卿団（通常）
+523000 Mother Dragon -- 母ドラゴン
+524000 Moonlight Witch -- 月光の魔女
+525000 Prince of Darkness (brother) -- 闇の双皇子（兄）
+525001 Prince of Darkness (brother): HU -- 闇の双皇子（兄）:HU
+525100 Prince of Darkness (brother) -- 闇の双皇子（弟）
+526000 Mad Warrior Hallec -- 狂戦士ハレック
+527000 A tracker -- 追跡者
+900000 ■ ■ ■ ■ ■ For products up here ■ ■ ■ ■. ■. -- ■■■■■製品用ここまで■■■■■
+901000 Hiras Test -- hirasテスト
+901100 Yoshihi Test -- yoshihiテスト
+901200 Tsuruy Test -- tsuruyテスト
+901300 Move sub-goal Test 1: walking and running -- 移動サブゴールテスト1:歩行・走行
+901301 Move sub-goal Test 2: Quick turn/left/right movement -- 移動サブゴールテスト2:クイックターン・左右移動
+901302 Move sub-goal Test 3: Retreat Step -- 移動サブゴールテスト3:後退・ステップ
+901400 Masut Test -- masutテスト
+902000 Yoshihi damage Check -- yoshihiダメージチェック用
+999305 [FDP] Proto-wolf (weakening) -- 【FDP】プロト_ウルフ（弱化）
+999410 [FDP] Dead _ for covert confirmation -- 【FDP】亡者_隠密確認用
+999901 Team AI Reader test -- チームAIリーダーテスト
+999910 For sound Confirmation -- 音確認用

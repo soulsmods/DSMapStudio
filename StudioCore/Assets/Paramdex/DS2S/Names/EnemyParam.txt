@@ -1,0 +1,976 @@
+10 UNKNOWN
+2235 UNKNOWN
+3050 UNKNOWN
+3096 UNKNOWN
+3180 UNKNOWN
+3181 UNKNOWN
+3260 UNKNOWN
+3320 UNKNOWN
+5030 UNKNOWN
+6200 UNKNOWN
+6210 UNKNOWN
+6220 UNKNOWN
+6230 UNKNOWN
+6240 UNKNOWN
+6250 UNKNOWN
+6260 UNKNOWN
+6270 UNKNOWN
+6280 UNKNOWN
+6290 UNKNOWN
+6300 UNKNOWN
+6310 UNKNOWN
+6320 UNKNOWN
+6330 UNKNOWN
+8100 UNKNOWN
+8110 UNKNOWN
+8120 UNKNOWN
+9100 UNKNOWN
+9101 UNKNOWN
+9102 UNKNOWN
+9111 UNKNOWN
+9113 UNKNOWN
+9120 UNKNOWN
+9140 UNKNOWN
+9150 UNKNOWN
+9160 UNKNOWN
+9170 UNKNOWN
+9200 UNKNOWN
+9300 UNKNOWN
+9400 UNKNOWN
+9500 UNKNOWN
+9501 UNKNOWN
+9502 UNKNOWN
+9503 UNKNOWN
+9504 UNKNOWN
+9601 UNKNOWN
+9602 UNKNOWN
+9603 UNKNOWN
+9604 UNKNOWN
+9605 UNKNOWN
+9606 UNKNOWN
+9607 UNKNOWN
+9608 UNKNOWN
+9609 UNKNOWN
+9610 UNKNOWN
+9611 UNKNOWN
+9612 UNKNOWN
+9613 UNKNOWN
+9614 UNKNOWN
+9620 UNKNOWN
+9621 UNKNOWN
+9622 UNKNOWN
+9623 UNKNOWN
+9624 UNKNOWN
+9625 UNKNOWN
+9626 UNKNOWN
+9627 UNKNOWN
+9628 UNKNOWN
+9640 UNKNOWN
+9641 UNKNOWN
+9642 UNKNOWN
+9643 UNKNOWN
+9644 UNKNOWN
+9645 UNKNOWN
+9646 UNKNOWN
+9647 UNKNOWN
+9648 UNKNOWN
+100000 Forest Grotesque
+100008 Forest Grotesque
+100009 Forest Grotesque
+100010 Forest Grotesque
+100020 Forest Grotesque
+101000 Kobold - Things Betwixt
+101001 Kobold - Aldia's Keep
+102000 Hollow Soldier
+102010 Hollow Soldier
+102011 Hollow Soldier
+102020 Hollow Soldier
+102030 Hollow Soldier
+102040 Hollow Soldier
+102100 Royal Soldier
+102110 Royal Soldier
+102140 Royal Soldier
+103000 Hollow Infantry
+103010 Hollow Infantry
+103020 Hollow Infantry
+103022 Hollow Infantry
+103030 Hollow Infantry
+103032 Hollow Infantry
+103040 Hollow Infantry
+103051 Hollow Infantry
+103111 Drangleic Infantry
+103121 Drangleic Infantry
+103131 Drangleic Infantry
+105000 Amana Shrine Maiden
+105010 Amana Shrine Maiden
+106001 Hollow Priest
+106009 Hollow Priest
+106021 Hollow Priest
+106200 Hollow Priestess
+107000 Parasitized Undead
+107001 Parasitized Undead
+108000 Hollow Rogue
+108010 Hollow Rogue
+108020 Hollow Rogue
+113000 Varangian Sailor
+113010 Varangian Sailor
+113020 Varangian Sailor
+115000 Undead Traveler
+115006 Undead Traveler
+115014 Undead Traveler
+115015 Undead Traveler
+115016 Undead Traveler
+117000 Stone Soldier
+117010 Stone Soldier
+118000 Black Hollow Mage
+118001 Black Hollow Mage
+118201 White Hollow Mage
+119000 Lion Clan Mage
+119001 Lion Clan Mage
+121000 Giant
+121001 Giant
+121010 Giant
+121020 Giant
+121030 Giant
+123002 Suspicious Shadow
+123003 Suspicious Shadow
+123004 Suspicious Shadow - Lost Bastille
+123005 Suspicious Shadow - Harvest Valley
+123010 Suspicious Shadow
+123022 Suspicious Shadow
+124000 Manikin
+124010 Manikin
+124020 Manikin
+124030 Manikin
+124040 Manikin
+124041 Manikin
+124050 Manikin
+124060 Manikin
+124070 Manikin
+125004 Rupturing Hollow
+125009 Rupturing Hollow
+125010 Rupturing Hollow
+125011 Rupturing Hollow
+125012 Rupturing Hollow
+125013 Rupturing Hollow
+125014 Rupturing Hollow
+125015 Rupturing Hollow
+125016 Rupturing Hollow
+127000 Captive Undead
+127001 Captive Undead
+127002 Captive Undead
+127003 Captive Undead
+127004 Captive Undead
+127005 Captive Undead
+127006 Captive Undead
+127010 Captive Undead
+127011 Captive Undead
+127020 Captive Undead
+127030 Captive Undead
+127100 Captive Undead
+127101 Captive Undead
+127110 Captive Undead
+127111 Captive Undead
+129000 Forest Spirit - Dark Chasm of Abyss
+129010 Forest Spirit - Dark Chasm of Abyss
+129200 Forest Spirit - Crown of the Ivory King
+131000 Lindelt Cleric
+131010 Lindelt Cleric
+131020 Lindelt Cleric
+132003 Skeleton
+132004 Skeleton
+132005 Skeleton
+132006 Skeleton
+132007 Skeleton
+132013 Skeleton
+132014 Skeleton
+132015 Skeleton
+132016 Skeleton
+132020 Skeleton
+132022 Skeleton
+132024 Skeleton
+132025 Skeleton
+132026 Skeleton
+132030 Skeleton
+132033 Skeleton
+132090 Skeleton
+133001 Skeleton
+133002 Skeleton
+133010 Skeleton
+133020 Skeleton
+134000 Gyrm
+135000 Gyrm Warrior
+135001 Gyrm Warrior
+135010 Gyrm Warrior
+135020 Gyrm Warrior
+135030 Gyrm Warrior
+135040 Gyrm Warrior
+135050 Gyrm Warrior
+137010 Prowling Magus - Aldia's Keep
+137021 Prowling Magus - Boss
+137022 Prowling Magus
+138000 Torturer
+138001 Torturer
+138002 Torturer
+138010 Torturer
+138011 Torturer
+139000 Artificial Undead
+139001 Artificial Undead
+139002 Artificial Undead
+139008 Artificial Undead
+139009 Artificial Undead
+139010 Artificial Undead
+141000 Undead Aberration - Aldia's Keep
+141002 Undead Aberration - Lost Bastille
+146000 Lord Tseldora
+146010 Lord Tseldora
+147001 Undead Supplicant
+147004 Undead Supplicant
+147005 Undead Supplicant
+148000 Undead Peasant
+148010 Undead Peasant
+148020 Undead Peasant
+148030 Undead Peasant
+148040 Undead Peasant
+148041 Undead Peasant
+149010 Undead Steelworker
+149011 Undead Steelworker
+150000 Stone Knight
+151000 Ironclad Soldier
+151001 Ironclad Soldier
+151200 Ironclad Soldier
+151202 Ironclad Soldier
+151208 Ironclad Soldier
+151209 Ironclad Soldier
+151210 Ironclad Soldier
+152000 Royal Soldier
+152001 Royal Soldier
+152002 Royal Soldier
+152010 Royal Soldier
+152011 Royal Soldier
+153000 Syan Knight - Shaded Woods / Drangleic Castle
+153002 Syan Knight - Shrine of Amana
+153003 Syan Knight - Undead Crypt
+153004 Syan Knight
+153005 Syan Knight - Huntsman's Copse / Unseen Path to Heide's
+153010 Syan Knight - Shaded Woods / Drangleic Castle
+153012 Syan Knight - Shrine of Amana
+153013 Syan Knight - Undead Crypt
+153014 Syan Knight
+153015 Syan Knight - Aldia's Keep
+153016 Syan Knight - Grave of Saints
+154000 Skeleton Lord - Boss
+154001 Skeleton Lord - Boss
+154010 Skeleton Lord - Boss
+154011 Skeleton Lord - Boss
+154020 Skeleton Lord - Boss
+154021 Skeleton Lord - Boss
+155000 Amana Aberration
+155001 Amana Aberration
+156011 UNKNOWN
+157000 Dual-wielding Skeleton
+157001 Dual-wielding Skeleton
+157002 Dual-wielding Skeleton
+157003 Dual-wielding Skeleton
+157004 Dual-wielding Skeleton
+157005 Dual-wielding Skeleton
+157006 Dual-wielding Skeleton
+157007 Dual-wielding Skeleton
+157008 Dual-wielding Skeleton
+157010 Dual-wielding Skeleton
+157011 Dual-wielding Skeleton
+157012 Dual-wielding Skeleton
+157013 Dual-wielding Skeleton
+157014 Dual-wielding Skeleton
+157015 Dual-wielding Skeleton
+157016 Dual-wielding Skeleton
+157020 Dual-wielding Skeleton
+157021 Dual-wielding Skeleton
+157022 Dual-wielding Skeleton
+157023 Dual-wielding Skeleton
+157024 Dual-wielding Skeleton
+157025 Dual-wielding Skeleton
+157030 Dual-wielding Skeleton
+157031 Dual-wielding Skeleton
+157032 Dual-wielding Skeleton
+157033 Dual-wielding Skeleton
+201100 Small Boar
+201101 Small Boar
+202100 Undead Boar
+202101 Undead Boar
+202102 Undead Boar
+203000 Parasite Spider
+203001 Parasite Spider
+203002 Parasite Spider
+203009 Parasite Spider
+204000 Poison Moth
+204002 Poison Moth
+205000 Poison Horn Beetle
+205001 Poison Horn Beetle
+205100 Acid Horn Beetle
+205102 Acid Horn Beetle
+206000 Razorback Nightcrawler
+206001 Razorback Nightcrawler
+209000 Hunting Dog
+209002 Hunting Dog
+210000 Basilisk
+210001 Basilisk
+210002 Basilisk
+210003 Basilisk
+210004 Basilisk
+210005 Basilisk
+210010 Basilisk
+212000 Guardian Dragon - Boss
+212001 Guardian Dragon - Dragon Aerie
+212002 Guardian Dragon - Dragon Aerie
+212003 Guardian Dragon - Dragon Aerie
+212004 Guardian Dragon - Heide's Tower of Flame
+213000 Crystal Lizard - Forest of Fallen Giants / Huntsman's Copse
+213002 Crystal Lizard - No Man's wharf
+213003 Crystal Lizard
+213004 Crystal Lizard
+213005 Crystal Lizard - Iron Keep
+213006 Crystal Lizard - Doors of Pharros
+213007 Crystal Lizard - Drangleic Castle
+213008 Crystal Lizard - Brightstone Cove
+213009 Crystal Lizard - Dragon Aerie
+213010 Crystal Lizard - Harvest Valley
+213011 Crystal Lizard - Shaded Woods
+213012 Crystal Lizard - Grave of Saints
+213013 Crystal Lizard - Crown of the Sunken King
+213014 Crystal Lizard - Crown of the Iron King
+213100 Red Crystal Lizard - Aldia's Keep
+213101 Red Crystal Lizard
+214001 Giant Undead Boar
+214002 Giant Undead Boar
+214003 Giant Undead Boar
+216000 Wall Ghost - Undead Crypt
+216005 Wall Ghost - Drangleic Castle
+217000 Dark Stalker - No Man's Wharf
+217001 Dark Stalker - Drangleic Castle
+220000 Giant Acid Horn Beetle
+220001 Giant Acid Horn Beetle - Aldia's Keep
+220002 Giant Acid Horn Beetle
+222000 Giant Basilisk
+222001 Giant Basilisk
+222002 Giant Basilisk
+223000 Mongrel Rat
+224000 Darksucker
+226000 Corpse Rat
+226001 Corpse Rat
+226100 Corpse Rat
+226200 Corpse Rat
+226201 Corpse Rat
+226202 Corpse Rat
+227000 Stray Dog
+227001 Stray Dog
+227002 Stray Dog
+227009 Stray Dog
+227100 Stray Dog
+227101 Stray Dog
+300000 Ogre
+300001 Ogre
+300002 Ogre - Aldia's Keep
+301001 Heide Knight
+301003 Heide Knight
+301005 Heide Knight
+301010 Heide Knight
+301011 Heide Knight
+301013 Heide Knight
+301014 Heide Knight - Iron Helm and Greatlance
+301020 Heide Knight
+301030 Heide Knight
+301031 Heide Knight - Drangleic Castle
+302000 Undead Jailer
+302009 Undead Jailer
+303300 Flexile Sentry - Boss
+303301 Flexile Sentry
+303302 Flexile Sentry - Crown of the Ivory King
+303303 Flexile Sentry - Lost Bastille
+304010 Milfanito
+305000 Smelter Demon - Boss
+305200 Blue Smelter Demon - Boss
+306000 Alonne Captain
+306006 Alonne Captain
+306007 Alonne Captain
+306008 Alonne Captain
+306009 Alonne Captain
+306010 Alonne Captain
+306011 Alonne Captain
+306019 Alonne Captain
+307000 Headless Vengarl
+307001 Headless Vengarl
+307101 Vengarl - Dead
+307107 Vengarl - Crown of the Ivory King
+307108 Vengarl
+307109 Vengarl - Drangleic Castle
+307110 Vengarl - Headless
+308000 Lion Clan Warrior
+308100 Lion Clan Warrior
+309000 Forgotten Giant - Giant Memories
+309001 Forgotten Giant - The Gutter
+309600 Last Giant - Boss
+309700 Giant Lord - Boss
+311000 Mounted Overseer
+312000 Grave Warden
+312001 Grave Warden
+312010 Grave Warden
+312011 Grave Warden
+312021 Grave Warden
+312031 Grave Warden
+312032 Grave Warden
+312040 Grave Warden
+312050 Grave Warden
+313000 Hollow Falconer
+313002 Hollow Falconer
+313003 Hollow Falconer
+313010 Hollow Falconer
+313012 Hollow Falconer
+313013 Hollow Falconer
+313021 Hollow Falconer
+313031 Hollow Falconer
+313032 Hollow Falconer
+313033 Hollow Falconer
+314000 Hollow Primal Knight
+314002 Hollow Primal Knight
+314003 Hollow Primal Knight
+315000 Primal Knight
+316000 Desert Sorceress
+316001 Desert Sorceress
+317000 Dragon Acolyte
+318000 The Pursuer - Drangleic Castle
+318010 The Pursuer - Forest of Fallen Giants - Boss
+318011 The Pursuer - Forest of Fallen Giants - Encounter
+318020 The Pursuer - Iron Keep
+318030 The Pursuer - Lost Bastille
+318040 The Pursuer - Things Betwixt
+319000 Alonne Knight
+319008 Alonne Knight
+319009 Alonne Knight
+319010 Alonne Knight
+319011 Alonne Knight
+321000 Mimic - Aldia's Keep / Dragon Aerie
+321001 Mimic
+321002 Mimic
+321003 Mimic - Earthen Peak
+321004 Mimic - The Gutter
+321005 Mimic - Drangleic Castle
+321010 Mimic - Aldia's Keep / Shaded Woods
+321011 Mimic - Iron Keep
+321012 Mimic
+321014 Mimic - Crown of the Ivory King
+321015 Mimic - Crown of the Ivory King
+321016 Mimic - Majula
+321017 Mimic - Brightstone Cove
+324000 Belfry Gargoyle - Boss
+324010 Belfry Gargoyle - Lost Bastille
+324011 Belfry Gargoyle - Aldia's Keep
+325000 Ruin Sentinel - Boss
+325010 Ruin Sentinel - Drangleic Castle
+326000 The Rotten - Boss
+327000 Dragon Skeleton
+330000 Old Knight
+330001 Old Knight
+330010 Old Knight
+330012 Old Knight
+330019 Old Knight
+330040 Old Knight
+330043 Old Knight
+330044 Old Knight
+330049 Old Knight
+331002 Drakekeeper
+331011 Drakekeeper
+331021 Drakekeeper
+331031 Drakekeeper
+331041 Drakekeeper
+332000 Throne Defender - Boss
+333000 Velstadt - Boss
+334000 Throne Watcher - Boss
+337000 Captive Undead
+337002 Captive Undead
+337003 Captive Undead
+337010 Captive Undead
+337011 Captive Undead
+337020 Captive Undead
+337022 Captive Undead
+337023 Captive Undead
+500000 Covetous Demon - Boss
+500100 Covetous Demon (snow)
+501000 Mytha, the Baneful Queen - Boss
+502000 Manscorpion Tark
+502001 Manscorpion Tark
+502009 Manscorpion Tark
+503000 Scorpioness Najka - Boss
+504000 Looking Glass Knight - Boss
+506100 Darklurker - Boss
+506101 Darklurker (Clone) - Boss
+506200 UNKNOWN
+506500 Grave Warden Agdayne
+506501 Grave Warden Agdayne
+506509 Grave Warden Agdayne
+509000 Leydia Witch
+509009 Leydia Witch
+511000 Imperious Knight
+512000 Leydia Pyromancer
+514600 Vendrick (hollow) - Boss
+600000 Ancient Dragon - Boss
+601000 Flame Lizard
+601001 Flame Lizard - Crown of the Iron King
+602000 Demon of Song - Boss
+603000 The Duke's Dear Freja - Boss
+603100 The Duke's Dear Freja - Encounter
+607000 Old Iron King - Boss
+608000 Corrosive Ant Queen
+611010 Dragonrider - Heide's Tower of Flame - Boss
+611500 Dragonrider - Drangleic Castle - Boss
+611510 Dragonrider - Drangleic Castle - Boss
+611520 Dragonrider - Undead Crypt
+611530 Dragonrider - Shrine of Amana
+619110 Executioner's Chariot - Boss
+619111 Executioner's Chariot - Drangleic Castle
+625000 Old Dragonslayer - Boss
+626000 The Lost Sinner - Boss
+627000 Nashandra - Boss
+628000 Royal Rat Authority - Boss
+650000 Iron Warrior
+650001 Iron Warrior
+650002 Iron Warrior
+650003 Iron Warrior
+650004 Iron Warrior
+650010 Iron Warrior
+650011 Iron Warrior
+650012 Iron Warrior
+650013 Iron Warrior
+651000 Fume Sorcerer
+651001 Fume Sorcerer
+651002 Fume Sorcerer
+651003 Fume Sorcerer
+653000 Ashen Warrior
+653001 Ashen Warrior
+653002 Ashen Warrior
+653003 Ashen Warrior
+653004 Ashen Warrior
+653005 Ashen Warrior
+653006 Ashen Warrior
+653010 Ashen Warrior
+653011 Ashen Warrior
+653012 Ashen Warrior
+653020 Ashen Warrior
+653021 Ashen Warrior
+653022 Ashen Warrior
+653029 Ashen Warrior
+653030 Ashen Warrior
+653031 Ashen Warrior
+653032 Ashen Warrior
+654000 Ashen Crawler
+654001 Ashen Crawler
+656000 Possessed Armor
+656001 Possessed Armor
+656002 Possessed Armor
+656003 Possessed Armor
+656004 Possessed Armor
+656005 Possessed Armor
+656006 Possessed Armor
+657000 Barrel Carrier
+657001 Barrel Carrier
+658000 Retainer
+659000 Rampart Golem
+659001 Rampart Golem
+659002 Rampart Golem
+659003 Rampart Golem
+659004 Rampart Golem
+659005 Rampart Golem
+660000 Crystal Golem
+660001 Crystal Golem
+660002 Crystal Golem
+660003 Crystal Golem
+661000 Frozen Reindeer
+661001 Frozen Reindeer
+662000 Rampart Hedgehog
+662001 Rampart Hedgehog
+663000 Rampart Spearman
+663001 Rampart Spearman
+663002 Rampart Spearman
+663003 Rampart Spearman
+663004 Rampart Spearman
+663005 Rampart Spearman
+663010 Rampart Spearman
+663011 Rampart Spearman
+663012 Rampart Spearman
+663013 Rampart Spearman
+665000 Sanctum Knight
+665001 Sanctum Knight
+665010 Sanctum Knight
+665011 Sanctum Knight
+666000 Sanctum Soldier
+666001 Sanctum Soldier
+666002 Sanctum Soldier
+666010 Sanctum Soldier
+666011 Sanctum Soldier
+666012 Sanctum Soldier
+666020 Sanctum Soldier
+666021 Sanctum Soldier
+666022 Sanctum Soldier
+666030 Sanctum Soldier
+666040 Sanctum Soldier
+666041 Sanctum Soldier
+666050 Sanctum Soldier
+666051 Sanctum Soldier
+666060 Sanctum Soldier
+666061 Sanctum Soldier
+666070 Sanctum Soldier
+666080 Sanctum Soldier
+670000 Sanctum Priestess
+671000 Poison Statue Cluster
+671001 Poison Statue Cluster - The Gutter
+671100 Poison Statue Cluster
+672000 Corrosive Ant
+672001 Corrosive Ant
+672002 Corrosive Ant - The Gutter
+674000 Pagan Tree
+675000 Fume Knight - Boss
+675001 Fume Knight
+675010 Fume Knight
+675011 Fume Knight
+677000 Retainer Sorcerer
+677001 Retainer Sorcerer
+677010 Retainer Sorcerer
+677011 Retainer Sorcerer
+678000 Ice Golem
+678001 Ice Golem
+678010 Ice Golem
+678011 Ice Golem
+678099 Ice Golem
+679000 Aava, the King's Pet - Boss
+679001 Aava, the King's Pet - Boss
+679002 Aava, the King's Pet - Boss
+679100 Lud, the King's Pet - Boss
+679101 Zallen, the King's Pet - Boss
+680000 Sir Alonne - Boss
+681000 Sinh, the Slumbering Dragon - Boss
+682000 Elana, Squalid Queen - Boss
+683000 Imperfect
+684000 Vendrick
+685000 Skeleton (Elana)
+686000 Small Undead Boar (Elana)
+687000 Velstadt (Elana)
+688000 Loyce Knight
+688010 Loyce Knight
+688020 Loyce Knight
+688030 Loyce Knight
+689000 Charred Loyce Knight
+689010 Charred Loyce Knight
+689020 Charred Loyce Knight
+689030 Charred Loyce Knight
+690000 Burnt Ivory King - Boss
+690001 Burnt Ivory King
+692000 Aldia, Scholar of the First Sin - Boss
+693000 Aldia, Scholar of the First Sin - Encounter
+694000 Forlorn (Greatsword) - Forest of Fallen Giants
+694001 Forlorn (Greatsword) - No Man's Wharf
+694002 Forlorn (Greatsword) - Lost Bastille
+694003 Forlorn (Greatsword) - Huntsman's Copse
+694004 Forlorn (Greatsword) - Harvest Valley
+694005 Forlorn (Greatsword) - Iron Keep
+694006 Forlorn (Greatsword) - The Gutter
+694007 Forlorn (Greatsword) - Shaded Woods
+694008 Forlorn (Greatsword) - Brightstone Cove
+694009 Forlorn (Greatsword) - Aldia's Keep
+695000 Forlorn (Scythe)
+695001 Forlorn (Scythe) - Drangleic Castle
+695002 Forlorn (Scythe) - Shrine of Amana
+695003 Forlorn (Scythe) - Undead Crypt
+695004 Forlorn (Scythe) - Aldia's Keep
+695005 Forlorn (Scythe)
+695006 Forlorn (Scythe) - Crown of the Sunken King
+695007 Forlorn (Scythe) - Crown of the Iron King
+695008 Forlorn (Scythe) - Crown of the Ivory King
+696000 Invisible Hollow
+700500 Emerald Herald
+700501 Emerald Herald - Dead
+700502 Emerald Herald - Drangleic Castle
+700503 Emerald Herald - Undead Crypt
+700504 Emerald Herald - Aldia's Keep / Dragon Aerie
+701500 Emerald Herald
+703600 Nashandra (human)
+704500 Laddersmith Gilligan
+704501 Laddersmith Gilligan - Dead
+704510 Laddersmith Gilligan - Earthen Peak
+705000 Strowen
+705100 Morrel
+705300 Griant
+705500 Strowen
+705501 Strowen - Dead
+705600 Morrel
+705601 Morrel - Dead
+705800 Griant
+705801 Griant - Dead
+721100 Chancellor Wellager
+723000 Milibeth
+723001 Milibeth - Dead
+723010 Milibeth
+724000 Captain Drummond
+724001 Captain Drummond - Dead
+724002 Captain Drummond - Giant Memories
+725000 Darkdiver Grandahl - Shaded Woods
+725001 Darkdiver Grandahl - Dead
+725002 Darkdiver Grandahl - The Gutter
+725003 Darkdiver Grandahl - Drangleic Castle
+726000 Lonesome Gavlan
+726001 Lonesome Gavlan - Dead
+726002 Lonesome Gavlan - Harvest Valley
+726003 Lonesome Gavlan - No Man's Wharf
+726004 Lonesome Gavlan - Doors of Pharros
+726005 Lonesome Gavlan
+726006 Lonesome Gavlan
+730000 Looking Glass Phantom (Faraam) - Boss
+730001 Looking Glass Phantom (Faraam) - Aldia's Keep
+731010 Looking Glass Phantom (Knight) - Boss
+731011 Looking Glass Phantom (Knight) - Aldia's Keep
+732000 Lost Sinner Pyromancer Phantom - Lost Bastille
+733000 Lost Sinner Pyromancer Phantom - Lost Bastille
+741000 Crestfallen Saulden
+741001 Crestfallen Saulden - Dead
+742000 Creighton the Wanderer - Brightstone Cove
+742001 Creighton the Wanderer - Dead
+742002 Creighton the Wanderer - Shaded Woods
+742003 Creighton the Wanderer - Huntsman's Copse
+742009 Creighton the Wanderer
+743000 Benhart of Jugo
+743001 Benhart of Jugo - Dead
+743002 Benhart of Jugo - Majula
+743003 Benhart of Jugo - Drangleic Castle
+743004 Benhart of Jugo - Giant Memories
+743006 Benhart of Jugo - Drangleic Castle
+743007 Benhart of Jugo - Drangleic Castle
+743008 Benhart of Jugo
+743009 Benhart of Jugo
+743010 Benhart of Jugo - Crown of the Sunken King
+744000 Mild Mannered Pate
+744001 Mild Mannered Pate - Dead
+744002 Mild Mannered Pate
+744003 Mild Mannered Pate - Earthen Peak
+744009 Mild Mannered Pate
+751000 Cartographer Cale
+751001 Cartographer Cale - Dead
+752000 Lucatiel of Mirrah
+752001 Lucatiel of Mirrah - Dead
+752002 Lucatiel of Mirrah - Lost Bastille
+752003 Lucatiel of Mirrah - Earthen Peak
+752004 Lucatiel of Mirrah - No Man's Wharf
+752005 Lucatiel of Mirrah - The Gutter
+752006 Lucatiel of Mirrah - Black Gulch
+752007 Lucatiel of Mirrah - Iron Keep
+752008 Lucatiel of Mirrah - No Man's Wharf
+752009 Lucatiel of Mirrah
+752010 Lucatiel of Mirrah - Crown of the Ivory King
+753000 Bell Keeper
+753001 Bell Keeper - Dead
+753002 Bell Keeper - Iron Keep
+753003 Bell Keeper - Lost Bastille
+753004 Bell Keeper - Iron Keep
+753008 Bell Keeper - Iron Keep
+753009 Bell Keeper
+754000 Merchant Hag Melentia
+754001 Merchant Hag Melentia - Dead
+760000 Milfanito
+760001 Milfanito - Dead
+760100 Milfanito
+760101 Milfanito
+760200 Imprisoned Milfanito
+760201 Imprisoned Milfanito
+761000 Maughlin the Armourer
+761001 Maughlin the Armourer - Dead
+762000 Stone Trader Chloanne
+762001 Stone Trader Chloanne - Dead
+762002 Stone Trader Chloanne
+763000 Rosabeth of Melfia
+763001 Rosabeth of Melfia - Dead
+764000 Blacksmith Lenigrast
+764001 Blacksmith Lenigrast - Dead
+764300 Steady Hand McDuff
+764309 Steady Hand McDuff
+766000 Carhillion of the Fold
+766001 Carhillion of the Fold - Dead
+768000 Straid of Olaphis
+768001 Straid of Olaphis - Dead
+769000 Licia of Lindeldt
+769001 Licia of Lindeldt - Dead
+770000 Felkin the Outcast
+770001 Felkin the Outcast - Dead
+771000 Royal Sorcerer Navlaan
+771001 Royal Sorcerer Navlaan - Dead
+771004 Royal Sorcerer Navlaan - Drangleic Castle
+771005 Royal Sorcerer Navlaan - The Gutter
+771006 Royal Sorcerer Navlaan
+771007 Royal Sorcerer Navlaan - Aldia's Keep / Dragon Aerie
+771009 Royal Sorcerer Navlaan - Brightstone Cove
+771010 Royal Sorcerer Navlaan - Forest of Fallen Giants
+772000 Magerold of Lanafir
+772001 Magerold of Lanafir - Dead
+776000 Weaponsmith Ornifex - Brightstone Cove
+776001 Weaponsmith Ornifex - Dead
+776002 Weaponsmith Ornifex - Shaded Woods
+777000 Sweet Shalquoir
+783000 Titchy Gren
+783001 Titchy Gren - Dead
+784000 Cromwell the Pardoner
+784001 Cromwell the Pardoner - Dead
+785000 Blue Sentinel Targray
+785001 Blue Sentinel Targray - Dead
+786000 Dyna & Tillo
+805000 Imported Hollow
+810000 Masterless Glencour
+810001 Masterless Glencour
+810002 Masterless Glencour
+810003 Masterless Glencour - Heide's Tower of Flame
+810005 Masterless Glencour - Crown of the Ivory King
+810006 Masterless Glencour - Lost Bastille
+811000 Lone Hunter Schmidt - The Gutter
+811001 Lone Hunter Schmidt - Shrine of Amana
+812000 Pilgrim Bellclaire - Lost Bastille
+812001 Pilgrim Bellclaire
+812002 Pilgrim Bellclaire - Drangleic Castle
+813000 Felicia the Brave - Shrine of Amana
+813001 Felicia the Brave - Lost Bastille
+814000 Melinda the Butcher - Dragon Aerie
+814008 Melinda the Butcher
+814009 Melinda the Butcher - The Gutter
+820000 Vorgel the Sinner - Lost Bastille
+821000 Merciless Roenna - Huntsman's Copse
+821001 Merciless Roenna
+822000 Peculiar Kindalur
+822001 Peculiar Kindalur
+822002 Peculiar Kindalur
+822003 Peculiar Kindalur - Shrine of Amana
+823000 Dragonfang Villard - Dragon Aerie
+824000 Aslatiel of Mirrah - Aldia's Keep
+831000 Dingy Cleric Phantom - Grave of Saints
+831100 Faraam Knight Phantom - Grave of Saints
+832000 Underworld Deadeye - Dark Chasm of Abyss
+832100 Pretender to the Xanthous Throne - Dark Chasm of Abyss
+832200 Abyss Ironclad - Dark Chasm of Abyss
+832300 Abyss Ironclad - Dark Chasm of Abyss
+832400 Tenebrous Rogue - Dark Chasm of Abyss
+832500 The Ghost of Princes Past - Dark Chasm of Abyss
+832600 A Chip Off the Ol Rock - Dark Chasm of Abyss
+832700 Shadowveil Assasin - Dark Chasm of Abyss
+833000 Peculiar Kindalur Phantom - Shrine of Amana
+835000 Black Dragon Knight
+835001 Black Dragon Knight
+835100 Black Dragon Knight
+835200 Black Dragon Knight
+835300 Black Dragon Knight
+836000 Mad Warrior Phantom - Iron Keep
+836100 Greatsword Bell Keeper Phantom - Iron Keep
+836200 Dual Avelyn Bell Keeper Phantom - Iron Keep
+836300 Bell Keeper Mage Phantom - Iron Keep
+836400 Ironclad Warrior Phantom - Iron Keep
+837000 Foreign Wanderer Phantom - Things Betwixt
+837100 Foreign Wanderer - Things Betwixt
+837200 Greatsword Foreigner Phantom - Things Betwixt / Crown of the Ivory King
+837201 Goblin Phantom - Things Betwixt
+837400 Player Character - Start Sequence
+838200 Forest Guardian - Shaded Woods
+838201 Forest Guardian - Shaded Woods
+838300 Forest Guardian - Shaded Woods
+838301 Forest Guardian - Shaded Woods
+840000 Voice Marker - Vendrick's Room
+841000 Voice Marker - Harvest Valley / Crown of the Iron King / Crown of the Ivory King
+842000 Syan Knight Phantom - Forest of Fallen Giants
+843000 Knight Phantom - Forest of Fallen Giants
+844000 Catarina Knight Phantom - Forest of Fallen Giants
+845000 UNKNOWN
+846000 Porcine Peasant Phantom - Brightstone Cove
+847000 Executioner Phantom - Heide's Tower of Flame
+847100 Sentinel Phantom - Heide's Tower of Flame
+848000 Dual Wielding Swordsman Phantom - Brightstone Cove
+848100 UNKNOWN
+849000 Nameless Usurper - Drangleic Castle
+849001 Nameless Usurper - Undead Crypt
+849100 Jester Thomas - Earthen Peak
+849200 Rhoy the Explorer - Grave of Saints
+850000 Painting Guardian Phantom - Aldia's Keep
+851000 UNKNOWN
+852000 Greatsword Phantom - Huntsman's Copse
+853000 Bowman Guthry - Brightstone Cove / Doors of Pharros
+853100 Ashen Knight Boyd - Brightstone Cove
+853101 Ashen Knight Boyd - Drangleic Castle
+853200 Drakekeeper Knight Phantom - Drangleic Castle
+853300 Elite Knight Phantom - Drangleic Castle (OLD)
+853400 Greatbow Phantom - Drangleic Castle (OLD)
+853500 Washing Pole Phantom - Drangleic Castle
+854000 Aurous Knight Phantom - No Man's Wharf
+855000 Voice Marker - Brightstone Cove
+860000 Rockshield Baldyr - Crown of the Sunken King
+861000 Jester Thomas - Crown of the Sunken King
+862000 Rhoy the Explorer - Crown of the Sunken King
+863000 Stewart the Explorer - Crown of the Sunken King
+864000 Courh the Explorer - Crown of the Sunken King
+865000 Abbess Feeva - Crown of the Sunken King
+865002 Abbess Feeva - Crown of the Ivory King
+866000 Ruined Aflis - Crown of the Sunken King
+866001 Ruined Aflis - Forest of Fallen Giants
+867000 Steelheart Ellie - Crown of the Sunken King
+867001 Steelheart Ellie - Crown of the Iron King
+867100 Steelheart Ellie - Crown of the Ivory King
+868000 Transcendent Edde - Crown of the Sunken King
+868100 Transcendent Edde - Dragon Aerie
+869000 Rapacious Andrei - Crown of the Sunken King
+870000 Quicksword Rachel - Crown of the Iron King
+871000 Maldron the Assassin - Crown of the Iron King
+871100 Teeth-chattering Dan - Crown of the Ivory King
+872000 Evangelist Scion Waslo - Crown of the Iron King
+872009 Evangelist Scion Waslo - Crown of the Iron King
+873000 Swashbuckling Matelas - Crown of the Iron King / Crown of the Ivory King
+874000 Carhillion of the Fold - Crown of the Iron King
+875000 Steel-willed Lorrie - Crown of the Iron King
+875001 Steel-willed Lorrie - Crown of the Iron King
+876000 Drifter Swordsman Aidel - Crown of the Iron King
+876001 Drifter Swordsman Aidel - Crown of the Iron King
+876002 Drifter Swordsman Aidel - Iron Keep
+877000 Castaway Witch Donna - Crown of the Ivory King
+878000 Hexer Nicholai - Crown of the Ivory King
+879000 Holy Knight Aurheim - Crown of the Ivory King
+880000 Drakeblood Knight Rondor - Shrine of Amana / Crown of the Sunken King / Crown of the Ivory King
+881000 Prowlers - Crown of the Iron King
+882000 Prowlers - Crown of the Iron King
+883000 Wall Watchman - Crown of the Ivory King
+883100 Wall Watchman - Crown of the Ivory King
+883200 Wall Watchman - Crown of the Ivory King
+884001 Twiggy Shei - Crown of the Ivory King
+885000 Phantom - Crown of the Ivory King
+885001 Phantom - Crown of the Ivory King
+885100 Phantom - Crown of the Ivory King
+885101 Phantom - Crown of the Ivory King
+886000 Insolent Knight - Undead Crypt
+887000 Gutter Denizen - The Gutter
+888000 Butcher Phantom - Shrine of Amana
+890000 UNKNOWN
+891000 Sellsword Luet - Forest of Fallen Giants
+891001 Sellsword Luet - Lost Bastille
+891002 Sellsword Luet - Drangleic Castle
+891003 Sellsword Luet - Aldia's Keep
+891004 Sellsword Luet - Crown of the Ivory King
+891500 Devotee Scarlett - Earthen Peak
+891501 Devotee Scarlett - Undead Crypt
+891502 Devotee Scarlett - Heide's Tower of Flame
+892000 Manhunter O'Harrah - Iron Keep
+892001 Manhunter O'Harrah - Brightstone Cove
+892002 Manhunter O'Harrah - Crown of the Ivory King
+892500 Bashful Ray - Huntsman's Copse
+892501 Bashful Ray - Earthen Peak
+892502 Bashful Ray - The Gutter
+892503 Bashful Ray - Brightstone Cove
+892504 Bashful Ray - Drangleic Castle
+892505 Bashful Ray - Dragon Aerie
+893000 Bradley of the Old Guard - No Man's Wharf
+893001 Bradley of the Old Guard - Shaded Woods
+893002 Bradley of the Old Guard - Drangleic Castle
+896000 Woodland Child Victor - The Gutter
+896500 Woodland Child Gully - The Gutter
+897000 Fencer Sharron - Iron Keep
+897001 Fencer Sharron - Dragon Aerie
+897500 Armorer Dennis - Forest of Fallen Giants
+897501 Armorer Dennis - Iron Keep
+898000 Oliver the Collector - Iron Keep

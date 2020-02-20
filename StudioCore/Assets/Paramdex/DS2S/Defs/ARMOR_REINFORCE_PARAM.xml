@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>ARMOR_REINFORCE_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 Slash Defence" />
+    <Field Def="f32 Thrust Defence" />
+    <Field Def="f32 Strike Defence" />
+    <Field Def="f32 Standard Defence" />
+    <Field Def="f32 Magic Absorption" />
+    <Field Def="f32 Lightning Absorption" />
+    <Field Def="f32 Fire Absorption" />
+    <Field Def="f32 Dark Absorption" />
+    <Field Def="f32 Poison Resist" />
+    <Field Def="f32 Bleed Resist" />
+    <Field Def="f32 Petrify Resist" />
+    <Field Def="f32 Curse Resist" />
+    <Field Def="f32 Max Slash Defence" />
+    <Field Def="f32 Max Thrust Defence" />
+    <Field Def="f32 Make Strike Defence" />
+    <Field Def="f32 Max Standard Defence" />
+    <Field Def="f32 Max Magic Absorption" />
+    <Field Def="f32 Max Lightning Absorption" />
+    <Field Def="f32 Max Fire Absorption" />
+    <Field Def="f32 Max Dark Absorption" />
+    <Field Def="f32 Max Poison Resist" />
+    <Field Def="f32 Max Bleed Resist" />
+    <Field Def="f32 Max Petrify Resist" />
+    <Field Def="f32 Max Curse Resist" />
+    <Field Def="u32 Max Reinforce Level = 10" />
+    <Field Def="f32 Unk64" />
+    <Field Def="u32 Upgrade Material = 105000" />
+    <Field Def="s32 Unk6C" />
+    <Field Def="u32 Reinforce Cost ID" />
+  </Fields>
+</PARAMDEF>

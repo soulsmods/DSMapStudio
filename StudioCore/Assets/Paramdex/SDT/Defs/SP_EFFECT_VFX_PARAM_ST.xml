@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>SP_EFFECT_VFX_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 midstSfxId = -1" />
+    <Field Def="s32 midstSeId = -1" />
+    <Field Def="s32 InitSfxId = -1" />
+    <Field Def="s32 InitSeId = -1" />
+    <Field Def="s32 finishSfxId = -1" />
+    <Field Def="s32 finishSeId = -1" />
+    <Field Def="f32 camouflageBeginDist" />
+    <Field Def="f32 camouflageEndDist" />
+    <Field Def="s32 transformProtectorId = -1" />
+    <Field Def="s16 midstDmyId = -1" />
+    <Field Def="s16 initDmyId = -1" />
+    <Field Def="s16 finishDmyId = -1" />
+    <Field Def="u8 effectType" />
+    <Field Def="u8 soulParamIdForWepEnchant1" />
+    <Field Def="u8 playCategory" />
+    <Field Def="u8 playPriority" />
+    <Field Def="u8 existEffectForLarge:1" />
+    <Field Def="u8 existEffectForSoul:1" />
+    <Field Def="u8 existInvisibleAtCamouflage:1" />
+    <Field Def="u8 useCamouflage:1" />
+    <Field Def="u8 invisibleAtFriendCamouflage:1" />
+    <Field Def="u8 addMapAreaBlockOffset:1" />
+    <Field Def="u8 halfCamouflage:1" />
+    <Field Def="u8 isFullBodyProtectorId:1" />
+    <Field Def="u8 isInvisibleWeapon:1" />
+    <Field Def="u8 isSilence:1" />
+    <Field Def="u8 isGauntletProtectorId:1" />
+    <Field Def="u8 Unk1:1" />
+    <Field Def="u8 Unk2:1" />
+    <Field Def="u8 Unk3:1" />
+    <Field Def="u8 Unk4:1" />
+    <Field Def="u8 Unk5:1" />
+    <Field Def="s32 DecalId0 = -1" />
+    <Field Def="s32 DecalId1 = -1" />
+    <Field Def="u8 soulParamIdForWepEnchant2" />
+    <Field Def="u8 SpEffectSp0" />
+    <Field Def="u8 SpEffectSp1" />
+    <Field Def="u8 bodyProtectorType" />
+    <Field Def="s32 SpSfxId0 = -1" />
+    <Field Def="s32 SpSfxId1 = -1" />
+    <Field Def="s32 SpSfxId2 = -1" />
+    <Field Def="s32 SpSfxId3 = -1" />
+    <Field Def="s32 SpSfxId4 = -1" />
+    <Field Def="s32 SpSfxId5 = -1" />
+    <Field Def="s32 SpSfxId6 = -1" />
+    <Field Def="s32 SpSfxId7 = -1" />
+    <Field Def="s32 SpSfxId8 = -1" />
+    <Field Def="s32 SpSfxId9 = -1" />
+    <Field Def="s32 SpSfxId10 = -1" />
+    <Field Def="s32 SpSfxId11 = -1" />
+    <Field Def="s32 SpSfxId12 = -1" />
+    <Field Def="s32 SpSfxId13 = -1" />
+    <Field Def="s32 SpSfxId14 = -1" />
+    <Field Def="s32 SpSfxId15 = -1" />
+    <Field Def="u8 Unk10" />
+    <Field Def="u8 PhantomType" />
+    <Field Def="u8 CamouflageGhost" />
+    <Field Def="u8 Unk12" />
+    <Field Def="s32 PhantomParamId" />
+    <Field Def="f32 EmissiveIntensityScale [ArmorGlow]" />
+    <Field Def="f32 Unk13" />
+    <Field Def="s16 bodyProtectorVal = -1" />
+    <Field Def="s16 Unk14" />
+    <Field Def="f32 CinderIntensityScale [Ember Effect Glow]" />
+    <Field Def="u8 MenuOrb" />
+    <Field Def="u8 Unk15" />
+    <Field Def="s16 MenuOrb_DummyPolyId" />
+    <Field Def="u16 BodyProtectorValue1" />
+    <Field Def="u16 BodyProtectorValue2" />
+    <Field Def="s32 MaterialExParamId = -1" />
+    <Field Def="f32 MaterialExSpeed" />
+    <Field Def="f32 MaterialExMax" />
+    <Field Def="f32 MaterialExMin" />
+    <Field Def="u16 Unk16 = 60" />
+    <Field Def="u16 Unk17 = 60" />
+    <Field Def="dummy8 pad1[8]" />
+  </Fields>
+</PARAMDEF>

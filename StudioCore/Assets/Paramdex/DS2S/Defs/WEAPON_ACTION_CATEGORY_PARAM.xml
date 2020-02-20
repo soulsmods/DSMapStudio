@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>WEAPON_ACTION_CATEGORY_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u32 Right - 1H Light #1" />
+    <Field Def="u32 Right - 1H Light #2" />
+    <Field Def="u32 Right - 1H Heavy #1" />
+    <Field Def="u32 Right - 1H Heavy #2" />
+    <Field Def="u32 Right - 1H Running" />
+    <Field Def="u32 Right - 1H Rolling" />
+    <Field Def="u32 Right - 1H Backstep" />
+    <Field Def="u32 Right - 1H Falling" />
+    <Field Def="u32 Right - 1H Landing" />
+    <Field Def="u32 Right - 1H Jumping" />
+    <Field Def="u32 Right - 2H Light #1" />
+    <Field Def="u32 Right - 2H Light #2" />
+    <Field Def="u32 Right - 2H Heavy #1" />
+    <Field Def="u32 Right - 2H Heavy #2" />
+    <Field Def="u32 Right - 2H Running" />
+    <Field Def="u32 Right - 2H Rolling" />
+    <Field Def="u32 Right - 2H Backstep" />
+    <Field Def="u32 Right - 2H Falling" />
+    <Field Def="u32 Right - 2H Landing" />
+    <Field Def="u32 Right - 2H Jumping" />
+    <Field Def="u32 Chain 1 #1" />
+    <Field Def="u32 Chain 1 #2" />
+    <Field Def="u32 Chain 2 #1" />
+    <Field Def="u32 Chain 2 #2" />
+    <Field Def="u32 Chain Running" />
+    <Field Def="u32 Chain Rolling" />
+    <Field Def="u32 Chain Backstep" />
+    <Field Def="u32 Chain Falling" />
+    <Field Def="u32 Chain Landing" />
+    <Field Def="u32 Chain Jumping" />
+    <Field Def="u32 Right - Powerstance - Light #1" />
+    <Field Def="u32 Right - Powerstance - Light #2" />
+    <Field Def="u32 Right - Powerstance - Heavy #1" />
+    <Field Def="u32 Right - Powerstance - Heavy #2" />
+    <Field Def="u32 Right - Powerstance - Running" />
+    <Field Def="u32 Right - Powerstance - Rolling" />
+    <Field Def="u32 Right - Powerstance - Backstep" />
+    <Field Def="u32 Right - Powerstance - Falling" />
+    <Field Def="u32 Right - Powerstance - Landing" />
+    <Field Def="u32 Right - Powerstance - Jumping" />
+    <Field Def="u32 Left - 1H Light #1" />
+    <Field Def="u32 Left - 1H Light #2" />
+    <Field Def="u32 Left - 1H Heavy #1" />
+    <Field Def="u32 Left - 1H Heavy #2" />
+    <Field Def="u32 Left - 1H Running" />
+    <Field Def="u32 Left - 1H Rolling" />
+    <Field Def="u32 Left - 1H Backstep" />
+    <Field Def="u32 Left - 1H Falling" />
+    <Field Def="u32 Left - 1H Landing" />
+    <Field Def="u32 Left - 1H Jumping" />
+    <Field Def="u32 Left - 2H Light" />
+    <Field Def="u32 Left - 2H Heavy" />
+    <Field Def="u32 Left - Powerstance - Light #1" />
+    <Field Def="u32 Left - Powerstance - Light #2" />
+    <Field Def="u32 Left - Powerstance - Heavy" />
+    <Field Def="u32 Guard Break #1" />
+    <Field Def="u32 Guard Break #2" />
+    <Field Def="u32 Shield Poke 1 #1" />
+    <Field Def="u32 Shield Poke 1 #2" />
+    <Field Def="u32 Shield Poke 2 #1" />
+    <Field Def="u32 Shield Poke 2 #2" />
+    <Field Def="u32 Riposte" />
+    <Field Def="u32 Guard Break Stab" />
+    <Field Def="u32 Backstab" />
+  </Fields>
+</PARAMDEF>

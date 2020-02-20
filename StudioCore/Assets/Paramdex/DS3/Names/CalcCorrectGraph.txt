@@ -1,0 +1,45 @@
+0 0: None -- 0:なし
+1 1: Hard Stone -- 1:硬石
+2 2: Sharp Stone -- 2:鋭石
+3 3: All Stones -- 3:みなぎ石
+4 4: Stone -- 4:にび石
+5 5: Blade Stone -- 5:刃石
+6 6: Spider yarn Steel wire -- 6:蜘蛛糸鋼線
+7 7: Mercury Stone -- 7:水銀石
+8 8: Dragon Stone -- 8:竜石
+9 9: Breathed Stone -- 9:吸いつき石
+10 10: Spinal Stone -- 10:髄石
+11 11: Mon Mitsuishi -- 11:月光石
+12 12: Tsukikage Stone -- 12:月影石
+13 13: Glimmer Stone -- 13:微光石
+14 14: Magic Shield Stone -- 14:魔法盾石
+15 15: Ore Spirit DS -- 15:鉱石の精霊DS
+16 16: DS -- 16:ＤＳ
+102 Defense Force (Seoul level) -- 防御力（ソウルレベル）
+110 Poison tolerance (Soul level) -- 毒耐性（ソウルレベル）
+111 Plague Resistance (Seoul level) -- 疫病耐性（ソウルレベル）
+112 Bleeding tolerance (Seoul level) -- 出血耐性（ソウルレベル）
+113 Curse resistance (Soul level) -- 呪い耐性（ソウルレベル）
+114 Cold air resistance (Soul level) -- 冷気耐性（ソウルレベル）
+120 Poison tolerance (physical strength) -- 毒耐性（体力）
+121 Plague Resistance (physical strength) -- 疫病耐性（体力）
+122 Bleeding resistance (endurance) -- 出血耐性（持久力）
+123 Curse Resistance (Luck) -- 呪い耐性（運）
+124 Cold air resistance (life force) -- 冷気耐性（生命力）
+130 Physical Defense Strength -- 物理防御力（筋力）
+131 Physical Defense Strength -- 物理防御力（体力）
+132 Magic Defensive Force (faith) -- 魔法防御力（信仰）
+133 Flame Defense Force (strength) -- 炎防御力（筋力）
+134 Lightning Defense Force (endurance) -- 雷防御力（持久力）
+135 Defense of Darkness (Faith) -- 闇防御力（信仰）
+140 Drop Rate (Luck) -- ドロップ率（運）
+150 Maximum replenishment number of recovery spots -- 回復スポットの最大補充数
+160 Shield status correction physical cut ratio -- 盾ステータス補正 物理カット率
+161 Shield Status correction attribute cut rate -- 盾ステータス補正 属性カット率
+162 Shield status correction tolerance cut rate -- 盾ステータス補正 耐性カット率
+163 Shield status correction stamina cut ratio -- 盾ステータス補正 スタミナカット率
+170 Arts Point Maximum (strength) -- アーツポイント最大値（筋力）
+171 Arts Point Max value (workmanship) -- アーツポイント最大値（技量）
+172 Arts Point Max Value (Magic) -- アーツポイント最大値（魔法）
+173 Arts Point Maximum (miracle) -- アーツポイント最大値（奇跡）
+200 Growing consumption Soul -- 成長消費ソウル

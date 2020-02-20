@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SoulsFormats;
 
@@ -94,7 +95,7 @@ namespace StudioCore.MsbEditor
             {
                 foreach (var r in Rows)
                 {
-                    if (r[name] != null)
+                    if (r.Cells.FirstOrDefault(cell => cell.Def.InternalName == name) != null)
                     {
                         return r[name];
                     }

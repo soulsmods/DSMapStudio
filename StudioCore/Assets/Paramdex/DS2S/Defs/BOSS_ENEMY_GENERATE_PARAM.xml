@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>BOSS_ENEMY_GENERATE_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Enemy Generator ID 1" />
+    <Field Def="s32 Enemy Generator ID 2" />
+    <Field Def="u16 Unk08" />
+    <Field Def="u16 Unk08" />
+    <Field Def="s32 Unk0C" />
+  </Fields>
+</PARAMDEF>

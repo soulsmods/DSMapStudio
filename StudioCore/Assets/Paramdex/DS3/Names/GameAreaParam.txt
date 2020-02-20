@@ -1,0 +1,61 @@
+0 Test -- テスト
+1 Test One -- テスト1
+100 Lat _ Bastards -- 石柱_なりそこない
+200 Ojo 1_ Phalanx (main body) -- 王城1_ファランクス（本体）
+201 Ojo 2_ King's Shield -- 王城2_王の盾
+202 Ojo 3_ King's Sword -- 王城3_王の剣
+203 Ojo 4_ King -- 王城4_レンドル王
+301 The old Fort 1_ referee -- 古砦1_審判者
+302 Old Fort 2_ Storm Warrior -- 古砦2_嵐の戦士
+303 Old Fort 3_ Storm Beast -- 古砦3_嵐の獣
+400 1_-sama -- 牢城1_カミサマ
+401 Jail 2_ Chimera -- 牢城2_キメラ
+402 3_ Summon NPC -- 牢城3_召喚ＮＰＣ
+500 Unholy 1_ Leech Daemon -- 不浄1_蛭デーモン
+501 Unholy 2_ flies bummed -- 不浄2_蠅たかり
+502 Unholy 3_ Saint Lee Bra -- 不浄3_聖女リーブラ
+600 1_, Large spider -- 坑道1_大蜘蛛
+601 Mine 2_ Flame Phantom -- 坑道2_炎怪人
+602 Mine 3_ Dragon Demon (mine) -- 坑道3_ドラゴンデーモン(坑道)
+801 Tutorial _ Deb Daemon -- チュートリアル_デブデーモン
+1000800 2_ the Castle -- 城下2_貪食ドラゴン
+1010700 1_ Castle -- 城下1_ハンマーデーモン
+1010750 1_-Natal Demon Castle -- 城下1_ナタデーモン
+1010800 Castle 1_ Gargoyle -- 城下1_ガーゴイル
+1100160 Painting World _ semi-dragon Priscilla -- 絵画世界_半竜プリシラ
+1200800 Forest Garden _ The Wolf of the Holy Sword -- 森庭_聖剣の狼
+1200801 Forest Garden _ Dragon -- 森庭_カゲロウ龍
+1210401 Past Forest _ black Dragon -- 過去森_黒竜
+1210800 Past Forest _ Gold Chimera -- 過去森_金キメラ
+1210820 Past Forest _ al-Triana -- 過去森_アルトリウス
+1210840 Lord of the past forest -- 過去森_深淵の主
+1300800 Cemetery 1_ Three Haori -- 墓地1_三人羽織
+1310800 Cemetery 2_ Tomb King NITs -- 墓地2_墓王ニト
+1400800 Shadow Town _ the Witch of the Flame Klagspider -- 影町_焔の魔女クラグスパイダー
+1410400 Waste City _ The Fat Demon -- 廃都_デブデーモン
+1410600 Waste City _ what continues to sore -- 廃都_爛れ続けるもの
+1410700 Disused City _ Mucademon -- 廃都_ムカデーモン
+1410800 The disused city _ the King -- 廃都_キングイザリス
+1500800 Ojo 1_ Iron Golem -- 王城1_アイアンゴーレム
+1510650 Ojo 2_ mother Brother -- 王城2_王母弟
+1510801 Ojo 2_ Huge Griffith -- 王城2_ヒュージグリフィス
+1510811 Ojo 2_ Lightningsmow -- 王城2_ライトニングスモウ
+1600800 The Abyss -- 深淵_ジャイールデーモン
+1700800 Crystal Tower _ Sheath -- 結晶塔_シース
+1800800 The Great Tomb _ the King of firewood -- 大墓_薪の王
+1810800 Tutorial _ Mini Deb Daemon -- チュートリアル_ミニデブデーモン
+1810810 Tutorial _ Deb Daemon -- チュートリアル_デブデーモン
+2010800 Religious District -- 宗教街_教区長
+2910400 Dungeon A_ Beast of Flames -- ダンジョンA_炎の獣
+2920800 Dungeon B_ Beast of Flames -- ダンジョンB_炎の獣
+3000800 Ojo 1_ Daemon -- 王城1_デーモン
+3010800 Ojo 2_ -- 王城2_孤王
+3100800 City of Colossus -- 街_巨像
+3200800 Bridge _ Mother Dragon -- 橋_母ドラゴン
+3500800 The Church of the Cardinals -- 聖堂_枢機卿団
+3700800 Anole _ Salivan -- アノール_サリヴァーン
+3700850 Anole _ the Witch of the Moonlight -- アノール_月光の魔女
+3800800 Waste City _ King of the Dead -- 廃都_死霊の王
+3900800 Prison _ Hallec -- 牢_ハレック
+4000800 Stronghold _ Segunda -- 拠点_グンダ
+9901010 Boss Seoul Get verified -- ボスソウル入手検証

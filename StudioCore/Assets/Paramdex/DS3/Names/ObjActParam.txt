@@ -1,0 +1,68 @@
+0 Need -- 必要
+110 Treasure Chest -- 宝箱
+200 Treasure Chest -- 宝箱
+350 M93_01_ Door _ Candle Room -- m93_01_扉_蝋燭部屋
+351 M93_01_ Door _ Candle Room -- m93_01_扉_蝋燭部屋
+360 M96_00 Door Concept Map _ Entrance -- m96_00 扉 コンセプトマップ_入口
+370 M96_00 Door Concept Map _ Temple entrance -- m96_00 扉 コンセプトマップ_聖堂入口
+371 M96_00 Door Concept Map _ Distant Entrance -- m96_00 扉 コンセプトマップ_遠景入口
+475 M20_01_ Door _ Orphanage 2f_ Small -- m20_01_扉_孤児院2F_小
+1011 Test_ Door Test -- test_扉テスト
+1012 Test_ Door Test -- test_扉テスト
+10000 Default -- デフォルト
+90000 Versatile door for FDP_ testing (double doors) -- FDP_テスト用_汎用扉（両開き）
+90001 Door with key for FDP_ test (double doors) -- FDP_テスト用_鍵付扉（両開き）
+90002 Key door for FDP_ test -- FDP_テスト用_内鍵扉
+90010 General purpose door for FDP_ test (single open) -- FDP_テスト用_汎用扉（片開き）
+90011 FDP_ Test door with key (single open) -- FDP_テスト用_鍵付扉（片開き）
+90012 Key door for FDP_ test (single open) -- FDP_テスト用_内鍵扉（片開き）
+90013 FDP_ test for Play -- FDP_テスト用_プレイアブル動作確認Ａ
+90014 FDP_ Test (Play-AB operation confirmation B -- FDP_テスト用_プレイアブル動作確認Ｂ
+90015 FDP_ Test (Play-AB operation confirmation B -- FDP_テスト用_プレイアブル動作確認Ｂ
+300300 m30_00_ Door _ Mausoleum Short cut -- m30_00_扉_霊廟ショートカット
+300301 m30_00_ Door _ starting point -- m30_00_扉_スタート地点
+300310 M30_00_ Doors _ Wall Shortcuts -- m30_00_扉_城壁ショートカット
+300311 M30_00_ door _ Beast Room door -- m30_00_扉_ビースト部屋扉
+300312 m30_00_ Door _ One Way -- m30_00_扉_一方通行
+300320 M30_01_ doors _ Old garden buildings -- m30_01_扉_旧ガーデン建物
+300370 m30_00_ Door _ Salon Entrance -- m30_00_扉_大広間入口
+300371 m30_00_ Door _ Mausoleum exit door -- m30_00_扉_霊廟出口扉
+300500 m30_00_ Lever _ Mausoleum Façade elevator -- m30_00_レバー_霊廟正面エレベータ
+300510 m30_00_ Lever _ walled Elevator -- m30_00_レバー_城壁エレベーター
+302420 M30_02_ Lever _ a library elevator -- m30_02_レバー_書庫エレベータ
+304873 M30_01_ Lever _ Saloon Elevators -- m30_01_レバー_大広間エレベータ
+310300 m31_00_ doors _ with sewer keys -- m31_00_扉_下水道　鍵付き
+310301 m31_00_ Door _ Sewer one-way door -- m31_00_扉_下水道　一方通行扉
+314027 m31_00_ Door _ before the Sniper tower -- m31_00_扉_スナイパー塔前
+314028 m31_00_ Door _ Elephant Boss room ago -- m31_00_扉_巨象ボス部屋前
+324012 M32_00 Levers _ Ohgane -- m32_00 レバー_大鐘
+324051 M32_00 Lever _ Bridge Elevator -- m32_00 レバー_橋エレベーター
+331312 m33_00 lever poison swamp forest elevator -- m33_00 レバー 毒沼の森エレベーター
+331321 M33_00 Front door boss -- m33_00 両開き扉 ボス前
+332100 m33_00_ Doors _ Shotka -- m33_00_扉_ショトカ
+340320 m34_00_ doors _ Old garden buildings -- m34_00_扉_旧ガーデン建物
+340330 m34_00_ Doors _ Stacks Entrance -- m34_00_扉_書庫入口
+350003 M35_00 Levers _ Elevators -- m35_00 レバー_エレベーター
+350005 M35_00 Big Door _ Both sides of the basilica -- m35_00 大扉_聖堂両脇
+350021 m35_00 Lever _ shutter -- m35_00 レバー_シャッター
+350206 m35_00 Main Gate -- m35_00 大扉_聖堂正門
+351000 M35_00 Double Door -- m35_00 両開き扉
+360320 M36_00 double door in front of boss -- m36_00 両開き扉 中ボス前
+360330 m36_00 Double Door Shotka -- m36_00 両開き扉 ショトカ
+370301 m37_00_ Door _ Landmark Church Plaza -- m37_00_扉_ランドマーク教会前広場
+370302 M37_00_ Doors _ Garden Buildings -- m37_00_扉_ガーデン建物
+370502 m37_00_ Lever -- m37_00_レバー
+382002 M38_00 for Double Door Shotka -- m38_00 両開き扉 ショトカ用
+390300 m39_00_ Normal Door -- m39_00_通常扉
+390301 m39_00_ Fence Doors _ Outside -- m39_00_鉄柵扉_外側
+390302 m39_00_ Fence Door _ inside -- m39_00_鉄柵扉_内側
+390305 m39_00_ door one-way door -- m39_00_扉 一方通行扉
+390306 m39_00_ Door (Large) one-way door -- m39_00_扉（大） 一方通行扉
+390500 m39_00_ Dungeon Shotka Elebator -- m39_00_地下牢ショトカエレベーター
+400340 m40_00_ Room Door -- m40_00_ラスボス部屋扉
+400510 m40_00_ Lever -- m40_00_レバー
+1000370 M96_00 Door Concept Map _ Temple entrance -- m96_00 扉 コンセプトマップ_聖堂入口
+1000371 M96_00 Door Concept Map _ Distant Entrance -- m96_00 扉 コンセプトマップ_遠景入口
+1300311 M30_00_ Door _ Wall Shortcut 1 -- m30_00_扉_城壁ショートカット1
+1314027 m31_00_ Door _ before the Sniper tower -- m31_00_扉_スナイパー塔前
+2300311 M30_00_ Door _ Wall Shortcut 2 -- m30_00_扉_城壁ショートカット2

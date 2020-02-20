@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>ESTUS_FLASK_RECOVERY_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 recoveryCount0" />
+    <Field Def="u8 recoveryCount1" />
+    <Field Def="u8 recoveryCount2" />
+    <Field Def="u8 recoveryCount3" />
+    <Field Def="u8 recoveryCount4" />
+    <Field Def="u8 recoveryCount5" />
+    <Field Def="u8 recoveryCount6" />
+    <Field Def="u8 recoveryCount7" />
+    <Field Def="u8 recoveryCount8" />
+    <Field Def="u8 recoveryCount9" />
+    <Field Def="u8 recoveryCount10" />
+    <Field Def="u8 recoveryCount11" />
+    <Field Def="u8 recoveryCount12" />
+    <Field Def="u8 recoveryCount13" />
+    <Field Def="u8 recoveryCount14" />
+    <Field Def="u8 recoveryCount15" />
+    <Field Def="u8 recoveryCount16" />
+    <Field Def="u8 recoveryCount17" />
+    <Field Def="u8 recoveryCount18" />
+    <Field Def="u8 recoveryCount19" />
+    <Field Def="u8 recoveryCount20" />
+    <Field Def="u8 recoveryCount21" />
+    <Field Def="u8 recoveryCount22" />
+    <Field Def="u8 recoveryCount23" />
+  </Fields>
+</PARAMDEF>

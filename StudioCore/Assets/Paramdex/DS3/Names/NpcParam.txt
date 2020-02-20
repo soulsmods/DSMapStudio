@@ -1,0 +1,330 @@
+0 Do not erase -- 消すべからず
+1 Atarisawari data (copy and paste recommended) -- あたりさわりのないデータ（コピペ元推奨）
+10 Treasure Test 1 -- 宝テスト１
+11 Treasure Test 2 -- 宝テスト２
+12 Treasure Test 3 -- 宝テスト３
+100 Automatic patrol (default) -- 自動巡回用（デフォルト）
+540 For automatic patrol (running) -- 自動巡回用（走り）
+541 Automatic patrol (walking) -- 自動巡回用（歩き）
+542 Automatic patrol (super dash) -- 自動巡回用（スーパーダッシュ）
+10000 Collective Patrol dummy leader -- 集団巡回ダミーリーダー
+10010 City Map Sniper Platoon target dummy character -- 街マップスナイパーの小隊ターゲット用ダミーキャラ
+10100 NPC Conversation Test 1 (garbled NPC in pot) -- NPC会話テスト1　（壺に化けるNPC）
+10101 NPC Conversation Test 2 -- NPC会話テスト2
+10102 NPC Conversation Test _ α 2 -- NPC会話テスト_α2
+10200 NPC Logic Test -- NPCロジックテスト
+10290 NPC Combat Test -- NPC戦闘テスト
+10298 City Map intrusion NPC test -- 街マップ侵入NPCテスト
+10299 City map cooperation NPC Logic test -- 街マップ協力NPCロジックテスト
+20000 NPC Behavior Test 1 -- NPC挙動テスト1
+21000 21,000: [Multi NPC] Berserker: ■ Darkness 1 -- 21000：【マルチNPC】バーサーカー：街■闇霊1
+21100 21100: [multi-NPC] Sniper NPC: Sniper NPC: Super Distance -- 21100：【マルチNPC】スナイパーNPC：スナイパーNPC：超距離
+21200 21200: [Multi-NPC] Dragon Hunting Warrior: Bridge ★ White Spirits 1 -- 21200：【マルチNPC】竜狩りの戦士：橋★白霊1
+21300 21300: [Multi-NPC] Warrior fell in mid-★: Bridge White Spirit 2 -- 21300：【マルチNPC】志半ばで倒れた戦士：橋★白霊2
+21400 21400: [multi-NPC] blunt with healing: Forest ★ White Spirits 1_ -- 21400：【マルチNPC】鈍器持ち治癒使い：森★白霊1_道中
+21500 21500: [multi-NPC] Hit man: Mori ★ White Spirits 2_vs Elders -- 21500：【マルチNPC】一撃にかける男：森★白霊2_VS古老
+21800 21800: [multi-NPC] King's SS chief: Ojo 3 ■ Dark Spirits 1 -- 21800：【マルチNPC】王の親衛隊長：王城3■闇霊1
+22000 22,000: [Multi NPC] Paris love: The temple ★ White Spirits 2_ -- 22000：【マルチNPC】パリィ大好き：聖堂★白霊2_道中
+29000 Enemy NPC Warrior Ojo 1 Mausoleum side -- 敵NPC　戦士　王城1霊廟側
+29100 Enemy NPC Wizard Ojo 1 Mausoleum side -- 敵NPC　魔法使い　王城1霊廟側
+29200 Enemy NPC Hunter Ojo 1 Mausoleum side -- 敵NPC　狩人　王城1霊廟側
+100000 Dummy character for Bonfire -- 篝火用ダミーキャラ
+107000 【 test 】 Skeleton: Poison Swamp forest _ boss Room -- 【テスト】スケルトン：毒沼の森_ボス部屋
+107001 Skeleton: Song Sword -- スケルトン：曲剣
+107002 Skeleton: a Sword -- スケルトン：大曲剣
+107003 Skeleton: Bow -- スケルトン：弓
+107006 Skeleton: Flame Pots -- スケルトン：火炎壺
+107007 Skeleton: Song Sword (single Effect) -- スケルトン：曲剣（一きり効果）
+107008 Skeleton: One-way sword (single effect) -- スケルトン：大曲剣（一きり効果）
+107009 Skeleton: Bow (One effect) -- スケルトン：弓（一きり効果）
+109000 Dead soldier: Segunda State folding Sword Half-naked Ojo 1 -- 亡者兵士：グンダ状態　折剣　半裸　王城1
+109100 Dead soldier: Segunda State folding Sword Half-naked Ojo 2 -- 亡者兵士：グンダ状態　折剣　半裸　王城2
+109200 Dead soldier: Segunda State folding Sword Half-naked Ojo 3 -- 亡者兵士：グンダ状態　折剣　半裸　王城3
+110000 Dead Soldier Sword only dress Ojo 1 -- 亡者兵士　剣のみ　軽装　王城1
+110001 Dead Soldier Sword only lightly waist lantern no Ojo 1 -- 亡者兵士　剣のみ　軽装　腰ランタン無し　王城1
+110010 Dead Soldier folding Sword Half-naked Ojo 1 -- 亡者兵士　折剣　半裸　王城1
+110011 Dead Soldier Folding Sword Tea suit Ojo 1 -- 亡者兵士　折剣　茶服　王城1
+110012 Dead Soldier Folding Sword white clothes Ojo 1 -- 亡者兵士　折剣　白服　王城1
+110013 Dead Soldier Folding Sword White suit Vest Ojo 1 -- 亡者兵士　折剣　白服ベスト　王城1
+110020 Dead Soldier Sword Shield full equipment Ojo 1 -- 亡者兵士　剣盾　フル装備　王城1
+110021 Dead Soldier Sword Shield full equipment No waist lantern Ojo 1 -- 亡者兵士　剣盾　フル装備腰ランタン無し　王城1
+110030 Dead Soldier folding Sword lantern Black skirt Ojo 1 -- 亡者兵士　折剣ランタン　黒スカート　王城1
+110040 Dead soldiers cross-bow full equipment _ without scarves Ojo 1 -- 亡者兵士　クロスボウ　フル装備_スカーフなし　王城1
+110050 Dead Soldier Spear Large shield Full equipment _ with Scarf Ojo 1 -- 亡者兵士　槍大盾　フル装備_スカーフあり　王城1
+110070 Dead Soldier evil Spirit makeover pre-folded sword half-naked Ojo 1 -- 亡者兵士　邪霊変身前　折剣　半裸　王城1
+110080 Dead soldier Dagger half-naked black Cape Ojo 1 -- 亡者兵士　短剣　半裸黒頭巾　王城1
+110100 Dead Soldier Sword only dress Ojo 2 -- 亡者兵士　剣のみ　軽装　王城2
+110110 Dead Soldier folding Sword Half-naked Ojo 2 -- 亡者兵士　折剣　半裸　王城2
+110111 Dead Soldier folding Sword tea Clothes Ojo 2 -- 亡者兵士　折剣　茶服　王城2
+110112 Dead Soldier Folding Sword white clothes Ojo 2 -- 亡者兵士　折剣　白服　王城2
+110113 Dead Soldier Folding Sword White suit Vest Ojo 2 -- 亡者兵士　折剣　白服ベスト　王城2
+110120 Dead Soldier Sword Shield full Equipment Ojo 2 -- 亡者兵士　剣盾　フル装備　王城2
+110130 Dead Soldier Folding sword lantern Half-naked Ojo 2 -- 亡者兵士　折剣ランタン　半裸　王城2
+110140 Dead soldiers cross-bow full equipment _ without scarves Ojo 2 -- 亡者兵士　クロスボウ　フル装備_スカーフなし　王城2
+110150 Dead Soldier Spear Large shield Full equipment _ scarf available Ojo 2 -- 亡者兵士　槍大盾　フル装備_スカーフあり　王城2
+110170 Dead Soldier evil Spirit makeover pre-folded sword half-naked Ojo 2 -- 亡者兵士　邪霊変身前　折剣　半裸　王城2
+110180 Dead soldier Dagger half-naked black Cape Ojo 2 -- 亡者兵士　短剣　半裸黒頭巾　王城2
+110200 Dead Soldier Sword only dress base -- 亡者兵士　剣のみ　軽装　拠点
+110210 Dead soldier half-naked base -- 亡者兵士　折剣　半裸　拠点
+110220 Dead Soldier Sword Shield lightly-dressed base -- 亡者兵士　剣盾　軽装　拠点
+110240 Dead soldier cross-bow half-naked base -- 亡者兵士　クロスボウ　半裸　拠点
+110250 Dead soldier spear large shield half-naked base -- 亡者兵士　槍大盾　半裸　拠点
+110300 Dead Soldier Sword only Light Cathedral church -- 亡者兵士　剣のみ　軽装　聖堂教会
+110400 Dead Soldier Sword only dress Ojo 3 -- 亡者兵士　剣のみ　軽装　王城3
+110410 Dead Soldier folding Sword Half-naked Ojo 3 -- 亡者兵士　折剣　半裸　王城3
+110420 Dead Soldier Sword Shield full Equipment Ojo 3 -- 亡者兵士　剣盾　フル装備　王城3
+110430 Dead Soldier Folding sword lantern Half-naked Ojo 3 -- 亡者兵士　折剣ランタン　半裸　王城3
+110440 Dead soldiers cross-bow full equipment _ no scarves Ojo 3 -- 亡者兵士　クロスボウ　フル装備_スカーフなし　王城3
+110450 Dead Soldier Spear Large shield Full equipment _ with Scarf Ojo 3 -- 亡者兵士　槍大盾　フル装備_スカーフあり　王城3
+110470 Dead Soldier evil Spirit makeover pre-folded sword half-naked Ojo 3 -- 亡者兵士　邪霊変身前　折剣　半裸　王城3
+110480 Dead soldier Dagger half-naked black Cape Ojo 3 -- 亡者兵士　短剣　半裸黒頭巾　王城3
+110500 Dead Soldier (Large) Axe Ojo 1 -- 亡者兵士（大）　斧　王城1
+110510 Dead Soldier (Large) Ojo 1 -- 亡者兵士（大）　ハルバード　王城1
+110600 Dead Soldier (Large) Axe Basilica Church -- 亡者兵士（大）　斧　聖堂教会
+110610 Dead Soldier (Dai) The church of the Jardin Basilica -- 亡者兵士（大）　ハルバード　聖堂教会
+113000 Caries slug small usually ojo 1 -- 蝕のナメクジ小　通常　王城1
+113050 Caries slug small usually poison swamp forest -- 蝕のナメクジ小　通常　毒沼の森
+113060 Slugs of caries small arm out poison swamp forest -- 蝕のナメクジ小　腕出し　毒沼の森
+117000 Skeleton Warrior A: Scimitar + shield -- スケルトン戦士A：シミター+盾
+117010 Skeleton Warrior A: Nodachi -- スケルトン戦士A：野太刀
+117020 Skeleton Warrior A: Bow -- スケルトン戦士A：弓
+118000 Skeleton Warrior B: Scimitar one hand -- スケルトン戦士B：シミター片手
+118010 Skeleton Warrior B: Scimitar Nitori -- スケルトン戦士B：シミター二刀流
+119000 Dead Knight Grey Tome + Large Shield -- 亡者僧騎士　グレートメイス＋大盾
+119010 Dead Priest Great Sword -- 亡者僧騎士　グレートソード
+119100 Dead Knight Grey Tome + Large Shield -- 亡者僧騎士　グレートメイス＋大盾
+119110 Dead Priest Great Sword -- 亡者僧騎士　グレートソード
+120000 Dwarf people Hatchet -- 矮小人 ハチェット
+120010 Dwarf man ice-ax -- 矮小人 ピッケル
+120020 Dwarf Man Large Sword -- 矮小人 大剣
+120100 Dwarf Man Hatchet Ojo 3 -- 矮小人 ハチェット　王城3
+120110 Dwarf man ice-ax Ojo 3 -- 矮小人 ピッケル　王城3
+120120 Dwarf Man Large Sword Ojo 3 -- 矮小人 大剣　王城3
+120200 Dwarf people Hatchet City -- 矮小人 ハチェット　街
+120210 Dwarf-ice-ax City -- 矮小人 ピッケル　街
+120220 Dwarf men's Great Swords Street -- 矮小人 大剣　街
+121000 Blue: Spear shield poison Swamp forest -- ブルー：槍盾　毒沼の森
+121010 Blue: Sword Poison Swamp Forest -- ブルー：剣　毒沼の森
+121020 Blue: Deep Poison swamp forest -- ブルー：ディープ　毒沼の森
+121030 Blue: The Forest of estrus poison Swamp -- ブルー：発情　毒沼の森
+121040 Blue: Dog Poison Swamp Forest -- ブルー：犬　毒沼の森
+122000 Resurrection _ Host Basilica Church -- よみがえり_宿主　聖堂教会
+122010 Resurrection _ Host + Body Basilica Church -- よみがえり_宿主＋本体　聖堂教会
+123000 Missionary Town -- 宣教師　街
+123010 Missionary Town * For Sniper stand-in -- 宣教師　街　※スナイパー代役用
+123100 Missionary Cathedral Church -- 宣教師　聖堂教会
+123200 Missionary Poison Swamp first half -- 宣教師　毒沼前半
+124000 Poor dead (hatchet) city -- 貧民亡者（鉈）　街
+124010 The poor dead (hatchet + lantern) town -- 貧民亡者（鉈+ランタン）　街
+124020 The poor dead (sickle + dagger) City -- 貧民亡者（鎌+短剣）　街
+124030 Poor dead (Mallet) Street -- 貧民亡者（木槌）　街
+124040 Poor dead (hoe) city -- 貧民亡者（鍬）　街
+124100 Poor dead (hatchet) underground lake -- 貧民亡者（鉈）　地底湖
+124110 Poor dead (hatchet + lantern) underground Lake -- 貧民亡者（鉈+ランタン）　地底湖
+124120 The poor dead (sickle + dagger) underground Lake -- 貧民亡者（鎌+短剣）　地底湖
+124130 Poor dead (wooden mallet) underground lake -- 貧民亡者（木槌）　地底湖
+124140 Poor dead (hoe) underground lake -- 貧民亡者（鍬）　地底湖
+125000 Poor dead Elite Basilica Church -- 貧民亡者エリート　聖堂教会
+125100 Poor dead Elite Base -- 貧民亡者エリート　拠点
+126000 Poor dead servant: sawing wooden-shouldered Street -- 貧民亡者下男：のこぎり　木板背負い　街
+126001 Poor dead servant: a town with a saw-iron basket -- 貧民亡者下男：のこぎり　鉄籠背負い　街
+126010 Poor dead servant: Mortar → saw Town -- 貧民亡者下男：臼→のこぎり　街
+128000 Shin Ojo Knight Straight Sword + Shield visor Close Ojo 1 -- 新王城騎士　直剣+盾　バイザー閉め　王城1
+128003 New Ojo Knight Straight Sword + shield visor Open red eye Ojo 1 -- 新王城騎士　直剣+盾　バイザー開け　赤目　王城1
+128010 New Ojo Knight Spear + shield visor close Ojo 1 -- 新王城騎士　槍+盾　バイザー閉め　王城１
+128013 New Ojo Knight Spear + shield visor open red eye Ojo 1 -- 新王城騎士　槍+盾　バイザー開け　赤目　王城１
+128100 Shin Ojo Knight Straight Sword + Shield visor Close Ojo 2 -- 新王城騎士　直剣+盾　バイザー閉め　王城2
+128101 New Ojo Knight Straight Sword + shield visor open red eye Ojo 2 -- 新王城騎士　直剣+盾　バイザー開け　赤目　王城2
+128110 New Ojo Knight Spear + shield visor close Ojo 2 -- 新王城騎士　槍+盾　バイザー閉め　王城2
+128111 New Ojo Knight Spear + shield visor open red eye Ojo 2 -- 新王城騎士　槍+盾　バイザー開け　赤目　王城2
+128120 New Ojo Knight Great Sword visor Close Ojo 2 -- 新王城騎士　大剣　バイザー閉め　王城2
+128121 New Ojo Knight Large sword visor open red-eye Ojo 2 -- 新王城騎士　大剣　バイザー開け　赤目　王城2
+128201 New Ojo Knight Straight Sword + shield visor open red eye Ojo 3 -- 新王城騎士　直剣+盾　バイザー開け　赤目　王城3
+128211 New Ojo Knight Spear + shield visor open red eye Ojo 3 -- 新王城騎士　槍+盾　バイザー開け　赤目　王城3
+128221 New Ojo Knight Large sword visor open red-eye Ojo 3 -- 新王城騎士　大剣　バイザー開け　赤目　王城3
+129000 Ojo fat-long axe Ojo 1 -- 王城デブ　長斧　王城1
+129100 Ojo Fatty Axe Ojo 2 -- 王城デブ　長斧　王城2
+129110 Ojo fat Short Axe Nitori Ojo 2 -- 王城デブ　短斧二刀流　王城2
+129400 Ojo Long Axe forest late -- 王城デブ　長斧　森後半
+129410 Ojo fat short Axe Nitori Mori -- 王城デブ　短斧二刀流　森後半
+130010 Black Knight: Oversized Sword -- 黒騎士：特大剣
+130020 Black Knight: The Great Axe -- 黒騎士：大斧
+130110 Black Knight: Oversized sword Waste City -- 黒騎士：特大剣　廃都
+130120 Black Knight: Large axe Waste city -- 黒騎士：大斧　廃都
+130610 Black Knight: Oversized Sword -- 黒騎士：特大剣
+130620 Black Knight: The Great Axe -- 黒騎士：大斧
+131000 Dark Knight Beast Ojo 1 -- ダークナイトビースト　王城1
+131001 Dark Knight Beast Ojo 1 -- ダークナイトビースト　王城1
+131100 Dark Knight Beast Ojo 3 -- ダークナイトビースト　王城3
+132000 Crystal Elders -- 結晶の古老
+132010 Elders alter ego of Crystal -- 結晶の古老　分身
+134000 Dead Wax: Whip + Magic Ojo 3 -- 蝋の死人：鞭＋魔法　王城3
+134010 Dead wax: Beating Ojo 3 -- 蝋の死人：殴り　王城3
+135000 Slave Spirits: Dagger -- 奴隷霊：短剣
+135010 Slave Spirits: fetters -- 奴隷霊：足枷
+135020 Slave Spirits: no Legs -- 奴隷霊：足なし
+135030 Slave Spirit: Straight Sword -- 奴隷霊：直剣
+136000 Crucifixion dead A -- 磔亡者A
+137000 Crucifixion dead B -- 磔亡者B
+138000 Snake Man priest -- 蛇人の司祭
+139000 Snake Assassin (Dagger x 2) -- 蛇人の暗殺者(短刀×2)
+139010 Snake Assassin (shorty + small shield) -- 蛇人の暗殺者（ショーテル+小盾）
+139100 The assassin of the Snake (Kusarigama) -- 蛇人の暗殺者(鎖鎌)
+140000 Fire-proof woman -- 火防女
+141000 Silver Knight: Sword + Shield -- 銀騎士：剣＋盾
+141010 Silver Knight: Spear + Shield -- 銀騎士：槍＋盾
+141020 Silver Knight: Bow → sword + shield -- 銀騎士：弓　→　剣＋盾
+141030 Silver Knight: Bow → Spear + shield -- 銀騎士：弓　→  槍 + 盾
+144000 Pilgrimage dead -- 巡礼亡者
+147000 Wheel Skeleton Dungeon -- 車輪スケルトン ダンジョン
+148000 Dark Knight (Phantom) -- ダークナイト（幻影）
+149000 Tracker (Phantom) -- 追跡者（幻影）
+202000 Dead Dog (Large) no arrow Ojo 1 -- 亡者犬（大）　矢無し　王城1
+202001 Dead Dog (Large) arrow Little Ojo 1 -- 亡者犬（大）　矢少しあり　王城1
+202002 Dead Dog (Large) arrow many Ojo 1 -- 亡者犬（大）　矢多くあり　王城1
+202010 Dead Dog (Large) without an arrow -- 亡者犬（大）　矢無し　街
+202020 Dead Dog (Large) no arrow forest -- 亡者犬（大）　矢無し　森
+202021 Dead Dog (Large) arrow little forest -- 亡者犬（大）　矢少しあり　森
+202022 Dead Dog (Large) arrow many Woods -- 亡者犬（大）　矢多くあり　森
+202100 Dead Dog (small) no arrow Ojo 1 -- 亡者犬(小)　矢無し　王城1
+202110 Dead Dog (small) no Arrow street -- 亡者犬(小)　矢無し　街
+202210 Dead Dog (small) no arrow forest -- 亡者犬(小)　矢無し　森
+203000 Salivan's death: the song Sword -- サリヴァーンの死神：曲剣
+203010 Salivan's death: Sickle -- サリヴァーンの死神：鎌
+204000 Hungry Jack -- はらぺこジャック
+206000 Resurrection (Third form) -- よみがえり（第３形態）
+207000 Prisoner of the Dungeon: bare hands -- 地下牢の囚人：素手
+207010 Prisoner of the Dungeon: Spear -- 地下牢の囚人：槍
+207020 Prisoner of the Dungeon: Dagger -- 地下牢の囚人：短剣
+208000 Dead dog: Maggots belly poison swamp forest -- 亡者犬：蛆腹　毒沼の森
+209000 Dragon's Errand Ojo 2 -- 竜の御使い　王城2
+210000 Drifting Stuff -- 漂うもの
+210100 One of the drifting dungeons -- 漂うもの　地下牢
+211000 Dog Rat Street -- 犬ネズミ　街
+211100 Rat Dungeon -- 犬ネズミ　地下牢
+211200 Dog Rat Waste City -- 犬ネズミ　廃都
+211300 A dog rat wastes underground lake -- 犬ネズミ　廃都 地底湖
+212000 Mimic _ Normal -- ミミック_ノーマル
+212100 Mimic _ Normal Ojo 2 -- ミミック_ノーマル 王城2
+212110 Mimic _ Exorcist Ojo 2 -- ミミック_エクソシスト　王城2
+212200 Mimic _ Normal Dungeon -- ミミック_ノーマル ダンジョン
+212300 Mimic _ Normal Dungeons -- ミミック_ノーマル　地下牢
+212310 Mimic _ Exorcist Dungeon -- ミミック_エクソシスト　地下牢
+213000 Wriggles Carrion Street -- 蠢く腐肉　街
+213100 Wriggles Carrion -- 蠢く腐肉　廃都
+213200 Wriggles Carrion, an underground lake -- 蠢く腐肉　廃都 地底湖
+214000 Basilisk -- バジリスク
+215000 Crystal Lizard Ojo 1 -- 結晶トカゲ　王城1
+215100 Crystal Lizard Town -- 結晶トカゲ　街
+215200 Crystal Lizard Ojo 2 -- 結晶トカゲ　王城2
+215300 Crystal Lizard Ojo 3 -- 結晶トカゲ　王城3
+215400 Crystal Lizard Bridge -- 結晶トカゲ　橋
+215500 Crystal Lizard Anole -- 結晶トカゲ　アノール
+215600 Crystal Lizard Dungeon -- 結晶トカゲ　地下牢
+215700 Crystal Lizard Poison Swamp -- 結晶トカゲ  毒沼
+215800 Crystal Lizard Cathedral Church -- 結晶トカゲ　聖堂教会
+215900 Crystal Lizard Dungeon -- 結晶トカゲ　ダンジョン
+215950 Crystal Lizard Base -- 結晶トカゲ　拠点
+216000 What we call caries (small) Ojo 1 -- 蝕を呼ぶもの（小）　王城1
+217000 Saint of the Prison -- 牢獄の聖女
+218000 Maggots (slug type) -- 蛆人（なめくじタイプ）
+218010 Maggots (witch type) -- 蛆人（魔法使いタイプ）
+219000 Ojo's Gargoyle Light Dungeon -- 王城のガーゴイル　灯火　地下牢
+219010 Ojo's Vampire spear Dungeon -- 王城のガーゴイル　槍　地下牢
+219100 Ojo Gargoyle Lights Ojo 3 -- 王城のガーゴイル　灯火　王城3
+219110 Ojo Gargoyle Spear Ojo 3 -- 王城のガーゴイル　槍　王城3
+220000 Sand worm in the waste city -- 廃都のサンドワーム
+221000 Zombie Glass: Dagger -- ゾンビガラス：短剣
+221001 Zombie Glass: Scythe -- ゾンビガラス：大鎌
+223000 New Shing -- 新獄吏
+224000 Full Armor Beast Ojo 1 -- フルアーマー獣　王城1
+224001 Full Armor Beast Ojo 1 (after HU) -- フルアーマー獣　王城1（HU後）
+225000 Tindalos -- ティンダロス
+226000 3-Ream Varistor -- 3連バリスタ
+227000 Stench Crab Poison Swamp -- 死臭蟹　毒沼
+227020 Stench Crab Waste City -- 死臭蟹　廃都
+227100 Stench crab (small) poison swamp -- 死臭蟹（小）　毒沼
+227120 Stench crab (small) disused city -- 死臭蟹（小）　廃都
+228000 Dog Rats (Large) -- 犬ネズミ（大）
+229000 Salivan watchdog -- サリヴァーンの番犬
+229100 Salivan watchdog (small) -- サリヴァーンの番犬(小)
+302000 Golem -- ゴーレム
+302010 Golem (Iron Sphere) -- ゴーレム（鉄球）
+302100 Golem, Cathedral Church -- ゴーレム(大)_聖堂教会
+302101 Golem (Large) _ Cathedral church (special effects differences _ events) -- ゴーレム(大)_聖堂教会（特殊効果違い_イベント）
+302198 Golem (Large) _ Dungeon test -- ゴーレム(大)_地下牢テスト
+304000 Observer of the Abyss -- 深淵の監視者
+305000 Ash Daemon -- 灰のデーモン
+306000 Wood Demon Street -- 薪のデーモン　街
+306100 Daemon base of firewood -- 薪のデーモン　拠点
+307000 Daemon Priest -- デーモン司祭
+308000 Caries Butterfly Ojo 2 -- 蝕の蝶　王城2
+309000 Spider Town -- 牢蜘蛛 街
+310000 The Divine City of Crystal lizards -- 結晶トカゲの神　街
+310200 Church of the Divine Cathedral of Crystal Lizards -- 結晶トカゲの神　聖堂教会
+310320 The God of crystal lizards (Crystal high) underground lake -- 結晶トカゲの神（結晶多い）　廃都 地底湖
+310400 Crystal Lizard God (short tail) Basilica Church -- 結晶トカゲの神（尻尾短い）　聖堂教会
+311000 Eclipse Spider Ojo 3 -- 蝕の蜘蛛　王城3
+311100 Spider Cathedral of caries -- 蝕の蜘蛛　聖堂
+311200 Spider waste of caries -- 蝕の蜘蛛　廃都
+312000 Sacred Beast of the Forest -- 森の霊獣
+314000 The Flying Dragon of the bridge _ Hashimoto -- 橋の飛竜_ヘルカイト_橋下
+314010 The Flying Dragon of the bridge _ the Climb 2 -- 橋の飛竜_ヘルカイト_登る2
+314100 The Flying Dragon of the bridge _ Hel Kite _ Ojo 1 -- 橋の飛竜_ヘルカイト_王城1
+316000 Dragon's Guardian Knight Ojo 2 -- 竜の守護騎士　王城2
+317000 Dark Wraith -- ダークレイス
+501000 King of storms: simple -- 嵐の王：単体
+502000 Crimson Bat -- クリムゾンバット
+503000 The King of the Storm: riding -- 嵐の王：騎乗
+511000 Hero Segunda -- 英雄グンダ
+512000 Snake Spirit -- 蛇霊
+514000 The Old king of caries -- 蝕の老王
+514010 The old king of caries _ an apparition -- 蝕の老王_幻影
+515000 Salivan -- サリヴァーン
+516000 King of the Dead -- 死霊の王
+518000 Cursed Colossus City -- 呪われた巨像　街
+518001 Cursed Colossus (heat up Test) -- 呪われた巨像（ヒートアップテスト）
+520000 Fat Daemon -- デブデーモン
+520001 Fat daemon (heat up) -- デブデーモン（ヒートアップ）
+521000 Sinful Rosalia -- 罪深きロザリア
+522000 Cardinal (Long) -- 枢機卿団（長）
+522098 Cardinal HP Dummy -- 枢機卿団 HPダミー
+522100 Cardinal (Deb): Wheel or Sword -- 枢機卿団（デブ）：輪っか剣
+522102 The Cardinal (Deb): Long Wheel or sword -- 枢機卿団（デブ）：長い輪っか剣
+522110 Cardinal (SS Deb): A Ring or a sword -- 枢機卿団（親衛隊デブ）：輪っか剣
+522112 The Cardinal (SS Deb): Long Wheel or sword -- 枢機卿団（親衛隊デブ）：長い輪っか剣
+522200 Cardinal (tall): Wheel or Sword -- 枢機卿団（のっぽ）：輪っか剣
+522202 Cardinal (tall): Long Wheel or sword -- 枢機卿団（のっぽ）：長い輪っか剣
+522301 Cardinal (normal): Wheel or Sword -- 枢機卿団（通常）：輪っか剣
+522302 Cardinal (normal): candlestick -- 枢機卿団（通常）：燭台
+522303 Cardinal (usually): Long Wheel or sword -- 枢機卿団（通常）：長い輪っか剣
+524000 Moonlight Witch -- 月光の魔女
+525000 Prince of Darkness (elder brother) Ojo 3 -- 闇の双皇子（兄）　王城3
+525001 Prince of Darkness (elder brother): HU Ojo 3 -- 闇の双皇子（兄）:HU　王城3
+525100 Prince of Darkness (brother) Ojo 3 -- 闇の双皇子（弟）　王城3
+526000 Mad Warrior Hallec -- 狂戦士ハレック
+527000 Tracker Ojo 1 -- 追跡者　王城1
+800000 ■ ■ ■ ■ ■ For products up here ■ ■ ■ ■. ■. -- ■■■■■製品用ここまで■■■■■
+890000 Adjustment base character for the time being -- とりあえずの調整ベースキャラ
+890001 (during testing) player assumption _ Level 1 -- （テスト中）プレイヤー想定_レベル１
+890100 Player assumed _ Level 100 (during testing) -- （テスト中）プレイヤー想定_レベル１00
+890200 Start Game -- ゲーム開始
+890210 Ojo 1 -- 王城１
+890220 City of Towers -- 塔の街
+890230 Mori 1 (first half) -- 森１（前半）
+890240 Cathedral Church -- 聖堂教会
+890260 Dungeon -- ダンジョン
+890280 Anole -- アノール
+890290 Dungeon -- 地下牢
+890330 Base -- 拠点
+890340 End of game -- ゲーム終了
+890900 Enemy character for E3 -- E3用敵キャラ
+890910 Avoidance test character -- 回避テストキャラ
+891000 ID Book -- ID予約
+900001 Sound character -- 音出し用キャラ
+950100 Black Knight Default -- 黒騎士デフォルト
+960099 quadruped test -- 四脚テスト
+970003 FDP Skeleton (item drop dummy) -- FDP スケルトン（アイテムドロップダミー）
+992000 Production character test -- 演出キャラテスト
+999000 NPC Test NPC Multi cooperation -- NPCテスト 　NPCマルチ協力
+999001 NPC Test NPC Multi Intrusion -- NPCテスト　 NPCマルチ侵入

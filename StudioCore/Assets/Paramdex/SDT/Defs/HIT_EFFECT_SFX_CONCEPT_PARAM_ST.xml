@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>HIT_EFFECT_SFX_CONCEPT_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s16 SfxConceptId0 = 10" />
+    <Field Def="s16 SfxConceptId1" />
+    <Field Def="s16 SfxConceptId2 = 380" />
+    <Field Def="s16 SfxConceptId3" />
+    <Field Def="s16 SfxConceptId4 = 20" />
+    <Field Def="s16 SfxConceptId5" />
+    <Field Def="s16 SfxConceptId6 = 20" />
+    <Field Def="s16 SfxConceptId7" />
+    <Field Def="s16 SfxConceptId8 = 450" />
+    <Field Def="s16 SfxConceptId9" />
+    <Field Def="s16 SfxConceptId10" />
+    <Field Def="s16 SfxConceptId11" />
+    <Field Def="s16 SfxConceptId12" />
+    <Field Def="s16 SfxConceptId13" />
+    <Field Def="s16 SfxConceptId14" />
+    <Field Def="s16 SfxConceptId15" />
+    <Field Def="s16 SfxConceptId16" />
+    <Field Def="s16 SfxConceptId17" />
+    <Field Def="s16 SfxConceptId18" />
+    <Field Def="s16 SfxConceptId19" />
+    <Field Def="s16 SfxConceptId20" />
+    <Field Def="s16 SfxConceptId21" />
+    <Field Def="s16 SfxConceptId22" />
+    <Field Def="s16 SfxConceptId23" />
+    <Field Def="s16 SfxConceptId24 = 430" />
+    <Field Def="s16 SfxConceptId25" />
+    <Field Def="s16 SfxConceptId26 = 440" />
+    <Field Def="s16 SfxConceptId27" />
+    <Field Def="s16 SfxConceptId28 = 460" />
+    <Field Def="s16 SfxConceptId29" />
+    <Field Def="dummy8 pad1[20]" />
+  </Fields>
+</PARAMDEF>

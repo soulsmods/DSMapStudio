@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>PHANTOM_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 Alpha1" />
+    <Field Def="f32 Alpha2" />
+    <Field Def="f32 Alpha3" />
+    <Field Def="f32 Alpha4" />
+    <Field Def="f32 Alpha5" />
+    <Field Def="u8 R1 = 255" />
+    <Field Def="u8 G1 = 255" />
+    <Field Def="u8 B1 = 255" />
+    <Field Def="u8 R2" />
+    <Field Def="u8 G2" />
+    <Field Def="u8 B2" />
+    <Field Def="u8 R3 = 255" />
+    <Field Def="u8 G3 = 255" />
+    <Field Def="u8 B3 = 255" />
+    <Field Def="u8 R4 = 255" />
+    <Field Def="u8 G4 = 255" />
+    <Field Def="u8 B4 = 255" />
+    <Field Def="u8 R5 = 255" />
+    <Field Def="u8 G5" />
+    <Field Def="u8 B5" />
+    <Field Def="u8 Unk1" />
+    <Field Def="f32 GhostAlpha1" />
+    <Field Def="f32 GhostAlpha2" />
+    <Field Def="u8 GhostType" />
+    <Field Def="dummy8 pad1[3]" />
+  </Fields>
+</PARAMDEF>

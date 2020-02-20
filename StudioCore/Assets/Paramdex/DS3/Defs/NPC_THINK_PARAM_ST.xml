@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>NPC_THINK_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 logicId = 10000" />
+    <Field Def="s32 battleGoalId = 11000" />
+    <Field Def="f32 nearDist" />
+    <Field Def="f32 midDist" />
+    <Field Def="f32 farDist" />
+    <Field Def="f32 OutDist" />
+    <Field Def="f32 BackHomeLife_OnHitEneWal" />
+    <Field Def="f32 goalID_ToCaution" />
+    <Field Def="s32 idAttackCannotMove = 3000" />
+    <Field Def="f32 goalID_toFind" />
+    <Field Def="s32 callHelp_ActionAnimId" />
+    <Field Def="s32 callHelp_CallActionId" />
+    <Field Def="s16 eye_dist = 20" />
+    <Field Def="s16 ear_dist" />
+    <Field Def="s16 ear_soundcutDist" />
+    <Field Def="s16 nose_dist" />
+    <Field Def="s16 maxBackhomeDist = 75" />
+    <Field Def="s16 backhomeDist = 50" />
+    <Field Def="s16 backhomeBattleDist = 50" />
+    <Field Def="s16 nonBattleActLife = 1" />
+    <Field Def="s16 BackHome_LookTargetTime = 7" />
+    <Field Def="s16 BackHome_LookTargetDist = 12" />
+    <Field Def="s16 SightTargetForgetTime" />
+    <Field Def="s16 SoundTargetForgetTime = 16448" />
+    <Field Def="s16 BattleStartDist = 20" />
+    <Field Def="s16 callHelp_MyPeerId" />
+    <Field Def="s16 callHelp_CallPeerId" />
+    <Field Def="s16 targetSys_DmgEffectRate = 100" />
+    <Field Def="u8 teamAttackEffectivity" />
+    <Field Def="u8 eye_angX = 25" />
+    <Field Def="u8 eye_angY = 30" />
+    <Field Def="u8 State0" />
+    <Field Def="u8 State1" />
+    <Field Def="u8 callHelp_CallValidMinDistTarget" />
+    <Field Def="u8 callHelp_CallValidRange" />
+    <Field Def="u8 callHelp_ForgetTimeByArrival" />
+    <Field Def="u8 callHelp_MinWaitTime" />
+    <Field Def="u8 callHelp_MaxWaitTime" />
+    <Field Def="u8 goalAction_ToCaution = 1" />
+    <Field Def="u8 goalAction_ToFind = 2" />
+    <Field Def="u8 callHelp_ReplyBehaviorType" />
+    <Field Def="u8 disablePathMove" />
+    <Field Def="u8 skipArrivalVisibleCheck" />
+    <Field Def="u8 thinkAttrDoAdmirer" />
+    <Field Def="u8 enableNaviFlg_Edge:1 = 1" />
+    <Field Def="u8 enableNaviFlg_LargeSpace:1 = 1" />
+    <Field Def="u8 enableNaviFlg_Ladder:1" />
+    <Field Def="u8 enableNaviFlg_Hole:1 = 1" />
+    <Field Def="u8 enableNaviFlg_Door:1 = 1" />
+    <Field Def="u8 enableNaviFlg_InSideWall:1 = 1" />
+    <Field Def="u8 enableNaviFlg_EdgeOrdinary:1" />
+    <Field Def="u8 enableNaviFlg_reserve0:1 = 1" />
+    <Field Def="dummy8 enableNaviFlagReserve[3]" />
+    <Field Def="s16 eyeDist_ForDark" />
+    <Field Def="s16 battleStartDist_forDark" />
+    <Field Def="s16 eyeDist_ForPitchDark" />
+    <Field Def="s16 battleStartDist_forPitchDark" />
+    <Field Def="f32 platoonReplyTime" />
+    <Field Def="f32 platoonReplyAddRandomTime" />
+    <Field Def="s16 eye_BackOffsetDist" />
+    <Field Def="s16 eye_BeginDist" />
+    <Field Def="f32 targetArriveDist" />
+    <Field Def="f32 pointArriveDist" />
+    <Field Def="u8 changeStateAction_ToFind" />
+    <Field Def="u8 changeStateAction_ToCaution" />
+    <Field Def="u8 changeStateAction_ToBattle" />
+    <Field Def="u8 goalAction_ToDisappear" />
+    <Field Def="u8 disableLocalSteering" />
+    <Field Def="u8 actTypeOnFailedPath" />
+    <Field Def="u8 interestCategory" />
+    <Field Def="u8 goalAction_ToInterest" />
+    <Field Def="s16 Unk1" />
+    <Field Def="s16 ear_angX = 3" />
+    <Field Def="s16 ear_angY = 3" />
+    <Field Def="u8 changeStateAction_ToInterest = 2" />
+    <Field Def="u8 changeStateAction_ToNormal = 2" />
+    <Field Def="f32 Unk2" />
+    <Field Def="f32 Unk3" />
+    <Field Def="s16 Unk4" />
+    <Field Def="u8 Unk5" />
+    <Field Def="u8 Unk6" />
+    <Field Def="f32 Unk7" />
+    <Field Def="dummy8 pad[12]" />
+  </Fields>
+</PARAMDEF>

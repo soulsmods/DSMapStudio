@@ -1,0 +1,271 @@
+0 ID to Defocala of them -- そのうちデフォキャラにするID
+1 1: E3 Version (for demo) -- 1：E3版（デモ用）
+2 2: E3 version (fully equipped) -- 2：E3版（フル装備）
+3 3: Gamescom Sword -- 3：Gamescom 剣
+4 4: Gamescom Axe -- 4：Gamescom 斧
+5 5: Gamescom Sword (full gear) -- 5：Gamescom 剣　（フル装備）
+6 6: Gamescom Ax (full gear) -- 6：Gamescom 斧　（フル装備）
+10 10: TGS A (Wandering Knight) -- 10：TGS A　（放浪の騎士）
+11 11: TGS B (North Warrior) -- 11：TGS B　（北の戦士）
+12 12: TGS D (Temple Knight) -- 12：TGS D　（神殿騎士）
+13 13: TGS C (Witch) -- 13：TGS C　（魔法使い）
+14 14: TGS A (Wandering Knight) (full gear) -- 14：TGS A　（放浪の騎士）（フル装備）
+15 15: TGS B (North Warrior) (full gear) -- 15：TGS B　（北の戦士）（フル装備）
+16 16: TGS D (Temple Knight) (fully equipped) -- 16：TGS D　（神殿騎士）（フル装備）
+17 17: TGS C (witch) (full gear) -- 17：TGS C　（魔法使い）（フル装備）
+20 20: NT version A (Wandering Knight) -- 20：NT版 A　（放浪の騎士）
+21 21: NT version B (North Warrior) -- 21：NT版 B　（北の戦士）
+22 22: NT version D (Temple Knight) -- 22：NT版 D　（神殿騎士）
+23 23: NT version C (Wizard) -- 23：NT版 C　（魔法使い）
+24 24: NT version A (Wandering Knight) (full gear) -- 24：NT版 A　（放浪の騎士）（フル装備）
+25 25: NT version B (North Warrior) (full gear) -- 25：NT版 B　（北の戦士）（フル装備）
+26 26: NT version D (Temple Knight) (full gear) -- 26：NT版 D　（神殿騎士）（フル装備）
+27 27: NT version C (witch) (full gear) -- 27：NT版 C　（魔法使い）（フル装備）
+2400 2400: 【 Gift 】 Flame vase (tentative) -- 2400：【贈り物】火炎壺（仮）
+2401 2401: [Gift] Black flame jar (tentative) -- 2401：【贈り物】黒火炎壷（仮）
+2402 2402: [Gift] Human nature (Wang Hua items of firewood) (tentative) -- 2402：【贈り物】人間性（薪の王化アイテム）（仮）
+2403 2403: [Gift] Tongen (tentative) -- 2403：【贈り物】遠眼鏡（仮）
+2404 2404: 【 gift 】 Throwing knife (tentative) -- 2404：【贈り物】投げナイフ（仮）
+2405 2405: [Gift] dung dumpling (tentative) -- 2405：【贈り物】糞団子（仮）
+2406 The gift: The blessing of the Goddess (tentative) -- 2406：【贈り物】女神の祝福（仮）
+2407 2407: [Gift] stamina grass (tentative) -- 2407：【贈り物】スタミナ草（仮）
+2408 Matatabi: [Gift] (tentative) -- 2408：【贈り物】またたび（仮）
+2409 2409: [Gift] Unnecessary (tentative) -- 2409：【贈り物】不要（仮）
+3000 3000: [Character make-up for selection × Current provisional setting] Warrior -- 3000：【キャラメイク素性選択用×現在仮設定】戦士
+3001 3001: [Character make-up for selection × Current provisional setting] Knight -- 3001：【キャラメイク素性選択用×現在仮設定】騎士
+3002 I: [Chara make-up] for the selection of the current temporary setting -- 3002：【キャラメイク素性選択用×現在仮設定】放浪者
+3003 3003: [Character make-up for selection × Current provisional setting] Bandit -- 3003：【キャラメイク素性選択用×現在仮設定】盗賊
+3004 3004: [Character make-up for selection × Current provisional setting] Bandits -- 3004：【キャラメイク素性選択用×現在仮設定】山賊
+3005 3005: [Character make-up for selection × Current provisional setting] Hunter -- 3005：【キャラメイク素性選択用×現在仮設定】狩人
+3006 The wizard: [Character make-up for selection × current temporary setting] Magician -- 3006：【キャラメイク素性選択用×現在仮設定】魔術師
+3007 3007: [Character make-up for selection × current temporary setting] Sorcerer -- 3007：【キャラメイク素性選択用×現在仮設定】呪術師
+3008 3008: [Character make-up for selection × current provisional setting] Cleric -- 3008：【キャラメイク素性選択用×現在仮設定】聖職者
+3009 3009: [Character make-up for selection × current temporary settings] have no -- 3009：【キャラメイク素性選択用×現在仮設定】持たざるもの
+9000 9000: [Default] GC version (GRIFFITH) [Default equipment] -- 9000：【デフォルト装備】　GC版（グリフィス）　【デフォルト装備】
+21000 21,000: [Multi NPC] Berserker: ■ Darkness 1 -- 21000：【マルチNPC】バーサーカー：街■闇霊1
+21100 21100: [multi-NPC] Sniper NPC: Sniper NPC: Super Distance -- 21100：【マルチNPC】スナイパーNPC：スナイパーNPC：超距離
+21200 21200: [Multi-NPC] Dragon Hunting Warrior: Bridge ★ White Spirits 1 -- 21200：【マルチNPC】竜狩りの戦士：橋★白霊1
+21300 21300: [Multi-NPC] Warrior fell in mid-★: Bridge White Spirit 2 -- 21300：【マルチNPC】志半ばで倒れた戦士：橋★白霊2
+21400 21400: [multi-NPC] blunt with healing: Forest ★ White Spirits 1_ -- 21400：【マルチNPC】鈍器持ち治癒使い：森★白霊1_道中
+21500 21500: [multi-NPC] Hit man: Mori ★ White Spirits 2_vs Elders -- 21500：【マルチNPC】一撃にかける男：森★白霊2_VS古老
+21800 21800: [multi-NPC] King's SS chief: Ojo 3 ■ Dark Spirits 1 -- 21800：【マルチNPC】王の親衛隊長：王城3■闇霊1
+22000 22,000: [Multi NPC] Paris love: The temple ★ White Spirits 2_ -- 22000：【マルチNPC】パリィ大好き：聖堂★白霊2_道中
+28900 28900: [Multi NPC Build confirmation] Ambassa Warrior -- 28900：【マルチNPCビルド確認】アンバサ戦士
+1000010 1000010: [For the weapon animation confirmation] ◎ 01 Dagger (id_20: Dagger) -- 1000010：【武器アニメ確認用】◎01短剣（ID_20：ダガー）
+1000011 1000011: [For the weapon animation confirmation] ◎ 01 Dagger (id_72: Cut) -- 1000011：【武器アニメ確認用】◎01短剣（ID_72：切り）
+1000012 1000012: [Weapon anime confirmation] ☆ 01 Dagger (id_71: Paris) -- 1000012：【武器アニメ確認用】☆01短剣（ID_71：パリィ）
+1000013 1000013: [Weapon anime confirmation] × 01 dagger (id_153: Advantage) -- 1000013：【武器アニメ確認用】×01短剣（ID_153：逆手）
+1000020 1000020: [For the weapon anime confirmation] ★ 02 Straight Sword (id_23: Long) -- 1000020：【武器アニメ確認用】★02直剣（ID_23：ロング）
+1000021 1000021: [Weapon anime confirmation] ☆ 02 Straight Sword (id_53: Cut) -- 1000021：【武器アニメ確認用】☆02直剣（ID_53：切り）
+1000022 1000022: [Weapon anime confirmation] ☆ 02 Straight Sword (id_54: Piercing) -- 1000022：【武器アニメ確認用】☆02直剣（ID_54：刺突）
+1000025 1000025: [Weapon Anime confirmation] (02) Straight Sword (id_57: Dark Wraith) -- 1000025：【武器アニメ確認用】△02直剣（ID_57：ダークレイス）
+1000026 1000026: [Weapon Anime confirmation] × 02 Straight Sword (id_ TBA: Brother Ssangyong) -- 1000026：【武器アニメ確認用】×02直剣（ID_未定：双皇子弟）
+1000030 1000030: [Weapon anime confirmation] ☆ 03 Large Sword (id_25: Basso) -- 1000030：【武器アニメ確認用】☆03大剣（ID_25：バッソ）
+1000031 1000031: [Weapon anime confirmation] ☆ 03 Large Sword (id_74: thrusting) -- 1000031：【武器アニメ確認用】☆03大剣（ID_74：突き）
+1000033 1000033: [Weapon Anime confirmation] (04) (ID_80: Black Knight) -- 1000033：【武器アニメ確認用】△04大剣（ID_80：黒騎士）
+1000034 1000034: [Weapon Anime confirmation] (04) (id_131) -- 1000034：【武器アニメ確認用】△04大剣（ID_131：アルトリウス）
+1000035 1000035: [Weapon anime confirmation] × 04 Large Sword (id_154:04 Sword of the Old King of caries) -- 1000035：【武器アニメ確認用】×04大剣（ID_154：蝕の老王の04大剣）
+1000036 1000036: [Weapon anime confirmation] × 04 Large sword (id_155: Prince of twins 04 sword) -- 1000036：【武器アニメ確認用】×04大剣（ID_155：双皇子合体04大剣）
+1000037 1000037: [Weapon anime confirmation] × 04 Large Sword (id_156.: 04 Sword of the King of the Evil) -- 1000037：【武器アニメ確認用】×04大剣（ID_156.：死霊の王の04大剣）
+1000038 1000038: [Weapon Anime confirmation] (04) (id_157) -- 1000038：【武器アニメ確認用】△04大剣（ID_157：ルカティエル）
+1000039 1000039: [Weapon anime confirmation] ○ 04 Large Sword (id_158: Moonlight 04 Sword) -- 1000039：【武器アニメ確認用】○04大剣（ID_158：月光04大剣）
+1000040 1000040: [Weapon anime confirmation] × 04 Large sword (id_159. -- 1000040：【武器アニメ確認用】×04大剣（ID_159.ラスボス04大剣）
+1000050 1000050: [Weapon Anime confirmation] ★ 05 Oversized Sword (id_26: normal) -- 1000050：【武器アニメ確認用】★05特大剣（ID_26：通常）
+1000051 1000051: [For the weapon anime confirmation] ○ 05 Oversized Sword (id_95: thrusting) -- 1000051：【武器アニメ確認用】○05特大剣（ID_95：突き）
+1000052 1000052: [For the weapon anime confirmation] ◎ 05 Oversized Sword (id_128: Black Knight) -- 1000052：【武器アニメ確認用】◎05特大剣（ID_128：黒騎士）
+1000053 1000053: [Weapon Anime confirmation] ★ 05 Oversized Sword (id_160: zwei) -- 1000053：【武器アニメ確認用】★05特大剣（ID_160：ツヴァイ）
+1000054 1000054: [For the weapon animation confirmation] △ 05 Oversized sword (id_163: Smoke) -- 1000054：【武器アニメ確認用】△05特大剣（ID_163：煙り）
+1000056 1000056: [For the weapon anime confirmation] × 05 Oversized sword (id_161: Warden of the Abyss) -- 1000056：【武器アニメ確認用】×05特大剣（ID_161：深淵の監視者）
+1000057 1000057: [Weapon Anime confirmation] × 05 Oversized Sword (id_162:05 Oversized Sword of the old king of Caries (red)) -- 1000057：【武器アニメ確認用】×05特大剣（ID_162：蝕の老王の05特大剣（赤））
+1000058 1000058: [For Weapon animation confirmation] × 05 oversized sword (id_ undecided: 05 oversized Sword of Prince twins) -- 1000058：【武器アニメ確認用】×05特大剣（ID_未定：双子皇子兄の05特大剣）
+1000060 1000060: [Weapon anime confirmation] ◎ 06 Sword (id_27: Ray Pier) -- 1000060：【武器アニメ確認用】◎06刺剣（ID_27：レイピア）
+1000061 1000061: [Weapon anime confirmation] (06) (ID_27: Shield tock) -- 1000061：【武器アニメ確認用】△06刺剣（ID_27：盾チク）
+1000062 1000062: [Weapon anime confirmation] ◎ 06 Sword (id_113: Estoc) -- 1000062：【武器アニメ確認用】◎06刺剣（ID_113：エストック）
+1000063 1000063: [Weapon anime confirmation] (06) (id_113: Estoc Shield tock) -- 1000063：【武器アニメ確認用】△06刺剣（ID_113：エストック盾チク）
+1000064 1000064: [Weapon anime confirmation] (06) (ID_115: Ricard) -- 1000064：【武器アニメ確認用】△06刺剣（ID_115：リカール）
+1000065 1000065: [Weapon anime confirmation] (06) (id_115: tock) -- 1000065：【武器アニメ確認用】△06刺剣（ID_115：リカール盾チク）
+1000070 1000070: [For the weapon animation confirmation] ◎ 07 Song Sword (id_28: Farsi) -- 1000070：【武器アニメ確認用】◎07曲剣（ID_28：ファルシ）
+1000071 1000071: [For the weapon anime confirmation] ◎ 07 Song Sword (id_164:07 Song Sword of the death of Salivan) -- 1000071：【武器アニメ確認用】◎07曲剣（ID_164：サリヴァーンの死神の07曲剣）
+1000072 1000072: [For the weapon animation confirmation] ◎ 07 Song Sword (id_165: Moonlight of Missing Moon) -- 1000072：【武器アニメ確認用】◎07曲剣（ID_165：欠月のムーンライト）
+1000080 1000080: [For the weapon animation confirmation] ◎ 08 Light Sword (id_151: Scimitar) -- 1000080：【武器アニメ確認用】◎08軽曲剣（ID_151：シミター）
+1000081 1000081: [For the weapon animation confirmation] ◎ 08 Light Sword (id_99: Shorty) -- 1000081：【武器アニメ確認用】◎08軽曲剣（ID_99：ショーテル）
+1000082 1000082: [Weapon anime confirmation] △ 08 Light Sword (id_101: Painting Mamoru) -- 1000082：【武器アニメ確認用】△08軽曲剣（ID_101：絵画守）
+1000090 1000090: [For the weapon animation confirmation] ◎ 09 Sword (id_29: normal) -- 1000090：【武器アニメ確認用】◎09刀（ID_29：通常）
+1000091 1000091: [Weapon Anime confirmation] ☆ 09 Sword (id_90: Shigurui) -- 1000091：【武器アニメ確認用】☆09刀（ID_90：シグルイ）
+1000100 1000100: [Weapon anime confirmation] ☆ 10 Sword (id_51: normal) -- 1000100：【武器アニメ確認用】☆10大曲剣（ID_51：通常）
+1000101 1000101: [Weapon anime confirmation] ☆ 10 Series Sword (ID_166: Observer Wolf of the Abyss) -- 1000101：【武器アニメ確認用】☆10大曲剣（ID_166：深淵の監視者オオカミ）
+1000110 1000110: [Weapon Anime confirmation] ★ 11 AX (id_30: Battle) -- 1000110：【武器アニメ確認用】★11斧（ID_30：バトル）
+1000111 1000111: [Weapon anime confirmation] ◎ 11 ax (id_102: Small axe) -- 1000111：【武器アニメ確認用】◎11斧（ID_102：小斧）
+1000112 1000112: [Weapon Anime confirmation] (11 ax (id_103: Meat disconnect) -- 1000112：【武器アニメ確認用】△11斧（ID_103：肉絶ち）
+1000113 1000113: [Weapon Anime confirmation] × 11 ax (id_167:4 Knight Axe) -- 1000113：【武器アニメ確認用】×11斧（ID_167：4騎士斧）
+1000120 1000120: [Weapon anime confirmation] ◎ 12 Large ax (id_32: Great) -- 1000120：【武器アニメ確認用】◎12大斧（ID_32：グレート）
+1000122 1000122: [Weapon Anime confirmation] ○ 12 Large Ax (id_107: Black Knight) -- 1000122：【武器アニメ確認用】○12大斧（ID_107：黒騎士）
+1000123 1000123: [Weapon Anime confirmation] × 12 large ax (id_168: Wood daemon 12 large ax) -- 1000123：【武器アニメ確認用】×12大斧（ID_168：薪のデーモン12大斧）
+1000124 1000124: [Weapon Anime confirmation] × 12 large ax (id_169: Hallec 12 large ax) -- 1000124：【武器アニメ確認用】×12大斧（ID_169：ハレックの12大斧）
+1000130 1000130: [Weapon Anime confirmation] ★ 13 Mallet (id_33: Mace) -- 1000130：【武器アニメ確認用】★13槌（ID_33：メイス）
+1000131 1000131: [Weapon anime confirmation] × 13 mallet (id_59: Club) -- 1000131：【武器アニメ確認用】×13槌（ID_59：クラブ）
+1000140 1000140: [For the weapon animation confirmation] ◎ 14 Large mallet (id_35: Large) -- 1000140：【武器アニメ確認用】◎14大槌（ID_35：ラージ）
+1000141 1000141: [For the weapon anime Confirmation] (14) (ID_70: Sumo) -- 1000141：【武器アニメ確認用】△14大槌（ID_70：スモウ）
+1000142 1000142: [Weapon anime confirmation] ○ 14 Large Mallet (id_171: pickaxe) -- 1000142：【武器アニメ確認用】○14大槌（ID_171：つるはし）
+1000143 1000143: [Weapon Anime confirmation] × 14 Otsuchi (id_172: Gargoyle Torch) -- 1000143：【武器アニメ確認用】×14大槌（ID_172：ガーゴイルのトーチ）
+1000144 1000144: [Weapon Anime confirmation] × 14 Otsuchi (id_173:14 Otsuchi Full Armor Deb) -- 1000144：【武器アニメ確認用】×14大槌（ID_173：フルアーマーデブの14大槌）
+1000145 1000145: [Weapon Anime confirmation] × 14 Otsuchi (id_174:14 Otsuchi of ash daemon) -- 1000145：【武器アニメ確認用】×14大槌（ID_174：灰のデーモンの14大槌）
+1000150 1000150: [Weapon anime confirmation] ◎ 15 spear (id_36: Spear) -- 1000150：【武器アニメ確認用】◎15槍（ID_36：スピア）
+1000151 1000151: [Weapon Anime confirmation] ★ 15 Spear (id_36: Shield tock) -- 1000151：【武器アニメ確認用】★15槍（ID_36：盾チク）
+1000152 1000152: [Weapon anime confirmation] ◎ 15 Spear (id_63: Payment) -- 1000152：【武器アニメ確認用】◎15槍（ID_63：払い）
+1000153 1000153: [Weapon Anime confirmation] ★ 15 Spear (id_63: tock Shield) -- 1000153：【武器アニメ確認用】★15槍（ID_63：払い盾チク）
+1000154 1000154: [Weapon Anime confirmation] (15 spears) (id_67: Pike) -- 1000154：【武器アニメ確認用】△15槍（ID_67：パイク）
+1000155 1000155: [Weapon Anime confirmation] (15 spears (id_134: Fork) -- 1000155：【武器アニメ確認用】△15槍（ID_134：フォーク）
+1000156 1000156: [Weapon Anime confirmation] (15 spears (id_68: Dragon Hunt) -- 1000156：【武器アニメ確認用】△15槍（ID_68：竜狩り）
+1000157 1000157: [Weapon Anime confirmation] (15 spears) (id_177: Lance) -- 1000157：【武器アニメ確認用】△15槍（ID_177：ランス）
+1000159 1000159: [Weapon Anime confirmation] × 15 spear (id_175: Spear of Gargoyle) -- 1000159：【武器アニメ確認用】×15槍（ID_175：ガーゴイルの槍）
+1000160 1000160: [Weapon Anime confirmation] × 15 spear (id_176: Sword Spear of the King of the Storm) -- 1000160：【武器アニメ確認用】×15槍（ID_176：嵐の王の剣槍）
+1000161 1000161: [Weapon Anime confirmation] × 15 spear (id_178: Spear of Salivan) -- 1000161：【武器アニメ確認用】×15槍（ID_178：サリヴァーンの槍）
+1000170 1000170: [Weapon anime confirmation] ◎ 16 axe Spear (id_38: Grace) -- 1000170：【武器アニメ確認用】◎16斧槍（ID_38：グレイヴ）
+1000171 1000171: [Weapon anime confirmation] ◎ 16 ax Spear (id_108: Halwa) -- 1000171：【武器アニメ確認用】◎16斧槍（ID_108：ハルバ）
+1000172 1000172: [Weapon Anime confirmation] × 16 axe spear (id_112: Black Knight) -- 1000172：【武器アニメ確認用】×16斧槍（ID_112：黒騎士）
+1000180 1000180: [Weapon Anime confirmation] (17) (id_50: Normal) -- 1000180：【武器アニメ確認用】△17鎌（ID_50：通常）
+1000181 1000181: [Weapon Anime confirmation] × 17 sickle (id_179: Salivan's sickle of death) -- 1000181：【武器アニメ確認用】×17鎌（ID_179：サリヴァーンの死神の鎌）
+1000182 1000182: [Weapon Anime confirmation] × 17 sickle (id_180: Craving) -- 1000182：【武器アニメ確認用】×17鎌（ID_180：渇望）
+1000190 1000190: [Weapon anime confirmation] ◎ 18 Cane (id_41: normal) -- 1000190：【武器アニメ確認用】◎18杖（ID_41：通常）
+1000200 1000200: [Weapon Anime confirmation] ★ 19 Talisman (id_52: Normal) -- 1000200：【武器アニメ確認用】★19タリスマン（ID_52：通常）
+1000201 1000201: [Weapon Anime confirmation] × 19 talisman (id_185: Tin) -- 1000201：【武器アニメ確認用】×19タリスマン（ID_185：すず）
+1000210 1000210: [Weapon Anime confirmation] (20) (id_149: Normal) -- 1000210：【武器アニメ確認用】△20呪術の炎（ID_149：通常）
+1000220 1000220: [For the Weapon animation confirmation] (id_43: normal) -- 1000220：【武器アニメ確認用】△21鞭（ID_43：通常）
+1000230 1000230: [For the Weapon animation confirmation] (22 bows (id_44: Long) -- 1000230：【武器アニメ確認用】△22弓（ID_44：ロング）
+1000231 1000231: [Weapon Anime confirmation] ★ 22 Bows (ID_81: short) -- 1000231：【武器アニメ確認用】★22弓（ID_81：ショート）
+1000232 1000232: [For the Weapon animation confirmation] (22 bows (id_81: Faris) -- 1000232：【武器アニメ確認用】△22弓（ID_81：ファリス）
+1000240 1000240: [Weapon anime confirmation] ☆ 23 Miyakonojo (id_83: Dragon Hunt) -- 1000240：【武器アニメ確認用】☆23大弓（ID_83：竜狩り）
+1000241 1000241: [Weapon Anime confirmation] (23 Miyakonojo (id_184: Aaron) -- 1000241：【武器アニメ確認用】△23大弓（ID_184：アーロン）
+1000250 1000250: [For confirmation of weapon animation] ◎ 24 Crossbow (id_46: normal) -- 1000250：【武器アニメ確認用】◎24クロスボウ（ID_46：通常）
+1000251 1000251: [Weapon Anime confirmation] × 24 Crossbow (id_84: Aveiro) -- 1000251：【武器アニメ確認用】×24クロスボウ（ID_84：アヴェリン）
+1000260 1000260: [For the weapon animation confirmation] ◎ 25 fist (id_42) -- 1000260：【武器アニメ確認用】◎25拳（ID_42）
+1000261 1000261: [Weapon anime confirmation] × 25 fist (id_123: Dark Hand) -- 1000261：【武器アニメ確認用】×25拳（ID_123：ダークハンド）
+1000262 1000262: [Weapon anime confirmation] × 25 fist (id_181: Wood daemon Knuckle) -- 1000262：【武器アニメ確認用】×25拳（ID_181：薪のデーモンのナックル）
+1000280 1000280: [Weapon anime confirmation] ◎ 27 Sword Song (id_151) -- 1000280：【武器アニメ確認用】◎27双剣曲剣（ID_151）
+1000281 1000281: [For the weapon anime Confirmation] (27) Sword Song (id139: Tracker) -- 1000281：【武器アニメ確認用】△27双剣曲剣（ID139：追跡者）
+1000283 1000283: [Weapon Anime confirmation] × 27 Sword Song (id_182: Elite Dead) -- 1000283：【武器アニメ確認用】×27双剣曲剣（ID_182：エリート亡者）
+1000290 1000290: [Weapon anime confirmation] ◎ 28 twin-Sword Ax (id_138: Deb) -- 1000290：【武器アニメ確認用】◎28双剣斧（ID_138：デブ）
+1000310 1000310: [Weapon Anime confirmation] ○ 29 Sword Dagger (id_141) -- 1000310：【武器アニメ確認用】○29双剣短剣（ID_141）
+1000320 1000320: [Weapon anime confirmation] ○ 30 Twin Sword Straight Sword (id_142) -- 1000320：【武器アニメ確認用】○30双剣直剣（ID_142）
+1000330 1000330: [Weapon anime confirmation] ○ 31 Sword Sword (id_144) -- 1000330：【武器アニメ確認用】○31双剣刀（ID_144）
+1000340 1000340: [Weapon anime confirmation] ◎ 32 double Sword Spear (id_145) -- 1000340：【武器アニメ確認用】◎32双剣槍（ID_145）
+1000350 1000350: [Weapon anime confirmation] ◎ 33 Sword Fist (id_152) -- 1000350：【武器アニメ確認用】◎33双剣拳（ID_152）
+1000360 1000360: [For the Weapon animation confirmation] ○ 34 Sword Claw (id_146) -- 1000360：【武器アニメ確認用】○34双剣かぎ爪（ID_146）
+1000370 1000370: [For the weapon animation confirmation] ◎ 35 twin-Sword Mallet (id_148) -- 1000370：【武器アニメ確認用】◎35双剣槌（ID_148）
+1000380 1000380: [For the weapon animation confirmation] ◎ 37 small shield (ID_48) -- 1000380：【武器アニメ確認用】◎37小盾（ID_48）
+1000381 1000381: [For the weapon animation confirmation] ◎ 37 small shield (id_91: Strong Paris) -- 1000381：【武器アニメ確認用】◎37小盾（ID_91：強パリィ）
+1000390 1000390: [Weapon anime confirmation] ◎ 38 medium shield (ID_150) -- 1000390：【武器アニメ確認用】◎38中盾（ID_150）
+1000391 1000391: [Weapon anime confirmation] × 38 medium shield (id_93: Spike) -- 1000391：【武器アニメ確認用】×38中盾（ID_93：スパイク）
+1000400 1000400: [Weapon anime confirmation] (39) (ID_47) -- 1000400：【武器アニメ確認用】△39大盾（ID_47）
+1000401 1000401: [Weapon Anime confirmation] × 39 large shield (id_94: Havel) -- 1000401：【武器アニメ確認用】×39大盾（ID_94：ハベル）
+1000402 1000402: [Weapon Anime confirmation] × 39 large shield (id_126: Wheels) -- 1000402：【武器アニメ確認用】×39大盾（ID_126：車輪）
+1000410 1000410: [Weapon Animation confirmation] (40 torches) (id_49) -- 1000410：【武器アニメ確認用】△40松明（ID_49）
+1010010 1010010: [Weight anime confirmation] light weight Confirmation -- 1010010：【重量アニメ確認】軽量確認
+1010020 1010020: [Weight Anime confirmation] Medium Volume confirmation -- 1010020：【重量アニメ確認】中量確認
+1010030 1010030: Check weight anime confirmation -- 1010030：【重量アニメ確認】重量確認
+1010040 1010040: [mass animation confirmation] Overweight confirmation -- 1010040：【重量アニメ確認】重量過多確認
+1011001 1011001: [Magic Confirmation] Arrow System of Seoul -- 1011001：【魔法確認】ソウルの矢系
+1011002 1011002: [Magic Confirmation] the mass system of the chasing soul -- 1011002：【魔法確認】追尾するソウルの塊系
+1011003 1011003: [Magic Confirmation] enchanted System -- 1011003：【魔法確認】エンチャント系
+1011004 1011004: [Magic Confirmation] mimicry, curse resistance, healing, Hakuryu breath -- 1011004：【魔法確認】擬態・呪抵抗・治癒・白龍の息
+1011005 1011005: [Magic Confirmation] other convenient system -- 1011005：【魔法確認】その他便利系
+1011101 1011101: [Miracle Confirmation] Recovery system -- 1011101：【奇跡確認】回復系
+1011102 1011102: [Miracle confirmation] Attack system -- 1011102：【奇跡確認】攻撃系
+1011103 1011103: [Miracle confirmation] Defense system -- 1011103：【奇跡確認】防御系
+1011104 1011104: [Miracle Confirmation] convenient system -- 1011104：【奇跡確認】便利系
+1011105 1011105: [Miracle Confirmation] enchant system, pledge system -- 1011105：【奇跡確認】エンチャント系・誓約系
+1011201 1011201: [Confirmation of Magic] Fire ball system -- 1011201：【呪術確認】火の玉系
+1011202 1011202: [Magic Confirmation] Flame storm system -- 1011202：【呪術確認】炎の嵐系
+1011203 1011203: [Magic Confirmation] short range attack system -- 1011203：【呪術確認】近距離攻撃系
+1011204 1011204: [Magic Confirmation] State abnormal system, convenient system -- 1011204：【呪術確認】状態異常系・便利系
+1012001 1012001: [Item confirmation] online system -- 1012001：【アイテム確認】オンライン系
+1070000 1070000: [Yamagishi] King of firewood test set 1 -- 1070000：【山岸】薪の王テストセット１
+1070001 1070001: [Yamagishi] King of firewood test set 2 -- 1070001：【山岸】薪の王テストセット２
+1080000 1080000: [Load check] memory check Chara 1 -- 1080000：【負荷チェック】メモリチェックキャラ１
+1080001 1080001: [Load check] memory Check Chara 2 -- 1080001：【負荷チェック】メモリチェックキャラ２
+1080002 1080002: [Load check] memory check Chara 3 -- 1080002：【負荷チェック】メモリチェックキャラ３
+1080003 1080003: [Load check] memory check Chara 4 -- 1080003：【負荷チェック】メモリチェックキャラ４
+1080004 1080004: [Load check] memory check Chara 5 -- 1080004：【負荷チェック】メモリチェックキャラ５
+1080005 1080005: [Load check] memory Check Chara 6 -- 1080005：【負荷チェック】メモリチェックキャラ６
+2000000 2,000,000: [Confirmation of new equipment] Fugitive -- 2000000：【新規装備確認】逃亡者
+2000010 2000010: [New equipment confirmation] combined equipment -- 2000010：【新規装備確認】複合装備
+2000030 2000030: [New equipment confirmation] Red Knight -- 2000030：【新規装備確認】紅の騎士
+2000040 2000040: [New equipment confirmation] Mercenary King -- 2000040：【新規装備確認】傭兵王
+2000050 2000050: [Confirmation of new equipment] Jeanne -- 2000050：【新規装備確認】ジャンヌ
+2000060 2000060: [New equipment confirmation] Downer Knight -- 2000060：【新規装備確認】ダウナー騎士
+2000070 2000070: [Confirmation of new equipment] Hunter Assassin -- 2000070：【新規装備確認】狩人暗殺者
+2000080 2000080: [New equipment confirmation] Yellow robe -- 2000080：【新規装備確認】黄衣
+2000090 2000090: [New equipment Confirmation] Overlord -- 2000090：【新規装備確認】覇王
+2000100 2000100: [New equipment confirmation] Black Dog Knights -- 2000100：【新規装備確認】黒犬騎士団
+2000110 2000110: [New equipment confirmation] Noble -- 2000110：【新規装備確認】貴族
+2000120 2000120: [New equipment confirmation] White Phantom -- 2000120：【新規装備確認】白怪人
+2000130 2000130: [New equipment confirmation] beggar (Fugitive) -- 2000130：【新規装備確認】乞食（落人）
+2000140 2000140: [New equipment confirmation] Zara Man -- 2000140：【新規装備確認】ザラマン
+2000150 2000150: [Confirmation of new equipment] heavy Knight -- 2000150：【新規装備確認】重騎士
+2000160 2000160: [New equipment confirmation] Black Knight Grannies -- 2000160：【新規装備確認】黒騎士老女
+2000170 2000170: [New equipment Confirmation] Sorcerer -- 2000170：【新規装備確認】呪術師
+2000180 2000180: [New equipment confirmation] Dark Cleric -- 2000180：【新規装備確認】ダーククレリック
+2000190 2000190: [New equipment confirmation] Rayleigh -- 2000190：【新規装備確認】レイストリン
+2000200 2000200: [Confirmation of new equipment] Saint-Medical -- 2000200：【新規装備確認】聖者・医療者
+2000210 2000210: [Confirmation of new equipment] heavy Knight (neutral) -- 2000210：【新規装備確認】重騎士（ニュートラル）
+2000220 2000220: [Confirmation of new equipment] King of beggars -- 2000220：【新規装備確認】乞食の王
+2010000 2010000: [Confirmation of enemy transplant equipment] dead soldier -- 2010000：【敵移植装備確認】亡者兵士
+2010020 2010020: [Confirmation of enemy transplant equipment] crystal elders -- 2010020：【敵移植装備確認】結晶の古老
+2010030 2010030: [Confirmation of enemy transplant equipment] new Shing -- 2010030：【敵移植装備確認】新獄吏
+2010040 2010040: [Confirmation of enemy transplant equipment] saint of the prison -- 2010040：【敵移植装備確認】牢獄の聖女
+2010070 2010070: [Confirmation of enemy transplant equipment] poor dead -- 2010070：【敵移植装備確認】貧民亡者
+2010080 2010080: [Confirmation of enemy transplant equipment] dwarf people -- 2010080：【敵移植装備確認】矮小人
+2010090 2010090: [Confirmation of enemy transplant equipment] missionary -- 2010090：【敵移植装備確認】宣教師
+2010100 2010100: [Confirmation of enemy transplant equipment] dead of wax -- 2010100：【敵移植装備確認】蝋の死人
+2010110 2010110: [Confirmation of enemy transplant equipment] Ojo Deb -- 2010110：【敵移植装備確認】王城デブ
+2010120 2010120: [Confirmation of enemy transplant equipment] dead Shi -- 2010120：【敵移植装備確認】亡者僧兵
+2010140 2010140: [Confirmation of enemy transplant equipment] former dead knight -- 2010140：【敵移植装備確認】旧亡者騎士
+2010160 2010160: [Confirmation of enemy transplant equipment] Dark Knight -- 2010160：【敵移植装備確認】ダークナイト
+2010170 2010170: [Confirmation of enemy transplant equipment] Black Knight -- 2010170：【敵移植装備確認】黒騎士
+2010180 2010180: [Confirmation of enemy transplant equipment] Dark Wraith -- 2010180：【敵移植装備確認】ダークレイス
+2010190 2010190: [Confirmation of enemy transplant equipment] Forest keeper -- 2010190：【敵移植装備確認】森の番人
+2010200 2010200: [Confirmation of enemy transplant equipment] Salivan's death -- 2010200：【敵移植装備確認】サリヴァーンの死神
+2010210 2010210: [Confirmation of enemy transplant equipment] King of the Storm -- 2010210：【敵移植装備確認】嵐の王
+2010220 2010220: [Confirmation of enemy transplant equipment] King of the Evil -- 2010220：【敵移植装備確認】死霊の王
+2010230 2010230: [Confirmation of enemy transplant equipment] The observer of the Abyss -- 2010230：【敵移植装備確認】深淵の監視者
+2010240 2010240: [Confirmation of enemy transplant equipment] Snake man Assassin -- 2010240：【敵移植装備確認】蛇人暗殺者
+2010270 2010270: [Confirmation of enemy transplant equipment] brother of Darkness -- 2010270：【敵移植装備確認】闇の双皇子兄
+2010280 2010280: [Confirmation of enemy transplant equipment] children of darkness -- 2010280：【敵移植装備確認】闇の双皇子弟
+2010290 2010290: [Confirmation of enemy transplant equipment] Mad warrior Hallec -- 2010290：【敵移植装備確認】狂戦士ハレック
+2010310 2010310: [Confirmation of enemy transplant equipment] Hero Segunda -- 2010310：【敵移植装備確認】英雄グンダ
+2010320 2010320: [Confirmation of enemy transplant equipment] old king of caries -- 2010320：【敵移植装備確認】蝕の老王
+2010340 2010340: [Confirmation of enemy transplant equipment] Cardinal member -- 2010340：【敵移植装備確認】枢機卿団員
+2010350 2010350: [Confirmation of enemy transplant equipment] Full Armor Deb -- 2010350：【敵移植装備確認】フルアーマーデブ
+2020000 2020000: [旧作 transplant equipment confirmation] chain mail -- 2020000：【旧作移植装備確認】チェインメイル
+2020010 2020010: [旧作 transplant equipment Confirmation] Knight -- 2020010：【旧作移植装備確認】騎士
+2020020 2020020: [旧作 transplant equipment confirmation] Advanced Knight -- 2020020：【旧作移植装備確認】上級騎士
+2020030 2020030: [旧作 transplant equipment Confirmation] Farnham -- 2020030：【旧作移植装備確認】ファーナム
+2020040 2020040: [旧作 transplant equipment Confirmation] Catalina -- 2020040：【旧作移植装備確認】カタリナ
+2020050 2020050: [旧作 transplant equipment Confirmation] Warrior -- 2020050：【旧作移植装備確認】戦士
+2020060 2020060: [旧作 transplant equipment Confirmation] Havel -- 2020060：【旧作移植装備確認】ハベル
+2020070 2020070: [旧作 transplant equipment Confirmation] Bandits -- 2020070：【旧作移植装備確認】山賊
+2020080 2020080: [旧作 transplant equipment confirmation] Hunter -- 2020080：【旧作移植装備確認】狩人
+2020090 2020090: [旧作 transplant equipment Confirmation] prisoner -- 2020090：【旧作移植装備確認】囚人
+2020100 2020100: [旧作 transplant equipment confirmation] Black magician -- 2020100：【旧作移植装備確認】黒魔術師
+2020110 2020110: [旧作 transplant equipment confirmation] old sorcerer -- 2020110：【旧作移植装備確認】旧呪術師
+2020120 2020120: [旧作 transplant equipment Confirmation] black leather (thief) -- 2020120：【旧作移植装備確認】黒革（盗賊）
+2020130 2020130: [旧作 transplant equipment Confirmation] Clayton -- 2020130：【旧作移植装備確認】クレイトン
+2020140 2020140: [旧作 transplant equipment Confirmation] Alpha -- 2020140：【旧作移植装備確認】アルパ
+2020150 2020150: [旧作 transplant equipment Confirmation] Shadow -- 2020150：【旧作移植装備確認】影
+2020160 2020160: [旧作 transplant equipment Confirmation] Tokoku -- 2020160：【旧作移植装備確認】東国
+2020170 2020170: [旧作 transplant Equipment Confirmation] favorite (funnel) -- 2020170：【旧作移植装備確認】寵愛（ロートレク）
+2020180 2020180: [旧作 transplant equipment Confirmation] brass (dark Moon) -- 2020180：【旧作移植装備確認】真鍮（暗月）
+2020190 2020190: [旧作 transplant equipment confirmation] Silver Knight -- 2020190：【旧作移植装備確認】銀騎士
+2020200 2020200: [旧作 transplant equipment confirmation] Luke Thierry -- 2020200：【旧作移植装備確認】ルカティエル
+2020210 2020210: [旧作 transplant equipment Confirmation] Knight of the Sun -- 2020210：【旧作移植装備確認】太陽の騎士
+2020220 2020220: [旧作 transplant equipment confirmation] dragon Blood -- 2020220：【旧作移植装備確認】竜血
+2020230 2020230: [旧作 transplant equipment confirmation], Lyndhurst -- 2020230：【旧作移植装備確認】リンド
+2020240 2020240: [旧作 transplant equipment confirmation] black iron -- 2020240：【旧作移植装備確認】黒鉄
+2020250 2020250: [旧作 transplant equipment confirmation] painting protection -- 2020250：【旧作移植装備確認】絵画守り
+2020260 2020260: [旧作 transplant equipment confirmation] al-Triana -- 2020260：【旧作移植装備確認】アルトリウス
+2020270 2020270: [旧作 transplant equipment Confirmation] Ornstein -- 2020270：【旧作移植装備確認】オーンスタイン
+2020280 2020280: [旧作 transplant equipment Confirmation] Sumo -- 2020280：【旧作移植装備確認】スモウ
+2020290 2020290: [旧作 transplant equipment confirmation] dark art -- 2020290：【旧作移植装備確認】闇術
+2020300 2020300: [旧作 transplant equipment Confirmation] Splinter -- 2020300：【旧作移植装備確認】トゲ
+2020320 2020320: [旧作 transplant equipment Confirmation] Wu-La seal -- 2020320：【旧作移植装備確認】ウーラシール

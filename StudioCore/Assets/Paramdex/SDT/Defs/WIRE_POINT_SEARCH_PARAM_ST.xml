@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>WIRE_POINT_SEARCH_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 WirePointDisappearRange" />
+    <Field Def="f32 WireRangeRequirement" />
+    <Field Def="f32 WirePreviewRange" />
+    <Field Def="f32 WirePointPreviewX1" />
+    <Field Def="f32 WirePointPreviewY1" />
+    <Field Def="f32 WirePointPreviewZ1" />
+    <Field Def="f32 WirePointPreviewX2" />
+    <Field Def="f32 WirePointPreviewY2" />
+    <Field Def="f32 WirePointPreviewZ2" />
+    <Field Def="f32 Unk1" />
+    <Field Def="f32 Unk2" />
+    <Field Def="f32 Unk3" />
+    <Field Def="f32 Unk4" />
+    <Field Def="f32 Unk5" />
+    <Field Def="f32 Unk6" />
+    <Field Def="f32 Unk7" />
+  </Fields>
+</PARAMDEF>

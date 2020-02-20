@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>OBJECT_MATERIAL_SFX_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 MtrlVfxId0" />
+    <Field Def="s32 MtrlVfxId1" />
+    <Field Def="s32 MtrlVfxId2" />
+    <Field Def="s32 MtrlVfxId3" />
+    <Field Def="s32 MtrlVfxId4" />
+    <Field Def="s32 MtrlVfxId5" />
+    <Field Def="s32 MtrlVfxId6" />
+    <Field Def="s32 MtrlVfxId7" />
+    <Field Def="s32 MtrlVfxId8" />
+    <Field Def="s32 MtrlVfxId9" />
+    <Field Def="s32 MtrlVfxId10" />
+    <Field Def="s32 MtrlVfxId11" />
+    <Field Def="s32 MtrlVfxId12" />
+    <Field Def="s32 MtrlVfxId13" />
+    <Field Def="s32 MtrlVfxId14" />
+    <Field Def="s32 MtrlVfxId15" />
+    <Field Def="s32 MtrlVfxId16" />
+    <Field Def="s32 MtrlVfxId17" />
+    <Field Def="s32 MtrlVfxId18" />
+    <Field Def="s32 MtrlVfxId19" />
+    <Field Def="s32 MtrlVfxId20" />
+    <Field Def="s32 MtrlVfxId21" />
+    <Field Def="s32 MtrlVfxId22" />
+    <Field Def="s32 MtrlVfxId23" />
+    <Field Def="s32 MtrlVfxId24" />
+    <Field Def="s32 MtrlVfxId25" />
+    <Field Def="s32 MtrlVfxId26" />
+    <Field Def="s32 MtrlVfxId27" />
+    <Field Def="s32 MtrlVfxId28" />
+    <Field Def="s32 MtrlVfxId29" />
+    <Field Def="s32 MtrlVfxId30" />
+    <Field Def="s32 MtrlVfxId31" />
+  </Fields>
+</PARAMDEF>

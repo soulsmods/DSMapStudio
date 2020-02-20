@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>ARMOR_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u32 Armor ID" />
+    <Field Def="u8 Unknown Category" />
+    <Field Def="u8 Slot Category" />
+    <Field Def="u8 Unk06" />
+    <Field Def="u8 Unk07" />
+    <Field Def="u32 Armor Set ID" />
+    <Field Def="s32 Unk0C" />
+    <Field Def="u32 Equip Interfere ID" />
+    <Field Def="s32 Unk14" />
+    <Field Def="u32 Armor Reinforce ID" />
+    <Field Def="f32 Unk1C" />
+    <Field Def="f32 Unk20" />
+    <Field Def="f32 Unk24" />
+    <Field Def="f32 Unk28" />
+    <Field Def="u16 STR Requirement" />
+    <Field Def="u16 DEX Requirement" />
+    <Field Def="u16 INT Requirement" />
+    <Field Def="u16 FAI Requirement" />
+    <Field Def="f32 Weight" />
+    <Field Def="f32 Durability" />
+    <Field Def="u32 Repair Cost" />
+    <Field Def="f32 Poise" />
+    <Field Def="s32 Unk44" />
+    <Field Def="s32 Unk48" />
+    <Field Def="s32 Unk4C" />
+    <Field Def="s32 Unk50" />
+  </Fields>
+</PARAMDEF>

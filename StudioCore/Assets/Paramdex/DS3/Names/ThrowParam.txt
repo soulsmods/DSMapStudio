@@ -1,0 +1,115 @@
+100 back PC → PC -- 背面　PC→PC
+101 Paris pc → PC -- パリィ　PC→PC
+107000 Back PC → Skeleton -- 背面　PC→スケルトン
+110400 Back PC → dead -- 背面　PC→亡者
+111000 Back PC → dead soldier -- 背面　PC→亡者兵士
+111050 Back PC → dead soldier (Large) -- 背面　PC→亡者兵士（大）
+111100 Back PC → Dark Knight -- 背面　PC→ダークナイト
+111200 Back PC → dead Knight -- 背面　PC→亡者騎士
+111500 Back PC → dead Shi -- 背面　PC→亡者僧兵
+111800 Back PC → Skeleton frontier -- 背面　PC→スケルトン辺境
+111900 Back PC → dead priest Knight -- 背面　PC→亡者僧騎士
+112000 Back PC → dwarf people -- 背面　PC→矮小人
+112100 Back PC → Blue -- 背面　PC→ブルー
+112200 Back PC → Resurrection -- 背面　PC→よみがえり
+112300 Back PC → Missionary -- 背面　PC→宣教師
+112400 Back PC → Poor dead -- 背面　PC→貧民亡者
+112500 Back PC → Poor dead elite -- 背面　PC→貧民亡者エリート
+112800 Back PC → New Ojo Knights -- 背面　PC→新王城騎士
+112900 Back PC → Ojo Deb -- 背面　PC→王城デブ
+113000 Back PC → Black Knight -- 背面　PC→黒騎士
+113400 Back PC → dead wax -- 背面　PC→蝋の死人
+113700 Back PC → Crucifixion dead b -- 背面　PC→磔亡者B
+113900 Rear PC → Snake man assassin -- 背面　PC→蛇人の暗殺者
+114100 Back PC → Silver Knight -- 背面　PC→銀騎士
+114400 Back PC → pilgrimage dead -- 背面　PC→巡礼亡者
+120300 Back PC → Salivan Reaper -- 背面　PC→サリヴァーンの死神
+131700 Back PC → Dark Wraith -- 背面　PC→ダークレイス
+152200 Back PC → cardinal (long) -- 背面　PC→枢機卿団（長）
+152210 Back PC → cardinal (deb) -- 背面　PC→枢機卿団（デブ）
+152220 Back PC → cardinal (tall) -- 背面　PC→枢機卿団（のっぽ）
+152230 Back PC → cardinal (normal) -- 背面　PC→枢機卿団（通常）
+210400 Paris PC → dead -- パリィ　PC→亡者
+210701 Paris PC → Skeleton -- パリィ　PC→スケルトン
+211000 Paris PC → dead soldier -- パリィ　PC→亡者兵士
+211050 Paris PC → dead soldier (Large) -- パリィ　PC→亡者兵士（大）
+211100 Paris PC → Dark Knight -- パリィ　PC→ダークナイト
+211200 Paris PC → dead Knight -- パリィ　PC→亡者騎士
+211500 Paris PC → dead Shi -- パリィ　PC→亡者僧兵
+211800 Paris PC → Skeleton Frontier -- パリィ　PC→スケルトン辺境
+211900 Paris PC → dead Priest Knight -- パリィ　PC→亡者僧騎士
+212000 Paris PC → dwarf people -- パリィ　PC→矮小人
+212100 Paris PC → Blue -- パリィ　PC→ブルー
+212300 Paris PC → Missionary -- パリィ　PC→宣教師
+212400 Paris PC → Poor dead -- パリィ　PC→貧民亡者
+212500 Paris PC → Poor dead elite -- パリィ　PC→貧民亡者エリート
+212600 Paris PC → Poor dead servant -- パリィ　PC→貧民亡者下男
+212800 Paris PC → New Ojo Knight -- パリィ　PC→新王城騎士
+213000 Paris PC → Black Knight -- パリィ　PC→黒騎士
+213400 Paris PC → dead Wax -- パリィ　PC→蝋の死人
+213900 Paris PC → Snake man assassin -- パリィ　PC→蛇人の暗殺者
+213910 Paris PC → Snake Assassin (Large) -- パリィ　PC→蛇人の暗殺者（大）
+214100 Paris PC → Silver Knight -- パリィ　PC→銀騎士
+214400 Paris PC → Pilgrimage dead -- パリィ　PC→巡礼亡者
+220300 Paris PC → Salivan's death -- パリィ　PC→サリヴァーンの死神
+221600 Paris PC → What you call caries (small) -- パリィ　PC→蝕を呼ぶもの（小）
+231700 Paris PC → Dark Wraith -- パリィ　PC→ダークレイス
+252200 Paris PC → cardinal (long) -- パリィ　PC→枢機卿団（長）
+252210 Paris PC → cardinal (deb) -- パリィ　PC→枢機卿団（デブ）
+252220 Paris PC → cardinal (tall) -- パリィ　PC→枢機卿団（のっぽ）
+252230 Paris PC → cardinal (normal) -- パリィ　PC→枢機卿団（通常）
+410700 Paris new skeleton → PC throwing -- パリィ　新スケルトン→PC 投げ
+413900 Paris Assassin (shorty) → PC throwing -- パリィ　蛇人の暗殺者(ショーテル)→PC 投げ
+505000 Wolf → PC throwing -- ウルフ→PC　投げ
+505110 Segunda → PC throwing -- グンダ→PC　投げ
+505111 Segunda (snake spirits possession) → PC throwing -- グンダ（蛇霊憑き）→PC　投げ
+510900 Dead soldier: Segunda state → PC throwing -- 亡者兵士:グンダ状態→PC　投げ
+511000 Dead soldier: Dagger → PC throwing -- 亡者兵士:短剣→PC　投げ
+511310 caries slugs → PC throwing -- 蝕ナメクジ→PC　投げ
+511312 Caries slug (dead dumpling) → PC throwing -- 蝕ナメクジ（亡者団子）→PC　投げ
+512000 Dwarf person → PC throwing -- 矮小人→PC 投げ
+512100 Blue → PC throwing -- ブルー→PC 投げ
+512200 Resurrection → PC throwing -- よみがえり→PC　投げ
+512300 Missionary → PC throwing -- 宣教師→PC 投げ
+512400 Poor dead (bi-stiletto) → PC throwing -- 貧民亡者（双小剣）→PC 投げ
+513200 Crystal Elders → PC throwing -- 結晶の古老→PC 投げ
+513600 Crucifixion dead A → PC throwing -- 磔亡者A→PC 投げ
+513910 Snake man Assassin (kusarigama) → PC throwing -- 蛇人の暗殺者(鎖鎌)→PC 投げ
+520400 Hungry jack (small) → PC throwing -- はらぺこジャック（小）→PC　投げ
+520600 Resurrection (main body) → PC throwing -- よみがえり（本体）→PC　投げ
+520800 Dead dog (maggots belly) → PC throwing -- 亡者犬（蛆腹）→PC　投げ
+521200 Mimic hug → PC toss -- ミミック　抱きつく→PC 投げ
+521201 Mimic jumped → PC throwing -- ミミック　飛びつき→PC 投げ
+521202 Mimic back bit → PC throwing -- ミミック　背面噛み付き→PC 投げ
+521203 Mimic mimicry 1 → PC throwing -- ミミック　擬態1→PC 投げ
+521204 Mimic mimicry 2 → PC throwing -- ミミック　擬態2→PC 投げ
+521300 Wriggles carrion → PC fall Throw -- 蠢く腐肉→PC　落下時投げ
+521301 Wriggles carrion → PC fell down crowded throw -- 蠢く腐肉→PC　倒れこみ投げ
+522000 Sand worm → PC throwing -- サンドワーム→PC　投げ
+522010 Sand worm (parent) → PC throwing -- サンドワーム（親）→PC　投げ
+522300 New Shing → PC throwing (front judgment) -- 新獄吏→PC　投げ（正面判定）
+522301 New Shing → PC throw (back judgment) -- 新獄吏→PC　投げ（背面判定）
+522500 Tindalos → PC throwing -- ティンダロス→PC　投げ
+522700 Stench Crab → PC toss -- 死臭蟹→PC  投げ
+530201 Golem → Throw from the PC probe -- ゴーレム→PC　探りからの投げ
+530210 Golem (Large) → PC throwing -- ゴーレム（大）→PC 投げ
+530400 Observer → PC thrower -- 監視者→PC　投げ
+530800 Butterfly of caries → PC throwing -- 蝕の蝶→PC　投げ
+531700 Dark Wraith → PC Toss -- ダークレイス→PC　投げ
+550100 King of the Storm → PC throwing -- 嵐の王→PC　投げ
+551400 The old king of caries → PC throwing -- 蝕の老王→PC　投げ
+551800 Colossus → PC throwing -- 巨像→PC　投げ
+552400 Moonlight Witch → PC throwing -- 月光の魔女→PC　投げ
+552700 Tracker → PC throwing -- 追跡者→PC　投げ
+552701 Tracker Hu → PC throwing -- 追跡者HU→PC　投げ
+620400 PC → Hungry Jack (small) Large throw -- PC→はらぺこジャック（小）　大型投げ
+622500 PC → Tindalos Large Throw -- PC→ティンダロス　大型投げ
+630200 PC → Golem Large Throw -- PC→ゴーレム　大型投げ
+630500 PC → Ash daemon Large throw -- PC→灰のデーモン　大型投げ
+631100 PC → large spider throw of caries -- PC→蝕の蜘蛛　大型投げ
+631200 PC → Sacred beast Large throw of forest -- PC→森の霊獣　大型投げ
+650300 PC → Storm King (cowgirl) Large throw -- PC→嵐の王（騎乗）　大型投げ
+651200 PC → Snake spirit large throw -- PC→蛇霊　大型投げ
+652500 PC → Prince of Darkness big throw -- PC→闇の双皇子　大型投げ
+652600 PC → Mad Warrior Hallec Large Throw -- PC→狂戦士ハレック　大型投げ
+652700 PC → tracker Large Throw -- PC→追跡者　大型投げ

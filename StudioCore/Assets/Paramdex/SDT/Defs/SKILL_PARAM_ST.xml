@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>SKILL_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 SkilLDescriptionId = -1" />
+    <Field Def="s32 EventFlagId = -1" />
+    <Field Def="s32 SkillParamId1_Group1 = -1" />
+    <Field Def="s32 SkillParamId2_Group1 = -1" />
+    <Field Def="s32 SkillParamId3_Group1 = -1" />
+    <Field Def="s32 Unk1 = -1" />
+    <Field Def="s32 ReinforceWeaponParamId = -1" />
+    <Field Def="s32 Unk2 = -1" />
+    <Field Def="s32 Unk3 = -1" />
+    <Field Def="s32 Unk4 = -1" />
+    <Field Def="s16 MenuDisplayPositionIndexY = 1" />
+    <Field Def="s16 MenuDisplayPositionIndexXZ = 1" />
+    <Field Def="s32 Unk5 = -1" />
+    <Field Def="s32 Unk6 = -1" />
+    <Field Def="u8 Unk7" />
+    <Field Def="u8 Unk8" />
+    <Field Def="u8 Unk9" />
+    <Field Def="u8 Unk10" />
+    <Field Def="s32 SkillParamId1_Group2 = -1" />
+    <Field Def="s32 SkillParamId2_Group2 = -1" />
+    <Field Def="s32 SkillParamId3_Group2 = -1" />
+    <Field Def="s32 SkillParamId4_Group2 = -1" />
+    <Field Def="s32 SkillParamId5_Group2 = -1" />
+    <Field Def="s32 SkillParamId6_Group2 = -1" />
+    <Field Def="s32 SkillParamId7_Group2 = -1" />
+    <Field Def="s32 SkillParamId8_Group2 = -1" />
+    <Field Def="dummy8 pad1[8]" />
+  </Fields>
+</PARAMDEF>

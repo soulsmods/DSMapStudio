@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>DAMAGE_CTRL_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 Unk00" />
+    <Field Def="u8 Unk01" />
+    <Field Def="u8 Unk02" />
+    <Field Def="u8 Unk03" />
+    <Field Def="f32 Unk04" />
+    <Field Def="f32 Unk08" />
+    <Field Def="s32 Unk0C" />
+    <Field Def="u8 Unk10" />
+    <Field Def="u8 Unk11" />
+    <Field Def="u16 Unk12" />
+    <Field Def="u16 Unk14" />
+    <Field Def="u16 Unk16" />
+    <Field Def="f32 Unk18" />
+    <Field Def="f32 Unk1C" />
+    <Field Def="f32 Unk20" />
+    <Field Def="f32 Unk24" />
+    <Field Def="f32 Unk28" />
+    <Field Def="f32 Unk2C" />
+    <Field Def="f32 Unk30" />
+    <Field Def="f32 Unk34" />
+    <Field Def="f32 Unk38" />
+    <Field Def="f32 Unk3C" />
+    <Field Def="f32 Unk40" />
+    <Field Def="f32 Unk44" />
+    <Field Def="f32 Unk48" />
+    <Field Def="u16 Unk4C" />
+    <Field Def="u16 Unk4E" />
+    <Field Def="s32 Unk50" />
+    <Field Def="s32 Camera Noise Param ID" />
+    <Field Def="s32 Pad Rumble Param ID" />
+    <Field Def="f32 Unk5C" />
+    <Field Def="f32 Unk60" />
+    <Field Def="f32 Unk64" />
+    <Field Def="f32 Unk68" />
+    <Field Def="f32 Unk6C" />
+    <Field Def="f32 Unk70" />
+    <Field Def="f32 Unk74" />
+    <Field Def="f32 Unk78" />
+    <Field Def="f32 Unk7C" />
+    <Field Def="f32 Unk80" />
+    <Field Def="s32 Damage Window Category ID" />
+    <Field Def="f32 Unk88" />
+    <Field Def="f32 Unk8C" />
+    <Field Def="f32 Unk90" />
+    <Field Def="u8 Unk94" />
+    <Field Def="u8 Unk95" />
+    <Field Def="u8 Unk96" />
+    <Field Def="u8 Unk97" />
+    <Field Def="f32 Unk98" />
+    <Field Def="f32 Unk9C" />
+    <Field Def="f32 UnkA0" />
+    <Field Def="f32 UnkA4" />
+    <Field Def="f32 UnkA8" />
+    <Field Def="f32 UnkAC" />
+    <Field Def="f32 UnkB0" />
+    <Field Def="f32 UnkB4" />
+    <Field Def="f32 UnkB8" />
+    <Field Def="f32 UnkBC" />
+  </Fields>
+</PARAMDEF>

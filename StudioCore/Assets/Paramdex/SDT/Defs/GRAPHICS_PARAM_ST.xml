@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>GRAPHICS_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 Decal Spawn Limitation" />
+    <Field Def="f32 Torch FFX EmissiveIntensityScale" />
+    <Field Def="u16 Torch FFX Model EmissiveIntensityScale" />
+    <Field Def="dummy8 pad1[2]" />
+    <Field Def="f32 PlainLightMutex" />
+    <Field Def="f32 ClothSpeed1" />
+    <Field Def="f32 ClothSpeed2" />
+    <Field Def="dummy8 pad2[232]" />
+  </Fields>
+</PARAMDEF>

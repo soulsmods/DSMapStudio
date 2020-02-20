@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>DECAL_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 TextureId0 = 100000" />
+    <Field Def="s32 dmyPolyID = -1" />
+    <Field Def="f32 pitchAngle" />
+    <Field Def="f32 yawAngle" />
+    <Field Def="f32 nearDistance" />
+    <Field Def="f32 farDistance" />
+    <Field Def="f32 nearSize" />
+    <Field Def="f32 farSize" />
+    <Field Def="s32 maskSpEffectID = -1" />
+    <Field Def="u32 randomVariationNum0:1" />
+    <Field Def="u32 randomVariationNum1:1" />
+    <Field Def="u32 randomVariationNum2:1" />
+    <Field Def="u32 randomVariationNum3:1" />
+    <Field Def="u32 replaceTextureId_byMaterial:1" />
+    <Field Def="u32 dmypolyCategory0:1" />
+    <Field Def="u32 dmypolyCategory1:1" />
+    <Field Def="u32 decalShapeType0:1" />
+    <Field Def="u32 decalShapeType1:1" />
+    <Field Def="u32 decalShapeType2:1" />
+    <Field Def="u32 decalShapeType3:1" />
+    <Field Def="u32 useDeferredDecal:1 = 1" />
+    <Field Def="u32 usePaintDecal:1" />
+    <Field Def="u32 targetAttackChr:1" />
+    <Field Def="u32 targetDamageChr:1" />
+    <Field Def="u32 targetOtherChr:1" />
+    <Field Def="u32 targetMapObj:1" />
+    <Field Def="u32 usePom:1" />
+    <Field Def="u32 0x26:1" />
+    <Field Def="u32 0x26:1" />
+    <Field Def="u32 0x26:1" />
+    <Field Def="u32 0x26:1" />
+    <Field Def="u32 0x26:1" />
+    <Field Def="u32 0x26:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="u32 0x27:1" />
+    <Field Def="s16 randomSizeMin = 80" />
+    <Field Def="s16 randomSizeMax = 160" />
+    <Field Def="f32 randomRollMin" />
+    <Field Def="f32 randomRollMax" />
+    <Field Def="f32 randomPitchMin" />
+    <Field Def="f32 randomPitchMax" />
+    <Field Def="f32 randomYawMin" />
+    <Field Def="f32 randomYawMax" />
+    <Field Def="f32 pomHeightScale" />
+    <Field Def="u8 pomSampleMin = 8" />
+    <Field Def="u8 pomSampleMax = 64" />
+    <Field Def="u8 Contrast1 = 1" />
+    <Field Def="u8 TextureLengthType[0-3]" />
+    <Field Def="f32 TextureWidthX" />
+    <Field Def="f32 TextureWidthZ" />
+    <Field Def="f32 TextureLifeTime" />
+    <Field Def="s32 0x58" />
+    <Field Def="f32 0x5C" />
+    <Field Def="s32 0x60 = -1" />
+    <Field Def="s32 0x64 = -1" />
+    <Field Def="s32 0x68 = -1" />
+    <Field Def="s32 0x6C" />
+    <Field Def="s32 TextureId1 = -1" />
+    <Field Def="s32 TextureId2 = 100000" />
+    <Field Def="s32 TextureId3 = 100000" />
+    <Field Def="f32 Brightness" />
+    <Field Def="s32 TextureId4 = 100000" />
+    <Field Def="s32 TextureId5 = -1" />
+    <Field Def="s32 TextureId6 = -1" />
+    <Field Def="u8 R(Diffuse) = 6" />
+    <Field Def="u8 G(Diffuse) = 2" />
+    <Field Def="u8 B(Diffuse) = 2" />
+    <Field Def="s8 UnkNaM" />
+    <Field Def="u8 R(Specular)" />
+    <Field Def="u8 G(Specular)" />
+    <Field Def="u8 B(Specular)" />
+    <Field Def="s8 DelayedSpawnState [ON_OFF]" />
+    <Field Def="f32 Contrast2" />
+    <Field Def="f32 0x98" />
+    <Field Def="f32 0x9C" />
+    <Field Def="u8 0xA0" />
+    <Field Def="u8 0xA1" />
+    <Field Def="u8 0xA2 = 1" />
+    <Field Def="u8 0xA3" />
+    <Field Def="f32 minVal" />
+    <Field Def="f32 maxVal" />
+    <Field Def="u8 0xAC = 2" />
+    <Field Def="u8 0xAD = 5" />
+    <Field Def="u16 DecalSpawnDelay[sec]" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 IsContactPlayer:1" />
+    <Field Def="u32 IsFormCube:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="u32 0xB0:1" />
+    <Field Def="f32 TextureSpawnDelay[sec]" />
+    <Field Def="dummy8 pad1[8]" />
+  </Fields>
+</PARAMDEF>

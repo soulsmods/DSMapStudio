@@ -1,0 +1,56 @@
+1 Do not erase -- 消すべからず
+2000 Noconata -- ノコナタ
+2001 Axe Rod -- 斧竿
+2002 Cane Whip -- 杖鞭
+2010 Atelier Handguns -- 工房短銃
+2011 Atelier Head Gun -- 工房長銃
+900000 Sword: Short Sword -- 剣：ショートソード
+900001 Shield: Buckler -- 盾：バックラー
+900002 Bow: Short Bow -- 弓：ショートボウ
+900003 Catalyst: Magician's Wand -- 触媒：魔術師の杖
+900004 Armor _ Head 1: Funeral Knights -- 防具_頭1：葬送騎士
+900005 Armor _ Head 2: Crimson Knight -- 防具_頭2：紅騎士
+900006 Armor _ Torso 1: Funeral Knight -- 防具_胴1：葬送騎士
+900007 Armor _ Torso 2: Crimson Knight -- 防具_胴2：紅騎士
+900008 Armor _ Hand 1: Funeral Knights -- 防具_手1：葬送騎士
+900009 Armor _ Hand 2: Crimson Knight -- 防具_手2：紅騎士
+900010 Armor _ Foot 1: Funeral Knight -- 防具_足1：葬送騎士
+900011 Armor _ Foot Two: -- 防具_足2：
+900012 Ring 1: Equipment weight up -- 指輪1：装備重量アップ
+900013 Ring 2: Pinch attack power up -- 指輪2：ピンチ攻撃力アップ
+900014 Ring 3: The Dark Moon God's ring -- 指輪3：暗月神の指輪
+900015 Ring 4: Ring of Thieves -- 指輪4：盗賊団の指輪
+900016 Ring 5: Stamina Recovery up -- 指輪5：スタミナ回復アップ
+900017 Arrow 1: Normal arrow -- 矢1：普通の矢
+900018 Arrow 2: Arrows -- 矢2：火矢
+900019 Arrow 3: Mantella -- 矢3：毒矢
+900020 Tool 1: Reinforcement items -- 道具1：強化アイテム
+900021 Tool 2: Reinforcement items -- 道具2：強化アイテム
+900022 Tool 3: Reinforcement items -- 道具3：強化アイテム
+900023 Tool 4: Reinforcement items -- 道具4：強化アイテム
+900024 Tool 5: Reinforcement items -- 道具5：強化アイテム
+900025 Tool 6: Reinforcement items -- 道具6：強化アイテム
+900026 Tool 7: Reinforcement items -- 道具7：強化アイテム
+900027 Tool 8: Reinforcement items -- 道具8：強化アイテム
+900028 Tool 9: Reinforcement items -- 道具9：強化アイテム
+900029 Tool 10: Reinforcement items -- 道具10：強化アイテム
+900030 Tool 11: Reinforcement items -- 道具11：強化アイテム
+900031 Tool 12: Reinforcement items -- 道具12：強化アイテム
+900032 Tool 13: Reinforcement items -- 道具13：強化アイテム
+900033 Tool 14: Reinforcement items -- 道具14：強化アイテム
+900034 Tool 15: Seoul -- 道具15：ソウル
+900035 Tool 16: Seoul -- 道具16：ソウル
+900036 Tool 17: Seoul -- 道具17：ソウル
+900037 Tool 18: Seoul -- 道具18：ソウル
+900038 Tool 19: Seoul -- 道具19：ソウル
+900039 Tool 20: Seoul -- 道具20：ソウル
+900040 Tool 21: Seoul -- 道具21：ソウル
+900041 Tool 22: Seoul -- 道具22：ソウル
+900042 Tool 23: Seoul -- 道具23：ソウル
+900043 Tool 24: Seoul -- 道具24：ソウル
+900044 Tool 25: Seoul -- 道具25：ソウル
+900045 Tool 26: Seoul -- 道具26：ソウル
+900046 Tool 27: Seoul -- 道具27：ソウル
+900047 Tool 28: Seoul -- 道具28：ソウル
+900048 Tool 29: Seoul -- 道具29：ソウル
+900049 Tool 30: Seoul -- 道具30：ソウル

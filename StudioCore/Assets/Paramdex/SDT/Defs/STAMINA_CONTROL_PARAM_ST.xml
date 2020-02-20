@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>STAMINA_CONTROL_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 StaminaRecoveryRate0" />
+    <Field Def="s16 StaminaUpperLimit0" />
+    <Field Def="s16 StaminaLowerLimit0" />
+    <Field Def="s32 StaminaRecoveryRate1" />
+    <Field Def="s16 StaminaUpperLimit1" />
+    <Field Def="s16 StaminaLowerLimit1" />
+    <Field Def="s32 StaminaRecoveryRate2" />
+    <Field Def="s16 StaminaUpperLimit2" />
+    <Field Def="s16 StaminaLowerLimit2" />
+    <Field Def="s32 StaminaRecoveryRate3" />
+    <Field Def="s16 StaminaUpperLimit3" />
+    <Field Def="s16 StaminaLowerLimit3" />
+    <Field Def="s32 StaminaRecoveryRate4" />
+    <Field Def="s16 StaminaUpperLimit4" />
+    <Field Def="s16 StaminaLowerLimit4" />
+    <Field Def="s32 StaminaRecoveryRate5" />
+    <Field Def="s16 StaminaUpperLimit5" />
+    <Field Def="s16 StaminaLowerLimit5" />
+    <Field Def="s32 StaminaRecoveryRate6" />
+    <Field Def="s16 StaminaUpperLimit6" />
+    <Field Def="s16 StaminaLowerLimit6" />
+    <Field Def="s32 StaminaRecoveryRate7" />
+    <Field Def="s16 StaminaUpperLimit7" />
+    <Field Def="s16 StaminaLowerLimit7" />
+    <Field Def="s32 StaminaRecoveryRate8" />
+    <Field Def="s16 StaminaUpperLimit8" />
+    <Field Def="s16 StaminaLowerLimit8" />
+    <Field Def="s32 StaminaRecoveryRate9" />
+    <Field Def="s16 StaminaUpperLimit9" />
+    <Field Def="s16 StaminaLowerLimit9" />
+    <Field Def="s32 StaminaRecoveryRate10" />
+    <Field Def="s16 StaminaUpperLimit10" />
+    <Field Def="s16 StaminaLowerLimit10" />
+    <Field Def="s32 StaminaRecoveryRate11" />
+    <Field Def="s16 StaminaUpperLimit11" />
+    <Field Def="s16 StaminaLowerLimit11" />
+    <Field Def="s32 StaminaRecoveryRate12" />
+    <Field Def="s16 StaminaUpperLimit12" />
+    <Field Def="s16 StaminaLowerLimit12" />
+    <Field Def="s32 StaminaRecoveryRate13" />
+    <Field Def="s16 StaminaUpperLimit13" />
+    <Field Def="s16 StaminaLowerLimit13" />
+    <Field Def="s32 StaminaRecoveryRate14" />
+    <Field Def="s16 StaminaUpperLimit14" />
+    <Field Def="s16 StaminaLowerLimit14" />
+    <Field Def="s32 StaminaRecoveryRate15" />
+    <Field Def="s16 StaminaUpperLimit15" />
+    <Field Def="s16 StaminaLowerLimit15" />
+  </Fields>
+</PARAMDEF>

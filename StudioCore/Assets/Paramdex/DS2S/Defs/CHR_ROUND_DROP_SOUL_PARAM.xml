@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CHR_ROUND_DROP_SOUL_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u16 NG+0 % Souls" />
+    <Field Def="u16 NG+1 % Souls" />
+    <Field Def="u16 NG+2 % Souls" />
+    <Field Def="u16 NG+3 % Souls" />
+    <Field Def="u16 NG+4 % Souls" />
+    <Field Def="u16 NG+5 % Souls" />
+    <Field Def="u16 NG+6 % Souls" />
+    <Field Def="u16 NG+7 % Souls" />
+  </Fields>
+</PARAMDEF>

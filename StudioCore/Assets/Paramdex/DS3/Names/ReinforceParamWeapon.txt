@@ -1,0 +1,200 @@
+0 Standard
+1 Standard+1
+2 Standard+2
+3 Standard+3
+4 Standard+4
+5 Standard+5
+6 Standard+6
+7 Standard+7
+8 Standard+8
+9 Standard+9
+10 Standard+10
+100 Heavy
+101 Heavy+1
+102 Heavy+2
+103 Heavy+3
+104 Heavy+4
+105 Heavy+5
+106 Heavy+6
+107 Heavy+7
+108 Heavy+8
+109 Heavy+9
+110 Heavy+10
+200 Sharp
+201 Sharp+1
+202 Sharp+2
+203 Sharp+3
+204 Sharp+4
+205 Sharp+5
+206 Sharp+6
+207 Sharp+7
+208 Sharp+8
+209 Sharp+9
+210 Sharp+10
+300 Refined
+301 Refined+1
+302 Refined+2
+303 Refined+3
+304 Refined+4
+305 Refined+5
+306 Refined+6
+307 Refined+7
+308 Refined+8
+309 Refined+9
+310 Refined+10
+400 Magic A -- 魔法A
+401 Magic A + 1 -- 魔法A＋1
+402 Magic A + 2 -- 魔法A＋2
+403 Magic A + 3 -- 魔法A＋3
+404 Magic A + 4 -- 魔法A＋4
+405 Magic A + 5 -- 魔法A＋5
+406 Magic A + 6 -- 魔法A＋6
+407 Magic A + 7 -- 魔法A＋7
+408 Magic A + 8 -- 魔法A＋8
+409 Magic A + 9 -- 魔法A＋9
+410 Magic A + 10 -- 魔法A＋10
+500 Magic B -- 魔法B
+501 Magic B + 1 -- 魔法B＋1
+502 Magic B + 2 -- 魔法B＋2
+503 Magic B + 3 -- 魔法B＋3
+504 Magic B + 4 -- 魔法B＋4
+505 Magic B + 5 -- 魔法B＋5
+506 Magic B + 1 -- 魔法B＋1
+507 Magic B + 2 -- 魔法B＋2
+508 Magic B + 3 -- 魔法B＋3
+509 Magic B + 4 -- 魔法B＋4
+510 Magic B + 5 -- 魔法B＋5
+600 Flame -- 炎
+601 Flame + 1 -- 炎＋1
+602 Flame + 2 -- 炎＋2
+603 Flame + 3 -- 炎＋3
+604 Flame + 4 -- 炎＋4
+605 Flame + 5 -- 炎＋5
+606 Flame + 6 -- 炎＋6
+607 Flame + 7 -- 炎＋7
+608 Flame + 8 -- 炎＋8
+609 Flame + 9 -- 炎＋9
+610 Flame + 10 -- 炎＋10
+700 Flames of Chaos -- 混沌の炎
+701 Flames of Chaos + 1 -- 混沌の炎＋1
+702 Flames of Chaos + 2 -- 混沌の炎＋2
+703 Flames of Chaos + 3 -- 混沌の炎＋3
+704 Flames of Chaos + 4 -- 混沌の炎＋4
+705 Flames of Chaos + 5 -- 混沌の炎＋5
+706 Flame of Chaos + 6 -- 混沌の炎＋6
+707 Flames of Chaos + 7 -- 混沌の炎＋7
+708 Flames of Chaos + 8 -- 混沌の炎＋8
+709 Flames of Chaos + 9 -- 混沌の炎＋9
+710 Flames of Chaos + 10 -- 混沌の炎＋10
+800 Lightning -- 雷
+801 Thunder + 1 -- 雷＋1
+802 Thunder + 2 -- 雷＋2
+803 Thunder + 3 -- 雷＋3
+804 Thunder + 4 -- 雷＋4
+805 Thunder + 5 -- 雷＋5
+806 Thunder + 6 -- 雷＋6
+807 Thunder + 7 -- 雷＋7
+808 Thunder + 8 -- 雷＋8
+809 Thunder + 9 -- 雷＋9
+810 Thunder + 10 -- 雷＋10
+900 Lightning -- 雷
+901 Thunder + 1 -- 雷＋1
+902 Thunder + 2 -- 雷＋2
+903 Thunder + 3 -- 雷＋3
+904 Thunder + 4 -- 雷＋4
+905 Thunder + 5 -- 雷＋5
+906 Thunder + 6 -- 雷＋6
+907 Thunder + 7 -- 雷＋7
+908 Thunder + 8 -- 雷＋8
+909 Thunder + 9 -- 雷＋9
+910 Thunder + 10 -- 雷＋10
+1000 Lightning -- 雷
+1001 Thunder + 1 -- 雷＋1
+1002 Thunder + 2 -- 雷＋2
+1003 Thunder + 3 -- 雷＋3
+1004 Thunder + 4 -- 雷＋4
+1005 Thunder + 5 -- 雷＋5
+1006 Thunder + 6 -- 雷＋6
+1007 Thunder + 7 -- 雷＋7
+1008 Thunder + 8 -- 雷＋8
+1009 Thunder + 9 -- 雷＋9
+1010 Thunder + 10 -- 雷＋10
+1100 Lightning -- 雷
+1101 Thunder + 1 -- 雷＋1
+1102 Thunder + 2 -- 雷＋2
+1103 Thunder + 3 -- 雷＋3
+1104 Thunder + 4 -- 雷＋4
+1105 Thunder + 5 -- 雷＋5
+1106 Thunder + 6 -- 雷＋6
+1107 Thunder + 7 -- 雷＋7
+1108 Thunder + 8 -- 雷＋8
+1109 Thunder + 9 -- 雷＋9
+1110 Thunder + 10 -- 雷＋10
+1200 Lightning -- 雷
+1201 Thunder + 1 -- 雷＋1
+1202 Thunder + 2 -- 雷＋2
+1203 Thunder + 3 -- 雷＋3
+1204 Thunder + 4 -- 雷＋4
+1205 Thunder + 5 -- 雷＋5
+1206 Thunder + 6 -- 雷＋6
+1207 Thunder + 7 -- 雷＋7
+1208 Thunder + 8 -- 雷＋8
+1209 Thunder + 9 -- 雷＋9
+1210 Thunder + 10 -- 雷＋10
+1300 Lightning -- 雷
+1301 Thunder + 1 -- 雷＋1
+1302 Thunder + 2 -- 雷＋2
+1303 Thunder + 3 -- 雷＋3
+1304 Thunder + 4 -- 雷＋4
+1305 Thunder + 5 -- 雷＋5
+1306 Thunder + 6 -- 雷＋6
+1307 Thunder + 7 -- 雷＋7
+1308 Thunder + 8 -- 雷＋8
+1309 Thunder + 9 -- 雷＋9
+1310 Thunder + 10 -- 雷＋10
+1400 Sacred -- 神聖
+1401 Sacred + 1 -- 神聖＋1
+1402 Sacred + 2 -- 神聖＋2
+1403 Sacred + 3 -- 神聖＋3
+1404 Sacred + 4 -- 神聖＋4
+1405 Sacred + 5 -- 神聖＋5
+1406 Sacred + 6 -- 神聖＋6
+1407 Sacred + 7 -- 神聖＋7
+1408 Sacred + 8 -- 神聖＋8
+1409 Sacred + 9 -- 神聖＋9
+1410 Sacred + 10 -- 神聖＋10
+1500 Dark -- 暗黒
+1501 Darkness + 1 -- 暗黒＋1
+1502 Darkness + 2 -- 暗黒＋2
+1503 Darkness + 3 -- 暗黒＋3
+1504 Darkness + 4 -- 暗黒＋4
+1505 Darkness + 5 -- 暗黒＋5
+2000 Daemon -- デーモン
+2001 Daemon + 1 -- デーモン＋1
+2002 Daemon + 2 -- デーモン＋2
+2003 Daemon + 3 -- デーモン＋3
+2004 Daemon + 4 -- デーモン＋4
+2005 Daemon + 5 -- デーモン＋5
+2100 Dragon -- ドラゴン
+2101 Dragon + 1 -- ドラゴン＋1
+2102 Dragon + 2 -- ドラゴン＋2
+2103 Dragon + 3 -- ドラゴン＋3
+2104 Dragon + 4 -- ドラゴン＋4
+2105 Dragon + 5 -- ドラゴン＋5
+2200 Special -- 特別
+2201 Special + 1 -- 特別＋1
+2202 Special + 2 -- 特別＋2
+2203 Special + 3 -- 特別＋3
+2204 Special + 4 -- 特別＋4
+2205 Special + 5 -- 特別＋5
+5000 Shield usually -- 【盾】通常
+5001 Shield: Normal + 1 -- 【盾】通常＋1
+5002 Shield: Normal + 2 -- 【盾】通常＋2
+5003 Shield: Normal + 3 -- 【盾】通常＋3
+5004 Shield: Normal + 4 -- 【盾】通常＋4
+5005 Shield: Normal + 5 -- 【盾】通常＋5
+5006 Shield: usually + 6 -- 【盾】通常＋6
+5007 Shield: usually + 7 -- 【盾】通常＋7
+5008 Shield: usually + 8 -- 【盾】通常＋8
+5009 Shield: Normal + 9 -- 【盾】通常＋9
+5010 Shield: Normal + 10 -- 【盾】通常＋10

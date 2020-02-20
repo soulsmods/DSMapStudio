@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>THROW_DIRECTION_SFX_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 SfxId1" />
+    <Field Def="s32 SfxId2" />
+    <Field Def="s32 SfxId3" />
+    <Field Def="s32 SfxId4" />
+    <Field Def="s32 SfxId5" />
+    <Field Def="s32 SfxId6" />
+    <Field Def="s32 SfxId7" />
+    <Field Def="s32 SfxId8" />
+    <Field Def="s32 SfxId9" />
+    <Field Def="s32 SfxId10" />
+    <Field Def="s32 SfxId11" />
+    <Field Def="s32 SfxId12" />
+    <Field Def="s32 SfxId13" />
+    <Field Def="s32 SfxId14" />
+    <Field Def="s32 SfxId15" />
+    <Field Def="s32 SfxId16" />
+    <Field Def="s32 SfxId17" />
+    <Field Def="s32 SfxId18" />
+    <Field Def="s32 SfxId19" />
+    <Field Def="s32 SfxId20" />
+    <Field Def="s32 SfxId21" />
+    <Field Def="s32 SfxId22" />
+    <Field Def="s32 SfxId23" />
+    <Field Def="s32 SfxId24" />
+    <Field Def="s32 SfxId25" />
+    <Field Def="s32 SfxId26" />
+    <Field Def="s32 SfxId27" />
+    <Field Def="s32 SfxId28" />
+    <Field Def="s32 SfxId29" />
+    <Field Def="s32 SfxId30" />
+    <Field Def="dummy8 pad1[24]" />
+  </Fields>
+</PARAMDEF>

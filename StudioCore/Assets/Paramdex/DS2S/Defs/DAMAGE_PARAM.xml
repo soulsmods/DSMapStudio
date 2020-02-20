@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>DAMAGE_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Damage Control ID" />
+    <Field Def="s32 Damage ID" />
+    <Field Def="s32 Base Damage ID" />
+    <Field Def="s32 Unk0C" />
+    <Field Def="s32 Unk10" />
+    <Field Def="s32 Unk14" />
+    <Field Def="u8 Unk18" />
+    <Field Def="u8 Unknown Category">
+      <Description>
+0 - Default
+1 - Offensive Spell: Sorcery
+2 - Offensive Spell: Miracle
+3 - Offensive Spell: Pyromancy
+4 - Offensive Spell: Hex
+5 - Utility Spell
+6 - Poison Mist / Dark Fog
+8 - Acid Surge
+11 - Toxic Mist</Description>
+    </Field>
+    <Field Def="u8 Unknown Category">
+      <Description>
+4 - Outcry
+5 - Default</Description>
+    </Field>
+    <Field Def="u8 Unknown Category">
+      <Description>
+5 - Default</Description>
+    </Field>
+    <Field Def="f32 Damage Multiplier" />
+    <Field Def="f32 Unk20" />
+    <Field Def="u8 Unk24" />
+    <Field Def="u8 Unk25" />
+    <Field Def="u8 Unk26" />
+    <Field Def="u8 Unk27" />
+    <Field Def="f32 Unk28" />
+    <Field Def="f32 Unk2C" />
+    <Field Def="u8 Unk30" />
+    <Field Def="u8 Unk31" />
+    <Field Def="u8 Guard Break Related">
+      <Description>255 default, 2 for guard break</Description>
+    </Field>
+    <Field Def="u8 Unk33" />
+    <Field Def="f32 Hitbox Size" />
+    <Field Def="f32 Hitbox Size" />
+    <Field Def="f32 Unk3C" />
+    <Field Def="u8 Unk40" />
+    <Field Def="u8 Unk41" />
+    <Field Def="u8 Unk42" />
+    <Field Def="u8 Unk43" />
+    <Field Def="u8 Unk44" />
+    <Field Def="u8 Unk45" />
+    <Field Def="u8 Unk46" />
+    <Field Def="u8 Unk47" />
+    <Field Def="s32 Self Effect" />
+    <Field Def="u8 Unk4C" />
+    <Field Def="u8 Is Permanent Buff:1" />
+    <Field Def="u8 Apply Type" />
+    <Field Def="u8 Unk4F" />
+    <Field Def="s32 Unk50" />
+    <Field Def="s32 Unk54" />
+    <Field Def="s32 Unk58" />
+    <Field Def="u8 Unk5C" />
+    <Field Def="u8 Unk5D" />
+    <Field Def="u8 Unk5E" />
+    <Field Def="u8 Unk5F" />
+    <Field Def="u8 Unk60" />
+    <Field Def="u8 Unk61" />
+    <Field Def="u8 Unk62" />
+    <Field Def="u8 Unk63" />
+    <Field Def="u8 Unk64" />
+    <Field Def="u8 Unk65" />
+    <Field Def="u8 Unk66" />
+    <Field Def="u8 Unk67" />
+    <Field Def="f32 Unk68" />
+    <Field Def="f32 Unk6C" />
+    <Field Def="s32 Grab Param ID" />
+    <Field Def="f32 Unk74" />
+    <Field Def="f32 Unk78" />
+  </Fields>
+</PARAMDEF>

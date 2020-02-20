@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>TALK_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 TalkParamId1 = -1" />
+    <Field Def="s32 TalkParamId2 = -1" />
+    <Field Def="f32 SpeechSpeed1" />
+    <Field Def="s32 Unk1" />
+    <Field Def="s32 Unk2 = -1" />
+    <Field Def="s32 TalkParamId3 = -1" />
+    <Field Def="s32 TalkParamId_StereoRightEar = -1" />
+    <Field Def="s32 TalkParamId_StereoLeftEar = -1" />
+    <Field Def="s32 Unk3 = -1" />
+    <Field Def="s32 Unk4 = -1" />
+    <Field Def="s32 Unk5 = -1" />
+    <Field Def="s32 Unk99 = -1" />
+    <Field Def="s32 Unk98 = -1" />
+    <Field Def="s32 Unk6 = -1" />
+    <Field Def="s32 Unk7 = -1" />
+    <Field Def="s32 Unk8 = -1" />
+    <Field Def="s32 Unk9 = -1" />
+    <Field Def="s32 Unk10 = -1" />
+    <Field Def="s32 Unk11 = -1" />
+    <Field Def="s32 Unk12 = -1" />
+    <Field Def="s32 Unk13 = -1" />
+    <Field Def="s32 Unk14 = -1" />
+    <Field Def="u8 Unk15" />
+    <Field Def="u8 Unk16" />
+    <Field Def="u8 Unk17" />
+    <Field Def="u8 Unk18" />
+    <Field Def="u8 Unk19" />
+    <Field Def="u8 Unk20" />
+    <Field Def="u8 Unk21" />
+    <Field Def="u8 Unk22" />
+    <Field Def="u8 Unk23" />
+    <Field Def="u8 HavokSpId1" />
+    <Field Def="u8 HavokSpId2" />
+    <Field Def="u8 HavokSpId3" />
+    <Field Def="u8 HavokSpId4" />
+    <Field Def="u8 HavokSpId5" />
+    <Field Def="u8 HavokSpId6" />
+    <Field Def="u8 HavokSpId7" />
+    <Field Def="u8 HavokSpId8" />
+    <Field Def="u8 HavokSpId9" />
+    <Field Def="s16 Unk24" />
+    <Field Def="s16 Unk25" />
+    <Field Def="s16 Unk26" />
+    <Field Def="s16 Unk27" />
+    <Field Def="s16 Unk28" />
+    <Field Def="s16 Unk29" />
+    <Field Def="s16 Unk30" />
+    <Field Def="s16 Unk31" />
+    <Field Def="s16 Unk32" />
+    <Field Def="s16 Unk33" />
+    <Field Def="s16 Unk34" />
+    <Field Def="s16 Unk35" />
+    <Field Def="s16 Unk36" />
+    <Field Def="s16 Unk37" />
+    <Field Def="s16 Unk38" />
+    <Field Def="s16 Unk39" />
+    <Field Def="s16 Unk40" />
+    <Field Def="s16 Unk41" />
+    <Field Def="dummy8 pad1[2]" />
+  </Fields>
+</PARAMDEF>

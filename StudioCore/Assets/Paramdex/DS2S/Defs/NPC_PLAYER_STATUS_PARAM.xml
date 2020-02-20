@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>NPC_PLAYER_STATUS_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u16 Unk00" />
+    <Field Def="u16 Unk00" />
+    <Field Def="s32 Name ID" />
+    <Field Def="u8 Soul Level" />
+    <Field Def="u8 Vigor" />
+    <Field Def="u8 Unk" />
+    <Field Def="u8 Endurance" />
+    <Field Def="u8 Attunement" />
+    <Field Def="u8 Vitality" />
+    <Field Def="u8 Strength" />
+    <Field Def="u8 Dexterity" />
+    <Field Def="u8 Intelligence" />
+    <Field Def="u8 Faith" />
+    <Field Def="u8 Adaptability" />
+    <Field Def="u8 Unk10" />
+    <Field Def="f32 Unk14" />
+    <Field Def="f32 Unk18" />
+    <Field Def="u8 Unk1C" />
+    <Field Def="u8 Unk1C" />
+    <Field Def="u8 Unk1C" />
+    <Field Def="u8 Unk1C" />
+    <Field Def="s32 Item 1 ID" />
+    <Field Def="s32 Item 2 ID" />
+    <Field Def="s32 Item 3 ID" />
+    <Field Def="s32 Item 4 ID" />
+    <Field Def="s32 Item 5 ID" />
+    <Field Def="s32 Item 6 ID" />
+    <Field Def="s32 Item 7 ID" />
+    <Field Def="s32 Item 8 ID" />
+    <Field Def="s32 Item 9 ID" />
+    <Field Def="s32 Spell 1 ID" />
+    <Field Def="s32 Spell 2 ID" />
+    <Field Def="s32 Spell 3 ID" />
+    <Field Def="s32 Spell 4 ID" />
+    <Field Def="s32 Spell 5 ID" />
+    <Field Def="s32 Spell 6 ID" />
+    <Field Def="s32 Spell 7 ID" />
+    <Field Def="s32 Spell 8 ID" />
+    <Field Def="s32 Spell 9 ID" />
+    <Field Def="s32 Spell 10 ID" />
+    <Field Def="s32 Right Weapon ID" />
+    <Field Def="s32 Right Weapon ID" />
+    <Field Def="s32 Right Weapon ID" />
+    <Field Def="s32 Left Weapon ID" />
+    <Field Def="s32 Left Weapon ID" />
+    <Field Def="s32 Left Weapon ID" />
+    <Field Def="s32 Head Armor ID" />
+    <Field Def="s32 Chest Armor ID" />
+    <Field Def="s32 Hands Armor ID" />
+    <Field Def="s32 Legs Armor ID" />
+    <Field Def="s32 Unk94" />
+    <Field Def="s32 Unk98" />
+    <Field Def="s32 Unk9C" />
+    <Field Def="s32 UnkA0" />
+    <Field Def="s32 Arrow ID 1" />
+    <Field Def="s32 Arrow ID 2" />
+    <Field Def="s32 Bolt ID 1" />
+    <Field Def="s32 Bolt ID 2" />
+    <Field Def="s32 Gesture 1 ID" />
+    <Field Def="s32 Gesture 2 ID" />
+    <Field Def="s32 Gesture 3 ID" />
+    <Field Def="s32 Gesture 4 ID" />
+    <Field Def="s32 Gesture 5 ID" />
+    <Field Def="s32 Gesture 6 ID" />
+    <Field Def="s32 Gesture 7 ID" />
+    <Field Def="s32 Gesture 8 ID" />
+  </Fields>
+</PARAMDEF>

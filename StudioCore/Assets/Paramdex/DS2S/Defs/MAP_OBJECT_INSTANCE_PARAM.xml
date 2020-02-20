@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>MAP_OBJECT_INSTANCE_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Param ID">
+      <Description>Refers to the param this object is used for:
+- MapObjectBonfireParam
+- MapObjectDoorParam
+- MapObjectWhiteDoorParam
+- TreasureBoxParam</Description>
+    </Field>
+    <Field Def="s32 Unk04" />
+    <Field Def="s32 Unk08" />
+    <Field Def="f32 Unk0C" />
+    <Field Def="f32 Unk10" />
+    <Field Def="s32 Map Object Instance Type ID" />
+    <Field Def="u16 Unk18" />
+    <Field Def="u8 Unk1A" />
+    <Field Def="u8 Unk1A" />
+    <Field Def="u8 Unk1C" />
+    <Field Def="u8 Unk1D" />
+    <Field Def="u8 Default State">
+      <Description>Which state this object is in by default:
+0 - None
+1 - Inactive
+2 - Active
+</Description>
+    </Field>
+    <Field Def="u8 Unk1F" />
+    <Field Def="s32 Unk20" />
+    <Field Def="s32 Itemlot ID" />
+  </Fields>
+</PARAMDEF>

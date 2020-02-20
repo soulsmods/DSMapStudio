@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>MULTI_ESTUS_FLASK_BONUS_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 estusFlaskRestoreCount0" />
+    <Field Def="u8 estusFlaskRestoreCount1 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount2 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount3 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount4 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount5 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount6 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount7 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount8 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount9 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount10" />
+    <Field Def="u8 estusFlaskRestoreCount11" />
+    <Field Def="u8 estusFlaskRestoreCount12 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount13 = 1" />
+    <Field Def="u8 estusFlaskRestoreCount14" />
+    <Field Def="u8 estusFlaskRestoreCount15" />
+    <Field Def="u8 estusFlaskRestoreCount16" />
+    <Field Def="u8 estusFlaskRestoreCount17" />
+    <Field Def="u8 estusFlaskRestoreCount18" />
+    <Field Def="u8 estusFlaskRestoreCount19" />
+  </Fields>
+</PARAMDEF>

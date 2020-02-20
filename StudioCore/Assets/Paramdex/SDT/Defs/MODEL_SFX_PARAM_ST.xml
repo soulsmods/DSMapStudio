@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>MODEL_SFX_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 VfxId1 = 800022" />
+    <Field Def="s32 DummyPolyId1 = 200" />
+    <Field Def="dummy8 pad1[8]" />
+    <Field Def="s32 VfxId2" />
+    <Field Def="s32 DummyPolyId2" />
+    <Field Def="dummy8 pad2[8]" />
+    <Field Def="s32 VfxId3" />
+    <Field Def="s32 DummyPolyId3" />
+    <Field Def="dummy8 pad3[0]" />
+    <Field Def="s32 VfxId4" />
+    <Field Def="s32 DummyPolyId4" />
+    <Field Def="dummy8 pad4[0]" />
+    <Field Def="s32 VfxId5" />
+    <Field Def="s32 DummyPolyId5" />
+    <Field Def="dummy8 pad5[0]" />
+    <Field Def="s32 VfxId6" />
+    <Field Def="s32 DummyPolyId6" />
+    <Field Def="dummy8 pad6[0]" />
+    <Field Def="s32 VfxId7" />
+    <Field Def="s32 DummyPolyId7" />
+    <Field Def="dummy8 pad7[8]" />
+    <Field Def="s32 VfxId8" />
+    <Field Def="s32 DummyPolyId8" />
+    <Field Def="dummy8 pad8[8]" />
+    <Field Def="s32 VfxId9" />
+    <Field Def="s32 DummyPolyId9" />
+    <Field Def="dummy8 pad9[8]" />
+    <Field Def="s32 VfxId10" />
+    <Field Def="s32 DummyPolyId10" />
+    <Field Def="dummy8 pad10[8]" />
+  </Fields>
+</PARAMDEF>

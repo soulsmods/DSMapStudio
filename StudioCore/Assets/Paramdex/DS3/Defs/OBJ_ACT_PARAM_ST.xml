@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>OBJ_ACT_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 actionEnableMsgId = 1.00104E+07" />
+    <Field Def="s32 actionFailedMsgId = -1" />
+    <Field Def="s32 spQualifiedPassEventFlag = -1" />
+    <Field Def="s32 playerAnimId = 60000" />
+    <Field Def="s32 chrAnimId = 7120" />
+    <Field Def="s16 validDist = 70" />
+    <Field Def="s16 spQualifiedId" />
+    <Field Def="s16 spQualifiedId2" />
+    <Field Def="u8 ObjDummyId = 120" />
+    <Field Def="dummy8 pad1[1]" />
+    <Field Def="s32 ObjAnimId = 1" />
+    <Field Def="u8 ValidPlayerAngle = 60" />
+    <Field Def="u8 spQualifiedType" />
+    <Field Def="u8 spQualifiedType2" />
+    <Field Def="u8 ValidObjAngle = 60" />
+    <Field Def="u8 ChrSorbType" />
+    <Field Def="u8 eventKickTiming = 1" />
+    <Field Def="dummy8 pad2[2]" />
+    <Field Def="s32 actionButtonParamId = 7200" />
+    <Field Def="s32 actionSuccessMsgId" />
+  </Fields>
+</PARAMDEF>

@@ -45,6 +45,88 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        private static void LoadParamFromBinder(IBinder parambnd)
+        {
+            // Load every param in the regulation
+            _params = new Dictionary<string, PARAM>();
+            foreach (var f in parambnd.Files)
+            {
+                if (!f.Name.ToUpper().EndsWith(".PARAM") || Path.GetFileNameWithoutExtension(f.Name).StartsWith("default_"))
+                {
+                    continue;
+                }
+                PARAM p = PARAM.Read(f.Bytes);
+                var fname = p.ParamType;
+                if (AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+                {
+                    fname = Path.GetFileNameWithoutExtension(f.Name);
+                    if (fname == "BehaviorParam_PC")
+                    {
+                        fname = "BehaviorParam";
+                    }
+                    if (fname == "AtkParam_Pc")
+                    {
+                        fname = "AtkParam";
+                    }
+                    if (fname == "AtkParam_Npc")
+                    {
+                        fname = "AtkParam";
+                    }
+                    if (fname == "Magic")
+                    {
+                        fname = "MagicParam";
+                    }
+                    if (fname == "Bullet")
+                    {
+                        fname = "BulletParam";
+                    }
+                    if (fname == "SpEffectParam")
+                    {
+                        fname = "SpEffect";
+                    }
+                    if (fname == "SpEffectVfxParam")
+                    {
+                        fname = "SpEffectVfx";
+                    }
+                    if (fname == "MenuColorTableParam")
+                    {
+                        fname = "MenuParamColorTable";
+                    }
+                    if (fname == "QwcChange")
+                    {
+                        fname = "QwcChangeParam";
+                    }
+                    if (fname == "QwcJudge")
+                    {
+                        fname = "QwcJudgeParam";
+                    }
+                }
+                PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
+                p.ApplyParamdef(def);
+                _params.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+            }
+        }
+
+        private static void LoadParamsDS1()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
+            {
+                MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Load params
+            var param = $@"{mod}\param\GameParam\GameParam.parambnd";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\param\GameParam\GameParam.parambnd";
+            }
+            BND3 paramBnd = BND3.Read(param);
+
+            LoadParamFromBinder(paramBnd);
+        }
+
         private static void LoadParamsDS2()
         {
             var dir = AssetLocator.GameRootDirectory;
@@ -68,27 +150,19 @@ namespace StudioCore.MsbEditor
             EnemyParam = GetParam(paramBnd, "EnemyParam.param");
             if (EnemyParam != null)
             {
-                PARAM.Layout layout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{EnemyParam.ID}.xml");
-                EnemyParam.SetLayout(layout);
+                PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
+                EnemyParam.ApplyParamdef(def);
             }
 
-            // Load every param in the regulation
-            _params = new Dictionary<string, PARAM>();
-            foreach (var f in paramBnd.Files)
-            {
-                if (!f.Name.ToUpper().EndsWith(".PARAM"))
-                {
-                    continue;
-                }
-                PARAM p = PARAM.Read(f.Bytes);
-                PARAM.Layout layout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{p.ID}.xml");
-                p.SetLayout(layout);
-                _params.Add(Path.GetFileNameWithoutExtension(f.Name), p);
-            }
+            LoadParamFromBinder(paramBnd);
         }
 
         public static void ReloadParams()
         {
+            if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+            {
+                LoadParamsDS1();
+            }
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 LoadParamsDS2();

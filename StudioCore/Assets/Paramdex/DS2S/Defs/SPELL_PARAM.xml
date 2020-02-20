@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>SPELL_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Spell Class = -1" />
+    <Field Def="s8 Unk04 = -1" />
+    <Field Def="s8 Spell Function = -1" />
+    <Field Def="s16 Unk06 = -1" />
+    <Field Def="u16 INT Requirement" />
+    <Field Def="u16 FTH Requirement" />
+    <Field Def="s32 Unknown ID" />
+    <Field Def="s32 Unknown ID" />
+    <Field Def="f32 Unk14" />
+    <Field Def="f32 Unk18" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk24" />
+    <Field Def="f32 Unk28" />
+    <Field Def="f32 Unk2C" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk38" />
+    <Field Def="f32 Unk3C" />
+    <Field Def="f32 Unk40" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk4C" />
+    <Field Def="f32 Unk50" />
+    <Field Def="f32 Unk54" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk60" />
+    <Field Def="f32 Unk64" />
+    <Field Def="f32 Unk68" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk74" />
+    <Field Def="f32 Unk78" />
+    <Field Def="f32 Unk7C" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk88" />
+    <Field Def="f32 Unk8C" />
+    <Field Def="f32 Unk90" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 Unk9C" />
+    <Field Def="f32 UnkA0" />
+    <Field Def="f32 UnkA4" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="s32 Unknown ID = -1" />
+    <Field Def="f32 UnkB0" />
+    <Field Def="f32 UnkB4" />
+    <Field Def="s32 UnkB8 = -1" />
+    <Field Def="s32 UnkBC = -1" />
+    <Field Def="s32 UnkC0 = -1" />
+    <Field Def="u8 UnkC4" />
+    <Field Def="u8 UnkC5" />
+    <Field Def="u8 UnkC6" />
+    <Field Def="u8 UnkC7" />
+    <Field Def="f32 UnkC8" />
+    <Field Def="s32 UnkCC" />
+    <Field Def="u8 UnkD0" />
+    <Field Def="u8 UnkD1" />
+    <Field Def="u8 UnkD2" />
+    <Field Def="u8 UnkD3" />
+    <Field Def="f32 UnkD4" />
+    <Field Def="f32 UnkD8" />
+    <Field Def="f32 UnkDC" />
+    <Field Def="f32 UnkE0" />
+    <Field Def="f32 UnkE4" />
+    <Field Def="f32 UnkE8" />
+    <Field Def="f32 UnkEC" />
+    <Field Def="u8 Slots Used = 1" />
+    <Field Def="u8 Base Casts = 1" />
+    <Field Def="u8 Casts (15 ATN) = 1" />
+    <Field Def="u8 Casts (26 ATN) = 1" />
+    <Field Def="u8 Casts (32 ATN) = 1" />
+    <Field Def="u8 Casts (38 ATN) = 1" />
+    <Field Def="u8 Casts (43 ATN) = 1" />
+    <Field Def="u8 Casts (49 ATN) = 1" />
+    <Field Def="u8 Casts (58 ATN) = 1" />
+    <Field Def="u8 Casts (79 ATN) = 1" />
+    <Field Def="u16 Casts (94 ATN) = 1" />
+    <Field Def="s32 Spell Soul Consume ID" />
+    <Field Def="s32 Bullet ID = -1" />
+    <Field Def="s32 Damage ID = -1" />
+  </Fields>
+</PARAMDEF>

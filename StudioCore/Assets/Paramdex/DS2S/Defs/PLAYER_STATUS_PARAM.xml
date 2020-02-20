@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>PLAYER_STATUS_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Unk00" />
+    <Field Def="u16 Soul Level" />
+    <Field Def="u16 Vigor" />
+    <Field Def="s32 Unk08" />
+    <Field Def="u16 Endurance" />
+    <Field Def="u16 Attunement" />
+    <Field Def="u16 Vitality" />
+    <Field Def="u16 Strength" />
+    <Field Def="u16 Dexterity" />
+    <Field Def="u16 Intelligence" />
+    <Field Def="u16 Faith" />
+    <Field Def="u16 Adaptability" />
+    <Field Def="u16 Unk1C" />
+    <Field Def="u16 Unk1C" />
+    <Field Def="u16 Unk20" />
+    <Field Def="u16 Unk20" />
+    <Field Def="s32 Item 1 ID" />
+    <Field Def="s32 Item 2 ID" />
+    <Field Def="s32 Item 3 ID" />
+    <Field Def="s32 Item 4 ID" />
+    <Field Def="s32 Item 5 ID" />
+    <Field Def="s32 Item 6 ID" />
+    <Field Def="s32 Item 7 ID" />
+    <Field Def="s32 Item 8 ID" />
+    <Field Def="s32 Item 9 ID" />
+    <Field Def="s32 Item 10 ID" />
+    <Field Def="u16 Item 1 Amount" />
+    <Field Def="u16 Item 2 Amount" />
+    <Field Def="u16 Item 3 Amount" />
+    <Field Def="u16 Item 4 Amount" />
+    <Field Def="u16 Item 5 Amount" />
+    <Field Def="u16 Item 6 Amount" />
+    <Field Def="u16 Item 7 Amount" />
+    <Field Def="u16 Item 8 Amount" />
+    <Field Def="u16 Item 9 Amount" />
+    <Field Def="u16 Item 10 Amount" />
+    <Field Def="s32 Spell 1 ID" />
+    <Field Def="s32 Spell 2 ID" />
+    <Field Def="s32 Spell 3 ID" />
+    <Field Def="s32 Spell 4 ID" />
+    <Field Def="s32 Spell 5 ID" />
+    <Field Def="s32 Spell 6 ID" />
+    <Field Def="s32 Spell 7 ID" />
+    <Field Def="s32 Spell 8 ID" />
+    <Field Def="s32 Spell 9 ID" />
+    <Field Def="s32 Spell 10 ID" />
+    <Field Def="s32 Right Weapon 1 ID" />
+    <Field Def="s32 Right Weapon 2 ID" />
+    <Field Def="s32 Right Weapon 3 ID" />
+    <Field Def="s32 Left Weapon 1 ID" />
+    <Field Def="s32 Left Weapon 2 ID" />
+    <Field Def="s32 Left Weapon 3 ID" />
+    <Field Def="s32 Head Armor ID" />
+    <Field Def="s32 Chest Armor ID" />
+    <Field Def="s32 Hands Armor ID" />
+    <Field Def="s32 Legs Armor ID" />
+    <Field Def="s32 Ring 1 ID" />
+    <Field Def="s32 Ring 2 ID" />
+    <Field Def="s32 Ring 3 ID" />
+    <Field Def="s32 Ring 4 ID" />
+    <Field Def="u32 Right Weapon 1 Reinforcement" />
+    <Field Def="u32 Right Weapon 2 Reinforcement" />
+    <Field Def="u32 Right Weapon 3 Reinforcement" />
+    <Field Def="u32 Left Weapon 1 Reinforcement" />
+    <Field Def="u32 Left Weapon 2 Reinforcement" />
+    <Field Def="u32 Left Weapon 3 Reinforcement" />
+    <Field Def="s32 UnkD8" />
+    <Field Def="s32 Player Status Item ID">
+      <Description>Determines starting inventory.</Description>
+    </Field>
+    <Field Def="s32 Player Status Item ID">
+      <Description>Determines starting inventory.</Description>
+    </Field>
+    <Field Def="s32 Player Status Item ID">
+      <Description>Determines starting inventory.</Description>
+    </Field>
+    <Field Def="s32 UnkE8" />
+    <Field Def="s32 Arrow 1 ID" />
+    <Field Def="s32 Arrow 2 ID" />
+    <Field Def="s32 Bolt 1 ID" />
+    <Field Def="s32 Bolt 2 ID" />
+    <Field Def="u16 Arrow 1 Amount" />
+    <Field Def="u16 Arrow 2 Amount" />
+    <Field Def="u16 Bolt 1 Amount" />
+    <Field Def="u16 Bolt 2 Amount" />
+    <Field Def="s32 Gesture 1 ID" />
+    <Field Def="s32 Gesture 2 ID" />
+    <Field Def="s32 Gesture 3 ID" />
+    <Field Def="s32 Gesture 4 ID" />
+    <Field Def="s32 Gesture 5 ID" />
+    <Field Def="s32 Gesture 6 ID" />
+    <Field Def="s32 Gesture 7 ID" />
+    <Field Def="s32 Gesture 8 ID" />
+    <Field Def="s32 Unk124" />
+  </Fields>
+</PARAMDEF>

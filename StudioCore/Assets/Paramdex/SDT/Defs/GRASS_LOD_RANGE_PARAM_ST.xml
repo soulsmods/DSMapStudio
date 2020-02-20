@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>GRASS_LOD_RANGE_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 LodDistance1" />
+    <Field Def="f32 LodDistance2" />
+    <Field Def="f32 LodDistance3" />
+    <Field Def="f32 LodDistance4" />
+    <Field Def="f32 LodDistance5" />
+    <Field Def="f32 LodDistance6" />
+    <Field Def="f32 LodDistance7" />
+  </Fields>
+</PARAMDEF>

@@ -1,0 +1,92 @@
+0 Default value -- デフォルト値
+1 Summon Magic for range designation -- 召喚魔法射程距離指定用
+2 【 SP 】 Test Map for Hammer warfare _ Normal Time -- 【SP】テストマップハンマー戦用_通常時
+3 【 SP 】 Test Map for hammer warfare _ near -- 【SP】テストマップハンマー戦用_近接時
+101 Short -- 近距離
+102 Medium -- 中距離
+103 Long distance -- 遠距離
+104 Centipede only -- ムカデ専用
+105 Dragon Zombie Only -- ドラゴンゾンビ専用
+110 usually dark -- 通常_暗闇
+111 Close range _ Darkness -- 近距離_暗闇
+112 Medium Range _ Darkness -- 中距離_暗闇
+113 Distant Darkness -- 遠距離_暗闇
+200 【 Protomap 】 Darkness -- 【プロトマップ】暗闇
+210 [DLC] warmonger camera of the abyss -- 【DLC】深淵の主戦用カメラ
+211 [DLC] Camera for al-Tri-race -- 【DLC】アルトリウス戦用カメラ
+212 [DLC] black dragon Warfare camera -- 【DLC】黒竜戦用カメラ
+213 [DLC] chain person war camera -- 【DLC】鎖人戦用カメラ
+214 [DLC] Camera for Go warfare -- 【DLC】ゴー戦用カメラ
+220 [DLC] Exclusive lock camera for the arena -- 【DLC】闘技場専用ロックカメラ
+1000 Phagocytic Dragon Only -- 貪食ドラゴン専用
+1010 Camera for Gargoyle -- ガーゴイル用カメラ
+1100 【 1st map 】 Suspension Bridge -- 【1stマップ】つり橋
+1101 [1st map] Long distance -- 【1stマップ】遠距離
+1102 [1st map] Boss Room -- 【1stマップ】ボス部屋
+1103 [1st map] Old boss Room -- 【1stマップ】旧ボス部屋
+1210 [DLC] Gold Chimera Camera -- 【DLC】金キメラ用カメラ
+1300 Near the grave -- 墓場近距離
+1301 Grave distance -- 墓場遠距離
+1410 Dedicated to the abolition of the visor -- 廃都イザリス専用
+1510 Camera for Gargoyle -- ガーゴイル用カメラ
+1511 Camera for Gargoyle Night -- ガーゴイル用カメラ_夜用
+1700 Sheath Combat Camera -- シース戦闘用カメラ
+2000 [SP] vs Parish General -- 【SP】vs教区長 通常
+2001 [SP] vs Parish Long distance -- 【SP】vs教区長 近距離
+2002 【 SP 】 Ohashi -- 【SP】大橋
+2003 【 SP 】 Full of statues -- 【SP】彫像いっぱい
+2004 【 SP 】 Avoiding sunflowers -- 【SP】ひまわり回避
+2010 [SP] vs fire Beast usually -- 【SP】vs炎の獣 通常
+2011 [SP] vs Beast of flames close range -- 【SP】vs炎の獣 近距離
+3000 [FDP] vs Tracker -- 【FDP】vs追跡者
+3001 [FDP] vs Tracker (throw camera) -- 【FDP】vs追跡者（投げ時カメラ）
+3002 [FDP] vs Tracker (2-knife-throwing camera) -- 【FDP】vs追跡者（２刀流投げ時カメラ）
+3010 [FDP] Camera for distant view -- 【FDP】遠景用カメラ
+3100 [FDP] Ceremonial camera -- 【FDP】儀式用カメラ
+3101 [FDP] Ceremonial cameras _ on the way -- 【FDP】儀式用カメラ_途中変更
+3102 [FDP] Camera for flame ritual changed on the way -- 【FDP】炎儀式用カメラ_途中変更
+3120 [FDP] Forest Sacred Beast _ lock-on camera -- 【FDP】森の霊獣_ロックオンカメラ
+3160 [FDP] Guardian Knight of the Dragon -- 【FDP】竜の守護騎士
+3200 [FDP] for Segunda -- 【FDP】グンダ用
+3201 [FDP] for snake spirits possession segunda -- 【FDP】蛇霊憑きグンダ用
+3202 [FDP] for the snake spirits -- 【FDP】蛇霊用
+3203 [FDP] for elevators -- 【FDP】エレベーター用
+3204 [FDP] Possession segunda-throwing snake spirits -- 【FDP】蛇霊憑きグンダ投げ演出
+3300 [FDP] Full Armor Beast -- 【FDP】フルアーマー獣
+3301 [FDP] Stench crab -- 【FDP】死臭蟹
+5020 [FDP] Crimson Bat -- 【FDP】クリムゾンバット
+5030 [FDP] King of the Storm (cowgirl) -- 【FDP】嵐の王（騎乗）
+5140 [FDP] The old king of caries -- 【FDP】蝕の老王
+5160 [FDP] King of the Dead -- 【FDP】死霊の王
+5180 [FDP] Cursed Colossus test -- 【FDP】呪われた巨像テスト
+5190 [FDP] King of the disused city: the first half -- 【FDP】廃都の孤王：前半戦
+5191 [FDP] King of the disused city: Late war -- 【FDP】廃都の孤王：後半戦
+5230 [FDP] Mother Dragon -- 【FDP】母ドラゴン
+5250 [FDP] Prince of Darkness -- 【FDP】闇の双皇子
+5260 [FDP] Mad Warrior Hallec -- 【FDP】狂戦士ハレック
+6000 [FDP] Crystal elders _ only when throwing -- 【FDP】結晶の古老_投げ時のみ
+7370 [FDP] Anole _ starting point -- 【FDP】アノール_スタート地点
+8000 [FDP] Ceiling Low Place -- 【FDP】天井低い場所
+9000 [FDP] for servant ride -- 【FDP】下男乗車用
+10000 Short distance camera -- 近距離カメラ
+10001 Medium Range Camera -- 中距離カメラ
+10002 Long Distance Camera -- 遠距離カメラ
+10003 Dark Rock -- 暗闇ロック
+10004 【 Protomap 】 Darkness -- 【プロトマップ】暗闇
+10005 [Protomap] a little wide -- 【プロトマップ】ちょっと広い
+10006 [FDP] Test -- 【FDP】テスト
+10100 [FDP] Narrow-wide test _ narrow camera -- 【FDP】狭～広テスト_狭いカメラ
+10101 [FDP] Narrow to wide test _ wide Camera -- 【FDP】狭～広テスト_広いカメラ
+10102 [FDP] Stoning machine test -- 【FDP】投石機テスト
+10103 [FDP] Death of a stoned machine -- 【FDP】投石機死亡
+10104 [FDP] death-following stoning machine -- 【FDP】投石機死亡追従
+10120 [FDP] is swallowed slime -- 【FDP】スライム飲み込まれ
+10121 [FDP] is swallowed slime -- 【FDP】スライム飲み込まれ
+10200 [FDP] Entrance door of the candle room -- 【FDP】蝋燭部屋の入り口扉
+10201 [FDP] Candle Room camera -- 【FDP】蝋燭部屋カメラ
+10202 [FDP] Candle room warp camera -- 【FDP】蝋燭部屋ワープ時カメラ
+10300 [FDP] Wolf Kara -- 【FDP】ウルフ飛び掛かられ時
+10400 [FDP] Player map start -- 【FDP】プレイヤーマップスタート時
+90000 Covert Camera-Zoom in -- 隠密カメラ-ズームイン
+90001 Covert Camera-Zoom Out -- 隠密カメラ-ズームアウト
+90010 Monster House Boss Camera -- モンスターハウスボス用カメラ

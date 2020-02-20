@@ -168,6 +168,7 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.Text("ImplementMe");
             }
+
             newval = null;
             return false;
         }
@@ -258,7 +259,7 @@ namespace StudioCore.MsbEditor
 
         private void PropEditorParamRow(MapObject selection)
         {
-            List<PARAM.Cell> cells = new List<PARAM.Cell>();
+            IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
             if (selection.MsbObject is PARAM.Row row)
             {
                 cells = row.Cells;
@@ -307,7 +308,7 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Name);
+                ImGui.Text(cell.Def.InternalName);
                 ImGui.NextColumn();
                 ImGui.SetNextItemWidth(-1);
                 //ImGui.AlignTextToFramePadding();
@@ -317,7 +318,7 @@ namespace StudioCore.MsbEditor
                 bool changed = false;
                 object newval = null;
 
-                changed = PropertyRow(typ, oldval, out newval, selection, cell.Name);
+                changed = PropertyRow(typ, oldval, out newval, selection, cell.Def.InternalName);
                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
                 ChangeProperty(cell.GetType().GetProperty("Value"), selection, cell, newval, changed, committed, shouldUpdateVisual);
 
@@ -330,7 +331,7 @@ namespace StudioCore.MsbEditor
 
         public void PropEditorParamRow(PARAM.Row row)
         {
-            List<PARAM.Cell> cells = new List<PARAM.Cell>();
+            IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
             cells = row.Cells;
             ImGui.Columns(2);
             ImGui.Separator();
@@ -371,7 +372,7 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Name);
+                ImGui.Text(cell.Def.InternalName);
                 ImGui.NextColumn();
                 ImGui.SetNextItemWidth(-1);
                 //ImGui.AlignTextToFramePadding();
@@ -381,7 +382,7 @@ namespace StudioCore.MsbEditor
                 bool changed = false;
                 object newval = null;
 
-                changed = PropertyRow(typ, oldval, out newval, null, cell.Name);
+                changed = PropertyRow(typ, oldval, out newval, null, cell.Def.InternalName);
                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
                 ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
 
@@ -390,6 +391,23 @@ namespace StudioCore.MsbEditor
                 id++;
             }
             ImGui.Columns(1);
+        }
+
+        private void PropertyContextMenu(object obj, PropertyInfo propinfo)
+        {
+            if (ImGui.BeginPopupContextItem(propinfo.Name))
+            {
+                var att = propinfo.GetCustomAttribute<MSBParamReference>();
+                if (att != null)
+                {
+                    if (ImGui.Selectable($@"Goto {att.ParamName}"))
+                    {
+                        var id = (int)propinfo.GetValue(obj);
+                        EditorCommandQueue.AddCommand($@"param/select/{att.ParamName}/{id}");
+                    }
+                }
+                ImGui.EndPopup();
+            }
         }
 
         private void PropEditorGeneric(MapObject selection, object target=null, bool decorate=true)
@@ -438,6 +456,7 @@ namespace StudioCore.MsbEditor
                         object newval = null;
 
                         changed = PropertyRow(typ.GetElementType(), oldval, out newval);
+                        //PropertyContextMenu(prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                         {
                             ImGui.SetItemDefaultFocus();
@@ -468,6 +487,7 @@ namespace StudioCore.MsbEditor
                         object newval = null;
 
                         changed = PropertyRow(typ.GetElementType(), oldval, out newval);
+                        PropertyContextMenu(obj, prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                         {
                             ImGui.SetItemDefaultFocus();
@@ -506,6 +526,7 @@ namespace StudioCore.MsbEditor
                     object newval = null;
 
                     changed = PropertyRow(typ, oldval, out newval, selection, prop.Name);
+                    PropertyContextMenu(obj, prop);
                     if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                     {
                         ImGui.SetItemDefaultFocus();

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>MENU_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 PlayerDeathPostTimer1" />
+    <Field Def="f32 PlayerDeathPostTimer2" />
+    <Field Def="s32 Player HP Bar Length Scale = 1920" />
+    <Field Def="s32 Player Mp Bar Length Scale = 600" />
+    <Field Def="s32 Player Sp Bar Length Scale = 1920" />
+    <Field Def="f32 Player Menu Control 1" />
+    <Field Def="f32 Player Menu Control 2" />
+    <Field Def="s32 FakeHealth" />
+    <Field Def="s32 FakeMana" />
+    <Field Def="s32 FakeStamina" />
+    <Field Def="s32 MenuFaceRange1 = -8" />
+    <Field Def="s32 MenuFaceRange2 = 40" />
+    <Field Def="f32 Unk1" />
+    <Field Def="f32 Unk2" />
+    <Field Def="s32 Unk3" />
+    <Field Def="s32 Unk4" />
+    <Field Def="s32 Unk5" />
+    <Field Def="s32 Unk6" />
+    <Field Def="s32 Unk7" />
+    <Field Def="s32 Unk8" />
+    <Field Def="s32 Unk9" />
+    <Field Def="s32 Unk9" />
+    <Field Def="s32 Unk10" />
+    <Field Def="s32 Unk11" />
+    <Field Def="s32 Unk12" />
+    <Field Def="s32 Unk13" />
+    <Field Def="s32 Unk14" />
+    <Field Def="s32 Unk15" />
+    <Field Def="s32 Unk16" />
+    <Field Def="s32 Unk17" />
+    <Field Def="f32 Unk18" />
+    <Field Def="f32 Unk19" />
+    <Field Def="f32 MenuJobHolder" />
+    <Field Def="s32 Unk21" />
+    <Field Def="s32 Unk22" />
+    <Field Def="s32 Unk23" />
+    <Field Def="s32 Unk24" />
+    <Field Def="s32 Unk25" />
+    <Field Def="s32 Unk26" />
+    <Field Def="s32 Unk27" />
+    <Field Def="f32 ResolutionValue1" />
+    <Field Def="f32 ResolutionValue2" />
+    <Field Def="f32 NewMoneyMenuHandle" />
+    <Field Def="f32 NewStaminaMenuHandle" />
+    <Field Def="dummy8 pad1[80]" />
+  </Fields>
+</PARAMDEF>

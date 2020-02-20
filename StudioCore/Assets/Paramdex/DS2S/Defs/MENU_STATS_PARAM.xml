@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>MENU_STATS_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u16 HP" />
+    <Field Def="u16 Stamina" />
+    <Field Def="u16 Human HP" />
+    <Field Def="u16 Attunement Slots" />
+    <Field Def="u16 Cast Speed" />
+    <Field Def="u16 Strength Bonus" />
+    <Field Def="u16 Dexterity Bonus" />
+    <Field Def="u16 Magic Bonus" />
+    <Field Def="u16 Fire Bonus" />
+    <Field Def="u16 Lightning Bonus" />
+    <Field Def="u16 Dark Bonus" />
+    <Field Def="u16 Poison Bonus" />
+    <Field Def="u16 Bleed Bonus" />
+    <Field Def="u16 Unk1C" />
+    <Field Def="u16 Physical Defense" />
+    <Field Def="u16 Magic Defense" />
+    <Field Def="u16 Fire Defense" />
+    <Field Def="u16 Lightning Defense" />
+    <Field Def="u16 Dark Defense" />
+    <Field Def="u16 Poison Resist" />
+    <Field Def="u16 Bleed Resist" />
+    <Field Def="u16 Petrify Resist" />
+    <Field Def="u16 Curse Resist" />
+    <Field Def="u16 Unk24" />
+    <Field Def="u16 Unk28" />
+    <Field Def="u16 Agility" />
+    <Field Def="u16 Mundane Bonus" />
+    <Field Def="u16 Unk30" />
+    <Field Def="f32 Max Equip Load" />
+  </Fields>
+</PARAMDEF>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CHR_PHYSICS_VELOCITY_CHANGE_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 Unk1" />
+    <Field Def="f32 Unk2" />
+    <Field Def="f32 Unk3" />
+    <Field Def="f32 Unk4" />
+    <Field Def="f32 Unk5" />
+    <Field Def="dummy8 pad1[1]" />
+    <Field Def="u8 VelocityType = 2" />
+    <Field Def="u8 Unk6 = 3" />
+    <Field Def="dummy8 pad2[1]" />
+    <Field Def="s32 ChrPhysicsHomingParamId = -1" />
+    <Field Def="dummy8 pad3[4]" />
+  </Fields>
+</PARAMDEF>

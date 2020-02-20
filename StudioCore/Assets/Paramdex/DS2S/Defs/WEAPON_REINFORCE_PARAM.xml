@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>WEAPON_REINFORCE_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 Damage: Physical" />
+    <Field Def="f32 Damage: Magic" />
+    <Field Def="f32 Damage: Fire" />
+    <Field Def="f32 Damage: Lightning" />
+    <Field Def="f32 Damage: Dark" />
+    <Field Def="f32 Damage: Poison (Float / 5)" />
+    <Field Def="f32 Damage: Bleed (Float / 5)" />
+    <Field Def="f32 Damage: Petrify (Float / 5)" />
+    <Field Def="f32 Damage: Curse (Float / 5)" />
+    <Field Def="f32 Max Damage: Physical" />
+    <Field Def="f32 Max Damage: Magic" />
+    <Field Def="f32 Max Damage: Fire" />
+    <Field Def="f32 Max Damage: Lightning" />
+    <Field Def="f32 Max Damage: Dark" />
+    <Field Def="f32 Max Damage: Poison (Float / 5)" />
+    <Field Def="f32 Max Damage: Bleed (Float / 5)" />
+    <Field Def="f32 Max Damage: Petrify (Float / 5)" />
+    <Field Def="f32 Max Damage: Curse (Float / 5)" />
+    <Field Def="s32 Max Reinforcement Level" />
+    <Field Def="s32 Weapon Stats Affect ID" />
+    <Field Def="f32 Absorption: Physical" />
+    <Field Def="f32 Absorption: Magic" />
+    <Field Def="f32 Absorption: Fire" />
+    <Field Def="f32 Absorption: Lightning" />
+    <Field Def="f32 Absorption: Dark" />
+    <Field Def="f32 Resistance: Poison" />
+    <Field Def="f32 Resistance: Bleed" />
+    <Field Def="f32 Resistance: Petrify" />
+    <Field Def="f32 Resistance: Curse" />
+    <Field Def="f32 Stability: +0" />
+    <Field Def="f32 Stability: +1" />
+    <Field Def="f32 Stability: +2" />
+    <Field Def="f32 Stability: +3" />
+    <Field Def="f32 Stability: +4" />
+    <Field Def="f32 Stability: +5" />
+    <Field Def="f32 Stability: +6" />
+    <Field Def="f32 Stability: +7" />
+    <Field Def="f32 Stability: +8" />
+    <Field Def="f32 Stability: +9" />
+    <Field Def="f32 Stability: +10" />
+    <Field Def="f32 Damage %: Physical" />
+    <Field Def="f32 Damage %: Magic" />
+    <Field Def="f32 Damage %: Lightning" />
+    <Field Def="f32 Damage %: Fire" />
+    <Field Def="f32 Damage %: Dark" />
+    <Field Def="f32 Damage %: Poison" />
+    <Field Def="f32 Damage %: Bleed" />
+    <Field Def="f32 Damage %: Petrify" />
+    <Field Def="f32 Damage %: Curse" />
+    <Field Def="f32 UnkC4" />
+    <Field Def="f32 UnkC8" />
+    <Field Def="f32 UnkCC" />
+    <Field Def="f32 UnkD0" />
+    <Field Def="f32 UnkD4" />
+    <Field Def="f32 UnkD8" />
+    <Field Def="f32 UnkDC" />
+    <Field Def="f32 UnkE0" />
+    <Field Def="f32 UnkE4" />
+    <Field Def="s32 CustomAttrSpecParam ID" />
+    <Field Def="s32 CustomAttrCostParam ID" />
+    <Field Def="s32 Reinforce Cost ID" />
+  </Fields>
+</PARAMDEF>

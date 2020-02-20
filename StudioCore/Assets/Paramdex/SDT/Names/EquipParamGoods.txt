@@ -1,0 +1,259 @@
+1000 Spirit Emblem
+1001 Red Spirit Emblem
+1100 Regenerative Power
+1101 Regenerative Power Fragment
+1110 Temporary Regenerative Power
+1200 Skill Point
+1300 Kenjutsu Point
+2000 Resurrection
+2100 Bloodsmoke Ninjutsu
+2110 Puppeteer Ninjutsu
+2120 Bestowal Ninjutsu
+2300 Kusabimaru
+2310 Shinobi Prosthetic
+2390 Night Eye
+2400 Mortal Blade
+2420 Mibu Breathing Technique
+2450 Anti-air Deathblow Text
+2460 Dragon Flash
+2461 Floating Passage Text
+2462 One Mind
+2470 Shinobi Medicine Rank 1
+2471 Shinobi Medicine Rank 2
+2472 Shinobi Medicine Rank 3
+2475 A Beast's Karma
+2480 Breath of Life: Shadow
+2481 Breath of Nature: Shadow
+2499 All Actions Unlock
+2500 Lotus of the Palace
+2501 Shelter Stone
+2502 Aromatic Branch
+2503 Aromatic Flower
+2910 Mechanical Barrel
+2920 Shinobi Esoteric Text
+2921 Prosthetic Esoteric Text
+2922 Ashina Esoteric Text
+2923 Senpou Esoteric Text
+2924 Mushin Esoteric Text
+2930 Recovery Charm
+3000 Healing Gourd
+3001 Healing Gourd
+3020 Pellet
+3040 Divine Grass
+3050 Red Lump
+3051 Red Lump
+3052 Red Lump
+3053 Academics' Red Lump
+3060 Sweet Rice Ball
+3061 Sweet Rice Ball
+3070 Persimmon
+3071 Taro Persimmon
+3080 Rice
+3081 Fine Snow
+3200 Antidote Powder
+3210 Dousing Powder
+3211 Ministry Dousing Powder
+3220 Pacifying Agent
+3230 Eel Liver
+3250 Contact Medicine
+3290 Bite Down
+3291 Hidden Tooth
+3292 Bite Down
+3300 Green Mossy Gourd
+3301 Green Mossy Gourd
+3310 Withered Red Gourd
+3311 Withered Red Gourd
+3320 Mottled Purple Gourd
+3321 Mottled Purple Gourd
+3350 Ako's Spiritfall
+3360 Yashariku's Spiritfall
+3370 Ungo's Spiritfall
+3380 Gokan's Spiritfall
+3390 Gachiin's Spiritfall
+3400 Ako's Sugar
+3410 Yashariku's Sugar
+3420 Ungo's Sugar
+3430 Gokan's Sugar
+3440 Gachiin's Sugar
+3450 Divine Confetti
+3500 Ceramic Shard
+3510 Fistful of Ash
+3520 Oil
+3530 Snap Seed
+3580 Five-color Rice
+3581 Five-color Rice
+3600 Mibu Balloon of Wealth
+3610 Mibu Balloon of Soul
+3620 Mibu Possession Balloon
+3630 Mibu Balloon of Spirit
+3640 Mibu Pilgrimage Balloon
+3700 Light Coin Purse
+3704 Heavy Coin Purse
+3708 Bulging Coin Purse
+3720 Bundled Jizo Statue
+3721 Jinza's Jizo Statue
+3730 Bell Demon
+3800 Ceremonial Tanto
+3801 Ceremonial Tanto
+3900 Nightjar Monocular
+3980 Homeward Idol
+3990 Illusive Hall Bell
+4000 Prayer Bead
+4100 First Prayer Necklace
+4101 Second Prayer Necklace
+4102 Third Prayer Necklace
+4103 Fourth Prayer Necklace
+4104 Fifth Prayer Necklace
+4105 Sixth Prayer Necklace
+4106 Seventh Prayer Necklace
+4107 Eighth Prayer Necklace
+4108 Ninth Prayer Necklace
+4109 Final Prayer Necklace
+4400 Gourd Seed
+5100 Memory
+5200 Memory: Gyoubu Oniwa
+5201 Memory: Lady Butterfly
+5202 Memory: Genichiro
+5203 Memory: Screen Monkeys
+5204 Memory: Guardian Ape
+5205 Memory: Corrupted Monk
+5206 Memory: Great Shinobi
+5207 Memory: Foster Father
+5208 Memory: True Monk
+5209 Memory: Divine Dragon
+5210 Memory: Hatred Demon
+5211 Memory: Saint Isshin 
+5212 Memory: Isshin Ashina
+5213 Memory: Headless Ape
+5300 Remnant: Gyoubu
+5301 Remnant: Lady Butterfly 
+5302 Remnant: Genichiro
+5303 Remnant: Screen Monkeys
+5304 Remnant: Guardian Ape
+5305 Remnant: Corrupted Monk
+5306 Remnant: Great Shinobi
+5307 Remnant: Foster Father
+5308 Remnant: True Monk
+5309 Remnant: Divine Dragon
+5310 Remnant: Hatred Demon
+5311 Remnant: Saint Isshin
+5312 Remnant: Isshin Ashina
+5313 Remnant: Headless Ape
+5400 Memory
+5500 Mask Fragment: Right
+5501 Mask Fragment: Left
+5502 Mask Fragment: Dragon
+5510 Dancing Dragon Mask
+5600 Dragon's Blood Droplet
+6000 Scrap Iron
+6010 Scrap Magnetite
+6020 Adamantite Scrap
+6100 Black Gunpowder
+6200 Yellow Gunpowder
+6210 Fulminated Mercury
+6300 Lump of Fat Wax
+6310 Lump of Grave Wax
+6400 Lapis Lazuli
+9000 Divine Dragon's Tears
+9003 Kuro's Charm
+9009 Sakura Droplet
+9010 Young Lord's Bell Charm
+9011 Father's Bell Charm
+9020 Ornamental Letter
+9052 Red Carp Eyes
+9060 Dragon's Tally Board
+9061 Promissory Note
+9070 Water of the Palace
+9071 Great White Whisker
+9080 Red and White Pinwheel
+9081 White Pinwheel
+9090 Rice for Kuro
+9091 Frozen Tears
+9100 Ashina Sake
+9101 Unrefined Sake
+9102 Monkey Booze
+9103 Dragonspring Sake
+9104 Ashina Sake
+9105 Unrefined Sake
+9180 Precious Bait
+9181 Truly Precious Bait
+9182 Truly Precious Bait
+9192 Fresh Serpent Viscera
+9193 Dried Serpent Viscera
+9200 Herb Catalogue Scrap
+9205 Dosaku's Note
+9206 Rat Description
+9207 Surgeon's Bloody Letter
+9208 Surgeon's Stained Letter
+9209 Holy Chapter: Dragon's Return
+9210 Immortal Severance Text
+9211 Immortal Severance Scrap
+9212 Fragrant Flower Note
+9213 Okami's Ancient Text
+9214 Page's Diary
+9215 Holy Chapter: Infested
+9216 Tomoe's Note
+9217 Flame Barrel Memo
+9218 Nightjar Beacon Memo
+9219 Isshin's Letter
+9220 Rotting Prisoner's Note
+9221 Sabimaru Memo
+9222 Sabimaru Memo
+9223 Valley Apparitions Memo
+9224 Valley Apparitions Memo
+9225 Three-story Pagoda Memo
+9226 Three-story Pagoda Memo
+9227 Black Scroll
+9228 Holy Chapter: Infested
+9402 Gatehouse Key
+9403 Hidden Temple Key
+9404 Secret Passage Key
+9405 Gun Fort Shrine Key
+9500 Rot Essence: Sculptor
+9501 Rot Essence: Newcomer
+9502 Rot Essence: Black Hat
+9503 Rot Essence: Lost Child
+9504 Rot Essence: Charmed One
+9505 Rot Essence: Surgeons
+9510 Rot Essence: Fine Son
+9511 Rot Essence: Thirsty One
+9515 Rot Essence: Timid Maid
+9516 Rot Essence: Faithful One
+9520 Rot Essence: Crow Mob
+9521 Rot Essence: Wartorn Mob
+9522 Rot Essence: Jail Mob
+9523 Rot Essence: Toxic Mob
+9524 Rot Essence: Pious Mob
+9525 Rot Essence: Drunk Mob
+9526 Rot Essence: Info Broker
+9560 Dragonrot Blood Sample
+9700 Shuriken Wheel
+9701 Phantom Kunai
+9710 Robert's Firecrackers
+9720 Flame Barrel
+9721 Pine Resin Ember
+9730 Shinobi Axe of the Monkey
+9740 Mist Raven's Feathers
+9750 Sabimaru
+9760 Iron Fortress
+9770 Large Fan
+9780 Gyoubu's Broken Horn
+9790 Slender Finger
+9791 Malcontent's Ring
+10000 Treasure Carp Scale
+90000 DamageCheck00
+90001 DamageCheck01
+90002 DamageCheck02
+90003 DamageCheck03
+90004 DamageCheck04
+90005 DamageCheck05
+90006 DamageCheck06
+90007 DamageCheck07
+90008 DamageCheck08
+90009 DamageCheck09
+90010 DamageCheck10
+90011 DamageCheck11
+90015 DamageCheck15
+90020 DamageCheck20
+90030 AISoundCheck00
+90031 AISoundCheck01

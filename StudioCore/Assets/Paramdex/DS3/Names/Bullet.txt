@@ -1,0 +1,418 @@
+0 Test -- テスト
+1 Magic Test -- 魔法テスト
+2 Funnel Test -- ファンネルテスト
+3 Flying Dragon Breath Test -- 飛竜　ブレステスト
+4 Automatic Cyclic object destruction -- 自動巡回オブジェ破壊用
+50 Bonfire Recovery effect -- かがり火回復効果
+60 Bullet Random Number Test _ Parent -- 弾丸乱数テスト_親
+61 Bullet Random number Test child -- 弾丸乱数テスト_子
+62 Long distance Magic: Drilled Flames -- 遠距離魔法：穿つ炎_出始め
+63 Long distance Magic: Drilled Flames _ Parents -- 遠距離魔法：穿つ炎_親
+64 Long distance Magic: Drilled Flames _ Search Bullets -- 遠距離魔法：穿つ炎_検索弾
+65 Long distance Magic: Drilled Fire Child -- 遠距離魔法：穿つ炎_子
+75 Also licked fire spread judgment bullet -- チロチロ延焼判定弾
+76 Also licked fire body -- チロチロ延焼本体
+77 Also licked fire spread judgment bullet (for black jar) -- チロチロ延焼判定弾（黒壷用）
+78 Also licked fire body (for black Jar) -- チロチロ延焼本体（黒壷用）
+100 Throwing Knives -- 投げナイフ
+101 Poison-throwing knives -- 毒投げナイフ
+110 Fire bottle [Parent] -- 火炎瓶【親】
+111 Fire bottle [child] -- 火炎瓶【子】
+112 [For debugging] flame bottle [Parent] -- [デバッグ用]火炎瓶【親】
+113 [For debugging] fire bottle [child] -- [デバッグ用]火炎瓶【子】
+115 Black Flame bottle [parent] -- 黒火炎瓶【親】
+116 Black Flame bottle [child] -- 黒火炎瓶【子】
+120 Each time a [parent] -- またたびＡ【親】
+121 Each time a child -- またたびＡ【子】
+122 Each time b [parent] -- またたびＢ【親】
+123 The Child B -- またたびＢ【子】
+130 Convenient stone [parent] -- 便利石【親】
+131 Convenient stone [child] -- 便利石【子】
+132 Convenient stone [grandchild] -- 便利石【孫】
+150 The parent of a dung dumpling -- 糞団子【親】
+151 Son of a dumpling -- 糞団子【子】
+160 EST not available [parent] -- エスト使用不可【親】
+161 EST not available [child] -- エスト使用不可【子】
+170 bleeding treatment [State recovery] -- 出血治療【状態回復】
+171 bleeding treatment [resistance recovery] -- 出血治療【耐性回復】
+180 Poison treatment [State recovery] -- 毒治療【状態回復】
+181 Poison treatment [Resilient recovery] -- 毒治療【耐性回復】
+190 Toxic treatment [State recovery] -- 猛毒治療【状態回復】
+191 Toxic treatment [Resilient recovery] -- 猛毒治療【耐性回復】
+220 Elixir [State Recovery] -- エリクサー【状態回復】
+221 Elixir [Recovery of bleeding immunity] -- エリクサー【出血耐性回復】
+222 Elixir [Poison tolerance recovery] -- エリクサー【毒耐性回復】
+223 Elixir [Deadly poison resistant recovery] -- エリクサー【猛毒耐性回復】
+226 Elixir [HP Recovery] -- エリクサー【HP回復】
+300 Quick Knives -- クイックナイフ
+301 Quick Poison Knife -- クイック毒ナイフ
+302 Quick Bleeding knife -- クイック出血ナイフ
+310 Quick Flame Bottle [parent] Search Bullets -- クイック火炎瓶【親】検索弾
+315 Quick Black Flame jar [parent] Search Bullets -- クイック黒火炎瓶【親】検索弾
+340 Caries State _ attracting -- 蝕状態_引き寄せ
+341 Caries status _ attracting _ recovery -- 蝕状態_引き寄せ_回復
+400 [DLC] Talking stone a [fly] -- 【DLC】しゃべる石A【飛ぶ】
+401 [DLC] Talking stone a [talking] -- 【DLC】しゃべる石A【しゃべる】
+405 [DLC] talking stone b [Fly] -- 【DLC】しゃべる石B【飛ぶ】
+406 [DLC] talking stone b [talking] -- 【DLC】しゃべる石B【しゃべる】
+410 [DLC] Talking stone c [fly] -- 【DLC】しゃべる石C【飛ぶ】
+411 [DLC] Talking stone c [talking] -- 【DLC】しゃべる石C【しゃべる】
+415 [DLC] talking stone d [fly] -- 【DLC】しゃべる石D【飛ぶ】
+416 [DLC] Talking stone D [speaking] -- 【DLC】しゃべる石D【しゃべる】
+420 [DLC] Talking stone e [fly] -- 【DLC】しゃべる石E【飛ぶ】
+421 [DLC] Talking stone e [talking] -- 【DLC】しゃべる石E【しゃべる】
+500 Ordinary arrows -- 普通の矢
+501 Big arrows -- 大きな矢
+502 Feather Arrow -- 羽根矢
+503 Arrows -- 火矢
+504 Poison -- 毒矢
+505 Mon Mitsuya -- 月光矢
+506 Tree Arrow -- 木の矢
+507 The arrow of the dragon hunting -- 竜狩りの矢
+510 Ordinary arrow _ Move shot -- 普通の矢_移動撃ち
+511 Normal arrow _ Diffuse arrow 1 -- 普通の矢_拡散矢1
+512 Normal arrow _ Diffuse Arrow 2 -- 普通の矢_拡散矢2
+513 Normal arrow _ Spread Arrow 3 -- 普通の矢_拡散矢3
+514 Normal arrow Fire -- 普通の矢_連射
+540 Mantella _ Moving Shot -- 毒矢_移動撃ち
+541 Mantella _ Diffuse Arrow 1 -- 毒矢_拡散矢1
+542 Mantella _ Diffuse Arrow 2 -- 毒矢_拡散矢2
+543 Mantella _ diffusion Arrow 3 -- 毒矢_拡散矢3
+544 Mantella _ Blazing -- 毒矢_連射
+570 Dragon Hunt Arrow -- 竜狩りの矢_貫通弾
+9000 Bomb ritual: Explosive bullets around -- ボム儀式：周囲爆発弾
+9100 Bomb ritual: Target Search Bullets _ host lv.20 or less -- ボム儀式：ターゲット検索弾_ホストLv.20 以下
+9101 Bomb ritual: Target Search Bullets _ host lv.40 or less -- ボム儀式：ターゲット検索弾_ホストLv.40 以下
+9102 Bomb ritual: Target Search Bullets _ host lv.60 or less -- ボム儀式：ターゲット検索弾_ホストLv.60 以下
+9103 Bomb ritual: Target Search Bullets _ host lv.80 or less -- ボム儀式：ターゲット検索弾_ホストLv.80 以下
+9104 Bomb ritual: Target Search Bullets _ host lv.100 or less -- ボム儀式：ターゲット検索弾_ホストLv.100 以下
+9105 Bomb ritual: Target Search Bullets _ host lv.120 or less -- ボム儀式：ターゲット検索弾_ホストLv.120 以下
+9106 Bomb ritual: Target Search Bullets _ host lv.140 or less -- ボム儀式：ターゲット検索弾_ホストLv.140 以下
+9107 Bomb ritual: Target Search Bullets _ host lv.160 or less -- ボム儀式：ターゲット検索弾_ホストLv.160 以下
+9108 Bomb ritual: Target Search Bullets _ host lv.180 or less -- ボム儀式：ターゲット検索弾_ホストLv.180 以下
+9109 Bomb ritual: Target Search Bullets _ host lv.200 or less -- ボム儀式：ターゲット検索弾_ホストLv.200 以下
+9110 Bomb ritual: Target Search Bullets _ host lv.250 or less -- ボム儀式：ターゲット検索弾_ホストLv.250 以下
+9111 Bomb ritual: Target Search Bullets _ host lv.300 or less -- ボム儀式：ターゲット検索弾_ホストLv.300 以下
+9112 Bomb ritual: Target Search Bullets _ host lv.400 or less -- ボム儀式：ターゲット検索弾_ホストLv.400 以下
+9113 Bomb ritual: Target Search Bullets _ host lv.500 or less -- ボム儀式：ターゲット検索弾_ホストLv.500 以下
+9114 Bomb ritual: Target Search Bullets _ host lv.600 or less -- ボム儀式：ターゲット検索弾_ホストLv.600 以下
+9115 Bomb ritual: Target Search Bullets _ host lv.700 or less -- ボム儀式：ターゲット検索弾_ホストLv.700 以下
+9116 Bomb ritual: Target Search Bullets _ host lv.800 or less -- ボム儀式：ターゲット検索弾_ホストLv.800 以下
+9920 Oil area ablaze [system] -- 油領域炎上【システム】
+100000 Map gimmick general-purpose explosive barrels -- マップギミック汎用  爆発樽
+100010 Map gimmick general-purpose combustion -- マップギミック汎用  燃焼
+130000 Protomap Exploding Barrels -- プロトマップ　爆発する樽
+138000 Dungeon Arrows -- ダンジョン 火矢
+138001 Dungeon Arrows (Speed early) -- ダンジョン 火矢（速度早い）
+139000 Dungeon Objects _ Magic -- 地下牢 器オブジェ_魔法
+139001 Dungeon Object _ Magic (explosion) -- 地下牢 器オブジェ_魔法（爆発）
+149000 FDP proto-oil jar [toss] -- FDPプロト　油壷【投げ】
+149001 FDP proto-oil jar [impact] -- FDPプロト　油壷【着弾】
+149010 FDP proto-oil jar (obj destruction) -- FDPプロト　油壷（Obj破壊）
+149011 FDP proto-oil jar (obj destruction) [Impact] -- FDPプロト　油壷（Obj破壊）【着弾】
+149020 FDP proto Flame bottle [throw] -- FDPプロト　火炎瓶【投げ】
+149021 FDP proto flame bottle [impact] -- FDPプロト　火炎瓶【着弾】
+1070090 c1070_ New Skeleton _ a flame vase -- c1070_新スケルトン_火炎壺
+1070091 c1070_ New Skeleton _ Flame vase [Impact] -- c1070_新スケルトン_火炎壺【着弾】
+1070230 c1070_ New Skeleton _ Bow -- c1070_新スケルトン_弓
+1100800 Dead Soldier Crossbow -- 亡者兵士　クロスボウ
+1100801 Dead Soldier Flame Crossbow -- 亡者兵士　炎クロスボウ
+1100810 Dead soldier Oil Pot -- 亡者兵士　油壺
+1100811 Dead soldier oil pot [impact] -- 亡者兵士　油壺【着弾】
+1100820 Dead Soldier Flame Bottle -- 亡者兵士　火炎瓶
+1100821 Dead Soldier Flame bottle [Impact] -- 亡者兵士　火炎瓶【着弾】
+1100822 Dead Soldier Flame Bottle [impact thereafter] -- 亡者兵士　火炎瓶【着弾その後】
+1100823 Dead Soldier Flame Bottle [impact thereafter] -- 亡者兵士　火炎瓶【着弾その後のその後】
+1130700 Caries slug: caries vomiting -- 蝕ナメクジ：蝕吐き
+1130710 Caries Slug: Vomit (short) -- 蝕ナメクジ：蝕吐き(短)
+1130800 Caries slugs: Ground search bullets -- 蝕ナメクジ：地面検索弾
+1130801 Caries Slugs: damage accumulated -- 蝕ナメクジ：蝕溜まりダメージ
+1180700 Baxtenife throwing -- バクステナイフ投げ
+1180710 Knife throwing -- ナイフ投げ
+1180720 Step knife throwing -- ステップナイフ投げ
+1200190 c1200_ Dwarf Man (Hatchet/ice-Ax) _ Blowgun (1) -- c1200_矮小人（ハチェット/ ピッケル）_吹き矢（1）
+1200191 c1200_ Dwarf Man (Hatchet/ice-Ax) _ Blowgun (2) -- c1200_矮小人（ハチェット/ ピッケル）_吹き矢（2）
+1200240 c1200_ Dwarf (Hatchet/ice-AX) _ A flame pot thrower -- c1200_矮小人（ハチェット/ ピッケル）_火炎壺　投げ
+1200241 c1200_ Dwarf (Hatchet/ice-AX) _ Flame Pots landed -- c1200_矮小人（ハチェット/ ピッケル）_火炎壺　着弾
+1210340 Poison spitting -- 毒吐き
+1210360 Estrus induced test -- 発情誘発テスト
+1210370 Blue Magic 1 -- ブルー　魔法1
+1210380 Blue Magic 2 Body -- ブルー　魔法2 本体
+1210381 Blue Magic 2 Landing -- ブルー　魔法2 着弾
+1210390 Blue Range Recovery -- ブルー  範囲回復
+1220020 Firing maggots -- ウジ吐き_発射
+1220021 Maggots spitting _ Search bullets -- ウジ吐き_検索弾
+1220022 The Uzi spitting -- ウジ吐き_着弾
+1220030 Uzi hit effect Search bullets -- ウジヒットエフェクト検索弾
+1220031 Uzi hit effect -- ウジヒットエフェクト
+1230740 Projection Magic -- 投射魔法
+1240700 c1240 Poor dead _ a flame vase [throwing] -- c1240貧民亡者_火炎壺【投げ】
+1240701 c1240 Poor dead _ flame pots [Impact] -- c1240貧民亡者_火炎壺【着弾】
+1240710 c1240 Poor dead _ oil pot -- c1240貧民亡者_油壺
+1240711 c1240 Poor dead _ oil pot [Impact] -- c1240貧民亡者_油壺【着弾】
+1250700 C1250_ Poor Dead Elite _ fire-blowing -- c1250_貧民亡者エリート_火吹き
+1260700 C1260 Poor dead servant _ throwing mortar -- c1260貧民亡者下男_臼投げ
+1260701 C1260 the poor dead servant _ a mortar throw (poised) -- c1260貧民亡者下男_臼投げ（構え）
+1280700 C1280_ Shin Ojo Knight (bow): shooting -- c1280_新王城騎士（弓）：射撃
+1290150 Force -- フォース
+1290190 Pillar of Light: Wall Search -- 光の柱：壁検索
+1290191 Pillar of Light: Floor Search -- 光の柱：床検索
+1290192 Pillar of Light: Impact -- 光の柱：着弾
+1290193 Pillar of Light: shock wave at trigger -- 光の柱：発動時の衝撃波
+1290194 Pillar of Light: Wall search (short distance) -- 光の柱：壁検索（近距離）
+1290195 Pillar of Light: Wall search (target above) -- 光の柱：壁検索（ターゲット真上）
+1290330 Force -- フォース
+1290380 Axe Throwing _ Right -- 斧投擲_右
+1290381 Ax Throwing _ Left -- 斧投擲_左
+1310180 Chill Breath (parent) -- 冷気ブレス（親）
+1310181 Chill Breath (Child) -- 冷気ブレス（子）
+1310182 Chill Breath _ Decal (parent) -- 冷気ブレス_デカール（親）
+1310183 Chill Breath (Child) -- 冷気ブレス（子）
+1310700 Constant cold air (outbreak bullet) -- 常時発生冷気（発生弾）
+1310701 Constant cold air (impact) -- 常時発生冷気（着弾）
+1310710 Always raised for cold air decals -- 常時発生冷気 デカール用
+1320112 Mass of floating crystals (MP recovery bullets) -- 浮遊する結晶の塊(MP回復弾)
+1320140 High Speed straight line Magic (launch) -- 高速直線魔法（発射）
+1320141 Fast Line Magic (search) -- 高速直線魔法（検索）
+1320142 High Speed straight line magic (impact) -- 高速直線魔法（着弾）
+1320143 High Speed straight line magic (remaining) -- 高速直線魔法（残存）
+1320150 Drenched crystal bullets (parent) -- 降り注ぐ結晶弾（親）
+1320151 Drenched crystal bullets (hygiene) -- 降り注ぐ結晶弾（衛生）
+1320152 Drenched Crystal bullets (child) -- 降り注ぐ結晶弾（子）
+1320153 Falling crystal bullets (explosion) -- 降り注ぐ結晶弾（爆発）
+1320155 Falling crystal Bullets (parent): For a long distance -- 降り注ぐ結晶弾（親）：遠距離用
+1320160 Proximity explosion (Launch) -- 近接爆発（発射）
+1320161 Melee explosion (bullet) -- 近接爆発（弾）
+1320170 Crystal Wall (PC follower) -- 結晶壁（PC追従）
+1320190 Pillar of Light: Wall Search -- 光の柱：壁検索
+1320191 Pillar of Light: Floor Search -- 光の柱：床検索
+1320192 Pillar of Light: Impact -- 光の柱：着弾
+1320193 Pillar of Light: shock wave at trigger -- 光の柱：発動時の衝撃波
+1320194 Pillar of Light: Wall search (short distance) -- 光の柱：壁検索（近距離）
+1320195 Pillar of Light: Wall search (target above) -- 光の柱：壁検索（ターゲット真上）
+1340700 Soul Arrow -- ソウルの矢
+1340710 Disturbed Soul Spear -- 乱れるソウルの槍
+1340720 Oil Bullet (Straight line: Medium distance) -- 油弾(直線：中距離)
+1340730 Oil Bullets (Nagi) -- 油弾(なぎ払い)
+1340740 Oil Bullet (Straight line: short distance) -- 油弾(直線：近距離)
+1380700 Magic Attack (weak) -- 魔法攻撃（弱）
+1380710 Magic Attack (Strong) -- 魔法攻撃（強）
+1390400 The assassin of the c1390_ Snake: Breath -- c1390_蛇人の暗殺者：ブレス
+1391032 C1391_ Snake man Assassin (Kusarigama): a3002 return -- c1391_蛇人の暗殺者（鎖鎌）：a3002戻り
+1391060 Assassins of C1391_ (Kusarigama): Flame -- c1391_蛇人の暗殺者（鎖鎌）：火炎
+1391061 C1391_ Snake man Assassin (Kusarigama): Poison Mist -- c1391_蛇人の暗殺者（鎖鎌）：毒霧
+1391132 C1391_ Snake man Assassin (Kusarigama): a3014 return -- c1391_蛇人の暗殺者（鎖鎌）：a3014戻り
+1391140 C1391_ Snake man Assassin (Kusarigama): a3015 return -- c1391_蛇人の暗殺者（鎖鎌）：a3015戻り
+1391141 C1391_ Snake man Assassin (Kusarigama): a3016 return -- c1391_蛇人の暗殺者（鎖鎌）：a3016戻り
+1391150 C1391_ Snake man Assassin (Kusarigama): a3017 return -- c1391_蛇人の暗殺者（鎖鎌）：a3017戻り
+1391151 C1391_ Snake man Assassin (Kusarigama): a3018 return -- c1391_蛇人の暗殺者（鎖鎌）：a3018戻り
+1410300 c1410_ Silver Knight: shooting -- c1410_銀騎士：射撃
+1410310 c1410_ Silver Knight: Cumshots -- c1410_銀騎士：強射
+2070700 Breath (with Porotsu) -- ブレス（ポロッと）
+2070710 Breath (continued) -- ブレス（継続）
+2080130 Poison Blood spitting _ firing -- 毒血吐き_発射
+2080131 Poison Blood Spitting _ landing -- 毒血吐き_着弾
+2090700 Straight Breath -- 直線ブレス
+2090710 Whack Breath -- 薙ぎブレス
+2090720 Air Breath -- 空中ブレス
+2100700 c2000_ Drifting stuff: spit something out -- c2000_漂うもの：何かを吐く
+2120130 Spitting Spit -- 唾吐き
+2140010 Petrified Breath -- 石化ブレス
+2140020 Jump & Breath -- ジャンプ＆ブレス
+2140021 Jump & Breath Landing -- ジャンプ＆ブレス 着弾
+2180040 C2180_ Maggots: Vomit spitting _ firing -- c2180_蛆人：ゲロ吐き_発射
+2180110 C2180_ Maggots: Magic -- c2180_蛆人：魔法
+2180200 C2180_ Maggots: Fire spreading -- c2180_蛆人：延焼
+2190700 C2190_ Gargoyle (Light): Saigi -- c2190_ガーゴイル（灯火）：薙ぎ払い炎玉
+2190701 C2190_ Gargoyle (Light): Saigi Flame Ball -- c2190_ガーゴイル（灯火）：薙ぎ払い炎玉その後
+2190702 C2190_ Gargoyle (Light): Saigi Flame Ball then afterwards -- c2190_ガーゴイル（灯火）：薙ぎ払い炎玉その後その後
+2190705 C2190_ Gargoyle (Light): Additional Saigi -- c2190_ガーゴイル（灯火）：追加薙ぎ払い炎玉
+2190706 C2190_ Gargoyle (Light): Whack Falling flame ball -- c2190_ガーゴイル（灯火）：薙ぎ下がり炎玉
+2190710 C2190_ Gargoyle (Light): Slams: Fire spray -- c2190_ガーゴイル（灯火）：叩きつけ：火飛沫
+2190711 C2190_ Gargoyle (Light): slams: Fire splashes then -- c2190_ガーゴイル（灯火）：叩きつけ：火飛沫その後
+2190720 C2190_ Gargoyle (Light): large ignition (fire splashes) _ Before -- c2190_ガーゴイル（灯火）：大発火（火飛沫）_前
+2190721 C2190_ Gargoyle (Light): large ignition (fire splashes) _ Right -- c2190_ガーゴイル（灯火）：大発火（火飛沫）_右
+2190722 C2190_ Gargoyle (Light): large ignition (fire splashes) _ Left -- c2190_ガーゴイル（灯火）：大発火（火飛沫）_左
+2190730 C2190_ Gargoyle (Light): Fire attack from above -- c2190_ガーゴイル（灯火）：上空から発火攻撃
+2210500 c2210_ Zombie Crow (Cane upper): insane _ Firing bullets -- c2210_ゾンビカラス（杖アッパー）：発狂させ_発射弾
+2210501 c2210_ Zombie Crow (Cane upper): insane _ Spreading bullets -- c2210_ゾンビカラス（杖アッパー）：発狂させ_拡散弾
+2210510 c2210_ Zombie Crow (Cane upper): Magic (fire arrows) -- c2210_ゾンビカラス（杖アッパー）：魔法（炎の矢）
+2210540 c2210_ Zombie Crow (Cane upper): Magic (Sangi Flame) -- c2210_ゾンビカラス（杖アッパー）：魔法（薙ぎ払う炎）
+2210541 c2210_ Zombie Crow (Cane upper): Magic (Sangi Flame) -- c2210_ゾンビカラス（杖アッパー）：魔法（薙ぎ払う炎）
+2230200 c2230_ Shing: Petrified Mist (forward) -- c2230_獄吏：石化の霧（前方）
+2230210 c2230_ Shing: Petrified Mist (range) Firing bullets -- c2230_獄吏：石化の霧（範囲）　発射弾
+2230211 C2230_ Shing: Mist of petrified (range) Spread bullets -- c2230_獄吏：石化の霧（範囲）　拡散弾
+2230700 Quick Turn Nakaishi breath (right turn) -- クイックターン中石化ブレス（右回転）
+2230701 Quick Turn Nakaishi breath (left turn) -- クイックターン中石化ブレス（左回転）
+2230900 Long Distance Magic: Sniper (tentative) _ Search Bullets -- 遠距離魔法：スナイパー（仮）_検索弾
+2230901 Long Distance Magic: Sniper (Provisional) _ Spread Bullets -- 遠距離魔法：スナイパー（仮）_拡散弾
+2230902 Long Distance Magic: Sniper (Provisional) _ Projectile -- 遠距離魔法：スナイパー（仮）_発射弾
+2240112 C2240_ Full Armor Beast: Sand Dust (Saigi) -- c2240_フルアーマー獣：砂埃（薙ぎ払い）
+2240176 C2240_ Full Armor beast: Snowstorm Breath -- c2240_フルアーマー獣：吹雪ブレス
+2240260 Always raised for cold air decals -- 常時発生冷気 デカール用
+2250700 c2250_ Tindalos: Thunder Breath (Search bullets) -- c2250_ティンダロス：雷ブレス(検索弾）
+2250701 c2250_ Tindalos: Thunder Breath (Derived 1) -- c2250_ティンダロス：雷ブレス（派生１）
+2250702 c2250_ Tindalos: Thunder Breath (Derived 2) -- c2250_ティンダロス：雷ブレス（派生２）
+2250703 c2250_ Tindalos: Thunder Breath (Derived 3) -- c2250_ティンダロス：雷ブレス（派生３）
+2250704 c2250_ Tindalos: Thunder Breath (derived 4) -- c2250_ティンダロス：雷ブレス（派生４）
+2260700 Barista: Search -- バリスタ：検索
+2260701 Varistor: Impact (Splash) -- バリスタ：着弾（水しぶき）
+2270110 c2270_ Stench Crab: Bubble spitting (firing) -- c2270_死臭蟹：泡吐き（発射）
+2270111 c2270_ Stench Crab: Bubble spitting (impact) -- c2270_死臭蟹：泡吐き（着弾）
+3050700 Breath: Straight Wind -- ブレス：直風
+3050701 Breath: Hot air 1 -- ブレス：熱風１
+3050710 Immediate breath: Straight Wind -- 直下ブレス：直風
+3050711 Immediate breath: Hot air 1 -- 直下ブレス：熱風１
+3050720 Like a flying flame -- 飛び散る炎のようなもの
+3050721 Like a flying flame -- 飛び散る炎のようなもの
+3060700 Breath: Fire -- ブレス：出火
+3060701 Breath: Divergent -- ブレス：末広がり
+3060710 General explosion -- 汎用爆発
+3060800 Walking breath: Drop it down -- 歩きブレス：下に落とす
+3060801 Walk breath: Leave at your feet -- 歩きブレス：足元に残す
+3070700 The Great Fire ball of chaos -- 混沌の大火球_発射弾
+3070720 The Great storm of chaos _ firing bullets -- 混沌の大嵐_発射弾
+3080700 Scales rain: Fixed -- 鱗粉の雨：固定
+3080701 Scales Rain: Bullets -- 鱗粉の雨：弾
+3080710 Big God soldier Laser: Laser -- 巨神兵レーザー：レーザー
+3080711 Big God soldier Laser: Lingering -- 巨神兵レーザー：余韻
+3080712 Big God soldier Laser: Impact -- 巨神兵レーザー：着弾
+3080720 High-speed explosion: Bullet -- 低速大爆発蝕弾：弾
+3080721 High-speed explosion: Impact -- 低速大爆発蝕弾：着弾
+3100011 A search grenade from the right hand -- 右手から出る水晶_検索弾
+3100012 The crystal that comes out of the right -- 右手から出る水晶_前兆弾
+3100013 The crystal that comes out of the right hand -- 右手から出る水晶_判定弾
+3100021 Search bullets from the left hand crystal -- 左手からでる水晶_検索弾
+3100022 The crystal that comes from the left hand -- 左手からでる水晶_前兆弾
+3100023 Judging bullets from the left hand -- 左手からでる水晶_判定弾
+3100051 Slams _ Crystal Search bullets -- 叩きつけ_結晶検索弾
+3100052 Slams _ Crystal Determination bullets -- 叩きつけ_結晶判定弾
+3100061 Dive _ Crystal Search Bullets -- 飛び込み_結晶検索弾
+3100062 Dive _ Crystal Determination bullets -- 飛び込み_結晶判定弾
+3100070 Breath -- ブレス
+3100071 Breath _ Crystal Search bullets -- ブレス_結晶検索弾
+3100072 Breath _ Crystal Determination bullets -- ブレス_結晶判定弾
+3110700 Caries vomiting -- 蝕吐き
+3110710 Smokescreen -- 煙幕
+3120700 Magic 1: Force -- 魔法１：フォース
+3120710 Magic 2: Soul Restraints: Search -- 魔法２：魂縛り：検索
+3120711 Magic 2: Soul Restraints: Judgement -- 魔法２：魂縛り：判定
+3140010 For eclipse Dripping decal -- 蝕ポタポタ デカール用
+3140500 Straight Breath _ Breath -- 直線ブレス_ブレス
+3140501 Straight Breath _ Breath (search) -- 直線ブレス_ブレス（検索）
+3140502 Straight Breath _ Breath (impact) -- 直線ブレス_ブレス（着弾）
+3140510 Saigi Bless _ Breath -- 薙ぎ払いブレス_ブレス
+3140511 Saigi Bless (search) -- 薙ぎ払いブレス_ブレス（検索）
+3140512 Saigi Breath _ Breath (impact) -- 薙ぎ払いブレス_ブレス（着弾）
+3140520 Immediate breath _ Breath -- 直下ブレス_ブレス
+3140521 Immediate Breath _ Breath (search) -- 直下ブレス_ブレス（検索）
+3140522 Immediate breath _ Breath (impact) -- 直下ブレス_ブレス（着弾）
+3140530 Glide Breath _ Breath -- 滑空ブレス_ブレス
+3140531 Glide Breath _ Breath (search) -- 滑空ブレス_ブレス（検索）
+3140532 Glide Breath _ Breath (impact) -- 滑空ブレス_ブレス（着弾）
+3140540 Hashimoto _ Swirling Breath _ bless ① -- 橋下_旋回ブレス_ブレス①
+3140541 Hashimoto _ Swirling Breath _ Breath ① (search) -- 橋下_旋回ブレス_ブレス①（検索）
+3140542 Hashimoto _ Swirling Breath _ breath ① (Impact) -- 橋下_旋回ブレス_ブレス①（着弾）
+3140550 Hashimoto _ Swirling Breath _ bless ② -- 橋下_旋回ブレス_ブレス②
+3140551 Hashimoto _ Swirling Breath _ Breath ② (search) -- 橋下_旋回ブレス_ブレス②（検索）
+3140552 Hashimoto _ Swirling Breath _ breath ② (Impact) -- 橋下_旋回ブレス_ブレス②（着弾）
+3140560 Climb 2_ appearance _ on the tower → Square _ breath -- 登る2_登場_塔上→広場_ブレス
+3140562 Climb 2_ appearance _ on tower → Square _ breath (impact) -- 登る2_登場_塔上→広場_ブレス（着弾）
+3140570 Climb 2_ another tower → square → breath withdrawal _ breath -- 登る2_別塔→広場→ブレス撤退_ブレス
+3140572 Climb 2_ Betto → square → breath withdrawal _ breath (impact) -- 登る2_別当→広場→ブレス撤退_ブレス（着弾）
+3140581 Rampage Breath A_ Ground (impact) -- 暴れブレスA_地面（着弾）
+3140582 Rampage Breath A_ Ground (decal) -- 暴れブレスA_地面（デカール）
+3140591 Rampage Breath b_ Ground (impact) -- 暴れブレスB_地面（着弾）
+3140592 Rampage Breath b_ Ground (decal) -- 暴れブレスB_地面（デカール）
+3140630 Rampage Breath b_ Ground Passage (impact) -- 暴れブレスB_地面通路（着弾）
+3140631 Rampage Breath b_ Ground Passage (decal) -- 暴れブレスB_地面通路（デカール）
+3140640 Rampage Breath A_ Ground Determination small (impact) -- 暴れブレスA_地面判定小（着弾）
+3140641 Rampage Breath A_ Ground Determination small (decal) -- 暴れブレスA_地面判定小（デカール）
+3140650 Rampage Breath B_ Ground Determination small (impact) -- 暴れブレスB_地面判定小（着弾）
+3140651 Rampage Breath B_ Ground Determination small (decal) -- 暴れブレスB_地面判定小（デカール）
+3140652 Rampage Breath B_ Ground Determination large (impact) -- 暴れブレスB_地面判定大（着弾）
+3140653 Rampage Breath B_ Ground Determination large (decal) -- 暴れブレスB_地面判定大（デカール）
+3140667 Withdrawal Breath _ Ground (impact) -- 撤退ブレス_地面（着弾）
+3140668 Withdrawal Breath _ Ground (decal) -- 撤退ブレス_地面（デカール）
+3140677 Bonfire Bless _ Ground (impact) -- 篝火ブレス_地面（着弾）
+3140678 Bonfire Breath _ Ground (decal) -- 篝火ブレス_地面（デカール）
+3140687 Left side Breath _ Ground (impact) -- 左側面ブレス_地面（着弾）
+3140688 Left side Breath _ Ground (decal) -- 左側面ブレス_地面（デカール）
+3160700 Arts: Shockwave -- アーツ：衝撃波
+5010700 Widespread storm whack: search bullets -- 広範囲嵐薙ぎ：検索弾
+5010701 Widespread storm whack: damage -- 広範囲嵐薙ぎ：ダメージ
+5010710 Wide range Storm whack second stage: Search bullets -- 広範囲嵐薙ぎ2段目：検索弾
+5010711 Wide range Storm whack second stage: damage -- 広範囲嵐薙ぎ2段目：ダメージ
+5010720 Shock Wave (line): Damage -- 衝撃波（直線）：ダメージ
+5030700 Vertical Breath -- 垂直ブレス
+5030701 Flame: Divergent -- 火炎：末広がり
+5030710 Flapping attack: Tornado -- 羽ばたき攻撃：竜巻
+5030711 Flapping attack: Tornado landed -- 羽ばたき攻撃：竜巻_着弾
+5120710 Eclipse explosion -- 蝕爆発
+5120720 Caries Accumulation _ Search: Scattered Small -- 蝕溜まり_検索:散らばり小
+5120721 Accumulation of caries -- 蝕溜まり_着弾
+5120730 Caries Accumulation _ Search: Scattered Dai -- 蝕溜まり_検索:散らばり大
+5120800 Walking _ Body Damage -- 歩行_胴体ダメージ
+5120810 Traveling _ Body Damage -- 走行_胴体ダメージ
+5150700 Induction bullet: Weak waiting -- 誘導弾：待機誘導弱め
+5150701 Guided bullets: guiding and strengthening slowly -- 誘導弾：誘導強めゆっくり進む
+5150702 Guided bullets: Induction weakens quickly -- 誘導弾：誘導弱め早くすすむ
+5150710 Whack Diffusion bullets -- 薙ぎ拡散弾
+5150720 Long Penetrating Magic -- 遠距離貫通魔法
+5150730 Grave King's great Elementalers: signs-Outbreak bullets -- 墓王の大剣舞：予兆-発生弾
+5150731 Grave King's great Elementalers: signs _ Multiple -- 墓王の大剣舞：予兆_複数
+5150732 Grave King Elementalers: main body -- 墓王の大剣舞：本体
+5150740 NITs large explosion -- ニト大爆発
+5160060 Miasma breath (before HU) -- 瘴気ブレス（HU前）
+5160061 Miasma breath (before HU) -- 瘴気ブレス（HU前）
+5160303 Grave King Elementalers (outbreak bullet) -- 墓王の大剣舞（発生弾）
+5170010 Breath -- ブレス
+5180430 The real mystery: throwing -- 謎の実：投擲
+5180431 The real mystery: impact -- 謎の実：着弾
+5180800 Cursed Colossus: Mystery juice -- 呪われた巨像：謎の汁
+5190700 They yell -- 大声で叫ぶ
+5190710 Kensaki Shockwave: Search -- 剣先衝撃波:検索
+5190711 Kensaki Shock Wave: Impact -- 剣先衝撃波:着弾
+5220700 Fireball -- 火球
+5220800 Curse helmeted -- 呪詛の号令
+5221700 Fireball -- 火球
+5221710 Force -- フォース
+5221800 Curse _ Parents -- 呪詛_親
+5221801 Curse _ Child -- 呪詛_子
+5222700 Fireball -- 火球
+5223700 Fireball -- 火球
+5230070 Passage Breath 1: Wait C -- 通路ブレス１：待機C
+5230071 Passage Breath 1: Standby c_ Impact 1 -- 通路ブレス１：待機C_着弾1
+5230072 Passage Breath 1: Standby c_ Impact 2 -- 通路ブレス１：待機C_着弾2
+5230130 Outside stair breath: wait F -- 外階段ブレス：待機F
+5230200 Outside stair breath: wait g -- 外階段ブレス：待機G
+5230210 Bell tower Breath: Wait F -- 鐘楼ブレス：待機F
+5230220 Bell tower Breath: Wait g -- 鐘楼ブレス：待機G
+5230250 Poke/Single Passage breath 2: Wait C -- 突く・単通路ブレス２：待機C
+5230260 Passage Breath 3: Wait C -- 通路ブレス３：待機C
+5230261 Passage Breath 3: Standby c_ Impact 1 -- 通路ブレス３：待機C_着弾1
+5230280 Chasing PC while blessing -- ブレスしつつPCを追う
+5230320 Breath down the stairs: wait D -- 階段下方にブレス：待機D
+5240100 c5240_ Moonlight Witch: Always Torches -- c5240_月光の魔女：常時松明
+5240110 C5240_ Moonlight Witch: Earth Disgrace (ground Search) -- c5240_月光の魔女：地面汚し（地面検索）
+5240111 c5240_ Moonlight Witch: Ground Disgrace (land landing) -- c5240_月光の魔女：地面汚し（地面着弾）
+5240200 c5240_ Moonlight Witch: Long Distance Magic (fire) -- c5240_月光の魔女：掲げ時 遠距離魔法（発射）
+5240201 c5240_ Moonlight Witch: Long Distance Magic (search) -- c5240_月光の魔女：掲げ時 遠距離魔法（検索）
+5240202 c5240_ Moonlight Witch: Long Distance Magic (impact) -- c5240_月光の魔女：掲げ時 遠距離魔法（着弾）
+5240203 c5240_ Moonlight Witch: Long Distance Magic (impact) -- c5240_月光の魔女：掲げ時 遠距離魔法（着弾）
+5240210 C5240_ Moonlight Witch: Pillar (warning) -- c5240_月光の魔女：火柱（予兆）
+5240211 C5240_ Moonlight Witch: Pillar (main body) -- c5240_月光の魔女：火柱（本体）
+5240212 C5240_ Moonlight Witch: Pillar (ground) -- c5240_月光の魔女：火柱（地面）
+5240220 C5240_ Moonlight Witch: Guided Bullets -- c5240_月光の魔女：誘導弾
+5240230 c5240_ Moonlight Witch: Spread bullets -- c5240_月光の魔女：拡散弾
+5240240 c5240_ Moonlight Witch: Nagi Flame -- c5240_月光の魔女：なぎ払う炎
+5270140 c5270_ Tracker _3014 explosion -- c5270_追跡者_3014蝕爆発
+5270151 c5270_ Tracker _3015 left (90 degrees turning) pillar [parents] -- c5270_追跡者_3015左旋回攻撃（90度旋回）　火柱【親】
+5270152 C5270_ Tracker _3015 left attack (90 degrees turning) pillar 【 child 】 -- c5270_追跡者_3015左旋回攻撃（90度旋回）　火柱【子】
+5270520 c5270_ tracker _100_3002 [HU] Eclipse explosion two-stage warning -- c5270_追跡者_100_3002[HU]蝕爆発二段 予兆爆発
+5270521 c5270_ tracker _100_3002 [HU] Eclipse explosion stage explosion -- c5270_追跡者_100_3002[HU]蝕爆発二段 爆発
+5270721 c5270_ tracker _100_3022 [HU] right attack (90 degree swivel) caries pillar [parent] -- c5270_追跡者_100_3022[HU]右旋回攻撃(90度旋回) 蝕柱【親】
+5270722 c5270_ tracker _100_3022 [HU] right attack (90 degree swivel) (child) -- c5270_追跡者_100_3022[HU]右旋回攻撃(90度旋回) 蝕柱【子】
+5270731 c5270_ tracker _100_3023 [HU] left attack (90 degree turning) flame pillar [Parent] -- c5270_追跡者_100_3023[HU]左旋回攻撃（90度旋回） 炎柱【親】
+5270732 c5270_ tracker _100_3023 [HU] left attack (90 degree turning) flame pillar [child] -- c5270_追跡者_100_3023[HU]左旋回攻撃（90度旋回） 炎柱【子】
+9990730 Vanguards of c9990_: the Arrow of Seoul -- c9990_蝕の尖兵：ソウルの矢

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>LOCK_CAM_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 CamDistTarget" />
+    <Field Def="f32 rotRangeMinX" />
+    <Field Def="f32 lockRotXShiftRatio" />
+    <Field Def="f32 chrOrgOffsetZ" />
+    <Field Def="f32 chrLockRangeMaxRadius" />
+    <Field Def="f32 FovYChange" />
+    <Field Def="f32 ChrLockRangeMaxRadius_forDark" />
+    <Field Def="f32 ChrLockRangeMaxRadius_forPitchDark" />
+    <Field Def="f32 MeleeAttackCaptureUpperLimitHeight" />
+    <Field Def="f32 AttackCaptureLowerLimitHeight" />
+    <Field Def="f32 AttackAutoAcquisitionAngleRangeLeft" />
+    <Field Def="f32 MeleeAttackAutoAcquisitionCharacterRangeMaximumRadius" />
+    <Field Def="f32 MeleeAttackAutoAcquisitionDarkCharacterRangeMaximumRadius" />
+    <Field Def="f32 ProximityAttackAutoAcquisitionCharacterRangeForPureDarknessMaximumRadius" />
+    <Field Def="f32 BulletAutoCaptureCharacterRangeMaximumRadius" />
+    <Field Def="f32 BulletAutoCaptureDarkCharacterRangeMaximumRadius" />
+    <Field Def="f32 BulletAutomaticCaptureCharacterRangeRorPureDarknessMaximumRadius" />
+    <Field Def="f32 BulletAutoCapturingAngleRangeLeftAndRight" />
+    <Field Def="dummy8 pad1[28]" />
+  </Fields>
+</PARAMDEF>

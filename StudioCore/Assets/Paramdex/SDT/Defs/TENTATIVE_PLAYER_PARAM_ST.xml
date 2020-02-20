@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>TENTATIVE_PLAYER_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Foot Effect Size Scale" />
+    <Field Def="f32 Player Transparency While Aiming [sec]" />
+    <Field Def="f32 Players ~ Tougou Xizi Ginsengzaki Correction Value" />
+    <Field Def="u16 Maximum Decease Level Possible" />
+    <Field Def="u8 Unk1" />
+    <Field Def="u8 Giant Tree Seed Lottery Condition 1" />
+    <Field Def="s32 Acquisition of a mouthpiece item&gt; Young" />
+    <Field Def="s32 Treasure box item acquisition" />
+    <Field Def="s32 LoadOfCinderSpEffect1" />
+    <Field Def="s32 LoadOfCinderSpEffect2" />
+    <Field Def="s32 LoadOfCinderSpEffect3" />
+    <Field Def="s32 LoadOfCinderSpEffect4" />
+    <Field Def="s32 LoadOfCinderSpEffect5" />
+    <Field Def="f32 Damage Reduction [0:1]" />
+    <Field Def="f32 Status shortage Stamina budget plant">
+      <Description>StaminaConsumeRate</Description>
+    </Field>
+    <Field Def="s16 StaggerGlobalValue = 1" />
+    <Field Def="u16 CalcCorrectGraph" />
+    <Field Def="s32 LoadOfCinderSpEffect1 (Hinasaki)" />
+    <Field Def="s32 LoadOfCinderSpEffect2 (Hinasaki)" />
+    <Field Def="s32 LoadOfCinderSpEffect3 (Hinasaki)" />
+    <Field Def="s32 LoadOfCinderSpEffect4 (Hinasaki)" />
+    <Field Def="s32 LoadOfCinderSpEffect5 (Hinasaki)" />
+    <Field Def="s32 StaminaConsumeCondition" />
+    <Field Def="s32 Unk12" />
+    <Field Def="f32 HP/MP_EstusAllocateRate" />
+    <Field Def="u8 GiantTreeSeedLotteryCondition 2" />
+    <Field Def="u8 Giant Tree Seed Lottery" />
+    <Field Def="u8 GestureValue?" />
+    <Field Def="u8 EquipLoadParameter1" />
+    <Field Def="u8 EquipLoadParameter2" />
+    <Field Def="u8 EquipLoadParameter3" />
+    <Field Def="u8 EquipLoadParameter4" />
+    <Field Def="u8 EquipLoadParameter5" />
+    <Field Def="s32 ChrFinder.UpdateTeamTypeByGiantTreeSeedEffect" />
+    <Field Def="s32 MultiPlayerSuccessEffectId" />
+    <Field Def="s32 RangeWeaponPartsLoader" />
+    <Field Def="u8 ArrowLimitWpPrm1" />
+    <Field Def="u8 ArrowLimitWpPrm2" />
+    <Field Def="u8 Unk2" />
+    <Field Def="u8 Unk3" />
+    <Field Def="f32 PlayerResistVal1" />
+    <Field Def="f32 PlayerResistVal2" />
+    <Field Def="f32 PlayerResistVal3" />
+    <Field Def="f32 PlayerResistVal4" />
+    <Field Def="f32 PlayerResistVal5" />
+    <Field Def="f32 PlayerResistVal6" />
+    <Field Def="f32 PlayerResistVal7" />
+    <Field Def="f32 PlayerResistVal8" />
+    <Field Def="f32 PlayerResistVal9" />
+    <Field Def="f32 PlayerResistVal10" />
+    <Field Def="f32 ActionRequest" />
+    <Field Def="s32 BossDefeatEmberSpEffectId" />
+    <Field Def="f32 PvPMatchMpEstusAllocationRate" />
+    <Field Def="s32 PvPMatchMpEstus" />
+    <Field Def="f32 PvPMatchHpEstusAllocationRate" />
+    <Field Def="s32 PvPMatchHpEstus" />
+    <Field Def="f32 PvPMatchHp/MpEstusAllocationRate" />
+    <Field Def="s32 PvPMatchHp/MpEstus" />
+    <Field Def="f32 HpEstusAllocateRate" />
+    <Field Def="s32 HpEstusAllocateNum" />
+    <Field Def="f32 MpEstusAllocateRate" />
+    <Field Def="s32 MpEstusAllocateNum" />
+    <Field Def="s32 Unk4" />
+    <Field Def="dummy8 pad1[52]" />
+  </Fields>
+</PARAMDEF>

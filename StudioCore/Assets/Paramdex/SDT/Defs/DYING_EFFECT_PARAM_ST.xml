@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>DYING_EFFECT_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 DyingEffectInit0" />
+    <Field Def="f32 DyingEffectInit1" />
+    <Field Def="f32 Unk" />
+    <Field Def="f32 DyingEffect_Death" />
+    <Field Def="f32 DyingEffect_Revive" />
+    <Field Def="dummy8 pad[12]" />
+  </Fields>
+</PARAMDEF>

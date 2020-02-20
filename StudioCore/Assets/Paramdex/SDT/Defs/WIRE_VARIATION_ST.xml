@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>WIRE_VARIATION_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s8 WireType" />
+    <Field Def="u8 ComprasionValue" />
+    <Field Def="dummy8 pad1[2]" />
+    <Field Def="f32 InitHomingAngle1" />
+    <Field Def="f32 InitHomingAngle2" />
+    <Field Def="f32 InitHomingAngle3" />
+    <Field Def="f32 InitHomingAngle4" />
+    <Field Def="s32 ChrPhysicsHomingParamSubId" />
+    <Field Def="dummy8 pad2[8]" />
+  </Fields>
+</PARAMDEF>

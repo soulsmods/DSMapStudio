@@ -1,0 +1,1529 @@
+0 Dummy Bullets -- ダミー弾丸
+4 Automatic Cyclic object destruction -- 自動巡回オブジェ破壊用
+5 Dummy attack to keep bullets out -- 弾丸出し続ける用ダミー攻撃
+10 Pc_ Common _ Egg attack -- PC_共通_卵攻撃
+40 Common attack [Ladder _ right Punch] -- 共通攻撃【ハシゴ_右パンチ】
+41 Common attack [ladder _ Right Kick] -- 共通攻撃【ハシゴ_右キック】
+42 Common attack [Ladder _ left Punch] -- 共通攻撃【ハシゴ_左パンチ】
+43 Common attack [Ladder _ left Kick] -- 共通攻撃【ハシゴ_左キック】
+44 Common attack [Ladder _ Slide down] -- 共通攻撃【ハシゴ_滑り降り】
+101 System: Attack magnification for menu display -- 【システム】メニュー表示用攻撃倍率
+200 Common attack [falling] _ Attack Armor -- 共通攻撃【落下】_攻撃防具
+201 Common attack [Landing] _ Attack Armor -- 共通攻撃【着地】_攻撃防具
+202 Common attack [Thud landing] _ attack Armor -- 共通攻撃【ドスン着地】_攻撃防具
+203 Common attack (Fall Landing) _ Attack Armor -- 共通攻撃【転倒着地】_攻撃防具
+204 Common attack [Rolling] _ Attack Armor -- 共通攻撃【ローリング】_攻撃防具
+205 Common attack [Summon] _ Attack Armor -- 共通攻撃【召喚】_攻撃防具
+206 Common attack [falling on back] _ Attack Armor -- 共通攻撃【仰向け落下】_攻撃防具
+210 Common attack [before push] _ attack Armor -- 共通攻撃【プッシュ前】_攻撃防具
+211 Common attack [later blows] _ attack Armor -- 共通攻撃【後へ吹っ飛ぶ】_攻撃防具
+212 Common attack [吹tsu飛bimasu] _ Attack Armor -- 共通攻撃【前に吹っ飛び】_攻撃防具
+213 Common attacks [after push] _ attack Armor -- 共通攻撃【プッシュ後】_攻撃防具
+220 Common attack [throwing] _ Attack armor -- 共通攻撃【投げ】_攻撃防具
+221 Common attack [Strong throw] _ Attack Armor -- 共通攻撃【強投げ】_攻撃防具
+222 Common attack [Paris slams] _ Attack armor -- 共通攻撃【パリィ叩きつけ】_攻撃防具
+300 Common attack [falling] -- 共通攻撃【落下】
+301 Common attack [landing] -- 共通攻撃【着地】
+302 Common attack [Thud landing] -- 共通攻撃【ドスン着地】
+303 Common attack (Fall Landing) -- 共通攻撃【転倒着地】
+304 Common attack [rolling] -- 共通攻撃【ローリング】
+305 Common attack [Summon] -- 共通攻撃【召喚】
+306 Common attack [falling on back] -- 共通攻撃【仰向け落下】
+310 Common attack [before push] -- 共通攻撃【プッシュ前】
+311 Common attack [later blows] -- 共通攻撃【後へ吹っ飛ぶ】
+312 Common attack [吹tsu飛bimasu] -- 共通攻撃【前に吹っ飛び】
+313 Common attack after push -- 共通攻撃【プッシュ後】
+320 Common attack [throwing] -- 共通攻撃【投げ】
+321 Common attack [strong throw] -- 共通攻撃【強投げ】
+322 Common attack [Paris slams] -- 共通攻撃【パリィ叩きつけ】
+900 return blood of Poison -- 毒の返り血
+1050 Damage for throwing knives -- 投げナイフ用ダメージ
+1052 Fire Bottle Damage -- 火炎瓶用ダメージ
+1054 Black Flame Bottle Damage -- 黒火炎瓶用ダメージ
+1055 Flame Bottle Body -- 火炎瓶本体
+1200 Quick Throw knife damage -- クイック投げナイフ用ダメージ
+1201 Test: Poison-throwing knife damage -- テスト：毒投げナイフ用ダメージ
+2000 Ordinary arrows -- 普通の矢
+2010 Ordinary arrow _ Move shot -- 普通の矢_移動撃ち
+2020 normal arrows Diffuse -- 普通の矢_拡散
+2030 Normal arrow Fire -- 普通の矢_連射
+2100 Big arrows -- 大きな矢
+2200 Feather Arrow -- 羽根矢
+2300 Arrows -- 火矢
+2400 Poison -- 毒矢
+2410 Mantella _ Moving Shot -- 毒矢_移動撃ち
+2420 Mantella _ Diffuse -- 毒矢_拡散
+2430 Mantella _ Blazing -- 毒矢_連射
+2500 Mon Mitsuya -- 月光矢
+2600 Tree Arrow -- 木の矢
+2700 The Dragon Hunting Oya -- 竜狩りの大矢
+2710 The Dragon hunting of Ohya _ through bullets -- 竜狩りの大矢_貫通弾
+10000 Soul Arrow -- ソウルの矢
+10001 Seoul Arrow Double Chanting -- ソウルの矢二重詠唱
+10010 Strong Soul Arrow -- 強いソウルの矢
+10020 Seoul's Thick Arrow -- ソウルの太矢
+10021 Seoul Heavy Arrow Double chanting -- ソウルの太矢二重詠唱
+10022 Double chanting in Seoul -- ソウルの太矢二重詠唱派生
+10030 Strong Soul -- 強いソウルの太矢
+10080 En bullet D -- EN弾Ｄ
+10090 En bullet D2 -- EN弾Ｄ２
+10100 The mass of the chasing soul -- 追尾するソウルの塊
+10101 The mass of the chasing soul: bullets -- 追尾するソウルの塊：弾
+10110 The Great Sword of Seoul (right) -- ソウルの大剣（右）
+10111 The Great Sword of Seoul (left) -- ソウルの大剣（左）
+10120 Quick Soul Arrow -- クイックソウルの矢
+12000 Summon One -- 召喚1
+12001 1_ Summon Resonance Lv1 -- 召喚1_共鳴LV1
+12002 1_ Summon Resonance Lv2 -- 召喚1_共鳴LV2
+12003 1_ Summon Resonance Lv3 -- 召喚1_共鳴LV3
+12010 Summon 2 -- 召喚2
+12011 2_ Summon Resonance Lv1 -- 召喚2_共鳴LV1
+12012 2_ Summon Resonance Lv2 -- 召喚2_共鳴LV2
+12013 2_ Summon Resonance Lv3 -- 召喚2_共鳴LV3
+13000 Fireball -- 火球
+13001 Fireball Double Chanting -- 火球二重詠唱
+13002 Fire Ball double chanting derivation -- 火球二重詠唱派生
+13010 Fireball -- 火の玉
+13011 Fireball Double Chanting -- 火の玉二重詠唱
+13012 Fireball Double Chanting Derivation -- 火の玉二重詠唱派生
+13020 A strong fireball -- 強い火の玉
+13030 Chaos _ Fireball -- カオス_ファイアボール
+13040 Chaos _ Fire Ball [lava] -- カオス_ファイアボール【溶岩】
+14000 Fire -- 発火
+14001 Firing double Chanting -- 発火二重詠唱
+14010 Proximity Flames 2 -- 近接炎2
+14020 Proximity Flames 3 -- 近接炎3
+15000 Firestorm 1 -- ファイアストーム1
+15001 Firestorm 1 Double Chant -- ファイアストーム1二重詠唱
+15010 Firestorm 2 -- ファイアストーム2
+15020 Chaos _ Firestorm -- カオス_ファイアストーム
+15030 Chaos _ Firestorm [lava] -- カオス_ファイアストーム【溶岩】
+16000 Lightning 1 [Parent] -- 雷1【親】
+16001 Thunder 1 [Child] -- 雷1【子】
+16002 Thunder 1 [grandchild] -- 雷1【孫】
+16003 Thunder 1 [grandson] -- 雷1【曾孫】
+16004 Thunder 1 [Genn] -- 雷1【玄孫】
+16005 Thunder 1 [grandchild coming] -- 雷1【来孫】
+16010 Lightning 1 [Close range] -- 雷1【近距離】
+16100 Lightning 2 [Parent] -- 雷2【親】
+16110 Thunder 2 [Child] -- 雷2【子】
+16120 Thunder 2 [grandchild] -- 雷2【孫】
+16130 Thunder 2 [grandson] -- 雷2【曾孫】
+16140 Thunder 2 [Genn] -- 雷2【玄孫】
+16150 Thunder 2 [grandson coming] -- 雷2【来孫】
+16200 Thunder 3 [Parent] -- 雷3【親】
+16210 Thunder 3 [Child] -- 雷3【子】
+16220 Thunder 3 [grandchild] -- 雷3【孫】
+16230 Thunder 3 [grandson] -- 雷3【曾孫】
+16240 Thunder 3 [Genn] -- 雷3【玄孫】
+16250 Thunder 3 [grandson coming] -- 雷3【来孫】
+17000 Causal retribution -- 因果応報
+19000 Force One -- フォース1
+19001 Force 1 Double Chant -- フォース1二重詠唱
+19010 Force Two -- フォース2
+19011 Force 2_ Resonance Lv1 -- フォース2_共鳴LV1
+19012 Force 2_ Resonance Lv2 -- フォース2_共鳴LV2
+19013 Force 2_ Resonance Lv3 -- フォース2_共鳴LV3
+19014 Force 2_ Resonance Lv4 -- フォース2_共鳴LV4
+19020 Force three -- フォース3
+19021 Force 3_ Resonance Lv1 -- フォース3_共鳴LV1
+19022 Force 3_ Resonance Lv2 -- フォース3_共鳴LV2
+19023 Force 3_ Resonance Lv3 -- フォース3_共鳴LV3
+19024 Force 3_ Resonance Lv4 -- フォース3_共鳴LV4
+20000 Seoul Drain 1 -- ソウルドレイン1
+20010 Soul Drain 2 -- ソウルドレイン2
+21000 Flame radiation -- 火炎放射
+22000 Fire Whip -- 炎のムチ
+23000 Chaos _ The Whip of flames -- カオス_炎のムチ
+23010 Chaos _ A whip of flames [lava] -- カオス_炎のムチ【溶岩】
+24000 Crystal Beam -- 結晶ビーム
+25000 [DLC] Dark Ball -- 【DLC】闇の玉
+26000 [DLC] Splash of Darkness -- 【DLC】闇の飛沫
+27000 [DLC] chasing people -- 【DLC】追う者たち
+28000 [DLC] Black Flame -- 【DLC】黒炎
+30000 Funnel -- ファンネル
+30001 Energetic ball attack Lv1 -- 元気玉攻撃Lv1
+30002 Energetic ball attack Lv2 -- 元気玉攻撃Lv2
+30003 Energetic ball attack Lv3 -- 元気玉攻撃Lv3
+30004 Machine gun -- マシンガン
+30005 Through beam -- 貫通ビーム
+30006 Fire Bolt -- ファイアボルト
+30007 Thunder 1_ resonance Lv2 [parent] -- 雷1_共鳴LV2【親】
+30008 Thunder 1_ Resonance Lv2 【 child 】 -- 雷1_共鳴LV2【子】
+30009 Thunder 1_ resonance Lv2 [grandchild] -- 雷1_共鳴LV2【孫】
+30010 Thunder 1_ resonance Lv2 [grandson] -- 雷1_共鳴LV2【曾孫】
+30011 Thunder 1_ resonance Lv2 [Genn] -- 雷1_共鳴LV2【玄孫】
+30012 Thunder 1_ resonance Lv2 [coming grandchild] -- 雷1_共鳴LV2【来孫】
+30013 Thunder 1_ resonance Lv3 [parent] -- 雷1_共鳴LV3【親】
+30014 Thunder 1_ Resonance Lv3 【 child 】 -- 雷1_共鳴LV3【子】
+30015 Thunder 1_ resonance Lv3 [grandchild] -- 雷1_共鳴LV3【孫】
+30016 Thunder 1_ resonance Lv3 [grandson] -- 雷1_共鳴LV3【曾孫】
+30017 Thunder 1_ resonance Lv3 [Genn] -- 雷1_共鳴LV3【玄孫】
+30018 Thunder 1_ resonance Lv3 [coming grandchild] -- 雷1_共鳴LV3【来孫】
+30019 Thunder 1_ resonance lv4 [parent] -- 雷1_共鳴LV4【親】
+30020 Thunder 1_ Resonance lv4 【 child 】 -- 雷1_共鳴LV4【子】
+30021 Thunder 1_ resonance lv4 [grandchild] -- 雷1_共鳴LV4【孫】
+30022 Thunder 1_ resonance lv4 [grandson] -- 雷1_共鳴LV4【曾孫】
+30023 Thunder 1_ resonance lv4 [Genn] -- 雷1_共鳴LV4【玄孫】
+30024 Thunder 1_ resonance lv4 [coming grandchild] -- 雷1_共鳴LV4【来孫】
+30025 Thunder 1_ resonance lv5 [parent] -- 雷1_共鳴LV5【親】
+30026 Thunder 1_ Resonance lv5 【 child 】 -- 雷1_共鳴LV5【子】
+30027 Thunder 1_ resonance lv5 [grandchild] -- 雷1_共鳴LV5【孫】
+30028 Thunder 1_ resonance lv5 [grandson] -- 雷1_共鳴LV5【曾孫】
+30029 Thunder 1_ resonance lv5 [Genn] -- 雷1_共鳴LV5【玄孫】
+30030 Thunder 1_ resonance lv5 [coming grandchild] -- 雷1_共鳴LV5【来孫】
+30900 Recovery: Recover Yourself -- 回復：自分回復
+30901 Recovery: Ambient Recovery -- 回復：周囲回復
+31100 A firm vow -- 固い誓い
+900000 Bomb ritual: Explosive bullets around -- ボム儀式：周囲爆発弾
+910000 Bomb ritual: Target Search Bullets _ host lv.20 or less -- ボム儀式：ターゲット検索弾_ホストLv.20 以下
+910100 Bomb ritual: Target Search Bullets _ host lv.40 or less -- ボム儀式：ターゲット検索弾_ホストLv.40 以下
+910200 Bomb ritual: Target Search Bullets _ host lv.60 or less -- ボム儀式：ターゲット検索弾_ホストLv.60 以下
+910300 Bomb ritual: Target Search Bullets _ host lv.80 or less -- ボム儀式：ターゲット検索弾_ホストLv.80 以下
+910400 Bomb ritual: Target Search Bullets _ host lv.100 or less -- ボム儀式：ターゲット検索弾_ホストLv.100 以下
+910500 Bomb ritual: Target Search Bullets _ host lv.120 or less -- ボム儀式：ターゲット検索弾_ホストLv.120 以下
+910600 Bomb ritual: Target Search Bullets _ host lv.140 or less -- ボム儀式：ターゲット検索弾_ホストLv.140 以下
+910700 Bomb ritual: Target Search Bullets _ host lv.160 or less -- ボム儀式：ターゲット検索弾_ホストLv.160 以下
+910800 Bomb ritual: Target Search Bullets _ host lv.180 or less -- ボム儀式：ターゲット検索弾_ホストLv.180 以下
+910900 Bomb ritual: Target Search Bullets _ host lv.200 or less -- ボム儀式：ターゲット検索弾_ホストLv.200 以下
+911000 Bomb ritual: Target Search Bullets _ host lv.250 or less -- ボム儀式：ターゲット検索弾_ホストLv.250 以下
+911100 Bomb ritual: Target Search Bullets _ host lv.300 or less -- ボム儀式：ターゲット検索弾_ホストLv.300 以下
+911200 Bomb ritual: Target Search Bullets _ host lv.400 or less -- ボム儀式：ターゲット検索弾_ホストLv.400 以下
+911300 Bomb ritual: Target Search Bullets _ host lv.500 or less -- ボム儀式：ターゲット検索弾_ホストLv.500 以下
+911400 Bomb ritual: Target Search Bullets _ host lv.600 or less -- ボム儀式：ターゲット検索弾_ホストLv.600 以下
+911500 Bomb ritual: Target Search Bullets _ host lv.700 or less -- ボム儀式：ターゲット検索弾_ホストLv.700 以下
+911600 Bomb ritual: Target Search Bullets _ host lv.800 or less -- ボム儀式：ターゲット検索弾_ホストLv.800 以下
+2000000 Dagger _ one hand usually 1 -- 短剣_片手通常1
+2000010 Dagger _ one hand usually two -- 短剣_片手通常2
+2000020 Dagger _ one hand usually three -- 短剣_片手通常3
+2000030 Dagger _ One handed jump -- 短剣_片手ジャンプ1
+2000040 Dagger _ one-handed fall loop -- 短剣_片手落下ループ
+2000050 Dagger _ one-handed fall landing -- 短剣_片手落下着地
+2000100 Dagger _ one-handed entertainment 1 -- 短剣_片手タメ1
+2000105 Dagger _ one-handed Entertainment 1 MAX -- 短剣_片手タメ1最大
+2000110 Dagger _ one-handed Entertainment 2 -- 短剣_片手タメ2
+2000115 Dagger _ one-handed Entertainment 2 Max -- 短剣_片手タメ2最大
+2000200 Dagger _ Two hands usually one -- 短剣_両手通常1
+2000210 Dagger _ Two Hands usually 2 -- 短剣_両手通常2
+2000220 Dagger _ Two hands usually three -- 短剣_両手通常3
+2000230 Dagger _ two-handed jump -- 短剣_両手ジャンプ1
+2000240 Dagger _ two-handed fall loop -- 短剣_両手落下ループ
+2000250 Dagger _ two-handed fall landing -- 短剣_両手落下着地
+2000300 Dagger _ two-handed entertainment 1 -- 短剣_両手タメ1
+2000305 Dagger _ two-handed entertainment 1 MAX -- 短剣_両手タメ1最大
+2000310 Dagger _ two-handed Entertainment 2 -- 短剣_両手タメ2
+2000315 Dagger _ two-handed entertainment max -- 短剣_両手タメ2最大
+2000400 Dagger _ Left Hand -- 短剣_左手
+2000410 Dagger _ one hand close -- 短剣_片手近距離
+2000420 Dagger _ Both hands close -- 短剣_両手近距離
+2000430 Dagger _ one-handed guard -- 短剣_片手ガード
+2000440 Dagger _ Both hands Guard -- 短剣_両手ガード
+2000450 Dagger _ Paris -- 短剣_パリィ
+2000470 Dagger _ Large Throw -- 短剣_大型投げ
+2000490 Dagger _ Falling Throw -- 短剣_落下投げ
+2000500 Behind the Dagger -- 短剣_背後
+2000505 Dagger _ Strengthening behind -- 短剣_強化背後
+2000510 Dagger _ after Paris -- 短剣_パリィ後
+2000515 Dagger _ After strengthening Paris -- 短剣_強化パリィ後
+2000516 Dagger _ After strengthening Paris _ two -- 短剣_強化パリィ後_二段目
+2000520 Dagger _ one handed Dash -- 短剣_片手ダッシュ
+2000530 Dagger _ both hands dash -- 短剣_両手ダッシュ
+2000540 Dagger _ one hand step before -- 短剣_片手ステップ前
+2000580 Dagger _ Hands before step -- 短剣_両手ステップ前
+2000600 Dagger _ Parigard -- 短剣_パリィガード
+2000610 Dagger _ Behind the transition -- 短剣_背後遷移
+2000615 Dagger _ Behind Transition _ missed -- 短剣_背後遷移_空振り
+2000700 Dagger _ Arts _ Strong rock Step -- 短剣_アーツ_強ロックステップ
+2001300 [72] Dagger _ two-handed entertainment 1 -- 【72】短刀_両手タメ1
+2001310 [72] Dagger _ two-handed Entertainment 2 -- 【72】短刀_両手タメ2
+2002100 [73] Soul-one-handed entertainment 1 -- 【73】吸魂_片手タメ1
+2002110 [73] Soul-one-handed entertainment 2 -- 【73】吸魂_片手タメ2
+2002300 [73] Soul-absorbing, two-handed entertainment 1 -- 【73】吸魂_両手タメ1
+2002310 [73] Soul-absorbing two-handed entertainment 2 -- 【73】吸魂_両手タメ2
+2003100 [120] A ghost knife _ one-handed entertainment 1 -- 【120】死霊のナイフ_片手タメ1
+2003110 [120] A ghost knife _ one-handed Entertainment 2 -- 【120】死霊のナイフ_片手タメ2
+2003300 【 120 】 Ghost Knife _ two-handed entertainment 1 -- 【120】死霊のナイフ_両手タメ1
+2003310 【 120 】 Ghost Knife _ two-handed Entertainment 2 -- 【120】死霊のナイフ_両手タメ2
+2004100 [130] Kieran Dagger _ one-handed entertainment 1 -- 【130】キアランの短剣_片手タメ1
+2004110 [130] Kieran Dagger _ one-handed Entertainment 2 -- 【130】キアランの短剣_片手タメ2
+2004300 [130] Kieran Dagger _ two-handed entertainment 1 -- 【130】キアランの短剣_両手タメ1
+2004310 [130] Kieran Dagger _ two-handed Entertainment 2 -- 【130】キアランの短剣_両手タメ2
+2300000 Straight Sword _ one hand usually 1 -- 直剣_片手通常1
+2300010 Straight Sword _ one hand usually two -- 直剣_片手通常2
+2300020 Straight Sword _ one hand usually three -- 直剣_片手通常3
+2300030 Straight Sword _ One handed jump -- 直剣_片手ジャンプ1
+2300040 Straight Sword _ one-handed fall loop -- 直剣_片手落下ループ
+2300050 Straight Sword _ one-handed fall landing -- 直剣_片手落下着地
+2300100 Straight Sword _ one-handed entertainment 1 -- 直剣_片手タメ1
+2300105 Straight Sword _ one-handed 1_ maximum attack -- 直剣_片手タメ1_最大攻撃
+2300110 Straight Sword _ one-handed Entertainment 2 -- 直剣_片手タメ2
+2300115 Straight Sword _ one-handed 2_ maximum attack -- 直剣_片手タメ2_最大攻撃
+2300200 Straight Sword _ Two hands usually one -- 直剣_両手通常1
+2300210 Straight Swords _ Two hands usually -- 直剣_両手通常2
+2300220 Straight Swords _ Two hands usually three -- 直剣_両手通常3
+2300230 Straight Sword _ two-handed jump -- 直剣_両手ジャンプ1
+2300240 Straight Sword _ two-handed fall loop -- 直剣_両手落下ループ
+2300250 Straight Sword _ two-handed fall landing -- 直剣_両手落下着地
+2300300 Straight Sword _ two-handed entertainment 1 -- 直剣_両手タメ1
+2300305 Straight Sword _ two-handed entertainment 1 MAX -- 直剣_両手タメ1最大
+2300310 Straight Sword _ two-handed Entertainment 2 -- 直剣_両手タメ2
+2300315 Straight Sword _ two-handed, maximum -- 直剣_両手タメ2最大
+2300400 Straight Sword _ left hand -- 直剣_左手
+2300410 Straight Sword _ one hand close -- 直剣_片手近距離
+2300420 Straight Sword _ both hands close -- 直剣_両手近距離
+2300430 Straight Sword _ one-handed guard -- 直剣_片手ガード
+2300440 Straight Sword _ two handed guards -- 直剣_両手ガード
+2300450 Straight Sword _ Paris -- 直剣_パリィ
+2300470 Straight Sword _ Large Throw -- 直剣_大型投げ
+2300490 Straight Sword _ Falling Throw -- 直剣_落下投げ
+2300500 Straight Sword _ behind -- 直剣_背後
+2300505 Straight Swords _ crouching behind -- 直剣_背後しゃがみ
+2300506 Straight Sword _ reinforced behind -- 直剣_強化背後
+2300510 Straight Sword _ after Paris -- 直剣_パリィ後
+2300515 Straight Sword _ after strengthening Paris -- 直剣_強化パリィ後
+2300516 Paris Straight Sword _ after strengthening _ two -- 直剣_強化パリィ後_二段目
+2300520 Straight Sword _ one-handed Dash -- 直剣_片手ダッシュ
+2300530 Straight Sword _ both hands dash -- 直剣_両手ダッシュ
+2300540 Straight Sword _ one hand step before -- 直剣_片手ステップ前
+2300580 Straight Sword _ Two hands before step -- 直剣_両手ステップ前
+2300600 Straight Sword _ Parigard -- 直剣_パリィガード
+2300610 Straight Sword _ Behind the transition -- 直剣_背後遷移
+2300615 Straight Sword _ Behind the transition _ missed -- 直剣_背後遷移_空振り
+2300720 Straight Sword _ Weak -- 直剣_構え弱
+2300722 Straight Sword _ Strong poised -- 直剣_構え強
+2301100 [53] Broad _ one-handed entertainment 1 -- 【53】ブロード_片手タメ1
+2301540 [53] Broad _ one-handed step before -- 【53】ブロード_片手ステップ前
+2301580 [53] Broad _ both hands before step -- 【53】ブロード_両手ステップ前
+2302100 [54] Straight Sword: one-handed entertainment 1 -- 【54】刺突直剣_片手タメ1
+2302110 [54] Straight Sword: one-handed Entertainment 2 -- 【54】刺突直剣_片手タメ2
+2302300 [54] Straight Swords _ two-handed entertainment 1 -- 【54】刺突直剣_両手タメ1
+2302310 [54] Straight Swords _ two-handed Entertainment 2 -- 【54】刺突直剣_両手タメ2
+2302580 [54] Thrust Straight Sword _ before both hands step -- 【54】刺突直剣_両手ステップ前
+2303100 [55] Hero's Sword _ one-handed entertainment 1 -- 【55】英雄の剣_片手タメ1
+2303110 [55] Hero's Sword _ one-handed Entertainment 2 -- 【55】英雄の剣_片手タメ2
+2303300 [55] Hero's Sword _ two-handed entertainment 1 -- 【55】英雄の剣_両手タメ1
+2303310 [55] Hero's Sword _ two-handed Entertainment 2 -- 【55】英雄の剣_両手タメ2
+2304100 [57] Dark _ one-handed entertainment 1 -- 【57】ダーク_片手タメ1
+2304110 [57] Dark _ one-handed Entertainment 2 -- 【57】ダーク_片手タメ2
+2304300 [57] Dark _ two-handed entertainment 1 -- 【57】ダーク_両手タメ1
+2304310 [57] Dark _ two-handed Entertainment 2 -- 【57】ダーク_両手タメ2
+2305100 [58] Sword of the old dragon _ one-handed entertainment 1 -- 【58】古竜の剣_片手タメ1
+2305110 [58] Sword of the old dragon _ one-handed Entertainment 2 -- 【58】古竜の剣_片手タメ2
+2305300 [58] Sword of the old Dragon _ two-handed entertainment 1 -- 【58】古竜の剣_両手タメ1
+2305310 [58] Sword of the old Dragon _ two-handed Entertainment 2 -- 【58】古竜の剣_両手タメ2
+2305320 [58] Sword of the old Dragon _ two-handed Entertainment 1/Magic Sword Trigger -- 【58】古竜の剣_両手タメ1／魔法剣発動時
+2305330 [58] Sword of the old Dragon _ two-handed Entertainment 2/Magic Sword -- 【58】古竜の剣_両手タメ2／魔法剣発動時
+2305580 [58] Sword of the old Dragon _ Two hands before step -- 【58】古竜の剣_両手ステップ前
+2305800 [58] Sword of the old Dragon _ Magic Attack -- 【58】古竜の剣_魔法攻撃
+2500000 Large Sword _ one hand usually 1 -- 大剣_片手通常1
+2500010 Large Sword _ one hand usually two -- 大剣_片手通常2
+2500020 Large Sword _ one hand usually three -- 大剣_片手通常3
+2500030 Big Sword _ One handed jump -- 大剣_片手ジャンプ1
+2500040 Large Sword _ One handed fall loop -- 大剣_片手落下ループ
+2500050 Big Sword _ one-handed fall landing -- 大剣_片手落下着地
+2500100 Big Sword _ one-handed entertainment 1 -- 大剣_片手タメ1
+2500105 Large Sword _ one hand entertainment maximum -- 大剣_片手タメ1最大
+2500110 Big Sword _ one hand Entertainment 2 -- 大剣_片手タメ2
+2500115 Big Sword _ one hand entertainment 2 max -- 大剣_片手タメ2最大
+2500200 Large Sword _ Two hands usually one -- 大剣_両手通常1
+2500210 Large Swords _ Two hands usually -- 大剣_両手通常2
+2500220 Large Swords _ Two hands usually three -- 大剣_両手通常3
+2500230 Large Sword _ two-handed jump 1 -- 大剣_両手ジャンプ1
+2500240 Large Sword _ two-handed fall loop -- 大剣_両手落下ループ
+2500250 Large Sword _ two-handed fall landing -- 大剣_両手落下着地
+2500300 Large Sword _ two-handed entertainment 1 -- 大剣_両手タメ1
+2500305 Large Sword _ two-handed entertainment 1 MAX -- 大剣_両手タメ1最大
+2500310 Large Sword _ two-handed Entertainment 2 -- 大剣_両手タメ2
+2500315 Large Sword _ two-handed entertainment maximum -- 大剣_両手タメ2最大
+2500400 Big Sword _ Left hand -- 大剣_左手
+2500410 Large Sword _ one hand close -- 大剣_片手近距離
+2500420 Large Sword _ both hands close -- 大剣_両手近距離
+2500430 Large Sword _ one handed guard -- 大剣_片手ガード
+2500440 Large Sword _ both hands Guard -- 大剣_両手ガード
+2500450 Big Sword _ Paris -- 大剣_パリィ
+2500470 Large Sword _ Large throw -- 大剣_大型投げ
+2500490 Large Sword _ Falling throw -- 大剣_落下投げ
+2500500 Behind the Great Sword -- 大剣_背後
+2500505 Great Sword _ reinforced behind -- 大剣_強化背後
+2500510 Large Sword _ after Paris -- 大剣_パリィ後
+2500515 Great swords _ after strengthening Paris -- 大剣_強化パリィ後
+2500516 Paris _ Two after the Great sword _ -- 大剣_強化パリィ後_二段目
+2500520 Big Sword _ One handed Dash -- 大剣_片手ダッシュ
+2500530 Big Sword _ both hands dash -- 大剣_両手ダッシュ
+2500540 Big Sword _ one hand step before -- 大剣_片手ステップ前
+2500580 Large Sword _ Two hands before step -- 大剣_両手ステップ前
+2500600 Big Sword _ Parigard -- 大剣_パリィガード
+2500610 Big Sword _ Behind the transition -- 大剣_背後遷移
+2500615 Big Sword _ Behind the transition _ missed -- 大剣_背後遷移_空振り
+2501100 [80] Black Knight's Great Sword _ one-handed entertainment 1 -- 【80】黒騎士の大剣_片手タメ1
+2501110 [80] Black Knight's Great Sword _ one-handed Entertainment 2 -- 【80】黒騎士の大剣_片手タメ2
+2501300 [80] Black Knight's Great Sword _ two-handed entertainment 1 -- 【80】黒騎士の大剣_両手タメ1
+2502000 Framberger _ one-handed usually 1 -- フランベルジェ_片手通常1
+2502010 Framberger _ one hand usually two -- フランベルジェ_片手通常2
+2502020 Framberger _ one-handed usually three -- フランベルジェ_片手通常3
+2502030 Framberger _ one-handed jump 1 -- フランベルジェ_片手ジャンプ1
+2502040 Framberger _ one-handed fall loop -- フランベルジェ_片手落下ループ
+2502050 Framberger _ one-handed fall landing -- フランベルジェ_片手落下着地
+2502100 Framberger _ one-handed entertainment 1 -- フランベルジェ_片手タメ1
+2502110 Framberger _ one-handed Entertainment 2 -- フランベルジェ_片手タメ2
+2502200 Framberger _ Two hands usually one -- フランベルジェ_両手通常1
+2502210 Framberger _ Two Hands usually 2 -- フランベルジェ_両手通常2
+2502220 Framberger _ Two hands usually three -- フランベルジェ_両手通常3
+2502230 Framberger _ two-handed jump 1 -- フランベルジェ_両手ジャンプ1
+2502240 Framberger _ Two-handed hand-dropping loop -- フランベルジェ_両手手落下ループ
+2502250 Framberger _ Both hands fall landing -- フランベルジェ_両手手落下着地
+2502300 Framberger _ two-handed entertainment 1 -- フランベルジェ_両手タメ1
+2502310 Framberger _ two-handed Entertainment 2 -- フランベルジェ_両手タメ2
+2502400 Framberger _ Left Hand -- フランベルジェ_左手
+2502520 Framberger _ one-handed Dash -- フランベルジェ_片手ダッシュ
+2502530 Framberger _ Both hands dash -- フランベルジェ_両手ダッシュ
+2502540 Framberger _ one handed step ahead -- フランベルジェ_片手ステップ前
+2502580 Framberger _ Both hands step ahead -- フランベルジェ_両手ステップ前
+2503100 [77] Large Sword of stone _ one-handed entertainment 1 -- 【77】石の大剣_片手タメ1
+2503110 [77] Large Sword of stone _ one-handed Entertainment 2 -- 【77】石の大剣_片手タメ2
+2504100 [79] Moonlight _ one-handed entertainment 1 -- 【79】ムーンライト_片手タメ1
+2504110 [79] Moonlight _ one-handed Entertainment 2 -- 【79】ムーンライト_片手タメ2
+2504120 [79] Moonlight _ one-handed Entertainment 1/Magic Sword Trigger -- 【79】ムーンライト_片手タメ1／魔法剣発動時
+2504130 [79] Moonlight _ one-handed Entertainment 2/Magic Sword Trigger -- 【79】ムーンライト_片手タメ2／魔法剣発動時
+2504300 [79] Moonlight _ two-handed entertainment 1 -- 【79】ムーンライト_両手タメ1
+2504310 [79] Moonlight _ two-handed Entertainment 2 -- 【79】ムーンライト_両手タメ2
+2504320 [79] Moonlight _ two-handed Entertainment 1/Magic Sword Trigger -- 【79】ムーンライト_両手タメ1／魔法剣発動時
+2504330 [79] Moonlight _ two-hand entertainment 2/Magic Sword Trigger -- 【79】ムーンライト_両手タメ2／魔法剣発動時
+2504800 [79] Moonlight _ one hand _ Magic attack -- 【79】ムーンライト_片手_魔法攻撃
+2504801 [79] Moonlight _ Both Hands _ Magic attack -- 【79】ムーンライト_両手_魔法攻撃
+2505100 [74] Claymore _ one-handed entertainment 1 -- 【74】クレイモア_片手タメ1
+2505110 [74] Claymore _ one-handed Entertainment 2 -- 【74】クレイモア_片手タメ2
+2505580 [74] Claymore _ two-handed step before -- 【74】クレイモア_両手ステップ前
+2507100 [97] The great _ one-handed entertainment 1 -- 【97】大王_片手タメ1
+2507110 [97] The great _ one-handed Entertainment 2 -- 【97】大王_片手タメ2
+2507300 [97] Great _ two-handed entertainment 1 -- 【97】大王_両手タメ1
+2507310 [97] Great _ two-handed Entertainment 2 -- 【97】大王_両手タメ2
+2508100 [131] al-Triana (erosion) _ one-handed entertainment 1 -- 【131】アルトリウス（侵食）_片手タメ1
+2508300 [131] al-Triana (erosion) _ two-handed entertainment 1 -- 【131】アルトリウス（侵食）_両手タメ1
+2509300 [135] Black Dragon Large Sword _ two-handed entertainment 1 -- 【135】黒竜の大剣_両手タメ1
+2509320 [135] Black Dragon Large Sword _ two-hand entertainment 1/Magic Sword Trigger -- 【135】黒竜の大剣_両手タメ1／魔法剣発動時
+2509800 [135] Black Dragon Large Sword _ both hands _ Magic attack -- 【135】黒竜の大剣_両手_魔法攻撃
+2600000 Oversized Sword _ one hand usually 1 -- 特大剣_片手通常1
+2600001 Oversized Sword _ One handed usually 1_ range -- 特大剣_片手通常1_範囲
+2600010 Oversized Sword _ one hand usually two -- 特大剣_片手通常2
+2600020 Oversized Sword _ one hand usually three -- 特大剣_片手通常3
+2600030 Oversized Sword _ One handed jump -- 特大剣_片手ジャンプ1
+2600040 Oversized Sword _ One handed fall loop -- 特大剣_片手落下ループ
+2600050 Oversized Sword _ one-handed fall landing -- 特大剣_片手落下着地
+2600100 Oversized Sword _ one-handed entertainment 1 -- 特大剣_片手タメ1
+2600105 Oversized Sword _ one-handed entertainment 1_ Max -- 特大剣_片手タメ1_最大
+2600110 Oversized Sword _ one-handed Entertainment 2 -- 特大剣_片手タメ2
+2600115 Oversized Sword _ one-handed entertainment 2_ Max -- 特大剣_片手タメ2_最大
+2600200 Oversized Sword _ Two hands usually one -- 特大剣_両手通常1
+2600210 Oversized Swords _ Two hands usually 2 -- 特大剣_両手通常2
+2600220 Oversized Swords _ Two hands usually three -- 特大剣_両手通常3
+2600230 Oversized Sword _ two-handed jump 1 -- 特大剣_両手ジャンプ1
+2600240 Oversized Sword _ two-handed fall loop -- 特大剣_両手落下ループ
+2600250 Oversized Sword _ two-handed fall landing -- 特大剣_両手落下着地
+2600300 Oversized Sword _ two-handed entertainment 1 -- 特大剣_両手タメ1
+2600305 Oversized Sword _ two-handed entertainment 1 MAX -- 特大剣_両手タメ1最大
+2600310 Oversized Sword _ two-handed Entertainment 2 -- 特大剣_両手タメ2
+2600315 Oversized Sword _ two-handed maximum -- 特大剣_両手タメ2最大
+2600400 Oversized Sword _ left hand -- 特大剣_左手
+2600410 Oversized Sword _ one hand close -- 特大剣_片手近距離
+2600420 Oversized Sword _ both hands close -- 特大剣_両手近距離
+2600430 Oversized Sword _ One handed guard -- 特大剣_片手ガード
+2600440 Oversized Sword _ two handed guards -- 特大剣_両手ガード
+2600450 Oversized Sword _ Paris -- 特大剣_パリィ
+2600470 Oversized Sword _ Large throw -- 特大剣_大型投げ
+2600490 Oversized Sword _ Falling throw -- 特大剣_落下投げ
+2600500 Behind the oversized sword -- 特大剣_背後
+2600501 An oversized sword _ behind the two firing eyes -- 特大剣_背後_二撃目
+2600505 Oversized swords _ Reinforced behind -- 特大剣_強化背後
+2600506 Oversized Swords _ Reinforced behind _ Two -- 特大剣_強化背後_二段目
+2600510 Oversized Sword _ after Paris -- 特大剣_パリィ後
+2600511 Oversized Sword _ Paris after second firing -- 特大剣_パリィ後_二撃目
+2600515 Oversized Sword _ after strengthening Paris -- 特大剣_強化パリィ後
+2600516 Paris Oversized Sword _ after strengthening _ two -- 特大剣_強化パリィ後_二段目
+2600517 Paris Oversized Sword _ after strengthening _ Sandanme -- 特大剣_強化パリィ後_三段目
+2600520 Oversized Sword _ one handed Dash -- 特大剣_片手ダッシュ
+2600530 Oversized Sword _ both hands dash -- 特大剣_両手ダッシュ
+2600540 Oversized Sword _ one hand step before -- 特大剣_片手ステップ前
+2600580 Oversized Sword _ Two hands before step -- 特大剣_両手ステップ前
+2600600 Oversized Sword _ Parigard -- 特大剣_パリィガード
+2600610 Oversized Sword _ Behind the transition -- 特大剣_背後遷移
+2600615 Oversized Sword _ behind transition _ missed -- 特大剣_背後遷移_空振り
+2600700 Oversized Sword _ tread rotation attack -- 特大剣_踏込回転攻撃
+2600701 Oversized Sword _ Tread launch attack -- 特大剣_踏込打ち上げ攻撃
+2600702 Oversized Sword _ Tread Nagi: first half -- 特大剣_踏込なぎ払い：前半
+2600780 Oversized Sword _ Blown away -- 特大剣_吹き飛ばし
+2600790 Oversized Sword _ directing slams -- 特大剣_演出叩きつけ
+2601300 [98] Large Sword of the old Dragon _ two-handed entertainment 1 -- 【98】古竜の大剣_両手タメ1
+2602100 [95] Great Sword _ one-handed entertainment 1 -- 【95】グレートソード_片手タメ1
+2602300 [95] Great Sword _ two-handed entertainment 1 -- 【95】グレートソード_両手タメ1
+2603100 [96] Daemon Hatchet _ one-handed entertainment 1 -- 【96】デーモンの鉈_片手タメ1
+2603300 [96] Daemon Hatchet _ two-handed entertainment 1 -- 【96】デーモンの鉈_両手タメ1
+2604300 [128] Black Knight's oversized sword _ two-handed entertainment 1 -- 【128】黒騎士の特大剣_両手タメ1
+2700000 Stabbing Sword _ one hand usually 1 -- 刺剣_片手通常1
+2700010 Stabbing Sword _ one hand usually two -- 刺剣_片手通常2
+2700020 Stabbing Sword _ one hand usually three -- 刺剣_片手通常3
+2700030 Stab Sword _ One handed jump -- 刺剣_片手ジャンプ1
+2700040 Stab Sword _ One handed fall loop -- 刺剣_片手落下ループ
+2700050 Stab Sword _ one-handed fall landing -- 刺剣_片手落下着地
+2700100 Stab Sword _ one-handed entertainment 1 -- 刺剣_片手タメ1
+2700105 Stab Sword _ one-handed 1_ maximum -- 刺剣_片手タメ1_最大
+2700110 Stab Sword _ one hand Entertainment 2 -- 刺剣_片手タメ2
+2700115 Stab Sword _ one-handed 2_ maximum -- 刺剣_片手タメ2_最大
+2700200 Stab Sword _ Two hands usually one -- 刺剣_両手通常1
+2700210 Stab Sword _ Two hands usually 2 -- 刺剣_両手通常2
+2700220 Stab Sword _ Two hands usually three -- 刺剣_両手通常3
+2700230 Stabbing Sword _ two-handed jump -- 刺剣_両手ジャンプ1
+2700240 Stabbing Sword _ two-handed fall loop -- 刺剣_両手落下ループ
+2700250 Stabbing Sword _ two-handed fall landing -- 刺剣_両手落下着地
+2700300 Stabbing Sword _ two-handed entertainment 1 -- 刺剣_両手タメ1
+2700305 Stabbing Sword _ two-handed 1_ Max -- 刺剣_両手タメ1_最大
+2700310 Stabbing Sword _ two-handed Entertainment 2 -- 刺剣_両手タメ2
+2700315 Stabbing Sword _ two-handed 2_ Max -- 刺剣_両手タメ2_最大
+2700400 Stab Sword _ Left hand -- 刺剣_左手
+2700410 Stab Sword _ one hand close -- 刺剣_片手近距離
+2700420 Stab Sword _ both hands close -- 刺剣_両手近距離
+2700430 Stab Sword _ One handed guard -- 刺剣_片手ガード
+2700440 Piercing Sword _ Both hands Guard -- 刺剣_両手ガード
+2700450 Stabbing Sword _ Paris -- 刺剣_パリィ
+2700460 Stinging Sword _ Guard during attack -- 刺剣_ガード中攻撃
+2700470 Stinging Sword _ Large Throw -- 刺剣_大型投げ
+2700490 Stabbing Sword _ Falling throw -- 刺剣_落下投げ
+2700500 Stinging Sword _ behind -- 刺剣_背後
+2700505 Stinging Sword _ reinforced behind -- 刺剣_強化背後
+2700510 Stabbing Sword _ after Paris -- 刺剣_パリィ後
+2700515 Stabbing Sword _ after strengthening Paris -- 刺剣_強化パリィ後
+2700516 Stabbing Sword _ After strengthening Paris _ two -- 刺剣_強化パリィ後_二段目
+2700520 Stab Sword _ one handed Dash -- 刺剣_片手ダッシュ
+2700530 Stab Sword _ both hands dash -- 刺剣_両手ダッシュ
+2700540 Stab Sword _ one hand step before -- 刺剣_片手ステップ前
+2700580 Stab Sword _ Two hands before step -- 刺剣_両手ステップ前
+2700600 Stabbing Sword _ Parigard -- 刺剣_パリィガード
+2700610 Stab Sword _ Behind the transition -- 刺剣_背後遷移
+2700615 Stab Sword _ Behind the transition _ missed -- 刺剣_背後遷移_空振り
+2700720 Stinging Sword _ Weak -- 刺剣_構え弱
+2700730 Stinging Sword _ Strong: Continuous Protrusion -- 刺剣_構え強：連続突
+2700731 Stinging Sword _ Strong: Final stage of continuous protrusion -- 刺剣_構え強：連続突最終段
+2701100 [119] Mail Breaker _ one-handed entertainment 1 -- 【119】メイルブレイカー_片手タメ1
+2701110 [119] Mail Breaker _ one-handed Entertainment 2 -- 【119】メイルブレイカー_片手タメ2
+2701300 [119] Mail Breaker _ two-handed entertainment 1 -- 【119】メイルブレイカー_両手タメ1
+2701310 [119] Mail Breaker _ two-handed Entertainment 2 -- 【119】メイルブレイカー_両手タメ2
+2702100 [113] Estoc _ one-handed entertainment 1 -- 【113】エストック_片手タメ1
+2702110 [113] Estoc _ one-handed Entertainment 2 -- 【113】エストック_片手タメ2
+2702300 [113] Estoc _ two-handed entertainment 1 -- 【113】エストック_両手タメ1
+2702310 [113] Estoc _ two-handed Entertainment 2 -- 【113】エストック_両手タメ2
+2703100 [114] Belka _ one-handed entertainment 1 -- 【114】ベルカ_片手タメ1
+2703110 [114] Belka _ one-handed Entertainment 2 -- 【114】ベルカ_片手タメ2
+2703300 [114] Belka _ two-handed entertainment 1 -- 【114】ベルカ_両手タメ1
+2703310 [114] Belka _ two-handed Entertainment 2 -- 【114】ベルカ_両手タメ2
+2800000 Song Sword _ one hand usually 1 -- 曲剣_片手通常1
+2800010 Song Sword _ one hand usually two -- 曲剣_片手通常2
+2800020 Song Sword _ one hand usually three -- 曲剣_片手通常3
+2800030 Song Sword _ One handed jump -- 曲剣_片手ジャンプ1
+2800040 Song Sword _ One Handed fall loop -- 曲剣_片手落下ループ
+2800050 Song Sword _ one-handed fall landing -- 曲剣_片手落下着地
+2800100 Song Sword _ one-handed entertainment 1 -- 曲剣_片手タメ1
+2800101 Song Sword _ one-handed Entertainment 1 (second hammer) -- 曲剣_片手タメ1（二撃目）
+2800105 Song Sword _ one-handed 1_ Max -- 曲剣_片手タメ1_最大
+2800106 Song Sword _ one-handed 1_ Max (second hammer) -- 曲剣_片手タメ1_最大（二撃目）
+2800110 Song Sword _ one hand Entertainment 2 -- 曲剣_片手タメ2
+2800115 Song Sword _ one-handed 2_ Max -- 曲剣_片手タメ2_最大
+2800200 Song Sword _ Two Hands usually one -- 曲剣_両手通常1
+2800210 Song Sword _ Two Hands usually 2 -- 曲剣_両手通常2
+2800220 Song Sword _ Two Hands usually three -- 曲剣_両手通常3
+2800230 Song Sword _ two-handed jump 1 -- 曲剣_両手ジャンプ1
+2800240 Song Sword _ two-handed fall loop -- 曲剣_両手落下ループ
+2800250 Song Sword _ two-handed fall landing -- 曲剣_両手落下着地
+2800300 Song Sword _ two-handed entertainment 1 -- 曲剣_両手タメ1
+2800301 Song Sword _ two-handed Entertainment 1 (second hammer) -- 曲剣_両手タメ1（二撃目）
+2800305 Song Sword _ two-handed 1_ Max -- 曲剣_両手タメ1_最大
+2800306 Song Sword _ two-handed 1_ Max (second hammer) -- 曲剣_両手タメ1_最大（二撃目）
+2800310 Song Sword _ two-handed Entertainment 2 -- 曲剣_両手タメ2
+2800315 Song Sword _ two-handed 2_ Max -- 曲剣_両手タメ2_最大
+2800400 Song Sword _ Left Hand -- 曲剣_左手
+2800410 Song Sword _ one hand close -- 曲剣_片手近距離
+2800420 Song Sword _ both hands close -- 曲剣_両手近距離
+2800430 Song Sword _ One handed guard -- 曲剣_片手ガード
+2800440 Song Sword _ Hands-on guard -- 曲剣_両手ガード
+2800450 Song Sword _ Paris -- 曲剣_パリィ
+2800470 Song Sword _ Large Throw -- 曲剣_大型投げ
+2800490 Song Sword _ Falling Throw -- 曲剣_落下投げ
+2800500 Behind the song Sword -- 曲剣_背後
+2800505 Song Sword _ Strengthening behind -- 曲剣_強化背後
+2800510 Song Sword _ after Paris -- 曲剣_パリィ後
+2800515 Song Sword _ after strengthening Paris -- 曲剣_強化パリィ後
+2800516 Paris Song Sword _ after strengthening _ two -- 曲剣_強化パリィ後_二段目
+2800520 Song Sword _ one handed Dash -- 曲剣_片手ダッシュ
+2800530 Song Sword _ both hands dash -- 曲剣_両手ダッシュ
+2800540 Song Sword _ one hand step before -- 曲剣_片手ステップ前
+2800580 Song Sword _ Two Hands before step -- 曲剣_両手ステップ前
+2800600 Song Sword _ Parigard -- 曲剣_パリィガード
+2800610 Song Sword _ Behind the transition -- 曲剣_背後遷移
+2800615 Song Sword _ Behind the transition _ missed -- 曲剣_背後遷移_空振り
+2802100 [100] Song of Evil sword _ one-handed entertainment 1 -- 【100】死霊の曲剣_片手タメ1
+2802110 [100] Song of the Evil sword _ one-handed Entertainment 2 -- 【100】死霊の曲剣_片手タメ2
+2802300 [100] Song of Evil sword _ two-handed entertainment 1 -- 【100】死霊の曲剣_両手タメ1
+2802310 [100] Song of Evil sword _ two-handed Entertainment 2 -- 【100】死霊の曲剣_両手タメ2
+2803100 [101] Elemia _ one-handed entertainment 1 -- 【101】エレーミア_片手タメ1
+2803110 [101] Elemia _ one-handed Entertainment 2 -- 【101】エレーミア_片手タメ2
+2803300 [101] Elemia _ two-handed entertainment 1 -- 【101】エレーミア_両手タメ1
+2803310 [101] Elemia _ two-handed Entertainment 2 -- 【101】エレーミア_両手タメ2
+2804100 [56] Krag _ one-handed entertainment 1 -- 【56】クラーグ_片手タメ1
+2804110 [56] Krag _ one-handed Entertainment 2 -- 【56】クラーグ_片手タメ2
+2804300 [56] Krag _ two-handed entertainment 1 -- 【56】クラーグ_両手タメ1
+2804310 [56] Krag _ two-handed Entertainment 2 -- 【56】クラーグ_両手タメ2
+2805100 [132] Kieran Song Sword _ one-handed entertainment 1 -- 【132】キアランの曲剣_片手タメ1
+2805110 [132] Kieran Song Sword _ one-handed Entertainment 2 -- 【132】キアランの曲剣_片手タメ2
+2805300 [132] Kieran Song Sword _ two-handed entertainment 1 -- 【132】キアランの曲剣_両手タメ1
+2805310 [132] Kieran Song Sword _ two-handed Entertainment 2 -- 【132】キアランの曲剣_両手タメ2
+2805311 [132] Kieran Song Sword _ two-handed 2_ two -- 【132】キアランの曲剣_両手タメ2_二段目
+2805400 [132] Kieran Song Sword _ left hand _ usually -- 【132】キアランの曲剣_左手_通常
+2805401 [132] Kieran Song Sword _ The Left hand _ the entertainment -- 【132】キアランの曲剣_左手_タメ
+2806620 [137] Song Sword bi-Sword _ 1_ left hand Combo -- 【137】曲剣双剣_双剣左コンボ1_右手
+2806621 [137] Song Sword bi-Sword _ 1_ left hand Combo -- 【137】曲剣双剣_双剣左コンボ1_左手
+2806630 [137] Song Sword bi-Sword _ 2_ left hand Combo -- 【137】曲剣双剣_双剣左コンボ2_右手
+2806631 [137] Song Sword bi-Sword _ 2_ left hand Combo -- 【137】曲剣双剣_双剣左コンボ2_左手
+2806640 [137] Song Sword bi-Sword _ 3_ left hand Combo -- 【137】曲剣双剣_双剣左コンボ3_右手
+2806641 [137] Song Sword bi-Sword _ 3_ left hand Combo -- 【137】曲剣双剣_双剣左コンボ3_左手
+2806740 [137] Song Sword Twin Sword (right hand) -- 【137】曲剣双剣_回転中（右手）
+2806741 [137] Song Sword Twin Sword _ spinning (left hand) -- 【137】曲剣双剣_回転中（左手）
+2806744 [137] Song Sword Twin Sword _ Rotation strength (right hand) -- 【137】曲剣双剣_回転強（右手）
+2806745 [137] Song Sword Twin Sword _ rotation strength (left hand) -- 【137】曲剣双剣_回転強（左手）
+2806750 [137] Song Sword Twin Sword _ Double Sword dash (right hand) -- 【137】曲剣双剣_双剣ダッシュ（右手）
+2806751 [137] Song Sword Twin Sword (left hand) -- 【137】曲剣双剣_双剣ダッシュ（左手）
+2806760 [137] Song Sword Twin Sword (right hand) -- 【137】曲剣双剣_双剣ステップ前（右手）
+2806761 [137] Song Sword Twin Sword (left hand) -- 【137】曲剣双剣_双剣ステップ前（左手）
+2901100 [89] Each other sword _ one-handed entertainment 1 -- 【89】居合い刀_片手タメ1
+2901110 [89] Each other sword _ one-handed Entertainment 2 -- 【89】居合い刀_片手タメ2
+2901300 [89] Each other sword _ two-handed entertainment 1 -- 【89】居合い刀_両手タメ1
+2901310 [89] Each other sword _ two-handed Entertainment 2 -- 【89】居合い刀_両手タメ2
+2902100 [90] Shigurui Sword _ one-handed Entertainment 2 -- 【90】シグルイ刀_片手タメ2
+2902105 [90] Shigurui Sword _ one-handed 2_ maximum -- 【90】シグルイ刀_片手タメ2_最大
+2902110 [90] Shigurui Sword _ one-handed entertainment 1 -- 【90】シグルイ刀_片手タメ1
+2902115 [90] Shigurui Sword _ one-handed 1_ maximum -- 【90】シグルイ刀_片手タメ1_最大
+2902300 [90] Shigurui Sword _ two-handed entertainment 1 -- 【90】シグルイ刀_両手タメ1
+2902305 [90] Shigurui Sword _ two-handed 1_ maximum -- 【90】シグルイ刀_両手タメ1_最大
+2902310 [90] Shigurui Sword _ two-handed Entertainment 2 -- 【90】シグルイ刀_両手タメ2
+2902315 [90] Shigurui Sword _ two-handed 2_ maximum -- 【90】シグルイ刀_両手タメ2_最大
+3000000 Axe _ one hand usually 1 -- 斧_片手通常1
+3000010 Axe _ one hand usually two -- 斧_片手通常2
+3000020 Axe _ one hand usually three -- 斧_片手通常3
+3000030 Axe _ One handed jump -- 斧_片手ジャンプ1
+3000040 Axe _ One handed fall loop -- 斧_片手落下ループ
+3000050 Ax _ one-handed fall landing -- 斧_片手落下着地
+3000100 Axe _ one-handed entertainment 1 -- 斧_片手タメ1
+3000105 Axe _ one-handed 1_ maximum -- 斧_片手タメ1_最大
+3000110 Axe _ one-handed Entertainment 2 -- 斧_片手タメ2
+3000115 Axe _ one-handed 2_ maximum -- 斧_片手タメ2_最大
+3000200 Axe _ Two hands usually one -- 斧_両手通常1
+3000210 Axe _ Two Hands usually -- 斧_両手通常2
+3000220 Axe _ Two hands usually three -- 斧_両手通常3
+3000230 Axe _ two-handed jump 1 -- 斧_両手ジャンプ1
+3000240 Axe _ two-handed fall loop -- 斧_両手落下ループ
+3000250 Axe _ two-handed fall landing -- 斧_両手落下着地
+3000300 Axe _ two-handed entertainment 1 -- 斧_両手タメ1
+3000305 Axe _ two-handed 1_ Max -- 斧_両手タメ1_最大
+3000310 Axe _ two-handed Entertainment 2 -- 斧_両手タメ2
+3000315 Axe _ two-handed 2_ Max -- 斧_両手タメ2_最大
+3000400 Axe _ Left Hand -- 斧_左手
+3000410 Axe _ one hand close -- 斧_片手近距離
+3000420 Axe _ Both hands close -- 斧_両手近距離
+3000430 Axe _ One handed guard -- 斧_片手ガード
+3000440 Axe _ Both hands Guard -- 斧_両手ガード
+3000450 Axe _ Paris -- 斧_パリィ
+3000470 Axe _ Large Throw -- 斧_大型投げ
+3000490 Axe _ Falling Throw -- 斧_落下投げ
+3000500 Behind the axe -- 斧_背後
+3000501 Behind the ax _ the second hammer -- 斧_背後_二撃目
+3000505 Axe _ Reinforced behind -- 斧_強化背後
+3000506 Axe _ Strengthens behind _ Two -- 斧_強化背後_二段目
+3000510 Ax _ after Paris -- 斧_パリィ後
+3000511 Axe _ after Paris _ second firing -- 斧_パリィ後_二撃目
+3000515 Paris Axe _ After strengthening -- 斧_強化パリィ後
+3000516 Ax _ After strengthening Paris _ two -- 斧_強化パリィ後_二段目
+3000517 Ax _ After strengthening Paris _ Sandanme -- 斧_強化パリィ後_三段目
+3000520 Axe _ One handed Dash -- 斧_片手ダッシュ
+3000530 Axe _ Both hands dash -- 斧_両手ダッシュ
+3000540 Axe _ one hand step before -- 斧_片手ステップ前
+3000580 Axe _ Hands before step -- 斧_両手ステップ前
+3000600 Axe _ Parigard -- 斧_パリィガード
+3000610 Ax _ Behind the transition -- 斧_背後遷移
+3000615 Ax _ Behind Transition _ missed -- 斧_背後遷移_空振り
+3000620 Axe _ the directing slams -- 斧_演出叩きつけ
+3000700 Axe _ War Cry _ Shockwave -- 斧_ウォークライ_衝撃波
+3000800 Axe _ War Cry _ one-handed entertainment 1 -- 斧_ウォークライ_片手タメ1
+3000805 Axe _ War Cry _ one-handed 1_ maximum -- 斧_ウォークライ_片手タメ1_最大
+3000806 Axe _ War Cry _ one-handed 1_ tackle 1 -- 斧_ウォークライ_片手タメ1_タックル１
+3000807 Axe _ War Cry _ one-handed 1_ tackle 2 -- 斧_ウォークライ_片手タメ1_タックル２
+3000810 Axe _ War Cry _ one-handed Entertainment 2 -- 斧_ウォークライ_片手タメ2
+3000815 Axe _ War Cry _ one-handed 2_ maximum -- 斧_ウォークライ_片手タメ2_最大
+3000900 Axe _ War Cry _ two-handed entertainment 1 -- 斧_ウォークライ_両手タメ1
+3000905 Axe _ War Cry _ two-handed 1_ maximum -- 斧_ウォークライ_両手タメ1_最大
+3000906 Axe _ War Cry _ two-handed 1_ tackle 1 -- 斧_ウォークライ_両手タメ1_タックル１
+3000907 Axe _ War Cry _ two-handed 1_ tackle 2 -- 斧_ウォークライ_両手タメ1_タックル２
+3000910 Axe _ War Cry _ two-handed Entertainment 2 -- 斧_ウォークライ_両手タメ2
+3000915 Axe _ War Cry _ two-handed 2_ maximum -- 斧_ウォークライ_両手タメ2_最大
+3001700 [138] Twin Sword axe: Fat _ 1_ Left hand Combo -- 【138】双剣斧：デブ_双剣左コンボ1_右手
+3001701 [138] Twin Sword axe: Fat _ 1_ Left hand Combo -- 【138】双剣斧：デブ_双剣左コンボ1_左手
+3001710 [138] Twin Sword axe: Fat _ 2_ Left hand Combo -- 【138】双剣斧：デブ_双剣左コンボ2_右手
+3001711 [138] Twin Sword axe: Fat _ 2_ Left hand Combo -- 【138】双剣斧：デブ_双剣左コンボ2_左手
+3001720 [138] Twin Sword axe: Fat _ 3_ Left hand Combo -- 【138】双剣斧：デブ_双剣左コンボ3_右手
+3001721 [138] Twin Sword axe: Fat _ 3_ Left hand Combo -- 【138】双剣斧：デブ_双剣左コンボ3_左手
+3001730 [138] Twin Sword axe: Fat _ bi-Sword dash (right) -- 【138】双剣斧：デブ_双剣ダッシュ（右手）
+3001731 [138] Twin Sword axe: Fat _ bi-Sword dash (left hand) -- 【138】双剣斧：デブ_双剣ダッシュ（左手）
+3001740 [138] Twin Sword axe: Fat _ double-handed (right hand) -- 【138】双剣斧：デブ_双剣ステップ前（右手）
+3001741 [138] Sword axe: Fat _ bi-Sword step before (left hand) -- 【138】双剣斧：デブ_双剣ステップ前（左手）
+3001800 [138] Twin Sword axe: fat _ spinning (right hand) -- 【138】双剣斧：デブ_回転中（右手）
+3001801 [138] Twin Sword axe: fat _ spinning (left hand) -- 【138】双剣斧：デブ_回転中（左手）
+3001820 [138] Twin Sword axe: fat (right hand) -- 【138】双剣斧：デブ_回転強（右手）
+3001821 [138] Twin Sword axe: fat (left hand) -- 【138】双剣斧：デブ_回転強（左手）
+3010000 [102] Hand _ one hand usually 1 -- 【102】ハンド_片手通常1
+3010010 [102] Hand _ one hand usually two -- 【102】ハンド_片手通常2
+3010020 [102] Hand _ one hand usually three -- 【102】ハンド_片手通常3
+3010100 [102] Hand _ one-handed entertainment 1 -- 【102】ハンド_片手タメ1
+3010110 [102] Hand _ one-handed Entertainment 2 -- 【102】ハンド_片手タメ2
+3010200 [102] Hands _ usually one hand -- 【102】ハンド_両手通常1
+3010210 [102] Hand _ usually two hands -- 【102】ハンド_両手通常2
+3010220 [102] Hand _ usually three hands -- 【102】ハンド_両手通常3
+3010300 [102] Hand _ two-handed entertainment 1 -- 【102】ハンド_両手タメ1
+3010310 [102] Hand _ two-handed Entertainment 2 -- 【102】ハンド_両手タメ2
+3010400 [102] Hand _ left hand -- 【102】ハンド_左手
+3020100 [104] Iron Ax _ one-handed entertainment 1 -- 【104】アイアンアクス_片手タメ1
+3020110 [104] Iron Ax _ one-handed Entertainment 2 -- 【104】アイアンアクス_片手タメ2
+3020120 [104] Iron Ax _ one-handed Entertainment 1/Magic Sword Trigger -- 【104】アイアンアクス_片手タメ1／魔法剣発動時
+3020130 [104] Iron Ax _ one-handed Entertainment 2/Magic Sword Trigger -- 【104】アイアンアクス_片手タメ2／魔法剣発動時
+3020300 [104] Iron Ax _ two-handed entertainment 1 -- 【104】アイアンアクス_両手タメ1
+3020301 [104] Iron Ax _ two-handed 1_ around -- 【104】アイアンアクス_両手タメ1_周辺
+3020310 [104] Iron Ax _ two-handed Entertainment 2 -- 【104】アイアンアクス_両手タメ2
+3020800 [104] Iron Ax _ one hand _ Magic attack -- 【104】アイアンアクス_片手_魔法攻撃
+3030100 [103] Big knife _ one-handed entertainment 1 -- 【103】大包丁_片手タメ1
+3030110 [103] Big knife _ one-handed Entertainment 2 -- 【103】大包丁_片手タメ2
+3030300 [103] Large knife _ two-handed entertainment 1 -- 【103】大包丁_両手タメ1
+3030310 [103] Large knife _ two-handed Entertainment 2 -- 【103】大包丁_両手タメ2
+3040100 [125] Gargoyle Tail Ax _ one-handed entertainment 1 -- 【125】ガーゴイルの尾斧_片手タメ1
+3040110 [125] Gargoyle Tail Ax _ one-handed Entertainment 2 -- 【125】ガーゴイルの尾斧_片手タメ2
+3040300 [125] Gargoyle Tail Ax _ two-handed entertainment 1 -- 【125】ガーゴイルの尾斧_両手タメ1
+3040310 [125] Gargoyle Tail Ax _ two-handed Entertainment 2 -- 【125】ガーゴイルの尾斧_両手タメ2
+3200000 Large Ax _ one hand usually 1 -- 大斧_片手通常1
+3200001 Large ax _ One handed usually 1_ range -- 大斧_片手通常1_範囲
+3200010 Large Ax _ one hand usually two -- 大斧_片手通常2
+3200020 Large Ax _ one hand usually three -- 大斧_片手通常3
+3200030 Large ax _ one handed jump -- 大斧_片手ジャンプ1
+3200040 Large ax _ One handed fall loop -- 大斧_片手落下ループ
+3200050 Large ax _ one-handed fall landing -- 大斧_片手落下着地
+3200100 Large ax _ one-handed entertainment 1 -- 大斧_片手タメ1
+3200101 Large ax _ one-handed 1_ around (small) -- 大斧_片手タメ1_周辺（小）
+3200105 Large ax _ one-handed 1_ maximum -- 大斧_片手タメ1_最大
+3200110 Large ax _ one-handed Entertainment 2 -- 大斧_片手タメ2
+3200115 Large ax _ one-handed 2_ maximum -- 大斧_片手タメ2_最大
+3200200 Large Ax _ Two hands usually one -- 大斧_両手通常1
+3200210 Large Axe _ Two hands usually -- 大斧_両手通常2
+3200220 Large Ax _ Two hands usually three -- 大斧_両手通常3
+3200230 Large ax _ two-handed jump 1 -- 大斧_両手ジャンプ1
+3200240 Large axe _ two-handed fall loop -- 大斧_両手落下ループ
+3200250 Large ax _ two-handed fall landing -- 大斧_両手落下着地
+3200300 Large ax _ Both hands 1_ Center -- 大斧_両手タメ1_中心
+3200301 Large Axe _ both hands around 1_ -- 大斧_両手タメ1_周辺
+3200305 Large ax _ two-handed 1_ Center _ maximum -- 大斧_両手タメ1_中心_最大
+3200310 Large ax _ two-handed Entertainment 2 -- 大斧_両手タメ2
+3200315 Large ax _ two-handed 2_ Max -- 大斧_両手タメ2_最大
+3200400 Large Axe _ Left hand -- 大斧_左手
+3200410 Large Axe _ one hand close -- 大斧_片手近距離
+3200420 Large Axe _ both hands close -- 大斧_両手近距離
+3200430 Large Axe _ One handed guard -- 大斧_片手ガード
+3200440 Large Axe _ two handed guards -- 大斧_両手ガード
+3200450 Large Axe _ Paris -- 大斧_パリィ
+3200470 Large Axe _ Large throw -- 大斧_大型投げ
+3200490 Large Axe _ Falling throw -- 大斧_落下投げ
+3200500 Large ax _ behind -- 大斧_背後
+3200501 Large ax _ Behind the second hammer -- 大斧_背後_二撃目
+3200505 Large ax _ Reinforced behind -- 大斧_強化背後
+3200506 Large Ax _ reinforced behind _ Two -- 大斧_強化背後_二段目
+3200510 Large ax _ after Paris -- 大斧_パリィ後
+3200511 Large Ax _ after Paris _ Second hammer -- 大斧_パリィ後_二撃目
+3200515 Large ax _ after strengthening Paris -- 大斧_強化パリィ後
+3200516 Paris Large Ax _ after strengthening _ two -- 大斧_強化パリィ後_二段目
+3200517 Paris Large Ax _ after strengthening _ Sandanme -- 大斧_強化パリィ後_三段目
+3200520 Large Axe _ one handed Dash -- 大斧_片手ダッシュ
+3200530 Large axe _ both hands dash -- 大斧_両手ダッシュ
+3200540 Large Axe _ one hand step before -- 大斧_片手ステップ前
+3200580 Large Ax _ Two hands before step -- 大斧_両手ステップ前
+3200600 Large Axe _ Parigard -- 大斧_パリィガード
+3200610 Large ax _ Behind the transition -- 大斧_背後遷移
+3200615 Large ax _ Behind the transition _ missed -- 大斧_背後遷移_空振り
+3201300 [106] Large axe of the Dragon King _ two-handed entertainment 1 -- 【106】竜王の大斧_両手タメ1
+3201301 [106] Large axe of the King's Dragon _ both hands around 1_ -- 【106】竜王の大斧_両手タメ1_周辺
+3201310 [106] Large ax of the Dragon King _ two-handed entertainment -- 【106】竜王の大斧_両手タメ2
+3201320 [106] Large axe of the dragon -- 【106】竜王の大斧_両手タメ1／魔法剣発動時
+3201330 [106] Big axe of the Dragon -- 【106】竜王の大斧_両手タメ2／魔法剣発動時
+3201800 [106] Dragon King's large Axe _ both hands _ Magic attack -- 【106】竜王の大斧_両手_魔法攻撃
+3202100 [105] Demon's Large axe _ one-handed entertainment 1 -- 【105】デーモンの大斧_片手タメ1
+3202110 [105] Demon's Large axe _ one-handed Entertainment 2 -- 【105】デーモンの大斧_片手タメ2
+3202300 [105] Demon's Great axe _ two-handed entertainment 1 -- 【105】デーモンの大斧_両手タメ1
+3202310 [105] Demon's Large axe _ two-handed Entertainment 2 -- 【105】デーモンの大斧_両手タメ2
+3203000 [107] Black Knight's large axe _ one hand usually 1 -- 【107】黒騎士の大斧_片手通常1
+3203010 [107] Black Knight's large axe _ one hand usually two -- 【107】黒騎士の大斧_片手通常2
+3203020 [107] Black Knight's great Axe _ one hand usually three -- 【107】黒騎士の大斧_片手通常3
+3203100 [107] Black Knight's Great Axe _ one-handed entertainment 1 -- 【107】黒騎士の大斧_片手タメ1
+3203110 [107] Black Knight's Great Axe _ one-handed Entertainment 2 -- 【107】黒騎士の大斧_片手タメ2
+3203200 [107] Black Knight's large axe _ Two hands usually one -- 【107】黒騎士の大斧_両手通常1
+3203210 [107] Black Knight's large axe _ Two hands usually -- 【107】黒騎士の大斧_両手通常2
+3203220 [107] Black Knight's large axe _ Two hands usually three -- 【107】黒騎士の大斧_両手通常3
+3203300 [107] Black Knight's Great Axe _ two-handed entertainment 1 -- 【107】黒騎士の大斧_両手タメ1
+3203310 [107] Black Knight's Great Axe _ two-handed Entertainment 2 -- 【107】黒騎士の大斧_両手タメ2
+3204100 [133] Dogu Celts _ one-handed entertainment 1 -- 【133】土偶の石斧_片手タメ1
+3204110 [133] Dogu Celts _ one-handed Entertainment 2 -- 【133】土偶の石斧_片手タメ2
+3204300 [133] Dogu Celts _ two-handed entertainment 1 -- 【133】土偶の石斧_両手タメ1
+3204310 [133] Dogu Celts _ two-handed Entertainment 2 -- 【133】土偶の石斧_両手タメ2
+3300000 Mallet _ one hand usually 1 -- 槌_片手通常1
+3300010 Mallet _ one hand usually two -- 槌_片手通常2
+3300020 Mallet _ one hand usually three -- 槌_片手通常3
+3300030 Mallet _ One handed jump -- 槌_片手ジャンプ1
+3300040 Mallet _ one-handed fall loop -- 槌_片手落下ループ
+3300050 Mallet _ one-handed fall landing -- 槌_片手落下着地
+3300100 Mallet _ one-handed entertainment 1 -- 槌_片手タメ1
+3300105 Mallet _ one-handed entertainment 1_ Max -- 槌_片手タメ1_最大
+3300110 Mallet _ one-handed Entertainment 2 -- 槌_片手タメ2
+3300115 Mallet _ one-handed entertainment 2_ Max -- 槌_片手タメ2_最大
+3300200 Mallet _ Two hands usually one -- 槌_両手通常1
+3300210 Mallet _ Two Hands usually 2 -- 槌_両手通常2
+3300220 Mallet _ Two hands usually three -- 槌_両手通常3
+3300230 Mallet _ two-handed jump 1 -- 槌_両手ジャンプ1
+3300240 Mallet _ two-handed fall loop -- 槌_両手落下ループ
+3300250 Mallet _ two-handed fall landing -- 槌_両手落下着地
+3300300 Mallet _ two-handed entertainment 1 -- 槌_両手タメ1
+3300305 Mallet _ two-handed 1_ maximum -- 槌_両手タメ1_最大
+3300310 Mallet _ two-handed Entertainment 2 -- 槌_両手タメ2
+3300315 Mallet _ two-handed 2_ maximum -- 槌_両手タメ2_最大
+3300400 Mallet _ Left Hand -- 槌_左手
+3300410 Mallet _ one hand close -- 槌_片手近距離
+3300420 Mallet _ Both hands close -- 槌_両手近距離
+3300430 Mallet _ One handed guard -- 槌_片手ガード
+3300440 Mallet _ Both hands Guard -- 槌_両手ガード
+3300450 Mallet _ Paris -- 槌_パリィ
+3300470 Mallet _ Large Throw -- 槌_大型投げ
+3300490 Mallet _ Falling Throw -- 槌_落下投げ
+3300500 Mallet _ behind -- 槌_背後
+3300501 The mallet _ Behind the second hammer -- 槌_背後_二撃目
+3300505 Mallet _ Reinforced behind -- 槌_強化背後
+3300506 Mallet _ Reinforced behind _ Two -- 槌_強化背後_二段目
+3300510 Mallet _ After Paris -- 槌_パリィ後
+3300511 Mallet _ Paris after second firing -- 槌_パリィ後_二撃目
+3300515 Paris after hammering _ strengthens -- 槌_強化パリィ後
+3300516 Paris hammered _ strengthens after _ Two -- 槌_強化パリィ後_二段目
+3300517 Paris hammered _ Strengthens after _ Sandanme -- 槌_強化パリィ後_三段目
+3300520 Mallet _ one-handed Dash -- 槌_片手ダッシュ
+3300530 Mallet _ Both hands dash -- 槌_両手ダッシュ
+3300540 Mallet _ one hand step before -- 槌_片手ステップ前
+3300580 Mallet _ Both hands step forward -- 槌_両手ステップ前
+3300600 Mallet _ Parigard -- 槌_パリィガード
+3300610 Hammer _ Behind Transition -- 槌_背後遷移
+3300615 Hammer _ Behind Transition _ missed -- 槌_背後遷移_空振り
+3301000 [60] War picks _ one hand usually 1 -- 【60】ウォーピック_片手通常1
+3301010 [60] War picks _ one hand usually two -- 【60】ウォーピック_片手通常2
+3301020 [60] War picks _ one hand usually three -- 【60】ウォーピック_片手通常3
+3301030 [60] War pick _ one handed jump -- 【60】ウォーピック_片手ジャンプ1
+3301040 [60] War pick _ one-handed fall loop -- 【60】ウォーピック_片手落下ループ
+3301050 [60] War pick _ one-handed fall landing -- 【60】ウォーピック_片手落下着地
+3301100 [60] War pick _ one-handed entertainment 1 -- 【60】ウォーピック_片手タメ1
+3301110 [60] War pick _ one-handed Entertainment 2 -- 【60】ウォーピック_片手タメ2
+3301200 [60] War pick _ two hands usually one -- 【60】ウォーピック_両手通常1
+3301210 [60] War pick _ Two hands usually 2 -- 【60】ウォーピック_両手通常2
+3301220 [60] War pick _ two hands usually three -- 【60】ウォーピック_両手通常3
+3301230 [60] War Pick _ two-handed jump 1 -- 【60】ウォーピック_両手ジャンプ1
+3301240 [60] War Pick _ two-handed fall loop -- 【60】ウォーピック_両手落下ループ
+3301250 [60] War Pick _ two-handed fall landing -- 【60】ウォーピック_両手落下着地
+3301300 [60] War Pick _ two-handed entertainment 1 -- 【60】ウォーピック_両手タメ1
+3301310 [60] War Pick _ two-handed Entertainment 2 -- 【60】ウォーピック_両手タメ2
+3301400 [60] War picks _ left hand -- 【60】ウォーピック_左手
+3301490 [60] War pick _ falling Throw -- 【60】ウォーピック_落下投げ
+3301500 [60] War picks _ behind -- 【60】ウォーピック_背後
+3301501 [60] War pick _ behind the second hammer -- 【60】ウォーピック_背後_二撃目
+3301505 [60] War pick _ reinforced behind -- 【60】ウォーピック_強化背後
+3301506 [60] War Pick _ reinforced behind _ Two -- 【60】ウォーピック_強化背後_二段目
+3301510 [60] War pick _ after Paris -- 【60】ウォーピック_パリィ後
+3301511 [60] War Pick _ Paris after the second hammer -- 【60】ウォーピック_パリィ後_二撃目
+3301515 [60] War pick _ after strengthening Paris -- 【60】ウォーピック_強化パリィ後
+3301516 [60] War pick _ after strengthening Paris _ two -- 【60】ウォーピック_強化パリィ後_二段目
+3301517 [60] War pick _ after strengthening Paris _ Sandanme -- 【60】ウォーピック_強化パリィ後_三段目
+3301520 [60] War pick _ one-handed Dash -- 【60】ウォーピック_片手ダッシュ
+3301530 [60] War Pick _ both hands Dash -- 【60】ウォーピック_両手ダッシュ
+3301540 [60] War pick _ one handed step before -- 【60】ウォーピック_片手ステップ前
+3301580 [60] War Pick _ two-handed step before -- 【60】ウォーピック_両手ステップ前
+3302000 【 】 Club _ one hand usually 1 -- 【　】クラブ_片手通常1
+3302010 【 】 Club _ one hand usually two -- 【　】クラブ_片手通常2
+3302020 Club _ one hand usually three -- 【　】クラブ_片手通常3
+3302100 Club _ one-handed entertainment 1 -- 【　】クラブ_片手タメ1
+3302200 【 】 Club _ both hands usually one -- 【　】クラブ_両手通常1
+3302210 【 】 Club _ both hands usually two -- 【　】クラブ_両手通常2
+3302220 【 】 Club _ Two hands usually three -- 【　】クラブ_両手通常3
+3302300 【 】 Club _ two-handed entertainment 1 -- 【　】クラブ_両手タメ1
+3302400 Club _ Left Hand -- 【　】クラブ_左手
+3303000 [61] Pickaxe _ one hand usually 1 -- 【61】つるはし_片手通常1
+3303010 [61] Pickaxe _ one hand usually two -- 【61】つるはし_片手通常2
+3303020 [61] Pickaxe _ one hand usually three -- 【61】つるはし_片手通常3
+3303030 [61] Pickaxe _ one-handed jump 1 -- 【61】つるはし_片手ジャンプ1
+3303040 [61] Pickaxe _ one-handed fall loop -- 【61】つるはし_片手落下ループ
+3303050 [61] Pickaxe _ one-handed fall landing -- 【61】つるはし_片手落下着地
+3303100 [61] Pickaxe _ one-handed entertainment 1 -- 【61】つるはし_片手タメ1
+3303110 [61] Pickaxe _ one-handed Entertainment 2 -- 【61】つるはし_片手タメ2
+3303200 [61] Pickaxe _ both hands usually one -- 【61】つるはし_両手通常1
+3303210 [61] Pickaxe _ Two hands usually 2 -- 【61】つるはし_両手通常2
+3303220 [61] Pickaxe _ Two hands usually three -- 【61】つるはし_両手通常3
+3303230 [61] Pickaxe _ two-handed jump 1 -- 【61】つるはし_両手ジャンプ1
+3303240 [61] Pickaxe _ two-handed fall loop -- 【61】つるはし_両手落下ループ
+3303250 [61] Pickaxe _ two-handed fall landing -- 【61】つるはし_両手落下着地
+3303300 [61] Pickaxe _ two-handed entertainment 1 -- 【61】つるはし_両手タメ1
+3303310 [61] Pickaxe _ two-handed Entertainment 2 -- 【61】つるはし_両手タメ2
+3303400 [61] Pickaxe _ Left Hand -- 【61】つるはし_左手
+3303490 [61] Pickaxe _ Falling throw -- 【61】つるはし_落下投げ
+3303500 [61] Pickaxe _ behind -- 【61】つるはし_背後
+3303501 [61] Pickaxe _ Behind the second hammer -- 【61】つるはし_背後_二撃目
+3303505 [61] Pickaxe _ Reinforced behind -- 【61】つるはし_強化背後
+3303506 [61] Pickaxe _ reinforced behind _ Two -- 【61】つるはし_強化背後_二段目
+3303510 [61] Pickaxe _ after Paris -- 【61】つるはし_パリィ後
+3303511 [61] Pickaxe _ after Paris _ Second hammer -- 【61】つるはし_パリィ後_二撃目
+3303515 [61] Pickaxe _ After strengthening Paris -- 【61】つるはし_強化パリィ後
+3303516 [61] Pickaxe _ After strengthening Paris _ two -- 【61】つるはし_強化パリィ後_二段目
+3303517 [61] Pickaxe _ After strengthening Paris _ Sandanme -- 【61】つるはし_強化パリィ後_三段目
+3303520 [61] Pickaxe _ one-handed Dash -- 【61】つるはし_片手ダッシュ
+3303530 [61] Pickaxe _ both hands dash -- 【61】つるはし_両手ダッシュ
+3303540 [61] Pickaxe _ one hand step before -- 【61】つるはし_片手ステップ前
+3303580 [61] Pickaxe _ two-handed step before -- 【61】つるはし_両手ステップ前
+3500000 Otsuchi _ one hand usually 1 -- 大槌_片手通常1
+3500010 Otsuchi _ one hand usually two -- 大槌_片手通常2
+3500020 Otsuchi _ one hand usually three -- 大槌_片手通常3
+3500030 Otsuchi _ One handed jump -- 大槌_片手ジャンプ1
+3500040 Otsuchi _ one-handed fall loop -- 大槌_片手落下ループ
+3500050 Otsuchi _ one-handed fall landing -- 大槌_片手落下着地
+3500100 Otsuchi _ one-handed entertainment 1 -- 大槌_片手タメ1
+3500101 Otsuchi _ one-handed 1_ around (small) -- 大槌_片手タメ1_周辺（小）
+3500105 Otsuchi _ one-handed entertainment 1_ Max -- 大槌_片手タメ1_最大
+3500110 Otsuchi _ one-handed Entertainment 2 -- 大槌_片手タメ2
+3500115 Otsuchi _ one-handed entertainment 2_ Max -- 大槌_片手タメ2_最大
+3500200 Otsuchi _ Two Hands usually -- 大槌_両手通常1
+3500210 Otsuchi _ Two Hands usually -- 大槌_両手通常2
+3500220 A sledgehammer _ usually three hands -- 大槌_両手通常3
+3500230 Otsuchi _ two-handed jump -- 大槌_両手ジャンプ1
+3500240 Otsuchi _ two-handed fall loop -- 大槌_両手落下ループ
+3500250 Otsuchi _ two-handed fall landing -- 大槌_両手落下着地
+3500300 Otsuchi _ Both Hands 1_ Center -- 大槌_両手タメ1_中心
+3500301 Otsuchi _ two-handed 1_ around -- 大槌_両手タメ1_周辺
+3500305 Otsuchi _ two-handed 1_ Center _ maximum -- 大槌_両手タメ1_中心_最大
+3500310 Otsuchi _ two-handed Entertainment 2 -- 大槌_両手タメ2
+3500315 Otsuchi _ two-handed 2_ maximum -- 大槌_両手タメ2_最大
+3500400 Otsuchi _ Left Hand -- 大槌_左手
+3500410 Otsuchi _ one hand close -- 大槌_片手近距離
+3500420 Otsuchi _ Both hands close -- 大槌_両手近距離
+3500430 Otsuchi _ one-handed guard -- 大槌_片手ガード
+3500440 Otsuchi _ two-handed guards -- 大槌_両手ガード
+3500450 Otsuchi _ Paris -- 大槌_パリィ
+3500470 Otsuchi _ Large Throw -- 大槌_大型投げ
+3500490 Otsuchi _ Falling Throw -- 大槌_落下投げ
+3500500 Otsuchi _ Behind -- 大槌_背後
+3500501 The sledgehammer _ behind the second hammer -- 大槌_背後_二撃目
+3500505 Otsuchi _ Reinforced behind -- 大槌_強化背後
+3500506 Two _ Strengthens behind _ -- 大槌_強化背後_二段目
+3500510 Otsuchi _ After Paris -- 大槌_パリィ後
+3500511 Otsuchi _ Paris _ Second Hammer -- 大槌_パリィ後_二撃目
+3500515 Otsuchi _ After strengthening Paris -- 大槌_強化パリィ後
+3500516 Paris _ Two after battering _ -- 大槌_強化パリィ後_二段目
+3500517 Paris _ Sandanme after battering _ -- 大槌_強化パリィ後_三段目
+3500520 Otsuchi _ one-handed Dash -- 大槌_片手ダッシュ
+3500530 The sledgehammer _ both hands dash -- 大槌_両手ダッシュ
+3500540 Otsuchi _ one hand step before -- 大槌_片手ステップ前
+3500580 The sledgehammer _ Two hands step ahead -- 大槌_両手ステップ前
+3500600 Otsuchi _ Parigard -- 大槌_パリィガード
+3500610 Otsuchi _ Behind the transition -- 大槌_背後遷移
+3500800 Otsuchi _ Magic Attack -- 大槌_魔法攻撃
+3502100 [124] Bango soldier _ one-handed entertainment 1 -- 【124】蛮兵_片手タメ1
+3502110 [124] Bango soldier _ one-handed Entertainment 2 -- 【124】蛮兵_片手タメ2
+3502300 [124] Bango soldiers _ Both hands 1_ Center -- 【124】蛮兵_両手タメ1_中心
+3502310 [124] Bango soldiers _ two-handed Entertainment 2 -- 【124】蛮兵_両手タメ2
+3503100 [70] Sumo _ one-handed entertainment 1 -- 【70】スモウ_片手タメ1
+3503300 [70] Sumo _ Both hands 1_ Center -- 【70】スモウ_両手タメ1_中心
+3600000 Spear _ one hand usually 1 -- 槍_片手通常1
+3600010 Spear _ one hand usually two -- 槍_片手通常2
+3600020 Spear _ one hand usually three -- 槍_片手通常3
+3600030 Spear _ One handed jump -- 槍_片手ジャンプ1
+3600040 Spear _ One Handed fall loop -- 槍_片手落下ループ
+3600050 Spear _ one-handed fall landing -- 槍_片手落下着地
+3600100 Spear _ one-handed entertainment 1 -- 槍_片手タメ1
+3600105 Spear _ one-handed Entertainment 1 MAX -- 槍_片手タメ1最大
+3600110 Spear _ one-handed Entertainment 2 -- 槍_片手タメ2
+3600115 Spear _ one-handed Entertainment 2 Max -- 槍_片手タメ2最大
+3600200 Spear _ Two hands usually one -- 槍_両手通常1
+3600210 Spear _ Two Hands usually 2 -- 槍_両手通常2
+3600220 Spear _ Two hands usually three -- 槍_両手通常3
+3600230 Spear _ two-handed jump 1 -- 槍_両手ジャンプ1
+3600240 Spear _ two-handed fall loop -- 槍_両手落下ループ
+3600250 Spear _ two-handed fall landing -- 槍_両手落下着地
+3600300 Spear _ two-handed entertainment 1 -- 槍_両手タメ1
+3600305 Spear _ two-handed entertainment 1 MAX -- 槍_両手タメ1最大
+3600310 Spear _ two-handed Entertainment 2 -- 槍_両手タメ2
+3600315 Spear _ two-handed entertainment max -- 槍_両手タメ2最大
+3600400 Spear _ Left Hand -- 槍_左手
+3600410 Spear _ one hand short distance -- 槍_片手近距離
+3600420 Spear _ Both hands close -- 槍_両手近距離
+3600430 Spear _ one-handed guard -- 槍_片手ガード
+3600440 Spear _ Both hands Guard -- 槍_両手ガード
+3600450 Spear _ Paris -- 槍_パリィ
+3600460 Spear _ Guard during attack -- 槍_ガード中攻撃
+3600470 Spear _ Large Throw -- 槍_大型投げ
+3600490 Spear _ Falling Throw -- 槍_落下投げ
+3600500 Behind the Spear -- 槍_背後
+3600505 Spear _ Strengthening behind -- 槍_強化背後
+3600510 Spear _ after Paris -- 槍_パリィ後
+3600515 Spear _ After strengthening Paris -- 槍_強化パリィ後
+3600516 Spear _ After strengthening Paris _ two -- 槍_強化パリィ後_二段目
+3600520 Spear _ one-handed Dash -- 槍_片手ダッシュ
+3600530 Spear _ Both hands dash -- 槍_両手ダッシュ
+3600540 Spear _ one hand step before -- 槍_片手ステップ前
+3600600 Spear _ Parigard -- 槍_パリィガード
+3600610 Spear _ Behind the transition -- 槍_背後遷移
+3600615 The spear _ Behind the transition _ missed -- 槍_背後遷移_空振り
+3600720 Spear _ Weak poised -- 槍_構え弱
+3600722 Spear _ Strong -- 槍_構え強
+3600723 Spear _ Holding Strong _ Continuous attack -- 槍_構え強_連撃
+3600790 Spear _ Bunk Attack -- 槍_二段攻撃
+3600800 Spear assault: A continuous hit -- 槍_突撃：連続ヒット
+3600810 Spear assault: No continuous hit motion -- 槍_突撃：連続ヒットモーションなし
+3600820 Spear assault: Continuous hit last thrust -- 槍_突撃：連続ヒットラスト突き
+3601000 Spear _ one hand usually 1 (stick) -- 槍_片手通常1（棒）
+3601010 Spear _ one hand usually 2 (stick) -- 槍_片手通常2（棒）
+3601020 Spear _ one hand usually three (stick) -- 槍_片手通常3（棒）
+3601030 Spear _ one-handed jump 1 (stick) -- 槍_片手ジャンプ1（棒）
+3601040 Spear _ One Handed Fall loop (stick) -- 槍_片手落下ループ（棒）
+3601050 Spear _ one-handed fall landing (stick) -- 槍_片手落下着地（棒）
+3601100 Spear _ one-handed entertainment 1 (stick) -- 槍_片手タメ1（棒）
+3601105 Spear _ one-handed entertainment 1 max (stick) -- 槍_片手タメ1最大（棒）
+3601110 Spear _ one hand Entertainment 2 (stick) -- 槍_片手タメ2（棒）
+3601115 Spear _ one hand Entertainment 2 max (stick) -- 槍_片手タメ2最大（棒）
+3601200 Spear _ Two hands usually one (stick) -- 槍_両手通常1（棒）
+3601210 Spear _ Two Hands usually 2 (stick) -- 槍_両手通常2（棒）
+3601220 Spear _ Two Hands usually 3 (stick) -- 槍_両手通常3（棒）
+3601230 Spear _ two-handed jump 1 (stick) -- 槍_両手ジャンプ1（棒）
+3601240 Spear _ two-handed Fall loop (stick) -- 槍_両手落下ループ（棒）
+3601250 Spear _ two-handed fall landing (stick) -- 槍_両手落下着地（棒）
+3601300 Spear _ two-handed Entertainment 1 (stick) -- 槍_両手タメ1（棒）
+3601305 Spear _ two-handed one maximum (stick) -- 槍_両手タメ1最大（棒）
+3601310 Spear _ two-handed Entertainment 2 (stick) -- 槍_両手タメ2（棒）
+3601315 Spear _ two-handed maximum (stick) -- 槍_両手タメ2最大（棒）
+3601460 Spear _ Guard during attack (stick) -- 槍_ガード中攻撃（棒）
+3601520 Spear _ one-handed dash (stick) -- 槍_片手ダッシュ（棒）
+3601530 Spear _ both Hands dash (stick) -- 槍_両手ダッシュ（棒）
+3601540 Spear _ one hand step before (stick) -- 槍_片手ステップ前（棒）
+3601600 Spear _ Parigard (stick) -- 槍_パリィガード（棒）
+3601610 Spear _ Behind the Transition (stick) -- 槍_背後遷移（棒）
+3601615 Spear _ Behind the transition _ missed (stick) -- 槍_背後遷移_空振り（棒）
+3601720 Spear _ Weak (stick) -- 槍_構え弱（棒）
+3601722 Spear _ Strong (stick) -- 槍_構え強（棒）
+3601723 Spear _ strong _ Continuous Hammer (stick) -- 槍_構え強_連撃（棒）
+3601790 Spear _ Bunk Attack (bar) -- 槍_二段攻撃（棒）
+3601800 Spear _ Assault: Continuous hit (stick) -- 槍_突撃：連続ヒット（棒）
+3601810 Spear assault: Continuous hit final stage (bar) -- 槍_突撃：連続ヒット最終段（棒）
+3601820 Spear assault: Continuous hit last thrust (stick) -- 槍_突撃：連続ヒットラスト突き（棒）
+3602100 [65] Rectangular Six _ one-handed entertainment 1 -- 【65】六目_片手タメ1
+3602101 [65] Rectangular Six _ one-handed 1_ second hammer -- 【65】六目_片手タメ1_二撃目
+3602110 [65] Rectangular Six _ one-handed Entertainment 2 -- 【65】六目_片手タメ2
+3603300 [68] Spear of the Dragon hunting _ two-handed entertainment 1 -- 【68】竜狩りの槍_両手タメ1
+3603310 [68] Dragon Hunting Spear _ two-handed Entertainment 2 -- 【68】竜狩りの槍_両手タメ2
+3604100 [63] Partisan _ one-handed entertainment 1 -- 【63】パルチザン_片手タメ1
+3604110 [63] Partisan _ one-handed Entertainment 2 -- 【63】パルチザン_片手タメ2
+3604300 [63] Partisan _ two-handed entertainment 1 -- 【63】パルチザン_両手タメ1
+3604310 [63] Partisan _ two-handed Entertainment 2 -- 【63】パルチザン_両手タメ2
+3605100 [64] Demon Spear _ one-handed entertainment 1 -- 【64】デーモンの槍_片手タメ1
+3605110 [64] Demon Spear _ one-handed Entertainment 2 -- 【64】デーモンの槍_片手タメ2
+3605300 [64] Demon Spear _ two-handed entertainment 1 -- 【64】デーモンの槍_両手タメ1
+3605310 [64] Demon Spear _ two-handed Entertainment 2 -- 【64】デーモンの槍_両手タメ2
+3606100 [66] Silver Knight Spear _ one-handed entertainment 1 -- 【66】銀騎士の槍_片手タメ1
+3606110 [66] Silver Knight Spear _ one-handed Entertainment 2 -- 【66】銀騎士の槍_片手タメ2
+3606300 [66] Silver Knight Spear _ two-handed entertainment 1 -- 【66】銀騎士の槍_両手タメ1
+3606310 [66] Silver Knight Spear _ two-handed Entertainment 2 -- 【66】銀騎士の槍_両手タメ2
+3608100 [67] Pike _ one-handed entertainment 1 -- 【67】パイク_片手タメ1
+3608110 [67] Pike _ one-handed Entertainment 2 -- 【67】パイク_片手タメ2
+3608300 [67] Pike _ two-handed entertainment 1 -- 【67】パイク_両手タメ1
+3608310 [67] Pike _ two-handed Entertainment 2 -- 【67】パイク_両手タメ2
+3608520 [67] Pike _ one-handed Dash -- 【67】パイク_片手ダッシュ
+3608521 [67] Pike _ one-handed dash (stop) -- 【67】パイク_片手ダッシュ（止め）
+3608530 [67] Pike _ both hands dash -- 【67】パイク_両手ダッシュ
+3608531 [67] Pike _ both hands dash (stop) -- 【67】パイク_両手ダッシュ（止め）
+3800000 Axe Spear _ one hand usually 1 -- 斧槍_片手通常1
+3800010 Axe Spear _ one hand usually two -- 斧槍_片手通常2
+3800020 Axe Spear _ one hand usually three -- 斧槍_片手通常3
+3800030 Axe Spear _ One handed jump -- 斧槍_片手ジャンプ1
+3800040 Axe Spear _ One handed fall loop -- 斧槍_片手落下ループ
+3800050 Axe Spear _ one-handed fall landing -- 斧槍_片手落下着地
+3800100 Axe Spear _ one-handed entertainment 1 -- 斧槍_片手タメ1
+3800105 Axe Spear _ one-handed 1_ maximum -- 斧槍_片手タメ1_最大
+3800110 Axe Spear _ one-handed Entertainment 2 -- 斧槍_片手タメ2
+3800115 Axe Spear _ one-handed 2_ maximum -- 斧槍_片手タメ2_最大
+3800200 Axe Spear _ Two hands usually one -- 斧槍_両手通常1
+3800210 Axe Spear _ Two hands usually -- 斧槍_両手通常2
+3800220 Axe Spear _ Two hands usually three -- 斧槍_両手通常3
+3800230 Axe Spear _ two-handed jump 1 -- 斧槍_両手ジャンプ1
+3800240 Axe Spear _ two-handed fall loop -- 斧槍_両手落下ループ
+3800250 Axe Spear _ two-handed fall landing -- 斧槍_両手落下着地
+3800300 Axe Spear _ two-handed entertainment 1 -- 斧槍_両手タメ1
+3800305 Axe Spear _ two-handed 1_ Max -- 斧槍_両手タメ1_最大
+3800310 Axe Spear _ two-handed Entertainment 2 -- 斧槍_両手タメ2
+3800315 Axe Spear _ two-handed 2_ Max -- 斧槍_両手タメ2_最大
+3800400 Axe Spear _ Left hand -- 斧槍_左手
+3800410 Axe Spear _ one hand close -- 斧槍_片手近距離
+3800420 Axe Spear _ both hands close -- 斧槍_両手近距離
+3800430 Axe Spear _ one-handed guard -- 斧槍_片手ガード
+3800440 Axe Spear _ two handed guards -- 斧槍_両手ガード
+3800450 Axe Spear _ Paris -- 斧槍_パリィ
+3800470 Axe Spear _ Large Throw -- 斧槍_大型投げ
+3800490 Axe Spear _ Falling Throw -- 斧槍_落下投げ
+3800500 Axe Spear _ behind -- 斧槍_背後
+3800505 Axe Spear _ Reinforced behind -- 斧槍_強化背後
+3800510 Axe Spear _ after Paris -- 斧槍_パリィ後
+3800515 Axe Spear _ after strengthening Paris -- 斧槍_強化パリィ後
+3800516 Ax Spear _ After strengthening Paris _ two -- 斧槍_強化パリィ後_二段目
+3800520 Axe Spear _ one handed Dash -- 斧槍_片手ダッシュ
+3800530 Axe Spear _ both hands dash -- 斧槍_両手ダッシュ
+3800540 Axe Spear _ one hand step before -- 斧槍_片手ステップ前
+3800580 Axe Spear _ Hands before step -- 斧槍_両手ステップ前
+3800600 Axe Spear _ Parigard -- 斧槍_パリィガード
+3800610 Axe Spear _ Behind the transition -- 斧槍_背後遷移
+3800720 Axe Spear _ poised weak attack -- 斧槍_構え弱攻撃
+3801000 【 】 Size (slashing) _ one hand usually 1 -- 【　】サイズ（斬撃）_片手通常1
+3801010 【 】 Size (slashing) _ one hand usually two -- 【　】サイズ（斬撃）_片手通常2
+3801020 【 】 Size (slashing) _ one hand usually three -- 【　】サイズ（斬撃）_片手通常3
+3801030 【 】 Size (slashing) _ one-handed jump -- 【　】サイズ（斬撃）_片手ジャンプ1
+3801040 【 】 Size (slashing) _ one-handed fall loop -- 【　】サイズ（斬撃）_片手落下ループ
+3801050 【 】 Size (slashing) _ one-handed fall landing -- 【　】サイズ（斬撃）_片手落下着地
+3801100 【 】 Size (slashing) _ one-handed entertainment 1 -- 【　】サイズ（斬撃）_片手タメ1
+3801110 【 】 Size (slashing) _ one-handed Entertainment 2 -- 【　】サイズ（斬撃）_片手タメ2
+3801200 【 】 Size (slashing) _ Two hands usually one -- 【　】サイズ（斬撃）_両手通常1
+3801210 【 】 Size (slashing) _ Two hands usually 2 -- 【　】サイズ（斬撃）_両手通常2
+3801220 【 】 Size (slashing) _ Two hands usually three -- 【　】サイズ（斬撃）_両手通常3
+3801230 【 】 Size (slashing) _ two-handed jump 1 -- 【　】サイズ（斬撃）_両手ジャンプ1
+3801240 【 】 Size (slashing) _ Both hands Fall loop -- 【　】サイズ（斬撃）_両手落下ループ
+3801250 【 】 Size (slashing) _ Both hands fall landing -- 【　】サイズ（斬撃）_両手落下着地
+3801300 【 】 Size (slashing) _ two-handed entertainment 1 -- 【　】サイズ（斬撃）_両手タメ1
+3801310 【 】 Size (slashing) _ two-handed Entertainment 2 -- 【　】サイズ（斬撃）_両手タメ2
+3801520 【 】 Size (slashing) _ one-handed Dash -- 【　】サイズ（斬撃）_片手ダッシュ
+3801530 【 】 Size (slashing) _ Both hands Dash -- 【　】サイズ（斬撃）_両手ダッシュ
+3801540 [] Size (slashing) _ one hand step before -- 【　】サイズ（斬撃）_片手ステップ前
+3802000 [109] Lucerne _ one hand usually 1 -- 【109】ルッツェルン（刺突）_片手通常1
+3802010 [109] Lucerne (thrust) _ one hand usually two -- 【109】ルッツェルン（刺突）_片手通常2
+3802020 [109] Lucerne (thrust) _ one hand usually three -- 【109】ルッツェルン（刺突）_片手通常3
+3802030 [109] Lucerne (one-handed jump) -- 【109】ルッツェルン（刺突）_片手ジャンプ1
+3802040 [109] Lucerne (Thrust) _ one-handed fall loop -- 【109】ルッツェルン（刺突）_片手落下ループ
+3802050 [109] Lucerne (Thrust) _ one-handed fall landing -- 【109】ルッツェルン（刺突）_片手落下着地
+3802100 [109] Lucerne _ one-handed entertainment 1 -- 【109】ルッツェルン（刺突）_片手タメ1
+3802110 [109] Lucerne (Thrust) _ one-handed Entertainment 2 -- 【109】ルッツェルン（刺突）_片手タメ2
+3802200 [109] Lucerne (Thrust) _ Two hands usually one -- 【109】ルッツェルン（刺突）_両手通常1
+3802210 [109] Lucerne (Thrust) _ Two hands usually -- 【109】ルッツェルン（刺突）_両手通常2
+3802220 [109] Lucerne (stabbing) _ Two hands usually three -- 【109】ルッツェルン（刺突）_両手通常3
+3802230 [109] Lucerne (Thrust) _ two-handed jump 1 -- 【109】ルッツェルン（刺突）_両手ジャンプ1
+3802240 [109] Lucerne (Thrust) _ Both hands Fall loop -- 【109】ルッツェルン（刺突）_両手落下ループ
+3802250 [109] Lucerne (Thrust) _ two-handed fall landing -- 【109】ルッツェルン（刺突）_両手落下着地
+3802300 [109] Lucerne (stabbing) _ two-handed entertainment 1 -- 【109】ルッツェルン（刺突）_両手タメ1
+3802310 [109] Lucerne (Stab) _ two-handed Entertainment 2 -- 【109】ルッツェルン（刺突）_両手タメ2
+3802400 [109] Lucerne _ Left Hand -- 【109】ルッツェルン（刺突）_左手
+3802490 [109] Lucerne (thrust) _ Falling throw -- 【109】ルッツェルン（刺突）_落下投げ
+3802500 [109] Lucerne (thrust) _ Behind -- 【109】ルッツェルン（刺突）_背後
+3802505 [109] Lucerne (thrust) _ Behind the reinforcement -- 【109】ルッツェルン（刺突）_強化背後
+3802510 [109] Lucerne (stabbing) _ after Paris -- 【109】ルッツェルン（刺突）_パリィ後
+3802515 [109] Lucerne (stabbing) _ After strengthening Paris -- 【109】ルッツェルン（刺突）_強化パリィ後
+3802516 [109] Lucerne (stabbing) _ After strengthening Paris _ two -- 【109】ルッツェルン（刺突）_強化パリィ後_二段目
+3802520 [109] Lucerne (Thrust) _ one-handed Dash -- 【109】ルッツェルン（刺突）_片手ダッシュ
+3802530 [109] Lucerne (Thrust) _ Both hands Dash -- 【109】ルッツェルン（刺突）_両手ダッシュ
+3802540 [109] Lucerne (needle thrust) _ one hand step before -- 【109】ルッツェルン（刺突）_片手ステップ前
+3802580 [109] Lucerne (Thrust) _ before both hands step -- 【109】ルッツェルン（刺突）_両手ステップ前
+3803100 [110] Giant's hull bird _ one-handed entertainment 1 -- 【110】巨人のハルバード_片手タメ1
+3803110 [110] Giant's hull bird _ one-handed Entertainment 2 -- 【110】巨人のハルバード_片手タメ2
+3803300 [110] Giant's hull bird _ two-handed entertainment 1 -- 【110】巨人のハルバード_両手タメ1
+3803310 [110] Giant's hull bird _ two-handed Entertainment 2 -- 【110】巨人のハルバード_両手タメ2
+3804100 [111] Dress _ one-handed entertainment 1 -- 【111】ドレス_片手タメ1
+3804110 [111] Dress _ one-handed Entertainment 2 -- 【111】ドレス_片手タメ2
+3804300 [111] Dress _ two-handed entertainment 1 -- 【111】ドレス_両手タメ1
+3804310 [111] Dress _ two-handed Entertainment 2 -- 【111】ドレス_両手タメ2
+3805100 [112] Black Knight Axe Spear _ one-handed entertainment 1 -- 【112】黒騎士の斧槍_片手タメ1
+3805300 [112] Black Knight Axe Spear _ two-handed entertainment 1 -- 【112】黒騎士の斧槍_両手タメ1
+3805310 [112] Black Knight Axe Spear _ two-handed Entertainment 2 -- 【112】黒騎士の斧槍_両手タメ2
+4100100 Catalyst _ One-handed entertainment 1 -- 触媒_片手タメ1
+4100300 Catalyst _ Two-handed entertainment 1 -- 触媒_両手タメ1
+4100400 Catalyst _ Left Hand -- 触媒_左手
+4100430 Catalyst _ one-handed guard -- 触媒_片手ガード
+4100440 Catalysts _ two-handed guards -- 触媒_両手ガード
+4100610 Catalyst _ Behind the transition -- 触媒_背後遷移
+4101100 Cane _ one-handed entertainment 1 -- 杖_片手タメ1
+4101300 Cane _ two-handed entertainment 1 -- 杖_両手タメ1
+4101400 Cane _ Left Hand -- 杖_左手
+4102100 [127] Spear Cane _ one-handed entertainment 1 -- 【127】槍杖_片手タメ1
+4102300 [127] Spear Cane _ two-handed entertainment 1 -- 【127】槍杖_両手タメ1
+4102400 [127] Spear Cane _ left hand -- 【127】槍杖_左手
+4103100 [121] Lantern _ one-handed entertainment 1 -- 【121】ランタン_片手タメ1
+4103300 [121] Lantern _ two-handed entertainment 1 -- 【121】ランタン_両手タメ1
+4103400 [121] Lantern _ left Hand -- 【121】ランタン_左手
+4103410 [121] Lantern _ one hand close -- 【121】ランタン_片手近距離
+4103420 [121] Lantern _ both hands close range -- 【121】ランタン_両手近距離
+4104100 [136] Lord of the Abyss _ one-handed entertainment 1 -- 【136】深淵の主_片手タメ1
+4104110 [136] Lord of the Abyss _ one-handed Entertainment 2 -- 【136】深淵の主_片手タメ2
+4104300 [136] Lord of the Abyss _ two-handed entertainment 1 -- 【136】深淵の主_両手タメ1
+4104310 [136] Lord of the Abyss _ two-handed Entertainment 2 -- 【136】深淵の主_両手タメ2
+4104400 [136] Lord of the Abyss _ left hand -- 【136】深淵の主_左手
+4200000 Fist _ one hand usually 1 -- 拳_片手通常1
+4200010 Fist _ one hand usually two -- 拳_片手通常2
+4200020 Fist _ one hand usually three -- 拳_片手通常3
+4200030 Fist _ One handed jump -- 拳_片手ジャンプ1
+4200040 Fist _ One handed fall loop -- 拳_片手落下ループ
+4200050 Fist _ one-handed fall landing -- 拳_片手落下着地
+4200100 Fist _ one-handed entertainment 1 -- 拳_片手タメ1
+4200105 Fist _ one-handed 1_ maximum -- 拳_片手タメ1_最大
+4200110 Fist _ one-handed Entertainment 2 -- 拳_片手タメ2
+4200115 Fist _ one-handed 2_ maximum -- 拳_片手タメ2_最大
+4200400 Fist _ Left Hand -- 拳_左手
+4200410 Fist _ one hand close -- 拳_片手近距離
+4200430 Fist _ one-handed guard -- 拳_片手ガード
+4200450 Fist _ Paris -- 拳_パリィ
+4200470 Fist _ Large Throw -- 拳_大型投げ
+4200490 Fist _ Drop Throw -- 拳_落下投げ
+4200500 Fist _ behind -- 拳_背後
+4200501 Fist _ Behind the second hammer -- 拳_背後_二撃目
+4200505 Fist _ Strengthening behind -- 拳_強化背後
+4200510 Fist _ after Paris -- 拳_パリィ後
+4200511 Fist _ Paris _ Second Hammer -- 拳_パリィ後_二撃目
+4200515 Fist _ after strengthening Paris -- 拳_強化パリィ後
+4200516 Paris Fist _ strengthens after _ Two -- 拳_強化パリィ後_二段目
+4200517 Paris Fist _ strengthens after _ Sandanme -- 拳_強化パリィ後_三段目
+4200520 Fist _ one handed Dash -- 拳_片手ダッシュ
+4200540 Fist _ one hand step before -- 拳_片手ステップ前
+4200600 Fist _ Parigard -- 拳_パリィガード
+4200610 Fist _ Behind the transition -- 拳_背後遷移
+4200615 Fist _ Behind Transition _ missed -- 拳_背後遷移_空振り
+4200700 Fist _ Ladder right hand attack -- 拳_ハシゴ右手攻撃
+4200701 Fist _ Ladder left hand attack -- 拳_ハシゴ左手攻撃
+4200702 Fist _ Ladder right foot attack -- 拳_ハシゴ右足攻撃
+4200703 Fist _ Ladder left foot attack -- 拳_ハシゴ左足攻撃
+4200900 [117] Dragon Fist _ one hand usually -- 【117】竜拳_片手通常
+4200901 [117] Dragon Fist _ one hand large -- 【117】竜拳_片手大
+4200902 [117] Dragon Fist _ left hand -- 【117】竜拳_左手
+4200903 [117] Dragon Fist _ one-handed Dash -- 【117】竜拳_片手ダッシュ
+4200904 [117] Dragon Fist _ one handed step -- 【117】竜拳_片手ステップ
+4200905 [117] Dragon Fist _ one-handed jump attack -- 【117】竜拳_片手ジャンプ攻撃
+4200906 [117] Dragon Fist _ one-handed fall attack -- 【117】竜拳_片手落下中攻撃
+4200907 [117] Dragon Fist _ one-handed fall attack _ around -- 【117】竜拳_片手落下攻撃_周辺
+4202000 [86] Nails _ one hand usually 1 -- 【86】かぎ爪_片手通常1
+4202010 [86] Claws _ one hand usually two -- 【86】かぎ爪_片手通常2
+4202020 [86] Claws _ one hand usually three -- 【86】かぎ爪_片手通常3
+4202030 [86] Claws _ one-handed jump 1 -- 【86】かぎ爪_片手ジャンプ1
+4202040 [86] Claws _ one-handed fall loop -- 【86】かぎ爪_片手落下ループ
+4202050 [86] Claws _ one-handed fall landing -- 【86】かぎ爪_片手落下着地
+4202100 [86] Claws _ one-handed entertainment 1 -- 【86】かぎ爪_片手タメ1
+4202110 [86] Claw nails _ one-handed Entertainment 2 -- 【86】かぎ爪_片手タメ2
+4202400 [86] Claws _ left Hand -- 【86】かぎ爪_左手
+4202490 [86] Claws _ falling throws -- 【86】かぎ爪_落下投げ
+4202500 [86] Claws _ behind -- 【86】かぎ爪_背後
+4202501 [86] Claw _ behind _ Second Hammer -- 【86】かぎ爪_背後_二撃目
+4202505 [86] Claws _ reinforced behind -- 【86】かぎ爪_強化背後
+4202510 [86] Claws _ after Paris -- 【86】かぎ爪_パリィ後
+4202511 [86] Claw _ Paris After _ Second hammer -- 【86】かぎ爪_パリィ後_二撃目
+4202515 [86] Claws _ after strengthening Paris -- 【86】かぎ爪_強化パリィ後
+4202516 [86] Claws _ after strengthening Paris _ two -- 【86】かぎ爪_強化パリィ後_二段目
+4202517 [86] Claws _ After strengthening Paris _ Sandanme -- 【86】かぎ爪_強化パリィ後_三段目
+4202520 [86] Claws _ one-handed Dash -- 【86】かぎ爪_片手ダッシュ
+4202540 [86] Claws _ one hand step before -- 【86】かぎ爪_片手ステップ前
+4203100 [123] Dark Han _ one-handed entertainment 1 -- 【123】ダークハン_片手タメ1
+4203110 [123] Dark Han _ one-handed Entertainment 2 -- 【123】ダークハン_片手タメ2
+4203120 [123] Dark Hand _ one-handed Entertainment 1/Magic Trigger -- 【123】ダークハンド_片手タメ1／魔法発動時
+4203130 [123] Dark Hand _ one-handed Entertainment 2/Magic Trigger -- 【123】ダークハンド_片手タメ2／魔法発動時
+4203400 [123] Dark hand _ left hand -- 【123】ダークハンド_左手
+4203405 [123] Dark Hand _ Left hand/Magic Trigger -- 【123】ダークハンド_左手／魔法発動時
+4203430 [123] Dark Hand _ one-handed guard -- 【123】ダークハンド_片手ガード
+4204100 [87] Large keel _ one-handed entertainment 1 -- 【87】大竜骨_片手タメ1
+4204110 [87] Large keel _ one-handed Entertainment 2 -- 【87】大竜骨_片手タメ2
+4300000 Whip _ one hand usually 1 -- 鞭_片手通常1
+4300010 Whip _ one hand usually two -- 鞭_片手通常2
+4300020 Whip _ one hand usually three -- 鞭_片手通常3
+4300030 Whip _ One handed jump -- 鞭_片手ジャンプ1
+4300040 Whip _ one-handed fall loop -- 鞭_片手落下ループ
+4300050 Whip _ one-handed fall landing -- 鞭_片手落下着地
+4300100 Whip _ one-handed entertainment 1 -- 鞭_片手タメ1
+4300110 Whip _ one-handed Entertainment 2 -- 鞭_片手タメ2
+4300200 Whip _ Two hands usually one -- 鞭_両手通常1
+4300210 Whips _ Two hands usually 2 -- 鞭_両手通常2
+4300220 Whip _ Two hands usually three -- 鞭_両手通常3
+4300230 Whip _ two-handed jump 1 -- 鞭_両手ジャンプ1
+4300240 Whip _ two-handed fall loop -- 鞭_両手落下ループ
+4300250 Whip _ two-handed fall landing -- 鞭_両手落下着地
+4300300 Whip _ two-handed entertainment 1 -- 鞭_両手タメ1
+4300310 Whip _ two-handed Entertainment 2 -- 鞭_両手タメ2
+4300400 Whip _ Left Hand -- 鞭_左手
+4300410 Whip _ one hand close -- 鞭_片手近距離
+4300420 Whip _ both hands close -- 鞭_両手近距離
+4300430 Whip _ one-handed guard -- 鞭_片手ガード
+4300440 Whip _ Both hands guard -- 鞭_両手ガード
+4300450 Whips _ Paris -- 鞭_パリィ
+4300520 Whip _ one-handed Dash -- 鞭_片手ダッシュ
+4300530 Whip _ both hands dash -- 鞭_両手ダッシュ
+4300540 Whip _ one hand step before -- 鞭_片手ステップ前
+4300580 Whip _ hands before step -- 鞭_両手ステップ前
+4300600 Whip _ Behind the transition -- 鞭_背後遷移
+4400000 Bow _ one hand usually -- 弓_片手通常
+4400100 Bow _ one-handed entertainment -- 弓_片手タメ
+4400200 Bow _ Both hands usually -- 弓_両手通常
+4400300 Bow _ hands-on entertainment -- 弓_両手タメ
+4400400 Bow _ Left Hand -- 弓_左手
+4400410 Bow _ one hand close -- 弓_片手近距離
+4400420 Bow _ Both hands close -- 弓_両手近距離
+4400430 Bow _ one-handed guard -- 弓_片手ガード
+4400440 Bow _ two-handed guards -- 弓_両手ガード
+4400450 Bows _ Paris -- 弓_パリィ
+4400500 Bow _ Behind -- 弓_背後
+4400510 Bows _ After Paris -- 弓_パリィ後
+4400520 Bow _ one-handed Dash -- 弓_片手ダッシュ
+4400530 Bow _ Both hands dash -- 弓_両手ダッシュ
+4400540 Bow _ one hand step before -- 弓_片手ステップ前
+4400580 Bow _ Hands before step -- 弓_両手ステップ前
+4400600 Bow _ Behind the transition -- 弓_背後遷移
+4600000 Crossbow _ one hand usually -- 弩_片手通常
+4600100 Crossbow _ one-handed entertainment -- 弩_片手タメ
+4600200 Crossbow _ Both hands usually -- 弩_両手通常
+4600300 Crossbow _ hands-on entertainment -- 弩_両手タメ
+4600400 Crossbow _ Left Hand -- 弩_左手
+4600410 Crossbow _ one-handed close -- 弩_片手近距離
+4600420 Crossbow _ Both hands close -- 弩_両手近距離
+4600430 Crossbow _ one-handed guard -- 弩_片手ガード
+4600440 Crossbow _ two-handed guards -- 弩_両手ガード
+4600450 Crossbow _ Paris -- 弩_パリィ
+4600500 Crossbow _ behind -- 弩_背後
+4600510 Crossbow _ After Paris -- 弩_パリィ後
+4600520 Crossbow _ one-handed Dash -- 弩_片手ダッシュ
+4600530 Crossbow _ Both hands dash -- 弩_両手ダッシュ
+4600540 Crossbow _ one handed step ahead -- 弩_片手ステップ前
+4600580 Crossbow _ Both hands step ahead -- 弩_両手ステップ前
+4600600 Crossbow _ Parigard -- 弩_パリィガード
+4600610 Crossbow _ Behind the transition -- 弩_背後遷移
+4700000 Large Shield _ one hand usually 1 -- 大型盾_片手通常1
+4700030 Large Shield _ one handed jump -- 大型盾_片手ジャンプ1
+4700040 Large Shield _ one handed fall loop -- 大型盾_片手落下ループ
+4700050 Large Shield _ one-handed fall landing -- 大型盾_片手落下着地
+4700100 Large Shield _ one-handed entertainment 1 -- 大型盾_片手タメ1
+4700200 Large Shield _ Two hands usually one -- 大型盾_両手通常1
+4700230 Large Shield _ two-handed jump 1 -- 大型盾_両手ジャンプ1
+4700240 Large Shield _ two-handed fall loop -- 大型盾_両手落下ループ
+4700250 Large Shield _ two-handed fall landing -- 大型盾_両手落下着地
+4700300 Large Shield _ two-handed entertainment 1 -- 大型盾_両手タメ1
+4700400 Large Shield _ left hand -- 大型盾_左手
+4700410 Large Shield _ one hand close -- 大型盾_片手近距離
+4700420 Large Shield _ both hands close -- 大型盾_両手近距離
+4700430 Large Shield _ one handed guard -- 大型盾_片手ガード
+4700440 Large Shield _ two-handed guard -- 大型盾_両手ガード
+4700520 Large Shield _ one-handed Dash -- 大型盾_片手ダッシュ
+4700521 Large Shield _ One handed dash _ Dash -- 大型盾_片手ダッシュ_ダッシュ中
+4700530 Large shield _ both hands dash -- 大型盾_両手ダッシュ
+4700531 Large shield _ Both hands dash _ Dash -- 大型盾_両手ダッシュ_ダッシュ中
+4700540 Large Shield _ one hand step before -- 大型盾_片手ステップ前
+4700580 Large Shield _ Two hands before step -- 大型盾_両手ステップ前
+4700600 Large Shields _ Parigard -- 大型盾_パリィガード
+4700601 Large Shield _ General range -- 大型盾_汎用範囲
+4700610 Large Shield _ behind the transition -- 大型盾_背後遷移
+4702100 [126] Wheel _ one-handed entertainment 1 -- 【126】車輪_片手タメ1
+4702110 [126] Wheel _ one-handed Entertainment 2 -- 【126】車輪_片手タメ2
+4702300 [126] Wheels _ two-handed entertainment 1 -- 【126】車輪_両手タメ1
+4702310 [126] Wheels _ two-handed Entertainment 2 -- 【126】車輪_両手タメ2
+4800000 Shield _ one hand usually 1 -- 盾_片手通常1
+4800010 Shield _ one hand usually two -- 盾_片手通常2
+4800020 Shields _ one hand usually three -- 盾_片手通常3
+4800030 Shield _ One handed jump -- 盾_片手ジャンプ1
+4800040 Shield _ one-handed fall loop -- 盾_片手落下ループ
+4800050 Shield _ one-handed fall landing -- 盾_片手落下着地
+4800100 Shield _ one-handed entertainment 1 -- 盾_片手タメ1
+4800110 Shield _ one-handed Entertainment 2 -- 盾_片手タメ2
+4800200 Shield _ Two hands usually one -- 盾_両手通常1
+4800210 Shield _ Two hands usually 2 -- 盾_両手通常2
+4800220 Shields _ Two hands usually three -- 盾_両手通常3
+4800230 Shield _ two-handed jump 1 -- 盾_両手ジャンプ1
+4800240 Shield _ two-handed fall loop -- 盾_両手落下ループ
+4800250 Shield _ two-handed fall landing -- 盾_両手落下着地
+4800300 Shield _ two-handed entertainment 1 -- 盾_両手タメ1
+4800301 Shield _ two-handed 1_ Dash -- 盾_両手タメ1_ダッシュ中
+4800310 Shield _ two-handed Entertainment 2 -- 盾_両手タメ2
+4800400 Shield _ Left Hand -- 盾_左手
+4800410 Shield _ one hand close -- 盾_片手近距離
+4800420 Shield _ both hands close -- 盾_両手近距離
+4800430 Shield _ One handed guard -- 盾_片手ガード
+4800440 Shield _ Both hands guard -- 盾_両手ガード
+4800450 Shields _ Paris -- 盾_パリィ
+4800520 Shield _ one-handed Dash -- 盾_片手ダッシュ
+4800521 Shields _ one-handed dash _ in dash -- 盾_片手ダッシュ_ダッシュ中
+4800530 Shield _ both hands dash -- 盾_両手ダッシュ
+4800531 Shields _ Both hands dash _ in Dash -- 盾_両手ダッシュ_ダッシュ中
+4800540 Shield _ one hand step before -- 盾_片手ステップ前
+4800580 Shield _ Two hands before step -- 盾_両手ステップ前
+4800600 Shields _ Parigard -- 盾_パリィガード
+4800610 Shield behind transition -- 盾_背後遷移
+4800780 Shield _ Blown attack -- 盾_吹き飛ばし攻撃
+4802100 [92] Crystal Ring Shield _ one-handed entertainment 1 -- 【92】水晶輪の盾_片手タメ1
+4802110 [92] Crystal Ring Shield _ one-handed Entertainment 2 -- 【92】水晶輪の盾_片手タメ2
+4802120 [92] Crystal Ring Shield _ one-handed Entertainment 1/Magic Sword Trigger -- 【92】水晶輪の盾_片手タメ1／魔法剣発動時
+4802130 [92] Crystal Ring Shield _ one-handed Entertainment 2/Magic Sword Trigger -- 【92】水晶輪の盾_片手タメ2／魔法剣発動時
+4802300 [92] Crystal Ring Shield _ two-handed entertainment 1 -- 【92】水晶輪の盾_両手タメ1
+4802310 [92] Crystal Ring Shield _ two-handed Entertainment 2 -- 【92】水晶輪の盾_両手タメ2
+4802320 [92] Crystal Ring Shield _ two-handed One/magic sword trigger -- 【92】水晶輪の盾_両手タメ1／魔法剣発動時
+4802330 [92] Crystal Ring Shield _ two-handed 2/magic Sword Trigger -- 【92】水晶輪の盾_両手タメ2／魔法剣発動時
+4802400 [92] Crystal ring Shield _ left hand -- 【92】水晶輪の盾_左手
+4802405 [92] Crystal ring Shield _ left Hand/Magic Sword Trigger -- 【92】水晶輪の盾_左手／魔法剣発動時
+4802800 [92] Crystal Ring Shield _ Magic Sword -- 【92】水晶輪の盾_魔法剣
+4803000 [93] Spike _ one hand usually 1 -- 【93】スパイク_片手通常1
+4803010 [93] Spikes _ one hand usually two -- 【93】スパイク_片手通常2
+4803020 [93] Spike _ one hand usually three -- 【93】スパイク_片手通常3
+4803030 [93] Spike _ one-handed jump 1 -- 【93】スパイク_片手ジャンプ1
+4803040 [93] Spike _ one-handed fall loop -- 【93】スパイク_片手落下ループ
+4803050 [93] Spike _ one-handed fall landing -- 【93】スパイク_片手落下着地
+4803100 [93] Spike _ one-handed entertainment 1 -- 【93】スパイク_片手タメ1
+4803110 [93] Spike _ one-handed Entertainment 2 -- 【93】スパイク_片手タメ2
+4803200 [93] Spike _ both hands usually one -- 【93】スパイク_両手通常1
+4803210 [93] Spike _ Two hands usually 2 -- 【93】スパイク_両手通常2
+4803220 [93] Spike _ Two hands usually three -- 【93】スパイク_両手通常3
+4803230 [93] Spike _ two-handed jump 1 -- 【93】スパイク_両手ジャンプ1
+4803240 [93] Spike _ Both hands Fall loop -- 【93】スパイク_両手落下ループ
+4803250 [93] Spike _ Two-handed fall landing -- 【93】スパイク_両手落下着地
+4803300 [93] Spike _ two-handed entertainment 1 -- 【93】スパイク_両手タメ1
+4803301 [93] Spike _ two-handed 1_ Dash -- 【93】スパイク_両手タメ1_ダッシュ中
+4803310 [93] Spike _ two-handed Entertainment 2 -- 【93】スパイク_両手タメ2
+4803400 [93] Spike _ Left hand -- 【93】スパイク_左手
+4803410 [93] Spike _ one hand close -- 【93】スパイク_片手近距離
+4803420 [93] Spikes _ both hands close -- 【93】スパイク_両手近距離
+4803430 [93] Spike _ one-handed guard -- 【93】スパイク_片手ガード
+4803440 [93] Spike _ Both hands guard -- 【93】スパイク_両手ガード
+4803450 [93] Spike _ Paris -- 【93】スパイク_パリィ
+4803520 [93] Spike _ one-handed Dash -- 【93】スパイク_片手ダッシュ
+4803521 [93] Spike _ one-handed dash _ in dash -- 【93】スパイク_片手ダッシュ_ダッシュ中
+4803530 [93] Spike _ both hands dash -- 【93】スパイク_両手ダッシュ
+4803531 [93] Spike _ Both hands dash _ Dash -- 【93】スパイク_両手ダッシュ_ダッシュ中
+4803540 [93] Spike _ one hand step before -- 【93】スパイク_片手ステップ前
+4803580 [93] Spike _ two-handed step before -- 【93】スパイク_両手ステップ前
+4803600 [93] Spike _ Parigard -- 【93】スパイク_パリィガード
+4900400 Torch _ Left Hand -- 松明_左手
+5000000 Sickle _ one hand usually 1 -- 鎌_片手通常1
+5000010 Sickle _ one hand usually two -- 鎌_片手通常2
+5000020 Sickle _ one hand usually three -- 鎌_片手通常3
+5000030 Sickle _ One handed jump -- 鎌_片手ジャンプ1
+5000040 Sickle _ One handed fall loop -- 鎌_片手落下ループ
+5000050 Sickle _ one-handed fall landing -- 鎌_片手落下着地
+5000100 Sickle _ one-handed entertainment 1 -- 鎌_片手タメ1
+5000105 Sickle _ one-handed 1_ maximum -- 鎌_片手タメ1_最大
+5000110 Sickle _ one-handed Entertainment 2 -- 鎌_片手タメ2
+5000115 Sickle _ one-handed 2_ maximum -- 鎌_片手タメ2_最大
+5000200 Sickle _ Two hands usually one -- 鎌_両手通常1
+5000210 Sickle _ Two Hands usually 2 -- 鎌_両手通常2
+5000220 Sickle _ Two hands usually three -- 鎌_両手通常3
+5000230 Sickle _ two-handed jump -- 鎌_両手ジャンプ1
+5000240 Sickle _ two-handed fall loop -- 鎌_両手落下ループ
+5000250 Sickle _ two-handed fall landing -- 鎌_両手落下着地
+5000300 Sickle _ two-handed entertainment 1 -- 鎌_両手タメ1
+5000305 Sickle _ two-handed 1_ Max -- 鎌_両手タメ1_最大
+5000310 Sickle _ two-handed Entertainment 2 -- 鎌_両手タメ2
+5000315 Sickle _ two-handed 2_ Max -- 鎌_両手タメ2_最大
+5000400 Sickle _ Left Hand -- 鎌_左手
+5000410 Sickle _ one hand close -- 鎌_片手近距離
+5000420 Sickle _ Both hands close -- 鎌_両手近距離
+5000430 Sickle _ One handed guard -- 鎌_片手ガード
+5000440 Sickle _ Both hands guard -- 鎌_両手ガード
+5000450 Sickle _ Paris -- 鎌_パリィ
+5000470 Sickle _ Large Throw -- 鎌_大型投げ
+5000490 Sickle _ Fall Throw -- 鎌_落下投げ
+5000500 Behind the Sickle -- 鎌_背後
+5000505 Sickle _ Reinforced behind -- 鎌_強化背後
+5000510 Sickle _ after Paris -- 鎌_パリィ後
+5000515 Paris after strengthening sickle -- 鎌_強化パリィ後
+5000516 Sickle _ After strengthening Paris _ two -- 鎌_強化パリィ後_二段目
+5000520 Sickle _ one-handed Dash -- 鎌_片手ダッシュ
+5000530 Sickle _ Both hands dash -- 鎌_両手ダッシュ
+5000540 Sickle _ one hand step before -- 鎌_片手ステップ前
+5000580 Sickle _ hands before step -- 鎌_両手ステップ前
+5000600 Sickle _ Parigard -- 鎌_パリィガード
+5001000 Sickle _ one hand usually 1 (stick) -- 鎌_片手通常1（棒）
+5001010 Sickle _ one hand usually 2 (stick) -- 鎌_片手通常2（棒）
+5001020 Sickle _ one hand usually 3 (stick) -- 鎌_片手通常3（棒）
+5001030 Sickle _ one-handed jump 1 (stick) -- 鎌_片手ジャンプ1（棒）
+5001040 Sickle _ One handed Fall loop (stick) -- 鎌_片手落下ループ（棒）
+5001050 Sickle _ one-handed fall landing (rod) -- 鎌_片手落下着地（棒）
+5001100 Sickle _ one-handed entertainment 1 (stick) -- 鎌_片手タメ1（棒）
+5001105 Sickle _ one-handed 1_ max (stick) -- 鎌_片手タメ1_最大（棒）
+5001110 Sickle _ one hand Entertainment 2 (stick) -- 鎌_片手タメ2（棒）
+5001115 Sickle _ one-handed 2_ max (stick) -- 鎌_片手タメ2_最大（棒）
+5001200 Sickle _ Two Hands usually 1 (stick) -- 鎌_両手通常1（棒）
+5001210 Sickle _ Two Hands usually 2 (stick) -- 鎌_両手通常2（棒）
+5001220 Sickle _ Two Hands usually 3 (stick) -- 鎌_両手通常3（棒）
+5001230 Sickle _ two-handed jump 1 (stick) -- 鎌_両手ジャンプ1（棒）
+5001240 Sickle _ two-handed fall loop (rod) -- 鎌_両手落下ループ（棒）
+5001250 Sickle _ two-handed fall landing (rod) -- 鎌_両手落下着地（棒）
+5001300 Sickle _ two-handed Entertainment 1 (stick) -- 鎌_両手タメ1（棒）
+5001305 Sickle _ two-handed 1_ max (stick) -- 鎌_両手タメ1_最大（棒）
+5001310 Sickle _ two-handed Entertainment 2 (stick) -- 鎌_両手タメ2（棒）
+5001315 Sickle _ two-handed 2_ max (stick) -- 鎌_両手タメ2_最大（棒）
+5001410 Sickle _ one hand short distance (stick) -- 鎌_片手近距離（棒）
+5001420 Sickle _ Both hands short distance (stick) -- 鎌_両手近距離（棒）
+5001430 Sickle _ one-handed guard (stick) -- 鎌_片手ガード（棒）
+5001440 Sickle _ Two-handed guard (stick) -- 鎌_両手ガード（棒）
+5001450 Sickle _ Paris (stick) -- 鎌_パリィ（棒）
+5001470 Sickle _ Large throw (stick) -- 鎌_大型投げ（棒）
+5001490 Sickle _ Fall Throw (stick) -- 鎌_落下投げ（棒）
+5001500 Sickle _ Behind (stick) -- 鎌_背後（棒）
+5001505 Sickle _ Reinforced behind (stick) -- 鎌_強化背後（棒）
+5001510 Sickle _ Paris (stick) -- 鎌_パリィ後（棒）
+5001515 Sickle _ After strengthening Paris (bar) -- 鎌_強化パリィ後（棒）
+5001516 Sickle _ After strengthening Paris _ Two (bar) -- 鎌_強化パリィ後_二段目（棒）
+5001520 Sickle _ one-handed dash (stick) -- 鎌_片手ダッシュ（棒）
+5001530 Sickle _ both hands dash (stick) -- 鎌_両手ダッシュ（棒）
+5001540 Sickle _ one hand step before (stick) -- 鎌_片手ステップ前（棒）
+5001580 Sickle _ two-handed step before (stick) -- 鎌_両手ステップ前（棒）
+5001600 Sickle _ Parigard (stick) -- 鎌_パリィガード（棒）
+5100000 A single hand usually one sword -- 大曲剣_片手通常1
+5100001 One-handed sword _ usually 1_ range -- 大曲剣_片手通常1_範囲
+5100010 One-handed sword _ usually two -- 大曲剣_片手通常2
+5100020 One-handed sword _ usually three -- 大曲剣_片手通常3
+5100030 One-handed Jump 1 -- 大曲剣_片手ジャンプ1
+5100040 One-handed Fall loop -- 大曲剣_片手落下ループ
+5100050 One-handed fall landing -- 大曲剣_片手落下着地
+5100100 One-handed Entertainment 1 -- 大曲剣_片手タメ1
+5100105 One-handed 1_ Max -- 大曲剣_片手タメ1_最大
+5100110 One-handed Entertainment 2 -- 大曲剣_片手タメ2
+5100115 One-handed 2_ Max -- 大曲剣_片手タメ2_最大
+5100200 Two-handed sword _ usually one -- 大曲剣_両手通常1
+5100210 One-handed sword _ two hands usually -- 大曲剣_両手通常2
+5100220 Masterpiece Sword _ Two hands usually three -- 大曲剣_両手通常3
+5100230 Two-handed jump one sword -- 大曲剣_両手ジャンプ1
+5100240 Two-handed Fall loop -- 大曲剣_両手落下ループ
+5100250 Two-handed fall landing -- 大曲剣_両手落下着地
+5100300 A sword with two hands -- 大曲剣_両手タメ1
+5100305 Masterpiece Sword _ two-handed 1_ Max -- 大曲剣_両手タメ1_最大
+5100310 A sword with two hands -- 大曲剣_両手タメ2
+5100315 Masterpiece Sword _ two-handed 2_ Max -- 大曲剣_両手タメ2_最大
+5100400 The left hand -- 大曲剣_左手
+5100410 One-handed Sword -- 大曲剣_片手近距離
+5100420 Two-handed Sword -- 大曲剣_両手近距離
+5100430 One-handed guard -- 大曲剣_片手ガード
+5100440 A masterpiece Sword _ two handed guards -- 大曲剣_両手ガード
+5100450 A Paris Sword -- 大曲剣_パリィ
+5100470 A large throw -- 大曲剣_大型投げ
+5100490 A cast sword _ a falling throw -- 大曲剣_落下投げ
+5100500 Behind the Sword -- 大曲剣_背後
+5100501 Behind the Sword _ the second hammer -- 大曲剣_背後_二撃目
+5100505 A masterpiece behind the reinforcement -- 大曲剣_強化背後
+5100506 Two Sword _ Reinforced behind _ -- 大曲剣_強化背後_二段目
+5100510 Paris after the sword -- 大曲剣_パリィ後
+5100511 A Paris Sword _ second Hammer -- 大曲剣_パリィ後_二撃目
+5100515 A Paris after strengthening the sword -- 大曲剣_強化パリィ後
+5100516 A-Paris Sword _ after strengthening two -- 大曲剣_強化パリィ後_二段目
+5100517 A-Paris Sword _ after strengthening Sandanme -- 大曲剣_強化パリィ後_三段目
+5100520 One-handed Dash -- 大曲剣_片手ダッシュ
+5100530 Two-handed Dash -- 大曲剣_両手ダッシュ
+5100540 One hand step before the sword -- 大曲剣_片手ステップ前
+5100580 Two-handed sword before step -- 大曲剣_両手ステップ前
+5100600 A Parigard Sword -- 大曲剣_パリィガード
+5100610 Behind the transition -- 大曲剣_背後遷移
+5100615 The behind-the-back transition _ missed -- 大曲剣_背後遷移_空振り
+5100700 Masterpiece: the first half -- 大曲剣_回転：前半
+5100710 A Nagi-Spinning sword -- 大曲剣_回転なぎ払い
+5100720 Masterpiece Sword _ Spinning slams -- 大曲剣_回転叩きつけ
+5101100 [116] Tomb King Song Sword _ one-handed entertainment 1 -- 【116】墓王の曲剣_片手タメ1
+5101110 [116] Tomb King Song Sword _ one-handed Entertainment 2 -- 【116】墓王の曲剣_片手タメ2
+5101300 [116] Tomb King Song Sword _ two-handed entertainment 1 -- 【116】墓王の曲剣_両手タメ1
+5101310 [116] Tomb King Song Sword _ two-handed Entertainment 2 -- 【116】墓王の曲剣_両手タメ2

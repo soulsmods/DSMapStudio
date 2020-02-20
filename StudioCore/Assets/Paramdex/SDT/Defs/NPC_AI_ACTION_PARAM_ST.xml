@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>NPC_AI_ACTION_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 directionMovementId" />
+    <Field Def="u8 actId0 = 22" />
+    <Field Def="u8 actId1" />
+    <Field Def="u8 actId2" />
+    <Field Def="u8 isDisableDirectionMovement" />
+    <Field Def="u8 isDisableAct0" />
+    <Field Def="u8 isDisableAct1" />
+    <Field Def="u8 isDisableAct2" />
+    <Field Def="s32 actType" />
+    <Field Def="u8 isDisableAiCheck" />
+    <Field Def="dummy8 pad1[3]" />
+  </Fields>
+</PARAMDEF>

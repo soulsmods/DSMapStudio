@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CAMERA_SET_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 LockCamParamID1 = -1" />
+    <Field Def="s32 CameraParamID1 = -1" />
+    <Field Def="f32 ActionIdInterval1_1" />
+    <Field Def="f32 ActionIdInterval1_2" />
+    <Field Def="s32 LockCamParamID2 = -1" />
+    <Field Def="s32 CameraParamID2 = -1" />
+    <Field Def="f32 ActionIdInterval2_1" />
+    <Field Def="f32 ActionIdInterval2_2" />
+    <Field Def="s32 LockCamParamID3 = -1" />
+    <Field Def="s32 CameraParamID3 = -1" />
+    <Field Def="f32 ActionIdInterval3_1" />
+    <Field Def="f32 ActionIdInterval3_2" />
+    <Field Def="s32 LockCamParamID4 = -1" />
+    <Field Def="s32 CameraParamID4 = -1" />
+    <Field Def="f32 ActionIdInterval4_1" />
+    <Field Def="f32 ActionIdInterval4_2" />
+    <Field Def="s32 LockCamParamID5 = -1" />
+    <Field Def="s32 CameraParamID5 = -1" />
+    <Field Def="f32 ActionIdInterval5_1" />
+    <Field Def="f32 ActionIdInterval5_2" />
+    <Field Def="s32 LockCamParamID6 = -1" />
+    <Field Def="s32 CameraParamID6 = -1" />
+    <Field Def="f32 ActionIdInterval6_1" />
+    <Field Def="f32 ActionIdInterval6_2" />
+    <Field Def="s32 LockCamParamID7 = -1" />
+    <Field Def="s32 CameraParamID7 = -1" />
+    <Field Def="f32 ActionIdInterval7_1" />
+    <Field Def="f32 ActionIdInterval7_2" />
+    <Field Def="s32 LockCamParamID8 = -1" />
+    <Field Def="s32 CameraParamID8 = -1" />
+    <Field Def="f32 ActionIdInterval8_1" />
+    <Field Def="f32 ActionIdInterval8_2" />
+    <Field Def="s32 LockCamParamID9 = -1" />
+    <Field Def="s32 CameraParamID9 = -1" />
+    <Field Def="f32 ActionIdInterval9_1" />
+    <Field Def="f32 ActionIdInterval9_2" />
+    <Field Def="s32 LockCamParamID10 = -1" />
+    <Field Def="s32 CameraParamID10 = -1" />
+    <Field Def="f32 ActionIdInterval10_1" />
+    <Field Def="f32 ActionIdInterval10_2" />
+    <Field Def="s32 LockCamParamID11 = -1" />
+    <Field Def="s32 CameraParamID11 = -1" />
+    <Field Def="f32 ActionIdInterval11_1" />
+    <Field Def="f32 ActionIdInterval11_2" />
+    <Field Def="s32 LockCamParamID12 = -1" />
+    <Field Def="s32 CameraParamID12 = -1" />
+    <Field Def="f32 ActionIdInterval12_1" />
+    <Field Def="f32 ActionIdInterval12_2" />
+    <Field Def="s32 LockCamParamID13 = -1" />
+    <Field Def="s32 CameraParamID13 = -1" />
+    <Field Def="f32 ActionIdInterval13_1" />
+    <Field Def="f32 ActionIdInterval13_2" />
+    <Field Def="s32 LockCamParamID14 = -1" />
+    <Field Def="s32 CameraParamID14 = -1" />
+    <Field Def="f32 ActionIdInterval14_1" />
+    <Field Def="f32 ActionIdInterval14_2" />
+    <Field Def="s32 LockCamParamID15 = -1" />
+    <Field Def="s32 CameraParamID15 = -1" />
+    <Field Def="f32 ActionIdInterval15_1" />
+    <Field Def="f32 ActionIdInterval15_2" />
+    <Field Def="s32 LockCamParamID16 = -1" />
+    <Field Def="s32 CameraParamID16 = -1" />
+    <Field Def="f32 ActionIdInterval16_1" />
+    <Field Def="f32 ActionIdInterval16_2" />
+    <Field Def="s32 LockCamParamID17 = -1" />
+    <Field Def="s32 CameraParamID17 = -1" />
+    <Field Def="f32 ActionIdInterval17_1" />
+    <Field Def="f32 ActionIdInterval17_2" />
+    <Field Def="s32 LockCamParamID18 = -1" />
+    <Field Def="s32 CameraParamID18 = -1" />
+    <Field Def="f32 ActionIdInterval18_1" />
+    <Field Def="f32 ActionIdInterval18_2" />
+    <Field Def="s32 LockCamParamID19 = -1" />
+    <Field Def="s32 CameraParamID19 = -1" />
+    <Field Def="f32 ActionIdInterval19_1" />
+    <Field Def="f32 ActionIdInterval19_2" />
+    <Field Def="s32 LockCamParamID20 = -1" />
+    <Field Def="s32 CameraParamID20 = -1" />
+    <Field Def="f32 ActionIdInterval20_1" />
+    <Field Def="f32 ActionIdInterval20_2" />
+    <Field Def="s32 LockCamParamID21 = -1" />
+    <Field Def="s32 CameraParamID21 = -1" />
+    <Field Def="f32 ActionIdInterval21_1" />
+    <Field Def="f32 ActionIdInterval21_2" />
+    <Field Def="s32 LockCamParamID22 = -1" />
+    <Field Def="s32 CameraParamID22 = -1" />
+    <Field Def="f32 ActionIdInterval22_1" />
+    <Field Def="f32 ActionIdInterval22_2" />
+    <Field Def="s32 LockCamParamID23 = -1" />
+    <Field Def="s32 CameraParamID23 = -1" />
+    <Field Def="f32 ActionIdInterval23_1" />
+    <Field Def="f32 ActionIdInterval23_2" />
+    <Field Def="s32 LockCamParamID24 = -1" />
+    <Field Def="s32 CameraParamID24 = -1" />
+    <Field Def="f32 ActionIdInterval24_1" />
+    <Field Def="f32 ActionIdInterval24_2" />
+    <Field Def="s32 LockCamParamID25 = -1" />
+    <Field Def="s32 CameraParamID25 = -1" />
+    <Field Def="f32 ActionIdInterval25_1" />
+    <Field Def="f32 ActionIdInterval25_2" />
+    <Field Def="s32 LockCamParamID26 = -1" />
+    <Field Def="s32 CameraParamID26 = -1" />
+    <Field Def="f32 ActionIdInterval26_1" />
+    <Field Def="f32 ActionIdInterval26_2" />
+    <Field Def="s32 LockCamParamID27 = -1" />
+    <Field Def="s32 CameraParamID27 = -1" />
+    <Field Def="f32 ActionIdInterval27_1" />
+    <Field Def="f32 ActionIdInterval27_2" />
+    <Field Def="s32 LockCamParamID28 = -1" />
+    <Field Def="s32 CameraParamID28 = -1" />
+    <Field Def="f32 ActionIdInterval28_1" />
+    <Field Def="f32 ActionIdInterval28_2" />
+    <Field Def="s32 LockCamParamID29 = -1" />
+    <Field Def="s32 CameraParamID29 = -1" />
+    <Field Def="f32 ActionIdInterval29_1" />
+    <Field Def="f32 ActionIdInterval29_2" />
+    <Field Def="s32 LockCamParamID30 = -1" />
+    <Field Def="s32 CameraParamID30 = -1" />
+    <Field Def="f32 ActionIdInterval30_1" />
+    <Field Def="f32 ActionIdInterval30_2" />
+    <Field Def="s32 LockCamParamID31 = -1" />
+    <Field Def="s32 CameraParamID31 = -1" />
+    <Field Def="f32 ActionIdInterval31_1" />
+    <Field Def="f32 ActionIdInterval31_2" />
+    <Field Def="s32 LockCamParamID32 = -1" />
+    <Field Def="s32 CameraParamID32 = -1" />
+    <Field Def="f32 ActionIdInterval32_1" />
+    <Field Def="f32 ActionIdInterval32_2" />
+    <Field Def="s32 LockCamParamID33 = -1" />
+    <Field Def="s32 CameraParamID33 = -1" />
+    <Field Def="f32 ActionIdInterval33_1" />
+    <Field Def="f32 ActionIdInterval33_2" />
+    <Field Def="s32 LockCamParamID34 = -1" />
+    <Field Def="s32 CameraParamID34 = -1" />
+    <Field Def="f32 ActionIdInterval34_1" />
+    <Field Def="f32 ActionIdInterval34_2" />
+    <Field Def="s32 LockCamParamID35 = -1" />
+    <Field Def="s32 CameraParamID35 = -1" />
+    <Field Def="f32 ActionIdInterval35_1" />
+    <Field Def="f32 ActionIdInterval35_2" />
+    <Field Def="s32 LockCamParamID36 = -1" />
+    <Field Def="s32 CameraParamID36 = -1" />
+    <Field Def="f32 ActionIdInterval36_1" />
+    <Field Def="f32 ActionIdInterval36_2" />
+    <Field Def="s32 LockCamParamID37 = -1" />
+    <Field Def="s32 CameraParamID37 = -1" />
+    <Field Def="f32 ActionIdInterval37_1" />
+    <Field Def="f32 ActionIdInterval37_2" />
+    <Field Def="s32 LockCamParamID38 = -1" />
+    <Field Def="s32 CameraParamID38 = -1" />
+    <Field Def="f32 ActionIdInterval38_1" />
+    <Field Def="f32 ActionIdInterval38_2" />
+    <Field Def="s32 LockCamParamID39 = -1" />
+    <Field Def="s32 CameraParamID39 = -1" />
+    <Field Def="f32 ActionIdInterval39_1" />
+    <Field Def="f32 ActionIdInterval39_2" />
+    <Field Def="s32 LockCamParamID40 = -1" />
+    <Field Def="s32 CameraParamID40 = -1" />
+    <Field Def="f32 ActionIdInterval40_1" />
+    <Field Def="f32 ActionIdInterval40_2" />
+    <Field Def="s32 LockCamParamID41 = -1" />
+    <Field Def="s32 CameraParamID41 = -1" />
+    <Field Def="f32 ActionIdInterval41_1" />
+    <Field Def="f32 ActionIdInterval41_2" />
+    <Field Def="s32 LockCamParamID42 = -1" />
+    <Field Def="s32 CameraParamID42 = -1" />
+    <Field Def="f32 ActionIdInterval42_1" />
+    <Field Def="f32 ActionIdInterval42_2" />
+    <Field Def="s32 LockCamParamID43 = -1" />
+    <Field Def="s32 CameraParamID43 = -1" />
+    <Field Def="f32 ActionIdInterval43_1" />
+    <Field Def="f32 ActionIdInterval43_2" />
+    <Field Def="s32 LockCamParamID44 = -1" />
+    <Field Def="s32 CameraParamID44 = -1" />
+    <Field Def="f32 ActionIdInterval44_1" />
+    <Field Def="f32 ActionIdInterval44_2" />
+    <Field Def="s32 LockCamParamID45 = -1" />
+    <Field Def="s32 CameraParamID45 = -1" />
+    <Field Def="f32 ActionIdInterval45_1" />
+    <Field Def="f32 ActionIdInterval45_2" />
+  </Fields>
+</PARAMDEF>

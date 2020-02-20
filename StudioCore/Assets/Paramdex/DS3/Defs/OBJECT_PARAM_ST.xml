@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>OBJECT_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s16 HP = -1" />
+    <Field Def="u16 Defense" />
+    <Field Def="s16 extRefTexId = -1" />
+    <Field Def="s16 materialId = 4" />
+    <Field Def="u8 animBreakIdMax" />
+    <Field Def="u8 isCamHit:1 = 1" />
+    <Field Def="u8 isBreakByPlayerCollide:1" />
+    <Field Def="u8 isAnimBreak:1" />
+    <Field Def="u8 isPenetrationBulletHit:1 = 1" />
+    <Field Def="u8 isChrHit:1 = 1" />
+    <Field Def="u8 isAttackBacklash:1" />
+    <Field Def="u8 isDisableBreakForFirstAppear:1" />
+    <Field Def="u8 isLadder:1" />
+    <Field Def="u8 isAnimPauseOnRemoPlay:1" />
+    <Field Def="u8 isDamageNoHit:1" />
+    <Field Def="u8 isMoveObj:1" />
+    <Field Def="u8 UnkBool1:1" />
+    <Field Def="u8 UnkBool2:1" />
+    <Field Def="u8 UnkBool3:1" />
+    <Field Def="u8 mapRelated:1" />
+    <Field Def="u8 IsBreakByCollide2:1" />
+    <Field Def="s8 defaultLodParamId" />
+    <Field Def="s32 breakSfxId = -1" />
+    <Field Def="s32 behParamId0 = -1" />
+    <Field Def="s32 behParamId1 = -1" />
+    <Field Def="s32 behParamId2 = -1" />
+    <Field Def="u8 Unk2" />
+    <Field Def="u8 HavokSystem_Wind" />
+    <Field Def="u8 HavokSystem_BreakObj" />
+    <Field Def="u8 Unk5 = 1" />
+    <Field Def="f32 WindEffectRate" />
+    <Field Def="f32 Unk7" />
+    <Field Def="f32 breakObjRate" />
+    <Field Def="f32 burnLifeTime" />
+    <Field Def="f32 breakUpdate" />
+    <Field Def="s32 burnVfxId0 = -1" />
+    <Field Def="s32 burnVfxId1 = -1" />
+    <Field Def="s32 burnVfxId2 = -1" />
+    <Field Def="s32 burnVfxId3 = -1" />
+    <Field Def="s32 burnBehaviorId0 = -1" />
+    <Field Def="s32 burnBehaviorId1 = -1" />
+    <Field Def="s32 burnBehaviorId2 = -1" />
+    <Field Def="s32 burnBehaviorId3 = -1" />
+    <Field Def="u16 burnInterval = 9999" />
+    <Field Def="u8 Unk20" />
+    <Field Def="u8 Unk22" />
+    <Field Def="f32 BurnBehaviorTime" />
+    <Field Def="f32 BurnTimeBegin0" />
+    <Field Def="f32 BurnTimeBegin1" />
+    <Field Def="f32 BurnTimeBegin2" />
+    <Field Def="f32 BurnTimeBegin3" />
+    <Field Def="f32 BurnTimeEnd0" />
+    <Field Def="f32 BurnTimeEnd1" />
+    <Field Def="f32 BurnTimeEnd2" />
+    <Field Def="f32 BurnTimeEnd3" />
+    <Field Def="s32 aiSoundParamId = 3010" />
+    <Field Def="f32 Unk32" />
+    <Field Def="f32 Unk33" />
+    <Field Def="f32 Unk34" />
+    <Field Def="f32 Unk35" />
+    <Field Def="f32 Unk36" />
+    <Field Def="f32 Unk37" />
+    <Field Def="f32 Unk38" />
+    <Field Def="f32 Unk39" />
+    <Field Def="f32 Unk40" />
+    <Field Def="s32 Unk41 = -1" />
+    <Field Def="s16 Unk42" />
+    <Field Def="s16 SpawnParam = 128" />
+    <Field Def="f32 autoDestroyTimer" />
+    <Field Def="f32 Unk44" />
+    <Field Def="s32 SoundId" />
+    <Field Def="s32 ObjectMaterialSfxIndex = -1" />
+    <Field Def="dummy8 pad1[68]" />
+  </Fields>
+</PARAMDEF>

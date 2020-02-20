@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CHR_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Chr ID" />
+    <Field Def="s32 Behavior Param ID" />
+    <Field Def="s32 Common Param ID" />
+    <Field Def="s32 Move Param ID" />
+    <Field Def="s32 Unk10" />
+    <Field Def="u16 Unk14" />
+    <Field Def="u16 Unk16" />
+    <Field Def="s32 Unk18" />
+    <Field Def="s32 Unk1C" />
+    <Field Def="s32 Unk20" />
+    <Field Def="s32 Unk24" />
+    <Field Def="s32 Base HP (NG)" />
+    <Field Def="u8 Unk2C" />
+    <Field Def="u8 Unk2C" />
+    <Field Def="u8 Unk2C" />
+    <Field Def="u8 Unk2C" />
+    <Field Def="f32 Base Stamina Regeneration (*10)" />
+    <Field Def="u8 Unk34" />
+    <Field Def="u8 Unk35" />
+    <Field Def="u8 Unk36" />
+    <Field Def="u8 Unk37" />
+    <Field Def="u8 Unk38" />
+    <Field Def="u8 Unk39" />
+    <Field Def="u8 Unk3A" />
+    <Field Def="u8 Unk3B" />
+    <Field Def="f32 Unk3C" />
+    <Field Def="s32 Logic Com ID" />
+    <Field Def="s32 Dead Type ID" />
+    <Field Def="s32 Unk48" />
+    <Field Def="s32 Equip Weapon ID" />
+    <Field Def="s32 Equip Weapon ID" />
+    <Field Def="s32 Equip Weapon ID" />
+    <Field Def="s32 Equip Weapon ID" />
+    <Field Def="s32 Equip Weapon ID" />
+    <Field Def="s32 Equip Weapon ID" />
+    <Field Def="s32 Unk64" />
+    <Field Def="s32 Unk68" />
+    <Field Def="s32 Unk6C" />
+    <Field Def="s32 Unk70" />
+    <Field Def="s32 Unk74" />
+    <Field Def="s32 Unk78" />
+    <Field Def="s32 Unk7C" />
+    <Field Def="s32 Unk80" />
+    <Field Def="s32 Unk84" />
+    <Field Def="s32 Unk88" />
+    <Field Def="s32 Unk8C" />
+    <Field Def="s32 Unk90" />
+    <Field Def="s32 Unk94" />
+    <Field Def="s32 Unk98" />
+    <Field Def="s32 Physical Defence">
+      <Description>Follows the typical defence formula</Description>
+    </Field>
+    <Field Def="s32 Magic Absorption">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Lightning Absorption">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Fire Absorption">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Dark Absorption">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Poison Resist">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Bleed Resist">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Curse Resist">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 Petrify Resist">
+      <Description>100 is 100% blocked</Description>
+    </Field>
+    <Field Def="s32 UnkC0" />
+    <Field Def="s32 UnkC4" />
+    <Field Def="s32 UnkC8" />
+    <Field Def="s32 UnkCC" />
+    <Field Def="s32 Souls" />
+    <Field Def="s32 UnkD4" />
+    <Field Def="f32 Damage / Aux Multiplier" />
+    <Field Def="f32 UnkDC" />
+    <Field Def="f32 UnkE0" />
+    <Field Def="f32 UnkE4" />
+    <Field Def="f32 UnkE8" />
+    <Field Def="s32 UnkEC" />
+    <Field Def="s32 UnkF0" />
+    <Field Def="s32 UnkF4" />
+    <Field Def="s32 UnkF8" />
+    <Field Def="f32 UnkFC" />
+    <Field Def="f32 Unk100" />
+    <Field Def="f32 Unk104" />
+    <Field Def="f32 Unk108" />
+    <Field Def="f32 Unk10C" />
+    <Field Def="s32 Full Body SFX ID">
+      <Description>Refers to ChrFullyBodySfxParam</Description>
+    </Field>
+    <Field Def="f32 Unk114" />
+    <Field Def="f32 Unk118" />
+    <Field Def="f32 Unk11C" />
+    <Field Def="s32 Unk120" />
+    <Field Def="s32 Unk124" />
+    <Field Def="f32 Unk128" />
+    <Field Def="f32 Unk12C" />
+    <Field Def="u8 Unk130" />
+    <Field Def="u8 Unk131" />
+    <Field Def="u8 Unk132" />
+    <Field Def="u8 Unk133" />
+    <Field Def="s32 Itemlot ID" />
+    <Field Def="s32 Itemlot ID - Overkilled" />
+    <Field Def="f32 Unk13C" />
+    <Field Def="s32 NG+1 HP" />
+    <Field Def="s32 NG+2 HP" />
+    <Field Def="s32 NG+3 HP" />
+    <Field Def="s32 NG+4 HP" />
+    <Field Def="s32 NG+5 HP" />
+    <Field Def="s32 NG+6 HP" />
+    <Field Def="s32 NG+7 HP" />
+    <Field Def="s32 Unk15C" />
+    <Field Def="s32 Unk160" />
+    <Field Def="s32 Unk164" />
+  </Fields>
+</PARAMDEF>

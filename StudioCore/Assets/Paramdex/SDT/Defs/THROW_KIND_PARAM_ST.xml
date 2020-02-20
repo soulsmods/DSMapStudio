@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>THROW_KIND_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Unk1" />
+    <Field Def="s32 Unk2" />
+    <Field Def="s32 Unk3 = 1E+08" />
+    <Field Def="u8 ThrowState" />
+    <Field Def="u8 Unk4" />
+    <Field Def="u8 Unk5" />
+    <Field Def="u8 State1" />
+    <Field Def="u8 State2" />
+    <Field Def="u8 Unk6" />
+    <Field Def="u8 DisableArmStyleCheck [ON_OFF]" />
+    <Field Def="u8 Unk7" />
+    <Field Def="u8 Mask1" />
+    <Field Def="u8 Mask2" />
+    <Field Def="u8 Mask3" />
+    <Field Def="u8 Mask4" />
+    <Field Def="s32 GoodsParamId = -1" />
+    <Field Def="u8 Mask5" />
+    <Field Def="u8 Mask6" />
+    <Field Def="u8 Mask7" />
+    <Field Def="u8 Mask8" />
+  </Fields>
+</PARAMDEF>

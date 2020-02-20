@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>WEP_ABSORP_POS_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 ShealthTime" />
+    <Field Def="dummy8 pad1[3]" />
+    <Field Def="u16 OneHandDamipolyId0 = 20" />
+    <Field Def="u16 OneHandDamipolyId1 = 21" />
+    <Field Def="u16 BothHandDamipolyId0 = 24" />
+    <Field Def="u16 ShealthDamipolyId0 = 31" />
+    <Field Def="u16 ShealthDamipolyId1 = 30" />
+    <Field Def="u16 OneHandDamipolyId2 = 30" />
+    <Field Def="u16 OneHandDamipolyId3 = 31" />
+    <Field Def="u16 BothHandDamipolyId1 = 21" />
+    <Field Def="u16 ShealthDamipolyId2 = 31" />
+    <Field Def="u16 ShealthDamipolyId3 = 30" />
+    <Field Def="u16 OneHandDamipolyId4" />
+    <Field Def="u16 OneHandDamipolyId5" />
+    <Field Def="u16 BothHandDamipolyId2" />
+    <Field Def="u16 ShealthDamipolyId4" />
+    <Field Def="u16 ShealthDamipolyId5" />
+    <Field Def="u16 OneHandDamipolyId6" />
+    <Field Def="u16 OneHandDamipolyId7" />
+    <Field Def="u16 BothHandDamipolyId3" />
+    <Field Def="u16 ShealthDamipolyId6" />
+    <Field Def="u16 ShealthDamipolyId7" />
+    <Field Def="u8 Unk22" />
+    <Field Def="u8 Unk23 = 2" />
+    <Field Def="u8 Unk24" />
+    <Field Def="u8 Unk25" />
+    <Field Def="s16 BothHandDamipolyId4 = 24" />
+    <Field Def="s16 BothHandDamipolyId5 = 21" />
+    <Field Def="s16 BothHandDamipolyId6" />
+    <Field Def="s16 BothHandDamipolyId7" />
+    <Field Def="u8 Unk30" />
+    <Field Def="u8 Unk31" />
+    <Field Def="u8 Unk32" />
+    <Field Def="u8 Unk33" />
+    <Field Def="u8 Unk34 = 3" />
+    <Field Def="u8 Unk35 = 3" />
+    <Field Def="u8 Unk36 = 3" />
+    <Field Def="u8 Unk37 = 3" />
+    <Field Def="u8 Unk38 = 3" />
+    <Field Def="u8 Unk39 = 3" />
+    <Field Def="u8 Unk40 = 3" />
+    <Field Def="u8 Unk41 = 3" />
+    <Field Def="u8 Unk42 = 3" />
+    <Field Def="u8 Unk43 = 3" />
+    <Field Def="u8 Unk44 = 3" />
+    <Field Def="u8 Unk45 = 3" />
+    <Field Def="u8 Unk46 = 3" />
+    <Field Def="u8 Unk47 = 3" />
+    <Field Def="u8 Unk48 = 3" />
+    <Field Def="u8 Unk49 = 3" />
+    <Field Def="u8 Unk50 = 3" />
+    <Field Def="u8 Unk51 = 3" />
+    <Field Def="u8 Unk52 = 3" />
+    <Field Def="u8 Unk53 = 3" />
+    <Field Def="dummy8 pad2[2]" />
+    <Field Def="u8 NewStruct_V" />
+    <Field Def="u8 Unk55" />
+    <Field Def="dummy8 pad3[2]" />
+    <Field Def="u8 Unk56" />
+    <Field Def="u8 Unk57" />
+    <Field Def="dummy8 pad4[2]" />
+    <Field Def="u8 Unk58" />
+    <Field Def="u8 Unk59" />
+    <Field Def="dummy8 pad5[2]" />
+    <Field Def="u8 Unk60" />
+    <Field Def="u8 Unk61" />
+    <Field Def="dummy8 pad6[2]" />
+    <Field Def="u8 Unk62" />
+    <Field Def="u8 Unk63" />
+    <Field Def="dummy8 pad7[2]" />
+    <Field Def="u8 Unk64" />
+    <Field Def="u8 Unk65" />
+    <Field Def="dummy8 pad8[2]" />
+    <Field Def="u8 Unk66" />
+    <Field Def="u8 Unk67" />
+    <Field Def="dummy8 pad9[2]" />
+    <Field Def="u8 Unk68" />
+    <Field Def="u8 Unk69" />
+    <Field Def="dummy8 pad10[2]" />
+    <Field Def="u8 Unk70" />
+    <Field Def="u8 Unk71" />
+    <Field Def="dummy8 pad11[2]" />
+    <Field Def="u8 Unk72" />
+    <Field Def="u8 Unk73" />
+    <Field Def="dummy8 pad12[8]" />
+  </Fields>
+</PARAMDEF>

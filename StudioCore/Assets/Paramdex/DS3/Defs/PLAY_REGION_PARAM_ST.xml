@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>PLAY_REGION_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 playRegionSpId" />
+    <Field Def="s32 EventFlagId0" />
+    <Field Def="f32 LimitationTime" />
+    <Field Def="s32 EventFlagId1" />
+    <Field Def="s32 EventFlagId2" />
+    <Field Def="s16 DisolvedEventFlag = 180" />
+    <Field Def="u8 LoadOfCinder [ON_OFF]" />
+    <Field Def="u8 IsEnableEvent:1" />
+    <Field Def="u8 Unk1:1" />
+    <Field Def="u8 Unk2:1" />
+    <Field Def="u8 Unk3:1" />
+    <Field Def="u8 Unk4:1" />
+    <Field Def="u8 Unk5:1" />
+    <Field Def="u8 Unk6:1" />
+    <Field Def="u8 Unk7:1" />
+    <Field Def="s32 BonfireEventId0 = -1" />
+    <Field Def="s32 BonfireEventId1 = -1" />
+    <Field Def="s32 BonfireEventId2 = -1" />
+    <Field Def="s32 BonfireEventId3 = -1" />
+    <Field Def="s32 BonfireEventId4 = -1" />
+    <Field Def="s32 BonfireEventId5 = -1" />
+    <Field Def="s32 BonfireEventId6 = -1" />
+    <Field Def="s32 BonfireEventId7 = -1" />
+    <Field Def="s32 BonfireEventId8 = -1" />
+    <Field Def="s32 BonfireEventId9 = -1" />
+    <Field Def="u8 Unk8:1 = 1" />
+    <Field Def="u8 Unk9:1 = 1" />
+    <Field Def="u8 Unk10:1 = 1" />
+    <Field Def="u8 Unk11:1" />
+    <Field Def="u8 Unk12:1" />
+    <Field Def="u8 Unk13:1" />
+    <Field Def="u8 Unk14:1" />
+    <Field Def="u8 Unk15:1" />
+    <Field Def="dummy8 pad1[31]" />
+  </Fields>
+</PARAMDEF>

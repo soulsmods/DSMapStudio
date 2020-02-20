@@ -11,7 +11,7 @@ using ImGuiNET;
 
 namespace StudioCore.MsbEditor
 {
-    public class MsbEditorScreen
+    public class MsbEditorScreen : EditorScreen
     {
         //private ContentManager DebugReloadContentManager = null;
 
@@ -87,6 +87,7 @@ namespace StudioCore.MsbEditor
             NavMeshEditor = new NavmeshEditor(RenderScene);
 
             ParamBank.LoadParams(AssetLocator);
+            FMGBank.LoadFMGs(AssetLocator);
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -168,6 +169,7 @@ namespace StudioCore.MsbEditor
                             else
                             {
                                 ParamBank.ReloadParams();
+                                FMGBank.ReloadFMGs();
                             }
                         }
                     }
@@ -182,6 +184,7 @@ namespace StudioCore.MsbEditor
                         {
                             AssetLocator.SetModProjectDirectory(browseDlg.SelectedPath);
                             ParamBank.ReloadParams();
+                            FMGBank.ReloadFMGs();
                         }
                     }
                     if (ImGui.BeginMenu("Open map", AssetLocator.Type != GameType.Undefined))

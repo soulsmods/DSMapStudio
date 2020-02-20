@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>MENU_OFFSCR_REND_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 MenuContent0 Y" />
+    <Field Def="f32 MenuContent0 X" />
+    <Field Def="f32 MenuContent0 Distance" />
+    <Field Def="f32 MenuContent1 Y" />
+    <Field Def="f32 MenuContent1 X" />
+    <Field Def="f32 MenuContent1 Reverse X" />
+    <Field Def="f32 MenuContent1 Distance" />
+    <Field Def="dummy8 pad1[16]" />
+    <Field Def="s32 screenRendId = 11" />
+    <Field Def="dummy8 pad2[16]" />
+  </Fields>
+</PARAMDEF>

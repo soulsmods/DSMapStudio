@@ -206,7 +206,10 @@ namespace StudioCore.MsbEditor
             ContainingMap = map;
             MsbObject = msbo;
             Type = type;
-            CurrentModel = GetPropertyValue<string>("ModelName");
+            if (!(msbo is PARAM.Row) && !(msbo is MergedParamRow))
+            {
+                CurrentModel = GetPropertyValue<string>("ModelName");
+            }
         }
 
         ~MapObject()
@@ -356,7 +359,7 @@ namespace StudioCore.MsbEditor
             }
             if (MsbObject is PARAM.Row row)
             {
-                var pp = row[prop];
+                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return pp.Value;
@@ -386,7 +389,7 @@ namespace StudioCore.MsbEditor
             }
             if (MsbObject is PARAM.Row row)
             {
-                var pp = row[prop];
+                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return (T)pp.Value;
@@ -696,16 +699,23 @@ namespace StudioCore.MsbEditor
         public void UpdateRenderModel()
         {
             // If the model field changed, then update the visible model
-            var model = GetPropertyValue<string>("ModelName");
-            if (model != null && model != CurrentModel)
+            if (Type == ObjectType.TypeDS2Generator)
             {
-                RenderSceneMesh.AutoRegister = false;
-                RenderSceneMesh.UnregisterAndRelease();
-                CurrentModel = model;
-                RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
-                if (Selection.IsSelected(this))
+
+            }
+            else
+            {
+                var model = GetPropertyValue<string>("ModelName");
+                if (model != null && model != CurrentModel)
                 {
-                    OnSelected();
+                    RenderSceneMesh.AutoRegister = false;
+                    RenderSceneMesh.UnregisterAndRelease();
+                    CurrentModel = model;
+                    RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
+                    if (Selection.IsSelected(this))
+                    {
+                        OnSelected();
+                    }
                 }
             }
 

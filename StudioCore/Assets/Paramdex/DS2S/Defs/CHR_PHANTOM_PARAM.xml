@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CHR_PHANTOM_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 R1" />
+    <Field Def="u8 G1" />
+    <Field Def="u8 B1" />
+    <Field Def="u8 A1" />
+    <Field Def="u8 R2" />
+    <Field Def="u8 G2" />
+    <Field Def="u8 B2" />
+    <Field Def="u8 A2" />
+    <Field Def="u8 R3" />
+    <Field Def="u8 G3" />
+    <Field Def="u8 B3" />
+    <Field Def="u8 A3" />
+    <Field Def="u8 R4" />
+    <Field Def="u8 G4" />
+    <Field Def="u8 B4" />
+    <Field Def="u8 A4" />
+    <Field Def="u8 R5" />
+    <Field Def="u8 G5" />
+    <Field Def="u8 B5" />
+    <Field Def="u8 A5" />
+    <Field Def="f32 Ghost A1" />
+    <Field Def="f32 Ghost A2" />
+    <Field Def="u8 Unk1C" />
+    <Field Def="u8 Unk1D" />
+    <Field Def="u8 Unk1E" />
+    <Field Def="u8 Unk1F" />
+  </Fields>
+</PARAMDEF>

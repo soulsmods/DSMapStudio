@@ -1,0 +1,371 @@
+0 For testing -- テスト用
+1 Flame -- 炎
+2 Poison -- 毒
+3 Hill -- ヒル
+4 Corrosion -- 腐食
+5 Plague -- 疫病
+6 Bleeding -- 出血
+8 Hidden -- 姿隠し
+9 Gravity user -- グラビティ使用者
+10 State abnormal recovery [poison] -- 状態異常回復【毒】
+11 State abnormal recovery [plague] -- 状態異常回復【疫病】
+12 State abnormal recovery [bleeding] -- 状態異常回復【出血】
+13 State abnormal recovery [Universal] -- 状態異常回復【万能】
+14 Soul Steele -- ソウルスティール
+15 Zoom -- ズーム
+16 Warp -- ワープ
+17 Demon's Souls -- デモンズソウル
+18 Black Ghost Disperse -- 黒ゴースト退散
+19 Strong Ghost -- 強ゴースト
+20 White Hope -- ホワイト希望
+21 Black Hope -- ブラック希望
+22 Black Ghost -- 黒ゴースト化
+23 Resuscitation -- 蘇生
+24 Magic Prohibition -- 魔法使用禁止
+25 Miracle Motion Extension -- 奇跡モーション延長
+26 Grinding wheel -- 砥石
+27 Asphyxia Resuscitation -- 仮死蘇生
+28 Weapon reinforcement -- 武器強化
+29 Defense Shield -- 防御シールド
+30 Covered yarn -- 糸まみれ
+31 【 system 】 Ghost Rum Change -- 【システム】ゴーストパラム変化
+32 Incubus -- 金縛り
+33 Flies bummed -- 蠅たかり
+34 [FDP proto] slime freezing -- 【FDPプロト】スライム凍結
+35 Flame Phantom _ Second phase -- 炎怪人_第２段階
+36 Flame Phantom _ Third stage -- 炎怪人_第３段階
+37 Flame Phantom _ Fourth stage -- 炎怪人_第４段階
+38 Hallucinations -- 幻聴
+39 Soul Coins -- ソウルコイン
+40 Strong defense Shield -- 強防御シールド
+41 Fire Resistant Shield -- 火耐性シールド
+42 HP Recovery Status -- HP回復状態
+43 Forced ghosting first Stage -- 強制ゴースト化 第1段階
+44 Forced ghosting Phase II -- 強制ゴースト化 第2段階
+45 Forced ghosting third phase -- 強制ゴースト化 第3段階
+46 Pheromones -- フェロモン
+47 Cat Landing -- 猫着地
+48 Pinch attack power up -- ピンチ攻撃力アップ
+49 Pinch defensive power up -- ピンチ防御力アップ
+50 Regenerate -- リジェネレイト
+51 Torchlight -- たいまつ
+52 Weak Regenerate -- 弱リジェネレイト
+53 Weak Ghost Camouflage -- 弱ゴーストカムフラージュ
+54 Hidden weakness -- 弱姿隠し
+55 Tip Blood Letters -- ヒント血文字
+56 Hill Foot -- ヒル足
+57 Yellow Robe -- 黄衣
+58 Point Light -- 点光源
+59 Blood character evaluation -- 血文字評価
+60 Weapon reinforcement [medium] -- 武器強化【中】
+61 Weapon reinforcement [large] -- 武器強化【大】
+62 Flame Enhancement -- 炎強化
+63 flame enhancement [Large] -- 炎強化【大】
+64 Magic Reinforcement -- 魔法強化
+65 Chimera Reinforcement -- キメラ強化
+66 Item Drop correction -- アイテムドロップ補正
+67 MP Regenerate -- MPリジェネレイト
+68 Weak MP Regenerate -- 弱MPリジェネレイト
+69 Resurrection when dead -- 死んだとき復活
+70 Poison tolerance up -- 毒耐性UP
+71 Magic Power Up -- 魔法威力UP
+72 Magic Defense Up -- 魔法防御UP
+73 Bleeding resistance up -- 出血耐性UP
+74 Plague resistant up -- 疫病耐性UP
+75 Stamina Recovery Up -- スタミナ回復UP
+76 Seoul gets up -- ソウル取得UP
+77 Flame resistant up -- 炎耐性UP
+78 King's Shield one step left foot -- 王の盾1段階左足
+79 King's Shield 2 step left foot -- 王の盾2段階左足
+80 King's Shield three step left foot -- 王の盾3段階左足
+91 King's Shield one step right foot -- 王の盾1段階右足
+92 King's Shield 2 stage right foot -- 王の盾2段階右足
+93 King's Shield 3 stage right foot -- 王の盾3段階右足
+94 Referee's belly bleeding -- 審判者腹出血
+95 Mimicry -- 擬態
+96 [SP] Makeover -- 【SP】変身
+97 Extension -- ガスマン
+98 Detection -- 探知
+99 Waiting for cooperation -- 協力待ち
+100 Cooperation -- 協力
+101 Send cooperation -- 協力送信
+102 Gravity -- グラビティ
+103 Evil Eye -- 邪眼
+104 State lifting [waiting for cooperation] -- 状態解除【協力待ち】
+105 Effect LV1 -- エフェクトLv1
+106 Effect LV2 -- エフェクトLv2
+107 Effect Lv3 -- エフェクトLv3
+108 Evil Eye Lv1 -- 邪眼Lv1
+109 Evil Eye Lv2 -- 邪眼Lv2
+110 Counter -- カウンター
+111 Planting Egg Standby -- 植卵スタンバイ
+112 Planting eggs -- 植卵
+113 Egg Head Standby -- 卵頭スタンバイ
+114 Egg Head -- 卵頭
+115 Super Light Movement -- 超軽量移動
+116 Curse -- 呪い
+117 Petrified -- 石化
+118 Curse lifted -- 呪い解除
+119 Human Nature Damage -- 人間性ダメージ
+120 Damage Anime Change _sa Limited time -- ダメージアニメ変化_SA時限定
+121 Damage Anime Changes _ added -- ダメージアニメ変化_追加
+122 Underwater behavior -- 水中挙動
+123 Weapon Head -- 武器頭
+124 Weapon Torso -- 武器胴
+125 Weapon hand -- 武器手
+126 Weapon legs -- 武器脚
+127 Sleep -- 眠り
+128 Mimic _ mimicry -- ミミック_擬態
+129 Mimic _ Mimicry Slumber -- ミミック_擬態眠り
+130 Mimic _ usually -- ミミック_通常
+131 Mimic _ usually asleep -- ミミック_通常眠り
+132 Attracted -- 魅了
+133 Blood character acquisition -- 血文字取得
+134 A change in the -- はじき変化
+135 Mimic _ usually beginning to sleep -- ミミック_通常眠り始め
+136 Crystallization -- 結晶化
+137 Resonance lv0 -- 共鳴Lv0
+138 Resonance LV1 -- 共鳴Lv1
+139 Resonance Lv2 -- 共鳴Lv2
+140 Resonance Lv3 -- 共鳴Lv3
+141 Resonance lv4 -- 共鳴Lv4
+142 Behavior ID Specification -- 行動ID指定
+143 Immortal Enemy -- 敵_不死
+144 Enemy _ Asphyxia -- 敵_仮死
+145 The Sacred attribute -- 聖属性
+146 Whole Body Grindstone -- 全身砥石
+147 Light Magic -- ライト魔法
+148 Request for Relief -- 救援要請
+149 White Relief -- 白救援
+150 Black Relief -- 黒救援
+151 Lightning Reinforcement -- 雷強化
+152 Poison Reinforcement -- 毒強化
+153 Strengthening the plague -- 疫病強化
+154 EST unavailable -- エスト使用不可
+155 SA reinforcement -- SA強化
+156 Endurance decrease disabled -- 耐久度減少無効
+157 Strengthening against spirituality -- 対霊強化
+158 Guard Reinforcement -- ガード強化
+159 Usually dead when the ring resurrection -- 通常死んだとき指輪復活
+160 When a curse dies, the ring revives. -- 呪いで死んだとき指輪復活
+161 Warp b -- ワープB
+162 Warp C -- ワープC
+163 Warp D -- ワープD
+164 Warp E -- ワープE
+165 Warp A -- ワープA
+166 Pledge discarded -- 誓約破棄
+167 【 SP 】 Systemic makeover -- 【SP】全身変身
+168 Precision Reinforcement -- 精密強化
+169 resonance enhancement -- 共鳴強化
+170 Causal retribution -- 因果応報
+171 Causal retribution explosion -- 因果応報爆発
+172 Sheath Invincible 1 -- シース無敵１
+173 Sheath Invincible 2 -- シース無敵２
+174 Sheath Invincible 3 -- シース無敵３
+175 Revival of humanity -- 人間性復活
+176 Soul Coin (Immortal) -- ソウルコイン(不死系)
+177 Soul Coin (Beast System) -- ソウルコイン(獣系)
+178 Ally Reinforcement Magic -- 味方強化魔法
+179 Curse effect LV1 -- 呪い効果Lv1
+180 Curse effect Lv2 -- 呪い効果Lv2
+181 Curse effect Lv3 -- 呪い効果Lv3
+182 Curse effect Lv4 -- 呪い効果Lv4
+183 SOS Vis -- SOS可視
+184 Invisible weapon -- インビジブルウェポン
+185 NITs effect -- ニト効果
+186 Fire Kick -- 炎キック
+187 A death -- 死神化
+188 Forest thieves summon Hope -- 森の盗賊団召喚希望
+189 Forest thieves in territory -- 森の盗賊団テリトリ内
+190 Wang Mother brother summoned Hope -- 王母弟召喚希望
+191 King Mother Brother Territory -- 王母弟テリトリ内
+192 Egg Head _ Two -- 卵頭_二段目
+193 Life extension -- 寿命延長
+194 Magic Use up -- 魔法使用回数アップ
+195 Dragon NEWT Sines -- ドラゴンニュートサイン
+196 Prize Neck sign -- 賞金首サイン
+197 Counter up -- カウンターアップ
+198 Egg condemning -- 卵くだし
+199 HP Drain -- HPドレイン
+200 The Power of Madness -- 狂気の力
+201 For magic ban effect -- 魔法禁止エフェクト用
+202 Dragon Roar -- 竜咆哮
+203 Magic usage Down -- 魔法使用回数ダウン
+204 Strengthen guard [large] -- ガード強化【大】
+205 [DLC] Dark reinforcement -- 【DLC】闇強化
+206 Arena 1 vs. 1 [small] in territory -- 闘技場1対1【小】テリトリ内
+207 Arena 2 vs. 2 [small] territory -- 闘技場2対2【小】テリトリ内
+208 Arena Battle Royal [small] territory -- 闘技場バトルロイヤル【小】テリトリ内
+209 Arena 1 vs. 1 [small] summon hope a -- 闘技場1対1【小】召喚希望A
+210 Arena 1 vs. 1 [small] Summon Hope B -- 闘技場1対1【小】召喚希望B
+211 Arena 2 vs. 2 [small] summon hope A1 -- 闘技場2対2【小】召喚希望A1
+212 Arena 2 vs. 2 [small] summon hope A2 -- 闘技場2対2【小】召喚希望A2
+213 Arena 2 vs. 2 [small] Summon Hope B1 -- 闘技場2対2【小】召喚希望B1
+214 Arena 2 vs. 2 [small] Summon hope B2 -- 闘技場2対2【小】召喚希望B2
+215 Arena Battle Royal [small] summon hope a -- 闘技場バトルロイヤル【小】召喚希望A
+216 Arena Battle Royal [small] summon Hope B -- 闘技場バトルロイヤル【小】召喚希望B
+217 Arena Battle Royal [small] Summon hope C -- 闘技場バトルロイヤル【小】召喚希望C
+218 Arena Battle Royal [small] summon hope D -- 闘技場バトルロイヤル【小】召喚希望D
+219 Arena 1 to 1 [large] in territory -- 闘技場1対1【大】テリトリ内
+220 Arena 2 vs. 2 [large] territory -- 闘技場2対2【大】テリトリ内
+221 Arena Battle Royal 【 Dai 】 Territory -- 闘技場バトルロイヤル【大】テリトリ内
+222 Arena 1 to 1 [large] Summon hope a -- 闘技場1対1【大】召喚希望A
+223 Arena 1 to 1 [large] Summon hope B -- 闘技場1対1【大】召喚希望B
+224 Arena 2 vs. 2 [large] summon request A1 -- 闘技場2対2【大】召喚希望A1
+225 Arena 2 vs. 2 [large] summon hope A2 -- 闘技場2対2【大】召喚希望A2
+226 Arena 2 vs. 2 [large] Summon hope B1 -- 闘技場2対2【大】召喚希望B1
+227 Arena 2 vs. 2 [large] Summon hope B2 -- 闘技場2対2【大】召喚希望B2
+228 Arena Battle Royal [large] summon hope a -- 闘技場バトルロイヤル【大】召喚希望A
+229 Arena Battle Royal [large] Summon hope B -- 闘技場バトルロイヤル【大】召喚希望B
+230 Arena Battle Royal [large] Summon hope C -- 闘技場バトルロイヤル【大】召喚希望C
+231 Arena Battle Royal [large] summon hope D -- 闘技場バトルロイヤル【大】召喚希望D
+232 Prohibition of use prohibited items in the arena -- 闘技場使用禁止アイテム使用禁止
+233 Arena dead -- 闘技場死亡
+234 Provisional first place in the arena -- 闘技場暫定１位
+235 Arena Nodead -- 闘技場NoDead
+236 Arena Equal # 1 -- 闘技場同率１位
+237 Black Dragon Ring -- 黒竜の指輪
+238 More than ten fighting pits -- 闘技場10勝以上
+239 Over 30 wins in the arena -- 闘技場30勝以上
+240 Arena 50 wins over -- 闘技場50勝以上
+241 Over 100 wins in the arena -- 闘技場100勝以上
+242 Blood material override -- 血材質上書き
+243 Blood Material _ Blood -- 血材質_血
+244 Blood Material _ Flame -- 血材質_炎
+245 Blood Material _ blood Small -- 血材質_血少
+246 Stacking Magic A_LV1 -- 重ね掛け魔法A_LV1
+247 Stacking Magic A_lv2 -- 重ね掛け魔法A_LV2
+248 Stacking Magic A_lv3 -- 重ね掛け魔法A_LV3
+249 Stacking Magic B_LV1 -- 重ね掛け魔法B_LV1
+250 Stacking Magic B_lv2 -- 重ね掛け魔法B_LV2
+251 Stacking Magic B_lv3 -- 重ね掛け魔法B_LV3
+252 Covered with oil -- 油まみれ
+253 Fire Daruma -- 火だるま
+254 In the midst of being possessed -- 取り憑かれ中
+255 Dark Magic -- 暗闇魔法
+256 Burning Body combustion Level 1 -- 焼死体燃焼レベル1
+257 Burning Body combustion Level 2 -- 焼死体燃焼レベル2
+258 Sound magnification change -- 音倍率変更
+259 Target Down -- ターゲットダウン中
+260 Caries -- 蝕
+261 Maggots -- 蛆
+262 State abnormal recovery [maggots] -- 状態異常回復【蛆】
+263 Bleeding state -- 出血状態
+265 Quick Match Request -- クイックマッチリクエスト
+266 Dead disabled during fall -- 落下中死亡無効
+267 Change Visual Range -- 視覚範囲変更
+268 Caries deaths -- 蝕死亡
+269 Double chanting -- 二重詠唱中
+270 General ABATABAF 1 -- 汎用アバターバフ1
+271 General ABATABAF 2 -- 汎用アバターバフ2
+272 General ABATABAF 3 -- 汎用アバターバフ3
+273 General ABATABAF 4 -- 汎用アバターバフ4
+274 General ABATABAF 5 -- 汎用アバターバフ5
+5000 Torches _ Flame Effect -- 松明_炎エフェクト
+5001 Torches, the effect of hanging -- 松明、掲げた時のエフェクト
+5010 King of Firewood State Fire powder (small) -- 薪の王状態　火の粉（小）
+5011 King of Firewood State Fire powder (Large) -- 薪の王状態　火の粉（大）
+5020 Wang Hua of firewood when SFX: right arm -- 薪の王化時SFX：右腕
+5021 Wang Hua of firewood when SFX: right elbow -- 薪の王化時SFX：右肘
+5022 Wang Hua of firewood when SFX: right shoulder -- 薪の王化時SFX：右肩
+5023 Wang Hua of firewood when SFX: upper body -- 薪の王化時SFX：上半身
+5024 Wang Hua of firewood when SFX: systemic -- 薪の王化時SFX：全身
+5025 Wang Hua of firewood when SFX: -- 薪の王化時SFX：
+5026 Wang Hua of firewood when SFX: -- 薪の王化時SFX：
+5027 Wang Hua of firewood when SFX: -- 薪の王化時SFX：
+5028 Wang Hua of firewood when SFX: -- 薪の王化時SFX：
+6900 Arts: Axe: War cry -- アーツ：斧：ウォークライ
+6910 Arts: Cane: strengthening Magic (right) -- アーツ：杖：魔力強化（右）
+6911 Arts: Cane: strengthening Magic (left) -- アーツ：杖：魔力強化（左）
+6920 Arts: Hammered: Patience -- アーツ：槌：我慢
+6930 Arts: Talisman: Bearable chanting -- アーツ：タリスマン：我慢詠唱
+6999 SFX Confirmation: EST recovery -- SFX確認用：エスト使用回数回復
+8000 Fire weapon Reinforcement -- 炎武器強化
+8010 Regen Double Chanting -- リジェネ二重詠唱
+8020 Recovery double Chanting -- 回復二重詠唱
+8030 Sun Sword -- 太陽剣
+8040 Great recovery -- 大回復
+8050 A firm vow -- 固い誓い
+40002 Poison (Body Center effect) -- 毒（体中心エフェクト）
+40253 Fire Daruma -- 火だるま
+40260 Caries (Body center effect) -- 蝕（体中心エフェクト）
+50000 Daemon Priest _ Mojo Small -- デーモン司祭_呪術小
+50001 Demon Priest _ in Witchcraft -- デーモン司祭_呪術中
+50002 Demon Priest _ Great Mojo -- デーモン司祭_呪術大
+50003 Demon Priest _ Flame Enchant -- デーモン司祭_炎エンチャント
+50004 Daemon Priest _ -- デーモン司祭_
+50010 Elders of Crystals _ ally -- 結晶の古老_味方
+50020 Dead Wax (head) -- 蝋の死人_蝋まみれ(頭)
+50021 Dead of wax _ head Flame -- 蝋の死人_頭の炎
+50030 Firewood Daemon Head (resident SFX) -- 薪のデーモン_頭（常駐ＳＦＸ）
+50031 Firewood Daemon _ Breast (resident SFX) -- 薪のデーモン_胸（常駐ＳＦＸ）
+50032 Firewood Daemon _ Back (resident SFX) -- 薪のデーモン_背中（常駐ＳＦＸ）
+50033 Firewood Daemon _ Weapons (resident SFX) -- 薪のデーモン_武器（常駐ＳＦＸ）
+50034 Daemon Hu_ Head of firewood (resident SFX) -- 薪のデーモンHU_頭（常駐ＳＦＸ）
+50035 Firewood Daemon hu_ Chest (resident SFX) -- 薪のデーモンHU_胸 （常駐ＳＦＸ）
+50036 Firewood Daemon Hu_ back (resident SFX) -- 薪のデーモンHU_背中（常駐ＳＦＸ）
+50037 Wood Daemon Hu_ Weapon (resident SFX) -- 薪のデーモンHU_武器（常駐ＳＦＸ）
+50040 New Skeleton Torch (resident SFX) -- 新スケルトン松明（常駐ＳＦＸ）
+50050 Salivan's Reaper _ Sword Enchanted -- サリヴァーンの死神_剣エンチャント
+50051 Salivan's Reaper _ Sickle Enchantment -- サリヴァーンの死神_鎌エンチャント
+50052 Salivan Reaper (Resident SFX) -- サリヴァーンの死神（常駐SFX)
+50053 Salivan Reaper _ (resident SFX) -- サリヴァーンの死神_(常駐ＳＦＸ)
+50055 Tindalos _ Eyed -- ティンダロス_眼光
+50058 Gargoyl Torch -- ガーゴイルトーチ
+50060 King of the evil miasma chest resident SFX -- 死霊の王 瘴気胸 常駐SFX
+50061 King of the Evil Miasma -- 死霊の王 瘴気
+50070 The old king of caries Aura resident SFX -- 蝕の老王 蝕オーラ 常駐SFX
+50071 The old king of caries Aura Hu-Resident SFX -- 蝕の老王 蝕オーラHu 常駐SFX
+50072 The old king caries Vane resident SFX -- 蝕の老王 蝕羽根 常駐SFX
+50073 The old king caries Vane resident SFX -- 蝕の老王 蝕羽根 常駐SFX
+50074 Old King Style resident SFX of caries -- 蝕の老王 風 常駐SFX
+50075 The Old king illusion of Eclipse translucent -- 蝕の老王 幻影半透明
+50076 The Old king illusion of caries completely transparent -- 蝕の老王 幻影完全透明
+50080 Butterfly Scales resident of caries -- 蝕の蝶鱗粉常駐
+50090 Ash Daemon _ Weapon Smoke (resident SFX) -- 灰のデーモン_武器の煙（常駐ＳＦＸ）
+50091 Ash Daemon _ Full Body smoke (resident SFX) -- 灰のデーモン_全身煙（常駐ＳＦＸ）
+50092 Ash Daemon _ Joint 1 (Resident SFX) -- 灰のデーモン_関節１（常駐ＳＦＸ）
+50093 Ash Daemon _ Joint 2 (Resident SFX) -- 灰のデーモン_関節２（常駐ＳＦＸ）
+50094 Ash Daemon _ Joint 3 (Resident SFX) -- 灰のデーモン_関節３（常駐ＳＦＸ）
+50095 Ash Daemon _ Joint 4 (Resident SFX) -- 灰のデーモン_関節４（常駐ＳＦＸ）
+50096 Ash Daemon _ Strain 1 (resident SFX) -- 灰のデーモン_歪み１（常駐ＳＦＸ）
+50097 Ash Daemon _ Strain 2 (resident SFX) -- 灰のデーモン_歪み２（常駐ＳＦＸ）
+50098 Ash Daemon _ Strain 3 (resident SFX) -- 灰のデーモン_歪み３（常駐ＳＦＸ）
+50110 Dead soldier Hand-held lantern resident SFX -- 亡者兵士　手持ちランタン常駐ＳＦＸ
+50120 Dead soldier: Segunda State resident SFX -- 亡者兵士：グンダ状態　常駐ＳＦＸ
+50121 Dead soldier: Segunda State resident SFX -- 亡者兵士：グンダ状態　常駐ＳＦＸ
+50122 Dead soldier: Segunda State resident SFX -- 亡者兵士：グンダ状態　常駐ＳＦＸ
+50123 Dead soldier: Segunda State resident SFX -- 亡者兵士：グンダ状態　常駐ＳＦＸ
+50124 Dead soldier: Segunda State resident SFX -- 亡者兵士：グンダ状態　常駐ＳＦＸ
+50125 Dead Soldier: Segunda status (Resident SFX) -- 亡者兵士：グンダ状態　両目（常駐ＳＦＸ）
+50130 Dead soldier Waist Lantern resident SFX -- 亡者兵士　腰ランタン常駐ＳＦＸ
+50150 New Ojo Knight: Red Eye (resident SFX) -- 新王城騎士：赤目（常駐ＳＦＸ）
+50200 Dark Knight Beast _ Head (resident SFX) -- ダークナイトビースト_頭（常駐SFX）
+50201 Dark Knight Beast _ Torso (resident SFX) -- ダークナイトビースト_胴（常駐SFX）
+50202 Dark Knight Beast _ left arm (resident SFX) -- ダークナイトビースト_左腕（常駐SFX）
+50203 Dark Knight Beast _ right arm (resident SFX) -- ダークナイトビースト_右腕（常駐SFX）
+50204 Dark Knight Beast _ right foot (resident SFX) -- ダークナイトビースト_右足（常駐SFX）
+50205 Dark Knight Beast _ Left foot (resident SFX) -- ダークナイトビースト_左足（常駐SFX）
+50206 Dark Knight Beast _ Weapons (resident SFX) -- ダークナイトビースト_武器（常駐SFX）
+50207 Dark Knight Beast Eyes (resident SFX) -- ダークナイトビースト_目（常駐SFX）
+50210 Tracker _ Body Chill (resident SFX) -- 追跡者_体の冷気（常駐SFX）
+50211 Tracker _ Flaming Sword (resident SFX) -- 追跡者_炎の剣（常駐SFX）
+50212 Tracker _ The Sword of the Eclipse (cold) (resident SFX) -- 追跡者_蝕（冷気）の剣（常駐SFX）
+50220 Cardinal _ Curse (resident SFX) -- 枢機卿団_呪詛（常駐SFX）
+50221 Cardinals _ Range Regen (Effect SFX) -- 枢機卿団_範囲リジェネ（効果SFX）
+50222 Cardinals _ Range Scrut (Effect SFX) -- 枢機卿団_範囲スクルト（効果SFX）
+50223 Cardinal _ Eye Light (resident SFX) -- 枢機卿団_目光（常駐SFX）
+50224 Cardinal _ Aura (resident SFX) -- 枢機卿団_オーラ（常駐SFX）
+50230 Moonlight Witch (resident SFX) -- 月光の魔女（常駐ＳＦＸ）
+50240 New Shing (resident SFX) -- 新獄吏（常駐ＳＦＸ）
+50250 Full Armor Beast _ Whole body chill (before HU) -- フルアーマー獣_全身冷気（HU前）
+50251 Full Armor Beast _ weapon cold (before HU) -- フルアーマー獣_武器冷気（HU前）
+50252 Full Armor Beast _ Whole body chill (after HU) -- フルアーマー獣_全身冷気（HU後）
+50253 Full Armor Beast _ weapon cold (after Hu) -- フルアーマー獣_武器冷気（HU後）
+50254 Full Armor Beast _ Eye light (after Hu) -- フルアーマー獣_眼の光（HU後）
+50260 Salivan (NITs Sword Enchanted) -- サリヴァーン（ニト剣エンチャント）
+50270 Phantom of the painting -- 絵画守り_幻影
+50280 Hel Kite _ Ojo 1 feet -- ヘルカイト_王城1蝕足
+50290 Dead-resident SFX of Wax -- 蝋の死人　常駐SFX
+50300 Salivan watchdog (Large) Resident SFX -- サリヴァーンの番犬（大）常駐ＳＦＸ
+50301 Salivan watchdog (small) Resident SFX -- サリヴァーンの番犬（小）常駐ＳＦＸ

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>SWORD_ARTS_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="u8 ActionId [0-36] = 22" />
+    <Field Def="u8 ActionCorrection = 2" />
+    <Field Def="u8 ReserveArtPointType [0-3] = 1" />
+    <Field Def="u8 UnusedField = 2" />
+    <Field Def="s8 reserveArtsPoint0 = -1" />
+    <Field Def="s8 reserveArtsPoint1 = -1" />
+    <Field Def="s8 reserveArtsPoint2 = -1" />
+    <Field Def="s8 reserveArtsPoint3 = -1" />
+    <Field Def="s32 DebugTextId = 70005" />
+    <Field Def="s16 subFPCost = -1" />
+    <Field Def="s16 FPCost" />
+    <Field Def="s16 FPCostLight = -1" />
+    <Field Def="s16 FpCostStrong = -1" />
+    <Field Def="u8 ShieldCategory [0-4]" />
+    <Field Def="dummy8 pad1[11]" />
+  </Fields>
+</PARAMDEF>

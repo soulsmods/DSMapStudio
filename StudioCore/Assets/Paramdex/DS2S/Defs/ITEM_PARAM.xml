@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>ITEM_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 Icon ID" />
+    <Field Def="s32 Effect ID" />
+    <Field Def="s32 Unk08" />
+    <Field Def="s32 Unk0C" />
+    <Field Def="s32 Unk10" />
+    <Field Def="s32 Weapon ID" />
+    <Field Def="s32 Armor ID" />
+    <Field Def="s32 Ammunition ID" />
+    <Field Def="s32 Ring ID" />
+    <Field Def="s32 Spell ID" />
+    <Field Def="s32 Gesture ID" />
+    <Field Def="s32 Sort ID" />
+    <Field Def="s32 Base Buy Price" />
+    <Field Def="s32 Sell Price" />
+    <Field Def="f32 Animation Speed" />
+    <Field Def="s32 Unk3C" />
+    <Field Def="s32 Item Use Animation" />
+    <Field Def="s32 Item Usage ID" />
+    <Field Def="u8 Unk48" />
+    <Field Def="u8 Unk49" />
+    <Field Def="u16 Max Held" />
+    <Field Def="u8 Unk4C" />
+    <Field Def="u8 Unknown State">
+      <Description>Used in items.
+0 - None
+1 - Consumable
+2 - Non-Consumable (except Human Effigy)
+3 - System (Darksign)
+</Description>
+    </Field>
+    <Field Def="u8 Unk4E" />
+    <Field Def="u8 Item Type">
+      <Description>Used in items.
+0 - Weapon
+1 - Shield
+2 - Head Armor
+3 - Chest Armor
+4 - Hands Armor
+5 - Legs Armor
+6 - Ammunition
+7 - Ring
+8 - Good
+9 - Spell
+10 - Gesture
+</Description>
+    </Field>
+    <Field Def="u8 Unknown State">
+      <Description>Used in items.
+0 - None
+2 - ?
+3 - ?
+</Description>
+    </Field>
+    <Field Def="u8 Spell School">
+      <Description>Controls the spell school for the spell.
+0 - None
+2 - Sorcery
+3 - Miracles
+4 - Pyromancy
+5 - Hexes</Description>
+    </Field>
+    <Field Def="u8 Item State">
+      <Description>Controls the NG+ handling for the item.
+4 - Dragon Stone
+8 - Limited Item
+9 - Remove Ring
+10 - Ladder Miniature
+11 - Remove Good
+12 - No Change
+13 - Estus Flask / Aged Feather / Darksign
+15 - Champion's Tablet
+</Description>
+    </Field>
+    <Field Def="u8 Unk53" />
+  </Fields>
+</PARAMDEF>

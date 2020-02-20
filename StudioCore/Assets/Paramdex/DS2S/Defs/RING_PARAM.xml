@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>RING_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 Weight" />
+    <Field Def="f32 Durability" />
+    <Field Def="s32 Repair Cost" />
+    <Field Def="s32 Item Discovery" />
+  </Fields>
+</PARAMDEF>

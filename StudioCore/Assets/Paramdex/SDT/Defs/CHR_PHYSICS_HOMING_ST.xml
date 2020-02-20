@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CHR_PHYSICS_HOMING_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 EdgePointAdd_X" />
+    <Field Def="f32 EdgePointAdd_Y" />
+    <Field Def="f32 EdgePointAdd_Z" />
+    <Field Def="s16 Unk" />
+    <Field Def="u8 IsUseExtra" />
+    <Field Def="u8 DontResetParameter = 1" />
+    <Field Def="f32 Extra_Angle" />
+    <Field Def="u8 InitWirePosCondition = 1" />
+    <Field Def="u8 WireCorrectionValue [0,1,2]" />
+    <Field Def="dummy8 pad1[2]" />
+    <Field Def="f32 Extra_ForwardDirection" />
+    <Field Def="dummy8 pad2[4]" />
+  </Fields>
+</PARAMDEF>

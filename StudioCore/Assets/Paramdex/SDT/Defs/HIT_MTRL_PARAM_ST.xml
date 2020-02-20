@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>HIT_MTRL_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="f32 aiVolumeRate" />
+    <Field Def="s32 spEffectId0 = -1" />
+    <Field Def="s32 spEffectId1 = -1" />
+    <Field Def="u8 FootEffectHeightType0:1" />
+    <Field Def="u8 FootEffectHeightType1:1" />
+    <Field Def="u8 footEffectDirType0:1" />
+    <Field Def="u8 footEffectDirType1:1" />
+    <Field Def="u8 newSpType0:1" />
+    <Field Def="u8 newSpType1:1" />
+    <Field Def="u8 unkb1:1" />
+    <Field Def="u8 unkb2:1" />
+    <Field Def="u8 HitMtrlType0 = 1" />
+    <Field Def="u8 HitMtrlType1" />
+    <Field Def="u8 HitMtrlType2" />
+    <Field Def="s32 spEffectId2 = -1" />
+    <Field Def="s32 spEffectId3 = -1" />
+    <Field Def="s32 spEffectId4 = -1" />
+    <Field Def="s32 spEffectId5 = -1" />
+    <Field Def="s32 spEffectId6 = -1" />
+    <Field Def="s32 spEffectId7 = -1" />
+    <Field Def="s32 spEffectId8 = -1" />
+    <Field Def="s32 spEffectId9 = -1" />
+    <Field Def="s32 spEffectId10 = -1" />
+    <Field Def="s32 spEffectId11 = -1" />
+    <Field Def="s32 spEffectId12 = -1" />
+    <Field Def="s32 spEffectId13 = -1" />
+    <Field Def="s32 spEffectId14 = -1" />
+    <Field Def="s32 spEffectId15 = -1" />
+    <Field Def="s32 spEffectId16 = -1" />
+    <Field Def="dummy8 pad1[20]" />
+  </Fields>
+</PARAMDEF>

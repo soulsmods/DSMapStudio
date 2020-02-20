@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>THROW_INFO_BANK</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 AtkChrId" />
+    <Field Def="s32 DefChrId" />
+    <Field Def="f32 Dist" />
+    <Field Def="f32 DiffAngMin" />
+    <Field Def="f32 DiffAngMax" />
+    <Field Def="f32 UpperYrange" />
+    <Field Def="f32 LowerYrange" />
+    <Field Def="f32 DiffAngMyToDef" />
+    <Field Def="s32 throwTypeId" />
+    <Field Def="s32 atkAnimid = 40633" />
+    <Field Def="s32 defAnimId = 11010" />
+    <Field Def="s16 escHp" />
+    <Field Def="s16 selfEscCycleTime" />
+    <Field Def="s16 SphereCastRadiusRateTop = 70" />
+    <Field Def="s16 SphereCastRadiusRateLow = 70" />
+    <Field Def="u8 PadType = 1" />
+    <Field Def="u8 AtkEnableState" />
+    <Field Def="u8 AtkSorbDmyId = 246" />
+    <Field Def="u8 DefSorbDmyId" />
+    <Field Def="u8 ThrowType" />
+    <Field Def="u8 SelfEscCycleInt" />
+    <Field Def="u8 DmyHasChrDirType" />
+    <Field Def="u8 isTurnAtker:1 = 1" />
+    <Field Def="u8 isSkipWepCate:1" />
+    <Field Def="u8 isSkipSphereCast:1" />
+    <Field Def="u8 Unk1:1" />
+    <Field Def="u8 Unk2:1" />
+    <Field Def="u8 Unk3:1" />
+    <Field Def="u8 Unk4:1" />
+    <Field Def="u8 Unk5:1" />
+    <Field Def="s16 subAtkSorbDmyId = 246" />
+    <Field Def="s16 subDefSorbDmyId" />
+    <Field Def="f32 Dist2" />
+    <Field Def="f32 DiffAngMin2" />
+    <Field Def="f32 DiffAngMax2" />
+    <Field Def="f32 UpperYrange2" />
+    <Field Def="f32 LowerYrange2" />
+    <Field Def="f32 DiffAngMyToDef2" />
+    <Field Def="s32 performDmyId0 = -1" />
+    <Field Def="s32 performDmyId1 = -1" />
+    <Field Def="s32 ThrowKindParamID0 = -1" />
+    <Field Def="s32 Unk6 = -1" />
+    <Field Def="s32 Unk7 = -1" />
+    <Field Def="s32 ThrowKindParamID1 = -1" />
+    <Field Def="s32 ThrowKindParamID2 = -1" />
+    <Field Def="s16 Unk8" />
+    <Field Def="s16 Unk9" />
+    <Field Def="s16 Unk10" />
+    <Field Def="s16 Unk11" />
+    <Field Def="s32 Unk12" />
+    <Field Def="s32 Unk13" />
+    <Field Def="f32 Unk14" />
+  </Fields>
+</PARAMDEF>

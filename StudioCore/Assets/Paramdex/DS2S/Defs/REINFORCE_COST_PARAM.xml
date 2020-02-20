@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>REINFORCE_COST_PARAM</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 +1 - Soul Cost" />
+    <Field Def="s32 +2 - Soul Cost" />
+    <Field Def="s32 +3 - Soul Cost" />
+    <Field Def="s32 +4 - Soul Cost" />
+    <Field Def="s32 +5 - Soul Cost" />
+    <Field Def="s32 +6 - Soul Cost" />
+    <Field Def="s32 +7 - Soul Cost" />
+    <Field Def="s32 +8 - Soul Cost" />
+    <Field Def="s32 +9 - Soul Cost" />
+    <Field Def="s32 +10 - Soul Cost" />
+    <Field Def="s32 +1 - Material" />
+    <Field Def="s32 +2 - Material" />
+    <Field Def="s32 +3 - Material" />
+    <Field Def="s32 +4 - Material" />
+    <Field Def="s32 +5 - Material" />
+    <Field Def="s32 +6 - Material" />
+    <Field Def="s32 +7 - Material" />
+    <Field Def="s32 +8 - Material" />
+    <Field Def="s32 +9 - Material" />
+    <Field Def="s32 +10 - Material" />
+    <Field Def="u16 +1 - Material Amount" />
+    <Field Def="u16 +2 - Material Amount" />
+    <Field Def="u16 +3 - Material Amount" />
+    <Field Def="u16 +4 - Material Amount" />
+    <Field Def="u16 +5 - Material Amount" />
+    <Field Def="u16 +6 - Material Amount" />
+    <Field Def="u16 +7 - Material Amount" />
+    <Field Def="u16 +8 - Material Amount" />
+    <Field Def="u16 +9 - Material Amount" />
+    <Field Def="u16 +10 - Material Amount" />
+  </Fields>
+</PARAMDEF>

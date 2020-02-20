@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using System.Linq;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -10,7 +11,7 @@ using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
-    class ParamEditorScreen
+    class ParamEditorScreen : EditorScreen
     {
         public ActionManager EditorActionManager = new ActionManager();
 
@@ -24,7 +25,7 @@ namespace StudioCore.MsbEditor
             _propEditor = new PropertyEditor(EditorActionManager);
         }
 
-        public void OnGUI()
+        public void OnGUI(string[] initcmd)
         {
             // Docking setup
             //var vp = ImGui.GetMainViewport();
@@ -96,6 +97,32 @@ namespace StudioCore.MsbEditor
             {
                 return;
             }
+
+            bool doFocus = false;
+            // Parse select commands
+            if (initcmd != null && initcmd[0] == "select")
+            {
+                if (initcmd.Length > 1 && ParamBank.Params.ContainsKey(initcmd[1]))
+                {
+                    doFocus = true;
+                    _activeParam = initcmd[1];
+                    if (initcmd.Length > 2)
+                    {
+                        var p = ParamBank.Params[_activeParam];
+                        int id;
+                        var parsed = int.TryParse(initcmd[2], out id);
+                        if (parsed)
+                        {
+                            var r = p.Rows.FirstOrDefault(r => r.ID == id);
+                            if (r != null)
+                            {
+                                _activeRow = r;
+                            }
+                        }
+                    }
+                }
+            }
+
             ImGui.Columns(3);
             ImGui.BeginChild("params");
             foreach (var param in ParamBank.Params)
@@ -104,6 +131,10 @@ namespace StudioCore.MsbEditor
                 {
                     _activeParam = param.Key;
                     _activeRow = null;
+                }
+                if (doFocus && param.Key == _activeParam)
+                {
+                    ImGui.SetScrollHereY();
                 }
             }
             ImGui.EndChild();
@@ -121,6 +152,10 @@ namespace StudioCore.MsbEditor
                     if (ImGui.Selectable($@"{r.ID} {r.Name}", _activeRow == r))
                     {
                         _activeRow = r;
+                    }
+                    if (doFocus && _activeRow == r)
+                    {
+                        ImGui.SetScrollHereY();
                     }
                 }
             }

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>THROW_DIRECTION_DECAL_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 ThrowDecalId1" />
+    <Field Def="s32 ThrowDecalId2" />
+    <Field Def="s32 ThrowDecalId3" />
+    <Field Def="s32 ThrowDecalId4" />
+    <Field Def="s32 ThrowDecalId5" />
+    <Field Def="s32 ThrowDecalId6" />
+    <Field Def="s32 ThrowDecalId7" />
+    <Field Def="s32 ThrowDecalId8" />
+    <Field Def="s32 ThrowDecalId9" />
+    <Field Def="s32 ThrowDecalId10" />
+    <Field Def="s32 ThrowDecalId11" />
+    <Field Def="s32 ThrowDecalId12" />
+    <Field Def="s32 ThrowDecalId13" />
+    <Field Def="s32 ThrowDecalId14" />
+    <Field Def="s32 ThrowDecalId15" />
+    <Field Def="s32 ThrowDecalId16" />
+    <Field Def="s32 ThrowDecalId17" />
+    <Field Def="s32 ThrowDecalId18" />
+    <Field Def="s32 ThrowDecalId19" />
+    <Field Def="s32 ThrowDecalId20" />
+    <Field Def="s32 ThrowDecalId21" />
+    <Field Def="s32 ThrowDecalId22" />
+    <Field Def="s32 ThrowDecalId23" />
+    <Field Def="s32 ThrowDecalId24" />
+    <Field Def="s32 ThrowDecalId25" />
+    <Field Def="s32 ThrowDecalId26" />
+    <Field Def="s32 ThrowDecalId27" />
+    <Field Def="s32 ThrowDecalId28" />
+    <Field Def="s32 ThrowDecalId29" />
+    <Field Def="s32 ThrowDecalId30" />
+    <Field Def="s32 ThrowDecalId31" />
+    <Field Def="s32 ThrowDecalId32" />
+    <Field Def="s32 ThrowDecalId33" />
+    <Field Def="s32 ThrowDecalId34" />
+    <Field Def="s32 ThrowDecalId35" />
+    <Field Def="s32 ThrowDecalId36" />
+    <Field Def="s32 ThrowDecalId37" />
+    <Field Def="s32 ThrowDecalId38" />
+    <Field Def="s32 ThrowDecalId39" />
+    <Field Def="s32 ThrowDecalId40" />
+    <Field Def="s32 ThrowDecalId41" />
+    <Field Def="s32 ThrowDecalId42" />
+    <Field Def="s32 ThrowDecalId43" />
+    <Field Def="s32 ThrowDecalId44" />
+    <Field Def="s32 ThrowDecalId45" />
+    <Field Def="s32 ThrowDecalId46" />
+    <Field Def="s32 ThrowDecalId47" />
+    <Field Def="s32 ThrowDecalId48" />
+    <Field Def="s32 ThrowDecalId49" />
+    <Field Def="s32 ThrowDecalId50" />
+    <Field Def="s32 ThrowDecalId51" />
+    <Field Def="s32 ThrowDecalId52" />
+    <Field Def="s32 ThrowDecalId53" />
+    <Field Def="s32 ThrowDecalId54" />
+    <Field Def="s32 ThrowDecalId55" />
+    <Field Def="s32 ThrowDecalId56" />
+    <Field Def="s32 ThrowDecalId57" />
+    <Field Def="s32 ThrowDecalId58" />
+    <Field Def="s32 ThrowDecalId59" />
+    <Field Def="s32 ThrowDecalId60" />
+    <Field Def="s32 ThrowDecalId61" />
+    <Field Def="s32 ThrowDecalId62" />
+    <Field Def="s32 ThrowDecalId63" />
+    <Field Def="s32 ThrowDecalId64" />
+    <Field Def="s32 ThrowDecalId65" />
+    <Field Def="s32 ThrowDecalId66" />
+    <Field Def="s32 ThrowDecalId67" />
+    <Field Def="s32 ThrowDecalId68" />
+    <Field Def="s32 ThrowDecalId69" />
+    <Field Def="s32 ThrowDecalId70" />
+    <Field Def="s32 ThrowDecalId71" />
+    <Field Def="s32 ThrowDecalId72" />
+    <Field Def="s32 ThrowDecalId73" />
+    <Field Def="s32 ThrowDecalId74" />
+    <Field Def="s32 ThrowDecalId75" />
+    <Field Def="s32 ThrowDecalId76" />
+    <Field Def="s32 ThrowDecalId77" />
+    <Field Def="s32 ThrowDecalId78" />
+    <Field Def="s32 ThrowDecalId79" />
+    <Field Def="s32 ThrowDecalId80" />
+    <Field Def="s32 ThrowDecalId81" />
+    <Field Def="s32 ThrowDecalId82" />
+    <Field Def="s32 ThrowDecalId83" />
+    <Field Def="s32 ThrowDecalId84" />
+    <Field Def="s32 ThrowDecalId85" />
+    <Field Def="s32 ThrowDecalId86" />
+    <Field Def="s32 ThrowDecalId87" />
+    <Field Def="s32 ThrowDecalId88" />
+    <Field Def="s32 ThrowDecalId89" />
+    <Field Def="s32 ThrowDecalId90" />
+  </Fields>
+</PARAMDEF>

@@ -167,8 +167,8 @@ namespace StudioCore.MsbEditor
 
             var regparamad = AssetLocator.GetDS2GeneratorRegistParam(mapid);
             var regparam = PARAM.Read(regparamad.AssetPath);
-            var reglayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{regparam.ID}.xml");
-            regparam.SetLayout(reglayout);
+            var reglayout = AssetLocator.GetParamdefForParam(regparam.ParamType);
+            regparam.ApplyParamdef(reglayout);
             foreach (var row in regparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -183,8 +183,8 @@ namespace StudioCore.MsbEditor
 
             var locparamad = AssetLocator.GetDS2GeneratorLocationParam(mapid);
             var locparam = PARAM.Read(locparamad.AssetPath);
-            var loclayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{locparam.ID}.xml");
-            locparam.SetLayout(loclayout);
+            var loclayout = AssetLocator.GetParamdefForParam(locparam.ParamType);
+            locparam.ApplyParamdef(loclayout);
             foreach (var row in locparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -209,8 +209,8 @@ namespace StudioCore.MsbEditor
             var chrsToLoad = new HashSet<AssetDescription>();
             var genparamad = AssetLocator.GetDS2GeneratorParam(mapid);
             var genparam = PARAM.Read(genparamad.AssetPath);
-            var genlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{genparam.ID}.xml");
-            genparam.SetLayout(genlayout);
+            var genlayout = AssetLocator.GetParamdefForParam(genparam.ParamType);
+            genparam.ApplyParamdef(genlayout);
             foreach (var row in genparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -252,8 +252,8 @@ namespace StudioCore.MsbEditor
 
             var evtparamad = AssetLocator.GetDS2EventParam(mapid);
             var evtparam = PARAM.Read(evtparamad.AssetPath);
-            var evtlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{evtparam.ID}.xml");
-            evtparam.SetLayout(evtlayout);
+            var evtlayout = AssetLocator.GetParamdefForParam(evtparam.ParamType);
+            evtparam.ApplyParamdef(evtlayout);
             foreach (var row in evtparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -268,8 +268,8 @@ namespace StudioCore.MsbEditor
 
             var evtlparamad = AssetLocator.GetDS2EventLocationParam(mapid);
             var evtlparam = PARAM.Read(evtlparamad.AssetPath);
-            var evtllayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{evtlparam.ID}.xml");
-            evtlparam.SetLayout(evtllayout);
+            var evtllayout = AssetLocator.GetParamdefForParam(evtlparam.ParamType);
+            evtlparam.ApplyParamdef(evtllayout);
             foreach (var row in evtlparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -539,32 +539,32 @@ namespace StudioCore.MsbEditor
             var regparamad = AssetLocator.GetDS2GeneratorRegistParam(map.MapId);
             var regparamadw = AssetLocator.GetDS2GeneratorRegistParam(map.MapId, true);
             var regparam = PARAM.Read(regparamad.AssetPath);
-            var reglayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{regparam.ID}.xml");
-            regparam.SetLayout(reglayout);
+            var reglayout = AssetLocator.GetParamdefForParam(regparam.ParamType);
+            regparam.ApplyParamdef(reglayout);
 
             var locparamad = AssetLocator.GetDS2GeneratorLocationParam(map.MapId);
             var locparamadw = AssetLocator.GetDS2GeneratorLocationParam(map.MapId, true);
             var locparam = PARAM.Read(locparamad.AssetPath);
-            var loclayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{locparam.ID}.xml");
-            locparam.SetLayout(loclayout);
+            var loclayout = AssetLocator.GetParamdefForParam(locparam.ParamType);
+            locparam.ApplyParamdef(loclayout);
 
             var genparamad = AssetLocator.GetDS2GeneratorParam(map.MapId);
             var genparamadw = AssetLocator.GetDS2GeneratorParam(map.MapId, true);
             var genparam = PARAM.Read(genparamad.AssetPath);
-            var genlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{genparam.ID}.xml");
-            genparam.SetLayout(genlayout);
+            var genlayout = AssetLocator.GetParamdefForParam(genparam.ParamType);
+            genparam.ApplyParamdef(genlayout);
 
             var evtparamad = AssetLocator.GetDS2EventParam(map.MapId);
             var evtparamadw = AssetLocator.GetDS2EventParam(map.MapId, true);
             var evtparam = PARAM.Read(evtparamad.AssetPath);
-            var evtlayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{evtparam.ID}.xml");
-            evtparam.SetLayout(evtlayout);
+            var evtlayout = AssetLocator.GetParamdefForParam(evtparam.ParamType);
+            evtparam.ApplyParamdef(evtlayout);
 
             var evtlparamad = AssetLocator.GetDS2EventLocationParam(map.MapId);
             var evtlparamadw = AssetLocator.GetDS2EventLocationParam(map.MapId, true);
             var evtlparam = PARAM.Read(evtlparamad.AssetPath);
-            var evtllayout = PARAM.Layout.ReadXMLFile($@"Assets\ParamLayouts\DS2SOTFS\{evtlparam.ID}.xml");
-            evtlparam.SetLayout(evtllayout);
+            var evtllayout = AssetLocator.GetParamdefForParam(evtlparam.ParamType);
+            evtlparam.ApplyParamdef(evtllayout);
 
             // Clear them out
             regparam.Rows.Clear();

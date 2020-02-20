@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>HIT_EFFECT_SFX_PARAM_ST</ParamType>
+  <Unk06>0</Unk06>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <Version>201</Version>
+  <Fields>
+    <Field Def="s32 HitSfxId0" />
+    <Field Def="s32 HitSfxId1" />
+    <Field Def="s32 HitSfxId2" />
+    <Field Def="s32 HitSfxId3" />
+    <Field Def="s32 HitSfxId4" />
+    <Field Def="s32 HitSfxId5" />
+    <Field Def="s32 HitSfxId6" />
+    <Field Def="s32 HitSfxId7" />
+    <Field Def="s32 HitSfxId8" />
+    <Field Def="s32 HitSfxId9" />
+    <Field Def="s32 HitSfxId10" />
+    <Field Def="s32 HitSfxId11" />
+    <Field Def="s32 HitSfxId12" />
+    <Field Def="s32 HitSfxId13" />
+    <Field Def="s32 HitSfxId14" />
+    <Field Def="s32 HitSfxId15" />
+    <Field Def="dummy8 pad1[16]" />
+  </Fields>
+</PARAMDEF>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using SoulsFormats;
 
 namespace StudioCore
 {
@@ -285,6 +286,62 @@ namespace StudioCore
             }
             ad.AssetName = mapid;
             return ad;
+        }
+
+        public AssetDescription GetEnglishItemMsgbnd(bool writemode = false)
+        {
+            string path = $@"msg\engus\item.msgbnd.dcx";
+            if (Type == GameType.DarkSoulsPTDE)
+            {
+                path = $@"msg\ENGLISH\item.msgbnd";
+            }
+            if (Type == GameType.DarkSoulsIII)
+            {
+                path = $@"msg\engus\item_dlc2.msgbnd.dcx";
+            }
+            AssetDescription ad = new AssetDescription();
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}";
+            }
+            return ad;
+        }
+
+        public PARAMDEF GetParamdefForParam(string paramType)
+        {
+            string game;
+            switch (Type)
+            {
+                case GameType.DemonsSouls:
+                    game = "DES";
+                    break;
+                case GameType.DarkSoulsPTDE:
+                    game = "DS1";
+                    break;
+                case GameType.DarkSoulsRemastered:
+                    game = "DS1R";
+                    break;
+                case GameType.DarkSoulsIISOTFS:
+                    game = "DS2S";
+                    break;
+                case GameType.Bloodborne:
+                    game = "BB";
+                    break;
+                case GameType.DarkSoulsIII:
+                    game = "DS3";
+                    break;
+                case GameType.Sekiro:
+                    game = "SDT";
+                    break;
+                default:
+                    throw new Exception("Game type not set");
+            }
+
+            return PARAMDEF.XmlDeserialize($@"Assets\Paramdex\{game}\Defs\{paramType}.xml");
         }
 
         public AssetDescription GetDS2GeneratorParam(string mapid, bool writemode=false)

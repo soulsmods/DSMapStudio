@@ -9,6 +9,7 @@ using Veldrid.StartupUtilities;
 using Veldrid.Utilities;
 using Veldrid.Sdl2;
 using Veldrid;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace StudioCore
@@ -44,6 +45,7 @@ namespace StudioCore
 
         private MsbEditor.MsbEditorScreen MSBEditor;
         private MsbEditor.ParamEditorScreen ParamEditor;
+        private MsbEditor.TextEditorScreen TextEditor;
 
         private bool MSBEditorActive = false;
 
@@ -107,6 +109,7 @@ namespace StudioCore
             Scene.Renderer.Initialize(_gd);
             MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd);
             ParamEditor = new MsbEditor.ParamEditorScreen(_window, _gd);
+            TextEditor = new MsbEditor.TextEditorScreen(_window, _gd);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
             var fonts = ImGui.GetIO().Fonts;
@@ -214,6 +217,13 @@ namespace StudioCore
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
             //ImGui.
 
+            var command = EditorCommandQueue.GetNextCommand();
+            string[] commandsplit = null;
+            if (command != null)
+            {
+                commandsplit = command.Split($@"/");
+            }
+
             var vp = ImGui.GetMainViewport();
             ImGui.SetNextWindowPos(vp.Pos);
             ImGui.SetNextWindowSize(vp.Size);
@@ -244,9 +254,27 @@ namespace StudioCore
                 MSBEditorActive = false;
             }
 
+            string[] paramcmds = null;
+            if (commandsplit != null && commandsplit[0] == "param")
+            {
+                paramcmds = commandsplit.Skip(1).ToArray();
+                ImGui.SetNextWindowFocus();
+            }
             if (ImGui.Begin("Param Editor"))
             {
-                ParamEditor.OnGUI();
+                ParamEditor.OnGUI(paramcmds);
+                ImGui.End();
+            }
+
+            string[] textcmds = null;
+            if (commandsplit != null && commandsplit[0] == "text")
+            {
+                textcmds = commandsplit.Skip(1).ToArray();
+                ImGui.SetNextWindowFocus();
+            }
+            if (ImGui.Begin("Text Editor"))
+            {
+                TextEditor.OnGUI(textcmds);
                 ImGui.End();
             }
 

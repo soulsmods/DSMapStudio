@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace SoulsFormats
 {
@@ -39,9 +41,9 @@ namespace SoulsFormats
         public short Unk08 { get; set; }
 
         /// <summary>
-        /// The param format ID of rows in this param.
+        /// Identifies corresponding params and paramdefs.
         /// </summary>
-        public string ID { get; set; }
+        public string ParamType { get; set; }
 
         /// <summary>
         /// Automatically determined based on spacing of row offsets; could be wrong in theory, but never seems to be.
@@ -49,30 +51,16 @@ namespace SoulsFormats
         public long DetectedSize { get; private set; }
 
         /// <summary>
-        /// The rows of this param; must be loaded with PARAM.ReadRows() before cells can be used.
+        /// The rows of this param; must be loaded with PARAM.ApplyParamdef() before cells can be used.
         /// </summary>
         public List<Row> Rows { get; set; }
 
         /// <summary>
-        /// Gets a BinaryReaderEx ready to read at the beginning of the 
-        /// specified row's data. Only call this if you know what 
-        /// you are doing.
+        /// The current applied PARAMDEF.
         /// </summary>
-        public BinaryReaderEx GetRowReader(Row row)
-        {
-            if (Rows.Contains(row))
-            {
-                brRows.Position = row.Offset;
-                return brRows;
-            }
-            else
-            {
-                throw new ArgumentException("Row does not exist within this PARAM. Cannot read it.");
-            }
-        }
+        public PARAMDEF AppliedParamdef { get; private set; }
 
-        private BinaryReaderEx brRows;
-        private Layout layout;
+        private BinaryReaderEx RowReader;
 
         /// <summary>
         /// Deserializes file data from a stream.
@@ -89,7 +77,7 @@ namespace SoulsFormats
 
             // Make a private copy of the file to read row data from later
             byte[] copy = br.GetBytes(0, (int)br.Stream.Length);
-            brRows = new BinaryReaderEx(BigEndian, copy);
+            RowReader = new BinaryReaderEx(BigEndian, copy);
 
             ushort rowCount;
             long stringsOffset;
@@ -102,7 +90,7 @@ namespace SoulsFormats
                 Unk06 = br.ReadInt16();
                 Unk08 = br.ReadInt16();
                 rowCount = br.ReadUInt16();
-                ID = br.ReadFixStr(0x20);
+                ParamType = br.ReadFixStr(0x20);
                 br.Skip(4); // Format
             }
             // DS2
@@ -113,7 +101,7 @@ namespace SoulsFormats
                 Unk06 = br.ReadInt16();
                 Unk08 = br.ReadInt16();
                 rowCount = br.ReadUInt16();
-                ID = br.ReadFixStr(0x20);
+                ParamType = br.ReadFixStr(0x20);
                 br.Skip(4); // Format
                 br.ReadUInt32(); // Data start
                 br.AssertInt32(0);
@@ -128,7 +116,7 @@ namespace SoulsFormats
                 Unk06 = br.ReadInt16();
                 Unk08 = br.ReadInt16();
                 rowCount = br.ReadUInt16();
-                ID = br.ReadFixStr(0x20);
+                ParamType = br.ReadFixStr(0x20);
                 br.Skip(4); // Format
                 br.ReadInt64(); // Data start
                 br.AssertInt64(0);
@@ -147,7 +135,7 @@ namespace SoulsFormats
                 br.Skip(4); // Format
                 br.ReadInt64(); // Data start
                 br.AssertInt64(0);
-                ID = br.GetASCII(idOffset);
+                ParamType = br.GetASCII(idOffset);
 
                 // This is stupid, but the strings offset is always aligned to 0x10,
                 // which can put it right in the middle of the ID string
@@ -156,12 +144,12 @@ namespace SoulsFormats
 
             Rows = new List<Row>(rowCount);
             for (int i = 0; i < rowCount; i++)
-                Rows.Add(new Row(br, Format2D));
+                Rows.Add(new Row(br, Format2D, Format2E));
 
             if (Rows.Count > 1)
-                DetectedSize = Rows[1].Offset - Rows[0].Offset;
+                DetectedSize = Rows[1].DataOffset - Rows[0].DataOffset;
             else
-                DetectedSize = stringsOffset - Rows[0].Offset;
+                DetectedSize = stringsOffset - Rows[0].DataOffset;
         }
 
         /// <summary>
@@ -169,10 +157,8 @@ namespace SoulsFormats
         /// </summary>
         protected override void Write(BinaryWriterEx bw)
         {
-            if (layout == null)
-                throw new InvalidOperationException("Params cannot be written without a layout.");
-
-            Rows.Sort((r1, r2) => r1.ID.CompareTo(r2.ID));
+            if (AppliedParamdef == null)
+                throw new InvalidOperationException("Params cannot be written without applying a paramdef.");
 
             bw.BigEndian = BigEndian;
             void WriteFormat()
@@ -191,7 +177,7 @@ namespace SoulsFormats
                 bw.WriteInt16(Unk06);
                 bw.WriteInt16(Unk08);
                 bw.WriteUInt16((ushort)Rows.Count);
-                bw.WriteFixStr(ID, 0x20, 0x20);
+                bw.WriteFixStr(ParamType, 0x20, (byte)((Format2D & 0x7F) < 2 ? 0x20 : 0x00));
                 WriteFormat();
             }
             // DS2
@@ -202,7 +188,7 @@ namespace SoulsFormats
                 bw.WriteInt16(Unk06);
                 bw.WriteInt16(Unk08);
                 bw.WriteUInt16((ushort)Rows.Count);
-                bw.WriteFixStr(ID, 0x20, 0x20);
+                bw.WriteFixStr(ParamType, 0x20, 0x20);
                 WriteFormat();
                 bw.ReserveUInt32("DataStart");
                 bw.WriteInt32(0);
@@ -217,7 +203,7 @@ namespace SoulsFormats
                 bw.WriteInt16(Unk06);
                 bw.WriteInt16(Unk08);
                 bw.WriteUInt16((ushort)Rows.Count);
-                bw.WriteFixStr(ID, 0x20, 0x00);
+                bw.WriteFixStr(ParamType, 0x20, 0x00);
                 WriteFormat();
                 bw.ReserveInt64("DataStart");
                 bw.WriteInt64(0);
@@ -241,6 +227,8 @@ namespace SoulsFormats
             for (int i = 0; i < Rows.Count; i++)
                 Rows[i].WriteHeader(bw, Format2D, i);
 
+            if ((Format2D & 0x7F) < 2)
+                bw.WritePattern(0x20, 0x00);
             if ((Format2D & 0x7F) < 3)
                 bw.FillUInt16("DataStart", (ushort)bw.Position);
             else if ((Format2D & 0x7F) == 3)
@@ -249,28 +237,29 @@ namespace SoulsFormats
                 bw.FillInt64("DataStart", bw.Position);
 
             for (int i = 0; i < Rows.Count; i++)
-                Rows[i].WriteCells(bw, Format2D, i, layout);
+                Rows[i].WriteCells(bw, Format2D, i);
 
             bw.FillUInt32("StringsOffset", (uint)bw.Position);
 
             if ((Format2D & 0x7F) > 4)
             {
                 bw.FillInt64("IDOffset", bw.Position);
-                bw.WriteASCII(ID, true);
+                bw.WriteASCII(ParamType, true);
             }
 
             for (int i = 0; i < Rows.Count; i++)
-                Rows[i].WriteName(bw, Format2D, i);
+                Rows[i].WriteName(bw, Format2D, Format2E, i);
+            // DeS and BB sometimes (but not always) include some useless padding here
         }
 
         /// <summary>
-        /// Sets the layout to use when writing
+        /// Interprets row data according to the given paramdef and stores it for later writing.
         /// </summary>
-        public void SetLayout(Layout layout)
+        public void ApplyParamdef(PARAMDEF paramdef)
         {
-            this.layout = layout;
+            AppliedParamdef = paramdef;
             foreach (Row row in Rows)
-                row.ReadRow(brRows, layout);
+                row.ReadCells(RowReader, AppliedParamdef);
         }
 
         /// <summary>
@@ -294,23 +283,28 @@ namespace SoulsFormats
             public string Name { get; set; }
 
             /// <summary>
-            /// Cells contained in this row. Must be loaded with PARAM.ReadRows() before use.
+            /// Cells contained in this row. Must be loaded with PARAM.ApplyParamdef() before use.
             /// </summary>
-            public List<Cell> Cells { get; set; }
+            public IReadOnlyList<Cell> Cells { get; private set; }
 
-            internal long Offset;
+            internal long DataOffset;
 
             /// <summary>
-            /// Creates a new row based on the given layout with default values.
+            /// Creates a new row based on the given paramdef with default values.
             /// </summary>
-            public Row(long id, string name, Layout layout)
+            public Row(long id, string name, PARAMDEF paramdef)
             {
                 ID = id;
                 Name = name;
 
-                Cells = new List<Cell>(layout.Count);
-                foreach (Layout.Entry entry in layout)
-                    Cells.Add(new Cell(entry, entry.Default));
+                var cells = new Cell[paramdef.Fields.Count];
+                for (int i = 0; i < paramdef.Fields.Count; i++)
+                {
+                    PARAMDEF.Field field = paramdef.Fields[i];
+                    object value = ParamUtil.CastDefaultValue(field);
+                    cells[i] = new Cell(field, value);
+                }
+                Cells = cells;
             }
 
             /// <summary>
@@ -321,100 +315,127 @@ namespace SoulsFormats
             {
                 ID = clone.ID;
                 Name = clone.Name;
-                Cells = new List<Cell>(clone.Cells.Count);
+                var cells = new List<Cell>(clone.Cells.Count);
 
                 foreach (var cell in clone.Cells)
                 {
-                    Cells.Add(new Cell(cell));
+                    cells.Add(new Cell(cell));
                 }
+                Cells = cells;
             }
 
-            internal Row(BinaryReaderEx br, byte format2D)
+            internal Row(BinaryReaderEx br, byte format2D, byte format2E)
             {
                 long nameOffset;
                 if ((format2D & 0x7F) < 4)
                 {
                     ID = br.ReadUInt32();
-                    Offset = br.ReadUInt32();
+                    DataOffset = br.ReadUInt32();
                     nameOffset = br.ReadUInt32();
                 }
                 else
                 {
                     ID = br.ReadInt64();
-                    Offset = br.ReadInt64();
+                    DataOffset = br.ReadInt64();
                     nameOffset = br.ReadInt64();
                 }
 
                 if (nameOffset != 0)
                 {
-                    if ((format2D & 0x7F) < 4)
+                    if (format2E < 7)
                         Name = br.GetShiftJIS(nameOffset);
                     else
                         Name = br.GetUTF16(nameOffset);
                 }
             }
 
-            internal void ReadRow(BinaryReaderEx br, Layout layout)
+            internal void ReadCells(BinaryReaderEx br, PARAMDEF paramdef)
             {
-                br.StepIn(Offset);
-                Cells = new List<Cell>(layout.Count);
+                // In case someone decides to add new rows before applying the paramdef (please don't do that)
+                if (DataOffset == 0)
+                    return;
 
-                for (int i = 0; i < layout.Count; i++)
+                br.Position = DataOffset;
+                var cells = new Cell[paramdef.Fields.Count];
+
+                int bitOffset = -1;
+                PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
+                uint bitValue = 0;
+
+                for (int i = 0; i < paramdef.Fields.Count; i++)
                 {
-                    Layout.Entry entry = layout[i];
-                    CellType type = entry.Type;
-
+                    PARAMDEF.Field field = paramdef.Fields[i];
                     object value = null;
+                    PARAMDEF.DefType type = field.DisplayType;
 
-                    void ReadBools(CellType boolType, int fieldSize)
-                    {
-                        byte[] b = br.ReadBytes(fieldSize);
-                        int j;
-                        for (j = 0; j < fieldSize * 8; j++)
-                        {
-                            if (i + j >= layout.Count || layout[i + j].Type != boolType)
-                                break;
-
-                            byte mask = (byte)(1 << (j % 8));
-                            Cells.Add(new Cell(layout[i + j], (b[j / 8] & mask) != 0));
-                        }
-                        i += j - 1;
-                    }
-
-                    if (type == CellType.s8)
+                    if (type == PARAMDEF.DefType.s8)
                         value = br.ReadSByte();
-                    else if (type == CellType.u8 || type == CellType.x8)
-                        value = br.ReadByte();
-                    else if (type == CellType.s16)
+                    else if (type == PARAMDEF.DefType.s16)
                         value = br.ReadInt16();
-                    else if (type == CellType.u16 || type == CellType.x16)
-                        value = br.ReadUInt16();
-                    else if (type == CellType.s32)
+                    else if (type == PARAMDEF.DefType.s32)
                         value = br.ReadInt32();
-                    else if (type == CellType.u32 || type == CellType.x32)
-                        value = br.ReadUInt32();
-                    else if (type == CellType.f32)
+                    else if (type == PARAMDEF.DefType.f32)
                         value = br.ReadSingle();
-                    else if (type == CellType.dummy8)
-                        value = br.ReadBytes(entry.Size);
-                    else if (type == CellType.fixstr)
-                        value = br.ReadFixStr(entry.Size);
-                    else if (type == CellType.fixstrW)
-                        value = br.ReadFixStrW(entry.Size);
-                    else if (type == CellType.b8)
-                        ReadBools(type, 1);
-                    else if (type == CellType.b16)
-                        ReadBools(type, 2);
-                    else if (type == CellType.b32)
-                        ReadBools(type, 4);
+                    else if (type == PARAMDEF.DefType.fixstr)
+                        value = br.ReadFixStr(field.ArrayLength);
+                    else if (type == PARAMDEF.DefType.fixstrW)
+                        value = br.ReadFixStrW(field.ArrayLength * 2);
+                    else if (ParamUtil.IsBitType(type))
+                    {
+                        if (field.BitSize == -1)
+                        {
+                            if (type == PARAMDEF.DefType.u8)
+                                value = br.ReadByte();
+                            else if (type == PARAMDEF.DefType.u16)
+                                value = br.ReadUInt16();
+                            else if (type == PARAMDEF.DefType.u32)
+                                value = br.ReadUInt32();
+                            else if (type == PARAMDEF.DefType.dummy8)
+                                value = br.ReadBytes(field.ArrayLength);
+                        }
+                    }
                     else
-                        throw new NotImplementedException($"Unsupported param layout type: {type}");
+                        throw new NotImplementedException($"Unsupported field type: {type}");
 
                     if (value != null)
-                        Cells.Add(new Cell(entry, value));
-                }
+                    {
+                        bitOffset = -1;
+                    }
+                    else
+                    {
+                        PARAMDEF.DefType newBitType = type == PARAMDEF.DefType.dummy8 ? PARAMDEF.DefType.u8 : type;
+                        int bitLimit = ParamUtil.GetBitLimit(newBitType);
 
-                br.StepOut();
+                        if (field.BitSize == 0)
+                            throw new NotImplementedException($"Bit size 0 is not supported.");
+                        if (field.BitSize > bitLimit)
+                            throw new InvalidDataException($"Bit size {field.BitSize} is too large to fit in type {newBitType}.");
+
+                        if (bitOffset == -1 || newBitType != bitType || bitOffset + field.BitSize > bitLimit)
+                        {
+                            bitOffset = 0;
+                            bitType = newBitType;
+                            if (bitType == PARAMDEF.DefType.u8)
+                                bitValue = br.ReadByte();
+                            else if (bitType == PARAMDEF.DefType.u16)
+                                bitValue = br.ReadUInt16();
+                            else if (bitType == PARAMDEF.DefType.u32)
+                                bitValue = br.ReadUInt32();
+                        }
+
+                        uint shifted = bitValue << (32 - field.BitSize - bitOffset) >> (32 - field.BitSize);
+                        bitOffset += field.BitSize;
+                        if (bitType == PARAMDEF.DefType.u8)
+                            value = (byte)shifted;
+                        else if (bitType == PARAMDEF.DefType.u16)
+                            value = (ushort)shifted;
+                        else if (bitType == PARAMDEF.DefType.u32)
+                            value = shifted;
+                    }
+
+                    cells[i] = new Cell(field, value);
+                }
+                Cells = cells;
             }
 
             internal void WriteHeader(BinaryWriterEx bw, byte format2D, int i)
@@ -433,96 +454,134 @@ namespace SoulsFormats
                 }
             }
 
-            internal void WriteCells(BinaryWriterEx bw, byte format2D, int i, Layout layout)
+            internal void WriteCells(BinaryWriterEx bw, byte format2D, int index)
             {
                 if ((format2D & 0x7F) < 4)
-                    bw.FillUInt32($"RowOffset{i}", (uint)bw.Position);
+                    bw.FillUInt32($"RowOffset{index}", (uint)bw.Position);
                 else
-                    bw.FillInt64($"RowOffset{i}", bw.Position);
+                    bw.FillInt64($"RowOffset{index}", bw.Position);
 
-                for (int j = 0; j < layout.Count; j++)
+                int bitOffset = -1;
+                PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
+                uint bitValue = 0;
+
+                for (int i = 0; i < Cells.Count; i++)
                 {
-                    Cell cell = Cells[j];
-                    Layout.Entry entry = layout[j];
-                    CellType type = entry.Type;
+                    Cell cell = Cells[i];
                     object value = cell.Value;
+                    PARAMDEF.Field field = cell.Def;
+                    PARAMDEF.DefType type = field.DisplayType;
 
-                    if (entry.Name != cell.Name || type != cell.Type)
-                        throw new FormatException("Layout does not match cells.");
-
-                    void WriteBools(CellType boolType, int fieldSize)
-                    {
-                        byte[] b = new byte[fieldSize];
-                        int k;
-                        for (k = 0; k < fieldSize * 8; k++)
-                        {
-                            if (j + k >= layout.Count || layout[j + k].Type != boolType)
-                                break;
-
-                            if ((bool)Cells[j + k].Value)
-                                b[k / 8] |= (byte)(1 << (k % 8));
-                        }
-                        j += k - 1;
-                        bw.WriteBytes(b);
-                    }
-
-                    if (type == CellType.s8)
+                    if (type == PARAMDEF.DefType.s8)
                         bw.WriteSByte((sbyte)value);
-                    else if (type == CellType.u8 || type == CellType.x8)
-                        bw.WriteByte((byte)value);
-                    else if (type == CellType.s16)
+                    else if (type == PARAMDEF.DefType.s16)
                         bw.WriteInt16((short)value);
-                    else if (type == CellType.u16 || type == CellType.x16)
-                        bw.WriteUInt16((ushort)value);
-                    else if (type == CellType.s32)
+                    else if (type == PARAMDEF.DefType.s32)
                         bw.WriteInt32((int)value);
-                    else if (type == CellType.u32 || type == CellType.x32)
-                        bw.WriteUInt32((uint)value);
-                    else if (type == CellType.f32)
+                    else if (type == PARAMDEF.DefType.f32)
                         bw.WriteSingle((float)value);
-                    else if (type == CellType.dummy8)
-                        bw.WriteBytes((byte[])value);
-                    else if (type == CellType.fixstr)
-                        bw.WriteFixStr((string)value, entry.Size);
-                    else if (type == CellType.fixstrW)
-                        bw.WriteFixStrW((string)value, entry.Size);
-                    else if (type == CellType.b8)
-                        WriteBools(type, 1);
-                    else if (type == CellType.b16)
-                        WriteBools(type, 2);
-                    else if (type == CellType.b32)
-                        WriteBools(type, 4);
+                    else if (type == PARAMDEF.DefType.fixstr)
+                        bw.WriteFixStr((string)value, field.ArrayLength);
+                    else if (type == PARAMDEF.DefType.fixstrW)
+                        bw.WriteFixStrW((string)value, field.ArrayLength * 2);
+                    else if (ParamUtil.IsBitType(type))
+                    {
+                        if (field.BitSize == -1)
+                        {
+                            if (type == PARAMDEF.DefType.u8)
+                                bw.WriteByte((byte)value);
+                            else if (type == PARAMDEF.DefType.u16)
+                                bw.WriteUInt16((ushort)value);
+                            else if (type == PARAMDEF.DefType.u32)
+                                bw.WriteUInt32((uint)value);
+                            else if (type == PARAMDEF.DefType.dummy8)
+                                bw.WriteBytes((byte[])value);
+                        }
+                        else
+                        {
+                            if (bitOffset == -1)
+                            {
+                                bitOffset = 0;
+                                bitType = type == PARAMDEF.DefType.dummy8 ? PARAMDEF.DefType.u8 : type;
+                                bitValue = 0;
+                            }
+
+                            uint shifted = 0;
+                            if (bitType == PARAMDEF.DefType.u8)
+                                shifted = (byte)value;
+                            else if (bitType == PARAMDEF.DefType.u16)
+                                shifted = (ushort)value;
+                            else if (bitType == PARAMDEF.DefType.u32)
+                                shifted = (uint)value;
+                            // Shift left first to clear any out-of-range bits
+                            shifted = shifted << (32 - field.BitSize) >> (32 - field.BitSize - bitOffset);
+                            bitValue |= shifted;
+                            bitOffset += field.BitSize;
+
+                            bool write = false;
+                            if (i == Cells.Count - 1)
+                            {
+                                write = true;
+                            }
+                            else
+                            {
+                                PARAMDEF.Field nextField = Cells[i + 1].Def;
+                                PARAMDEF.DefType nextType = nextField.DisplayType;
+                                int bitLimit = ParamUtil.GetBitLimit(bitType);
+                                if (!ParamUtil.IsBitType(nextType) || nextField.BitSize == -1 || bitOffset + nextField.BitSize > bitLimit
+                                    || (nextType == PARAMDEF.DefType.dummy8 ? PARAMDEF.DefType.u8 : nextType) != bitType)
+                                {
+                                    write = true;
+                                }
+                            }
+
+                            if (write)
+                            {
+                                bitOffset = -1;
+                                if (bitType == PARAMDEF.DefType.u8)
+                                    bw.WriteByte((byte)bitValue);
+                                else if (bitType == PARAMDEF.DefType.u16)
+                                    bw.WriteUInt16((ushort)bitValue);
+                                else if (bitType == PARAMDEF.DefType.u32)
+                                    bw.WriteUInt32(bitValue);
+                            }
+                        }
+                    }
+                    else
+                        throw new NotImplementedException($"Unsupported field type: {type}");
                 }
             }
 
-            internal void WriteName(BinaryWriterEx bw, byte format2D, int i)
+            internal void WriteName(BinaryWriterEx bw, byte format2D, byte format2E, int i)
             {
-                if (Name == null || Name == "")
+                long nameOffset = 0;
+                if (Name != null)
                 {
-                    if ((format2D & 0x7F) < 4)
-                        bw.FillUInt32($"NameOffset{i}", 0);
-                    else
-                        bw.FillInt64($"NameOffset{i}", 0);
-                }
-                else
-                {
-                    if ((format2D & 0x7F) < 4)
-                    {
-                        bw.FillUInt32($"NameOffset{i}", (uint)bw.Position);
+                    nameOffset = bw.Position;
+                    if (format2E < 7)
                         bw.WriteShiftJIS(Name, true);
-                    }
                     else
-                    {
-                        bw.FillInt64($"NameOffset{i}", bw.Position);
                         bw.WriteUTF16(Name, true);
-                    }
                 }
+
+                if ((format2D & 0x7F) < 4)
+                    bw.FillUInt32($"NameOffset{i}", (uint)nameOffset);
+                else
+                    bw.FillInt64($"NameOffset{i}", nameOffset);
             }
 
             /// <summary>
-            /// Returns the first cell in the row with the given name.
+            /// Returns a string representation of the row.
             /// </summary>
-            public Cell this[string name] => Cells.Find(cell => cell.Name == name);
+            public override string ToString()
+            {
+                return $"{ID} {Name}";
+            }
+
+            /// <summary>
+            /// Returns the first cell in the row with the given internal name.
+            /// </summary>
+            public Cell this[string name] => Cells.First(cell => cell.Def.InternalName == name);
         }
 
         /// <summary>
@@ -531,45 +590,33 @@ namespace SoulsFormats
         public class Cell
         {
             /// <summary>
-            /// Layout containing name and type of this cell.
+            /// The paramdef field that describes this cell.
             /// </summary>
-            public Layout.Entry Layout;
-
-            /// <summary>
-            /// The type of value stored in this cell.
-            /// </summary>
-            public CellType Type => Layout.Type;
-
-            /// <summary>
-            /// A name given to this cell based on the param layout; no functional significance.
-            /// </summary>
-            public string Name => Layout.Name;
-
-            /// <summary>
-            /// A description of this field's purpose; may be null.
-            /// </summary>
-            public string Description => Layout.Description;
-
-            /// <summary>
-            /// If not null, the enum containing possible values for this cell.
-            /// </summary>
-            public string Enum => Layout.Enum;
+            public PARAMDEF.Field Def { get; }
 
             /// <summary>
             /// The value of this cell.
             /// </summary>
             public object Value { get; set; }
 
-            internal Cell(Layout.Entry layout, object value)
+            internal Cell(PARAMDEF.Field def, object value)
             {
-                Layout = layout;
+                Def = def;
                 Value = value;
             }
 
             internal Cell(Cell clone)
             {
-                Layout = clone.Layout;
+                Def = clone.Def;
                 Value = clone.Value;
+            }
+
+            /// <summary>
+            /// Returns a string representation of the cell.
+            /// </summary>
+            public override string ToString()
+            {
+                return $"{Def.DisplayType} {Def.InternalName} = {Value}";
             }
         }
     }

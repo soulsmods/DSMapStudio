@@ -1,0 +1,168 @@
+5000 <?null?>
+5100 Whirlwind Slash
+5200 Nightjar Slash
+5201 Nightjar Slash Reversal
+5300 Ichimonji
+5301 Ichimonji: Double
+5400 Dragon Flash
+5500 Ashina Cross
+5600 Floating Passage
+5601 Spiral Cloud Passage
+5700 Mortal Draw
+5701 Empowered Mortal Draw
+5800 Senpou Leaping Kicks
+5801 High Monk
+5900 Praying Strikes
+5901 Praying Strikes - Exorcism
+6000 Shadowrush
+6001 Shadowfall
+6100 One Mind
+7000 Nightjar Slash Reversal
+7100 Ichimonji: Double
+7200 Spiral Cloud Passage
+7300 Empowered Mortal Draw
+7400 High Monk
+7500 Praying Strikes - Exorcism
+7600 Shadowfall
+70000 Loaded Shuriken
+70100 Spinning Shuriken
+70200 Gouging Top
+70300 Phantom Kunai
+70400 Sen Throw
+70500 Lazulite Shuriken
+71000 Shinobi Firecracker
+71100 Spring-load Firecracker
+71200 Long Spark
+71300 Purple Fume Spark
+72000 Flame Vent
+72100 Spring-load Flame Vent
+72200 Okinaga's Flame Vent
+72300 Lazulite Sacred Flame
+73000 Loaded Axe
+73100 Spring-load Axe
+73200 Sparking Axe
+73300 Lazulite Axe
+74000 Mist Raven
+74100 Aged Feather Mist Raven
+74200 Great Feather Mist Raven
+75000 Sabimaru
+75100 Improved Sabimaru
+75200 Piercing Sabimaru
+75300 Lazulite Sabimaru
+76000 Loaded Umbrella
+76100 Loaded Umbrella - Magnet
+76200 Suzaku's Lotus Umbrella
+76300 Phoenix's Lilac Umbrella
+77000 Divine Abduction
+77100 Double Divine Abduction
+77200 Golden Vortex
+78000 Loaded Spear
+78100 Loaded Spear Thrust type
+78200 Loaded Spear Cleave type
+78300 Spiral Spear
+78400 Leaping Flame
+79000 Finger Whistle
+79100 Mountain Echo
+79200 Malcontent
+110000 -
+200000 Grappling Hook Attack
+200100 Mid-air Deflection
+200200 Mid-air Prosthetic Tool
+200300 Mikiri Counter
+200400 Run and Slide
+200500 Mid-air Combat Arts
+200600 Vault Over
+210000 Whirlwind Slash
+211000 Shadowrush
+301000 Chasing Slice
+301100 Fang and Blade
+301200 Projected Force
+301300 Living Force
+310000 Nightjar Slash
+310100 Nightjar Slash Reversal
+410000 Ichimonji
+410100 Ichimonji: Double
+411000 Ashina Cross
+510000 Praying Strikes
+510100 Praying Strikes - Exorcism
+511000 Senpou Leaping Kicks
+511100 High Monk
+610100 Shadowfall
+611100 Spiral Cloud Passage
+612100 Empowered Mortal Draw
+620000 Suppress Presence
+620100 Suppress Sound
+630000 Virtuous Deed
+630100 Most Virtuous Deed
+640000 Emma's Medicine: Potency
+640100 Emma's Medicine: Aroma
+640200 Shinobi Medicine Rank 1
+640300 Shinobi Medicine Rank 2
+640400 Shinobi Medicine Rank 3
+650000 A Shinobi's Karma: Body
+650100 A Shinobi's Karma: Mind
+650200 Sculptor's Karma: Blood
+650300 Sculptor's Karma: Scars
+650400 A Beast's Karma
+660000 Breath of Life: Light
+660100 Breath of Life: Shadow
+660200 Breath of Nature: Light
+660300 Breath of Nature: Shadow
+660400 Shinobi Eyes
+660500 Devotion
+660600 Ascending Carp
+660700 Descending Carp
+660800 Flowing Water
+670000 Mortal Draw
+671000 Dragon Flash
+672000 Floating Passage
+673000 One Mind
+680000 Mibu Breathing Technique
+681000 Anti-air Deathblow
+690000 Unknown Combat Art
+690100 Unknown Art Upgrade
+690200 Unknown Martial Art
+690300 Unknown Latent Effect
+690400 Unknown Secret Technique
+699000 Unknown Secret Technique
+701000 Spinning Shuriken
+702000 Gouging Top
+703000 Phantom Kunai
+704000 Sen Throw
+705000 Lazulite Shuriken
+711000 Spring-load Firecracker
+712000 Long Spark
+713000 Purple Fume Spark
+721000 Spring-load Flame Vent
+722000 Okinaga's Flame Vent
+723000 Lazulite Sacred Flame
+731000 Spring-load Axe
+732000 Sparking Axe
+733000 Lazulite Axe
+741000 Aged Feather Mist Raven
+742000 Great Feather Mist Raven
+751000 Improved Sabimaru
+752000 Piercing Sabimaru
+753000 Lazulite Sabimaru
+761000 Loaded Umbrella - Magnet
+762000 Suzaku's Lotus Umbrella
+763000 Phoenix's Lilac Umbrella
+771000 Double Divine Abduction
+772000 Golden Vortex
+781000 Loaded Spear Thrust Type
+782000 Loaded Spear Cleave Type
+783000 Spiral Spear
+784000 Leaping Flame
+791000 Mountain Echo
+792000 Malcontent
+1700000 Unknown Shuriken
+1710000 Unknown Firecracker
+1720000 Unknown Flame Barrel
+1730000 Unknown Loaded Axe
+1740000 Unknown Mist Raven
+1750000 Unknown Sabimaru
+1760000 Unknown Loaded Umbrella
+1770000 Unknown Divine Abduction
+1780000 Unknown Loaded Spear
+1790000 Unknown Finger Whistle
+2700000 Unknown Prosthetic Tool
