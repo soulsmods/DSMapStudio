@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Linq;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -55,6 +57,7 @@ namespace StudioCore.MsbEditor
             DescriptionRings = 27,
             SummarySpells = 28,
             DescriptionSpells = 29,
+            DescriptionSkills = 40,
 
             // DS3 DLC1
             TitleGoodsDLC1 = 210,
@@ -91,9 +94,22 @@ namespace StudioCore.MsbEditor
             DescriptionSpellsDLC2 = 266,
         }
 
-        private static AssetLocator AssetLocator = null;
+        public static AssetLocator AssetLocator = null;
 
         private static Dictionary<ItemFMGTypes, FMG> _fmgs = null;
+
+        /// <summary>
+        /// DS2 uses a different system with loose fmgs instead of IDs
+        /// </summary>
+        private static Dictionary<string, FMG> _ds2fmgs = null;
+
+        public static IReadOnlyDictionary<string, FMG> DS2Fmgs
+        {
+            get
+            {
+                return _ds2fmgs;
+            }
+        }
 
         public static ItemCategory ItemCategoryOf(ItemFMGTypes ftype)
         {
@@ -102,6 +118,7 @@ namespace StudioCore.MsbEditor
                 case ItemFMGTypes.TitleTest:
                 case ItemFMGTypes.TitleTest2:
                 case ItemFMGTypes.TitleTest3:
+                case ItemFMGTypes.DescriptionSkills:
                     return ItemCategory.None;
                 case ItemFMGTypes.DescriptionGoods:
                 case ItemFMGTypes.DescriptionGoodsDLC1:
@@ -181,6 +198,7 @@ namespace StudioCore.MsbEditor
                 case ItemFMGTypes.DescriptionSpells:
                 case ItemFMGTypes.DescriptionSpellsDLC1:
                 case ItemFMGTypes.DescriptionSpellsDLC2:
+                case ItemFMGTypes.DescriptionSkills:
                     return ItemType.Description;
                 case ItemFMGTypes.SummaryGoods:
                 case ItemFMGTypes.SummaryGoodsDLC1:
@@ -268,10 +286,40 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public static FMG.Entry LookupItemID(int id, ItemCategory cat)
+        {
+            foreach (var item in GetEntriesOfCategoryAndType(cat, ItemType.Title))
+            {
+                if (item.ID == id)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public static void ReloadFMGsDS2()
+        {
+            var desc = AssetLocator.GetEnglishItemMsgbnd();
+            var files = Directory.GetFileSystemEntries(desc.AssetPath, @"*.fmg").ToList();
+            _ds2fmgs = new Dictionary<string, FMG>();
+            foreach (var file in files)
+            {
+                var fmg = FMG.Read(file);
+                _ds2fmgs.Add(Path.GetFileNameWithoutExtension(file), fmg);
+            }
+        }
+
         public static void ReloadFMGs()
         {
             if (AssetLocator.Type == GameType.Undefined)
             {
+                return;
+            }
+
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                ReloadFMGsDS2();
                 return;
             }
 

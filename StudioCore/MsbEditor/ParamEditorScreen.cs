@@ -11,7 +11,60 @@ using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
-    class ParamEditorScreen : EditorScreen
+    /// <summary>
+    /// Interface for decorating param rows with additional information (such as english
+    /// strings sourced from FMG files)
+    /// </summary>
+    public interface IParamDecorator
+    {
+        public void DecorateParam(PARAM.Row row);
+
+        public void DecorateContextMenu(PARAM.Row row);
+    }
+
+    public class FMGItemParamDecorator : IParamDecorator
+    {
+        private FMGBank.ItemCategory _category = FMGBank.ItemCategory.None;
+
+        private Dictionary<int, FMG.Entry> _entryCache = new Dictionary<int, FMG.Entry>();
+
+        public FMGItemParamDecorator(FMGBank.ItemCategory cat)
+        {
+            _category = cat;
+        }
+
+        public void DecorateParam(PARAM.Row row)
+        {
+            if (!_entryCache.ContainsKey((int)row.ID))
+            {
+                _entryCache.Add((int)row.ID, FMGBank.LookupItemID((int)row.ID, _category));
+            }
+            var entry = _entryCache[(int)row.ID];
+            if (entry != null)
+            {
+                ImGui.SameLine();
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), $@" <{entry.Text}>");
+            }
+        }
+
+        public void DecorateContextMenu(PARAM.Row row)
+        {
+            if (!_entryCache.ContainsKey((int)row.ID))
+            {
+                return;
+            }
+            if (ImGui.BeginPopupContextItem(row.ID.ToString()))
+            {
+                if (ImGui.Selectable($@"Goto {_category.ToString()} Text"))
+                {
+                    EditorCommandQueue.AddCommand($@"text/select/{_category.ToString()}/{row.ID}");
+                }
+                ImGui.EndPopup();
+            }
+        }
+    }
+
+    public class ParamEditorScreen : EditorScreen
     {
         public ActionManager EditorActionManager = new ActionManager();
 
@@ -20,9 +73,16 @@ namespace StudioCore.MsbEditor
 
         private PropertyEditor _propEditor = null;
 
+        private Dictionary<string, IParamDecorator> _decorators = new Dictionary<string, IParamDecorator>();
+
         public ParamEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
             _propEditor = new PropertyEditor(EditorActionManager);
+
+            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FMGBank.ItemCategory.Rings));
+            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.ItemCategory.Goods));
+            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.ItemCategory.Armor));
+            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.ItemCategory.Weapons));
         }
 
         public void OnGUI(string[] initcmd)
@@ -146,12 +206,22 @@ namespace StudioCore.MsbEditor
             }
             else
             {
+                IParamDecorator decorator = null;
+                if (_decorators.ContainsKey(_activeParam))
+                {
+                    decorator = _decorators[_activeParam];
+                }
                 var p = ParamBank.Params[_activeParam];
                 foreach (var r in p.Rows)
                 {
                     if (ImGui.Selectable($@"{r.ID} {r.Name}", _activeRow == r))
                     {
                         _activeRow = r;
+                    }
+                    if (decorator != null)
+                    {
+                        decorator.DecorateContextMenu(r);
+                        decorator.DecorateParam(r);
                     }
                     if (doFocus && _activeRow == r)
                     {

@@ -55,6 +55,10 @@ namespace StudioCore.MsbEditor
                 {
                     continue;
                 }
+                if (f.Name.EndsWith("LoadBalancerParam.param"))
+                {
+                    continue;
+                }
                 PARAM p = PARAM.Read(f.Bytes);
                 var fname = p.ParamType;
                 if (AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
@@ -114,6 +118,7 @@ namespace StudioCore.MsbEditor
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
                 MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             // Load params
@@ -134,10 +139,12 @@ namespace StudioCore.MsbEditor
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
                 MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
             {
                 MessageBox.Show("Use yapped to decrypt your DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             // Load params
@@ -157,6 +164,26 @@ namespace StudioCore.MsbEditor
             LoadParamFromBinder(paramBnd);
         }
 
+        private static void LoadParamsDS3()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\Data0.bdt"))
+            {
+                MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\Data0.bdt";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\Data0.bdt";
+            }
+            BND4 paramBnd = SFUtil.DecryptDS3Regulation(param);
+            LoadParamFromBinder(paramBnd);
+        }
+
         public static void ReloadParams()
         {
             if (AssetLocator.Type == GameType.DarkSoulsPTDE)
@@ -166,6 +193,10 @@ namespace StudioCore.MsbEditor
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 LoadParamsDS2();
+            }
+            if (AssetLocator.Type == GameType.DarkSoulsIII)
+            {
+                LoadParamsDS3();
             }
         }
 
