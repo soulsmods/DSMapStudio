@@ -150,7 +150,7 @@ namespace StudioCore.DebugPrimitives
             pipelineDescription.DepthStencilState = new DepthStencilStateDescription(
                 depthTestEnabled: true,
                 depthWriteEnabled: true,
-                comparisonKind: ComparisonKind.LessEqual);
+                comparisonKind: ComparisonKind.GreaterEqual);
             pipelineDescription.RasterizerState = new RasterizerStateDescription(
                 cullMode: FaceCullMode.None,
                 fillMode: PolygonFillMode.Solid,

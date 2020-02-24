@@ -13,8 +13,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -215,6 +215,8 @@
     <None Remove="Assets\Shaders\Collision.vert.spv" />
     <None Remove="Assets\Shaders\DebugWire.frag.spv" />
     <None Remove="Assets\Shaders\DebugWire.vert.spv" />
+    <None Remove="Assets\Shaders\FullScreenQuad.frag.spv" />
+    <None Remove="Assets\Shaders\FullScreenQuad.vert.spv" />
     <None Remove="Assets\Shaders\NavSolid.frag.spv" />
     <None Remove="Assets\Shaders\NavSolid.vert.spv" />
     <None Remove="Assets\Shaders\NavWire.frag.spv" />
@@ -260,6 +262,12 @@
     <Content Include="Assets\Shaders\DebugWire.vert.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Shaders\FullScreenQuad.frag.spv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\FullScreenQuad.vert.spv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Shaders\NavSolid.frag.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -287,7 +295,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\Paramdex\**"  CopyToOutputDirectory="PreserveNewest"  />
+    <None Update="Assets\Paramdex\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -301,32 +309,17 @@
   <ItemGroup>
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
     <ProjectReference Include="..\Veldrid.ImGui\Veldrid.ImGui.csproj" />
+    <ProjectReference Include="..\Veldrid.RenderDoc\Veldrid.RenderDoc.csproj" />
+    <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
+    <ProjectReference Include="..\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
+    <ProjectReference Include="..\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj" />
+    <ProjectReference Include="..\Veldrid.Utilities\Veldrid.Utilities.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ImGui.NET">
       <HintPath>..\Lib\ImGui.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid">
-      <HintPath>..\Lib\Veldrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.ImageSharp">
-      <HintPath>..\Lib\Veldrid.ImageSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.RenderDoc">
-      <HintPath>..\Lib\Veldrid.RenderDoc.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.SDL2">
-      <HintPath>..\Lib\Veldrid.SDL2.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.SPIRV">
-      <HintPath>..\Lib\Veldrid.SPIRV.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.StartupUtilities">
-      <HintPath>..\Lib\Veldrid.StartupUtilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.Utilities">
-      <HintPath>..\Lib\Veldrid.Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
 

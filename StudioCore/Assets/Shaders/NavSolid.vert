@@ -14,7 +14,7 @@ layout(set = 0, binding = 2) uniform EyePositionBuffer
 };
 layout(set = 1, binding = 0) buffer WorldBuffer
 {
-    mat4 world[];
+    readonly mat4 world[];
 };
 
 layout(location = 0) in vec3 position;

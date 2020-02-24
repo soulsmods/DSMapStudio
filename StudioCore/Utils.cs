@@ -460,5 +460,29 @@ namespace StudioCore
 
             return true;
         }
+
+        public static float[] GetFullScreenQuadVerts(GraphicsDevice gd)
+        {
+            if (gd.IsClipSpaceYInverted)
+            {
+                return new float[]
+                {
+                        -1, -1, 0, 0,
+                        1, -1, 1, 0,
+                        1, 1, 1, 1,
+                        -1, 1, 0, 1
+                };
+            }
+            else
+            {
+                return new float[]
+                {
+                        -1, 1, 0, 0,
+                        1, 1, 1, 0,
+                        1, -1, 1, 1,
+                        -1, -1, 0, 1
+                };
+            }
+        }
     }
 }

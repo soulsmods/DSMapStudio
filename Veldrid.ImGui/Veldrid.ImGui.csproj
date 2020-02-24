@@ -50,17 +50,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
+    <ProjectReference Include="..\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ImGui.NET">
       <HintPath>..\Lib\ImGui.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid">
-      <HintPath>..\Lib\Veldrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.SDL2">
-      <HintPath>..\Lib\Veldrid.SDL2.dll</HintPath>
-    </Reference>
-    <Reference Include="Veldrid.StartupUtilities">
-      <HintPath>..\Lib\Veldrid.StartupUtilities.dll</HintPath>
     </Reference>
   </ItemGroup>
 

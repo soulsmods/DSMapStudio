@@ -27,9 +27,16 @@ namespace StudioCore.Scene
         /// </summary>
         public class IndirectDrawEncoder
         {
+            /// <summary>
+            /// If set to true, a fallback that uses direct draw calls instead of
+            /// indirect will be used
+            /// </summary>
+            public static bool UseDirect = true;
+
             private DeviceBuffer _indirectBuffer = null;
 
             private IndirectDrawIndexedArgumentsPacked[] _indirectStagingBuffer = null;
+            private IndirectDrawIndexedArgumentsPacked[] _directBuffer = null;
 
             private int _stagingSet = 0;
             private int _renderSet = -1;
@@ -56,6 +63,7 @@ namespace StudioCore.Scene
                     initialCallCount * 20, BufferUsage.IndirectBuffer);
                 _indirectBuffer = Factory.CreateBuffer(desc);
                 _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
+                _directBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
                 _batches = new BatchInfo[2 * 50];
 
                 _indirectDrawCount = new uint[2];
@@ -124,8 +132,15 @@ namespace StudioCore.Scene
 
             public void UpdateBuffer(CommandList cl)
             {
-                // Copy the indirect buffer to the gpu
-                cl.UpdateBuffer(_indirectBuffer, 0, _indirectStagingBuffer);
+                if (UseDirect)
+                {
+                    Array.Copy(_indirectStagingBuffer, 0, _directBuffer, 0, _directBuffer.Length);
+                }
+                else
+                {
+                    // Copy the indirect buffer to the gpu
+                    cl.UpdateBuffer(_indirectBuffer, 0, _indirectStagingBuffer);
+                }
             }
 
             /// <summary>
@@ -154,7 +169,20 @@ namespace StudioCore.Scene
                     {
                         count = _batches[50 * _renderSet + i + 1]._batchStart - _batches[50 * _renderSet + i]._batchStart;
                     }
-                    cl.DrawIndexedIndirect(_indirectBuffer, _batches[50 * _renderSet + i]._batchStart * 20, count, 20);
+
+                    if (UseDirect)
+                    {
+                        uint start = _batches[50 * _renderSet + i]._batchStart;
+                        for (uint d = start; d < start + count; d++)
+                        {
+                            cl.DrawIndexed(_directBuffer[d].IndexCount, _directBuffer[d].InstanceCount, _directBuffer[d].FirstIndex,
+                                _directBuffer[d].VertexOffset, _directBuffer[d].FirstInstance);
+                        }
+                    }
+                    else
+                    {
+                        cl.DrawIndexedIndirect(_indirectBuffer, _batches[50 * _renderSet + i]._batchStart * 20, count, 20);
+                    }
                 }
             }
         }
@@ -191,7 +219,7 @@ namespace StudioCore.Scene
             public SceneRenderPipeline Pipeline { get; private set; }
             private GraphicsDevice Device;
             private CommandList ResourceUpdateCommandList;
-            private CommandList DrawCommandList;
+            //private CommandList DrawCommandList;
             private Fence ResourcesUpdatedFence;
             private Fence DrawFence;
 
@@ -208,15 +236,18 @@ namespace StudioCore.Scene
 
             public float CPURenderTime { get; private set; } = 0.0f;
 
-            public RenderQueue(GraphicsDevice device, SceneRenderPipeline pipeline)
+            private string Name;
+
+            public RenderQueue(string name, GraphicsDevice device, SceneRenderPipeline pipeline)
             {
                 Device = device;
                 Pipeline = pipeline;
                 ResourceUpdateCommandList = device.ResourceFactory.CreateCommandList();
-                DrawCommandList = device.ResourceFactory.CreateCommandList();
+                //DrawCommandList = device.ResourceFactory.CreateCommandList();
                 ResourcesUpdatedFence = device.ResourceFactory.CreateFence(false);
                 DrawFence = device.ResourceFactory.CreateFence(true);
                 DrawEncoder = new IndirectDrawEncoder(40000);
+                Name = name;
             }
 
             public void SetPredrawSetupAction(Action<GraphicsDevice, CommandList> setup)
@@ -244,27 +275,30 @@ namespace StudioCore.Scene
                 Indices.Sort();
             }
 
-            public void Execute()
+            public void Execute(CommandList drawCommandList)
             {
                 var watch = Stopwatch.StartNew();
                 Sort();
                 ActivePipeline = null;
-                DrawCommandList.Begin();
+                //DrawCommandList.Begin();
                 ResourceUpdateCommandList.Begin();
-                ResourceUpdateCommandList.PushDebugGroup("Update resources");
-                PreDrawSetup.Invoke(Device, DrawCommandList);
+                ResourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
+                PreDrawSetup.Invoke(Device, drawCommandList);
+                //DrawCommandList.ClearDepthStencil(0.0f);
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
                     o.UpdatePerFrameResources(Device, ResourceUpdateCommandList, Pipeline);
                 }
-                ResourceUpdateCommandList.InsertDebugMarker("Indirect buffer update");
+                ResourceUpdateCommandList.PopDebugGroup();
+                ResourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
                 DrawEncoder.UpdateBuffer(ResourceUpdateCommandList);
                 ResourceUpdateCommandList.PopDebugGroup();
                 ResourceUpdateCommandList.End();
                 //Device.WaitForFence(DrawFence);
                 DrawFence.Reset();
                 Device.SubmitCommands(ResourceUpdateCommandList, ResourcesUpdatedFence);
+                drawCommandList.InsertDebugMarker($@"{Name}: Draw");
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
@@ -278,12 +312,14 @@ namespace StudioCore.Scene
                     o.Render(Device, DrawCommandList, Pipeline);*/
                     o.Render(DrawEncoder, Pipeline);
                 }
-                DrawEncoder.SubmitBatches(DrawCommandList, Pipeline);
-                DrawCommandList.End();
+                DrawEncoder.SubmitBatches(drawCommandList, Pipeline);
+                drawCommandList.PopDebugGroup();
+                //DrawCommandList.End();
                 Device.WaitForFence(ResourcesUpdatedFence);
-                Device.SubmitCommands(DrawCommandList, DrawFence);
+                //Device.SubmitCommands(DrawCommandList, DrawFence);
                 watch.Stop();
                 CPURenderTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
+                //Device.WaitForIdle();
             }
         }
 
@@ -314,8 +350,10 @@ namespace StudioCore.Scene
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
 
-            VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
+            //VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            VertexBufferAllocator = new GPUBufferAllocator(256 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            //IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
+            IndexBufferAllocator = new GPUBufferAllocator(128 * 1024 * 1024, BufferUsage.IndexBuffer);
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 64);
         }
 
@@ -332,7 +370,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public static void Frame()
+        public static void Frame(CommandList drawCommandList)
         {
             MainCommandList.Begin();
 
@@ -352,7 +390,7 @@ namespace StudioCore.Scene
 
             foreach (var rq in RenderQueues)
             {
-                rq.Execute();
+                rq.Execute(drawCommandList);
                 rq.Clear();
             }
         }

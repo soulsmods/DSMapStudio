@@ -22,12 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudioCore\StudioCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Veldrid.SDL2">
-      <HintPath>..\Lib\Veldrid.SDL2.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
   </ItemGroup>
 
 </Project>

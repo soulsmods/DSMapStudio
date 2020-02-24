@@ -36,7 +36,7 @@ namespace StudioCore.Scene
             ViewMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
             EyePositionBuffer = factory.CreateBuffer(new BufferDescription(16, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
             //Matrix4x4 proj = Matrix4x4.CreatePerspective(width, height, 0.1f, 100.0f);
-            Matrix4x4 proj = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
+            Matrix4x4 proj = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
             Matrix4x4 view = Matrix4x4.CreateLookAt(new Vector3(0.0f, 2.0f, 0.0f), new Vector3(1.0f, 2.0f, 0.0f), Vector3.UnitY);
             Vector3 eye = new Vector3(0.0f, 2.0f, 0.0f);
             device.UpdateBuffer(ProjectionMatrixBuffer, 0, ref proj, 64);
@@ -50,7 +50,7 @@ namespace StudioCore.Scene
                 ViewMatrixBuffer,
                 EyePositionBuffer));
 
-            RenderQueue = new Renderer.RenderQueue(device, this);
+            RenderQueue = new Renderer.RenderQueue("Viewport Render", device, this);
             Renderer.RegisterRenderQueue(RenderQueue);
         }
 

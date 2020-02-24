@@ -363,20 +363,24 @@ namespace StudioCore
             MainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
             MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.082f, 0.082f, 0.084f, 1.0f));
             float depthClear = _gd.IsDepthRangeZeroToOne ? 1f : 0f;
-            MainWindowCommandList.ClearDepthStencil(depthClear);
+            MainWindowCommandList.ClearDepthStencil(0.0f);
             MainWindowCommandList.SetFullViewport(0);
-            MainWindowCommandList.End();
-            _gd.SubmitCommands(MainWindowCommandList);
+            //MainWindowCommandList.End();
+            //_gd.SubmitCommands(MainWindowCommandList);
+            //_gd.WaitForIdle();
             if (MSBEditorActive)
             {
                 MSBEditor.Draw(_gd, MainWindowCommandList);
             }
-            Scene.Renderer.Frame();
-            GuiCommandList.Begin();
-            GuiCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
-            ImguiRenderer.Render(_gd, GuiCommandList);
-            GuiCommandList.End();
-            _gd.SubmitCommands(GuiCommandList);
+            Scene.Renderer.Frame(MainWindowCommandList);
+            //GuiCommandList.Begin();
+            //GuiCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
+            MainWindowCommandList.SetFullViewport(0);
+            MainWindowCommandList.SetFullScissorRects();
+            ImguiRenderer.Render(_gd, MainWindowCommandList);
+            //GuiCommandList.End();
+            MainWindowCommandList.End();
+            _gd.SubmitCommands(MainWindowCommandList);
             //Scene.SceneRenderPipeline.TestUpdateView(_gd, MainWindowCommandList, TestWorldView.CameraTransform.CameraViewMatrix);
 
             _gd.SwapBuffers();
