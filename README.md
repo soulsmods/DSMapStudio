@@ -14,7 +14,8 @@ A: That's the goal, but asset pipeline work is still needed to get there. I'm cu
 * Windows 7/8/8.1/10 (64-bit only)
 * [Microsoft .Net Core 3.1 **Desktop** Runtime](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * [Visual C++ Redistributable x64 - INSTALL THIS IF THE PROGRAM CRASHES ON STARTUP](https://aka.ms/vs/16/release/vc_redist.x64.exe)
-* **A DirectX 11 Compatible Graphics Device**, even if you're just modding DS1: PTDE
+* **A Vulkan Compatible Graphics Device**, even if you're just modding DS1: PTDE
+* A 4GB (8GB recommended) graphics card if modding DS3/BB/Sekiro maps due to huge map sizes
 
 ## Special Thanks
 * TKGP - Made Soulsformats
