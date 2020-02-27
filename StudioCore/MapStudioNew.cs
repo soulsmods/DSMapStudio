@@ -43,15 +43,22 @@ namespace StudioCore
 
         private ImGuiRenderer ImguiRenderer;
 
+        private bool _msbEditorFocused = false;
         private MsbEditor.MsbEditorScreen MSBEditor;
+        private bool _paramEditorFocused = false;
         private MsbEditor.ParamEditorScreen ParamEditor;
+        private bool _textEditorFocused = false;
         private MsbEditor.TextEditorScreen TextEditor;
-
-        private bool MSBEditorActive = false;
 
         public static RenderDoc RenderDocManager;
 
         private const bool UseRenderdoc = true;
+
+        private AssetLocator _assetLocator;
+        private MsbEditor.ProjectSettings _projectSettings = null;
+
+        private MsbEditor.ProjectSettings _newProjectSettings;
+        private string _newProjectDirectory = "";
 
         unsafe public MapStudioNew()
         {
@@ -107,9 +114,14 @@ namespace StudioCore
             GuiCommandList = factory.CreateCommandList();
 
             Scene.Renderer.Initialize(_gd);
-            MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd);
+
+            _assetLocator = new AssetLocator();
+            MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
             ParamEditor = new MsbEditor.ParamEditorScreen(_window, _gd);
             TextEditor = new MsbEditor.TextEditorScreen(_window, _gd);
+
+            MsbEditor.ParamBank.LoadParams(_assetLocator);
+            MsbEditor.FMGBank.LoadFMGs(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
             var fonts = ImGui.GetIO().Fonts;
@@ -212,6 +224,17 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
+        private void ChangeProjectSettings(MsbEditor.ProjectSettings newsettings, string moddir)
+        {
+            _projectSettings = newsettings;
+            _assetLocator.SetFromProjectSettings(newsettings, moddir);
+            MsbEditor.ParamBank.ReloadParams();
+            MsbEditor.FMGBank.ReloadFMGs();
+            MSBEditor.OnProjectChanged(_projectSettings);
+            ParamEditor.OnProjectChanged(_projectSettings);
+            TextEditor.OnProjectChanged(_projectSettings);
+        }
+
         private void Update(float deltaseconds)
         {
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
@@ -239,19 +262,237 @@ namespace StudioCore
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
             ImGui.PopStyleVar(1);
 
+            bool newProject = false;
+            if (ImGui.BeginMainMenuBar())
+            {
+                if (ImGui.BeginMenu("File"))
+                {
+                    if (_projectSettings == null || _projectSettings.ProjectName == null)
+                    {
+                        ImGui.MenuItem("No project open", false);
+                    }
+                    else
+                    {
+                        ImGui.MenuItem($@"Settings: {_projectSettings.ProjectName}");
+                    }
+
+                    if (ImGui.MenuItem("New Project", "CTRL+N") || InputTracker.GetControlShortcut(Key.I))
+                    {
+                        newProject = true;
+                    }
+                    if (ImGui.MenuItem("Open Project", ""))
+                    {
+                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                        {
+                            Filter = AssetLocator.JsonFilter,
+                            ValidateNames = true,
+                            CheckFileExists = true,
+                            CheckPathExists = true,
+                        };
+
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            _projectSettings = MsbEditor.ProjectSettings.Deserialize(browseDlg.FileName);
+                            ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(browseDlg.FileName));
+                            //_assetLocator.SetModProjectDirectory(browseDlg.FileName);
+                        }
+                    }
+                    if (ImGui.MenuItem("Save", "Ctrl-S"))
+                    {
+                        if (_msbEditorFocused)
+                        {
+                            MSBEditor.Save();
+                        }
+                        if (_paramEditorFocused)
+                        {
+                            ParamEditor.Save();
+                        }
+                        if (_textEditorFocused)
+                        {
+                            TextEditor.Save();
+                        }
+                    }
+                    if (ImGui.MenuItem("Save All", ""))
+                    {
+                        MSBEditor.SaveAll();
+                        ParamEditor.SaveAll();
+                        TextEditor.SaveAll();
+                    }
+                    ImGui.EndMenu();
+                }
+                if (_msbEditorFocused)
+                {
+                    MSBEditor.DrawEditorMenu();
+                }
+                else if (_paramEditorFocused)
+                {
+                    ParamEditor.DrawEditorMenu();
+                }
+                else if (_textEditorFocused)
+                {
+                    TextEditor.DrawEditorMenu();
+                }
+                ImGui.EndMainMenuBar();
+            }
+
+            // New project modal
+            if (newProject)
+            {
+                _newProjectSettings = new MsbEditor.ProjectSettings();
+                _newProjectDirectory = "";
+                ImGui.OpenPopup("New Project");
+            }
+            bool open = true;
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
+            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize))
+            {
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text("Project Name:      ");
+                ImGui.SameLine();
+                var pname = _newProjectSettings.ProjectName;
+                if (ImGui.InputText("##pname", ref pname, 255))
+                {
+                    _newProjectSettings.ProjectName = pname;
+                }
+
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text("Project Directory: ");
+                ImGui.SameLine();
+                ImGui.InputText("##pdir", ref _newProjectDirectory, 255);
+                ImGui.SameLine();
+                if (ImGui.Button($@"{ForkAwesome.FileO}"))
+                {
+                    var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+
+                    if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        _newProjectDirectory = browseDlg.SelectedPath;
+                    }
+                }
+
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text("Game Executable:   ");
+                ImGui.SameLine();
+                var gname = _newProjectSettings.GameRoot;
+                if (ImGui.InputText("##gdir", ref gname, 255))
+                {
+                    _newProjectSettings.GameRoot = gname;
+                    _newProjectSettings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectSettings.GameRoot);
+                }
+                ImGui.SameLine();
+                ImGui.PushID("fd2");
+                if (ImGui.Button($@"{ForkAwesome.FileO}"))
+                {
+                    var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                    {
+                        Filter = AssetLocator.GameExecutatbleFilter,
+                        ValidateNames = true,
+                        CheckFileExists = true,
+                        CheckPathExists = true,
+                        //ShowReadOnly = true,
+                    };
+
+                    if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        _newProjectSettings.GameRoot = browseDlg.FileName;
+                        _newProjectSettings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectSettings.GameRoot);
+                    }
+                }
+                ImGui.PopID();
+                ImGui.Text($@"Detected Game:      {_newProjectSettings.GameType.ToString()}");
+
+                ImGui.NewLine();
+                ImGui.Separator();
+                ImGui.NewLine();
+                if (_newProjectSettings.GameType == GameType.DarkSoulsIISOTFS || _newProjectSettings.GameType == GameType.DarkSoulsIII)
+                {
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text($@"Use Loose Params:  ");
+                    ImGui.SameLine();
+                    var looseparams = _newProjectSettings.UseLooseParams;
+                    if (ImGui.Checkbox("##looseparams", ref looseparams))
+                    {
+                        _newProjectSettings.UseLooseParams = looseparams;
+                    }
+                    ImGui.NewLine();
+                }
+
+                if (ImGui.Button("Create", new Vector2(120, 0)))
+                {
+                    bool validated = true;
+                    if (_newProjectSettings.GameRoot == null || !File.Exists(_newProjectSettings.GameRoot))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Your game executable path does not exist. Please select a valid executable.", "Error",
+                            System.Windows.Forms.MessageBoxButtons.OK,
+                            System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+                    if (validated && _newProjectSettings.GameType == GameType.Undefined)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Your game executable is not a valid supported game.", "Error",
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+                    if (validated && (_newProjectDirectory == null || !Directory.Exists(_newProjectDirectory)))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Your selected project directory is not valid.", "Error",
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+                    if (validated && File.Exists($@"{_newProjectDirectory}\project.json"))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Your selected project directory is already a project.", "Error",
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+                    if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
+                    {
+                        System.Windows.Forms.MessageBox.Show("You must specify a project name.", "Error",
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+
+                    if (validated)
+                    {
+                        _projectSettings = _newProjectSettings;
+                        _projectSettings.GameRoot = Path.GetDirectoryName(_projectSettings.GameRoot);
+                        if (_projectSettings.GameType == GameType.Bloodborne)
+                        {
+                            _projectSettings.GameRoot = _projectSettings.GameRoot + @"\dvdroot_ps4";
+                        }
+                        _projectSettings.Serialize($@"{_newProjectDirectory}\project.json");
+                        ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(_newProjectDirectory));
+                        ImGui.CloseCurrentPopup();
+                    }
+                }
+                ImGui.SameLine();
+                if (ImGui.Button("Cancel", new Vector2(120, 0)))
+                {
+                    ImGui.CloseCurrentPopup();
+                }
+                ImGui.EndPopup();
+            }
+            ImGui.PopStyleVar(3);
+
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
             if (ImGui.Begin("Map Editor"))
             {
                 ImGui.PopStyleVar(1);
                 MSBEditor.OnGUI();
                 ImGui.End();
-                MSBEditorActive = true;
+                _msbEditorFocused = true;
                 MSBEditor.Update(deltaseconds);
             }
             else
             {
                 ImGui.PopStyleVar(1);
-                MSBEditorActive = false;
+                _msbEditorFocused = false;
             }
 
             string[] paramcmds = null;
@@ -264,6 +505,11 @@ namespace StudioCore
             {
                 ParamEditor.OnGUI(paramcmds);
                 ImGui.End();
+                _paramEditorFocused = true;
+            }
+            else
+            {
+                _paramEditorFocused = false;
             }
 
             string[] textcmds = null;
@@ -272,11 +518,18 @@ namespace StudioCore
                 textcmds = commandsplit.Skip(1).ToArray();
                 ImGui.SetNextWindowFocus();
             }
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4));
             if (ImGui.Begin("Text Editor"))
             {
                 TextEditor.OnGUI(textcmds);
                 ImGui.End();
+                _textEditorFocused = true;
             }
+            else
+            {
+                _textEditorFocused = false;
+            }
+            ImGui.PopStyleVar();
 
             ImGui.PopStyleVar(2);
         }
@@ -368,7 +621,7 @@ namespace StudioCore
             //MainWindowCommandList.End();
             //_gd.SubmitCommands(MainWindowCommandList);
             //_gd.WaitForIdle();
-            if (MSBEditorActive)
+            if (_msbEditorFocused)
             {
                 MSBEditor.Draw(_gd, MainWindowCommandList);
             }

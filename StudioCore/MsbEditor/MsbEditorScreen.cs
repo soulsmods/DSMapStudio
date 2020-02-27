@@ -13,12 +13,11 @@ namespace StudioCore.MsbEditor
 {
     public class MsbEditorScreen : EditorScreen
     {
-        //private ContentManager DebugReloadContentManager = null;
-
-        public AssetLocator AssetLocator = new AssetLocator();
+        public AssetLocator AssetLocator = null;
         public Resource.ResourceManager ResourceMan = new Resource.ResourceManager();
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
         public ActionManager EditorActionManager = new ActionManager();
+        private ProjectSettings _projectSettings = null;
 
         public PropertyEditor PropEditor;
         public SearchProperties PropSearch;
@@ -28,19 +27,6 @@ namespace StudioCore.MsbEditor
         public Universe Universe;
 
         private bool GCNeedsCollection = false;
-
-        public enum ScreenMouseHoverKind
-        {
-            None,
-            AnimList,
-            EventGraph,
-            Inspector,
-            ModelViewer,
-            DividerBetweenCenterAndLeftPane,
-            DividerBetweenCenterAndRightPane,
-            DividerRightPaneHorizontal,
-            ShaderAdjuster
-        }
 
         public Rectangle ModelViewerBounds;
 
@@ -72,9 +58,10 @@ namespace StudioCore.MsbEditor
 
         public Gui.Viewport Viewport;
 
-        public MsbEditorScreen(Sdl2Window window, GraphicsDevice device)
+        public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
             Rect = window.Bounds;
+            AssetLocator = locator;
             ResourceMan.Locator = AssetLocator;
             Window = window;
 
@@ -85,9 +72,6 @@ namespace StudioCore.MsbEditor
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
             PropSearch = new SearchProperties(Universe);
             NavMeshEditor = new NavmeshEditor(RenderScene);
-
-            ParamBank.LoadParams(AssetLocator);
-            FMGBank.LoadFMGs(AssetLocator);
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -116,10 +100,130 @@ namespace StudioCore.MsbEditor
             //Viewport.ResizeViewport(device, new Rectangle(0, 0, window.Width, window.Height));
         }
 
-        bool MapObjectListOpen = true;
+        public override void DrawEditorMenu()
+        {
+            if (ImGui.BeginMenu("Edit"))
+            {
+                if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
+                {
+                    EditorActionManager.UndoAction();
+                }
+                if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
+                {
+                    EditorActionManager.RedoAction();
+                }
+                if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
+                {
+                    var action = new DeleteMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    EditorActionManager.ExecuteAction(action);
+                }
+                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
+                {
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    EditorActionManager.ExecuteAction(action);
+                }
+                ImGui.EndMenu();
+            }
 
-        //public void Draw(GraphicsDevice gd, SpriteBatch sb, Texture2D boxTex,
-        //    SpriteFont font, GameTime gameTime, SpriteFont smallFont, Texture2D scrollbarArrowTex, ImGuiSystem.ImGuiRenderer guiRenderer)
+            if (ImGui.BeginMenu("Display"))
+            {
+                if (ImGui.MenuItem("Grid", "", Viewport.DrawGrid))
+                {
+                    Viewport.DrawGrid = !Viewport.DrawGrid;
+                }
+                if (ImGui.BeginMenu("Object Types"))
+                {
+                    if (ImGui.MenuItem("Debug", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Debug)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Debug);
+                    }
+                    if (ImGui.MenuItem("Map Piece", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.MapPiece)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.MapPiece);
+                    }
+                    if (ImGui.MenuItem("Collision", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Collision)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Collision);
+                    }
+                    if (ImGui.MenuItem("Object", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Object)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Object);
+                    }
+                    if (ImGui.MenuItem("Character", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Character)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Character);
+                    }
+                    if (ImGui.MenuItem("Navmesh", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Navmesh)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Navmesh);
+                    }
+                    if (ImGui.MenuItem("Region", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Region)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Region);
+                    }
+                    ImGui.EndMenu();
+                }
+                if (ImGui.BeginMenu("Display Presets"))
+                {
+                    if (ImGui.MenuItem("Map Piece/Character/Objects", "Ctrl-1"))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    if (ImGui.MenuItem("Collision/Character/Objects", "Ctrl-2"))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    if (ImGui.MenuItem("Collision/Navmesh/Character/Objects", "Ctrl-3"))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    ImGui.EndMenu();
+                }
+                ImGui.EndMenu();
+            }
+            if (ImGui.BeginMenu("Gizmos"))
+            {
+                if (ImGui.BeginMenu("Mode"))
+                {
+                    if (ImGui.MenuItem("Translate", "W", Gizmos.Mode == Gizmos.GizmosMode.Translate))
+                    {
+                        Gizmos.Mode = Gizmos.GizmosMode.Translate;
+                    }
+                    if (ImGui.MenuItem("Rotate", "E", Gizmos.Mode == Gizmos.GizmosMode.Rotate))
+                    {
+                        Gizmos.Mode = Gizmos.GizmosMode.Rotate;
+                    }
+                    ImGui.EndMenu();
+                }
+                if (ImGui.BeginMenu("Space"))
+                {
+                    if (ImGui.MenuItem("Local", "", Gizmos.Space == Gizmos.GizmosSpace.Local))
+                    {
+                        Gizmos.Space = Gizmos.GizmosSpace.Local;
+                    }
+                    if (ImGui.MenuItem("World", "", Gizmos.Space == Gizmos.GizmosSpace.World))
+                    {
+                        Gizmos.Space = Gizmos.GizmosSpace.World;
+                    }
+                    ImGui.EndMenu();
+                }
+                if (ImGui.BeginMenu("Origin"))
+                {
+                    if (ImGui.MenuItem("World", "", Gizmos.Origin == Gizmos.GizmosOrigin.World))
+                    {
+                        Gizmos.Origin = Gizmos.GizmosOrigin.World;
+                    }
+                    if (ImGui.MenuItem("Bounding Box", "", Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
+                    {
+                        Gizmos.Origin = Gizmos.GizmosOrigin.BoundingBox;
+                    }
+                    ImGui.EndMenu();
+                }
+                ImGui.EndMenu();
+            }
+        }
+
+        bool MapObjectListOpen = true;
         public void OnGUI()
         {
             // Docking setup
@@ -143,7 +247,7 @@ namespace StudioCore.MsbEditor
             var dsid = ImGui.GetID("DockSpace_MapEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
-            if (ImGui.BeginMainMenuBar())
+            /*if (ImGui.BeginMainMenuBar())
             {
                 if (ImGui.BeginMenu("File"))
                 {
@@ -211,127 +315,9 @@ namespace StudioCore.MsbEditor
                     }
                     ImGui.EndMenu();
                 }
-                if (ImGui.BeginMenu("Edit"))
-                {
-                    if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
-                    {
-                        EditorActionManager.UndoAction();
-                    }
-                    if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
-                    {
-                        EditorActionManager.RedoAction();
-                    }
-                    if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
-                    {
-                        var action = new DeleteMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                        EditorActionManager.ExecuteAction(action);
-                    }
-                    if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
-                    {
-                        var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
-                        EditorActionManager.ExecuteAction(action);
-                    }
-                    ImGui.EndMenu();
-                }
                 
-                if (ImGui.BeginMenu("Display"))
-                {
-                    if (ImGui.MenuItem("Grid", "", Viewport.DrawGrid))
-                    {
-                        Viewport.DrawGrid = !Viewport.DrawGrid;
-                    }
-                    if (ImGui.BeginMenu("Object Types"))
-                    {
-                        if (ImGui.MenuItem("Debug", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Debug)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Debug);
-                        }
-                        if (ImGui.MenuItem("Map Piece", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.MapPiece)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.MapPiece);
-                        }
-                        if (ImGui.MenuItem("Collision", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Collision)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Collision);
-                        }
-                        if (ImGui.MenuItem("Object", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Object)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Object);
-                        }
-                        if (ImGui.MenuItem("Character", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Character)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Character);
-                        }
-                        if (ImGui.MenuItem("Navmesh", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Navmesh)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Navmesh);
-                        }
-                        if (ImGui.MenuItem("Region", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Region)))
-                        {
-                            RenderScene.ToggleDrawFilter(Scene.RenderFilter.Region);
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Display Presets"))
-                    {
-                        if (ImGui.MenuItem("Map Piece/Character/Objects", "Ctrl-1"))
-                        {
-                            RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                        }
-                        if (ImGui.MenuItem("Collision/Character/Objects", "Ctrl-2"))
-                        {
-                            RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                        }
-                        if (ImGui.MenuItem("Collision/Navmesh/Character/Objects", "Ctrl-3"))
-                        {
-                            RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                        }
-                        ImGui.EndMenu();
-                    }
-                    ImGui.EndMenu();
-                }
-                if (ImGui.BeginMenu("Gizmos"))
-                {
-                    if (ImGui.BeginMenu("Mode"))
-                    {
-                        if (ImGui.MenuItem("Translate", "W", Gizmos.Mode == Gizmos.GizmosMode.Translate))
-                        {
-                            Gizmos.Mode = Gizmos.GizmosMode.Translate;
-                        }
-                        if (ImGui.MenuItem("Rotate", "E", Gizmos.Mode == Gizmos.GizmosMode.Rotate))
-                        {
-                            Gizmos.Mode = Gizmos.GizmosMode.Rotate;
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Space"))
-                    {
-                        if (ImGui.MenuItem("Local", "", Gizmos.Space == Gizmos.GizmosSpace.Local))
-                        {
-                            Gizmos.Space = Gizmos.GizmosSpace.Local;
-                        }
-                        if (ImGui.MenuItem("World", "", Gizmos.Space == Gizmos.GizmosSpace.World))
-                        {
-                            Gizmos.Space = Gizmos.GizmosSpace.World;
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Origin"))
-                    {
-                        if (ImGui.MenuItem("World", "", Gizmos.Origin == Gizmos.GizmosOrigin.World))
-                        {
-                            Gizmos.Origin = Gizmos.GizmosOrigin.World;
-                        }
-                        if (ImGui.MenuItem("Bounding Box", "", Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
-                        {
-                            Gizmos.Origin = Gizmos.GizmosOrigin.BoundingBox;
-                        }
-                        ImGui.EndMenu();
-                    }
-                    ImGui.EndMenu();
-                }
                 ImGui.EndMainMenuBar();
-            }
+            }*/
 
             // Keyboard shortcuts
             if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
@@ -430,30 +416,50 @@ namespace StudioCore.MsbEditor
             if (ImGui.Begin("Map Object List", ref MapObjectListOpen))
             {
                 Map pendingUnload = null;
-                foreach (var map in Universe.LoadedMaps)
+                foreach (var lm in Universe.LoadedMaps.OrderBy((k) => k.Key))
                 {
+                    var map = lm.Value;
+                    var mapid = lm.Key;
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
-                    if (Selection.GetSelection().Contains(map.RootObject))
+                    if (map != null && Selection.GetSelection().Contains(map.RootObject))
                     {
                         treeflags |= ImGuiTreeNodeFlags.Selected;
                     }
-                    var nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {map.MapId}", treeflags);
-                    // Right click context menu
-                    if (ImGui.BeginPopupContextItem($@"mapcontext_{map.MapId}"))
+                    bool nodeopen = false;
+                    if (map != null)
                     {
-                        if (ImGui.Selectable("Save Map"))
+                        nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags);
+                    }
+                    else
+                    {
+                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
+                    }
+                    // Right click context menu
+                    if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
+                    {
+                        if (map == null)
                         {
-                            Universe.SaveMap(map);
+                            if (ImGui.Selectable("Load Map"))
+                            {
+                                Universe.LoadMap(mapid);
+                            }
                         }
-                        if (ImGui.Selectable("Unload Map"))
+                        else
                         {
-                            Selection.ClearSelection();
-                            EditorActionManager.Clear();
-                            pendingUnload = map;
+                            if (ImGui.Selectable("Save Map"))
+                            {
+                                Universe.SaveMap(map);
+                            }
+                            if (ImGui.Selectable("Unload Map"))
+                            {
+                                Selection.ClearSelection();
+                                EditorActionManager.Clear();
+                                pendingUnload = map;
+                            }
                         }
                         ImGui.EndPopup();
                     }
-                    if (ImGui.IsItemClicked())
+                    if (ImGui.IsItemClicked() && map != null)
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
                         {
@@ -552,6 +558,22 @@ namespace StudioCore.MsbEditor
         public void Draw(GraphicsDevice device, CommandList cl)
         {
             Viewport.Draw(device, cl);
+        }
+
+        public override void OnProjectChanged(ProjectSettings newSettings)
+        {
+            _projectSettings = newSettings;
+            Universe.PopulateMapList();
+        }
+
+        public override void Save()
+        {
+            Universe.SaveAllMaps();
+        }
+
+        public override void SaveAll()
+        {
+            Universe.SaveAllMaps();
         }
     }
 }

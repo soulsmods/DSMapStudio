@@ -31,7 +31,7 @@ namespace StudioCore.Scene
             /// If set to true, a fallback that uses direct draw calls instead of
             /// indirect will be used
             /// </summary>
-            public static bool UseDirect = true;
+            public static bool UseDirect = false;
 
             private DeviceBuffer _indirectBuffer = null;
 
@@ -350,10 +350,10 @@ namespace StudioCore.Scene
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
 
-            //VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            VertexBufferAllocator = new GPUBufferAllocator(256 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            //IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
-            IndexBufferAllocator = new GPUBufferAllocator(128 * 1024 * 1024, BufferUsage.IndexBuffer);
+            VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            //VertexBufferAllocator = new GPUBufferAllocator(256 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
+            //IndexBufferAllocator = new GPUBufferAllocator(128 * 1024 * 1024, BufferUsage.IndexBuffer);
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 64);
         }
 

@@ -79,6 +79,9 @@ namespace StudioCore
             "Playstation executable (*.BIN) |*.BIN*|" +
             "All Files|*.*";
 
+        public static readonly string JsonFilter =
+            "Project file (project.json) |PROJECT.JSON";
+
         public GameType Type { get; private set; } = GameType.Undefined;
 
         /// <summary>
@@ -93,16 +96,6 @@ namespace StudioCore
 
         public AssetLocator()
         {
-            Type = CFG.Current.Game_Type;
-            if (CFG.Current.Interroot_Directory != "")
-            {
-                GameRootDirectory = CFG.Current.Interroot_Directory;
-            }
-
-            if (CFG.Current.Mod_Directory != "")
-            {
-                GameModDirectory = CFG.Current.Mod_Directory;
-            }
         }
 
         private List<string> FullMapList = null;
@@ -118,6 +111,43 @@ namespace StudioCore
                 }
             }
             return $@"{GameRootDirectory}\{relpath}";
+        }
+
+        public GameType GetGameTypeForExePath(string exePath)
+        {
+            GameType type = GameType.Undefined;
+            if (exePath.ToLower().Contains("darksouls.exe"))
+            {
+                type = GameType.DarkSoulsPTDE;
+            }
+            else if (exePath.ToLower().Contains("darksoulsremastered.exe"))
+            {
+                type = GameType.DarkSoulsRemastered;
+            }
+            else if (exePath.ToLower().Contains("darksoulsii.exe"))
+            {
+                type = GameType.DarkSoulsIISOTFS;
+            }
+            else if (exePath.ToLower().Contains("darksoulsiii.exe"))
+            {
+                type = GameType.DarkSoulsIII;
+            }
+            else if (exePath.ToLower().Contains("eboot.bin"))
+            {
+                if (Directory.Exists($@"{GameRootDirectory}\dvdroot_ps4"))
+                {
+                    type = GameType.Bloodborne;
+                }
+                else
+                {
+                    Type = GameType.DemonsSouls;
+                }
+            }
+            else if (exePath.ToLower().Contains("sekiro.exe"))
+            {
+                type = GameType.Sekiro;
+            }
+            return type;
         }
 
         /// <summary>
@@ -169,25 +199,19 @@ namespace StudioCore
             FullMapList = null;
             GameModDirectory = null;
 
-            // Save config
-            if (GameRootDirectory != null)
-            {
-                CFG.Current.Interroot_Directory = GameRootDirectory;
-                CFG.Current.Mod_Directory = "";
-                CFG.Current.Game_Type = Type;
-            }
-
             return true;
         }
 
         public void SetModProjectDirectory(string dir)
         {
             GameModDirectory = dir;
+        }
 
-            if (GameModDirectory != null)
-            {
-                CFG.Current.Mod_Directory = GameModDirectory;
-            }
+        public void SetFromProjectSettings(MsbEditor.ProjectSettings settings, string moddir)
+        {
+            Type = settings.GameType;
+            GameRootDirectory = settings.GameRoot;
+            GameModDirectory = moddir;
         }
 
         /// <summary>

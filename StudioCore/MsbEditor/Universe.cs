@@ -13,7 +13,7 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public class Universe
     {
-        public List<Map> LoadedMaps { get; private set; } = new List<Map>();
+        public Dictionary<string, Map> LoadedMaps { get; private set; } = new Dictionary<string, Map>();
         private AssetLocator AssetLocator;
         private Resource.ResourceManager ResourceMan;
         private Scene.RenderScene RenderScene;
@@ -30,12 +30,9 @@ namespace StudioCore.MsbEditor
         {
             if (id != null)
             {
-                foreach (var m in LoadedMaps)
+                if (LoadedMaps.ContainsKey(id))
                 {
-                    if (m.MapId == id)
-                    {
-                        return m;
-                    }
+                    return LoadedMaps[id];
                 }
             }
             return null;
@@ -308,6 +305,15 @@ namespace StudioCore.MsbEditor
             job.StartJobAsync();
         }
 
+        public void PopulateMapList()
+        {
+            LoadedMaps.Clear();
+            foreach (var m in AssetLocator.GetFullMapList())
+            {
+                LoadedMaps.Add(m, null);
+            }
+        }
+
         public void LoadMap(string mapid)
         {
             var map = new Map(this, mapid);
@@ -457,7 +463,8 @@ namespace StudioCore.MsbEditor
                     map.MapOffset = t;
                 }
             }
-            LoadedMaps.Add(map);
+            //LoadedMaps.Add(mapid, map);
+            LoadedMaps[mapid] = map;
 
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -771,24 +778,30 @@ namespace StudioCore.MsbEditor
         {
             foreach (var m in LoadedMaps)
             {
-                SaveMap(m);
+                if (m.Value != null)
+                {
+                    SaveMap(m.Value);
+                }
             }
         }
 
         public void UnloadMap(Map map)
         {
-            if (LoadedMaps.Contains(map))
+            if (LoadedMaps.ContainsKey(map.MapId))
             {
                 map.Clear();
-                LoadedMaps.Remove(map);
+                LoadedMaps[map.MapId] = null;
             }
         }
 
         public void UnloadAllMaps()
         {
-            for (int i = LoadedMaps.Count - 1; i >= 0; i--)
+            foreach (var key in LoadedMaps.Keys)
             {
-                UnloadMap(LoadedMaps[i]);
+                if (LoadedMaps[key] != null)
+                {
+                    UnloadMap(LoadedMaps[key]);
+                }
             }
         }
 
@@ -796,7 +809,11 @@ namespace StudioCore.MsbEditor
         {
             foreach (var m in LoadedMaps)
             {
-                foreach (var o in m.MapObjects)
+                if (m.Value == null)
+                {
+                    continue;
+                }
+                foreach (var o in m.Value.MapObjects)
                 {
                     var p = o.GetProperty(name);
                     if (p != null)

@@ -129,8 +129,12 @@ namespace StudioCore.MsbEditor
                     if (SearchValue())
                     {
                         FoundObjects.Clear();
-                        foreach (var m in Universe.LoadedMaps)
+                        foreach (var m in Universe.LoadedMaps.Values)
                         {
+                            if (m == null)
+                            {
+                                continue;
+                            }
                             foreach (var o in m.MapObjects)
                             {
                                 var p = o.GetPropertyValue(PropertyName);

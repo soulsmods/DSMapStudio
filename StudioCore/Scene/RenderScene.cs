@@ -66,8 +66,12 @@ namespace StudioCore.Scene
                 if (obj.GetBounds() != null)
                 {
                     Octree.ApplyPendingMoves();
-                    Octree.AddItem(obj.GetBounds(), obj);
-                    OctreeSet.Add(obj);
+                    var dims = obj.GetBounds().GetDimensions();
+                    if (dims.X > 0.0f && dims.Y > 0.0f && dims.Z > 0.0f)
+                    {
+                        Octree.AddItem(obj.GetBounds(), obj);
+                        OctreeSet.Add(obj);
+                    }
                 }
             }
         }

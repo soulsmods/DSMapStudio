@@ -276,6 +276,7 @@ namespace StudioCore
                     index = faceSet.Is32Bit ? 1u : 0;
                     _is32Bit = faceSet.Is32Bit;
                     _cacheIndexSize = true;
+                    FlverResource.Unlock();
                 }
             }
             else if (_cacheIndexSize)

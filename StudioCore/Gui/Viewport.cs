@@ -59,6 +59,8 @@ namespace StudioCore.Gui
 
         private Scene.FullScreenQuad ClearQuad;
 
+        private bool _vpvisible = false;
+
         //public RenderTarget2D SceneRenderTarget = null;
 
         public Viewport(GraphicsDevice device, Scene.RenderScene scene, MsbEditor.ActionManager am, int width, int height)
@@ -88,7 +90,11 @@ namespace StudioCore.Gui
             {
                 cl.SetFramebuffer(device.SwapchainFramebuffer);
                 cl.SetViewport(0, RenderViewport);
-                ClearQuad.Render(d, cl);
+                if (_vpvisible)
+                {
+                    ClearQuad.Render(d, cl);
+                }
+                _vpvisible = false;
                 //cl.SetFullViewports();
                 //cl.SetScissorRect(0, (uint)RenderViewport.X, (uint)RenderViewport.Y, (uint)RenderViewport.Width, (uint)RenderViewport.Height);
                 //cl.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
@@ -102,7 +108,7 @@ namespace StudioCore.Gui
                 //cl.SetFullViewports();
                 cl.ClearDepthStencil(0);
             });
-            //Scene.Renderer.RegisterRenderQueue(DebugRenderer);
+            Scene.Renderer.RegisterRenderQueue(DebugRenderer);
 
             // Create gizmos
             //TranslateGizmo = new DebugPrimitives.DbgPrimGizmoTranslate();
@@ -175,6 +181,7 @@ namespace StudioCore.Gui
                 }
                 CanInteract = ImGui.IsWindowFocused();
                 ImGui.End();
+                _vpvisible = true;
             }
 
             if (ImGui.Begin("Profiling"))
@@ -277,7 +284,7 @@ namespace StudioCore.Gui
             }
 
             Gizmos.CameraPosition = WorldView.CameraTransform.Position;
-            //DebugRenderer.Add(Gizmos, new Scene.RenderKey(0));
+            DebugRenderer.Add(Gizmos, new Scene.RenderKey(0));
             //RenderScene.Render(device, cl, ViewPipeline);
         }
 
