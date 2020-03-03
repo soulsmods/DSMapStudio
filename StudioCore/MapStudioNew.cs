@@ -467,7 +467,7 @@ namespace StudioCore
                             _projectSettings.GameRoot = _projectSettings.GameRoot + @"\dvdroot_ps4";
                         }
                         _projectSettings.Serialize($@"{_newProjectDirectory}\project.json");
-                        ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(_newProjectDirectory));
+                        ChangeProjectSettings(_projectSettings, _newProjectDirectory);
                         ImGui.CloseCurrentPopup();
                     }
                 }

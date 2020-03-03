@@ -175,7 +175,7 @@ namespace SoulsFormats
             {
                 long start = br.Position;
                 int nameOffset = br.ReadInt32();
-                br.ReadEnum32<ModelType>();
+                Type = br.ReadEnum32<ModelType>();
                 br.ReadInt32();
                 int sibOffset = br.ReadInt32();
                 InstanceCount = br.ReadInt32();

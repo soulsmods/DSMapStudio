@@ -4,6 +4,8 @@ using System.Text;
 using Veldrid;
 using Veldrid.Utilities;
 using System.Numerics;
+using System.IO;
+using SoulsFormats;
 
 namespace StudioCore
 {
@@ -175,6 +177,41 @@ namespace StudioCore
             }
 
             return fileName;
+        }
+
+        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item) where T : SoulsFile<T>, new()
+        {
+            var assetgamepath = $@"{gamedir}\{assetpath}";
+            var assetmodpath = $@"{moddir}\{assetpath}";
+
+            if (moddir != null)
+            {
+                if (!Directory.Exists(Path.GetDirectoryName(assetmodpath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(assetmodpath));
+                }
+            }
+
+            // Make a backup of the original file if a mod path doesn't exist
+            if (moddir == null && !File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
+            {
+                File.Copy(assetgamepath, $@"{assetgamepath}.bak", true);
+            }
+
+            var writepath = (moddir == null) ? assetgamepath : assetmodpath;
+
+            if (File.Exists(writepath + ".temp"))
+            {
+                File.Delete(writepath + ".temp");
+            }
+            item.Write(writepath + ".temp");
+
+            if (File.Exists(writepath))
+            {
+                File.Copy(writepath, writepath + ".prev", true);
+                File.Delete(writepath);
+            }
+            File.Move(writepath + ".temp", writepath);
         }
 
         // From Veldrid Neo Demo

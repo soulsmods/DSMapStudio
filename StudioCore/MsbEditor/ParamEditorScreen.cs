@@ -75,6 +75,7 @@ namespace StudioCore.MsbEditor
 
         private Dictionary<string, IParamDecorator> _decorators = new Dictionary<string, IParamDecorator>();
 
+        private ProjectSettings _projectSettings = null;
         public ParamEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
             _propEditor = new PropertyEditor(EditorActionManager);
@@ -211,16 +212,25 @@ namespace StudioCore.MsbEditor
 
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
+            _projectSettings = newSettings;
+            _activeParam = null;
+            _activeRow = null;
         }
 
         public override void Save()
         {
-            throw new NotImplementedException();
+            if (_projectSettings != null)
+            {
+                ParamBank.SaveParams(_projectSettings.UseLooseParams);
+            }
         }
 
         public override void SaveAll()
         {
-            throw new NotImplementedException();
+            if (_projectSettings != null)
+            {
+                ParamBank.SaveParams(_projectSettings.UseLooseParams);
+            }
         }
     }
 }
