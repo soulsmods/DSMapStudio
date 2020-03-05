@@ -190,8 +190,8 @@ namespace StudioCore.Gui
                 ImGui.Text($@"Work creation time: {RenderScene.CPUDrawTime} ms");
                 ImGui.Text($@"Scene Render CPU time: {ViewPipeline.CPURenderTime} ms");
                 ImGui.Text($@"Visible objects: {RenderScene.RenderObjectCount}");
-                ImGui.Text($@"Vertex Buffers: {Scene.Renderer.VertexBufferAllocator.AllocatedSize / 1024 / 1024} / {Scene.Renderer.VertexBufferAllocator.BufferSize / 1024 / 1024} MB");
-                ImGui.Text($@"Index Buffers: {Scene.Renderer.IndexBufferAllocator.AllocatedSize / 1024 / 1024} / {Scene.Renderer.IndexBufferAllocator.BufferSize / 1024 / 1024} MB");
+                //ImGui.Text($@"Vertex Buffers: {Scene.Renderer.VertexBufferAllocator.AllocatedSize / 1024 / 1024} / {Scene.Renderer.VertexBufferAllocator.BufferSize / 1024 / 1024} MB");
+                //ImGui.Text($@"Index Buffers: {Scene.Renderer.IndexBufferAllocator.AllocatedSize / 1024 / 1024} / {Scene.Renderer.IndexBufferAllocator.BufferSize / 1024 / 1024} MB");
                 ImGui.End();
             }
         }

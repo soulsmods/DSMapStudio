@@ -642,6 +642,13 @@ namespace StudioCore.Resource
                 }
                 ImGui.End();
             }
+            else
+            {
+                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
+                {
+                    Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
+                }
+            }
             ImGui.SetNextWindowSize(new Vector2(400, 250), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(20, h - 300), ImGuiCond.FirstUseEver);
             if (!ImGui.Begin("Resource List", ref ResourceListWindowOpen))

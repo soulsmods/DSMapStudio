@@ -40,6 +40,27 @@ namespace StudioCore
         protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
         protected ResourceSet PerObjRS;
 
+        private int bufferIndexCached = -1;
+        public int BufferIndex
+        {
+            get
+            {
+                if (bufferIndexCached != -1)
+                {
+                    return bufferIndexCached;
+                }
+                if (FlverResource != null && FlverResource.IsLoaded && FlverResource.Get() != null)
+                {
+                    if (FlverResource.Get().GPUMeshes[FlverMeshIndex].GeomBuffer.AllocStatus == VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                    {
+                        bufferIndexCached = FlverResource.Get().GPUMeshes[FlverMeshIndex].GeomBuffer.BufferIndex;
+                        return bufferIndexCached;
+                    }
+                }
+                return 0;
+            }
+        }
+
         public int VertexCount { get; private set; }
 
         public readonly NewMesh Parent;
@@ -284,7 +305,7 @@ namespace StudioCore
                 index = _is32Bit ? 1u : 0;
             }
 
-            return new RenderKey(code << 1 | index);
+            return new RenderKey(code << 33 | index << 32 | (ulong)BufferIndex);
         }
 
         public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
@@ -299,7 +320,13 @@ namespace StudioCore
             {
                 var resource = FlverResource.Get();
                 var mesh = resource.GPUMeshes[FlverMeshIndex];
-                var vertbuffer = mesh.VertBuffer;
+                var geombuffer = mesh.GeomBuffer;
+
+                if (geombuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                {
+                    FlverResource.Unlock();
+                    return;
+                }
 
                 var faceSet = mesh.MeshFacesets[0];
                     //if (faceSet.IndexCount == 0)
@@ -307,14 +334,14 @@ namespace StudioCore
                     //if (faceSet.LOD != 0)
                     //    continue;
 
-                uint indexStart = faceSet.IndexBuffer.AllocationStart / (faceSet.Is32Bit ? 4u : 2u);
+                uint indexStart = geombuffer.IAllocationStart / (faceSet.Is32Bit ? 4u : 2u) + (uint)faceSet.IndexOffset;
                 var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
                 args.FirstInstance = WorldBuffer.AllocationStart / 64;
-                args.VertexOffset = (int)(vertbuffer.AllocationStart / Resource.MapFlverLayout.SizeInBytes);
+                args.VertexOffset = (int)(geombuffer.VAllocationStart / Resource.MapFlverLayout.SizeInBytes);
                 args.InstanceCount = 1;
                 args.FirstIndex = indexStart;
-                args.IndexCount = faceSet.IndexBuffer.AllocationSize / (faceSet.Is32Bit ? 4u : 2u);
-                encoder.AddDraw(ref args, RenderPipeline, PerObjRS, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
+                args.IndexCount = (uint)faceSet.IndexCount;
+                encoder.AddDraw(ref args, geombuffer.BufferIndex, RenderPipeline, PerObjRS, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
                 FlverResource.Unlock();
             }
         }

@@ -92,11 +92,9 @@ namespace StudioCore.DebugPrimitives
         {
             var newPrim = new DbgPrimGizmo();
             newPrim.Indices = Indices;
-            newPrim.VertBuffer = VertBuffer;
-            newPrim.IndexBuffer = IndexBuffer;
+            newPrim.GeomBuffer = GeomBuffer;
             newPrim.Vertices = Vertices;
-            newPrim.NeedToRecreateVertBuffer = NeedToRecreateVertBuffer;
-            newPrim.NeedToRecreateIndexBuffer = NeedToRecreateIndexBuffer;
+            newPrim.NeedToRecreateGeomBuffer = NeedToRecreateGeomBuffer;
 
             newPrim.Transform = newLocation;
 

@@ -53,6 +53,7 @@ namespace StudioCore.Scene
                 public ResourceSet _objectRS;
                 public IndexFormat _indexFormat;
                 public uint _batchStart;
+                public int _bufferIndex;
             }
 
             private BatchInfo[] _batches = null;
@@ -97,7 +98,7 @@ namespace StudioCore.Scene
             /// <param name="p">The pipeline to use with rendering</param>
             /// <param name="instanceData">Per instance data resource set</param>
             /// <param name="indexf">Format of the indices (16 or 32-bit)</param>
-            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, Pipeline p, ResourceSet instanceData, IndexFormat indexf)
+            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, IndexFormat indexf)
             {
                 // Encode the draw
                 if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
@@ -115,13 +116,15 @@ namespace StudioCore.Scene
                 if (_batchCount[_stagingSet] == 0 ||
                     _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != p ||
                     _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != instanceData ||
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != indexf)
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != indexf ||
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != buffer)
                 {
                     if (_batchCount[_stagingSet] >= 50)
                     {
                         throw new Exception("Batch count is not large enough");
                     }
                     // Add a new batch
+                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = buffer;
                     _batches[50 * _stagingSet + _batchCount[_stagingSet]]._pipeline = p;
                     _batches[50 * _stagingSet + _batchCount[_stagingSet]]._objectRS = instanceData;
                     _batches[50 * _stagingSet + _batchCount[_stagingSet]]._indexFormat = indexf;
@@ -156,14 +159,14 @@ namespace StudioCore.Scene
                 }
 
                 // Dispatch indirect calls for each batch
-                VertexBufferAllocator.BindAsVertexBuffer(cl);
                 uint c = _batchCount[_renderSet] > 0 ? _batchCount[_renderSet] - 1 : 0;
                 for (int i = 0; i < _batchCount[_renderSet]; i++)
                 {
                     cl.SetPipeline(_batches[50 * _renderSet + i]._pipeline);
                     pipeline.BindResources(cl);
                     cl.SetGraphicsResourceSet(1, _batches[50 * _renderSet + i]._objectRS);
-                    IndexBufferAllocator.BindAsIndexBuffer(cl, _batches[50 * _renderSet + i]._indexFormat);
+                    GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[50 * _renderSet + i]._bufferIndex);
+                    GeometryBufferAllocator.BindAsIndexBuffer(cl, _batches[50 * _renderSet + i]._bufferIndex, _batches[50 * _renderSet + i]._indexFormat);
                     uint count = _indirectDrawCount[_renderSet] - _batches[50 * _renderSet + i]._batchStart;
                     if (i < _batchCount[_renderSet] - 1)
                     {
@@ -330,8 +333,9 @@ namespace StudioCore.Scene
         private static List<RenderQueue> RenderQueues;
         private static Queue<Action<GraphicsDevice, CommandList>> BackgroundUploadQueue;
 
-        public static GPUBufferAllocator VertexBufferAllocator { get; private set; }
-        public static GPUBufferAllocator IndexBufferAllocator { get; private set; }
+        //public static GPUBufferAllocator VertexBufferAllocator { get; private set; }
+        //public static GPUBufferAllocator IndexBufferAllocator { get; private set; }
+        public static VertexIndexBufferAllocator GeometryBufferAllocator { get; private set; }
         public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
 
         public static ResourceFactory Factory
@@ -350,10 +354,11 @@ namespace StudioCore.Scene
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
 
-            VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
+            //VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
             //VertexBufferAllocator = new GPUBufferAllocator(256 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
+            //IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
             //IndexBufferAllocator = new GPUBufferAllocator(128 * 1024 * 1024, BufferUsage.IndexBuffer);
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 64);
         }
 

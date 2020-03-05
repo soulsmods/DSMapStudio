@@ -15,10 +15,9 @@ namespace StudioCore.Resource
         public class CollisionSubmesh
         {
             public int IndexCount;
-            public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
             public int[] PickingIndices;
 
-            public Scene.GPUBufferAllocator.GPUBufferHandle VertBuffer { get; set; }
+            public Scene.VertexIndexBufferAllocator.VertexIndexBufferHandle GeomBuffer { get; set; }
 
             public int VertexCount { get; set; }
 
@@ -95,12 +94,6 @@ namespace StudioCore.Resource
             dest.IndexCount = MeshIndices.Length;
 
             uint buffersize = (uint)dest.IndexCount * 4u;
-            //dest.IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer));
-            dest.IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, (int)4);
-            dest.IndexBuffer.FillBuffer(MeshIndices, () =>
-            {
-                MeshIndices = null;
-            });
 
             fixed (void* ptr = dest.PickingVertices)
             {
@@ -108,12 +101,17 @@ namespace StudioCore.Resource
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-            //dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
-            dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)CollisionLayout.SizeInBytes);
 
-            dest.VertBuffer.FillBuffer(MeshVertices, () =>
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
             {
-                MeshVertices = null;
+                h.FillIBuffer(MeshIndices, () =>
+                {
+                    MeshIndices = null;
+                });
+                h.FillVBuffer(MeshVertices, () =>
+                {
+                    MeshVertices = null;
+                });
             });
         }
 
@@ -273,11 +271,6 @@ namespace StudioCore.Resource
             dest.IndexCount = MeshIndices.Length;
 
             uint buffersize = (uint)dest.IndexCount * 4u;
-            dest.IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, (int)4);
-            dest.IndexBuffer.FillBuffer(MeshIndices, () =>
-            {
-                MeshIndices = null;
-            });
 
             fixed (void* ptr = dest.PickingVertices)
             {
@@ -285,10 +278,17 @@ namespace StudioCore.Resource
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-            dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)CollisionLayout.SizeInBytes);
-            dest.VertBuffer.FillBuffer(MeshVertices, () =>
+
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
             {
-                MeshVertices = null;
+                h.FillIBuffer(MeshIndices, () =>
+                {
+                    MeshIndices = null;
+                });
+                h.FillVBuffer(MeshVertices, () =>
+                {
+                    MeshVertices = null;
+                });
             });
         }
 

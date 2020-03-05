@@ -20,7 +20,7 @@ namespace StudioCore.DebugPrimitives
 
             if (GeometryData != null)
             {
-                SetBuffers(GeometryData.VertBuffer, GeometryData.IndexBuffer);
+                SetBuffers(GeometryData.GeomBuffer);
             }
             else
             {

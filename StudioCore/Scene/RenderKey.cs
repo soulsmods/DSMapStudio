@@ -30,6 +30,14 @@ namespace StudioCore.Scene
                 cameraDistanceInt);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static RenderKey Create(uint materialID, uint bufferID)
+        {
+            return new RenderKey(
+                ((ulong)materialID << 32) +
+                bufferID);
+        }
+
         public int CompareTo(RenderKey other)
         {
             return Value.CompareTo(other.Value);

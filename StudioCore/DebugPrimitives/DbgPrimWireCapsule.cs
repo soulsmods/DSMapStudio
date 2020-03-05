@@ -23,7 +23,7 @@ namespace StudioCore.DebugPrimitives
 
                 if (GeometryData != null)
                 {
-                    SetBuffers(GeometryData.VertBuffer, GeometryData.IndexBuffer);
+                    SetBuffers(GeometryData.GeomBuffer);
                 }
                 else
                 {
@@ -92,8 +92,7 @@ namespace StudioCore.DebugPrimitives
 
                     GeometryData = new DbgPrimGeometryData()
                     {
-                        VertBuffer = VertBuffer,
-                        IndexBuffer = IndexBuffer,
+                        GeomBuffer = GeomBuffer
                     };
                 }
 
@@ -110,7 +109,7 @@ namespace StudioCore.DebugPrimitives
             {
                 if (GeometryData != null)
                 {
-                    SetBuffers(GeometryData.VertBuffer, GeometryData.IndexBuffer);
+                    SetBuffers(GeometryData.GeomBuffer);
                 }
                 else
                 {
@@ -126,8 +125,7 @@ namespace StudioCore.DebugPrimitives
 
                     GeometryData = new DbgPrimGeometryData()
                     {
-                        VertBuffer = VertBuffer,
-                        IndexBuffer = IndexBuffer,
+                        GeomBuffer = GeomBuffer
                     };
                 }
 

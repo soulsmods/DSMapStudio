@@ -51,6 +51,27 @@ namespace StudioCore.Scene
 
         public bool IsVisible { get; set; } = true;
 
+        private int bufferIndexCached = -1;
+        public int BufferIndex
+        {
+            get
+            {
+                if (bufferIndexCached != -1)
+                {
+                    return bufferIndexCached;
+                }
+                if (NvmResource != null && NvmResource.IsLoaded && NvmResource.Get() != null)
+                {
+                    if (NvmResource.Get().GeomBuffer.AllocStatus == VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                    {
+                        bufferIndexCached = NvmResource.Get().GeomBuffer.BufferIndex;
+                        return bufferIndexCached;
+                    }
+                }
+                return 0;
+            }
+        }
+
         public NvmRenderer(NvmMesh parent, Resource.ResourceHandle<Resource.NVMNavmeshResource> resourceHandle)
         {
             NvmResource = resourceHandle;
@@ -239,41 +260,28 @@ namespace StudioCore.Scene
             if (!IsVisible)
                 return;
 
-            /*if (VertBuffer != null && IndexBuffer != null)
-            {
-                cl.SetPipeline(RenderPipeline);
-                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-                uint offset = 0;
-                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-                cl.SetVertexBuffer(0, VertBuffer);
-                cl.SetIndexBuffer(IndexBuffer, IndexFormat.UInt32);
-                cl.DrawIndexed(IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
-
-                cl.SetPipeline(RenderWirePipeline);
-                cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-                cl.SetGraphicsResourceSet(1, PerObjRS, 1, ref offset);
-                cl.SetVertexBuffer(0, VertBuffer);
-                cl.SetIndexBuffer(IndexBuffer, IndexFormat.UInt32);
-                cl.DrawIndexed(IndexBuffer.SizeInBytes / 4u, 1, 0, 0, 0);
-                return;
-            }*/
-
             if (NvmResource == null || !NvmResource.IsLoaded || NvmResource.Get() == null)
                 return;
 
             if (NvmResource.TryLock())
             {
                 var resource = NvmResource.Get();
-                var vertbuffer = resource.VertBuffer;
+                var geombuffer = resource.GeomBuffer;
 
-                uint indexStart = resource.IndexBuffer.AllocationStart / 4u;
+                if (geombuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                {
+                    NvmResource.Unlock();
+                    return;
+                }
+
+                uint indexStart = geombuffer.IAllocationStart / 4u;
                 var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
                 args.FirstInstance = WorldBuffer.AllocationStart / 64;
-                args.VertexOffset = (int)(vertbuffer.AllocationStart / Resource.CollisionLayout.SizeInBytes);
+                args.VertexOffset = (int)(geombuffer.VAllocationStart / Resource.CollisionLayout.SizeInBytes);
                 args.InstanceCount = 1;
                 args.FirstIndex = indexStart;
-                args.IndexCount = resource.IndexBuffer.AllocationSize / 4u;
-                encoder.AddDraw(ref args, RenderPipeline, PerObjRS, IndexFormat.UInt32);
+                args.IndexCount = geombuffer.IAllocationSize / 4u;
+                encoder.AddDraw(ref args, geombuffer.BufferIndex, RenderPipeline, PerObjRS, IndexFormat.UInt32);
                 NvmResource.Unlock();
             }
         }

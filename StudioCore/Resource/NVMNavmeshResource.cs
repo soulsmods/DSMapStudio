@@ -13,10 +13,9 @@ namespace StudioCore.Resource
     public class NVMNavmeshResource : IResource, IDisposable
     {
         public int IndexCount;
-        public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
         public int[] PickingIndices;
 
-        public Scene.GPUBufferAllocator.GPUBufferHandle VertBuffer { get; set; }
+        public Scene.VertexIndexBufferAllocator.VertexIndexBufferHandle GeomBuffer { get; set; }
 
         public int VertexCount { get; set; }
 
@@ -90,11 +89,6 @@ namespace StudioCore.Resource
             IndexCount = MeshIndices.Length;
 
             uint buffersize = (uint)IndexCount * 4u;
-            IndexBuffer = Scene.Renderer.IndexBufferAllocator.Allocate(buffersize, (int)4);
-            IndexBuffer.FillBuffer(MeshIndices, () =>
-            {
-                MeshIndices = null;
-            });
 
             fixed (void* ptr = PickingVertices)
             {
@@ -102,11 +96,17 @@ namespace StudioCore.Resource
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-            VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)CollisionLayout.SizeInBytes);
 
-            VertBuffer.FillBuffer(MeshVertices, () =>
+            GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
             {
-                MeshVertices = null;
+                h.FillIBuffer(MeshIndices, () =>
+                {
+                    MeshIndices = null;
+                });
+                h.FillVBuffer(MeshVertices, () =>
+                {
+                    MeshVertices = null;
+                });
             });
         }
 

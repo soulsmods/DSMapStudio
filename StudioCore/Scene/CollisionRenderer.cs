@@ -22,6 +22,27 @@ namespace StudioCore.Scene
 
         private bool WindClockwise = false;
 
+        private int bufferIndexCached = -1;
+        public int BufferIndex
+        {
+            get
+            {
+                if (bufferIndexCached != -1)
+                {
+                    return bufferIndexCached;
+                }
+                if (ColResource != null && ColResource.IsLoaded && ColResource.Get() != null)
+                {
+                    if (ColResource.Get().GPUMeshes[ColMeshIndex].GeomBuffer.AllocStatus == VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                    {
+                        bufferIndexCached = ColResource.Get().GPUMeshes[ColMeshIndex].GeomBuffer.BufferIndex;
+                        return bufferIndexCached;
+                    }
+                }
+                return 0;
+            }
+        }
+
         bool WorldDirty = false;
         private Matrix4x4 _World = Matrix4x4.Identity;
         public Matrix4x4 WorldTransform
@@ -141,16 +162,22 @@ namespace StudioCore.Scene
             {
                 var resource = ColResource.Get();
                 var mesh = resource.GPUMeshes[ColMeshIndex];
-                var vertbuffer = mesh.VertBuffer;
+                var geombuffer = mesh.GeomBuffer;
 
-                uint indexStart = mesh.IndexBuffer.AllocationStart / 4u;
+                if (geombuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                {
+                    ColResource.Unlock();
+                    return;
+                }
+
+                uint indexStart = geombuffer.IAllocationStart / 4u;
                 var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
                 args.FirstInstance = WorldBuffer.AllocationStart / 64;
-                args.VertexOffset = (int)(vertbuffer.AllocationStart / Resource.CollisionLayout.SizeInBytes);
+                args.VertexOffset = (int)(geombuffer.VAllocationStart / Resource.CollisionLayout.SizeInBytes);
                 args.InstanceCount = 1;
                 args.FirstIndex = indexStart;
-                args.IndexCount = mesh.IndexBuffer.AllocationSize / 4u;
-                encoder.AddDraw(ref args, RenderPipeline, PerObjRS, IndexFormat.UInt32);
+                args.IndexCount = geombuffer.IAllocationSize / 4u;
+                encoder.AddDraw(ref args, geombuffer.BufferIndex, RenderPipeline, PerObjRS, IndexFormat.UInt32);
                 ColResource.Unlock();
             }
         }

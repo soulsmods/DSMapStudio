@@ -87,11 +87,9 @@ namespace StudioCore.DebugPrimitives
         protected Pipeline RenderPipeline;
         protected Shader[] Shaders;
         protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
-        protected GPUBufferAllocator.GPUBufferHandle VertBuffer;
-        protected GPUBufferAllocator.GPUBufferHandle IndexBuffer;
+        protected VertexIndexBufferAllocator.VertexIndexBufferHandle GeomBuffer;
         protected ResourceSet PerObjRS;
-        protected bool NeedToRecreateVertBuffer = true;
-        protected bool NeedToRecreateIndexBuffer = true;
+        protected bool NeedToRecreateGeomBuffer = true;
 
         public bool BackfaceCulling = true;
         public bool Wireframe = false;
@@ -100,21 +98,39 @@ namespace StudioCore.DebugPrimitives
         public int VertexCount => Vertices.Length;
         public int IndexCount => Indices.Length;
 
-        protected void SetBuffers(GPUBufferAllocator.GPUBufferHandle vertBuffer, GPUBufferAllocator.GPUBufferHandle indexBuffer)
+        private int bufferIndexCached = -1;
+        public int BufferIndex
         {
-            VertBuffer = vertBuffer;
-            IndexBuffer = indexBuffer;
+            get
+            {
+                if (bufferIndexCached != -1)
+                {
+                    return bufferIndexCached;
+                }
+
+                if (GeomBuffer != null && GeomBuffer.AllocStatus == VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                {
+                    bufferIndexCached = GeomBuffer.BufferIndex;
+                    return bufferIndexCached;
+                }
+                return 0;
+            }
+        }
+
+        protected void SetBuffers(VertexIndexBufferAllocator.VertexIndexBufferHandle geomBuffer)
+        {
+            GeomBuffer = geomBuffer;
             //NeedToRecreateIndexBuffer = false;
             //NeedToRecreateVertBuffer = false;
         }
 
         public override void UpdatePerFrameResources(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp)
         {
-            if (NeedToRecreateVertBuffer)
+            if (NeedToRecreateGeomBuffer)
             {
                 //VertBuffer?.Dispose();
-                VertBuffer = null;
-                if (Vertices.Length > 0)
+                GeomBuffer = null;
+                if (Vertices.Length > 0 && Indices.Length > 0)
                 {
                     //VertBuffer = new VertexBuffer(GFX.Device,
                     //typeof(VertexPositionColorNormal), Vertices.Length, BufferUsage.WriteOnly);
@@ -124,34 +140,17 @@ namespace StudioCore.DebugPrimitives
                     //VertBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(28 * (uint)Vertices.Length, Veldrid.BufferUsage.VertexBuffer));
                     //cl.UpdateBuffer(VertBuffer, 0, Vertices);
                     //});
-                    VertBuffer = Renderer.VertexBufferAllocator.Allocate(28 * (uint)Vertices.Length, 28);
-                    VertBuffer.FillBuffer(Vertices);
+                    GeomBuffer = Renderer.GeometryBufferAllocator.Allocate(28 * (uint)Vertices.Length, 2 * (uint)Indices.Length, 28, 2, (h) =>
+                    {
+                        h.FillVBuffer(Vertices);
+                        h.FillIBuffer(Indices);
+                    });
                 }
                 else
                 {
                     throw new Exception("WTF");
                 }
-                NeedToRecreateVertBuffer = false;
-                WorldDirty = true;
-            }
-
-            if (NeedToRecreateIndexBuffer)
-            {
-                //IndexBuffer?.Dispose();
-                IndexBuffer = null;
-                if (Indices.Length > 0)
-                {
-                    //IndexBuffer = new IndexBuffer(GFX.Device, IndexElementSize.ThirtyTwoBits, Indices.Length, BufferUsage.WriteOnly);
-                    //IndexBuffer.SetData(Indices);
-                    //Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
-                    //{
-                    //IndexBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(2 * (uint)Indices.Length, Veldrid.BufferUsage.IndexBuffer));
-                    //cl.UpdateBuffer(IndexBuffer, 0, Indices);
-                    //});
-                    IndexBuffer = Renderer.IndexBufferAllocator.Allocate(2 * (uint)Indices.Length, 2);
-                    IndexBuffer.FillBuffer(Indices);
-                }
-                NeedToRecreateIndexBuffer = false;
+                NeedToRecreateGeomBuffer = false;
                 WorldDirty = true;
             }
 
@@ -171,7 +170,7 @@ namespace StudioCore.DebugPrimitives
             Vertices[Vertices.Length - 1].Color = color;
             Vertices[Vertices.Length - 1].Normal = normal ?? Vector3.UnitX;
 
-            NeedToRecreateVertBuffer = true;
+            NeedToRecreateGeomBuffer = true;
         }
 
         protected void AddVertex(VertexPositionColorNormal vert)
@@ -179,14 +178,14 @@ namespace StudioCore.DebugPrimitives
             Array.Resize(ref Vertices, Vertices.Length + 1);
             Vertices[Vertices.Length - 1] = vert;
 
-            NeedToRecreateVertBuffer = true;
+            NeedToRecreateGeomBuffer = true;
         }
 
         protected void AddIndex(short index)
         {
             Array.Resize(ref Indices, Indices.Length + 1);
             Indices[Indices.Length - 1] = index;
-            NeedToRecreateIndexBuffer = true;
+            NeedToRecreateGeomBuffer = true;
         }
 
         public void AddDbgLabel(Vector3 position, float height, string text, Color color)
@@ -222,7 +221,7 @@ namespace StudioCore.DebugPrimitives
         {
             //FinalizeBuffers(device, cl);
 
-            if (VertBuffer == null || IndexBuffer == null || VertBuffer.AllocationSize == 0 || IndexBuffer.AllocationSize == 0)
+            if (GeomBuffer == null || GeomBuffer.VAllocationSize == 0 || GeomBuffer.IAllocationSize == 0)
             {
                 // This is some dummy parent thing with no geometry.
                 if (Children.Count > 0 || UnparentedChildren.Count > 0)
@@ -233,30 +232,18 @@ namespace StudioCore.DebugPrimitives
                 throw new Exception("DbgPrim geometry is empty and it had no children. Something went wrong...");
             }
 
-            //GFX.Device.SetVertexBuffer(VertBuffer);
-            //GFX.Device.Indices = IndexBuffer;
-            //GFX.BackfaceCulling = BackfaceCulling;
-            //GFX.Wireframe = Wireframe;
+            if (GeomBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+            {
+                return;
+            }
 
-            //if (Shader is DbgPrimSolidShader solid)
-            //    solid.Effect.LightingEnabled = !DisableLighting;
-
-            //GFX.Device.DrawIndexedPrimitives(PrimType, 0, 0, IndexBuffer.IndexCount);
-
-            //cl.SetPipeline(RenderPipeline);
-            //cl.SetGraphicsResourceSet(0, sp.ProjViewRS);
-            //cl.SetGraphicsResourceSet(1, PerObjRS);
-            //cl.SetVertexBuffer(0, VertBuffer);
-            //cl.SetIndexBuffer(IndexBuffer, IndexFormat.UInt16);
-            //Renderer.IndexBufferAllocator.BindAsIndexBuffer(cl, IndexFormat.UInt16);
-            //cl.DrawIndexed(IndexBuffer.AllocationSize / 2, 1, IndexBuffer.AllocationStart / 2, (int)(VertBuffer.AllocationStart / 28), WorldBuffer.AllocationStart / 64);
             var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
             args.FirstInstance = WorldBuffer.AllocationStart / 64;
-            args.VertexOffset = (int)(VertBuffer.AllocationStart / 28);
+            args.VertexOffset = (int)(GeomBuffer.VAllocationStart / 28);
             args.InstanceCount = 1;
-            args.FirstIndex = IndexBuffer.AllocationStart / 2;
-            args.IndexCount = IndexBuffer.AllocationSize / 2;
-            encoder.AddDraw(ref args, RenderPipeline, PerObjRS, IndexFormat.UInt16);
+            args.FirstIndex = GeomBuffer.IAllocationStart / 2;
+            args.IndexCount = GeomBuffer.IAllocationSize / 2;
+            encoder.AddDraw(ref args, GeomBuffer.BufferIndex, RenderPipeline, PerObjRS, IndexFormat.UInt16);
         }
 
         protected virtual void PreDraw()
@@ -328,7 +315,7 @@ namespace StudioCore.DebugPrimitives
         public void SubmitRenderObjects(Renderer.RenderQueue queue)
         {
             ulong code = RenderPipeline != null ? (ulong)RenderPipeline.GetHashCode() : 0;
-            queue.Add(this, new RenderKey(code));
+            queue.Add(this, RenderKey.Create((int)(code & 0xFFFFFFFF), (uint)BufferIndex));
         }
 
         public virtual BoundingBox GetBounds()
