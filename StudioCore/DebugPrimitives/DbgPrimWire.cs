@@ -155,9 +155,5 @@ namespace StudioCore.DebugPrimitives
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }
 
-        public override void DestroyDeviceObjects()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

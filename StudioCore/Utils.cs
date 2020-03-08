@@ -179,7 +179,7 @@ namespace StudioCore
             return fileName;
         }
 
-        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item) where T : SoulsFile<T>, new()
+        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item, bool ds3reg=false) where T : SoulsFile<T>, new()
         {
             var assetgamepath = $@"{gamedir}\{assetpath}";
             var assetmodpath = $@"{moddir}\{assetpath}";
@@ -204,7 +204,14 @@ namespace StudioCore
             {
                 File.Delete(writepath + ".temp");
             }
-            item.Write(writepath + ".temp");
+            if (ds3reg && item is BND4 bnd)
+            {
+                SFUtil.EncryptDS3Regulation(writepath + ".temp", bnd);
+            }
+            else
+            {
+                item.Write(writepath + ".temp");
+            }
 
             if (File.Exists(writepath))
             {

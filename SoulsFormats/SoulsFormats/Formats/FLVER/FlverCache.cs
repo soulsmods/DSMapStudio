@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Buffers;
+using System.Runtime.CompilerServices;
 
 namespace SoulsFormats
 {
@@ -12,12 +13,25 @@ namespace SoulsFormats
     /// </summary>
     public class FlverCache
     {
-        private const int MaxCached = 10;
+        private const int MaxCached = 5;
         internal List<FLVER.Vertex[]> VerticesArrayCache = new List<FLVER.Vertex[]>(MaxCached);
         internal List<bool> VerticesArrayUsed = new List<bool>(MaxCached);
 
         internal ArrayPool<int> IndicesPool = ArrayPool<int>.Create();
         internal List<int[]> LoanedIndices = new List<int[]>();
+
+        public unsafe long MemoryUsage
+        {
+            get
+            {
+                long usage = 0;
+                foreach (var a in VerticesArrayCache)
+                {
+                    usage += a.Length * Unsafe.SizeOf<FLVER.Vertex>();
+                }
+                return usage;
+            }
+        }
 
         public FlverCache()
         {

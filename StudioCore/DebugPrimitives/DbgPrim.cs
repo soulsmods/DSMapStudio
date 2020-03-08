@@ -40,7 +40,7 @@ namespace StudioCore.DebugPrimitives
         }
     }
 
-    public abstract class DbgPrim : Scene.RenderObject, Scene.IDrawable, IDbgPrim
+    public abstract class DbgPrim : Scene.RenderObject, Scene.IDrawable, IDbgPrim, IDisposable
     {
         private bool WorldDirty = true;
         private Transform _transform = Transform.Default;
@@ -160,6 +160,14 @@ namespace StudioCore.DebugPrimitives
                 //cl.UpdateBuffer(WorldBuffer, 0, ref mat, 64);
                 WorldBuffer.FillBuffer(cl, ref mat);
                 WorldDirty = false;
+            }
+        }
+
+        public override void DestroyDeviceObjects()
+        {
+            if (GeomBuffer != null)
+            {
+                GeomBuffer.Dispose();
             }
         }
 
@@ -306,11 +314,6 @@ namespace StudioCore.DebugPrimitives
         }
 
         protected abstract void DisposeBuffers();
-
-        public void Dispose()
-        {
-            DisposeBuffers();
-        }
 
         public void SubmitRenderObjects(Renderer.RenderQueue queue)
         {

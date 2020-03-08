@@ -378,7 +378,7 @@ namespace StudioCore.MsbEditor
                     else if (mp.ModelName.StartsWith("h"))
                     {
                         loadcol = true;
-                        asset = AssetLocator.GetMapCollisionModel(mapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
+                        asset = AssetLocator.GetMapCollisionModel(mapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName), false);
                         filt = Scene.RenderFilter.Collision;
                         colsToLoad.Add(asset);
                     }
@@ -691,7 +691,7 @@ namespace StudioCore.MsbEditor
         public void SaveMap(Map map)
         {
             var ad = AssetLocator.GetMapMSB(map.MapId);
-            var adw = AssetLocator.GetMapMSB(map.MapId, true);
+            var adw = AssetLocator.GetMapMSB(map.MapId, AssetLocator.Type == GameType.DarkSoulsPTDE ? false : true);
             IMsb msb;
             DCX.Type compressionType = DCX.Type.None;
             if (AssetLocator.Type == GameType.DarkSoulsIII)

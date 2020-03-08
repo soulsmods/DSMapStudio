@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Veldrid;
 
@@ -150,6 +152,39 @@ namespace StudioCore.Scene
         private long _stagingIndicesSize;
 
         private bool _stagingLocked = false;
+        private bool _pendingFlush = false;
+
+        public long TotalVertexFootprint
+        {
+            get
+            {
+                long total = 0;
+                foreach (var a in _buffers)
+                {
+                    if (a != null)
+                    {
+                        total += a._bufferSizeVert;
+                    }
+                }
+                return total;
+            }
+        }
+
+        public long TotalIndexFootprint
+        {
+            get
+            {
+                long total = 0;
+                foreach (var a in _buffers)
+                {
+                    if (a != null)
+                    {
+                        total += a._bufferSizeIndex;
+                    }
+                }
+                return total;
+            }
+        }
 
         public VertexIndexBufferAllocator(uint maxVertsSize, uint maxIndicesSize)
         {
@@ -190,7 +225,10 @@ namespace StudioCore.Scene
                     handle._ialign = ialignment;
                     handle._onStagedAction = onStaging;
                     _pendingAllocations.Add(handle);
-                    needsFlush = true;
+                    if (!_pendingFlush)
+                    {
+                        needsFlush = true;
+                    }
                     _stagingLocked = true;
                 }
                 else
@@ -266,9 +304,16 @@ namespace StudioCore.Scene
 
         public void FlushStaging(bool full = false)
         {
+            // Don't flush if we have a pending flush
+            if (_pendingFlush)
+            {
+                return;
+            }
+
             lock (_allocationLock)
             {
                 _stagingLocked = true;
+                _pendingFlush = true;
             }
             Renderer.AddBackgroundUploadTask((d, cl) =>
             {
@@ -299,6 +344,7 @@ namespace StudioCore.Scene
                     {
                         alloc.AllocStatus = VertexIndexBufferHandle.Status.Resident;
                         alloc._buffer = buffer;
+                        buffer._handleCount++;
                         _allocations.Add(alloc);
                     }
                     _stagingAllocations.Clear();
@@ -319,18 +365,29 @@ namespace StudioCore.Scene
                 lock (_allocationLock)
                 {
                     _stagingLocked = false;
+                    _pendingFlush = false;
                 }
             });
         }
 
-        public void BindAsVertexBuffer(CommandList cl, int index)
+        public bool BindAsVertexBuffer(CommandList cl, int index)
         {
+            if (_buffers[index] == null)
+            {
+                return false;
+            }
             cl.SetVertexBuffer(0, _buffers[index]._backingVertBuffer);
+            return true;
         }
 
-        public void BindAsIndexBuffer(CommandList cl, int index, IndexFormat indexformat)
+        public bool BindAsIndexBuffer(CommandList cl, int index, IndexFormat indexformat)
         {
+            if (_buffers[index] == null)
+            {
+                return false;
+            }
             cl.SetIndexBuffer(_buffers[index]._backingIndexBuffer, indexformat);
+            return true;
         }
 
         internal class VertexIndexBuffer
@@ -341,11 +398,13 @@ namespace StudioCore.Scene
             public long _bufferSizeVert = 0;
             public long _bufferSizeIndex = 0;
 
+            internal int _handleCount = 0;
+
             public DeviceBuffer _backingVertBuffer { get; internal set; } = null;
             public DeviceBuffer _backingIndexBuffer { get; internal set; } = null;
         }
 
-        public class VertexIndexBufferHandle
+        public class VertexIndexBufferHandle : IDisposable
         {
             private VertexIndexBufferAllocator _allocator;
             internal VertexIndexBuffer _buffer = null;
@@ -406,7 +465,7 @@ namespace StudioCore.Scene
                 AllocStatus = Status.Staging;
             }
 
-            unsafe public void FillVBuffer<T>(T[] vdata, Action completionHandler = null) where T : struct
+            public void FillVBuffer<T>(T[] vdata, Action completionHandler = null) where T : struct
             {
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
@@ -422,6 +481,27 @@ namespace StudioCore.Scene
                     {
                         completionHandler.Invoke();
                     }
+                });
+            }
+
+            unsafe public void FillVBuffer<T>(T[] vdata, int count, Action completionHandler = null) where T : struct
+            {
+                Renderer.AddBackgroundUploadTask((device, cl) =>
+                {
+                    GCHandle gch = GCHandle.Alloc(vdata, GCHandleType.Pinned);
+                    if (AllocStatus == Status.Staging)
+                    {
+                        cl.UpdateBuffer(_allocator._stagingBufferVerts, VAllocationStart, gch.AddrOfPinnedObject(), (uint)count * (uint)Unsafe.SizeOf<T>());
+                    }
+                    else if (AllocStatus == Status.Resident)
+                    {
+                        cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, gch.AddrOfPinnedObject(), (uint)count * (uint)Unsafe.SizeOf<T>());
+                    }
+                    if (completionHandler != null)
+                    {
+                        completionHandler.Invoke();
+                    }
+                    gch.Free();
                 });
             }
 
@@ -467,6 +547,58 @@ namespace StudioCore.Scene
                     cl.UpdateBuffer(_buffer._backingIndexBuffer, IAllocationStart, idata);
                 }
             }
+
+            #region IDisposable Support
+            private bool disposedValue = false; // To detect redundant calls
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        if (AllocStatus == Status.Resident)
+                        {
+                            _allocator._allocations.Remove(this);
+                        }
+                        if (AllocStatus == Status.Pending)
+                        {
+                            _allocator._pendingAllocations.Remove(this);
+                        }
+                        if (AllocStatus == Status.Staging)
+                        {
+                            _allocator._stagingAllocations.Remove(this);
+                        }
+                    }
+
+                    if (_buffer != null)
+                    {
+                        _buffer._handleCount--;
+                        if (_buffer._handleCount <= 0)
+                        {
+                            _buffer._backingVertBuffer.Dispose();
+                            _buffer._backingIndexBuffer.Dispose();
+                            _allocator._buffers[_buffer.BufferIndex] = null;
+                        }
+                        _buffer = null;
+                    }
+
+                    disposedValue = true;
+                }
+            }
+
+            ~VertexIndexBufferHandle()
+            {
+               Dispose(false);
+            }
+
+            // This code added to correctly implement the disposable pattern.
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+            #endregion
         }
     }
 }

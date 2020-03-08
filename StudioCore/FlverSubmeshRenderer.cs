@@ -266,7 +266,7 @@ namespace StudioCore
 
         public override void DestroyDeviceObjects()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override void UpdatePerFrameResources(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)

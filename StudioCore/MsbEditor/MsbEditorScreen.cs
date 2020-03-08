@@ -538,6 +538,8 @@ namespace StudioCore.MsbEditor
                     Universe.UnloadMap(pendingUnload);
                     GC.Collect();
                     GCNeedsCollection = true;
+                    ResourceMan.UnloadUnusedResources();
+                    GC.Collect();
                 }
             }
 

@@ -44,6 +44,8 @@ namespace StudioCore.Scene
             private uint[] _indirectDrawCount = null;
             private uint[] _batchCount = null;
 
+            private const int MAX_BATCH = 100;
+
             /// <summary>
             /// All the unique parameters for a batched indirect draw call
             /// </summary>
@@ -65,7 +67,7 @@ namespace StudioCore.Scene
                 _indirectBuffer = Factory.CreateBuffer(desc);
                 _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
                 _directBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
-                _batches = new BatchInfo[2 * 50];
+                _batches = new BatchInfo[2 * MAX_BATCH];
 
                 _indirectDrawCount = new uint[2];
                 _batchCount = new uint[2];
@@ -114,21 +116,21 @@ namespace StudioCore.Scene
 
                 // Determine if we need a new batch
                 if (_batchCount[_stagingSet] == 0 ||
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != p ||
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != instanceData ||
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != indexf ||
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != buffer)
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != p ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != instanceData ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != indexf ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != buffer)
                 {
-                    if (_batchCount[_stagingSet] >= 50)
+                    if (_batchCount[_stagingSet] >= MAX_BATCH)
                     {
                         throw new Exception("Batch count is not large enough");
                     }
                     // Add a new batch
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = buffer;
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._pipeline = p;
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._objectRS = instanceData;
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._indexFormat = indexf;
-                    _batches[50 * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = buffer;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = p;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._objectRS = instanceData;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._indexFormat = indexf;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
                     _batchCount[_stagingSet]++;
                 }
             }
@@ -162,20 +164,26 @@ namespace StudioCore.Scene
                 uint c = _batchCount[_renderSet] > 0 ? _batchCount[_renderSet] - 1 : 0;
                 for (int i = 0; i < _batchCount[_renderSet]; i++)
                 {
-                    cl.SetPipeline(_batches[50 * _renderSet + i]._pipeline);
+                    cl.SetPipeline(_batches[MAX_BATCH * _renderSet + i]._pipeline);
                     pipeline.BindResources(cl);
-                    cl.SetGraphicsResourceSet(1, _batches[50 * _renderSet + i]._objectRS);
-                    GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[50 * _renderSet + i]._bufferIndex);
-                    GeometryBufferAllocator.BindAsIndexBuffer(cl, _batches[50 * _renderSet + i]._bufferIndex, _batches[50 * _renderSet + i]._indexFormat);
-                    uint count = _indirectDrawCount[_renderSet] - _batches[50 * _renderSet + i]._batchStart;
+                    cl.SetGraphicsResourceSet(1, _batches[MAX_BATCH * _renderSet + i]._objectRS);
+                    if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
+                    {
+                        continue;
+                    }
+                    if (!GeometryBufferAllocator.BindAsIndexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex, _batches[MAX_BATCH * _renderSet + i]._indexFormat))
+                    {
+                        continue;
+                    }
+                    uint count = _indirectDrawCount[_renderSet] - _batches[MAX_BATCH * _renderSet + i]._batchStart;
                     if (i < _batchCount[_renderSet] - 1)
                     {
-                        count = _batches[50 * _renderSet + i + 1]._batchStart - _batches[50 * _renderSet + i]._batchStart;
+                        count = _batches[MAX_BATCH * _renderSet + i + 1]._batchStart - _batches[MAX_BATCH * _renderSet + i]._batchStart;
                     }
 
                     if (UseDirect)
                     {
-                        uint start = _batches[50 * _renderSet + i]._batchStart;
+                        uint start = _batches[MAX_BATCH * _renderSet + i]._batchStart;
                         for (uint d = start; d < start + count; d++)
                         {
                             cl.DrawIndexed(_directBuffer[d].IndexCount, _directBuffer[d].InstanceCount, _directBuffer[d].FirstIndex,
@@ -184,7 +192,7 @@ namespace StudioCore.Scene
                     }
                     else
                     {
-                        cl.DrawIndexedIndirect(_indirectBuffer, _batches[50 * _renderSet + i]._batchStart * 20, count, 20);
+                        cl.DrawIndexedIndirect(_indirectBuffer, _batches[MAX_BATCH * _renderSet + i]._batchStart * 20, count, 20);
                     }
                 }
             }

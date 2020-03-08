@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using SoulsFormats;
+using System.Linq;
 
 namespace StudioCore.MsbEditor
 {
@@ -16,6 +17,7 @@ namespace StudioCore.MsbEditor
         private static AssetLocator AssetLocator = null;
 
         private static Dictionary<string, PARAM> _params = null;
+        private static Dictionary<string, PARAMDEF> _paramdefs = null;
 
         public static IReadOnlyDictionary<string, PARAM> Params
         {
@@ -45,6 +47,18 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        private static void LoadParamdefs()
+        {
+            _paramdefs = new Dictionary<string, PARAMDEF>();
+            var dir = AssetLocator.GetParamdefDir();
+            var files = Directory.GetFiles(dir, "*.xml");
+            foreach (var f in files)
+            {
+                var pdef = PARAMDEF.XmlDeserialize(f);
+                _paramdefs.Add(pdef.ParamType, pdef);
+            }
+        }
+
         private static void LoadParamFromBinder(IBinder parambnd)
         {
             // Load every param in the regulation
@@ -64,53 +78,7 @@ namespace StudioCore.MsbEditor
                     continue;
                 }
                 PARAM p = PARAM.Read(f.Bytes);
-                var fname = p.ParamType;
-                if (AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
-                {
-                    fname = Path.GetFileNameWithoutExtension(f.Name);
-                    if (fname == "BehaviorParam_PC")
-                    {
-                        fname = "BehaviorParam";
-                    }
-                    if (fname == "AtkParam_Pc")
-                    {
-                        fname = "AtkParam";
-                    }
-                    if (fname == "AtkParam_Npc")
-                    {
-                        fname = "AtkParam";
-                    }
-                    if (fname == "Magic")
-                    {
-                        fname = "MagicParam";
-                    }
-                    if (fname == "Bullet")
-                    {
-                        fname = "BulletParam";
-                    }
-                    if (fname == "SpEffectParam")
-                    {
-                        fname = "SpEffect";
-                    }
-                    if (fname == "SpEffectVfxParam")
-                    {
-                        fname = "SpEffectVfx";
-                    }
-                    if (fname == "MenuColorTableParam")
-                    {
-                        fname = "MenuParamColorTable";
-                    }
-                    if (fname == "QwcChange")
-                    {
-                        fname = "QwcChangeParam";
-                    }
-                    if (fname == "QwcJudge")
-                    {
-                        fname = "QwcJudgeParam";
-                    }
-                }
-                PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
-                p.ApplyParamdef(def);
+                p.ApplyParamdef(_paramdefs[p.ParamType]);
                 _params.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
         }
@@ -132,6 +100,27 @@ namespace StudioCore.MsbEditor
                 param = $@"{dir}\param\GameParam\GameParam.parambnd";
             }
             BND3 paramBnd = BND3.Read(param);
+
+            LoadParamFromBinder(paramBnd);
+        }
+
+        private static void LoadParamsBBSekrio()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
+            {
+                MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\param\gameparam\gameparam.parambnd.dcx";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\param\gameparam\gameparam.parambnd.dcx";
+            }
+            BND4 paramBnd = BND4.Read(param);
 
             LoadParamFromBinder(paramBnd);
         }
@@ -239,6 +228,17 @@ namespace StudioCore.MsbEditor
                 return;
             }
 
+            // Load loose params if they exist
+            if (File.Exists($@"{mod}\\param\GameParam\GameParam.parambnd"))
+            {
+                // Load params
+                var lparam = $@"{mod}\param\GameParam\GameParam.parambnd";
+                BND4 lparamBnd = BND4.Read(lparam);
+
+                LoadParamFromBinder(lparamBnd);
+                return;
+            }
+
             // Load params
             var param = $@"{mod}\Data0.bdt";
             if (!File.Exists(param))
@@ -251,6 +251,11 @@ namespace StudioCore.MsbEditor
 
         public static void ReloadParams()
         {
+            if (AssetLocator.Type != GameType.Undefined)
+            {
+                LoadParamdefs();
+            }
+
             _params = new Dictionary<string, PARAM>();
             if (AssetLocator.Type == GameType.DarkSoulsPTDE)
             {
@@ -263,6 +268,10 @@ namespace StudioCore.MsbEditor
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
                 LoadParamsDS3();
+            }
+            if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+            {
+                LoadParamsBBSekrio();
             }
         }
 
@@ -298,7 +307,8 @@ namespace StudioCore.MsbEditor
                     p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
             }
-            Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd", paramBnd);
+            // Don't write to mod dir for now
+            Utils.WriteWithBackup(dir, null, @"param\GameParam\GameParam.parambnd", paramBnd);
         }
 
         private static void SaveParamsDS2(bool loose)
@@ -353,6 +363,99 @@ namespace StudioCore.MsbEditor
             Utils.WriteWithBackup(dir, mod, @"enc_regulation.bnd.dcx", paramBnd);
         }
 
+        private static void SaveParamsDS3(bool loose)
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\Data0.bdt"))
+            {
+                MessageBox.Show("Could not find DS3 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\Data0.bdt";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\Data0.bdt";
+            }
+            BND4 paramBnd = SFUtil.DecryptDS3Regulation(param);
+
+            // Replace params with edited ones
+            foreach (var p in paramBnd.Files)
+            {
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                {
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                }
+            }
+
+            // If not loose write out the new regulation
+            if (!loose)
+            {
+                Utils.WriteWithBackup(dir, mod, @"Data0.bdt", paramBnd, true);
+            }
+            else
+            {
+                // Otherwise write them out as parambnds
+                BND4 paramBND = new BND4
+                {
+                    BigEndian = false,
+                    Compression = DCX.Type.DCX_DFLT_10000_44_9,
+                    Extended = 0x04,
+                    Unk04 = false,
+                    Unk05 = false,
+                    Format = Binder.Format.Compression | Binder.Format.Flag6 | Binder.Format.LongOffsets | Binder.Format.Names1,
+                    Unicode = true,
+                    Files = paramBnd.Files.Where(f => f.Name.EndsWith(".param")).ToList()
+                };
+
+                BND4 stayBND = new BND4
+                {
+                    BigEndian = false,
+                    Compression = DCX.Type.DCX_DFLT_10000_44_9,
+                    Extended = 0x04,
+                    Unk04 = false,
+                    Unk05 = false,
+                    Format = Binder.Format.Compression | Binder.Format.Flag6 | Binder.Format.LongOffsets | Binder.Format.Names1,
+                    Unicode = true,
+                    Files = paramBnd.Files.Where(f => f.Name.EndsWith(".stayparam")).ToList()
+                };
+
+                Utils.WriteWithBackup(dir, mod, @"param\gameparam\gameparam_dlc2.parambnd.dcx", paramBND);
+                Utils.WriteWithBackup(dir, mod, @"param\gameparam\stayparam.parambnd.dcx", stayBND);
+            }
+        }
+
+        private static void SaveParamsBBSekiro()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
+            {
+                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\param\gameparam\gameparam.parambnd.dcx";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\param\gameparam\gameparam.parambnd.dcx";
+            }
+            BND4 paramBnd = BND4.Read(param);
+
+            // Replace params with edited ones
+            foreach (var p in paramBnd.Files)
+            {
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                {
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                }
+            }
+            Utils.WriteWithBackup(dir, mod, @"param\gameparam\gameparam.parambnd.dcx", paramBnd);
+        }
+
         public static void SaveParams(bool loose=false)
         {
             if (_params == null)
@@ -369,6 +472,11 @@ namespace StudioCore.MsbEditor
             }
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
+                SaveParamsDS3(loose);
+            }
+            if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+            {
+                SaveParamsBBSekiro();
             }
         }
 

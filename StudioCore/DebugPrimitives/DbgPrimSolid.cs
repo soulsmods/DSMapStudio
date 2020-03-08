@@ -114,10 +114,5 @@ namespace StudioCore.DebugPrimitives
         {
             throw new NotImplementedException();
         }
-
-        public override void DestroyDeviceObjects()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

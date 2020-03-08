@@ -134,13 +134,14 @@ namespace StudioCore
             }
             else if (exePath.ToLower().Contains("eboot.bin"))
             {
-                if (Directory.Exists($@"{GameRootDirectory}\dvdroot_ps4"))
+                var path = Path.GetDirectoryName(exePath);
+                if (Directory.Exists($@"{path}\dvdroot_ps4"))
                 {
                     type = GameType.Bloodborne;
                 }
                 else
                 {
-                    Type = GameType.DemonsSouls;
+                    type = GameType.DemonsSouls;
                 }
             }
             else if (exePath.ToLower().Contains("sekiro.exe"))
@@ -255,7 +256,7 @@ namespace StudioCore
                     .Select(Path.GetFileNameWithoutExtension).ToList();
                 msbFiles.AddRange(Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb.dcx")
                     .Select(Path.GetFileNameWithoutExtension).Select(Path.GetFileNameWithoutExtension).ToList());
-                if (GameModDirectory != null)
+                if (GameModDirectory != null && Directory.Exists(GameModDirectory + @"\map\MapStudio\"))
                 {
                     msbFiles.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb")
                     .Select(Path.GetFileNameWithoutExtension).ToList());
@@ -341,6 +342,38 @@ namespace StudioCore
                 ad.AssetPath = $@"{GameRootDirectory}\{path}";
             }
             return ad;
+        }
+
+        public string GetParamdefDir()
+        {
+            string game;
+            switch (Type)
+            {
+                case GameType.DemonsSouls:
+                    game = "DES";
+                    break;
+                case GameType.DarkSoulsPTDE:
+                    game = "DS1";
+                    break;
+                case GameType.DarkSoulsRemastered:
+                    game = "DS1R";
+                    break;
+                case GameType.DarkSoulsIISOTFS:
+                    game = "DS2S";
+                    break;
+                case GameType.Bloodborne:
+                    game = "BB";
+                    break;
+                case GameType.DarkSoulsIII:
+                    game = "DS3";
+                    break;
+                case GameType.Sekiro:
+                    game = "SDT";
+                    break;
+                default:
+                    throw new Exception("Game type not set");
+            }
+            return $@"Assets\Paramdex\{game}\Defs";
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)
@@ -568,10 +601,20 @@ namespace StudioCore
             }
             else if (Type == GameType.DarkSoulsIII || Type == GameType.Bloodborne)
             {
-                ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
-                ret.AssetName = model;
-                ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/h{model.Substring(1)}.hkx.dcx";
-                ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
+                if (hi)
+                {
+                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
+                    ret.AssetName = model;
+                    ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/h{model.Substring(1)}.hkx.dcx";
+                    ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
+                }
+                else
+                {
+                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\l{mapid.Substring(1)}.hkxbhd";
+                    ret.AssetName = model;
+                    ret.AssetVirtualPath = $@"map/{mapid}/hit/lo/l{model.Substring(1)}.hkx.dcx";
+                    ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/lo";
+                }
             }
             else
             {
@@ -696,6 +739,10 @@ namespace StudioCore
                         else if (Type == GameType.DarkSoulsIII || Type == GameType.Bloodborne)
                         {
                             bndpath = "";
+                            if (hittype == "lo")
+                            {
+                                return $@"{GameRootDirectory}\map\{mapid}\l{mapid.Substring(1)}.hkxbhd";
+                            }
                             return $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
                         }
                         bndpath = "";

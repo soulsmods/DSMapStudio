@@ -529,6 +529,7 @@ namespace StudioCore.Resource
 
         private int Pending = 0;
         private int Finished = 0;
+        private int _prevCount = 0;
 
         private object AddResourceLock = new object();
         private bool AddingResource = false;
@@ -578,6 +579,17 @@ namespace StudioCore.Resource
             });
         }
 
+        public void UnloadUnusedResources()
+        {
+            foreach (var r in ResourceDatabase)
+            {
+                if (r.Value.GetReferenceCounts() == 0)
+                {
+                    r.Value.Release();
+                }
+            }
+        }
+
         public ResourceJobBuilder CreateNewJob(string name)
         {
             return new ResourceJobBuilder(this, name);
@@ -604,7 +616,8 @@ namespace StudioCore.Resource
         private static bool ResourceListWindowOpen = true;
         public void OnGuiDrawTasks(float w, float h)
         {
-            if (ActiveJobProgress.Count() > 0)
+            int count = ActiveJobProgress.Count();
+            if (count > 0)
             {
                 ImGui.SetNextWindowSize(new Vector2(400, 250));
                 ImGui.SetNextWindowPos(new Vector2(w - 450, h - 300));
@@ -648,7 +661,12 @@ namespace StudioCore.Resource
                 {
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
                 }
+                if (_prevCount > 0)
+                {
+                    FlverResource.PurgeCaches();
+                }
             }
+            _prevCount = count;
             ImGui.SetNextWindowSize(new Vector2(400, 250), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(20, h - 300), ImGuiCond.FirstUseEver);
             if (!ImGui.Begin("Resource List", ref ResourceListWindowOpen))

@@ -15,6 +15,22 @@ namespace StudioCore.Resource
     public class FlverResource : IResource, IDisposable
     {
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();
+        public static int CacheCount { get; private set; } = 0;
+        public static long CacheFootprint
+        {
+            get
+            {
+                long total = 0;
+                lock (CacheLock)
+                {
+                    foreach (var c in FlverCaches)
+                    {
+                        total += c.MemoryUsage;
+                    }
+                }
+                return total;
+            }
+        }
         private static object CacheLock = new object();
 
         private static ArrayPool<MapFlverLayout> VerticesPool = ArrayPool<MapFlverLayout>.Create();
@@ -27,6 +43,7 @@ namespace StudioCore.Resource
                 {
                     return FlverCaches.Pop();
                 }
+                CacheCount++;
             }
             return new FlverCache();
         }
@@ -41,6 +58,13 @@ namespace StudioCore.Resource
                     FlverCaches.Push(cache);
                 }
             }
+        }
+
+        public static void PurgeCaches()
+        {
+            FlverCaches.Clear();
+            VerticesPool = ArrayPool<MapFlverLayout>.Create();
+            GC.Collect();
         }
 
         public class FlverSubmesh
@@ -278,7 +302,7 @@ namespace StudioCore.Resource
             //dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)MapFlverLayout.SizeInBytes);
             dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)MapFlverLayout.SizeInBytes, 4, (h) =>
             {
-                h.FillVBuffer(MeshVertices, () =>
+                h.FillVBuffer(MeshVertices, mesh.VertexCount, () =>
                 {
                     VerticesPool.Return(MeshVertices);
                     MeshVertices = null;
@@ -390,11 +414,7 @@ namespace StudioCore.Resource
                 {
                     foreach (var m in GPUMeshes)
                     {
-                        /*m.VertBuffer.Dispose();
-                        foreach (var fs in m.MeshFacesets)
-                        {
-                            fs.IndexBuffer.Dispose();
-                        }*/
+                        m.GeomBuffer.Dispose();
                     }
                 }
 
