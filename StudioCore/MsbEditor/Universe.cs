@@ -347,6 +347,8 @@ namespace StudioCore.MsbEditor
             }
             map.LoadMSB(msb);
 
+            var amapid = mapid.Substring(0, 6) + "_00_00";
+
             // Temporary garbage
             foreach (var obj in map.MapObjects)
             {
@@ -359,7 +361,7 @@ namespace StudioCore.MsbEditor
                     Scene.RenderFilter filt = Scene.RenderFilter.All;
                     if (mp.ModelName.StartsWith("m"))
                     {
-                        asset = AssetLocator.GetMapModel(mapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
+                        asset = AssetLocator.GetMapModel(amapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
                         filt = Scene.RenderFilter.MapPiece;
                         obj.UseDrawGroups = true;
                     }
@@ -378,14 +380,14 @@ namespace StudioCore.MsbEditor
                     else if (mp.ModelName.StartsWith("h"))
                     {
                         loadcol = true;
-                        asset = AssetLocator.GetMapCollisionModel(mapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName), false);
+                        asset = AssetLocator.GetMapCollisionModel(amapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName), false);
                         filt = Scene.RenderFilter.Collision;
                         colsToLoad.Add(asset);
                     }
                     else if (mp.ModelName.StartsWith("n"))
                     {
                         loadnav = true;
-                        asset = AssetLocator.GetMapNVMModel(mapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
+                        asset = AssetLocator.GetMapNVMModel(amapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
                         filt = Scene.RenderFilter.Navmesh;
                         navsToLoad.Add(asset);
                     }
@@ -468,11 +470,11 @@ namespace StudioCore.MsbEditor
 
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
-                LoadDS2Generators(mapid, map);
+                LoadDS2Generators(amapid, map);
             }
 
-            var job = ResourceMan.CreateNewJob($@"Loading {mapid} geometry");
-            foreach (var mappiece in AssetLocator.GetMapModels(mapid))
+            var job = ResourceMan.CreateNewJob($@"Loading {amapid} geometry");
+            foreach (var mappiece in AssetLocator.GetMapModels(amapid))
             {
                 if (mappiece.AssetArchiveVirtualPath != null)
                 {
@@ -485,7 +487,7 @@ namespace StudioCore.MsbEditor
             }
             
             job.StartJobAsync();
-            job = ResourceMan.CreateNewJob($@"Loading {mapid} collisions");
+            job = ResourceMan.CreateNewJob($@"Loading {amapid} collisions");
             foreach (var col in colsToLoad)
             {
                 if (col.AssetArchiveVirtualPath != null)
