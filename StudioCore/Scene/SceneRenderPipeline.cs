@@ -59,11 +59,12 @@ namespace StudioCore.Scene
             RenderQueue.SetPredrawSetupAction(action);
         }
 
-        public void TestUpdateView(Matrix4x4 view, Vector3 eye)
+        public void TestUpdateView(Matrix4x4 proj, Matrix4x4 view, Vector3 eye)
         {
             //cl.UpdateBuffer(ViewMatrixBuffer, 0, ref view, 64);
             Renderer.AddBackgroundUploadTask((d, cl) =>
             {
+                cl.UpdateBuffer(ProjectionMatrixBuffer, 0, ref proj, 64);
                 cl.UpdateBuffer(ViewMatrixBuffer, 0, ref view, 64);
                 cl.UpdateBuffer(EyePositionBuffer, 0, ref eye, 12);
             });

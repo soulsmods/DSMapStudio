@@ -38,11 +38,11 @@ namespace StudioCore.MsbEditor
         private FMG.Entry _cachedSummary = null;
         private FMG.Entry _cachedDescription = null;
 
-        //private PropertyEditor _propEditor = null;
+        private PropertyEditor _propEditor = null;
 
         public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
-            //_propEditor = new PropertyEditor(EditorActionManager);
+            _propEditor = new PropertyEditor(EditorActionManager);
         }
 
         public override void DrawEditorMenu()
@@ -69,12 +69,17 @@ namespace StudioCore.MsbEditor
 
         private void EditorGUI(bool doFocus)
         {
+            if (!FMGBank.IsLoaded)
+            {
+                return;
+            }
+
             ImGui.Columns(3);
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(8.0f, 8.0f));
             ImGui.BeginChild("categories");
-            ImGui.AlignTextToFramePadding();
             foreach (var cat in _displayCategories)
             {
-                if (ImGui.Selectable(cat.ToString(), cat == _activeCategory))
+                if (ImGui.Selectable($@" {cat.ToString()}", cat == _activeCategory))
                 {
                     _activeCategory = cat;
                     _cachedEntries = FMGBank.GetEntriesOfCategoryAndType(cat, FMGBank.ItemType.Title);
@@ -85,6 +90,7 @@ namespace StudioCore.MsbEditor
                 }
             }
             ImGui.EndChild();
+            ImGui.PopStyleVar();
             ImGui.NextColumn();
             ImGui.BeginChild("rows");
             if (_activeCategory == FMGBank.ItemCategory.None)
@@ -124,32 +130,22 @@ namespace StudioCore.MsbEditor
                 ImGui.InputInt("##id", ref id);
                 ImGui.NextColumn();
 
+                _propEditor.PropEditorFMGBegin();
                 if (_cachedTitle != null)
                 {
-                    ImGui.Text("Title");
-                    ImGui.NextColumn();
-                    string text = (_cachedTitle.Text != null) ? _cachedTitle.Text : "";
-                    ImGui.InputText("##title", ref text, 255);
-                    ImGui.NextColumn();
+                    _propEditor.PropEditorFMG(_cachedTitle, "Title", -1.0f);
                 }
 
                 if (_cachedSummary != null)
                 {
-                    ImGui.Text("Summary");
-                    ImGui.NextColumn();
-                    string text = (_cachedSummary.Text != null) ? _cachedSummary.Text : "";
-                    ImGui.InputTextMultiline("##summary", ref text, 1000, new Vector2(-1, 80.0f));
-                    ImGui.NextColumn();
+                    _propEditor.PropEditorFMG(_cachedSummary, "Summary", 80.0f);
                 }
 
                 if (_cachedDescription != null)
                 {
-                    ImGui.Text("Description");
-                    ImGui.NextColumn();
-                    string text = (_cachedDescription.Text != null) ? _cachedDescription.Text : "";
-                    ImGui.InputTextMultiline("##description", ref text, 1000, new Vector2(-1, 160.0f));
-                    ImGui.NextColumn();
+                    _propEditor.PropEditorFMG(_cachedDescription, "Description", 160.0f);
                 }
+                _propEditor.PropEditorFMGEnd();
             }
             ImGui.EndChild();
         }
@@ -165,7 +161,7 @@ namespace StudioCore.MsbEditor
             ImGui.BeginChild("categories");
             foreach (var cat in FMGBank.DS2Fmgs.Keys)
             {
-                if (ImGui.Selectable(cat, cat == _activeCategoryDS2))
+                if (ImGui.Selectable($@" {cat}", cat == _activeCategoryDS2))
                 {
                     _activeCategoryDS2 = cat;
                     _cachedEntries = FMGBank.DS2Fmgs[cat].Entries;
@@ -215,11 +211,14 @@ namespace StudioCore.MsbEditor
                 ImGui.NextColumn();
 
 
-                ImGui.Text("Text");
+                _propEditor.PropEditorFMGBegin();
+                /*ImGui.Text("Text");
                 ImGui.NextColumn();
                 string text = (_activeEntry.Text != null) ? _activeEntry.Text : "";
                 ImGui.InputTextMultiline("##description", ref text, 1000, new Vector2(-1, 160.0f));
-                ImGui.NextColumn();
+                ImGui.NextColumn();*/
+                _propEditor.PropEditorFMG(_activeEntry, "Text", 160.0f);
+                _propEditor.PropEditorFMGEnd();
             }
             ImGui.EndChild();
         }
@@ -311,12 +310,12 @@ namespace StudioCore.MsbEditor
 
         public override void Save()
         {
-            throw new NotImplementedException();
+            FMGBank.SaveFMGs();
         }
 
         public override void SaveAll()
         {
-            throw new NotImplementedException();
+            FMGBank.SaveFMGs();
         }
     }
 }

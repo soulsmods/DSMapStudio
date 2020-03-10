@@ -798,12 +798,17 @@ namespace StudioCore.MsbEditor
 
         public void UnloadAllMaps()
         {
+            List<Map> toUnload = new List<Map>();
             foreach (var key in LoadedMaps.Keys)
             {
                 if (LoadedMaps[key] != null)
                 {
-                    UnloadMap(LoadedMaps[key]);
+                    toUnload.Add(LoadedMaps[key]);
                 }
+            }
+            foreach (var un in toUnload)
+            {
+                UnloadMap(un);
             }
         }
 

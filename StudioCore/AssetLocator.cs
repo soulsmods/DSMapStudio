@@ -213,6 +213,7 @@ namespace StudioCore
             Type = settings.GameType;
             GameRootDirectory = settings.GameRoot;
             GameModDirectory = moddir;
+            FullMapList = null;
         }
 
         /// <summary>
@@ -325,7 +326,7 @@ namespace StudioCore
                 // DS2 does not have an msgbnd but loose fmg files instead
                 path = $@"menu\text\english";
                 AssetDescription ad2 = new AssetDescription();
-                ad2.AssetPath = $@"{GameRootDirectory}\{path}";
+                ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
                 return ad2;
             }
             if (Type == GameType.DarkSoulsIII)
@@ -333,6 +334,11 @@ namespace StudioCore
                 path = $@"msg\engus\item_dlc2.msgbnd.dcx";
             }
             AssetDescription ad = new AssetDescription();
+            if (writemode)
+            {
+                ad.AssetPath = path;
+                return ad;
+            }
             if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}") || (writemode && GameModDirectory != null))
             {
                 ad.AssetPath = $@"{GameModDirectory}\{path}";

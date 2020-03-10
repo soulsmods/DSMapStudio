@@ -229,10 +229,10 @@ namespace StudioCore.MsbEditor
             }
 
             // Load loose params if they exist
-            if (File.Exists($@"{mod}\\param\GameParam\GameParam.parambnd"))
+            if (File.Exists($@"{mod}\\param\gameparam\gameparam_dlc2.parambnd.dcx"))
             {
                 // Load params
-                var lparam = $@"{mod}\param\GameParam\GameParam.parambnd";
+                var lparam = $@"{mod}\param\gameparam\gameparam_dlc2.parambnd.dcx";
                 BND4 lparamBnd = BND4.Read(lparam);
 
                 LoadParamFromBinder(lparamBnd);

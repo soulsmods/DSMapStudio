@@ -52,7 +52,7 @@ namespace StudioCore
 
         public static RenderDoc RenderDocManager;
 
-        private const bool UseRenderdoc = true;
+        private const bool UseRenderdoc = false;
 
         private AssetLocator _assetLocator;
         private MsbEditor.ProjectSettings _projectSettings = null;
@@ -170,6 +170,15 @@ namespace StudioCore
             }
             fonts.Build();
             ImguiRenderer.RecreateFontDeviceTexture();
+
+            if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
+            {
+                if (File.Exists(CFG.Current.LastProjectFile))
+                {
+                    _projectSettings = MsbEditor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
+                    ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(CFG.Current.LastProjectFile));
+                }
+            }
         }
 
         public void Run()
@@ -294,8 +303,40 @@ namespace StudioCore
                         {
                             _projectSettings = MsbEditor.ProjectSettings.Deserialize(browseDlg.FileName);
                             ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(browseDlg.FileName));
-                            //_assetLocator.SetModProjectDirectory(browseDlg.FileName);
+                            CFG.Current.LastProjectFile = browseDlg.FileName;
+                            var recent = new CFG.RecentProject();
+                            recent.Name = _projectSettings.ProjectName;
+                            recent.GameType = _projectSettings.GameType;
+                            recent.ProjectFile = browseDlg.FileName;
+                            CFG.Current.RecentProjects.Insert(0, recent);
+                            if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
+                            {
+                                CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
+                            }
                         }
+                    }
+                    if (ImGui.BeginMenu("Recent Projects"))
+                    {
+                        CFG.RecentProject recent = null;
+                        foreach (var p in CFG.Current.RecentProjects)
+                        {
+                            if (ImGui.MenuItem($@"{p.GameType.ToString()}:{p.Name}"))
+                            {
+                                if (File.Exists(p.ProjectFile))
+                                {
+                                    _projectSettings = MsbEditor.ProjectSettings.Deserialize(p.ProjectFile);
+                                    ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(p.ProjectFile));
+                                    recent = p;
+                                }
+                            }
+                        }
+                        if (recent != null)
+                        {
+                            CFG.Current.RecentProjects.Remove(recent);
+                            CFG.Current.RecentProjects.Insert(0, recent);
+                            CFG.Current.LastProjectFile = recent.ProjectFile;
+                        }
+                        ImGui.EndMenu();
                     }
                     if (ImGui.MenuItem("Save", "Ctrl-S"))
                     {
@@ -468,6 +509,18 @@ namespace StudioCore
                         }
                         _projectSettings.Serialize($@"{_newProjectDirectory}\project.json");
                         ChangeProjectSettings(_projectSettings, _newProjectDirectory);
+
+                        CFG.Current.LastProjectFile = $@"{_newProjectDirectory}\project.json";
+                        var recent = new CFG.RecentProject();
+                        recent.Name = _projectSettings.ProjectName;
+                        recent.GameType = _projectSettings.GameType;
+                        recent.ProjectFile = $@"{_newProjectDirectory}\project.json";
+                        CFG.Current.RecentProjects.Insert(0, recent);
+                        if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
+                        {
+                            CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
+                        }
+
                         ImGui.CloseCurrentPopup();
                     }
                 }

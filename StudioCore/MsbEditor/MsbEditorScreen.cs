@@ -72,6 +72,8 @@ namespace StudioCore.MsbEditor
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
             PropSearch = new SearchProperties(Universe);
             NavMeshEditor = new NavmeshEditor(RenderScene);
+
+            RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -179,6 +181,7 @@ namespace StudioCore.MsbEditor
                     }
                     ImGui.EndMenu();
                 }
+                CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
                 ImGui.EndMenu();
             }
             if (ImGui.BeginMenu("Gizmos"))
@@ -565,6 +568,10 @@ namespace StudioCore.MsbEditor
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
+            Selection.ClearSelection();
+            EditorActionManager.Clear();
+            Universe.UnloadAllMaps();
+            GC.Collect();
             Universe.PopulateMapList();
         }
 

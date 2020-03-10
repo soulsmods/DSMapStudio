@@ -393,6 +393,63 @@ namespace StudioCore.MsbEditor
             ImGui.Columns(1);
         }
 
+        private int _fmgID = 0;
+        public void PropEditorFMGBegin()
+        {
+            _fmgID = 0;
+            ImGui.Columns(2);
+            ImGui.Separator();
+        }
+
+        public void PropEditorFMG(FMG.Entry entry, string name, float boxsize)
+        {
+            ImGui.PushID(_fmgID);
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text(name);
+            ImGui.NextColumn();
+            ImGui.SetNextItemWidth(-1);
+            //ImGui.AlignTextToFramePadding();
+            var typ = typeof(string);
+            var oldval = entry.Text;
+            bool shouldUpdateVisual = false;
+            bool changed = false;
+            object newval = null;
+
+            string val = (string)oldval;
+            if (val == null)
+            {
+                val = "";
+            }
+            if (boxsize > 0.0f)
+            {
+                if (ImGui.InputTextMultiline("##value", ref val, 2000, new Vector2(-1, boxsize)))
+                {
+                    newval = val;
+                    changed = true;
+                }
+            }
+            else
+            {
+                if (ImGui.InputText("##value", ref val, 2000))
+                {
+                    newval = val;
+                    changed = true;
+                }
+            }
+
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            ChangeProperty(entry.GetType().GetProperty("Text"), null, entry, newval, changed, committed, shouldUpdateVisual);
+
+            ImGui.NextColumn();
+            ImGui.PopID();
+            _fmgID++;
+        }
+
+        public void PropEditorFMGEnd()
+        {
+            ImGui.Columns(1);
+        }
+
         private void PropertyContextMenu(object obj, PropertyInfo propinfo)
         {
             if (ImGui.BeginPopupContextItem(propinfo.Name))

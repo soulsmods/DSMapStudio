@@ -17,6 +17,8 @@ namespace StudioCore
         public const string FileName = "DSMapStudio_Config.json";
         public static CFG Current { get; private set; } = null;
 
+        public const int MAX_RECENT_PROJECTS = 10;
+
         public static string GetConfigFilePath()
         {
             return Utils.Frankenpath(new FileInfo(typeof(CFG).Assembly.Location).DirectoryName, FileName);
@@ -207,43 +209,23 @@ namespace StudioCore
         //public InterrootLoader.InterrootType InterrootLoader_Type { get; set; }
         //    = InterrootLoader.InterrootType.InterrootDS1;
 
-        public string Interroot_Directory { get; set; } = "";
-        public string Mod_Directory { get; set; } = "";
+        public class RecentProject
+        {
+            public string Name;
+            public string ProjectFile;
+            public GameType GameType;
+        }
+
+        public string LastProjectFile { get; set; } = "";
+        public List<RecentProject> RecentProjects { get; set; } = new List<RecentProject>();
         public GameType Game_Type { get; set; } = GameType.Undefined;
+
+        public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All;
 
         public int GFX_Display_Width { get; set; } = 1920;
         public int GFX_Display_Height { get; set; } = 1057;
 
         public int GFX_Display_X { get; set; } = 0;
         public int GFX_Display_Y { get; set; } = 23;
-
-        public float GFX_LOD1Distance { get; set; } = 200.0f;
-        public float GFX_LOD2Distance { get; set; } = 400.0f;
-        public bool GFX_EnableTextures { get; set; } = true;
-        public bool GFX_Wireframe { get; set; } = false;
-        public bool GFX_EnableFrustumCulling { get; set; } = false;
-        public bool GFX_EnableLighting { get; set; } = true;
-
-        //public bool GFX_TestLightSpin { get; set; } = false;
-        public bool GFX_EnableHeadlight { get; set; } = true;
-
-        public bool DBG_ShowModelNames { get; set; } = false;
-        public bool DBG_ShowModelBoundingBoxes { get; set; } = false;
-        public bool DBG_ShowModelSubmeshBoundingBoxes { get; set; } = false;
-        public bool DBG_ShowGrid { get; set; } = true;
-        public bool DBG_ShowPrimitiveNametags { get; set; } = false;
-        //public float DBG_PrimitiveNametagSize { get; set; } = 1.0f;
-        //public bool DBG_SimpleTextLabelSize { get; set; } = false;
-
-        public float GFX_World_FieldOfView { get; set; } = 43.0f;
-        public float GFX_World_CameraTurnSpeedGamepad { get; set; } = 1.5f;
-        public float GFX_World_CameraTurnSpeedMouse { get; set; } = 1.5f;
-        public float GFX_World_CameraMoveSpeed { get; set; } = 10.0f;
-        public float GFX_World_NearClipDistance { get; set; } = 0.1f;
-        public float GFX_World_FarClipDistance { get; set; } = 10000.0f;
-
-        public bool GFX_Display_Vsync { get; set; } = true;
-        public bool GFX_Display_Fullscreen { get; set; } = false;
-        public bool GFX_Display_SimpleMSAA { get; set; } = true;
     }
 }

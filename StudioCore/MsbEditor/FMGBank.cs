@@ -103,6 +103,8 @@ namespace StudioCore.MsbEditor
         /// </summary>
         private static Dictionary<string, FMG> _ds2fmgs = null;
 
+        public static bool IsLoaded { get; private set; } = false;
+
         public static IReadOnlyDictionary<string, FMG> DS2Fmgs
         {
             get
@@ -300,13 +302,22 @@ namespace StudioCore.MsbEditor
 
         public static void ReloadFMGsDS2()
         {
-            var desc = AssetLocator.GetEnglishItemMsgbnd();
-            var files = Directory.GetFileSystemEntries(desc.AssetPath, @"*.fmg").ToList();
+            var desc = AssetLocator.GetEnglishItemMsgbnd(true);
+            var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
             _ds2fmgs = new Dictionary<string, FMG>();
             foreach (var file in files)
             {
-                var fmg = FMG.Read(file);
-                _ds2fmgs.Add(Path.GetFileNameWithoutExtension(file), fmg);
+                var modfile = $@"{AssetLocator.GameModDirectory}\{desc.AssetPath}\{Path.GetFileName(file)}";
+                if (AssetLocator.GameModDirectory != null && File.Exists(modfile))
+                {
+                    var fmg = FMG.Read(modfile);
+                    _ds2fmgs.Add(Path.GetFileNameWithoutExtension(modfile), fmg);
+                }
+                else
+                {
+                    var fmg = FMG.Read(file);
+                    _ds2fmgs.Add(Path.GetFileNameWithoutExtension(file), fmg);
+                }
             }
         }
 
@@ -320,6 +331,7 @@ namespace StudioCore.MsbEditor
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 ReloadFMGsDS2();
+                IsLoaded = true;
                 return;
             }
 
@@ -338,6 +350,61 @@ namespace StudioCore.MsbEditor
             foreach (var file in fmgBinder.Files)
             {
                 _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
+            }
+            IsLoaded = true;
+        }
+
+        public static void SaveFMGsDS2()
+        {
+            foreach (var fmg in _ds2fmgs)
+            {
+                Utils.WriteWithBackup(AssetLocator.GameRootDirectory, AssetLocator.GameModDirectory, $@"menu\text\english\{fmg.Key}.fmg", fmg.Value);
+            }
+        }
+
+        public static void SaveFMGs()
+        {
+            if (AssetLocator.Type == GameType.Undefined)
+            {
+                return;
+            }
+
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                SaveFMGsDS2();
+                return;
+            }
+
+            // Load the fmg bnd, replace fmgs, and save
+            IBinder fmgBinder;
+            var desc = AssetLocator.GetEnglishItemMsgbnd();
+            if (AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+            {
+                fmgBinder = BND3.Read(desc.AssetPath);
+            }
+            else
+            {
+                fmgBinder = BND4.Read(desc.AssetPath);
+            }
+
+            foreach (var file in fmgBinder.Files)
+            {
+                if (_fmgs.ContainsKey((ItemFMGTypes)file.ID))
+                {
+                    file.Bytes = _fmgs[(ItemFMGTypes)file.ID].Write();
+                }
+            }
+
+            var descw = AssetLocator.GetEnglishItemMsgbnd(true);
+            if (fmgBinder is BND3 bnd3)
+            {
+                Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                    AssetLocator.GameModDirectory, descw.AssetPath, bnd3);
+            }
+            else if (fmgBinder is BND4 bnd4)
+            {
+                Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                    AssetLocator.GameModDirectory, descw.AssetPath, bnd4);
             }
         }
 
