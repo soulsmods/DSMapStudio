@@ -15,4 +15,9 @@ namespace SoulsFormats
     {
         public string ParamName;
     }
+
+    [System.AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class MSBEntityReference : Attribute
+    {
+    }
 }

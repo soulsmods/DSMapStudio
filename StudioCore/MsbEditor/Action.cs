@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
@@ -210,6 +211,95 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class CloneParamsAction : Action
+    {
+        private PARAM Param;
+        private string ParamString;
+        private List<PARAM.Row> Clonables = new List<PARAM.Row>();
+        private List<PARAM.Row> Clones = new List<PARAM.Row>();
+        private bool SetSelection = false;
+
+        public CloneParamsAction(PARAM param, string pstring, List<PARAM.Row> rows, bool setsel)
+        {
+            Param = param;
+            Clonables.AddRange(rows);
+            ParamString = pstring;
+            SetSelection = setsel;
+        }
+
+        public override void Execute()
+        {
+            foreach (var row in Clonables)
+            {
+                var newrow = new PARAM.Row(row);
+                newrow.Name = row.Name != null ? row.Name + "_1" : "";
+                Param.Rows.Insert(Param.Rows.IndexOf(row) + 1, newrow);
+                Clones.Add(newrow);
+            }
+            if (SetSelection)
+            {
+                //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
+            }
+        }
+
+        public override void Undo()
+        {
+            for (int i = 0; i < Clones.Count(); i++)
+            {
+                Param.Rows.Remove(Clones[i]);
+            }
+            Clones.Clear();
+            if (SetSelection)
+            {
+            }
+        }
+    }
+
+    public class CloneFmgsAction : Action
+    {
+        private FMG Fmg;
+        private string FmgString;
+        private List<FMG.Entry> Clonables = new List<FMG.Entry>();
+        private List<FMG.Entry> Clones = new List<FMG.Entry>();
+        private bool SetSelection = false;
+
+        public CloneFmgsAction(FMG fmg, string fstring, List<FMG.Entry> entries, bool setsel)
+        {
+            Fmg = fmg;
+            Clonables.AddRange(entries);
+            FmgString = fstring;
+            SetSelection = setsel;
+        }
+
+        public override void Execute()
+        {
+            foreach (var entry in Clonables)
+            {
+                var newentry = new FMG.Entry(0, "");
+                newentry.ID = entry.ID;
+                newentry.Text = newentry.Text != null ? newentry.Text : "";
+                Fmg.Entries.Insert(Fmg.Entries.IndexOf(entry) + 1, newentry);
+                Clones.Add(newentry);
+            }
+            if (SetSelection)
+            {
+                //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
+            }
+        }
+
+        public override void Undo()
+        {
+            for (int i = 0; i < Clones.Count(); i++)
+            {
+                Fmg.Entries.Remove(Clones[i]);
+            }
+            Clones.Clear();
+            if (SetSelection)
+            {
+            }
+        }
+    }
+
     public class DeleteMapObjectsAction : Action
     {
         private Universe Universe;
@@ -277,6 +367,43 @@ namespace StudioCore.MsbEditor
                 {
                     Selection.AddSelection(d);
                 }
+            }
+        }
+    }
+
+    public class DeleteParamsAction : Action
+    {
+        private PARAM Param;
+        private List<PARAM.Row> Deletables = new List<PARAM.Row>();
+        private List<int> RemoveIndices = new List<int>();
+        private bool SetSelection = false;
+
+        public DeleteParamsAction(PARAM param, List<PARAM.Row> rows)
+        {
+            Param = param;
+            Deletables.AddRange(rows);
+        }
+
+        public override void Execute()
+        {
+            foreach (var row in Deletables)
+            {
+                RemoveIndices.Add(Param.Rows.IndexOf(row));
+                Param.Rows.RemoveAt(RemoveIndices.Last());
+            }
+            if (SetSelection)
+            {
+            }
+        }
+
+        public override void Undo()
+        {
+            for (int i = 0; i < Deletables.Count(); i++)
+            {
+                Param.Rows.Insert(RemoveIndices[i], Deletables[i]);
+            }
+            if (SetSelection)
+            {
             }
         }
     }

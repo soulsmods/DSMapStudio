@@ -166,7 +166,7 @@ namespace StudioCore.MsbEditor
 
             // Load params
             List<string> scandir = new List<string>();
-            if (mod != null)
+            if (mod != null && Directory.Exists($@"{mod}\Param"))
             {
                 scandir.Add($@"{mod}\Param");
             }

@@ -123,7 +123,8 @@ namespace StudioCore.Scene
                 {
                     if (_batchCount[_stagingSet] >= MAX_BATCH)
                     {
-                        throw new Exception("Batch count is not large enough");
+                        //throw new Exception("Batch count is not large enough");
+                        return; // Drop the batch for now
                     }
                     // Add a new batch
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = buffer;

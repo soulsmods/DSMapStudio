@@ -269,9 +269,9 @@ namespace StudioCore.Gui
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
+            ProjectionMat = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)Width / (float)Height, 0.1f, 2000.0f);
             Frustum = new BoundingFrustum(WorldView.CameraTransform.CameraViewMatrixLH * ProjectionMat);
-            Matrix4x4 proj = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)Width / (float)Height, 0.1f, 2000.0f);
-            ViewPipeline.TestUpdateView(proj, WorldView.CameraTransform.CameraViewMatrixLH, WorldView.CameraTransform.Position);
+            ViewPipeline.TestUpdateView(ProjectionMat, WorldView.CameraTransform.CameraViewMatrixLH, WorldView.CameraTransform.Position);
             ViewPipeline.RenderScene(Frustum);
 
             if (RayDebug != null)

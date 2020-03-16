@@ -269,6 +269,7 @@ namespace SoulsFormats
             /// Unknown.
             /// </summary>
             public sbyte LanternID { get; set; }
+            [MSBParamReference(ParamName = "LodParam")]
             public sbyte LodParamID { get; set; }
             public sbyte UnkB0E { get; set; }
 
@@ -849,11 +850,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Controls enemy AI.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// Controls enemy stats.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -864,6 +867,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Controls enemy equipment.
                 /// </summary>
+                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
@@ -1181,6 +1185,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in MapMimicryEstablishmentParam.
                 /// </summary>
+                [MSBParamReference(ParamName = "MapMimicryEstablishmentParam")]
                 public int ChameleonParamID { get; set; }
 
                 /// <summary>

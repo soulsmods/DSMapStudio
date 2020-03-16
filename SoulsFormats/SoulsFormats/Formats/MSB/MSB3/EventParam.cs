@@ -332,12 +332,15 @@ namespace SoulsFormats
                 /// <summary>
                 /// IDs in the item lot param given by this treasure.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot1 { get; set; }
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot2 { get; set; }
 
                 /// <summary>
                 /// Unknown; always -1 in vanilla.
                 /// </summary>
+                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonParamID { get; set; }
 
                 /// <summary>
@@ -493,12 +496,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions that enemies can be spawned at.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnPointNames { get; private set; }
                 private int[] SpawnPointIndices;
 
                 /// <summary>
                 /// Enemies spawned by this generator.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -645,17 +650,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBEntityReference]
                 public int ObjActEntityID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string PartName2 { get; set; }
                 private int PartIndex2;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActParamID { get; set; }
 
                 /// <summary>
@@ -798,11 +806,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBEntityReference]
                 public int HostEventEntityID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBEntityReference]
                 public int InvasionEventEntityID { get; set; }
 
                 /// <summary>
@@ -898,6 +908,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// List of points in the route.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkPointNames { get; private set; }
                 private short[] WalkPointIndices;
 
@@ -972,6 +983,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartsNames { get; private set; }
                 private int[] GroupPartsIndices;
 

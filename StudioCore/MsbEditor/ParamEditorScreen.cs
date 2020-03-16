@@ -100,9 +100,20 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
                 {
+                    if (_activeParam != null && _activeRow != null)
+                    {
+                        var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
+                        EditorActionManager.ExecuteAction(act);
+                        _activeRow = null;
+                    }
                 }
                 if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
                 {
+                    if (_activeParam != null && _activeRow != null)
+                    {
+                        var act = new CloneParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                        EditorActionManager.ExecuteAction(act);
+                    }
                 }
                 ImGui.EndMenu();
             }
@@ -118,6 +129,23 @@ namespace StudioCore.MsbEditor
             if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
             {
                 EditorActionManager.RedoAction();
+            }
+            if (InputTracker.GetControlShortcut(Key.D))
+            {
+                if (_activeParam != null && _activeRow != null)
+                {
+                    var act = new CloneParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                    EditorActionManager.ExecuteAction(act);
+                }
+            }
+            if (InputTracker.GetKeyDown(Key.Delete))
+            {
+                if (_activeParam != null && _activeRow != null)
+                {
+                    var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
+                    EditorActionManager.ExecuteAction(act);
+                    _activeRow = null;
+                }
             }
 
             if (ParamBank.Params == null)
