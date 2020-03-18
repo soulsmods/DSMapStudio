@@ -188,6 +188,9 @@ namespace SoulsFormats
                     case Part.Navimesh m:
                         Navimeshes.Add(m);
                         break;
+                    case Part.Unknown m:
+                        Unknowns.Add(m);
+                        break;
                     default:
                         throw new ArgumentException(
                             message: "Item is not recognized",
@@ -308,6 +311,8 @@ namespace SoulsFormats
             /// Unknown.
             /// </summary>
             public bool OldIsShadowDest { get; set; }
+
+            internal Part() { }
 
             internal Part(string name, long unkOffset1Delta, long unkOffset2Delta)
             {
@@ -748,6 +753,8 @@ namespace SoulsFormats
                 /// </summary>
                 public int UnkT08 { get; set; }
 
+                public MapPiece() { }
+
                 /// <summary>
                 /// Creates a new MapPiece with the given ID and name.
                 /// </summary>
@@ -822,6 +829,8 @@ namespace SoulsFormats
                 public short UnkT03b { get; set; }
                 public short UnkT05a { get; set; }
                 public short UnkT05b { get; set; }
+
+                public Object() { }
 
                 /// <summary>
                 /// Creates a new Object with the given ID and name.
@@ -966,6 +975,8 @@ namespace SoulsFormats
                 public int UnkT14 { get; set; }
                 public int UnkT15 { get; set; }
 
+                public Enemy() { }
+
                 /// <summary>
                 /// Creates a new Enemy with the given ID and name.
                 /// </summary>
@@ -1074,6 +1085,8 @@ namespace SoulsFormats
                 internal override PartsType Type => PartsType.Player;
                 internal override bool HasGparamConfig => false;
                 internal override bool HasUnk4 => false;
+
+                public Player() { }
 
                 /// <summary>
                 /// Creates a new Player with the given ID and name.
@@ -1200,6 +1213,7 @@ namespace SoulsFormats
                 /// </summary>
                 public int UnkT14 { get; set; }
 
+                public Collision() { }
 
                 /// <summary>
                 /// Creates a new Collision with the given ID and name.
@@ -1295,6 +1309,8 @@ namespace SoulsFormats
                 internal override bool HasGparamConfig => false;
                 internal override bool HasUnk4 => false;
 
+                public Navimesh() { }
+
                 /// <summary>
                 /// Creates a new Unknown with the given ID and name.
                 /// </summary>
@@ -1329,6 +1345,8 @@ namespace SoulsFormats
             {
                 internal override PartsType Type => PartsType.DummyObject;
 
+                public DummyObject() { }
+
                 /// <summary>
                 /// Creates a new DummyObject with the given ID and name.
                 /// </summary>
@@ -1348,6 +1366,8 @@ namespace SoulsFormats
             public class DummyEnemy : Enemy
             {
                 internal override PartsType Type => PartsType.DummyEnemy;
+
+                public DummyEnemy() { }
 
                 /// <summary>
                 /// Creates a new DummyEnemy with the given ID and name.
@@ -1384,6 +1404,8 @@ namespace SoulsFormats
                 public byte MapID2 { get; set; }
                 public byte MapID3 { get; set; }
                 public byte MapID4 { get; set; }
+
+                public ConnectCollision() { }
 
                 /// <summary>
                 /// Creates a new ConnectCollision with the given ID and name.
@@ -1451,6 +1473,8 @@ namespace SoulsFormats
                 internal override PartsType Type => PartsType.Unknown;
                 internal override bool HasGparamConfig => false;
                 internal override bool HasUnk4 => false;
+
+                public Unknown() { }
 
                 /// <summary>
                 /// Creates a new Unknown with the given ID and name.

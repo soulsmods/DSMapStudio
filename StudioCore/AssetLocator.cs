@@ -278,6 +278,11 @@ namespace StudioCore
         public AssetDescription GetMapMSB(string mapid, bool writemode = false)
         {
             AssetDescription ad = new AssetDescription();
+            ad.AssetPath = null;
+            if (mapid.Length != 12)
+            {
+                return ad;
+            }
             if (Type == GameType.DarkSoulsIISOTFS)
             {
                 var path = $@"map\{mapid}\{mapid}";
@@ -288,6 +293,19 @@ namespace StudioCore
                 else if (File.Exists($@"{GameRootDirectory}\{path}.msb"))
                 {
                     ad.AssetPath = $@"{GameRootDirectory}\{path}.msb";
+                }
+            }
+            // BB chalice maps
+            else if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
+            {
+                var path = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}";
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb.dcx";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}.msb.dcx"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb.dcx";
                 }
             }
             else
@@ -554,7 +572,7 @@ namespace StudioCore
         public AssetDescription GetMapModel(string mapid, string model)
         {
             var ret = new AssetDescription();
-            if (Type == GameType.DarkSoulsPTDE)
+            if (Type == GameType.DarkSoulsPTDE || Type == GameType.Bloodborne)
             {
                 ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.flver";
             }
@@ -574,7 +592,10 @@ namespace StudioCore
             }
             else
             {
-                ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
+                if (Type != GameType.DarkSoulsPTDE && Type != GameType.Bloodborne)
+                {
+                    ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
+                }
                 ret.AssetVirtualPath = $@"map/{mapid}/model/{model}/{model}.flver";
             }
             return ret;

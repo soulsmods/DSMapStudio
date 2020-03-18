@@ -19,6 +19,7 @@ namespace StudioCore.MsbEditor
         public ActionManager EditorActionManager = new ActionManager();
         private ProjectSettings _projectSettings = null;
 
+        public SceneTree SceneTree;
         public PropertyEditor PropEditor;
         public SearchProperties PropSearch;
         public DisplayGroupsEditor DispGroupEditor;
@@ -68,6 +69,7 @@ namespace StudioCore.MsbEditor
             Viewport = new Gui.Viewport(device, RenderScene, EditorActionManager, Rect.Width, Rect.Height);
             Universe = new Universe(AssetLocator, ResourceMan, RenderScene);
 
+            SceneTree = new SceneTree(Universe, EditorActionManager, Viewport, AssetLocator, ResourceMan);
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
             PropSearch = new SearchProperties(Universe);
@@ -226,7 +228,6 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        bool MapObjectListOpen = true;
         public void OnGUI()
         {
             // Docking setup
@@ -249,78 +250,6 @@ namespace StudioCore.MsbEditor
             ImGui.PopStyleVar(4);
             var dsid = ImGui.GetID("DockSpace_MapEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
-
-            /*if (ImGui.BeginMainMenuBar())
-            {
-                if (ImGui.BeginMenu("File"))
-                {
-                    if (ImGui.MenuItem("Set Interroot..", "CTRL+I") || InputTracker.GetControlShortcut(Key.I))
-                    {
-                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
-                        {
-                            Filter = AssetLocator.GameExecutatbleFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                            //ShowReadOnly = true,
-                        };
-
-                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            if (!AssetLocator.SetGameRootDirectoryByExePath(browseDlg.FileName))
-                            {
-                                System.Windows.Forms.MessageBox.Show("The game you selected could not be detected as a valid supported game", "Error",
-                                    System.Windows.Forms.MessageBoxButtons.OK,
-                                    System.Windows.Forms.MessageBoxIcon.None);
-                            }
-                            else
-                            {
-                                ParamBank.ReloadParams();
-                                FMGBank.ReloadFMGs();
-                            }
-                        }
-                    }
-                    if (ImGui.MenuItem("Set Mod Project Directory..", ""))
-                    {
-                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog()
-                        {
-                            SelectedPath = AssetLocator.GameRootDirectory
-                        };
-
-                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            AssetLocator.SetModProjectDirectory(browseDlg.SelectedPath);
-                            ParamBank.ReloadParams();
-                            FMGBank.ReloadFMGs();
-                        }
-                    }
-                    if (ImGui.BeginMenu("Open map", AssetLocator.Type != GameType.Undefined))
-                    {
-                        foreach (var map in AssetLocator.GetFullMapList())
-                        {
-                            if (ImGui.MenuItem(map)) 
-                            {
-                                Universe.LoadMap(map);
-                            }
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.MenuItem("Unload All Open Maps"))
-                    {
-                        Selection.ClearSelection();
-                        EditorActionManager.Clear();
-                        Universe.UnloadAllMaps();
-                        GC.Collect();
-                    }
-                    if (ImGui.MenuItem("Save All Open Maps", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
-                    {
-                        Universe.SaveAllMaps();
-                    }
-                    ImGui.EndMenu();
-                }
-                
-                ImGui.EndMainMenuBar();
-            }*/
 
             // Keyboard shortcuts
             if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
@@ -416,136 +345,7 @@ namespace StudioCore.MsbEditor
 
             Viewport.OnGui();
 
-            if (ImGui.Begin("Map Object List", ref MapObjectListOpen))
-            {
-                Map pendingUnload = null;
-                foreach (var lm in Universe.LoadedMaps.OrderBy((k) => k.Key))
-                {
-                    var map = lm.Value;
-                    var mapid = lm.Key;
-                    var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
-                    if (map != null && Selection.GetSelection().Contains(map.RootObject))
-                    {
-                        treeflags |= ImGuiTreeNodeFlags.Selected;
-                    }
-                    bool nodeopen = false;
-                    if (map != null)
-                    {
-                        nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags);
-                    }
-                    else
-                    {
-                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
-                    }
-                    // Right click context menu
-                    if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
-                    {
-                        if (map == null)
-                        {
-                            if (ImGui.Selectable("Load Map"))
-                            {
-                                Universe.LoadMap(mapid);
-                            }
-                        }
-                        else
-                        {
-                            if (ImGui.Selectable("Save Map"))
-                            {
-                                Universe.SaveMap(map);
-                            }
-                            if (ImGui.Selectable("Unload Map"))
-                            {
-                                Selection.ClearSelection();
-                                EditorActionManager.Clear();
-                                pendingUnload = map;
-                            }
-                        }
-                        ImGui.EndPopup();
-                    }
-                    if (ImGui.IsItemClicked() && map != null)
-                    {
-                        if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
-                        {
-                            Selection.AddSelection(map.RootObject);
-                        }
-                        else
-                        {
-                            Selection.ClearSelection();
-                            Selection.AddSelection(map.RootObject);
-                        }
-                    }
-                    if (nodeopen)
-                    {
-                        foreach (var obj in map.MapObjects)
-                        {
-                            // Main selectable
-                            ImGui.PushID(obj.Type.ToString() + obj.Name);
-                            bool doSelect = false;
-                            if (ImGui.Selectable(obj.PrettyName, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
-                            {
-                                // If double clicked frame the selection in the viewport
-                                if (ImGui.IsMouseDoubleClicked(0))
-                                {
-                                    if (obj.RenderSceneMesh != null)
-                                    {
-                                        Viewport.FrameBox(obj.RenderSceneMesh.GetBounds());
-                                    }
-                                }
-                            }
-                            if (ImGui.IsItemClicked(0))
-                            {
-                                doSelect = true;
-                            }
-
-                            if (ImGui.IsItemFocused() && !Selection.IsSelected(obj))
-                            {
-                                doSelect = true;
-                            }
-
-                            // Visibility icon
-                            bool visible = obj.EditorVisible;
-                            ImGui.SameLine(ImGui.GetWindowContentRegionWidth() - 12.0f);
-                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
-                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
-                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
-                            ImGui.PopStyleColor();
-                            if (ImGui.IsItemClicked(0))
-                            {
-                                obj.EditorVisible = !obj.EditorVisible;
-                                doSelect = false;
-                            }
-
-                            // If the visibility icon wasn't clicked actually perform the selection
-                            if (doSelect)
-                            {
-                                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
-                                {
-                                    Selection.AddSelection(obj);
-                                }
-                                else
-                                {
-                                    Selection.ClearSelection();
-                                    Selection.AddSelection(obj);
-                                }
-                            }
-
-                            ImGui.PopID();
-                        }
-                        ImGui.TreePop();
-                    }
-                }
-                ImGui.End();
-
-                if (pendingUnload != null)
-                {
-                    Universe.UnloadMap(pendingUnload);
-                    GC.Collect();
-                    GCNeedsCollection = true;
-                    ResourceMan.UnloadUnusedResources();
-                    GC.Collect();
-                }
-            }
-
+            SceneTree.OnGui();
             PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
             PropSearch.OnGui();
@@ -555,9 +355,7 @@ namespace StudioCore.MsbEditor
 
             ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 
-            //guiRenderer.AfterLayout();
 
-            //ImGui.End();
         }
 
         public void Draw(GraphicsDevice device, CommandList cl)

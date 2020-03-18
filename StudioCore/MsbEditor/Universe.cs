@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Xml.Serialization;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -314,16 +315,21 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void LoadMap(string mapid)
+        public bool LoadMap(string mapid)
         {
             var map = new Map(this, mapid);
 
+            var mappiecesToLoad = new HashSet<AssetDescription>();
             var chrsToLoad = new HashSet<AssetDescription>();
             var objsToLoad = new HashSet<AssetDescription>();
             var colsToLoad = new HashSet<AssetDescription>();
             var navsToLoad = new HashSet<AssetDescription>();
 
             var ad = AssetLocator.GetMapMSB(mapid);
+            if (ad.AssetPath == null)
+            {
+                return false;
+            }
             IMsb msb;
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
@@ -348,6 +354,11 @@ namespace StudioCore.MsbEditor
             map.LoadMSB(msb);
 
             var amapid = mapid.Substring(0, 6) + "_00_00";
+            // Special case for chalice dungeon assets
+            if (mapid.StartsWith("m29"))
+            {
+                amapid = "m29_00_00_00";
+            }
 
             // Temporary garbage
             foreach (var obj in map.MapObjects)
@@ -361,9 +372,10 @@ namespace StudioCore.MsbEditor
                     Scene.RenderFilter filt = Scene.RenderFilter.All;
                     if (mp.ModelName.StartsWith("m"))
                     {
-                        asset = AssetLocator.GetMapModel(amapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
+                        asset = AssetLocator.GetMapModel(amapid, AssetLocator.MapModelNameToAssetName(amapid, mp.ModelName));
                         filt = Scene.RenderFilter.MapPiece;
                         obj.UseDrawGroups = true;
+                        mappiecesToLoad.Add(asset);
                     }
                     else if (mp.ModelName.StartsWith("c"))
                     {
@@ -380,14 +392,14 @@ namespace StudioCore.MsbEditor
                     else if (mp.ModelName.StartsWith("h"))
                     {
                         loadcol = true;
-                        asset = AssetLocator.GetMapCollisionModel(amapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName), false);
+                        asset = AssetLocator.GetMapCollisionModel(amapid, AssetLocator.MapModelNameToAssetName(amapid, mp.ModelName), false);
                         filt = Scene.RenderFilter.Collision;
                         colsToLoad.Add(asset);
                     }
                     else if (mp.ModelName.StartsWith("n"))
                     {
                         loadnav = true;
-                        asset = AssetLocator.GetMapNVMModel(amapid, AssetLocator.MapModelNameToAssetName(mapid, mp.ModelName));
+                        asset = AssetLocator.GetMapNVMModel(amapid, AssetLocator.MapModelNameToAssetName(amapid, mp.ModelName));
                         filt = Scene.RenderFilter.Navmesh;
                         navsToLoad.Add(asset);
                     }
@@ -465,8 +477,14 @@ namespace StudioCore.MsbEditor
                     map.MapOffset = t;
                 }
             }
-            //LoadedMaps.Add(mapid, map);
-            LoadedMaps[mapid] = map;
+            if (!LoadedMaps.ContainsKey(mapid))
+            {
+                LoadedMaps.Add(mapid, map);
+            }
+            else
+            {
+                LoadedMaps[mapid] = map;
+            }
 
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -474,7 +492,7 @@ namespace StudioCore.MsbEditor
             }
 
             var job = ResourceMan.CreateNewJob($@"Loading {amapid} geometry");
-            foreach (var mappiece in AssetLocator.GetMapModels(amapid))
+            foreach (var mappiece in mappiecesToLoad)
             {
                 if (mappiece.AssetArchiveVirtualPath != null)
                 {
@@ -488,16 +506,24 @@ namespace StudioCore.MsbEditor
             
             job.StartJobAsync();
             job = ResourceMan.CreateNewJob($@"Loading {amapid} collisions");
+            string archive = null;
+            HashSet<string> colassets = new HashSet<string>();
             foreach (var col in colsToLoad)
             {
                 if (col.AssetArchiveVirtualPath != null)
                 {
-                    job.AddLoadArchiveTask(col.AssetArchiveVirtualPath, false);
+                    //job.AddLoadArchiveTask(col.AssetArchiveVirtualPath, false);
+                    archive = col.AssetArchiveVirtualPath;
+                    colassets.Add(col.AssetVirtualPath);
                 }
                 else if (col.AssetVirtualPath != null)
                 {
                     job.AddLoadFileTask(col.AssetVirtualPath);
                 }
+            }
+            if (archive != null)
+            {
+                job.AddLoadArchiveTask(archive, false, colassets);
             }
             job.StartJobAsync();
             job = ResourceMan.CreateNewJob($@"Loading chrs");
@@ -540,6 +566,7 @@ namespace StudioCore.MsbEditor
                 }
             }
             job.StartJobAsync();
+            return true;
         }
 
         private void SaveDS2Generators(Map map)
@@ -774,6 +801,10 @@ namespace StudioCore.MsbEditor
             {
                 SaveDS2Generators(map);
             }
+
+            //var xserializer = new XmlSerializer(typeof(Map));
+            //TextWriter writer = new StreamWriter(mapPath + ".xml");
+            //map.SerializeToXML(xserializer, writer, AssetLocator.Type);
         }
 
         public void SaveAllMaps()

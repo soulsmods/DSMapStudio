@@ -204,18 +204,18 @@ namespace StudioCore.Scene
             bool needsFlush = false;
             lock (_allocationLock)
             {
-                long avsize = vsize;
-                long aisize = isize;
+                long val = 0;
+                long ial = 0;
                 if ((_stagingVertsSize % valignment) != 0)
                 {
-                    _stagingVertsSize += (valignment - (_stagingVertsSize % valignment));
+                    val += (valignment - (_stagingVertsSize % valignment));
                 }
                 if ((_stagingIndicesSize % ialignment) != 0)
                 {
-                    _stagingIndicesSize += (ialignment - (_stagingIndicesSize % ialignment));
+                    ial += (ialignment - (_stagingIndicesSize % ialignment));
                 }
                 
-                if (_stagingLocked || (_stagingVertsSize + avsize) > _maxVertsSize || (_stagingIndicesSize + aisize) > _maxIndicesSize)
+                if (_stagingLocked || (_stagingVertsSize + vsize + val) > _maxVertsSize || (_stagingIndicesSize + isize + ial) > _maxIndicesSize)
                 {
                     // Buffer won't fit in current megabuffer. Make it pending
                     handle = new VertexIndexBufferHandle(this);
@@ -234,9 +234,9 @@ namespace StudioCore.Scene
                 else
                 {
                     // Add to currently staging megabuffer
-                    handle = new VertexIndexBufferHandle(this, (uint)_stagingVertsSize, (uint)avsize, (uint)_stagingIndicesSize, (uint)aisize);
-                    _stagingVertsSize += avsize;
-                    _stagingIndicesSize += aisize;
+                    handle = new VertexIndexBufferHandle(this, (uint)(_stagingVertsSize + val), (uint)vsize, (uint)(_stagingIndicesSize + ial), (uint)isize);
+                    _stagingVertsSize += (vsize + val);
+                    _stagingIndicesSize += (isize + ial);
                     _stagingAllocations.Add(handle);
                     if (onStaging != null)
                     {

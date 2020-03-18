@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml.Serialization;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -15,9 +17,11 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public class Map
     {
-        public string MapId { get; private set; }
+        public string MapId { get; set; }
+        [XmlIgnore]
         public List<MapObject> MapObjects = new List<MapObject>();
-        public MapObject RootObject { get; private set; }
+        public MapObject RootObject { get; set; }
+        [XmlIgnore]
         public Universe Universe { get; private set; }
 
         /// <summary>
@@ -28,6 +32,11 @@ namespace StudioCore.MsbEditor
         // This keeps all models that exist when loading a map, so that saves
         // can be byte perfect
         private Dictionary<string, IMsbModel> LoadedModels = new Dictionary<string, IMsbModel>();
+
+        public Map()
+        {
+
+        }
 
         public Map(Universe u, string mapid)
         {
@@ -317,7 +326,7 @@ namespace StudioCore.MsbEditor
                 if (m.MsbObject != null && m.MsbObject is IMsbPart p)
                 {
                     msb.Parts.Add(p);
-                    if (!LoadedModels.ContainsKey(p.ModelName))
+                    if (p.ModelName != null && !LoadedModels.ContainsKey(p.ModelName))
                     {
                         LoadedModels.Add(p.ModelName, null);
                     }
@@ -348,6 +357,11 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsDS3(msb);
             }
+        }
+
+        public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)
+        {
+            serializer.Serialize(writer, this);
         }
 
         public bool SerializeDS2Generators(PARAM locations, PARAM generators)

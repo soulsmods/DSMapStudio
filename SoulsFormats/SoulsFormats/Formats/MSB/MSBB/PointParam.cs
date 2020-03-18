@@ -109,6 +109,8 @@ namespace SoulsFormats
             /// </summary>
             public int EventEntityID;
 
+            public Region() { }
+
             public Region(string name)
             {
                 Name = name;

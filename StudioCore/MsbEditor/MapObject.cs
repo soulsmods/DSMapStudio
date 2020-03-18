@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Numerics;
+using System.Xml.Serialization;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -28,27 +29,33 @@ namespace StudioCore.MsbEditor
             TypeDS2EventLocation,
         }
 
-        public ObjectType Type { get; private set; }
+        public ObjectType Type { get; set; }
 
-        public object MsbObject;
+        public object MsbObject { get; set; }
 
         private string CachedName = null;
 
+        [XmlIgnore]
         public Map ContainingMap { get; set; } = null;
+
+        [XmlIgnore]
         public Universe Universe { 
             get
             {
                 return (ContainingMap != null) ? ContainingMap.Universe : null;
             }
         }
+        [XmlIgnore]
         public MapObject Parent { get; private set; } = null;
-        public List<MapObject> Children { get; private set; } = new List<MapObject>();
+        public List<MapObject> Children { get; set; } = new List<MapObject>();
 
         /// <summary>
         /// A map that contains references for each property
         /// </summary>
+        [XmlIgnore]
         public Dictionary<string, MapObject[]> References { get; private set; } = new Dictionary<string, MapObject[]>();
 
+        [XmlIgnore]
         public bool HasTransform
         { 
             get
@@ -58,6 +65,7 @@ namespace StudioCore.MsbEditor
         }
 
         private Scene.IDrawable _RenderSceneMesh = null;
+        [XmlIgnore]
         public Scene.IDrawable RenderSceneMesh
         {
             set
@@ -70,9 +78,10 @@ namespace StudioCore.MsbEditor
                 return _RenderSceneMesh;
             }
         }
-
+        [XmlIgnore]
         public bool UseDrawGroups { set; get; } = false;
 
+        [XmlIgnore]
         public string Name
         {
             get
@@ -98,6 +107,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        [XmlIgnore]
         public string PrettyName
         {
             get
@@ -138,6 +148,7 @@ namespace StudioCore.MsbEditor
 
         private string CurrentModel = "";
 
+        [XmlIgnore]
         public uint[] Drawgroups
         {
             get
@@ -151,6 +162,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        [XmlIgnore]
         public uint[] Dispgroups
         {
             get
@@ -165,6 +177,7 @@ namespace StudioCore.MsbEditor
         }
 
         private bool _EditorVisible = true;
+        [XmlIgnore]
         public bool EditorVisible
         {
             get
@@ -180,7 +193,7 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
-
+        [XmlIgnore]
         public string MapID
         {
             get
@@ -200,6 +213,11 @@ namespace StudioCore.MsbEditor
 
         private bool UseTempTransform = false;
         private Transform TempTransform = Transform.Default;
+
+        public MapObject()
+        {
+
+        }
 
         public MapObject(Map map, object msbo, ObjectType type)
         {

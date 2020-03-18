@@ -352,6 +352,8 @@ namespace SoulsFormats
 
             public int Unk01 { get; set; }
 
+            internal Event() { }
+
             internal Event(string name)
             {
                 Name = name;
@@ -501,6 +503,8 @@ namespace SoulsFormats
                 /// </summary>
                 public int SoundID { get; set; }
 
+                public Sound() { }
+
                 /// <summary>
                 /// Creates a new MapOffset with the given ID and name.
                 /// </summary>
@@ -549,6 +553,8 @@ namespace SoulsFormats
                 /// If true, the effect is off by default until enabled by event scripts.
                 /// </summary>
                 public bool StartDisabled { get; set; }
+
+                public SFX() { }
 
                 /// <summary>
                 /// Creates a new MapOffset with the given ID and name.
@@ -632,6 +638,8 @@ namespace SoulsFormats
                 public int UnkT44 { get; set; }
                 public int UnkT48 { get; set; }
                 public int UnkT4C { get; set; }
+
+                public Treasure() { }
 
                 /// <summary>
                 /// Creates a new Treasure with the given ID and name.
@@ -817,6 +825,8 @@ namespace SoulsFormats
                 public float UnkT14 { get; set; }
                 public float UnkT18 { get; set; }
 
+                public Generator() { }
+
                 /// <summary>
                 /// Creates a new Generator with the given ID and name.
                 /// </summary>
@@ -965,6 +975,8 @@ namespace SoulsFormats
                 /// </summary>
                 public bool Hidden { get; set; }
 
+                public Message() { }
+
                 /// <summary>
                 /// Creates a new Message with the given ID and name.
                 /// </summary>
@@ -1034,6 +1046,8 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 public int EventFlagID { get; set; }
+
+                public ObjAct() { }
 
                 /// <summary>
                 /// Creates a new ObjAct with the given ID and name.
@@ -1114,6 +1128,8 @@ namespace SoulsFormats
                 private int SpawnRegionIndex;
                 public string SpawnRegionName { get; set; }
 
+                public SpawnPoint() { }
+
                 /// <summary>
                 /// Creates a new Spawn point with the given ID and name.
                 /// </summary>
@@ -1185,6 +1201,8 @@ namespace SoulsFormats
                 /// </summary>
                 public float Degree { get; set; }
 
+                public MapOffset() { }
+
                 /// <summary>
                 /// Creates a new MapOffset with the given ID and name.
                 /// </summary>
@@ -1229,6 +1247,8 @@ namespace SoulsFormats
                 /// Region for navimesh
                 /// </summary>
                 public string RegionName { get; set; }
+
+                public Navimesh() { }
 
                 /// <summary>
                 /// Creates a new Navimesh with the given ID and name.
@@ -1291,6 +1311,8 @@ namespace SoulsFormats
                 public float UnkT0C { get; set; }
                 public float UnkT10 { get; set; }
                 public float UnkT14 { get; set; }
+
+                public Environment() { }
 
                 /// <summary>
                 /// Creates a new MapOffset with the given ID and name.
@@ -1364,6 +1386,8 @@ namespace SoulsFormats
                 public string WindAreaName { get; set; }
 
                 public float UnkF0C { get; set; }
+
+                public Wind() { }
 
                 /// <summary>
                 /// Creates a new Wind with the given ID and name.
@@ -1458,6 +1482,8 @@ namespace SoulsFormats
                 /// </summary>
                 public int UnkT18 { get; set; }
 
+                public Invasion() { }
+
                 /// <summary>
                 /// Creates a new Invasion with the given ID and name.
                 /// </summary>
@@ -1531,6 +1557,8 @@ namespace SoulsFormats
                 /// </summary>
                 public string[] WalkPointNames { get; private set; }
 
+                public WalkRoute() { }
+
                 /// <summary>
                 /// Creates a new WalkRoute with the given ID and name.
                 /// </summary>
@@ -1593,6 +1621,7 @@ namespace SoulsFormats
             {
                 internal override EventType Type => EventType.Unknown;
 
+                public Unknown() { }
 
                 /// <summary>
                 /// Creates a new WalkRoute with the given ID and name.
@@ -1655,6 +1684,8 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 public string[] GroupPartsNames { get; private set; }
+
+                public GroupTour() { }
 
                 /// <summary>
                 /// Creates a new GroupTour with the given ID and name.
@@ -1732,6 +1763,8 @@ namespace SoulsFormats
                 public short UnkT08 { get; set; }
                 public short UnkT0A { get; set; }
 
+                public MultiSummoningPoint() { }
+
                 /// <summary>
                 /// Creates a new WalkRoute with the given ID and name.
                 /// </summary>
@@ -1795,6 +1828,8 @@ namespace SoulsFormats
             public class Other : Event
             {
                 internal override EventType Type => EventType.Other;
+
+                public Other() { }
 
                 /// <summary>
                 /// Creates a new Other with the given ID and name.

@@ -16,6 +16,11 @@ namespace StudioCore.MsbEditor
         public Vector3 Rotation { get; set; }
         public Vector3 Scale { get; set; } = Vector3.One;
 
+        public TransformNode()
+        {
+
+        }
+
         public TransformNode(string name)
         {
             Name = name;

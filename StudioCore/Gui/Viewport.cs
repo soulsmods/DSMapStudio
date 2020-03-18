@@ -173,7 +173,7 @@ namespace StudioCore.Gui
             {
                 var p = ImGui.GetWindowPos();
                 var s = ImGui.GetWindowSize();
-                var newvp = new Veldrid.Rectangle((int)p.X, (int)p.Y, (int)s.X, (int)s.Y);
+                var newvp = new Veldrid.Rectangle((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
                 ResizeViewport(Device, newvp);
                 if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
                 {

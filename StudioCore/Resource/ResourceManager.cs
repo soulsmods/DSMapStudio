@@ -141,6 +141,7 @@ namespace StudioCore.Resource
             private List<int> TaskSizes = new List<int>();
             private List<int> TaskProgress = new List<int>();
             private int TotalSize = 0;
+            private HashSet<string> AssetWhitelist = null;
             private ResourceType ResourceMask = ResourceType.All;
 
             private List<Tuple<IResourceHandle, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceHandle, string, BinderFileHeader>>();
@@ -148,12 +149,13 @@ namespace StudioCore.Resource
 
             private readonly object ProgressLock = new object();
 
-            public LoadBinderResourcesTask(ResourceManager rm, string virtpath, bool populateOnly, ResourceType mask)
+            public LoadBinderResourcesTask(ResourceManager rm, string virtpath, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
             {
                 ResourceMan = rm;
                 BinderVirtualPath = virtpath;
                 PopulateResourcesOnly = populateOnly;
                 ResourceMask = mask;
+                AssetWhitelist = whitelist;
             }
 
             public void ProcessBinder()
@@ -178,6 +180,10 @@ namespace StudioCore.Resource
                     }
                     var binderpath = f.Name;
                     var filevirtpath = ResourceMan.Locator.GetBinderVirtualPath(BinderVirtualPath, binderpath);
+                    if (AssetWhitelist != null && !AssetWhitelist.Contains(filevirtpath))
+                    {
+                        continue;
+                    }
                     IResourceHandle handle = null;
                     /*if (ResourceMan.ResourceDatabase.ContainsKey(filevirtpath))
                     {
@@ -442,7 +448,7 @@ namespace StudioCore.Resource
             /// Loads an entire archive in this virtual path
             /// </summary>
             /// <param name="virtualPath"></param>
-            public void AddLoadArchiveTask(string virtualPath, bool populateOnly)
+            public void AddLoadArchiveTask(string virtualPath, bool populateOnly, HashSet<string> assets=null)
             {
                 if (virtualPath == "null")
                 {
@@ -451,12 +457,12 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, ResourceType.All);
+                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, ResourceType.All, assets);
                     Tasks.Add(task);
                 }
             }
 
-            public void AddLoadArchiveTask(string virtualPath, bool populateOnly, ResourceType filter)
+            public void AddLoadArchiveTask(string virtualPath, bool populateOnly, ResourceType filter, HashSet<string> assets = null)
             {
                 if (virtualPath == "null")
                 {
@@ -465,7 +471,7 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, filter);
+                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, filter, assets);
                     Tasks.Add(task);
                 }
             }

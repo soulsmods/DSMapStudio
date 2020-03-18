@@ -622,9 +622,11 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(MapObject selection, float w, float h)
         {
+            ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             ImGui.SetNextWindowSize(new Vector2(350, h - 80), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(w - 370, 20), ImGuiCond.FirstUseEver);
             ImGui.Begin("Properties");
+            ImGui.BeginChild("propedit");
             if (selection == null)
             {
                 ImGui.Text("Select a single object to edit properties.");
@@ -639,7 +641,9 @@ namespace StudioCore.MsbEditor
             {
                 PropEditorGeneric(selection);
             }
+            ImGui.EndChild();
             ImGui.End();
+            ImGui.PopStyleColor();
         }
     }
 }

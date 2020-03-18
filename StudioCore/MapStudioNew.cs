@@ -171,6 +171,9 @@ namespace StudioCore
             fonts.Build();
             ImguiRenderer.RecreateFontDeviceTexture();
 
+            var style = ImGui.GetStyle();
+            style.TabBorderSize = 0;
+
             if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
             {
                 if (File.Exists(CFG.Current.LastProjectFile))
@@ -244,6 +247,51 @@ namespace StudioCore
             TextEditor.OnProjectChanged(_projectSettings);
         }
 
+        public void ApplyStyle()
+        {
+            // Colors
+            //ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            //ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.PopupBg, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.FrameBgActive, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.TitleBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.MenuBarBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarBg, new Vector4(0.243f, 0.243f, 0.249f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarGrab, new Vector4(0.408f, 0.408f, 0.408f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabHovered, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.SliderGrab, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.SliderGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.HeaderHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.HeaderActive, new Vector4(0.000f, 0.478f, 0.800f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.Tab, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.TabHovered, new Vector4(0.110f, 0.592f, 0.918f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.TabActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.TabUnfocused, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.TabUnfocusedActive, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+
+            // Sizes
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 1.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.TabRounding, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f);
+        }
+
+        public void UnapplyStyle()
+        {
+            ImGui.PopStyleColor(26);
+            ImGui.PopStyleVar(4);
+        }
+
         private void Update(float deltaseconds)
         {
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
@@ -256,6 +304,7 @@ namespace StudioCore
                 commandsplit = command.Split($@"/");
             }
 
+            ApplyStyle();
             var vp = ImGui.GetMainViewport();
             ImGui.SetNextWindowPos(vp.Pos);
             ImGui.SetNextWindowSize(vp.Size);
@@ -272,6 +321,7 @@ namespace StudioCore
             ImGui.PopStyleVar(1);
 
             bool newProject = false;
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
             if (ImGui.BeginMainMenuBar())
             {
                 if (ImGui.BeginMenu("File"))
@@ -375,6 +425,7 @@ namespace StudioCore
                 }
                 ImGui.EndMainMenuBar();
             }
+            ImGui.PopStyleVar();
 
             // New project modal
             if (newProject)
@@ -585,6 +636,8 @@ namespace StudioCore
             ImGui.PopStyleVar();
 
             ImGui.PopStyleVar(2);
+
+            UnapplyStyle();
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)
@@ -667,7 +720,7 @@ namespace StudioCore
             MainWindowCommandList.Begin();
             //cl2.SetFramebuffer(_gd.SwapchainFramebuffer);
             MainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
-            MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.082f, 0.082f, 0.084f, 1.0f));
+            MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.176f, 0.176f, 0.188f, 1.0f));
             float depthClear = _gd.IsDepthRangeZeroToOne ? 1f : 0f;
             MainWindowCommandList.ClearDepthStencil(0.0f);
             MainWindowCommandList.SetFullViewport(0);
