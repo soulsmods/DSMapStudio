@@ -43,7 +43,7 @@ namespace StudioCore.MsbEditor
             MapId = mapid;
             Universe = u;
             var t = new TransformNode(mapid);
-            RootObject = new MapObject(this, t, MapObject.ObjectType.TypeMapRoot);
+            RootObject = new MapObject(this, t, MapObject.ObjectType.MapRoot);
         }
 
         public void LoadMSB(IMsb msb)
@@ -55,21 +55,21 @@ namespace StudioCore.MsbEditor
 
             foreach (var p in msb.Parts.GetEntries())
             {
-                var n = new MapObject(this, p, MapObject.ObjectType.TypePart);
+                var n = new MapObject(this, p, MapObject.ObjectType.Part);
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Regions.GetEntries())
             {
-                var n = new MapObject(this, p, MapObject.ObjectType.TypeRegion);
+                var n = new MapObject(this, p, MapObject.ObjectType.Region);
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Events.GetEntries())
             {
-                var n = new MapObject(this, p, MapObject.ObjectType.TypeEvent);
+                var n = new MapObject(this, p, MapObject.ObjectType.Event);
                 MapObjects.Add(n);
                 RootObject.AddChild(n);
             }
@@ -369,7 +369,7 @@ namespace StudioCore.MsbEditor
             HashSet<long> ids = new HashSet<long>();
             foreach (var m in MapObjects)
             {
-                if (m.Type == MapObject.ObjectType.TypeDS2Generator && m.MsbObject is MergedParamRow mp)
+                if (m.Type == MapObject.ObjectType.DS2Generator && m.MsbObject is MergedParamRow mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -405,7 +405,7 @@ namespace StudioCore.MsbEditor
             HashSet<long> ids = new HashSet<long>();
             foreach (var m in MapObjects)
             {
-                if (m.Type == MapObject.ObjectType.TypeDS2GeneratorRegist && m.MsbObject is PARAM.Row mp)
+                if (m.Type == MapObject.ObjectType.DS2GeneratorRegist && m.MsbObject is PARAM.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -427,7 +427,7 @@ namespace StudioCore.MsbEditor
             HashSet<long> ids = new HashSet<long>();
             foreach (var m in MapObjects)
             {
-                if (m.Type == MapObject.ObjectType.TypeDS2Event && m.MsbObject is PARAM.Row mp)
+                if (m.Type == MapObject.ObjectType.DS2Event && m.MsbObject is PARAM.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -451,7 +451,7 @@ namespace StudioCore.MsbEditor
             HashSet<long> ids = new HashSet<long>();
             foreach (var m in MapObjects)
             {
-                if (m.Type == MapObject.ObjectType.TypeDS2EventLocation && m.MsbObject is PARAM.Row mp)
+                if (m.Type == MapObject.ObjectType.DS2EventLocation && m.MsbObject is PARAM.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {

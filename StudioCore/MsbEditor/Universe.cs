@@ -175,7 +175,7 @@ namespace StudioCore.MsbEditor
                 }
                 registParams.Add(row.ID, row);
 
-                var obj = new MapObject(map, row, MapObject.ObjectType.TypeDS2GeneratorRegist);
+                var obj = new MapObject(map, row, MapObject.ObjectType.DS2GeneratorRegist);
                 map.AddObject(obj);
             }
 
@@ -199,7 +199,7 @@ namespace StudioCore.MsbEditor
                 mergedRow.AddRow("generator-loc", row);
                 generatorParams.Add(row.ID, mergedRow);
 
-                var obj = new MapObject(map, mergedRow, MapObject.ObjectType.TypeDS2Generator);
+                var obj = new MapObject(map, mergedRow, MapObject.ObjectType.DS2Generator);
                 generatorObjs.Add(row.ID, obj);
                 map.AddObject(obj);
             }
@@ -225,7 +225,7 @@ namespace StudioCore.MsbEditor
                     var mergedRow = new MergedParamRow();
                     mergedRow.AddRow("generator", row);
                     generatorParams.Add(row.ID, mergedRow);
-                    var obj = new MapObject(map, mergedRow, MapObject.ObjectType.TypeDS2Generator);
+                    var obj = new MapObject(map, mergedRow, MapObject.ObjectType.DS2Generator);
                     generatorObjs.Add(row.ID, obj);
                     map.AddObject(obj);
                 }
@@ -260,7 +260,7 @@ namespace StudioCore.MsbEditor
                 }
                 eventParams.Add(row.ID, row);
 
-                var obj = new MapObject(map, row, MapObject.ObjectType.TypeDS2Event);
+                var obj = new MapObject(map, row, MapObject.ObjectType.DS2Event);
                 map.AddObject(obj);
             }
 
@@ -281,7 +281,7 @@ namespace StudioCore.MsbEditor
                 row["PositionY"].Value = (float)row["PositionY"].Value + map.MapOffset.Position.Y;
                 row["PositionZ"].Value = (float)row["PositionZ"].Value + map.MapOffset.Position.Z;
 
-                var obj = new MapObject(map, row, MapObject.ObjectType.TypeDS2EventLocation);
+                var obj = new MapObject(map, row, MapObject.ObjectType.DS2EventLocation);
                 map.AddObject(obj);
 
                 // Try rendering as a box for now

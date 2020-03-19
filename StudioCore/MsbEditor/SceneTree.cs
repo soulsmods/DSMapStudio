@@ -21,6 +21,8 @@ namespace StudioCore.MsbEditor
 
         private bool _GCNeedsCollection = false;
 
+        private Dictionary<string, Dictionary<MapObject.ObjectType, Dictionary<Type, List<MapObject>>>> _cachedTypeView = null;
+
         public enum ViewMode
         {
             Hierarchy,
@@ -42,6 +44,48 @@ namespace StudioCore.MsbEditor
             Viewport = vp;
             AssetLocator = al;
             ResourceMan = rm;
+        }
+
+        private void RebuildTypeViewCache(Map map)
+        {
+            if (_cachedTypeView == null)
+            {
+                _cachedTypeView = new Dictionary<string, Dictionary<MapObject.ObjectType, Dictionary<Type, List<MapObject>>>>();
+            }
+
+            var mapcache = new Dictionary<MapObject.ObjectType, Dictionary<Type, List<MapObject>>>();
+            mapcache.Add(MapObject.ObjectType.Part, new Dictionary<Type, List<MapObject>>());
+            mapcache.Add(MapObject.ObjectType.Region, new Dictionary<Type, List<MapObject>>());
+            mapcache.Add(MapObject.ObjectType.Event, new Dictionary<Type, List<MapObject>>());
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                mapcache.Add(MapObject.ObjectType.DS2Event, new Dictionary<Type, List<MapObject>>());
+                mapcache.Add(MapObject.ObjectType.DS2EventLocation, new Dictionary<Type, List<MapObject>>());
+                mapcache.Add(MapObject.ObjectType.DS2Generator, new Dictionary<Type, List<MapObject>>());
+                mapcache.Add(MapObject.ObjectType.DS2GeneratorRegist, new Dictionary<Type, List<MapObject>>());
+            }
+
+            foreach (var obj in map.MapObjects)
+            {
+                if (mapcache.ContainsKey(obj.Type))
+                {
+                    var typ = obj.MsbObject.GetType();
+                    if (!mapcache[obj.Type].ContainsKey(typ))
+                    {
+                        mapcache[obj.Type].Add(typ, new List<MapObject>());
+                    }
+                    mapcache[obj.Type][typ].Add(obj);
+                }
+            }
+
+            if (!_cachedTypeView.ContainsKey(map.MapId))
+            {
+                _cachedTypeView.Add(map.MapId, mapcache);
+            }
+            else
+            {
+                _cachedTypeView[map.MapId] = mapcache;
+            }
         }
 
         private void ChaliceDungeonImportButton()
@@ -151,6 +195,57 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void TypeView(Map map)
+        {
+            if (_cachedTypeView == null || !_cachedTypeView.ContainsKey(map.MapId))
+            {
+                RebuildTypeViewCache(map);
+            }
+
+            foreach (var cats in _cachedTypeView[map.MapId].OrderBy(q => q.Key.ToString()))
+            {
+                if (cats.Value.Count > 0)
+                {
+                    if (ImGui.TreeNodeEx(cats.Key.ToString(), ImGuiTreeNodeFlags.OpenOnArrow))
+                    {
+                        foreach (var typ in cats.Value.OrderBy(q => q.Key.Name))
+                        {
+                            if (typ.Value.Count > 0)
+                            {
+                                // Regions don't have multiple types in games before DS3
+                                if (cats.Key == MapObject.ObjectType.Region &&
+                                    AssetLocator.Type != GameType.DarkSoulsIII && AssetLocator.Type != GameType.Sekiro)
+                                {
+                                    foreach (var obj in typ.Value)
+                                    {
+                                        MapObjectSelectable(obj, true);
+                                    }
+                                }
+                                else if (ImGui.TreeNodeEx(typ.Key.Name, ImGuiTreeNodeFlags.OpenOnArrow))
+                                {
+                                    foreach (var obj in typ.Value)
+                                    {
+                                        MapObjectSelectable(obj, true);
+                                    }
+                                    ImGui.TreePop();
+                                }
+                            }
+                            else
+                            {
+                                ImGui.Text($@"   {typ.Key.ToString()}");
+                            }
+                        }
+                        ImGui.TreePop();
+                    }
+                }
+                else
+                {
+                    ImGui.Text($@"   {cats.Key.ToString()}");
+                }
+
+            }
+        }
+
         public void OnGui()
         {
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
@@ -224,7 +319,14 @@ namespace StudioCore.MsbEditor
                     }
                     if (nodeopen)
                     {
-                        HierarchyView(map);
+                        if (_viewMode == ViewMode.Hierarchy)
+                        {
+                            HierarchyView(map);
+                        }
+                        else if (_viewMode == ViewMode.ObjectType)
+                        {
+                            TypeView(map);
+                        }
                         ImGui.TreePop();
                     }
                 }

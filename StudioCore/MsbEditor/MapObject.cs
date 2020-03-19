@@ -18,15 +18,15 @@ namespace StudioCore.MsbEditor
     {
         public enum ObjectType
         {
-            TypeMapRoot,
-            TypeEditor,
-            TypePart,
-            TypeRegion,
-            TypeEvent,
-            TypeDS2Generator,
-            TypeDS2GeneratorRegist,
-            TypeDS2Event,
-            TypeDS2EventLocation,
+            MapRoot,
+            Editor,
+            Part,
+            Region,
+            Event,
+            DS2Generator,
+            DS2GeneratorRegist,
+            DS2Event,
+            DS2EventLocation,
         }
 
         public ObjectType Type { get; set; }
@@ -60,7 +60,7 @@ namespace StudioCore.MsbEditor
         { 
             get
             {
-                return Type != ObjectType.TypeEvent && Type != ObjectType.TypeDS2GeneratorRegist && Type != ObjectType.TypeDS2Event;
+                return Type != ObjectType.Event && Type != ObjectType.DS2GeneratorRegist && Type != ObjectType.DS2Event;
             }
         }
 
@@ -113,31 +113,31 @@ namespace StudioCore.MsbEditor
             get
             {
                 string icon = "";
-                if (Type == ObjectType.TypePart)
+                if (Type == ObjectType.Part)
                 {
                     icon = ForkAwesome.PuzzlePiece;
                 }
-                else if (Type == ObjectType.TypeEvent)
+                else if (Type == ObjectType.Event)
                 {
                     icon = ForkAwesome.Flag;
                 }
-                else if (Type == ObjectType.TypeRegion)
+                else if (Type == ObjectType.Region)
                 {
                     icon = ForkAwesome.LocationArrow;
                 }
-                else if (Type == ObjectType.TypeDS2Generator)
+                else if (Type == ObjectType.DS2Generator)
                 {
                     icon = ForkAwesome.Male;
                 }
-                else if (Type == ObjectType.TypeDS2GeneratorRegist)
+                else if (Type == ObjectType.DS2GeneratorRegist)
                 {
                     icon = ForkAwesome.UserCircleO;
                 }
-                else if (Type == ObjectType.TypeDS2EventLocation)
+                else if (Type == ObjectType.DS2EventLocation)
                 {
                     icon = ForkAwesome.FlagO;
                 }
-                else if (Type == ObjectType.TypeDS2Event)
+                else if (Type == ObjectType.DS2Event)
                 {
                     icon = ForkAwesome.FlagCheckered;
                 }
@@ -201,7 +201,7 @@ namespace StudioCore.MsbEditor
                 var parent = Parent;
                 while (parent != null)
                 {
-                    if (parent.Type == ObjectType.TypeMapRoot)
+                    if (parent.Type == ObjectType.MapRoot)
                     {
                         return parent.Name;
                     }
@@ -624,7 +624,7 @@ namespace StudioCore.MsbEditor
             }
 
             // If this is a region scale the region primitive by its respective parameters
-            if (Type == ObjectType.TypeRegion)
+            if (Type == ObjectType.Region)
             {
                 var shape = GetPropertyValue("Shape");
                 if (shape != null && shape is MSB.Shape.Box b2)
@@ -642,7 +642,7 @@ namespace StudioCore.MsbEditor
             }
 
             // DS2 event regions
-            if (Type == ObjectType.TypeDS2EventLocation)
+            if (Type == ObjectType.DS2EventLocation)
             {
                 var sx = GetPropertyValue("ScaleX");
                 var sy = GetPropertyValue("ScaleY");
@@ -717,7 +717,7 @@ namespace StudioCore.MsbEditor
         public void UpdateRenderModel()
         {
             // If the model field changed, then update the visible model
-            if (Type == ObjectType.TypeDS2Generator)
+            if (Type == ObjectType.DS2Generator)
             {
 
             }
