@@ -130,6 +130,57 @@ namespace StudioCore.Resource
             }
         }
 
+        public class LoadTPFResourcesTask : IResourceTask
+        {
+            private ResourceManager _resourceManager;
+            private string _virtpathbase = null;
+            private TPF _tpf = null;
+            private AccessLevel _accessLevel = AccessLevel.AccessGPUOptimizedOnly;
+            private GameType _game;
+
+            private List<Tuple<TextureResourceHande, string, int>> _pendingResources = new List<Tuple<TextureResourceHande, string, int>>();
+
+            public LoadTPFResourcesTask(ResourceManager rm, string virtpathbase, TPF tpf, AccessLevel al, GameType type)
+            {
+                _resourceManager = rm;
+                _virtpathbase = virtpathbase;
+                _tpf = tpf;
+                _accessLevel = al;
+                _game = type;
+            }
+
+            public int GetEstimateTaskSize()
+            {
+                return 1;
+            }
+
+            public void Run()
+            {
+                for (int i = 0; i < _tpf.Textures.Count; i++)
+                {
+                    var tex = _tpf.Textures[i];
+                    var handle = _resourceManager.GetTextureResource($@"{_virtpathbase}/{tex.Name}");
+                    _pendingResources.Add(new Tuple<TextureResourceHande, string, int>(handle, $@"{_virtpathbase}/{tex.Name}", i));
+                }
+
+                foreach (var t in _pendingResources)
+                {
+                    t.Item1._LoadTextureResource(_tpf, t.Item3, _accessLevel, _game);
+                }
+                _pendingResources.Clear();
+                _tpf = null;
+            }
+
+            public Task RunAsync(IProgress<int> progress)
+            {
+                return ResourceTaskFactory.StartNew(() =>
+                {
+                    Run();
+                    progress.Report(1);
+                });
+            }
+        }
+
         public class LoadBinderResourcesTask : IResourceTask
         {
             private ResourceManager ResourceMan;
@@ -190,9 +241,9 @@ namespace StudioCore.Resource
                         handle = ResourceMan.ResourceDatabase[filevirtpath];
                     }*/
 
-                    if (filevirtpath.ToUpper().EndsWith(".TPF"))
+                    if (filevirtpath.ToUpper().EndsWith(".TPF") || filevirtpath.ToUpper().EndsWith(".TPF.DCX"))
                     {
-
+                        PendingTPFs.Add(f);
                     }
                     else
                     {
@@ -234,6 +285,13 @@ namespace StudioCore.Resource
                         var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
                         task.Run();
                     }
+
+                    foreach (var t in PendingTPFs)
+                    {
+                        var f = TPF.Read(Binder.ReadFile(t));
+                        var task = new LoadTPFResourcesTask(ResourceMan, "tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                        task.Run();
+                    }
                 }
                 PendingResources.Clear();
                 Binder = null;
@@ -269,6 +327,40 @@ namespace StudioCore.Resource
                         {
                             var f = Binder.ReadFile(p.Item3);
                             var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                            var size = task.GetEstimateTaskSize();
+                            TotalSize += size;
+                            if (doasync)
+                            {
+                                var progress1 = new Progress<int>();
+                                TaskSizes.Add(size);
+                                lock (ProgressLock)
+                                {
+                                    TaskProgress.Add(0);
+                                }
+                                int bindi = i;
+                                progress1.ProgressChanged += (x, e) =>
+                                {
+                                    lock (ProgressLock)
+                                    {
+                                        TaskProgress[bindi] = e;
+                                    }
+                                    UpdateProgress(progress);
+                                };
+                                LoadingTasks.Add(task.RunAsync(progress1));
+                                i++;
+                            }
+                            else
+                            {
+                                task.Run();
+                                i++;
+                                progress.Report(i);
+                            }
+                        }
+
+                        foreach (var t in PendingTPFs)
+                        {
+                            var f = TPF.Read(Binder.ReadFile(t));
+                            var task = new LoadTPFResourcesTask(ResourceMan, "tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)
@@ -616,6 +708,23 @@ namespace StudioCore.Resource
                 }
             }
             return (ResourceHandle<T>)ResourceDatabase[resourceName];
+        }
+
+        public TextureResourceHande GetTextureResource(string resourceName)
+        {
+            if (ResourceDatabase.ContainsKey(resourceName))
+            {
+                return (TextureResourceHande)ResourceDatabase[resourceName];
+            }
+            lock (AddResourceLock)
+            {
+                var handle = new TextureResourceHande(resourceName);
+                if (!ResourceDatabase.ContainsKey(resourceName))
+                {
+                    ResourceDatabase[resourceName] = handle;
+                }
+            }
+            return (TextureResourceHande)ResourceDatabase[resourceName];
         }
 
         private static bool TaskWindowOpen = true;

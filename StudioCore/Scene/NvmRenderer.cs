@@ -169,7 +169,7 @@ namespace StudioCore.Scene
         public override void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             var factory = gd.ResourceFactory;
-            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             WorldBuffer.FillBuffer(cl, ref _World);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
@@ -255,7 +255,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
+        unsafe public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             if (!IsVisible)
                 return;
@@ -276,7 +276,7 @@ namespace StudioCore.Scene
 
                 uint indexStart = geombuffer.IAllocationStart / 4u;
                 var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
-                args.FirstInstance = WorldBuffer.AllocationStart / 64;
+                args.FirstInstance = WorldBuffer.AllocationStart / (uint)sizeof(InstanceData);
                 args.VertexOffset = (int)(geombuffer.VAllocationStart / Resource.CollisionLayout.SizeInBytes);
                 args.InstanceCount = 1;
                 args.FirstIndex = indexStart;

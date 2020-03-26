@@ -7,6 +7,7 @@ namespace Veldrid
         [Conditional("VALIDATE_USAGE")]
         internal static void ValidateResourceSet(GraphicsDevice gd, ref ResourceSetDescription description)
         {
+            return;
 #if VALIDATE_USAGE
             ResourceLayoutElementDescription[] elements = description.Layout.Description.Elements;
             BindableResource[] resources = description.BoundResources;

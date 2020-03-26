@@ -201,9 +201,11 @@ namespace StudioCore
         {
             var factory = gd.ResourceFactory;
             //WorldBuffer = factory.CreateBuffer(new BufferDescription(64, Veldrid.BufferUsage.UniformBuffer | Veldrid.BufferUsage.Dynamic));
-            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             //gd.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
-            WorldBuffer.FillBuffer(cl, ref _World);
+            InstanceData dat = new InstanceData();
+            dat.WorldMatrix = _World;
+            WorldBuffer.FillBuffer(cl, ref dat);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
@@ -224,7 +226,7 @@ namespace StudioCore
                     new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4))
             };
 
-            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "SimpleFlver").ToTuple();
+            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "FlverDS3").ToTuple();
             Shaders = new Shader[] { res.Item1, res.Item2 };
 
             ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(
@@ -233,6 +235,9 @@ namespace StudioCore
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+
+            ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
             PerObjRS = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
                 Renderer.UniformBufferAllocator._backingBuffer));
@@ -258,7 +263,7 @@ namespace StudioCore
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
                 shaders: Shaders);
-            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
+            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout() };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             //RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
@@ -274,7 +279,9 @@ namespace StudioCore
             if (WorldDirty)
             {
                 //cl.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
-                WorldBuffer.FillBuffer(cl, ref _World);
+                InstanceData dat = new InstanceData();
+                dat.WorldMatrix = _World;
+                WorldBuffer.FillBuffer(cl, ref dat);
                 WorldDirty = false;
             }
         }
@@ -308,7 +315,7 @@ namespace StudioCore
             return new RenderKey(code << 33 | index << 32 | (ulong)BufferIndex);
         }
 
-        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
+        unsafe public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             if (!IsVisible)
                 return;
@@ -336,7 +343,7 @@ namespace StudioCore
 
                 uint indexStart = geombuffer.IAllocationStart / (faceSet.Is32Bit ? 4u : 2u) + (uint)faceSet.IndexOffset;
                 var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
-                args.FirstInstance = WorldBuffer.AllocationStart / 64;
+                args.FirstInstance = WorldBuffer.AllocationStart / (uint)sizeof(InstanceData);
                 args.VertexOffset = (int)(geombuffer.VAllocationStart / Resource.MapFlverLayout.SizeInBytes);
                 args.InstanceCount = 1;
                 args.FirstIndex = indexStart;

@@ -113,7 +113,7 @@ namespace StudioCore.DebugPrimitives
         public override void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             var factory = gd.ResourceFactory;
-            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(64, 64);
+            WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             var identity = System.Numerics.Matrix4x4.Identity;
             WorldBuffer.FillBuffer(cl, ref identity);
 
@@ -161,7 +161,7 @@ namespace StudioCore.DebugPrimitives
                 shaders: Shaders);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
-                StaticResourceCache.ProjViewLayoutDescription), mainPerObjectLayout };
+                StaticResourceCache.ProjViewLayoutDescription), mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout() };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }

@@ -650,6 +650,34 @@ namespace StudioCore
             return ret;
         }
 
+        public List<AssetDescription> GetMapTextures(string mapid)
+        {
+            List<AssetDescription> ads = new List<AssetDescription>();
+            var mid = mapid.Substring(0, 3);
+
+            var t0000 = new AssetDescription();
+            t0000.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0000.tpfbhd";
+            t0000.AssetArchiveVirtualPath = $@"map/tex/{mid}/0000";
+            ads.Add(t0000);
+
+            var t0001 = new AssetDescription();
+            t0001.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0001.tpfbhd";
+            t0001.AssetArchiveVirtualPath = $@"map/tex/{mid}/0001";
+            ads.Add(t0001);
+
+            var t0002 = new AssetDescription();
+            t0002.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0002.tpfbhd";
+            t0002.AssetArchiveVirtualPath = $@"map/tex/{mid}/0002";
+            ads.Add(t0002);
+
+            var t0003 = new AssetDescription();
+            t0003.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0003.tpfbhd";
+            t0003.AssetArchiveVirtualPath = $@"map/tex/{mid}/0003";
+            ads.Add(t0003);
+
+            return ads;
+        }
+
         public AssetDescription GetMapNVMModel(string mapid, string model)
         {
             var ret = new AssetDescription();
@@ -726,7 +754,15 @@ namespace StudioCore
             if (pathElements[i].Equals("map"))
             {
                 i++;
-                if (mapRegex.IsMatch(pathElements[i]))
+                if (pathElements[i].Equals("tex"))
+                {
+                    i++;
+                    var mid = pathElements[i];
+                    i++;
+                    bndpath = "";
+                    return $@"{GameRootDirectory}\map\{mid}\{mid}_{pathElements[i]}.tpfbhd";
+                }
+                else if (mapRegex.IsMatch(pathElements[i]))
                 {
                     var mapid = pathElements[i];
                     i++;

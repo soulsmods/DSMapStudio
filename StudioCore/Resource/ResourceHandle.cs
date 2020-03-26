@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SoulsFormats;
 
 namespace StudioCore.Resource
 {
@@ -73,27 +74,27 @@ namespace StudioCore.Resource
         /// <summary>
         /// Virtual path of the entire asset. Used to implement loading
         /// </summary>
-        private string AssetVirtualPath = null;
+        protected string AssetVirtualPath = null;
 
-        private object LoadingLock = new object();
-        private object HandlerLock = new object();
-        private object AcquireFreeLock = new object();
+        protected object LoadingLock = new object();
+        protected object HandlerLock = new object();
+        protected object AcquireFreeLock = new object();
 
-        private int ReferenceCount = 0;
+        protected int ReferenceCount = 0;
 
-        public bool IsLoaded { get; private set; } = false;
+        public bool IsLoaded { get; protected set; } = false;
 
-        public AccessLevel AccessLevel { get; private set; } = AccessLevel.AccessUnloaded;
+        public AccessLevel AccessLevel { get; protected set; } = AccessLevel.AccessUnloaded;
 
-        private T Resource = null;
+        protected T Resource = null;
 
         //private List<Action<ResourceHandle<T>>> LoadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
         //private List<Action<ResourceHandle<T>>> UnloadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
 
-        private List<WeakReference<IResourceEventListener>> EventListeners = new List<WeakReference<IResourceEventListener>>();
+        protected List<WeakReference<IResourceEventListener>> EventListeners = new List<WeakReference<IResourceEventListener>>();
 
-        private int LockCounter = 0;
-        private object ResourceLock = new object();
+        protected int LockCounter = 0;
+        protected object ResourceLock = new object();
 
         public ResourceHandle(string virtualPath)
         {
@@ -330,6 +331,51 @@ namespace StudioCore.Resource
         public override string ToString()
         {
             return AssetVirtualPath;
+        }
+    }
+
+    public class TextureResourceHande : ResourceHandle<TextureResource>
+    {
+        public TextureResourceHande(string virtualPath) : base(virtualPath)
+        {
+        }
+
+        public bool _LoadTextureResource(TPF tex, int index, AccessLevel al, GameType type)
+        {
+            lock (LoadingLock)
+            {
+                if (IsLoaded)
+                {
+                    Unload();
+                }
+                AccessLevel = AccessLevel.AccessLoading;
+                Resource = new TextureResource(tex, index);
+                Resource._LoadTexture(al);
+                // Prevent any new completion handlers from being added while executing them all
+                // Any subsequent pending handlers will be executed after this is done
+                lock (HandlerLock)
+                {
+                    IsLoaded = true;
+                    foreach (var listener in EventListeners)
+                    {
+                        try
+                        {
+                            IResourceEventListener l;
+                            bool succ = listener.TryGetTarget(out l);
+                            if (succ)
+                            {
+                                l.OnResourceLoaded(this);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            System.Console.WriteLine("blah");
+                        }
+                    }
+                }
+                AccessLevel = al;
+            }
+            return true;
         }
     }
 }

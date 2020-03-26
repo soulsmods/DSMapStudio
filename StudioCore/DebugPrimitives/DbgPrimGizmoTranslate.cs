@@ -161,10 +161,9 @@ namespace StudioCore.DebugPrimitives
                     }
                 }
 
-                Arrow(MsbEditor.Gizmos.Axis.PosX, Color.FromArgb(255, 60, 60));
-                Arrow(MsbEditor.Gizmos.Axis.PosZ, Color.FromArgb(60, 60, 255));
-                Arrow(MsbEditor.Gizmos.Axis.PosY, Color.FromArgb(60, 255, 60));
-
+                Arrow(MsbEditor.Gizmos.Axis.PosX, Color.FromArgb(0xF3, 0x36, 0x53));
+                Arrow(MsbEditor.Gizmos.Axis.PosZ, Color.FromArgb(0x38, 0x90, 0xED));
+                Arrow(MsbEditor.Gizmos.Axis.PosY, Color.FromArgb(0x86, 0xC8, 0x15));
                 //FinalizeBuffers(true);
 
                 GeometryData = new DbgPrimGeometryData()

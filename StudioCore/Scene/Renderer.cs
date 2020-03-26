@@ -168,6 +168,7 @@ namespace StudioCore.Scene
                     cl.SetPipeline(_batches[MAX_BATCH * _renderSet + i]._pipeline);
                     pipeline.BindResources(cl);
                     cl.SetGraphicsResourceSet(1, _batches[MAX_BATCH * _renderSet + i]._objectRS);
+                    GlobalTexturePool.BindTexturePool(cl, 2);
                     if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
                     {
                         continue;
@@ -342,10 +343,9 @@ namespace StudioCore.Scene
         private static List<RenderQueue> RenderQueues;
         private static Queue<Action<GraphicsDevice, CommandList>> BackgroundUploadQueue;
 
-        //public static GPUBufferAllocator VertexBufferAllocator { get; private set; }
-        //public static GPUBufferAllocator IndexBufferAllocator { get; private set; }
         public static VertexIndexBufferAllocator GeometryBufferAllocator { get; private set; }
         public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
+        public static TexturePool GlobalTexturePool { get; private set; }
 
         public static ResourceFactory Factory
         {
@@ -363,12 +363,15 @@ namespace StudioCore.Scene
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
 
-            //VertexBufferAllocator = new GPUBufferAllocator(1 * 1024 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            //VertexBufferAllocator = new GPUBufferAllocator(256 * 1024 * 1024u, BufferUsage.VertexBuffer);
-            //IndexBufferAllocator = new GPUBufferAllocator(512 * 1024 * 1024, BufferUsage.IndexBuffer);
-            //IndexBufferAllocator = new GPUBufferAllocator(128 * 1024 * 1024, BufferUsage.IndexBuffer);
             GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 64);
+            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 128);
+
+            GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
+
+            // Initialize default 2D texture at 0
+            var handle = GlobalTexturePool.AllocateTextureDescriptor();
+            handle.FillWithColor(device, System.Drawing.Color.White);
+            GlobalTexturePool.RegenerateDescriptorTables();
         }
 
         public static void RegisterRenderQueue(RenderQueue queue)
@@ -389,8 +392,15 @@ namespace StudioCore.Scene
             MainCommandList.Begin();
 
             Queue<Action<GraphicsDevice, CommandList>> work;
+            bool cleanTexPool = false;
             lock (BackgroundUploadQueue)
             {
+                if (GlobalTexturePool.DescriptorTableDirty)
+                {
+                    GlobalTexturePool.RegenerateDescriptorTables();
+                    cleanTexPool = true;
+                }
+
                 work = new Queue<Action<GraphicsDevice, CommandList>>(BackgroundUploadQueue);
                 BackgroundUploadQueue.Clear();
             }
@@ -401,6 +411,11 @@ namespace StudioCore.Scene
 
             MainCommandList.End();
             Device.SubmitCommands(MainCommandList);
+
+            if (cleanTexPool)
+            {
+                GlobalTexturePool.CleanTexturePool();
+            }
 
             foreach (var rq in RenderQueues)
             {

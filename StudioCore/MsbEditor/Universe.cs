@@ -502,9 +502,23 @@ namespace StudioCore.MsbEditor
                 {
                     job.AddLoadFileTask(mappiece.AssetVirtualPath);
                 }
-            }
-            
+            } 
             job.StartJobAsync();
+
+            job = ResourceMan.CreateNewJob($@"Loading {amapid} textures");
+            foreach (var asset in AssetLocator.GetMapTextures(amapid))
+            {
+                if (asset.AssetArchiveVirtualPath != null)
+                {
+                    job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, false);
+                }
+                else if (asset.AssetVirtualPath != null)
+                {
+                    job.AddLoadFileTask(asset.AssetVirtualPath);
+                }
+            }
+            job.StartJobAsync();
+
             job = ResourceMan.CreateNewJob($@"Loading {amapid} collisions");
             string archive = null;
             HashSet<string> colassets = new HashSet<string>();

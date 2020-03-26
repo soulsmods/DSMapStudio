@@ -36,15 +36,22 @@ namespace Veldrid.Vk
             _descriptorAllocationToken = _gd.DescriptorPoolManager.Allocate(_descriptorCounts, dsl);
 
             BindableResource[] boundResources = description.BoundResources;
-            uint descriptorWriteCount = (uint)boundResources.Length;
+            uint descriptorWriteCount = (uint)vkLayout.Description.Elements.Length;
+
+            uint desccount = 0;
+            foreach (var e in vkLayout.Description.Elements)
+            {
+                desccount += e.DescriptorCount;
+            }
+
             VkWriteDescriptorSet* descriptorWrites = stackalloc VkWriteDescriptorSet[(int)descriptorWriteCount];
             VkDescriptorBufferInfo* bufferInfos = stackalloc VkDescriptorBufferInfo[(int)descriptorWriteCount];
-            VkDescriptorImageInfo* imageInfos = stackalloc VkDescriptorImageInfo[(int)descriptorWriteCount];
+            VkDescriptorImageInfo* imageInfos = stackalloc VkDescriptorImageInfo[(int)desccount];
 
+            int boundr = 0;
             for (int i = 0; i < descriptorWriteCount; i++)
             {
                 VkDescriptorType type = vkLayout.DescriptorTypes[i];
-
                 descriptorWrites[i].sType = VkStructureType.WriteDescriptorSet;
                 descriptorWrites[i].descriptorCount = 1;
                 descriptorWrites[i].descriptorType = type;
@@ -54,7 +61,7 @@ namespace Veldrid.Vk
                 if (type == VkDescriptorType.UniformBuffer || type == VkDescriptorType.UniformBufferDynamic
                     || type == VkDescriptorType.StorageBuffer || type == VkDescriptorType.StorageBufferDynamic)
                 {
-                    DeviceBufferRange range = Util.GetBufferRange(boundResources[i], 0);
+                    DeviceBufferRange range = Util.GetBufferRange(boundResources[boundr], 0);
                     VkBuffer rangedVkBuffer = Util.AssertSubtype<DeviceBuffer, VkBuffer>(range.Buffer);
                     bufferInfos[i].buffer = rangedVkBuffer.DeviceBuffer;
                     bufferInfos[i].offset = range.Offset;
@@ -64,17 +71,22 @@ namespace Veldrid.Vk
                 }
                 else if (type == VkDescriptorType.SampledImage)
                 {
-                    TextureView texView = Util.GetTextureView(_gd, boundResources[i]);
-                    VkTextureView vkTexView = Util.AssertSubtype<TextureView, VkTextureView>(texView);
-                    imageInfos[i].imageView = vkTexView.ImageView;
-                    imageInfos[i].imageLayout = VkImageLayout.ShaderReadOnlyOptimal;
-                    descriptorWrites[i].pImageInfo = &imageInfos[i];
-                    _sampledTextures.Add(Util.AssertSubtype<Texture, VkTexture>(texView.Target));
-                    _refCounts.Add(vkTexView.RefCount);
+                    descriptorWrites[i].pImageInfo = &imageInfos[boundr];
+                    descriptorWrites[i].descriptorCount = vkLayout.Description.Elements[i].DescriptorCount;
+                    for (int j = 0; j < vkLayout.Description.Elements[i].DescriptorCount; j++)
+                    {
+                        TextureView texView = Util.GetTextureView(_gd, boundResources[boundr]);
+                        VkTextureView vkTexView = Util.AssertSubtype<TextureView, VkTextureView>(texView);
+                        imageInfos[boundr].imageView = vkTexView.ImageView;
+                        imageInfos[boundr].imageLayout = VkImageLayout.ShaderReadOnlyOptimal;
+                        _sampledTextures.Add(Util.AssertSubtype<Texture, VkTexture>(texView.Target));
+                        _refCounts.Add(vkTexView.RefCount);
+                        boundr++;
+                    }
                 }
                 else if (type == VkDescriptorType.StorageImage)
                 {
-                    TextureView texView = Util.GetTextureView(_gd, boundResources[i]);
+                    TextureView texView = Util.GetTextureView(_gd, boundResources[boundr]);
                     VkTextureView vkTexView = Util.AssertSubtype<TextureView, VkTextureView>(texView);
                     imageInfos[i].imageView = vkTexView.ImageView;
                     imageInfos[i].imageLayout = VkImageLayout.General;
@@ -84,11 +96,12 @@ namespace Veldrid.Vk
                 }
                 else if (type == VkDescriptorType.Sampler)
                 {
-                    VkSampler sampler = Util.AssertSubtype<BindableResource, VkSampler>(boundResources[i]);
+                    VkSampler sampler = Util.AssertSubtype<BindableResource, VkSampler>(boundResources[boundr]);
                     imageInfos[i].sampler = sampler.DeviceSampler;
                     descriptorWrites[i].pImageInfo = &imageInfos[i];
                     _refCounts.Add(sampler.RefCount);
                 }
+                boundr++;
             }
 
             vkUpdateDescriptorSets(_gd.Device, descriptorWriteCount, descriptorWrites, 0, null);

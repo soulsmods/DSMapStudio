@@ -24,6 +24,8 @@ namespace StudioCore.MsbEditor
         [XmlIgnore]
         public Universe Universe { get; private set; }
 
+        public List<GPARAM> GParams { get; private set; }
+
         /// <summary>
         /// The map offset used to transform light and ds2 generators
         /// </summary>

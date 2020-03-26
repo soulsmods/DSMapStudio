@@ -23,6 +23,10 @@ namespace Veldrid
         /// Miscellaneous resource options for this element.
         /// </summary>
         public ResourceLayoutElementOptions Options;
+        /// <summary>
+        /// The number of descriptors to bind to this resource. Used for arrays of textures.
+        /// </summary>
+        public uint DescriptorCount;
 
         /// <summary>
         /// Constructs a new ResourceLayoutElementDescription.
@@ -36,6 +40,23 @@ namespace Veldrid
             Kind = kind;
             Stages = stages;
             Options = ResourceLayoutElementOptions.None;
+            DescriptorCount = 1;
+        }
+
+        /// <summary>
+        /// Constructs a new ResourceLayoutElementDescription.
+        /// </summary>
+        /// <param name="name">The name of the element.</param>
+        /// <param name="kind">The kind of resource.</param>
+        /// <param name="stages">The <see cref="ShaderStages"/> in which this element is used.</param>
+        /// <param name="descCount">The number of descriptors to use.</param>
+        public ResourceLayoutElementDescription(string name, ResourceKind kind, ShaderStages stages, uint descCount)
+        {
+            Name = name;
+            Kind = kind;
+            Stages = stages;
+            Options = ResourceLayoutElementOptions.None;
+            DescriptorCount = descCount;
         }
 
         /// <summary>
@@ -55,6 +76,7 @@ namespace Veldrid
             Kind = kind;
             Stages = stages;
             Options = options;
+            DescriptorCount = 1;
         }
 
         /// <summary>

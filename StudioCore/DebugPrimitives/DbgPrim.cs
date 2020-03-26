@@ -225,7 +225,7 @@ namespace StudioCore.DebugPrimitives
         public bool AutoRegister { get; set; } = false;
         public bool IsVisible { get; set; }
 
-        private void DrawPrimitive(Renderer.IndirectDrawEncoder encoder, Scene.SceneRenderPipeline sp)
+        unsafe private void DrawPrimitive(Renderer.IndirectDrawEncoder encoder, Scene.SceneRenderPipeline sp)
         {
             //FinalizeBuffers(device, cl);
 
@@ -246,7 +246,7 @@ namespace StudioCore.DebugPrimitives
             }
 
             var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
-            args.FirstInstance = WorldBuffer.AllocationStart / 64;
+            args.FirstInstance = WorldBuffer.AllocationStart / (uint)sizeof(InstanceData);
             args.VertexOffset = (int)(GeomBuffer.VAllocationStart / 28);
             args.InstanceCount = 1;
             args.FirstIndex = GeomBuffer.IAllocationStart / 2;

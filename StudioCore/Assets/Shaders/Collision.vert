@@ -12,9 +12,16 @@ layout(set = 0, binding = 2) uniform EyePositionBuffer
 {
     vec3 eye;
 };
-layout(set = 1, binding = 0) buffer WorldBuffer
+
+struct instanceData
 {
-    readonly mat4 world[];
+	mat4 world;
+	uint materialID[4];
+};
+
+layout(set = 1, binding = 0, std140) buffer WorldBuffer
+{
+    readonly instanceData idata[];
 };
 
 layout(location = 0) in vec3 position;
@@ -26,7 +33,7 @@ layout(location = 2) out vec3 fsin_view;
 
 void main()
 {
-	mat4 w = world[gl_InstanceIndex];
+	mat4 w = idata[gl_InstanceIndex].world;
 	fsin_normal = mat3(w) * vec3((vec3(normal) / 255.0));
 	fsin_color = vec4(color / 255.0);
     //fsin_color = vec4(vec3((vec4(tnormal, 1.0) / 255.0) + 0.5), 1.0);

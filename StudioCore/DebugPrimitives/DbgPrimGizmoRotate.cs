@@ -18,7 +18,7 @@ namespace StudioCore.DebugPrimitives
         public const float StemRadius = 0.075f;
 
         public const float Radius = 3.0f;
-        public const float RingRadius = 0.03f;
+        public const float RingRadius = 0.06f;
         public const int RingCount = 30;
         public const int SideCount = 4;
 
@@ -158,9 +158,9 @@ namespace StudioCore.DebugPrimitives
                     }
                 }
 
-                Ring(MsbEditor.Gizmos.Axis.PosX, Color.Red);
-                Ring(MsbEditor.Gizmos.Axis.PosZ, Color.Blue);
-                Ring(MsbEditor.Gizmos.Axis.PosY, Color.Green);
+                Ring(MsbEditor.Gizmos.Axis.PosX, Color.FromArgb(0xF3, 0x36, 0x53));
+                Ring(MsbEditor.Gizmos.Axis.PosZ, Color.FromArgb(0x38, 0x90, 0xED));
+                Ring(MsbEditor.Gizmos.Axis.PosY, Color.FromArgb(0x86, 0xC8, 0x15));
 
                 //FinalizeBuffers(true);
 
