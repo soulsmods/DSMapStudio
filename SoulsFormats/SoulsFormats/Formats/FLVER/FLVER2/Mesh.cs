@@ -175,7 +175,10 @@ namespace SoulsFormats
                 else
                 {
                     for (int i = 0; i < Vertices.Length; i++)
+                    {
                         Vertices[i].UVCount = 0;
+                        Vertices[i].TangentCount = 0;
+                    }
                 }
 
                 foreach (VertexBuffer buffer in VertexBuffers)

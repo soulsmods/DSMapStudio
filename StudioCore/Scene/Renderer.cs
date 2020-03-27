@@ -169,6 +169,8 @@ namespace StudioCore.Scene
                     pipeline.BindResources(cl);
                     cl.SetGraphicsResourceSet(1, _batches[MAX_BATCH * _renderSet + i]._objectRS);
                     GlobalTexturePool.BindTexturePool(cl, 2);
+                    MaterialBufferAllocator.BindAsResourceSet(cl, 3);
+                    
                     if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
                     {
                         continue;
@@ -345,6 +347,7 @@ namespace StudioCore.Scene
 
         public static VertexIndexBufferAllocator GeometryBufferAllocator { get; private set; }
         public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
+        public static GPUBufferAllocator MaterialBufferAllocator { get; private set; }
         public static TexturePool GlobalTexturePool { get; private set; }
 
         public static ResourceFactory Factory
@@ -355,7 +358,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public static void Initialize(GraphicsDevice device)
+        public unsafe static void Initialize(GraphicsDevice device)
         {
             Device = device;
             MainCommandList = device.ResourceFactory.CreateCommandList();
@@ -364,8 +367,9 @@ namespace StudioCore.Scene
             RenderQueues = new List<RenderQueue>();
 
             GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, 128);
+            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
 
             // Initialize default 2D texture at 0

@@ -161,7 +161,7 @@ namespace StudioCore.DebugPrimitives
                 shaders: Shaders);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
-                StaticResourceCache.ProjViewLayoutDescription), mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout() };
+                StaticResourceCache.ProjViewLayoutDescription), mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout() };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }

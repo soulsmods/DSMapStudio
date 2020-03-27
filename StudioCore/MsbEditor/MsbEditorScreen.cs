@@ -7,6 +7,7 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
+using StudioCore.Resource;
 using ImGuiNET;
 
 namespace StudioCore.MsbEditor
@@ -14,7 +15,6 @@ namespace StudioCore.MsbEditor
     public class MsbEditorScreen : EditorScreen
     {
         public AssetLocator AssetLocator = null;
-        public Resource.ResourceManager ResourceMan = new Resource.ResourceManager();
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
         public ActionManager EditorActionManager = new ActionManager();
         private ProjectSettings _projectSettings = null;
@@ -63,13 +63,13 @@ namespace StudioCore.MsbEditor
         {
             Rect = window.Bounds;
             AssetLocator = locator;
-            ResourceMan.Locator = AssetLocator;
+            ResourceManager.Locator = AssetLocator;
             Window = window;
 
             Viewport = new Gui.Viewport(device, RenderScene, EditorActionManager, Rect.Width, Rect.Height);
-            Universe = new Universe(AssetLocator, ResourceMan, RenderScene);
+            Universe = new Universe(AssetLocator, RenderScene);
 
-            SceneTree = new SceneTree(Universe, EditorActionManager, Viewport, AssetLocator, ResourceMan);
+            SceneTree = new SceneTree(Universe, EditorActionManager, Viewport, AssetLocator);
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene);
             PropSearch = new SearchProperties(Universe);
@@ -353,7 +353,7 @@ namespace StudioCore.MsbEditor
             // Not usable yet
             //NavMeshEditor.OnGui(AssetLocator.Type);
 
-            ResourceMan.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
+            ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
 
 
         }

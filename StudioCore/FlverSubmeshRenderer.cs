@@ -13,7 +13,9 @@ namespace StudioCore
 {
     public class FlverSubmeshRenderer : Scene.RenderObject, IDisposable
     {
-        public BoundingBox Bounds;
+        public BoundingBox Bounds { get; private set; }
+
+        public Vector3 Center { get; private set; }
 
         private bool HasNoLODs = true;
 
@@ -34,6 +36,8 @@ namespace StudioCore
                 WorldDirty = true;
             }
         }
+
+        private uint _materialIndex = 0;
 
         protected Pipeline RenderPipeline;
         protected Shader[] Shaders;
@@ -180,13 +184,13 @@ namespace StudioCore
                     i4 >= 0 ? boneMatrices[i4] : Matrix4x4.Identity,
                 }, vert.BoneWeights, isNormal: true);
 
-            vert.Tangents[0] = SkinVector4(vert.Tangents[0], new Matrix4x4[]
+            /*vert.Tangents[0] = SkinVector4(vert.Tangents[0], new Matrix4x4[]
                 {
                     i1 >= 0 ? boneMatrices[i1] : Matrix4x4.Identity,
                     i2 >= 0 ? boneMatrices[i2] : Matrix4x4.Identity,
                     i3 >= 0 ? boneMatrices[i3] : Matrix4x4.Identity,
                     i4 >= 0 ? boneMatrices[i4] : Matrix4x4.Identity,
-                }, vert.BoneWeights, isNormal: true);
+                }, vert.BoneWeights, isNormal: true);*/
         }
 
         public FlverSubmeshRenderer(NewMesh parent, Resource.ResourceHandle<Resource.FlverResource> resourceHandle, int meshIndex,
@@ -205,6 +209,7 @@ namespace StudioCore
             //gd.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
             InstanceData dat = new InstanceData();
             dat.WorldMatrix = _World;
+            dat.MaterialID = _materialIndex;
             WorldBuffer.FillBuffer(cl, ref dat);
 
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
@@ -221,8 +226,8 @@ namespace StudioCore
                     new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
                     new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.UShort2),
                     new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-                    new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-                    new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
+                    new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
+                    new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
                     new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4))
             };
 
@@ -263,7 +268,7 @@ namespace StudioCore
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
                 shaders: Shaders);
-            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout() };
+            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout() };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             //RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
@@ -281,6 +286,8 @@ namespace StudioCore
                 //cl.UpdateBuffer(WorldBuffer, 0, ref _World, 64);
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _World;
+                dat.MaterialID = _materialIndex;
+                Center = BoundingBox.Transform(Bounds, _World).GetCenter();
                 WorldBuffer.FillBuffer(cl, ref dat);
                 WorldDirty = false;
             }
@@ -289,10 +296,12 @@ namespace StudioCore
         private bool _cacheIndexSize = false;
         private bool _is32Bit = false;
 
-        public RenderKey GetRenderKey()
+        public RenderKey GetRenderKey(float distance)
         {
             ulong code = RenderPipeline != null ? (ulong)RenderPipeline.GetHashCode() : 0;
             ulong index = 0;
+
+            uint cameraDistanceInt = (uint)Math.Min(uint.MaxValue, (distance * 1000f));
 
             if (!_cacheIndexSize && FlverResource != null && FlverResource.IsLoaded && FlverResource.Get() != null)
             {
@@ -312,7 +321,7 @@ namespace StudioCore
                 index = _is32Bit ? 1u : 0;
             }
 
-            return new RenderKey(code << 33 | index << 32 | (ulong)BufferIndex);
+            return new RenderKey((code << 41) | (index << 40) | ((ulong)(BufferIndex & 0xFF) << 32) + cameraDistanceInt);
         }
 
         unsafe public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
@@ -327,6 +336,13 @@ namespace StudioCore
             {
                 var resource = FlverResource.Get();
                 var mesh = resource.GPUMeshes[FlverMeshIndex];
+                var mat = mesh.Material;
+                uint mid = mat.MaterialBuffer.AllocationStart / (uint)sizeof(Material);
+                if (_materialIndex != mid)
+                {
+                    _materialIndex = mid;
+                    WorldDirty = true;
+                }
                 var geombuffer = mesh.GeomBuffer;
 
                 if (geombuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
@@ -334,6 +350,8 @@ namespace StudioCore
                     FlverResource.Unlock();
                     return;
                 }
+
+                Bounds = mesh.Bounds;
 
                 var faceSet = mesh.MeshFacesets[0];
                     //if (faceSet.IndexCount == 0)

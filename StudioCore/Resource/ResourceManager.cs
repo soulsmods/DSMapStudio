@@ -18,7 +18,7 @@ namespace StudioCore.Resource
     /// A background thread will manage the unloading and streaming in of assets. This is designed to map closely to
     /// the souls asset system, but in a more abstract way
     /// </summary>
-    public class ResourceManager
+    public static class ResourceManager
     {
         private static QueuedTaskScheduler JobScheduler = new QueuedTaskScheduler(4, "JobMaster");
         private static QueuedTaskScheduler BinderWorkerScheduler = new QueuedTaskScheduler(6, "BinderWorker");
@@ -38,7 +38,7 @@ namespace StudioCore.Resource
             All = 0xFFFFFFF,
         }
 
-        private IResourceHandle InstantiateResource(ResourceType type, string path)
+        private static IResourceHandle InstantiateResource(ResourceType type, string path)
         {
             switch (type)
             {
@@ -132,7 +132,6 @@ namespace StudioCore.Resource
 
         public class LoadTPFResourcesTask : IResourceTask
         {
-            private ResourceManager _resourceManager;
             private string _virtpathbase = null;
             private TPF _tpf = null;
             private AccessLevel _accessLevel = AccessLevel.AccessGPUOptimizedOnly;
@@ -140,9 +139,8 @@ namespace StudioCore.Resource
 
             private List<Tuple<TextureResourceHande, string, int>> _pendingResources = new List<Tuple<TextureResourceHande, string, int>>();
 
-            public LoadTPFResourcesTask(ResourceManager rm, string virtpathbase, TPF tpf, AccessLevel al, GameType type)
+            public LoadTPFResourcesTask(string virtpathbase, TPF tpf, AccessLevel al, GameType type)
             {
-                _resourceManager = rm;
                 _virtpathbase = virtpathbase;
                 _tpf = tpf;
                 _accessLevel = al;
@@ -159,7 +157,7 @@ namespace StudioCore.Resource
                 for (int i = 0; i < _tpf.Textures.Count; i++)
                 {
                     var tex = _tpf.Textures[i];
-                    var handle = _resourceManager.GetTextureResource($@"{_virtpathbase}/{tex.Name}");
+                    var handle = ResourceManager.GetTextureResource($@"{_virtpathbase}/{tex.Name}");
                     _pendingResources.Add(new Tuple<TextureResourceHande, string, int>(handle, $@"{_virtpathbase}/{tex.Name}", i));
                 }
 
@@ -183,7 +181,6 @@ namespace StudioCore.Resource
 
         public class LoadBinderResourcesTask : IResourceTask
         {
-            private ResourceManager ResourceMan;
             private string BinderVirtualPath = null;
             private BinderReader Binder = null;
             private bool PopulateResourcesOnly = false;
@@ -200,9 +197,8 @@ namespace StudioCore.Resource
 
             private readonly object ProgressLock = new object();
 
-            public LoadBinderResourcesTask(ResourceManager rm, string virtpath, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
+            public LoadBinderResourcesTask(string virtpath, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
             {
-                ResourceMan = rm;
                 BinderVirtualPath = virtpath;
                 PopulateResourcesOnly = populateOnly;
                 ResourceMask = mask;
@@ -214,8 +210,8 @@ namespace StudioCore.Resource
                 if (Binder == null)
                 {
                     string o;
-                    var path = ResourceMan.Locator.VirtualToRealPath(BinderVirtualPath, out o);
-                    Binder = InstantiateBinderReaderForFile(path, ResourceMan.Locator.Type);
+                    var path = ResourceManager.Locator.VirtualToRealPath(BinderVirtualPath, out o);
+                    Binder = InstantiateBinderReaderForFile(path, ResourceManager.Locator.Type);
                     if (Binder == null)
                     {
                         return;
@@ -230,7 +226,7 @@ namespace StudioCore.Resource
                         continue;
                     }
                     var binderpath = f.Name;
-                    var filevirtpath = ResourceMan.Locator.GetBinderVirtualPath(BinderVirtualPath, binderpath);
+                    var filevirtpath = ResourceManager.Locator.GetBinderVirtualPath(BinderVirtualPath, binderpath);
                     if (AssetWhitelist != null && !AssetWhitelist.Contains(filevirtpath))
                     {
                         continue;
@@ -253,17 +249,17 @@ namespace StudioCore.Resource
                              filevirtpath.ToUpper().EndsWith(".FLV.DCX")))
                         {
                             //handle = new ResourceHandle<FlverResource>();
-                            handle = ResourceMan.GetResource<FlverResource>(filevirtpath);
+                            handle = ResourceManager.GetResource<FlverResource>(filevirtpath);
                         }
                         else if (ResourceMask.HasFlag(ResourceType.CollisionHKX) &&
                             (filevirtpath.ToUpper().EndsWith(".HKX") ||
                              filevirtpath.ToUpper().EndsWith(".HKX.DCX")))
                         {
-                            handle = ResourceMan.GetResource<HavokCollisionResource>(filevirtpath);
+                            handle = ResourceManager.GetResource<HavokCollisionResource>(filevirtpath);
                         }
                         else if (ResourceMask.HasFlag(ResourceType.Navmesh) && filevirtpath.ToUpper().EndsWith(".NVM"))
                         {
-                            handle = ResourceMan.GetResource<NVMNavmeshResource>(filevirtpath);
+                            handle = ResourceManager.GetResource<NVMNavmeshResource>(filevirtpath);
                         }
 
                         if (handle != null)
@@ -282,14 +278,14 @@ namespace StudioCore.Resource
                     foreach (var p in PendingResources)
                     {
                         var f = Binder.ReadFile(p.Item3);
-                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
                         task.Run();
                     }
 
                     foreach (var t in PendingTPFs)
                     {
                         var f = TPF.Read(Binder.ReadFile(t));
-                        var task = new LoadTPFResourcesTask(ResourceMan, "tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                        var task = new LoadTPFResourcesTask("tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
                         task.Run();
                     }
                 }
@@ -326,7 +322,7 @@ namespace StudioCore.Resource
                         foreach (var p in PendingResources)
                         {
                             var f = Binder.ReadFile(p.Item3);
-                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)
@@ -360,7 +356,7 @@ namespace StudioCore.Resource
                         foreach (var t in PendingTPFs)
                         {
                             var f = TPF.Read(Binder.ReadFile(t));
-                            var task = new LoadTPFResourcesTask(ResourceMan, "tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                            var task = new LoadTPFResourcesTask("tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)
@@ -525,14 +521,12 @@ namespace StudioCore.Resource
 
         public class ResourceJobBuilder
         {
-            private ResourceManager ResourceMan = null;
             private List<IResourceTask> Tasks = new List<IResourceTask>();
             private string Name;
             private HashSet<string> archivesToLoad = new HashSet<string>();
 
-            public ResourceJobBuilder(ResourceManager manager, string name)
+            public ResourceJobBuilder(string name)
             {
-                ResourceMan = manager;
                 Name = name;
             }
 
@@ -549,7 +543,7 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, ResourceType.All, assets);
+                    var task = new LoadBinderResourcesTask(virtualPath, populateOnly, ResourceType.All, assets);
                     Tasks.Add(task);
                 }
             }
@@ -563,7 +557,7 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(ResourceMan, virtualPath, populateOnly, filter, assets);
+                    var task = new LoadBinderResourcesTask(virtualPath, populateOnly, filter, assets);
                     Tasks.Add(task);
                 }
             }
@@ -581,15 +575,15 @@ namespace StudioCore.Resource
                 }
                 if (virtualPath.EndsWith(".hkx"))
                 {
-                    handle = ResourceMan.GetResource<HavokCollisionResource>(virtualPath);
+                    handle = ResourceManager.GetResource<HavokCollisionResource>(virtualPath);
                 }
                 else
                 {
-                    handle = ResourceMan.GetResource<FlverResource>(virtualPath);
+                    handle = ResourceManager.GetResource<FlverResource>(virtualPath);
                 }
                 string bndout;
-                var path = ResourceMan.Locator.VirtualToRealPath(virtualPath, out bndout);
-                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly, ResourceMan.Locator.Type);
+                var path = ResourceManager.Locator.VirtualToRealPath(virtualPath, out bndout);
+                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
                 Tasks.Add(task);
             }
 
@@ -597,11 +591,11 @@ namespace StudioCore.Resource
             {
                 // Build the job, register it with the task manager, and start it
                 var job = new ResourceJob(Name, Tasks);
-                ResourceMan.ActiveJobProgress[job] = 0;
+                ResourceManager.ActiveJobProgress[job] = 0;
                 var progress1 = new Progress<int>();
                 progress1.ProgressChanged += (x, e) =>
                 {
-                    ResourceMan.ActiveJobProgress[job] = e;
+                    ResourceManager.ActiveJobProgress[job] = e;
                 };
                 Tasks = null;
                 var jobtask = job.RunAsync(progress1);
@@ -612,7 +606,7 @@ namespace StudioCore.Resource
                     bool removed = false;
                     while (!removed)
                     {
-                        removed = ResourceMan.ActiveJobProgress.TryRemove(job, out o);
+                        removed = ResourceManager.ActiveJobProgress.TryRemove(job, out o);
                     }
                 });
                 //posttask.Start();
@@ -620,22 +614,17 @@ namespace StudioCore.Resource
             }
         }
 
-        public AssetLocator Locator;
+        public static AssetLocator Locator;
 
-        private ConcurrentDictionary<string, IResourceHandle> ResourceDatabase = new ConcurrentDictionary<string, IResourceHandle>();
-        private ConcurrentDictionary<ResourceJob, int> ActiveJobProgress = new ConcurrentDictionary<ResourceJob, int>();
+        private static ConcurrentDictionary<string, IResourceHandle> ResourceDatabase = new ConcurrentDictionary<string, IResourceHandle>();
+        private static ConcurrentDictionary<ResourceJob, int> ActiveJobProgress = new ConcurrentDictionary<ResourceJob, int>();
 
-        private int Pending = 0;
-        private int Finished = 0;
-        private int _prevCount = 0;
+        private static int Pending = 0;
+        private static int Finished = 0;
+        private static int _prevCount = 0;
 
-        private object AddResourceLock = new object();
-        private bool AddingResource = false;
-
-        public ResourceManager()
-        {
-            //ThreadPool.SetMaxThreads(6, 6);
-        }
+        private static object AddResourceLock = new object();
+        private static bool AddingResource = false;
 
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)
         {
@@ -661,7 +650,7 @@ namespace StudioCore.Resource
             }
         }
 
-        public void LoadResource(string resourceVirtual)
+        public static void LoadResource(string resourceVirtual)
         {
             Pending++;
             Task.Run(() =>
@@ -677,7 +666,7 @@ namespace StudioCore.Resource
             });
         }
 
-        public void UnloadUnusedResources()
+        public static void UnloadUnusedResources()
         {
             foreach (var r in ResourceDatabase)
             {
@@ -688,12 +677,12 @@ namespace StudioCore.Resource
             }
         }
 
-        public ResourceJobBuilder CreateNewJob(string name)
+        public static ResourceJobBuilder CreateNewJob(string name)
         {
-            return new ResourceJobBuilder(this, name);
+            return new ResourceJobBuilder(name);
         }
 
-        public ResourceHandle<T> GetResource<T>(string resourceName) where T : class, IResource, IDisposable, new()
+        public static ResourceHandle<T> GetResource<T>(string resourceName) where T : class, IResource, IDisposable, new()
         {
             if (ResourceDatabase.ContainsKey(resourceName))
             {
@@ -710,7 +699,7 @@ namespace StudioCore.Resource
             return (ResourceHandle<T>)ResourceDatabase[resourceName];
         }
 
-        public TextureResourceHande GetTextureResource(string resourceName)
+        public static TextureResourceHande GetTextureResource(string resourceName)
         {
             if (ResourceDatabase.ContainsKey(resourceName))
             {
@@ -729,7 +718,7 @@ namespace StudioCore.Resource
 
         private static bool TaskWindowOpen = true;
         private static bool ResourceListWindowOpen = true;
-        public void OnGuiDrawTasks(float w, float h)
+        public static void OnGuiDrawTasks(float w, float h)
         {
             int count = ActiveJobProgress.Count();
             if (count > 0)

@@ -60,7 +60,9 @@ namespace SoulsFormats
             /// <summary>
             /// Vector pointing perpendicular to the normal.
             /// </summary>
-            public List<Vector4> Tangents;
+            //public List<Vector4> Tangents;
+            public byte TangentCount;
+            private fixed float Tangents[60];
 
             /// <summary>
             /// Vector pointing perpendicular to the normal and tangent.
@@ -84,7 +86,7 @@ namespace SoulsFormats
                 {
                     throw new ArgumentOutOfRangeException("Index is too big");
                 }
-                return new Vector3(UVs[UVCount * 3], UVs[UVCount * 3 + 1], UVs[UVCount * 3 + 2]);
+                return new Vector3(UVs[index * 3], UVs[index * 3 + 1], UVs[index * 3 + 2]);
             }
 
             public void AddUV(Vector3 uv)
@@ -93,10 +95,32 @@ namespace SoulsFormats
                 {
                     throw new Exception("Increase UV count");
                 }
-                //UVs[UVCount * 3] = uv.X;
-                //UVs[UVCount * 3 + 1] = uv.Y;
-                //UVs[UVCount * 3 + 2] = uv.Z;
+                UVs[UVCount * 3] = uv.X;
+                UVs[UVCount * 3 + 1] = uv.Y;
+                UVs[UVCount * 3 + 2] = uv.Z;
                 UVCount++;
+            }
+
+            public Vector4 GetTangent(byte index)
+            {
+                if (index > TangentCount)
+                {
+                    throw new ArgumentOutOfRangeException("Index is too big");
+                }
+                return new Vector4(Tangents[index * 4], Tangents[index * 4 + 1], Tangents[index * 4 + 2], Tangents[index * 4 + 3]);
+            }
+
+            public void AddTangent(Vector4 tangent)
+            {
+                if (TangentCount >= 15)
+                {
+                    throw new Exception("Increase Tangent count");
+                }
+                Tangents[UVCount * 4] = tangent.X;
+                Tangents[UVCount * 4 + 1] = tangent.Y;
+                Tangents[UVCount * 4 + 2] = tangent.Z;
+                Tangents[UVCount * 4 + 3] = tangent.W;
+                TangentCount++;
             }
 
             /// <summary>
@@ -116,10 +140,11 @@ namespace SoulsFormats
                 colorQueue = null;
 
                 UVCount = 0;
+                TangentCount = 0;
                 //UVs = new List<Vector3>(uvCapacity);
                 //Tangents = new List<Vector4>(tangentCapacity);
                 //Colors = new List<VertexColor>(colorCapacity);
-                Tangents = null;
+                //Tangents = null;
                 Colors = null;
                 UsesBoneIndices = false;
                 UsesBoneWeights = false;
@@ -136,8 +161,9 @@ namespace SoulsFormats
                 Normal = clone.Normal;
                 NormalW = clone.NormalW;
                 UVCount = clone.UVCount;
+                TangentCount = clone.TangentCount;
                 //UVs = new List<Vector3>(clone.UVs);
-                Tangents = new List<Vector4>(clone.Tangents);
+                //Tangents = new List<Vector4>(clone.Tangents);
                 Bitangent = clone.Bitangent;
                 Colors = new List<VertexColor>(clone.Colors);
                 UsesBoneIndices = clone.UsesBoneIndices;
@@ -154,7 +180,7 @@ namespace SoulsFormats
             internal void PrepareWrite()
             {
                 //uvQueue = new Queue<Vector3>(UVs);
-                tangentQueue = new Queue<Vector4>(Tangents);
+                //tangentQueue = new Queue<Vector4>(Tangents);
                 colorQueue = new Queue<VertexColor>(Colors);
             }
 
@@ -340,32 +366,32 @@ namespace SoulsFormats
                         if (member.Type == LayoutType.Float4)
                         {
                             //Tangents.Add(br.ReadVector4());
-                            br.ReadVector4();
+                            AddTangent(br.ReadVector4());
                         }
                         else if (member.Type == LayoutType.Byte4A)
                         {
                             //Tangents.Add(ReadByteNormXYZW(br));
-                            ReadByteNormXYZW(br);
+                            AddTangent(ReadByteNormXYZW(br));
                         }
                         else if (member.Type == LayoutType.Byte4B)
                         {
                             //Tangents.Add(ReadByteNormXYZW(br));
-                            ReadByteNormXYZW(br);
+                            AddTangent(ReadByteNormXYZW(br));
                         }
                         else if (member.Type == LayoutType.Byte4C)
                         {
                             //Tangents.Add(ReadByteNormXYZW(br));
-                            ReadByteNormXYZW(br);
+                            AddTangent(ReadByteNormXYZW(br));
                         }
                         else if (member.Type == LayoutType.Short4toFloat4A)
                         {
                             //Tangents.Add(ReadShortNormXYZW(br));
-                            ReadByteNormXYZW(br);
+                            AddTangent(ReadByteNormXYZW(br));
                         }
                         else if (member.Type == LayoutType.Byte4E)
                         {
                             //Tangents.Add(ReadByteNormXYZW(br));
-                            ReadByteNormXYZW(br);
+                            AddTangent(ReadByteNormXYZW(br));
                         }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");

@@ -14,7 +14,6 @@ namespace StudioCore.MsbEditor
         private ActionManager EditorActionManager;
         private Gui.Viewport Viewport;
         private AssetLocator AssetLocator;
-        private Resource.ResourceManager ResourceMan;
 
         private string _chaliceMapID = "m29_";
         private bool _chaliceLoadError = false;
@@ -37,13 +36,12 @@ namespace StudioCore.MsbEditor
 
         private ViewMode _viewMode = ViewMode.Hierarchy;
 
-        public SceneTree(Universe universe, ActionManager aman, Gui.Viewport vp, AssetLocator al, Resource.ResourceManager rm)
+        public SceneTree(Universe universe, ActionManager aman, Gui.Viewport vp, AssetLocator al)
         {
             Universe = universe;
             EditorActionManager = aman;
             Viewport = vp;
             AssetLocator = al;
-            ResourceMan = rm;
         }
 
         private void RebuildTypeViewCache(Map map)
@@ -342,7 +340,7 @@ namespace StudioCore.MsbEditor
                     Universe.UnloadMap(pendingUnload);
                     GC.Collect();
                     _GCNeedsCollection = true;
-                    ResourceMan.UnloadUnusedResources();
+                    Resource.ResourceManager.UnloadUnusedResources();
                     GC.Collect();
                 }
             }

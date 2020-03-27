@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using System.Buffers;
+using System.IO;
 //using Microsoft.Xna.Framework.Graphics;
 using Veldrid;
 using Veldrid.Utilities;
@@ -67,6 +68,15 @@ namespace StudioCore.Resource
             GC.Collect();
         }
 
+        public class FlverMaterial
+        {
+            public Scene.GPUBufferAllocator.GPUBufferHandle MaterialBuffer;
+            public Scene.Material MaterialData;
+
+            public TextureResourceHande AlbedoTextureResource = null;
+            public TextureResourceHande NormalTextureResource = null;
+        }
+
         public class FlverSubmesh
         {
             public struct FlverSubmeshFaceSet
@@ -94,6 +104,8 @@ namespace StudioCore.Resource
             public BoundingBox Bounds { get; set; }
 
             public int DefaultBoneIndex { get; set; } = -1;
+
+            public FlverMaterial Material { get; set; } = null;
         }
 
         /// <summary>
@@ -102,10 +114,87 @@ namespace StudioCore.Resource
         public FLVER2 Flver = null;
 
         public FlverSubmesh[] GPUMeshes = null;
+        public FlverMaterial[] GPUMaterials = null;
 
         public BoundingBox Bounds { get; set; }
 
         public List<FLVER.Bone> Bones { get; private set; } = null;
+
+        unsafe private void ProcessMaterial(FLVER2.Material mat, FlverMaterial dest)
+        {
+            dest.MaterialBuffer = Scene.Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(Scene.Material), sizeof(Scene.Material));
+            dest.MaterialData = new Scene.Material();
+
+            foreach (var matparam in mat.Textures)
+            {
+                var paramNameCheck = matparam.Type.ToUpper();
+                if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
+                {
+                    if (matparam.Path == "")
+                    {
+                        // TODO Sekiro handling
+                    }
+                    else
+                    {
+                        dest.AlbedoTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
+                        dest.AlbedoTextureResource.Acquire();
+                    }
+                }
+                if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
+                {
+                    if (matparam.Path == "")
+                    {
+                        // TODO Sekiro handling
+                    }
+                    else
+                    {
+                        dest.NormalTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
+                        dest.NormalTextureResource.Acquire();
+                    }
+                }
+            }
+
+            if (dest.AlbedoTextureResource != null && dest.AlbedoTextureResource.IsLoaded && dest.AlbedoTextureResource.TryLock())
+            {
+                var res = dest.AlbedoTextureResource.Get();
+                if (res != null && res.GPUTexture != null)
+                {
+                    dest.MaterialData.colorTex = dest.AlbedoTextureResource.Get().GPUTexture.TexHandle;
+                }
+                else
+                {
+                    dest.MaterialData.colorTex = 0;
+                }
+                dest.AlbedoTextureResource.Unlock();
+            }
+            else
+            {
+                dest.MaterialData.colorTex = 0;
+            }
+
+            if (dest.NormalTextureResource != null && dest.NormalTextureResource.IsLoaded && dest.NormalTextureResource.TryLock())
+            {
+                var res = dest.NormalTextureResource.Get();
+                if (res != null && res.GPUTexture != null)
+                {
+                    dest.MaterialData.normalTex = dest.NormalTextureResource.Get().GPUTexture.TexHandle;
+                }
+                else
+                {
+                    dest.MaterialData.normalTex = 0;
+                }
+                dest.NormalTextureResource.Unlock();
+            }
+            else
+            {
+                dest.MaterialData.normalTex = 0;
+            }
+
+            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            {
+                dest.MaterialBuffer.FillBuffer(cl, ref dest.MaterialData);
+            });
+        }
 
         unsafe private void ProcessMesh(FLVER2.Mesh mesh, FlverSubmesh dest)
         {
@@ -134,6 +223,7 @@ namespace StudioCore.Resource
                 MeshVertices[i].Normal[1] = (sbyte)(n.Y * 127.0f);
                 MeshVertices[i].Normal[2] = (sbyte)(n.Z * 127.0f);
 
+                //var bt = Vector3.Normalize(new Vector3(vert.Bitangent.X, vert.Bitangent.Y, vert.Bitangent.Z));
 
                 if (vert.UVCount > 0)
                 {
@@ -163,6 +253,28 @@ namespace StudioCore.Resource
                     //MeshVertices[i].TextureCoordinate2 = Vector2.Zero;
                     MeshVertices[i].Uv1[0] = 0;
                     MeshVertices[i].Uv1[1] = 0;
+                }
+
+                if (vert.TangentCount > 0)
+                {
+                    var tan = vert.GetTangent(0);
+                    var t = Vector3.Normalize(new Vector3(tan.X, tan.Y, tan.Z));
+                    MeshVertices[i].Bitangent[0] = (sbyte)(t.X * 127.0f);
+                    MeshVertices[i].Bitangent[1] = (sbyte)(t.Y * 127.0f);
+                    MeshVertices[i].Bitangent[2] = (sbyte)(t.Z * 127.0f);
+                    MeshVertices[i].Bitangent[3] = (sbyte)(tan.W * 127.0f);
+
+                    var bn = Vector3.Cross(n, Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
+                    MeshVertices[i].Binormal[0] = (sbyte)(bn.X * 127.0f);
+                    MeshVertices[i].Binormal[1] = (sbyte)(bn.Y * 127.0f);
+                    MeshVertices[i].Binormal[2] = (sbyte)(bn.Z * 127.0f);
+                }
+                else
+                {
+                    MeshVertices[i].Bitangent[0] = 0;
+                    MeshVertices[i].Bitangent[1] = 0;
+                    MeshVertices[i].Bitangent[2] = 0;
+                    MeshVertices[i].Bitangent[3] = 127;
                 }
             }
 
@@ -317,6 +429,8 @@ namespace StudioCore.Resource
                 }
             });
             facesets = null;
+
+            dest.Material = GPUMaterials[mesh.MaterialIndex];
         }
 
         private bool LoadInternal(AccessLevel al)
@@ -324,7 +438,14 @@ namespace StudioCore.Resource
             if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
             {
                 GPUMeshes = new FlverSubmesh[Flver.Meshes.Count()];
+                GPUMaterials = new FlverMaterial[Flver.Materials.Count()];
                 Bounds = new BoundingBox();
+
+                for (int i = 0; i < Flver.Materials.Count(); i++)
+                {
+                    GPUMaterials[i] = new FlverMaterial();
+                    ProcessMaterial(Flver.Materials[i], GPUMaterials[i]);
+                }
 
                 for (int i = 0; i < Flver.Meshes.Count(); i++)
                 {

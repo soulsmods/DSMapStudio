@@ -23,6 +23,8 @@ namespace StudioCore.Scene
 
         public ResourceSet ProjViewRS { get; private set; }
 
+        public Vector3 Eye { get; private set; }
+
         private Renderer.RenderQueue RenderQueue;
 
         public float CPURenderTime { get => RenderQueue.CPURenderTime; }
@@ -62,6 +64,7 @@ namespace StudioCore.Scene
         public void TestUpdateView(Matrix4x4 proj, Matrix4x4 view, Vector3 eye)
         {
             //cl.UpdateBuffer(ViewMatrixBuffer, 0, ref view, 64);
+            Eye = eye;
             Renderer.AddBackgroundUploadTask((d, cl) =>
             {
                 cl.UpdateBuffer(ProjectionMatrixBuffer, 0, ref proj, 64);

@@ -22,14 +22,14 @@ namespace StudioCore.Scene
         private DeviceBuffer _stagingBuffer = null;
         public DeviceBuffer _backingBuffer { get; private set; } = null;
 
+        private ResourceLayout _bufferLayout = null;
+        private ResourceSet _bufferResourceSet = null;
+
         public GPUBufferAllocator(uint initialSize, BufferUsage usage)
         {
-            //Renderer.AddBackgroundUploadTask((device, cl) =>
-            //{
-                BufferDescription desc = new BufferDescription(
-                    initialSize, usage);
-                _backingBuffer = Renderer.Factory.CreateBuffer(desc);
-            //});
+            BufferDescription desc = new BufferDescription(
+                initialSize, usage);
+            _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
         }
 
@@ -39,6 +39,20 @@ namespace StudioCore.Scene
                 initialSize, usage, stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
+        }
+
+        public GPUBufferAllocator(string name, uint initialSize, BufferUsage usage, uint stride, ShaderStages stages)
+        {
+            BufferDescription desc = new BufferDescription(
+                initialSize, usage, stride);
+            _backingBuffer = Renderer.Factory.CreateBuffer(desc);
+            _bufferSize = initialSize;
+
+            var layoutdesc = new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(name, ResourceKind.StructuredBufferReadWrite, stages));
+            _bufferLayout = Renderer.Factory.CreateResourceLayout(layoutdesc);
+            var rsdesc = new ResourceSetDescription(_bufferLayout, _backingBuffer);
+            _bufferResourceSet = Renderer.Factory.CreateResourceSet(rsdesc);
         }
 
         public GPUBufferHandle Allocate(uint size, int alignment)
@@ -69,6 +83,19 @@ namespace StudioCore.Scene
         public void BindAsIndexBuffer(CommandList cl, IndexFormat indexformat)
         {
             cl.SetIndexBuffer(_backingBuffer, indexformat);
+        }
+
+        public ResourceLayout GetLayout()
+        {
+            return _bufferLayout;
+        }
+
+        public void BindAsResourceSet(CommandList cl, uint slot)
+        {
+            if (_bufferResourceSet != null)
+            {
+                cl.SetGraphicsResourceSet(slot, _bufferResourceSet);
+            }
         }
 
         public class GPUBufferHandle

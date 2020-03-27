@@ -324,7 +324,7 @@ namespace StudioCore
             {
                 foreach (var sm in Submeshes)
                 {
-                    queue.Add(sm, sm.GetRenderKey());
+                    queue.Add(sm, sm.GetRenderKey(Vector3.Distance(queue.Pipeline.Eye, sm.Center)));
                 }
                 if (DebugBoundingBox != null)
                 {

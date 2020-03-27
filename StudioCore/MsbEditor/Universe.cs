@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
+using StudioCore.Resource;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -16,14 +17,11 @@ namespace StudioCore.MsbEditor
     {
         public Dictionary<string, Map> LoadedMaps { get; private set; } = new Dictionary<string, Map>();
         private AssetLocator AssetLocator;
-        private Resource.ResourceManager ResourceMan;
         private Scene.RenderScene RenderScene;
 
-        public Universe(AssetLocator al, Resource.ResourceManager rm,
-            Scene.RenderScene scene)
+        public Universe(AssetLocator al, Scene.RenderScene scene)
         {
             AssetLocator = al;
-            ResourceMan = rm;
             RenderScene = scene;
         }
 
@@ -51,7 +49,7 @@ namespace StudioCore.MsbEditor
             bool loadcol = false;
             bool loadnav = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
-            var job = ResourceMan.CreateNewJob($@"Loading mesh");
+            var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.StartsWith("m"))
             {
                 asset = AssetLocator.GetMapModel(map.MapId, AssetLocator.MapModelNameToAssetName(map.MapId, modelname));
@@ -86,7 +84,7 @@ namespace StudioCore.MsbEditor
 
             if (loadcol)
             {
-                var res = ResourceMan.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
+                var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
                 var mesh = new Scene.CollisionMesh(RenderScene, res, AssetLocator.Type == GameType.DarkSoulsIISOTFS);
                 mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
@@ -107,7 +105,7 @@ namespace StudioCore.MsbEditor
             }
             else if (loadnav && AssetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
-                var res = ResourceMan.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
+                var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                 var mesh = new Scene.NvmMesh(RenderScene, res, false);
                 mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
@@ -132,7 +130,7 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                var res = ResourceMan.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+                var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
                 var model = new NewMesh(RenderScene, res, false);
                 model.DrawFilter = filt;
                 model.WorldMatrix = obj.GetTransform().WorldMatrix;
@@ -238,7 +236,7 @@ namespace StudioCore.MsbEditor
                     if (chrid != null)
                     {
                         var asset = AssetLocator.GetChrModel($@"c{chrid}");
-                        var res = ResourceMan.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+                        var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
                         var model = new NewMesh(RenderScene, res, false);
                         model.DrawFilter = Scene.RenderFilter.Character;
                         generatorObjs[row.ID].RenderSceneMesh = model;
@@ -291,7 +289,7 @@ namespace StudioCore.MsbEditor
                 mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
             }
 
-            var job = ResourceMan.CreateNewJob($@"Loading chrs");
+            var job = ResourceManager.CreateNewJob($@"Loading chrs");
             foreach (var chr in chrsToLoad)
             {
                 if (chr.AssetArchiveVirtualPath != null)
@@ -410,7 +408,7 @@ namespace StudioCore.MsbEditor
 
                     if (loadcol)
                     {
-                        var res = ResourceMan.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
+                        var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
                         var mesh = new Scene.CollisionMesh(RenderScene, res, AssetLocator.Type == GameType.DarkSoulsIISOTFS
                                                                 || AssetLocator.Type == GameType.DarkSoulsIII
                                                                 || AssetLocator.Type == GameType.Bloodborne);
@@ -420,7 +418,7 @@ namespace StudioCore.MsbEditor
                     }
                     else if (loadnav && AssetLocator.Type != GameType.DarkSoulsIISOTFS && AssetLocator.Type != GameType.Bloodborne)
                     {
-                        var res = ResourceMan.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
+                        var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                         var mesh = new Scene.NvmMesh(RenderScene, res, false);
                         mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                         obj.RenderSceneMesh = mesh;
@@ -432,7 +430,7 @@ namespace StudioCore.MsbEditor
                     }
                     else
                     {
-                        var res = ResourceMan.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+                        var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
                         var model = new NewMesh(RenderScene, res, false);
                         model.DrawFilter = filt;
                         model.WorldMatrix = obj.GetTransform().WorldMatrix;
@@ -491,7 +489,7 @@ namespace StudioCore.MsbEditor
                 LoadDS2Generators(amapid, map);
             }
 
-            var job = ResourceMan.CreateNewJob($@"Loading {amapid} geometry");
+            var job = ResourceManager.CreateNewJob($@"Loading {amapid} geometry");
             foreach (var mappiece in mappiecesToLoad)
             {
                 if (mappiece.AssetArchiveVirtualPath != null)
@@ -505,7 +503,7 @@ namespace StudioCore.MsbEditor
             } 
             job.StartJobAsync();
 
-            job = ResourceMan.CreateNewJob($@"Loading {amapid} textures");
+            job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
             foreach (var asset in AssetLocator.GetMapTextures(amapid))
             {
                 if (asset.AssetArchiveVirtualPath != null)
@@ -519,7 +517,7 @@ namespace StudioCore.MsbEditor
             }
             job.StartJobAsync();
 
-            job = ResourceMan.CreateNewJob($@"Loading {amapid} collisions");
+            job = ResourceManager.CreateNewJob($@"Loading {amapid} collisions");
             string archive = null;
             HashSet<string> colassets = new HashSet<string>();
             foreach (var col in colsToLoad)
@@ -540,7 +538,7 @@ namespace StudioCore.MsbEditor
                 job.AddLoadArchiveTask(archive, false, colassets);
             }
             job.StartJobAsync();
-            job = ResourceMan.CreateNewJob($@"Loading chrs");
+            job = ResourceManager.CreateNewJob($@"Loading chrs");
             foreach (var chr in chrsToLoad)
             {
                 if (chr.AssetArchiveVirtualPath != null)
@@ -553,7 +551,7 @@ namespace StudioCore.MsbEditor
                 }
             }
             job.StartJobAsync();
-            job = ResourceMan.CreateNewJob($@"Loading objs");
+            job = ResourceManager.CreateNewJob($@"Loading objs");
             foreach (var obj in objsToLoad)
             {
                 if (obj.AssetArchiveVirtualPath != null)
@@ -567,7 +565,7 @@ namespace StudioCore.MsbEditor
             }
             job.StartJobAsync();
 
-            job = ResourceMan.CreateNewJob($@"Loading Navmeshes");
+            job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
             foreach (var nav in navsToLoad)
             {
                 if (nav.AssetArchiveVirtualPath != null)
