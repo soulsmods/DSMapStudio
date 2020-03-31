@@ -39,8 +39,11 @@ namespace StudioCore.Scene
             {
                 case DDS.DXGI_FORMAT.B8G8R8A8_TYPELESS:
                 case DDS.DXGI_FORMAT.B8G8R8A8_UNORM:
+                case DDS.DXGI_FORMAT.B8G8R8X8_TYPELESS:
+                case DDS.DXGI_FORMAT.B8G8R8X8_UNORM:
                     return PixelFormat.B8_G8_R8_A8_UNorm;
                 case DDS.DXGI_FORMAT.B8G8R8A8_UNORM_SRGB:
+                case DDS.DXGI_FORMAT.B8G8R8X8_UNORM_SRGB:
                     return PixelFormat.B8_G8_R8_A8_UNorm_SRgb;
                 case DDS.DXGI_FORMAT.BC1_TYPELESS:
                 case DDS.DXGI_FORMAT.BC1_UNORM:
@@ -83,7 +86,8 @@ namespace StudioCore.Scene
         }
 
         // From MonoGame.Framework/Graphics/Texture2D.cs and MonoGame.Framework/Graphics/TextureCube.cs
-        private static (int ByteCount, Rectangle Rect) GetMipInfo(PixelFormat sf, int width, int height, int mip, bool isCubemap)
+        //private static (int ByteCount, Rectangle Rect) GetMipInfo(PixelFormat sf, int width, int height, int mip, bool isCubemap)
+        private static int GetMipInfo(PixelFormat sf, int width, int height, int mip, bool isCubemap)
         {
             width = Math.Max(width >> mip, 1);
             height = Math.Max(height >> mip, 1);
@@ -99,13 +103,15 @@ namespace StudioCore.Scene
 
                     int byteCount = roundedWidth * roundedHeight * formatTexelSize / 16;
 
-                    return (byteCount, new Rectangle(0, 0, roundedWidth, roundedHeight));
+                    //return (byteCount, new Rectangle(0, 0, roundedWidth, roundedHeight));
+                    return byteCount;
                 }
                 else
                 {
                     int byteCount = width * height * formatTexelSize;
 
-                    return (byteCount, new Rectangle(0, 0, width, height));
+                    return byteCount;
+                    //return (byteCount, new Rectangle(0, 0, width, height));
                 }
             }
             else
@@ -127,13 +133,15 @@ namespace StudioCore.Scene
 
                     byteCount = roundedWidth * roundedHeight * formatTexelSize / (blockWidth * blockHeight);
 
-                    return (byteCount, rect);
+                    //return (byteCount, rect);
+                    return byteCount;
                 }
                 else
                 {
                     int byteCount = width * height * formatTexelSize;
 
-                    return (byteCount, new Rectangle(0, 0, width, height));
+                    //return (byteCount, new Rectangle(0, 0, width, height));
+                    return byteCount;
                 }
 
 
@@ -374,7 +382,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public class TextureHandle
+        public class TextureHandle : IDisposable
         {
             private TexturePool _pool;
             internal Texture _staging = null;
@@ -392,6 +400,10 @@ namespace StudioCore.Scene
 
             public unsafe void FillWithTPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex)
             {
+                if (platform != TPF.TPFPlatform.PC)
+                {
+                    return;
+                }
                 DDS dds = new DDS(tex.Bytes);
 
                 uint width = (uint)dds.dwWidth;
@@ -411,12 +423,25 @@ namespace StudioCore.Scene
                     height = IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
                 }
 
+                bool isCubemap = false;
+                if (platform == TPF.TPFPlatform.PC)
+                {
+                    if ((dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0)
+                    {
+                        isCubemap = true;
+                    }
+                }
+
+                var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
+
+                uint arrayCount = isCubemap ? 6u : 1;
+
                 TextureDescription desc = new TextureDescription();
                 desc.Width = width;
                 desc.Height = height;
                 desc.MipLevels = (uint)dds.dwMipMapCount;
                 desc.SampleCount = TextureSampleCount.Count1;
-                desc.ArrayLayers = 1;
+                desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
                 desc.Type = TextureType.Texture2D;
                 desc.Usage = TextureUsage.Staging;
@@ -429,19 +454,24 @@ namespace StudioCore.Scene
                 int paddedSize = 0;
                 int copyOffset = dds.DataOffset;
 
-                for (uint level = 0; level < dds.dwMipMapCount; level++)
+                for (int slice = 0; slice < arrayCount; slice++)
                 {
-                    MappedResource map = d.Map(_staging, MapMode.Write, level);
-                    var mipInfo = GetMipInfo(format, (int)width, (int)height, (int)level, false);
-                    paddedSize = mipInfo.ByteCount;
-                    fixed (void* data = &tex.Bytes[copyOffset])
+                    for (uint level = 0; level < dds.dwMipMapCount; level++)
                     {
-                        Unsafe.CopyBlock(map.Data.ToPointer(), data, (uint)paddedSize);
+                        MappedResource map = d.Map(_staging, MapMode.Write, (uint)slice * (uint)dds.dwMipMapCount + level);
+                        var mipInfo = GetMipInfo(format, (int)dds.dwWidth, (int)dds.dwHeight, (int)level, false);
+                        //paddedSize = mipInfo.ByteCount;
+                        paddedSize = mipInfo;
+                        fixed (void* data = &tex.Bytes[copyOffset])
+                        {
+                            Unsafe.CopyBlock(map.Data.ToPointer(), data, (uint)paddedSize);
+                        }
+                        copyOffset += paddedSize;
                     }
-                    copyOffset += paddedSize;
                 }
 
-                desc.Usage = TextureUsage.Sampled;
+                desc.Usage = TextureUsage.Sampled | usage;
+                desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
                 cl.CopyTexture(_staging, _texture);
                 Resident = true;
@@ -485,6 +515,58 @@ namespace StudioCore.Scene
                 });
             }
 
+            public unsafe void FillWithColorCube(GraphicsDevice d, System.Numerics.Vector4 c)
+            {
+                TextureDescription desc = new TextureDescription();
+                desc.Width = 1;
+                desc.Height = 1;
+                desc.MipLevels = 1;
+                desc.SampleCount = TextureSampleCount.Count1;
+                desc.ArrayLayers = 6;
+                desc.Depth = 1;
+                desc.Type = TextureType.Texture2D;
+                desc.Usage = TextureUsage.Staging;
+                desc.Format = PixelFormat.R32_G32_B32_A32_Float;
+                _staging = d.ResourceFactory.CreateTexture(desc);
+
+                float[] col = new float[4];
+                col[0] = c.X;
+                col[1] = c.Y;
+                col[2] = c.Z;
+                col[3] = c.W;
+                for (uint i = 0; i < 6; i++)
+                {
+                    MappedResource map = d.Map(_staging, MapMode.Write, i);
+                    fixed (void* data = col)
+                    {
+                        Unsafe.CopyBlock(map.Data.ToPointer(), data, 16);
+                    }
+                }
+
+                _pool.DescriptorTableDirty = true;
+
+                Renderer.AddBackgroundUploadTask((gd, cl) =>
+                {
+                    desc.ArrayLayers = 1;
+                    desc.Usage = TextureUsage.Sampled | TextureUsage.Cubemap;
+                    _texture = d.ResourceFactory.CreateTexture(desc);
+                    cl.CopyTexture(_staging, _texture);
+                    Resident = true;
+                    _pool.DescriptorTableDirty = true;
+                });
+            }
+
+            public unsafe void FillWithGPUTexture(Texture texture)
+            {
+                if (_texture != null)
+                {
+                    _texture.Dispose();
+                }
+                _texture = texture;
+                Resident = true;
+                _pool.DescriptorTableDirty = true;
+            }
+
             public void Clean()
             {
                 if (Resident && _staging != null)
@@ -493,6 +575,40 @@ namespace StudioCore.Scene
                     _staging = null;
                 }
             }
+
+            #region IDisposable Support
+            private bool disposedValue = false; // To detect redundant calls
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        // TODO: dispose managed state (managed objects).
+                    }
+
+                    if (_texture != null)
+                    {
+                        _texture.Dispose();
+                        _texture = null;
+                    }
+
+                    disposedValue = true;
+                }
+            }
+
+            ~TextureHandle()
+            {
+                Dispose(false);
+            }
+
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+            #endregion
         }
     }
 }

@@ -196,7 +196,7 @@ namespace StudioCore.Scene
 
             ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
-                StaticResourceCache.ProjViewLayoutDescription);
+                StaticResourceCache.SceneParamLayoutDescription);
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));

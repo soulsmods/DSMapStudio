@@ -41,7 +41,7 @@ namespace SoulsFormats
                         case LayoutType.Byte4A:
                         case LayoutType.Byte4B:
                         case LayoutType.Short2toFloat2:
-                        case LayoutType.Byte4C:
+                        case LayoutType.UNorm8_4:
                         case LayoutType.UV:
                         case LayoutType.Byte4E:
                             return 4;
@@ -50,7 +50,7 @@ namespace SoulsFormats
                         case LayoutType.UVPair:
                         case LayoutType.ShortBoneIndices:
                         case LayoutType.Short4toFloat4A:
-                        case LayoutType.Short4toFloat4B:
+                        case LayoutType.Float16_4:
                             return 8;
 
                         case LayoutType.Float3:
@@ -139,9 +139,9 @@ namespace SoulsFormats
             Short2toFloat2 = 0x12,
 
             /// <summary>
-            /// Four bytes.
+            /// Four component unorm-8 vector. Convert to float by dividing by 255.
             /// </summary>
-            Byte4C = 0x13,
+            UNorm8_4 = 0x13,
 
             /// <summary>
             /// Two shorts.
@@ -164,9 +164,9 @@ namespace SoulsFormats
             Short4toFloat4A = 0x1A,
 
             /// <summary>
-            /// Unknown.
+            /// 16-bit 4 component vector
             /// </summary>
-            Short4toFloat4B = 0x2E,
+            Float16_4 = 0x2E,
 
             /// <summary>
             /// Unknown.

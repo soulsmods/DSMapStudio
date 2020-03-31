@@ -103,7 +103,7 @@ namespace StudioCore.Scene
 
             ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
-                StaticResourceCache.ProjViewLayoutDescription);
+                StaticResourceCache.SceneParamLayoutDescription);
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
@@ -131,7 +131,7 @@ namespace StudioCore.Scene
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
                 shaders: Shaders);
-            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout() };
+            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }

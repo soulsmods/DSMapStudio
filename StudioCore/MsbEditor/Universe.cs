@@ -19,6 +19,8 @@ namespace StudioCore.MsbEditor
         private AssetLocator AssetLocator;
         private Scene.RenderScene RenderScene;
 
+        public List<string> EnvMapTextures { get; private set; } = new List<string>();
+
         public Universe(AssetLocator al, Scene.RenderScene scene)
         {
             AssetLocator = al;
@@ -380,6 +382,11 @@ namespace StudioCore.MsbEditor
                         asset = AssetLocator.GetChrModel(mp.ModelName);
                         filt = Scene.RenderFilter.Character;
                         chrsToLoad.Add(asset);
+                        var tasset = AssetLocator.GetChrTextures(mp.ModelName);
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            chrsToLoad.Add(tasset);
+                        }
                     }
                     else if (mp.ModelName.StartsWith("o"))
                     {
@@ -578,6 +585,10 @@ namespace StudioCore.MsbEditor
                 }
             }
             job.StartJobAsync();
+
+            // Real bad hack
+            EnvMapTextures = AssetLocator.GetEnvMapTextureNames(amapid);
+
             return true;
         }
 

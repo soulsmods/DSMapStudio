@@ -175,7 +175,15 @@ namespace Veldrid
             {
                 GetMipDimensions(tex, level, out uint mipWidth, out uint mipHeight, out uint mipDepth);
                 uint storageWidth = Math.Max(mipWidth, blockSize);
+                if ((storageWidth % blockSize) > 0)
+                {
+                    storageWidth += blockSize - (storageWidth % blockSize);
+                }
                 uint storageHeight = Math.Max(mipHeight, blockSize);
+                if ((storageHeight % blockSize) > 0)
+                {
+                    storageHeight += blockSize - (storageHeight % blockSize);
+                }
                 offset += FormatHelpers.GetRegionSize(storageWidth, storageHeight, mipDepth, tex.Format);
             }
 

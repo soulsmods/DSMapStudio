@@ -183,6 +183,29 @@ namespace StudioCore.MsbEditor
                     }
                     ImGui.EndMenu();
                 }
+                if (ImGui.BeginMenu("Environment Map"))
+                {
+                    foreach (var map in Universe.EnvMapTextures)
+                    {
+                        if (ImGui.MenuItem(map))
+                        {
+                            var tex = ResourceManager.GetTextureResource($@"tex/{map}");
+                            if (tex.IsLoaded && tex.Get() != null && tex.TryLock())
+                            {
+                                if (tex.Get().GPUTexture.Resident)
+                                {
+                                    Viewport.SetEnvMap(tex.Get().GPUTexture.TexHandle);
+                                }
+                            }
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
+                if (ImGui.BeginMenu("Scene Lighting"))
+                {
+                    Viewport.SceneParamsGui();
+                    ImGui.EndMenu();
+                }
                 CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
                 ImGui.EndMenu();
             }

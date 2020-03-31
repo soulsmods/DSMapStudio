@@ -108,12 +108,12 @@ namespace StudioCore
                new ResourceLayoutElementDescription("SourceTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                new ResourceLayoutElementDescription("SourceSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
 
+            Scene.Renderer.Initialize(_gd);
+
             ImguiRenderer = new ImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription, CFG.Current.GFX_Display_Width,
                 CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
             MainWindowCommandList = factory.CreateCommandList();
             GuiCommandList = factory.CreateCommandList();
-
-            Scene.Renderer.Initialize(_gd);
 
             _assetLocator = new AssetLocator();
             MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
@@ -122,6 +122,7 @@ namespace StudioCore
 
             MsbEditor.ParamBank.LoadParams(_assetLocator);
             MsbEditor.FMGBank.LoadFMGs(_assetLocator);
+            MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
             var fonts = ImGui.GetIO().Fonts;
@@ -242,6 +243,7 @@ namespace StudioCore
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
             MsbEditor.ParamBank.ReloadParams();
             MsbEditor.FMGBank.ReloadFMGs();
+            MsbEditor.MtdBank.ReloadMtds();
             MSBEditor.OnProjectChanged(_projectSettings);
             ParamEditor.OnProjectChanged(_projectSettings);
             TextEditor.OnProjectChanged(_projectSettings);

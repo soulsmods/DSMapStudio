@@ -653,29 +653,78 @@ namespace StudioCore
         public List<AssetDescription> GetMapTextures(string mapid)
         {
             List<AssetDescription> ads = new List<AssetDescription>();
-            var mid = mapid.Substring(0, 3);
 
-            var t0000 = new AssetDescription();
-            t0000.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0000.tpfbhd";
-            t0000.AssetArchiveVirtualPath = $@"map/tex/{mid}/0000";
-            ads.Add(t0000);
+            if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                var t = new AssetDescription();
+                t.AssetPath = $@"{GameRootDirectory}\model\map\t{mapid.Substring(1)}.tpfbhd";
+                t.AssetArchiveVirtualPath = $@"map/tex/{mapid}/tex";
+                ads.Add(t);
+            }
+            else
+            {
+                var mid = mapid.Substring(0, 3);
 
-            var t0001 = new AssetDescription();
-            t0001.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0001.tpfbhd";
-            t0001.AssetArchiveVirtualPath = $@"map/tex/{mid}/0001";
-            ads.Add(t0001);
+                var t0000 = new AssetDescription();
+                t0000.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0000.tpfbhd";
+                t0000.AssetArchiveVirtualPath = $@"map/tex/{mid}/0000";
+                ads.Add(t0000);
 
-            var t0002 = new AssetDescription();
-            t0002.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0002.tpfbhd";
-            t0002.AssetArchiveVirtualPath = $@"map/tex/{mid}/0002";
-            ads.Add(t0002);
+                var t0001 = new AssetDescription();
+                t0001.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0001.tpfbhd";
+                t0001.AssetArchiveVirtualPath = $@"map/tex/{mid}/0001";
+                ads.Add(t0001);
 
-            var t0003 = new AssetDescription();
-            t0003.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0003.tpfbhd";
-            t0003.AssetArchiveVirtualPath = $@"map/tex/{mid}/0003";
-            ads.Add(t0003);
+                var t0002 = new AssetDescription();
+                t0002.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0002.tpfbhd";
+                t0002.AssetArchiveVirtualPath = $@"map/tex/{mid}/0002";
+                ads.Add(t0002);
+
+                var t0003 = new AssetDescription();
+                t0003.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0003.tpfbhd";
+                t0003.AssetArchiveVirtualPath = $@"map/tex/{mid}/0003";
+                ads.Add(t0003);
+
+                var env = new AssetDescription();
+                env.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx";
+                env.AssetVirtualPath = $@"map/tex/{mid}/env";
+                ads.Add(env);
+            }
 
             return ads;
+        }
+
+        public List<string> GetEnvMapTextureNames(string mapid)
+        {
+            var l = new List<string>();
+            if (Type == GameType.DarkSoulsIII)
+            {
+                var mid = mapid.Substring(0, 3);
+                var t = TPF.Read($@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx");
+                foreach (var tex in t.Textures)
+                {
+                    l.Add(tex.Name);
+                }
+            }
+            return l;
+        }
+
+        public AssetDescription GetChrTextures(string chrid)
+        {
+            AssetDescription ad = new AssetDescription();
+            ad.AssetArchiveVirtualPath = null;
+            ad.AssetPath = null;
+            if (Type == GameType.DarkSoulsIII)
+            {
+                string path = $@"{GameRootDirectory}\chr\{chrid}.texbnd.dcx";
+                if (File.Exists(path))
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
+
+            return ad;
         }
 
         public AssetDescription GetMapNVMModel(string mapid, string model)
@@ -757,10 +806,28 @@ namespace StudioCore
                 if (pathElements[i].Equals("tex"))
                 {
                     i++;
-                    var mid = pathElements[i];
-                    i++;
-                    bndpath = "";
-                    return $@"{GameRootDirectory}\map\{mid}\{mid}_{pathElements[i]}.tpfbhd";
+                    if (Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        var mid = pathElements[i];
+                        i++;
+                        var id = pathElements[i];
+                        if (id == "tex")
+                        {
+                            bndpath = "";
+                            return $@"{GameRootDirectory}\model\map\t{mid.Substring(1)}.tpfbhd";
+                        }
+                    }
+                    else
+                    {
+                        var mid = pathElements[i];
+                        i++;
+                        bndpath = "";
+                        if (pathElements[i] == "env")
+                        {
+                            return $@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx";
+                        }
+                        return $@"{GameRootDirectory}\map\{mid}\{mid}_{pathElements[i]}.tpfbhd";
+                    }
                 }
                 else if (mapRegex.IsMatch(pathElements[i]))
                 {
@@ -848,6 +915,14 @@ namespace StudioCore
                         return $@"{GameRootDirectory}\model\chr\{chrid}.bnd";
                     }
                     return $@"{GameRootDirectory}\chr\{chrid}.chrbnd.dcx";
+                }
+                else if (pathElements[i].Equals("tex"))
+                {
+                    bndpath = "";
+                    if (Type == GameType.DarkSoulsIII)
+                    {
+                        return $@"{GameRootDirectory}\chr\{chrid}.texbnd.dcx";
+                    }
                 }
             }
             else if (pathElements[i].Equals("obj"))

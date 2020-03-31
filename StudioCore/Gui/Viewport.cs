@@ -198,6 +198,14 @@ namespace StudioCore.Gui
             }
         }
 
+        public void SceneParamsGui()
+        {
+            ImGui.SliderFloat4("Light Direction", ref ViewPipeline.SceneParams.LightDirection, -1, 1);
+            ImGui.SliderFloat("Direct Light Mult", ref ViewPipeline.SceneParams.DirectLightMult, 0, 3);
+            ImGui.SliderFloat("Indirect Light Mult", ref ViewPipeline.SceneParams.IndirectLightMult, 0, 3);
+            ImGui.SliderFloat("Brightness", ref ViewPipeline.SceneParams.SceneBrightness, 0, 5);
+        }
+
         public void ResizeViewport(GraphicsDevice device, Veldrid.Rectangle newvp)
         {
             PrevWidth = Width;
@@ -289,6 +297,11 @@ namespace StudioCore.Gui
             Gizmos.CameraPosition = WorldView.CameraTransform.Position;
             DebugRenderer.Add(Gizmos, new Scene.RenderKey(0));
             //RenderScene.Render(device, cl, ViewPipeline);
+        }
+
+        public void SetEnvMap(uint index)
+        {
+            ViewPipeline.EnvMapTexture = index;
         }
 
         /// <summary>

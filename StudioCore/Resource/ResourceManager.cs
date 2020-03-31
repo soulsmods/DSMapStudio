@@ -568,6 +568,9 @@ namespace StudioCore.Resource
             /// <param name="virtualPath"></param>
             public void AddLoadFileTask(string virtualPath)
             {
+                string bndout;
+                var path = Locator.VirtualToRealPath(virtualPath, out bndout);
+
                 IResourceHandle handle;
                 if (virtualPath == "null")
                 {
@@ -575,15 +578,19 @@ namespace StudioCore.Resource
                 }
                 if (virtualPath.EndsWith(".hkx"))
                 {
-                    handle = ResourceManager.GetResource<HavokCollisionResource>(virtualPath);
+                    handle = GetResource<HavokCollisionResource>(virtualPath);
+                }
+                else if (path.ToUpper().EndsWith(".TPF") || path.ToUpper().EndsWith(".TPF.DCX"))
+                {
+                    var ttask = new LoadTPFResourcesTask("tex", TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
+                    Tasks.Add(ttask);
+                    return;
                 }
                 else
                 {
-                    handle = ResourceManager.GetResource<FlverResource>(virtualPath);
+                    handle = GetResource<FlverResource>(virtualPath);
                 }
-                string bndout;
-                var path = ResourceManager.Locator.VirtualToRealPath(virtualPath, out bndout);
-                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
+                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
                 Tasks.Add(task);
             }
 
@@ -591,11 +598,11 @@ namespace StudioCore.Resource
             {
                 // Build the job, register it with the task manager, and start it
                 var job = new ResourceJob(Name, Tasks);
-                ResourceManager.ActiveJobProgress[job] = 0;
+                ActiveJobProgress[job] = 0;
                 var progress1 = new Progress<int>();
                 progress1.ProgressChanged += (x, e) =>
                 {
-                    ResourceManager.ActiveJobProgress[job] = e;
+                    ActiveJobProgress[job] = e;
                 };
                 Tasks = null;
                 var jobtask = job.RunAsync(progress1);
@@ -606,7 +613,7 @@ namespace StudioCore.Resource
                     bool removed = false;
                     while (!removed)
                     {
-                        removed = ResourceManager.ActiveJobProgress.TryRemove(job, out o);
+                        removed = ActiveJobProgress.TryRemove(job, out o);
                     }
                 });
                 //posttask.Start();

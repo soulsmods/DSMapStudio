@@ -68,13 +68,86 @@ namespace StudioCore.Resource
             GC.Collect();
         }
 
-        public class FlverMaterial
+        public class FlverMaterial : IResourceEventListener
         {
             public Scene.GPUBufferAllocator.GPUBufferHandle MaterialBuffer;
             public Scene.Material MaterialData;
 
             public TextureResourceHande AlbedoTextureResource = null;
             public TextureResourceHande NormalTextureResource = null;
+            public TextureResourceHande SpecularTextureResource = null;
+
+            public void UpdateMaterial()
+            {
+                if (AlbedoTextureResource != null && AlbedoTextureResource.IsLoaded && AlbedoTextureResource.TryLock())
+                {
+                    var res = AlbedoTextureResource.Get();
+                    if (res != null && res.GPUTexture != null)
+                    {
+                        MaterialData.colorTex = AlbedoTextureResource.Get().GPUTexture.TexHandle;
+                    }
+                    else
+                    {
+                        MaterialData.colorTex = 0;
+                    }
+                    AlbedoTextureResource.Unlock();
+                }
+                else
+                {
+                    MaterialData.colorTex = 0;
+                }
+
+                if (NormalTextureResource != null && NormalTextureResource.IsLoaded && NormalTextureResource.TryLock())
+                {
+                    var res = NormalTextureResource.Get();
+                    if (res != null && res.GPUTexture != null)
+                    {
+                        MaterialData.normalTex = NormalTextureResource.Get().GPUTexture.TexHandle;
+                    }
+                    else
+                    {
+                        MaterialData.normalTex = 1;
+                    }
+                    NormalTextureResource.Unlock();
+                }
+                else
+                {
+                    MaterialData.normalTex = 1;
+                }
+
+                if (SpecularTextureResource != null && SpecularTextureResource.IsLoaded && SpecularTextureResource.TryLock())
+                {
+                    var res = SpecularTextureResource.Get();
+                    if (res != null && res.GPUTexture != null)
+                    {
+                        MaterialData.specTex = SpecularTextureResource.Get().GPUTexture.TexHandle;
+                    }
+                    else
+                    {
+                        MaterialData.specTex = 2;
+                    }
+                    SpecularTextureResource.Unlock();
+                }
+                else
+                {
+                    MaterialData.specTex = 2;
+                }
+
+                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    MaterialBuffer.FillBuffer(cl, ref MaterialData);
+                });
+            }
+
+            public void OnResourceLoaded(IResourceHandle handle)
+            {
+                UpdateMaterial();
+            }
+
+            public void OnResourceUnloaded(IResourceHandle handle)
+            {
+                UpdateMaterial();
+            }
         }
 
         public class FlverSubmesh
@@ -138,6 +211,7 @@ namespace StudioCore.Resource
                     {
                         dest.AlbedoTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
                         dest.AlbedoTextureResource.Acquire();
+                        dest.AlbedoTextureResource.AddResourceEventListener(dest);
                     }
                 }
                 if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
@@ -150,50 +224,25 @@ namespace StudioCore.Resource
                     {
                         dest.NormalTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
                         dest.NormalTextureResource.Acquire();
+                        dest.NormalTextureResource.AddResourceEventListener(dest);
+                    }
+                }
+                if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
+                {
+                    if (matparam.Path == "")
+                    {
+                        // TODO Sekiro handling
+                    }
+                    else
+                    {
+                        dest.SpecularTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
+                        dest.SpecularTextureResource.Acquire();
+                        dest.SpecularTextureResource.AddResourceEventListener(dest);
                     }
                 }
             }
 
-            if (dest.AlbedoTextureResource != null && dest.AlbedoTextureResource.IsLoaded && dest.AlbedoTextureResource.TryLock())
-            {
-                var res = dest.AlbedoTextureResource.Get();
-                if (res != null && res.GPUTexture != null)
-                {
-                    dest.MaterialData.colorTex = dest.AlbedoTextureResource.Get().GPUTexture.TexHandle;
-                }
-                else
-                {
-                    dest.MaterialData.colorTex = 0;
-                }
-                dest.AlbedoTextureResource.Unlock();
-            }
-            else
-            {
-                dest.MaterialData.colorTex = 0;
-            }
-
-            if (dest.NormalTextureResource != null && dest.NormalTextureResource.IsLoaded && dest.NormalTextureResource.TryLock())
-            {
-                var res = dest.NormalTextureResource.Get();
-                if (res != null && res.GPUTexture != null)
-                {
-                    dest.MaterialData.normalTex = dest.NormalTextureResource.Get().GPUTexture.TexHandle;
-                }
-                else
-                {
-                    dest.MaterialData.normalTex = 0;
-                }
-                dest.NormalTextureResource.Unlock();
-            }
-            else
-            {
-                dest.MaterialData.normalTex = 0;
-            }
-
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
-            {
-                dest.MaterialBuffer.FillBuffer(cl, ref dest.MaterialData);
-            });
+            dest.UpdateMaterial();
         }
 
         unsafe private void ProcessMesh(FLVER2.Mesh mesh, FlverSubmesh dest)
@@ -395,7 +444,7 @@ namespace StudioCore.Resource
                 }
 
                 dest.MeshFacesets.Add(newFaceSet);
-
+                idxoffset += faceset.Indices.Length;
             }
 
             //dest.Bounds = BoundingBox.CreateFromPoints(MeshVertices.Select(x => x.Position));

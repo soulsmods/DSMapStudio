@@ -737,6 +737,13 @@ namespace Veldrid.Vk
             deviceCreateInfo.enabledExtensionCount = extensionNames.Count;
             deviceCreateInfo.ppEnabledExtensionNames = (byte**)extensionNames.Data;
 
+            // TODO descriptor indexing stuff
+
+            VkPhysicalDeviceFeatures2KHR physicalDeviceFeatures2KHR = VkPhysicalDeviceFeatures2KHR.New();
+            physicalDeviceFeatures2KHR.sType = VkStructureType.PhysicalDeviceFeatures2KHR;
+            physicalDeviceFeatures2KHR.features = deviceFeatures;
+            
+
             result = vkCreateDevice(_physicalDevice, ref deviceCreateInfo, null, out _device);
             CheckResult(result);
 

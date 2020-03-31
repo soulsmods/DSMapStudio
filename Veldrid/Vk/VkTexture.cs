@@ -345,7 +345,7 @@ namespace Veldrid.Vk
 
                 for (uint level = 0; level < levelCount; level++)
                 {
-                    for (uint layer = 0; layer < layerCount; layer++)
+                    for (uint layer = 0; layer < (((Usage & TextureUsage.Cubemap) > 0) ? _actualImageArrayLayers : layerCount); layer++)
                     {
                         _imageLayouts[CalculateSubresource(baseMipLevel + level, baseArrayLayer + layer)] = newLayout;
                     }

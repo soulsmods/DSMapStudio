@@ -1,16 +1,17 @@
 #version 450
 
-layout(set = 0, binding = 0) uniform ProjectionBuffer
+struct sceneParams
 {
-    mat4 projection;
+	mat4 projection;
+	mat4 view;
+	vec4 eye;
+	vec4 lightDirection;
+	uint envmap;
 };
-layout(set = 0, binding = 1) uniform ViewBuffer
+
+layout(set = 0, binding = 0) uniform SceneParamBuffer
 {
-    mat4 view;
-};
-layout(set = 0, binding = 2) uniform EyePositionBuffer
-{
-    vec3 eye;
+    sceneParams sceneparam;
 };
 
 struct instanceData
@@ -25,7 +26,7 @@ layout(set = 1, binding = 0, std140) buffer WorldBuffer
 };
 
 layout(location = 0) in vec3 position;
-layout(location = 1) in uvec2 uv;
+layout(location = 1) in ivec2 uv;
 layout(location = 2) in ivec4 normal;
 layout(location = 3) in ivec4 binormal;
 layout(location = 4) in ivec4 bitangent;
@@ -42,9 +43,9 @@ void main()
 {
 	mat4 w = idata[gl_InstanceIndex].world;
 	fsin_texcoord = vec2(uv) / 2048.0;
-	fsin_normal = mat3(w) * vec3(normal);
+	fsin_normal = normalize(mat3(w) * vec3(normal));
 	fsin_bitangent = bitangent;
-	fsin_view = normalize(eye - (w * vec4(position, 1)).xyz);
+	fsin_view = normalize(sceneparam.eye.xyz - (w * vec4(position, 1)).xyz);
 	fsin_mat = idata[gl_InstanceIndex].materialID[0];
 	
 	vec3 T = normalize(mat3(w) * vec3(bitangent));
@@ -52,5 +53,5 @@ void main()
 	vec3 N = normalize(mat3(w) * vec3(normal));
 	fsin_worldToTangent = mat3(T, B, N);
 	
-    gl_Position = projection * view * w * vec4(position, 1);
+    gl_Position = sceneparam.projection * sceneparam.view * w * vec4(position, 1);
 }

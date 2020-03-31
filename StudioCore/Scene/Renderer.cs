@@ -170,6 +170,7 @@ namespace StudioCore.Scene
                     cl.SetGraphicsResourceSet(1, _batches[MAX_BATCH * _renderSet + i]._objectRS);
                     GlobalTexturePool.BindTexturePool(cl, 2);
                     MaterialBufferAllocator.BindAsResourceSet(cl, 3);
+                    cl.SetGraphicsResourceSet(4, SamplerSet.SamplersSet);
                     
                     if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
                     {
@@ -366,6 +367,8 @@ namespace StudioCore.Scene
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
 
+            SamplerSet.Initialize(device);
+
             GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
@@ -374,7 +377,19 @@ namespace StudioCore.Scene
 
             // Initialize default 2D texture at 0
             var handle = GlobalTexturePool.AllocateTextureDescriptor();
-            handle.FillWithColor(device, System.Drawing.Color.White);
+            handle.FillWithColor(device, System.Drawing.Color.Gray);
+
+            // Default normal at 1
+            handle = GlobalTexturePool.AllocateTextureDescriptor();
+            handle.FillWithColor(device, System.Drawing.Color.FromArgb(255, 0, 127, 127));
+
+            // Default spec at 2
+            handle = GlobalTexturePool.AllocateTextureDescriptor();
+            handle.FillWithColor(device, System.Drawing.Color.Black);
+
+            // Default GI envmap texture at 3
+            handle = GlobalTexturePool.AllocateTextureDescriptor();
+            handle.FillWithColorCube(device, new System.Numerics.Vector4(0.5f, 0.5f, 0.5f, 1.0f));
             GlobalTexturePool.RegenerateDescriptorTables();
         }
 

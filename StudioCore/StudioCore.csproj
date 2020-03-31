@@ -219,6 +219,10 @@
     <None Remove="Assets\Shaders\FlverDS3.vert.spv" />
     <None Remove="Assets\Shaders\FullScreenQuad.frag.spv" />
     <None Remove="Assets\Shaders\FullScreenQuad.vert.spv" />
+    <None Remove="Assets\Shaders\imgui-frag.frag.spv" />
+    <None Remove="Assets\Shaders\imgui-vertex.vert.spv" />
+    <None Remove="Assets\Shaders\imgui.frag.spv" />
+    <None Remove="Assets\Shaders\imgui.vert.spv" />
     <None Remove="Assets\Shaders\NavSolid.frag.spv" />
     <None Remove="Assets\Shaders\NavSolid.vert.spv" />
     <None Remove="Assets\Shaders\NavWire.frag.spv" />
@@ -276,6 +280,12 @@
     <Content Include="Assets\Shaders\FullScreenQuad.vert.spv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Shaders\imgui.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\imgui.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Shaders\NavSolid.frag.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -316,7 +326,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
-    <ProjectReference Include="..\Veldrid.ImGui\Veldrid.ImGui.csproj" />
     <ProjectReference Include="..\Veldrid.RenderDoc\Veldrid.RenderDoc.csproj" />
     <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
     <ProjectReference Include="..\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
