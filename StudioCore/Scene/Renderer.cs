@@ -359,6 +359,14 @@ namespace StudioCore.Scene
             }
         }
 
+        public enum DefaultTexture
+        {
+            Gray = 0,
+            Normal = 1,
+            Black = 2,
+            EnvMap = 3,
+        }
+
         public unsafe static void Initialize(GraphicsDevice device)
         {
             Device = device;

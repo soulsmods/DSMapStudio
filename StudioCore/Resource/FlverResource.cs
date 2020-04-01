@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using System.Buffers;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using System.IO;
-//using Microsoft.Xna.Framework.Graphics;
 using Veldrid;
 using Veldrid.Utilities;
 using SoulsFormats;
@@ -66,6 +67,8 @@ namespace StudioCore.Resource
             FlverCaches.Clear();
             VerticesPool = ArrayPool<MapFlverLayout>.Create();
             GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
 
         public class FlverMaterial : IResourceEventListener
@@ -76,62 +79,35 @@ namespace StudioCore.Resource
             public TextureResourceHande AlbedoTextureResource = null;
             public TextureResourceHande NormalTextureResource = null;
             public TextureResourceHande SpecularTextureResource = null;
+            public TextureResourceHande ShininessTextureResource = null;
+
+            private void SetMaterialTexture(TextureResourceHande handle, ref ushort matTex, ushort defaultTex)
+            {
+                if (handle != null && handle.IsLoaded && handle.TryLock())
+                {
+                    var res = handle.Get();
+                    if (res != null && res.GPUTexture != null)
+                    {
+                        matTex = (ushort)handle.Get().GPUTexture.TexHandle;
+                    }
+                    else
+                    {
+                        matTex = defaultTex;
+                    }
+                    handle.Unlock();
+                }
+                else
+                {
+                    matTex = defaultTex;
+                }
+            }
 
             public void UpdateMaterial()
             {
-                if (AlbedoTextureResource != null && AlbedoTextureResource.IsLoaded && AlbedoTextureResource.TryLock())
-                {
-                    var res = AlbedoTextureResource.Get();
-                    if (res != null && res.GPUTexture != null)
-                    {
-                        MaterialData.colorTex = AlbedoTextureResource.Get().GPUTexture.TexHandle;
-                    }
-                    else
-                    {
-                        MaterialData.colorTex = 0;
-                    }
-                    AlbedoTextureResource.Unlock();
-                }
-                else
-                {
-                    MaterialData.colorTex = 0;
-                }
-
-                if (NormalTextureResource != null && NormalTextureResource.IsLoaded && NormalTextureResource.TryLock())
-                {
-                    var res = NormalTextureResource.Get();
-                    if (res != null && res.GPUTexture != null)
-                    {
-                        MaterialData.normalTex = NormalTextureResource.Get().GPUTexture.TexHandle;
-                    }
-                    else
-                    {
-                        MaterialData.normalTex = 1;
-                    }
-                    NormalTextureResource.Unlock();
-                }
-                else
-                {
-                    MaterialData.normalTex = 1;
-                }
-
-                if (SpecularTextureResource != null && SpecularTextureResource.IsLoaded && SpecularTextureResource.TryLock())
-                {
-                    var res = SpecularTextureResource.Get();
-                    if (res != null && res.GPUTexture != null)
-                    {
-                        MaterialData.specTex = SpecularTextureResource.Get().GPUTexture.TexHandle;
-                    }
-                    else
-                    {
-                        MaterialData.specTex = 2;
-                    }
-                    SpecularTextureResource.Unlock();
-                }
-                else
-                {
-                    MaterialData.specTex = 2;
-                }
+                SetMaterialTexture(AlbedoTextureResource, ref MaterialData.colorTex, 0);
+                SetMaterialTexture(NormalTextureResource, ref MaterialData.normalTex, 1);
+                SetMaterialTexture(SpecularTextureResource, ref MaterialData.specTex, 2);
+                SetMaterialTexture(ShininessTextureResource, ref MaterialData.shininessTex, 2);
 
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
@@ -150,16 +126,14 @@ namespace StudioCore.Resource
             }
         }
 
-        public class FlverSubmesh
+        public unsafe class FlverSubmesh
         {
             public struct FlverSubmeshFaceSet
             {
                 public int IndexCount;
-                //public IndexBuffer IndexBuffer;
-                //public DeviceBuffer IndexBuffer;
-                //public Scene.GPUBufferAllocator.GPUBufferHandle IndexBuffer;
                 public int IndexOffset;
-                public int[] PickingIndices;
+                public int PickingIndicesCount;
+                public IntPtr PickingIndices;
                 public bool BackfaceCulling;
                 public bool IsTriangleStrip;
                 public byte LOD;
@@ -172,8 +146,10 @@ namespace StudioCore.Resource
             public Scene.VertexIndexBufferAllocator.VertexIndexBufferHandle GeomBuffer { get; set; }
 
             public int VertexCount { get; set; }
+            // This is native because using managed arrays causes a weird memory leak
+            public IntPtr PickingVertices = IntPtr.Zero;
 
-            public Vector3[] PickingVertices;
+            //public Vector3[] PickingVertices;
             public BoundingBox Bounds { get; set; }
 
             public int DefaultBoneIndex { get; set; } = -1;
@@ -214,7 +190,7 @@ namespace StudioCore.Resource
                         dest.AlbedoTextureResource.AddResourceEventListener(dest);
                     }
                 }
-                if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
+                else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
                 {
                     if (matparam.Path == "")
                     {
@@ -227,7 +203,7 @@ namespace StudioCore.Resource
                         dest.NormalTextureResource.AddResourceEventListener(dest);
                     }
                 }
-                if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
+                else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
                 {
                     if (matparam.Path == "")
                     {
@@ -238,6 +214,19 @@ namespace StudioCore.Resource
                         dest.SpecularTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
                         dest.SpecularTextureResource.Acquire();
                         dest.SpecularTextureResource.AddResourceEventListener(dest);
+                    }
+                }
+                else if (paramNameCheck.Contains("SHININESS"))
+                {
+                    if (matparam.Path == "")
+                    {
+                        // TODO Sekiro handling
+                    }
+                    else
+                    {
+                        dest.ShininessTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
+                        dest.ShininessTextureResource.Acquire();
+                        dest.ShininessTextureResource.AddResourceEventListener(dest);
                     }
                 }
             }
@@ -254,7 +243,9 @@ namespace StudioCore.Resource
 
             //var MeshVertices = new MapFlverLayout[mesh.VertexCount];
             var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
-            dest.PickingVertices = new Vector3[mesh.VertexCount];
+            //dest.PickingVertices = new Vector3[mesh.VertexCount];
+            dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
+            var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
             for (int i = 0; i < mesh.VertexCount; i++)
             {
                 var vert = mesh.Vertices[i];
@@ -265,7 +256,7 @@ namespace StudioCore.Resource
                 MeshVertices[i] = new MapFlverLayout();
 
                 MeshVertices[i].Position = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                dest.PickingVertices[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                pvhandle[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
 
                 var n = Vector3.Normalize(new Vector3(vert.Normal.X, vert.Normal.Y, vert.Normal.Z));
                 MeshVertices[i].Normal[0] = (sbyte)(n.X * 127.0f);
@@ -329,7 +320,7 @@ namespace StudioCore.Resource
 
             //debug_sortedByZ = debug_sortedByZ.OrderBy(v => v.Position.Z).ToList();
 
-            dest.VertexCount = MeshVertices.Length;
+            dest.VertexCount = mesh.VertexCount;
 
             dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
             var facesets = mesh.FaceSets;
@@ -361,6 +352,7 @@ namespace StudioCore.Resource
                 //At this point they use 32-bit faceset vertex indices
 
                 uint buffersize = (uint)faceset.IndicesCount * (is32bit ? 4u : 2u);
+                var indices = faceset.TriangleStrip ? faceset.Triangulate(true).ToArray() : faceset.Indices.ToArray();
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
                 {
                     BackfaceCulling = faceset.CullBackfaces,
@@ -370,8 +362,13 @@ namespace StudioCore.Resource
 
                     IndexCount = faceset.IndicesCount,
                     Is32Bit = is32bit,
-                    PickingIndices = faceset.TriangleStrip ? faceset.Triangulate(true).ToArray() : faceset.Indices.ToArray(),
+                    PickingIndicesCount = indices.Length,
+                    PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
                 };
+                fixed (void* iptr = indices)
+                {
+                    Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
+                }
                 
 
                 if ((faceset.Flags & FLVER2.FaceSet.FSFlags.LodLevel1) > 0)
@@ -449,10 +446,8 @@ namespace StudioCore.Resource
 
             //dest.Bounds = BoundingBox.CreateFromPoints(MeshVertices.Select(x => x.Position));
             //dest.Bounds = new BoundingBox(mesh.BoundingBox.Min, mesh.BoundingBox.Max);
-            fixed (void* ptr = dest.PickingVertices)
-            {
-                dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, dest.PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-            }
+            dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+            //dest.Bounds = new BoundingBox();
 
             //dest.VertBuffer = new VertexBuffer(GFX.Device,
             //    typeof(FlverShaderVertInput), MeshVertices.Length, BufferUsage.WriteOnly);
@@ -477,6 +472,7 @@ namespace StudioCore.Resource
                     h.FillIBuffer(fs16);
                 }
             });
+
             facesets = null;
 
             dest.Material = GPUMaterials[mesh.MaterialIndex];
@@ -518,6 +514,7 @@ namespace StudioCore.Resource
             {
                 Flver = null;
             }
+            //return false;
             return true;
         }
 
@@ -539,7 +536,7 @@ namespace StudioCore.Resource
             return ret;
         }
 
-        public bool RayCast(Ray ray, Matrix4x4 transform, Utils.RayCastCull cull, out float dist)
+        public unsafe bool RayCast(Ray ray, Matrix4x4 transform, Utils.RayCastCull cull, out float dist)
         {
             bool hit = false;
             float mindist = float.MaxValue;
@@ -555,7 +552,8 @@ namespace StudioCore.Resource
                 }
                 float locdist;
                 var fc = mesh.MeshFacesets[0];
-                if (Utils.RayMeshIntersection(tray, mesh.PickingVertices, fc.PickingIndices, cull, out locdist))
+                if (Utils.RayMeshIntersection(tray, new Span<Vector3>(mesh.PickingVertices.ToPointer(), mesh.VertexCount),
+                    new Span<int>(fc.PickingIndices.ToPointer(), fc.PickingIndicesCount), cull, out locdist))
                 {
                     hit = true;
                     if (locdist < mindist)
@@ -585,6 +583,7 @@ namespace StudioCore.Resource
                     foreach (var m in GPUMeshes)
                     {
                         m.GeomBuffer.Dispose();
+                        Marshal.FreeHGlobal(m.PickingVertices);
                     }
                 }
 

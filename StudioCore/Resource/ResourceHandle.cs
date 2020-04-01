@@ -152,7 +152,11 @@ namespace StudioCore.Resource
                 }
                 AccessLevel = AccessLevel.AccessLoading;
                 Resource = new T();
-                Resource._Load(data, al, type);
+                if (!Resource._Load(data, al, type))
+                {
+                    AccessLevel = AccessLevel.AccessUnloaded;
+                    return false;
+                }
                 // Prevent any new completion handlers from being added while executing them all
                 // Any subsequent pending handlers will be executed after this is done
                 lock (HandlerLock)
@@ -192,7 +196,11 @@ namespace StudioCore.Resource
                 Resource = new T();
                 try
                 {
-                    Resource._Load(file, al, type);
+                    if (!Resource._Load(file, al, type))
+                    {
+                        AccessLevel = AccessLevel.AccessUnloaded;
+                        return false;
+                    }
                 }
                 catch (System.IO.FileNotFoundException)
                 {

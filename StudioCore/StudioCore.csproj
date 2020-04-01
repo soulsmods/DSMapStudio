@@ -215,6 +215,8 @@
     <None Remove="Assets\Shaders\Collision.vert.spv" />
     <None Remove="Assets\Shaders\DebugWire.frag.spv" />
     <None Remove="Assets\Shaders\DebugWire.vert.spv" />
+    <None Remove="Assets\Shaders\FlverBB.frag.spv" />
+    <None Remove="Assets\Shaders\FlverBB.vert.spv" />
     <None Remove="Assets\Shaders\FlverDS3.frag.spv" />
     <None Remove="Assets\Shaders\FlverDS3.vert.spv" />
     <None Remove="Assets\Shaders\FullScreenQuad.frag.spv" />
@@ -266,6 +268,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Shaders\DebugWire.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\FlverBB.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\FlverBB.vert.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Shaders\FlverDS3.frag.spv">

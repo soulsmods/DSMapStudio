@@ -30,11 +30,22 @@ namespace StudioCore.Resource
         public bool _LoadTexture(AccessLevel al)
         {
             GPUTexture = Scene.Renderer.GlobalTexturePool.AllocateTextureDescriptor();
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            if (Texture.Platform == TPF.TPFPlatform.PC)
             {
-                GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex]);
-                Texture = null;
-            });
+                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex]);
+                    Texture = null;
+                });
+            }
+            else if (Texture.Platform == TPF.TPFPlatform.PS4)
+            {
+                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex]);
+                    Texture = null;
+                });
+            }
             return true;
         }
 

@@ -231,7 +231,7 @@ namespace StudioCore
                     new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4))
             };
 
-            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "FlverDS3").ToTuple();
+            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "FlverBB").ToTuple();
             Shaders = new Shader[] { res.Item1, res.Item2 };
 
             ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(

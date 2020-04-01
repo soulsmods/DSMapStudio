@@ -775,6 +775,19 @@ namespace StudioCore.Resource
                 if (_prevCount > 0)
                 {
                     FlverResource.PurgeCaches();
+
+                    /*JobTaskFactory = null;
+                    BinderTaskFactory = null;
+                    ResourceTaskFactory = null;
+                    JobScheduler.Dispose();
+                    JobScheduler = null;
+                    BinderWorkerScheduler.Dispose();
+                    BinderWorkerScheduler = null;
+                    ResourceWorkerScheduler.Dispose();
+                    ResourceWorkerScheduler = null;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();*/
                 }
             }
             _prevCount = count;

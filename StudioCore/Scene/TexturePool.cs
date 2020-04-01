@@ -478,6 +478,266 @@ namespace StudioCore.Scene
                 _pool.DescriptorTableDirty = true;
             }
 
+            public static void DeswizzleDDSBytesPS4(int width, int height, int offset, int offsetFactor, int Format, int BlockSize, int DDSWidth, Span<byte> InputBytes, Span<byte> OutputBytes, ref int WriteOffset)
+            {
+                if (width * height > 16)
+                {
+                    DeswizzleDDSBytesPS4(width / 2, height / 2, offset, offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4(width / 2, height / 2, offset + (width / 8) * BlockSize, offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4(width / 2, height / 2, offset + ((DDSWidth / 8) * (height / 4) * BlockSize), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4(width / 2, height / 2, offset + (DDSWidth / 8) * (height / 4) * BlockSize + (width / 8) * BlockSize, offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                }
+                else
+                {
+                    for (int i = 0; i < BlockSize; i++)
+                    {
+                        if (offset + i < OutputBytes.Length)
+                        {
+                            OutputBytes[offset + i] = InputBytes[WriteOffset];
+                        }
+                        WriteOffset += 1;
+                    }
+                }
+            }
+
+            public static void DeswizzleDDSBytesPS4(int width, int height, int Format, int BlockSize, int DDSWidth, Span<byte> InputBytes, Span<byte> OutputBytes)
+            {
+                ////[Hork Comment]
+                //if (Format != 22 && width <= 4 && height <= 4)
+                //{
+                //    for (int i = 0; i < BlockSize; i++)
+                //    {
+                //        OutputBytes[i] = InputBytes[i];
+                //    }
+                //    return;
+                //}
+
+                ////[Hork Comment]
+                //if (Format != 22 && width <= 2 && height == 1)
+                //{
+                //    for (int i = 0; i < width * 8; i++)
+                //    {
+                //        OutputBytes[i] = InputBytes[i];
+                //    }
+                //    return;
+                //}
+
+                int WriteOffset = 0;
+                int swizzleBlockSize = 0;
+                int blocksH = 0;
+                int blocksV = 0;
+
+                if (Format == 22)
+                {
+                    blocksH = (width + 7) / 8;
+                    blocksV = (height + 7) / 8;
+                    swizzleBlockSize = 8;
+                }
+                else if (Format == 105)
+                {
+                    blocksH = (width + 15) / 16;
+                    blocksV = (height + 15) / 16;
+                    swizzleBlockSize = 16;
+                }
+                else
+                {
+                    blocksH = (width + 31) / 32;
+                    blocksV = (height + 31) / 32;
+                    swizzleBlockSize = 32;
+                }
+
+                if (Format == 22)
+                {
+                    DeswizzleDDSBytesPS4RGBA(width, height, 0, 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    return;
+                }
+                ////[Hork Comment]
+                //else if (Format == 105)
+                //{
+                //    DeswizzleDDSBytesPS4RGBA8(width, height, 0, 2);
+                //    WriteOffset = 0;
+                //    return;
+                //}
+
+                int h = 0;
+                int v = 0;
+                int offset = 0;
+
+                for (int i = 0; i < blocksV; i++)
+                {
+                    h = 0;
+                    for (int j = 0; j < blocksH; j++)
+                    {
+                        offset = h + v;
+
+                        if (Format == 105)
+                            DeswizzleDDSBytesPS4RGBA8(16, 16, offset, 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                        else
+                            DeswizzleDDSBytesPS4(32, 32, offset, 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+
+                        h += (swizzleBlockSize / 4) * BlockSize;
+                        ////[Hork Comment]
+                        // swizzleBlockSize = 32
+                    }
+
+                    if (Format == 105)
+                    {
+                        v += swizzleBlockSize * swizzleBlockSize;
+                    }
+                    else
+                    {
+                        if (BlockSize == 8)
+                            v += swizzleBlockSize * width / 2;
+                        else
+                            v += swizzleBlockSize * width;
+                    }
+                }
+            }
+
+            public static void DeswizzleDDSBytesPS4RGBA(int width, int height, int offset, int offsetFactor, int Format, int BlockSize, int DDSWidth, Span<byte> InputBytes, Span<byte> OutputBytes, ref int WriteOffset)
+            {
+                if (width * height > 4)
+                {
+                    DeswizzleDDSBytesPS4RGBA(width / 2, height / 2, offset, offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4RGBA(width / 2, height / 2, offset + (width / 2), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4RGBA(width / 2, height / 2, offset + ((width / 2) * (height / 2) * offsetFactor), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4RGBA(width / 2, height / 2, offset + ((width / 2) * (height / 2) * offsetFactor) + (width / 2), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                }
+                else
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        OutputBytes[offset * 8 + i] = InputBytes[WriteOffset + i];
+                    }
+
+                    WriteOffset += 16;
+
+                    for (int i = 0; i < 16; i++)
+                    {
+                        OutputBytes[offset * 8 + DDSWidth * 8 + i] = InputBytes[WriteOffset + i];
+                    }
+
+                    WriteOffset += 16;
+                }
+            }
+
+            public static void DeswizzleDDSBytesPS4RGBA8(int width, int height, int offset, int offsetFactor, int Format, int BlockSize, int DDSWidth, Span<byte> InputBytes, Span<byte> OutputBytes, ref int WriteOffset)
+            {
+                if (width * height > 4)
+                {
+                    DeswizzleDDSBytesPS4RGBA8(width / 2, height / 2, offset, offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4RGBA8(width / 2, height / 2, offset + (width / 2), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4RGBA8(width / 2, height / 2, offset + ((width / 2) * (height / 2) * offsetFactor), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                    DeswizzleDDSBytesPS4RGBA8(width / 2, height / 2, offset + ((width / 2) * (height / 2) * offsetFactor) + (width / 2), offsetFactor * 2, Format, BlockSize, DDSWidth, InputBytes, OutputBytes, ref WriteOffset);
+                }
+                else
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        OutputBytes[offset * 4 + i] = InputBytes[WriteOffset + i];
+                    }
+
+                    WriteOffset += 8;
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        OutputBytes[offset * 4 + DDSWidth * 4 + i] = InputBytes[WriteOffset + i];
+                    }
+
+                    WriteOffset += 8;
+                }
+            }
+
+            public unsafe void FillWithPS4TPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex)
+            {
+                uint width = (uint)tex.Header.Width;
+                uint height = (uint)tex.Header.Height;
+                uint mipCount = (uint)tex.Mipmaps;
+                PixelFormat format;
+                format = GetPixelFormatFromDXGI((DDS.DXGI_FORMAT)tex.Header.DXGIFormat);
+
+                width = (uint)(Math.Ceiling(width / 4f) * 4f);
+                height = (uint)(Math.Ceiling(height / 4f) * 4f);
+                if (mipCount == 0)
+                {
+                    mipCount = (uint)(1 + Math.Floor(Math.Log(Math.Max(width, height), 2)));
+                }
+
+                bool isCubemap = (tex.Type == TPF.TexType.Cubemap);
+
+                var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
+
+                uint arrayCount = isCubemap ? 6u : 1;
+
+                TextureDescription desc = new TextureDescription();
+                desc.Width = width;
+                desc.Height = height;
+                desc.MipLevels = mipCount;
+                desc.SampleCount = TextureSampleCount.Count1;
+                desc.ArrayLayers = arrayCount;
+                desc.Depth = 1;
+                desc.Type = TextureType.Texture2D;
+                desc.Usage = TextureUsage.Staging;
+                desc.Format = format;
+
+                _staging = d.ResourceFactory.CreateTexture(desc);
+
+                uint blockSize = (uint)GetBlockSize(tex.Format);
+                uint paddedWidth = 0;
+                uint paddedHeight = 0;
+                uint paddedSize = 0;
+                uint copyOffset = 0;
+
+                for (int slice = 0; slice < arrayCount; slice++)
+                {
+                    uint currentWidth = width;
+                    uint currentHeight = height;
+                    for (uint level = 0; level < mipCount; level++)
+                    {
+                        if (tex.Format == 105)
+                        {
+                            paddedWidth = currentWidth;
+                            paddedHeight = currentHeight;
+                            paddedSize = paddedWidth * paddedHeight * blockSize;
+                        }
+                        else
+                        {
+                            paddedWidth = (uint)(Math.Ceiling(currentWidth / 32f) * 32f);
+                            paddedHeight = (uint)(Math.Ceiling(currentHeight / 32f) * 32f);
+                            paddedSize = (uint)(Math.Ceiling(paddedWidth / 4f) * Math.Ceiling(paddedHeight / 4f) * blockSize);
+                        }
+
+                        var mipInfo = GetMipInfo(format, tex.Header.Width, tex.Header.Height, (int)level, false);
+
+                        MappedResource map = d.Map(_staging, MapMode.Write, (uint)slice * (uint)mipCount + level);
+                        //fixed (void* data = &tex.Bytes[copyOffset])
+                        //{
+                        //Unsafe.CopyBlock(map.Data.ToPointer(), data, (uint)paddedSize);
+                        DeswizzleDDSBytesPS4((int)currentWidth, (int)currentHeight, tex.Format, (int)blockSize,
+                            (int)paddedWidth, new Span<byte>(tex.Bytes, (int)copyOffset, (int)paddedSize),
+                            new Span<byte>(map.Data.ToPointer(), (int)mipInfo));
+                        //}
+                        copyOffset += paddedSize;
+
+                        if (currentWidth > 1)
+                        {
+                            currentWidth /= 2;
+                        }
+                        if (currentHeight > 1)
+                        {
+                            currentHeight /= 2;
+                        }
+                    }
+                }
+
+                desc.Usage = TextureUsage.Sampled | usage;
+                desc.ArrayLayers = 1;
+                _texture = d.ResourceFactory.CreateTexture(desc);
+                cl.CopyTexture(_staging, _texture);
+                Resident = true;
+                _pool.DescriptorTableDirty = true;
+            }
+
             public unsafe void FillWithColor(GraphicsDevice d, System.Drawing.Color c)
             {
                 TextureDescription desc = new TextureDescription();

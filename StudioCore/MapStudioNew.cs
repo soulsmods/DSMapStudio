@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Drawing;
+using System.Threading.Tasks;
+using System.Threading;
 using Veldrid.StartupUtilities;
 using Veldrid.Utilities;
 using Veldrid.Sdl2;
@@ -187,6 +189,17 @@ namespace StudioCore
 
         public void Run()
         {
+            /*Task.Run(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(5000);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                }
+            });*/
+
             long previousFrameTicks = 0;
             Stopwatch sw = new Stopwatch();
             sw.Start();

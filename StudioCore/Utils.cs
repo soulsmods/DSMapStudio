@@ -359,6 +359,52 @@ namespace StudioCore
             return hit;
         }
 
+        public static bool RayMeshIntersection(Ray ray,
+            Span<Vector3> verts,
+            Span<int> indices,
+            RayCastCull cull,
+            out float dist)
+        {
+            bool hit = false;
+            float mindist = float.MaxValue;
+
+            for (int index = 0; index < indices.Length; index += 3)
+            {
+                if (cull != RayCastCull.CullNone)
+                {
+                    // Get the face normal
+                    var normal = Vector3.Normalize(Vector3.Cross(
+                        verts[indices[index + 1]] - verts[indices[index]],
+                        verts[indices[index + 2]] - verts[indices[index]]));
+                    var ratio = Vector3.Dot(ray.Direction, normal);
+                    if (cull == RayCastCull.CullBack && ratio < 0.0f)
+                    {
+                        continue;
+                    }
+                    else if (cull == RayCastCull.CullFront && ratio > 0.0f)
+                    {
+                        continue;
+                    }
+                }
+
+                float locdist;
+                if (ray.Intersects(ref verts[indices[index]],
+                    ref verts[indices[index + 1]],
+                    ref verts[indices[index + 2]],
+                    out locdist))
+                {
+                    hit = true;
+                    if (locdist < mindist)
+                    {
+                        mindist = locdist;
+                    }
+                }
+            }
+
+            dist = mindist;
+            return hit;
+        }
+
         public static void Swap(ref float a, ref float b)
         {
             var temp = a;

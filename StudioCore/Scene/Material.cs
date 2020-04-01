@@ -7,11 +7,19 @@ using System.Numerics;
 namespace StudioCore.Scene
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct Material
+    public unsafe struct Material
     {
-        public uint colorTex;
-        public uint normalTex;
-        public uint specTex;
-        public uint padding;
+        public ushort colorTex;
+        public ushort colorTex2;
+        public ushort normalTex;
+        public ushort normalTex2;
+        public ushort specTex;
+        public ushort specTex2;
+        public ushort emissiveTex;
+        public ushort shininessTex;
+        public ushort blendMaskTex;
+        public ushort lightmapTex;
+        public ushort lightmapTex2;
+        public fixed ushort padding[5];
     }
 }
