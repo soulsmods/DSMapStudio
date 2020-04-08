@@ -307,6 +307,31 @@ namespace StudioCore
             ImGui.PopStyleVar(4);
         }
 
+        private void DumpFlverLayouts()
+        {
+            var browseDlg = new System.Windows.Forms.SaveFileDialog()
+            {
+                Filter = "Text file (*.txt) |*.TXT",
+                ValidateNames = true,
+            };
+
+            if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                using (var file = new StreamWriter(browseDlg.FileName))
+                {
+                    foreach (var mat in Resource.FlverResource.MaterialLayouts)
+                    {
+                        file.WriteLine(mat.Key + ":");
+                        foreach (var member in mat.Value)
+                        {
+                            file.WriteLine($@"{member.Index}: {member.Type.ToString()}: {member.Semantic.ToString()}");
+                        }
+                        file.WriteLine();
+                    }
+                }
+            }
+        }
+
         private void Update(float deltaseconds)
         {
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
@@ -423,6 +448,10 @@ namespace StudioCore
                         MSBEditor.SaveAll();
                         ParamEditor.SaveAll();
                         TextEditor.SaveAll();
+                    }
+                    if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
+                    {
+                        DumpFlverLayouts();
                     }
                     ImGui.EndMenu();
                 }

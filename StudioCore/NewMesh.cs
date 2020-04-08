@@ -19,12 +19,7 @@ namespace StudioCore
         private Resource.ResourceHandle<Resource.FlverResource> Resource;
         private bool Created = false;
 
-        //private bool[] DefaultDrawMask = new bool[Model.DRAW_MASK_LENGTH];
-        //public bool[] DrawMask = new bool[Model.DRAW_MASK_LENGTH];
-
         private object _lock_submeshes = new object();
-
-        //public BoundingBox Bounds;
 
         public bool AutoRegister { get; set; } = true;
         private Scene.RenderScene RenderScene;
@@ -46,7 +41,6 @@ namespace StudioCore
                     if (DebugBoundingBox == null)
                     {
                         DebugBoundingBox = new DebugPrimitives.DbgPrimWireBox(new Transform(_WorldMatrix), Bounds.Min, Bounds.Max, System.Drawing.Color.Red);
-                        //RenderScene.AddObject(DebugBoundingBox);
                         Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
                         {
                             DebugBoundingBox.CreateDeviceObjects(device, cl, null);
@@ -88,39 +82,6 @@ namespace StudioCore
         public DrawGroup DrawGroups { get; set; } = new DrawGroup();
 
         public bool IsVisible { get; set; }
-
-        public void DefaultAllMaskValues()
-        {
-            //for (int i = 0; i < Model.DRAW_MASK_LENGTH; i++)
-            //{
-            //    DrawMask[i] = DefaultDrawMask[i];
-            //}
-        }
-
-        public List<string> GetAllTexNamesToLoad()
-        {
-            List<string> result = new List<string>();
-
-            lock (_lock_submeshes)
-            {
-                if (Submeshes != null)
-                {
-                    foreach (var sm in Submeshes)
-                    {
-                        //result.AddRange(sm.GetAllTexNamesToLoad());
-                    }
-                }
-            }
-
-            
-            return result;
-        }
-
-        public NewMesh(FLVER2 flver, bool useSecondUV, Dictionary<string, int> boneIndexRemap = null, 
-            bool ignoreStaticTransforms = false)
-        {
-            //LoadFLVER2(flver, useSecondUV, boneIndexRemap, ignoreStaticTransforms);
-        }
 
         public NewMesh(Scene.RenderScene scene, Resource.ResourceHandle<Resource.FlverResource> res, bool useSecondUV, Dictionary<string, int> boneIndexRemap = null,
             bool ignoreStaticTransforms = false)
@@ -224,39 +185,7 @@ namespace StudioCore
                     }
                 }
             }
-            //Bounds = res.Bounds;
         }
-
-        /*private void LoadFLVER2(FLVER2 flver, bool useSecondUV, Dictionary<string, int> boneIndexRemap = null, 
-            bool ignoreStaticTransforms = false)
-        {
-            lock (_lock_submeshes)
-            {
-                Submeshes = new List<FlverSubmeshRenderer>();
-            }
-            
-            foreach (var submesh in flver.Meshes)
-            {
-                // Blacklist some materials that don't have good shaders and just make the viewer look like a mess
-                MTD mtd = null;// InterrootLoader.GetMTD(Path.GetFileName(flver.Materials[submesh.MaterialIndex].MTD));
-                if (mtd != null)
-                {
-                    if (mtd.ShaderPath.Contains("FRPG_Water_Env"))
-                        continue;
-                    if (mtd.ShaderPath.Contains("FRPG_Water_Reflect.spx"))
-                        continue;
-                }
-                var smm = new FlverSubmeshRenderer(this, flver, submesh, useSecondUV, boneIndexRemap, ignoreStaticTransforms);
-
-                Bounds = new BoundingBox();
-
-                lock (_lock_submeshes)
-                {
-                    Submeshes.Add(smm);
-                    Bounds = BoundingBox.CreateMerged(Bounds, smm.Bounds);
-                }
-            }
-        }*/
 
         public List<FlverSubmeshRenderer> GetLoadedSubmeshes()
         {
@@ -266,42 +195,6 @@ namespace StudioCore
                 return Submeshes;
             }
             return new List<FlverSubmeshRenderer>();
-        }
-
-        public void Draw(int lod = 0, bool motionBlur = false, bool forceNoBackfaceCulling = false, bool isSkyboxLol = false)
-        {
-            if (Submeshes.Count() == 0 && Resource.IsLoaded)
-            {
-                CreateSubmeshes();
-            }
-            if (TextureReloadQueued)
-            {
-                TryToLoadTextures();
-                TextureReloadQueued = false;
-            }
-
-            lock (_lock_submeshes)
-            {
-                if (Submeshes == null)
-                    return;
-
-                foreach (var submesh in Submeshes)
-                {
-                    //submesh.Draw(lod, motionBlur, GFX.FlverShader, DrawMask, forceNoBackfaceCulling, isSkyboxLol);
-                }
-            }
-        }
-
-        public void TryToLoadTextures()
-        {
-            lock (_lock_submeshes)
-            {
-                if (Submeshes == null)
-                    return;
-
-                //foreach (var sm in Submeshes)
-                //    sm.TryToLoadTextures();
-            }
         }
 
         public void Dispose()
@@ -328,7 +221,6 @@ namespace StudioCore
                 }
                 if (DebugBoundingBox != null)
                 {
-                    //queue.Add(DebugBoundingBox, new RenderKey(0));
                     DebugBoundingBox.SubmitRenderObjects(queue);
                 }
             }

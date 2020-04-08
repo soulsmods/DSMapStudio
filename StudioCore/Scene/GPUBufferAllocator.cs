@@ -181,6 +181,8 @@ namespace StudioCore.Scene
         private bool _stagingLocked = false;
         private bool _pendingFlush = false;
 
+        private GraphicsDevice _device = null;
+
         public long TotalVertexFootprint
         {
             get
@@ -532,6 +534,25 @@ namespace StudioCore.Scene
                 });
             }
 
+            unsafe public void FillVBuffer(IntPtr vdata, uint size, Action completionHandler = null)
+            {
+                Renderer.AddBackgroundUploadTask((device, cl) =>
+                {
+                    if (AllocStatus == Status.Staging)
+                    {
+                        cl.UpdateBuffer(_allocator._stagingBufferVerts, VAllocationStart, vdata, size);
+                    }
+                    else if (AllocStatus == Status.Resident)
+                    {
+                        cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, vdata, size);
+                    }
+                    if (completionHandler != null)
+                    {
+                        completionHandler.Invoke();
+                    }
+                });
+            }
+
             public void FillVBuffer<T>(CommandList cl, T[] vdata) where T : struct
             {
                 if (AllocStatus == Status.Staging)
@@ -543,6 +564,11 @@ namespace StudioCore.Scene
                     cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, vdata);
                 }
             }
+
+            /*unsafe public Span<T> MapBuffer<T>() where T : struct
+            {
+                _allocator._device.Map(,MapMode.ReadWrite);
+            }*/
 
             public void FillIBuffer<T>(T[] idata, Action completionHandler = null) where T : struct
             {

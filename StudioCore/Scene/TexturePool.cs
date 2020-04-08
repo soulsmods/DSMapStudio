@@ -398,7 +398,7 @@ namespace StudioCore.Scene
                 TexHandle = handle;
             }
 
-            public unsafe void FillWithTPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex)
+            public unsafe void FillWithTPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex, string name)
             {
                 if (platform != TPF.TPFPlatform.PC)
                 {
@@ -473,6 +473,7 @@ namespace StudioCore.Scene
                 desc.Usage = TextureUsage.Sampled | usage;
                 desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
+                _texture.Name = name;
                 cl.CopyTexture(_staging, _texture);
                 Resident = true;
                 _pool.DescriptorTableDirty = true;
@@ -648,7 +649,7 @@ namespace StudioCore.Scene
                 }
             }
 
-            public unsafe void FillWithPS4TPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex)
+            public unsafe void FillWithPS4TPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex, string name)
             {
                 uint width = (uint)tex.Header.Width;
                 uint height = (uint)tex.Header.Height;
@@ -733,12 +734,13 @@ namespace StudioCore.Scene
                 desc.Usage = TextureUsage.Sampled | usage;
                 desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
+                _texture.Name = name;
                 cl.CopyTexture(_staging, _texture);
                 Resident = true;
                 _pool.DescriptorTableDirty = true;
             }
 
-            public unsafe void FillWithColor(GraphicsDevice d, System.Drawing.Color c)
+            public unsafe void FillWithColor(GraphicsDevice d, System.Drawing.Color c, string name)
             {
                 TextureDescription desc = new TextureDescription();
                 desc.Width = 1;
@@ -769,6 +771,7 @@ namespace StudioCore.Scene
                 {
                     desc.Usage = TextureUsage.Sampled;
                     _texture = d.ResourceFactory.CreateTexture(desc);
+                    _texture.Name = name;
                     cl.CopyTexture(_staging, _texture);
                     Resident = true;
                     _pool.DescriptorTableDirty = true;

@@ -11,7 +11,7 @@ using StudioCore.Scene;
 
 namespace StudioCore
 {
-    public class FlverSubmeshRenderer : Scene.RenderObject, IDisposable
+    public class FlverSubmeshRenderer : Scene.RenderObject
     {
         public BoundingBox Bounds { get; private set; }
 
@@ -220,18 +220,16 @@ namespace StudioCore
             ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex, ResourceLayoutElementOptions.DynamicBinding)));
 
+            var mat = FlverResource.Get().GPUMeshes[FlverMeshIndex].Material;
+
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
             {
-                new VertexLayoutDescription(
-                    new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-                    new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Short2),
-                    new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-                    new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-                    new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-                    new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4))
+                mat.VertexLayout
             };
 
-            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "FlverBB").ToTuple();
+            //var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "FlverBB").ToTuple();
+            //Shaders = new Shader[] { res.Item1, res.Item2 };
+            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, mat.ShaderName).ToTuple();
             Shaders = new Shader[] { res.Item1, res.Item2 };
 
             ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(
@@ -267,10 +265,9 @@ namespace StudioCore
             pipelineDescription.PrimitiveTopology = isTriStrip ? PrimitiveTopology.TriangleStrip : PrimitiveTopology.TriangleList;
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
-                shaders: Shaders);
+                shaders: Shaders, mat.SpecializationConstants);
             pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            //RenderPipeline = factory.CreateGraphicsPipeline(pipelineDescription);
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }
 
@@ -362,22 +359,13 @@ namespace StudioCore
                 uint indexStart = geombuffer.IAllocationStart / (faceSet.Is32Bit ? 4u : 2u) + (uint)faceSet.IndexOffset;
                 var args = new Renderer.IndirectDrawIndexedArgumentsPacked();
                 args.FirstInstance = WorldBuffer.AllocationStart / (uint)sizeof(InstanceData);
-                args.VertexOffset = (int)(geombuffer.VAllocationStart / Resource.MapFlverLayout.SizeInBytes);
+                args.VertexOffset = (int)(geombuffer.VAllocationStart / mat.VertexSize);
                 args.InstanceCount = 1;
                 args.FirstIndex = indexStart;
                 args.IndexCount = (uint)faceSet.IndexCount;
                 encoder.AddDraw(ref args, geombuffer.BufferIndex, RenderPipeline, PerObjRS, faceSet.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16);
                 FlverResource.Unlock();
             }
-        }
-
-        public void Dispose()
-        {
-
-            //VertBuffer.Dispose();
-
-            // Just leave the texture data as-is, since 
-            // TexturePool handles memory cleanup
         }
 
         public override Pipeline GetPipeline()

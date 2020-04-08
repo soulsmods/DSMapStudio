@@ -356,7 +356,8 @@ namespace SoulsFormats
                         }
                         else if (member.Type == LayoutType.Float16_4)
                         {
-                            AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), br.ReadInt16()) / uvFactor);
+                            //AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), br.ReadInt16()) / uvFactor);
+                            AddUV(ReadFloat16NormXYZ(br));
                             br.AssertInt16(0);
                         }
                         else

@@ -377,8 +377,6 @@ namespace StudioCore.MsbEditor
             //NavMeshEditor.OnGui(AssetLocator.Type);
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
-
-
         }
 
         public void Draw(GraphicsDevice device, CommandList cl)

@@ -17,9 +17,10 @@ namespace StudioCore.Scene
         public ushort specTex2;
         public ushort emissiveTex;
         public ushort shininessTex;
+        public ushort shininessTex2;
         public ushort blendMaskTex;
         public ushort lightmapTex;
         public ushort lightmapTex2;
-        public fixed ushort padding[5];
+        public fixed ushort padding[4];
     }
 }

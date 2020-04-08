@@ -35,7 +35,15 @@ namespace StudioCore.Resource
         }
         private static object CacheLock = new object();
 
-        private static ArrayPool<MapFlverLayout> VerticesPool = ArrayPool<MapFlverLayout>.Create();
+        //private static ArrayPool<FlverLayout> VerticesPool = ArrayPool<FlverLayout>.Create();
+
+        public const bool CaptureMaterialLayouts = false;
+
+        /// <summary>
+        /// Cache of material layouts that can be dumped
+        /// </summary>
+        public static Dictionary<string, FLVER2.BufferLayout> MaterialLayouts = new Dictionary<string, FLVER2.BufferLayout>();
+        public static object _matLayoutLock = new object();
 
         private FlverCache GetCache()
         {
@@ -65,7 +73,7 @@ namespace StudioCore.Resource
         public static void PurgeCaches()
         {
             FlverCaches.Clear();
-            VerticesPool = ArrayPool<MapFlverLayout>.Create();
+            //VerticesPool = ArrayPool<FlverLayout>.Create();
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
@@ -73,13 +81,25 @@ namespace StudioCore.Resource
 
         public class FlverMaterial : IResourceEventListener
         {
+            public string MaterialName;
             public Scene.GPUBufferAllocator.GPUBufferHandle MaterialBuffer;
             public Scene.Material MaterialData;
 
+            public string ShaderName = null;
+            public FlverLayoutType LayoutType;
+            public SpecializationConstant[] SpecializationConstants = null;
+            public VertexLayoutDescription VertexLayout;
+            public uint VertexSize;
+
             public TextureResourceHande AlbedoTextureResource = null;
+            public TextureResourceHande AlbedoTextureResource2 = null;
             public TextureResourceHande NormalTextureResource = null;
+            public TextureResourceHande NormalTextureResource2 = null;
             public TextureResourceHande SpecularTextureResource = null;
+            public TextureResourceHande SpecularTextureResource2 = null;
             public TextureResourceHande ShininessTextureResource = null;
+            public TextureResourceHande ShininessTextureResource2 = null;
+            public TextureResourceHande BlendmaskTextureResource = null;
 
             private void SetMaterialTexture(TextureResourceHande handle, ref ushort matTex, ushort defaultTex)
             {
@@ -105,9 +125,14 @@ namespace StudioCore.Resource
             public void UpdateMaterial()
             {
                 SetMaterialTexture(AlbedoTextureResource, ref MaterialData.colorTex, 0);
+                SetMaterialTexture(AlbedoTextureResource2, ref MaterialData.colorTex2, 0);
                 SetMaterialTexture(NormalTextureResource, ref MaterialData.normalTex, 1);
+                SetMaterialTexture(NormalTextureResource2, ref MaterialData.normalTex2, 1);
                 SetMaterialTexture(SpecularTextureResource, ref MaterialData.specTex, 2);
+                SetMaterialTexture(SpecularTextureResource2, ref MaterialData.specTex2, 2);
                 SetMaterialTexture(ShininessTextureResource, ref MaterialData.shininessTex, 2);
+                SetMaterialTexture(ShininessTextureResource2, ref MaterialData.shininessTex2, 2);
+                SetMaterialTexture(BlendmaskTextureResource, ref MaterialData.blendMaskTex, 0);
 
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
@@ -149,7 +174,6 @@ namespace StudioCore.Resource
             // This is native because using managed arrays causes a weird memory leak
             public IntPtr PickingVertices = IntPtr.Zero;
 
-            //public Vector3[] PickingVertices;
             public BoundingBox Bounds { get; set; }
 
             public int DefaultBoneIndex { get; set; } = -1;
@@ -169,156 +193,266 @@ namespace StudioCore.Resource
 
         public List<FLVER.Bone> Bones { get; private set; } = null;
 
-        unsafe private void ProcessMaterial(FLVER2.Material mat, FlverMaterial dest)
+        private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, FLVER2.Texture matparam)
         {
+            if (matparam.Path == "")
+            {
+                // TODO Sekiro handling
+            }
+            else
+            {
+                handle = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path).ToLower()}");
+                handle.Acquire();
+                handle.AddResourceEventListener(dest);
+            }
+        }
+
+        unsafe private void ProcessMaterial(FLVER2.Material mat, FlverMaterial dest, GameType type)
+        {
+            dest.MaterialName = Path.GetFileNameWithoutExtension(mat.MTD);
             dest.MaterialBuffer = Scene.Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(Scene.Material), sizeof(Scene.Material));
             dest.MaterialData = new Scene.Material();
+
+            bool blend = false;
+            bool blendMask = false;
+            bool hasNormal2 = false;
+            bool hasSpec2 = false;
+            bool hasShininess2 = false;
 
             foreach (var matparam in mat.Textures)
             {
                 var paramNameCheck = matparam.Type.ToUpper();
-                if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
+                if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
                 {
-                    if (matparam.Path == "")
-                    {
-                        // TODO Sekiro handling
-                    }
-                    else
-                    {
-                        dest.AlbedoTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
-                        dest.AlbedoTextureResource.Acquire();
-                        dest.AlbedoTextureResource.AddResourceEventListener(dest);
-                    }
+                    LookupTexture(ref dest.AlbedoTextureResource2, dest, matparam);
+                    blend = true;
+                }
+                else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
+                {
+                    LookupTexture(ref dest.AlbedoTextureResource, dest, matparam);
+                }
+                else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
+                {
+                    LookupTexture(ref dest.NormalTextureResource2, dest, matparam);
+                    blend = true;
+                    hasNormal2 = true;
                 }
                 else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
                 {
-                    if (matparam.Path == "")
-                    {
-                        // TODO Sekiro handling
-                    }
-                    else
-                    {
-                        dest.NormalTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
-                        dest.NormalTextureResource.Acquire();
-                        dest.NormalTextureResource.AddResourceEventListener(dest);
-                    }
+                    LookupTexture(ref dest.NormalTextureResource, dest, matparam);
+                }
+                else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
+                {
+                    LookupTexture(ref dest.SpecularTextureResource2, dest, matparam);
+                    blend = true;
+                    hasSpec2 = true;
                 }
                 else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
                 {
-                    if (matparam.Path == "")
-                    {
-                        // TODO Sekiro handling
-                    }
-                    else
-                    {
-                        dest.SpecularTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
-                        dest.SpecularTextureResource.Acquire();
-                        dest.SpecularTextureResource.AddResourceEventListener(dest);
-                    }
+                    LookupTexture(ref dest.SpecularTextureResource, dest, matparam);
                 }
-                else if (paramNameCheck.Contains("SHININESS"))
+                else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
                 {
-                    if (matparam.Path == "")
-                    {
-                        // TODO Sekiro handling
-                    }
-                    else
-                    {
-                        dest.ShininessTextureResource = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path)}");
-                        dest.ShininessTextureResource.Acquire();
-                        dest.ShininessTextureResource.AddResourceEventListener(dest);
-                    }
+                    LookupTexture(ref dest.ShininessTextureResource2, dest, matparam);
+                    blend = true;
+                    hasShininess2 = true;
+                }
+                else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
+                {
+                    LookupTexture(ref dest.ShininessTextureResource, dest, matparam);
+                }
+                else if (paramNameCheck.Contains("BLENDMASK"))
+                {
+                    LookupTexture(ref dest.BlendmaskTextureResource, dest, matparam);
+                    blendMask = true;
                 }
             }
+
+            if (blendMask)
+            {
+                dest.ShaderName = @"FlverShader\FlverShader_blendmask";
+                dest.LayoutType = FlverLayoutType.LayoutUV2;
+            }
+            else if (blend)
+            {
+                dest.ShaderName = @"FlverShader\FlverShader_blend";
+                dest.LayoutType = FlverLayoutType.LayoutUV2;
+            }
+            else
+            {
+                dest.ShaderName = @"FlverShader\FlverShader";
+                dest.LayoutType = FlverLayoutType.LayoutStandard;
+            }
+
+            List<SpecializationConstant> specConstants = new List<SpecializationConstant>();
+            specConstants.Add(new SpecializationConstant(0, (uint)type));
+            if (blend || blendMask)
+            {
+                specConstants.Add(new SpecializationConstant(1, hasNormal2));
+                specConstants.Add(new SpecializationConstant(2, hasSpec2));
+                specConstants.Add(new SpecializationConstant(3, hasShininess2));
+            }
+
+            dest.SpecializationConstants = specConstants.ToArray();
+            dest.VertexLayout = FlverLayoutUtils.GetLayoutDescription(dest.LayoutType);
+            dest.VertexSize = FlverLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
 
             dest.UpdateMaterial();
         }
 
-        unsafe private void ProcessMesh(FLVER2.Mesh mesh, FlverSubmesh dest)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void FillVertex(ref Vector3 dest, ref FLVER.Vertex v)
         {
-            bool hasLightmap = false;
-            bool useSecondUV = false;
+            dest = v.Position;
+        }
 
-            var factory = Scene.Renderer.Factory;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillNormalSNorm8(sbyte *dest, ref FLVER.Vertex v)
+        {
+            var n = Vector3.Normalize(new Vector3(v.Normal.X, v.Normal.Y, v.Normal.Z));
+            dest[0] = (sbyte)(n.X * 127.0f);
+            dest[1] = (sbyte)(n.Y * 127.0f);
+            dest[2] = (sbyte)(n.Z * 127.0f);
+        }
 
-            //var MeshVertices = new MapFlverLayout[mesh.VertexCount];
-            var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
-            //dest.PickingVertices = new Vector3[mesh.VertexCount];
-            dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
-            var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillUVShort(short* dest, ref FLVER.Vertex v, byte index)
+        {
+            var uv = v.GetUV(index);
+            dest[0] = (short)(uv.X * 2048.0f);
+            dest[1] = (short)(uv.Y * 2048.0f);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillUVShortZero(short* dest)
+        {
+            dest[0] = 0;
+            dest[1] = 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillUVFloat(ref Vector2 dest, ref FLVER.Vertex v, byte index)
+        {
+            var uv = v.GetUV(index);
+            dest.X = uv.X;
+            dest.Y = uv.Y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillBinormalBitangentSNorm8(sbyte* destBinorm, sbyte* destBitan, ref FLVER.Vertex v, byte index)
+        {
+            var tan = v.GetTangent(index);
+            var t = Vector3.Normalize(new Vector3(tan.X, tan.Y, tan.Z));
+            destBitan[0] = (sbyte)(t.X * 127.0f);
+            destBitan[1] = (sbyte)(t.Y * 127.0f);
+            destBitan[2] = (sbyte)(t.Z * 127.0f);
+            destBitan[3] = (sbyte)(tan.W * 127.0f);
+
+            var bn = Vector3.Cross(Vector3.Normalize(v.Normal), Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
+            destBinorm[0] = (sbyte)(bn.X * 127.0f);
+            destBinorm[1] = (sbyte)(bn.Y * 127.0f);
+            destBinorm[2] = (sbyte)(bn.Z * 127.0f);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillBinormalBitangentSNorm8Zero(sbyte* destBinorm, sbyte* destBitan)
+        {
+            destBitan[0] = 0;
+            destBitan[1] = 0;
+            destBitan[2] = 0;
+            destBitan[3] = 127;
+
+            destBinorm[0] = 0;
+            destBinorm[1] = 0;
+            destBinorm[2] = 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe void FillColorUNorm(byte* dest, ref FLVER.Vertex v)
+        {
+            
+        }
+
+        unsafe private void FillVerticesStandard(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
+        {
+            Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.VertexCount);
             for (int i = 0; i < mesh.VertexCount; i++)
             {
                 var vert = mesh.Vertices[i];
 
-                var ORIG_BONE_WEIGHTS = vert.BoneWeights;
-                var ORIG_BONE_INDICES = vert.BoneIndices;
-
-                MeshVertices[i] = new MapFlverLayout();
-
-                MeshVertices[i].Position = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                pvhandle[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-
-                var n = Vector3.Normalize(new Vector3(vert.Normal.X, vert.Normal.Y, vert.Normal.Z));
-                MeshVertices[i].Normal[0] = (sbyte)(n.X * 127.0f);
-                MeshVertices[i].Normal[1] = (sbyte)(n.Y * 127.0f);
-                MeshVertices[i].Normal[2] = (sbyte)(n.Z * 127.0f);
-
-                //var bt = Vector3.Normalize(new Vector3(vert.Bitangent.X, vert.Bitangent.Y, vert.Bitangent.Z));
-
-                if (vert.UVCount > 0)
+                verts[i] = new FlverLayout();
+                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                fixed (FlverLayout* v = &verts[i])
                 {
-                    if (useSecondUV && vert.UVCount > 1)
+                    FillVertex(ref (*v).Position, ref vert);
+                    FillNormalSNorm8((*v).Normal, ref vert);
+                    if (vert.UVCount > 0)
                     {
-                        //MeshVertices[i].TextureCoordinate = new Vector2(vert.UVs[1].X, vert.UVs[1].Y);
-                        var uv = vert.GetUV(1);
-                        MeshVertices[i].Uv1[0] = (short)(uv.X * 2048.0f);
-                        MeshVertices[i].Uv1[1] = (short)(uv.Y * 2048.0f);
+                        FillUVShort((*v).Uv1, ref vert, 0);
                     }
                     else
                     {
-                        //MeshVertices[i].TextureCoordinate = new Vector2(vert.UVs[0].X, vert.UVs[0].Y);
-                        var uv = vert.GetUV(0);
-                        MeshVertices[i].Uv1[0] = (short)(uv.X * 2048.0f);
-                        MeshVertices[i].Uv1[1] = (short)(uv.Y * 2048.0f);
+                        FillUVShortZero((*v).Uv1);
                     }
-
-                    if (vert.UVCount >= 2)
+                    if (vert.TangentCount > 0)
                     {
-                        //MeshVertices[i].TextureCoordinate2 = new Vector2(vert.UVs[1].X, vert.UVs[1].Y);
+                        FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
                     }
-                }
-                else
-                {
-                    //MeshVertices[i].TextureCoordinate = Vector2.Zero;
-                    //MeshVertices[i].TextureCoordinate2 = Vector2.Zero;
-                    MeshVertices[i].Uv1[0] = 0;
-                    MeshVertices[i].Uv1[1] = 0;
-                }
-
-                if (vert.TangentCount > 0)
-                {
-                    var tan = vert.GetTangent(0);
-                    var t = Vector3.Normalize(new Vector3(tan.X, tan.Y, tan.Z));
-                    MeshVertices[i].Bitangent[0] = (sbyte)(t.X * 127.0f);
-                    MeshVertices[i].Bitangent[1] = (sbyte)(t.Y * 127.0f);
-                    MeshVertices[i].Bitangent[2] = (sbyte)(t.Z * 127.0f);
-                    MeshVertices[i].Bitangent[3] = (sbyte)(tan.W * 127.0f);
-
-                    var bn = Vector3.Cross(n, Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
-                    MeshVertices[i].Binormal[0] = (sbyte)(bn.X * 127.0f);
-                    MeshVertices[i].Binormal[1] = (sbyte)(bn.Y * 127.0f);
-                    MeshVertices[i].Binormal[2] = (sbyte)(bn.Z * 127.0f);
-                }
-                else
-                {
-                    MeshVertices[i].Bitangent[0] = 0;
-                    MeshVertices[i].Bitangent[1] = 0;
-                    MeshVertices[i].Bitangent[2] = 0;
-                    MeshVertices[i].Bitangent[3] = 127;
+                    else
+                    {
+                        FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                    }
                 }
             }
+        }
 
-            //debug_sortedByZ = debug_sortedByZ.OrderBy(v => v.Position.Z).ToList();
+        unsafe private void FillVerticesUV2(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
+        {
+            Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), mesh.VertexCount);
+            for (int i = 0; i < mesh.VertexCount; i++)
+            {
+                var vert = mesh.Vertices[i];
+
+                verts[i] = new FlverLayoutUV2();
+                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                fixed (FlverLayoutUV2* v = &verts[i])
+                {
+                    FillVertex(ref (*v).Position, ref vert);
+                    FillNormalSNorm8((*v).Normal, ref vert);
+                    FillUVShort((*v).Uv1, ref vert, 0);
+                    FillUVShort((*v).Uv2, ref vert, 1);
+                    if (vert.TangentCount > 0)
+                    {
+                        FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
+                    }
+                    else
+                    {
+                        FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                    }
+                }
+            }
+        }
+
+        unsafe private void ProcessMesh(FLVER2.Mesh mesh, FlverSubmesh dest)
+        {
+            var factory = Scene.Renderer.Factory;
+
+            dest.Material = GPUMaterials[mesh.MaterialIndex];
+
+            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
+            var vSize = dest.Material.VertexSize;
+            var meshVertices = Marshal.AllocHGlobal(mesh.VertexCount * (int)vSize);
+            dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
+            var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
+
+            if (dest.Material.LayoutType == FlverLayoutType.LayoutUV2)
+            {
+                FillVerticesUV2(mesh, pvhandle, meshVertices);
+            }
+            else
+            {
+                FillVerticesStandard(mesh, pvhandle, meshVertices);
+            }
 
             dest.VertexCount = mesh.VertexCount;
 
@@ -391,17 +525,6 @@ namespace StudioCore.Resource
 
                 if (is32bit)
                 {
-                    /*newFaceSet.IndexBuffer.FillBuffer(
-                        faceset.Indices.Select(x => (x == 0xFFFF && x > mesh.Vertices.Length) ? -1 : x).Take(faceset.IndicesCount).ToArray(),
-                        () =>
-                        {
-                            fsUploadsPending--;
-                            if (fsUploadsPending <= 0)
-                            {
-                                facesets = null;
-                            }
-                        }
-                    );*/
                     for (int i = 0; i < faceset.Indices.Length; i++)
                     {
                         if (faceset.Indices[i] == 0xFFFF && faceset.Indices[i] > mesh.Vertices.Length)
@@ -416,17 +539,6 @@ namespace StudioCore.Resource
                 }
                 else
                 {
-                    /*newFaceSet.IndexBuffer.FillBuffer(
-                        faceset.Indices.Select<int, ushort>(x => (ushort)((x == 0xFFFF && x > mesh.Vertices.Length) ? 0xFFFF : (ushort)x)).Take(faceset.IndicesCount).ToArray(),
-                        () =>
-                        {
-                            fsUploadsPending--;
-                            if (fsUploadsPending <= 0)
-                            {
-                                facesets = null;
-                            }
-                        }
-                    );*/
                     for (int i = 0; i < faceset.Indices.Length; i++)
                     {
                         if (faceset.Indices[i] == 0xFFFF && faceset.Indices[i] > mesh.Vertices.Length)
@@ -444,24 +556,14 @@ namespace StudioCore.Resource
                 idxoffset += faceset.Indices.Length;
             }
 
-            //dest.Bounds = BoundingBox.CreateFromPoints(MeshVertices.Select(x => x.Position));
-            //dest.Bounds = new BoundingBox(mesh.BoundingBox.Min, mesh.BoundingBox.Max);
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-            //dest.Bounds = new BoundingBox();
 
-            //dest.VertBuffer = new VertexBuffer(GFX.Device,
-            //    typeof(FlverShaderVertInput), MeshVertices.Length, BufferUsage.WriteOnly);
-            //dest.VertBuffer.SetData(MeshVertices);
-
-            uint vbuffersize = (uint)mesh.VertexCount * MapFlverLayout.SizeInBytes;
-            //dest.VertBuffer = factory.CreateBuffer(new BufferDescription(vbuffersize, BufferUsage.VertexBuffer));
-            //dest.VertBuffer = Scene.Renderer.VertexBufferAllocator.Allocate(vbuffersize, (int)MapFlverLayout.SizeInBytes);
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)MapFlverLayout.SizeInBytes, 4, (h) =>
+            uint vbuffersize = (uint)mesh.VertexCount * (uint)vSize;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
             {
-                h.FillVBuffer(MeshVertices, mesh.VertexCount, () =>
+                h.FillVBuffer(meshVertices, vSize * (uint)mesh.VertexCount, () =>
                 {
-                    VerticesPool.Return(MeshVertices);
-                    MeshVertices = null;
+                    Marshal.FreeHGlobal(meshVertices);
                 });
                 if (is32bit)
                 {
@@ -475,10 +577,19 @@ namespace StudioCore.Resource
 
             facesets = null;
 
-            dest.Material = GPUMaterials[mesh.MaterialIndex];
+            if (CaptureMaterialLayouts)
+            {
+                lock (_matLayoutLock)
+                {
+                    if (!MaterialLayouts.ContainsKey(dest.Material.MaterialName))
+                    {
+                        MaterialLayouts.Add(dest.Material.MaterialName, Flver.BufferLayouts[mesh.VertexBuffers[0].LayoutIndex]);
+                    }
+                }
+            }
         }
 
-        private bool LoadInternal(AccessLevel al)
+        private bool LoadInternal(AccessLevel al, GameType type)
         {
             if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
             {
@@ -489,7 +600,7 @@ namespace StudioCore.Resource
                 for (int i = 0; i < Flver.Materials.Count(); i++)
                 {
                     GPUMaterials[i] = new FlverMaterial();
-                    ProcessMaterial(Flver.Materials[i], GPUMaterials[i]);
+                    ProcessMaterial(Flver.Materials[i], GPUMaterials[i], type);
                 }
 
                 for (int i = 0; i < Flver.Meshes.Count(); i++)
@@ -504,7 +615,6 @@ namespace StudioCore.Resource
                     {
                         Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                     }
-                    //Bounds = BoundingBox.CreateMerged(Bounds, GPUMeshes[i].Bounds);
                 }
 
                 Bones = Flver.Bones;
@@ -522,7 +632,7 @@ namespace StudioCore.Resource
         {
             var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
             Flver = FLVER2.Read(bytes, cache);
-            bool ret = LoadInternal(al);
+            bool ret = LoadInternal(al, type);
             ReleaseCache(cache);
             return ret;
         }
@@ -531,7 +641,7 @@ namespace StudioCore.Resource
         {
             var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
             Flver = FLVER2.Read(file, cache);
-            bool ret = LoadInternal(al);
+            bool ret = LoadInternal(al, type);
             ReleaseCache(cache);
             return ret;
         }

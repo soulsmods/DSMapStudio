@@ -34,7 +34,7 @@ namespace StudioCore.Resource
             {
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
-                    GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex]);
+                    GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
                     Texture = null;
                 });
             }
@@ -42,7 +42,7 @@ namespace StudioCore.Resource
             {
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
-                    GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex]);
+                    GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
                     Texture = null;
                 });
             }

@@ -385,15 +385,15 @@ namespace StudioCore.Scene
 
             // Initialize default 2D texture at 0
             var handle = GlobalTexturePool.AllocateTextureDescriptor();
-            handle.FillWithColor(device, System.Drawing.Color.Gray);
+            handle.FillWithColor(device, System.Drawing.Color.Gray, "Gray");
 
             // Default normal at 1
             handle = GlobalTexturePool.AllocateTextureDescriptor();
-            handle.FillWithColor(device, System.Drawing.Color.FromArgb(255, 0, 127, 127));
+            handle.FillWithColor(device, System.Drawing.Color.FromArgb(255, 0, 127, 127), "Normal");
 
             // Default spec at 2
             handle = GlobalTexturePool.AllocateTextureDescriptor();
-            handle.FillWithColor(device, System.Drawing.Color.Black);
+            handle.FillWithColor(device, System.Drawing.Color.Black, "Black");
 
             // Default GI envmap texture at 3
             handle = GlobalTexturePool.AllocateTextureDescriptor();

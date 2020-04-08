@@ -157,7 +157,7 @@ namespace StudioCore.Resource
                 for (int i = 0; i < _tpf.Textures.Count; i++)
                 {
                     var tex = _tpf.Textures[i];
-                    var handle = ResourceManager.GetTextureResource($@"{_virtpathbase}/{tex.Name}");
+                    var handle = ResourceManager.GetTextureResource($@"{_virtpathbase}/{tex.Name.ToLower()}");
                     _pendingResources.Add(new Tuple<TextureResourceHande, string, int>(handle, $@"{_virtpathbase}/{tex.Name}", i));
                 }
 

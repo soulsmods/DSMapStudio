@@ -723,6 +723,15 @@ namespace StudioCore
                     ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
                 }
             }
+            if (Type == GameType.Bloodborne)
+            {
+                string path = $@"{GameRootDirectory}\chr\{chrid}_2.tpf.dcx";
+                if (File.Exists(path))
+                {
+                    ad.AssetPath = path;
+                    ad.AssetVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
 
             return ad;
         }
@@ -922,6 +931,10 @@ namespace StudioCore
                     if (Type == GameType.DarkSoulsIII)
                     {
                         return $@"{GameRootDirectory}\chr\{chrid}.texbnd.dcx";
+                    }
+                    else if (Type == GameType.Bloodborne)
+                    {
+                        return $@"{GameRootDirectory}\chr\{chrid}_2.tpf.dcx";
                     }
                 }
             }
