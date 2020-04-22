@@ -22,7 +22,7 @@ namespace StudioCore.MsbEditor
         /// <summary>
         /// Navmesh this region is associated with
         /// </summary>
-        public MapObject Navmesh { get; set; }
+        public Entity Navmesh { get; set; }
 
         /// <summary>
         /// Bounding volume of this region
@@ -42,7 +42,7 @@ namespace StudioCore.MsbEditor
         /// <summary>
         /// Construct a region from a deserialized mcp room
         /// </summary>
-        public NavRegion(Map enclosingMap, MCP.Room room)
+        public NavRegion(ObjectContainer enclosingMap, MCP.Room room)
         {
             BoundingBox = new BoundingBox(room.BoundingBoxMin, room.BoundingBoxMax);
             _navidx = room.LocalIndex;

@@ -216,6 +216,32 @@ namespace StudioCore
             FullMapList = null;
         }
 
+        public bool FileExists(string relpath)
+        {
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{relpath}"))
+            {
+                return true;
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{relpath}"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public string GetOverridenFilePath(string relpath)
+        {
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{relpath}"))
+            {
+                return $@"{GameModDirectory}\{relpath}";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{relpath}"))
+            {
+                return $@"{GameRootDirectory}\{relpath}";
+            }
+            return null;
+        }
+
         /// <summary>
         /// Gets the full list of maps in the game (excluding chalice dungeons). Basically if there's an msb for it,
         /// it will be in this list.
@@ -661,6 +687,10 @@ namespace StudioCore
                 t.AssetArchiveVirtualPath = $@"map/tex/{mapid}/tex";
                 ads.Add(t);
             }
+            else if (Type == GameType.DarkSoulsPTDE)
+            {
+                //TODO
+            }
             else
             {
                 var mid = mapid.Substring(0, 3);
@@ -685,10 +715,13 @@ namespace StudioCore
                 t0003.AssetArchiveVirtualPath = $@"map/tex/{mid}/0003";
                 ads.Add(t0003);
 
-                var env = new AssetDescription();
-                env.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx";
-                env.AssetVirtualPath = $@"map/tex/{mid}/env";
-                ads.Add(env);
+                if (Type != GameType.Sekiro)
+                {
+                    var env = new AssetDescription();
+                    env.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx";
+                    env.AssetVirtualPath = $@"map/tex/{mid}/env";
+                    ads.Add(env);
+                }
             }
 
             return ads;
@@ -716,8 +749,8 @@ namespace StudioCore
             ad.AssetPath = null;
             if (Type == GameType.DarkSoulsIII)
             {
-                string path = $@"{GameRootDirectory}\chr\{chrid}.texbnd.dcx";
-                if (File.Exists(path))
+                string path = GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
+                if (path != null)
                 {
                     ad.AssetPath = path;
                     ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
@@ -725,8 +758,8 @@ namespace StudioCore
             }
             if (Type == GameType.Bloodborne)
             {
-                string path = $@"{GameRootDirectory}\chr\{chrid}_2.tpf.dcx";
-                if (File.Exists(path))
+                string path = GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
+                if (path != null)
                 {
                     ad.AssetPath = path;
                     ad.AssetVirtualPath = $@"chr/{chrid}/tex";
@@ -753,6 +786,48 @@ namespace StudioCore
             return ret;
         }
 
+        public List<string> GetChrModels()
+        {
+            var chrs = new HashSet<string>();
+            var ret = new List<string>();
+
+            string modelDir = $@"\chr";
+            string modelExt = $@".chrbnd.dcx";
+            if (Type == GameType.DarkSoulsPTDE)
+            {
+                modelExt = ".chrbnd";
+            }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                modelDir = $@"\model\chr";
+                modelExt = ".bnd";
+            }
+
+            var chrfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
+            foreach (var f in chrfiles)
+            {
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ret.Add(name);
+                chrs.Add(name);
+            }
+
+            if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
+            {
+                chrfiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
+                foreach (var f in chrfiles)
+                {
+                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                    if (!chrs.Contains(name))
+                    {
+                        ret.Add(name);
+                        chrs.Add(name);
+                    }
+                }
+            }
+
+            return ret;
+        }
+
         public AssetDescription GetChrModel(string chr)
         {
             var ret = new AssetDescription();
@@ -766,6 +841,48 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flver";
             }
+            return ret;
+        }
+
+        public List<string> GetObjModels()
+        {
+            var objs = new HashSet<string>();
+            var ret = new List<string>();
+
+            string modelDir = $@"\obj";
+            string modelExt = $@".objbnd.dcx";
+            if (Type == GameType.DarkSoulsPTDE)
+            {
+                modelExt = ".objbnd";
+            }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                modelDir = $@"\model\obj";
+                modelExt = ".bnd";
+            }
+
+            var objfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
+            foreach (var f in objfiles)
+            {
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ret.Add(name);
+                objs.Add(name);
+            }
+
+            if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
+            {
+                objfiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
+                foreach (var f in objfiles)
+                {
+                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                    if (!objs.Contains(name))
+                    {
+                        ret.Add(name);
+                        objs.Add(name);
+                    }
+                }
+            }
+
             return ret;
         }
 
@@ -917,24 +1034,24 @@ namespace StudioCore
                     bndpath = "";
                     if (Type == GameType.DarkSoulsPTDE)
                     {
-                        return $@"{GameRootDirectory}\chr\{chrid}.chrbnd";
+                        return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
                     }
                     else if (Type == GameType.DarkSoulsIISOTFS)
                     {
-                        return $@"{GameRootDirectory}\model\chr\{chrid}.bnd";
+                        return GetOverridenFilePath($@"model\chr\{chrid}.bnd");
                     }
-                    return $@"{GameRootDirectory}\chr\{chrid}.chrbnd.dcx";
+                    return GetOverridenFilePath($@"chr\{chrid}.chrbnd.dcx");
                 }
                 else if (pathElements[i].Equals("tex"))
                 {
                     bndpath = "";
                     if (Type == GameType.DarkSoulsIII)
                     {
-                        return $@"{GameRootDirectory}\chr\{chrid}.texbnd.dcx";
+                        return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
                     }
                     else if (Type == GameType.Bloodborne)
                     {
-                        return $@"{GameRootDirectory}\chr\{chrid}_2.tpf.dcx";
+                        return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
                     }
                 }
             }
@@ -948,13 +1065,13 @@ namespace StudioCore
                     bndpath = "";
                     if (Type == GameType.DarkSoulsPTDE)
                     {
-                        return $@"{GameRootDirectory}\obj\{chrid}.objbnd";
+                        return GetOverridenFilePath($@"obj\{chrid}.objbnd");
                     }
                     else if (Type == GameType.DarkSoulsIISOTFS)
                     {
-                        return $@"{GameRootDirectory}\model\obj\{chrid}.bnd";
+                        return GetOverridenFilePath($@"model\obj\{chrid}.bnd");
                     }
-                    return $@"{GameRootDirectory}\obj\{chrid}.objbnd.dcx";
+                    return GetOverridenFilePath($@"obj\{chrid}.objbnd.dcx");
                 }
             }
 

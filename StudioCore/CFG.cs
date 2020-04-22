@@ -222,6 +222,8 @@ namespace StudioCore
 
         public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All;
 
+        public bool EnableTexturing { get; set; } = false;
+
         public int GFX_Display_Width { get; set; } = 1920;
         public int GFX_Display_Height { get; set; } = 1057;
 

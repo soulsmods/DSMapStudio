@@ -8,18 +8,20 @@ namespace StudioCore.MsbEditor
 {
     public class DisplayGroupsEditor
     {
-        private Scene.RenderScene Scene;
+        private Scene.RenderScene _scene;
+        private Selection _selection;
 
-        public DisplayGroupsEditor(Scene.RenderScene scene)
+        public DisplayGroupsEditor(Scene.RenderScene scene, Selection sel)
         {
-            Scene = scene;
+            _scene = scene;
+            _selection = sel;
         }
 
         public void OnGui(GameType game)
         {
             uint[] sdrawgroups = null;
             uint[] sdispgroups = null;
-            var sel = Selection.GetSingleFilteredSelection<MapObject>();
+            var sel = _selection.GetSingleFilteredSelection<Entity>();
             if (sel != null)
             {
                 if (sel.UseDrawGroups)
@@ -32,7 +34,7 @@ namespace StudioCore.MsbEditor
             ImGui.SetNextWindowSize(new Vector2(100, 100));
             if (ImGui.Begin("Display Groups"))
             {
-                var dg = Scene.DisplayGroup;
+                var dg = _scene.DisplayGroup;
                 var count = (game == GameType.DemonsSouls || game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsIISOTFS) ? 4 : 8;
                 if (dg.AlwaysVisible || dg.Drawgroups.Length != count)
                 {

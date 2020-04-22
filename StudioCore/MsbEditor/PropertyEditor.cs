@@ -26,7 +26,7 @@ namespace StudioCore.MsbEditor
             ContextActionManager = manager;
         }
 
-        private bool PropertyRow(Type typ, object oldval, out object newval, MapObject obj=null, string propname=null)
+        private bool PropertyRow(Type typ, object oldval, out object newval, Entity obj=null, string propname=null)
         {
             if (typ == typeof(long))
             {
@@ -115,7 +115,7 @@ namespace StudioCore.MsbEditor
                     bool r = false;
                     if (ImGui.Selectable("Set Next Unique Value"))
                     {
-                        newval = obj.ContainingMap.GetNextUnique(propname, val);
+                        newval = obj.Container.GetNextUnique(propname, val);
                         ImGui.EndPopup();
                         return true;
                     }
@@ -173,7 +173,7 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
-        private void ChangeProperty(object prop, MapObject selection, object obj, object newval,
+        private void ChangeProperty(object prop, Entity selection, object obj, object newval,
             bool changed, bool committed, bool shouldUpdateVisual, int arrayindex = -1)
         {
             if (changed)
@@ -194,7 +194,7 @@ namespace StudioCore.MsbEditor
                     LastUncommittedAction = null;
                 }
 
-                if (ChangingObject != null && selection != null && selection.MsbObject != ChangingObject)
+                if (ChangingObject != null && selection != null && selection.WrappedObject != ChangingObject)
                 {
                     committed = true;
                 }
@@ -221,7 +221,7 @@ namespace StudioCore.MsbEditor
                     LastUncommittedAction = action;
                     ChangingPropery = prop;
                     //ChangingObject = selection.MsbObject;
-                    ChangingObject = selection != null ? selection.MsbObject : obj;
+                    ChangingObject = selection != null ? selection.WrappedObject : obj;
                 }
             }
             if (committed)
@@ -257,15 +257,15 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void PropEditorParamRow(MapObject selection)
+        private void PropEditorParamRow(Entity selection)
         {
             IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
-            if (selection.MsbObject is PARAM.Row row)
+            if (selection.WrappedObject is PARAM.Row row)
             {
                 cells = row.Cells;
 
             }
-            else if (selection.MsbObject is MergedParamRow mrow)
+            else if (selection.WrappedObject is MergedParamRow mrow)
             {
                 cells = mrow.Cells;
             }
@@ -274,9 +274,9 @@ namespace StudioCore.MsbEditor
             int id = 0;
 
             // This should be rewritten somehow it's super ugly
-            var nameProp = selection.MsbObject.GetType().GetProperty("Name");
-            var idProp = selection.MsbObject.GetType().GetProperty("ID");
-            object oval = nameProp.GetValue(selection.MsbObject);
+            var nameProp = selection.WrappedObject.GetType().GetProperty("Name");
+            var idProp = selection.WrappedObject.GetType().GetProperty("ID");
+            object oval = nameProp.GetValue(selection.WrappedObject);
             object nval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
@@ -285,12 +285,12 @@ namespace StudioCore.MsbEditor
             ImGui.SetNextItemWidth(-1);
             bool ch = PropertyRow(nameProp.PropertyType, oval, out nval);
             bool cm = ImGui.IsItemDeactivatedAfterEdit();
-            ChangeProperty(nameProp, selection, selection.MsbObject, nval, ch, cm, false);
+            ChangeProperty(nameProp, selection, selection.WrappedObject, nval, ch, cm, false);
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
 
-            oval = idProp.GetValue(selection.MsbObject);
+            oval = idProp.GetValue(selection.WrappedObject);
             nval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
@@ -299,7 +299,7 @@ namespace StudioCore.MsbEditor
             ImGui.SetNextItemWidth(-1);
             ch = PropertyRow(idProp.PropertyType, oval, out nval);
             cm = ImGui.IsItemDeactivatedAfterEdit();
-            ChangeProperty(idProp, selection, selection.MsbObject, nval, ch, cm, false);
+            ChangeProperty(idProp, selection, selection.WrappedObject, nval, ch, cm, false);
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
@@ -467,9 +467,9 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void PropEditorGeneric(MapObject selection, object target=null, bool decorate=true)
+        private void PropEditorGeneric(Entity selection, object target=null, bool decorate=true)
         {
-            var obj = (target == null) ? selection.MsbObject : target;
+            var obj = (target == null) ? selection.WrappedObject : target;
             var type = obj.GetType();
             if (!PropCache.ContainsKey(type.FullName))
             {
@@ -620,7 +620,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void OnGui(MapObject selection, float w, float h)
+        public void OnGui(Entity selection, float w, float h)
         {
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             ImGui.SetNextWindowSize(new Vector2(350, h - 80), ImGuiCond.FirstUseEver);
@@ -633,7 +633,7 @@ namespace StudioCore.MsbEditor
                 ImGui.End();
                 return;
             }
-            if (selection.MsbObject is PARAM.Row prow || selection.MsbObject is MergedParamRow)
+            if (selection.WrappedObject is PARAM.Row prow || selection.WrappedObject is MergedParamRow)
             {
                 PropEditorParamRow(selection);
             }

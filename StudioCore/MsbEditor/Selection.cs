@@ -6,41 +6,41 @@ using System.Threading.Tasks;
 
 namespace StudioCore.MsbEditor
 {
-    public static class Selection
+    public class Selection
     {
-        private static HashSet<Scene.ISelectable> _selected = new HashSet<Scene.ISelectable>();
+        private HashSet<Scene.ISelectable> _selected = new HashSet<Scene.ISelectable>();
 
-        public static bool IsSelection()
+        public bool IsSelection()
         {
             return _selected.Count > 0;
         }
 
-        public static bool IsFilteredSelection<T>() where T : Scene.ISelectable
+        public bool IsFilteredSelection<T>() where T : Scene.ISelectable
         {
             return GetFilteredSelection<T>().Count > 0;
         }
 
-        public static bool IsFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        public bool IsFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
         {
             return GetFilteredSelection<T>(filt).Count > 0;
         }
 
-        public static bool IsSingleSelection()
+        public bool IsSingleSelection()
         {
             return _selected.Count == 1;
         }
 
-        public static bool IsSingleFilteredSelection<T>() where T : Scene.ISelectable
+        public bool IsSingleFilteredSelection<T>() where T : Scene.ISelectable
         {
             return GetFilteredSelection<T>().Count == 1;
         }
 
-        public static bool IsSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        public bool IsSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
         {
             return GetFilteredSelection<T>(filt).Count == 1;
         }
 
-        public static Scene.ISelectable GetSingleSelection()
+        public Scene.ISelectable GetSingleSelection()
         {
             if (IsSingleSelection())
             {
@@ -49,7 +49,7 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
-        public static T GetSingleFilteredSelection<T>() where T : Scene.ISelectable
+        public T GetSingleFilteredSelection<T>() where T : Scene.ISelectable
         {
             var filt = GetFilteredSelection<T>();
             if (filt.Count() == 1)
@@ -59,7 +59,7 @@ namespace StudioCore.MsbEditor
             return default(T);
         }
 
-        public static T GetSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        public T GetSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
         {
             var f = GetFilteredSelection<T>(filt);
             if (f.Count() == 1)
@@ -69,12 +69,12 @@ namespace StudioCore.MsbEditor
             return default(T);
         }
 
-        public static HashSet<Scene.ISelectable> GetSelection()
+        public HashSet<Scene.ISelectable> GetSelection()
         {
             return _selected;
         }
 
-        public static HashSet<T> GetFilteredSelection<T>() where T : Scene.ISelectable
+        public HashSet<T> GetFilteredSelection<T>() where T : Scene.ISelectable
         {
             var filtered = new HashSet<T>();
             foreach (var sel in _selected)
@@ -87,7 +87,7 @@ namespace StudioCore.MsbEditor
             return filtered;
         }
 
-        public static HashSet<T> GetFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        public HashSet<T> GetFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
         {
             var filtered = new HashSet<T>();
             foreach (var sel in _selected)
@@ -100,7 +100,7 @@ namespace StudioCore.MsbEditor
             return filtered;
         }
 
-        public static void ClearSelection()
+        public void ClearSelection()
         {
             foreach (var sel in _selected)
             {
@@ -109,7 +109,7 @@ namespace StudioCore.MsbEditor
             _selected.Clear();
         }
 
-        public static void AddSelection(Scene.ISelectable selected)
+        public void AddSelection(Scene.ISelectable selected)
         {
             if (selected != null)
             {
@@ -118,7 +118,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public static void AddSelection(List<Scene.ISelectable> selected)
+        public void AddSelection(List<Scene.ISelectable> selected)
         {
             foreach (var sel in selected)
             {
@@ -130,7 +130,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public static bool IsSelected(Scene.ISelectable selected)
+        public bool IsSelected(Scene.ISelectable selected)
         {
             foreach (var sel in _selected)
             {

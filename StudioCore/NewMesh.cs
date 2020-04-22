@@ -81,10 +81,9 @@ namespace StudioCore
 
         public DrawGroup DrawGroups { get; set; } = new DrawGroup();
 
-        public bool IsVisible { get; set; }
+        public bool IsVisible { get; set; } = true;
 
-        public NewMesh(Scene.RenderScene scene, Resource.ResourceHandle<Resource.FlverResource> res, bool useSecondUV, Dictionary<string, int> boneIndexRemap = null,
-            bool ignoreStaticTransforms = false)
+        public NewMesh(Scene.RenderScene scene, Resource.ResourceHandle<Resource.FlverResource> res)
         {
             RenderScene = scene;
             Resource = res;

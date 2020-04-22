@@ -12,6 +12,7 @@ namespace StudioCore.MsbEditor
     public class NavmeshEditor
     {
         private Scene.RenderScene Scene;
+        private Selection _selection;
         private bool DidBuild = false;
         private bool BuildSuccess = false;
         private int vcount = 0;
@@ -27,9 +28,10 @@ namespace StudioCore.MsbEditor
 
         private Scene.Mesh BakeResultPreview = null;
 
-        public NavmeshEditor(Scene.RenderScene scene)
+        public NavmeshEditor(Scene.RenderScene scene, Selection sel)
         {
             Scene = scene;
+            _selection = sel;
         }
 
         public void OnGui(GameType game)
@@ -43,7 +45,7 @@ namespace StudioCore.MsbEditor
                     return;
                 }
 
-                var sel = Selection.GetSingleFilteredSelection<MapObject>();
+                var sel = _selection.GetSingleFilteredSelection<Entity>();
                 if (sel == null || !(sel.RenderSceneMesh is Scene.CollisionMesh))
                 {
                     ImGui.Text("Select a single collision mesh to generate a navmesh");

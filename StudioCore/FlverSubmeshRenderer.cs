@@ -246,18 +246,20 @@ namespace StudioCore
                 Renderer.UniformBufferAllocator._backingBuffer));
 
             bool isTriStrip = false;
+            bool isDoubleSided = false;
             var fres = FlverResource.Get();
             if (fres != null)
             {
                 var mesh = fres.GPUMeshes[FlverMeshIndex];
                 isTriStrip = mesh.MeshFacesets[0].IsTriangleStrip;
+                isDoubleSided = !mesh.MeshFacesets[0].BackfaceCulling;
             }
 
             GraphicsPipelineDescription pipelineDescription = new GraphicsPipelineDescription();
             pipelineDescription.BlendState = BlendStateDescription.SingleOverrideBlend;
             pipelineDescription.DepthStencilState = DepthStencilStateDescription.DepthOnlyGreaterEqual;
             pipelineDescription.RasterizerState = new RasterizerStateDescription(
-                cullMode: FaceCullMode.Back,
+                cullMode: isDoubleSided ? FaceCullMode.None : FaceCullMode.Back,
                 fillMode: PolygonFillMode.Solid,
                 frontFace: FrontFace.CounterClockwise,
                 depthClipEnabled: true,

@@ -16,6 +16,7 @@ namespace StudioCore.MsbEditor
     {
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
+        private Selection _selection = new Selection();
         public ActionManager EditorActionManager = new ActionManager();
         private ProjectSettings _projectSettings = null;
 
@@ -56,7 +57,6 @@ namespace StudioCore.MsbEditor
         public Rectangle Rect;
 
         private Sdl2Window Window;
-
         public Gui.Viewport Viewport;
 
         public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
@@ -66,14 +66,14 @@ namespace StudioCore.MsbEditor
             ResourceManager.Locator = AssetLocator;
             Window = window;
 
-            Viewport = new Gui.Viewport(device, RenderScene, EditorActionManager, Rect.Width, Rect.Height);
-            Universe = new Universe(AssetLocator, RenderScene);
+            Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+            Universe = new Universe(AssetLocator, RenderScene, _selection);
 
-            SceneTree = new SceneTree(Universe, EditorActionManager, Viewport, AssetLocator);
+            SceneTree = new SceneTree(Universe, _selection, EditorActionManager, Viewport, AssetLocator);
             PropEditor = new PropertyEditor(EditorActionManager);
-            DispGroupEditor = new DisplayGroupsEditor(RenderScene);
+            DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
             PropSearch = new SearchProperties(Universe);
-            NavMeshEditor = new NavmeshEditor(RenderScene);
+            NavMeshEditor = new NavmeshEditor(RenderScene, _selection);
 
             RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
         }
@@ -116,14 +116,14 @@ namespace StudioCore.MsbEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
+                if (ImGui.MenuItem("Delete", "Delete", false, _selection.IsSelection()))
                 {
-                    var action = new DeleteMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _selection.IsSelection()))
                 {
-                    var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
                 ImGui.EndMenu();
@@ -285,14 +285,14 @@ namespace StudioCore.MsbEditor
             }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (InputTracker.GetControlShortcut(Key.D) && Selection.IsSelection())
+                if (InputTracker.GetControlShortcut(Key.D) && _selection.IsSelection())
                 {
-                    var action = new CloneMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (InputTracker.GetKeyDown(Key.Delete) && Selection.IsSelection())
+                if (InputTracker.GetKeyDown(Key.Delete) && _selection.IsSelection())
                 {
-                    var action = new DeleteMapObjectsAction(Universe, RenderScene, Selection.GetFilteredSelection<MapObject>().ToList(), true);
+                    var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
                 if (InputTracker.GetKeyDown(Key.W))
@@ -320,7 +320,7 @@ namespace StudioCore.MsbEditor
                 // F key frames the selection
                 if (InputTracker.GetKeyDown(Key.F))
                 {
-                    var selected = Selection.GetFilteredSelection<MapObject>();
+                    var selected = _selection.GetFilteredSelection<Entity>();
                     bool first = false;
                     BoundingBox box = new BoundingBox();
                     foreach (var s in selected)
@@ -369,7 +369,7 @@ namespace StudioCore.MsbEditor
             Viewport.OnGui();
 
             SceneTree.OnGui();
-            PropEditor.OnGui(Selection.GetSingleFilteredSelection<MapObject>(), Viewport.Width, Viewport.Height);
+            PropEditor.OnGui(_selection.GetSingleFilteredSelection<Entity>(), Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
             PropSearch.OnGui();
 
@@ -377,6 +377,7 @@ namespace StudioCore.MsbEditor
             //NavMeshEditor.OnGui(AssetLocator.Type);
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
+            ResourceManager.OnGuiDrawResourceList();
         }
 
         public void Draw(GraphicsDevice device, CommandList cl)
@@ -387,7 +388,7 @@ namespace StudioCore.MsbEditor
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
-            Selection.ClearSelection();
+            _selection.ClearSelection();
             EditorActionManager.Clear();
             Universe.UnloadAllMaps();
             GC.Collect();
@@ -396,12 +397,30 @@ namespace StudioCore.MsbEditor
 
         public override void Save()
         {
-            Universe.SaveAllMaps();
+            try
+            {
+                Universe.SaveAllMaps();
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                     System.Windows.Forms.MessageBoxButtons.OK,
+                     System.Windows.Forms.MessageBoxIcon.None);
+            }
         }
 
         public override void SaveAll()
         {
-            Universe.SaveAllMaps();
+            try
+            {
+                Universe.SaveAllMaps();
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                     System.Windows.Forms.MessageBoxButtons.OK,
+                     System.Windows.Forms.MessageBoxIcon.None);
+            }
         }
     }
 }

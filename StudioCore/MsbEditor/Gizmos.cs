@@ -78,14 +78,16 @@ namespace StudioCore.MsbEditor
         private bool IsTransforming = false;
         private Axis TransformAxis = Axis.None;
         private ActionManager ActionManager;
+        private Selection _selection;
 
         public Vector3 CameraPosition { get; set; }
 
-        public Gizmos(ActionManager am)
+        public Gizmos(ActionManager am, Selection selection)
         {
             ActionManager = am;
             TranslateGizmo = new DebugPrimitives.DbgPrimGizmoTranslate();
             RotateGizmo = new DebugPrimitives.DbgPrimGizmoRotate();
+            _selection = selection;
         }
 
         // Code referenced from
@@ -163,7 +165,7 @@ namespace StudioCore.MsbEditor
                 {
                     IsTransforming = false;
                     var actlist = new List<Action>();
-                    foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
+                    foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                     {
                         sel.ClearTemporaryTransform(false);
                         actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetTransform())));
@@ -206,10 +208,10 @@ namespace StudioCore.MsbEditor
                         //CurrentTransform.EulerRotation.Y = OriginalTransform.EulerRotation.Y + angle;
                         CurrentTransform.Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * OriginalTransform.Rotation);
                     }
-                    if (Selection.IsSelection())
+                    if (_selection.IsSelection())
                     {
                         //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
-                        foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
+                        foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                         {
                             sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetTransform()));
                         }
@@ -218,11 +220,11 @@ namespace StudioCore.MsbEditor
             }
             if (!IsTransforming)
             {
-                if (Selection.IsFilteredSelection<MapObject>((o) => o.HasTransform))
+                if (_selection.IsFilteredSelection<Entity>((o) => o.HasTransform))
                 {
-                    if (Selection.IsSingleFilteredSelection<MapObject>((o) => o.HasTransform))
+                    if (_selection.IsSingleFilteredSelection<Entity>((o) => o.HasTransform))
                     {
-                        var sel = Selection.GetSingleFilteredSelection<MapObject>((o) => o.HasTransform);
+                        var sel = _selection.GetSingleFilteredSelection<Entity>((o) => o.HasTransform);
                         OriginalTransform = sel.GetTransform();
                         if (Origin == GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
                         {
@@ -237,11 +239,11 @@ namespace StudioCore.MsbEditor
                     {
                         // Average the positions of the selections and use a neutral rotation
                         Vector3 accumPos = Vector3.Zero;
-                        foreach (var sel in Selection.GetFilteredSelection<MapObject>((o) => o.HasTransform))
+                        foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                         {
                             accumPos += sel.GetTransform().Position;
                         }
-                        OriginalTransform = new Transform(accumPos / (float)Selection.GetSelection().Count, Vector3.Zero);
+                        OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, Vector3.Zero);
                     }
                     if (canCaptureMouse && InputTracker.GetMouseButtonDown(MouseButton.Left))
                     {
@@ -296,7 +298,7 @@ namespace StudioCore.MsbEditor
 
         public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
-            if (MsbEditor.Selection.IsSelection())
+            if (_selection.IsSelection())
             {
                 switch (Mode)
                 {
@@ -324,7 +326,7 @@ namespace StudioCore.MsbEditor
 
         public override void UpdatePerFrameResources(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            if (MsbEditor.Selection.IsSelection())
+            if (_selection.IsSelection())
             {
                 //var selected = MsbEditor.Selection.Selected;
                 //var center = selected.RenderSceneMesh.GetBounds().GetCenter();

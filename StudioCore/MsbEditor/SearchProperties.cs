@@ -14,7 +14,7 @@ namespace StudioCore.MsbEditor
         private Type PropertyType = null;
         private bool ValidType = false;
 
-        private Dictionary<string, List<WeakReference<MapObject>>> FoundObjects = new Dictionary<string, List<WeakReference<MapObject>>>();
+        private Dictionary<string, List<WeakReference<Entity>>> FoundObjects = new Dictionary<string, List<WeakReference<Entity>>>();
 
         public SearchProperties(Universe universe)
         {
@@ -129,22 +129,28 @@ namespace StudioCore.MsbEditor
                     if (SearchValue())
                     {
                         FoundObjects.Clear();
-                        foreach (var m in Universe.LoadedMaps.Values)
+                        foreach (var o in Universe.LoadedObjectContainers.Values)
                         {
-                            if (m == null)
+                            if (o == null)
                             {
                                 continue;
                             }
-                            foreach (var o in m.MapObjects)
+                            if (o is Map m)
                             {
-                                var p = o.GetPropertyValue(PropertyName);
-                                if (p != null && p.Equals(PropertyValue))
+                                foreach (var ob in m.Objects)
                                 {
-                                    if (!FoundObjects.ContainsKey(o.ContainingMap.MapId))
+                                    if (ob is MapEntity e)
                                     {
-                                        FoundObjects.Add(o.ContainingMap.MapId, new List<WeakReference<MapObject>>());
+                                        var p = ob.GetPropertyValue(PropertyName);
+                                        if (p != null && p.Equals(PropertyValue))
+                                        {
+                                            if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
+                                            {
+                                                FoundObjects.Add(e.ContainingMap.Name, new List<WeakReference<Entity>>());
+                                            }
+                                            FoundObjects[e.ContainingMap.Name].Add(new WeakReference<Entity>(e));
+                                        }
                                     }
-                                    FoundObjects[o.ContainingMap.MapId].Add(new WeakReference<MapObject>(o));
                                 }
                             }
                         }
@@ -162,19 +168,19 @@ namespace StudioCore.MsbEditor
                         {
                             foreach (var o in f.Value)
                             {
-                                MapObject obj;
+                                Entity obj;
                                 if (o.TryGetTarget(out obj))
                                 {
-                                    if (ImGui.Selectable(obj.Name, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
+                                    if (ImGui.Selectable(obj.Name, Universe.Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
                                     {
                                         if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                                         {
-                                            Selection.AddSelection(obj);
+                                            Universe.Selection.AddSelection(obj);
                                         }
                                         else
                                         {
-                                            Selection.ClearSelection();
-                                            Selection.AddSelection(obj);
+                                            Universe.Selection.ClearSelection();
+                                            Universe.Selection.AddSelection(obj);
                                         }
                                     }
                                 }

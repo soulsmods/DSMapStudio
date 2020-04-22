@@ -14,57 +14,42 @@ namespace StudioCore.MsbEditor
     /// A logical map object that can be either a part, a region, or an event. Uses
     /// reflection to access and update properties
     /// </summary>
-    public class MapObject : Scene.ISelectable
+    public class Entity : Scene.ISelectable
     {
-        public enum ObjectType
-        {
-            MapRoot,
-            Editor,
-            Part,
-            Region,
-            Event,
-            DS2Generator,
-            DS2GeneratorRegist,
-            DS2Event,
-            DS2EventLocation,
-        }
-
-        public ObjectType Type { get; set; }
-
-        public object MsbObject { get; set; }
+        public object WrappedObject { get; set; }
 
         private string CachedName = null;
 
         [XmlIgnore]
-        public Map ContainingMap { get; set; } = null;
+        public ObjectContainer Container { get; set; } = null;
 
         [XmlIgnore]
         public Universe Universe { 
             get
             {
-                return (ContainingMap != null) ? ContainingMap.Universe : null;
+                return (Container != null) ? Container.Universe : null;
             }
         }
         [XmlIgnore]
-        public MapObject Parent { get; private set; } = null;
-        public List<MapObject> Children { get; set; } = new List<MapObject>();
+        public Entity Parent { get; private set; } = null;
+        public List<Entity> Children { get; set; } = new List<Entity>();
 
         /// <summary>
         /// A map that contains references for each property
         /// </summary>
         [XmlIgnore]
-        public Dictionary<string, MapObject[]> References { get; private set; } = new Dictionary<string, MapObject[]>();
+        public Dictionary<string, Entity[]> References { get; private set; } = new Dictionary<string, Entity[]>();
 
         [XmlIgnore]
-        public bool HasTransform
-        { 
+        public virtual bool HasTransform
+        {
             get
             {
-                return Type != ObjectType.Event && Type != ObjectType.DS2GeneratorRegist && Type != ObjectType.DS2Event;
+                return false;
             }
         }
 
-        private Scene.IDrawable _RenderSceneMesh = null;
+        protected Scene.IDrawable _RenderSceneMesh = null;
         [XmlIgnore]
         public Scene.IDrawable RenderSceneMesh
         {
@@ -90,7 +75,7 @@ namespace StudioCore.MsbEditor
                 {
                     return CachedName;
                 }
-                CachedName = (string)MsbObject.GetType().GetProperty("Name").GetValue(MsbObject, null);
+                CachedName = (string)WrappedObject.GetType().GetProperty("Name").GetValue(WrappedObject, null);
                 return CachedName;
             }
             set
@@ -101,62 +86,32 @@ namespace StudioCore.MsbEditor
                 }
                 else
                 {
-                    MsbObject.GetType().GetProperty("Name").SetValue(MsbObject, value);
+                    WrappedObject.GetType().GetProperty("Name").SetValue(WrappedObject, value);
                     CachedName = value;
                 }
             }
         }
 
         [XmlIgnore]
-        public string PrettyName
+        public virtual string PrettyName
         {
             get
             {
-                string icon = "";
-                if (Type == ObjectType.Part)
-                {
-                    icon = ForkAwesome.PuzzlePiece;
-                }
-                else if (Type == ObjectType.Event)
-                {
-                    icon = ForkAwesome.Flag;
-                }
-                else if (Type == ObjectType.Region)
-                {
-                    icon = ForkAwesome.LocationArrow;
-                }
-                else if (Type == ObjectType.DS2Generator)
-                {
-                    icon = ForkAwesome.Male;
-                }
-                else if (Type == ObjectType.DS2GeneratorRegist)
-                {
-                    icon = ForkAwesome.UserCircleO;
-                }
-                else if (Type == ObjectType.DS2EventLocation)
-                {
-                    icon = ForkAwesome.FlagO;
-                }
-                else if (Type == ObjectType.DS2Event)
-                {
-                    icon = ForkAwesome.FlagCheckered;
-                }
-
-                return $@"{icon} {Name}";
+                return Name;
             }
         }
 
-        private string CurrentModel = "";
+        protected string CurrentModel = "";
 
         [XmlIgnore]
         public uint[] Drawgroups
         {
             get
             {
-                var prop = MsbObject.GetType().GetProperty("DrawGroups");
+                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
                 if (prop != null)
                 {
-                    return (uint[])prop.GetValue(MsbObject);
+                    return (uint[])prop.GetValue(WrappedObject);
                 }
                 return null;
             }
@@ -167,16 +122,16 @@ namespace StudioCore.MsbEditor
         {
             get
             {
-                var prop = MsbObject.GetType().GetProperty("DispGroups");
+                var prop = WrappedObject.GetType().GetProperty("DispGroups");
                 if (prop != null)
                 {
-                    return (uint[])prop.GetValue(MsbObject);
+                    return (uint[])prop.GetValue(WrappedObject);
                 }
                 return null;
             }
         }
 
-        private bool _EditorVisible = true;
+        protected bool _EditorVisible = true;
         [XmlIgnore]
         public bool EditorVisible
         {
@@ -193,44 +148,22 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
-        [XmlIgnore]
-        public string MapID
-        {
-            get
-            {
-                var parent = Parent;
-                while (parent != null)
-                {
-                    if (parent.Type == ObjectType.MapRoot)
-                    {
-                        return parent.Name;
-                    }
-                    parent = parent.Parent;
-                }
-                return null;
-            }
-        }
 
-        private bool UseTempTransform = false;
-        private Transform TempTransform = Transform.Default;
+        internal bool UseTempTransform = false;
+        internal Transform TempTransform = Transform.Default;
 
-        public MapObject()
+        public Entity()
         {
 
         }
 
-        public MapObject(Map map, object msbo, ObjectType type)
+        public Entity(ObjectContainer map, object msbo)
         {
-            ContainingMap = map;
-            MsbObject = msbo;
-            Type = type;
-            if (!(msbo is PARAM.Row) && !(msbo is MergedParamRow))
-            {
-                CurrentModel = GetPropertyValue<string>("ModelName");
-            }
+            Container = map;
+            WrappedObject = msbo;
         }
 
-        ~MapObject()
+        ~Entity()
         {
             if (RenderSceneMesh != null)
             {
@@ -239,7 +172,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void AddChild(MapObject child)
+        public void AddChild(Entity child)
         {
             if (child.Parent != null)
             {
@@ -249,7 +182,7 @@ namespace StudioCore.MsbEditor
             Children.Add(child);
         }
 
-        public void AddChild(MapObject child, int index)
+        public void AddChild(Entity child, int index)
         {
             if (child.Parent != null)
             {
@@ -259,7 +192,7 @@ namespace StudioCore.MsbEditor
             Children.Insert(index, child);
         }
 
-        public int ChildIndex(MapObject child)
+        public int ChildIndex(Entity child)
         {
             for (int i = 0; i < Children.Count(); i++)
             {
@@ -272,7 +205,7 @@ namespace StudioCore.MsbEditor
             return -1;
         }
 
-        public int RemoveChild(MapObject child)
+        public int RemoveChild(Entity child)
         {
             for (int i = 0; i < Children.Count(); i++)
             {
@@ -286,7 +219,7 @@ namespace StudioCore.MsbEditor
             return -1;
         }
 
-        private void CloneRenderable(MapObject obj)
+        private void CloneRenderable(Entity obj)
         {
             if (RenderSceneMesh != null)
             {
@@ -313,9 +246,9 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public MapObject Clone()
+        public virtual Entity Clone()
         {
-            var typ = MsbObject.GetType();
+            var typ = WrappedObject.GetType();
 
             // use copy constructor if available
             var typs = new Type[1];
@@ -323,8 +256,8 @@ namespace StudioCore.MsbEditor
             ConstructorInfo constructor = typ.GetConstructor(typs);
             if (constructor != null)
             {
-                var clone = constructor.Invoke(new object[] { MsbObject });
-                var obj = new MapObject(ContainingMap, clone, Type);
+                var clone = constructor.Invoke(new object[] { WrappedObject });
+                var obj = new Entity(Container, clone);
                 CloneRenderable(obj);
                 obj.UseDrawGroups = UseDrawGroups;
                 return obj;
@@ -350,11 +283,11 @@ namespace StudioCore.MsbEditor
                     PropertyInfo targetProperty = typ.GetProperty(sourceProperty.Name);
                     if (sourceProperty.CanWrite)
                     {
-                        targetProperty.SetValue(clone, sourceProperty.GetValue(MsbObject, null), null);
+                        targetProperty.SetValue(clone, sourceProperty.GetValue(WrappedObject, null), null);
                     }
                     else if (sourceProperty.PropertyType.IsArray)
                     {
-                        Array arr = (Array)sourceProperty.GetValue(MsbObject);
+                        Array arr = (Array)sourceProperty.GetValue(WrappedObject);
                         Array.Copy(arr, (Array)targetProperty.GetValue(clone), arr.Length);
                     }
                     else
@@ -363,7 +296,7 @@ namespace StudioCore.MsbEditor
                         // Console.WriteLine($"Can't copy {type.Name} {sourceProperty.Name} of type {sourceProperty.PropertyType}");
                     }
                 }
-                var obj = new MapObject(ContainingMap, clone, Type);
+                var obj = new Entity(Container, clone);
                 CloneRenderable(obj);
                 return obj;
             }
@@ -371,11 +304,11 @@ namespace StudioCore.MsbEditor
 
         public object GetPropertyValue(string prop)
         {
-            if (MsbObject == null)
+            if (WrappedObject == null)
             {
                 return null;
             }
-            if (MsbObject is PARAM.Row row)
+            if (WrappedObject is PARAM.Row row)
             {
                 var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
@@ -383,7 +316,7 @@ namespace StudioCore.MsbEditor
                     return pp.Value;
                 }
             }
-            else if (MsbObject is MergedParamRow mrow)
+            else if (WrappedObject is MergedParamRow mrow)
             {
                 var pp = mrow[prop];
                 if (pp != null)
@@ -391,21 +324,21 @@ namespace StudioCore.MsbEditor
                     return pp.Value;
                 }
             }
-            var p = MsbObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop);
             if (p != null)
             {
-                return p.GetValue(MsbObject, null);
+                return p.GetValue(WrappedObject, null);
             }
             return null;
         }
 
         public T GetPropertyValue<T>(string prop)
         {
-            if (MsbObject == null)
+            if (WrappedObject == null)
             {
                 return default(T);
             }
-            if (MsbObject is PARAM.Row row)
+            if (WrappedObject is PARAM.Row row)
             {
                 var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
@@ -413,7 +346,7 @@ namespace StudioCore.MsbEditor
                     return (T)pp.Value;
                 }
             }
-            else if (MsbObject is MergedParamRow mrow)
+            else if (WrappedObject is MergedParamRow mrow)
             {
                 var pp = mrow[prop];
                 if (pp != null)
@@ -421,21 +354,21 @@ namespace StudioCore.MsbEditor
                     return (T)pp.Value;
                 }
             }
-            var p = MsbObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop);
             if (p != null && p.PropertyType == typeof(T))
             {
-                return (T)p.GetValue(MsbObject, null);
+                return (T)p.GetValue(WrappedObject, null);
             }
             return default(T);
         }
 
         public PropertyInfo GetProperty(string prop)
         {
-            if (MsbObject == null)
+            if (WrappedObject == null)
             {
                 return null;
             }
-            if (MsbObject is PARAM.Row row)
+            if (WrappedObject is PARAM.Row row)
             {
                 var pp = row[prop];
                 if (pp != null)
@@ -443,7 +376,7 @@ namespace StudioCore.MsbEditor
                     return pp.GetType().GetProperty("Value");
                 }
             }
-            else if (MsbObject is MergedParamRow mrow)
+            else if (WrappedObject is MergedParamRow mrow)
             {
                 var pp = mrow[prop];
                 if (pp != null)
@@ -451,7 +384,7 @@ namespace StudioCore.MsbEditor
                     return pp.GetType().GetProperty("Value");
                 }
             }
-            var p = MsbObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop);
             if (p != null)
             {
                 return p;
@@ -461,11 +394,11 @@ namespace StudioCore.MsbEditor
 
         public PropertiesChangedAction GetPropertyChangeAction(string prop, object newval)
         {
-            if (MsbObject == null)
+            if (WrappedObject == null)
             {
                 return null;
             }
-            if (MsbObject is PARAM.Row row)
+            if (WrappedObject is PARAM.Row row)
             {
                 var pp = row[prop];
                 if (pp != null)
@@ -474,7 +407,7 @@ namespace StudioCore.MsbEditor
                     return new PropertiesChangedAction(pprop, pp, newval);
                 }
             }
-            if (MsbObject is MergedParamRow mrow)
+            if (WrappedObject is MergedParamRow mrow)
             {
                 var pp = mrow[prop];
                 if (pp != null)
@@ -483,19 +416,19 @@ namespace StudioCore.MsbEditor
                     return new PropertiesChangedAction(pprop, pp, newval);
                 }
             }
-            var p = MsbObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop);
             if (p != null)
             {
-                return new PropertiesChangedAction(p, MsbObject, newval);
+                return new PropertiesChangedAction(p, WrappedObject, newval);
             }
             return null;
         }
 
         public void BuildReferenceMap()
         {
-            if (!(MsbObject is PARAM.Row) && !(MsbObject is MergedParamRow))
+            if (!(WrappedObject is PARAM.Row) && !(WrappedObject is MergedParamRow))
             {
-                var type = MsbObject.GetType();
+                var type = WrappedObject.GetType();
                 var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
                 foreach (var p in props)
                 {
@@ -508,10 +441,10 @@ namespace StudioCore.MsbEditor
                         }
                         else
                         {
-                            var sref = (string)p.GetValue(MsbObject);
+                            var sref = (string)p.GetValue(WrappedObject);
                             if (sref != null && sref != "")
                             {
-                                var obj = ContainingMap.GetObjectByName(sref);
+                                var obj = Container.GetObjectByName(sref);
                                 if (obj != null)
                                 {
                                     References.Add(p.Name, new[] { obj });
@@ -523,13 +456,13 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private HashSet<MapObject> ReferencingObjects = null;
+        private HashSet<Entity> ReferencingObjects = null;
 
-        public IReadOnlyCollection<MapObject> GetReferencingObjects()
+        public IReadOnlyCollection<Entity> GetReferencingObjects()
         {
-            if (ContainingMap == null)
+            if (Container == null)
             {
-                return new List<MapObject>();
+                return new List<Entity>();
             }
 
             if (ReferencingObjects != null)
@@ -537,8 +470,8 @@ namespace StudioCore.MsbEditor
                 return ReferencingObjects;
             }
 
-            ReferencingObjects = new HashSet<MapObject>();
-            foreach (var m in ContainingMap.MapObjects)
+            ReferencingObjects = new HashSet<Entity>();
+            foreach (var m in Container.Objects)
             {
                 if (m.References != null)
                 {
@@ -563,7 +496,7 @@ namespace StudioCore.MsbEditor
             ReferencingObjects = null;
         }
 
-        public Transform GetTransform()
+        public virtual Transform GetTransform()
         {
             var t = Transform.Default;
             var pos = GetPropertyValue("Position");
@@ -623,44 +556,6 @@ namespace StudioCore.MsbEditor
                 t.Scale = (Vector3)scale;
             }
 
-            // If this is a region scale the region primitive by its respective parameters
-            if (Type == ObjectType.Region)
-            {
-                var shape = GetPropertyValue("Shape");
-                if (shape != null && shape is MSB.Shape.Box b2)
-                {
-                    t.Scale = new Vector3(b2.Width, b2.Height, b2.Depth);
-                }
-                else if (shape != null && shape is MSB.Shape.Sphere s)
-                {
-                    t.Scale = new Vector3(s.Radius);
-                }
-                else if (shape != null && shape is MSB.Shape.Cylinder c)
-                {
-                    t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
-                }
-            }
-
-            // DS2 event regions
-            if (Type == ObjectType.DS2EventLocation)
-            {
-                var sx = GetPropertyValue("ScaleX");
-                var sy = GetPropertyValue("ScaleY");
-                var sz = GetPropertyValue("ScaleZ");
-                if (sx != null)
-                {
-                    t.Scale.X = (float)sx;
-                }
-                if (sy != null)
-                {
-                    t.Scale.Y = (float)sy;
-                }
-                if (sz != null)
-                {
-                    t.Scale.Z = (float)sz;
-                }
-            }
-
             return t;
         }
 
@@ -682,7 +577,7 @@ namespace StudioCore.MsbEditor
 
         public Action GetUpdateTransformAction(Transform newt)
         {
-            if (MsbObject is PARAM.Row || MsbObject is MergedParamRow)
+            if (WrappedObject is PARAM.Row || WrappedObject is MergedParamRow)
             {
                 var actions = new List<Action>();
                 float roty = newt.EulerRotation.Y * Utils.Rad2Deg - 180.0f;
@@ -701,10 +596,10 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                var act = new PropertiesChangedAction(MsbObject);
-                var prop = MsbObject.GetType().GetProperty("Position");
+                var act = new PropertiesChangedAction(WrappedObject);
+                var prop = WrappedObject.GetType().GetProperty("Position");
                 act.AddPropertyChange(prop, newt.Position);
-                prop = MsbObject.GetType().GetProperty("Rotation");
+                prop = WrappedObject.GetType().GetProperty("Rotation");
                 act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
                 act.SetPostExecutionAction((undo) =>
                 {
@@ -714,10 +609,132 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void UpdateRenderModel()
+        public virtual void UpdateRenderModel()
+        {
+
+        }
+
+        public void OnSelected()
+        {
+            if (RenderSceneMesh != null)
+            {
+                RenderSceneMesh.Highlighted = true;
+            }
+        }
+
+        public void OnDeselected()
+        {
+            if (RenderSceneMesh != null)
+            {
+                RenderSceneMesh.Highlighted = false;
+            }
+        }
+    }
+
+    public class MapEntity : Entity
+    {
+        public enum MapEntityType
+        {
+            MapRoot,
+            Editor,
+            Part,
+            Region,
+            Event,
+            DS2Generator,
+            DS2GeneratorRegist,
+            DS2Event,
+            DS2EventLocation,
+        }
+
+        public MapEntityType Type { get; set; }
+
+        public Map ContainingMap
+        {
+            get
+            {
+                return (Map)Container;
+            }
+        }
+
+        public override string PrettyName
+        {
+            get
+            {
+                string icon = "";
+                if (Type == MapEntityType.Part)
+                {
+                    icon = ForkAwesome.PuzzlePiece;
+                }
+                else if (Type == MapEntityType.Event)
+                {
+                    icon = ForkAwesome.Flag;
+                }
+                else if (Type == MapEntityType.Region)
+                {
+                    icon = ForkAwesome.LocationArrow;
+                }
+                else if (Type == MapEntityType.DS2Generator)
+                {
+                    icon = ForkAwesome.Male;
+                }
+                else if (Type == MapEntityType.DS2GeneratorRegist)
+                {
+                    icon = ForkAwesome.UserCircleO;
+                }
+                else if (Type == MapEntityType.DS2EventLocation)
+                {
+                    icon = ForkAwesome.FlagO;
+                }
+                else if (Type == MapEntityType.DS2Event)
+                {
+                    icon = ForkAwesome.FlagCheckered;
+                }
+
+                return $@"{icon} {Name}";
+            }
+        }
+
+        public override bool HasTransform
+        {
+            get
+            {
+                return Type != MapEntityType.Event && Type != MapEntityType.DS2GeneratorRegist && Type != MapEntityType.DS2Event;
+            }
+        }
+
+        [XmlIgnore]
+        public string MapID
+        {
+            get
+            {
+                var parent = Parent;
+                while (parent != null && parent is MapEntity e)
+                {
+                    if (e.Type == MapEntityType.MapRoot)
+                    {
+                        return parent.Name;
+                    }
+                    parent = parent.Parent;
+                }
+                return null;
+            }
+        }
+
+        public MapEntity(ObjectContainer map, object msbo, MapEntityType type)
+        {
+            Container = map;
+            WrappedObject = msbo;
+            Type = type;
+            if (!(msbo is PARAM.Row) && !(msbo is MergedParamRow))
+            {
+                CurrentModel = GetPropertyValue<string>("ModelName");
+            }
+        }
+
+        public override void UpdateRenderModel()
         {
             // If the model field changed, then update the visible model
-            if (Type == ObjectType.DS2Generator)
+            if (Type == MapEntityType.DS2Generator)
             {
 
             }
@@ -730,7 +747,7 @@ namespace StudioCore.MsbEditor
                     RenderSceneMesh.UnregisterAndRelease();
                     CurrentModel = model;
                     RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
-                    if (Selection.IsSelected(this))
+                    if (Universe.Selection.IsSelected(this))
                     {
                         OnSelected();
                     }
@@ -762,11 +779,11 @@ namespace StudioCore.MsbEditor
 
             if (UseDrawGroups)
             {
-                var prop = MsbObject.GetType().GetProperty("DrawGroups");
+                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
                 if (prop != null && RenderSceneMesh != null)
                 {
                     RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(MsbObject);
+                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
                 }
             }
 
@@ -776,20 +793,54 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void OnSelected()
+        public virtual Transform GetTransform()
         {
-            if (RenderSceneMesh != null)
+            var t = base.GetTransform();
+            // If this is a region scale the region primitive by its respective parameters
+            if (Type == MapEntityType.Region)
             {
-                RenderSceneMesh.Highlighted = true;
+                var shape = GetPropertyValue("Shape");
+                if (shape != null && shape is MSB.Shape.Box b2)
+                {
+                    t.Scale = new Vector3(b2.Width, b2.Height, b2.Depth);
+                }
+                else if (shape != null && shape is MSB.Shape.Sphere s)
+                {
+                    t.Scale = new Vector3(s.Radius);
+                }
+                else if (shape != null && shape is MSB.Shape.Cylinder c)
+                {
+                    t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
+                }
             }
+
+            // DS2 event regions
+            if (Type == MapEntityType.DS2EventLocation)
+            {
+                var sx = GetPropertyValue("ScaleX");
+                var sy = GetPropertyValue("ScaleY");
+                var sz = GetPropertyValue("ScaleZ");
+                if (sx != null)
+                {
+                    t.Scale.X = (float)sx;
+                }
+                if (sy != null)
+                {
+                    t.Scale.Y = (float)sy;
+                }
+                if (sz != null)
+                {
+                    t.Scale.Z = (float)sz;
+                }
+            }
+            return t;
         }
 
-        public void OnDeselected()
+        public override Entity Clone()
         {
-            if (RenderSceneMesh != null)
-            {
-                RenderSceneMesh.Highlighted = false;
-            }
+            MapEntity c = (MapEntity)base.Clone();
+            c.Type = Type;
+            return c;
         }
     }
 }

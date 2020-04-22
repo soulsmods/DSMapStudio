@@ -47,6 +47,8 @@ namespace StudioCore
 
         private bool _msbEditorFocused = false;
         private MsbEditor.MsbEditorScreen MSBEditor;
+        private bool _modelEditorFocused = false;
+        private MsbEditor.ModelEditorScreen ModelEditor;
         private bool _paramEditorFocused = false;
         private MsbEditor.ParamEditorScreen ParamEditor;
         private bool _textEditorFocused = false;
@@ -119,6 +121,7 @@ namespace StudioCore
 
             _assetLocator = new AssetLocator();
             MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
+            ModelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
             ParamEditor = new MsbEditor.ParamEditorScreen(_window, _gd);
             TextEditor = new MsbEditor.TextEditorScreen(_window, _gd);
 
@@ -258,6 +261,7 @@ namespace StudioCore
             MsbEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             MSBEditor.OnProjectChanged(_projectSettings);
+            ModelEditor.OnProjectChanged(_projectSettings);
             ParamEditor.OnProjectChanged(_projectSettings);
             TextEditor.OnProjectChanged(_projectSettings);
         }
@@ -375,6 +379,11 @@ namespace StudioCore
                         ImGui.MenuItem($@"Settings: {_projectSettings.ProjectName}");
                     }
 
+                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
+                    {
+                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
+                    }
+
                     if (ImGui.MenuItem("New Project", "CTRL+N") || InputTracker.GetControlShortcut(Key.I))
                     {
                         newProject = true;
@@ -434,6 +443,10 @@ namespace StudioCore
                         {
                             MSBEditor.Save();
                         }
+                        if (_modelEditorFocused)
+                        {
+                            ModelEditor.Save();
+                        }
                         if (_paramEditorFocused)
                         {
                             ParamEditor.Save();
@@ -446,6 +459,7 @@ namespace StudioCore
                     if (ImGui.MenuItem("Save All", ""))
                     {
                         MSBEditor.SaveAll();
+                        ModelEditor.SaveAll();
                         ParamEditor.SaveAll();
                         TextEditor.SaveAll();
                     }
@@ -458,6 +472,10 @@ namespace StudioCore
                 if (_msbEditorFocused)
                 {
                     MSBEditor.DrawEditorMenu();
+                }
+                else if (_modelEditorFocused)
+                {
+                    ModelEditor.DrawEditorMenu();
                 }
                 else if (_paramEditorFocused)
                 {
@@ -643,6 +661,22 @@ namespace StudioCore
                 _msbEditorFocused = false;
             }
 
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            if (ImGui.Begin("Model Editor"))
+            {
+                ImGui.PopStyleVar(1);
+                ModelEditor.OnGUI();
+                ImGui.End();
+                _modelEditorFocused = true;
+                ModelEditor.Update(deltaseconds);
+            }
+            else
+            {
+                ImGui.PopStyleVar(1);
+                _modelEditorFocused = false;
+            }
+
+
             string[] paramcmds = null;
             if (commandsplit != null && commandsplit[0] == "param")
             {
@@ -682,6 +716,8 @@ namespace StudioCore
             ImGui.PopStyleVar(2);
 
             UnapplyStyle();
+
+            Resource.ResourceManager.UpdateTasks();
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)
@@ -734,6 +770,7 @@ namespace StudioCore
                 RecreateWindowFramebuffers(cl);
                 ImguiRenderer.WindowResized(width, height);
                 MSBEditor.EditorResized(_window, _gd);
+                ModelEditor.EditorResized(_window, _gd);
                 cl.End();
                 _gd.SubmitCommands(cl);
                 cl.Dispose();
@@ -774,6 +811,10 @@ namespace StudioCore
             if (_msbEditorFocused)
             {
                 MSBEditor.Draw(_gd, MainWindowCommandList);
+            }
+            if (_modelEditorFocused)
+            {
+                ModelEditor.Draw(_gd, MainWindowCommandList);
             }
             Scene.Renderer.Frame(MainWindowCommandList);
             //GuiCommandList.Begin();

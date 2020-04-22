@@ -53,7 +53,7 @@ namespace SoulsFormats
 
         public static int FindIndex<T>(List<T> list, string name) where T : IMsbEntry
         {
-            if (name == null)
+            if (name == null || name == "")
             {
                 return -1;
             }

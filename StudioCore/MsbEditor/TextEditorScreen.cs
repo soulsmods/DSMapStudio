@@ -57,10 +57,10 @@ namespace StudioCore.MsbEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
+                if (ImGui.MenuItem("Delete", "Delete", false, true))
                 {
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, true))
                 {
                 }
                 ImGui.EndMenu();

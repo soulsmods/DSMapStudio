@@ -137,12 +137,12 @@ namespace StudioCore.MsbEditor
     {
         private Universe Universe;
         private Scene.RenderScene Scene;
-        private List<MapObject> Clonables = new List<MapObject>();
-        private List<MapObject> Clones = new List<MapObject>();
-        private List<Map> CloneMaps = new List<Map>();
+        private List<MapEntity> Clonables = new List<MapEntity>();
+        private List<MapEntity> Clones = new List<MapEntity>();
+        private List<ObjectContainer> CloneMaps = new List<ObjectContainer>();
         private bool SetSelection;
 
-        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapObject> objects, bool setSelection)
+        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
         {
             Universe = univ;
             Scene = scene;
@@ -157,9 +157,9 @@ namespace StudioCore.MsbEditor
                 var m = Universe.GetLoadedMap(obj.MapID);
                 if (m != null)
                 {
-                    var newobj = obj.Clone();
+                    MapEntity newobj = (MapEntity)obj.Clone();
                     newobj.Name = obj.Name + "_1";
-                    m.MapObjects.Insert(m.MapObjects.IndexOf(obj) + 1, newobj);
+                    m.Objects.Insert(m.Objects.IndexOf(obj) + 1, newobj);
                     if (obj.Parent != null)
                     {
                         int idx = obj.Parent.ChildIndex(obj);
@@ -176,10 +176,10 @@ namespace StudioCore.MsbEditor
             }
             if (SetSelection)
             {
-                Selection.ClearSelection();
+                Universe.Selection.ClearSelection();
                 foreach (var c in Clones)
                 {
-                    Selection.AddSelection(c);
+                    Universe.Selection.AddSelection(c);
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace StudioCore.MsbEditor
         {
             for (int i = 0; i < Clones.Count(); i++)
             {
-                CloneMaps[i].MapObjects.Remove(Clones[i]);
+                CloneMaps[i].Objects.Remove(Clones[i]);
                 if (Clones[i] != null)
                 {
                     Clones[i].Parent.RemoveChild(Clones[i]);
@@ -202,10 +202,10 @@ namespace StudioCore.MsbEditor
             Clones.Clear();
             if (SetSelection)
             {
-                Selection.ClearSelection();
+                Universe.Selection.ClearSelection();
                 foreach (var c in Clonables)
                 {
-                    Selection.AddSelection(c);
+                    Universe.Selection.AddSelection(c);
                 }
             }
         }
@@ -304,14 +304,14 @@ namespace StudioCore.MsbEditor
     {
         private Universe Universe;
         private Scene.RenderScene Scene;
-        private List<MapObject> Deletables = new List<MapObject>();
+        private List<MapEntity> Deletables = new List<MapEntity>();
         private List<int> RemoveIndices = new List<int>();
-        private List<Map> RemoveMaps = new List<Map>();
-        private List<MapObject> RemoveParent = new List<MapObject>();
+        private List<ObjectContainer> RemoveMaps = new List<ObjectContainer>();
+        private List<MapEntity> RemoveParent = new List<MapEntity>();
         private List<int> RemoveParentIndex = new List<int>();
         private bool SetSelection;
 
-        public DeleteMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapObject> objects, bool setSelection)
+        public DeleteMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
         {
             Universe = univ;
             Scene = scene;
@@ -327,11 +327,14 @@ namespace StudioCore.MsbEditor
                 if (m != null)
                 {
                     RemoveMaps.Add(m);
-                    RemoveIndices.Add(m.MapObjects.IndexOf(obj));
-                    m.MapObjects.RemoveAt(RemoveIndices.Last());
-                    obj.RenderSceneMesh.AutoRegister = false;
-                    obj.RenderSceneMesh.UnregisterWithScene();
-                    RemoveParent.Add(obj.Parent);
+                    RemoveIndices.Add(m.Objects.IndexOf(obj));
+                    m.Objects.RemoveAt(RemoveIndices.Last());
+                    if (obj.RenderSceneMesh != null)
+                    {
+                        obj.RenderSceneMesh.AutoRegister = false;
+                        obj.RenderSceneMesh.UnregisterWithScene();
+                    }
+                    RemoveParent.Add((MapEntity)obj.Parent);
                     if (obj.Parent != null)
                     {
                         RemoveParentIndex.Add(obj.Parent.RemoveChild(obj));
@@ -344,7 +347,7 @@ namespace StudioCore.MsbEditor
             }
             if (SetSelection)
             {
-                Selection.ClearSelection();
+                Universe.Selection.ClearSelection();
             }
         }
 
@@ -352,9 +355,12 @@ namespace StudioCore.MsbEditor
         {
             for (int i = 0; i < Deletables.Count(); i++)
             {
-                RemoveMaps[i].MapObjects.Insert(RemoveIndices[i], Deletables[i]);
-                Deletables[i].RenderSceneMesh.AutoRegister = true;
-                Deletables[i].RenderSceneMesh.RegisterWithScene(Scene);
+                RemoveMaps[i].Objects.Insert(RemoveIndices[i], Deletables[i]);
+                if (Deletables[i].RenderSceneMesh != null)
+                {
+                    Deletables[i].RenderSceneMesh.AutoRegister = true;
+                    Deletables[i].RenderSceneMesh.RegisterWithScene(Scene);
+                }
                 if (RemoveParent[i] != null)
                 {
                     RemoveParent[i].AddChild(Deletables[i], RemoveParentIndex[i]);
@@ -362,10 +368,10 @@ namespace StudioCore.MsbEditor
             }
             if (SetSelection)
             {
-                Selection.ClearSelection();
+                Universe.Selection.ClearSelection();
                 foreach (var d in Deletables)
                 {
-                    Selection.AddSelection(d);
+                    Universe.Selection.AddSelection(d);
                 }
             }
         }

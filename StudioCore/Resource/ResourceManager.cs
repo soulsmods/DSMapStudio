@@ -8,6 +8,7 @@ using System.Threading.Tasks.Schedulers;
 using System.Threading;
 using System.Numerics;
 using System.IO;
+using System.Text.RegularExpressions;
 using SoulsFormats;
 using ImGuiNET;
 
@@ -154,6 +155,13 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                if (!CFG.Current.EnableTexturing)
+                {
+                    _pendingResources.Clear();
+                    _tpf = null;
+                    return;
+                }
+
                 for (int i = 0; i < _tpf.Textures.Count; i++)
                 {
                     var tex = _tpf.Textures[i];
@@ -191,13 +199,14 @@ namespace StudioCore.Resource
             private int TotalSize = 0;
             private HashSet<string> AssetWhitelist = null;
             private ResourceType ResourceMask = ResourceType.All;
+            private AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
 
             private List<Tuple<IResourceHandle, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceHandle, string, BinderFileHeader>>();
-            private List<BinderFileHeader> PendingTPFs = new List<BinderFileHeader>();
+            private List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
 
             private readonly object ProgressLock = new object();
 
-            public LoadBinderResourcesTask(string virtpath, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
+            public LoadBinderResourcesTask(string virtpath, AccessLevel accessLevel, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
             {
                 BinderVirtualPath = virtpath;
                 PopulateResourcesOnly = populateOnly;
@@ -239,7 +248,20 @@ namespace StudioCore.Resource
 
                     if (filevirtpath.ToUpper().EndsWith(".TPF") || filevirtpath.ToUpper().EndsWith(".TPF.DCX"))
                     {
-                        PendingTPFs.Add(f);
+                        string virt = BinderVirtualPath;
+                        if (virt.StartsWith($@"map/tex"))
+                        {
+                            var regex = new Regex(@"\d{4}$");
+                            if (regex.IsMatch(virt))
+                            {
+                                virt = virt.Substring(0, virt.Length - 5);
+                            }
+                            else if (virt.EndsWith("tex"))
+                            {
+                                virt = virt.Substring(0, virt.Length - 4);
+                            }
+                        }
+                        PendingTPFs.Add(new Tuple<string, BinderFileHeader>(virt, f));
                     }
                     else
                     {
@@ -278,14 +300,14 @@ namespace StudioCore.Resource
                     foreach (var p in PendingResources)
                     {
                         var f = Binder.ReadFile(p.Item3);
-                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
+                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel, ResourceManager.Locator.Type);
                         task.Run();
                     }
 
                     foreach (var t in PendingTPFs)
                     {
-                        var f = TPF.Read(Binder.ReadFile(t));
-                        var task = new LoadTPFResourcesTask("tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
+                        var f = TPF.Read(Binder.ReadFile(t.Item2));
+                        var task = new LoadTPFResourcesTask(t.Item1, f, AccessLevel, ResourceManager.Locator.Type);
                         task.Run();
                     }
                 }
@@ -355,8 +377,8 @@ namespace StudioCore.Resource
 
                         foreach (var t in PendingTPFs)
                         {
-                            var f = TPF.Read(Binder.ReadFile(t));
-                            var task = new LoadTPFResourcesTask("tex", f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
+                            var f = TPF.Read(Binder.ReadFile(t.Item2));
+                            var task = new LoadTPFResourcesTask(t.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)
@@ -534,7 +556,7 @@ namespace StudioCore.Resource
             /// Loads an entire archive in this virtual path
             /// </summary>
             /// <param name="virtualPath"></param>
-            public void AddLoadArchiveTask(string virtualPath, bool populateOnly, HashSet<string> assets=null)
+            public void AddLoadArchiveTask(string virtualPath, AccessLevel al, bool populateOnly, HashSet<string> assets=null)
             {
                 if (virtualPath == "null")
                 {
@@ -543,12 +565,12 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(virtualPath, populateOnly, ResourceType.All, assets);
+                    var task = new LoadBinderResourcesTask(virtualPath, al, populateOnly, ResourceType.All, assets);
                     Tasks.Add(task);
                 }
             }
 
-            public void AddLoadArchiveTask(string virtualPath, bool populateOnly, ResourceType filter, HashSet<string> assets = null)
+            public void AddLoadArchiveTask(string virtualPath, AccessLevel al, bool populateOnly, ResourceType filter, HashSet<string> assets = null)
             {
                 if (virtualPath == "null")
                 {
@@ -557,7 +579,7 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(virtualPath, populateOnly, filter, assets);
+                    var task = new LoadBinderResourcesTask(virtualPath, al, populateOnly, filter, assets);
                     Tasks.Add(task);
                 }
             }
@@ -566,13 +588,13 @@ namespace StudioCore.Resource
             /// Loads a loose virtual file
             /// </summary>
             /// <param name="virtualPath"></param>
-            public void AddLoadFileTask(string virtualPath)
+            public void AddLoadFileTask(string virtualPath, AccessLevel al)
             {
                 string bndout;
                 var path = Locator.VirtualToRealPath(virtualPath, out bndout);
 
                 IResourceHandle handle;
-                if (virtualPath == "null")
+                if (path == null || virtualPath == "null")
                 {
                     return;
                 }
@@ -582,7 +604,7 @@ namespace StudioCore.Resource
                 }
                 else if (path.ToUpper().EndsWith(".TPF") || path.ToUpper().EndsWith(".TPF.DCX"))
                 {
-                    var ttask = new LoadTPFResourcesTask("tex", TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
+                    var ttask = new LoadTPFResourcesTask("tex", TPF.Read(path), al, Locator.Type);
                     Tasks.Add(ttask);
                     return;
                 }
@@ -590,8 +612,33 @@ namespace StudioCore.Resource
                 {
                     handle = GetResource<FlverResource>(virtualPath);
                 }
-                var task = new LoadResourceFromFileTask(handle, path, AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
+                var task = new LoadResourceFromFileTask(handle, path, al, Locator.Type);
                 Tasks.Add(task);
+            }
+
+            /// <summary>
+            /// Attempts to load unloaded resources (with active references) via UDSFM textures
+            /// </summary>
+            public void AddLoadUDSFMTexturesTask()
+            {
+                foreach (var r in ResourceDatabase)
+                {
+                    if (r.Value is TextureResourceHande t && t.AccessLevel == AccessLevel.AccessUnloaded &&
+                        t.GetReferenceCounts() > 0)
+                    {
+                        var texpath = r.Key;
+                        string path = null;
+                        if (texpath.StartsWith("map/tex"))
+                        {
+                            path = $@"{Locator.GameRootDirectory}\map\tx\{Path.GetFileName(texpath)}.tpf";
+                        }
+                        if (path != null && File.Exists(path))
+                        {
+                            var task = new LoadTPFResourcesTask(Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
+                            Tasks.Add(task);
+                        }
+                    }
+                }
             }
 
             public Task StartJobAsync()
@@ -633,9 +680,11 @@ namespace StudioCore.Resource
         private static object AddResourceLock = new object();
         private static bool AddingResource = false;
 
+        private static bool _scheduleUDSFMLoad = false;
+
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)
         {
-            if (!File.Exists(filePath))
+            if (filePath == null || !File.Exists(filePath))
             {
                 return null;
             }
@@ -723,12 +772,56 @@ namespace StudioCore.Resource
             return (TextureResourceHande)ResourceDatabase[resourceName];
         }
 
+        public static void ScheduleUDSMFRefresh()
+        {
+            _scheduleUDSFMLoad = true;
+        }
+
+        public static void UpdateTasks()
+        {
+            int count = ActiveJobProgress.Count();
+            if (count > 0)
+            {
+                HashSet<ResourceJob> toRemove = new HashSet<ResourceJob>();
+                foreach (var job in ActiveJobProgress)
+                {
+                    if (job.Key.Finished)
+                    {
+                        toRemove.Add(job.Key);
+                    }
+                }
+                foreach (var rm in toRemove)
+                {
+                    int o;
+                    ActiveJobProgress.TryRemove(rm, out o);
+                }
+            }
+            else
+            {
+                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
+                {
+                    Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
+                }
+                if (_prevCount > 0)
+                {
+                    FlverResource.PurgeCaches();
+                }
+                if (_scheduleUDSFMLoad)
+                {
+                    var job = CreateNewJob($@"Loading UDSFM textures");
+                    job.AddLoadUDSFMTexturesTask();
+                    job.StartJobAsync();
+                    _scheduleUDSFMLoad = false;
+                }
+            }
+            _prevCount = count;
+        }
+
         private static bool TaskWindowOpen = true;
         private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
-            int count = ActiveJobProgress.Count();
-            if (count > 0)
+            if (ActiveJobProgress.Count() > 0)
             {
                 ImGui.SetNextWindowSize(new Vector2(400, 250));
                 ImGui.SetNextWindowPos(new Vector2(w - 450, h - 300));
@@ -737,7 +830,6 @@ namespace StudioCore.Resource
                     ImGui.End();
                     return;
                 }
-                HashSet<ResourceJob> toRemove = new HashSet<ResourceJob>();
                 foreach (var job in ActiveJobProgress)
                 {
                     if (!job.Key.Finished)
@@ -750,49 +842,16 @@ namespace StudioCore.Resource
                         }
                         else
                         {
-                            //ImGui.ProgressBar((float)Finished / (float)Math.Max(Pending, 1.0));
                             ImGui.ProgressBar((float)job.Value / (float)size);
                         }
                     }
-                    else
-                    {
-                        toRemove.Add(job.Key);
-                    }
-                }
-                foreach (var rm in toRemove)
-                {
-                    int o;
-                    ActiveJobProgress.TryRemove(rm, out o);
                 }
                 ImGui.End();
             }
-            else
-            {
-                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
-                {
-                    Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
-                }
-                if (_prevCount > 0)
-                {
-                    FlverResource.PurgeCaches();
+        }
 
-                    /*JobTaskFactory = null;
-                    BinderTaskFactory = null;
-                    ResourceTaskFactory = null;
-                    JobScheduler.Dispose();
-                    JobScheduler = null;
-                    BinderWorkerScheduler.Dispose();
-                    BinderWorkerScheduler = null;
-                    ResourceWorkerScheduler.Dispose();
-                    ResourceWorkerScheduler = null;
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();*/
-                }
-            }
-            _prevCount = count;
-            ImGui.SetNextWindowSize(new Vector2(400, 250), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(20, h - 300), ImGuiCond.FirstUseEver);
+        public static void OnGuiDrawResourceList()
+        {
             if (!ImGui.Begin("Resource List", ref ResourceListWindowOpen))
             {
                 ImGui.End();

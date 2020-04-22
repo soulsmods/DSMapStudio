@@ -10,17 +10,18 @@ namespace StudioCore.MsbEditor
 {
     public class SceneTree
     {
-        private Universe Universe;
-        private ActionManager EditorActionManager;
-        private Gui.Viewport Viewport;
-        private AssetLocator AssetLocator;
+        private Universe _universe;
+        private ActionManager _editorActionManager;
+        private Gui.Viewport _viewport;
+        private AssetLocator _assetLocator;
+        private Selection _selection;
 
         private string _chaliceMapID = "m29_";
         private bool _chaliceLoadError = false;
 
         private bool _GCNeedsCollection = false;
 
-        private Dictionary<string, Dictionary<MapObject.ObjectType, Dictionary<Type, List<MapObject>>>> _cachedTypeView = null;
+        private Dictionary<string, Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>> _cachedTypeView = null;
 
         public enum ViewMode
         {
@@ -36,53 +37,54 @@ namespace StudioCore.MsbEditor
 
         private ViewMode _viewMode = ViewMode.Hierarchy;
 
-        public SceneTree(Universe universe, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public SceneTree(Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
         {
-            Universe = universe;
-            EditorActionManager = aman;
-            Viewport = vp;
-            AssetLocator = al;
+            _universe = universe;
+            _selection = sel;
+            _editorActionManager = aman;
+            _viewport = vp;
+            _assetLocator = al;
         }
 
         private void RebuildTypeViewCache(Map map)
         {
             if (_cachedTypeView == null)
             {
-                _cachedTypeView = new Dictionary<string, Dictionary<MapObject.ObjectType, Dictionary<Type, List<MapObject>>>>();
+                _cachedTypeView = new Dictionary<string, Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>>();
             }
 
-            var mapcache = new Dictionary<MapObject.ObjectType, Dictionary<Type, List<MapObject>>>();
-            mapcache.Add(MapObject.ObjectType.Part, new Dictionary<Type, List<MapObject>>());
-            mapcache.Add(MapObject.ObjectType.Region, new Dictionary<Type, List<MapObject>>());
-            mapcache.Add(MapObject.ObjectType.Event, new Dictionary<Type, List<MapObject>>());
-            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            var mapcache = new Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>();
+            mapcache.Add(MapEntity.MapEntityType.Part, new Dictionary<Type, List<MapEntity>>());
+            mapcache.Add(MapEntity.MapEntityType.Region, new Dictionary<Type, List<MapEntity>>());
+            mapcache.Add(MapEntity.MapEntityType.Event, new Dictionary<Type, List<MapEntity>>());
+            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
-                mapcache.Add(MapObject.ObjectType.DS2Event, new Dictionary<Type, List<MapObject>>());
-                mapcache.Add(MapObject.ObjectType.DS2EventLocation, new Dictionary<Type, List<MapObject>>());
-                mapcache.Add(MapObject.ObjectType.DS2Generator, new Dictionary<Type, List<MapObject>>());
-                mapcache.Add(MapObject.ObjectType.DS2GeneratorRegist, new Dictionary<Type, List<MapObject>>());
+                mapcache.Add(MapEntity.MapEntityType.DS2Event, new Dictionary<Type, List<MapEntity>>());
+                mapcache.Add(MapEntity.MapEntityType.DS2EventLocation, new Dictionary<Type, List<MapEntity>>());
+                mapcache.Add(MapEntity.MapEntityType.DS2Generator, new Dictionary<Type, List<MapEntity>>());
+                mapcache.Add(MapEntity.MapEntityType.DS2GeneratorRegist, new Dictionary<Type, List<MapEntity>>());
             }
 
-            foreach (var obj in map.MapObjects)
+            foreach (var obj in map.Objects)
             {
-                if (mapcache.ContainsKey(obj.Type))
+                if (obj is MapEntity e && mapcache.ContainsKey(e.Type))
                 {
-                    var typ = obj.MsbObject.GetType();
-                    if (!mapcache[obj.Type].ContainsKey(typ))
+                    var typ = e.WrappedObject.GetType();
+                    if (!mapcache[e.Type].ContainsKey(typ))
                     {
-                        mapcache[obj.Type].Add(typ, new List<MapObject>());
+                        mapcache[e.Type].Add(typ, new List<MapEntity>());
                     }
-                    mapcache[obj.Type][typ].Add(obj);
+                    mapcache[e.Type][typ].Add(e);
                 }
             }
 
-            if (!_cachedTypeView.ContainsKey(map.MapId))
+            if (!_cachedTypeView.ContainsKey(map.Name))
             {
-                _cachedTypeView.Add(map.MapId, mapcache);
+                _cachedTypeView.Add(map.Name, mapcache);
             }
             else
             {
-                _cachedTypeView[map.MapId] = mapcache;
+                _cachedTypeView[map.Name] = mapcache;
             }
         }
 
@@ -111,7 +113,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SameLine();
                 if (ImGui.Button("Load"))
                 {
-                    if (!Universe.LoadMap(_chaliceMapID))
+                    if (!_universe.LoadMap(_chaliceMapID))
                     {
                         _chaliceLoadError = true;
                     }
@@ -126,19 +128,19 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void MapObjectSelectable(MapObject obj, bool visicon)
+        private void MapObjectSelectable(MapEntity e, bool visicon)
         {
             // Main selectable
-            ImGui.PushID(obj.Type.ToString() + obj.Name);
+            ImGui.PushID(e.Type.ToString() + e.Name);
             bool doSelect = false;
-            if (ImGui.Selectable(obj.PrettyName, Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+            if (ImGui.Selectable(e.PrettyName, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
             {
                 // If double clicked frame the selection in the viewport
                 if (ImGui.IsMouseDoubleClicked(0))
                 {
-                    if (obj.RenderSceneMesh != null)
+                    if (e.RenderSceneMesh != null)
                     {
-                        Viewport.FrameBox(obj.RenderSceneMesh.GetBounds());
+                        _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
                     }
                 }
             }
@@ -147,7 +149,7 @@ namespace StudioCore.MsbEditor
                 doSelect = true;
             }
 
-            if (ImGui.IsItemFocused() && !Selection.IsSelected(obj))
+            if (ImGui.IsItemFocused() && !_selection.IsSelected(e))
             {
                 doSelect = true;
             }
@@ -155,7 +157,7 @@ namespace StudioCore.MsbEditor
             // Visibility icon
             if (visicon)
             {
-                bool visible = obj.EditorVisible;
+                bool visible = e.EditorVisible;
                 ImGui.SameLine(ImGui.GetWindowContentRegionWidth() - 18.0f);
                 ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                     : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
@@ -163,7 +165,7 @@ namespace StudioCore.MsbEditor
                 ImGui.PopStyleColor();
                 if (ImGui.IsItemClicked(0))
                 {
-                    obj.EditorVisible = !obj.EditorVisible;
+                    e.EditorVisible = !e.EditorVisible;
                     doSelect = false;
                 }
             }
@@ -173,12 +175,12 @@ namespace StudioCore.MsbEditor
             {
                 if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                 {
-                    Selection.AddSelection(obj);
+                    _selection.AddSelection(e);
                 }
                 else
                 {
-                    Selection.ClearSelection();
-                    Selection.AddSelection(obj);
+                    _selection.ClearSelection();
+                    _selection.AddSelection(e);
                 }
             }
 
@@ -187,20 +189,23 @@ namespace StudioCore.MsbEditor
 
         private void HierarchyView(Map map)
         {
-            foreach (var obj in map.MapObjects)
+            foreach (var obj in map.Objects)
             {
-                MapObjectSelectable(obj, true);
+                if (obj is MapEntity e)
+                {
+                    MapObjectSelectable(e, true);
+                }
             }
         }
 
         private void TypeView(Map map)
         {
-            if (_cachedTypeView == null || !_cachedTypeView.ContainsKey(map.MapId))
+            if (_cachedTypeView == null || !_cachedTypeView.ContainsKey(map.Name))
             {
                 RebuildTypeViewCache(map);
             }
 
-            foreach (var cats in _cachedTypeView[map.MapId].OrderBy(q => q.Key.ToString()))
+            foreach (var cats in _cachedTypeView[map.Name].OrderBy(q => q.Key.ToString()))
             {
                 if (cats.Value.Count > 0)
                 {
@@ -211,8 +216,8 @@ namespace StudioCore.MsbEditor
                             if (typ.Value.Count > 0)
                             {
                                 // Regions don't have multiple types in games before DS3
-                                if (cats.Key == MapObject.ObjectType.Region &&
-                                    AssetLocator.Type != GameType.DarkSoulsIII && AssetLocator.Type != GameType.Sekiro)
+                                if (cats.Key == MapEntity.MapEntityType.Region &&
+                                    _assetLocator.Type != GameType.DarkSoulsIII && _assetLocator.Type != GameType.Sekiro)
                                 {
                                     foreach (var obj in typ.Value)
                                     {
@@ -260,12 +265,12 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;
-                foreach (var lm in Universe.LoadedMaps.OrderBy((k) => k.Key))
+                foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
                 {
                     var map = lm.Value;
                     var mapid = lm.Key;
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
-                    if (map != null && Selection.GetSelection().Contains(map.RootObject))
+                    if (map != null && _selection.GetSelection().Contains(map.RootObject))
                     {
                         treeflags |= ImGuiTreeNodeFlags.Selected;
                     }
@@ -285,20 +290,29 @@ namespace StudioCore.MsbEditor
                         {
                             if (ImGui.Selectable("Load Map"))
                             {
-                                Universe.LoadMap(mapid);
+                                _universe.LoadMap(mapid);
                             }
                         }
-                        else
+                        else if (map is Map m)
                         {
                             if (ImGui.Selectable("Save Map"))
                             {
-                                Universe.SaveMap(map);
+                                try
+                                {
+                                    _universe.SaveMap(m);
+                                }
+                                catch (SavingFailedException e)
+                                {
+                                    System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                                }
                             }
                             if (ImGui.Selectable("Unload Map"))
                             {
-                                Selection.ClearSelection();
-                                EditorActionManager.Clear();
-                                pendingUnload = map;
+                                _selection.ClearSelection();
+                                _editorActionManager.Clear();
+                                pendingUnload = m;
                             }
                         }
                         ImGui.EndPopup();
@@ -307,28 +321,28 @@ namespace StudioCore.MsbEditor
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
                         {
-                            Selection.AddSelection(map.RootObject);
+                            _selection.AddSelection(map.RootObject);
                         }
                         else
                         {
-                            Selection.ClearSelection();
-                            Selection.AddSelection(map.RootObject);
+                            _selection.ClearSelection();
+                            _selection.AddSelection(map.RootObject);
                         }
                     }
                     if (nodeopen)
                     {
                         if (_viewMode == ViewMode.Hierarchy)
                         {
-                            HierarchyView(map);
+                            HierarchyView((Map)map);
                         }
                         else if (_viewMode == ViewMode.ObjectType)
                         {
-                            TypeView(map);
+                            TypeView((Map)map);
                         }
                         ImGui.TreePop();
                     }
                 }
-                if (AssetLocator.Type == GameType.Bloodborne)
+                if (_assetLocator.Type == GameType.Bloodborne)
                 {
                     ChaliceDungeonImportButton();
                 }
@@ -337,7 +351,7 @@ namespace StudioCore.MsbEditor
 
                 if (pendingUnload != null)
                 {
-                    Universe.UnloadMap(pendingUnload);
+                    _universe.UnloadMap(pendingUnload);
                     GC.Collect();
                     _GCNeedsCollection = true;
                     Resource.ResourceManager.UnloadUnusedResources();

@@ -212,12 +212,14 @@ namespace SoulsFormats
             /// <summary>
             /// The name of a part the event is attached to.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// The name of a region the event is attached to.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Region))]
             public string PointName { get; set; }
             private int PointIndex;
 
@@ -326,6 +328,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part the treasure is attached to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string PartName2 { get; set; }
                 private int PartIndex2;
 

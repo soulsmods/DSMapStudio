@@ -23,9 +23,10 @@ namespace StudioCore.Gui
         /// <summary>
         /// The camera in this scene
         /// </summary>
-        public WorldView WorldView;
-        private Scene.RenderScene RenderScene;
-        private Scene.SceneRenderPipeline ViewPipeline;
+        public WorldView _worldView;
+        private Scene.RenderScene _renderScene;
+        private Scene.SceneRenderPipeline _viewPipeline;
+        private MsbEditor.Selection _selection;
 
         private int PrevWidth;
         private int PrevHeight;
@@ -34,65 +35,72 @@ namespace StudioCore.Gui
         public int Width;
         public int Height;
 
+        public float NearClip = 0.1f;
+        public float FarClip = 2000.0f;
+
         public bool DrawGrid { get; set; } = true;
 
         private DebugPrimitives.DbgPrimWireGrid ViewportGrid;
 
-        private Veldrid.Viewport RenderViewport;
+        private Veldrid.Viewport _renderViewport;
 
-        private BoundingFrustum Frustum;
+        private BoundingFrustum _frustum;
 
-        private Matrix4x4 ProjectionMat;
+        private Matrix4x4 _projectionMat;
 
-        private DebugPrimitives.DbgPrimWire RayDebug = null;
+        private DebugPrimitives.DbgPrimWire _rayDebug = null;
 
         //private DebugPrimitives.DbgPrimGizmoTranslate TranslateGizmo = null;
-        private MsbEditor.Gizmos Gizmos;
+        private MsbEditor.Gizmos _gizmos;
 
-        private Scene.Renderer.RenderQueue DebugRenderer;
+        private Scene.Renderer.RenderQueue _debugRenderer;
 
-        private MsbEditor.ActionManager ActionManager;
+        private MsbEditor.ActionManager _actionManager;
 
-        private GraphicsDevice Device;
+        private GraphicsDevice _device;
 
-        private bool CanInteract = false;
+        private bool _canInteract = false;
 
-        private Scene.FullScreenQuad ClearQuad;
+        private Scene.FullScreenQuad _clearQuad;
 
         private bool _vpvisible = false;
 
+        private string _vpid = "";
+
         //public RenderTarget2D SceneRenderTarget = null;
 
-        public Viewport(GraphicsDevice device, Scene.RenderScene scene, MsbEditor.ActionManager am, int width, int height)
+        public Viewport(string id, GraphicsDevice device, Scene.RenderScene scene, MsbEditor.ActionManager am, MsbEditor.Selection sel, int width, int height)
         {
+            _vpid = id;
             PrevWidth = width;
             PrevHeight = height;
             Width = width;
             Height = height;
-            Device = device;
+            _device = device;
             float depth = device.IsDepthRangeZeroToOne ? 1 : 0;
-            RenderViewport = new Veldrid.Viewport(0, 0, Width, Height, depth, 1.0f - depth);
+            _renderViewport = new Veldrid.Viewport(0, 0, Width, Height, depth, 1.0f - depth);
 
-            RenderScene = scene;
+            _renderScene = scene;
+            _selection = sel;
 
-            WorldView = new WorldView(new Veldrid.Rectangle(0, 0, Width, Height));
-            ViewPipeline = new Scene.SceneRenderPipeline(scene, device, width, height);
+            _worldView = new WorldView(new Veldrid.Rectangle(0, 0, Width, Height));
+            _viewPipeline = new Scene.SceneRenderPipeline(scene, device, width, height);
             ViewportGrid = new DebugPrimitives.DbgPrimWireGrid(Color.Green, Color.DarkGreen, 50, 5.0f);
             //ViewportGrid.CreateDeviceObjects(device, null, ViewPipeline);
 
             //RenderScene.AddObject(ViewportGrid);
 
-            ProjectionMat = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
-            Frustum = new BoundingFrustum(ProjectionMat);
-            ActionManager = am;
+            _projectionMat = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
+            _frustum = new BoundingFrustum(_projectionMat);
+            _actionManager = am;
 
-            ViewPipeline.SetViewportSetupAction((d, cl) =>
+            _viewPipeline.SetViewportSetupAction((d, cl) =>
             {
                 cl.SetFramebuffer(device.SwapchainFramebuffer);
-                cl.SetViewport(0, RenderViewport);
+                cl.SetViewport(0, _renderViewport);
                 if (_vpvisible)
                 {
-                    ClearQuad.Render(d, cl);
+                    _clearQuad.Render(d, cl);
                 }
                 _vpvisible = false;
                 //cl.SetFullViewports();
@@ -100,29 +108,29 @@ namespace StudioCore.Gui
                 //cl.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
             });
 
-            DebugRenderer = new Scene.Renderer.RenderQueue("Editor Overlays", device, ViewPipeline);
-            DebugRenderer.SetPredrawSetupAction((d, cl) =>
+            _debugRenderer = new Scene.Renderer.RenderQueue("Editor Overlays", device, _viewPipeline);
+            _debugRenderer.SetPredrawSetupAction((d, cl) =>
             {
                 cl.SetFramebuffer(device.SwapchainFramebuffer);
-                cl.SetViewport(0, RenderViewport);
+                cl.SetViewport(0, _renderViewport);
                 //cl.SetFullViewports();
                 cl.ClearDepthStencil(0);
             });
-            Scene.Renderer.RegisterRenderQueue(DebugRenderer);
+            Scene.Renderer.RegisterRenderQueue(_debugRenderer);
 
             // Create gizmos
             //TranslateGizmo = new DebugPrimitives.DbgPrimGizmoTranslate();
-            Gizmos = new MsbEditor.Gizmos(ActionManager);
+            _gizmos = new MsbEditor.Gizmos(_actionManager, _selection);
             Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
             {
                 //TranslateGizmo.CreateDeviceObjects(d, cl, ViewPipeline);
-                Gizmos.CreateDeviceObjects(d, cl, ViewPipeline);
+                _gizmos.CreateDeviceObjects(d, cl, _viewPipeline);
             });
 
-            ClearQuad = new Scene.FullScreenQuad();
+            _clearQuad = new Scene.FullScreenQuad();
             Scene.Renderer.AddBackgroundUploadTask((gd, cl) =>
             {
-                ClearQuad.CreateDeviceObjects(gd, cl);
+                _clearQuad.CreateDeviceObjects(gd, cl);
             });
         }
 
@@ -139,18 +147,18 @@ namespace StudioCore.Gui
 
             // View Coordinates
             Matrix4x4 invProj;
-            Matrix4x4.Invert(ProjectionMat, out invProj);
+            Matrix4x4.Invert(_projectionMat, out invProj);
             Vector4 viewCoords = Vector4.Transform(clipCoords, invProj);
             viewCoords.Z = 1.0f;
             viewCoords.W = 0.0f;
 
             Matrix4x4 invView;
-            Matrix4x4.Invert(WorldView.CameraTransform.CameraViewMatrixLH, out invView);
+            Matrix4x4.Invert(_worldView.CameraTransform.CameraViewMatrixLH, out invView);
             Vector3 worldCoords = Vector4.Transform(viewCoords, invView).XYZ();
             worldCoords = Vector3.Normalize(worldCoords);
             //worldCoords.X = -worldCoords.X;
 
-            return new Ray(WorldView.CameraTransform.Position, worldCoords);
+            return new Ray(_worldView.CameraTransform.Position, worldCoords);
         }
 
         private bool MouseInViewport()
@@ -169,41 +177,43 @@ namespace StudioCore.Gui
 
         public void OnGui()
         {
-            if (ImGui.Begin("Viewport", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
+            if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
             {
                 var p = ImGui.GetWindowPos();
                 var s = ImGui.GetWindowSize();
                 var newvp = new Veldrid.Rectangle((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
-                ResizeViewport(Device, newvp);
+                ResizeViewport(_device, newvp);
                 if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
                 {
                     ImGui.SetWindowFocus();
                 }
-                CanInteract = ImGui.IsWindowFocused();
+                _canInteract = ImGui.IsWindowFocused();
                 ImGui.End();
                 _vpvisible = true;
             }
+            ImGui.PopID();
 
-            if (ImGui.Begin("Profiling"))
+            if (ImGui.Begin($@"Profiling##{_vpid}"))
             {
-                ImGui.Text($@"Cull time: {RenderScene.OctreeCullTime} ms");
-                ImGui.Text($@"Work creation time: {RenderScene.CPUDrawTime} ms");
-                ImGui.Text($@"Scene Render CPU time: {ViewPipeline.CPURenderTime} ms");
-                ImGui.Text($@"Visible objects: {RenderScene.RenderObjectCount}");
+                ImGui.Text($@"Cull time: {_renderScene.OctreeCullTime} ms");
+                ImGui.Text($@"Work creation time: {_renderScene.CPUDrawTime} ms");
+                ImGui.Text($@"Scene Render CPU time: {_viewPipeline.CPURenderTime} ms");
+                ImGui.Text($@"Visible objects: {_renderScene.RenderObjectCount}");
                 ImGui.Text($@"Vertex Buffers Size: {Scene.Renderer.GeometryBufferAllocator.TotalVertexFootprint / 1024 / 1024} MB");
                 ImGui.Text($@"Index Buffers Size: {Scene.Renderer.GeometryBufferAllocator.TotalIndexFootprint / 1024 / 1024} MB");
                 ImGui.Text($@"FLVER Read Caches: {Resource.FlverResource.CacheCount}");
                 ImGui.Text($@"FLVER Read Caches Size: {Resource.FlverResource.CacheFootprint / 1024 / 1024} MB");
                 ImGui.End();
             }
+            ImGui.PopID();
         }
 
         public void SceneParamsGui()
         {
-            ImGui.SliderFloat4("Light Direction", ref ViewPipeline.SceneParams.LightDirection, -1, 1);
-            ImGui.SliderFloat("Direct Light Mult", ref ViewPipeline.SceneParams.DirectLightMult, 0, 3);
-            ImGui.SliderFloat("Indirect Light Mult", ref ViewPipeline.SceneParams.IndirectLightMult, 0, 3);
-            ImGui.SliderFloat("Brightness", ref ViewPipeline.SceneParams.SceneBrightness, 0, 5);
+            ImGui.SliderFloat4("Light Direction", ref _viewPipeline.SceneParams.LightDirection, -1, 1);
+            ImGui.SliderFloat("Direct Light Mult", ref _viewPipeline.SceneParams.DirectLightMult, 0, 3);
+            ImGui.SliderFloat("Indirect Light Mult", ref _viewPipeline.SceneParams.IndirectLightMult, 0, 3);
+            ImGui.SliderFloat("Brightness", ref _viewPipeline.SceneParams.SceneBrightness, 0, 5);
         }
 
         public void ResizeViewport(GraphicsDevice device, Veldrid.Rectangle newvp)
@@ -214,9 +224,9 @@ namespace StudioCore.Gui
             Height = newvp.Height;
             X = newvp.X;
             Y = newvp.Y;
-            WorldView.UpdateBounds(newvp);
+            _worldView.UpdateBounds(newvp);
             float depth = device.IsDepthRangeZeroToOne ? 0 : 1;
-            RenderViewport = new Veldrid.Viewport(newvp.X, newvp.Y, Width, Height, depth, 1.0f - depth);
+            _renderViewport = new Veldrid.Viewport(newvp.X, newvp.Y, Width, Height, depth, 1.0f - depth);
         }
 
         public bool Update(Sdl2Window window, float dt)
@@ -224,16 +234,16 @@ namespace StudioCore.Gui
             var pos = InputTracker.MousePosition;
             var ray = GetRay((float)pos.X - (float)X, (float)pos.Y - (float)Y);
 
-            Gizmos.Update(ray, CanInteract && MouseInViewport());
+            _gizmos.Update(ray, _canInteract && MouseInViewport());
 
             bool kbbusy = false;
 
-            if (!Gizmos.IsMouseBusy() && CanInteract && MouseInViewport())
+            if (!_gizmos.IsMouseBusy() && _canInteract && MouseInViewport())
             {
-                kbbusy = WorldView.UpdateInput(window, dt);
+                kbbusy = _worldView.UpdateInput(window, dt);
                 if (InputTracker.GetMouseButtonDown(MouseButton.Left))
                 {
-                    var hit = RenderScene.CastRay(ray);
+                    var hit = _renderScene.CastRay(ray);
                     if (hit != null && hit.Selectable != null)
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
@@ -242,7 +252,7 @@ namespace StudioCore.Gui
                             var b = hit.Selectable.TryGetTarget(out sel);
                             if (b)
                             {
-                                MsbEditor.Selection.AddSelection(sel);
+                                _selection.AddSelection(sel);
                             }
                         }
                         else
@@ -251,21 +261,21 @@ namespace StudioCore.Gui
                             var b = hit.Selectable.TryGetTarget(out sel);
                             if (b)
                             {
-                                MsbEditor.Selection.ClearSelection();
-                                MsbEditor.Selection.AddSelection(sel);
+                                _selection.ClearSelection();
+                                _selection.AddSelection(sel);
                             }
                         }
                     }
                     else
                     {
-                        MsbEditor.Selection.ClearSelection();
+                        _selection.ClearSelection();
                     }
                     if (DebugRayCastDraw)
                     {
-                        RayDebug = new DebugPrimitives.DbgPrimWireRay(Transform.Default, ray.Origin, ray.Origin + ray.Direction * 50.0f, Color.Blue);
+                        _rayDebug = new DebugPrimitives.DbgPrimWireRay(Transform.Default, ray.Origin, ray.Origin + ray.Direction * 50.0f, Color.Blue);
                         Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                         {
-                            RayDebug.CreateDeviceObjects(d, cl, ViewPipeline);
+                            _rayDebug.CreateDeviceObjects(d, cl, _viewPipeline);
                         });
                     }
                 }
@@ -277,14 +287,14 @@ namespace StudioCore.Gui
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
-            ProjectionMat = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)Width / (float)Height, 0.1f, 2000.0f);
-            Frustum = new BoundingFrustum(WorldView.CameraTransform.CameraViewMatrixLH * ProjectionMat);
-            ViewPipeline.TestUpdateView(ProjectionMat, WorldView.CameraTransform.CameraViewMatrixLH, WorldView.CameraTransform.Position);
-            ViewPipeline.RenderScene(Frustum);
+            _projectionMat = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)Width / (float)Height, NearClip, FarClip);
+            _frustum = new BoundingFrustum(_worldView.CameraTransform.CameraViewMatrixLH * _projectionMat);
+            _viewPipeline.TestUpdateView(_projectionMat, _worldView.CameraTransform.CameraViewMatrixLH, _worldView.CameraTransform.Position);
+            _viewPipeline.RenderScene(_frustum);
 
-            if (RayDebug != null)
+            if (_rayDebug != null)
             {
-                DebugRenderer.Add(RayDebug, new Scene.RenderKey(0));
+                _debugRenderer.Add(_rayDebug, new Scene.RenderKey(0));
             }
 
             if (DrawGrid)
@@ -294,14 +304,14 @@ namespace StudioCore.Gui
                 //ViewportGrid.Render(device, cl, ViewPipeline);
             }
 
-            Gizmos.CameraPosition = WorldView.CameraTransform.Position;
-            DebugRenderer.Add(Gizmos, new Scene.RenderKey(0));
+            _gizmos.CameraPosition = _worldView.CameraTransform.Position;
+            _debugRenderer.Add(_gizmos, new Scene.RenderKey(0));
             //RenderScene.Render(device, cl, ViewPipeline);
         }
 
         public void SetEnvMap(uint index)
         {
-            ViewPipeline.EnvMapTexture = index;
+            _viewPipeline.EnvMapTexture = index;
         }
 
         /// <summary>
@@ -311,10 +321,10 @@ namespace StudioCore.Gui
         /// <param name="box">The bounding box to frame</param>
         public void FrameBox(BoundingBox box)
         {
-            var camdir = Vector3.Transform(Vector3.UnitZ, WorldView.CameraTransform.RotationMatrix);
+            var camdir = Vector3.Transform(Vector3.UnitZ, _worldView.CameraTransform.RotationMatrix);
             var pos = box.GetCenter();
             var radius = Vector3.Distance(box.Max, box.Min);
-            WorldView.CameraTransform.Position = pos - (camdir * radius);
+            _worldView.CameraTransform.Position = pos - (camdir * radius);
         }
     }
 }

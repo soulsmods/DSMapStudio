@@ -98,7 +98,7 @@ namespace StudioCore.MsbEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete", "Delete", false, Selection.IsSelection()))
+                if (ImGui.MenuItem("Delete", "Delete", false, _activeParam != null && _activeRow != null))
                 {
                     if (_activeParam != null && _activeRow != null)
                     {
@@ -107,7 +107,7 @@ namespace StudioCore.MsbEditor
                         _activeRow = null;
                     }
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, Selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _activeParam != null && _activeRow != null))
                 {
                     if (_activeParam != null && _activeRow != null)
                     {

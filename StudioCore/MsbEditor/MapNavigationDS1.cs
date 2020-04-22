@@ -11,11 +11,11 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public class MapNavigationDS1
     {
-        public Map Map { get; private set; } = null;
+        public ObjectContainer Map { get; private set; } = null;
 
         public List<NavRegion> Regions { get; private set; } = null;
 
-        public MapNavigationDS1(Map map, MCP mcp, MCG mcg)
+        public MapNavigationDS1(ObjectContainer map, MCP mcp, MCG mcg)
         {
             Map = map;
 

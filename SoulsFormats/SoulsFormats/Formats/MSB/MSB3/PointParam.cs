@@ -386,6 +386,7 @@ namespace SoulsFormats
             /// <summary>
             /// Region is inactive unless this part is drawn; null for always active.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string ActivationPartName { get; set; }
             private int ActivationPartIndex;
 
@@ -753,6 +754,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Names of other Sound regions which extend this one.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] ChildRegionNames { get; private set; }
                 private int[] ChildRegionIndices;
 
@@ -881,6 +883,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Name of a corresponding WindArea region.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(WindArea))]
                 public string WindAreaName { get; set; }
                 private int WindAreaIndex;
 

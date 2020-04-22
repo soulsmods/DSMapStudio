@@ -139,7 +139,7 @@ void main()
 	//F0 *= F0;
 	
 	float roughness;
-	if (c_gameID == GAME_BLOODBORNE)
+	if (c_gameID == GAME_BLOODBORNE || c_gameID == GAME_DS1_PTDE || c_gameID == GAME_DS2)
 	{
 #ifdef MATERIAL_BLEND
 		vec3 shininessColor;

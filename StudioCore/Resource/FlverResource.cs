@@ -193,6 +193,37 @@ namespace StudioCore.Resource
 
         public List<FLVER.Bone> Bones { get; private set; } = null;
 
+        private string TexturePathToVirtual(string texpath)
+        {
+            if (texpath.Contains(@"\map\"))
+            {
+                var splits = texpath.Split('\\');
+                var mapid = splits[splits.Length - 3];
+                return $@"map/tex/{mapid}/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
+            // Chr texture reference
+            else if (texpath.Contains(@"\chr\"))
+            {
+                var splits = texpath.Split('\\');
+                var chrid = splits[splits.Length - 3];
+                return $@"chr/{chrid}/tex/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
+            // Obj texture reference
+            else if (texpath.Contains(@"\obj\"))
+            {
+                var splits = texpath.Split('\\');
+                var objid = splits[splits.Length - 3];
+                return $@"obj/{objid}/tex/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
+            // Parts texture reference
+            /*else if (texpath.Contains(@"\parts\"))
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<Texture2D>($@"Assets/{gamePath}/Parts/textures/{Path.GetFileNameWithoutExtension(path)}.dds");
+                return asset;
+            }*/
+            return texpath;
+        }
+
         private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, FLVER2.Texture matparam)
         {
             if (matparam.Path == "")
@@ -201,7 +232,7 @@ namespace StudioCore.Resource
             }
             else
             {
-                handle = ResourceManager.GetTextureResource($@"tex/{Path.GetFileNameWithoutExtension(matparam.Path).ToLower()}");
+                handle = ResourceManager.GetTextureResource(TexturePathToVirtual(matparam.Path.ToLower()));
                 handle.Acquire();
                 handle.AddResourceEventListener(dest);
             }
@@ -212,6 +243,16 @@ namespace StudioCore.Resource
             dest.MaterialName = Path.GetFileNameWithoutExtension(mat.MTD);
             dest.MaterialBuffer = Scene.Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(Scene.Material), sizeof(Scene.Material));
             dest.MaterialData = new Scene.Material();
+
+            if (!CFG.Current.EnableTexturing)
+            {
+                dest.ShaderName = @"SimpleFlver";
+                dest.LayoutType = FlverLayoutType.LayoutSky;
+                dest.VertexLayout = FlverLayoutUtils.GetLayoutDescription(dest.LayoutType);
+                dest.VertexSize = FlverLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
+                dest.SpecializationConstants = new SpecializationConstant[0];
+                return;
+            }
 
             bool blend = false;
             bool blendMask = false;
@@ -373,6 +414,23 @@ namespace StudioCore.Resource
             
         }
 
+        unsafe private void FillVerticesNormalOnly(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
+        {
+            Span<FlverLayoutSky> verts = new Span<FlverLayoutSky>(vertBuffer.ToPointer(), mesh.VertexCount);
+            for (int i = 0; i < mesh.VertexCount; i++)
+            {
+                var vert = mesh.Vertices[i];
+
+                verts[i] = new FlverLayoutSky();
+                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                fixed (FlverLayoutSky* v = &verts[i])
+                {
+                    FillVertex(ref (*v).Position, ref vert);
+                    FillNormalSNorm8((*v).Normal, ref vert);
+                }
+            }
+        }
+
         unsafe private void FillVerticesStandard(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.VertexCount);
@@ -445,7 +503,11 @@ namespace StudioCore.Resource
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
 
-            if (dest.Material.LayoutType == FlverLayoutType.LayoutUV2)
+            if (dest.Material.LayoutType == FlverLayoutType.LayoutSky)
+            {
+                FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
+            }
+            else if (dest.Material.LayoutType == FlverLayoutType.LayoutUV2)
             {
                 FillVerticesUV2(mesh, pvhandle, meshVertices);
             }

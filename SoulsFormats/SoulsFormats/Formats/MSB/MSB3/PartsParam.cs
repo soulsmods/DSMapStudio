@@ -723,6 +723,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionPartIndex;
 
@@ -844,6 +845,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionPartIndex;
 
@@ -879,6 +881,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Walk route followed by this enemy.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Event.WalkRoute))]
                 public string WalkRouteName { get; set; }
                 private short WalkRouteIndex;
 
@@ -1179,6 +1182,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown. Always refers to another collision part.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string UnkHitName { get; set; }
                 private int UnkHitIndex;
 
@@ -1376,6 +1380,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The name of the associated collision part.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 

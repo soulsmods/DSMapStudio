@@ -15,15 +15,77 @@ namespace StudioCore.MsbEditor
     /// deserialize it. This is the logical portion of the map and does not
     /// handle tasks like rendering or loading associated assets with it.
     /// </summary>
-    public class Map
+    public class ObjectContainer
     {
-        public string MapId { get; set; }
-        [XmlIgnore]
-        public List<MapObject> MapObjects = new List<MapObject>();
-        public MapObject RootObject { get; set; }
-        [XmlIgnore]
-        public Universe Universe { get; private set; }
+        public string Name { get; set; }
 
+        [XmlIgnore]
+        public List<Entity> Objects = new List<Entity>();
+        public Entity RootObject { get; set; }
+        [XmlIgnore]
+        public Universe Universe { get; protected set; }
+
+        public ObjectContainer()
+        {
+
+        }
+
+        public ObjectContainer(Universe u, string name)
+        {
+            Name = name;
+            Universe = u;
+            var t = new TransformNode();
+            RootObject = new Entity(this, t);
+        }
+
+        public void AddObject(Entity obj)
+        {
+            Objects.Add(obj);
+            RootObject.AddChild(obj);
+        }
+
+        public void Clear()
+        {
+            Objects.Clear();
+        }
+
+        public Entity GetObjectByName(string name)
+        {
+            foreach (var m in Objects)
+            {
+                if (m.Name == name)
+                {
+                    return m;
+                }
+            }
+            return null;
+        }
+
+        public byte GetNextUnique(string prop, byte value)
+        {
+            HashSet<byte> usedvals = new HashSet<byte>();
+            foreach (var obj in Objects)
+            {
+                if (obj.GetPropertyValue(prop) != null)
+                {
+                    byte val = obj.GetPropertyValue<byte>(prop);
+                    usedvals.Add(val);
+                }
+            }
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (!usedvals.Contains((byte)((value + i) % 256)))
+                {
+                    return (byte)((value + i) % 256);
+                }
+            }
+            return value;
+        }
+    }
+
+    public class Map : ObjectContainer
+    {
         public List<GPARAM> GParams { get; private set; }
 
         /// <summary>
@@ -35,17 +97,12 @@ namespace StudioCore.MsbEditor
         // can be byte perfect
         private Dictionary<string, IMsbModel> LoadedModels = new Dictionary<string, IMsbModel>();
 
-        public Map()
-        {
-
-        }
-
         public Map(Universe u, string mapid)
         {
-            MapId = mapid;
+            Name = mapid;
             Universe = u;
             var t = new TransformNode(mapid);
-            RootObject = new MapObject(this, t, MapObject.ObjectType.MapRoot);
+            RootObject = new MapEntity(this, t, MapEntity.MapEntityType.MapRoot);
         }
 
         public void LoadMSB(IMsb msb)
@@ -57,35 +114,29 @@ namespace StudioCore.MsbEditor
 
             foreach (var p in msb.Parts.GetEntries())
             {
-                var n = new MapObject(this, p, MapObject.ObjectType.Part);
-                MapObjects.Add(n);
+                var n = new MapEntity(this, p, MapEntity.MapEntityType.Part);
+                Objects.Add(n);
                 RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Regions.GetEntries())
             {
-                var n = new MapObject(this, p, MapObject.ObjectType.Region);
-                MapObjects.Add(n);
+                var n = new MapEntity(this, p, MapEntity.MapEntityType.Region);
+                Objects.Add(n);
                 RootObject.AddChild(n);
             }
 
             foreach (var p in msb.Events.GetEntries())
             {
-                var n = new MapObject(this, p, MapObject.ObjectType.Event);
-                MapObjects.Add(n);
+                var n = new MapEntity(this, p, MapEntity.MapEntityType.Event);
+                Objects.Add(n);
                 RootObject.AddChild(n);
             }
 
-            foreach (var m in MapObjects)
+            foreach (var m in Objects)
             {
                 m.BuildReferenceMap();
             }
-        }
-
-        public void AddObject(MapObject obj)
-        {
-            MapObjects.Add(obj);
-            RootObject.AddChild(obj);
         }
 
         private void AddModelDS1(IMsb m, MSB1.ModelType typ, string name)
@@ -100,7 +151,7 @@ namespace StudioCore.MsbEditor
             model.Type = typ;
             if (typ == MSB1.ModelType.MapPiece)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\map\{MapId}\sib\{name}.sib";
+                model.Placeholder = $@"N:\FRPG\data\Model\map\{Name}\sib\{name}.sib";
             }
             else if (typ == MSB1.ModelType.Object)
             {
@@ -112,11 +163,11 @@ namespace StudioCore.MsbEditor
             }
             else if (typ == MSB1.ModelType.Collision)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\map\{MapId}\hkxwin\{name}.hkxwin";
+                model.Placeholder = $@"N:\FRPG\data\Model\map\{Name}\hkxwin\{name}.hkxwin";
             }
             else if (typ == MSB1.ModelType.Navmesh)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\map\{MapId}\navimesh\{name}.sib";
+                model.Placeholder = $@"N:\FRPG\data\Model\map\{Name}\navimesh\{name}.sib";
             }
             m.Models.Add(model);
         }
@@ -141,11 +192,11 @@ namespace StudioCore.MsbEditor
                 m.Models.Add(LoadedModels[name]);
                 return;
             }
-            var a = $@"A{MapId.Substring(1, 2)}";
+            var a = $@"A{Name.Substring(1, 2)}";
             model.Name = name;
             if (model is MSBB.Model.MapPiece)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\map\{MapId}\sib\{name}{a}.sib";
+                model.Placeholder = $@"N:\SPRJ\data\Model\map\{Name}\sib\{name}{a}.sib";
             }
             else if (model is MSBB.Model.Object)
             {
@@ -166,11 +217,11 @@ namespace StudioCore.MsbEditor
             }
             else if (model is MSBB.Model.Collision)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\map\{MapId}\hkt\{name}{a}.hkt";
+                model.Placeholder = $@"N:\SPRJ\data\Model\map\{Name}\hkt\{name}{a}.hkt";
             }
             else if (model is MSBB.Model.Navmesh)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\map\{MapId}\navimesh\{name}{a}.sib";
+                model.Placeholder = $@"N:\SPRJ\data\Model\map\{Name}\navimesh\{name}{a}.sib";
             }
             else if (model is MSBB.Model.Other)
             {
@@ -189,7 +240,7 @@ namespace StudioCore.MsbEditor
             model.Name = name;
             if (model is MSB3.Model.MapPiece)
             {
-                model.Placeholder = $@"N:\FDP\data\Model\map\{MapId}\sib\{name}.sib";
+                model.Placeholder = $@"N:\FDP\data\Model\map\{Name}\sib\{name}.sib";
             }
             else if (model is MSB3.Model.Object)
             {
@@ -201,7 +252,7 @@ namespace StudioCore.MsbEditor
             }
             else if (model is MSB3.Model.Collision)
             {
-                model.Placeholder = $@"N:\FDP\data\Model\map\{MapId}\hkt\{name}.hkt";
+                model.Placeholder = $@"N:\FDP\data\Model\map\{Name}\hkt\{name}.hkt";
             }
             else if (model is MSB3.Model.Other)
             {
@@ -323,9 +374,9 @@ namespace StudioCore.MsbEditor
 
         public void SerializeToMSB(IMsb msb, GameType game)
         {
-            foreach (var m in MapObjects)
+            foreach (var m in Objects)
             {
-                if (m.MsbObject != null && m.MsbObject is IMsbPart p)
+                if (m.WrappedObject != null && m.WrappedObject is IMsbPart p)
                 {
                     msb.Parts.Add(p);
                     if (p.ModelName != null && !LoadedModels.ContainsKey(p.ModelName))
@@ -333,11 +384,11 @@ namespace StudioCore.MsbEditor
                         LoadedModels.Add(p.ModelName, null);
                     }
                 }
-                else if (m.MsbObject != null && m.MsbObject is IMsbRegion r)
+                else if (m.WrappedObject != null && m.WrappedObject is IMsbRegion r)
                 {
                     msb.Regions.Add(r);
                 }
-                else if (m.MsbObject != null && m.MsbObject is IMsbEvent e)
+                else if (m.WrappedObject != null && m.WrappedObject is IMsbEvent e)
                 {
                     msb.Events.Add(e);
                 }
@@ -369,9 +420,9 @@ namespace StudioCore.MsbEditor
         public bool SerializeDS2Generators(PARAM locations, PARAM generators)
         {
             HashSet<long> ids = new HashSet<long>();
-            foreach (var m in MapObjects)
+            foreach (var o in Objects)
             {
-                if (m.Type == MapObject.ObjectType.DS2Generator && m.MsbObject is MergedParamRow mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2Generator && m.WrappedObject is MergedParamRow mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -405,9 +456,9 @@ namespace StudioCore.MsbEditor
         public bool SerializeDS2Regist(PARAM regist)
         {
             HashSet<long> ids = new HashSet<long>();
-            foreach (var m in MapObjects)
+            foreach (var o in Objects)
             {
-                if (m.Type == MapObject.ObjectType.DS2GeneratorRegist && m.MsbObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2GeneratorRegist && m.WrappedObject is PARAM.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -427,9 +478,9 @@ namespace StudioCore.MsbEditor
         public bool SerializeDS2Events(PARAM evs)
         {
             HashSet<long> ids = new HashSet<long>();
-            foreach (var m in MapObjects)
+            foreach (var o in Objects)
             {
-                if (m.Type == MapObject.ObjectType.DS2Event && m.MsbObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2Event && m.WrappedObject is PARAM.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -451,9 +502,9 @@ namespace StudioCore.MsbEditor
         public bool SerializeDS2EventLocations(PARAM locs)
         {
             HashSet<long> ids = new HashSet<long>();
-            foreach (var m in MapObjects)
+            foreach (var o in Objects)
             {
-                if (m.Type == MapObject.ObjectType.DS2EventLocation && m.MsbObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2EventLocation && m.WrappedObject is PARAM.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -474,45 +525,6 @@ namespace StudioCore.MsbEditor
                 }
             }
             return true;
-        }
-
-        public void Clear()
-        {
-            MapObjects.Clear();
-        }
-
-        public MapObject GetObjectByName(string name)
-        {
-            foreach (var m in MapObjects)
-            {
-                if (m.Name == name)
-                {
-                    return m;
-                }
-            }
-            return null;
-        }
-
-        public byte GetNextUnique(string prop, byte value)
-        {
-            HashSet<byte> usedvals = new HashSet<byte>();
-            foreach (var obj in MapObjects)
-            {
-                if (obj.GetPropertyValue(prop) != null)
-                {
-                    byte val = obj.GetPropertyValue<byte>(prop);
-                    usedvals.Add(val);
-                }
-            }
-
-            for (int i = 0; i < 256; i++)
-            {
-                if (!usedvals.Contains((byte)((value + i) % 256)))
-                {
-                    return (byte)((value + i) % 256);
-                }
-            }
-            return value;
         }
     }
 }

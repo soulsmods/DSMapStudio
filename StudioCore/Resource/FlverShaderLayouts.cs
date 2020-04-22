@@ -68,8 +68,8 @@ namespace StudioCore.Resource
     public unsafe struct FlverLayoutMinimal
     {
         public Vector3 Position;
-        public fixed sbyte Normal[4];
         public fixed short Uv1[2];
+        public fixed sbyte Normal[4];
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
