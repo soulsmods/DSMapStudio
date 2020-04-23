@@ -29,6 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV", "Veldrid.SP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV.VariantCompiler", "Veldrid.SPIRV.VariantCompiler\Veldrid.SPIRV.VariantCompiler.csproj", "{2A3A911A-7573-4A5B-A83B-92164B349BEA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vk", "vk\src\vk\vk.csproj", "{D8573039-9FE1-4554-A659-4E77CFBA83C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vk.rewrite", "vk\src\vk.rewrite\vk.rewrite.csproj", "{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,14 @@ Global
 		{2A3A911A-7573-4A5B-A83B-92164B349BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A3A911A-7573-4A5B-A83B-92164B349BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A3A911A-7573-4A5B-A83B-92164B349BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8573039-9FE1-4554-A659-4E77CFBA83C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8573039-9FE1-4554-A659-4E77CFBA83C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8573039-9FE1-4554-A659-4E77CFBA83C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8573039-9FE1-4554-A659-4E77CFBA83C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

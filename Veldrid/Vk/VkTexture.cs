@@ -338,7 +338,7 @@ namespace Veldrid.Vk
                     baseMipLevel,
                     levelCount,
                     baseArrayLayer,
-                    layerCount,
+                    ((Usage & TextureUsage.Cubemap) > 0) ? _actualImageArrayLayers : layerCount,//layerCount,
                     aspectMask,
                     _imageLayouts[CalculateSubresource(baseMipLevel, baseArrayLayer)],
                     newLayout);

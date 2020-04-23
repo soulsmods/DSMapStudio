@@ -738,10 +738,17 @@ namespace Veldrid.Vk
             deviceCreateInfo.ppEnabledExtensionNames = (byte**)extensionNames.Data;
 
             // TODO descriptor indexing stuff
+            VkPhysicalDeviceDescriptorIndexingFeaturesEXT descriptorIndexingFeatures = VkPhysicalDeviceDescriptorIndexingFeaturesEXT.New();
+            descriptorIndexingFeatures.shaderSampledImageArrayNonUniformIndexing = VkBool32.True;
+            descriptorIndexingFeatures.runtimeDescriptorArray = VkBool32.True;
+            descriptorIndexingFeatures.descriptorBindingVariableDescriptorCount = VkBool32.True;
 
             VkPhysicalDeviceFeatures2KHR physicalDeviceFeatures2KHR = VkPhysicalDeviceFeatures2KHR.New();
             physicalDeviceFeatures2KHR.sType = VkStructureType.PhysicalDeviceFeatures2KHR;
             physicalDeviceFeatures2KHR.features = deviceFeatures;
+            deviceCreateInfo.pEnabledFeatures = null;
+            physicalDeviceFeatures2KHR.pNext = &descriptorIndexingFeatures;
+            deviceCreateInfo.pNext = &physicalDeviceFeatures2KHR;
             
 
             result = vkCreateDevice(_physicalDevice, ref deviceCreateInfo, null, out _device);

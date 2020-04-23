@@ -246,6 +246,11 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        internal virtual Entity DuplicateEntity(object clone)
+        {
+            return new Entity(Container, clone);
+        }
+
         public virtual Entity Clone()
         {
             var typ = WrappedObject.GetType();
@@ -257,7 +262,7 @@ namespace StudioCore.MsbEditor
             if (constructor != null)
             {
                 var clone = constructor.Invoke(new object[] { WrappedObject });
-                var obj = new Entity(Container, clone);
+                var obj = DuplicateEntity(clone);
                 CloneRenderable(obj);
                 obj.UseDrawGroups = UseDrawGroups;
                 return obj;
@@ -296,7 +301,7 @@ namespace StudioCore.MsbEditor
                         // Console.WriteLine($"Can't copy {type.Name} {sourceProperty.Name} of type {sourceProperty.PropertyType}");
                     }
                 }
-                var obj = new Entity(Container, clone);
+                var obj = DuplicateEntity(clone);
                 CloneRenderable(obj);
                 return obj;
             }
@@ -720,6 +725,17 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public MapEntity()
+        {
+
+        }
+
+        public MapEntity(ObjectContainer map, object msbo)
+        {
+            Container = map;
+            WrappedObject = msbo;
+        }
+
         public MapEntity(ObjectContainer map, object msbo, MapEntityType type)
         {
             Container = map;
@@ -834,6 +850,11 @@ namespace StudioCore.MsbEditor
                 }
             }
             return t;
+        }
+
+        internal override Entity DuplicateEntity(object clone)
+        {
+            return new MapEntity(Container, clone);
         }
 
         public override Entity Clone()

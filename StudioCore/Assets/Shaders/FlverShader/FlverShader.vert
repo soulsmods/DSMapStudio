@@ -30,7 +30,7 @@ layout(location = 1) in ivec2 uv;
 layout(location = 2) in ivec4 normal;
 layout(location = 3) in ivec4 binormal;
 layout(location = 4) in ivec4 bitangent;
-layout(location = 5) in ivec4 color;
+layout(location = 5) in uvec4 color;
 
 #ifdef MATERIAL_BLEND
 	layout(location = 6) in ivec2 uv2;

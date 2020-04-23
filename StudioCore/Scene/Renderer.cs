@@ -398,7 +398,6 @@ namespace StudioCore.Scene
             // Default GI envmap texture at 3
             handle = GlobalTexturePool.AllocateTextureDescriptor();
             handle.FillWithColorCube(device, new System.Numerics.Vector4(0.5f, 0.5f, 0.5f, 1.0f));
-            GlobalTexturePool.RegenerateDescriptorTables();
         }
 
         public static void RegisterRenderQueue(RenderQueue queue)
@@ -431,6 +430,7 @@ namespace StudioCore.Scene
                 work = new Queue<Action<GraphicsDevice, CommandList>>(BackgroundUploadQueue);
                 BackgroundUploadQueue.Clear();
             }
+            int workitems = work.Count();
             while (work.Count() > 0)
             {
                 work.Dequeue().Invoke(Device, MainCommandList);
