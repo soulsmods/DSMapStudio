@@ -21,8 +21,6 @@
     <ProjectUrl>https://github.com/mellinoe/vk</ProjectUrl>
     <RepositoryUrl>https://github.com/mellinoe/vk</RepositoryUrl>
   </PropertyGroup>
-  <ItemGroup>
-  </ItemGroup>
   <PropertyGroup>
     <VkRewriteExecutable>$(BinDir)/$(Configuration)/vk.rewrite/netcoreapp2.0/vk.rewrite.dll</VkRewriteExecutable>
   </PropertyGroup>

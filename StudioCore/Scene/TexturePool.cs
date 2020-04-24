@@ -398,6 +398,16 @@ namespace StudioCore.Scene
                 TexHandle = handle;
             }
 
+            public static bool IsTPFCube(TPF.Texture tex, TPF.TPFPlatform platform)
+            {
+                if (platform == TPF.TPFPlatform.PC)
+                {
+                    DDS dds = new DDS(tex.Bytes);
+                    return (dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0;
+                }
+                return (tex.Type == TPF.TexType.Cubemap);
+            }
+
             public unsafe void FillWithTPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex, string name)
             {
                 if (platform != TPF.TPFPlatform.PC)

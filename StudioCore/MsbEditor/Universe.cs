@@ -862,6 +862,13 @@ namespace StudioCore.MsbEditor
         {
             if (LoadedObjectContainers.ContainsKey(map.Name))
             {
+                foreach (var obj in map.Objects)
+                {
+                    if (obj.RenderSceneMesh != null)
+                    {
+                        _renderScene.RemoveObject(obj.RenderSceneMesh);
+                    }
+                }
                 map.Clear();
                 LoadedObjectContainers[map.Name] = null;
             }

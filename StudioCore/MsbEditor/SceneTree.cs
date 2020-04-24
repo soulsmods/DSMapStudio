@@ -353,8 +353,12 @@ namespace StudioCore.MsbEditor
                 {
                     _universe.UnloadMap(pendingUnload);
                     GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
                     _GCNeedsCollection = true;
                     Resource.ResourceManager.UnloadUnusedResources();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                     GC.Collect();
                 }
             }

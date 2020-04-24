@@ -169,8 +169,9 @@ namespace StudioCore.Scene
                     pipeline.BindResources(cl);
                     cl.SetGraphicsResourceSet(1, _batches[MAX_BATCH * _renderSet + i]._objectRS);
                     GlobalTexturePool.BindTexturePool(cl, 2);
-                    MaterialBufferAllocator.BindAsResourceSet(cl, 3);
-                    cl.SetGraphicsResourceSet(4, SamplerSet.SamplersSet);
+                    GlobalCubeTexturePool.BindTexturePool(cl, 3);
+                    MaterialBufferAllocator.BindAsResourceSet(cl, 4);
+                    cl.SetGraphicsResourceSet(5, SamplerSet.SamplersSet);
                     
                     if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
                     {
@@ -350,6 +351,7 @@ namespace StudioCore.Scene
         public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
         public static GPUBufferAllocator MaterialBufferAllocator { get; private set; }
         public static TexturePool GlobalTexturePool { get; private set; }
+        public static TexturePool GlobalCubeTexturePool { get; private set; }
 
         public static ResourceFactory Factory
         {
@@ -382,6 +384,7 @@ namespace StudioCore.Scene
 
             MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
+            GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 
             // Initialize default 2D texture at 0
             var handle = GlobalTexturePool.AllocateTextureDescriptor();
@@ -395,8 +398,8 @@ namespace StudioCore.Scene
             handle = GlobalTexturePool.AllocateTextureDescriptor();
             handle.FillWithColor(device, System.Drawing.Color.Black, "Black");
 
-            // Default GI envmap texture at 3
-            handle = GlobalTexturePool.AllocateTextureDescriptor();
+            // Default GI envmap texture at 0
+            handle = GlobalCubeTexturePool.AllocateTextureDescriptor();
             handle.FillWithColorCube(device, new System.Numerics.Vector4(0.5f, 0.5f, 0.5f, 1.0f));
         }
 
@@ -419,12 +422,19 @@ namespace StudioCore.Scene
 
             Queue<Action<GraphicsDevice, CommandList>> work;
             bool cleanTexPool = false;
+            bool cleanCubeTexPool = false;
             lock (BackgroundUploadQueue)
             {
                 if (GlobalTexturePool.DescriptorTableDirty)
                 {
                     GlobalTexturePool.RegenerateDescriptorTables();
                     cleanTexPool = true;
+                }
+
+                if (GlobalCubeTexturePool.DescriptorTableDirty)
+                {
+                    GlobalCubeTexturePool.RegenerateDescriptorTables();
+                    cleanCubeTexPool = true;
                 }
 
                 work = new Queue<Action<GraphicsDevice, CommandList>>(BackgroundUploadQueue);
@@ -442,6 +452,11 @@ namespace StudioCore.Scene
             if (cleanTexPool)
             {
                 GlobalTexturePool.CleanTexturePool();
+            }
+
+            if (cleanCubeTexPool)
+            {
+                GlobalCubeTexturePool.CleanTexturePool();
             }
 
             foreach (var rq in RenderQueues)

@@ -122,6 +122,27 @@ namespace StudioCore.Resource
                 }
             }
 
+            private void ReleaseTexture(TextureResourceHande handle)
+            {
+                if (handle != null)
+                {
+                    handle.Release();
+                }
+            }
+
+            public void ReleaseTextures()
+            {
+                ReleaseTexture(AlbedoTextureResource);
+                ReleaseTexture(AlbedoTextureResource2);
+                ReleaseTexture(NormalTextureResource);
+                ReleaseTexture(NormalTextureResource2);
+                ReleaseTexture(SpecularTextureResource);
+                ReleaseTexture(SpecularTextureResource2);
+                ReleaseTexture(ShininessTextureResource);
+                ReleaseTexture(ShininessTextureResource2);
+                ReleaseTexture(BlendmaskTextureResource);
+            }
+
             public void UpdateMaterial()
             {
                 SetMaterialTexture(AlbedoTextureResource, ref MaterialData.colorTex, 0);
@@ -756,6 +777,14 @@ namespace StudioCore.Resource
                     {
                         m.GeomBuffer.Dispose();
                         Marshal.FreeHGlobal(m.PickingVertices);
+                    }
+                }
+
+                if (GPUMaterials != null)
+                {
+                    foreach (var m in GPUMaterials)
+                    {
+                        m.ReleaseTextures();
                     }
                 }
 

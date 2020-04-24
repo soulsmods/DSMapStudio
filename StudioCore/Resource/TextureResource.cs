@@ -29,7 +29,14 @@ namespace StudioCore.Resource
 
         public bool _LoadTexture(AccessLevel al)
         {
-            GPUTexture = Scene.Renderer.GlobalTexturePool.AllocateTextureDescriptor();
+            if (Scene.TexturePool.TextureHandle.IsTPFCube(Texture.Textures[TPFIndex], Texture.Platform))
+            {
+                GPUTexture = Scene.Renderer.GlobalCubeTexturePool.AllocateTextureDescriptor();
+            }
+            else
+            {
+                GPUTexture = Scene.Renderer.GlobalTexturePool.AllocateTextureDescriptor();
+            }
             if (Texture.Platform == TPF.TPFPlatform.PC)
             {
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>

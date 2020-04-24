@@ -50,7 +50,7 @@ layout(set = 0, binding = 0) uniform SceneParamBuffer
 };
 
 layout(set = 2, binding = 0) uniform texture2D globalTextures[];
-layout(set = 2, binding = 0) uniform textureCube globalTexturesCube[];
+layout(set = 3, binding = 0) uniform textureCube globalTexturesCube[];
 
 struct materialData
 {
@@ -68,13 +68,13 @@ struct materialData
 	uint16_t lightmapTex2;
 };
 
-layout(set = 3, binding = 0, std140) buffer materials
+layout(set = 4, binding = 0, std140) buffer materials
 {
     readonly materialData matdata[];
 };
 
-layout(set = 4, binding = 0) uniform sampler linearSampler;
-layout(set = 4, binding = 1) uniform sampler anisoLinearSampler;
+layout(set = 5, binding = 0) uniform sampler linearSampler;
+layout(set = 5, binding = 1) uniform sampler anisoLinearSampler;
 
 float Epsilon = 0.00001;
 
