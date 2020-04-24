@@ -172,14 +172,6 @@ namespace StudioCore.Scene
             WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             WorldBuffer.FillBuffer(cl, ref _World);
 
-            ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
-                gd.ResourceFactory,
-                new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
-
-            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex, ResourceLayoutElementOptions.DynamicBinding)));
-
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
             {
                 new VertexLayoutDescription(
@@ -219,7 +211,7 @@ namespace StudioCore.Scene
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
                 shaders: Shaders);
-            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
+            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
 
@@ -236,7 +228,7 @@ namespace StudioCore.Scene
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
                 shaders: ShadersWire);
-            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout };
+            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             RenderWirePipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
         }

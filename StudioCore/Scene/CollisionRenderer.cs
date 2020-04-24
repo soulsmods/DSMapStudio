@@ -82,14 +82,6 @@ namespace StudioCore.Scene
             WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             WorldBuffer.FillBuffer(cl, ref _World);
 
-            ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
-                gd.ResourceFactory,
-                new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
-
-            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex, ResourceLayoutElementOptions.DynamicBinding)));
-
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
             {
                 new VertexLayoutDescription(

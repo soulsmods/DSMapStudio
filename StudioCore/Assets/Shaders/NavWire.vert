@@ -1,16 +1,17 @@
 #version 450
 
-layout(set = 0, binding = 0) uniform ProjectionBuffer
+struct sceneParams
 {
-    mat4 projection;
+	mat4 projection;
+	mat4 view;
+	vec4 eye;
+	vec4 lightDirection;
+	uint envmap;
 };
-layout(set = 0, binding = 1) uniform ViewBuffer
+
+layout(set = 0, binding = 0) uniform SceneParamBuffer
 {
-    mat4 view;
-};
-layout(set = 0, binding = 2) uniform EyePositionBuffer
-{
-    vec3 eye;
+    sceneParams sceneparam;
 };
 
 struct instanceData
@@ -19,7 +20,7 @@ struct instanceData
 	uint materialID[4];
 };
 
-layout(set = 1, binding = 0) buffer WorldBuffer
+layout(set = 1, binding = 0, std140) buffer WorldBuffer
 {
     readonly instanceData idata[];
 };
@@ -37,10 +38,10 @@ void main()
 	fsin_normal = mat3(w) * vec3((vec3(normal) / 255.0));
 	fsin_color = vec4(color / 255.0);
     //fsin_color = vec4(vec3((vec4(tnormal, 1.0) / 255.0) + 0.5), 1.0);
-	fsin_view = normalize(eye - vec3(w * vec4(position, 1)));
-    vec4 p = view * w * vec4(position, 1);
+	fsin_view = normalize(sceneparam.eye.xyz - vec3(w * vec4(position, 1)));
+    vec4 p = sceneparam.view * w * vec4(position, 1);
 	p.z -= 0.003;
-    gl_Position = projection * p;
+    gl_Position = sceneparam.projection * p;
 	// Apply a bias
 	//gl_Position.z -= 0.01;
 }
