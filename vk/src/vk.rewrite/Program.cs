@@ -3,6 +3,8 @@ using Mono.Cecil.Cil;
 using System;
 using System.Linq;
 using Mono.Collections.Generic;
+using System.CommandLine;
+using System.CommandLine.Invocation;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
@@ -18,41 +20,43 @@ namespace Vk.Rewrite
 
         public static int Main(string[] args)
         {
-            string vkDllPath = null;
-            string outputPath = null;
-            bool copiedToTemp = false;
-            var s = System.CommandLine.ArgumentSyntax.Parse(args, syntax =>
+            var rootCommand = new RootCommand
             {
-                syntax.DefineOption("vkdll", ref vkDllPath, "The location of vk.dll to rewrite.");
-                syntax.DefineOption("out", ref outputPath, "The output location of the rewritten DLL. If not specified, the DLL is rewritten in-place.");
+                new Option<string>("--vkdll", "The location of vk.dll to rewrite."),
+                new Option<string>("--out", "The output location of the rewritten DLL. If not specified, the DLL is rewritten in-place.")
+            };
+            rootCommand.Description = "Rewrite vk.dll to invoke vulkan calls.";
+
+            rootCommand.Handler = CommandHandler.Create<string, string>((vkdll, outputPath) =>
+            {
+                bool copiedToTemp = false;
+                if (vkdll == null)
+                {
+                    Console.WriteLine("Error: a path for --vkdll is required.");
+                    return;
+                }
+                if (outputPath == null)
+                {
+                    outputPath = vkdll;
+                    string copyPath = Path.GetTempFileName();
+                    File.Copy(vkdll, copyPath, overwrite: true);
+                    vkdll = copyPath;
+                    copiedToTemp = true;
+                }
+                try
+                {
+                    Rewrite(vkdll, outputPath);
+                }
+                finally
+                {
+                    if (copiedToTemp)
+                    {
+                        File.Delete(vkdll);
+                    }
+                }
             });
 
-            if (vkDllPath == null)
-            {
-                Console.WriteLine("Error: a path for --vkdll is required.");
-                Console.WriteLine(s.GetHelpText());
-                return -1;
-            }
-            if (outputPath == null)
-            {
-                outputPath = vkDllPath;
-                string copyPath = Path.GetTempFileName();
-                File.Copy(vkDllPath, copyPath, overwrite: true);
-                vkDllPath = copyPath;
-                copiedToTemp = true;
-            }
-            try
-            {
-                Rewrite(vkDllPath, outputPath);
-            }
-            finally
-            {
-                if (copiedToTemp)
-                {
-                    File.Delete(vkDllPath);
-                }
-            }
-            return 0;
+            return rootCommand.InvokeAsync(args).Result;
         }
 
         private static void Rewrite(string vkDllPath, string outputPath)
