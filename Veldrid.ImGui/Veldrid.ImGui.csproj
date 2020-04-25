@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile Condition="'$(Configuration)' == 'Release'">$(BinDir)/$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>Veldrid</RootNamespace>
   </PropertyGroup>
 

@@ -865,6 +865,7 @@ namespace StudioCore.Scene
                     {
                         _texture.Dispose();
                         _texture = null;
+                        _pool.DescriptorTableDirty = true;
                     }
 
                     disposedValue = true;

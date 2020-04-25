@@ -30,6 +30,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV.VariantCompiler", "Veldrid.SPIRV.VariantCompiler\Veldrid.SPIRV.VariantCompiler.csproj", "{2A3A911A-7573-4A5B-A83B-92164B349BEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vk", "vk\src\vk\vk.csproj", "{D8573039-9FE1-4554-A659-4E77CFBA83C1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA} = {7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vk.rewrite", "vk\src\vk.rewrite\vk.rewrite.csproj", "{7A2D0FB3-1CB6-46B5-A6CE-AD86F111DBFA}"
 EndProject

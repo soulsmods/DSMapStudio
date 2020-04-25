@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>$(BinDir)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NativeAssetsPath Condition="'$(NativeAssetsPath)' == ''">$(RepositoryRootDirectory)/build/</NativeAssetsPath>
   </PropertyGroup>
 
