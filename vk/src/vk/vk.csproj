@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
     <AssemblyName>vk</AssemblyName>
-    <AssemblyVersion>1.0.23</AssemblyVersion>
+    <AssemblyVersion>1.0.24</AssemblyVersion>
     <RootNamespace>Vulkan</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratedCodeFolder>$(MSBuildThisFileDirectory)Generated</GeneratedCodeFolder>

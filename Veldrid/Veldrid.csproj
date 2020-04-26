@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -27,8 +27,6 @@
     <ProjectReference Include="..\Veldrid.MetalBindings\Veldrid.MetalBindings.csproj" Condition="'$(ExcludeMetal)' != 'true'" />
 
     <ProjectReference Include="..\Veldrid.OpenGLBindings\Veldrid.OpenGLBindings.csproj" Condition="'$(ExcludeOpenGL)' != 'true'" />
-
-    <ProjectReference Include="..\vk\src\vk\vk.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +43,12 @@
     <EmbeddedResource Include="MTL/EmbeddedShaders/MTL_UnalignedBufferCopy_iOS.metallib">
       <LogicalName>MTL_UnalignedBufferCopy_iOS</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="vk">
+      <HintPath>..\Lib\vk.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <PropertyGroup>
