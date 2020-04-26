@@ -57,12 +57,52 @@ namespace Veldrid.Vk
                     }
                 }
 
-                PoolInfo newPool = CreateNewPool();
+                PoolInfo newPool = CreateNewPool(counts);
                 _pools.Add(newPool);
                 bool result = newPool.Allocate(counts);
                 Debug.Assert(result);
                 return newPool.Pool;
             }
+        }
+
+        private unsafe PoolInfo CreateNewPool(DescriptorResourceCounts counts)
+        {
+            uint totalSets = 1000;
+            uint descriptorCount = 100;
+            uint poolSizeCount = 7;
+            VkDescriptorPoolSize* sizes = stackalloc VkDescriptorPoolSize[(int)poolSizeCount];
+            sizes[0].type = VkDescriptorType.UniformBuffer;
+            sizes[0].descriptorCount = counts.UniformBufferCount < descriptorCount ? descriptorCount : counts.UniformBufferCount;
+            sizes[1].type = VkDescriptorType.SampledImage;
+            sizes[1].descriptorCount = counts.SampledImageCount < descriptorCount ? descriptorCount : counts.SampledImageCount;
+            sizes[2].type = VkDescriptorType.Sampler;
+            sizes[2].descriptorCount = counts.SamplerCount < descriptorCount ? descriptorCount : counts.SamplerCount;
+            sizes[3].type = VkDescriptorType.StorageBuffer;
+            sizes[3].descriptorCount = counts.StorageBufferCount < descriptorCount ? descriptorCount : counts.StorageBufferCount;
+            sizes[4].type = VkDescriptorType.StorageImage;
+            sizes[4].descriptorCount = counts.StorageImageCount < descriptorCount ? descriptorCount : counts.StorageImageCount;
+            sizes[5].type = VkDescriptorType.UniformBufferDynamic;
+            sizes[5].descriptorCount = descriptorCount;
+            sizes[6].type = VkDescriptorType.StorageBufferDynamic;
+            sizes[6].descriptorCount = descriptorCount;
+
+            VkDescriptorPoolCreateInfo poolCI = VkDescriptorPoolCreateInfo.New();
+            poolCI.flags = VkDescriptorPoolCreateFlags.FreeDescriptorSet;
+            poolCI.maxSets = totalSets;
+            poolCI.pPoolSizes = sizes;
+            poolCI.poolSizeCount = poolSizeCount;
+
+            VkResult result = vkCreateDescriptorPool(_gd.Device, ref poolCI, null, out VkDescriptorPool descriptorPool);
+            VulkanUtil.CheckResult(result);
+
+            DescriptorResourceCounts cts = new DescriptorResourceCounts(
+                counts.UniformBufferCount < descriptorCount ? descriptorCount : counts.UniformBufferCount,
+                counts.SampledImageCount < descriptorCount ? descriptorCount : counts.SampledImageCount,
+                counts.SamplerCount < descriptorCount ? descriptorCount : counts.SamplerCount,
+                counts.StorageBufferCount < descriptorCount ? descriptorCount : counts.StorageBufferCount,
+                counts.StorageImageCount < descriptorCount ? descriptorCount : counts.StorageImageCount);
+
+            return new PoolInfo(descriptorPool, totalSets, cts);
         }
 
         private unsafe PoolInfo CreateNewPool()
@@ -127,6 +167,17 @@ namespace Veldrid.Vk
                 SamplerCount = descriptorCount;
                 StorageBufferCount = descriptorCount;
                 StorageImageCount = descriptorCount;
+            }
+
+            public PoolInfo(VkDescriptorPool pool, uint totalSets, DescriptorResourceCounts counts)
+            {
+                Pool = pool;
+                RemainingSets = totalSets;
+                UniformBufferCount = counts.UniformBufferCount;
+                SampledImageCount = counts.SampledImageCount;
+                SamplerCount = counts.SamplerCount;
+                StorageBufferCount = counts.StorageBufferCount;
+                StorageImageCount = counts.StorageImageCount;
             }
 
             internal bool Allocate(DescriptorResourceCounts counts)

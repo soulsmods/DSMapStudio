@@ -49,19 +49,19 @@ namespace Veldrid.Vk
                 switch (descriptorType)
                 {
                     case VkDescriptorType.Sampler:
-                        samplerCount += 1;
+                        samplerCount += elements[i].DescriptorCount;
                         break;
                     case VkDescriptorType.SampledImage:
-                        sampledImageCount += 1;
+                        sampledImageCount += elements[i].DescriptorCount;
                         break;
                     case VkDescriptorType.StorageImage:
-                        storageImageCount += 1;
+                        storageImageCount += elements[i].DescriptorCount;
                         break;
                     case VkDescriptorType.UniformBuffer:
-                        uniformBufferCount += 1;
+                        uniformBufferCount += elements[i].DescriptorCount;
                         break;
                     case VkDescriptorType.StorageBuffer:
-                        storageBufferCount += 1;
+                        storageBufferCount += elements[i].DescriptorCount;
                         break;
                 }
             }
