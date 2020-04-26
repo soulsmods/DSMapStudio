@@ -40,6 +40,22 @@ namespace StudioCore
             return (a * (1.0f - d) + b * d);
         }
 
+        public static bool IsPowerTwo(uint a)
+        {
+            if (a > 0)
+            {
+                while (a % 2 == 0)
+                {
+                    a >>= 1;
+                }
+                if (a == 1)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static System.Numerics.Matrix4x4 Inverse(this System.Numerics.Matrix4x4 src)
         {
             System.Numerics.Matrix4x4.Invert(src, out System.Numerics.Matrix4x4 result);

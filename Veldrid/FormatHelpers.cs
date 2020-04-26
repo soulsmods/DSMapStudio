@@ -15,6 +15,7 @@ namespace Veldrid
                 case PixelFormat.R8_SInt:
                     return 1;
 
+                case PixelFormat.B5_G5_R5_A1_UNorm:
                 case PixelFormat.R16_UNorm:
                 case PixelFormat.R16_SNorm:
                 case PixelFormat.R16_UInt:

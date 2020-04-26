@@ -32,7 +32,7 @@ namespace StudioCore.Scene
 
         public float CPURenderTime { get => RenderQueue.CPURenderTime; }
 
-        public uint EnvMapTexture = 3;
+        public uint EnvMapTexture = 0;
 
         public unsafe SceneRenderPipeline(RenderScene scene, GraphicsDevice device, int width, int height)
         {

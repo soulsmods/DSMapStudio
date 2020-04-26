@@ -185,11 +185,15 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Environment Map"))
                 {
+                    if (ImGui.MenuItem("Default"))
+                    {
+                        Viewport.SetEnvMap(0);
+                    }
                     foreach (var map in Universe.EnvMapTextures)
                     {
                         if (ImGui.MenuItem(map))
                         {
-                            var tex = ResourceManager.GetTextureResource($@"tex/{map}");
+                            var tex = ResourceManager.GetTextureResource($@"tex/{map}".ToLower());
                             if (tex.IsLoaded && tex.Get() != null && tex.TryLock())
                             {
                                 if (tex.Get().GPUTexture.Resident)
@@ -369,6 +373,10 @@ namespace StudioCore.MsbEditor
             Viewport.OnGui();
 
             SceneTree.OnGui();
+            if (MapStudioNew.FirstFrame)
+            {
+                ImGui.SetNextWindowFocus();
+            }
             PropEditor.OnGui(_selection.GetSingleFilteredSelection<Entity>(), Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
             PropSearch.OnGui();

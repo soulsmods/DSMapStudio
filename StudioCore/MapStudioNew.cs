@@ -64,6 +64,9 @@ namespace StudioCore
         private MsbEditor.ProjectSettings _newProjectSettings;
         private string _newProjectDirectory = "";
 
+        private static bool _firstframe = true;
+        public static bool FirstFrame = true;
+
         unsafe public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
@@ -647,6 +650,10 @@ namespace StudioCore
             ImGui.PopStyleVar(3);
 
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            if (FirstFrame)
+            {
+                ImGui.SetNextWindowFocus();
+            }
             if (ImGui.Begin("Map Editor"))
             {
                 ImGui.PopStyleVar(1);
@@ -718,6 +725,12 @@ namespace StudioCore
             UnapplyStyle();
 
             Resource.ResourceManager.UpdateTasks();
+
+            if (!_firstframe)
+            {
+                FirstFrame = false;
+            }
+            _firstframe = false;
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)

@@ -523,6 +523,8 @@ namespace Veldrid.Vk
                 case VkFormat.R32g32Sfloat:
                     return PixelFormat.R32_G32_Float;
 
+                case VkFormat.B5g5r5a1UnormPack16:
+                    return PixelFormat.B5_G5_R5_A1_UNorm;
                 case VkFormat.R8g8b8a8Unorm:
                     return PixelFormat.R8_G8_B8_A8_UNorm;
                 case VkFormat.R8g8b8a8Srgb:

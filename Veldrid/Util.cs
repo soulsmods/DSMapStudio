@@ -145,9 +145,18 @@ namespace Veldrid
 
         internal static void GetMipDimensions(Texture tex, uint mipLevel, out uint width, out uint height, out uint depth)
         {
+            bool compressed = FormatHelpers.IsCompressedFormat(tex.Format);
             width = GetDimension(tex.Width, mipLevel);
             height = GetDimension(tex.Height, mipLevel);
             depth = GetDimension(tex.Depth, mipLevel);
+            if (compressed && width >= 4)
+            {
+                width = (width + 3) & ~((uint)0x03);
+            }
+            if (compressed && height >= 4)
+            {
+                height = (height + 3) & ~((uint)0x03);
+            }
         }
 
         internal static uint GetDimension(uint largestLevelDimension, uint mipLevel)

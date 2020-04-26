@@ -37,6 +37,8 @@ namespace StudioCore.Scene
         {
             switch (fmt)
             {
+                case DDS.DXGI_FORMAT.B5G5R5A1_UNORM:
+                    return PixelFormat.B5_G5_R5_A1_UNorm;
                 case DDS.DXGI_FORMAT.B8G8R8A8_TYPELESS:
                 case DDS.DXGI_FORMAT.B8G8R8A8_UNORM:
                 case DDS.DXGI_FORMAT.B8G8R8X8_TYPELESS:
@@ -257,6 +259,7 @@ namespace StudioCore.Scene
                 case PixelFormat.R8_UInt:
                 case PixelFormat.R8_SInt:
                     return 1;
+                case PixelFormat.B5_G5_R5_A1_UNorm:
                 case PixelFormat.R16_UNorm:
                 case PixelFormat.R16_SNorm:
                 case PixelFormat.R8_G8_SInt:
@@ -425,10 +428,22 @@ namespace StudioCore.Scene
                 }
                 else
                 {
-                    format = GetPixelFormatFromFourCC(dds.ddspf.dwFourCC);
+                    if (dds.ddspf.dwFlags == (DDS.DDPF.RGB | DDS.DDPF.ALPHAPIXELS) &&
+                        dds.ddspf.dwRGBBitCount == 32)
+                    {
+                        format = PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+                    }
+                    else
+                    {
+                        format = GetPixelFormatFromFourCC(dds.ddspf.dwFourCC);
+                    }
                 }
                 if (platform == TPF.TPFPlatform.PC)
                 {
+                    if (!Utils.IsPowerTwo(width) || !Utils.IsPowerTwo(height))
+                    {
+                        return;
+                    }
                     width = IsCompressedFormat(format) ? (uint)((width + 3) & ~0x3) : width;
                     height = IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
                 }
@@ -661,6 +676,10 @@ namespace StudioCore.Scene
 
             public unsafe void FillWithPS4TPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex, string name)
             {
+                if (platform != TPF.TPFPlatform.PS4)
+                {
+                    return;
+                }
                 uint width = (uint)tex.Header.Width;
                 uint height = (uint)tex.Header.Height;
                 uint mipCount = (uint)tex.Mipmaps;

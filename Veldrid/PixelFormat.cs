@@ -10,6 +10,10 @@
     public enum PixelFormat : byte
     {
         /// <summary>
+        /// RGBA 5551 packed.
+        /// </summary>
+        B5_G5_R5_A1_UNorm,
+        /// <summary>
         /// RGBA component order. Each component is an 8-bit unsigned normalized integer.
         /// </summary>
         R8_G8_B8_A8_UNorm,
