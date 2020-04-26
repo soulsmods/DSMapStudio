@@ -251,6 +251,11 @@ namespace StudioCore
             if (fres != null)
             {
                 var mesh = fres.GPUMeshes[FlverMeshIndex];
+                if (mesh.MeshFacesets.Count == 0)
+                {
+                    IsVisible = false;
+                    return;
+                }
                 isTriStrip = mesh.MeshFacesets[0].IsTriangleStrip;
                 isDoubleSided = !mesh.MeshFacesets[0].BackfaceCulling;
             }

@@ -33,6 +33,6 @@ void main()
 {
 	mat4 w = idata[gl_InstanceIndex].world;
 	vec3 tnormal = normalize(mat3(w) * vec3(normal));
-    fsin_color = vec4(vec3((vec4(tnormal, 1.0) / 1.0) + 0.5), 1.0);
+    fsin_color = vec4((vec3((vec4(tnormal, 1.0)) + 0.5) * 0.5) + 0.25, 1.0);
     gl_Position = sceneparam.projection * sceneparam.view * w * vec4(position, 1);
 }

@@ -25,7 +25,7 @@ namespace StudioCore.MsbEditor
             IBinder mtdBinder = null;
             if (AssetLocator.Type == GameType.DarkSoulsIII)
             {
-                mtdBinder = BND4.Read($@"{AssetLocator.GameRootDirectory}\mtd\allmaterialbnd.mtdbnd.dcx");
+                mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
             }
 
             if (mtdBinder == null)
@@ -36,7 +36,12 @@ namespace StudioCore.MsbEditor
             _mtds = new Dictionary<string, MTD>();
             foreach (var f in mtdBinder.Files)
             {
-                _mtds.Add(Path.GetFileNameWithoutExtension(f.Name), MTD.Read(f.Bytes));
+                var mtdname = Path.GetFileNameWithoutExtension(f.Name);
+                // Because *certain* mods contain duplicate entries for the same material
+                if (!_mtds.ContainsKey(mtdname))
+                {
+                    _mtds.Add(mtdname, MTD.Read(f.Bytes));
+                }
             }
         }
 
