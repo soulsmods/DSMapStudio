@@ -226,13 +226,13 @@ namespace SoulsFormats
             /// <summary>
             /// Used to identify the event in event scripts.
             /// </summary>
-            public int EventEntityID { get; set; }
+            public int EntityID { get; set; }
 
             internal Event(string name)
             {
                 Name = name;
                 EventID = -1;
-                EventEntityID = -1;
+                EntityID = -1;
             }
 
             internal Event(Event clone)
@@ -241,7 +241,7 @@ namespace SoulsFormats
                 EventID = clone.EventID;
                 PartName = clone.PartName;
                 PointName = clone.PointName;
-                EventEntityID = clone.EventEntityID;
+                EntityID = clone.EntityID;
             }
 
             internal Event(BinaryReaderEx br)
@@ -261,7 +261,7 @@ namespace SoulsFormats
                 br.Position = start + baseDataOffset;
                 PartIndex = br.ReadInt32();
                 PointIndex = br.ReadInt32();
-                EventEntityID = br.ReadInt32();
+                EntityID = br.ReadInt32();
                 br.AssertInt32(0);
 
                 br.Position = start + typeDataOffset;
@@ -289,7 +289,7 @@ namespace SoulsFormats
                 bw.FillInt64("BaseDataOffset", bw.Position - start);
                 bw.WriteInt32(PartIndex);
                 bw.WriteInt32(PointIndex);
-                bw.WriteInt32(EventEntityID);
+                bw.WriteInt32(EntityID);
                 bw.WriteInt32(0);
 
                 bw.FillInt64("TypeDataOffset", bw.Position - start);
@@ -810,13 +810,13 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 [MSBEntityReference]
-                public int HostEventEntityID { get; set; }
+                public int HostEntityID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
                 [MSBEntityReference]
-                public int InvasionEventEntityID { get; set; }
+                public int InvasionEntityID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -848,8 +848,8 @@ namespace SoulsFormats
                 /// </summary>
                 public PseudoMultiplayer(string name) : base(name)
                 {
-                    HostEventEntityID = -1;
-                    InvasionEventEntityID = -1;
+                    HostEntityID = -1;
+                    InvasionEntityID = -1;
                     InvasionRegionIndex = -1;
                     SoundIDMaybe = -1;
                     MapEventIDMaybe = -1;
@@ -860,8 +860,8 @@ namespace SoulsFormats
                 /// </summary>
                 public PseudoMultiplayer(PseudoMultiplayer clone) : base(clone)
                 {
-                    HostEventEntityID = clone.HostEventEntityID;
-                    InvasionEventEntityID = clone.InvasionEventEntityID;
+                    HostEntityID = clone.HostEntityID;
+                    InvasionEntityID = clone.InvasionEntityID;
                     InvasionRegionIndex = clone.InvasionRegionIndex;
                     SoundIDMaybe = clone.SoundIDMaybe;
                     MapEventIDMaybe = clone.MapEventIDMaybe;
@@ -873,8 +873,8 @@ namespace SoulsFormats
 
                 internal override void Read(BinaryReaderEx br)
                 {
-                    HostEventEntityID = br.ReadInt32();
-                    InvasionEventEntityID = br.ReadInt32();
+                    HostEntityID = br.ReadInt32();
+                    InvasionEntityID = br.ReadInt32();
                     InvasionRegionIndex = br.ReadInt32();
                     SoundIDMaybe = br.ReadInt32();
                     MapEventIDMaybe = br.ReadInt32();
@@ -885,8 +885,8 @@ namespace SoulsFormats
 
                 internal override void WriteSpecific(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(HostEventEntityID);
-                    bw.WriteInt32(InvasionEventEntityID);
+                    bw.WriteInt32(HostEntityID);
+                    bw.WriteInt32(InvasionEntityID);
                     bw.WriteInt32(InvasionRegionIndex);
                     bw.WriteInt32(SoundIDMaybe);
                     bw.WriteInt32(MapEventIDMaybe);

@@ -290,7 +290,7 @@ namespace SoulsFormats
             /// <summary>
             /// Used to identify the part in event scripts.
             /// </summary>
-            public int EventEntityID { get; set; }
+            public int EntityID { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -328,7 +328,7 @@ namespace SoulsFormats
                 BackreadGroups = new uint[8] { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
                     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
                 UnkFA4 = 0;
-                EventEntityID = -1;
+                EntityID = -1;
                 OldLightID = 0;
                 OldFogID = 0;
                 OldScatterID = 0;
@@ -353,7 +353,7 @@ namespace SoulsFormats
                 DispGroups = (uint[])clone.DispGroups.Clone();
                 BackreadGroups = (uint[])clone.BackreadGroups.Clone();
                 UnkFA4 = clone.UnkFA4;
-                EventEntityID = clone.EventEntityID;
+                EntityID = clone.EntityID;
                 OldLightID = clone.OldLightID;
                 OldFogID = clone.OldFogID;
                 OldScatterID = clone.OldScatterID;
@@ -400,7 +400,7 @@ namespace SoulsFormats
                     Placeholder = br.GetUTF16(start + placeholderOffset);
 
                 br.Position = start + baseDataOffset;
-                EventEntityID = br.ReadInt32();
+                EntityID = br.ReadInt32();
 
                 OldLightID = br.ReadSByte();
                 OldFogID = br.ReadSByte();
@@ -486,7 +486,7 @@ namespace SoulsFormats
                 }
 
                 bw.FillInt64("BaseDataOffset", bw.Position - start);
-                bw.WriteInt32(EventEntityID);
+                bw.WriteInt32(EntityID);
 
                 bw.WriteSByte(OldLightID);
                 bw.WriteSByte(OldFogID);

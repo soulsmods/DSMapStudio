@@ -393,7 +393,7 @@ namespace SoulsFormats
             /// <summary>
             /// An ID used to identify this region in event scripts.
             /// </summary>
-            public int EventEntityID { get; set; }
+            public int EntityID { get; set; }
 
             internal Region(string name, bool hasTypeData)
             {
@@ -402,7 +402,7 @@ namespace SoulsFormats
                 Rotation = Vector3.Zero;
                 Shape = new MSB.Shape.Point();
                 ActivationPartName = null;
-                EventEntityID = -1;
+                EntityID = -1;
                 UnkA = new List<short>();
                 UnkB = new List<short>();
                 HasTypeData = hasTypeData;
@@ -415,7 +415,7 @@ namespace SoulsFormats
                 Rotation = clone.Rotation;
                 Shape = clone.Shape.Clone();
                 ActivationPartName = clone.ActivationPartName;
-                EventEntityID = clone.EventEntityID;
+                EntityID = clone.EntityID;
                 Unk2 = clone.Unk2;
                 UnkA = new List<short>(clone.UnkA);
                 UnkB = new List<short>(clone.UnkB);
@@ -481,7 +481,7 @@ namespace SoulsFormats
 
                 br.Position = start + baseDataOffset3;
                 ActivationPartIndex = br.ReadInt32();
-                EventEntityID = br.ReadInt32();
+                EntityID = br.ReadInt32();
 
                 HasTypeData = typeDataOffset != 0 || Type == RegionType.MufflingBox || Type == RegionType.MufflingPortal;
                 if (HasTypeData)
@@ -537,7 +537,7 @@ namespace SoulsFormats
 
                 bw.FillInt64("BaseDataOffset3", bw.Position - start);
                 bw.WriteInt32(ActivationPartIndex);
-                bw.WriteInt32(EventEntityID);
+                bw.WriteInt32(EntityID);
 
                 if (HasTypeData)
                     WriteSpecific(bw, start);

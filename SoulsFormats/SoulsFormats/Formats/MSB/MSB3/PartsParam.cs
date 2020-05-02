@@ -250,12 +250,12 @@ namespace SoulsFormats
             /// <summary>
             /// Used to identify the part in event scripts.
             /// </summary>
-            public int EventEntityID { get; set; }
+            public int EntityID { get; set; }
 
             /// <summary>
             /// Used to identify multiple parts with the same ID in event scripts.
             /// </summary>
-            public int[] EventEntityGroups { get; private set; }
+            public int[] EntityGroups { get; private set; }
 
             /// <summary>
             /// Unknown.
@@ -301,8 +301,8 @@ namespace SoulsFormats
                     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
                 BackreadGroups = new uint[8] { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
                     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
-                EventEntityID = -1;
-                EventEntityGroups = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+                EntityID = -1;
+                EntityGroups = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
             }
 
             internal Part(Part clone)
@@ -317,7 +317,7 @@ namespace SoulsFormats
                 DrawGroups = (uint[])clone.DrawGroups.Clone();
                 DispGroups = (uint[])clone.DispGroups.Clone();
                 BackreadGroups = (uint[])clone.BackreadGroups.Clone();
-                EventEntityID = clone.EventEntityID;
+                EntityID = clone.EntityID;
                 OldLightID = clone.OldLightID;
                 OldFogID = clone.OldFogID;
                 OldScatterID = clone.OldScatterID;
@@ -335,7 +335,7 @@ namespace SoulsFormats
                 DisablePointLightEffect = clone.DisablePointLightEffect;
                 UnkB17 = clone.UnkB17;
                 UnkB18 = clone.UnkB18;
-                EventEntityGroups = (int[])clone.EventEntityGroups.Clone();
+                EntityGroups = (int[])clone.EntityGroups.Clone();
             }
 
             internal Part(BinaryReaderEx br)
@@ -368,7 +368,7 @@ namespace SoulsFormats
                 Placeholder = br.GetUTF16(start + placeholderOffset);
 
                 br.Position = start + baseDataOffset;
-                EventEntityID = br.ReadInt32();
+                EntityID = br.ReadInt32();
                 OldLightID = br.ReadSByte();
                 OldFogID = br.ReadSByte();
                 OldScatterID = br.ReadSByte();
@@ -387,7 +387,7 @@ namespace SoulsFormats
                 DisablePointLightEffect = br.ReadBoolean();
                 UnkB17 = br.ReadBoolean();
                 UnkB18 = br.ReadInt32();
-                EventEntityGroups = br.ReadInt32s(8);
+                EntityGroups = br.ReadInt32s(8);
                 br.AssertInt32(0);
 
                 br.Position = start + typeDataOffset;
@@ -454,7 +454,7 @@ namespace SoulsFormats
                 bw.Pad(8);
 
                 bw.FillInt64("BaseDataOffset", bw.Position - start);
-                bw.WriteInt32(EventEntityID);
+                bw.WriteInt32(EntityID);
 
                 bw.WriteSByte(OldLightID);
                 bw.WriteSByte(OldFogID);
@@ -479,7 +479,7 @@ namespace SoulsFormats
                 bw.WriteBoolean(UnkB17);
 
                 bw.WriteInt32(UnkB18);
-                bw.WriteInt32s(EventEntityGroups);
+                bw.WriteInt32s(EntityGroups);
                 bw.WriteInt32(0);
                 bw.Pad(8);
 

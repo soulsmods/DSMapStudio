@@ -344,6 +344,13 @@ namespace StudioCore.MsbEditor
                         RemoveParentIndex.Add(-1);
                     }
                 }
+                else
+                {
+                    RemoveMaps.Add(null);
+                    RemoveIndices.Add(-1);
+                    RemoveParent.Add(null);
+                    RemoveParentIndex.Add(-1);
+                }
             }
             if (SetSelection)
             {
@@ -355,6 +362,10 @@ namespace StudioCore.MsbEditor
         {
             for (int i = 0; i < Deletables.Count(); i++)
             {
+                if (RemoveMaps[i] == null || RemoveIndices[i] == -1)
+                {
+                    continue;
+                }
                 RemoveMaps[i].Objects.Insert(RemoveIndices[i], Deletables[i]);
                 if (Deletables[i].RenderSceneMesh != null)
                 {

@@ -107,7 +107,7 @@ namespace SoulsFormats
             /// <summary>
             /// An ID used to identify this region in event scripts.
             /// </summary>
-            public int EventEntityID;
+            public int EntityID { get; set; }
 
             public Region() { }
 
@@ -116,7 +116,7 @@ namespace SoulsFormats
                 Name = name;
                 Position = Vector3.Zero;
                 Rotation = Vector3.Zero;
-                EventEntityID = -1;
+                EntityID = -1;
                 UnkA = new List<short>();
                 UnkB = new List<short>();
                 Unk2 = 0;
@@ -129,7 +129,7 @@ namespace SoulsFormats
                 Name = clone.Name;
                 Position = clone.Position;
                 Rotation = clone.Rotation;
-                EventEntityID = clone.EventEntityID;
+                EntityID = clone.EntityID;
                 Unk2 = clone.Unk2;
                 UnkA = new List<short>(clone.UnkA);
                 UnkB = new List<short>(clone.UnkB);
@@ -192,7 +192,7 @@ namespace SoulsFormats
                 }
 
                 br.Position = start + baseDataOffset3;
-                EventEntityID = br.ReadInt32();
+                EntityID = br.ReadInt32();
             }
 
             internal void Write(BinaryWriterEx bw, int id)
@@ -239,7 +239,7 @@ namespace SoulsFormats
                 }
 
                 bw.FillInt64("BaseDataOffset3", bw.Position - start);
-                bw.WriteInt32(EventEntityID);
+                bw.WriteInt32(EntityID);
 
                 bw.Pad(8);
             }
