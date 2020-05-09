@@ -47,6 +47,11 @@ namespace StudioCore.Scene
                 case DDS.DXGI_FORMAT.B8G8R8A8_UNORM_SRGB:
                 case DDS.DXGI_FORMAT.B8G8R8X8_UNORM_SRGB:
                     return PixelFormat.B8_G8_R8_A8_UNorm_SRgb;
+                case DDS.DXGI_FORMAT.R8G8B8A8_UNORM_SRGB:
+                    return PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+                case DDS.DXGI_FORMAT.R8G8B8A8_UNORM:
+                case DDS.DXGI_FORMAT.R8G8B8A8_TYPELESS:
+                    return PixelFormat.R8_G8_B8_A8_UNorm;
                 case DDS.DXGI_FORMAT.BC1_TYPELESS:
                 case DDS.DXGI_FORMAT.BC1_UNORM:
                     return PixelFormat.BC1_Rgba_UNorm;

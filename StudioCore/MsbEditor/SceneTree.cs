@@ -3,11 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
 
 namespace StudioCore.MsbEditor
 {
+
+    public struct DragDropPayload
+    {
+        public MapEntity Entity;
+    }
+
+    public struct DragDropPayloadReference
+    {
+        public int Index;
+    }
+
+    public interface SceneTreeEventHandler
+    {
+        public void OnEntityContextMenu(Entity ent);
+    }
+
     public class SceneTree
     {
         private Universe _universe;
@@ -16,12 +33,22 @@ namespace StudioCore.MsbEditor
         private AssetLocator _assetLocator;
         private Selection _selection;
 
+        private SceneTreeEventHandler _handler;
+
         private string _chaliceMapID = "m29_";
         private bool _chaliceLoadError = false;
 
         private bool _GCNeedsCollection = false;
 
         private Dictionary<string, Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>> _cachedTypeView = null;
+
+        private Dictionary<int, DragDropPayload> _dragDropPayloads = new Dictionary<int, DragDropPayload>();
+        private int _dragDropPayloadCounter = 0;
+
+        private List<Entity> _dragDropSources = new List<Entity>();
+        private List<int> _dragDropDests = new List<int>();
+
+        private bool _setNextFocus = false;
 
         public enum ViewMode
         {
@@ -37,8 +64,9 @@ namespace StudioCore.MsbEditor
 
         private ViewMode _viewMode = ViewMode.Hierarchy;
 
-        public SceneTree(Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public SceneTree(SceneTreeEventHandler handler, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
         {
+            _handler = handler;
             _universe = universe;
             _selection = sel;
             _editorActionManager = aman;
@@ -128,11 +156,17 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void MapObjectSelectable(MapEntity e, bool visicon)
+        unsafe private void MapObjectSelectable(MapEntity e, bool visicon)
         {
             // Main selectable
             ImGui.PushID(e.Type.ToString() + e.Name);
             bool doSelect = false;
+            if (_setNextFocus)
+            {
+                ImGui.SetItemDefaultFocus();
+                _setNextFocus = false;
+                doSelect = true;
+            }
             if (ImGui.Selectable(e.PrettyName, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
             {
                 // If double clicked frame the selection in the viewport
@@ -152,6 +186,38 @@ namespace StudioCore.MsbEditor
             if (ImGui.IsItemFocused() && !_selection.IsSelected(e))
             {
                 doSelect = true;
+            }
+
+            if (ImGui.BeginPopupContextItem())
+            {
+                _handler.OnEntityContextMenu(e);
+                ImGui.EndPopup();
+            }
+
+            if (ImGui.BeginDragDropSource())
+            {
+                ImGui.Text(e.PrettyName);
+                // Kinda meme
+                DragDropPayload p = new DragDropPayload();
+                p.Entity = e;
+                _dragDropPayloads.Add(_dragDropPayloadCounter, p);
+                DragDropPayloadReference r = new DragDropPayloadReference();
+                r.Index = _dragDropPayloadCounter;
+                _dragDropPayloadCounter++;
+                GCHandle handle = GCHandle.Alloc(r, GCHandleType.Pinned);
+                ImGui.SetDragDropPayload("entity", handle.AddrOfPinnedObject(), (uint)sizeof(DragDropPayloadReference));
+                ImGui.EndDragDropSource();
+                handle.Free();
+            }
+            if (ImGui.BeginDragDropTarget())
+            {
+                var payload = ImGui.AcceptDragDropPayload("entity");
+                if (payload.NativePtr != null)
+                {
+                    DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
+                    _dragDropPayloads.Remove(h->Index);
+                }
+                ImGui.EndDragDropTarget();
             }
 
             // Visibility icon
@@ -185,6 +251,27 @@ namespace StudioCore.MsbEditor
             }
 
             ImGui.PopID();
+
+            // Invisible item to be a drag drop target between nodes
+            ImGui.InvisibleButton(e.Type.ToString() + e.Name, new Vector2(-1, 4.0f));
+            if (ImGui.IsItemFocused())
+            {
+                _setNextFocus = true;
+            }
+            if (ImGui.BeginDragDropTarget())
+            {
+                var payload = ImGui.AcceptDragDropPayload("entity");
+                if (payload.NativePtr != null)
+                {
+                    DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
+                    var pload = _dragDropPayloads[h->Index];
+                    _dragDropPayloads.Remove(h->Index);
+                    _dragDropSources.Add(pload.Entity);
+                    _dragDropDests.Add(pload.Entity.Container.Objects.IndexOf(e) + 1);
+                    
+                }
+                ImGui.EndDragDropTarget();
+            }
         }
 
         private void HierarchyView(Map map)
@@ -331,6 +418,7 @@ namespace StudioCore.MsbEditor
                     }
                     if (nodeopen)
                     {
+                        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 0.0f));
                         if (_viewMode == ViewMode.Hierarchy)
                         {
                             HierarchyView((Map)map);
@@ -339,6 +427,7 @@ namespace StudioCore.MsbEditor
                         {
                             TypeView((Map)map);
                         }
+                        ImGui.PopStyleVar();
                         ImGui.TreePop();
                     }
                 }
@@ -348,6 +437,14 @@ namespace StudioCore.MsbEditor
                 }
                 ImGui.EndChild();
                 ImGui.End();
+
+                if (_dragDropSources.Count > 0)
+                {
+                    var action = new ReorderContainerObjectsAction(_universe, _dragDropSources, _dragDropDests, false);
+                    _editorActionManager.ExecuteAction(action);
+                    _dragDropSources.Clear();
+                    _dragDropDests.Clear();
+                }
 
                 if (pendingUnload != null)
                 {

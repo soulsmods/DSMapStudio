@@ -8,11 +8,13 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using StudioCore.Resource;
+using Newtonsoft.Json;
 using ImGuiNET;
+using StudioCore.Scene;
 
 namespace StudioCore.MsbEditor
 {
-    public class MsbEditorScreen : EditorScreen
+    public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     {
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
@@ -59,6 +61,8 @@ namespace StudioCore.MsbEditor
         private Sdl2Window Window;
         public Gui.Viewport Viewport;
 
+        private IModal _activeModal = null;
+
         public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
             Rect = window.Bounds;
@@ -69,7 +73,7 @@ namespace StudioCore.MsbEditor
             Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
             Universe = new Universe(AssetLocator, RenderScene, _selection);
 
-            SceneTree = new SceneTree(Universe, _selection, EditorActionManager, Viewport, AssetLocator);
+            SceneTree = new SceneTree(this, Universe, _selection, EditorActionManager, Viewport, AssetLocator);
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
             PropSearch = new SearchProperties(Universe);
@@ -386,6 +390,19 @@ namespace StudioCore.MsbEditor
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawResourceList();
+
+            if (_activeModal != null)
+            {
+                if (_activeModal.IsClosed)
+                {
+                    _activeModal.OpenModal();
+                }
+                _activeModal.OnGui();
+                if (_activeModal.IsClosed)
+                {
+                    _activeModal = null;
+                }
+            }
         }
 
         public void Draw(GraphicsDevice device, CommandList cl)
@@ -428,6 +445,14 @@ namespace StudioCore.MsbEditor
                 System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
                      System.Windows.Forms.MessageBoxButtons.OK,
                      System.Windows.Forms.MessageBoxIcon.None);
+            }
+        }
+
+        public void OnEntityContextMenu(Entity ent)
+        {
+            if (ImGui.Selectable("Create prefab"))
+            {
+                _activeModal = new CreatePrefabModal(Universe, ent);
             }
         }
     }

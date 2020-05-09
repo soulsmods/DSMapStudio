@@ -26,12 +26,21 @@ namespace StudioCore.Scene
             {
                 return true;
             }
+            bool isAllZero = true;
             for (int i = 0; i < Drawgroups.Length && i < disp.Drawgroups.Length; i++)
             {
                 if ((Drawgroups[i] & disp.Drawgroups[i]) != 0)
                 {
                     return true;
                 }
+                if (Drawgroups[i] != 0)
+                {
+                    isAllZero = false;
+                }
+            }
+            if (isAllZero)
+            {
+                return true;
             }
             return false;
         }
