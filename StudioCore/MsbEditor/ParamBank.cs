@@ -83,6 +83,27 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private static void LoadParamsDES()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
+            {
+                MessageBox.Show("Could not find DES regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\param\gameparam\gameparam.parambnd.dcx";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\param\gameparam\gameparam.parambnd.dcx";
+            }
+            BND3 paramBnd = BND3.Read(param);
+
+            LoadParamFromBinder(paramBnd);
+        }
+
         private static void LoadParamsDS1()
         {
             var dir = AssetLocator.GameRootDirectory;
@@ -257,6 +278,10 @@ namespace StudioCore.MsbEditor
             }
 
             _params = new Dictionary<string, PARAM>();
+            if (AssetLocator.Type == GameType.DemonsSouls)
+            {
+                LoadParamsDES();
+            }
             if (AssetLocator.Type == GameType.DarkSoulsPTDE)
             {
                 LoadParamsDS1();

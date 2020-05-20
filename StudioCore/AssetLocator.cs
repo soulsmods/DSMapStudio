@@ -361,6 +361,10 @@ namespace StudioCore
         public AssetDescription GetEnglishItemMsgbnd(bool writemode = false)
         {
             string path = $@"msg\engus\item.msgbnd.dcx";
+            if (Type == GameType.DemonsSouls)
+            {
+                path = $@"msg\na_english\item.msgbnd.dcx";
+            }
             if (Type == GameType.DarkSoulsPTDE)
             {
                 path = $@"msg\ENGLISH\item.msgbnd";

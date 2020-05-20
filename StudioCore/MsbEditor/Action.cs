@@ -552,6 +552,139 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class ChangeEntityHierarchyAction : Action
+    {
+        private Universe Universe;
+        private List<Entity> SourceObjects = new List<Entity>();
+        private List<Entity> TargetObjects = new List<Entity>();
+        private List<int> TargetIndices = new List<int>();
+        private Entity[] UndoObjects;
+        private int[] UndoIndices;
+        private bool SetSelection;
+
+        public ChangeEntityHierarchyAction(Universe univ, List<Entity> src, List<Entity> targetEnts, List<int> targets, bool setSelection)
+        {
+            Universe = univ;
+            SourceObjects.AddRange(src);
+            TargetObjects.AddRange(targetEnts);
+            TargetIndices.AddRange(targets);
+            SetSelection = setSelection;
+        }
+
+        public override void Execute()
+        {
+            int[] sourceindices = new int[SourceObjects.Count];
+            for (int i = 0; i < SourceObjects.Count; i++)
+            {
+                sourceindices[i] = -1;
+                if (SourceObjects[i].Parent != null)
+                {
+                    sourceindices[i] = SourceObjects[i].Parent.ChildIndex(SourceObjects[i]);
+                }
+            }
+            for (int i = 0; i < sourceindices.Length; i++)
+            {
+                // Remove object and update indices
+                int src = sourceindices[i];
+                if (src != -1)
+                {
+                    SourceObjects[i].Parent.RemoveChild(SourceObjects[i]);
+                    for (int j = 0; j < sourceindices.Length; j++)
+                    {
+                        if (SourceObjects[i].Parent == SourceObjects[j].Parent && sourceindices[j] > src)
+                        {
+                            sourceindices[j]--;
+                        }
+                    }
+                    for (int j = 0; j < TargetIndices.Count; j++)
+                    {
+                        if (SourceObjects[i].Parent == TargetObjects[j] && TargetIndices[j] > src)
+                        {
+                            TargetIndices[j]--;
+                        }
+                    }
+                }
+
+                // Add new object
+                int dest = TargetIndices[i];
+                TargetObjects[i].AddChild(SourceObjects[i], dest);
+                for (int j = 0; j < sourceindices.Length; j++)
+                {
+                    if (TargetObjects[i] == SourceObjects[j].Parent && sourceindices[j] > dest)
+                    {
+                        sourceindices[j]++;
+                    }
+                }
+                for (int j = 0; j < TargetIndices.Count; j++)
+                {
+                    if (TargetObjects[i] == TargetObjects[j] && TargetIndices[j] > dest)
+                    {
+                        TargetIndices[j]++;
+                    }
+                }
+            }
+            UndoIndices = sourceindices;
+            if (SetSelection)
+            {
+                Universe.Selection.ClearSelection();
+                foreach (var c in SourceObjects)
+                {
+                    Universe.Selection.AddSelection(c);
+                }
+            }
+        }
+
+        public override void Undo()
+        {
+            /*for (int i = 0; i < TargetIndices.Count; i++)
+            {
+                // Remove object and update indices
+                int src = TargetIndices[i];
+                Containers[i].Objects.RemoveAt(src);
+                for (int j = 0; j < UndoIndices.Length; j++)
+                {
+                    if (UndoIndices[j] > src)
+                    {
+                        UndoIndices[j]--;
+                    }
+                }
+                for (int j = 0; j < TargetIndices.Count; j++)
+                {
+                    if (TargetIndices[j] > src)
+                    {
+                        TargetIndices[j]--;
+                    }
+                }
+
+                // Add new object
+                int dest = UndoIndices[i];
+                Containers[i].Objects.Insert(dest, SourceObjects[i]);
+                for (int j = 0; j < UndoIndices.Length; j++)
+                {
+                    if (UndoIndices[j] > dest)
+                    {
+                        UndoIndices[j]++;
+                    }
+                }
+                for (int j = 0; j < TargetIndices.Count; j++)
+                {
+                    if (TargetIndices[j] > dest)
+                    {
+                        TargetIndices[j]++;
+                    }
+                }
+            }
+            if (SetSelection)
+            {
+                Universe.Selection.ClearSelection();
+                foreach (var c in SourceObjects)
+                {
+                    Universe.Selection.AddSelection(c);
+                }
+            }*/
+        }
+    }
+
     public class CompoundAction : Action
     {
         private List<Action> Actions;

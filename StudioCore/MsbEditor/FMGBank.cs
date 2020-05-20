@@ -337,7 +337,7 @@ namespace StudioCore.MsbEditor
 
             IBinder fmgBinder;
             var desc = AssetLocator.GetEnglishItemMsgbnd();
-            if (AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinder = BND3.Read(desc.AssetPath);
             }
@@ -378,7 +378,7 @@ namespace StudioCore.MsbEditor
             // Load the fmg bnd, replace fmgs, and save
             IBinder fmgBinder;
             var desc = AssetLocator.GetEnglishItemMsgbnd();
-            if (AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinder = BND3.Read(desc.AssetPath);
             }

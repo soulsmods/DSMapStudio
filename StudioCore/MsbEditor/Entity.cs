@@ -636,6 +636,20 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class MapSerializationEntity
+    {
+        public string Name { get; set; } = null;
+        public int Msbidx { get; set; } = -1;
+        public MapEntity.MapEntityType Type { get; set; }
+        public Transform Transform { get; set; }
+        public List<MapSerializationEntity> Children { get; set; } = null;
+
+        public bool ShouldSerializeChildren()
+        {
+            return (Children != null && Children.Count > 0);
+        }
+    }
+
     public class MapEntity : Entity
     {
         public enum MapEntityType
@@ -862,6 +876,27 @@ namespace StudioCore.MsbEditor
             MapEntity c = (MapEntity)base.Clone();
             c.Type = Type;
             return c;
+        }
+
+        public MapSerializationEntity Serialize(Dictionary<Entity, int> idmap)
+        {
+            var e = new MapSerializationEntity();
+            e.Name = Name;
+            if (HasTransform)
+            {
+                e.Transform = GetTransform();
+            }
+            e.Type = Type;
+            e.Children = new List<MapSerializationEntity>();
+            if (idmap.ContainsKey(this))
+            {
+                e.Msbidx = idmap[this];
+            }
+            foreach (var c in Children)
+            {
+                e.Children.Add(((MapEntity)c).Serialize(idmap));
+            }
+            return e;
         }
     }
 }

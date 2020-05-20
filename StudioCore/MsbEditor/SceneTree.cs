@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
+using System.Windows.Forms;
 
 namespace StudioCore.MsbEditor
 {
@@ -47,18 +48,21 @@ namespace StudioCore.MsbEditor
 
         private List<Entity> _dragDropSources = new List<Entity>();
         private List<int> _dragDropDests = new List<int>();
+        private List<Entity> _dragDropDestObjects = new List<Entity>();
 
         private bool _setNextFocus = false;
 
         public enum ViewMode
         {
             Hierarchy,
+            Flat,
             ObjectType,
         }
 
         private string[] _viewModeStrings =
         {
             "Hierarchy View",
+            "Flat View",
             "Type View",
         };
 
@@ -156,7 +160,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        unsafe private void MapObjectSelectable(MapEntity e, bool visicon)
+        unsafe private void MapObjectSelectable(MapEntity e, bool visicon, bool hierarchial=false)
         {
             // Main selectable
             ImGui.PushID(e.Type.ToString() + e.Name);
@@ -167,14 +171,35 @@ namespace StudioCore.MsbEditor
                 _setNextFocus = false;
                 doSelect = true;
             }
-            if (ImGui.Selectable(e.PrettyName, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+            bool nodeopen = false;
+            string padding = hierarchial ? "   " : "";
+            if (hierarchial && e.Children.Count > 0)
             {
-                // If double clicked frame the selection in the viewport
-                if (ImGui.IsMouseDoubleClicked(0))
+                var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
+                if ( _selection.GetSelection().Contains(e))
+                {
+                    treeflags |= ImGuiTreeNodeFlags.Selected;
+                }
+                nodeopen = ImGui.TreeNodeEx(e.PrettyName, treeflags);
+                if (ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
                 {
                     if (e.RenderSceneMesh != null)
                     {
                         _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
+                    }
+                }
+            }
+            else
+            {
+                if (ImGui.Selectable(padding + e.PrettyName, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+                {
+                    // If double clicked frame the selection in the viewport
+                    if (ImGui.IsMouseDoubleClicked(0))
+                    {
+                        if (e.RenderSceneMesh != null)
+                        {
+                            _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
+                        }
                     }
                 }
             }
@@ -209,13 +234,17 @@ namespace StudioCore.MsbEditor
                 ImGui.EndDragDropSource();
                 handle.Free();
             }
-            if (ImGui.BeginDragDropTarget())
+            if (hierarchial && ImGui.BeginDragDropTarget())
             {
                 var payload = ImGui.AcceptDragDropPayload("entity");
                 if (payload.NativePtr != null)
                 {
                     DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
+                    var pload = _dragDropPayloads[h->Index];
                     _dragDropPayloads.Remove(h->Index);
+                    _dragDropSources.Add(pload.Entity);
+                    _dragDropDestObjects.Add(e);
+                    _dragDropDests.Add(e.Children.Count);
                 }
                 ImGui.EndDragDropTarget();
             }
@@ -266,15 +295,42 @@ namespace StudioCore.MsbEditor
                     DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
                     var pload = _dragDropPayloads[h->Index];
                     _dragDropPayloads.Remove(h->Index);
-                    _dragDropSources.Add(pload.Entity);
-                    _dragDropDests.Add(pload.Entity.Container.Objects.IndexOf(e) + 1);
+                    if (hierarchial)
+                    {
+                        _dragDropSources.Add(pload.Entity);
+                        _dragDropDestObjects.Add(e.Parent);
+                        _dragDropDests.Add(e.Parent.ChildIndex(e) + 1);
+                    }
+                    else
+                    {
+                        _dragDropSources.Add(pload.Entity);
+                        _dragDropDests.Add(pload.Entity.Container.Objects.IndexOf(e) + 1);
+                    }
                     
                 }
                 ImGui.EndDragDropTarget();
             }
+
+            // If there's children then draw them
+            if (nodeopen)
+            {
+                HierarchyView(e);
+                ImGui.TreePop();
+            }
         }
 
-        private void HierarchyView(Map map)
+        private void HierarchyView(Entity entity)
+        {
+            foreach (var obj in entity.Children)
+            {
+                if (obj is MapEntity e)
+                {
+                    MapObjectSelectable(e, true, true);
+                }
+            }
+        }
+
+        private void FlatView(Map map)
         {
             foreach (var obj in map.Objects)
             {
@@ -421,7 +477,11 @@ namespace StudioCore.MsbEditor
                         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 0.0f));
                         if (_viewMode == ViewMode.Hierarchy)
                         {
-                            HierarchyView((Map)map);
+                            HierarchyView(map.RootObject);
+                        }
+                        else if (_viewMode == ViewMode.Flat)
+                        {
+                            FlatView((Map)map);
                         }
                         else if (_viewMode == ViewMode.ObjectType)
                         {
@@ -440,10 +500,21 @@ namespace StudioCore.MsbEditor
 
                 if (_dragDropSources.Count > 0)
                 {
-                    var action = new ReorderContainerObjectsAction(_universe, _dragDropSources, _dragDropDests, false);
-                    _editorActionManager.ExecuteAction(action);
-                    _dragDropSources.Clear();
-                    _dragDropDests.Clear();
+                    if (_dragDropDestObjects.Count > 0)
+                    {
+                        var action = new ChangeEntityHierarchyAction(_universe, _dragDropSources, _dragDropDestObjects, _dragDropDests, false);
+                        _editorActionManager.ExecuteAction(action);
+                        _dragDropSources.Clear();
+                        _dragDropDests.Clear();
+                        _dragDropDestObjects.Clear();
+                    }
+                    else
+                    {
+                        var action = new ReorderContainerObjectsAction(_universe, _dragDropSources, _dragDropDests, false);
+                        _editorActionManager.ExecuteAction(action);
+                        _dragDropSources.Clear();
+                        _dragDropDests.Clear();
+                    }
                 }
 
                 if (pendingUnload != null)

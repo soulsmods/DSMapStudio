@@ -205,6 +205,7 @@ namespace StudioCore.Resource
         /// <summary>
         /// Low level access to the flver struct. Use only in modification mode.
         /// </summary>
+        public FLVER0 FlverDeS = null;
         public FLVER2 Flver = null;
 
         public FlverSubmesh[] GPUMeshes = null;
@@ -245,7 +246,7 @@ namespace StudioCore.Resource
             return texpath;
         }
 
-        private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, FLVER2.Texture matparam)
+        private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, IFlverTexture matparam)
         {
             if (matparam.Path == "")
             {
@@ -259,7 +260,7 @@ namespace StudioCore.Resource
             }
         }
 
-        unsafe private void ProcessMaterial(FLVER2.Material mat, FlverMaterial dest, GameType type)
+        unsafe private void ProcessMaterial(IFlverMaterial mat, FlverMaterial dest, GameType type)
         {
             dest.MaterialName = Path.GetFileNameWithoutExtension(mat.MTD);
             dest.MaterialBuffer = Scene.Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(Scene.Material), sizeof(Scene.Material));
@@ -283,7 +284,15 @@ namespace StudioCore.Resource
 
             foreach (var matparam in mat.Textures)
             {
-                var paramNameCheck = matparam.Type.ToUpper();
+                string paramNameCheck;
+                if (matparam.Type == null)
+                {
+                    paramNameCheck = "G_DIFFUSE";
+                }
+                else
+                {
+                    paramNameCheck = matparam.Type.ToUpper();
+                }
                 if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
                 {
                     LookupTexture(ref dest.AlbedoTextureResource2, dest, matparam);
@@ -452,10 +461,60 @@ namespace StudioCore.Resource
             }
         }
 
+        unsafe private void FillVerticesNormalOnly(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
+        {
+            Span<FlverLayoutSky> verts = new Span<FlverLayoutSky>(vertBuffer.ToPointer(), mesh.Vertices.Count);
+            for (int i = 0; i < mesh.Vertices.Count; i++)
+            {
+                var vert = mesh.Vertices[i];
+
+                verts[i] = new FlverLayoutSky();
+                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                fixed (FlverLayoutSky* v = &verts[i])
+                {
+                    FillVertex(ref (*v).Position, ref vert);
+                    FillNormalSNorm8((*v).Normal, ref vert);
+                }
+            }
+        }
+
         unsafe private void FillVerticesStandard(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.VertexCount);
             for (int i = 0; i < mesh.VertexCount; i++)
+            {
+                var vert = mesh.Vertices[i];
+
+                verts[i] = new FlverLayout();
+                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                fixed (FlverLayout* v = &verts[i])
+                {
+                    FillVertex(ref (*v).Position, ref vert);
+                    FillNormalSNorm8((*v).Normal, ref vert);
+                    if (vert.UVCount > 0)
+                    {
+                        FillUVShort((*v).Uv1, ref vert, 0);
+                    }
+                    else
+                    {
+                        FillUVShortZero((*v).Uv1);
+                    }
+                    if (vert.TangentCount > 0)
+                    {
+                        FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
+                    }
+                    else
+                    {
+                        FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                    }
+                }
+            }
+        }
+
+        unsafe private void FillVerticesStandard(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
+        {
+            Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.Vertices.Count);
+            for (int i = 0; i < mesh.Vertices.Count; i++)
             {
                 var vert = mesh.Vertices[i];
 
@@ -507,6 +566,163 @@ namespace StudioCore.Resource
                     else
                     {
                         FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                    }
+                }
+            }
+        }
+
+        unsafe private void FillVerticesUV2(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
+        {
+            Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), mesh.Vertices.Count);
+            for (int i = 0; i < mesh.Vertices.Count; i++)
+            {
+                var vert = mesh.Vertices[i];
+
+                verts[i] = new FlverLayoutUV2();
+                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                fixed (FlverLayoutUV2* v = &verts[i])
+                {
+                    FillVertex(ref (*v).Position, ref vert);
+                    FillNormalSNorm8((*v).Normal, ref vert);
+                    FillUVShort((*v).Uv1, ref vert, 0);
+                    FillUVShort((*v).Uv2, ref vert, 1);
+                    if (vert.TangentCount > 0)
+                    {
+                        FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
+                    }
+                    else
+                    {
+                        FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                    }
+                }
+            }
+        }
+
+        unsafe private void ProcessMesh(FLVER0.Mesh mesh, FlverSubmesh dest)
+        {
+            var factory = Scene.Renderer.Factory;
+
+            dest.Material = GPUMaterials[mesh.MaterialIndex];
+
+            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
+            var vSize = dest.Material.VertexSize;
+            var meshVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * (int)vSize);
+            dest.PickingVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * sizeof(Vector3));
+            var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.Vertices.Count);
+
+            if (dest.Material.LayoutType == FlverLayoutType.LayoutSky)
+            {
+                FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
+            }
+            else if (dest.Material.LayoutType == FlverLayoutType.LayoutUV2)
+            {
+                FillVerticesUV2(mesh, pvhandle, meshVertices);
+            }
+            else
+            {
+                FillVerticesStandard(mesh, pvhandle, meshVertices);
+            }
+
+            dest.VertexCount = mesh.Vertices.Count;
+
+            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
+
+            bool is32bit = false;//FlverDeS.Version > 0x20005 && mesh.Vertices.Count > 65535;
+            int indicesTotal = 0;
+            ushort[] fs16 = null;
+            int[] fs32 = null;
+
+            int idxoffset = 0;
+            if (mesh.VertexIndices.Count != 0)
+            {
+                var indices = mesh.Triangulate(FlverDeS.Version).ToArray();
+                uint buffersize = (uint)indices.Length * (is32bit ? 4u : 2u);
+
+                indicesTotal = indices.Length;
+                if (is32bit)
+                {
+                    fs32 = new int[indicesTotal];
+                }
+                else
+                {
+                    fs16 = new ushort[indicesTotal];
+                }
+
+                var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
+                {
+                    BackfaceCulling = true,
+                    IsTriangleStrip = false,
+                    //IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer)),
+                    IndexOffset = idxoffset,
+
+                    IndexCount = indices.Length,
+                    Is32Bit = is32bit,
+                    PickingIndicesCount = indices.Length,
+                    PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
+                };
+                fixed (void* iptr = indices)
+                {
+                    Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
+                }
+
+                if (is32bit)
+                {
+                    for (int i = 0; i < indices.Length; i++)
+                    {
+                        if (indices[i] == 0xFFFF && indices[i] > mesh.Vertices.Count)
+                        {
+                            fs32[newFaceSet.IndexOffset + i] = -1;
+                        }
+                        else
+                        {
+                            fs32[newFaceSet.IndexOffset + i] = indices[i];
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < indices.Length; i++)
+                    {
+                        if (indices[i] == 0xFFFF && indices[i] > mesh.Vertices.Count)
+                        {
+                            fs16[newFaceSet.IndexOffset + i] = 0xFFFF;
+                        }
+                        else
+                        {
+                            fs16[newFaceSet.IndexOffset + i] = (ushort)indices[i];
+                        }
+                    }
+                }
+
+                dest.MeshFacesets.Add(newFaceSet);
+            }
+
+            dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+
+            uint vbuffersize = (uint)mesh.Vertices.Count * (uint)vSize;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
+            {
+                h.FillVBuffer(meshVertices, vSize * (uint)mesh.Vertices.Count, () =>
+                {
+                    Marshal.FreeHGlobal(meshVertices);
+                });
+                if (is32bit)
+                {
+                    h.FillIBuffer(fs32);
+                }
+                else
+                {
+                    h.FillIBuffer(fs16);
+                }
+            });
+
+            if (CaptureMaterialLayouts)
+            {
+                lock (_matLayoutLock)
+                {
+                    if (!MaterialLayouts.ContainsKey(dest.Material.MaterialName))
+                    {
+                        MaterialLayouts.Add(dest.Material.MaterialName, Flver.BufferLayouts[mesh.LayoutIndex]);
                     }
                 }
             }
@@ -672,6 +888,45 @@ namespace StudioCore.Resource
             }
         }
 
+        private bool LoadInternalDeS(AccessLevel al, GameType type)
+        {
+            if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
+            {
+                GPUMeshes = new FlverSubmesh[FlverDeS.Meshes.Count()];
+                GPUMaterials = new FlverMaterial[FlverDeS.Materials.Count()];
+                Bounds = new BoundingBox();
+
+                for (int i = 0; i < FlverDeS.Materials.Count(); i++)
+                {
+                    GPUMaterials[i] = new FlverMaterial();
+                    ProcessMaterial(FlverDeS.Materials[i], GPUMaterials[i], type);
+                }
+
+                for (int i = 0; i < FlverDeS.Meshes.Count(); i++)
+                {
+                    GPUMeshes[i] = new FlverSubmesh();
+                    ProcessMesh(FlverDeS.Meshes[i], GPUMeshes[i]);
+                    if (i == 0)
+                    {
+                        Bounds = GPUMeshes[i].Bounds;
+                    }
+                    else
+                    {
+                        Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
+                    }
+                }
+
+                Bones = FlverDeS.Bones;
+            }
+
+            if (al == AccessLevel.AccessGPUOptimizedOnly)
+            {
+                Flver = null;
+            }
+            //return false;
+            return true;
+        }
+
         private bool LoadInternal(AccessLevel al, GameType type)
         {
             if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
@@ -713,19 +968,37 @@ namespace StudioCore.Resource
 
         bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
         {
-            var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
-            Flver = FLVER2.Read(bytes, cache);
-            bool ret = LoadInternal(al, type);
-            ReleaseCache(cache);
+            bool ret;
+            if (type == GameType.DemonsSouls)
+            {
+                FlverDeS = FLVER0.Read(bytes);
+                ret = LoadInternalDeS(al, type);
+            }
+            else
+            {
+                var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
+                Flver = FLVER2.Read(bytes, cache);
+                ret = LoadInternal(al, type);
+                ReleaseCache(cache);
+            }
             return ret;
         }
 
         bool IResource._Load(string file, AccessLevel al, GameType type)
         {
-            var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
-            Flver = FLVER2.Read(file, cache);
-            bool ret = LoadInternal(al, type);
-            ReleaseCache(cache);
+            bool ret;
+            if (type == GameType.DemonsSouls)
+            {
+                FlverDeS = FLVER0.Read(file);
+                ret = LoadInternalDeS(al, type);
+            }
+            else
+            {
+                var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
+                Flver = FLVER2.Read(file, cache);
+                ret = LoadInternal(al, type);
+                ReleaseCache(cache);
+            }
             return ret;
         }
 

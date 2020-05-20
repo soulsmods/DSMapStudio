@@ -660,8 +660,8 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
-                public string PartName2 { get; set; }
-                private int PartIndex2;
+                public string ObjActPartName { get; set; }
+                private int ObjActPartIndex;
 
                 /// <summary>
                 /// Unknown.
@@ -694,7 +694,7 @@ namespace SoulsFormats
                 public ObjAct(ObjAct clone) : base(clone)
                 {
                     ObjActEntityID = clone.ObjActEntityID;
-                    PartName2 = clone.PartName2;
+                    ObjActPartName = clone.ObjActPartName;
                     ObjActParamID = clone.ObjActParamID;
                     ObjActStateType = clone.ObjActStateType;
                     EventFlagID = clone.EventFlagID;
@@ -705,7 +705,7 @@ namespace SoulsFormats
                 internal override void Read(BinaryReaderEx br)
                 {
                     ObjActEntityID = br.ReadInt32();
-                    PartIndex2 = br.ReadInt32();
+                    ObjActPartIndex = br.ReadInt32();
                     ObjActParamID = br.ReadInt32();
 
                     ObjActStateType = br.ReadEnum8<ObjActState>();
@@ -722,7 +722,7 @@ namespace SoulsFormats
                 internal override void WriteSpecific(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(ObjActEntityID);
-                    bw.WriteInt32(PartIndex2);
+                    bw.WriteInt32(ObjActPartIndex);
                     bw.WriteInt32(ObjActParamID);
 
                     bw.WriteByte((byte)ObjActStateType);
@@ -739,13 +739,13 @@ namespace SoulsFormats
                 internal override void GetNames(MSB3 msb, Entries entries)
                 {
                     base.GetNames(msb, entries);
-                    PartName2 = MSB.FindName(entries.Parts, PartIndex2);
+                    ObjActPartName = MSB.FindName(entries.Parts, ObjActPartIndex);
                 }
 
                 internal override void GetIndices(MSB3 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    PartIndex2 = MSB.FindIndex(entries.Parts, PartName2);
+                    ObjActPartIndex = MSB.FindIndex(entries.Parts, ObjActPartName);
                 }
             }
 
@@ -807,21 +807,20 @@ namespace SoulsFormats
                 internal override EventType Type => EventType.PseudoMultiplayer;
 
                 /// <summary>
-                /// Unknown.
+                /// The NPC whose world you're entering.
                 /// </summary>
                 [MSBEntityReference]
                 public int HostEntityID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Set when inside the event's region, unset when outside it.
                 /// </summary>
-                [MSBEntityReference]
-                public int InvasionEntityID { get; set; }
+                public int EventFlagID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of a goods item that is used to trigger the event.
                 /// </summary>
-                public int InvasionRegionIndex { get; set; }
+                public int ActivateGoodsID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -849,8 +848,8 @@ namespace SoulsFormats
                 public PseudoMultiplayer(string name) : base(name)
                 {
                     HostEntityID = -1;
-                    InvasionEntityID = -1;
-                    InvasionRegionIndex = -1;
+                    EventFlagID = -1;
+                    ActivateGoodsID = -1;
                     SoundIDMaybe = -1;
                     MapEventIDMaybe = -1;
                 }
@@ -861,8 +860,8 @@ namespace SoulsFormats
                 public PseudoMultiplayer(PseudoMultiplayer clone) : base(clone)
                 {
                     HostEntityID = clone.HostEntityID;
-                    InvasionEntityID = clone.InvasionEntityID;
-                    InvasionRegionIndex = clone.InvasionRegionIndex;
+                    EventFlagID = clone.EventFlagID;
+                    ActivateGoodsID = clone.ActivateGoodsID;
                     SoundIDMaybe = clone.SoundIDMaybe;
                     MapEventIDMaybe = clone.MapEventIDMaybe;
                     FlagsMaybe = clone.FlagsMaybe;
@@ -874,8 +873,8 @@ namespace SoulsFormats
                 internal override void Read(BinaryReaderEx br)
                 {
                     HostEntityID = br.ReadInt32();
-                    InvasionEntityID = br.ReadInt32();
-                    InvasionRegionIndex = br.ReadInt32();
+                    EventFlagID = br.ReadInt32();
+                    ActivateGoodsID = br.ReadInt32();
                     SoundIDMaybe = br.ReadInt32();
                     MapEventIDMaybe = br.ReadInt32();
                     FlagsMaybe = br.ReadInt32();
@@ -886,8 +885,8 @@ namespace SoulsFormats
                 internal override void WriteSpecific(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(HostEntityID);
-                    bw.WriteInt32(InvasionEntityID);
-                    bw.WriteInt32(InvasionRegionIndex);
+                    bw.WriteInt32(EventFlagID);
+                    bw.WriteInt32(ActivateGoodsID);
                     bw.WriteInt32(SoundIDMaybe);
                     bw.WriteInt32(MapEventIDMaybe);
                     bw.WriteInt32(FlagsMaybe);

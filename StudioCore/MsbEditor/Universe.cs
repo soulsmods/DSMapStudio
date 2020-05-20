@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using StudioCore.Resource;
 using SoulsFormats;
+using Newtonsoft.Json;
 
 namespace StudioCore.MsbEditor
 {
@@ -803,7 +804,7 @@ namespace StudioCore.MsbEditor
             //}
 
             // If a backup file doesn't exist of the original file create it
-            if (!File.Exists(mapPath + ".bak") && File.Exists(mapPath))
+            /*if (!File.Exists(mapPath + ".bak") && File.Exists(mapPath))
             {
                 File.Copy(mapPath, mapPath + ".bak", true);
             }
@@ -837,11 +838,11 @@ namespace StudioCore.MsbEditor
             if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 SaveDS2Generators(map);
-            }
+            }*/
 
-            //var xserializer = new XmlSerializer(typeof(Map));
-            //TextWriter writer = new StreamWriter(mapPath + ".xml");
-            //map.SerializeToXML(xserializer, writer, AssetLocator.Type);
+            var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
+            Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
+                $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
         }
 
         public void SaveAllMaps()

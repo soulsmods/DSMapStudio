@@ -526,5 +526,15 @@ namespace StudioCore.MsbEditor
             }
             return true;
         }
+
+        public MapSerializationEntity SerializeHierarchy()
+        {
+            Dictionary<Entity, int> idmap = new Dictionary<Entity, int>();
+            for (int i = 0; i < Objects.Count; i++)
+            {
+                idmap.Add(Objects[i], i);
+            }
+            return ((MapEntity)RootObject).Serialize(idmap);
+        }
     }
 }

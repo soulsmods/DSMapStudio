@@ -237,6 +237,41 @@ namespace StudioCore
             File.Move(writepath + ".temp", writepath);
         }
 
+        public static void WriteStringWithBackup(string gamedir, string moddir, string assetpath, string item)
+        {
+            var assetgamepath = $@"{gamedir}\{assetpath}";
+            var assetmodpath = $@"{moddir}\{assetpath}";
+
+            if (moddir != null)
+            {
+                if (!Directory.Exists(Path.GetDirectoryName(assetmodpath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(assetmodpath));
+                }
+            }
+
+            // Make a backup of the original file if a mod path doesn't exist
+            if (moddir == null && !File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
+            {
+                File.Copy(assetgamepath, $@"{assetgamepath}.bak", true);
+            }
+
+            var writepath = (moddir == null) ? assetgamepath : assetmodpath;
+
+            if (File.Exists(writepath + ".temp"))
+            {
+                File.Delete(writepath + ".temp");
+            }
+            File.WriteAllText(writepath + ".temp", item);
+
+            if (File.Exists(writepath))
+            {
+                File.Copy(writepath, writepath + ".prev", true);
+                File.Delete(writepath);
+            }
+            File.Move(writepath + ".temp", writepath);
+        }
+
         // From Veldrid Neo Demo
         public static System.Numerics.Matrix4x4 CreatePerspective(
             GraphicsDevice gd,
