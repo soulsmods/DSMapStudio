@@ -7,8 +7,8 @@ namespace SoulsFormats
     {
         private class RouteParam : Param<Entry>
         {
-            internal override string Name => "ROUTE_PARAM_ST";
             internal override int Version => 5;
+            internal override string Name => "ROUTE_PARAM_ST";
 
             public RouteParam() { }
 

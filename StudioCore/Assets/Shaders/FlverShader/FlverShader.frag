@@ -3,6 +3,7 @@
 #extension GL_EXT_shader_16bit_storage : enable
 #extension GL_EXT_shader_explicit_arithmetic_types : enable
 
+#define GAME_DES 1
 #define GAME_DS1_PTDE 2
 #define GAME_DS1_REMASTER 3
 #define GAME_DS2 4
@@ -177,40 +178,62 @@ void main()
 	float NdotH = abs(clamp(dot(H, N), 0.0, 1.0));
 	float VdotH = clamp(dot(H, viewVec), 0.0, 1.0);
 	
-	float alpha = roughness * roughness;
-	float alphasquare = alpha * alpha;
-	
-	vec3 finalDiffuse = diffuseColor.xyz * LdotN;
-	
-	vec3 F = pow(1.0 - VdotH, 5) * (1.0 - F0) + F0;
-	float denom = NdotH * NdotH * (alphasquare - 1.0) + 1.0;
-	
-	float specPower = exp2((1 - roughness) * 13.0);
-    specPower = max(1.0, specPower / (specPower * 0.01 + 1.0)) * 1;//8;
-    float D = pow(NdotH, specPower) * (specPower * 0.125 + 0.25);
-	
-	vec3 specular = D * F * pow(LdotN, LdotNPower);
-	
-	float envMip = min(6.0, -(1 - roughness) * 6.5 + 6.5);
-	vec3 reflectVec = reflect(-viewVec, N);
-	vec3 ambientSpec = textureLod(samplerCube(globalTexturesCube[nonuniformEXT(int(sceneparam.envmap))], linearSampler), vec3(reflectVec * vec3(1, 1, -1)), envMip).xyz;
-	ambientSpec *= sceneparam.ambientLightMult;
-	vec3 ambientDiffuse = textureLod(samplerCube(globalTexturesCube[nonuniformEXT(int(sceneparam.envmap))], linearSampler), vec3(N * vec3(1, 1, -1)), 5).xyz;
-	ambientDiffuse *= sceneparam.ambientLightMult;
-	
-	NdotV = max(NdotV, Epsilon);
-	vec3 aF = pow(1.0 - NdotV, 5) * (1 - roughness) * (1 - roughness) * (1.0 - F0) + F0;
-	
-	vec3 diffuse = finalDiffuse * (1 - F0);
-	vec3 indirectDiffuse = diffuseColor.xyz * ambientDiffuse * (1 - F0);
-	vec3 indirectSpecular = ambientSpec * aF;
-	float reflectionThing = clamp(dot(reflectVec, N) + 1.0, 0, 1);
-	reflectionThing *= reflectionThing;
-	indirectSpecular *= reflectionThing;
-	
-	vec3 direct = diffuse + specular;
-	vec3 indirect = indirectDiffuse + indirectSpecular;
-	
-	fsout_color = vec4((direct * sceneparam.directLightMult + indirect * sceneparam.indirectLightMult) * sceneparam.sceneBrightness, 1.0);
+	// traditional phong model
+	if (c_gameID == GAME_DES || c_gameID == GAME_DS1_PTDE)
+	{
+		// diffuse
+		vec3 finalDiffuse = diffuseColor.xyz * LdotN;
+
+		// ambient
+		vec3 ambientDiffuse = diffuseColor.xyz * textureLod(samplerCube(globalTexturesCube[nonuniformEXT(int(sceneparam.envmap))], linearSampler), vec3(N * vec3(1, 1, -1)), 5).xyz;
+		ambientDiffuse *= sceneparam.ambientLightMult;
+
+		// specular
+		vec3 specular = F0 * pow(NdotH, 4);
+
+		vec3 direct = finalDiffuse + specular;
+		vec3 indirect = ambientDiffuse;
+		
+		fsout_color = vec4((direct * sceneparam.directLightMult + indirect * sceneparam.indirectLightMult) * sceneparam.sceneBrightness, 1.0);
+	}
+	// PBR model
+	else
+	{
+		float alpha = roughness * roughness;
+		float alphasquare = alpha * alpha;
+		
+		vec3 finalDiffuse = diffuseColor.xyz * LdotN;
+		
+		vec3 F = pow(1.0 - VdotH, 5) * (1.0 - F0) + F0;
+		float denom = NdotH * NdotH * (alphasquare - 1.0) + 1.0;
+		
+		float specPower = exp2((1 - roughness) * 13.0);
+		specPower = max(1.0, specPower / (specPower * 0.01 + 1.0)) * 1;//8;
+		float D = pow(NdotH, specPower) * (specPower * 0.125 + 0.25);
+		
+		vec3 specular = D * F * pow(LdotN, LdotNPower);
+		
+		float envMip = min(6.0, -(1 - roughness) * 6.5 + 6.5);
+		vec3 reflectVec = reflect(-viewVec, N);
+		vec3 ambientSpec = textureLod(samplerCube(globalTexturesCube[nonuniformEXT(int(sceneparam.envmap))], linearSampler), vec3(reflectVec * vec3(1, 1, -1)), envMip).xyz;
+		ambientSpec *= sceneparam.ambientLightMult;
+		vec3 ambientDiffuse = textureLod(samplerCube(globalTexturesCube[nonuniformEXT(int(sceneparam.envmap))], linearSampler), vec3(N * vec3(1, 1, -1)), 5).xyz;
+		ambientDiffuse *= sceneparam.ambientLightMult;
+		
+		NdotV = max(NdotV, Epsilon);
+		vec3 aF = pow(1.0 - NdotV, 5) * (1 - roughness) * (1 - roughness) * (1.0 - F0) + F0;
+		
+		vec3 diffuse = finalDiffuse * (1 - F0);
+		vec3 indirectDiffuse = diffuseColor.xyz * ambientDiffuse * (1 - F0);
+		vec3 indirectSpecular = ambientSpec * aF;
+		float reflectionThing = clamp(dot(reflectVec, N) + 1.0, 0, 1);
+		reflectionThing *= reflectionThing;
+		indirectSpecular *= reflectionThing;
+		
+		vec3 direct = diffuse + specular;
+		vec3 indirect = indirectDiffuse + indirectSpecular;
+		
+		fsout_color = vec4((direct * sceneparam.directLightMult + indirect * sceneparam.indirectLightMult) * sceneparam.sceneBrightness, 1.0);
+	}
 	//fsout_color = vec4(vec3((vec4(N, 1.0) / 2.0) + 0.5), 1.0);
 }

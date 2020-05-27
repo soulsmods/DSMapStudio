@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace SoulsFormats
 {
@@ -7,19 +8,20 @@ namespace SoulsFormats
         /// <summary>
         /// A section containing routes. Purpose unknown.
         /// </summary>
-        public class RouteParam : Param<Route>
+        private class RouteParam : Param<Route>
         {
+            internal override int Version => 3;
             internal override string Type => "ROUTE_PARAM_ST";
 
             /// <summary>
             /// The routes in this section.
             /// </summary>
-            public List<Route> Routes;
+            public List<Route> Routes { get; set; }
 
             /// <summary>
             /// Creates a new RouteParam with no routes.
             /// </summary>
-            public RouteParam(int unk1 = 3) : base(unk1)
+            public RouteParam()
             {
                 Routes = new List<Route>();
             }
@@ -34,43 +36,44 @@ namespace SoulsFormats
 
             internal override Route ReadEntry(BinaryReaderEx br)
             {
-                var route = new Route(br);
-                Routes.Add(route);
-                return route;
-            }
-
-            internal override void WriteEntry(BinaryWriterEx bw, int id, Route entry)
-            {
-                entry.Write(bw, id);
+                return Routes.EchoAdd(new Route(br));
             }
         }
 
         /// <summary>
         /// Unknown.
         /// </summary>
-        public class Route
+        public class Route : NamedEntry
         {
             /// <summary>
             /// The name of this route.
             /// </summary>
-            public string Name;
+            public override string Name { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public int Unk08;
-            
+            public int Unk08 { get; set; }
+
             /// <summary>
             /// Unknown.
             /// </summary>
-            public int Unk0C;
+            public int Unk0C { get; set; }
 
             /// <summary>
             /// Creates a new Route with default values.
             /// </summary>
             public Route()
             {
-                Name = "";
+                Name = "XX-XX";
+            }
+
+            /// <summary>
+            /// Creates a deep copy of the route.
+            /// </summary>
+            public Route DeepCopy()
+            {
+                return (Route)MemberwiseClone();
             }
 
             internal Route(BinaryReaderEx br)
@@ -84,10 +87,14 @@ namespace SoulsFormats
                 br.ReadInt32(); // ID
                 br.AssertPattern(0x68, 0x00);
 
-                Name = br.GetUTF16(start + nameOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
             }
 
-            internal void Write(BinaryWriterEx bw, int id)
+            internal override void Write(BinaryWriterEx bw, int id)
             {
                 long start = bw.Position;
 

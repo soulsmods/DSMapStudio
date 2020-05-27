@@ -1,72 +1,119 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 
 namespace SoulsFormats
 {
     public partial class MSB3
     {
+        internal enum EventType : uint
+        {
+            //Light = 0,
+            //Sound = 1,
+            //SFX = 2,
+            //Wind = 3,
+            Treasure = 4,
+            Generator = 5,
+            //Message = 6,
+            ObjAct = 7,
+            //SpawnPoint = 8,
+            MapOffset = 9,
+            //Navmesh = 10,
+            //Environment = 11,
+            PseudoMultiplayer = 12,
+            //WindSFX = 13,
+            PatrolInfo = 14,
+            PlatoonInfo = 15,
+            //DarkSight = 16,
+            Other = 0xFFFFFFFF,
+        }
+
         /// <summary>
         /// Events controlling various interactive or dynamic features in the map.
         /// </summary>
         public class EventParam : Param<Event>, IMsbParam<IMsbEvent>
         {
+            internal override int Version => 3;
             internal override string Type => "EVENT_PARAM_ST";
 
             /// <summary>
             /// Treasures in the MSB.
             /// </summary>
-            public List<Event.Treasure> Treasures;
+            public List<Event.Treasure> Treasures { get; set; }
 
             /// <summary>
             /// Generators in the MSB.
             /// </summary>
-            public List<Event.Generator> Generators;
+            public List<Event.Generator> Generators { get; set; }
 
             /// <summary>
             /// Object actions in the MSB.
             /// </summary>
-            public List<Event.ObjAct> ObjActs;
+            public List<Event.ObjAct> ObjActs { get; set; }
 
             /// <summary>
             /// Map offsets in the MSB.
             /// </summary>
-            public List<Event.MapOffset> MapOffsets;
+            public List<Event.MapOffset> MapOffsets { get; set; }
 
             /// <summary>
             /// Pseudo multiplayer events in the MSB.
             /// </summary>
-            public List<Event.PseudoMultiplayer> PseudoMultiplayers;
+            public List<Event.PseudoMultiplayer> PseudoMultiplayers { get; set; }
 
             /// <summary>
-            /// Walk routes in the MSB.
+            /// Patrol info in the MSB.
             /// </summary>
-            public List<Event.WalkRoute> WalkRoutes;
+            public List<Event.PatrolInfo> PatrolInfo { get; set; }
 
             /// <summary>
-            /// Group tours in the MSB.
+            /// Platoon info in the MSB.
             /// </summary>
-            public List<Event.GroupTour> GroupTours;
+            public List<Event.PlatoonInfo> PlatoonInfo { get; set; }
 
             /// <summary>
             /// Other events in the MSB.
             /// </summary>
-            public List<Event.Other> Others;
+            public List<Event.Other> Others { get; set; }
 
             /// <summary>
             /// Creates a new EventParam with no events.
             /// </summary>
-            public EventParam(int unk1 = 3) : base(unk1)
+            public EventParam()
             {
                 Treasures = new List<Event.Treasure>();
                 Generators = new List<Event.Generator>();
                 ObjActs = new List<Event.ObjAct>();
                 MapOffsets = new List<Event.MapOffset>();
                 PseudoMultiplayers = new List<Event.PseudoMultiplayer>();
-                WalkRoutes = new List<Event.WalkRoute>();
-                GroupTours = new List<Event.GroupTour>();
+                PatrolInfo = new List<Event.PatrolInfo>();
+                PlatoonInfo = new List<Event.PlatoonInfo>();
                 Others = new List<Event.Other>();
             }
+
+            /// <summary>
+            /// Adds an event to the appropriate list for its type; returns the event.
+            /// </summary>
+            public Event Add(Event evnt)
+            {
+                switch (evnt)
+                {
+                    case Event.Treasure e: Treasures.Add(e); break;
+                    case Event.Generator e: Generators.Add(e); break;
+                    case Event.ObjAct e: ObjActs.Add(e); break;
+                    case Event.MapOffset e: MapOffsets.Add(e); break;
+                    case Event.PseudoMultiplayer e: PseudoMultiplayers.Add(e); break;
+                    case Event.PatrolInfo e: PatrolInfo.Add(e); break;
+                    case Event.PlatoonInfo e: PlatoonInfo.Add(e); break;
+                    case Event.Other e: Others.Add(e); break;
+
+                    default:
+                        throw new ArgumentException($"Unrecognized type {evnt.GetType()}.", nameof(evnt));
+                }
+                return evnt;
+            }
+            IMsbEvent IMsbParam<IMsbEvent>.Add(IMsbEvent item) => Add((Event)item);
 
             /// <summary>
             /// Returns every Event in the order they'll be written.
@@ -74,130 +121,52 @@ namespace SoulsFormats
             public override List<Event> GetEntries()
             {
                 return SFUtil.ConcatAll<Event>(
-                    Treasures, Generators, ObjActs, MapOffsets, PseudoMultiplayers, WalkRoutes, GroupTours, Others);
+                    Treasures, Generators, ObjActs, MapOffsets, PseudoMultiplayers,
+                    PatrolInfo, PlatoonInfo, Others);
             }
             IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
 
             internal override Event ReadEntry(BinaryReaderEx br)
             {
                 EventType type = br.GetEnum32<EventType>(br.Position + 0xC);
-
                 switch (type)
                 {
                     case EventType.Treasure:
-                        var treasure = new Event.Treasure(br);
-                        Treasures.Add(treasure);
-                        return treasure;
+                        return Treasures.EchoAdd(new Event.Treasure(br));
 
                     case EventType.Generator:
-                        var generator = new Event.Generator(br);
-                        Generators.Add(generator);
-                        return generator;
+                        return Generators.EchoAdd(new Event.Generator(br));
 
                     case EventType.ObjAct:
-                        var objAct = new Event.ObjAct(br);
-                        ObjActs.Add(objAct);
-                        return objAct;
+                        return ObjActs.EchoAdd(new Event.ObjAct(br));
 
                     case EventType.MapOffset:
-                        var mapOffset = new Event.MapOffset(br);
-                        MapOffsets.Add(mapOffset);
-                        return mapOffset;
+                        return MapOffsets.EchoAdd(new Event.MapOffset(br));
 
                     case EventType.PseudoMultiplayer:
-                        var invasion = new Event.PseudoMultiplayer(br);
-                        PseudoMultiplayers.Add(invasion);
-                        return invasion;
+                        return PseudoMultiplayers.EchoAdd(new Event.PseudoMultiplayer(br));
 
-                    case EventType.WalkRoute:
-                        var walkRoute = new Event.WalkRoute(br);
-                        WalkRoutes.Add(walkRoute);
-                        return walkRoute;
+                    case EventType.PatrolInfo:
+                        return PatrolInfo.EchoAdd(new Event.PatrolInfo(br));
 
-                    case EventType.GroupTour:
-                        var groupTour = new Event.GroupTour(br);
-                        GroupTours.Add(groupTour);
-                        return groupTour;
+                    case EventType.PlatoonInfo:
+                        return PlatoonInfo.EchoAdd(new Event.PlatoonInfo(br));
 
                     case EventType.Other:
-                        var other = new Event.Other(br);
-                        Others.Add(other);
-                        return other;
+                        return Others.EchoAdd(new Event.Other(br));
 
                     default:
                         throw new NotImplementedException($"Unsupported event type: {type}");
                 }
             }
-
-            internal override void WriteEntry(BinaryWriterEx bw, int id, Event entry)
-            {
-                entry.Write(bw, id);
-            }
-
-            public void Add(IMsbEvent item)
-            {
-                switch (item)
-                {
-                    case Event.Treasure e:
-                        Treasures.Add(e);
-                        break;
-                    case Event.Generator e:
-                        Generators.Add(e);
-                        break;
-                    case Event.ObjAct e:
-                        ObjActs.Add(e);
-                        break;
-                    case Event.MapOffset e:
-                        MapOffsets.Add(e);
-                        break;
-                    case Event.PseudoMultiplayer e:
-                        PseudoMultiplayers.Add(e);
-                        break;
-                    case Event.WalkRoute e:
-                        WalkRoutes.Add(e);
-                        break;
-                    case Event.GroupTour e:
-                        GroupTours.Add(e);
-                        break;
-                    case Event.Other e:
-                        Others.Add(e);
-                        break;
-                    default:
-                        throw new ArgumentException(
-                            message: "Item is not recognized",
-                            paramName: nameof(item));
-                }
-            }
-        }
-
-        internal enum EventType : uint
-        {
-            Light = 0x0,
-            Sound = 0x1,
-            SFX = 0x2,
-            WindSFX = 0x3,
-            Treasure = 0x4,
-            Generator = 0x5,
-            Message = 0x6,
-            ObjAct = 0x7,
-            SpawnPoint = 0x8,
-            MapOffset = 0x9,
-            Navimesh = 0xA,
-            Environment = 0xB,
-            PseudoMultiplayer = 0xC,
-            Unk0D = 0xD,
-            WalkRoute = 0xE,
-            GroupTour = 0xF,
-            Unk10 = 0x10,
-            Other = 0xFFFFFFFF,
         }
 
         /// <summary>
         /// An interactive or dynamic feature of the map.
         /// </summary>
-        public abstract class Event : Entry, IMsbEvent
+        public abstract class Event : NamedEntry, IMsbEvent
         {
-            internal abstract EventType Type { get; }
+            private protected abstract EventType Type { get; }
 
             /// <summary>
             /// The name of this event.
@@ -212,14 +181,12 @@ namespace SoulsFormats
             /// <summary>
             /// The name of a part the event is attached to.
             /// </summary>
-            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// The name of a region the event is attached to.
             /// </summary>
-            [MSBReference(ReferenceType = typeof(Region))]
             public string PointName { get; set; }
             private int PointIndex;
 
@@ -228,23 +195,27 @@ namespace SoulsFormats
             /// </summary>
             public int EntityID { get; set; }
 
-            internal Event(string name)
+            private protected Event(string name)
             {
                 Name = name;
                 EventID = -1;
                 EntityID = -1;
             }
 
-            internal Event(Event clone)
+            /// <summary>
+            /// Creates a deep copy of the event.
+            /// </summary>
+            public Event DeepCopy()
             {
-                Name = clone.Name;
-                EventID = clone.EventID;
-                PartName = clone.PartName;
-                PointName = clone.PointName;
-                EntityID = clone.EntityID;
+                var evnt = (Event)MemberwiseClone();
+                DeepCopyTo(evnt);
+                return evnt;
             }
+            IMsbEvent IMsbEvent.DeepCopy() => DeepCopy();
 
-            internal Event(BinaryReaderEx br)
+            private protected virtual void DeepCopyTo(Event evnt) { }
+
+            private protected Event(BinaryReaderEx br)
             {
                 long start = br.Position;
 
@@ -256,7 +227,15 @@ namespace SoulsFormats
                 long baseDataOffset = br.ReadInt64();
                 long typeDataOffset = br.ReadInt64();
 
-                Name = br.GetUTF16(start + nameOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+                if (baseDataOffset == 0)
+                    throw new InvalidDataException($"{nameof(baseDataOffset)} must not be 0 in type {GetType()}.");
+                if (typeDataOffset == 0)
+                    throw new InvalidDataException($"{nameof(typeDataOffset)} must not be 0 in type {GetType()}.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
 
                 br.Position = start + baseDataOffset;
                 PartIndex = br.ReadInt32();
@@ -265,12 +244,12 @@ namespace SoulsFormats
                 br.AssertInt32(0);
 
                 br.Position = start + typeDataOffset;
-                Read(br);
+                ReadTypeData(br);
             }
 
-            internal abstract void Read(BinaryReaderEx br);
+            private protected abstract void ReadTypeData(BinaryReaderEx br);
 
-            internal void Write(BinaryWriterEx bw, int id)
+            internal override void Write(BinaryWriterEx bw, int id)
             {
                 long start = bw.Position;
 
@@ -293,10 +272,10 @@ namespace SoulsFormats
                 bw.WriteInt32(0);
 
                 bw.FillInt64("TypeDataOffset", bw.Position - start);
-                WriteSpecific(bw);
+                WriteTypeData(bw);
             }
 
-            internal abstract void WriteSpecific(BinaryWriterEx bw);
+            private protected abstract void WriteTypeData(BinaryWriterEx bw);
 
             internal virtual void GetNames(MSB3 msb, Entries entries)
             {
@@ -323,27 +302,27 @@ namespace SoulsFormats
             /// </summary>
             public class Treasure : Event
             {
-                internal override EventType Type => EventType.Treasure;
+                private protected override EventType Type => EventType.Treasure;
 
                 /// <summary>
                 /// The part the treasure is attached to.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
-                public string PartName2 { get; set; }
-                private int PartIndex2;
+                public string TreasurePartName { get; set; }
+                private int TreasurePartIndex;
 
                 /// <summary>
-                /// IDs in the item lot param given by this treasure.
+                /// First item lot given by this treasure.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot1 { get; set; }
-                [MSBParamReference(ParamName = "ItemLotParam")]
+
+                /// <summary>
+                /// Second item lot given by this treasure; rarely used.
+                /// </summary>
                 public int ItemLot2 { get; set; }
 
                 /// <summary>
-                /// Unknown; always -1 in vanilla.
+                /// If not -1, uses an entry from ActionButtonParam for the pickup prompt.
                 /// </summary>
-                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonParamID { get; set; }
 
                 /// <summary>
@@ -352,47 +331,33 @@ namespace SoulsFormats
                 public int PickupAnimID { get; set; }
 
                 /// <summary>
-                /// Used for treasures inside chests, exact significance unknown.
+                /// Changes the text of the pickup prompt and causes the treasure to be uninteractible by default.
                 /// </summary>
                 public bool InChest { get; set; }
 
                 /// <summary>
-                /// Used only for Yoel's ashes treasure; in DS1, used for corpses in barrels.
+                /// Whether the treasure should be hidden by default.
                 /// </summary>
                 public bool StartDisabled { get; set; }
 
                 /// <summary>
-                /// Creates a new Treasure with the given name.
+                /// Creates a Treasure with default values.
                 /// </summary>
-                public Treasure(string name) : base(name)
+                public Treasure() : base($"{nameof(Event)}: {nameof(Treasure)}")
                 {
                     ItemLot1 = -1;
                     ItemLot2 = -1;
                     ActionButtonParamID = -1;
-                    PickupAnimID = -1;
-                }
-
-                /// <summary>
-                /// Creates a new Treasure with values copied from another.
-                /// </summary>
-                public Treasure(Treasure clone) : base(clone)
-                {
-                    PartName2 = clone.PartName2;
-                    ItemLot1 = clone.ItemLot1;
-                    ItemLot2 = clone.ItemLot2;
-                    ActionButtonParamID = clone.ActionButtonParamID;
-                    PickupAnimID = clone.PickupAnimID;
-                    InChest = clone.InChest;
-                    StartDisabled = clone.StartDisabled;
+                    PickupAnimID = 60070;
                 }
 
                 internal Treasure(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt32(0);
                     br.AssertInt32(0);
-                    PartIndex2 = br.ReadInt32();
+                    TreasurePartIndex = br.ReadInt32();
                     br.AssertInt32(0);
                     ItemLot1 = br.ReadInt32();
                     ItemLot2 = br.ReadInt32();
@@ -417,11 +382,11 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(PartIndex2);
+                    bw.WriteInt32(TreasurePartIndex);
                     bw.WriteInt32(0);
                     bw.WriteInt32(ItemLot1);
                     bw.WriteInt32(ItemLot2);
@@ -449,13 +414,13 @@ namespace SoulsFormats
                 internal override void GetNames(MSB3 msb, Entries entries)
                 {
                     base.GetNames(msb, entries);
-                    PartName2 = MSB.FindName(entries.Parts, PartIndex2);
+                    TreasurePartName = MSB.FindName(entries.Parts, TreasurePartIndex);
                 }
 
                 internal override void GetIndices(MSB3 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    PartIndex2 = MSB.FindIndex(entries.Parts, PartName2);
+                    TreasurePartIndex = MSB.FindIndex(entries.Parts, TreasurePartName);
                 }
             }
 
@@ -464,12 +429,17 @@ namespace SoulsFormats
             /// </summary>
             public class Generator : Event
             {
-                internal override EventType Type => EventType.Generator;
+                private protected override EventType Type => EventType.Generator;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short MaxNum { get; set; }
+                public byte MaxNum { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte GenType { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -499,66 +469,61 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions that enemies can be spawned at.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnPointNames { get; private set; }
                 private int[] SpawnPointIndices;
 
                 /// <summary>
                 /// Enemies spawned by this generator.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int SessionCondition { get; set; }
+                public byte InitialSpawnCount { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
                 public float UnkT14 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public float UnkT18 { get; set; }
 
                 /// <summary>
-                /// Creates a new Generator with the given name.
+                /// Creates a Generator with default values.
                 /// </summary>
-                public Generator(string name) : base(name)
+                public Generator() : base($"{nameof(Event)}: {nameof(Generator)}")
                 {
                     SpawnPointNames = new string[8];
                     SpawnPartNames = new string[32];
                 }
 
-                /// <summary>
-                /// Creates a new Generator with values copied from another.
-                /// </summary>
-                public Generator(Generator clone) : base(clone)
+                private protected override void DeepCopyTo(Event evnt)
                 {
-                    MaxNum = clone.MaxNum;
-                    LimitNum = clone.LimitNum;
-                    MinGenNum = clone.MinGenNum;
-                    MaxGenNum = clone.MaxGenNum;
-                    MinInterval = clone.MinInterval;
-                    MaxInterval = clone.MaxInterval;
-                    SessionCondition = clone.SessionCondition;
-                    UnkT14 = clone.UnkT14;
-                    UnkT18 = clone.UnkT18;
-                    SpawnPointNames = (string[])clone.SpawnPointNames.Clone();
-                    SpawnPartNames = (string[])clone.SpawnPartNames.Clone();
+                    var generator = (Generator)evnt;
+                    generator.SpawnPointNames = (string[])SpawnPointNames.Clone();
+                    generator.SpawnPartNames = (string[])SpawnPartNames.Clone();
                 }
 
                 internal Generator(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    MaxNum = br.ReadInt16();
+                    MaxNum = br.ReadByte();
+                    GenType = br.ReadSByte();
                     LimitNum = br.ReadInt16();
                     MinGenNum = br.ReadInt16();
                     MaxGenNum = br.ReadInt16();
                     MinInterval = br.ReadSingle();
                     MaxInterval = br.ReadSingle();
-                    SessionCondition = br.ReadInt32();
+                    InitialSpawnCount = br.ReadByte();
+                    br.AssertByte(0);
+                    br.AssertByte(0);
+                    br.AssertByte(0);
                     UnkT14 = br.ReadSingle();
                     UnkT18 = br.ReadSingle();
                     br.AssertInt32(0);
@@ -582,15 +547,19 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt16(MaxNum);
+                    bw.WriteByte(MaxNum);
+                    bw.WriteSByte(GenType);
                     bw.WriteInt16(LimitNum);
                     bw.WriteInt16(MinGenNum);
                     bw.WriteInt16(MaxGenNum);
                     bw.WriteSingle(MinInterval);
                     bw.WriteSingle(MaxInterval);
-                    bw.WriteInt32(SessionCondition);
+                    bw.WriteByte(InitialSpawnCount);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
                     bw.WriteSingle(UnkT14);
                     bw.WriteSingle(UnkT18);
                     bw.WriteInt32(0);
@@ -648,25 +617,22 @@ namespace SoulsFormats
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 }
 
-                internal override EventType Type => EventType.ObjAct;
+                private protected override EventType Type => EventType.ObjAct;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBEntityReference]
                 public int ObjActEntityID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// The object which is being interacted with.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
                 /// <summary>
-                /// Unknown.
+                /// ID in ObjActParam that configures this ObjAct.
                 /// </summary>
-                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActParamID { get; set; }
 
                 /// <summary>
@@ -680,29 +646,17 @@ namespace SoulsFormats
                 public int EventFlagID { get; set; }
 
                 /// <summary>
-                /// Creates a new ObjAct with the given name.
+                /// Creates an ObjAct with default values.
                 /// </summary>
-                public ObjAct(string name) : base(name)
+                public ObjAct() : base($"{nameof(Event)}: {nameof(ObjAct)}")
                 {
                     ObjActEntityID = -1;
                     ObjActStateType = ObjActState.OneState;
                 }
 
-                /// <summary>
-                /// Creates a new ObjAct with values copied from another.
-                /// </summary>
-                public ObjAct(ObjAct clone) : base(clone)
-                {
-                    ObjActEntityID = clone.ObjActEntityID;
-                    ObjActPartName = clone.ObjActPartName;
-                    ObjActParamID = clone.ObjActParamID;
-                    ObjActStateType = clone.ObjActStateType;
-                    EventFlagID = clone.EventFlagID;
-                }
-
                 internal ObjAct(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     ObjActEntityID = br.ReadInt32();
                     ObjActPartIndex = br.ReadInt32();
@@ -719,7 +673,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(ObjActEntityID);
                     bw.WriteInt32(ObjActPartIndex);
@@ -754,7 +708,7 @@ namespace SoulsFormats
             /// </summary>
             public class MapOffset : Event
             {
-                internal override EventType Type => EventType.MapOffset;
+                private protected override EventType Type => EventType.MapOffset;
 
                 /// <summary>
                 /// Position of the map offset.
@@ -767,32 +721,19 @@ namespace SoulsFormats
                 public float Degree { get; set; }
 
                 /// <summary>
-                /// Creates a new MapOffset with the given name.
+                /// Creates a MapOffset with default values.
                 /// </summary>
-                public MapOffset(string name) : base(name)
-                {
-                    Position = Vector3.Zero;
-                    Degree = 0;
-                }
-
-                /// <summary>
-                /// Creates a new MapOffset with values copied from another.
-                /// </summary>
-                public MapOffset(MapOffset clone) : base(clone)
-                {
-                    Position = clone.Position;
-                    Degree = clone.Degree;
-                }
+                public MapOffset() : base($"{nameof(Event)}: {nameof(MapOffset)}") { }
 
                 internal MapOffset(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     Position = br.ReadVector3();
                     Degree = br.ReadSingle();
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteVector3(Position);
                     bw.WriteSingle(Degree);
@@ -804,12 +745,11 @@ namespace SoulsFormats
             /// </summary>
             public class PseudoMultiplayer : Event
             {
-                internal override EventType Type => EventType.PseudoMultiplayer;
+                private protected override EventType Type => EventType.PseudoMultiplayer;
 
                 /// <summary>
                 /// The NPC whose world you're entering.
                 /// </summary>
-                [MSBEntityReference]
                 public int HostEntityID { get; set; }
 
                 /// <summary>
@@ -823,19 +763,19 @@ namespace SoulsFormats
                 public int ActivateGoodsID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; possibly a sound ID.
                 /// </summary>
-                public int SoundIDMaybe { get; set; }
+                public int UnkT0C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; possibly a map event ID.
                 /// </summary>
-                public int MapEventIDMaybe { get; set; }
+                public int UnkT10 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; possibly flags.
                 /// </summary>
-                public int FlagsMaybe { get; set; }
+                public int UnkT14 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -845,51 +785,37 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a new Invasion with the given name.
                 /// </summary>
-                public PseudoMultiplayer(string name) : base(name)
+                public PseudoMultiplayer() : base($"{nameof(Event)}: {nameof(PseudoMultiplayer)}")
                 {
                     HostEntityID = -1;
                     EventFlagID = -1;
                     ActivateGoodsID = -1;
-                    SoundIDMaybe = -1;
-                    MapEventIDMaybe = -1;
-                }
-
-                /// <summary>
-                /// Creates a new Invasion with values copied from another.
-                /// </summary>
-                public PseudoMultiplayer(PseudoMultiplayer clone) : base(clone)
-                {
-                    HostEntityID = clone.HostEntityID;
-                    EventFlagID = clone.EventFlagID;
-                    ActivateGoodsID = clone.ActivateGoodsID;
-                    SoundIDMaybe = clone.SoundIDMaybe;
-                    MapEventIDMaybe = clone.MapEventIDMaybe;
-                    FlagsMaybe = clone.FlagsMaybe;
-                    UnkT18 = clone.UnkT18;
+                    UnkT0C = -1;
+                    UnkT10 = -1;
                 }
 
                 internal PseudoMultiplayer(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     HostEntityID = br.ReadInt32();
                     EventFlagID = br.ReadInt32();
                     ActivateGoodsID = br.ReadInt32();
-                    SoundIDMaybe = br.ReadInt32();
-                    MapEventIDMaybe = br.ReadInt32();
-                    FlagsMaybe = br.ReadInt32();
+                    UnkT0C = br.ReadInt32();
+                    UnkT10 = br.ReadInt32();
+                    UnkT14 = br.ReadInt32();
                     UnkT18 = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(HostEntityID);
                     bw.WriteInt32(EventFlagID);
                     bw.WriteInt32(ActivateGoodsID);
-                    bw.WriteInt32(SoundIDMaybe);
-                    bw.WriteInt32(MapEventIDMaybe);
-                    bw.WriteInt32(FlagsMaybe);
+                    bw.WriteInt32(UnkT0C);
+                    bw.WriteInt32(UnkT10);
+                    bw.WriteInt32(UnkT14);
                     bw.WriteInt32(UnkT18);
                     bw.WriteInt32(0);
                 }
@@ -898,9 +824,9 @@ namespace SoulsFormats
             /// <summary>
             /// A simple list of points defining a path for enemies to take.
             /// </summary>
-            public class WalkRoute : Event
+            public class PatrolInfo : Event
             {
-                internal override EventType Type => EventType.WalkRoute;
+                private protected override EventType Type => EventType.PatrolInfo;
 
                 /// <summary>
                 /// Unknown; probably some kind of route type.
@@ -910,31 +836,26 @@ namespace SoulsFormats
                 /// <summary>
                 /// List of points in the route.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkPointNames { get; private set; }
                 private short[] WalkPointIndices;
 
                 /// <summary>
-                /// Creates a new WalkRoute with the given name.
+                /// Creates a WalkRoute with default values.
                 /// </summary>
-                public WalkRoute(string name) : base(name)
+                public PatrolInfo() : base($"{nameof(Event)}: {nameof(PatrolInfo)}")
                 {
-                    UnkT00 = 0;
                     WalkPointNames = new string[32];
                 }
 
-                /// <summary>
-                /// Creates a new WalkRoute with values copied from another.
-                /// </summary>
-                public WalkRoute(WalkRoute clone) : base(clone)
+                private protected override void DeepCopyTo(Event evnt)
                 {
-                    UnkT00 = clone.UnkT00;
-                    WalkPointNames = (string[])clone.WalkPointNames.Clone();
+                    var walkRoute = (PatrolInfo)evnt;
+                    walkRoute.WalkPointNames = (string[])WalkPointNames.Clone();
                 }
 
-                internal WalkRoute(BinaryReaderEx br) : base(br) { }
+                internal PatrolInfo(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     UnkT00 = br.AssertInt32(0, 1, 2, 5);
                     br.AssertInt32(0);
@@ -943,7 +864,7 @@ namespace SoulsFormats
                     WalkPointIndices = br.ReadInt16s(32);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(UnkT00);
                     bw.WriteInt32(0);
@@ -972,44 +893,43 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public class GroupTour : Event
+            public class PlatoonInfo : Event
             {
-                internal override EventType Type => EventType.GroupTour;
+                private protected override EventType Type => EventType.PlatoonInfo;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
                 public int PlatoonIDScriptActivate { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public int State { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartsNames { get; private set; }
                 private int[] GroupPartsIndices;
 
                 /// <summary>
-                /// Creates a new GroupTour with the given name.
+                /// Creates a GroupTour with default values.
                 /// </summary>
-                public GroupTour(string name) : base(name)
+                public PlatoonInfo() : base($"{nameof(Event)}: {nameof(PlatoonInfo)}")
                 {
                     GroupPartsNames = new string[32];
                 }
 
-                /// <summary>
-                /// Creates a new GroupTour with values copied from another.
-                /// </summary>
-                public GroupTour(GroupTour clone) : base(clone)
+                private protected override void DeepCopyTo(Event evnt)
                 {
-                    PlatoonIDScriptActivate = clone.PlatoonIDScriptActivate;
-                    State = clone.State;
-                    GroupPartsNames = (string[])clone.GroupPartsNames.Clone();
+                    var groupTour = (PlatoonInfo)evnt;
+                    groupTour.GroupPartsNames = (string[])GroupPartsNames.Clone();
                 }
 
-                internal GroupTour(BinaryReaderEx br) : base(br) { }
+                internal PlatoonInfo(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     PlatoonIDScriptActivate = br.ReadInt32();
                     State = br.ReadInt32();
@@ -1018,7 +938,7 @@ namespace SoulsFormats
                     GroupPartsIndices = br.ReadInt32s(32);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(PlatoonIDScriptActivate);
                     bw.WriteInt32(State);
@@ -1045,54 +965,37 @@ namespace SoulsFormats
             /// </summary>
             public class Other : Event
             {
-                internal override EventType Type => EventType.Other;
+                private protected override EventType Type => EventType.Other;
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; possibly a sound type.
                 /// </summary>
-                public int SoundTypeMaybe { get; set; }
+                public int UnkT00 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; possibly a sound ID.
                 /// </summary>
-                public int SoundIDMaybe { get; set; }
+                public int UnkT04 { get; set; }
 
                 /// <summary>
-                /// Creates a new Other with the given name.
+                /// Creates an Other with default values.
                 /// </summary>
-                public Other(string name) : base(name)
-                {
-                    SoundTypeMaybe = 0;
-                    SoundIDMaybe = 0;
-                }
-
-                /// <summary>
-                /// Creates a new Other with values copied from another.
-                /// </summary>
-                public Other(Other clone) : base(clone)
-                {
-                    SoundTypeMaybe = clone.SoundTypeMaybe;
-                    SoundIDMaybe = clone.SoundIDMaybe;
-                }
+                public Other() : base($"{nameof(Event)}: {nameof(Other)}") { }
 
                 internal Other(BinaryReaderEx br) : base(br) { }
 
-                internal override void Read(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    SoundTypeMaybe = br.ReadInt32();
-                    SoundIDMaybe = br.ReadInt32();
-
-                    for (int i = 0; i < 16; i++)
-                        br.AssertInt32(-1);
+                    UnkT00 = br.ReadInt32();
+                    UnkT04 = br.ReadInt32();
+                    br.AssertPattern(0x40, 0xFF);
                 }
 
-                internal override void WriteSpecific(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(SoundTypeMaybe);
-                    bw.WriteInt32(SoundIDMaybe);
-
-                    for (int i = 0; i < 16; i++)
-                        bw.WriteInt32(-1);
+                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(UnkT04);
+                    bw.WritePattern(0x40, 0xFF);
                 }
             }
         }

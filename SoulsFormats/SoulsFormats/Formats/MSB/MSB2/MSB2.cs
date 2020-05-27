@@ -10,6 +10,32 @@ namespace SoulsFormats
     public partial class MSB2 : SoulsFile<MSB2>, IMsb
     {
         /// <summary>
+        /// The different formats of DS2 MSBs.
+        /// </summary>
+        public enum MSBFormat
+        {
+            /// <summary>
+            /// 32-bit little-endian format for original DS2 on PC.
+            /// </summary>
+            DarkSouls2LE,
+
+            /// <summary>
+            /// 32-bit big-endian format for original DS2 on consoles.
+            /// </summary>
+            DarkSouls2BE,
+
+            /// <summary>
+            /// 64-bit format for SotFS on all platforms.
+            /// </summary>
+            DarkSouls2Scholar,
+        }
+
+        /// <summary>
+        /// The format to use when writing.
+        /// </summary>
+        public MSBFormat Format { get; set; }
+
+        /// <summary>
         /// Model files available for parts to use.
         /// </summary>
         public ModelParam Models { get; set; }
@@ -39,10 +65,11 @@ namespace SoulsFormats
         public List<PartPose> PartPoses { get; set; }
 
         /// <summary>
-        /// Creates an empty MSB2.
+        /// Creates an empty MSB2 for SotFS.
         /// </summary>
         public MSB2()
         {
+            Format = MSBFormat.DarkSouls2Scholar;
             Models = new ModelParam();
             Events = new EventParam();
             Regions = new PointParam();
@@ -70,13 +97,22 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.BigEndian = false;
-            br.AssertASCII("MSB ");
-            br.AssertInt32(1);
-            br.AssertInt32(0x10);
-            br.AssertBoolean(false); // isBigEndian
-            br.AssertBoolean(false); // isBitBigEndian
-            br.AssertByte(1); // textEncoding
-            br.AssertSByte(-1); // is64BitOffset
+            br.VarintLong = false;
+            if (br.GetASCII(0, 4) == "MSB ")
+            {
+                Format = MSBFormat.DarkSouls2Scholar;
+                br.VarintLong = true;
+                MSB.AssertHeader(br);
+            }
+            else if (br.GetUInt32(0) == 5)
+            {
+                Format = MSBFormat.DarkSouls2LE;
+            }
+            else
+            {
+                Format = MSBFormat.DarkSouls2BE;
+                br.BigEndian = true;
+            }
 
             Entries entries;
             Models = new ModelParam();
@@ -123,37 +159,32 @@ namespace SoulsFormats
             lookups.Collisions = MakeNameLookup(Parts.Collisions);
             lookups.BoneNames = new Dictionary<string, int>();
 
-            Models.DiscriminateModels();
             foreach (Part part in entries.Parts)
                 part.GetIndices(lookups);
             foreach (PartPose pose in PartPoses)
                 pose.GetIndices(lookups, entries);
 
-            bw.BigEndian = false;
-            bw.WriteASCII("MSB ");
-            bw.WriteInt32(1);
-            bw.WriteInt32(0x10);
-            bw.WriteBoolean(false);
-            bw.WriteBoolean(false);
-            bw.WriteByte(1);
-            bw.WriteByte(0xFF);
+            bw.BigEndian = Format == MSBFormat.DarkSouls2BE;
+            bw.VarintLong = Format == MSBFormat.DarkSouls2Scholar;
+            if (Format == MSBFormat.DarkSouls2Scholar)
+                MSB.WriteHeader(bw);
 
             Models.Write(bw, entries.Models);
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             Events.Write(bw, entries.Events);
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             Regions.Write(bw, entries.Regions);
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             new RouteParam().Write(bw, new List<Entry>());
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             new LayerParam().Write(bw, new List<Entry>());
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             Parts.Write(bw, entries.Parts);
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             new MapstudioPartsPose().Write(bw, PartPoses);
-            bw.FillInt64("NextParamOffset", bw.Position);
+            bw.FillVarint("NextParamOffset", bw.Position);
             new MapstudioBoneName().Write(bw, entries.BoneNames);
-            bw.FillInt64("NextParamOffset", 0);
+            bw.FillVarint("NextParamOffset", 0);
         }
 
         internal struct Entries
@@ -203,10 +234,22 @@ namespace SoulsFormats
             internal List<T> Read(BinaryReaderEx br)
             {
                 br.AssertInt32(Version);
-                int offsetCount = br.ReadInt32();
-                long nameOffset = br.ReadInt64();
-                long[] entryOffsets = br.ReadInt64s(offsetCount - 1);
-                long nextParamOffset = br.ReadInt64();
+
+                int offsetCount;
+                long nameOffset;
+                if (br.VarintLong)
+                {
+                    offsetCount = br.ReadInt32();
+                    nameOffset = br.ReadInt64();
+                }
+                else
+                {
+                    nameOffset = br.ReadInt32();
+                    offsetCount = br.ReadInt32();
+                }
+
+                long[] entryOffsets = br.ReadVarints(offsetCount - 1);
+                long nextParamOffset = br.ReadVarint();
 
                 string name = br.GetUTF16(nameOffset);
                 if (name != Name)
@@ -227,15 +270,25 @@ namespace SoulsFormats
             internal virtual void Write(BinaryWriterEx bw, List<T> entries)
             {
                 bw.WriteInt32(Version);
-                bw.WriteInt32(entries.Count + 1);
-                bw.ReserveInt64("ParamNameOffset");
-                for (int i = 0; i < entries.Count; i++)
-                    bw.ReserveInt64($"EntryOffset{i}");
-                bw.ReserveInt64("NextParamOffset");
 
-                bw.FillInt64("ParamNameOffset", bw.Position);
+                if (bw.VarintLong)
+                {
+                    bw.WriteInt32(entries.Count + 1);
+                    bw.ReserveVarint("ParamNameOffset");
+                }
+                else
+                {
+                    bw.ReserveVarint("ParamNameOffset");
+                    bw.WriteInt32(entries.Count + 1);
+                }
+
+                for (int i = 0; i < entries.Count; i++)
+                    bw.ReserveVarint($"EntryOffset{i}");
+                bw.ReserveVarint("NextParamOffset");
+
+                bw.FillVarint("ParamNameOffset", bw.Position);
                 bw.WriteUTF16(Name, true);
-                bw.Pad(8);
+                bw.Pad(bw.VarintSize);
 
                 int index = 0;
                 Type type = null;
@@ -247,9 +300,9 @@ namespace SoulsFormats
                         index = 0;
                     }
 
-                    bw.FillInt64($"EntryOffset{i}", bw.Position);
+                    bw.FillVarint($"EntryOffset{i}", bw.Position);
                     entries[i].Write(bw, index);
-                    bw.Pad(8);
+                    bw.Pad(bw.VarintSize);
                     index++;
                 }
             }

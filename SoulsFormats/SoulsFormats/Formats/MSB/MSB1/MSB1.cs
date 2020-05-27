@@ -10,6 +10,11 @@ namespace SoulsFormats
     public partial class MSB1 : SoulsFile<MSB1>, IMsb
     {
         /// <summary>
+        /// True for PS3/X360, false for PC.
+        /// </summary>
+        public bool BigEndian { get; set; }
+
+        /// <summary>
         /// Model files that are available for parts to use.
         /// </summary>
         public ModelParam Models { get; set; }
@@ -58,6 +63,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.BigEndian = false;
+            br.BigEndian = BigEndian = br.GetUInt32(4) > 0xFFFF;
 
             Entries entries;
             Models = new ModelParam();
@@ -93,7 +99,6 @@ namespace SoulsFormats
             entries.Regions = Regions.GetEntries();
             entries.Parts = Parts.GetEntries();
 
-            Models.DiscriminateModels();
             foreach (Model model in entries.Models)
                 model.CountInstances(entries.Parts);
             foreach (Event evt in entries.Events)
@@ -101,7 +106,7 @@ namespace SoulsFormats
             foreach (Part part in entries.Parts)
                 part.GetIndices(this, entries);
 
-            bw.BigEndian = false;
+            bw.BigEndian = BigEndian;
 
             Models.Write(bw, entries.Models);
             bw.FillInt32("NextParamOffset", (int)bw.Position);
@@ -198,7 +203,6 @@ namespace SoulsFormats
             /// <summary>
             /// The name of this entry.
             /// </summary>
-            [Order(0)]
             public string Name { get; set; }
 
             internal abstract void Write(BinaryWriterEx bw, int id);

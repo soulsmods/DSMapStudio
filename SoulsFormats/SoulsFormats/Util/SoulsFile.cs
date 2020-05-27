@@ -6,12 +6,12 @@ namespace SoulsFormats
     /// <summary>
     /// A generic From file supporting transparent DCX reading and writing.
     /// </summary>
-    public abstract class SoulsFile<TFormat> where TFormat : SoulsFile<TFormat>, new()
+    public abstract class SoulsFile<TFormat> : ISoulsFile where TFormat : SoulsFile<TFormat>, new()
     {
         /// <summary>
         /// The type of DCX compression to be used when writing.
         /// </summary>
-        public DCX.Type Compression = DCX.Type.None;
+        public DCX.Type Compression { get; set; } = DCX.Type.None;
 
         /// <summary>
         /// Returns true if the data appears to be a file of this type.
@@ -66,7 +66,8 @@ namespace SoulsFormats
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             TFormat file = new TFormat();
-            br = SFUtil.GetDecompressedBR(br, out file.Compression);
+            br = SFUtil.GetDecompressedBR(br, out DCX.Type compression);
+            file.Compression = compression;
             file.Read(br);
             return file;
         }
@@ -80,9 +81,50 @@ namespace SoulsFormats
             {
                 BinaryReaderEx br = new BinaryReaderEx(false, stream);
                 TFormat file = new TFormat();
-                br = SFUtil.GetDecompressedBR(br, out file.Compression);
+                br = SFUtil.GetDecompressedBR(br, out DCX.Type compression);
+                file.Compression = compression;
                 file.Read(br);
                 return file;
+            }
+        }
+
+        private static bool IsRead(BinaryReaderEx br, out TFormat file)
+        {
+            var test = new TFormat();
+            br = SFUtil.GetDecompressedBR(br, out DCX.Type compression);
+            if (test.Is(br))
+            {
+                br.Position = 0;
+                test.Compression = compression;
+                test.Read(br);
+                file = test;
+                return true;
+            }
+            else
+            {
+                file = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the bytes appear to be a file of this type and reads it if so.
+        /// </summary>
+        public static bool IsRead(byte[] bytes, out TFormat file)
+        {
+            var br = new BinaryReaderEx(false, bytes);
+            return IsRead(br, out file);
+        }
+
+        /// <summary>
+        /// Returns whether the file appears to be a file of this type and reads it if so.
+        /// </summary>
+        public static bool IsRead(string path, out TFormat file)
+        {
+            using (FileStream fs = File.OpenRead(path))
+            {
+                var br = new BinaryReaderEx(false, fs);
+                return IsRead(br, out file);
             }
         }
 

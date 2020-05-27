@@ -604,7 +604,20 @@ namespace StudioCore.Resource
                 }
                 else if (path.ToUpper().EndsWith(".TPF") || path.ToUpper().EndsWith(".TPF.DCX"))
                 {
-                    var ttask = new LoadTPFResourcesTask("tex", TPF.Read(path), al, Locator.Type);
+                    string virt = virtualPath;
+                    if (virt.StartsWith($@"map/tex"))
+                    {
+                        var regex = new Regex(@"\d{4}$");
+                        if (regex.IsMatch(virt))
+                        {
+                            virt = virt.Substring(0, virt.Length - 5);
+                        }
+                        else if (virt.EndsWith("tex"))
+                        {
+                            virt = virt.Substring(0, virt.Length - 4);
+                        }
+                    }
+                    var ttask = new LoadTPFResourcesTask(virt, TPF.Read(path), al, Locator.Type);
                     Tasks.Add(ttask);
                     return;
                 }

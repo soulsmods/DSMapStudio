@@ -1,62 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SoulsFormats
 {
     public partial class MSBB
     {
-        /// <summary>
-        /// A section containing all the models available to parts in this map.
-        /// </summary>
-        public class ModelParam : Section<Model>, IMsbParam<IMsbModel>
+        internal enum ModelType : uint
         {
-            internal override string Type => "MODEL_PARAM_ST";
+            MapPiece = 0,
+            Object = 1,
+            Enemy = 2,
+            Item = 3,
+            Player = 4,
+            Collision = 5,
+            Navmesh = 6,
+            Other = 0xFFFFFFFF,
+        }
+
+        /// <summary>
+        /// Model files that are available for parts to use.
+        /// </summary>
+        public class ModelParam : Param<Model>, IMsbParam<IMsbModel>
+        {
+            internal override int Version => 3;
+            internal override string Name => "MODEL_PARAM_ST";
 
             /// <summary>
-            /// Map piece models in this section.
+            /// Models for fixed terrain and scenery.
             /// </summary>
-            public List<Model.MapPiece> MapPieces;
+            public List<Model.MapPiece> MapPieces { get; set; }
 
             /// <summary>
-            /// Object models in this section.
+            /// Models for dynamic props.
             /// </summary>
-            public List<Model.Object> Objects;
+            public List<Model.Object> Objects { get; set; }
 
             /// <summary>
-            /// Enemy models in this section.
+            /// Models for non-player entities.
             /// </summary>
-            public List<Model.Enemy> Enemies;
+            public List<Model.Enemy> Enemies { get; set; }
 
             /// <summary>
-            /// Item models in this section.
+            /// Rarely used and most likely a mistake.
             /// </summary>
-            public List<Model.Item> Items;
+            public List<Model.Item> Items { get; set; }
 
             /// <summary>
-            /// Player models in this section.
+            /// Models for player spawn points, I think.
             /// </summary>
-            public List<Model.Player> Players;
+            public List<Model.Player> Players { get; set; }
 
             /// <summary>
-            /// Collision models in this section.
+            /// Models for physics collision.
             /// </summary>
-            public List<Model.Collision> Collisions;
+            public List<Model.Collision> Collisions { get; set; }
 
             /// <summary>
-            /// Navmesh models in this section.
+            /// Models for AI navigation.
             /// </summary>
-            public List<Model.Navmesh> Navmeshes;
+            public List<Model.Navmesh> Navmeshes { get; set; }
 
             /// <summary>
-            /// Other models in this section.
+            /// Unknown.
             /// </summary>
-            public List<Model.Other> Others;
+            public List<Model.Other> Others { get; set; }
 
             /// <summary>
-            /// Creates a new ModelSection with no models.
+            /// Creates an empty ModelParam.
             /// </summary>
-            public ModelParam(int unk1 = 3) : base(unk1)
+            public ModelParam() : base()
             {
                 MapPieces = new List<Model.MapPiece>();
                 Objects = new List<Model.Object>();
@@ -68,186 +82,150 @@ namespace SoulsFormats
                 Others = new List<Model.Other>();
             }
 
+            internal override Model ReadEntry(BinaryReaderEx br)
+            {
+                ModelType type = br.GetEnum32<ModelType>(br.Position + 8);
+                switch (type)
+                {
+                    case ModelType.MapPiece:
+                        return MapPieces.EchoAdd(new Model.MapPiece(br));
+
+                    case ModelType.Object:
+                        return Objects.EchoAdd(new Model.Object(br));
+
+                    case ModelType.Enemy:
+                        return Enemies.EchoAdd(new Model.Enemy(br));
+
+                    case ModelType.Item:
+                        return Items.EchoAdd(new Model.Item(br));
+
+                    case ModelType.Player:
+                        return Players.EchoAdd(new Model.Player(br));
+
+                    case ModelType.Collision:
+                        return Collisions.EchoAdd(new Model.Collision(br));
+
+                    case ModelType.Navmesh:
+                        return Navmeshes.EchoAdd(new Model.Navmesh(br));
+
+                    case ModelType.Other:
+                        return Others.EchoAdd(new Model.Other(br));
+
+                    default:
+                        throw new NotImplementedException($"Unimplemented model type: {type}");
+                }
+            }
+
             /// <summary>
-            /// Returns every model in the order they will be written.
+            /// Adds a model to the appropriate list for its type; returns the model.
+            /// </summary>
+            public Model Add(Model model)
+            {
+                switch (model)
+                {
+                    case Model.MapPiece m: MapPieces.Add(m); break;
+                    case Model.Object m: Objects.Add(m); break;
+                    case Model.Enemy m: Enemies.Add(m); break;
+                    case Model.Item m: Items.Add(m); break;
+                    case Model.Player m: Players.Add(m); break;
+                    case Model.Collision m: Collisions.Add(m); break;
+                    case Model.Navmesh m: Navmeshes.Add(m); break;
+                    case Model.Other m: Others.Add(m); break;
+
+                    default:
+                        throw new ArgumentException($"Unrecognized type {model.GetType()}.", nameof(model));
+                }
+                return model;
+            }
+            IMsbModel IMsbParam<IMsbModel>.Add(IMsbModel item) => Add((Model)item);
+
+            /// <summary>
+            /// Returns every Model in the order they will be written.
             /// </summary>
             public override List<Model> GetEntries()
             {
                 return SFUtil.ConcatAll<Model>(
-                    MapPieces, Objects, Enemies, Items, Players, Collisions, Navmeshes, Others);
+                    MapPieces, Objects, Enemies, Items, Players,
+                    Collisions, Navmeshes, Others);
             }
-
-            internal override Model ReadEntry(BinaryReaderEx br)
-            {
-                ModelType type = br.GetEnum32<ModelType>(br.Position + 8);
-
-                switch (type)
-                {
-                    case ModelType.MapPiece:
-                        var mapPiece = new Model.MapPiece(br);
-                        MapPieces.Add(mapPiece);
-                        return mapPiece;
-
-                    case ModelType.Object:
-                        var obj = new Model.Object(br);
-                        Objects.Add(obj);
-                        return obj;
-
-                    case ModelType.Enemy:
-                        var enemy = new Model.Enemy(br);
-                        Enemies.Add(enemy);
-                        return enemy;
-
-                    // Potential from mistake in m36 :trashcat:
-                    case ModelType.Item:
-                        var item = new Model.Item(br);
-                        Items.Add(item);
-                        return item;
-
-                    case ModelType.Player:
-                        var player = new Model.Player(br);
-                        Players.Add(player);
-                        return player;
-
-                    case ModelType.Collision:
-                        var collision = new Model.Collision(br);
-                        Collisions.Add(collision);
-                        return collision;
-
-                    case ModelType.Navmesh:
-                        var navmesh = new Model.Navmesh(br);
-                        Navmeshes.Add(navmesh);
-                        return navmesh;
-
-                    case ModelType.Other:
-                        var other = new Model.Other(br);
-                        Others.Add(other);
-                        return other;
-
-                    default:
-                        throw new NotImplementedException($"Unsupported model type: {type}");
-                }
-            }
-
-            internal override void WriteEntry(BinaryWriterEx bw, int id, Model entry)
-            {
-                entry.Write(bw, id);
-            }
-
             IReadOnlyList<IMsbModel> IMsbParam<IMsbModel>.GetEntries() => GetEntries();
-
-            public void Add(IMsbModel item)
-            {
-                switch (item)
-                {
-                    case Model.MapPiece m:
-                        MapPieces.Add(m);
-                        break;
-                    case Model.Object m:
-                        Objects.Add(m);
-                        break;
-                    case Model.Enemy m:
-                        Enemies.Add(m);
-                        break;
-                    case Model.Player m:
-                        Players.Add(m);
-                        break;
-                    case Model.Collision m:
-                        Collisions.Add(m);
-                        break;
-                    case Model.Navmesh m:
-                        Navmeshes.Add(m);
-                        break;
-                    case Model.Other m:
-                        Others.Add(m);
-                        break;
-                    default:
-                        throw new ArgumentException(
-                            message: "Item is not recognized",
-                            paramName: nameof(item));
-                }
-            }
-        }
-
-        internal enum ModelType : uint
-        {
-            MapPiece = 0,
-            Object = 1,
-            Enemy = 2,
-            Item = 3,
-            Player = 4,
-            Collision = 5,
-            Navmesh = 6,
-            DummyObject = 7,
-            DummyEnemy = 8,
-            Other = 0xFFFFFFFF
         }
 
         /// <summary>
-        /// A model available for use by parts in this map.
+        /// A model file available for parts to reference.
         /// </summary>
         public abstract class Model : Entry, IMsbModel
         {
-            internal abstract ModelType Type { get; }
+            private protected abstract ModelType Type { get; }
 
             /// <summary>
-            /// The name of this model.
+            /// The name of the model.
             /// </summary>
-            public override string Name { get; set; }
+            public string Name { get; set; }
 
             /// <summary>
-            /// The placeholder used for this model in MapStudio.
+            /// A path to a .sib file, presumed to be some kind of editor placeholder.
             /// </summary>
-            public string Placeholder { get; set; }
+            public string SibPath { get; set; }
 
             private int InstanceCount;
 
-            internal Model(string name)
+            private protected Model(string name)
             {
                 Name = name;
-                Placeholder = "";
+                SibPath = "";
             }
 
-            internal Model(Model clone)
+            /// <summary>
+            /// Creates a deep copy of the model.
+            /// </summary>
+            public Model DeepCopy()
             {
-                Name = clone.Name;
-                Placeholder = clone.Placeholder;
+                return (Model)MemberwiseClone();
             }
+            IMsbModel IMsbModel.DeepCopy() => DeepCopy();
 
-            internal Model(BinaryReaderEx br)
+            private protected Model(BinaryReaderEx br)
             {
                 long start = br.Position;
-
                 long nameOffset = br.ReadInt64();
                 br.AssertUInt32((uint)Type);
                 br.ReadInt32(); // ID
-                long placeholderOffset = br.ReadInt64();
+                long sibOffset = br.ReadInt64();
                 InstanceCount = br.ReadInt32();
                 br.AssertInt32(0);
                 br.AssertInt32(0);
                 br.AssertInt32(0);
 
-                Name = br.GetUTF16(start + nameOffset);
-                Placeholder = br.GetUTF16(start + placeholderOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+                if (sibOffset == 0)
+                    throw new InvalidDataException($"{nameof(sibOffset)} must not be 0 in type {GetType()}.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
+
+                br.Position = start + sibOffset;
+                SibPath = br.ReadUTF16();
             }
 
-            internal void Write(BinaryWriterEx bw, int id)
+            internal override void Write(BinaryWriterEx bw, int id)
             {
                 long start = bw.Position;
-
                 bw.ReserveInt64("NameOffset");
                 bw.WriteUInt32((uint)Type);
                 bw.WriteInt32(id);
-                bw.ReserveInt64("PlaceholderOffset");
+                bw.ReserveInt64("SibOffset");
                 bw.WriteInt32(InstanceCount);
                 bw.WriteInt32(0);
                 bw.WriteInt32(0);
                 bw.WriteInt32(0);
 
                 bw.FillInt64("NameOffset", bw.Position - start);
-                bw.WriteUTF16(ReambiguateName(Name), true);
-                bw.FillInt64("PlaceholderOffset", bw.Position - start);
-                bw.WriteUTF16(Placeholder, true);
+                bw.WriteUTF16(MSB.ReambiguateName(Name), true);
+
+                bw.FillInt64("SibOffset", bw.Position - start);
+                bw.WriteUTF16(SibPath, true);
                 bw.Pad(8);
             }
 
@@ -257,157 +235,114 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Returns the model type, ID and name of this model.
+            /// Returns a string representation of the model.
             /// </summary>
             public override string ToString()
             {
-                return $"{Type} : {Name}";
+                return $"{Name}";
             }
 
             /// <summary>
-            /// A fixed part of the level geometry.
+            /// A model for a static piece of visual map geometry.
             /// </summary>
             public class MapPiece : Model
             {
-                internal override ModelType Type => ModelType.MapPiece;
+                private protected override ModelType Type => ModelType.MapPiece;
 
                 /// <summary>
-                /// Creates a new MapPiece with the given ID and name.
+                /// Creates a MapPiece with default values.
                 /// </summary>
-                public MapPiece(string name) : base(name)
-                {
-                }
-
-                /// <summary>
-                /// Creates a new MapPiece with values copied from another.
-                /// </summary>
-                public MapPiece(MapPiece clone) : base(clone)
-                {
-                }
+                public MapPiece() : base("mXXXXXX") { }
 
                 internal MapPiece(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
-            /// A dynamic or interactible entity.
+            /// A model for a dynamic or interactible part.
             /// </summary>
             public class Object : Model
             {
-                internal override ModelType Type => ModelType.Object;
+                private protected override ModelType Type => ModelType.Object;
 
                 /// <summary>
-                /// Creates a new Object with the given ID and name.
+                /// Creates an Object with default values.
                 /// </summary>
-                public Object(string name) : base(name)
-                {
-                }
-
-                /// <summary>
-                /// Creates a new Object with values copied from another.
-                /// </summary>
-                public Object(Object clone) : base(clone)
-                {
-                }
+                public Object() : base("oXXXXXX") { }
 
                 internal Object(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
-            /// Any character in the map that is not the player.
+            /// A model for any non-player character.
             /// </summary>
             public class Enemy : Model
             {
-                internal override ModelType Type => ModelType.Enemy;
+                private protected override ModelType Type => ModelType.Enemy;
 
                 /// <summary>
-                /// Creates a new Enemy with the given ID and name.
+                /// Creates an Enemy with default values.
                 /// </summary>
-                public Enemy(string name) : base(name) { }
-
-                /// <summary>
-                /// Creates a new Enemy with values copied from another.
-                /// </summary>
-                public Enemy(Enemy clone) : base(clone) { }
+                public Enemy() : base("cXXXX") { }
 
                 internal Enemy(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
-            /// This only exists because one BB map seems to use this by accident :trashcat:
+            /// The use of this model type in BB is most likely a mistake.
             /// </summary>
             public class Item : Model
             {
-                internal override ModelType Type => ModelType.Item;
+                private protected override ModelType Type => ModelType.Item;
 
                 /// <summary>
-                /// Creates a new Item with the given ID and name.
+                /// Creates an Item with default values.
                 /// </summary>
-                public Item(string name) : base(name) { }
-
-                /// <summary>
-                /// Creates a new Item with values copied from another.
-                /// </summary>
-                public Item(Item clone) : base(clone) { }
+                public Item() : base("cXXXX") { }
 
                 internal Item(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
-            /// The player character.
+            /// A model for a player spawn point.
             /// </summary>
             public class Player : Model
             {
-                internal override ModelType Type => ModelType.Player;
+                private protected override ModelType Type => ModelType.Player;
 
                 /// <summary>
-                /// Creates a new Player with the given ID and name.
+                /// Creates a Player with default values.
                 /// </summary>
-                public Player(string name) : base(name) { }
-
-                /// <summary>
-                /// Creates a new Player with values copied from another.
-                /// </summary>
-                public Player(Player clone) : base(clone) { }
+                public Player() : base("c0000") { }
 
                 internal Player(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
-            /// The invisible physical surface of the map.
+            /// A model for a static piece of physical map geometry.
             /// </summary>
             public class Collision : Model
             {
-                internal override ModelType Type => ModelType.Collision;
+                private protected override ModelType Type => ModelType.Collision;
 
                 /// <summary>
-                /// Creates a new Collision with the given ID and name.
+                /// Creates a Collision with default values.
                 /// </summary>
-                public Collision(string name) : base(name) { }
-
-                /// <summary>
-                /// Creates a new Collision with values copied from another.
-                /// </summary>
-                public Collision(Collision clone) : base(clone) { }
+                public Collision() : base("hXXXXxX") { }
 
                 internal Collision(BinaryReaderEx br) : base(br) { }
             }
 
             /// <summary>
-            /// Navimesh
+            /// A model for an AI navigation mesh.
             /// </summary>
             public class Navmesh : Model
             {
-                internal override ModelType Type => ModelType.Navmesh;
+                private protected override ModelType Type => ModelType.Navmesh;
 
                 /// <summary>
-                /// Creates a new Navmesh with the given ID and name.
+                /// Creates a Navmesh with default values.
                 /// </summary>
-                public Navmesh(string name) : base(name) { }
-
-                /// <summary>
-                /// Creates a new Navmesh with values copied from another.
-                /// </summary>
-                public Navmesh(Navmesh clone) : base(clone) { }
+                public Navmesh() : base("nXXXXBX") { }
 
                 internal Navmesh(BinaryReaderEx br) : base(br) { }
             }
@@ -417,17 +352,13 @@ namespace SoulsFormats
             /// </summary>
             public class Other : Model
             {
-                internal override ModelType Type => ModelType.Other;
+                private protected override ModelType Type => ModelType.Other;
 
                 /// <summary>
-                /// Creates a new Other with the given ID and name.
+                /// Creates an Other with default values.
                 /// </summary>
-                public Other(string name) : base(name) { }
-
-                /// <summary>
-                /// Creates a new Other with values copied from another.
-                /// </summary>
-                public Other(Other clone) : base(clone) { }
+                // TODO verify this
+                public Other() : base("lXXXXXX") { }
 
                 internal Other(BinaryReaderEx br) : base(br) { }
             }

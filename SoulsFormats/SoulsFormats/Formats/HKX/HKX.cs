@@ -116,7 +116,9 @@ namespace SoulsFormats
                 HKX file = new HKX();
                 file.Variation = variation;
                 file.DeserializeObjects = deserializeObjects;
-                br = SFUtil.GetDecompressedBR(br, out file.Compression);
+                DCX.Type ctype;
+                br = SFUtil.GetDecompressedBR(br, out ctype);
+                file.Compression = ctype;
                 file.Read(br);
                 return file;
             }
@@ -128,7 +130,9 @@ namespace SoulsFormats
             HKX file = new HKX();
             file.Variation = variation;
             file.DeserializeObjects = deserializeObjects;
-            br = SFUtil.GetDecompressedBR(br, out file.Compression);
+            DCX.Type ctype;
+            br = SFUtil.GetDecompressedBR(br, out ctype);
+            file.Compression = ctype;
             file.Read(br);
             return file;
         }

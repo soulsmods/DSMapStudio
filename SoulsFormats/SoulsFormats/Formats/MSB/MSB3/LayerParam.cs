@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace SoulsFormats
 {
@@ -7,19 +8,20 @@ namespace SoulsFormats
         /// <summary>
         /// A section containing layers, which probably don't actually do anything.
         /// </summary>
-        public class LayerParam : Param<Layer>
+        private class LayerParam : Param<Layer>
         {
+            internal override int Version => 3;
             internal override string Type => "LAYER_PARAM_ST";
 
             /// <summary>
             /// The layers in this section.
             /// </summary>
-            public List<Layer> Layers;
+            public List<Layer> Layers { get; set; }
 
             /// <summary>
             /// Creates a new LayerParam with no layers.
             /// </summary>
-            public LayerParam(int unk1 = 3) : base(unk1)
+            public LayerParam()
             {
                 Layers = new List<Layer>();
             }
@@ -34,43 +36,49 @@ namespace SoulsFormats
 
             internal override Layer ReadEntry(BinaryReaderEx br)
             {
-                var layer = new Layer(br);
-                Layers.Add(layer);
-                return layer;
-            }
-
-            internal override void WriteEntry(BinaryWriterEx bw, int index, Layer entry)
-            {
-                entry.Write(bw);
+                return Layers.EchoAdd(new Layer(br));
             }
         }
 
         /// <summary>
         /// Unknown; seems to have been related to ceremonies but probably unused in release.
         /// </summary>
-        public class Layer
+        public class Layer : NamedEntry
         {
             /// <summary>
             /// The name of this layer.
             /// </summary>
-            public string Name;
+            public override string Name { get; set; }
 
             /// <summary>
             /// Unknown; usually just counts up from 0.
             /// </summary>
-            public int Unk08, Unk0C;
+            public int Unk08 { get; set; }
+
+            /// <summary>
+            /// Unknown; usually just counts up from 0.
+            /// </summary>
+            public int Unk0C { get; set; }
 
             /// <summary>
             /// Unknown; seems to always be 0.
             /// </summary>
-            public int Unk10;
+            public int Unk10 { get; set; }
 
             /// <summary>
-            /// Creates a new Layer with default values.
+            /// Creates a Layer with default values.
             /// </summary>
             public Layer()
             {
-                Name = "";
+                Name = "Layer";
+            }
+
+            /// <summary>
+            /// Creates a deep copy of the layer.
+            /// </summary>
+            public Layer DeepCopy()
+            {
+                return (Layer)MemberwiseClone();
             }
 
             internal Layer(BinaryReaderEx br)
@@ -82,10 +90,14 @@ namespace SoulsFormats
                 Unk0C = br.ReadInt32();
                 Unk10 = br.ReadInt32();
 
-                Name = br.GetUTF16(start + nameOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
             }
 
-            internal void Write(BinaryWriterEx bw)
+            internal override void Write(BinaryWriterEx bw, int id)
             {
                 long start = bw.Position;
 

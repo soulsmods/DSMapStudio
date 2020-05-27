@@ -592,6 +592,10 @@ namespace StudioCore
             {
                 return $@"{modelname}A{mapid.Substring(1, 2)}";
             }
+            else if (Type == GameType.DemonsSouls)
+            {
+                return $@"{modelname}";
+            }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
                 return modelname;
@@ -602,7 +606,7 @@ namespace StudioCore
         public AssetDescription GetMapModel(string mapid, string model)
         {
             var ret = new AssetDescription();
-            if (Type == GameType.DarkSoulsPTDE || Type == GameType.Bloodborne)
+            if (Type == GameType.DarkSoulsPTDE || Type == GameType.Bloodborne || Type == GameType.DemonsSouls)
             {
                 ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.flver";
             }
@@ -622,7 +626,7 @@ namespace StudioCore
             }
             else
             {
-                if (Type != GameType.DarkSoulsPTDE && Type != GameType.Bloodborne)
+                if (Type != GameType.DarkSoulsPTDE && Type != GameType.Bloodborne && Type != GameType.DemonsSouls)
                 {
                     ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
                 }
@@ -634,7 +638,7 @@ namespace StudioCore
         public AssetDescription GetMapCollisionModel(string mapid, string model, bool hi=true)
         {
             var ret = new AssetDescription();
-            if (Type == GameType.DarkSoulsPTDE)
+            if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
             {
                 if (hi)
                 {
@@ -694,6 +698,19 @@ namespace StudioCore
             else if (Type == GameType.DarkSoulsPTDE)
             {
                 //TODO
+            }
+            else if (Type == GameType.DemonsSouls)
+            {
+                var mid = mapid.Substring(0, 3);
+                var paths = Directory.GetFileSystemEntries($@"{GameRootDirectory}\map\{mid}\", "*.tpf.dcx");
+                foreach (var path in paths)
+                {
+                    var ad = new AssetDescription();
+                    ad.AssetPath = path;
+                    var tid = Path.GetFileNameWithoutExtension(path).Substring(4, 4);
+                    ad.AssetVirtualPath = $@"map/tex/{mid}/{tid}";
+                    ads.Add(ad);
+                }
             }
             else
             {
@@ -776,7 +793,7 @@ namespace StudioCore
         public AssetDescription GetMapNVMModel(string mapid, string model)
         {
             var ret = new AssetDescription();
-            if (Type == GameType.DarkSoulsPTDE)
+            if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
             {
                 ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.nvm";
                 ret.AssetName = model;
@@ -805,6 +822,20 @@ namespace StudioCore
             {
                 modelDir = $@"\model\chr";
                 modelExt = ".bnd";
+            }
+
+            if (Type == GameType.DemonsSouls)
+            {
+                var chrdirs = Directory.GetDirectories(GameRootDirectory + modelDir);
+                foreach (var f in chrdirs)
+                {
+                    var name = Path.GetFileNameWithoutExtension(f + ".dummy");
+                    if (name.StartsWith("c"))
+                    {
+                        ret.Add(name);
+                    }
+                }
+                return ret;
             }
 
             var chrfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
@@ -947,6 +978,13 @@ namespace StudioCore
                             return $@"{GameRootDirectory}\model\map\t{mid.Substring(1)}.tpfbhd";
                         }
                     }
+                    else if (Type == GameType.DemonsSouls)
+                    {
+                        var mid = pathElements[i];
+                        i++;
+                        bndpath = "";
+                        return $@"{GameRootDirectory}\map\{mid}\{mid}_{pathElements[i]}.tpf.dcx";
+                    }
                     else
                     {
                         var mid = pathElements[i];
@@ -975,7 +1013,7 @@ namespace StudioCore
                         {
                             return $@"{GameRootDirectory}\model\map\{mapid}.mapbhd";
                         }
-                        else if (Type == GameType.Bloodborne)
+                        else if (Type == GameType.Bloodborne || Type == GameType.DemonsSouls)
                         {
                             return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.flver.dcx";
                         }
@@ -986,7 +1024,7 @@ namespace StudioCore
                         i++;
                         var hittype = pathElements[i];
                         i++;
-                        if (Type == GameType.DarkSoulsPTDE)
+                        if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
                         {
                             bndpath = "";
                             return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}";
@@ -1011,7 +1049,7 @@ namespace StudioCore
                     else if (pathElements[i].Equals("nav"))
                     {
                         i++;
-                        if (Type == GameType.DarkSoulsPTDE)
+                        if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
                         {
                             if (i < pathElements.Length)
                             {
@@ -1043,6 +1081,10 @@ namespace StudioCore
                     else if (Type == GameType.DarkSoulsIISOTFS)
                     {
                         return GetOverridenFilePath($@"model\chr\{chrid}.bnd");
+                    }
+                    else if (Type == GameType.DemonsSouls)
+                    {
+                        return GetOverridenFilePath($@"chr\{chrid}\{chrid}.chrbnd.dcx");
                     }
                     return GetOverridenFilePath($@"chr\{chrid}.chrbnd.dcx");
                 }

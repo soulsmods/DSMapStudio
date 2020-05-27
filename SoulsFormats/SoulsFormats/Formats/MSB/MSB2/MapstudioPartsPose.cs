@@ -7,8 +7,8 @@ namespace SoulsFormats
     {
         private class MapstudioPartsPose : Param<PartPose>
         {
-            internal override string Name => "MAPSTUDIO_PARTS_POSE_ST";
             internal override int Version => 0;
+            internal override string Name => "MAPSTUDIO_PARTS_POSE_ST";
 
             public List<PartPose> Poses { get; set; }
 
@@ -19,9 +19,7 @@ namespace SoulsFormats
 
             internal override PartPose ReadEntry(BinaryReaderEx br)
             {
-                var pose = new PartPose(br);
-                Poses.Add(pose);
-                return pose;
+                return Poses.EchoAdd(new PartPose(br));
             }
 
             public override List<PartPose> GetEntries()
@@ -49,19 +47,33 @@ namespace SoulsFormats
             /// <summary>
             /// Creates an empty PartPose.
             /// </summary>
-            public PartPose(string partName = null)
+            public PartPose()
             {
-                PartName = partName;
                 Bones = new List<Bone>();
+            }
+
+            /// <summary>
+            /// Creates a deep copy of the part pose.
+            /// </summary>
+            public PartPose DeepCopy()
+            {
+                var pose = (PartPose)MemberwiseClone();
+                pose.Bones = new List<Bone>(Bones.Count);
+                foreach (Bone bone in Bones)
+                    pose.Bones.Add(bone.DeepCopy());
+                return pose;
             }
 
             internal PartPose(BinaryReaderEx br)
             {
+                long start = br.Position;
                 PartIndex = br.ReadInt16();
                 short boneCount = br.ReadInt16();
-                br.AssertInt32(0);
-                br.AssertInt64(0x10); // Bones offset
+                if (br.VarintLong)
+                    br.AssertInt32(0);
+                long bonesOffset = br.ReadVarint();
 
+                br.Position = start + bonesOffset;
                 Bones = new List<Bone>(boneCount);
                 for (int i = 0; i < boneCount; i++)
                     Bones.Add(new Bone(br));
@@ -69,11 +81,14 @@ namespace SoulsFormats
 
             internal override void Write(BinaryWriterEx bw, int index)
             {
+                long start = bw.Position;
                 bw.WriteInt16(PartIndex);
                 bw.WriteInt16((short)Bones.Count);
-                bw.WriteInt32(0);
-                bw.WriteInt64(0x10);
+                if (bw.VarintLong)
+                    bw.WriteInt32(0);
+                bw.ReserveVarint("BonesOffset");
 
+                bw.FillVarint("BonesOffset", bw.Position - start);
                 foreach (Bone bone in Bones)
                     bone.Write(bw);
             }
@@ -129,10 +144,18 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Bone with default values.
                 /// </summary>
-                public Bone(string name = "")
+                public Bone()
                 {
-                    Name = name;
+                    Name = "Master";
                     Scale = Vector3.One;
+                }
+
+                /// <summary>
+                /// Creates a deep copy of the bone.
+                /// </summary>
+                public Bone DeepCopy()
+                {
+                    return (Bone)MemberwiseClone();
                 }
 
                 internal Bone(BinaryReaderEx br)
@@ -161,7 +184,7 @@ namespace SoulsFormats
                     if (!lookups.BoneNames.ContainsKey(Name))
                     {
                         lookups.BoneNames[Name] = entries.BoneNames.Count;
-                        entries.BoneNames.Add(new BoneName(Name));
+                        entries.BoneNames.Add(new BoneName() { Name = Name });
                     }
                     NameIndex = FindIndex(lookups.BoneNames, Name);
                 }

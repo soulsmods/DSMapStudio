@@ -7,8 +7,8 @@ namespace SoulsFormats
     {
         private class LayerParam : Param<Entry>
         {
-            internal override string Name => "LAYER_PARAM_ST";
             internal override int Version => 5;
+            internal override string Name => "LAYER_PARAM_ST";
 
             public LayerParam() { }
 

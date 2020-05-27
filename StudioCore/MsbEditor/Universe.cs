@@ -350,6 +350,10 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSBB.Read(ad.AssetPath);
             }
+            else if (_assetLocator.Type == GameType.DemonsSouls)
+            {
+                msb = MSBD.Read(ad.AssetPath);
+            }
             else
             {
                 msb = MSB1.Read(ad.AssetPath);
@@ -759,7 +763,6 @@ namespace StudioCore.MsbEditor
                 MSB3 prev = MSB3.Read(ad.AssetPath);
                 MSB3 n = new MSB3();
                 n.PartsPoses = prev.PartsPoses;
-                n.BoneNames = prev.BoneNames;
                 n.Layers = prev.Layers;
                 n.Routes = prev.Routes;
                 msb = n;
@@ -774,12 +777,25 @@ namespace StudioCore.MsbEditor
             }
             else if (_assetLocator.Type == GameType.Sekiro)
             {
-                msb = new MSBS();
+                MSBS prev = MSBS.Read(ad.AssetPath);
+                MSBS n = new MSBS();
+                n.PartsPoses = prev.PartsPoses;
+                n.Layers = prev.Layers;
+                n.Routes = prev.Routes;
+                msb = n;
+                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
             }
             else if (_assetLocator.Type == GameType.Bloodborne)
             {
                 msb = new MSBB();
                 compressionType = DCX.Type.DCX_DFLT_10000_44_9;
+            }
+            else if (_assetLocator.Type == GameType.DemonsSouls)
+            {
+                MSBD prev = MSBD.Read(ad.AssetPath);
+                MSBD n = new MSBD();
+                n.Trees = prev.Trees;
+                msb = n;
             }
             else
             {
@@ -804,7 +820,7 @@ namespace StudioCore.MsbEditor
             //}
 
             // If a backup file doesn't exist of the original file create it
-            /*if (!File.Exists(mapPath + ".bak") && File.Exists(mapPath))
+            if (!File.Exists(mapPath + ".bak") && File.Exists(mapPath))
             {
                 File.Copy(mapPath, mapPath + ".bak", true);
             }
@@ -838,7 +854,7 @@ namespace StudioCore.MsbEditor
             if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 SaveDS2Generators(map);
-            }*/
+            }
 
             var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
             Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,

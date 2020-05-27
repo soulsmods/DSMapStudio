@@ -139,49 +139,76 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void AddModelDS1(IMsb m, MSB1.ModelType typ, string name)
+        private void AddModelDeS(IMsb m, MSBD.Model model, string name)
         {
             if (LoadedModels[name] != null)
             {
                 m.Models.Add(LoadedModels[name]);
                 return;
             }
-            var model = new MSB1.Model();
             model.Name = name;
-            model.Type = typ;
-            if (typ == MSB1.ModelType.MapPiece)
+            if (model is MSBD.Model.MapPiece)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\map\{Name}\sib\{name}.sib";
+                model.SibPath = $@"N:\DemonsSoul\data\Model\map\{Name}\sib\{name}.sib";
             }
-            else if (typ == MSB1.ModelType.Object)
+            else if (model is MSBD.Model.Object)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\obj\{name}\sib\{name}.sib";
+                model.SibPath = $@"N:\DemonsSoul\data\Model\obj\{name}\sib\{name}.sib";
             }
-            else if (typ == MSB1.ModelType.Enemy)
+            else if (model is MSBD.Model.Enemy)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\chr\{name}\sib\{name}.sib";
+                model.SibPath = $@"N:\DemonsSoul\data\Model\chr\{name}\sib\{name}.sib";
             }
-            else if (typ == MSB1.ModelType.Collision)
+            else if (model is MSBD.Model.Collision)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\map\{Name}\hkxwin\{name}.hkxwin";
+                model.SibPath = $@"N:\DemonsSoul\data\Model\map\{Name}\hkxwin\{name}.hkxwin";
             }
-            else if (typ == MSB1.ModelType.Navmesh)
+            else if (model is MSBD.Model.Navmesh)
             {
-                model.Placeholder = $@"N:\FRPG\data\Model\map\{Name}\navimesh\{name}.sib";
+                model.SibPath = $@"N:\DemonsSoul\data\Model\map\{Name}\navimesh\{name}.SIB";
             }
             m.Models.Add(model);
         }
 
-        private void AddModelDS2(IMsb m, MSB2.ModelType typ, string name)
+        private void AddModelDS1(IMsb m, MSB1.Model model, string name)
         {
             if (LoadedModels[name] != null)
             {
                 m.Models.Add(LoadedModels[name]);
                 return;
             }
-            var model = new MSB2.Model();
             model.Name = name;
-            model.Type = typ;
+            if (model is MSB1.Model.MapPiece)
+            {
+                model.SibPath = $@"N:\FRPG\data\Model\map\{Name}\sib\{name}.sib";
+            }
+            else if (model is MSB1.Model.Object)
+            {
+                model.SibPath = $@"N:\FRPG\data\Model\obj\{name}\sib\{name}.sib";
+            }
+            else if (model is MSB1.Model.Enemy)
+            {
+                model.SibPath = $@"N:\FRPG\data\Model\chr\{name}\sib\{name}.sib";
+            }
+            else if (model is MSB1.Model.Collision)
+            {
+                model.SibPath = $@"N:\FRPG\data\Model\map\{Name}\hkxwin\{name}.hkxwin";
+            }
+            else if (model is MSB1.Model.Navmesh)
+            {
+                model.SibPath = $@"N:\FRPG\data\Model\map\{Name}\navimesh\{name}.sib";
+            }
+            m.Models.Add(model);
+        }
+
+        private void AddModelDS2(IMsb m, MSB2.Model model, string name)
+        {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
+            model.Name = name;
             m.Models.Add(model);
         }
 
@@ -196,11 +223,11 @@ namespace StudioCore.MsbEditor
             model.Name = name;
             if (model is MSBB.Model.MapPiece)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\map\{Name}\sib\{name}{a}.sib";
+                model.SibPath = $@"N:\SPRJ\data\Model\map\{Name}\sib\{name}{a}.sib";
             }
             else if (model is MSBB.Model.Object)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\obj\{name.Substring(0, 3)}\{name}\sib\{name}.sib";
+                model.SibPath = $@"N:\SPRJ\data\Model\obj\{name.Substring(0, 3)}\{name}\sib\{name}.sib";
             }
             else if (model is MSBB.Model.Enemy)
             {
@@ -208,24 +235,24 @@ namespace StudioCore.MsbEditor
                 // will write identical to the original byte for byte
                 if (name == "c0000")
                 {
-                    model.Placeholder = $@"N:\SPRJ\data\Model\chr\{name}\sib\{name}.SIB";
+                    model.SibPath = $@"N:\SPRJ\data\Model\chr\{name}\sib\{name}.SIB";
                 }
                 else
                 {
-                    model.Placeholder = $@"N:\SPRJ\data\Model\chr\{name}\sib\{name}.sib";
+                    model.SibPath = $@"N:\SPRJ\data\Model\chr\{name}\sib\{name}.sib";
                 }
             }
             else if (model is MSBB.Model.Collision)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\map\{Name}\hkt\{name}{a}.hkt";
+                model.SibPath = $@"N:\SPRJ\data\Model\map\{Name}\hkt\{name}{a}.hkt";
             }
             else if (model is MSBB.Model.Navmesh)
             {
-                model.Placeholder = $@"N:\SPRJ\data\Model\map\{Name}\navimesh\{name}{a}.sib";
+                model.SibPath = $@"N:\SPRJ\data\Model\map\{Name}\navimesh\{name}{a}.sib";
             }
             else if (model is MSBB.Model.Other)
             {
-                model.Placeholder = $@"";
+                model.SibPath = $@"";
             }
             m.Models.Add(model);
         }
@@ -240,23 +267,54 @@ namespace StudioCore.MsbEditor
             model.Name = name;
             if (model is MSB3.Model.MapPiece)
             {
-                model.Placeholder = $@"N:\FDP\data\Model\map\{Name}\sib\{name}.sib";
+                model.SibPath = $@"N:\FDP\data\Model\map\{Name}\sib\{name}.sib";
             }
             else if (model is MSB3.Model.Object)
             {
-                model.Placeholder = $@"N:\FDP\data\Model\obj\{name}\sib\{name}.sib";
+                model.SibPath = $@"N:\FDP\data\Model\obj\{name}\sib\{name}.sib";
             }
             else if (model is MSB3.Model.Enemy)
             {
-                model.Placeholder = $@"N:\FDP\data\Model\chr\{name}\sib\{name}.sib";
+                model.SibPath = $@"N:\FDP\data\Model\chr\{name}\sib\{name}.sib";
             }
             else if (model is MSB3.Model.Collision)
             {
-                model.Placeholder = $@"N:\FDP\data\Model\map\{Name}\hkt\{name}.hkt";
+                model.SibPath = $@"N:\FDP\data\Model\map\{Name}\hkt\{name}.hkt";
             }
             else if (model is MSB3.Model.Other)
             {
-                model.Placeholder = $@"";
+                model.SibPath = $@"";
+            }
+            m.Models.Add(model);
+        }
+
+        private void AddModelSekiro(IMsb m, MSBS.Model model, string name)
+        {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
+            model.Name = name;
+            if (model is MSBS.Model.MapPiece)
+            {
+                model.SibPath = $@"N:\FDP\data\Model\map\{Name}\sib\{name}.sib";
+            }
+            else if (model is MSBS.Model.Object)
+            {
+                model.SibPath = $@"N:\FDP\data\Model\obj\{name}\sib\{name}.sib";
+            }
+            else if (model is MSBS.Model.Enemy)
+            {
+                model.SibPath = $@"N:\FDP\data\Model\chr\{name}\sib\{name}.sib";
+            }
+            else if (model is MSBS.Model.Collision)
+            {
+                model.SibPath = $@"N:\FDP\data\Model\map\{Name}\hkt\{name}.hkt";
+            }
+            else if (model is MSBS.Model.Player)
+            {
+                model.SibPath = $@"";
             }
             m.Models.Add(model);
         }
@@ -268,6 +326,34 @@ namespace StudioCore.MsbEditor
             m.Models.Add(model);
         }
 
+        private void AddModelsDeS(IMsb msb)
+        {
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
+            {
+                var m = mk.Key;
+                if (m.StartsWith("m"))
+                {
+                    AddModelDeS(msb, new MSBD.Model.MapPiece(), m);
+                }
+                if (m.StartsWith("h"))
+                {
+                    AddModelDeS(msb, new MSBD.Model.Collision(), m);
+                }
+                if (m.StartsWith("o"))
+                {
+                    AddModelDeS(msb, new MSBD.Model.Object(), m);
+                }
+                if (m.StartsWith("c"))
+                {
+                    AddModelDeS(msb, new MSBD.Model.Enemy(), m);
+                }
+                if (m.StartsWith("n"))
+                {
+                    AddModelDeS(msb, new MSBD.Model.Navmesh(), m);
+                }
+            }
+        }
+
         private void AddModelsDS1(IMsb msb)
         {
             foreach (var mk in LoadedModels.OrderBy(q => q.Key))
@@ -275,23 +361,23 @@ namespace StudioCore.MsbEditor
                 var m = mk.Key;
                 if (m.StartsWith("m"))
                 {
-                    AddModelDS1(msb, MSB1.ModelType.MapPiece, m);
+                    AddModelDS1(msb, new MSB1.Model.MapPiece(), m);
                 }
                 if (m.StartsWith("h"))
                 {
-                    AddModelDS1(msb, MSB1.ModelType.Collision, m);
+                    AddModelDS1(msb, new MSB1.Model.Collision(), m);
                 }
                 if (m.StartsWith("o"))
                 {
-                    AddModelDS1(msb, MSB1.ModelType.Object, m);
+                    AddModelDS1(msb, new MSB1.Model.Object(), m);
                 }
                 if (m.StartsWith("c"))
                 {
-                    AddModelDS1(msb, MSB1.ModelType.Enemy, m);
+                    AddModelDS1(msb, new MSB1.Model.Enemy(), m);
                 }
                 if (m.StartsWith("n"))
                 {
-                    AddModelDS1(msb, MSB1.ModelType.Navmesh, m);
+                    AddModelDS1(msb, new MSB1.Model.Navmesh(), m);
                 }
             }
         }
@@ -303,19 +389,19 @@ namespace StudioCore.MsbEditor
                 var m = mk.Key;
                 if (m.StartsWith("m"))
                 {
-                    AddModelDS2(msb, MSB2.ModelType.MapPiece, m);
+                    AddModelDS2(msb, new MSB2.Model.MapPiece(), m);
                 }
                 if (m.StartsWith("h"))
                 {
-                    AddModelDS2(msb, MSB2.ModelType.Collision, m);
+                    AddModelDS2(msb, new MSB2.Model.Collision(), m);
                 }
                 if (m.StartsWith("o"))
                 {
-                    AddModelDS2(msb, MSB2.ModelType.Object, m);
+                    AddModelDS2(msb, new MSB2.Model.Object(), m);
                 }
                 if (m.StartsWith("n"))
                 {
-                    AddModelDS2(msb, MSB2.ModelType.Navmesh, m);
+                    AddModelDS2(msb, new MSB2.Model.Navmesh(), m);
                 }
             }
         }
@@ -327,23 +413,23 @@ namespace StudioCore.MsbEditor
                 var m = mk.Key;
                 if (m.StartsWith("m"))
                 {
-                    AddModelBB(msb, new MSBB.Model.MapPiece(m), m);
+                    AddModelBB(msb, new MSBB.Model.MapPiece() { Name = m }, m);
                 }
                 if (m.StartsWith("h"))
                 {
-                    AddModelBB(msb, new MSBB.Model.Collision(m), m);
+                    AddModelBB(msb, new MSBB.Model.Collision() { Name = m }, m);
                 }
                 if (m.StartsWith("o"))
                 {
-                    AddModelBB(msb, new MSBB.Model.Object(m), m);
+                    AddModelBB(msb, new MSBB.Model.Object() { Name = m }, m);
                 }
                 if (m.StartsWith("c"))
                 {
-                    AddModelBB(msb, new MSBB.Model.Enemy(m), m);
+                    AddModelBB(msb, new MSBB.Model.Enemy() { Name = m }, m);
                 }
                 if (m.StartsWith("n"))
                 {
-                    AddModelBB(msb, new MSBB.Model.Navmesh(m), m);
+                    AddModelBB(msb, new MSBB.Model.Navmesh() { Name = m }, m);
                 }
             }
         }
@@ -355,19 +441,43 @@ namespace StudioCore.MsbEditor
                 var m = mk.Key;
                 if (m.StartsWith("m"))
                 {
-                    AddModelDS3(msb, new MSB3.Model.MapPiece(m), m);
+                    AddModelDS3(msb, new MSB3.Model.MapPiece() { Name = m }, m);
                 }
                 if (m.StartsWith("h"))
                 {
-                    AddModelDS3(msb, new MSB3.Model.Collision(m), m);
+                    AddModelDS3(msb, new MSB3.Model.Collision() { Name = m }, m);
                 }
                 if (m.StartsWith("o"))
                 {
-                    AddModelDS3(msb, new MSB3.Model.Object(m), m);
+                    AddModelDS3(msb, new MSB3.Model.Object() { Name = m }, m);
                 }
                 if (m.StartsWith("c"))
                 {
-                    AddModelDS3(msb, new MSB3.Model.Enemy(m), m);
+                    AddModelDS3(msb, new MSB3.Model.Enemy() { Name = m }, m);
+                }
+            }
+        }
+
+        private void AddModelsSekiro(IMsb msb)
+        {
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
+            {
+                var m = mk.Key;
+                if (m.StartsWith("m"))
+                {
+                    AddModelSekiro(msb, new MSBS.Model.MapPiece() { Name = m }, m);
+                }
+                if (m.StartsWith("h"))
+                {
+                    AddModelSekiro(msb, new MSBS.Model.Collision() { Name = m }, m);
+                }
+                if (m.StartsWith("o"))
+                {
+                    AddModelSekiro(msb, new MSBS.Model.Object() { Name = m }, m);
+                }
+                if (m.StartsWith("c"))
+                {
+                    AddModelSekiro(msb, new MSBS.Model.Enemy() { Name = m }, m);
                 }
             }
         }
@@ -394,7 +504,11 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            if (game == GameType.DarkSoulsPTDE)
+            if (game == GameType.DemonsSouls)
+            {
+                AddModelsDeS(msb);
+            }
+            else if (game == GameType.DarkSoulsPTDE)
             {
                 AddModelsDS1(msb);
             }
@@ -409,6 +523,10 @@ namespace StudioCore.MsbEditor
             else if (game == GameType.DarkSoulsIII)
             {
                 AddModelsDS3(msb);
+            }
+            else if (game == GameType.Sekiro)
+            {
+                AddModelsSekiro(msb);
             }
         }
 

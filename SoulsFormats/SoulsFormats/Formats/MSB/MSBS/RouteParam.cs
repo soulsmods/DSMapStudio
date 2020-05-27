@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SoulsFormats
 {
     public partial class MSBS
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public enum RouteType : uint
+        internal enum RouteType : uint
         {
             MufflingPortalLink = 3,
             MufflingBoxLink = 4,
         }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Unknown, but related to muffling regions somehow.
@@ -29,32 +28,28 @@ namespace SoulsFormats
             public List<Route.MufflingBoxLink> MufflingBoxLinks { get; set; }
 
             /// <summary>
-            /// Creates an empty RouteParam with the given version.
+            /// Creates an empty RouteParam with the default version.
             /// </summary>
-            public RouteParam(int unk00 = 0x23) : base(unk00, "ROUTE_PARAM_ST")
+            public RouteParam() : base(35, "ROUTE_PARAM_ST")
             {
                 MufflingPortalLinks = new List<Route.MufflingPortalLink>();
                 MufflingBoxLinks = new List<Route.MufflingBoxLink>();
             }
 
-            internal override Route ReadEntry(BinaryReaderEx br)
+            /// <summary>
+            /// Adds a route to the appropriate list for its type; returns the route.
+            /// </summary>
+            public Route Add(Route route)
             {
-                RouteType type = br.GetEnum32<RouteType>(br.Position + 0x10);
-                switch (type)
+                switch (route)
                 {
-                    case RouteType.MufflingPortalLink:
-                        var portalLink = new Route.MufflingPortalLink(br);
-                        MufflingPortalLinks.Add(portalLink);
-                        return portalLink;
-
-                    case RouteType.MufflingBoxLink:
-                        var boxLink = new Route.MufflingBoxLink(br);
-                        MufflingBoxLinks.Add(boxLink);
-                        return boxLink;
+                    case Route.MufflingBoxLink r: MufflingBoxLinks.Add(r); break;
+                    case Route.MufflingPortalLink r: MufflingPortalLinks.Add(r); break;
 
                     default:
-                        throw new NotImplementedException($"Unimplemented route type: {type}");
+                        throw new ArgumentException($"Unrecognized type {route.GetType()}.", nameof(route));
                 }
+                return route;
             }
 
             /// <summary>
@@ -65,6 +60,22 @@ namespace SoulsFormats
                 return SFUtil.ConcatAll<Route>(
                     MufflingPortalLinks, MufflingBoxLinks);
             }
+
+            internal override Route ReadEntry(BinaryReaderEx br)
+            {
+                RouteType type = br.GetEnum32<RouteType>(br.Position + 0x10);
+                switch (type)
+                {
+                    case RouteType.MufflingPortalLink:
+                        return MufflingPortalLinks.EchoAdd(new Route.MufflingPortalLink(br));
+
+                    case RouteType.MufflingBoxLink:
+                        return MufflingBoxLinks.EchoAdd(new Route.MufflingBoxLink(br));
+
+                    default:
+                        throw new NotImplementedException($"Unimplemented route type: {type}");
+                }
+            }
         }
 
         /// <summary>
@@ -72,10 +83,7 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Route : Entry
         {
-            /// <summary>
-            /// The type of this Route.
-            /// </summary>
-            public abstract RouteType Type { get; }
+            private protected abstract RouteType Type { get; }
 
             /// <summary>
             /// Unknown.
@@ -87,12 +95,20 @@ namespace SoulsFormats
             /// </summary>
             public int Unk0C { get; set; }
 
-            internal Route()
+            private protected Route(string name)
             {
-                Name = "";
+                Name = name;
             }
 
-            internal Route(BinaryReaderEx br)
+            /// <summary>
+            /// Creates a deep copy of the route.
+            /// </summary>
+            public Route DeepCopy()
+            {
+                return (Route)MemberwiseClone();
+            }
+
+            private protected Route(BinaryReaderEx br)
             {
                 long start = br.Position;
                 long nameOffset = br.ReadInt64();
@@ -102,7 +118,11 @@ namespace SoulsFormats
                 br.ReadInt32(); // ID
                 br.AssertPattern(0x68, 0x00);
 
-                Name = br.GetUTF16(start + nameOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
             }
 
             internal override void Write(BinaryWriterEx bw, int id)
@@ -133,15 +153,12 @@ namespace SoulsFormats
             /// </summary>
             public class MufflingPortalLink : Route
             {
-                /// <summary>
-                /// RouteType.MufflingPortalLink
-                /// </summary>
-                public override RouteType Type => RouteType.MufflingPortalLink;
+                private protected override RouteType Type => RouteType.MufflingPortalLink;
 
                 /// <summary>
                 /// Creates a MufflingPortalLink with default values.
                 /// </summary>
-                public MufflingPortalLink() : base() { }
+                public MufflingPortalLink() : base("X-X") { }
 
                 internal MufflingPortalLink(BinaryReaderEx br) : base(br) { }
             }
@@ -151,15 +168,12 @@ namespace SoulsFormats
             /// </summary>
             public class MufflingBoxLink : Route
             {
-                /// <summary>
-                /// RouteType.MufflingBoxLink
-                /// </summary>
-                public override RouteType Type => RouteType.MufflingBoxLink;
+                private protected override RouteType Type => RouteType.MufflingBoxLink;
 
                 /// <summary>
                 /// Creates a MufflingBoxLink with default values.
                 /// </summary>
-                public MufflingBoxLink() : base() { }
+                public MufflingBoxLink() : base("X-X") { }
 
                 internal MufflingBoxLink(BinaryReaderEx br) : base(br) { }
             }

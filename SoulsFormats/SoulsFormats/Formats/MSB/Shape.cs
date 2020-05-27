@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SoulsFormats
 {
     public partial class MSB
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public enum ShapeType : uint
+        internal enum ShapeType : uint
         {
+            None = 0xFFFFFFFF,
             Point = 0,
             Circle = 1,
             Sphere = 2,
@@ -15,7 +16,6 @@ namespace SoulsFormats
             Box = 5,
             Composite = 6,
         }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// The shape of a map region.
@@ -23,14 +23,34 @@ namespace SoulsFormats
         public abstract class Shape
         {
             internal abstract ShapeType Type { get; }
-
-            internal abstract Shape Clone();
-
             internal abstract bool HasShapeData { get; }
 
+            /// <summary>
+            /// Creates a deep copy of the Shape.
+            /// </summary>
+            public abstract Shape DeepCopy();
+
+            internal virtual void ReadShapeData(BinaryReaderEx br)
+                => throw new NotImplementedException($"Type {GetType()} missing valid {nameof(ReadShapeData)}.");
+
             internal virtual void WriteShapeData(BinaryWriterEx bw)
+                => throw new NotImplementedException($"Type {GetType()} missing valid {nameof(WriteShapeData)}.");
+
+            internal static Shape Create(ShapeType type)
             {
-                throw new InvalidOperationException("Shape data should not be written for shapes with no shape data.");
+                switch (type)
+                {
+                    case ShapeType.Point: return new Point();
+                    case ShapeType.Circle: return new Circle();
+                    case ShapeType.Sphere: return new Sphere();
+                    case ShapeType.Cylinder: return new Cylinder();
+                    case ShapeType.Rect: return new Rect();
+                    case ShapeType.Box: return new Box();
+                    case ShapeType.Composite: return new Composite();
+
+                    default:
+                        throw new NotImplementedException($"Unimplemented shape type: {type}");
+                }
             }
 
             /// <summary>
@@ -39,13 +59,15 @@ namespace SoulsFormats
             public class Point : Shape
             {
                 internal override ShapeType Type => ShapeType.Point;
+                internal override bool HasShapeData => false;
 
-                internal override Shape Clone()
+                /// <summary>
+                /// Creates a deep copy of the Point.
+                /// </summary>
+                public override Shape DeepCopy()
                 {
                     return new Point();
                 }
-
-                internal override bool HasShapeData => false;
             }
 
             /// <summary>
@@ -54,7 +76,6 @@ namespace SoulsFormats
             public class Circle : Shape
             {
                 internal override ShapeType Type => ShapeType.Circle;
-
                 internal override bool HasShapeData => true;
 
                 /// <summary>
@@ -63,12 +84,12 @@ namespace SoulsFormats
                 public float Radius { get; set; }
 
                 /// <summary>
-                /// Creates a new Circle with radius 1.
+                /// Creates a Circle with default dimensions.
                 /// </summary>
                 public Circle() : this(1) { }
 
                 /// <summary>
-                /// Creates a new Circle with the given radius.
+                /// Creates a Circle with the given dimensions.
                 /// </summary>
                 public Circle(float radius)
                 {
@@ -76,16 +97,14 @@ namespace SoulsFormats
                 }
 
                 /// <summary>
-                /// Creates a new Circle with the radius of another.
+                /// Creates a deep copy of the Circle.
                 /// </summary>
-                public Circle(Circle clone) : this(clone.Radius) { }
-
-                internal override Shape Clone()
+                public override Shape DeepCopy()
                 {
-                    return new Circle(this);
+                    return new Circle(Radius);
                 }
 
-                internal Circle(BinaryReaderEx br)
+                internal override void ReadShapeData(BinaryReaderEx br)
                 {
                     Radius = br.ReadSingle();
                 }
@@ -102,7 +121,6 @@ namespace SoulsFormats
             public class Sphere : Shape
             {
                 internal override ShapeType Type => ShapeType.Sphere;
-
                 internal override bool HasShapeData => true;
 
                 /// <summary>
@@ -111,12 +129,12 @@ namespace SoulsFormats
                 public float Radius { get; set; }
 
                 /// <summary>
-                /// Creates a new Sphere with radius 1.
+                /// Creates a Sphere with default dimensions.
                 /// </summary>
                 public Sphere() : this(1) { }
 
                 /// <summary>
-                /// Creates a new Sphere with the given radius.
+                /// Creates a Sphere with the given dimensions.
                 /// </summary>
                 public Sphere(float radius)
                 {
@@ -124,16 +142,14 @@ namespace SoulsFormats
                 }
 
                 /// <summary>
-                /// Creates a new Sphere with the radius of another.
+                /// Creates a deep copy of the Sphere.
                 /// </summary>
-                public Sphere(Sphere clone) : this(clone.Radius) { }
-
-                internal override Shape Clone()
+                public override Shape DeepCopy()
                 {
-                    return new Sphere(this);
+                    return new Sphere(Radius);
                 }
 
-                internal Sphere(BinaryReaderEx br)
+                internal override void ReadShapeData(BinaryReaderEx br)
                 {
                     Radius = br.ReadSingle();
                 }
@@ -150,7 +166,6 @@ namespace SoulsFormats
             public class Cylinder : Shape
             {
                 internal override ShapeType Type => ShapeType.Cylinder;
-
                 internal override bool HasShapeData => true;
 
                 /// <summary>
@@ -164,12 +179,12 @@ namespace SoulsFormats
                 public float Height { get; set; }
 
                 /// <summary>
-                /// Creates a new Cylinder with radius and height 1.
+                /// Creates a Cylinder with default dimensions.
                 /// </summary>
                 public Cylinder() : this(1, 1) { }
 
                 /// <summary>
-                /// Creates a new Cylinder with the given dimensions.
+                /// Creates a Cylinder with the given dimensions.
                 /// </summary>
                 public Cylinder(float radius, float height)
                 {
@@ -178,16 +193,14 @@ namespace SoulsFormats
                 }
 
                 /// <summary>
-                /// Creates a new Cylinder with the dimensions of another.
+                /// Creates a deep copy of the Cylinder.
                 /// </summary>
-                public Cylinder(Cylinder clone) : this(clone.Radius, clone.Height) { }
-
-                internal override Shape Clone()
+                public override Shape DeepCopy()
                 {
-                    return new Cylinder(this);
+                    return new Cylinder(Radius, Height);
                 }
 
-                internal Cylinder(BinaryReaderEx br)
+                internal override void ReadShapeData(BinaryReaderEx br)
                 {
                     Radius = br.ReadSingle();
                     Height = br.ReadSingle();
@@ -206,7 +219,6 @@ namespace SoulsFormats
             public class Rect : Shape
             {
                 internal override ShapeType Type => ShapeType.Rect;
-
                 internal override bool HasShapeData => true;
 
                 /// <summary>
@@ -220,12 +232,12 @@ namespace SoulsFormats
                 public float Depth { get; set; }
 
                 /// <summary>
-                /// Creates a new Rect with width, depth 1.
+                /// Creates a Rect with default dimensions.
                 /// </summary>
                 public Rect() : this(1, 1) { }
 
                 /// <summary>
-                /// Creates a new Rect with the given dimensions.
+                /// Creates a Rect with the given dimensions.
                 /// </summary>
                 public Rect(float width, float depth)
                 {
@@ -234,16 +246,14 @@ namespace SoulsFormats
                 }
 
                 /// <summary>
-                /// Creates a new Rect with the dimensions of another.
+                /// Creates a deep copy of the Rect.
                 /// </summary>
-                public Rect(Rect clone) : this(clone.Width, clone.Depth) { }
-
-                internal override Shape Clone()
+                public override Shape DeepCopy()
                 {
-                    return new Rect(this);
+                    return new Rect(Width, Depth);
                 }
 
-                internal Rect(BinaryReaderEx br)
+                internal override void ReadShapeData(BinaryReaderEx br)
                 {
                     Width = br.ReadSingle();
                     Depth = br.ReadSingle();
@@ -262,7 +272,6 @@ namespace SoulsFormats
             public class Box : Shape
             {
                 internal override ShapeType Type => ShapeType.Box;
-
                 internal override bool HasShapeData => true;
 
                 /// <summary>
@@ -281,12 +290,12 @@ namespace SoulsFormats
                 public float Height { get; set; }
 
                 /// <summary>
-                /// Creates a new Box with width, depth, and height 1.
+                /// Creates a Box with default dimensions.
                 /// </summary>
                 public Box() : this(1, 1, 1) { }
 
                 /// <summary>
-                /// Creates a new Box with the given dimensions.
+                /// Creates a Box with the given dimensions.
                 /// </summary>
                 public Box(float width, float depth, float height)
                 {
@@ -296,16 +305,14 @@ namespace SoulsFormats
                 }
 
                 /// <summary>
-                /// Creates a new Box with the dimensions of another.
+                /// Creates a deep copy of the Box.
                 /// </summary>
-                public Box(Box clone) : this(clone.Width, clone.Depth, clone.Height) { }
-
-                internal override Shape Clone()
+                public override Shape DeepCopy()
                 {
-                    return new Box(this);
+                    return new Box(Width, Depth, Height);
                 }
 
-                internal Box(BinaryReaderEx br)
+                internal override void ReadShapeData(BinaryReaderEx br)
                 {
                     Width = br.ReadSingle();
                     Depth = br.ReadSingle();
@@ -326,7 +333,6 @@ namespace SoulsFormats
             public class Composite : Shape
             {
                 internal override ShapeType Type => ShapeType.Composite;
-
                 internal override bool HasShapeData => true;
 
                 /// <summary>
@@ -344,13 +350,18 @@ namespace SoulsFormats
                         Children[i] = new Child();
                 }
 
-                internal override Shape Clone()
+                /// <summary>
+                /// Creates a deep copy of the Composite.
+                /// </summary>
+                public override Shape DeepCopy()
                 {
-                    // TODO
-                    return null;
+                    var comp = new Composite();
+                    for (int i = 0; i < 8; i++)
+                        comp.Children[i] = Children[i].DeepCopy();
+                    return comp;
                 }
 
-                internal Composite(BinaryReaderEx br)
+                internal override void ReadShapeData(BinaryReaderEx br)
                 {
                     Children = new Child[8];
                     for (int i = 0; i < 8; i++)
@@ -361,6 +372,18 @@ namespace SoulsFormats
                 {
                     for (int i = 0; i < 8; i++)
                         Children[i].Write(bw);
+                }
+
+                internal void GetNames<T>(List<T> regions) where T : IMsbRegion
+                {
+                    foreach (Child child in Children)
+                        child.GetNames(regions);
+                }
+
+                internal void GetIndices<T>(List<T> regions) where T : IMsbRegion
+                {
+                    foreach (Child child in Children)
+                        child.GetIndices(regions);
                 }
 
                 /// <summary>
@@ -390,22 +413,28 @@ namespace SoulsFormats
                         Unk04 = br.ReadInt32();
                     }
 
+                    /// <summary>
+                    /// Creates a deep copy of the Child.
+                    /// </summary>
+                    public Child DeepCopy()
+                    {
+                        return new Child() { RegionName = RegionName, Unk04 = Unk04 };
+                    }
+
                     internal void Write(BinaryWriterEx bw)
                     {
                         bw.WriteInt32(RegionIndex);
                         bw.WriteInt32(Unk04);
                     }
 
-                    // Pretty ugly to use MSBS type directly, but this shape is currently only used
-                    // in Sekiro so it'll stay until Elden Ring
-                    internal void GetNames(MSBS.Entries entries)
+                    internal void GetNames<T>(List<T> regions) where T : IMsbRegion
                     {
-                        RegionName = MSB.FindName(entries.Regions, RegionIndex);
+                        RegionName = FindName(regions, RegionIndex);
                     }
 
-                    internal void GetIndices(MSBS.Entries entries)
+                    internal void GetIndices<T>(List<T> regions) where T : IMsbRegion
                     {
-                        RegionIndex = MSB.FindIndex(entries.Regions, RegionName);
+                        RegionIndex = FindIndex(regions, RegionName);
                     }
                 }
             }

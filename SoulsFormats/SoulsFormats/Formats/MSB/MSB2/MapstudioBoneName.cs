@@ -6,8 +6,8 @@ namespace SoulsFormats
     {
         private class MapstudioBoneName : Param<BoneName>
         {
-            internal override string Name => "MAPSTUDIO_BONE_NAME_STRING";
             internal override int Version => 0;
+            internal override string Name => "MAPSTUDIO_BONE_NAME_STRING";
 
             public List<BoneName> BoneNames { get; set; }
 
@@ -18,9 +18,7 @@ namespace SoulsFormats
 
             internal override BoneName ReadEntry(BinaryReaderEx br)
             {
-                var boneName = new BoneName(br);
-                BoneNames.Add(boneName);
-                return boneName;
+                return BoneNames.EchoAdd(new BoneName(br));
             }
 
             public override List<BoneName> GetEntries()
@@ -31,9 +29,14 @@ namespace SoulsFormats
 
         internal class BoneName : NamedEntry
         {
-            public BoneName(string name)
+            public BoneName()
             {
-                Name = name;
+                Name = "Master";
+            }
+
+            public BoneName DeepCopy()
+            {
+                return (BoneName)MemberwiseClone();
             }
 
             internal BoneName(BinaryReaderEx br)

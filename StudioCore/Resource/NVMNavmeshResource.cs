@@ -90,9 +90,16 @@ namespace StudioCore.Resource
 
             uint buffersize = (uint)IndexCount * 4u;
 
-            fixed (void* ptr = PickingVertices)
+            if (VertexCount > 0)
             {
-                Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+                fixed (void* ptr = PickingVertices)
+                {
+                    Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+                }
+            }
+            else
+            {
+                Bounds = new BoundingBox();
             }
 
             uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;

@@ -30,12 +30,12 @@ namespace SoulsFormats
         /// <summary>
         /// Routes in this MSB.
         /// </summary>
-        public RouteParam Routes { get; set; }
+        public List<Route> Routes { get; set; }
 
         /// <summary>
         /// Layers in this MSB.
         /// </summary>
-        public LayerParam Layers { get; set; }
+        public List<Layer> Layers { get; set; }
 
         /// <summary>
         /// Parts in this MSB.
@@ -46,12 +46,7 @@ namespace SoulsFormats
         /// <summary>
         /// PartsPose data in this MSB.
         /// </summary>
-        public MapstudioPartsPose PartsPoses { get; set; }
-
-        /// <summary>
-        /// Bone names in this MSB.
-        /// </summary>
-        public MapstudioBoneName BoneNames { get; set; }
+        public List<PartsPose> PartsPoses { get; set; }
 
         /// <summary>
         /// Creates a new MSB3 with all sections empty.
@@ -61,11 +56,10 @@ namespace SoulsFormats
             Models = new ModelParam();
             Events = new EventParam();
             Regions = new PointParam();
-            Routes = new RouteParam();
-            Layers = new LayerParam();
+            Routes = new List<Route>();
+            Layers = new List<Layer>();
             Parts = new PartsParam();
-            PartsPoses = new MapstudioPartsPose();
-            BoneNames = new MapstudioBoneName();
+            PartsPoses = new List<PartsPose>();
         }
 
         /// <summary>
@@ -85,11 +79,8 @@ namespace SoulsFormats
             public List<Model> Models;
             public List<Event> Events;
             public List<Region> Regions;
-            public List<Route> Routes;
-            public List<Layer> Layers;
             public List<Part> Parts;
-            public List<PartsPose> PartsPoses;
-            public List<string> BoneNames;
+            public List<BoneName> BoneNames;
         }
 
         /// <summary>
@@ -98,14 +89,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.BigEndian = false;
-
-            br.AssertASCII("MSB ");
-            br.AssertInt32(1);
-            br.AssertInt32(0x10);
-            br.AssertBoolean(false); // isBigEndian
-            br.AssertBoolean(false); // isBitBigEndian
-            br.AssertByte(1); // textEncoding
-            br.AssertByte(0xFF); // is64BitOffset
+            MSB.AssertHeader(br);
 
             Entries entries = default;
             Models = new ModelParam();
@@ -114,23 +98,20 @@ namespace SoulsFormats
             entries.Events = Events.Read(br);
             Regions = new PointParam();
             entries.Regions = Regions.Read(br);
-            Routes = new RouteParam();
-            entries.Routes = Routes.Read(br);
-            Layers = new LayerParam();
-            entries.Layers = Layers.Read(br);
+            Routes = new RouteParam().Read(br);
+            Layers = new LayerParam().Read(br);
             Parts = new PartsParam();
             entries.Parts = Parts.Read(br);
-            PartsPoses = new MapstudioPartsPose();
-            entries.PartsPoses = PartsPoses.Read(br);
-            BoneNames = new MapstudioBoneName();
-            entries.BoneNames = BoneNames.Read(br);
+            PartsPoses = new MapstudioPartsPose().Read(br);
+            entries.BoneNames = new MapstudioBoneName().Read(br);
 
             if (br.Position != 0)
-                throw new InvalidDataException("The next param offset of the final param should be 0, but it wasn't.");
+                throw new InvalidDataException($"The next param offset of the final param should be 0, but it was 0x{br.Position:X}.");
 
             MSB.DisambiguateNames(entries.Models);
             MSB.DisambiguateNames(entries.Parts);
             MSB.DisambiguateNames(entries.Regions);
+            MSB.DisambiguateNames(entries.BoneNames);
 
             foreach (Event evt in entries.Events)
                 evt.GetNames(this, entries);
@@ -138,7 +119,7 @@ namespace SoulsFormats
                 region.GetNames(this, entries);
             foreach (Part part in entries.Parts)
                 part.GetNames(this, entries);
-            foreach (PartsPose pose in entries.PartsPoses)
+            foreach (PartsPose pose in PartsPoses)
                 pose.GetNames(this, entries);
         }
 
@@ -147,17 +128,12 @@ namespace SoulsFormats
         /// </summary>
         protected override void Write(BinaryWriterEx bw)
         {
-            bw.BigEndian = false;
-
             Entries entries;
             entries.Models = Models.GetEntries();
             entries.Events = Events.GetEntries();
             entries.Regions = Regions.GetEntries();
-            entries.Routes = Routes.GetEntries();
-            entries.Layers = Layers.GetEntries();
             entries.Parts = Parts.GetEntries();
-            entries.PartsPoses = PartsPoses.GetEntries();
-            entries.BoneNames = BoneNames.GetEntries();
+            entries.BoneNames = new List<BoneName>();
 
             foreach (Model model in entries.Models)
                 model.CountInstances(entries.Parts);
@@ -167,16 +143,11 @@ namespace SoulsFormats
                 region.GetIndices(this, entries);
             foreach (Part part in entries.Parts)
                 part.GetIndices(this, entries);
-            foreach (PartsPose pose in entries.PartsPoses)
+            foreach (PartsPose pose in PartsPoses)
                 pose.GetIndices(this, entries);
 
-            bw.WriteASCII("MSB ");
-            bw.WriteInt32(1);
-            bw.WriteInt32(0x10);
-            bw.WriteBoolean(false);
-            bw.WriteBoolean(false);
-            bw.WriteByte(1);
-            bw.WriteByte(0xFF);
+            bw.BigEndian = false;
+            MSB.WriteHeader(bw);
 
             Models.Write(bw, entries.Models);
             bw.FillInt64("NextParamOffset", bw.Position);
@@ -184,34 +155,25 @@ namespace SoulsFormats
             bw.FillInt64("NextParamOffset", bw.Position);
             Regions.Write(bw, entries.Regions);
             bw.FillInt64("NextParamOffset", bw.Position);
-            Routes.Write(bw, entries.Routes);
+            new RouteParam().Write(bw, Routes);
             bw.FillInt64("NextParamOffset", bw.Position);
-            Layers.Write(bw, entries.Layers);
+            new LayerParam().Write(bw, Layers);
             bw.FillInt64("NextParamOffset", bw.Position);
             Parts.Write(bw, entries.Parts);
             bw.FillInt64("NextParamOffset", bw.Position);
-            PartsPoses.Write(bw, entries.PartsPoses);
+            new MapstudioPartsPose().Write(bw, PartsPoses);
             bw.FillInt64("NextParamOffset", bw.Position);
-            BoneNames.Write(bw, entries.BoneNames);
+            new MapstudioBoneName().Write(bw, entries.BoneNames);
             bw.FillInt64("NextParamOffset", 0);
         }
 
         /// <summary>
         /// A generic MSB section containing a list of entries.
         /// </summary>
-        public abstract class Param<T>
+        public abstract class Param<T> where T : Entry
         {
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public int Version { get; set; }
-
+            internal abstract int Version { get; }
             internal abstract string Type { get; }
-
-            internal Param(int version)
-            {
-                Version = version;
-            }
 
             /// <summary>
             /// Returns every entry in this section in the order they will be written.
@@ -220,7 +182,7 @@ namespace SoulsFormats
 
             internal List<T> Read(BinaryReaderEx br)
             {
-                Version = br.ReadInt32();
+                br.AssertInt32(Version);
                 int offsetCount = br.ReadInt32();
                 long nameOffset = br.ReadInt64();
                 long[] entryOffsets = br.ReadInt64s(offsetCount - 1);
@@ -266,12 +228,10 @@ namespace SoulsFormats
                     }
 
                     bw.FillInt64($"EntryOffset{i}", bw.Position);
-                    WriteEntry(bw, id, entries[i]);
+                    entries[i].Write(bw, id);
                     id++;
                 }
             }
-
-            internal abstract void WriteEntry(BinaryWriterEx bw, int id, T entry);
 
             /// <summary>
             /// Returns the type string, unknown value and number of entries in this section.
@@ -283,12 +243,20 @@ namespace SoulsFormats
         }
 
         /// <summary>
-        /// A generic entry in an MSB section.
+        /// A generic entry in an MSB param.
         /// </summary>
-        public abstract class Entry : IMsbEntry
+        public abstract class Entry
+        {
+            internal abstract void Write(BinaryWriterEx bw, int index);
+        }
+
+        /// <summary>
+        /// A generic entry in an MSB param that has a name.
+        /// </summary>
+        public abstract class NamedEntry : Entry, IMsbEntry
         {
             /// <summary>
-            /// The name of this entry.
+            /// The name of this entry; should generally be unique.
             /// </summary>
             public abstract string Name { get; set; }
         }

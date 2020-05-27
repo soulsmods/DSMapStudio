@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 
 namespace SoulsFormats
@@ -7,24 +8,38 @@ namespace SoulsFormats
     public partial class MSBB
     {
         /// <summary>
-        /// A section containing points and volumes for various purposes.
+        /// A collection of points and trigger volumes used by scripts and events.
         /// </summary>
-        public class PointParam : Section<Region>, IMsbParam<IMsbRegion>
+        public class PointParam : Param<Region>, IMsbParam<IMsbRegion>
         {
-            internal override string Type => "POINT_PARAM_ST";
+            internal override int Version => 3;
+            internal override string Name => "POINT_PARAM_ST";
 
+            /// <summary>
+            /// All regions in the map.
+            /// </summary>
             public List<Region> Regions { get; set; }
 
             /// <summary>
-            /// Creates a new PointSection with no regions.
+            /// Creates an empty PointParam.
             /// </summary>
-            public PointParam(int unk1 = 3) : base(unk1)
+            public PointParam() : base()
             {
                 Regions = new List<Region>();
             }
 
             /// <summary>
-            /// Returns every region in the order they will be written.
+            /// Adds a region to the list; returns the region.
+            /// </summary>
+            public Region Add(Region region)
+            {
+                Regions.Add(region);
+                return region;
+            }
+            IMsbRegion IMsbParam<IMsbRegion>.Add(IMsbRegion item) => Add((Region)item);
+
+            /// <summary>
+            /// Returns the list of regions.
             /// </summary>
             public override List<Region> GetEntries()
             {
@@ -34,65 +49,37 @@ namespace SoulsFormats
 
             internal override Region ReadEntry(BinaryReaderEx br)
             {
-                var region = new Region(br);
-                Regions.Add(region);
-                return region;
+                return Regions.EchoAdd(new Region(br));
             }
-
-            internal override void WriteEntry(BinaryWriterEx bw, int id, Region entry)
-            {
-                entry.Write(bw, id);
-            }
-
-            public void Add(IMsbRegion item)
-            {
-                switch (item)
-                {
-                    case Region r:
-                        Regions.Add(r);
-                        break;
-                    default:
-                        throw new ArgumentException(
-                            message: "Item is not recognized",
-                            paramName: nameof(item));
-                }
-            }
-        }
-
-        internal enum RegionType : uint
-        {
-            Point = 0,
-            Circle = 1,
-            Sphere = 2,
-            Cylinder = 3,
-            Square = 4,
-            Box = 5,
         }
 
         /// <summary>
-        /// A point or volumetric area used for a variety of purposes.
+        /// A point or volume used by scripts or events.
         /// </summary>
         public class Region : Entry, IMsbRegion
         {
             /// <summary>
-            /// The name of this region.
+            /// The name of the region.
             /// </summary>
-            public override string Name { get; set; }
+            public string Name { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Describes the physical shape of the region.
             /// </summary>
-            public int Unk2 { get; set; }
-            public int Unk3 { get; set; }
-            public int Unk4 { get; set; }
+            public MSB.Shape Shape
+            {
+                get => _shape;
+                set
+                {
+                    if (value is MSB.Shape.Composite)
+                        throw new ArgumentException("Bloodborne does not support composite shapes.");
+                    _shape = value;
+                }
+            }
+            private MSB.Shape _shape;
 
             /// <summary>
-            /// The shape of this region.
-            /// </summary>
-            public MSB.Shape Shape { get; set; }
-
-            /// <summary>
-            /// Center of the region.
+            /// Location of the region.
             /// </summary>
             public Vector3 Position { get; set; }
 
@@ -101,136 +88,107 @@ namespace SoulsFormats
             /// </summary>
             public Vector3 Rotation { get; set; }
 
-            public List<short> UnkA { get; set; }
-            public List<short> UnkB { get; set; }
-
             /// <summary>
-            /// An ID used to identify this region in event scripts.
+            /// Identifies the region in external files.
             /// </summary>
             public int EntityID { get; set; }
 
-            public Region() { }
-
-            public Region(string name)
+            /// <summary>
+            /// Creates a Region with default values.
+            /// </summary>
+            public Region()
             {
-                Name = name;
-                Position = Vector3.Zero;
-                Rotation = Vector3.Zero;
+                Name = "Region";
+                Shape = new MSB.Shape.Point();
                 EntityID = -1;
-                UnkA = new List<short>();
-                UnkB = new List<short>();
-                Unk2 = 0;
-                Unk3 = 0;
-                Unk4 = 0;
             }
 
-            public Region(Region clone)
+            /// <summary>
+            /// Creates a deep copy of the region.
+            /// </summary>
+            public Region DeepCopy()
             {
-                Name = clone.Name;
-                Position = clone.Position;
-                Rotation = clone.Rotation;
-                EntityID = clone.EntityID;
-                Unk2 = clone.Unk2;
-                UnkA = new List<short>(clone.UnkA);
-                UnkB = new List<short>(clone.UnkB);
-                Unk3 = clone.Unk3;
-                Unk4 = clone.Unk4;
+                var region = (Region)MemberwiseClone();
+                region.Shape = Shape.DeepCopy();
+                return region;
             }
+            IMsbRegion IMsbRegion.DeepCopy() => DeepCopy();
 
             internal Region(BinaryReaderEx br)
             {
                 long start = br.Position;
-
                 long nameOffset = br.ReadInt64();
                 br.AssertInt32(0);
                 br.ReadInt32(); // ID
-                ShapeType shapeType = br.ReadEnum32<ShapeType>();
+                MSB.ShapeType shapeType = br.ReadEnum32<MSB.ShapeType>();
                 Position = br.ReadVector3();
                 Rotation = br.ReadVector3();
-                Unk2 = br.ReadInt32();
-
-                long baseDataOffset1 = br.ReadInt64();
-                long baseDataOffset2 = br.AssertInt64(baseDataOffset1 + 4);
+                br.AssertInt32(0);
+                long unkOffsetA = br.ReadInt64();
+                long unkOffsetB = br.ReadInt64();
                 long shapeDataOffset = br.ReadInt64();
-                long baseDataOffset3 = br.ReadInt64();
+                long entityDataOffset = br.ReadInt64();
 
-                Name = br.GetUTF16(start + nameOffset);
+                Shape = MSB.Shape.Create(shapeType);
 
-                br.Position = start + baseDataOffset1;
-                short countA = br.ReadInt16();
-                UnkA = new List<short>(br.ReadInt16s(countA));
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+                if (unkOffsetA == 0)
+                    throw new InvalidDataException($"{nameof(unkOffsetA)} must not be 0 in type {GetType()}.");
+                if (unkOffsetB == 0)
+                    throw new InvalidDataException($"{nameof(unkOffsetB)} must not be 0 in type {GetType()}.");
+                if (Shape.HasShapeData ^ shapeDataOffset != 0)
+                    throw new InvalidDataException($"Unexpected {nameof(shapeDataOffset)} 0x{shapeDataOffset:X} in type {GetType()}.");
 
-                br.Position = start + baseDataOffset2;
-                short countB = br.ReadInt16();
-                UnkB = new List<short>(br.ReadInt16s(countB));
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
 
-                br.Position = start + shapeDataOffset;
-                switch (shapeType)
+                br.Position = start + unkOffsetA;
+                br.AssertInt16(0);
+
+                br.Position = start + unkOffsetB;
+                br.AssertInt16(0);
+
+                if (Shape.HasShapeData)
                 {
-                    case ShapeType.Point:
-                        Shape = new MSB.Shape.Point();
-                        break;
-
-                    case ShapeType.Circle:
-                        Shape = new MSB.Shape.Circle(br);
-                        break;
-
-                    case ShapeType.Sphere:
-                        Shape = new MSB.Shape.Sphere(br);
-                        break;
-
-                    case ShapeType.Cylinder:
-                        Shape = new MSB.Shape.Cylinder(br);
-                        break;
-
-                    case ShapeType.Box:
-                        Shape = new MSB.Shape.Box(br);
-                        break;
-
-                    default:
-                        throw new NotImplementedException($"Unsupported shape type: {shapeType}");
+                    br.Position = start + shapeDataOffset;
+                    Shape.ReadShapeData(br);
                 }
 
-                br.Position = start + baseDataOffset3;
+                br.Position = start + entityDataOffset;
                 EntityID = br.ReadInt32();
             }
 
-            internal void Write(BinaryWriterEx bw, int id)
+            internal override void Write(BinaryWriterEx bw, int id)
             {
                 long start = bw.Position;
-
                 bw.ReserveInt64("NameOffset");
                 bw.WriteInt32(0);
                 bw.WriteInt32(id);
                 bw.WriteUInt32((uint)Shape.Type);
                 bw.WriteVector3(Position);
                 bw.WriteVector3(Rotation);
-                bw.WriteInt32(Unk2);
-
-                bw.ReserveInt64("BaseDataOffset1");
-                bw.ReserveInt64("BaseDataOffset2");
-
-
+                bw.WriteInt32(0);
+                bw.ReserveInt64("UnkOffsetA");
+                bw.ReserveInt64("UnkOffsetB");
                 bw.ReserveInt64("ShapeDataOffset");
-                bw.ReserveInt64("BaseDataOffset3");
+                bw.ReserveInt64("EntityDataOffset");
 
                 bw.FillInt64("NameOffset", bw.Position - start);
-                bw.WriteUTF16(ReambiguateName(Name), true);
+                bw.WriteUTF16(MSB.ReambiguateName(Name), true);
                 bw.Pad(4);
 
-                bw.FillInt64("BaseDataOffset1", bw.Position - start);
-                bw.WriteInt16((short)UnkA.Count);
-                bw.WriteInt16s(UnkA);
+                bw.FillInt64("UnkOffsetA", bw.Position - start);
+                bw.WriteInt16(0);
                 bw.Pad(4);
 
-                bw.FillInt64("BaseDataOffset2", bw.Position - start);
-                bw.WriteInt16((short)UnkB.Count);
-                bw.WriteInt16s(UnkB);
+                bw.FillInt64("UnkOffsetB", bw.Position - start);
+                bw.WriteInt16(0);
                 bw.Pad(8);
 
                 if (Shape.HasShapeData)
                 {
-                    bw.FillInt64("ShapeDataOffset", (int)(bw.Position - start));
+                    bw.FillInt64("ShapeDataOffset", bw.Position - start);
                     Shape.WriteShapeData(bw);
                 }
                 else
@@ -238,28 +196,9 @@ namespace SoulsFormats
                     bw.FillInt64("ShapeDataOffset", 0);
                 }
 
-                bw.FillInt64("BaseDataOffset3", bw.Position - start);
+                bw.FillInt64("EntityDataOffset", bw.Position - start);
                 bw.WriteInt32(EntityID);
-
                 bw.Pad(8);
-            }
-
-            internal virtual void GetNames(MSBB msb, Entries entries)
-            {
-                //ActivationPartName = GetName(entries.Parts, ActivationPartIndex);
-            }
-
-            internal virtual void GetIndices(MSBB msb, Entries entries)
-            {
-                //ActivationPartIndex = GetIndex(entries.Parts, ActivationPartName);
-            }
-
-            /// <summary>
-            /// Returns the region type, ID, shape type, and name of this region.
-            /// </summary>
-            public override string ToString()
-            {
-                return $"{Shape.Type} : {Name}";
             }
         }
     }

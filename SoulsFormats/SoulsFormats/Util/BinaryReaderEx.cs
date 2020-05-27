@@ -267,6 +267,16 @@ namespace SoulsFormats
         }
 
         /// <summary>
+        /// Reads the specified number of bytes from the stream into the buffer starting at the specified index.
+        /// </summary>
+        public void ReadBytes(byte[] buffer, int index, int count)
+        {
+            int read = br.Read(buffer, index, count);
+            if (read != count)
+                throw new EndOfStreamException("Remaining size of stream was smaller than requested number of bytes.");
+        }
+
+        /// <summary>
         /// Reads a one-byte unsigned integer from the specified offset without advancing the stream.
         /// </summary>
         public byte GetByte(long offset)
@@ -283,6 +293,16 @@ namespace SoulsFormats
             byte[] result = ReadBytes(count);
             StepOut();
             return result;
+        }
+
+        /// <summary>
+        /// Reads the specified number of bytes from the offset into the buffer starting at the specified index without advancing the stream.
+        /// </summary>
+        public void GetBytes(long offset, byte[] buffer, int index, int count)
+        {
+            StepIn(offset);
+            ReadBytes(buffer, index, count);
+            StepOut();
         }
 
         /// <summary>

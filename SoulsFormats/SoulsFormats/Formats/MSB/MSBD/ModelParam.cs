@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SoulsFormats
 {
-    public partial class MSB1
+    public partial class MSBD
     {
         internal enum ModelType : uint
         {
@@ -15,6 +15,8 @@ namespace SoulsFormats
             Player = 4,
             Collision = 5,
             Navmesh = 6,
+            DummyObject = 7,
+            DummyEnemy = 8,
         }
 
         /// <summary>
@@ -55,6 +57,16 @@ namespace SoulsFormats
             public List<Model.Navmesh> Navmeshes { get; set; }
 
             /// <summary>
+            /// Models for dummy dynamic props.
+            /// </summary>
+            public List<Model.DummyObject> DummyObjects { get; set; }
+
+            /// <summary>
+            /// Models for dummy non-player entities.
+            /// </summary>
+            public List<Model.DummyEnemy> DummyEnemies { get; set; }
+
+            /// <summary>
             /// Creates an empty ModelParam.
             /// </summary>
             public ModelParam() : base()
@@ -65,6 +77,8 @@ namespace SoulsFormats
                 Players = new List<Model.Player>();
                 Collisions = new List<Model.Collision>();
                 Navmeshes = new List<Model.Navmesh>();
+                DummyObjects = new List<Model.DummyObject>();
+                DummyEnemies = new List<Model.DummyEnemy>();
             }
 
             internal override Model ReadEntry(BinaryReaderEx br)
@@ -90,6 +104,12 @@ namespace SoulsFormats
                     case ModelType.Navmesh:
                         return Navmeshes.EchoAdd(new Model.Navmesh(br));
 
+                    case ModelType.DummyObject:
+                        return DummyObjects.EchoAdd(new Model.DummyObject(br));
+
+                    case ModelType.DummyEnemy:
+                        return DummyEnemies.EchoAdd(new Model.DummyEnemy(br));
+
                     default:
                         throw new NotImplementedException($"Unimplemented model type: {type}");
                 }
@@ -108,6 +128,8 @@ namespace SoulsFormats
                     case Model.Player m: Players.Add(m); break;
                     case Model.Collision m: Collisions.Add(m); break;
                     case Model.Navmesh m: Navmeshes.Add(m); break;
+                    case Model.DummyObject m: DummyObjects.Add(m); break;
+                    case Model.DummyEnemy m: DummyEnemies.Add(m); break;
 
                     default:
                         throw new ArgumentException($"Unrecognized type {model.GetType()}.", nameof(model));
@@ -123,7 +145,7 @@ namespace SoulsFormats
             {
                 return SFUtil.ConcatAll<Model>(
                     MapPieces, Objects, Enemies, Players, Collisions,
-                    Navmeshes);
+                    Navmeshes, DummyObjects, DummyEnemies);
             }
             IReadOnlyList<IMsbModel> IMsbParam<IMsbModel>.GetEntries() => GetEntries();
         }
@@ -134,6 +156,11 @@ namespace SoulsFormats
         public abstract class Model : Entry, IMsbModel
         {
             private protected abstract ModelType Type { get; }
+
+            /// <summary>
+            /// The name of the model.
+            /// </summary>
+            public string Name { get; set; }
 
             /// <summary>
             /// A path to a .sib file, presumed to be some kind of editor placeholder.
@@ -211,7 +238,7 @@ namespace SoulsFormats
             /// </summary>
             public override string ToString()
             {
-                return $"{Name}";
+                return $"{Type} {Name}";
             }
 
             /// <summary>
@@ -302,6 +329,36 @@ namespace SoulsFormats
                 public Navmesh() : base("nXXXXBX") { }
 
                 internal Navmesh(BinaryReaderEx br) : base(br) { }
+            }
+
+            /// <summary>
+            /// A model for a dummy dynamic or interactible part.
+            /// </summary>
+            public class DummyObject : Model
+            {
+                private protected override ModelType Type => ModelType.DummyObject;
+
+                /// <summary>
+                /// Creates a DummyObject with default values.
+                /// </summary>
+                public DummyObject() : base("oXXXX") { }
+
+                internal DummyObject(BinaryReaderEx br) : base(br) { }
+            }
+
+            /// <summary>
+            /// A model for a dummy non-player character.
+            /// </summary>
+            public class DummyEnemy : Model
+            {
+                private protected override ModelType Type => ModelType.DummyEnemy;
+
+                /// <summary>
+                /// Creates a DummyEnemy with default values.
+                /// </summary>
+                public DummyEnemy() : base("cXXXX") { }
+
+                internal DummyEnemy(BinaryReaderEx br) : base(br) { }
             }
         }
     }

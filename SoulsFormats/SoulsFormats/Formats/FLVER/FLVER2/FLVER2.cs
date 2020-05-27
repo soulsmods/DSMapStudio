@@ -76,7 +76,9 @@ namespace SoulsFormats
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             FLVER2 file = new FLVER2();
             file.Cache = cache;
-            br = SFUtil.GetDecompressedBR(br, out file.Compression);
+            DCX.Type ctype;
+            br = SFUtil.GetDecompressedBR(br, out ctype);
+            file.Compression = ctype;
             file.Read(br);
             return file;
         }
@@ -91,7 +93,9 @@ namespace SoulsFormats
                 BinaryReaderEx br = new BinaryReaderEx(false, stream);
                 FLVER2 file = new FLVER2();
                 file.Cache = cache;
-                br = SFUtil.GetDecompressedBR(br, out file.Compression);
+                DCX.Type ctype;
+                br = SFUtil.GetDecompressedBR(br, out ctype);
+                file.Compression = ctype;
                 file.Read(br);
                 return file;
             }

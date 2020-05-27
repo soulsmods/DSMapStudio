@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 
 namespace SoulsFormats
 {
     public partial class MSB1
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public enum PartType : uint
+        internal enum PartType : uint
         {
             MapPiece = 0,
             Object = 1,
@@ -19,7 +19,6 @@ namespace SoulsFormats
             DummyEnemy = 10,
             ConnectCollision = 11,
         }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// All instances of concrete things in the map.
@@ -89,60 +88,29 @@ namespace SoulsFormats
                 ConnectCollisions = new List<Part.ConnectCollision>();
             }
 
-            internal override Part ReadEntry(BinaryReaderEx br)
+            /// <summary>
+            /// Adds a part to the appropriate list for its type; returns the part.
+            /// </summary>
+            public Part Add(Part part)
             {
-                PartType type = br.GetEnum32<PartType>(br.Position + 4);
-                switch (type)
+                switch (part)
                 {
-                    case PartType.MapPiece:
-                        var mapPiece = new Part.MapPiece(br);
-                        MapPieces.Add(mapPiece);
-                        return mapPiece;
-
-                    case PartType.Object:
-                        var obj = new Part.Object(br);
-                        Objects.Add(obj);
-                        return obj;
-
-                    case PartType.Enemy:
-                        var enemy = new Part.Enemy(br);
-                        Enemies.Add(enemy);
-                        return enemy;
-
-                    case PartType.Player:
-                        var player = new Part.Player(br);
-                        Players.Add(player);
-                        return player;
-
-                    case PartType.Collision:
-                        var collision = new Part.Collision(br);
-                        Collisions.Add(collision);
-                        return collision;
-
-                    case PartType.Navmesh:
-                        var navmesh = new Part.Navmesh(br);
-                        Navmeshes.Add(navmesh);
-                        return navmesh;
-
-                    case PartType.DummyObject:
-                        var dummyObject = new Part.DummyObject(br);
-                        DummyObjects.Add(dummyObject);
-                        return dummyObject;
-
-                    case PartType.DummyEnemy:
-                        var dummyEnemy = new Part.DummyEnemy(br);
-                        DummyEnemies.Add(dummyEnemy);
-                        return dummyEnemy;
-
-                    case PartType.ConnectCollision:
-                        var connectCollision = new Part.ConnectCollision(br);
-                        ConnectCollisions.Add(connectCollision);
-                        return connectCollision;
+                    case Part.MapPiece p: MapPieces.Add(p); break;
+                    case Part.Object p: Objects.Add(p); break;
+                    case Part.Enemy p: Enemies.Add(p); break;
+                    case Part.Player p: Players.Add(p); break;
+                    case Part.Collision p: Collisions.Add(p); break;
+                    case Part.Navmesh p: Navmeshes.Add(p); break;
+                    case Part.DummyObject p: DummyObjects.Add(p); break;
+                    case Part.DummyEnemy p: DummyEnemies.Add(p); break;
+                    case Part.ConnectCollision p: ConnectCollisions.Add(p); break;
 
                     default:
-                        throw new NotImplementedException($"Unimplemented part type: {type}");
+                        throw new ArgumentException($"Unrecognized type {part.GetType()}.", nameof(part));
                 }
+                return part;
             }
+            IMsbPart IMsbParam<IMsbPart>.Add(IMsbPart item) => Add((Part)item);
 
             /// <summary>
             /// Returns every Part in the order they'll be written.
@@ -155,41 +123,40 @@ namespace SoulsFormats
             }
             IReadOnlyList<IMsbPart> IMsbParam<IMsbPart>.GetEntries() => GetEntries();
 
-            public void Add(IMsbPart item)
+            internal override Part ReadEntry(BinaryReaderEx br)
             {
-                switch (item)
+                PartType type = br.GetEnum32<PartType>(br.Position + 4);
+                switch (type)
                 {
-                    case Part.MapPiece m:
-                        MapPieces.Add(m);
-                        break;
-                    case Part.DummyObject m:
-                        DummyObjects.Add(m);
-                        break;
-                    case Part.Object m:
-                        Objects.Add(m);
-                        break;
-                    case Part.DummyEnemy m:
-                        DummyEnemies.Add(m);
-                        break;
-                    case Part.Enemy m:
-                        Enemies.Add(m);
-                        break;
-                    case Part.Player m:
-                        Players.Add(m);
-                        break;
-                    case Part.Collision m:
-                        Collisions.Add(m);
-                        break;
-                    case Part.Navmesh m:
-                        Navmeshes.Add(m);
-                        break;
-                    case Part.ConnectCollision m:
-                        ConnectCollisions.Add(m);
-                        break;
+                    case PartType.MapPiece:
+                        return MapPieces.EchoAdd(new Part.MapPiece(br));
+
+                    case PartType.Object:
+                        return Objects.EchoAdd(new Part.Object(br));
+
+                    case PartType.Enemy:
+                        return Enemies.EchoAdd(new Part.Enemy(br));
+
+                    case PartType.Player:
+                        return Players.EchoAdd(new Part.Player(br));
+
+                    case PartType.Collision:
+                        return Collisions.EchoAdd(new Part.Collision(br));
+
+                    case PartType.Navmesh:
+                        return Navmeshes.EchoAdd(new Part.Navmesh(br));
+
+                    case PartType.DummyObject:
+                        return DummyObjects.EchoAdd(new Part.DummyObject(br));
+
+                    case PartType.DummyEnemy:
+                        return DummyEnemies.EchoAdd(new Part.DummyEnemy(br));
+
+                    case PartType.ConnectCollision:
+                        return ConnectCollisions.EchoAdd(new Part.ConnectCollision(br));
+
                     default:
-                        throw new ArgumentException(
-                            message: "Item is not recognized",
-                            paramName: nameof(item));
+                        throw new NotImplementedException($"Unimplemented part type: {type}");
                 }
             }
         }
@@ -199,10 +166,7 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Part : Entry, IMsbPart
         {
-            /// <summary>
-            /// The type of the Part.
-            /// </summary>
-            public abstract PartType Type { get; }
+            private protected abstract PartType Type { get; }
 
             /// <summary>
             /// The model of the Part, corresponding to an entry in the ModelParam.
@@ -213,7 +177,7 @@ namespace SoulsFormats
             /// <summary>
             /// A path to a .sib file, presumed to be some kind of editor placeholder.
             /// </summary>
-            public string Placeholder { get; set; }
+            public string SibPath { get; set; }
 
             /// <summary>
             /// Location of the part.
@@ -330,10 +294,10 @@ namespace SoulsFormats
             /// </summary>
             public byte DisablePointLightEffect { get; set; }
 
-            internal Part()
+            private protected Part(string name)
             {
-                Name = "";
-                Placeholder = "";
+                Name = name;
+                SibPath = "";
                 Scale = Vector3.One;
                 DrawGroups = new uint[4] {
                     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
@@ -342,7 +306,22 @@ namespace SoulsFormats
                 EntityID = -1;
             }
 
-            internal Part(BinaryReaderEx br)
+            /// <summary>
+            /// Creates a deep copy of the part.
+            /// </summary>
+            public Part DeepCopy()
+            {
+                var part = (Part)MemberwiseClone();
+                part.DrawGroups = (uint[])DrawGroups.Clone();
+                part.DispGroups = (uint[])DispGroups.Clone();
+                DeepCopyTo(part);
+                return part;
+            }
+            IMsbPart IMsbPart.DeepCopy() => DeepCopy();
+
+            private protected virtual void DeepCopyTo(Part part) { }
+
+            private protected Part(BinaryReaderEx br)
             {
                 long start = br.Position;
                 int nameOffset = br.ReadInt32();
@@ -359,10 +338,30 @@ namespace SoulsFormats
                 int typeDataOffset = br.ReadInt32();
                 br.AssertInt32(0);
 
-                Name = br.GetShiftJIS(start + nameOffset);
-                Placeholder = br.GetShiftJIS(start + sibOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+                if (sibOffset == 0)
+                    throw new InvalidDataException($"{nameof(sibOffset)} must not be 0 in type {GetType()}.");
+                if (entityDataOffset == 0)
+                    throw new InvalidDataException($"{nameof(entityDataOffset)} must not be 0 in type {GetType()}.");
+                if (typeDataOffset == 0)
+                    throw new InvalidDataException($"{nameof(typeDataOffset)} must not be 0 in type {GetType()}.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadShiftJIS();
+
+                br.Position = start + sibOffset;
+                SibPath = br.ReadShiftJIS();
 
                 br.Position = start + entityDataOffset;
+                ReadEntityData(br);
+
+                br.Position = start + typeDataOffset;
+                ReadTypeData(br);
+            }
+
+            private void ReadEntityData(BinaryReaderEx br)
+            {
                 EntityID = br.ReadInt32();
                 LightID = br.ReadByte();
                 FogID = br.ReadByte();
@@ -384,9 +383,9 @@ namespace SoulsFormats
                 DisablePointLightEffect = br.ReadByte();
                 br.AssertByte(0);
                 br.AssertByte(0);
-
-                br.Position = start + typeDataOffset;
             }
+
+            private protected abstract void ReadTypeData(BinaryReaderEx br);
 
             internal override void Write(BinaryWriterEx bw, int id)
             {
@@ -408,13 +407,22 @@ namespace SoulsFormats
                 long stringsStart = bw.Position;
                 bw.FillInt32("NameOffset", (int)(bw.Position - start));
                 bw.WriteShiftJIS(MSB.ReambiguateName(Name), true);
+
                 bw.FillInt32("SibOffset", (int)(bw.Position - start));
-                bw.WriteShiftJIS(Placeholder, true);
+                bw.WriteShiftJIS(SibPath, true);
                 bw.Pad(4);
                 if (bw.Position - stringsStart < 0x14)
                     bw.WritePattern((int)(0x14 - (bw.Position - stringsStart)), 0x00);
 
                 bw.FillInt32("EntityDataOffset", (int)(bw.Position - start));
+                WriteEntityData(bw);
+
+                bw.FillInt32("TypeDataOffset", (int)(bw.Position - start));
+                WriteTypeData(bw);
+            }
+
+            private void WriteEntityData(BinaryWriterEx bw)
+            {
                 bw.WriteInt32(EntityID);
                 bw.WriteByte(LightID);
                 bw.WriteByte(FogID);
@@ -436,9 +444,9 @@ namespace SoulsFormats
                 bw.WriteByte(DisablePointLightEffect);
                 bw.WriteByte(0);
                 bw.WriteByte(0);
-
-                bw.FillInt32("TypeDataOffset", (int)(bw.Position - start));
             }
+
+            private protected abstract void WriteTypeData(BinaryWriterEx bw);
 
             internal virtual void GetNames(MSB1 msb, Entries entries)
             {
@@ -455,94 +463,89 @@ namespace SoulsFormats
             /// </summary>
             public class MapPiece : Part
             {
-                /// <summary>
-                /// PartType.MapPiece
-                /// </summary>
-                public override PartType Type => PartType.MapPiece;
+                private protected override PartType Type => PartType.MapPiece;
 
                 /// <summary>
                 /// Creates a MapPiece with default values.
                 /// </summary>
-                public MapPiece() : base() { }
+                public MapPiece() : base("mXXXXBX") { }
 
-                internal MapPiece(BinaryReaderEx br) : base(br)
+                internal MapPiece(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                 }
             }
 
             /// <summary>
-            /// A dynamic or interactible part of the map.
+            /// Common base data for objects and dummy objects.
             /// </summary>
-            public class Object : Part
+            public abstract class ObjectBase : Part
             {
-                /// <summary>
-                /// PartType.Object
-                /// </summary>
-                public override PartType Type => PartType.Object;
-
                 /// <summary>
                 /// Collision that controls loading of the object.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [Order]
-                public int UnkT08 { get; set; }
+                public sbyte BreakTerm { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [Order]
-                public short UnkT0C { get; set; }
+                public sbyte NetSyncType { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [Order]
+                public short InitAnimID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public short UnkT0E { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [Order]
                 public int UnkT10 { get; set; }
 
-                /// <summary>
-                /// Creates an Object with default values.
-                /// </summary>
-                public Object() : base() { }
+                private protected ObjectBase() : base("oXXXX_XXXX") { }
 
-                internal Object(BinaryReaderEx br) : base(br)
+                private protected ObjectBase(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt32(0);
                     CollisionIndex = br.ReadInt32();
-                    UnkT08 = br.ReadInt32();
-                    UnkT0C = br.ReadInt16();
+                    BreakTerm = br.ReadSByte();
+                    NetSyncType = br.ReadSByte();
+                    br.AssertInt16(0);
+                    InitAnimID = br.ReadInt16();
                     UnkT0E = br.ReadInt16();
                     UnkT10 = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteInt32(0);
                     bw.WriteInt32(CollisionIndex);
-                    bw.WriteInt32(UnkT08);
-                    bw.WriteInt16(UnkT0C);
+                    bw.WriteSByte(BreakTerm);
+                    bw.WriteSByte(NetSyncType);
+                    bw.WriteInt16(0);
+                    bw.WriteInt16(InitAnimID);
                     bw.WriteInt16(UnkT0E);
                     bw.WriteInt32(UnkT10);
                     bw.WriteInt32(0);
@@ -562,25 +565,33 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Any living entity besides the player character.
+            /// A dynamic or interactible part of the map.
             /// </summary>
-            public class Enemy : Part
+            public class Object : ObjectBase
             {
-                /// <summary>
-                /// PartType.Enemy
-                /// </summary>
-                public override PartType Type => PartType.Enemy;
+                private protected override PartType Type => PartType.Object;
 
+                /// <summary>
+                /// Creates an Object with default values.
+                /// </summary>
+                public Object() : base() { }
+
+                internal Object(BinaryReaderEx br) : base(br) { }
+            }
+
+            /// <summary>
+            /// Common base data for enemies and dummy enemies.
+            /// </summary>
+            public abstract class EnemyBase : Part
+            {
                 /// <summary>
                 /// ID in NPCThinkParam determining AI properties.
                 /// </summary>
-                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// ID in NPCParam determining character properties.
                 /// </summary>
-                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -591,42 +602,41 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT14 { get; set; }
+                public byte PointMoveType { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public ushort PlatoonID { get; set; }
 
                 /// <summary>
                 /// ID in CharaInitParam determining equipment and stats for humans.
                 /// </summary>
-                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
                 /// Collision that controls loading of the enemy.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
                 /// <summary>
                 /// Regions for the enemy to patrol.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] MovePointNames { get; private set; }
                 private short[] MovePointIndices;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT38 { get; set; }
+                public int InitAnimID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT3C { get; set; }
+                public int DamageAnimID { get; set; }
 
-                /// <summary>
-                /// Creates an Enemy with default values.
-                /// </summary>
-                public Enemy() : base()
+                private protected EnemyBase() : base("cXXXX_XXXX")
                 {
                     ThinkParamID = -1;
                     NPCParamID = -1;
@@ -635,39 +645,50 @@ namespace SoulsFormats
                     MovePointNames = new string[8];
                 }
 
-                internal Enemy(BinaryReaderEx br) : base(br)
+                private protected override void DeepCopyTo(Part part)
+                {
+                    var enemy = (EnemyBase)part;
+                    enemy.MovePointNames = (string[])MovePointNames.Clone();
+                }
+
+                private protected EnemyBase(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     ThinkParamID = br.ReadInt32();
                     NPCParamID = br.ReadInt32();
                     TalkID = br.ReadInt32();
-                    UnkT14 = br.ReadSingle();
+                    PointMoveType = br.ReadByte();
+                    br.AssertByte(0);
+                    PlatoonID = br.ReadUInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionIndex = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     MovePointIndices = br.ReadInt16s(8);
-                    UnkT38 = br.ReadInt32();
-                    UnkT3C = br.ReadInt32();
+                    InitAnimID = br.ReadInt32();
+                    DamageAnimID = br.ReadInt32();
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(ThinkParamID);
                     bw.WriteInt32(NPCParamID);
                     bw.WriteInt32(TalkID);
-                    bw.WriteSingle(UnkT14);
+                    bw.WriteByte(PointMoveType);
+                    bw.WriteByte(0);
+                    bw.WriteUInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionIndex);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt16s(MovePointIndices);
-                    bw.WriteInt32(UnkT38);
-                    bw.WriteInt32(UnkT3C);
+                    bw.WriteInt32(InitAnimID);
+                    bw.WriteInt32(DamageAnimID);
                 }
 
                 internal override void GetNames(MSB1 msb, Entries entries)
@@ -692,21 +713,35 @@ namespace SoulsFormats
             }
 
             /// <summary>
+            /// Any living entity besides the player character.
+            /// </summary>
+            public class Enemy : EnemyBase
+            {
+                private protected override PartType Type => PartType.Enemy;
+
+                /// <summary>
+                /// Creates an Enemy with default values.
+                /// </summary>
+                public Enemy() : base() { }
+
+                internal Enemy(BinaryReaderEx br) : base(br) { }
+            }
+
+            /// <summary>
             /// Unknown exactly what these do.
             /// </summary>
             public class Player : Part
             {
-                /// <summary>
-                /// PartType.Player
-                /// </summary>
-                public override PartType Type => PartType.Player;
+                private protected override PartType Type => PartType.Player;
 
                 /// <summary>
                 /// Creates a Player with default values.
                 /// </summary>
-                public Player() : base() { }
+                public Player() : base("c0000_XXXX") { }
 
-                internal Player(BinaryReaderEx br) : base(br)
+                internal Player(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -714,9 +749,8 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -729,10 +763,7 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
-                /// <summary>
-                /// PartType.Collision
-                /// </summary>
-                public override PartType Type => PartType.Collision;
+                private protected override PartType Type => PartType.Collision;
 
                 /// <summary>
                 /// Unknown.
@@ -772,7 +803,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short DisableStart { get; set; }
+                public bool DisableStart { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public byte UnkT27 { get; set; }
 
                 /// <summary>
                 /// If set, disables a bonfire when any enemy is on the collision.
@@ -787,19 +823,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in LockCamParam determining camera properties.
                 /// </summary>
-                [MSBParamReference(ParamName = "LockCamParam")]
                 public short LockCamParamID1 { get; set; }
 
                 /// <summary>
                 /// ID in LockCamParam determining camera properties.
                 /// </summary>
-                [MSBParamReference(ParamName = "LockCamParam")]
                 public short LockCamParamID2 { get; set; }
 
                 /// <summary>
                 /// Creates a Collision with default values.
                 /// </summary>
-                public Collision() : base()
+                public Collision() : base("hXXXXBX")
                 {
                     NvmGroups = new uint[4]{
                         0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
@@ -810,7 +844,16 @@ namespace SoulsFormats
                     LockCamParamID2 = -1;
                 }
 
-                internal Collision(BinaryReaderEx br) : base(br)
+                private protected override void DeepCopyTo(Part part)
+                {
+                    var collision = (Collision)part;
+                    collision.NvmGroups = (uint[])NvmGroups.Clone();
+                    collision.VagrantEntityIDs = (int[])VagrantEntityIDs.Clone();
+                }
+
+                internal Collision(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     HitFilterID = br.ReadByte();
                     SoundSpaceType = br.ReadByte();
@@ -819,7 +862,8 @@ namespace SoulsFormats
                     NvmGroups = br.ReadUInt32s(4);
                     VagrantEntityIDs = br.ReadInt32s(3);
                     MapNameID = br.ReadInt16();
-                    DisableStart = br.ReadInt16();
+                    DisableStart = br.ReadBoolean();
+                    UnkT27 = br.ReadByte();
                     DisableBonfireEntityID = br.ReadInt32();
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
@@ -833,9 +877,8 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteByte(HitFilterID);
                     bw.WriteByte(SoundSpaceType);
                     bw.WriteInt16(EnvLightMapSpotIndex);
@@ -843,7 +886,8 @@ namespace SoulsFormats
                     bw.WriteUInt32s(NvmGroups);
                     bw.WriteInt32s(VagrantEntityIDs);
                     bw.WriteInt16(MapNameID);
-                    bw.WriteInt16(DisableStart);
+                    bw.WriteBoolean(DisableStart);
+                    bw.WriteByte(UnkT27);
                     bw.WriteInt32(DisableBonfireEntityID);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
@@ -863,10 +907,7 @@ namespace SoulsFormats
             /// </summary>
             public class Navmesh : Part
             {
-                /// <summary>
-                /// PartType.Navmesh
-                /// </summary>
-                public override PartType Type => PartType.Navmesh;
+                private protected override PartType Type => PartType.Navmesh;
 
                 /// <summary>
                 /// Unknown.
@@ -876,13 +917,21 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Navmesh with default values.
                 /// </summary>
-                public Navmesh() : base()
+                public Navmesh() : base("nXXXXBX")
                 {
                     NvmGroups = new uint[4] {
                         0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
                 }
 
-                internal Navmesh(BinaryReaderEx br) : base(br)
+                private protected override void DeepCopyTo(Part part)
+                {
+                    var navmesh = (Navmesh)part;
+                    navmesh.NvmGroups = (uint[])NvmGroups.Clone();
+                }
+
+                internal Navmesh(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     NvmGroups = br.ReadUInt32s(4);
                     br.AssertInt32(0);
@@ -891,9 +940,8 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteUInt32s(NvmGroups);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -905,12 +953,9 @@ namespace SoulsFormats
             /// <summary>
             /// A normally invisible object, either unused or for a cutscene.
             /// </summary>
-            public class DummyObject : Object
+            public class DummyObject : ObjectBase
             {
-                /// <summary>
-                /// PartType.DummyObject
-                /// </summary>
-                public override PartType Type => PartType.DummyObject;
+                private protected override PartType Type => PartType.DummyObject;
 
                 /// <summary>
                 /// Creates a DummyObject with default values.
@@ -923,12 +968,9 @@ namespace SoulsFormats
             /// <summary>
             /// A normally invisible enemy, either unused or for a cutscene.
             /// </summary>
-            public class DummyEnemy : Enemy
+            public class DummyEnemy : EnemyBase
             {
-                /// <summary>
-                /// PartType.DummyEnemy
-                /// </summary>
-                public override PartType Type => PartType.DummyEnemy;
+                private protected override PartType Type => PartType.DummyEnemy;
 
                 /// <summary>
                 /// Creates a DummyEnemy with default values.
@@ -943,15 +985,11 @@ namespace SoulsFormats
             /// </summary>
             public class ConnectCollision : Part
             {
-                /// <summary>
-                /// PartType.ConnectCollision
-                /// </summary>
-                public override PartType Type => PartType.ConnectCollision;
+                private protected override PartType Type => PartType.ConnectCollision;
 
                 /// <summary>
                 /// The collision which will load another map.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -963,12 +1001,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a ConnectCollision with default values.
                 /// </summary>
-                public ConnectCollision() : base()
+                public ConnectCollision() : base("hXXXXBX_XXXX")
                 {
                     MapID = new byte[4] { 10, 2, 0, 0 };
                 }
 
-                internal ConnectCollision(BinaryReaderEx br) : base(br)
+                private protected override void DeepCopyTo(Part part)
+                {
+                    var connect = (ConnectCollision)part;
+                    connect.MapID = (byte[])MapID.Clone();
+                }
+
+                internal ConnectCollision(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     CollisionIndex = br.ReadInt32();
                     MapID = br.ReadBytes(4);
@@ -976,9 +1022,8 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void Write(BinaryWriterEx bw, int id)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    base.Write(bw, id);
                     bw.WriteInt32(CollisionIndex);
                     bw.WriteBytes(MapID);
                     bw.WriteInt32(0);

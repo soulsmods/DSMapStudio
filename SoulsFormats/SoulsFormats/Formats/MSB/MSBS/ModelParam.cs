@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SoulsFormats
 {
     public partial class MSBS
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public enum ModelType : uint
+        internal enum ModelType : uint
         {
             MapPiece = 0,
             Object = 1,
@@ -15,7 +15,6 @@ namespace SoulsFormats
             Player = 4,
             Collision = 5,
         }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Model files that are available for parts to use.
@@ -48,9 +47,9 @@ namespace SoulsFormats
             public List<Model.Collision> Collisions { get; set; }
 
             /// <summary>
-            /// Creates an empty ModelParam with the given version.
+            /// Creates an empty ModelParam with the default version.
             /// </summary>
-            public ModelParam(int unk00 = 0x23) : base(unk00, "MODEL_PARAM_ST")
+            public ModelParam() : base(35, "MODEL_PARAM_ST")
             {
                 MapPieces = new List<Model.MapPiece>();
                 Objects = new List<Model.Object>();
@@ -59,40 +58,25 @@ namespace SoulsFormats
                 Collisions = new List<Model.Collision>();
             }
 
-            internal override Model ReadEntry(BinaryReaderEx br)
+            /// <summary>
+            /// Adds a model to the appropriate list for its type; returns the model.
+            /// </summary>
+            public Model Add(Model model)
             {
-                ModelType type = br.GetEnum32<ModelType>(br.Position + 8);
-                switch (type)
+                switch (model)
                 {
-                    case ModelType.MapPiece:
-                        var mapPiece = new Model.MapPiece(br);
-                        MapPieces.Add(mapPiece);
-                        return mapPiece;
-
-                    case ModelType.Object:
-                        var obj = new Model.Object(br);
-                        Objects.Add(obj);
-                        return obj;
-
-                    case ModelType.Enemy:
-                        var enemy = new Model.Enemy(br);
-                        Enemies.Add(enemy);
-                        return enemy;
-
-                    case ModelType.Player:
-                        var player = new Model.Player(br);
-                        Players.Add(player);
-                        return player;
-
-                    case ModelType.Collision:
-                        var collision = new Model.Collision(br);
-                        Collisions.Add(collision);
-                        return collision;
+                    case Model.MapPiece m: MapPieces.Add(m); break;
+                    case Model.Object m: Objects.Add(m); break;
+                    case Model.Enemy m: Enemies.Add(m); break;
+                    case Model.Player m: Players.Add(m); break;
+                    case Model.Collision m: Collisions.Add(m); break;
 
                     default:
-                        throw new NotImplementedException($"Unimplemented model type: {type}");
+                        throw new ArgumentException($"Unrecognized type {model.GetType()}.", nameof(model));
                 }
+                return model;
             }
+            IMsbModel IMsbParam<IMsbModel>.Add(IMsbModel item) => Add((Model)item);
 
             /// <summary>
             /// Returns every Model in the order they will be written.
@@ -104,9 +88,29 @@ namespace SoulsFormats
             }
             IReadOnlyList<IMsbModel> IMsbParam<IMsbModel>.GetEntries() => GetEntries();
 
-            public void Add(IMsbModel item)
+            internal override Model ReadEntry(BinaryReaderEx br)
             {
-                throw new NotImplementedException();
+                ModelType type = br.GetEnum32<ModelType>(br.Position + 8);
+                switch (type)
+                {
+                    case ModelType.MapPiece:
+                        return MapPieces.EchoAdd(new Model.MapPiece(br));
+
+                    case ModelType.Object:
+                        return Objects.EchoAdd(new Model.Object(br));
+
+                    case ModelType.Enemy:
+                        return Enemies.EchoAdd(new Model.Enemy(br));
+
+                    case ModelType.Player:
+                        return Players.EchoAdd(new Model.Player(br));
+
+                    case ModelType.Collision:
+                        return Collisions.EchoAdd(new Model.Collision(br));
+
+                    default:
+                        throw new NotImplementedException($"Unimplemented model type: {type}");
+                }
             }
         }
 
@@ -115,17 +119,13 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Model : Entry, IMsbModel
         {
-            /// <summary>
-            /// The type of this Model.
-            /// </summary>
-            public abstract ModelType Type { get; }
-
-            internal abstract bool HasTypeData { get; }
+            private protected abstract ModelType Type { get; }
+            private protected abstract bool HasTypeData { get; }
 
             /// <summary>
             /// A path to a .sib file, presumed to be some kind of editor placeholder.
             /// </summary>
-            public string Placeholder { get; set; }
+            public string SibPath { get; set; }
 
             private int InstanceCount;
 
@@ -134,13 +134,22 @@ namespace SoulsFormats
             /// </summary>
             public int Unk1C { get; set; }
 
-            internal Model()
+            private protected Model(string name)
             {
-                Name = "";
-                Placeholder = "";
+                Name = name;
+                SibPath = "";
             }
 
-            internal Model(BinaryReaderEx br)
+            /// <summary>
+            /// Creates a deep copy of the model.
+            /// </summary>
+            public Model DeepCopy()
+            {
+                return (Model)MemberwiseClone();
+            }
+            IMsbModel IMsbModel.DeepCopy() => DeepCopy();
+
+            private protected Model(BinaryReaderEx br)
             {
                 long start = br.Position;
                 long nameOffset = br.ReadInt64();
@@ -151,10 +160,28 @@ namespace SoulsFormats
                 Unk1C = br.ReadInt32();
                 long typeDataOffset = br.ReadInt64();
 
-                Name = br.GetUTF16(start + nameOffset);
-                Placeholder = br.GetUTF16(start + sibOffset);
-                br.Position = start + typeDataOffset;
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+                if (sibOffset == 0)
+                    throw new InvalidDataException($"{nameof(sibOffset)} must not be 0 in type {GetType()}.");
+                if (HasTypeData ^ typeDataOffset != 0)
+                    throw new InvalidDataException($"Unexpected {nameof(typeDataOffset)} 0x{typeDataOffset:X} in type {GetType()}.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
+
+                br.Position = start + sibOffset;
+                SibPath = br.ReadUTF16();
+
+                if (HasTypeData)
+                {
+                    br.Position = start + typeDataOffset;
+                    ReadTypeData(br);
+                }
             }
+
+            private protected virtual void ReadTypeData(BinaryReaderEx br)
+                => throw new NotImplementedException($"Type {GetType()} missing valid {nameof(ReadTypeData)}.");
 
             internal override void Write(BinaryWriterEx bw, int id)
             {
@@ -170,7 +197,7 @@ namespace SoulsFormats
                 bw.FillInt64("NameOffset", bw.Position - start);
                 bw.WriteUTF16(MSB.ReambiguateName(Name), true);
                 bw.FillInt64("SibOffset", bw.Position - start);
-                bw.WriteUTF16(Placeholder, true);
+                bw.WriteUTF16(SibPath, true);
                 bw.Pad(8);
 
                 if (HasTypeData)
@@ -184,10 +211,8 @@ namespace SoulsFormats
                 }
             }
 
-            internal virtual void WriteTypeData(BinaryWriterEx bw)
-            {
-                throw new InvalidOperationException("Type data should not be written for models with no type data.");
-            }
+            private protected virtual void WriteTypeData(BinaryWriterEx bw)
+                => throw new NotImplementedException($"Type {GetType()} missing valid {nameof(ReadTypeData)}.");
 
             internal void CountInstances(List<Part> parts)
             {
@@ -197,7 +222,6 @@ namespace SoulsFormats
             /// <summary>
             /// Returns the type and name of the model as a string.
             /// </summary>
-            /// <returns></returns>
             public override string ToString()
             {
                 return $"{Type} {Name}";
@@ -208,12 +232,8 @@ namespace SoulsFormats
             /// </summary>
             public class MapPiece : Model
             {
-                /// <summary>
-                /// ModelType.MapPiece
-                /// </summary>
-                public override ModelType Type => ModelType.MapPiece;
-
-                internal override bool HasTypeData => true;
+                private protected override ModelType Type => ModelType.MapPiece;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -263,9 +283,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a MapPiece with default values.
                 /// </summary>
-                public MapPiece() : base() { }
+                public MapPiece() : base("mXXXXXX") { }
 
-                internal MapPiece(BinaryReaderEx br) : base(br)
+                internal MapPiece(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     UnkT00 = br.ReadBoolean();
                     UnkT01 = br.ReadBoolean();
@@ -280,7 +302,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteBoolean(UnkT00);
                     bw.WriteBoolean(UnkT01);
@@ -301,17 +323,13 @@ namespace SoulsFormats
             /// </summary>
             public class Object : Model
             {
-                /// <summary>
-                /// ModelType.Object
-                /// </summary>
-                public override ModelType Type => ModelType.Object;
-
-                internal override bool HasTypeData => false;
+                private protected override ModelType Type => ModelType.Object;
+                private protected override bool HasTypeData => false;
 
                 /// <summary>
                 /// Creates an Object with default values.
                 /// </summary>
-                public Object() : base() { }
+                public Object() : base("oXXXXXX") { }
 
                 internal Object(BinaryReaderEx br) : base(br) { }
             }
@@ -321,17 +339,13 @@ namespace SoulsFormats
             /// </summary>
             public class Enemy : Model
             {
-                /// <summary>
-                /// ModelType.Enemy
-                /// </summary>
-                public override ModelType Type => ModelType.Enemy;
-
-                internal override bool HasTypeData => false;
+                private protected override ModelType Type => ModelType.Enemy;
+                private protected override bool HasTypeData => false;
 
                 /// <summary>
                 /// Creates an Enemy with default values.
                 /// </summary>
-                public Enemy() : base() { }
+                public Enemy() : base("cXXXX") { }
 
                 internal Enemy(BinaryReaderEx br) : base(br) { }
             }
@@ -341,17 +355,13 @@ namespace SoulsFormats
             /// </summary>
             public class Player : Model
             {
-                /// <summary>
-                /// ModelType.Player
-                /// </summary>
-                public override ModelType Type => ModelType.Player;
-
-                internal override bool HasTypeData => false;
+                private protected override ModelType Type => ModelType.Player;
+                private protected override bool HasTypeData => false;
 
                 /// <summary>
                 /// Creates a Player with default values.
                 /// </summary>
-                public Player() : base() { }
+                public Player() : base("c0000") { }
 
                 internal Player(BinaryReaderEx br) : base(br) { }
             }
@@ -361,17 +371,13 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Model
             {
-                /// <summary>
-                /// ModelType.Collision
-                /// </summary>
-                public override ModelType Type => ModelType.Collision;
-
-                internal override bool HasTypeData => false;
+                private protected override ModelType Type => ModelType.Collision;
+                private protected override bool HasTypeData => false;
 
                 /// <summary>
                 /// Creates a Collision with default values.
                 /// </summary>
-                public Collision() : base() { }
+                public Collision() : base("hXXXXXX") { }
 
                 internal Collision(BinaryReaderEx br) : base(br) { }
             }

@@ -418,11 +418,17 @@ namespace StudioCore.Scene
 
             public unsafe void FillWithTPF(GraphicsDevice d, CommandList cl, TPF.TPFPlatform platform, TPF.Texture tex, string name)
             {
+                DDS dds;
+                var bytes = tex.Bytes;
                 if (platform != TPF.TPFPlatform.PC)
                 {
-                    return;
+                    bytes = tex.Headerize();
+                    dds = new DDS(bytes);
                 }
-                DDS dds = new DDS(tex.Bytes);
+                else
+                {
+                    dds = new DDS(tex.Bytes);
+                }
 
                 uint width = (uint)dds.dwWidth;
                 uint height = (uint)dds.dwHeight;
@@ -438,28 +444,29 @@ namespace StudioCore.Scene
                     {
                         format = PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
                     }
+                    else if (dds.ddspf.dwFlags == (DDS.DDPF.RGB) && dds.ddspf.dwRGBBitCount == 24)
+                    {
+                        format = PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+                        // 24-bit formats are annoying for now
+                        return;
+                    }
                     else
                     {
                         format = GetPixelFormatFromFourCC(dds.ddspf.dwFourCC);
                     }
                 }
-                if (platform == TPF.TPFPlatform.PC)
+
+                if (!Utils.IsPowerTwo(width) || !Utils.IsPowerTwo(height))
                 {
-                    if (!Utils.IsPowerTwo(width) || !Utils.IsPowerTwo(height))
-                    {
-                        return;
-                    }
-                    width = IsCompressedFormat(format) ? (uint)((width + 3) & ~0x3) : width;
-                    height = IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
+                    return;
                 }
+                width = IsCompressedFormat(format) ? (uint)((width + 3) & ~0x3) : width;
+                height = IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
 
                 bool isCubemap = false;
-                if (platform == TPF.TPFPlatform.PC)
+                if ((dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0)
                 {
-                    if ((dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0)
-                    {
-                        isCubemap = true;
-                    }
+                    isCubemap = true;
                 }
 
                 var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
@@ -492,7 +499,7 @@ namespace StudioCore.Scene
                         var mipInfo = GetMipInfo(format, (int)dds.dwWidth, (int)dds.dwHeight, (int)level, false);
                         //paddedSize = mipInfo.ByteCount;
                         paddedSize = mipInfo;
-                        fixed (void* data = &tex.Bytes[copyOffset])
+                        fixed (void* data = &bytes[copyOffset])
                         {
                             Unsafe.CopyBlock(map.Data.ToPointer(), data, (uint)paddedSize);
                         }

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Numerics;
 
 namespace SoulsFormats
 {
     public partial class MSB2
     {
-        /// <summary>
-        /// Types of event used in DS2.
-        /// </summary>
-        public enum EventType : ushort
+        internal enum EventType : byte
         {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             Light = 1,
             Shadow = 2,
             Fog = 3,
@@ -20,7 +17,6 @@ namespace SoulsFormats
             MapOffset = 5,
             Warp = 6,
             CheapMode = 7,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
 
         /// <summary>
@@ -28,8 +24,8 @@ namespace SoulsFormats
         /// </summary>
         public class EventParam : Param<Event>, IMsbParam<IMsbEvent>
         {
-            internal override string Name => "EVENT_PARAM_ST";
             internal override int Version => 5;
+            internal override string Name => "EVENT_PARAM_ST";
 
             /// <summary>
             /// Unknown if these do anything.
@@ -80,50 +76,27 @@ namespace SoulsFormats
                 CheapModes = new List<Event.CheapMode>();
             }
 
-            internal override Event ReadEntry(BinaryReaderEx br)
+            /// <summary>
+            /// Adds an event to the appropriate list for its type; returns the event.
+            /// </summary>
+            public Event Add(Event evnt)
             {
-                EventType type = br.GetEnum16<EventType>(br.Position + 0xC);
-                switch (type)
+                switch (evnt)
                 {
-                    case EventType.Light:
-                        var light = new Event.Light(br);
-                        Lights.Add(light);
-                        return light;
-
-                    case EventType.Shadow:
-                        var shadow = new Event.Shadow(br);
-                        Shadows.Add(shadow);
-                        return shadow;
-
-                    case EventType.Fog:
-                        var fog = new Event.Fog(br);
-                        Fogs.Add(fog);
-                        return fog;
-
-                    case EventType.BGColor:
-                        var bgColor = new Event.BGColor(br);
-                        BGColors.Add(bgColor);
-                        return bgColor;
-
-                    case EventType.MapOffset:
-                        var mapOffset = new Event.MapOffset(br);
-                        MapOffsets.Add(mapOffset);
-                        return mapOffset;
-
-                    case EventType.Warp:
-                        var warp = new Event.Warp(br);
-                        Warps.Add(warp);
-                        return warp;
-
-                    case EventType.CheapMode:
-                        var cheapMode = new Event.CheapMode(br);
-                        CheapModes.Add(cheapMode);
-                        return cheapMode;
+                    case Event.Light e: Lights.Add(e); break;
+                    case Event.Shadow e: Shadows.Add(e); break;
+                    case Event.Fog e: Fogs.Add(e); break;
+                    case Event.BGColor e: BGColors.Add(e); break;
+                    case Event.MapOffset e: MapOffsets.Add(e); break;
+                    case Event.Warp e: Warps.Add(e); break;
+                    case Event.CheapMode e: CheapModes.Add(e); break;
 
                     default:
-                        throw new NotImplementedException($"Unimplemented event type: {type}");
+                        throw new ArgumentException($"Unrecognized type {evnt.GetType()}.", nameof(evnt));
                 }
+                return evnt;
             }
+            IMsbEvent IMsbParam<IMsbEvent>.Add(IMsbEvent item) => Add((Event)item);
 
             /// <summary>
             /// Returns every Event in the order they'll be written.
@@ -136,35 +109,34 @@ namespace SoulsFormats
             }
             IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
 
-            public void Add(IMsbEvent item)
+            internal override Event ReadEntry(BinaryReaderEx br)
             {
-                switch (item)
+                EventType type = br.GetEnum8<EventType>(br.Position + br.VarintSize + 4);
+                switch (type)
                 {
-                    case Event.Light e:
-                        Lights.Add(e);
-                        break;
-                    case Event.Shadow e:
-                        Shadows.Add(e);
-                        break;
-                    case Event.Fog e:
-                        Fogs.Add(e);
-                        break;
-                    case Event.BGColor e:
-                        BGColors.Add(e);
-                        break;
-                    case Event.MapOffset e:
-                        MapOffsets.Add(e);
-                        break;
-                    case Event.Warp e:
-                        Warps.Add(e);
-                        break;
-                    case Event.CheapMode e:
-                        CheapModes.Add(e);
-                        break;
+                    case EventType.Light:
+                        return Lights.EchoAdd(new Event.Light(br));
+
+                    case EventType.Shadow:
+                        return Shadows.EchoAdd(new Event.Shadow(br));
+
+                    case EventType.Fog:
+                        return Fogs.EchoAdd(new Event.Fog(br));
+
+                    case EventType.BGColor:
+                        return BGColors.EchoAdd(new Event.BGColor(br));
+
+                    case EventType.MapOffset:
+                        return MapOffsets.EchoAdd(new Event.MapOffset(br));
+
+                    case EventType.Warp:
+                        return Warps.EchoAdd(new Event.Warp(br));
+
+                    case EventType.CheapMode:
+                        return CheapModes.EchoAdd(new Event.CheapMode(br));
+
                     default:
-                        throw new ArgumentException(
-                            message: "Item is not recognized",
-                            paramName: nameof(item));
+                        throw new NotImplementedException($"Unimplemented event type: {type}");
                 }
             }
         }
@@ -174,56 +146,81 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Event : NamedEntry, IMsbEvent
         {
-            /// <summary>
-            /// Specific type of this event.
-            /// </summary>
-            public abstract EventType Type { get; }
+            private protected abstract EventType Type { get; }
 
             /// <summary>
             /// Uniquely identifies the event in the map.
             /// </summary>
             public int EventID { get; set; }
 
-            internal Event(string name = "")
+            private protected Event(string name)
             {
                 Name = name;
                 EventID = -1;
             }
 
-            internal Event(BinaryReaderEx br)
+            /// <summary>
+            /// Creates a deep copy of the event.
+            /// </summary>
+            public Event DeepCopy()
+            {
+                return (Event)MemberwiseClone();
+            }
+            IMsbEvent IMsbEvent.DeepCopy() => DeepCopy();
+
+            private protected Event(BinaryReaderEx br)
             {
                 long start = br.Position;
-                long nameOffset = br.ReadInt64();
+                long nameOffset = br.ReadVarint();
                 EventID = br.ReadInt32();
-                br.AssertUInt16((ushort)Type);
-                br.ReadInt16(); // Index
-                long typeDataOffset = br.ReadInt64();
+                br.AssertByte((byte)Type);
+                br.AssertByte(0);
+                br.ReadInt16(); // ID
+                long typeDataOffset = br.ReadVarint();
+                if (!br.VarintLong)
+                {
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                }
 
-                Name = br.GetUTF16(start + nameOffset);
+                if (nameOffset == 0)
+                    throw new InvalidDataException($"{nameof(nameOffset)} must not be 0 in type {GetType()}.");
+                if (typeDataOffset == 0)
+                    throw new InvalidDataException($"{nameof(typeDataOffset)} must not be 0 in type {GetType()}.");
+
+                br.Position = start + nameOffset;
+                Name = br.ReadUTF16();
+
                 br.Position = start + typeDataOffset;
                 ReadTypeData(br);
             }
 
-            internal abstract void ReadTypeData(BinaryReaderEx br);
+            private protected abstract void ReadTypeData(BinaryReaderEx br);
 
-            internal override void Write(BinaryWriterEx bw, int index)
+            internal override void Write(BinaryWriterEx bw, int id)
             {
                 long start = bw.Position;
-                bw.ReserveInt64("NameOffset");
+                bw.ReserveVarint("NameOffset");
                 bw.WriteInt32(EventID);
-                bw.WriteUInt16((ushort)Type);
-                bw.WriteInt16((short)index);
-                bw.ReserveInt64("TypeDataOffset");
+                bw.WriteByte((byte)Type);
+                bw.WriteByte(0);
+                bw.WriteInt16((short)id);
+                bw.ReserveVarint("TypeDataOffset");
+                if (!bw.VarintLong)
+                {
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                }
 
-                bw.FillInt64("NameOffset", bw.Position - start);
+                bw.FillVarint("NameOffset", bw.Position - start);
                 bw.WriteUTF16(Name, true);
-                bw.Pad(8);
+                bw.Pad(bw.VarintSize);
 
-                bw.FillInt64("TypeDataOffset", bw.Position - start);
+                bw.FillVarint("TypeDataOffset", bw.Position - start);
                 WriteTypeData(bw);
             }
 
-            internal abstract void WriteTypeData(BinaryWriterEx bw);
+            private protected abstract void WriteTypeData(BinaryWriterEx bw);
 
             /// <summary>
             /// Returns a string representation of the event.
@@ -238,15 +235,12 @@ namespace SoulsFormats
             /// </summary>
             public class Light : Event
             {
-                /// <summary>
-                /// EventType.Light
-                /// </summary>
-                public override EventType Type => EventType.Light;
+                private protected override EventType Type => EventType.Light;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short UnkT00 { get; set; }
+                public byte UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -311,18 +305,19 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT44 { get; set; }
+                public byte UnkT44 { get; set; }
 
                 /// <summary>
                 /// Creates a Light with default values.
                 /// </summary>
-                public Light(string name = "") : base(name) { }
+                public Light() : base($"{nameof(Event)}: {nameof(Light)}") { }
 
                 internal Light(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt16();
+                    UnkT00 = br.ReadByte();
+                    br.AssertByte(0);
                     br.AssertInt16(-1);
                     UnkT04 = br.ReadSingle();
                     UnkT08 = br.ReadSingle();
@@ -340,13 +335,14 @@ namespace SoulsFormats
                     ColorT38 = br.ReadRGBA();
                     ColorT3C = br.ReadRGBA();
                     UnkT40 = br.ReadSingle();
-                    UnkT44 = br.ReadInt32();
-                    br.AssertPattern(0x38, 0x00);
+                    UnkT44 = br.ReadByte();
+                    br.AssertPattern(0x3B, 0x00);
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt16(UnkT00);
+                    bw.WriteByte(UnkT00);
+                    bw.WriteByte(0);
                     bw.WriteInt16(-1);
                     bw.WriteSingle(UnkT04);
                     bw.WriteSingle(UnkT08);
@@ -364,8 +360,8 @@ namespace SoulsFormats
                     bw.WriteRGBA(ColorT38);
                     bw.WriteRGBA(ColorT3C);
                     bw.WriteSingle(UnkT40);
-                    bw.WriteInt32(UnkT44);
-                    bw.WritePattern(0x38, 0x00);
+                    bw.WriteByte(UnkT44);
+                    bw.WritePattern(0x3B, 0x00);
                 }
             }
 
@@ -374,15 +370,7 @@ namespace SoulsFormats
             /// </summary>
             public class Shadow : Event
             {
-                /// <summary>
-                /// EventType.Shadow
-                /// </summary>
-                public override EventType Type => EventType.Shadow;
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT00 { get; set; }
+                private protected override EventType Type => EventType.Shadow;
 
                 /// <summary>
                 /// Unknown.
@@ -402,22 +390,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT10 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public Color ColorT14 { get; set; }
+                public float UnkT14 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
                 public float UnkT18 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT1C { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -432,35 +410,35 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Shadow with default values.
                 /// </summary>
-                public Shadow(string name = "") : base(name) { }
+                public Shadow() : base($"{nameof(Event)}: {nameof(Shadow)}") { }
 
                 internal Shadow(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    br.AssertInt32(0);
                     UnkT04 = br.ReadSingle();
                     UnkT08 = br.ReadSingle();
                     UnkT0C = br.ReadSingle();
-                    UnkT10 = br.ReadInt32();
-                    ColorT14 = br.ReadRGBA();
+                    br.AssertInt32(0);
+                    UnkT14 = br.ReadSingle();
                     UnkT18 = br.ReadSingle();
-                    UnkT1C = br.ReadInt32();
+                    br.AssertInt32(0);
                     UnkT20 = br.ReadSingle();
                     ColorT24 = br.ReadRGBA();
                     br.AssertPattern(0x18, 0x00);
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(0);
                     bw.WriteSingle(UnkT04);
                     bw.WriteSingle(UnkT08);
                     bw.WriteSingle(UnkT0C);
-                    bw.WriteInt32(UnkT10);
-                    bw.WriteRGBA(ColorT14);
+                    bw.WriteInt32(0);
+                    bw.WriteSingle(UnkT14);
                     bw.WriteSingle(UnkT18);
-                    bw.WriteInt32(UnkT1C);
+                    bw.WriteInt32(0);
                     bw.WriteSingle(UnkT20);
                     bw.WriteRGBA(ColorT24);
                     bw.WritePattern(0x18, 0x00);
@@ -472,15 +450,12 @@ namespace SoulsFormats
             /// </summary>
             public class Fog : Event
             {
-                /// <summary>
-                /// EventType.Fog
-                /// </summary>
-                public override EventType Type => EventType.Fog;
+                private protected override EventType Type => EventType.Fog;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public byte UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -505,35 +480,55 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT14 { get; set; }
+                public byte UnkT14 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public byte UnkT15 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public byte UnkT16 { get; set; }
 
                 /// <summary>
                 /// Creates a Fog with default values.
                 /// </summary>
-                public Fog(string name = "") : base(name) { }
+                public Fog() : base($"{nameof(Event)}: {nameof(Fog)}") { }
 
                 internal Fog(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    UnkT00 = br.ReadByte();
+                    br.AssertByte(0);
+                    br.AssertByte(0);
+                    br.AssertByte(0);
                     ColorT04 = br.ReadRGBA();
                     UnkT08 = br.ReadSingle();
                     UnkT0C = br.ReadSingle();
                     UnkT10 = br.ReadSingle();
-                    UnkT14 = br.ReadInt32();
-                    br.AssertPattern(0x10, 0x00);
+                    UnkT14 = br.ReadByte();
+                    UnkT15 = br.ReadByte();
+                    UnkT16 = br.ReadByte();
+                    br.AssertPattern(0x11, 0x00);
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteByte(UnkT00);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
                     bw.WriteRGBA(ColorT04);
                     bw.WriteSingle(UnkT08);
                     bw.WriteSingle(UnkT0C);
                     bw.WriteSingle(UnkT10);
-                    bw.WriteInt32(UnkT14);
-                    bw.WritePattern(0x10, 0x00);
+                    bw.WriteByte(UnkT14);
+                    bw.WriteByte(UnkT15);
+                    bw.WriteByte(UnkT16);
+                    bw.WritePattern(0x11, 0x00);
                 }
             }
 
@@ -542,10 +537,7 @@ namespace SoulsFormats
             /// </summary>
             public class BGColor : Event
             {
-                /// <summary>
-                /// EventType.BGColor
-                /// </summary>
-                public override EventType Type => EventType.BGColor;
+                private protected override EventType Type => EventType.BGColor;
 
                 /// <summary>
                 /// The background color.
@@ -555,17 +547,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a BGColor with default values.
                 /// </summary>
-                public BGColor(string name = "") : base(name) { }
+                public BGColor() : base($"{nameof(Event)}: {nameof(BGColor)}") { }
 
                 internal BGColor(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     Color = br.ReadRGBA();
                     br.AssertPattern(0x24, 0x00);
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteRGBA(Color);
                     bw.WritePattern(0x24, 0x00);
@@ -577,10 +569,7 @@ namespace SoulsFormats
             /// </summary>
             public class MapOffset : Event
             {
-                /// <summary>
-                /// EventType.MapOffset
-                /// </summary>
-                public override EventType Type => EventType.MapOffset;
+                private protected override EventType Type => EventType.MapOffset;
 
                 /// <summary>
                 /// The origin of the map.
@@ -590,17 +579,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a MapOffset with default values.
                 /// </summary>
-                public MapOffset(string name = "") : base(name) { }
+                public MapOffset() : base($"{nameof(Event)}: {nameof(MapOffset)}") { }
 
                 internal MapOffset(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     Translation = br.ReadVector3();
                     br.AssertInt32(0); // Degree
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteVector3(Translation);
                     bw.WriteInt32(0);
@@ -612,15 +601,12 @@ namespace SoulsFormats
             /// </summary>
             public class Warp : Event
             {
-                /// <summary>
-                /// EventType.Warp
-                /// </summary>
-                public override EventType Type => EventType.Warp;
+                private protected override EventType Type => EventType.Warp;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public byte UnkT00 { get; set; }
 
                 /// <summary>
                 /// Presumably the position to be warped to.
@@ -630,19 +616,25 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Warp with default values.
                 /// </summary>
-                public Warp(string name = "") : base(name) { }
+                public Warp() : base($"{nameof(Event)}: {nameof(Warp)}") { }
 
                 internal Warp(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    UnkT00 = br.ReadByte();
+                    br.AssertByte(0);
+                    br.AssertByte(0);
+                    br.AssertByte(0);
                     Position = br.ReadVector3();
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteByte(UnkT00);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
                     bw.WriteVector3(Position);
                 }
             }
@@ -652,33 +644,30 @@ namespace SoulsFormats
             /// </summary>
             public class CheapMode : Event
             {
-                /// <summary>
-                /// EventType.CheapMode
-                /// </summary>
-                public override EventType Type => EventType.CheapMode;
+                private protected override EventType Type => EventType.CheapMode;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public short UnkT00 { get; set; }
 
                 /// <summary>
                 /// Creates a CheapMode with default values.
                 /// </summary>
-                public CheapMode(string name = "") : base(name) { }
+                public CheapMode() : base($"{nameof(Event)}: {nameof(CheapMode)}") { }
 
                 internal CheapMode(BinaryReaderEx br) : base(br) { }
 
-                internal override void ReadTypeData(BinaryReaderEx br)
+                private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
-                    br.AssertPattern(0xC, 0x00);
+                    UnkT00 = br.ReadInt16();
+                    br.AssertPattern(0xE, 0x00);
                 }
 
-                internal override void WriteTypeData(BinaryWriterEx bw)
+                private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
-                    bw.WritePattern(0xC, 0x00);
+                    bw.WriteInt16(UnkT00);
+                    bw.WritePattern(0xE, 0x00);
                 }
             }
         }

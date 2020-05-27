@@ -37,7 +37,7 @@ namespace StudioCore.Resource
             {
                 GPUTexture = Scene.Renderer.GlobalTexturePool.AllocateTextureDescriptor();
             }
-            if (Texture.Platform == TPF.TPFPlatform.PC)
+            if (Texture.Platform == TPF.TPFPlatform.PC || Texture.Platform == TPF.TPFPlatform.PS3)
             {
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {

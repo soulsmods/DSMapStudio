@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace SoulsFormats
 {
-    public partial class MSB1
+    public partial class MSBD
     {
         /// <summary>
         /// A collection of points and trigger volumes used by scripts and events.
@@ -58,6 +58,11 @@ namespace SoulsFormats
         public class Region : Entry, IMsbRegion
         {
             /// <summary>
+            /// The name of the region.
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
             /// Describes the physical shape of the region.
             /// </summary>
             public MSB.Shape Shape
@@ -66,7 +71,7 @@ namespace SoulsFormats
                 set
                 {
                     if (value is MSB.Shape.Composite)
-                        throw new ArgumentException("Dark Souls 1 does not support composite shapes.");
+                        throw new ArgumentException("Demon's Souls does not support composite shapes.");
                     _shape = value;
                 }
             }
@@ -122,6 +127,7 @@ namespace SoulsFormats
                 int shapeDataOffset = br.ReadInt32();
                 int entityDataOffset = br.ReadInt32();
                 br.AssertInt32(0);
+                br.AssertInt32(0);
 
                 Shape = MSB.Shape.Create(shapeType);
 
@@ -151,6 +157,9 @@ namespace SoulsFormats
 
                 br.Position = start + entityDataOffset;
                 EntityID = br.ReadInt32();
+                br.AssertInt32(0);
+                br.AssertInt32(0);
+                br.AssertInt32(0);
             }
 
             internal override void Write(BinaryWriterEx bw, int id)
@@ -166,6 +175,7 @@ namespace SoulsFormats
                 bw.ReserveInt32("UnkOffsetB");
                 bw.ReserveInt32("ShapeDataOffset");
                 bw.ReserveInt32("EntityDataOffset");
+                bw.WriteInt32(0);
                 bw.WriteInt32(0);
 
                 bw.FillInt32("NameOffset", (int)(bw.Position - start));
@@ -190,6 +200,17 @@ namespace SoulsFormats
 
                 bw.FillInt32("EntityDataOffset", (int)(bw.Position - start));
                 bw.WriteInt32(EntityID);
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+            }
+
+            /// <summary>
+            /// Returns a string representation of the region.
+            /// </summary>
+            public override string ToString()
+            {
+                return $"{Shape.Type} {Name}";
             }
         }
     }
