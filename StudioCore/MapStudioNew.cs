@@ -654,10 +654,16 @@ namespace StudioCore
             {
                 ImGui.SetNextWindowFocus();
             }
+            string[] mapcmds = null;
+            if (commandsplit != null && commandsplit[0] == "map")
+            {
+                mapcmds = commandsplit.Skip(1).ToArray();
+                ImGui.SetNextWindowFocus();
+            }
             if (ImGui.Begin("Map Editor"))
             {
                 ImGui.PopStyleVar(1);
-                MSBEditor.OnGUI();
+                MSBEditor.OnGUI(mapcmds);
                 ImGui.End();
                 _msbEditorFocused = true;
                 MSBEditor.Update(deltaseconds);

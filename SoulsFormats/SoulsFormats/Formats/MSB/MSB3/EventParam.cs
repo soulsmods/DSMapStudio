@@ -181,12 +181,14 @@ namespace SoulsFormats
             /// <summary>
             /// The name of a part the event is attached to.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// The name of a region the event is attached to.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Region))]
             public string PointName { get; set; }
             private int PointIndex;
 
@@ -307,22 +309,26 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part the treasure is attached to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string TreasurePartName { get; set; }
                 private int TreasurePartIndex;
 
                 /// <summary>
                 /// First item lot given by this treasure.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot1 { get; set; }
 
                 /// <summary>
                 /// Second item lot given by this treasure; rarely used.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot2 { get; set; }
 
                 /// <summary>
                 /// If not -1, uses an entry from ActionButtonParam for the pickup prompt.
                 /// </summary>
+                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonParamID { get; set; }
 
                 /// <summary>
@@ -469,12 +475,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions that enemies can be spawned at.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnPointNames { get; private set; }
                 private int[] SpawnPointIndices;
 
                 /// <summary>
                 /// Enemies spawned by this generator.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -622,17 +630,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBEntityReference]
                 public int ObjActEntityID { get; set; }
 
                 /// <summary>
                 /// The object which is being interacted with.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
                 /// <summary>
                 /// ID in ObjActParam that configures this ObjAct.
                 /// </summary>
+                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActParamID { get; set; }
 
                 /// <summary>
@@ -750,6 +761,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The NPC whose world you're entering.
                 /// </summary>
+                [MSBEntityReference]
                 public int HostEntityID { get; set; }
 
                 /// <summary>
@@ -836,6 +848,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// List of points in the route.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkPointNames { get; private set; }
                 private short[] WalkPointIndices;
 
@@ -910,6 +923,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartsNames { get; private set; }
                 private int[] GroupPartsIndices;
 

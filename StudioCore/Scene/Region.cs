@@ -41,7 +41,19 @@ namespace StudioCore.Scene
 
         public bool IsVisible { get; set; }
 
-        public bool Highlighted { get; set; } = false;
+        private bool _highlighted = false;
+        public bool Highlighted
+        {
+            get => _highlighted;
+            set
+            {
+                _highlighted = value;
+                if (RegionMesh != null)
+                {
+                    RegionMesh.Highlighted = _highlighted;
+                }
+            }
+        }
         public bool AutoRegister { get; set; } = true;
 
         private Scene.RenderScene RenderScene;
@@ -85,6 +97,8 @@ namespace StudioCore.Scene
             Vector3 min = new Vector3(-0.5f, 0.0f, -0.5f);
             Vector3 max = new Vector3(0.5f, 1.0f, 0.5f);
             r.RegionMesh = new DebugPrimitives.DbgPrimWireBox(Transform.Default, min, max, Color.Blue);
+            r.RegionMesh.BaseColor = Color.Blue;
+            r.RegionMesh.HighlightedColor = Color.DarkViolet;
             r.Bounds = new BoundingBox(min, max);
             r.RegisterMesh();
             return r;
@@ -96,6 +110,8 @@ namespace StudioCore.Scene
             Vector3 min = new Vector3(-1.0f, 0.0f, -1.0f);
             Vector3 max = new Vector3(1.0f, 1.0f, 1.0f);
             r.RegionMesh = new DebugPrimitives.DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
+            r.RegionMesh.BaseColor = Color.Blue;
+            r.RegionMesh.HighlightedColor = Color.DarkViolet;
             r.Bounds = new BoundingBox(min, max);
             r.RegisterMesh();
             return r;
@@ -105,6 +121,8 @@ namespace StudioCore.Scene
         {
             var r = new Region(scene);
             r.RegionMesh = new DebugPrimitives.DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
+            r.RegionMesh.BaseColor = Color.Blue;
+            r.RegionMesh.HighlightedColor = Color.DarkViolet;
             Vector3 min = new Vector3(-1.0f, -1.0f, -1.0f);
             Vector3 max = new Vector3(1.0f, 1.0f, 1.0f);
             r.Bounds = new BoundingBox(min, max);
@@ -116,6 +134,8 @@ namespace StudioCore.Scene
         {
             var r = new Region(scene);
             r.RegionMesh = new DebugPrimitives.DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
+            r.RegionMesh.BaseColor = Color.Yellow;
+            r.RegionMesh.HighlightedColor = Color.DarkViolet;
             Vector3 min = new Vector3(-0.5f, -0.5f, -0.5f);
             Vector3 max = new Vector3(0.5f, 0.5f, 0.5f);
             r.Bounds = new BoundingBox(min, max);

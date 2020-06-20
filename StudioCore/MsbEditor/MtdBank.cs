@@ -23,7 +23,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
             IBinder mtdBinder = null;
-            if (AssetLocator.Type == GameType.DarkSoulsIII)
+            if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
             {
                 mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
             }

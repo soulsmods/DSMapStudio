@@ -14,7 +14,6 @@ namespace StudioCore.DebugPrimitives
         Transform Transform { get; set; }
         string Name { get; set; }
         Color NameColor { get; set; }
-        Color? OverrideColor { get; set; }
 
         object ExtraData { get; set; }
 

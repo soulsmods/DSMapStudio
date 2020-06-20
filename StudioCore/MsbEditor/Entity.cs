@@ -67,7 +67,7 @@ namespace StudioCore.MsbEditor
         public bool UseDrawGroups { set; get; } = false;
 
         [XmlIgnore]
-        public string Name
+        public virtual string Name
         {
             get
             {
@@ -633,6 +633,16 @@ namespace StudioCore.MsbEditor
             {
                 RenderSceneMesh.Highlighted = false;
             }
+        }
+    }
+
+    public class NamedEntity : Entity
+    {
+        public override string Name { get; set; }
+
+        public NamedEntity(ObjectContainer map, object msbo, string name) : base(map, msbo)
+        {
+            Name = name;
         }
     }
 

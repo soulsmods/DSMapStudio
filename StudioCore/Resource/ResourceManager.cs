@@ -212,6 +212,7 @@ namespace StudioCore.Resource
                 PopulateResourcesOnly = populateOnly;
                 ResourceMask = mask;
                 AssetWhitelist = whitelist;
+                AccessLevel = accessLevel;
             }
 
             public void ProcessBinder()
@@ -344,7 +345,7 @@ namespace StudioCore.Resource
                         foreach (var p in PendingResources)
                         {
                             var f = Binder.ReadFile(p.Item3);
-                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
+                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel, ResourceManager.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)
@@ -378,7 +379,7 @@ namespace StudioCore.Resource
                         foreach (var t in PendingTPFs)
                         {
                             var f = TPF.Read(Binder.ReadFile(t.Item2));
-                            var task = new LoadTPFResourcesTask(t.Item1, f, AccessLevel.AccessGPUOptimizedOnly, ResourceManager.Locator.Type);
+                            var task = new LoadTPFResourcesTask(t.Item1, f, AccessLevel, ResourceManager.Locator.Type);
                             var size = task.GetEstimateTaskSize();
                             TotalSize += size;
                             if (doasync)

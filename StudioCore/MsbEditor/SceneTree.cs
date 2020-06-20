@@ -13,7 +13,7 @@ namespace StudioCore.MsbEditor
 
     public struct DragDropPayload
     {
-        public MapEntity Entity;
+        public Entity Entity;
     }
 
     public struct DragDropPayloadReference
@@ -33,6 +33,8 @@ namespace StudioCore.MsbEditor
         private Gui.Viewport _viewport;
         private AssetLocator _assetLocator;
         private Selection _selection;
+
+        private string _id;
 
         private SceneTreeEventHandler _handler;
 
@@ -68,9 +70,10 @@ namespace StudioCore.MsbEditor
 
         private ViewMode _viewMode = ViewMode.Hierarchy;
 
-        public SceneTree(SceneTreeEventHandler handler, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public SceneTree(SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
         {
             _handler = handler;
+            _id = id;
             _universe = universe;
             _selection = sel;
             _editorActionManager = aman;
@@ -160,10 +163,17 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        unsafe private void MapObjectSelectable(MapEntity e, bool visicon, bool hierarchial=false)
+        unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
             // Main selectable
-            ImGui.PushID(e.Type.ToString() + e.Name);
+            if (e is MapEntity me)
+            {
+                ImGui.PushID(me.Type.ToString() + e.Name);
+            }
+            else
+            {
+                ImGui.PushID(e.Name);
+            }
             bool doSelect = false;
             if (_setNextFocus)
             {
@@ -282,7 +292,14 @@ namespace StudioCore.MsbEditor
             ImGui.PopID();
 
             // Invisible item to be a drag drop target between nodes
-            ImGui.InvisibleButton(e.Type.ToString() + e.Name, new Vector2(-1, 4.0f));
+            if (e is MapEntity me2)
+            {
+                ImGui.InvisibleButton(me2.Type.ToString() + e.Name, new Vector2(-1, 4.0f));
+            }
+            else
+            {
+                ImGui.InvisibleButton(e.Name, new Vector2(-1, 4.0f));
+            }
             if (ImGui.IsItemFocused())
             {
                 _setNextFocus = true;
@@ -323,7 +340,7 @@ namespace StudioCore.MsbEditor
         {
             foreach (var obj in entity.Children)
             {
-                if (obj is MapEntity e)
+                if (obj is Entity e)
                 {
                     MapObjectSelectable(e, true, true);
                 }
@@ -396,7 +413,7 @@ namespace StudioCore.MsbEditor
         {
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
-            if (ImGui.Begin("Map Object List"))
+            if (ImGui.Begin($@"Map Object List##{_id}"))
             {
                 ImGui.PopStyleVar();
                 int mode = (int)_viewMode;

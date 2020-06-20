@@ -107,8 +107,15 @@ namespace StudioCore.MsbEditor
             return ret;
         }
 
-        public void OnGui()
+        public void OnGui(string propname=null)
         {
+            if (propname != null)
+            {
+                ImGui.SetNextWindowFocus();
+                PropertyName = propname;
+                PropertyType = Universe.GetPropertyType(PropertyName);
+                ValidType = InitializeSearchValue();
+            }
             if (ImGui.Begin("Search Properties"))
             {
                 ImGui.Columns(2);

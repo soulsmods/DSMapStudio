@@ -768,7 +768,7 @@ namespace StudioCore
             AssetDescription ad = new AssetDescription();
             ad.AssetArchiveVirtualPath = null;
             ad.AssetPath = null;
-            if (Type == GameType.DarkSoulsIII)
+            if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
             {
                 string path = GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
                 if (path != null)
@@ -1091,7 +1091,7 @@ namespace StudioCore
                 else if (pathElements[i].Equals("tex"))
                 {
                     bndpath = "";
-                    if (Type == GameType.DarkSoulsIII)
+                    if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
                     }

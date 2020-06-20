@@ -9,7 +9,7 @@ using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
-    public class DbgPrimGizmoTranslate : DbgPrimGizmo
+    public class DbgPrimGizmoTranslateArrow : DbgPrimGizmo
     {
         public const int Segments = 12;
         public const float TotalLength = 5.0f;
@@ -19,9 +19,10 @@ namespace StudioCore.DebugPrimitives
 
         private DbgPrimGeometryData GeometryData = null;
 
-        private List<Vector3> XTris = new List<Vector3>();
-        private List<Vector3> YTris = new List<Vector3>();
-        private List<Vector3> ZTris = new List<Vector3>();
+        //private List<Vector3> XTris = new List<Vector3>();
+        //private List<Vector3> YTris = new List<Vector3>();
+        //private List<Vector3> ZTris = new List<Vector3>();
+        private List<Vector3> Tris = new List<Vector3>();
 
         public enum Axis
         {
@@ -44,21 +45,7 @@ namespace StudioCore.DebugPrimitives
             AddColTri(list, a, c, d);
         }
 
-        private List<Vector3> AxisToList(MsbEditor.Gizmos.Axis axis)
-        {
-            switch (axis)
-            {
-                case MsbEditor.Gizmos.Axis.PosX:
-                    return XTris;
-                case MsbEditor.Gizmos.Axis.PosY:
-                    return YTris;
-                case MsbEditor.Gizmos.Axis.PosZ:
-                    return ZTris;
-            }
-            return null;
-        }
-
-        public DbgPrimGizmoTranslate()
+        public DbgPrimGizmoTranslateArrow(MsbEditor.Gizmos.Axis axis)
         {
             //BackfaceCulling = false;
 
@@ -105,8 +92,6 @@ namespace StudioCore.DebugPrimitives
                         tip = Vector3.UnitZ * TotalLength;
                     }
 
-                    var collist = AxisToList(axis);
-
                     for (int i = 1; i <= Segments; i++)
                     {
                         var ptBase = GetPoint(axis, i, StemRadius, 0);
@@ -115,7 +100,7 @@ namespace StudioCore.DebugPrimitives
 
                         //Face: Part of Bottom
                         AddTri(Vector3.Zero, prevPtBase, ptBase, color);
-                        AddColTri(collist, Vector3.Zero, prevPtBase, ptBase);
+                        AddColTri(Tris, Vector3.Zero, prevPtBase, ptBase);
                     }
 
                     for (int i = 1; i <= Segments; i++)
@@ -132,7 +117,7 @@ namespace StudioCore.DebugPrimitives
 
                         // Face: Base to Tip Inner
                         AddQuad(prevPtBase, prevPtTipStartInner, ptTipStartInner, ptBase, color);
-                        AddColQuad(collist, prevPtBaseCol, prevPtTipStartInnerCol, ptTipStartInnerCol, ptBaseCol);
+                        AddColQuad(Tris, prevPtBaseCol, prevPtTipStartInnerCol, ptTipStartInnerCol, ptBaseCol);
                     }
 
                     for (int i = 1; i <= Segments; i++)
@@ -145,7 +130,7 @@ namespace StudioCore.DebugPrimitives
 
                         // Face: Tip Start Inner to Tip Start Outer
                         AddQuad(prevPtTipStartInner, prevPtTipStartOuter, ptTipStartOuter, ptTipStartInner, color);
-                        AddColQuad(collist, prevPtTipStartInner, prevPtTipStartOuter, ptTipStartOuter, ptTipStartInner);
+                        AddColQuad(Tris, prevPtTipStartInner, prevPtTipStartOuter, ptTipStartOuter, ptTipStartInner);
                     }
 
                     for (int i = 1; i <= Segments; i++)
@@ -157,13 +142,14 @@ namespace StudioCore.DebugPrimitives
 
                         // Face: Tip Start to Tip
                         AddTri(prevPtTipStartOuter, tip, ptTipStartOuter, color);
-                        AddColTri(collist, prevPtTipStartOuterCol, tip * 1.10f, ptTipStartOuterCol);
+                        AddColTri(Tris, prevPtTipStartOuterCol, tip * 1.10f, ptTipStartOuterCol);
                     }
                 }
 
-                Arrow(MsbEditor.Gizmos.Axis.PosX, Color.FromArgb(0xF3, 0x36, 0x53));
-                Arrow(MsbEditor.Gizmos.Axis.PosZ, Color.FromArgb(0x38, 0x90, 0xED));
-                Arrow(MsbEditor.Gizmos.Axis.PosY, Color.FromArgb(0x86, 0xC8, 0x15));
+                //Arrow(MsbEditor.Gizmos.Axis.PosX, Color.FromArgb(0xF3, 0x36, 0x53));
+                //Arrow(MsbEditor.Gizmos.Axis.PosZ, Color.FromArgb(0x38, 0x90, 0xED));
+                //Arrow(MsbEditor.Gizmos.Axis.PosY, Color.FromArgb(0x86, 0xC8, 0x15));
+                Arrow(axis, Color.FromArgb(0x86, 0xC8, 0x15));
                 //FinalizeBuffers(true);
 
                 GeometryData = new DbgPrimGeometryData()
@@ -173,42 +159,20 @@ namespace StudioCore.DebugPrimitives
             }
         }
 
-        public MsbEditor.Gizmos.Axis GetRaycast(Ray ray)
+        public bool GetRaycast(Ray ray)
         {
-            for (int i = 0; i < XTris.Count() / 3; i++)
+            for (int i = 0; i < Tris.Count() / 3; i++)
             {
-                var a = Vector3.Transform(XTris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(XTris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(XTris[i * 3 + 2], Transform.WorldMatrix);
+                var a = Vector3.Transform(Tris[i * 3], Transform.WorldMatrix);
+                var b = Vector3.Transform(Tris[i * 3 + 1], Transform.WorldMatrix);
+                var c = Vector3.Transform(Tris[i * 3 + 2], Transform.WorldMatrix);
                 float dist;
                 if (ray.Intersects(ref a, ref b, ref c, out dist))
                 {
-                    return MsbEditor.Gizmos.Axis.PosX;
+                    return true;
                 }
             }
-            for (int i = 0; i < YTris.Count() / 3; i++)
-            {
-                var a = Vector3.Transform(YTris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(YTris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(YTris[i * 3 + 2], Transform.WorldMatrix);
-                float dist;
-                if (ray.Intersects(ref a, ref b, ref c, out dist))
-                {
-                    return MsbEditor.Gizmos.Axis.PosY;
-                }
-            }
-            for (int i = 0; i < ZTris.Count() / 3; i++)
-            {
-                var a = Vector3.Transform(ZTris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(ZTris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(ZTris[i * 3 + 2], Transform.WorldMatrix);
-                float dist;
-                if (ray.Intersects(ref a, ref b, ref c, out dist))
-                {
-                    return MsbEditor.Gizmos.Axis.PosZ;
-                }
-            }
-            return MsbEditor.Gizmos.Axis.None;
+            return false;
         }
     }
 }

@@ -637,6 +637,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Names of other Sound regions which extend this one.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] ChildRegionNames { get; private set; }
                 private int[] ChildRegionIndices;
 
@@ -752,6 +753,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Name of a corresponding WindArea region.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(WindArea))]
                 public string WindAreaName { get; set; }
                 private int WindAreaIndex;
 

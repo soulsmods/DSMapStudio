@@ -32,7 +32,6 @@ namespace StudioCore.DebugPrimitives
         {
             Transform = location;
             NameColor = color;
-            OverrideColor = color;
 
             LocalMin = localMin;
             LocalMax = localMax;

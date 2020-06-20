@@ -604,6 +604,22 @@ namespace StudioCore.MsbEditor
             return true;
         }
 
+        public void LoadFlver(FLVER2 flver, string name)
+        {
+            var container = new ObjectContainer(this, name);
+
+            container.LoadFlver(flver);
+
+            if (!LoadedObjectContainers.ContainsKey(name))
+            {
+                LoadedObjectContainers.Add(name, container);
+            }
+            else
+            {
+                LoadedObjectContainers[name] = container;
+            }
+        }
+
         private void SaveDS2Generators(Map map)
         {
             // Load all the params

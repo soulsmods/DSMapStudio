@@ -221,12 +221,14 @@ namespace SoulsFormats
             /// <summary>
             /// Part referenced by the event.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// Region referenced by the event.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Region))]
             public string RegionName { get; set; }
             private int RegionIndex;
 
@@ -549,12 +551,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part that the treasure is attached to, such as an item corpse.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string TreasurePartName { get; set; }
                 private int TreasurePartIndex;
 
                 /// <summary>
                 /// Item lots to be granted when the treasure is picked up; only the first appears to be functional.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int[] ItemLots { get; private set; }
 
                 /// <summary>
@@ -675,12 +679,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Points that enemies may be spawned at.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnPointNames { get; private set; }
                 private int[] SpawnPointIndices;
 
                 /// <summary>
                 /// Enemies to be respawned.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -824,12 +830,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// The object that the ObjAct controls.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
                 /// <summary>
                 /// ID in ObjActParam that configures the ObjAct.
                 /// </summary>
+                [MSBParamReference(ParamName = "ObjActParam")]
                 public short ObjActParamID { get; set; }
 
                 /// <summary>
@@ -897,6 +905,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Point for the SpawnPoint to spawn at.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string SpawnPointName { get; set; }
                 private int SpawnPointIndex;
 
@@ -983,6 +992,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string NavmeshRegionName { get; set; }
                 private int NavmeshRegionIndex;
 

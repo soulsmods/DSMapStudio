@@ -73,7 +73,7 @@ namespace StudioCore.MsbEditor
             Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
             Universe = new Universe(AssetLocator, RenderScene, _selection);
 
-            SceneTree = new SceneTree(this, Universe, _selection, EditorActionManager, Viewport, AssetLocator);
+            SceneTree = new SceneTree(this, "mapedittree", Universe, _selection, EditorActionManager, Viewport, AssetLocator);
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
             PropSearch = new SearchProperties(Universe);
@@ -259,7 +259,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void OnGUI()
+        public void OnGUI(string[] initcmd)
         {
             // Docking setup
             //var vp = ImGui.GetMainViewport();
@@ -367,6 +367,16 @@ namespace StudioCore.MsbEditor
                 }
             }
 
+            // Parse select commands
+            string propSearchKey = null;
+            if (initcmd != null && initcmd[0] == "propsearch")
+            {
+                if (initcmd.Length > 1)
+                {
+                    propSearchKey = initcmd[1];
+                }
+            }
+
             ImGui.SetNextWindowSize(new Vector2(300, 500), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(20, 20), ImGuiCond.FirstUseEver);
 
@@ -381,9 +391,9 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.SetNextWindowFocus();
             }
-            PropEditor.OnGui(_selection.GetSingleFilteredSelection<Entity>(), Viewport.Width, Viewport.Height);
+            PropEditor.OnGui(_selection.GetSingleFilteredSelection<Entity>(), "mapeditprop", Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(AssetLocator.Type);
-            PropSearch.OnGui();
+            PropSearch.OnGui(propSearchKey);
 
             // Not usable yet
             //NavMeshEditor.OnGui(AssetLocator.Type);

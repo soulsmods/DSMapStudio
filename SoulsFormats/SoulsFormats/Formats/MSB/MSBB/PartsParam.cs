@@ -749,6 +749,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Collision that controls loading of the object.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -874,11 +875,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in NPCThinkParam determining AI properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// ID in NPCParam determining character properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -889,6 +892,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in CharaInitParam determining equipment and stats for humans.
                 /// </summary>
+                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
@@ -899,6 +903,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Collision that controls loading of the enemy.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -910,6 +915,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions for the enemy to patrol.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] MovePointNames { get; private set; }
                 private short[] MovePointIndices;
 
@@ -1259,6 +1265,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The collision which will load another map.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Drawing;
 using StudioCore.Scene;
 using Veldrid;
 using Veldrid.Utilities;
@@ -69,7 +70,9 @@ namespace StudioCore.MsbEditor
         public static GizmosSpace Space = GizmosSpace.Local;
         public static GizmosOrigin Origin = GizmosOrigin.World;
 
-        private DebugPrimitives.DbgPrimGizmoTranslate TranslateGizmo;
+        private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoX;
+        private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoY;
+        private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoZ;
         private DebugPrimitives.DbgPrimGizmoRotate RotateGizmo;
 
         private Transform OriginalTransform = Transform.Default;
@@ -85,7 +88,15 @@ namespace StudioCore.MsbEditor
         public Gizmos(ActionManager am, Selection selection)
         {
             ActionManager = am;
-            TranslateGizmo = new DebugPrimitives.DbgPrimGizmoTranslate();
+            TranslateGizmoX = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosX);
+            TranslateGizmoX.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
+            TranslateGizmoX.HighlightedColor = Color.FromArgb(0xFF, 0x66, 0x83);
+            TranslateGizmoY = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosY);
+            TranslateGizmoY.BaseColor = Color.FromArgb(0x86, 0xC8, 0x15);
+            TranslateGizmoY.HighlightedColor = Color.FromArgb(0xB6, 0xF8, 0x45);
+            TranslateGizmoZ = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosZ);
+            TranslateGizmoZ.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
+            TranslateGizmoZ.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
             RotateGizmo = new DebugPrimitives.DbgPrimGizmoRotate();
             _selection = selection;
         }
@@ -245,22 +256,39 @@ namespace StudioCore.MsbEditor
                         }
                         OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, Vector3.Zero);
                     }
+
+                    Axis hoveredAxis = Axis.None;
+                    switch (Mode)
+                    {
+                        case GizmosMode.Translate:
+                            if (TranslateGizmoX.GetRaycast(ray))
+                            {
+                                hoveredAxis = Axis.PosX;
+                            }
+                            else if (TranslateGizmoY.GetRaycast(ray))
+                            {
+                                hoveredAxis = Axis.PosY;
+                            }
+                            else if (TranslateGizmoZ.GetRaycast(ray))
+                            {
+                                hoveredAxis = Axis.PosZ;
+                            }
+                            TranslateGizmoX.Highlighted = (hoveredAxis == Axis.PosX);
+                            TranslateGizmoY.Highlighted = (hoveredAxis == Axis.PosY);
+                            TranslateGizmoZ.Highlighted = (hoveredAxis == Axis.PosZ);
+                            break;
+                        case GizmosMode.Rotate:
+                            hoveredAxis = RotateGizmo.GetRaycast(ray);
+                            break;
+                    }
+                    
+
                     if (canCaptureMouse && InputTracker.GetMouseButtonDown(MouseButton.Left))
                     {
-                        Axis res = Axis.None;
-                        switch (Mode)
-                        {
-                            case GizmosMode.Translate:
-                                res = TranslateGizmo.GetRaycast(ray);
-                                break;
-                            case GizmosMode.Rotate:
-                                res = RotateGizmo.GetRaycast(ray);
-                                break;
-                        }
-                        if (res != Axis.None)
+                        if (hoveredAxis != Axis.None)
                         {
                             IsTransforming = true;
-                            TransformAxis = res;
+                            TransformAxis = hoveredAxis;
                             CurrentTransform = OriginalTransform;
                             if (Mode == GizmosMode.Rotate)
                             {
@@ -286,13 +314,17 @@ namespace StudioCore.MsbEditor
 
         public override void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            TranslateGizmo.CreateDeviceObjects(gd, cl, sp);
+            TranslateGizmoX.CreateDeviceObjects(gd, cl, sp);
+            TranslateGizmoY.CreateDeviceObjects(gd, cl, sp);
+            TranslateGizmoZ.CreateDeviceObjects(gd, cl, sp);
             RotateGizmo.CreateDeviceObjects(gd, cl, sp);
         }
 
         public override void DestroyDeviceObjects()
         {
-            TranslateGizmo.DestroyDeviceObjects();
+            TranslateGizmoX.DestroyDeviceObjects();
+            TranslateGizmoY.DestroyDeviceObjects();
+            TranslateGizmoZ.DestroyDeviceObjects();
             RotateGizmo.DestroyDeviceObjects();
         }
 
@@ -303,7 +335,9 @@ namespace StudioCore.MsbEditor
                 switch (Mode)
                 {
                     case GizmosMode.Translate:
-                        TranslateGizmo.Render(encoder, sp);
+                        TranslateGizmoX.Render(encoder, sp);
+                        TranslateGizmoY.Render(encoder, sp);
+                        TranslateGizmoZ.Render(encoder, sp);
                         break;
                     case GizmosMode.Rotate:
                         RotateGizmo.Render(encoder, sp);
@@ -317,7 +351,7 @@ namespace StudioCore.MsbEditor
             switch (Mode)
             {
                 case GizmosMode.Translate:
-                    return TranslateGizmo.GetPipeline();
+                    return TranslateGizmoX.GetPipeline();
                 case GizmosMode.Rotate:
                     return RotateGizmo.GetPipeline();
             }
@@ -345,10 +379,14 @@ namespace StudioCore.MsbEditor
                 }
                 float dist = (center - CameraPosition).Length();
                 Vector3 scale = new Vector3(dist * 0.04f);
-                TranslateGizmo.Transform = new Transform(center, rot, scale);
+                TranslateGizmoX.Transform = new Transform(center, rot, scale);
+                TranslateGizmoY.Transform = new Transform(center, rot, scale);
+                TranslateGizmoZ.Transform = new Transform(center, rot, scale);
                 RotateGizmo.Transform = new Transform(center, rot, scale);
             }
-            TranslateGizmo.UpdatePerFrameResources(gd, cl, sp);
+            TranslateGizmoX.UpdatePerFrameResources(gd, cl, sp);
+            TranslateGizmoY.UpdatePerFrameResources(gd, cl, sp);
+            TranslateGizmoZ.UpdatePerFrameResources(gd, cl, sp);
             RotateGizmo.UpdatePerFrameResources(gd, cl, sp);
         }
     }

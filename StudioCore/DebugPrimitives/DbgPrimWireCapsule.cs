@@ -181,17 +181,14 @@ namespace StudioCore.DebugPrimitives
             HemisphereA = new DbgPrimWireCapsule_End()
             {
                 Category = DbgPrimCategory.DummyPolyHelper,
-                OverrideColor = color
             };
             Midst = new DbgPrimWireCapsule_Middle()
             {
                 Category = DbgPrimCategory.DummyPolyHelper,
-                OverrideColor = color
             };
             HemisphereB = new DbgPrimWireCapsule_End()
             {
                 Category = DbgPrimCategory.DummyPolyHelper,
-                OverrideColor = color
             };
 
             Children.Add(HemisphereA);

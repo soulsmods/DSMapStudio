@@ -243,12 +243,14 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Region))]
             public string RegionName { get; set; }
             private int RegionIndex;
 
@@ -380,6 +382,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part that the treasure is attached to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string TreasurePartName { get; set; }
                 private int TreasurePartIndex;
 
@@ -530,12 +533,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions where parts will spawn from.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnRegionNames { get; private set; }
                 private int[] SpawnRegionIndices;
 
                 /// <summary>
                 /// Parts that will be respawned.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -632,6 +637,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part to be interacted with.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
@@ -757,6 +763,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkRegionNames { get; private set; }
                 private short[] WalkRegionIndices;
 
@@ -842,6 +849,7 @@ namespace SoulsFormats
                     /// <summary>
                     /// Unknown.
                     /// </summary>
+                    [MSBReference(ReferenceType = typeof(Region))]
                     public string RegionName { get; set; }
                     private short RegionIndex;
 
@@ -917,6 +925,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartNames { get; private set; }
                 private int[] GroupPartIndices;
 
@@ -1091,6 +1100,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] Event21PartNames { get; private set; }
                 private int[] Event21PartIndices;
 
@@ -1165,6 +1175,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part.EnemyBase))]
                 public string[] EnemyNames { get; private set; }
                 private int[] EnemyIndices;
 
@@ -1252,12 +1263,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Name of the filming point for the autodrawgroup capture, probably.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string AutoDrawGroupPointName { get; set; }
                 private int AutoDrawGroupPointIndex;
 
                 /// <summary>
                 /// The collision that the filming point belongs to, presumably.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part.Collision))]
                 public string OwningCollisionName { get; set; }
                 private int OwningCollisionIndex;
 

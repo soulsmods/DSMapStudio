@@ -11,6 +11,8 @@ using System.IO;
 using Veldrid;
 using Veldrid.Utilities;
 using SoulsFormats;
+using System.ComponentModel.DataAnnotations;
+using StudioCore.MsbEditor;
 
 namespace StudioCore.Resource
 {
@@ -246,18 +248,26 @@ namespace StudioCore.Resource
             return texpath;
         }
 
-        private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, IFlverTexture matparam)
+        private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, IFlverTexture matparam, string mtd)
         {
+            var path = matparam.Path;
             if (matparam.Path == "")
             {
-                // TODO Sekiro handling
+                var mtdstring = Path.GetFileNameWithoutExtension(mtd);
+                if (MtdBank.Mtds.ContainsKey(mtdstring))
+                {
+                    var tex = MtdBank.Mtds[mtdstring].Textures.Find(x => (x.Type == matparam.Type));
+                    if (tex == null || !tex.Extended || tex.Path == "")
+                    {
+                        return;
+                    }
+                    path = tex.Path;
+                }
             }
-            else
-            {
-                handle = ResourceManager.GetTextureResource(TexturePathToVirtual(matparam.Path.ToLower()));
-                handle.Acquire();
-                handle.AddResourceEventListener(dest);
-            }
+            handle = ResourceManager.GetTextureResource(TexturePathToVirtual(path.ToLower()));
+            handle.Acquire();
+            handle.AddResourceEventListener(dest);
+
         }
 
         unsafe private void ProcessMaterial(IFlverMaterial mat, FlverMaterial dest, GameType type)
@@ -295,46 +305,46 @@ namespace StudioCore.Resource
                 }
                 if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
                 {
-                    LookupTexture(ref dest.AlbedoTextureResource2, dest, matparam);
+                    LookupTexture(ref dest.AlbedoTextureResource2, dest, matparam, mat.MTD);
                     blend = true;
                 }
                 else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
                 {
-                    LookupTexture(ref dest.AlbedoTextureResource, dest, matparam);
+                    LookupTexture(ref dest.AlbedoTextureResource, dest, matparam, mat.MTD);
                 }
                 else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
                 {
-                    LookupTexture(ref dest.NormalTextureResource2, dest, matparam);
+                    LookupTexture(ref dest.NormalTextureResource2, dest, matparam, mat.MTD);
                     blend = true;
                     hasNormal2 = true;
                 }
                 else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
                 {
-                    LookupTexture(ref dest.NormalTextureResource, dest, matparam);
+                    LookupTexture(ref dest.NormalTextureResource, dest, matparam, mat.MTD);
                 }
                 else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
                 {
-                    LookupTexture(ref dest.SpecularTextureResource2, dest, matparam);
+                    LookupTexture(ref dest.SpecularTextureResource2, dest, matparam, mat.MTD);
                     blend = true;
                     hasSpec2 = true;
                 }
                 else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
                 {
-                    LookupTexture(ref dest.SpecularTextureResource, dest, matparam);
+                    LookupTexture(ref dest.SpecularTextureResource, dest, matparam, mat.MTD);
                 }
                 else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
                 {
-                    LookupTexture(ref dest.ShininessTextureResource2, dest, matparam);
+                    LookupTexture(ref dest.ShininessTextureResource2, dest, matparam, mat.MTD);
                     blend = true;
                     hasShininess2 = true;
                 }
                 else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
                 {
-                    LookupTexture(ref dest.ShininessTextureResource, dest, matparam);
+                    LookupTexture(ref dest.ShininessTextureResource, dest, matparam, mat.MTD);
                 }
                 else if (paramNameCheck.Contains("BLENDMASK"))
                 {
-                    LookupTexture(ref dest.BlendmaskTextureResource, dest, matparam);
+                    LookupTexture(ref dest.BlendmaskTextureResource, dest, matparam, mat.MTD);
                     blendMask = true;
                 }
             }

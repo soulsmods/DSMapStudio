@@ -18,7 +18,6 @@ namespace StudioCore.DebugPrimitives
         {
             Transform = location;
             NameColor = color;
-            OverrideColor = color;
             Name = name;
 
             if (GeometryData != null)

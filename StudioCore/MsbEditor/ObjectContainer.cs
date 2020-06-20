@@ -82,6 +82,39 @@ namespace StudioCore.MsbEditor
             }
             return value;
         }
+
+        public void LoadFlver(FLVER2 flver)
+        {
+            var meshesNode = new NamedEntity(this, null, "Meshes");
+            Objects.Add(meshesNode);
+            RootObject.AddChild(meshesNode);
+            for (int i = 0; i < flver.Meshes.Count; i++)
+            {
+                var meshnode = new NamedEntity(this, flver.Meshes[i], $@"mesh_{i}");
+                Objects.Add(meshnode);
+                meshesNode.AddChild(meshnode);
+            }
+
+            var materialsNode = new NamedEntity(this, null, "Materials");
+            Objects.Add(materialsNode);
+            RootObject.AddChild(materialsNode);
+            for (int i = 0; i < flver.Materials.Count; i++)
+            {
+                var matnode = new Entity(this, flver.Materials[i]);
+                Objects.Add(matnode);
+                materialsNode.AddChild(matnode);
+            }
+
+            var layoutsNode = new NamedEntity(this, null, "Layouts");
+            Objects.Add(layoutsNode);
+            RootObject.AddChild(layoutsNode);
+            for (int i = 0; i < flver.BufferLayouts.Count; i++)
+            {
+                var laynode = new NamedEntity(this, flver.BufferLayouts[i], $@"layout_{i}");
+                Objects.Add(laynode);
+                layoutsNode.AddChild(laynode);
+            }
+        }
     }
 
     public class Map : ObjectContainer

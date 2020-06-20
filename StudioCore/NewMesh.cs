@@ -41,6 +41,7 @@ namespace StudioCore
                     if (DebugBoundingBox == null)
                     {
                         DebugBoundingBox = new DebugPrimitives.DbgPrimWireBox(new Transform(_WorldMatrix), Bounds.Min, Bounds.Max, System.Drawing.Color.Red);
+                        DebugBoundingBox.BaseColor = System.Drawing.Color.Red;
                         Scene.Renderer.AddBackgroundUploadTask((device, cl) =>
                         {
                             DebugBoundingBox.CreateDeviceObjects(device, cl, null);

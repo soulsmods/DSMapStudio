@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using StudioCore.Scene;
+using System.Runtime.InteropServices;
 using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
@@ -22,6 +23,32 @@ namespace StudioCore.DebugPrimitives
         Skybox,
         DummyPolySpawnArrow,
         Other,
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct DbgMaterial
+    {
+        private struct _color
+        {
+            public byte r;
+            public byte g;
+            public byte b;
+            public byte a;
+        }
+
+        private _color _Color;
+        public fixed int pad[3];
+
+        public Color Color
+        {
+            set
+            {
+                _Color.r = value.R;
+                _Color.g = value.G;
+                _Color.b = value.B;
+                _Color.a = value.A;
+            }
+        }
     }
 
     public class DbgLabel
@@ -61,7 +88,37 @@ namespace StudioCore.DebugPrimitives
         public string Name { get; set; }
         public Color NameColor { get; set; } = Color.Yellow;
 
-        public Color? OverrideColor { get; set; } = null;
+        private bool _updateColors = true;
+        private Color _baseColor = Color.Gray;
+        public Color BaseColor
+        {
+            get => _baseColor;
+            set
+            {
+                _baseColor = value;
+                _updateColors = true;
+            }
+        }
+        private Color _highlightedColor = Color.Gray;
+        public Color HighlightedColor
+        {
+            get => _highlightedColor;
+            set
+            {
+                _highlightedColor = value;
+                _updateColors = true;
+            }
+        }
+        private bool _highlighted = false;
+        public bool Highlighted
+        {
+            get => _highlighted;
+            set
+            {
+                _highlighted = value;
+                _updateColors = true;
+            }
+        }
 
         public DbgPrimCategory Category { get; set; } = DbgPrimCategory.Other;
 
@@ -87,6 +144,7 @@ namespace StudioCore.DebugPrimitives
         protected Pipeline RenderPipeline;
         protected Shader[] Shaders;
         protected GPUBufferAllocator.GPUBufferHandle WorldBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle _materialBuffer;
         protected VertexIndexBufferAllocator.VertexIndexBufferHandle GeomBuffer;
         protected ResourceSet PerObjRS;
         protected bool NeedToRecreateGeomBuffer = true;
@@ -124,7 +182,7 @@ namespace StudioCore.DebugPrimitives
             //NeedToRecreateVertBuffer = false;
         }
 
-        public override void UpdatePerFrameResources(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp)
+        public unsafe override void UpdatePerFrameResources(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp)
         {
             if (NeedToRecreateGeomBuffer)
             {
@@ -145,6 +203,8 @@ namespace StudioCore.DebugPrimitives
                         h.FillVBuffer(Vertices);
                         h.FillIBuffer(Indices);
                     });
+
+                    _materialBuffer = Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(DbgMaterial), sizeof(DbgMaterial));
                 }
                 else
                 {
@@ -156,10 +216,19 @@ namespace StudioCore.DebugPrimitives
 
             if (WorldDirty)
             {
-                var mat = Transform.WorldMatrix;
-                //cl.UpdateBuffer(WorldBuffer, 0, ref mat, 64);
-                WorldBuffer.FillBuffer(cl, ref mat);
+                InstanceData dat = new InstanceData();
+                dat.WorldMatrix = Transform.WorldMatrix;
+                dat.MaterialID = (_materialBuffer.AllocationStart / _materialBuffer.AllocationSize);
+                WorldBuffer.FillBuffer(cl, ref dat);
                 WorldDirty = false;
+            }
+
+            if (_updateColors)
+            {
+                var colmat = new DbgMaterial();
+                colmat.Color = (Highlighted ? HighlightedColor : BaseColor);
+                _materialBuffer.FillBuffer(cl, ref colmat);
+                _updateColors = false;
             }
         }
 
@@ -214,14 +283,8 @@ namespace StudioCore.DebugPrimitives
             return RenderPipeline;
         }
 
-        /// <summary>
-        /// Set this to choose specific technique(s).
-        /// Null to just use the current technique.
-        /// </summary>
-        public virtual string[] ShaderTechniquesSelection => null;
-
         public WeakReference<ISelectable> Selectable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Highlighted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //public bool Highlighted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AutoRegister { get; set; } = false;
         public bool IsVisible { get; set; }
 

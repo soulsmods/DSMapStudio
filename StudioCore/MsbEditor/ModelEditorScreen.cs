@@ -13,7 +13,7 @@ using ImGuiNET;
 
 namespace StudioCore.MsbEditor
 {
-    public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler
+    public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler
     {
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
@@ -23,8 +23,14 @@ namespace StudioCore.MsbEditor
         public Gui.Viewport Viewport;
         public Rectangle Rect;
 
+        private Universe _universe;
+
+        private SceneTree _sceneTree;
+        private PropertyEditor _propEditor;
         private AssetBrowser _assetBrowser;
 
+        private ResourceHandle<FlverResource> _flverhandle = null;
+        private string _currentModel = null;
         private IDrawable _renderMesh = null;
 
         private Task _loadingTask = null;
@@ -37,7 +43,10 @@ namespace StudioCore.MsbEditor
             Window = window;
 
             Viewport = new Gui.Viewport("Modeleditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+            _universe = new Universe(AssetLocator, RenderScene, _selection);
 
+            _sceneTree = new SceneTree(this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
+            _propEditor = new PropertyEditor(EditorActionManager);
             _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator);
         }
 
@@ -65,6 +74,19 @@ namespace StudioCore.MsbEditor
 
                     Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
                     Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
+                }
+
+                if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
+                {
+                    if (_flverhandle.TryLock())
+                    {
+                        var r = _flverhandle.Get();
+                        if (r.Flver != null)
+                        {
+                            _universe.LoadFlver(r.Flver, _currentModel);
+                        }
+                        _flverhandle.Unlock();
+                    }
                 }
             }
         }
@@ -116,6 +138,8 @@ namespace StudioCore.MsbEditor
             _renderMesh = new NewMesh(RenderScene, res);
             _renderMesh.DrawFilter = filt;
             _renderMesh.WorldMatrix = Matrix4x4.Identity;
+            _flverhandle = res;
+            _currentModel = modelid;
             if (!res.IsLoaded || res.AccessLevel != AccessLevel.AccessFull)
             {
                 if (asset.AssetArchiveVirtualPath != null)
@@ -255,6 +279,8 @@ namespace StudioCore.MsbEditor
 
             Viewport.OnGui();
             _assetBrowser.OnGui();
+            _sceneTree.OnGui();
+            _propEditor.OnGui(_selection.GetSingleFilteredSelection<Entity>(), "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
 
@@ -271,6 +297,11 @@ namespace StudioCore.MsbEditor
         public override void SaveAll()
         {
             
+        }
+
+        public void OnEntityContextMenu(Entity ent)
+        {
+
         }
     }
 }
