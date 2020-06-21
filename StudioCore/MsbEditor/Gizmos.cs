@@ -73,7 +73,9 @@ namespace StudioCore.MsbEditor
         private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoX;
         private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoY;
         private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoZ;
-        private DebugPrimitives.DbgPrimGizmoRotate RotateGizmo;
+        private DebugPrimitives.DbgPrimGizmoRotateRing RotateGizmoX;
+        private DebugPrimitives.DbgPrimGizmoRotateRing RotateGizmoY;
+        private DebugPrimitives.DbgPrimGizmoRotateRing RotateGizmoZ;
 
         private Transform OriginalTransform = Transform.Default;
         private Transform CurrentTransform = Transform.Default;
@@ -97,7 +99,16 @@ namespace StudioCore.MsbEditor
             TranslateGizmoZ = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosZ);
             TranslateGizmoZ.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
             TranslateGizmoZ.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
-            RotateGizmo = new DebugPrimitives.DbgPrimGizmoRotate();
+
+            RotateGizmoX = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosX);
+            RotateGizmoX.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
+            RotateGizmoX.HighlightedColor = Color.FromArgb(0xFF, 0x66, 0x83);
+            RotateGizmoY = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosY);
+            RotateGizmoY.BaseColor = Color.FromArgb(0x86, 0xC8, 0x15);
+            RotateGizmoY.HighlightedColor = Color.FromArgb(0xB6, 0xF8, 0x45);
+            RotateGizmoZ = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosZ);
+            RotateGizmoZ.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
+            RotateGizmoZ.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
             _selection = selection;
         }
 
@@ -278,7 +289,21 @@ namespace StudioCore.MsbEditor
                             TranslateGizmoZ.Highlighted = (hoveredAxis == Axis.PosZ);
                             break;
                         case GizmosMode.Rotate:
-                            hoveredAxis = RotateGizmo.GetRaycast(ray);
+                            if (RotateGizmoX.GetRaycast(ray))
+                            {
+                                hoveredAxis = Axis.PosX;
+                            }
+                            else if (RotateGizmoY.GetRaycast(ray))
+                            {
+                                hoveredAxis = Axis.PosY;
+                            }
+                            else if (RotateGizmoZ.GetRaycast(ray))
+                            {
+                                hoveredAxis = Axis.PosZ;
+                            }
+                            RotateGizmoX.Highlighted = (hoveredAxis == Axis.PosX);
+                            RotateGizmoY.Highlighted = (hoveredAxis == Axis.PosY);
+                            RotateGizmoZ.Highlighted = (hoveredAxis == Axis.PosZ);
                             break;
                     }
                     
@@ -317,7 +342,9 @@ namespace StudioCore.MsbEditor
             TranslateGizmoX.CreateDeviceObjects(gd, cl, sp);
             TranslateGizmoY.CreateDeviceObjects(gd, cl, sp);
             TranslateGizmoZ.CreateDeviceObjects(gd, cl, sp);
-            RotateGizmo.CreateDeviceObjects(gd, cl, sp);
+            RotateGizmoX.CreateDeviceObjects(gd, cl, sp);
+            RotateGizmoY.CreateDeviceObjects(gd, cl, sp);
+            RotateGizmoZ.CreateDeviceObjects(gd, cl, sp);
         }
 
         public override void DestroyDeviceObjects()
@@ -325,7 +352,9 @@ namespace StudioCore.MsbEditor
             TranslateGizmoX.DestroyDeviceObjects();
             TranslateGizmoY.DestroyDeviceObjects();
             TranslateGizmoZ.DestroyDeviceObjects();
-            RotateGizmo.DestroyDeviceObjects();
+            RotateGizmoX.DestroyDeviceObjects();
+            RotateGizmoY.DestroyDeviceObjects();
+            RotateGizmoZ.DestroyDeviceObjects();
         }
 
         public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
@@ -340,7 +369,9 @@ namespace StudioCore.MsbEditor
                         TranslateGizmoZ.Render(encoder, sp);
                         break;
                     case GizmosMode.Rotate:
-                        RotateGizmo.Render(encoder, sp);
+                        RotateGizmoX.Render(encoder, sp);
+                        RotateGizmoY.Render(encoder, sp);
+                        RotateGizmoZ.Render(encoder, sp);
                         break;
                 }
             }
@@ -353,7 +384,7 @@ namespace StudioCore.MsbEditor
                 case GizmosMode.Translate:
                     return TranslateGizmoX.GetPipeline();
                 case GizmosMode.Rotate:
-                    return RotateGizmo.GetPipeline();
+                    return RotateGizmoX.GetPipeline();
             }
             return null;
         }
@@ -382,12 +413,16 @@ namespace StudioCore.MsbEditor
                 TranslateGizmoX.Transform = new Transform(center, rot, scale);
                 TranslateGizmoY.Transform = new Transform(center, rot, scale);
                 TranslateGizmoZ.Transform = new Transform(center, rot, scale);
-                RotateGizmo.Transform = new Transform(center, rot, scale);
+                RotateGizmoX.Transform = new Transform(center, rot, scale);
+                RotateGizmoY.Transform = new Transform(center, rot, scale);
+                RotateGizmoZ.Transform = new Transform(center, rot, scale);
             }
             TranslateGizmoX.UpdatePerFrameResources(gd, cl, sp);
             TranslateGizmoY.UpdatePerFrameResources(gd, cl, sp);
             TranslateGizmoZ.UpdatePerFrameResources(gd, cl, sp);
-            RotateGizmo.UpdatePerFrameResources(gd, cl, sp);
+            RotateGizmoX.UpdatePerFrameResources(gd, cl, sp);
+            RotateGizmoY.UpdatePerFrameResources(gd, cl, sp);
+            RotateGizmoZ.UpdatePerFrameResources(gd, cl, sp);
         }
     }
 }

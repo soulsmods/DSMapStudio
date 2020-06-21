@@ -9,7 +9,7 @@ using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
-    public class DbgPrimGizmoRotate : DbgPrimGizmo
+    public class DbgPrimGizmoRotateRing : DbgPrimGizmo
     {
         public const int Segments = 12;
         public const float TotalLength = 5.0f;
@@ -25,9 +25,7 @@ namespace StudioCore.DebugPrimitives
 
         private DbgPrimGeometryData GeometryData = null;
 
-        private List<Vector3> XTris = new List<Vector3>();
-        private List<Vector3> YTris = new List<Vector3>();
-        private List<Vector3> ZTris = new List<Vector3>();
+        private List<Vector3> Tris = new List<Vector3>();
 
         public enum Axis
         {
@@ -50,21 +48,7 @@ namespace StudioCore.DebugPrimitives
             AddColTri(list, a, c, d);
         }
 
-        private List<Vector3> AxisToList(MsbEditor.Gizmos.Axis axis)
-        {
-            switch (axis)
-            {
-                case MsbEditor.Gizmos.Axis.PosX:
-                    return XTris;
-                case MsbEditor.Gizmos.Axis.PosY:
-                    return YTris;
-                case MsbEditor.Gizmos.Axis.PosZ:
-                    return ZTris;
-            }
-            return null;
-        }
-
-        public DbgPrimGizmoRotate()
+        public DbgPrimGizmoRotateRing(MsbEditor.Gizmos.Axis axis)
         {
             //BackfaceCulling = false;
 
@@ -98,7 +82,7 @@ namespace StudioCore.DebugPrimitives
                 // http://apparat-engine.blogspot.com/2013/04/procedural-meshes-torus.html
                 void Ring(MsbEditor.Gizmos.Axis axis, Color color)
                 {
-                    var collist = AxisToList(axis);
+                    var collist = Tris;
 
                     List<Vector3> vertices = new List<Vector3>((RingCount + 1) * (SideCount + 1));
                     List<Vector3> colvertices = new List<Vector3>((RingCount + 1) * (SideCount + 1));
@@ -158,9 +142,7 @@ namespace StudioCore.DebugPrimitives
                     }
                 }
 
-                Ring(MsbEditor.Gizmos.Axis.PosX, Color.FromArgb(0xF3, 0x36, 0x53));
-                Ring(MsbEditor.Gizmos.Axis.PosZ, Color.FromArgb(0x38, 0x90, 0xED));
-                Ring(MsbEditor.Gizmos.Axis.PosY, Color.FromArgb(0x86, 0xC8, 0x15));
+                Ring(axis, Color.FromArgb(0x86, 0xC8, 0x15));
 
                 //FinalizeBuffers(true);
 
@@ -171,42 +153,20 @@ namespace StudioCore.DebugPrimitives
             }
         }
 
-        public MsbEditor.Gizmos.Axis GetRaycast(Ray ray)
+        public bool GetRaycast(Ray ray)
         {
-            for (int i = 0; i < XTris.Count() / 3; i++)
+            for (int i = 0; i < Tris.Count() / 3; i++)
             {
-                var a = Vector3.Transform(XTris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(XTris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(XTris[i * 3 + 2], Transform.WorldMatrix);
+                var a = Vector3.Transform(Tris[i * 3], Transform.WorldMatrix);
+                var b = Vector3.Transform(Tris[i * 3 + 1], Transform.WorldMatrix);
+                var c = Vector3.Transform(Tris[i * 3 + 2], Transform.WorldMatrix);
                 float dist;
                 if (ray.Intersects(ref a, ref b, ref c, out dist))
                 {
-                    return MsbEditor.Gizmos.Axis.PosX;
+                    return true;
                 }
             }
-            for (int i = 0; i < YTris.Count() / 3; i++)
-            {
-                var a = Vector3.Transform(YTris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(YTris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(YTris[i * 3 + 2], Transform.WorldMatrix);
-                float dist;
-                if (ray.Intersects(ref a, ref b, ref c, out dist))
-                {
-                    return MsbEditor.Gizmos.Axis.PosY;
-                }
-            }
-            for (int i = 0; i < ZTris.Count() / 3; i++)
-            {
-                var a = Vector3.Transform(ZTris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(ZTris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(ZTris[i * 3 + 2], Transform.WorldMatrix);
-                float dist;
-                if (ray.Intersects(ref a, ref b, ref c, out dist))
-                {
-                    return MsbEditor.Gizmos.Axis.PosZ;
-                }
-            }
-            return MsbEditor.Gizmos.Axis.None;
+            return false;
         }
     }
 }

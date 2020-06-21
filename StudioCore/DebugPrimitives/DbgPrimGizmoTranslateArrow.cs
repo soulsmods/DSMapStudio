@@ -19,9 +19,6 @@ namespace StudioCore.DebugPrimitives
 
         private DbgPrimGeometryData GeometryData = null;
 
-        //private List<Vector3> XTris = new List<Vector3>();
-        //private List<Vector3> YTris = new List<Vector3>();
-        //private List<Vector3> ZTris = new List<Vector3>();
         private List<Vector3> Tris = new List<Vector3>();
 
         public enum Axis
@@ -77,7 +74,6 @@ namespace StudioCore.DebugPrimitives
 
                 void Arrow(MsbEditor.Gizmos.Axis axis, Color color)
                 {
-
                     Vector3 tip = Vector3.Zero;
                     if (axis == MsbEditor.Gizmos.Axis.PosX)
                     {
