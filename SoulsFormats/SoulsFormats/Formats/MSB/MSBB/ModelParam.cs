@@ -254,6 +254,11 @@ namespace SoulsFormats
                 /// </summary>
                 public MapPiece() : base("mXXXXXX") { }
 
+                /// <summary>
+                /// Creates a MapPiece with a name.
+                /// </summary>
+                public MapPiece(string name) : base(name) { }
+
                 internal MapPiece(BinaryReaderEx br) : base(br) { }
             }
 
@@ -268,6 +273,11 @@ namespace SoulsFormats
                 /// Creates an Object with default values.
                 /// </summary>
                 public Object() : base("oXXXXXX") { }
+
+                /// <summary>
+                /// Creates an Object with a name.
+                /// </summary>
+                public Object(string name) : base(name) { }
 
                 internal Object(BinaryReaderEx br) : base(br) { }
             }
@@ -284,6 +294,11 @@ namespace SoulsFormats
                 /// </summary>
                 public Enemy() : base("cXXXX") { }
 
+                /// <summary>
+                /// Creates an Enemy with a name.
+                /// </summary>
+                public Enemy(string name) : base(name) { }
+
                 internal Enemy(BinaryReaderEx br) : base(br) { }
             }
 
@@ -298,6 +313,11 @@ namespace SoulsFormats
                 /// Creates an Item with default values.
                 /// </summary>
                 public Item() : base("cXXXX") { }
+
+                /// <summary>
+                /// Creates an Item with a name.
+                /// </summary>
+                public Item(string name) : base(name) { }
 
                 internal Item(BinaryReaderEx br) : base(br) { }
             }
@@ -314,6 +334,11 @@ namespace SoulsFormats
                 /// </summary>
                 public Player() : base("c0000") { }
 
+                /// <summary>
+                /// Creates a Player with a name.
+                /// </summary>
+                public Player(string name) : base(name) { }
+
                 internal Player(BinaryReaderEx br) : base(br) { }
             }
 
@@ -328,6 +353,11 @@ namespace SoulsFormats
                 /// Creates a Collision with default values.
                 /// </summary>
                 public Collision() : base("hXXXXxX") { }
+
+                /// <summary>
+                /// Creates a MapPiece with a name.
+                /// </summary>
+                public MapPiece(string name) : base(name) { }
 
                 internal Collision(BinaryReaderEx br) : base(br) { }
             }
