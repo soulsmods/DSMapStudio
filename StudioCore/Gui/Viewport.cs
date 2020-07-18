@@ -188,10 +188,9 @@ namespace StudioCore.Gui
                     ImGui.SetWindowFocus();
                 }
                 _canInteract = ImGui.IsWindowFocused();
-                ImGui.End();
                 _vpvisible = true;
             }
-            ImGui.PopID();
+            ImGui.End();
 
             if (ImGui.Begin($@"Profiling##{_vpid}"))
             {
@@ -203,9 +202,8 @@ namespace StudioCore.Gui
                 ImGui.Text($@"Index Buffers Size: {Scene.Renderer.GeometryBufferAllocator.TotalIndexFootprint / 1024 / 1024} MB");
                 ImGui.Text($@"FLVER Read Caches: {Resource.FlverResource.CacheCount}");
                 ImGui.Text($@"FLVER Read Caches Size: {Resource.FlverResource.CacheFootprint / 1024 / 1024} MB");
-                ImGui.End();
             }
-            ImGui.PopID();
+            ImGui.End();
         }
 
         public void SceneParamsGui()

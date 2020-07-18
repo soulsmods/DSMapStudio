@@ -182,16 +182,6 @@ namespace StudioCore.MsbEditor
             wins.Y -= 20.0f;
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0.0f);
-            ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
-            flags |= ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
-            flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
-            flags |= ImGuiWindowFlags.NoBackground;
-            //ImGui.Begin("DockSpace_MapEdit", flags);
-            ImGui.PopStyleVar(4);
             var dsid = ImGui.GetID("DockSpace_ModelEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 

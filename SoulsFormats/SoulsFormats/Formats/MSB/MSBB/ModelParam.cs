@@ -354,11 +354,6 @@ namespace SoulsFormats
                 /// </summary>
                 public Collision() : base("hXXXXxX") { }
 
-                /// <summary>
-                /// Creates a MapPiece with a name.
-                /// </summary>
-                public MapPiece(string name) : base(name) { }
-
                 internal Collision(BinaryReaderEx br) : base(br) { }
             }
 

@@ -703,7 +703,9 @@ namespace StudioCore.MsbEditor
             if (selection == null || selection.WrappedObject == null)
             {
                 ImGui.Text("Select a single object to edit properties.");
+                ImGui.EndChild();
                 ImGui.End();
+                ImGui.PopStyleColor();
                 return;
             }
             if (selection.WrappedObject is PARAM.Row prow || selection.WrappedObject is MergedParamRow)

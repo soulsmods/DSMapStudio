@@ -68,7 +68,7 @@ namespace StudioCore.MsbEditor
             "Type View",
         };
 
-        private ViewMode _viewMode = ViewMode.Hierarchy;
+        private ViewMode _viewMode = ViewMode.Flat;
 
         public SceneTree(SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
         {
@@ -182,7 +182,7 @@ namespace StudioCore.MsbEditor
                 doSelect = true;
             }
             bool nodeopen = false;
-            string padding = hierarchial ? "   " : "";
+            string padding = hierarchial ? "   " : "    ";
             if (hierarchial && e.Children.Count > 0)
             {
                 var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
@@ -262,6 +262,7 @@ namespace StudioCore.MsbEditor
             // Visibility icon
             if (visicon)
             {
+                ImGui.SetItemAllowOverlap();
                 bool visible = e.EditorVisible;
                 ImGui.SameLine(ImGui.GetWindowContentRegionWidth() - 18.0f);
                 ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
@@ -294,10 +295,12 @@ namespace StudioCore.MsbEditor
             // Invisible item to be a drag drop target between nodes
             if (e is MapEntity me2)
             {
+                ImGui.SetItemAllowOverlap();
                 ImGui.InvisibleButton(me2.Type.ToString() + e.Name, new Vector2(-1, 4.0f));
             }
             else
             {
+                ImGui.SetItemAllowOverlap();
                 ImGui.InvisibleButton(e.Name, new Vector2(-1, 4.0f));
             }
             if (ImGui.IsItemFocused())
@@ -513,7 +516,6 @@ namespace StudioCore.MsbEditor
                     ChaliceDungeonImportButton();
                 }
                 ImGui.EndChild();
-                ImGui.End();
 
                 if (_dragDropSources.Count > 0)
                 {
@@ -551,6 +553,7 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.PopStyleVar();
             }
+            ImGui.End();
             ImGui.PopStyleColor();
         }
     }

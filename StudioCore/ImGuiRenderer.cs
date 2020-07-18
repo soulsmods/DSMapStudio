@@ -93,7 +93,10 @@ namespace StudioCore
             SetOpenTKKeyMappings();
 
             SetPerFrameImGuiData(1f / 60f);
+        }
 
+        public void OnSetupDone()
+        {
             ImGui.NewFrame();
             _frameBegun = true;
         }

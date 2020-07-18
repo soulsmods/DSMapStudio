@@ -196,9 +196,9 @@ namespace StudioCore.MsbEditor
                         }
                     }
                     ImGui.EndChild();
-                    ImGui.End();
                 }
             }
+            ImGui.End();
         }
     }
 }

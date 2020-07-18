@@ -872,9 +872,9 @@ namespace StudioCore.MsbEditor
                 SaveDS2Generators(map);
             }
 
-            var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
-            Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
-                $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
+            //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
+            //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
+            //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
         }
 
         public void SaveAllMaps()

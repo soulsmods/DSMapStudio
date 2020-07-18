@@ -1,18 +1,12 @@
 ﻿using ImGuiNET;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Numerics;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Threading;
-using Veldrid.StartupUtilities;
-using Veldrid.Utilities;
-using Veldrid.Sdl2;
-using Veldrid;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Numerics;
+using Veldrid;
+using Veldrid.Sdl2;
+using Veldrid.StartupUtilities;
 
 namespace StudioCore
 {
@@ -179,6 +173,7 @@ namespace StudioCore
             }
             fonts.Build();
             ImguiRenderer.RecreateFontDeviceTexture();
+            ImguiRenderer.OnSetupDone();
 
             var style = ImGui.GetStyle();
             style.TabBorderSize = 0;
@@ -362,10 +357,14 @@ namespace StudioCore
             flags |= ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.MenuBar;
             flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
             flags |= ImGuiWindowFlags.NoBackground;
-            ImGui.Begin("DockSpace_W", flags);
+            if (ImGui.Begin("DockSpace_W", flags))
+            {
+                //Console.WriteLine("hi");
+            }
             var dsid = ImGui.GetID("DockSpace");
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
             ImGui.PopStyleVar(1);
+            ImGui.End();
 
             bool newProject = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
@@ -672,6 +671,7 @@ namespace StudioCore
             {
                 ImGui.PopStyleVar(1);
                 _msbEditorFocused = false;
+                ImGui.End();
             }
 
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
@@ -679,7 +679,6 @@ namespace StudioCore
             {
                 ImGui.PopStyleVar(1);
                 ModelEditor.OnGUI();
-                ImGui.End();
                 _modelEditorFocused = true;
                 ModelEditor.Update(deltaseconds);
             }
@@ -688,6 +687,7 @@ namespace StudioCore
                 ImGui.PopStyleVar(1);
                 _modelEditorFocused = false;
             }
+            ImGui.End();
 
 
             string[] paramcmds = null;
@@ -699,13 +699,13 @@ namespace StudioCore
             if (ImGui.Begin("Param Editor"))
             {
                 ParamEditor.OnGUI(paramcmds);
-                ImGui.End();
                 _paramEditorFocused = true;
             }
             else
             {
                 _paramEditorFocused = false;
             }
+            ImGui.End();
 
             string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")
@@ -717,17 +717,16 @@ namespace StudioCore
             if (ImGui.Begin("Text Editor"))
             {
                 TextEditor.OnGUI(textcmds);
-                ImGui.End();
                 _textEditorFocused = true;
             }
             else
             {
                 _textEditorFocused = false;
             }
+            ImGui.End();
             ImGui.PopStyleVar();
 
             ImGui.PopStyleVar(2);
-
             UnapplyStyle();
 
             Resource.ResourceManager.UpdateTasks();
