@@ -6,17 +6,54 @@ using System.Threading.Tasks;
 
 namespace StudioCore.MsbEditor
 {
+    [Flags]
+    public enum ActionEvent
+    {
+        NoEvent = 0,
+
+        // An object was added or removed from a scene
+        ObjectAddedRemoved = 1,
+    }
+
+    /// <summary>
+    /// Interface for objects that may react to events caused by actions that
+    /// happen. Useful for invalidating caches that various editors may have.
+    /// </summary>
+    public interface IActionEventHandler
+    {
+        public void OnActionEvent(ActionEvent evt);
+    }
+
     /// <summary>
     /// Manages undo and redo for an editor context
     /// </summary>
     public class ActionManager
     {
+        private List<IActionEventHandler> _eventHandlers = new List<IActionEventHandler>();
+
         private Stack<Action> UndoStack = new Stack<Action>();
         private Stack<Action> RedoStack = new Stack<Action>();
 
+        public void AddEventHandler(IActionEventHandler handler)
+        {
+            _eventHandlers.Add(handler);
+        }
+
+        private void NotifyHandlers(ActionEvent evt)
+        {
+            if (evt == ActionEvent.NoEvent)
+            {
+                return;
+            }
+            foreach (var handler in _eventHandlers)
+            {
+                handler.OnActionEvent(evt);
+            }
+        }
+
         public void ExecuteAction(Action a)
         {
-            a.Execute();
+            NotifyHandlers(a.Execute());
             UndoStack.Push(a);
             RedoStack.Clear();
         }
@@ -37,7 +74,7 @@ namespace StudioCore.MsbEditor
                 return;
             }
             var a = UndoStack.Pop();
-            a.Undo();
+            NotifyHandlers(a.Undo());
             RedoStack.Push(a);
         }
 
@@ -48,7 +85,7 @@ namespace StudioCore.MsbEditor
                 return;
             }
             var a = RedoStack.Pop();
-            a.Execute();
+            NotifyHandlers(a.Execute());
             UndoStack.Push(a);
         }
 

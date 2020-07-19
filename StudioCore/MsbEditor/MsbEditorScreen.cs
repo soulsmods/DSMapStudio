@@ -79,6 +79,8 @@ namespace StudioCore.MsbEditor
             PropSearch = new SearchProperties(Universe);
             NavMeshEditor = new NavmeshEditor(RenderScene, _selection);
 
+            EditorActionManager.AddEventHandler(SceneTree);
+
             RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
         }
 

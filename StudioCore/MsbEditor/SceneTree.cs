@@ -26,7 +26,7 @@ namespace StudioCore.MsbEditor
         public void OnEntityContextMenu(Entity ent);
     }
 
-    public class SceneTree
+    public class SceneTree : IActionEventHandler
     {
         private Universe _universe;
         private ActionManager _editorActionManager;
@@ -555,6 +555,14 @@ namespace StudioCore.MsbEditor
             }
             ImGui.End();
             ImGui.PopStyleColor();
+        }
+
+        public void OnActionEvent(ActionEvent evt)
+        {
+            if (evt.HasFlag(ActionEvent.ObjectAddedRemoved))
+            {
+                _cachedTypeView = null;
+            }
         }
     }
 }

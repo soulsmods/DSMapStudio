@@ -286,15 +286,16 @@ namespace StudioCore.MsbEditor
                 foreach (PropertyInfo sourceProperty in typ.GetProperties())
                 {
                     PropertyInfo targetProperty = typ.GetProperty(sourceProperty.Name);
-                    if (sourceProperty.CanWrite)
-                    {
-                        targetProperty.SetValue(clone, sourceProperty.GetValue(WrappedObject, null), null);
-                    }
-                    else if (sourceProperty.PropertyType.IsArray)
+                    if (sourceProperty.PropertyType.IsArray)
                     {
                         Array arr = (Array)sourceProperty.GetValue(WrappedObject);
                         Array.Copy(arr, (Array)targetProperty.GetValue(clone), arr.Length);
                     }
+                    else if (sourceProperty.CanWrite)
+                    {
+                        targetProperty.SetValue(clone, sourceProperty.GetValue(WrappedObject, null), null);
+                    }
+
                     else
                     {
                         // Sanity check
@@ -778,6 +779,15 @@ namespace StudioCore.MsbEditor
             {
 
             }
+            else if (Type == MapEntityType.Region && RenderSceneMesh == null)
+            {
+                if (RenderSceneMesh != null)
+                {
+                    RenderSceneMesh.AutoRegister = false;
+                    RenderSceneMesh.UnregisterAndRelease();
+                }
+                RenderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+            }
             else
             {
                 var model = GetPropertyValue<string>("ModelName");
@@ -833,7 +843,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public virtual Transform GetTransform()
+        public override Transform GetTransform()
         {
             var t = base.GetTransform();
             // If this is a region scale the region primitive by its respective parameters

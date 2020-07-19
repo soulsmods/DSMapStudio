@@ -12,6 +12,8 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
+        private static string _version = "Preview 6";
+
         private Sdl2Window _window;
         private GraphicsDevice _gd;
         private CommandList MainWindowCommandList;
@@ -78,7 +80,7 @@ namespace StudioCore
                 WindowWidth = CFG.Current.GFX_Display_Width,
                 WindowHeight = CFG.Current.GFX_Display_Height,
                 WindowInitialState = WindowState.Maximized,
-                WindowTitle = "Dark Souls Map Studio",
+                WindowTitle = "Dark Souls Map Studio " + _version + " by Katalash",
             };
             GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 

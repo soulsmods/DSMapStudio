@@ -42,6 +42,39 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public Scene.IDrawable GetRegionDrawable(Map map, Entity obj)
+        {
+            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
+            {
+                var mesh = Scene.Region.GetBoxRegion(_renderScene);
+                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
+            {
+                var mesh = Scene.Region.GetSphereRegion(_renderScene);
+                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
+            {
+                var mesh = Scene.Region.GetPointRegion(_renderScene);
+                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
+            {
+                var mesh = Scene.Region.GetCylinderRegion(_renderScene);
+                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                return mesh;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Creates a drawable for a model and registers it with the scene. Will load
         /// the required assets in the background if they aren't already loaded.

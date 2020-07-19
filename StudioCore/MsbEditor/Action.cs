@@ -17,8 +17,8 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public abstract class Action
     {
-        abstract public void Execute();
-        abstract public void Undo();
+        abstract public ActionEvent Execute();
+        abstract public ActionEvent Undo();
     }
 
     public class PropertiesChangedAction : Action
@@ -93,7 +93,7 @@ namespace StudioCore.MsbEditor
             PostExecutionAction = action;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             foreach (var change in Changes)
             {
@@ -111,9 +111,10 @@ namespace StudioCore.MsbEditor
             {
                 PostExecutionAction.Invoke(false);
             }
+            return ActionEvent.NoEvent;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             foreach (var change in Changes)
             {
@@ -131,6 +132,7 @@ namespace StudioCore.MsbEditor
             {
                 PostExecutionAction.Invoke(true);
             }
+            return ActionEvent.NoEvent;
         }
     }
 
@@ -151,28 +153,35 @@ namespace StudioCore.MsbEditor
             SetSelection = setSelection;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
-            foreach (var obj in Clonables)
+            bool clonesCached = Clones.Count() > 0;
+            //foreach (var obj in Clonables)
+            for (int i = 0; i < Clonables.Count(); i++)
             {
-                var m = Universe.GetLoadedMap(obj.MapID);
+                var m = Universe.GetLoadedMap(Clonables[i].MapID);
                 if (m != null)
                 {
-                    MapEntity newobj = (MapEntity)obj.Clone();
-                    newobj.Name = obj.Name + "_1";
-                    m.Objects.Insert(m.Objects.IndexOf(obj) + 1, newobj);
-                    if (obj.Parent != null)
+                    // If this was executed in the past we reused the cloned objects so because redo
+                    // actions that follow this may reference the previously cloned object
+                    MapEntity newobj = clonesCached ? Clones[i] : (MapEntity)Clonables[i].Clone();
+                    newobj.Name = Clonables[i].Name + "_1";
+                    m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
+                    if (Clonables[i].Parent != null)
                     {
-                        int idx = obj.Parent.ChildIndex(obj);
-                        obj.Parent.AddChild(newobj, idx);
+                        int idx = Clonables[i].Parent.ChildIndex(Clonables[i]);
+                        Clonables[i].Parent.AddChild(newobj, idx);
                     }
                     newobj.UpdateRenderModel();
                     if (newobj.RenderSceneMesh != null)
                     {
                         newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
                     }
-                    Clones.Add(newobj);
-                    CloneMaps.Add(m);
+                    if (!clonesCached)
+                    {
+                        Clones.Add(newobj);
+                        CloneMaps.Add(m);
+                    }
                 }
             }
             if (SetSelection)
@@ -183,9 +192,10 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(c);
                 }
             }
+            return ActionEvent.ObjectAddedRemoved;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             for (int i = 0; i < Clones.Count(); i++)
             {
@@ -200,7 +210,7 @@ namespace StudioCore.MsbEditor
                     Clones[i].RenderSceneMesh.UnregisterWithScene();
                 }
             }
-            Clones.Clear();
+            //Clones.Clear();
             if (SetSelection)
             {
                 Universe.Selection.ClearSelection();
@@ -209,6 +219,7 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(c);
                 }
             }
+            return ActionEvent.ObjectAddedRemoved;
         }
     }
 
@@ -228,7 +239,7 @@ namespace StudioCore.MsbEditor
             SetSelection = setsel;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             foreach (var row in Clonables)
             {
@@ -241,9 +252,10 @@ namespace StudioCore.MsbEditor
             {
                 //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
             }
+            return ActionEvent.NoEvent;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             for (int i = 0; i < Clones.Count(); i++)
             {
@@ -253,6 +265,7 @@ namespace StudioCore.MsbEditor
             if (SetSelection)
             {
             }
+            return ActionEvent.NoEvent;
         }
     }
 
@@ -272,7 +285,7 @@ namespace StudioCore.MsbEditor
             SetSelection = setsel;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             foreach (var entry in Clonables)
             {
@@ -286,9 +299,10 @@ namespace StudioCore.MsbEditor
             {
                 //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
             }
+            return ActionEvent.NoEvent;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             for (int i = 0; i < Clones.Count(); i++)
             {
@@ -298,6 +312,7 @@ namespace StudioCore.MsbEditor
             if (SetSelection)
             {
             }
+            return ActionEvent.NoEvent;
         }
     }
 
@@ -320,7 +335,7 @@ namespace StudioCore.MsbEditor
             SetSelection = setSelection;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             foreach (var obj in Deletables)
             {
@@ -357,9 +372,10 @@ namespace StudioCore.MsbEditor
             {
                 Universe.Selection.ClearSelection();
             }
+            return ActionEvent.ObjectAddedRemoved;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             for (int i = 0; i < Deletables.Count(); i++)
             {
@@ -386,6 +402,7 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(d);
                 }
             }
+            return ActionEvent.ObjectAddedRemoved;
         }
     }
 
@@ -402,7 +419,7 @@ namespace StudioCore.MsbEditor
             Deletables.AddRange(rows);
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             foreach (var row in Deletables)
             {
@@ -412,9 +429,10 @@ namespace StudioCore.MsbEditor
             if (SetSelection)
             {
             }
+            return ActionEvent.NoEvent;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             for (int i = 0; i < Deletables.Count(); i++)
             {
@@ -423,6 +441,7 @@ namespace StudioCore.MsbEditor
             if (SetSelection)
             {
             }
+            return ActionEvent.NoEvent;
         }
     }
 
@@ -443,7 +462,7 @@ namespace StudioCore.MsbEditor
             SetSelection = setSelection;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             int[] sourceindices = new int[SourceObjects.Count];
             for (int i = 0; i < SourceObjects.Count; i++)
@@ -499,9 +518,10 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(c);
                 }
             }
+            return ActionEvent.NoEvent;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             for (int i = 0; i < TargetIndices.Count; i++)
             {
@@ -549,6 +569,7 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(c);
                 }
             }
+            return ActionEvent.NoEvent;
         }
     }
 
@@ -571,7 +592,7 @@ namespace StudioCore.MsbEditor
             SetSelection = setSelection;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
             int[] sourceindices = new int[SourceObjects.Count];
             for (int i = 0; i < SourceObjects.Count; i++)
@@ -632,9 +653,10 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(c);
                 }
             }
+            return ActionEvent.NoEvent;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
             /*for (int i = 0; i < TargetIndices.Count; i++)
             {
@@ -682,6 +704,7 @@ namespace StudioCore.MsbEditor
                     Universe.Selection.AddSelection(c);
                 }
             }*/
+            return ActionEvent.NoEvent;
         }
     }
 
@@ -701,34 +724,38 @@ namespace StudioCore.MsbEditor
             PostExecutionAction = action;
         }
 
-        public override void Execute()
+        public override ActionEvent Execute()
         {
+            var evt = ActionEvent.NoEvent;
             foreach (var act in Actions)
             {
                 if (act != null)
                 {
-                    act.Execute();
+                    evt |= act.Execute();
                 }
             }
             if (PostExecutionAction != null)
             {
                 PostExecutionAction.Invoke(false);
             }
+            return evt;
         }
 
-        public override void Undo()
+        public override ActionEvent Undo()
         {
+            var evt = ActionEvent.NoEvent;
             foreach (var act in Actions)
             {
                 if (act != null)
                 {
-                    act.Undo();
+                    evt |= act.Undo();
                 }
             }
             if (PostExecutionAction != null)
             {
                 PostExecutionAction.Invoke(true);
             }
+            return evt;
         }
     }
 }
