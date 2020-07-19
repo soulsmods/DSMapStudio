@@ -647,6 +647,24 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class TransformableNamedEntity : Entity
+    {
+        public override string Name { get; set; }
+
+        public TransformableNamedEntity(ObjectContainer map, object msbo, string name) : base(map, msbo)
+        {
+            Name = name;
+        }
+
+        public override bool HasTransform
+        {
+            get
+            {
+                return true;
+            }
+        }
+    }
+
     public class MapSerializationEntity
     {
         public string Name { get; set; } = null;

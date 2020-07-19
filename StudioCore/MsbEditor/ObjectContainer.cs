@@ -114,6 +114,28 @@ namespace StudioCore.MsbEditor
                 Objects.Add(laynode);
                 layoutsNode.AddChild(laynode);
             }
+
+            var bonesNode = new NamedEntity(this, null, "Bones");
+            Objects.Add(bonesNode);
+            RootObject.AddChild(bonesNode);
+            var boneEntList = new List<TransformableNamedEntity>();
+            for (int i = 0; i < flver.Bones.Count; i++)
+            {
+                var bonenode = new TransformableNamedEntity(this, flver.Bones[i], flver.Bones[i].Name);
+                Objects.Add(bonenode);
+                boneEntList.Add(bonenode);
+            }
+            for (int i = 0; i < flver.Bones.Count; i++)
+            {
+                if (flver.Bones[i].ParentIndex == -1)
+                {
+                    bonesNode.AddChild(boneEntList[i]);
+                }
+                else
+                {
+                    boneEntList[flver.Bones[i].ParentIndex].AddChild(boneEntList[i]);
+                }
+            }
         }
     }
 
