@@ -251,9 +251,9 @@ namespace StudioCore.MsbEditor
             return new Entity(Container, clone);
         }
 
-        public virtual Entity Clone()
+        private object DeepCopyObject(object obj)
         {
-            var typ = WrappedObject.GetType();
+            var typ = obj.GetType();
 
             // use copy constructor if available
             var typs = new Type[1];
@@ -261,11 +261,7 @@ namespace StudioCore.MsbEditor
             ConstructorInfo constructor = typ.GetConstructor(typs);
             if (constructor != null)
             {
-                var clone = constructor.Invoke(new object[] { WrappedObject });
-                var obj = DuplicateEntity(clone);
-                CloneRenderable(obj);
-                obj.UseDrawGroups = UseDrawGroups;
-                return obj;
+                return constructor.Invoke(new object[] { obj });
             }
             else
             {
@@ -288,24 +284,37 @@ namespace StudioCore.MsbEditor
                     PropertyInfo targetProperty = typ.GetProperty(sourceProperty.Name);
                     if (sourceProperty.PropertyType.IsArray)
                     {
-                        Array arr = (Array)sourceProperty.GetValue(WrappedObject);
+                        Array arr = (Array)sourceProperty.GetValue(obj);
                         Array.Copy(arr, (Array)targetProperty.GetValue(clone), arr.Length);
                     }
                     else if (sourceProperty.CanWrite)
                     {
-                        targetProperty.SetValue(clone, sourceProperty.GetValue(WrappedObject, null), null);
+                        if (sourceProperty.PropertyType.IsClass && sourceProperty.PropertyType != typeof(string))
+                        {
+                            targetProperty.SetValue(clone, DeepCopyObject(sourceProperty.GetValue(obj, null)), null);
+                        }
+                        else
+                        {
+                            targetProperty.SetValue(clone, sourceProperty.GetValue(obj, null), null);
+                        }
                     }
-
                     else
                     {
                         // Sanity check
                         // Console.WriteLine($"Can't copy {type.Name} {sourceProperty.Name} of type {sourceProperty.PropertyType}");
                     }
                 }
-                var obj = DuplicateEntity(clone);
-                CloneRenderable(obj);
-                return obj;
+                return clone;
             }
+        }
+
+        public virtual Entity Clone()
+        {
+            var clone = DeepCopyObject(WrappedObject);
+            var obj = DuplicateEntity(clone);
+            CloneRenderable(obj);
+            obj.UseDrawGroups = UseDrawGroups;
+            return obj;
         }
 
         public object GetPropertyValue(string prop)
@@ -796,6 +805,15 @@ namespace StudioCore.MsbEditor
             if (Type == MapEntityType.DS2Generator)
             {
 
+            }
+            else if (Type == MapEntityType.DS2EventLocation && RenderSceneMesh == null)
+            {
+                if (RenderSceneMesh != null)
+                {
+                    RenderSceneMesh.AutoRegister = false;
+                    RenderSceneMesh.UnregisterAndRelease();
+                }
+                RenderSceneMesh = Universe.GetDS2EventLocationDrawable(ContainingMap, this);
             }
             else if (Type == MapEntityType.Region && RenderSceneMesh == null)
             {
