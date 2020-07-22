@@ -88,7 +88,7 @@ namespace StudioCore.Resource
             public Scene.Material MaterialData;
 
             public string ShaderName = null;
-            public FlverLayoutType LayoutType;
+            public MeshLayoutType LayoutType;
             public SpecializationConstant[] SpecializationConstants = null;
             public VertexLayoutDescription VertexLayout;
             public uint VertexSize;
@@ -279,9 +279,9 @@ namespace StudioCore.Resource
             if (!CFG.Current.EnableTexturing)
             {
                 dest.ShaderName = @"SimpleFlver";
-                dest.LayoutType = FlverLayoutType.LayoutSky;
-                dest.VertexLayout = FlverLayoutUtils.GetLayoutDescription(dest.LayoutType);
-                dest.VertexSize = FlverLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
+                dest.LayoutType = MeshLayoutType.LayoutSky;
+                dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
+                dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
                 dest.SpecializationConstants = new SpecializationConstant[0];
                 return;
             }
@@ -352,17 +352,17 @@ namespace StudioCore.Resource
             if (blendMask)
             {
                 dest.ShaderName = @"FlverShader\FlverShader_blendmask";
-                dest.LayoutType = FlverLayoutType.LayoutUV2;
+                dest.LayoutType = MeshLayoutType.LayoutUV2;
             }
             else if (blend)
             {
                 dest.ShaderName = @"FlverShader\FlverShader_blend";
-                dest.LayoutType = FlverLayoutType.LayoutUV2;
+                dest.LayoutType = MeshLayoutType.LayoutUV2;
             }
             else
             {
                 dest.ShaderName = @"FlverShader\FlverShader";
-                dest.LayoutType = FlverLayoutType.LayoutStandard;
+                dest.LayoutType = MeshLayoutType.LayoutStandard;
             }
 
             List<SpecializationConstant> specConstants = new List<SpecializationConstant>();
@@ -375,8 +375,8 @@ namespace StudioCore.Resource
             }
 
             dest.SpecializationConstants = specConstants.ToArray();
-            dest.VertexLayout = FlverLayoutUtils.GetLayoutDescription(dest.LayoutType);
-            dest.VertexSize = FlverLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
+            dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
+            dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
 
             dest.UpdateMaterial();
         }
@@ -620,11 +620,11 @@ namespace StudioCore.Resource
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.Vertices.Count);
 
-            if (dest.Material.LayoutType == FlverLayoutType.LayoutSky)
+            if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
             {
                 FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
             }
-            else if (dest.Material.LayoutType == FlverLayoutType.LayoutUV2)
+            else if (dest.Material.LayoutType == MeshLayoutType.LayoutUV2)
             {
                 FillVerticesUV2(mesh, pvhandle, meshVertices);
             }
@@ -750,11 +750,11 @@ namespace StudioCore.Resource
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
 
-            if (dest.Material.LayoutType == FlverLayoutType.LayoutSky)
+            if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
             {
                 FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
             }
-            else if (dest.Material.LayoutType == FlverLayoutType.LayoutUV2)
+            else if (dest.Material.LayoutType == MeshLayoutType.LayoutUV2)
             {
                 FillVerticesUV2(mesh, pvhandle, meshVertices);
             }

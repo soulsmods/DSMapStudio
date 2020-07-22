@@ -204,6 +204,30 @@ namespace StudioCore.Scene
             }
         }
 
+        /// <summary>
+        /// Simple interface for various objects that may need to be updated by the renderer.
+        /// Note that the objects will need to be submitted to the renderer every time they
+        /// need to be constructed or updated.
+        /// </summary>
+        public interface IRendererUpdatable
+        {
+            /// <summary>
+            /// Called when this object is scheduled on the renderer to create GPU resources and renderables
+            /// </summary>
+            public void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+
+            /// <summary>
+            /// Called when the object is scheduled to have renderables updated, but no new renderables
+            /// are added or deleted
+            /// </summary>
+            public void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+
+            /// <summary>
+            /// Called when the object is scheduled to destroy renderables under its control
+            /// </summary>
+            public void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+        }
+
         public class RenderQueue
         {
             private struct KeyIndex : IComparable<KeyIndex>, IComparable

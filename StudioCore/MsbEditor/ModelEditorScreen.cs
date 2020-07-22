@@ -133,7 +133,7 @@ namespace StudioCore.MsbEditor
             var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
             if (_renderMesh != null)
             {
-                RenderScene.RemoveObject(_renderMesh);
+                //RenderScene.RemoveObject(_renderMesh);
             }
             _renderMesh = new NewMesh(RenderScene, res);
             _renderMesh.DrawFilter = filt;

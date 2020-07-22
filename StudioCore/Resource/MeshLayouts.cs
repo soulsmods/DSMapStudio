@@ -9,54 +9,55 @@ using Veldrid;
 
 namespace StudioCore.Resource
 {
-    public enum FlverLayoutType
+    public enum MeshLayoutType
     {
         LayoutMinimal,
         LayoutSky,
         LayoutStandard,
         LayoutUV2,
         LayoutUV3,
-        LayoutUV4
+        LayoutUV4,
+        LayoutCollision
     }
 
-    public static class FlverLayoutUtils
+    public static class MeshLayoutUtils
     {
-        public static VertexLayoutDescription GetLayoutDescription(FlverLayoutType type)
+        public static VertexLayoutDescription GetLayoutDescription(MeshLayoutType type)
         {
             switch (type)
             {
-                case FlverLayoutType.LayoutMinimal:
+                case MeshLayoutType.LayoutMinimal:
                     return FlverLayoutMinimal.Layout;
-                case FlverLayoutType.LayoutSky:
+                case MeshLayoutType.LayoutSky:
                     return FlverLayoutSky.Layout;
-                case FlverLayoutType.LayoutStandard:
+                case MeshLayoutType.LayoutStandard:
                     return FlverLayout.Layout;
-                case FlverLayoutType.LayoutUV2:
+                case MeshLayoutType.LayoutUV2:
                     return FlverLayoutUV2.Layout;
-                case FlverLayoutType.LayoutUV3:
+                case MeshLayoutType.LayoutUV3:
                     return FlverLayoutUV2.Layout;
-                case FlverLayoutType.LayoutUV4:
+                case MeshLayoutType.LayoutUV4:
                     return FlverLayoutUV2.Layout;
                 default:
                     throw new ArgumentException("Invalid layout type");
             }
         }
 
-        public static unsafe uint GetLayoutVertexSize(FlverLayoutType type)
+        public static unsafe uint GetLayoutVertexSize(MeshLayoutType type)
         {
             switch (type)
             {
-                case FlverLayoutType.LayoutMinimal:
+                case MeshLayoutType.LayoutMinimal:
                     return (uint)sizeof(FlverLayoutMinimal);
-                case FlverLayoutType.LayoutSky:
+                case MeshLayoutType.LayoutSky:
                     return (uint)sizeof(FlverLayoutSky);
-                case FlverLayoutType.LayoutStandard:
+                case MeshLayoutType.LayoutStandard:
                     return (uint)sizeof(FlverLayout);
-                case FlverLayoutType.LayoutUV2:
+                case MeshLayoutType.LayoutUV2:
                     return (uint)sizeof(FlverLayoutUV2);
-                case FlverLayoutType.LayoutUV3:
+                case MeshLayoutType.LayoutUV3:
                     return (uint)sizeof(FlverLayoutUV2);
-                case FlverLayoutType.LayoutUV4:
+                case MeshLayoutType.LayoutUV4:
                     return (uint)sizeof(FlverLayoutUV2);
                 default:
                     throw new ArgumentException("Invalid layout type");

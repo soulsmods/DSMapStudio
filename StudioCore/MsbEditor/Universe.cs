@@ -932,7 +932,7 @@ namespace StudioCore.MsbEditor
                 {
                     if (obj.RenderSceneMesh != null)
                     {
-                        _renderScene.RemoveObject(obj.RenderSceneMesh);
+                        //_renderScene.RemoveObject(obj.RenderSceneMesh);
                     }
                 }
                 map.Clear();

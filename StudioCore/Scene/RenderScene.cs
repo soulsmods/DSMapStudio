@@ -16,12 +16,14 @@ namespace StudioCore.Scene
     /// </summary>
     public class RenderScene
     {
-        private HashSet<IDrawable> ObjectsSet = new HashSet<IDrawable>();
-        private HashSet<IDrawable> OctreeSet = new HashSet<IDrawable>();
-        private List<IDrawable> Objects = new List<IDrawable>();
-        private Octree<IDrawable> Octree = new Octree<IDrawable>(new BoundingBox(Vector3.One * -500, Vector3.One * 500), 5);
+        //private HashSet<IDrawable> ObjectsSet = new HashSet<IDrawable>();
+        //private HashSet<IDrawable> OctreeSet = new HashSet<IDrawable>();
+        //private List<IDrawable> Objects = new List<IDrawable>();
+        //private Octree<IDrawable> Octree = new Octree<IDrawable>(new BoundingBox(Vector3.One * -500, Vector3.One * 500), 5);
 
-        private List<IDrawable> CulledObjects = new List<IDrawable>(500);
+        //private List<IDrawable> CulledObjects = new List<IDrawable>(500);
+
+        public MeshRenderables OpaqueRenderables { get; private set; } = new MeshRenderables();
 
         private object SceneUpdateLock = new object();
 
@@ -46,63 +48,6 @@ namespace StudioCore.Scene
             }
         }
 
-        public void AddObject(IDrawable obj)
-        {
-            lock (SceneUpdateLock)
-            {
-                Objects.Add(obj);
-                ObjectsSet.Add(obj);
-            }
-        }
-
-        public void AddOctreeCullable(IDrawable obj)
-        {
-            lock (SceneUpdateLock)
-            {
-                if (!ObjectsSet.Contains(obj))
-                {
-                    throw new Exception("Object must be in scene to be added to octree");
-                }
-                if (obj.GetBounds() != null)
-                {
-                    Octree.ApplyPendingMoves();
-                    var dims = obj.GetBounds().GetDimensions();
-                    if (dims.X > 0.0f && dims.Y > 0.0f && dims.Z > 0.0f)
-                    {
-                        Octree.AddItem(obj.GetBounds(), obj);
-                        OctreeSet.Add(obj);
-                    }
-                }
-            }
-        }
-
-        public void RemoveObject(IDrawable obj)
-        {
-            lock (SceneUpdateLock)
-            {
-                if (ObjectsSet.Contains(obj))
-                {
-                    Objects.Remove(obj);
-                    ObjectsSet.Remove(obj);
-                    if (Octree.RemoveItem(obj))
-                    {
-                        OctreeSet.Remove(obj);
-                    }
-                }
-            }
-        }
-
-        public void ObjectMoved(IDrawable obj)
-        {
-            lock (SceneUpdateLock)
-            {
-                if (OctreeSet.Contains(obj))
-                {
-                    Octree.MoveItem(obj, obj.GetBounds());
-                }
-            }
-        }
-
         private float RCDist = float.PositiveInfinity;
         private int RayCastFilter(Ray ray, IDrawable d, List<RayCastHit<IDrawable>> hits)
         {
@@ -123,7 +68,7 @@ namespace StudioCore.Scene
 
         public IDrawable CastRay(Ray ray)
         {
-            var hits = new List<RayCastHit<IDrawable>>();
+            /*var hits = new List<RayCastHit<IDrawable>>();
             RCDist = float.PositiveInfinity;
             lock (SceneUpdateLock)
             {
@@ -132,13 +77,13 @@ namespace StudioCore.Scene
             if (hits.Count() > 0)
             {
                 return hits[0].Item;
-            }
+            }*/
             return null;
         }
 
         public void Render(Renderer.RenderQueue queue, BoundingFrustum frustum, SceneRenderPipeline pipeline)
         {
-            CulledObjects.Clear();
+            /*CulledObjects.Clear();
             lock (SceneUpdateLock)
             {
                 var watch = Stopwatch.StartNew();
@@ -158,7 +103,7 @@ namespace StudioCore.Scene
                 }
             }
             watch2.Stop();
-            CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
+            CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);*/
         }
     }
 }

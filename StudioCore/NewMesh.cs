@@ -163,7 +163,6 @@ namespace StudioCore
             {
                 DebugBoundingBox.Transform = new Transform(_WorldMatrix);
             }
-            RenderScene.ObjectMoved(this);
         }
 
         private void CreateSubmeshes()
@@ -260,8 +259,6 @@ namespace StudioCore
             {
                 return;
             }
-            RenderScene.AddObject(this);
-            RenderScene.AddOctreeCullable(this);
             Registered = true;
         }
 
@@ -269,7 +266,6 @@ namespace StudioCore
         {
             if (Registered)
             {
-                RenderScene.RemoveObject(this);
                 Registered = false;
             }
         }

@@ -177,7 +177,7 @@ namespace StudioCore.MsbEditor
                     {
                         newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
                     }
-                    if (!clonesCached)
+                    if (clonesCached)
                     {
                         Clones.Add(newobj);
                         CloneMaps.Add(m);
