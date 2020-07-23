@@ -608,15 +608,15 @@ namespace StudioCore
             var ret = new AssetDescription();
             if (Type == GameType.DarkSoulsPTDE || Type == GameType.Bloodborne || Type == GameType.DemonsSouls)
             {
-                ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.flver";
+                ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.flver");
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
-                ret.AssetPath = $@"{GameRootDirectory}\model\map\{mapid}.mapbhd";
+                ret.AssetPath = GetAssetPath($@"model\map\{mapid}.mapbhd");
             }
             else
             {
-                ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.mapbnd.dcx";
+                ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.mapbnd.dcx");
             }
             ret.AssetName = model;
             if (Type == GameType.DarkSoulsIISOTFS)
@@ -642,20 +642,20 @@ namespace StudioCore
             {
                 if (hi)
                 {
-                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.hkx";
+                    ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.hkx");
                     ret.AssetName = model;
                     ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx";
                 }
                 else
                 {
-                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\l{model.Substring(1)}.hkx";
+                    ret.AssetPath = GetAssetPath($@"map\{mapid}\l{model.Substring(1)}.hkx");
                     ret.AssetName = model;
                     ret.AssetVirtualPath = $@"map/{mapid}/hit/lo/l{model.Substring(1)}.hkx";
                 }
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
-                ret.AssetPath = $@"{GameRootDirectory}\model\map\h{mapid.Substring(1)}.hkxbhd";
+                ret.AssetPath = GetAssetPath($@"model\map\h{mapid.Substring(1)}.hkxbhd");
                 ret.AssetName = model;
                 ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/{model}.hkx.dcx";
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
@@ -664,14 +664,14 @@ namespace StudioCore
             {
                 if (hi)
                 {
-                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
+                    ret.AssetPath = GetAssetPath($@"map\{mapid}\h{mapid.Substring(1)}.hkxbhd");
                     ret.AssetName = model;
                     ret.AssetVirtualPath = $@"map/{mapid}/hit/hi/h{model.Substring(1)}.hkx.dcx";
                     ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/hi";
                 }
                 else
                 {
-                    ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\l{mapid.Substring(1)}.hkxbhd";
+                    ret.AssetPath = GetAssetPath($@"map\{mapid}\l{mapid.Substring(1)}.hkxbhd");
                     ret.AssetName = model;
                     ret.AssetVirtualPath = $@"map/{mapid}/hit/lo/l{model.Substring(1)}.hkx.dcx";
                     ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/lo";
@@ -691,7 +691,7 @@ namespace StudioCore
             if (Type == GameType.DarkSoulsIISOTFS)
             {
                 var t = new AssetDescription();
-                t.AssetPath = $@"{GameRootDirectory}\model\map\t{mapid.Substring(1)}.tpfbhd";
+                t.AssetPath = GetAssetPath($@"model\map\t{mapid.Substring(1)}.tpfbhd");
                 t.AssetArchiveVirtualPath = $@"map/tex/{mapid}/tex";
                 ads.Add(t);
             }
@@ -717,29 +717,29 @@ namespace StudioCore
                 var mid = mapid.Substring(0, 3);
 
                 var t0000 = new AssetDescription();
-                t0000.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0000.tpfbhd";
+                t0000.AssetPath = GetAssetPath($@"map\{mid}\{mid}_0000.tpfbhd");
                 t0000.AssetArchiveVirtualPath = $@"map/tex/{mid}/0000";
                 ads.Add(t0000);
 
                 var t0001 = new AssetDescription();
-                t0001.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0001.tpfbhd";
+                t0001.AssetPath = GetAssetPath($@"map\{mid}\{mid}_0001.tpfbhd");
                 t0001.AssetArchiveVirtualPath = $@"map/tex/{mid}/0001";
                 ads.Add(t0001);
 
                 var t0002 = new AssetDescription();
-                t0002.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0002.tpfbhd";
+                t0002.AssetPath = GetAssetPath($@"map\{mid}\{mid}_0002.tpfbhd");
                 t0002.AssetArchiveVirtualPath = $@"map/tex/{mid}/0002";
                 ads.Add(t0002);
 
                 var t0003 = new AssetDescription();
-                t0003.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_0003.tpfbhd";
+                t0003.AssetPath = GetAssetPath($@"map\{mid}\{mid}_0003.tpfbhd");
                 t0003.AssetArchiveVirtualPath = $@"map/tex/{mid}/0003";
                 ads.Add(t0003);
 
                 if (Type != GameType.Sekiro)
                 {
                     var env = new AssetDescription();
-                    env.AssetPath = $@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx";
+                    env.AssetPath = GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
                     env.AssetVirtualPath = $@"map/tex/{mid}/env";
                     ads.Add(env);
                 }
@@ -754,7 +754,7 @@ namespace StudioCore
             if (Type == GameType.DarkSoulsIII)
             {
                 var mid = mapid.Substring(0, 3);
-                var t = TPF.Read($@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx");
+                var t = TPF.Read(GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx"));
                 foreach (var tex in t.Textures)
                 {
                     l.Add(tex.Name);
@@ -795,7 +795,7 @@ namespace StudioCore
             var ret = new AssetDescription();
             if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
             {
-                ret.AssetPath = $@"{GameRootDirectory}\map\{mapid}\{model}.nvm";
+                ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.nvm");
                 ret.AssetName = model;
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
                 ret.AssetVirtualPath = $@"map/{mapid}/nav/{model}.nvm";
@@ -975,7 +975,7 @@ namespace StudioCore
                         if (id == "tex")
                         {
                             bndpath = "";
-                            return $@"{GameRootDirectory}\model\map\t{mid.Substring(1)}.tpfbhd";
+                            return GetAssetPath($@"model\map\t{mid.Substring(1)}.tpfbhd");
                         }
                     }
                     else if (Type == GameType.DemonsSouls)
@@ -983,7 +983,7 @@ namespace StudioCore
                         var mid = pathElements[i];
                         i++;
                         bndpath = "";
-                        return $@"{GameRootDirectory}\map\{mid}\{mid}_{pathElements[i]}.tpf.dcx";
+                        return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpf.dcx");
                     }
                     else
                     {
@@ -992,9 +992,9 @@ namespace StudioCore
                         bndpath = "";
                         if (pathElements[i] == "env")
                         {
-                            return $@"{GameRootDirectory}\map\{mid}\{mid}_envmap.tpf.dcx";
+                            return GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
                         }
-                        return $@"{GameRootDirectory}\map\{mid}\{mid}_{pathElements[i]}.tpfbhd";
+                        return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpfbhd");
                     }
                 }
                 else if (mapRegex.IsMatch(pathElements[i]))
@@ -1007,17 +1007,17 @@ namespace StudioCore
                         bndpath = "";
                         if (Type == GameType.DarkSoulsPTDE)
                         {
-                            return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.flver";
+                            return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver");
                         }
                         else if (Type == GameType.DarkSoulsIISOTFS)
                         {
-                            return $@"{GameRootDirectory}\model\map\{mapid}.mapbhd";
+                            return GetAssetPath($@"model\map\{mapid}.mapbhd");
                         }
                         else if (Type == GameType.Bloodborne || Type == GameType.DemonsSouls)
                         {
-                            return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.flver.dcx";
+                            return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver.dcx");
                         }
-                        return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}.mapbnd.dcx";
+                        return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
                     }
                     else if (pathElements[i].Equals("hit"))
                     {
@@ -1027,21 +1027,21 @@ namespace StudioCore
                         if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
                         {
                             bndpath = "";
-                            return $@"{GameRootDirectory}\map\{mapid}\{pathElements[i]}";
+                            return GetAssetPath($@"map\{mapid}\{pathElements[i]}");
                         }
                         else if (Type == GameType.DarkSoulsIISOTFS)
                         {
                             bndpath = "";
-                            return $@"{GameRootDirectory}\model\map\h{mapid.Substring(1)}.hkxbhd";
+                            return GetAssetPath($@"model\map\h{mapid.Substring(1)}.hkxbhd");
                         }
                         else if (Type == GameType.DarkSoulsIII || Type == GameType.Bloodborne)
                         {
                             bndpath = "";
                             if (hittype == "lo")
                             {
-                                return $@"{GameRootDirectory}\map\{mapid}\l{mapid.Substring(1)}.hkxbhd";
+                                return GetAssetPath($@"map\{mapid}\l{mapid.Substring(1)}.hkxbhd");
                             }
-                            return $@"{GameRootDirectory}\map\{mapid}\h{mapid.Substring(1)}.hkxbhd";
+                            return GetAssetPath($@"map\{mapid}\h{mapid.Substring(1)}.hkxbhd");
                         }
                         bndpath = "";
                         return null;
@@ -1059,7 +1059,7 @@ namespace StudioCore
                             {
                                 bndpath = "";
                             }
-                            return $@"{GameRootDirectory}\map\{mapid}\{mapid}.nvmbnd";
+                            return GetAssetPath($@"map\{mapid}\{mapid}.nvmbnd");
                         }
                         bndpath = "";
                         return null;

@@ -75,6 +75,15 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public Scene.IDrawable GetDS2EventLocationDrawable(Map map, Entity obj)
+        {
+            var mesh = Scene.Region.GetBoxRegion(_renderScene);
+            mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+            obj.RenderSceneMesh = mesh;
+            mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+            return mesh;
+        }
+
         /// <summary>
         /// Creates a drawable for a model and registers it with the scene. Will load
         /// the required assets in the background if they aren't already loaded.
