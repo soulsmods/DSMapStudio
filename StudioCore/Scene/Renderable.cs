@@ -36,7 +36,7 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 5000;
+        protected const int SYSTEM_SIZE = 26000;
 
         private int _topIndex = 0;
 
@@ -44,6 +44,7 @@ namespace StudioCore.Scene
         /// Component for if the renderable is visible or active
         /// </summary>
         public VisibleValidComponent[] cVisible = new VisibleValidComponent[SYSTEM_SIZE];
+        public RenderKey[] cRenderKeys = new RenderKey[SYSTEM_SIZE];
 
         protected int GetNextInvalidIndex()
         {
@@ -62,6 +63,7 @@ namespace StudioCore.Scene
             int next = GetNextInvalidIndex();
             cVisible[next]._valid = true;
             cVisible[next]._visible = true;
+            cRenderKeys[next] = new RenderKey(0);
             return next;
         }
 
@@ -92,6 +94,10 @@ namespace StudioCore.Scene
         {
             for (int i = 0; i < SYSTEM_SIZE; i++)
             {
+                if (!cVisible[i]._valid)
+                {
+                    continue;
+                }
                 var intersect = frustum.Contains(ref cBounds[i]);
                 if (intersect == ContainmentType.Contains || intersect == ContainmentType.Intersects)
                 {
@@ -99,7 +105,18 @@ namespace StudioCore.Scene
                 }
                 else
                 {
-                    cCulled[i] = false;
+                    cCulled[i] = true;
+                }
+            }
+        }
+
+        public void SubmitRenderables(Renderer.RenderQueue queue)
+        {
+            for (int i = 0; i < SYSTEM_SIZE; i++)
+            {
+                if (cVisible[i]._valid && !cCulled[i])
+                {
+                    queue.Add(i, cRenderKeys[i]);
                 }
             }
         }

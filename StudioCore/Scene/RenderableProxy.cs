@@ -4,6 +4,7 @@ using System.Text;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
+using StudioCore.Resource;
 
 namespace StudioCore.Scene
 {
@@ -20,12 +21,18 @@ namespace StudioCore.Scene
 
         protected void ScheduleRenderableConstruction()
         {
-
+            Renderer.AddBackgroundUploadTask((gd, cl) =>
+            {
+                ConstructRenderables(gd, cl, null);
+            });
         }
 
         protected void ScheduleRenderableUpdate()
         {
-
+            Renderer.AddBackgroundUploadTask((gd, cl) =>
+            {
+                UpdateRenderables(gd, cl, null);
+            });
         }
     }
 
@@ -48,11 +55,29 @@ namespace StudioCore.Scene
 
         private Matrix4x4 _world = Matrix4x4.Identity;
 
+        public Matrix4x4 World
+        {
+            get
+            {
+                return _world;
+            }
+            set
+            {
+                _world = value;
+                ScheduleRenderableUpdate();
+                foreach (var sm in _submeshes)
+                {
+                    sm.World = _world;
+                }
+            }
+        }
+
         public MeshRenderableProxy(MeshRenderables renderables, MeshProvider provider)
         {
             _renderablesSet = renderables;
             _meshProvider = provider;
             _meshProvider.AddEventListener(this);
+            ScheduleRenderableConstruction();
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -70,8 +95,18 @@ namespace StudioCore.Scene
                     return;
                 }
 
+                if (_meshProvider.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                {
+                    ScheduleRenderableConstruction();
+                    _meshProvider.Unlock();
+                    return;
+                }
+
                 var factory = gd.ResourceFactory;
-                _worldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
+                if (_worldBuffer == null)
+                {
+                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
+                }
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
@@ -144,6 +179,7 @@ namespace StudioCore.Scene
                 // Instantiate renderable
                 var bounds = BoundingBox.Transform(_meshProvider.Bounds, _world);
                 _renderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
+                _renderablesSet.cRenderKeys[_renderable] = GetRenderKey(0.0f);
 
                 _meshProvider.Unlock();
             }
@@ -151,17 +187,41 @@ namespace StudioCore.Scene
 
         public override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            throw new NotImplementedException();
+            if (_meshProvider.TryLock())
+            {
+                if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
+                {
+                    _meshProvider.Unlock();
+                    return;
+                }
+                InstanceData dat = new InstanceData();
+                dat.WorldMatrix = _world;
+                dat.MaterialID = _meshProvider.MaterialIndex;
+                if (_worldBuffer == null)
+                {
+                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
+                }
+                _worldBuffer.FillBuffer(cl, ref dat);
+            }
         }
 
         public override void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnProviderAvailable()
         {
-            throw new NotImplementedException();
+            if (_meshProvider.TryLock())
+            {
+                for (int i = 0; i < _meshProvider.ChildCount; i++)
+                {
+                    var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i));
+                    child.World = _world;
+                    _submeshes.Add(child);
+                }
+                _meshProvider.Unlock();
+            }
         }
 
         public void OnProviderUnavailable()
@@ -170,6 +230,31 @@ namespace StudioCore.Scene
             {
                 _submeshes.Clear();
             }
+        }
+
+        public RenderKey GetRenderKey(float distance)
+        {
+            ulong code = _pipeline != null ? (ulong)_pipeline.GetHashCode() : 0;
+            ulong index = 0;
+
+            uint cameraDistanceInt = (uint)Math.Min(uint.MaxValue, (distance * 1000f));
+
+            if (_meshProvider.IsAvailable())
+            {
+                if (_meshProvider.TryLock())
+                {
+                    index = _meshProvider.Is32Bit ? 1u : 0;
+                    _meshProvider.Unlock();
+                }
+            }
+
+            return new RenderKey((code << 41) | (index << 40) | ((ulong)(_renderablesSet.cDrawParameters[_renderable]._bufferIndex & 0xFF) << 32) + cameraDistanceInt);
+        }
+
+        public static MeshRenderableProxy MeshRenderableFromFlverResource(RenderScene scene, ResourceHandle<FlverResource> handle)
+        {
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetFlverMeshProvider(handle));
+            return renderable;
         }
     }
 }

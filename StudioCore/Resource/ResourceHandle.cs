@@ -44,6 +44,8 @@ namespace StudioCore.Resource
 
     public interface IResourceHandle
     {
+        public string AssetVirtualPath { get; }
+
         public AccessLevel AccessLevel { get; }
 
         public bool _LoadResource(byte[] data, AccessLevel al, GameType type);
@@ -74,7 +76,7 @@ namespace StudioCore.Resource
         /// <summary>
         /// Virtual path of the entire asset. Used to implement loading
         /// </summary>
-        protected string AssetVirtualPath = null;
+        public string AssetVirtualPath { get; private set; }
 
         protected object LoadingLock = new object();
         protected object HandlerLock = new object();
@@ -87,9 +89,6 @@ namespace StudioCore.Resource
         public AccessLevel AccessLevel { get; protected set; } = AccessLevel.AccessUnloaded;
 
         protected T Resource = null;
-
-        //private List<Action<ResourceHandle<T>>> LoadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
-        //private List<Action<ResourceHandle<T>>> UnloadCompletionHandlers = new List<Action<ResourceHandle<T>>>();
 
         protected List<WeakReference<IResourceEventListener>> EventListeners = new List<WeakReference<IResourceEventListener>>();
 

@@ -175,7 +175,7 @@ namespace StudioCore.MsbEditor
                     newobj.UpdateRenderModel();
                     if (newobj.RenderSceneMesh != null)
                     {
-                        newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
+                        //FIX:newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
                     }
                     if (clonesCached)
                     {
@@ -206,8 +206,8 @@ namespace StudioCore.MsbEditor
                 }
                 if (Clones[i].RenderSceneMesh != null)
                 {
-                    Clones[i].RenderSceneMesh.AutoRegister = false;
-                    Clones[i].RenderSceneMesh.UnregisterWithScene();
+                    //FIX:Clones[i].RenderSceneMesh.AutoRegister = false;
+                    //Clones[i].RenderSceneMesh.UnregisterWithScene();
                 }
             }
             //Clones.Clear();
@@ -347,8 +347,8 @@ namespace StudioCore.MsbEditor
                     m.Objects.RemoveAt(RemoveIndices.Last());
                     if (obj.RenderSceneMesh != null)
                     {
-                        obj.RenderSceneMesh.AutoRegister = false;
-                        obj.RenderSceneMesh.UnregisterWithScene();
+                        //FIX:obj.RenderSceneMesh.AutoRegister = false;
+                        //obj.RenderSceneMesh.UnregisterWithScene();
                     }
                     RemoveParent.Add((MapEntity)obj.Parent);
                     if (obj.Parent != null)
@@ -386,8 +386,8 @@ namespace StudioCore.MsbEditor
                 RemoveMaps[i].Objects.Insert(RemoveIndices[i], Deletables[i]);
                 if (Deletables[i].RenderSceneMesh != null)
                 {
-                    Deletables[i].RenderSceneMesh.AutoRegister = true;
-                    Deletables[i].RenderSceneMesh.RegisterWithScene(Scene);
+                    //FIX:Deletables[i].RenderSceneMesh.AutoRegister = true;
+                    //Deletables[i].RenderSceneMesh.RegisterWithScene(Scene);
                 }
                 if (RemoveParent[i] != null)
                 {

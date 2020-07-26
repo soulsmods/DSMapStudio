@@ -49,9 +49,9 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        protected Scene.IDrawable _RenderSceneMesh = null;
+        protected Scene.RenderableProxy _RenderSceneMesh = null;
         [XmlIgnore]
-        public Scene.IDrawable RenderSceneMesh
+        public Scene.RenderableProxy RenderSceneMesh
         {
             set
             {
@@ -144,7 +144,7 @@ namespace StudioCore.MsbEditor
                 _EditorVisible = value;
                 if (RenderSceneMesh != null)
                 {
-                    RenderSceneMesh.IsVisible = _EditorVisible;
+                    //FIX:RenderSceneMesh.IsVisible = _EditorVisible;
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                RenderSceneMesh.UnregisterAndRelease();
+                //FIX:RenderSceneMesh.UnregisterAndRelease();
                 RenderSceneMesh = null;
             }
         }
@@ -223,7 +223,8 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                if (RenderSceneMesh is NewMesh m)
+                //FIX
+                /*if (RenderSceneMesh is NewMesh m)
                 {
                     obj.RenderSceneMesh = new NewMesh(m);
                     obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
@@ -242,7 +243,7 @@ namespace StudioCore.MsbEditor
                 {
                     //obj.RenderSceneMesh = new Scene.Region(r);
                     //obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
-                }
+                }*/
             }
         }
 
@@ -633,7 +634,7 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                RenderSceneMesh.Highlighted = true;
+                //FIX:RenderSceneMesh.Highlighted = true;
             }
         }
 
@@ -641,7 +642,7 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                RenderSceneMesh.Highlighted = false;
+                //FIX:RenderSceneMesh.Highlighted = false;
             }
         }
     }
@@ -802,7 +803,7 @@ namespace StudioCore.MsbEditor
         public override void UpdateRenderModel()
         {
             // If the model field changed, then update the visible model
-            if (Type == MapEntityType.DS2Generator)
+            /*FIX:if (Type == MapEntityType.DS2Generator)
             {
 
             }
@@ -876,7 +877,7 @@ namespace StudioCore.MsbEditor
             if (RenderSceneMesh != null)
             {
                 RenderSceneMesh.IsVisible = _EditorVisible;
-            }
+            }*/
         }
 
         public override Transform GetTransform()

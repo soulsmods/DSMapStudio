@@ -149,11 +149,11 @@ namespace StudioCore.Scene
         {
             if (RenderMesh != null && Created)
             {
-                queue.Add(RenderMesh, new RenderKey(0));
+                //TODO:queue.Add(RenderMesh, new RenderKey(0));
             }
             if (DebugBoundingBox != null)
             {
-                queue.Add(DebugBoundingBox, new RenderKey(0));
+                //TODO:queue.Add(DebugBoundingBox, new RenderKey(0));
             }
         }
 

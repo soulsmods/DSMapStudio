@@ -241,7 +241,7 @@ namespace StudioCore.Scene
                 foreach (var sm in Submeshes)
                 {
                     ulong code = sm.GetPipeline() != null ? (ulong)sm.GetPipeline().GetHashCode() : 0;
-                    queue.Add(sm, RenderKey.Create((int)(code & 0xFFFFFFFF), (uint)sm.BufferIndex));
+                    //TODO:queue.Add(sm, RenderKey.Create((int)(code & 0xFFFFFFFF), (uint)sm.BufferIndex));
                 }
                 if (DebugBoundingBox != null)
                 {

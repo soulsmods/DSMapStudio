@@ -195,7 +195,7 @@ namespace StudioCore.MsbEditor
                 {
                     if (e.RenderSceneMesh != null)
                     {
-                        _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
+                        //FIX:_viewport.FrameBox(e.RenderSceneMesh.GetBounds());
                     }
                 }
             }
@@ -208,7 +208,7 @@ namespace StudioCore.MsbEditor
                     {
                         if (e.RenderSceneMesh != null)
                         {
-                            _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
+                            //FIX:_viewport.FrameBox(e.RenderSceneMesh.GetBounds());
                         }
                     }
                 }

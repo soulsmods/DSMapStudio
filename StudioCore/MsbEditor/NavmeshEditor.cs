@@ -64,7 +64,7 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.Button("Build Navmesh"))
                 {
-                    var col = sel.RenderSceneMesh as Scene.CollisionMesh;
+                    /*FIX:var col = sel.RenderSceneMesh as Scene.CollisionMesh;
                     var buildverts = new List<Vector3>();
                     var buildindices = new List<int>();
                     int vbase = 0;
@@ -116,7 +116,7 @@ namespace StudioCore.MsbEditor
                             BakeResultPreview = new Scene.Mesh(Scene, nvm.Bounds, nvm);
                             BakeResultPreview.Highlighted = true;
                         }
-                    }
+                    }*/
                 }
 
                 if (DidBuild)

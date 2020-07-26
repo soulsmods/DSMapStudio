@@ -218,7 +218,7 @@ namespace StudioCore
                 {
                     if (sm.IsVisible)
                     {
-                        queue.Add(sm, sm.GetRenderKey(Vector3.Distance(queue.Pipeline.Eye, sm.Center)));
+                        //TODO:queue.Add(sm, sm.GetRenderKey(Vector3.Distance(queue.Pipeline.Eye, sm.Center)));
                     }
                 }
                 if (DebugBoundingBox != null)

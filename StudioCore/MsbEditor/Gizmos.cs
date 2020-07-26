@@ -250,7 +250,7 @@ namespace StudioCore.MsbEditor
                         OriginalTransform = sel.GetTransform();
                         if (Origin == GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
                         {
-                            OriginalTransform.Position = sel.RenderSceneMesh.GetBounds().GetCenter();
+                            //FIX:OriginalTransform.Position = sel.RenderSceneMesh.GetBounds().GetCenter();
                         }
                         if (Space == GizmosSpace.World)
                         {

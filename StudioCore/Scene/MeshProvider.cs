@@ -1,6 +1,7 @@
 ﻿using StudioCore.Resource;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Windows.Forms;
 using Veldrid;
@@ -13,6 +14,26 @@ namespace StudioCore.Scene
         public void OnProviderAvailable();
 
         public void OnProviderUnavailable();
+    }
+
+    public static class MeshProviderCache
+    {
+        private static Dictionary<string, MeshProvider> _cache = new Dictionary<string, MeshProvider>();
+
+        public static FlverMeshProvider GetFlverMeshProvider(ResourceHandle<FlverResource> handle)
+        {
+            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            {
+                if (_cache[handle.AssetVirtualPath] is FlverMeshProvider fmp)
+                {
+                    return fmp;
+                }
+                throw new Exception("Mesh provider exists but in the wrong form");
+            }
+            FlverMeshProvider nfmp = new FlverMeshProvider(handle);
+            _cache.Add(handle.AssetVirtualPath, nfmp);
+            return nfmp;
+        }
     }
 
     /// <summary>
@@ -178,6 +199,13 @@ namespace StudioCore.Scene
             {
                 _resource.Release();
             }
+        }
+
+        public override int ChildCount => _submeshes.Count;
+
+        public override MeshProvider GetChildProvider(int index)
+        {
+            return _submeshes[index];
         }
 
         public override bool TryLock()

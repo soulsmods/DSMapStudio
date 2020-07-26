@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using Veldrid;
+using Veldrid.Sdl2;
 
 namespace StudioCore.Scene
 {
@@ -111,6 +113,10 @@ namespace StudioCore.Scene
                 {
                     throw new Exception("Pipeline is null");
                 }
+                if (buffer == -1)
+                {
+                    throw new Exception("Invalid buffer index");
+                }
                 _indirectStagingBuffer[_indirectDrawCount[_stagingSet]] = args;
                 _indirectDrawCount[_stagingSet]++;
 
@@ -131,6 +137,47 @@ namespace StudioCore.Scene
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = p;
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._objectRS = instanceData;
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._indexFormat = indexf;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
+                    _batchCount[_stagingSet]++;
+                }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void AddDraw(ref MeshDrawParametersComponent drawparams)
+            {
+                // Encode the draw
+                if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
+                {
+                    throw new Exception("Indirect buffer not large enough for draw");
+                }
+                if (drawparams._pipeline == null)
+                {
+                    throw new Exception("Pipeline is null");
+                }
+                if (drawparams._bufferIndex == -1)
+                {
+                    throw new Exception("Invalid buffer index");
+                }
+                _indirectStagingBuffer[_indirectDrawCount[_stagingSet]] = drawparams._indirectArgs;
+                _indirectDrawCount[_stagingSet]++;
+
+                // Determine if we need a new batch
+                if (_batchCount[_stagingSet] == 0 ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != drawparams._pipeline ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != drawparams._objectResourceSet ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != drawparams._indexFormat ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != drawparams._bufferIndex)
+                {
+                    if (_batchCount[_stagingSet] >= MAX_BATCH)
+                    {
+                        //throw new Exception("Batch count is not large enough");
+                        return; // Drop the batch for now
+                    }
+                    // Add a new batch
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = drawparams._bufferIndex;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = drawparams._pipeline;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._objectRS = drawparams._objectResourceSet;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._indexFormat = drawparams._indexFormat;
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
                     _batchCount[_stagingSet]++;
                 }
@@ -267,7 +314,9 @@ namespace StudioCore.Scene
             private IndirectDrawEncoder DrawEncoder;
 
             private readonly List<KeyIndex> Indices = new List<KeyIndex>(1000);
-            private readonly List<RenderObject> Renderables = new List<RenderObject>(1000);
+            private readonly List<int> Renderables = new List<int>(1000);
+
+            private MeshDrawParametersComponent[] _drawParameters = null;
 
             private Action<GraphicsDevice, CommandList> PreDrawSetup = null;
 
@@ -304,11 +353,17 @@ namespace StudioCore.Scene
                 ResourcesUpdatedFence.Reset();
             }
 
-            public void Add(RenderObject item, RenderKey key)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void Add(int item, RenderKey key)
             {
                 int index = Renderables.Count;
                 Indices.Add(new KeyIndex(key, index));
                 Renderables.Add(item);
+            }
+
+            public void SetDrawParameters(MeshDrawParametersComponent[] parameters)
+            {
+                _drawParameters = parameters;
             }
 
             private void Sort()
@@ -318,6 +373,10 @@ namespace StudioCore.Scene
 
             public void Execute(CommandList drawCommandList)
             {
+                if (_drawParameters == null)
+                {
+                    return;
+                }
                 var watch = Stopwatch.StartNew();
                 Sort();
                 ActivePipeline = null;
@@ -326,10 +385,10 @@ namespace StudioCore.Scene
                 ResourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
                 PreDrawSetup.Invoke(Device, drawCommandList);
                 //DrawCommandList.ClearDepthStencil(0.0f);
-                foreach (var obj in Indices)
+                //foreach (var obj in Indices)
                 {
-                    var o = Renderables[obj.ItemIndex];
-                    o.UpdatePerFrameResources(Device, ResourceUpdateCommandList, Pipeline);
+                    //var o = Renderables[obj.ItemIndex];
+                    //o.UpdatePerFrameResources(Device, ResourceUpdateCommandList, Pipeline);
                 }
                 ResourceUpdateCommandList.PopDebugGroup();
                 ResourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
@@ -351,7 +410,8 @@ namespace StudioCore.Scene
                         ActivePipeline = p;
                     }
                     o.Render(Device, DrawCommandList, Pipeline);*/
-                    o.Render(DrawEncoder, Pipeline);
+                    //o.Render(DrawEncoder, Pipeline);
+                    DrawEncoder.AddDraw(ref _drawParameters[o]);
                 }
                 DrawEncoder.SubmitBatches(drawCommandList, Pipeline);
                 drawCommandList.PopDebugGroup();

@@ -292,7 +292,7 @@ namespace StudioCore.Gui
 
             if (_rayDebug != null)
             {
-                _debugRenderer.Add(_rayDebug, new Scene.RenderKey(0));
+                //TODO:_debugRenderer.Add(_rayDebug, new Scene.RenderKey(0));
             }
 
             if (DrawGrid)
@@ -303,7 +303,7 @@ namespace StudioCore.Gui
             }
 
             _gizmos.CameraPosition = _worldView.CameraTransform.Position;
-            _debugRenderer.Add(_gizmos, new Scene.RenderKey(0));
+            //TODO:_debugRenderer.Add(_gizmos, new Scene.RenderKey(0));
             //RenderScene.Render(device, cl, ViewPipeline);
         }
 

@@ -221,7 +221,7 @@ namespace StudioCore.MsbEditor
                 // F key frames the selection
                 if (InputTracker.GetKeyDown(Key.F))
                 {
-                    var selected = _selection.GetFilteredSelection<Entity>();
+                    /*FIX:var selected = _selection.GetFilteredSelection<Entity>();
                     bool first = false;
                     BoundingBox box = new BoundingBox();
                     foreach (var s in selected)
@@ -242,7 +242,7 @@ namespace StudioCore.MsbEditor
                     if (first)
                     {
                         Viewport.FrameBox(box);
-                    }
+                    }*/
                 }
 
                 // Render settings

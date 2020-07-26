@@ -7,6 +7,7 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace StudioCore.Scene
 {
@@ -104,6 +105,17 @@ namespace StudioCore.Scene
             }
             watch2.Stop();
             CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);*/
+            var watch = Stopwatch.StartNew();
+            OpaqueRenderables.CullRenderables(frustum);
+            watch.Stop();
+            OctreeCullTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
+
+            var watch2 = Stopwatch.StartNew();
+            OpaqueRenderables.SubmitRenderables(queue);
+            watch2.Stop();
+            CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
+
+            queue.SetDrawParameters(OpaqueRenderables.cDrawParameters);
         }
     }
 }

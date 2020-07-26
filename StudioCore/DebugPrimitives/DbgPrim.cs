@@ -381,7 +381,7 @@ namespace StudioCore.DebugPrimitives
         public void SubmitRenderObjects(Renderer.RenderQueue queue)
         {
             ulong code = RenderPipeline != null ? (ulong)RenderPipeline.GetHashCode() : 0;
-            queue.Add(this, RenderKey.Create((int)(code & 0xFFFFFFFF), (uint)BufferIndex));
+            //queue.Add(this, RenderKey.Create((int)(code & 0xFFFFFFFF), (uint)BufferIndex));
         }
 
         public virtual BoundingBox GetBounds()
