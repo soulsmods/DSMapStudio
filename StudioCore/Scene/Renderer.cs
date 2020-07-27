@@ -304,14 +304,21 @@ namespace StudioCore.Scene
                 }
             }
 
+            // Number of frames in flight planned for this queue
+            private int _bufferCount = 3;
+            private int _currentBuffer = 0;
+            private int _nextBuffer { get => (_currentBuffer + 1) % _bufferCount; }
+            private int _prevBuffer { get => (_currentBuffer - 1 + BUFFER_COUNT) % _bufferCount; }
+
             public SceneRenderPipeline Pipeline { get; private set; }
             private GraphicsDevice Device;
             private CommandList ResourceUpdateCommandList;
             //private CommandList DrawCommandList;
-            private Fence ResourcesUpdatedFence;
-            private Fence DrawFence;
+            private List<Fence> _resourcesUpdatedFence = new List<Fence>();
+            private List<Fence> _drawFence = new List<Fence>();
 
-            private IndirectDrawEncoder DrawEncoder;
+            //private IndirectDrawEncoder DrawEncoder;
+            private List<IndirectDrawEncoder> _drawEncoders = new List<IndirectDrawEncoder>();
 
             private readonly List<KeyIndex> Indices = new List<KeyIndex>(1000);
             private readonly List<int> Renderables = new List<int>(1000);
@@ -319,8 +326,6 @@ namespace StudioCore.Scene
             private MeshDrawParametersComponent[] _drawParameters = null;
 
             private Action<GraphicsDevice, CommandList> PreDrawSetup = null;
-
-            private Pipeline ActivePipeline = null;
 
             public int Count => Renderables.Count;
 
@@ -333,10 +338,14 @@ namespace StudioCore.Scene
                 Device = device;
                 Pipeline = pipeline;
                 ResourceUpdateCommandList = device.ResourceFactory.CreateCommandList();
+                _bufferCount = BUFFER_COUNT;
                 //DrawCommandList = device.ResourceFactory.CreateCommandList();
-                ResourcesUpdatedFence = device.ResourceFactory.CreateFence(false);
-                DrawFence = device.ResourceFactory.CreateFence(true);
-                DrawEncoder = new IndirectDrawEncoder(40000);
+                // Create per frame in flight resources
+                for (int i = 0; i < _bufferCount; i++)
+                {
+                    _drawEncoders.Add(new IndirectDrawEncoder(40000));
+                    _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
+                }
                 Name = name;
             }
 
@@ -349,8 +358,10 @@ namespace StudioCore.Scene
             {
                 Indices.Clear();
                 Renderables.Clear();
-                DrawEncoder.Reset();
-                ResourcesUpdatedFence.Reset();
+                _drawEncoders[_nextBuffer].Reset();
+                _resourcesUpdatedFence[_nextBuffer].Reset();
+
+                _currentBuffer = _nextBuffer;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -371,56 +382,42 @@ namespace StudioCore.Scene
                 Indices.Sort();
             }
 
-            public void Execute(CommandList drawCommandList)
+            public void Execute(CommandList drawCommandList, Fence lastOutstandingDrawFence)
             {
                 if (_drawParameters == null)
                 {
                     return;
                 }
                 var watch = Stopwatch.StartNew();
+
+                // Build draws for current frame and kick off a buffer update
                 Sort();
-                ActivePipeline = null;
-                //DrawCommandList.Begin();
+
                 ResourceUpdateCommandList.Begin();
                 ResourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
                 PreDrawSetup.Invoke(Device, drawCommandList);
-                //DrawCommandList.ClearDepthStencil(0.0f);
-                //foreach (var obj in Indices)
-                {
-                    //var o = Renderables[obj.ItemIndex];
-                    //o.UpdatePerFrameResources(Device, ResourceUpdateCommandList, Pipeline);
-                }
                 ResourceUpdateCommandList.PopDebugGroup();
+
+                Device.WaitForFence(lastOutstandingDrawFence);
                 ResourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
-                DrawEncoder.UpdateBuffer(ResourceUpdateCommandList);
+                _drawEncoders[_currentBuffer].UpdateBuffer(ResourceUpdateCommandList);
                 ResourceUpdateCommandList.PopDebugGroup();
                 ResourceUpdateCommandList.End();
-                //Device.WaitForFence(DrawFence);
-                DrawFence.Reset();
-                Device.SubmitCommands(ResourceUpdateCommandList, ResourcesUpdatedFence);
-                drawCommandList.InsertDebugMarker($@"{Name}: Draw");
+                Device.SubmitCommands(ResourceUpdateCommandList, _resourcesUpdatedFence[_currentBuffer]);
+
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
-                    /*var p = o.GetPipeline();
-                    if (p != ActivePipeline)
-                    {
-                        DrawCommandList.SetPipeline(p);
-                        Renderer.VertexBufferAllocator.BindAsVertexBuffer(DrawCommandList);
-                        ActivePipeline = p;
-                    }
-                    o.Render(Device, DrawCommandList, Pipeline);*/
-                    //o.Render(DrawEncoder, Pipeline);
-                    DrawEncoder.AddDraw(ref _drawParameters[o]);
+                    _drawEncoders[_nextBuffer].AddDraw(ref _drawParameters[o]);
                 }
-                DrawEncoder.SubmitBatches(drawCommandList, Pipeline);
+
+                // Wait on the last outstanding frame in flight and submit the draws
+                Device.WaitForFence(_resourcesUpdatedFence[_nextBuffer], ulong.MaxValue - 1);
+                drawCommandList.InsertDebugMarker($@"{Name}: Draw");
+                _drawEncoders[_nextBuffer].SubmitBatches(drawCommandList, Pipeline);
                 drawCommandList.PopDebugGroup();
-                //DrawCommandList.End();
-                Device.WaitForFence(ResourcesUpdatedFence);
-                //Device.SubmitCommands(DrawCommandList, DrawFence);
                 watch.Stop();
                 CPURenderTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
-                //Device.WaitForIdle();
             }
         }
 
@@ -436,6 +433,12 @@ namespace StudioCore.Scene
         public static GPUBufferAllocator MaterialBufferAllocator { get; private set; }
         public static TexturePool GlobalTexturePool { get; private set; }
         public static TexturePool GlobalCubeTexturePool { get; private set; }
+
+        private static int BUFFER_COUNT = 3;
+        private static List<Fence> _drawFences = new List<Fence>();
+        private static int _currentBuffer = 0;
+        private static int _nextBuffer { get => (_currentBuffer + 1) % BUFFER_COUNT; }
+        private static int _prevBuffer { get => (_currentBuffer - 1 + BUFFER_COUNT) % BUFFER_COUNT; }
 
         public static ResourceFactory Factory
         {
@@ -460,6 +463,11 @@ namespace StudioCore.Scene
             RenderWorkQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             RenderQueues = new List<RenderQueue>();
+
+            for (int i = 0; i < BUFFER_COUNT; i++)
+            {
+                _drawFences.Add(device.ResourceFactory.CreateFence(true));
+            }
 
             SamplerSet.Initialize(device);
 
@@ -500,7 +508,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public static void Frame(CommandList drawCommandList)
+        public static Fence Frame(CommandList drawCommandList)
         {
             MainCommandList.Begin();
 
@@ -545,9 +553,14 @@ namespace StudioCore.Scene
 
             foreach (var rq in RenderQueues)
             {
-                rq.Execute(drawCommandList);
+                rq.Execute(drawCommandList, _drawFences[_nextBuffer]);
                 rq.Clear();
             }
+
+            _currentBuffer = _nextBuffer;
+            Device.WaitForFence(_drawFences[_prevBuffer]);
+            _drawFences[_prevBuffer].Reset();
+            return _drawFences[_prevBuffer];
         }
     }
 }

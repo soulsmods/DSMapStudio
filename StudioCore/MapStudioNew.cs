@@ -836,7 +836,7 @@ namespace StudioCore
             {
                 ModelEditor.Draw(_gd, MainWindowCommandList);
             }
-            Scene.Renderer.Frame(MainWindowCommandList);
+            var fence = Scene.Renderer.Frame(MainWindowCommandList);
             //GuiCommandList.Begin();
             //GuiCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
             MainWindowCommandList.SetFullViewport(0);
@@ -844,7 +844,7 @@ namespace StudioCore
             ImguiRenderer.Render(_gd, MainWindowCommandList);
             //GuiCommandList.End();
             MainWindowCommandList.End();
-            _gd.SubmitCommands(MainWindowCommandList);
+            _gd.SubmitCommands(MainWindowCommandList, fence);
             //Scene.SceneRenderPipeline.TestUpdateView(_gd, MainWindowCommandList, TestWorldView.CameraTransform.CameraViewMatrix);
 
             _gd.SwapBuffers();
