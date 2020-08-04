@@ -7,12 +7,10 @@ using System.Numerics;
 namespace StudioCore.Scene
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct InstanceData
+    public unsafe struct PickingResult
     {
-        public Matrix4x4 WorldMatrix;
-        public uint MaterialID;
-        public uint r1;
-        public uint r2;
-        public uint EntityID;
+        public uint depth;
+        uint padding;
+        public ulong entityID;
     }
 }

@@ -6,7 +6,14 @@ struct sceneParams
 	mat4 view;
 	vec4 eye;
 	vec4 lightDirection;
+	ivec4 curserPosition;
 	uint envmap;
+	
+	float ambientLightMult;
+	float directLightMult;
+	float indirectLightMult;
+	float emissiveMapMult;
+	float sceneBrightness;
 };
 
 layout(set = 0, binding = 0) uniform SceneParamBuffer

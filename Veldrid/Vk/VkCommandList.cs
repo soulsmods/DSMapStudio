@@ -752,20 +752,65 @@ namespace Veldrid.Vk
                 size = sizeInBytes
             };
 
+            VkMemoryBarrier barrier;
+            VkBufferMemoryBarrier bbarrier;
+
+            // If we're doing a readback, make sure memory is host visible
+            if (destination.Usage.HasFlag(BufferUsage.Staging))
+            {
+                bbarrier.sType = VkStructureType.BufferMemoryBarrier;
+                bbarrier.srcAccessMask = VkAccessFlags.MemoryWrite | VkAccessFlags.ShaderWrite;
+                bbarrier.dstAccessMask = VkAccessFlags.TransferRead;
+                bbarrier.pNext = null;
+                bbarrier.buffer = srcVkBuffer.DeviceBuffer;
+                bbarrier.offset = 0;
+                bbarrier.size = source.SizeInBytes;
+                bbarrier.srcQueueFamilyIndex = 0;
+                bbarrier.dstQueueFamilyIndex = 0;
+                vkCmdPipelineBarrier(
+                    _cb,
+                    VkPipelineStageFlags.AllGraphics, VkPipelineStageFlags.Transfer,
+                    VkDependencyFlags.None,
+                    0, null,
+                    1, ref bbarrier,
+                    0, null);
+            }
+
             vkCmdCopyBuffer(_cb, srcVkBuffer.DeviceBuffer, dstVkBuffer.DeviceBuffer, 1, ref region);
 
-            VkMemoryBarrier barrier;
-            barrier.sType = VkStructureType.MemoryBarrier;
-            barrier.srcAccessMask = VkAccessFlags.TransferWrite;
-            barrier.dstAccessMask = VkAccessFlags.VertexAttributeRead;
-            barrier.pNext = null;
-            vkCmdPipelineBarrier(
-                _cb,
-                VkPipelineStageFlags.Transfer, VkPipelineStageFlags.VertexInput,
-                VkDependencyFlags.None,
-                1, ref barrier,
-                0, null,
-                0, null);
+            if (destination.Usage.HasFlag(BufferUsage.Staging))
+            {
+                bbarrier.sType = VkStructureType.BufferMemoryBarrier;
+                bbarrier.srcAccessMask = VkAccessFlags.TransferWrite;
+                bbarrier.dstAccessMask = VkAccessFlags.HostRead;
+                bbarrier.pNext = null;
+                bbarrier.buffer = dstVkBuffer.DeviceBuffer;
+                bbarrier.offset = 0;
+                bbarrier.size = source.SizeInBytes;
+                bbarrier.srcQueueFamilyIndex = 0;
+                bbarrier.dstQueueFamilyIndex = 0;
+                vkCmdPipelineBarrier(
+                    _cb,
+                    VkPipelineStageFlags.Transfer, VkPipelineStageFlags.Host,
+                    VkDependencyFlags.None,
+                    0, null,
+                    1, ref bbarrier,
+                    0, null);
+            }
+            else
+            {
+                barrier.sType = VkStructureType.MemoryBarrier;
+                barrier.srcAccessMask = VkAccessFlags.TransferWrite;
+                barrier.dstAccessMask = VkAccessFlags.VertexAttributeRead;
+                barrier.pNext = null;
+                vkCmdPipelineBarrier(
+                    _cb,
+                    VkPipelineStageFlags.Transfer, VkPipelineStageFlags.VertexInput,
+                    VkDependencyFlags.None,
+                    1, ref barrier,
+                    0, null,
+                    0, null);
+            }
         }
 
         protected override void CopyTextureCore(

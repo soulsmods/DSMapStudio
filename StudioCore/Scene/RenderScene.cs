@@ -37,6 +37,8 @@ namespace StudioCore.Scene
         public float OctreeCullTime { get; private set; } = 0.0f;
         public float CPUDrawTime { get; private set; } = 0.0f;
 
+        private bool _pickingEnabled = false;
+
         public void ToggleDrawFilter(RenderFilter toggle)
         {
             if ((DrawFilter & toggle) > 0)
@@ -82,6 +84,11 @@ namespace StudioCore.Scene
             return null;
         }
 
+        public void SendGPUPickingRequest()
+        {
+            _pickingEnabled = true;
+        }
+
         public void Render(Renderer.RenderQueue queue, BoundingFrustum frustum, SceneRenderPipeline pipeline)
         {
             /*CulledObjects.Clear();
@@ -115,7 +122,8 @@ namespace StudioCore.Scene
             watch2.Stop();
             CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
 
-            queue.SetDrawParameters(OpaqueRenderables.cDrawParameters);
+            queue.SetDrawParameters(OpaqueRenderables.cDrawParameters, _pickingEnabled ? OpaqueRenderables.cSelectionPipelines : OpaqueRenderables.cPipelines);
+            _pickingEnabled = false;
         }
     }
 }

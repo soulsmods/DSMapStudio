@@ -635,6 +635,7 @@ namespace StudioCore.MsbEditor
             if (RenderSceneMesh != null)
             {
                 //FIX:RenderSceneMesh.Highlighted = true;
+                RenderSceneMesh.RenderSelectionOutline = true;
             }
         }
 
@@ -643,6 +644,7 @@ namespace StudioCore.MsbEditor
             if (RenderSceneMesh != null)
             {
                 //FIX:RenderSceneMesh.Highlighted = false;
+                RenderSceneMesh.RenderSelectionOutline = false;
             }
         }
     }

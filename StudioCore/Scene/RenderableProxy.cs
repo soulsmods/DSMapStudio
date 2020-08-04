@@ -5,6 +5,7 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
 using StudioCore.Resource;
+using System.Linq;
 
 namespace StudioCore.Scene
 {
@@ -18,6 +19,10 @@ namespace StudioCore.Scene
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+
+        public abstract void SetSelectable(ISelectable sel);
+
+        public abstract bool RenderSelectionOutline { set; get; }
 
         protected void ScheduleRenderableConstruction()
         {
@@ -47,13 +52,18 @@ namespace StudioCore.Scene
         private List<MeshRenderableProxy> _submeshes = new List<MeshRenderableProxy>();
 
         private int _renderable = -1;
+        private int _selectionOutlineRenderable = -1;
 
         protected Pipeline _pipeline;
+        protected Pipeline _pickingPipeline;
+        protected Pipeline _selectedPipeline;
         protected Shader[] _shaders;
         protected GPUBufferAllocator.GPUBufferHandle _worldBuffer;
         protected ResourceSet _perObjectResourceSet;
 
         private Matrix4x4 _world = Matrix4x4.Identity;
+
+        private WeakReference<ISelectable> _selectable = null;
 
         public Matrix4x4 World
         {
@@ -68,6 +78,22 @@ namespace StudioCore.Scene
                 foreach (var sm in _submeshes)
                 {
                     sm.World = _world;
+                }
+            }
+        }
+
+        private bool _renderOutline = false;
+
+        public override bool RenderSelectionOutline 
+        { 
+            get => _renderOutline; 
+            set
+            {
+                _renderOutline = value;
+                ScheduleRenderableConstruction();
+                foreach (var child in _submeshes)
+                {
+                    child.RenderSelectionOutline = value;
                 }
             }
         }
@@ -87,6 +113,11 @@ namespace StudioCore.Scene
                 _renderablesSet.RemoveRenderable(_renderable);
                 _renderable = -1;
             }
+            if (_selectionOutlineRenderable != -1)
+            {
+                _renderablesSet.RemoveRenderable(_selectionOutlineRenderable);
+                _selectionOutlineRenderable = -1;
+            }
             if (_meshProvider.TryLock())
             {
                 if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
@@ -105,12 +136,8 @@ namespace StudioCore.Scene
                 var factory = gd.ResourceFactory;
                 if (_worldBuffer == null)
                 {
-                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
+                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
                 }
-                InstanceData dat = new InstanceData();
-                dat.WorldMatrix = _world;
-                dat.MaterialID = _meshProvider.MaterialIndex;
-                _worldBuffer.FillBuffer(cl, ref dat);
 
                 // Construct pipeline
                 ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
@@ -134,6 +161,10 @@ namespace StudioCore.Scene
                     gd.ResourceFactory,
                     StaticResourceCache.SceneParamLayoutDescription);
 
+                ResourceLayout pickingResultLayout = StaticResourceCache.GetResourceLayout(
+                    gd.ResourceFactory,
+                    StaticResourceCache.PickingResultDescription);
+
                 ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
                     new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
@@ -143,6 +174,7 @@ namespace StudioCore.Scene
                 _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
                     Renderer.UniformBufferAllocator._backingBuffer));
 
+                // Build default pipeline
                 GraphicsPipelineDescription pipelineDescription = new GraphicsPipelineDescription();
                 pipelineDescription.BlendState = BlendStateDescription.SingleOverrideBlend;
                 pipelineDescription.DepthStencilState = DepthStencilStateDescription.DepthOnlyGreaterEqual;
@@ -156,9 +188,18 @@ namespace StudioCore.Scene
                 pipelineDescription.ShaderSet = new ShaderSetDescription(
                     vertexLayouts: mainVertexLayouts,
                     shaders: _shaders, _meshProvider.SpecializationConstants);
-                pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.GlobalCubeTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
+                pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.GlobalCubeTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout, pickingResultLayout};
                 pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
                 _pipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+
+                // Build picking pipeline
+                var pickingSpecializationConstants = new SpecializationConstant[_meshProvider.SpecializationConstants.Length + 1];
+                Array.Copy(_meshProvider.SpecializationConstants, pickingSpecializationConstants, _meshProvider.SpecializationConstants.Length);
+                pickingSpecializationConstants[pickingSpecializationConstants.Length - 1] = new SpecializationConstant(99, true);
+                pipelineDescription.ShaderSet = new ShaderSetDescription(
+                    vertexLayouts: mainVertexLayouts,
+                    shaders: _shaders, pickingSpecializationConstants);
+                _pickingPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
 
                 // Create draw call arguments
                 var meshcomp = new MeshDrawParametersComponent();
@@ -172,7 +213,6 @@ namespace StudioCore.Scene
 
                 // Rest of draw parameters
                 meshcomp._indexFormat = _meshProvider.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
-                meshcomp._pipeline = _pipeline;
                 meshcomp._objectResourceSet = _perObjectResourceSet;
                 meshcomp._bufferIndex = geombuffer.BufferIndex;
 
@@ -181,11 +221,53 @@ namespace StudioCore.Scene
                 _renderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
                 _renderablesSet.cRenderKeys[_renderable] = GetRenderKey(0.0f);
 
+                // Pipelines
+                _renderablesSet.cPipelines[_renderable] = _pipeline;
+                _renderablesSet.cSelectionPipelines[_renderable] = _pickingPipeline;
+
+                // Update instance data
+                InstanceData dat = new InstanceData();
+                dat.WorldMatrix = _world;
+                dat.MaterialID = _meshProvider.MaterialIndex;
+                dat.EntityID = (uint)_renderable;
+                _worldBuffer.FillBuffer(cl, ref dat);
+
+                // Selectable
+                _renderablesSet.cSelectables[_renderable] = _selectable;
+
+                // Build mesh for selection outline
+                if (_renderOutline)
+                {
+                    pipelineDescription.RasterizerState = new RasterizerStateDescription(
+                        cullMode: (_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front,
+                        fillMode: _meshProvider.FillMode,
+                        frontFace: _meshProvider.FrontFace,
+                        depthClipEnabled: true,
+                        scissorTestEnabled: false);
+
+                    var s = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, _meshProvider.ShaderName + "_selected").ToTuple();
+                    _shaders = new Shader[] { s.Item1, s.Item2 };
+                    pipelineDescription.ShaderSet = new ShaderSetDescription(
+                        vertexLayouts: mainVertexLayouts,
+                        shaders: _shaders, _meshProvider.SpecializationConstants);
+                    _selectedPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+
+                    _selectionOutlineRenderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
+                    _renderablesSet.cRenderKeys[_selectionOutlineRenderable] = GetRenderKey(0.0f);
+
+                    // Pipelines
+                    _renderablesSet.cPipelines[_selectionOutlineRenderable] = _selectedPipeline;
+                    _renderablesSet.cSelectionPipelines[_selectionOutlineRenderable] = _selectedPipeline;
+
+                    // Selectable
+                    _renderablesSet.cSelectables[_selectionOutlineRenderable] = _selectable;
+                }
+
                 _meshProvider.Unlock();
             }
         }
 
-        public override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public unsafe override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             if (_meshProvider.TryLock())
             {
@@ -197,9 +279,10 @@ namespace StudioCore.Scene
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
+                dat.EntityID = (uint)_renderable;
                 if (_worldBuffer == null)
                 {
-                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
+                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
                 }
                 _worldBuffer.FillBuffer(cl, ref dat);
             }
@@ -208,6 +291,19 @@ namespace StudioCore.Scene
         public override void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             //throw new NotImplementedException();
+        }
+
+        public override void SetSelectable(ISelectable sel)
+        {
+            _selectable = new WeakReference<ISelectable>(sel);
+            if (_renderable != -1)
+            {
+                _renderablesSet.cSelectables[_renderable] = _selectable;
+            }
+            foreach (var child in _submeshes)
+            {
+                child.SetSelectable(sel);
+            }
         }
 
         public void OnProviderAvailable()
@@ -219,6 +315,15 @@ namespace StudioCore.Scene
                     var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i));
                     child.World = _world;
                     _submeshes.Add(child);
+                    ISelectable sel = null;
+                    if (_selectable != null)
+                    {
+                        _selectable.TryGetTarget(out sel);
+                        if (sel != null)
+                        {
+                            child.SetSelectable(sel);
+                        }
+                    }
                 }
                 _meshProvider.Unlock();
             }
@@ -254,6 +359,12 @@ namespace StudioCore.Scene
         public static MeshRenderableProxy MeshRenderableFromFlverResource(RenderScene scene, ResourceHandle<FlverResource> handle)
         {
             var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetFlverMeshProvider(handle));
+            return renderable;
+        }
+
+        public static MeshRenderableProxy MeshRenderableFromCollisionResource(RenderScene scene, ResourceHandle<HavokCollisionResource> handle)
+        {
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetCollisionMeshProvider(handle));
             return renderable;
         }
     }

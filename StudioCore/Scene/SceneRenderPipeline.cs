@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,14 @@ namespace StudioCore.Scene
         public SceneParam SceneParams;
         public DeviceBuffer SceneParamBuffer { get; private set; }
 
-        public ResourceSet ProjViewRS { get; private set; }
+        public ResourceSet SceneParamResourceSet { get; private set; }
+
+
+        public PickingResult PickingResult;
+        public DeviceBuffer PickingResultsBuffer { get; private set; }
+        public ResourceSet PickingResultResourceSet { get; private set; }
+
+        public DeviceBuffer PickingResultReadbackBuffer { get; private set; }
 
         public Vector3 Eye { get; private set; }
 
@@ -33,6 +41,11 @@ namespace StudioCore.Scene
         public float CPURenderTime { get => RenderQueue.CPURenderTime; }
 
         public uint EnvMapTexture = 0;
+
+        private bool _pickingEnabled = false;
+        public bool PickingResultsReady { get; set; } = false;
+
+        private int _pickingEntity { get; set; }
 
         public unsafe SceneRenderPipeline(RenderScene scene, GraphicsDevice device, int width, int height)
         {
@@ -43,6 +56,8 @@ namespace StudioCore.Scene
             //ViewMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
             //EyePositionBuffer = factory.CreateBuffer(new BufferDescription(16, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
             //Matrix4x4 proj = Matrix4x4.CreatePerspective(width, height, 0.1f, 100.0f);
+
+            // Setup scene param uniform buffer
             SceneParamBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(SceneParam), BufferUsage.UniformBuffer));
             SceneParams = new SceneParam();
             SceneParams.Projection = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
@@ -50,19 +65,36 @@ namespace StudioCore.Scene
             SceneParams.EyePosition = new Vector4(0.0f, 2.0f, 0.0f, 0.0f);
             SceneParams.LightDirection = new Vector4(1.0f, -0.5f, 0.0f, 0.0f);
             SceneParams.EnvMap = EnvMapTexture;
-
+            SceneParams.CursorPosition[0] = 0;
+            SceneParams.CursorPosition[1] = 0;
+            SceneParams.CursorPosition[2] = 0;
+            SceneParams.CursorPosition[3] = 0;
             SceneParams.AmbientLightMult = 1.0f;
             SceneParams.DirectLightMult = 1.0f;
             SceneParams.IndirectLightMult = 1.0f;
             SceneParams.EmissiveMapMult = 1.0f;
             SceneParams.SceneBrightness = 1.0f;
-
             device.UpdateBuffer(SceneParamBuffer, 0, ref SceneParams, (uint)sizeof(SceneParam));
             ResourceLayout sceneParamLayout = StaticResourceCache.GetResourceLayout(
                 device.ResourceFactory,
                 StaticResourceCache.SceneParamLayoutDescription);
-            ProjViewRS = StaticResourceCache.GetResourceSet(device.ResourceFactory, new ResourceSetDescription(sceneParamLayout,
+            SceneParamResourceSet = StaticResourceCache.GetResourceSet(device.ResourceFactory, new ResourceSetDescription(sceneParamLayout,
                 SceneParamBuffer));
+
+            // Setup picking uniform buffer
+            PickingResultsBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(PickingResult), BufferUsage.StructuredBufferReadWrite, (uint)sizeof(PickingResult)));
+            PickingResult = new PickingResult();
+            PickingResult.depth = 0;// int.MaxValue;
+            PickingResult.entityID = ulong.MaxValue;
+            device.UpdateBuffer(PickingResultsBuffer, 0, ref PickingResult, (uint)sizeof(PickingResult));
+            ResourceLayout pickingResultLayout = StaticResourceCache.GetResourceLayout(
+                device.ResourceFactory,
+                StaticResourceCache.PickingResultDescription);
+            PickingResultResourceSet = StaticResourceCache.GetResourceSet(device.ResourceFactory, new ResourceSetDescription(pickingResultLayout,
+                PickingResultsBuffer));
+
+            PickingResultReadbackBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(PickingResult), BufferUsage.Staging));
+            device.UpdateBuffer(PickingResultReadbackBuffer, 0, ref PickingResult, (uint)sizeof(PickingResult));
 
             RenderQueue = new Renderer.RenderQueue("Viewport Render", device, this);
             Renderer.RegisterRenderQueue(RenderQueue);
@@ -73,7 +105,7 @@ namespace StudioCore.Scene
             RenderQueue.SetPredrawSetupAction(action);
         }
 
-        public unsafe void TestUpdateView(Matrix4x4 proj, Matrix4x4 view, Vector3 eye)
+        public unsafe void TestUpdateView(Matrix4x4 proj, Matrix4x4 view, Vector3 eye, int cursorx, int cursory)
         {
             //cl.UpdateBuffer(ViewMatrixBuffer, 0, ref view, 64);
             Eye = eye;
@@ -83,18 +115,68 @@ namespace StudioCore.Scene
                 SceneParams.View = view;
                 SceneParams.EyePosition = new Vector4(eye, 0.0f);
                 SceneParams.EnvMap = EnvMapTexture;
+                SceneParams.CursorPosition[0] = cursorx;
+                SceneParams.CursorPosition[1] = cursory;
                 cl.UpdateBuffer(SceneParamBuffer, 0, ref SceneParams, (uint)sizeof(SceneParam));
             });
         }
 
         public void BindResources(CommandList cl)
         {
-            cl.SetGraphicsResourceSet(0, ProjViewRS);
+            cl.SetGraphicsResourceSet(0, SceneParamResourceSet);
+            cl.SetGraphicsResourceSet(6, PickingResultResourceSet);
         }
 
         public void RenderScene(BoundingFrustum frustum)
         {
             Scene.Render(RenderQueue, frustum, this);
+        }
+
+        public unsafe void CreateAsyncPickingRequest()
+        {
+            if (_pickingEnabled)
+            {
+                return;
+            }
+            _pickingEnabled = true;
+            Scene.SendGPUPickingRequest();
+            Debug.WriteLine("Starting picking request");
+            Renderer.AddAsyncReadback(PickingResultReadbackBuffer, PickingResultsBuffer, (GraphicsDevice d) =>
+            {
+                var result = d.Map<PickingResult>(PickingResultReadbackBuffer, MapMode.Read);
+                var results = new Span<PickingResult>(result.MappedResource.Data.ToPointer(), 1);
+                _pickingEntity = results[0].entityID != ulong.MaxValue ? (int)results[0].entityID : -1;
+                PickingResultsReady = true;
+                _pickingEnabled = false;
+                Debug.WriteLine($@"Got picking result: entity {results[0].entityID}, depth {results[0].depth}");
+                Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    cl.UpdateBuffer(PickingResultsBuffer, 0, ref PickingResult, (uint)sizeof(PickingResult));
+                });
+            });
+        }
+
+        public ISelectable GetSelection()
+        {
+            if (!PickingResultsReady)
+            {
+                throw new Exception("Can't get selection when picking results aren't ready");
+            }
+
+            PickingResultsReady = false;
+
+            if (_pickingEntity == -1)
+            {
+                return null;
+            }
+
+            var sel = Scene.OpaqueRenderables.cSelectables[_pickingEntity];
+            ISelectable selected;
+            if (sel != null && sel.TryGetTarget(out selected))
+            {
+                return selected;
+            }
+            return null;
         }
     }
 }

@@ -17,6 +17,8 @@ layout (constant_id = 2) const bool c_blendSpecular = false;
 layout (constant_id = 3) const bool c_blendShininess = false;
 #endif
 
+layout (constant_id = 99) const bool c_picking = false;
+
 layout(location = 0) in vec2 fsin_texcoord;
 layout(location = 1) in vec3 fsin_view;
 layout(location = 2) in mat3 fsin_worldToTangent;
@@ -24,8 +26,9 @@ layout(location = 5) in vec3 fsin_normal;
 layout(location = 6) in vec4 fsin_bitangent;
 layout(location = 7) in vec4 fsin_color;
 layout(location = 8) flat in uint fsin_mat;
+layout(location = 9) flat in uint fsin_entityid;
 #ifdef MATERIAL_BLEND
-	layout(location = 9) in vec2 fsin_texcoord2;
+	layout(location = 10) in vec2 fsin_texcoord2;
 #endif
 
 layout(location = 0) out vec4 fsout_color;
@@ -36,6 +39,7 @@ struct sceneParams
 	mat4 view;
 	vec4 eye;
 	vec4 lightDirection;
+	ivec4 curserPosition;
 	uint envmap;
 	
 	float ambientLightMult;
@@ -81,8 +85,63 @@ float Epsilon = 0.00001;
 
 float LdotNPower = 0.1;
 
+struct updatePickingBuffer
+{
+	uint depth;
+	uint pad;
+	uint64_t identifier;
+};
+
+layout(set = 6, binding = 0, std140) buffer pickingBuffer
+{
+	volatile updatePickingBuffer pb;
+};
+
+void UpdatePickingBuffer(ivec2 pos, uint64_t identity, float z)
+{
+	if (sceneparam.curserPosition.x != pos.x || sceneparam.curserPosition.y != pos.y)
+	{
+		return;
+	}
+
+	uint d = floatBitsToUint(z);
+	uint current_d_or_locked = 0;
+	/*do
+	{
+		if (d >= pb.depth)
+		{
+			return;
+		}
+
+		current_d_or_locked = atomicMin(pb.depth, d);
+		if (d < int(current_d_or_locked))
+		{
+			uint last_d = 0;
+			last_d = atomicCompSwap(pb.depth, d, floatBitsToUint(-(int(d))));
+			if (last_d == d)
+			{
+				pb.identifier = identity;
+				atomicExchange(pb.depth, d);
+			}
+		}
+	} while (int(current_d_or_locked) < 0);*/
+	//uint d = uint(z);
+	if (d <= pb.depth)
+	{
+		return;
+	}
+	pb.depth = d;
+	pb.identifier = fsin_entityid;
+}
+
 void main()
 {
+	if (c_picking)
+	{
+		ivec2 coord = ivec2(gl_FragCoord.xy - vec2(0.49, 0.49));
+		UpdatePickingBuffer(coord, uint64_t(fsin_entityid), gl_FragCoord.z);
+	}
+
     //fsout_color = vec4(1.0, 1.0, 1.0, 1.0);
 	vec3 lightdir = normalize(vec3(sceneparam.lightDirection));
 	vec3 viewVec = normalize(fsin_view);

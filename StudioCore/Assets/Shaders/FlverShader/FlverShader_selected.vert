@@ -68,5 +68,8 @@ void main()
 	vec3 N = normalize(mat3(w) * vec3(normal));
 	fsin_worldToTangent = mat3(T, B, N);
 	
-    gl_Position = sceneparam.projection * sceneparam.view * w * vec4(position, 1);
+	vec3 ssnormal = mat3(sceneparam.projection) * mat3(sceneparam.view) * fsin_normal;
+
+	vec4 posbase = (sceneparam.projection * sceneparam.view * w * vec4(position, 1));
+    gl_Position = posbase + vec4(ssnormal, 0.0) * posbase.w * 0.005;
 }

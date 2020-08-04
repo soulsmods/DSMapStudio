@@ -143,14 +143,14 @@ namespace StudioCore.Scene
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public void AddDraw(ref MeshDrawParametersComponent drawparams)
+            public void AddDraw(ref MeshDrawParametersComponent drawparams, Pipeline pipeline)
             {
                 // Encode the draw
                 if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
                 {
                     throw new Exception("Indirect buffer not large enough for draw");
                 }
-                if (drawparams._pipeline == null)
+                if (pipeline == null)
                 {
                     throw new Exception("Pipeline is null");
                 }
@@ -163,7 +163,7 @@ namespace StudioCore.Scene
 
                 // Determine if we need a new batch
                 if (_batchCount[_stagingSet] == 0 ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != drawparams._pipeline ||
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != pipeline ||
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != drawparams._objectResourceSet ||
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != drawparams._indexFormat ||
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != drawparams._bufferIndex)
@@ -175,7 +175,7 @@ namespace StudioCore.Scene
                     }
                     // Add a new batch
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = drawparams._bufferIndex;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = drawparams._pipeline;
+                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = pipeline;
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._objectRS = drawparams._objectResourceSet;
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._indexFormat = drawparams._indexFormat;
                     _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
@@ -324,6 +324,7 @@ namespace StudioCore.Scene
             private readonly List<int> Renderables = new List<int>(1000);
 
             private MeshDrawParametersComponent[] _drawParameters = null;
+            private Pipeline[] _pipelines = null;
 
             private Action<GraphicsDevice, CommandList> PreDrawSetup = null;
 
@@ -372,9 +373,10 @@ namespace StudioCore.Scene
                 Renderables.Add(item);
             }
 
-            public void SetDrawParameters(MeshDrawParametersComponent[] parameters)
+            public void SetDrawParameters(MeshDrawParametersComponent[] parameters, Pipeline[] pipelines)
             {
                 _drawParameters = parameters;
+                _pipelines = pipelines;
             }
 
             private void Sort()
@@ -408,7 +410,7 @@ namespace StudioCore.Scene
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
-                    _drawEncoders[_nextBuffer].AddDraw(ref _drawParameters[o]);
+                    _drawEncoders[_nextBuffer].AddDraw(ref _drawParameters[o], _pipelines[o]);
                 }
 
                 // Wait on the last outstanding frame in flight and submit the draws
@@ -424,9 +426,16 @@ namespace StudioCore.Scene
         private static GraphicsDevice Device;
         private static CommandList MainCommandList;
 
-        private static Queue<Action<GraphicsDevice, CommandList>> RenderWorkQueue;
         private static List<RenderQueue> RenderQueues;
         private static Queue<Action<GraphicsDevice, CommandList>> BackgroundUploadQueue;
+
+        private static Fence _readbackFence;
+        private static CommandList _readbackCommandList;
+        private static Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _readbackQueue;
+        private static Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _readbackPendingQueue;
+
+        private static bool _readyForReadback = false;
+        private static int _readbackPendingFence = -1;
 
         public static VertexIndexBufferAllocator GeometryBufferAllocator { get; private set; }
         public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
@@ -439,6 +448,8 @@ namespace StudioCore.Scene
         private static int _currentBuffer = 0;
         private static int _nextBuffer { get => (_currentBuffer + 1) % BUFFER_COUNT; }
         private static int _prevBuffer { get => (_currentBuffer - 1 + BUFFER_COUNT) % BUFFER_COUNT; }
+
+        private static List<(CommandList, Fence)> _postDrawCommandLists = new List<(CommandList, Fence)>(2);
 
         public static ResourceFactory Factory
         {
@@ -460,8 +471,11 @@ namespace StudioCore.Scene
         {
             Device = device;
             MainCommandList = device.ResourceFactory.CreateCommandList();
-            RenderWorkQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
+            _readbackCommandList = device.ResourceFactory.CreateCommandList();
+            _readbackFence = device.ResourceFactory.CreateFence(false);
+            _readbackQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
+            _readbackPendingQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
             RenderQueues = new List<RenderQueue>();
 
             for (int i = 0; i < BUFFER_COUNT; i++)
@@ -508,6 +522,14 @@ namespace StudioCore.Scene
             }
         }
 
+        public static void AddAsyncReadback(DeviceBuffer dest, DeviceBuffer source, Action<GraphicsDevice> onFinished)
+        {
+            lock(_readbackQueue)
+            {
+                _readbackQueue.Enqueue((dest, source, onFinished));
+            }
+        }
+
         public static Fence Frame(CommandList drawCommandList)
         {
             MainCommandList.Begin();
@@ -536,6 +558,7 @@ namespace StudioCore.Scene
             while (work.Count() > 0)
             {
                 work.Dequeue().Invoke(Device, MainCommandList);
+                //work.Dequeue().Invoke(Device, drawCommandList);
             }
 
             MainCommandList.End();
@@ -557,10 +580,66 @@ namespace StudioCore.Scene
                 rq.Clear();
             }
 
+            // Handle readbacks
+            if (_readbackFence.Signaled)
+            {
+                foreach (var entry in _readbackPendingQueue)
+                {
+                    entry.Item3.Invoke(Device);
+                }
+                _readbackPendingQueue.Clear();
+                _readbackFence.Reset();
+            }
+            if (_readbackPendingQueue.Count == 0 && !_readyForReadback)
+            {
+                lock (_readbackQueue)
+                {
+                    if (_readbackQueue.Count > 0)
+                    {
+                        _readbackPendingQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>(_readbackQueue);
+                        _readbackQueue.Clear();
+                        if (_readbackPendingQueue.Count > 0)
+                        {
+                            _readbackPendingFence = _currentBuffer;
+                        }
+                        _readyForReadback = true;
+                    }
+                }
+            }
+            else if (_readbackPendingQueue.Count > 0 && _readyForReadback && _readbackPendingFence == _currentBuffer)
+            {
+                _readbackCommandList.Begin();
+                foreach (var entry in _readbackPendingQueue)
+                {
+                    _readbackCommandList.CopyBuffer(entry.Item2, 0, entry.Item1, 0, entry.Item2.SizeInBytes);
+                }
+                _readbackCommandList.End();
+                //Device.SubmitCommands(_readbackCommandList, _readbackFence);
+                _postDrawCommandLists.Add((_readbackCommandList, _readbackFence));
+                _readyForReadback = false;
+                _readbackPendingFence = -1;
+            }
+
             _currentBuffer = _nextBuffer;
             Device.WaitForFence(_drawFences[_prevBuffer]);
             _drawFences[_prevBuffer].Reset();
             return _drawFences[_prevBuffer];
+        }
+
+        public static void SubmitPostDrawCommandLists()
+        {
+            foreach (var cl in _postDrawCommandLists)
+            {
+                if (cl.Item2 != null)
+                {
+                    Device.SubmitCommands(cl.Item1, cl.Item2);
+                }
+                else
+                {
+                    Device.SubmitCommands(cl.Item1);
+                }
+            }
+            _postDrawCommandLists.Clear();
         }
     }
 }

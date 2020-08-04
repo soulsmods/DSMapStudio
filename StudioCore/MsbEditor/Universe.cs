@@ -466,12 +466,16 @@ namespace StudioCore.MsbEditor
                     if (loadcol)
                     {
                         var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                        var mesh = new Scene.CollisionMesh(_renderScene, res, _assetLocator.Type == GameType.DarkSoulsIISOTFS
-                                                                || _assetLocator.Type == GameType.DarkSoulsIII
-                                                                || _assetLocator.Type == GameType.Bloodborne);
-                        mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                        //var mesh = new Scene.CollisionMesh(_renderScene, res, _assetLocator.Type == GameType.DarkSoulsIISOTFS
+                        //                                        || _assetLocator.Type == GameType.DarkSoulsIII
+                        //                                        || _assetLocator.Type == GameType.Bloodborne);
+                        //mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
                         //FIX:obj.RenderSceneMesh = mesh;
-                        mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                        //mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                        var model = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
+                        model.World = obj.GetTransform().WorldMatrix;
+                        obj.RenderSceneMesh = model;
+                        model.SetSelectable(obj);
                     }
                     else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
                     {
@@ -496,6 +500,7 @@ namespace StudioCore.MsbEditor
                         var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
                         model.World = obj.GetTransform().WorldMatrix;
                         obj.RenderSceneMesh = model;
+                        model.SetSelectable(obj);
                     }
                 }
                 if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)

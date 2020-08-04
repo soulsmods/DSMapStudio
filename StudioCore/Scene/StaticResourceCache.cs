@@ -28,6 +28,9 @@ namespace StudioCore.Scene
         public static readonly ResourceLayoutDescription SceneParamLayoutDescription = new ResourceLayoutDescription(
             new ResourceLayoutElementDescription("SceneParam", ResourceKind.UniformBuffer, ShaderStages.Vertex | ShaderStages.Fragment));
 
+        public static readonly ResourceLayoutDescription PickingResultDescription = new ResourceLayoutDescription(
+            new ResourceLayoutElementDescription("PickingResult", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment));
+
         public static Pipeline GetPipeline(ResourceFactory factory, ref GraphicsPipelineDescription desc)
         {
             if (!s_pipelines.TryGetValue(desc, out Pipeline p))

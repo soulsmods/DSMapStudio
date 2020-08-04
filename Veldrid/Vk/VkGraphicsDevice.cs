@@ -662,6 +662,8 @@ namespace Veldrid.Vk
             deviceFeatures.multiDrawIndirect = _physicalDeviceFeatures.multiDrawIndirect;
             deviceFeatures.drawIndirectFirstInstance = _physicalDeviceFeatures.drawIndirectFirstInstance;
             deviceFeatures.shaderStorageImageMultisample = _physicalDeviceFeatures.shaderStorageImageMultisample;
+            deviceFeatures.shaderInt64 = VkBool32.True;
+            deviceFeatures.fragmentStoresAndAtomics = VkBool32.True;
 
             uint propertyCount = 0;
             VkResult result = vkEnumerateDeviceExtensionProperties(_physicalDevice, (byte*)null, &propertyCount, null);

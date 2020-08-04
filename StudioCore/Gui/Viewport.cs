@@ -67,6 +67,9 @@ namespace StudioCore.Gui
 
         private string _vpid = "";
 
+        private int _cursorX = 0;
+        private int _cursorY = 0;
+
         //public RenderTarget2D SceneRenderTarget = null;
 
         public Viewport(string id, GraphicsDevice device, Scene.RenderScene scene, MsbEditor.ActionManager am, MsbEditor.Selection sel, int width, int height)
@@ -202,6 +205,7 @@ namespace StudioCore.Gui
                 ImGui.Text($@"Index Buffers Size: {Scene.Renderer.GeometryBufferAllocator.TotalIndexFootprint / 1024 / 1024} MB");
                 ImGui.Text($@"FLVER Read Caches: {Resource.FlverResource.CacheCount}");
                 ImGui.Text($@"FLVER Read Caches Size: {Resource.FlverResource.CacheFootprint / 1024 / 1024} MB");
+                //ImGui.Text($@"Selected renderable:  { _viewPipeline._pickingEntity }");
             }
             ImGui.End();
         }
@@ -232,6 +236,9 @@ namespace StudioCore.Gui
             var pos = InputTracker.MousePosition;
             var ray = GetRay((float)pos.X - (float)X, (float)pos.Y - (float)Y);
 
+            _cursorX = (int)pos.X;// - X;
+            _cursorY = (int)pos.Y;// - Y;
+
             _gizmos.Update(ray, _canInteract && MouseInViewport());
 
             bool kbbusy = false;
@@ -241,7 +248,8 @@ namespace StudioCore.Gui
                 kbbusy = _worldView.UpdateInput(window, dt);
                 if (InputTracker.GetMouseButtonDown(MouseButton.Left))
                 {
-                    var hit = _renderScene.CastRay(ray);
+                    _viewPipeline.CreateAsyncPickingRequest();
+                    /*var hit = _renderScene.CastRay(ray);
                     if (hit != null && hit.Selectable != null)
                     {
                         if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
@@ -275,6 +283,25 @@ namespace StudioCore.Gui
                         {
                             _rayDebug.CreateDeviceObjects(d, cl, _viewPipeline);
                         });
+                    }*/
+                }
+                if (_viewPipeline.PickingResultsReady)
+                {
+                    var sel = _viewPipeline.GetSelection();
+                    if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    {
+                        if (sel != null)
+                        {
+                            _selection.AddSelection(sel);
+                        }
+                    }
+                    else
+                    {
+                        _selection.ClearSelection();
+                        if (sel != null)
+                        {
+                            _selection.AddSelection(sel);
+                        }
                     }
                 }
             }
@@ -287,7 +314,7 @@ namespace StudioCore.Gui
         {
             _projectionMat = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)Width / (float)Height, NearClip, FarClip);
             _frustum = new BoundingFrustum(_worldView.CameraTransform.CameraViewMatrixLH * _projectionMat);
-            _viewPipeline.TestUpdateView(_projectionMat, _worldView.CameraTransform.CameraViewMatrixLH, _worldView.CameraTransform.Position);
+            _viewPipeline.TestUpdateView(_projectionMat, _worldView.CameraTransform.CameraViewMatrixLH, _worldView.CameraTransform.Position, _cursorX, _cursorY);
             _viewPipeline.RenderScene(_frustum);
 
             if (_rayDebug != null)

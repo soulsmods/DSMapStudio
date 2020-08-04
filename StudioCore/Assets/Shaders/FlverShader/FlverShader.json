@@ -14,6 +14,20 @@
 		"Targets": []
 	},
 	{
+		"Name": "FlverShader_selected",
+		"Shaders": [
+			{
+				"Stage": "1",
+				"FileName": "FlverShader_selected.vert"
+			},
+			{
+				"Stage": "16",
+				"FileName": "FlverShader_selected.frag"
+			}
+		],
+		"Targets": []
+	},
+	{
 		"Name": "FlverShader_blend",
 		"Shaders": [
 			{
@@ -31,6 +45,23 @@
 		]
 	},
 	{
+		"Name": "FlverShader_blend_selected",
+		"Shaders": [
+			{
+				"Stage": "1",
+				"FileName": "FlverShader_selected.vert"
+			},
+			{
+				"Stage": "16",
+				"FileName": "FlverShader_selected.frag"
+			}
+		],
+		"Targets": [],
+		"Macros": [
+			{ "Name": "MATERIAL_BLEND" }
+		]
+	},
+	{
 		"Name": "FlverShader_blendmask",
 		"Shaders": [
 			{
@@ -40,6 +71,24 @@
 			{
 				"Stage": "16",
 				"FileName": "FlverShader.frag"
+			}
+		],
+		"Targets": [],
+		"Macros": [
+			{ "Name": "MATERIAL_BLEND" },
+			{ "Name": "MATERIAL_BLEND_MASK"}
+		]
+	},
+	{
+		"Name": "FlverShader_blendmask_selected",
+		"Shaders": [
+			{
+				"Stage": "1",
+				"FileName": "FlverShader_selected.vert"
+			},
+			{
+				"Stage": "16",
+				"FileName": "FlverShader_selected.frag"
 			}
 		],
 		"Targets": [],

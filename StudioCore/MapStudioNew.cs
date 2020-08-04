@@ -845,6 +845,7 @@ namespace StudioCore
             //GuiCommandList.End();
             MainWindowCommandList.End();
             _gd.SubmitCommands(MainWindowCommandList, fence);
+            Scene.Renderer.SubmitPostDrawCommandLists();
             //Scene.SceneRenderPipeline.TestUpdateView(_gd, MainWindowCommandList, TestWorldView.CameraTransform.CameraViewMatrix);
 
             _gd.SwapBuffers();

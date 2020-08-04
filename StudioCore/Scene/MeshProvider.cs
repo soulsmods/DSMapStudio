@@ -34,6 +34,21 @@ namespace StudioCore.Scene
             _cache.Add(handle.AssetVirtualPath, nfmp);
             return nfmp;
         }
+
+        public static CollisionMeshProvider GetCollisionMeshProvider(ResourceHandle<HavokCollisionResource> handle)
+        {
+            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            {
+                if (_cache[handle.AssetVirtualPath] is CollisionMeshProvider fmp)
+                {
+                    return fmp;
+                }
+                throw new Exception("Mesh provider exists but in the wrong form");
+            }
+            CollisionMeshProvider nfmp = new CollisionMeshProvider(handle);
+            _cache.Add(handle.AssetVirtualPath, nfmp);
+            return nfmp;
+        }
     }
 
     /// <summary>
@@ -363,5 +378,196 @@ namespace StudioCore.Scene
         public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexCount;
 
         public override uint VertexSize => _resource.Get().GPUMeshes[_meshIndex].Material.VertexSize;
+    }
+
+
+    public class CollisionMeshProvider : MeshProvider, Resource.IResourceEventListener
+    {
+        private Resource.ResourceHandle<Resource.HavokCollisionResource> _resource;
+
+        private List<CollisionSubmeshProvider> _submeshes = new List<CollisionSubmeshProvider>();
+
+        public CollisionMeshProvider(ResourceHandle<Resource.HavokCollisionResource> res)
+        {
+            _resource = res;
+            _resource.Acquire();
+            _resource.AddResourceEventListener(this);
+        }
+
+        ~CollisionMeshProvider()
+        {
+            if (_resource != null)
+            {
+                _resource.Release();
+            }
+        }
+
+        public override int ChildCount => _submeshes.Count;
+
+        public override MeshProvider GetChildProvider(int index)
+        {
+            return _submeshes[index];
+        }
+
+        public override bool TryLock()
+        {
+            return _resource.TryLock();
+        }
+
+        public override void Unlock()
+        {
+            _resource.Unlock();
+        }
+
+        public override bool IsAvailable()
+        {
+            return _resource.IsLoaded &&
+                (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
+                 _resource.AccessLevel == AccessLevel.AccessFull);
+        }
+
+        public override bool IsAtomic()
+        {
+            return true;
+        }
+
+        public override bool HasMeshData()
+        {
+            return false;
+        }
+
+        private BoundingBox _bounds;
+
+        public override BoundingBox Bounds => _bounds;
+
+        public override MeshLayoutType LayoutType => throw new NotImplementedException();
+
+        public override VertexLayoutDescription LayoutDescription => throw new NotImplementedException();
+
+        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => throw new NotImplementedException();
+
+        public override GPUBufferAllocator.GPUBufferHandle MaterialBuffer => throw new NotImplementedException();
+
+        public override string ShaderName => throw new NotImplementedException();
+
+        public override SpecializationConstant[] SpecializationConstants => throw new NotImplementedException();
+
+        private void CreateSubmeshes()
+        {
+            _submeshes = new List<CollisionSubmeshProvider>();
+            var res = _resource.Get();
+            _bounds = res.Bounds;
+            if (res.GPUMeshes != null)
+            {
+                for (int i = 0; i < res.GPUMeshes.Length; i++)
+                {
+                    var sm = new CollisionSubmeshProvider(_resource, i);
+                    _submeshes.Add(sm);
+                }
+            }
+        }
+
+        public void OnResourceLoaded(IResourceHandle handle)
+        {
+            if (_resource != null && _resource.TryLock())
+            {
+                CreateSubmeshes();
+                _resource.Unlock();
+                NotifyAvailable();
+            }
+        }
+
+        public void OnResourceUnloaded(IResourceHandle handle)
+        {
+            foreach (var submesh in _submeshes)
+            {
+                submesh.Invalidate();
+            }
+            _submeshes.Clear();
+            NotifyUnavailable();
+        }
+    }
+
+    public unsafe class CollisionSubmeshProvider : MeshProvider
+    {
+        private bool _isValid = true;
+
+        private Resource.ResourceHandle<Resource.HavokCollisionResource> _resource;
+        private int _meshIndex;
+
+        private static VertexLayoutDescription _layoutDesc = new VertexLayoutDescription(
+                    new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
+                    new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
+                    new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+
+        public CollisionSubmeshProvider(ResourceHandle<Resource.HavokCollisionResource> handle, int idx)
+        {
+            _resource = handle;
+            _meshIndex = idx;
+        }
+
+        public override bool TryLock()
+        {
+            return _resource.TryLock();
+        }
+
+        public override void Unlock()
+        {
+            _resource.Unlock();
+        }
+
+        internal void Invalidate()
+        {
+            _isValid = false;
+        }
+
+        public override bool IsAvailable()
+        {
+            return _isValid;
+        }
+
+        public override bool IsAtomic()
+        {
+            return false;
+        }
+
+        public override bool HasMeshData()
+        {
+            if (_resource.Get().GPUMeshes[_meshIndex].VertexCount == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override BoundingBox Bounds => _resource.Get().GPUMeshes[_meshIndex].Bounds;
+
+        public override MeshLayoutType LayoutType => MeshLayoutType.LayoutCollision;
+
+        public override VertexLayoutDescription LayoutDescription => _layoutDesc;
+
+        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => _resource.Get().GPUMeshes[_meshIndex].GeomBuffer;
+
+        public override GPUBufferAllocator.GPUBufferHandle MaterialBuffer => null;
+
+        //public override uint MaterialIndex => MaterialBuffer.AllocationStart / (uint)sizeof(Material);
+
+        public override string ShaderName => "Collision";
+
+        public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
+
+        public override FaceCullMode CullMode => FaceCullMode.Back;
+
+        public override FrontFace FrontFace => _resource.Get().FrontFace;
+
+        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+
+        public override bool Is32Bit => true;
+
+        public override int IndexOffset => 0;
+
+        public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].IndexCount;
+
+        public override uint VertexSize => Resource.CollisionLayout.SizeInBytes;
     }
 }

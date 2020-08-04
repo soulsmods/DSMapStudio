@@ -30,6 +30,8 @@ namespace StudioCore.Resource
 
         public BoundingBox Bounds { get; set; }
 
+        public FrontFace FrontFace { get; private set; }
+
         unsafe private void ProcessMesh(HKX.HKPStorageExtendedMeshShapeMeshSubpartStorage mesh, CollisionSubmesh dest)
         {
             var verts = mesh.Vertices.GetArrayData().Elements;
@@ -385,6 +387,16 @@ namespace StudioCore.Resource
             {
                 Hkx = HKX.Read(bytes);
             }
+
+            if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
+            {
+                FrontFace = FrontFace.Clockwise;
+            }
+            else
+            {
+                FrontFace = FrontFace.CounterClockwise;
+            }
+                    
             return LoadInternal(al);
         }
 
@@ -397,6 +409,15 @@ namespace StudioCore.Resource
             else
             {
                 Hkx = HKX.Read(file);
+            }
+
+            if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
+            {
+                FrontFace = FrontFace.Clockwise;
+            }
+            else
+            {
+                FrontFace = FrontFace.CounterClockwise;
             }
             return LoadInternal(al);
         }

@@ -23,7 +23,6 @@ namespace StudioCore.Scene
     public struct MeshDrawParametersComponent
     {
         public Renderer.IndirectDrawIndexedArgumentsPacked _indirectArgs;
-        public Pipeline _pipeline;
         public ResourceSet _objectResourceSet;
         public IndexFormat _indexFormat;
         public int _bufferIndex;
@@ -81,6 +80,10 @@ namespace StudioCore.Scene
         public BoundingBox[] cBounds = new BoundingBox[SYSTEM_SIZE];
         public MeshDrawParametersComponent[] cDrawParameters = new MeshDrawParametersComponent[SYSTEM_SIZE];
         public bool[] cCulled = new bool[SYSTEM_SIZE];
+        public Pipeline[] cPipelines = new Pipeline[SYSTEM_SIZE];
+
+        public Pipeline[] cSelectionPipelines = new Pipeline[SYSTEM_SIZE];
+        public WeakReference<ISelectable>[] cSelectables = new WeakReference<ISelectable>[SYSTEM_SIZE];
 
         public int CreateMesh(ref BoundingBox bounds, ref MeshDrawParametersComponent drawArgs)
         {
