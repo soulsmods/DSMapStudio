@@ -634,7 +634,6 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                //FIX:RenderSceneMesh.Highlighted = true;
                 RenderSceneMesh.RenderSelectionOutline = true;
             }
         }
@@ -643,7 +642,6 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                //FIX:RenderSceneMesh.Highlighted = false;
                 RenderSceneMesh.RenderSelectionOutline = false;
             }
         }
@@ -841,7 +839,7 @@ namespace StudioCore.MsbEditor
                         OnSelected();
                     }
                 }
-            }
+            }*/
 
             if (!HasTransform)
             {
@@ -856,7 +854,7 @@ namespace StudioCore.MsbEditor
             }
             if (RenderSceneMesh != null)
             {
-                RenderSceneMesh.WorldMatrix = t;
+                RenderSceneMesh.World = t;
             }
             foreach (var c in Children)
             {
@@ -871,15 +869,16 @@ namespace StudioCore.MsbEditor
                 var prop = WrappedObject.GetType().GetProperty("DrawGroups");
                 if (prop != null && RenderSceneMesh != null)
                 {
-                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
+                    // TODO
+                    //RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                    //RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
                 }
             }
 
             if (RenderSceneMesh != null)
             {
-                RenderSceneMesh.IsVisible = _EditorVisible;
-            }*/
+                RenderSceneMesh.Visible = _EditorVisible;
+            }
         }
 
         public override Transform GetTransform()

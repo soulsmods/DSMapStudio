@@ -18,7 +18,6 @@ namespace StudioCore.DebugPrimitives
 
         public DbgPrimSolidBox(Transform location, Vector3 min, Vector3 max, Color color)
         {
-            Transform = location;
             NameColor = color;
 
             // 3 Letters of below names: 

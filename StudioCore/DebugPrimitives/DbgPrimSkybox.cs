@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veldrid;
+using StudioCore.Resource;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -16,10 +18,26 @@ namespace StudioCore.DebugPrimitives
 
         static float Radius = 100;
 
+        public override MeshLayoutType LayoutType => throw new NotImplementedException();
+
+        public override VertexLayoutDescription LayoutDescription => throw new NotImplementedException();
+
+        public override BoundingBox Bounds => throw new NotImplementedException();
+
+        public override string ShaderName => throw new NotImplementedException();
+
+        public override SpecializationConstant[] SpecializationConstants => throw new NotImplementedException();
+
+        public override FaceCullMode CullMode => throw new NotImplementedException();
+
+        public override PolygonFillMode FillMode => throw new NotImplementedException();
+
+        public override PrimitiveTopology Topology => throw new NotImplementedException();
+
+        public override uint VertexSize => throw new NotImplementedException();
+
         public DbgPrimSkybox()
         {
-            BackfaceCulling = false;
-
             Category = DbgPrimCategory.Skybox;
 
             Vector3 min = -Vector3.One * Radius;
@@ -98,21 +116,6 @@ namespace StudioCore.DebugPrimitives
             AddIndex((short)vertIndexA);
             AddIndex((short)vertIndexB);
             AddIndex((short)vertIndexC);
-
-            //if (NeedToRecreateVertBuffer)
-            //{
-            //    VertBuffer = new VertexBuffer(GFX.Device, 
-            //        typeof(VertexPositionColor), Vertices.Length, BufferUsage.WriteOnly);
-            //    VertBuffer.SetData(Vertices);
-            //    NeedToRecreateVertBuffer = false;
-            //} 
-
-            //if (NeedToRecreateIndexBuffer)
-            //{
-            //    IndexBuffer = new IndexBuffer(GFX.Device, IndexElementSize.ThirtyTwoBits, Indices.Length, BufferUsage.WriteOnly);
-            //    IndexBuffer.SetData(Indices);
-            //    NeedToRecreateIndexBuffer = false;
-            //}
         }
 
         protected override void DisposeBuffers()
@@ -121,34 +124,12 @@ namespace StudioCore.DebugPrimitives
             //IndexBuffer?.Dispose();
         }
 
-        public override DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null)
-        {
-            var newPrim = new DbgPrimSkybox();
-            newPrim.Indices = Indices;
-            newPrim.GeomBuffer = GeomBuffer;
-            newPrim.Vertices = Vertices;
-            newPrim.NeedToRecreateGeomBuffer = NeedToRecreateGeomBuffer;
-
-            newPrim.Transform = newLocation;
-
-            newPrim.Name = newName;
-
-            newPrim.NameColor = newNameColor ?? NameColor;
-
-            return newPrim;
-        }
-
-        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
+        public void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             throw new NotImplementedException();
         }
 
-        public override void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void DestroyDeviceObjects()
+        public void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
             throw new NotImplementedException();
         }

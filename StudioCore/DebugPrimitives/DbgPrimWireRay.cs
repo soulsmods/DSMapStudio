@@ -19,7 +19,6 @@ namespace StudioCore.DebugPrimitives
 
         public DbgPrimWireRay(Transform location, Vector3 start, Vector3 end, Color color)
         {
-            Transform = location;
             NameColor = color;
 
 
@@ -39,7 +38,7 @@ namespace StudioCore.DebugPrimitives
 
                 GeometryData = new DbgPrimGeometryData()
                 {
-                    GeomBuffer = GeomBuffer
+                    GeomBuffer = GeometryBuffer
                 };
             }
         }

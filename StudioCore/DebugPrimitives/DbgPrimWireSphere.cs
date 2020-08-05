@@ -16,7 +16,6 @@ namespace StudioCore.DebugPrimitives
         public DbgPrimWireSphere(Transform location, float radius, Color color, int numVerticalSegments = 11, int numSidesPerSegment=12)
         {
             NameColor = color;
-            Transform = location;
 
             if (GeometryData != null)
             {
@@ -92,10 +91,10 @@ namespace StudioCore.DebugPrimitives
             }
         }
 
-        public override bool RayCast(Ray ray, out float dist)
+        public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)
         {
-            var radius = Vector3.TransformNormal(Vector3.UnitX, Transform.WorldMatrix).Length();
-            var pos = Vector3.Transform(Vector3.Zero, Transform.WorldMatrix);
+            var radius = Vector3.TransformNormal(Vector3.UnitX, transform).Length();
+            var pos = Vector3.Transform(Vector3.Zero, transform);
             return Utils.RaySphereIntersection(ref ray, pos, radius, out dist);
         }
     

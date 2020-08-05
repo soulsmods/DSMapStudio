@@ -14,7 +14,6 @@ namespace StudioCore.DebugPrimitives
         public DbgPrimWireCylinder(Transform location, float range, float height, int numSegments, Color color)
         {
             NameColor = color;
-            Transform = location;
 
             float top = height; //height / 2;
             float bottom = 0.0f; //-top;
@@ -53,11 +52,11 @@ namespace StudioCore.DebugPrimitives
             }
         }
 
-        public override bool RayCast(Ray ray, out float dist)
+        public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)
         {
             // Use an AABB to approximate this I don't care cylinder intersections are scary
             var bb = BoundingBox.Transform(new BoundingBox(new Vector3(-1.0f, 0.0f, -1.0f),
-                new Vector3(1.0f, 1.0f, 1.0f)), Transform.WorldMatrix);
+                new Vector3(1.0f, 1.0f, 1.0f)), transform);
             return Utils.RayBoxIntersection(ref ray, ref bb, out dist);
         }
     }

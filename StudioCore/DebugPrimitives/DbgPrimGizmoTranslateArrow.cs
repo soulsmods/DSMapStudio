@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.Drawing;
 using Veldrid.Utilities;
+using StudioCore.Scene;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -44,12 +45,6 @@ namespace StudioCore.DebugPrimitives
 
         public DbgPrimGizmoTranslateArrow(MsbEditor.Gizmos.Axis axis)
         {
-            //BackfaceCulling = false;
-
-            Transform = Transform.Default;
-            //NameColor = color;
-            //Name = name;
-
             if (GeometryData != null)
             {
                 SetBuffers(GeometryData.GeomBuffer);
@@ -150,18 +145,23 @@ namespace StudioCore.DebugPrimitives
 
                 GeometryData = new DbgPrimGeometryData()
                 {
-                    GeomBuffer = GeomBuffer
+                    GeomBuffer = GeometryBuffer
                 };
+
+                Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    UpdatePerFrameResources(d, cl, null);
+                });
             }
         }
 
-        public bool GetRaycast(Ray ray)
+        public bool GetRaycast(Ray ray, Matrix4x4 transform)
         {
             for (int i = 0; i < Tris.Count() / 3; i++)
             {
-                var a = Vector3.Transform(Tris[i * 3], Transform.WorldMatrix);
-                var b = Vector3.Transform(Tris[i * 3 + 1], Transform.WorldMatrix);
-                var c = Vector3.Transform(Tris[i * 3 + 2], Transform.WorldMatrix);
+                var a = Vector3.Transform(Tris[i * 3], transform);
+                var b = Vector3.Transform(Tris[i * 3 + 1], transform);
+                var c = Vector3.Transform(Tris[i * 3 + 2], transform);
                 float dist;
                 if (ray.Intersects(ref a, ref b, ref c, out dist))
                 {

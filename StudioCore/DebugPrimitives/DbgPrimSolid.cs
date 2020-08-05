@@ -7,16 +7,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veldrid;
+using StudioCore.Resource;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
     public class DbgPrimSolid : DbgPrim
     {
-        //public override IGFXShader<DbgPrimSolidShader> Shader => GFX.DbgPrimSolidShader;
-
-        //protected override PrimitiveType PrimType => PrimitiveType.TriangleList;
-
         public int TriCount => Indices.Length / 3;
+
+        public override MeshLayoutType LayoutType => MeshLayoutType.LayoutPositionColorNormal;
+
+        public override VertexLayoutDescription LayoutDescription => VertexPositionColorNormal.Layout;
+
+        public override BoundingBox Bounds => new BoundingBox();
+
+        public override string ShaderName => "DebugWire";
+
+        public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
+
+        public override FaceCullMode CullMode => FaceCullMode.None;
+
+        public override PolygonFillMode FillMode => PolygonFillMode.Solid;
+
+        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+
+        public override uint VertexSize => MeshLayoutUtils.GetLayoutVertexSize(MeshLayoutType.LayoutPositionColorNormal);
 
         public void AddQuad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color color)
         {
@@ -66,53 +82,11 @@ namespace StudioCore.DebugPrimitives
             AddIndex((short)vertIndexC);
             AddIndex((short)vertIndexB);
             AddIndex((short)vertIndexA);
-
-            //if (NeedToRecreateVertBuffer)
-            //{
-            //    VertBuffer = new VertexBuffer(GFX.Device, 
-            //        typeof(VertexPositionColor), Vertices.Length, BufferUsage.WriteOnly);
-            //    VertBuffer.SetData(Vertices);
-            //    NeedToRecreateVertBuffer = false;
-            //} 
-
-            //if (NeedToRecreateIndexBuffer)
-            //{
-            //    IndexBuffer = new IndexBuffer(GFX.Device, IndexElementSize.ThirtyTwoBits, Indices.Length, BufferUsage.WriteOnly);
-            //    IndexBuffer.SetData(Indices);
-            //    NeedToRecreateIndexBuffer = false;
-            //}
         }
 
         protected override void DisposeBuffers()
         {
             //VertBuffer?.Dispose();
-        }
-
-        public override DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null)
-        {
-            var newPrim = new DbgPrimSolid();
-            newPrim.Indices = Indices;
-            newPrim.GeomBuffer = GeomBuffer;
-            newPrim.Vertices = Vertices;
-            newPrim.NeedToRecreateGeomBuffer = NeedToRecreateGeomBuffer;
-
-            newPrim.Transform = newLocation;
-
-            newPrim.Name = newName;
-
-            newPrim.NameColor = newNameColor ?? NameColor;
-
-            return newPrim;
-        }
-
-        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
-        {
-            throw new NotImplementedException();
         }
     }
 }

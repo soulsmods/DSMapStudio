@@ -25,6 +25,7 @@ namespace StudioCore.Scene
         //private List<IDrawable> CulledObjects = new List<IDrawable>(500);
 
         public MeshRenderables OpaqueRenderables { get; private set; } = new MeshRenderables();
+        public MeshRenderables OverlayRenderables { get; private set; } = new MeshRenderables();
 
         private object SceneUpdateLock = new object();
 
@@ -89,7 +90,7 @@ namespace StudioCore.Scene
             _pickingEnabled = true;
         }
 
-        public void Render(Renderer.RenderQueue queue, BoundingFrustum frustum, SceneRenderPipeline pipeline)
+        public void Render(Renderer.RenderQueue queue, Renderer.RenderQueue overlayQueue, BoundingFrustum frustum, SceneRenderPipeline pipeline)
         {
             /*CulledObjects.Clear();
             lock (SceneUpdateLock)
@@ -124,6 +125,10 @@ namespace StudioCore.Scene
 
             queue.SetDrawParameters(OpaqueRenderables.cDrawParameters, _pickingEnabled ? OpaqueRenderables.cSelectionPipelines : OpaqueRenderables.cPipelines);
             _pickingEnabled = false;
+
+            OverlayRenderables.CullRenderables(frustum);
+            OverlayRenderables.SubmitRenderables(overlayQueue);
+            overlayQueue.SetDrawParameters(OverlayRenderables.cDrawParameters, OverlayRenderables.cPipelines);
         }
     }
 }

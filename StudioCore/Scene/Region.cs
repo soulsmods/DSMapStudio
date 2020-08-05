@@ -72,7 +72,7 @@ namespace StudioCore.Scene
         {
             if (RegionMesh != null)
             {
-                RegionMesh.Transform = new Transform(_WorldMatrix);
+                //RegionMesh.Transform = new Transform(_WorldMatrix);
             }
         }
 

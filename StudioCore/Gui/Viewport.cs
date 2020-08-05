@@ -53,8 +53,6 @@ namespace StudioCore.Gui
         //private DebugPrimitives.DbgPrimGizmoTranslate TranslateGizmo = null;
         private MsbEditor.Gizmos _gizmos;
 
-        private Scene.Renderer.RenderQueue _debugRenderer;
-
         private MsbEditor.ActionManager _actionManager;
 
         private GraphicsDevice _device;
@@ -106,27 +104,19 @@ namespace StudioCore.Gui
                     _clearQuad.Render(d, cl);
                 }
                 _vpvisible = false;
-                //cl.SetFullViewports();
-                //cl.SetScissorRect(0, (uint)RenderViewport.X, (uint)RenderViewport.Y, (uint)RenderViewport.Width, (uint)RenderViewport.Height);
-                //cl.ClearColorTarget(0, new RgbaFloat(0.5f, 0.5f, 0.5f, 1.0f));
             });
 
-            _debugRenderer = new Scene.Renderer.RenderQueue("Editor Overlays", device, _viewPipeline);
-            _debugRenderer.SetPredrawSetupAction((d, cl) =>
+            _viewPipeline.SetOverlayViewportSetupAction((d, cl) =>
             {
                 cl.SetFramebuffer(device.SwapchainFramebuffer);
                 cl.SetViewport(0, _renderViewport);
-                //cl.SetFullViewports();
                 cl.ClearDepthStencil(0);
             });
-            Scene.Renderer.RegisterRenderQueue(_debugRenderer);
 
             // Create gizmos
-            //TranslateGizmo = new DebugPrimitives.DbgPrimGizmoTranslate();
-            _gizmos = new MsbEditor.Gizmos(_actionManager, _selection);
+            _gizmos = new MsbEditor.Gizmos(_actionManager, _selection, _renderScene.OverlayRenderables);
             Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
             {
-                //TranslateGizmo.CreateDeviceObjects(d, cl, ViewPipeline);
                 _gizmos.CreateDeviceObjects(d, cl, _viewPipeline);
             });
 
@@ -249,41 +239,6 @@ namespace StudioCore.Gui
                 if (InputTracker.GetMouseButtonDown(MouseButton.Left))
                 {
                     _viewPipeline.CreateAsyncPickingRequest();
-                    /*var hit = _renderScene.CastRay(ray);
-                    if (hit != null && hit.Selectable != null)
-                    {
-                        if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
-                        {
-                            Scene.ISelectable sel;
-                            var b = hit.Selectable.TryGetTarget(out sel);
-                            if (b)
-                            {
-                                _selection.AddSelection(sel);
-                            }
-                        }
-                        else
-                        {
-                            Scene.ISelectable sel;
-                            var b = hit.Selectable.TryGetTarget(out sel);
-                            if (b)
-                            {
-                                _selection.ClearSelection();
-                                _selection.AddSelection(sel);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        _selection.ClearSelection();
-                    }
-                    if (DebugRayCastDraw)
-                    {
-                        _rayDebug = new DebugPrimitives.DbgPrimWireRay(Transform.Default, ray.Origin, ray.Origin + ray.Direction * 50.0f, Color.Blue);
-                        Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
-                        {
-                            _rayDebug.CreateDeviceObjects(d, cl, _viewPipeline);
-                        });
-                    }*/
                 }
                 if (_viewPipeline.PickingResultsReady)
                 {
@@ -330,8 +285,6 @@ namespace StudioCore.Gui
             }
 
             _gizmos.CameraPosition = _worldView.CameraTransform.Position;
-            //TODO:_debugRenderer.Add(_gizmos, new Scene.RenderKey(0));
-            //RenderScene.Render(device, cl, ViewPipeline);
         }
 
         public void SetEnvMap(uint index)

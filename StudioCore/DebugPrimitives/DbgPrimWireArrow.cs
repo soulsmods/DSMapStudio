@@ -24,7 +24,6 @@ namespace StudioCore.DebugPrimitives
         {
             Category = DbgPrimCategory.HkxBone;
 
-            Transform = location;
             NameColor = color;
             Name = name;
 
@@ -74,7 +73,7 @@ namespace StudioCore.DebugPrimitives
 
                 GeometryData = new DbgPrimGeometryData()
                 {
-                    GeomBuffer = GeomBuffer
+                    GeomBuffer = GeometryBuffer
                 };
             }
         }

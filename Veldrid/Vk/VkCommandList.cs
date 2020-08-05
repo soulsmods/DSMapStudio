@@ -801,11 +801,12 @@ namespace Veldrid.Vk
             {
                 barrier.sType = VkStructureType.MemoryBarrier;
                 barrier.srcAccessMask = VkAccessFlags.TransferWrite;
-                barrier.dstAccessMask = VkAccessFlags.VertexAttributeRead;
+                //barrier.dstAccessMask = VkAccessFlags.VertexAttributeRead;
+                barrier.dstAccessMask = VkAccessFlags.IndirectCommandRead;
                 barrier.pNext = null;
                 vkCmdPipelineBarrier(
                     _cb,
-                    VkPipelineStageFlags.Transfer, VkPipelineStageFlags.VertexInput,
+                    VkPipelineStageFlags.Transfer, VkPipelineStageFlags.DrawIndirect,
                     VkDependencyFlags.None,
                     1, ref barrier,
                     0, null,

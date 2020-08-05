@@ -36,9 +36,10 @@ namespace StudioCore.Scene
 
         public Vector3 Eye { get; private set; }
 
-        private Renderer.RenderQueue RenderQueue;
+        private Renderer.RenderQueue _renderQueue;
+        private Renderer.RenderQueue _overlayQueue;
 
-        public float CPURenderTime { get => RenderQueue.CPURenderTime; }
+        public float CPURenderTime { get => _renderQueue.CPURenderTime; }
 
         public uint EnvMapTexture = 0;
 
@@ -96,13 +97,21 @@ namespace StudioCore.Scene
             PickingResultReadbackBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(PickingResult), BufferUsage.Staging));
             device.UpdateBuffer(PickingResultReadbackBuffer, 0, ref PickingResult, (uint)sizeof(PickingResult));
 
-            RenderQueue = new Renderer.RenderQueue("Viewport Render", device, this);
-            Renderer.RegisterRenderQueue(RenderQueue);
+            _renderQueue = new Renderer.RenderQueue("Viewport Render", device, this);
+            Renderer.RegisterRenderQueue(_renderQueue);
+
+            _overlayQueue = new Renderer.RenderQueue("Overlay Render", device, this);
+            Renderer.RegisterRenderQueue(_overlayQueue);
         }
 
         public void SetViewportSetupAction(Action<GraphicsDevice, CommandList> action)
         {
-            RenderQueue.SetPredrawSetupAction(action);
+            _renderQueue.SetPredrawSetupAction(action);
+        }
+
+        public void SetOverlayViewportSetupAction(Action<GraphicsDevice, CommandList> action)
+        {
+            _overlayQueue.SetPredrawSetupAction(action);
         }
 
         public unsafe void TestUpdateView(Matrix4x4 proj, Matrix4x4 view, Vector3 eye, int cursorx, int cursory)
@@ -129,7 +138,7 @@ namespace StudioCore.Scene
 
         public void RenderScene(BoundingFrustum frustum)
         {
-            Scene.Render(RenderQueue, frustum, this);
+            Scene.Render(_renderQueue, _overlayQueue, frustum, this);
         }
 
         public unsafe void CreateAsyncPickingRequest()

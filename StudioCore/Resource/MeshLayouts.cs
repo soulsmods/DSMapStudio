@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ namespace StudioCore.Resource
         LayoutUV2,
         LayoutUV3,
         LayoutUV4,
-        LayoutCollision
+        LayoutCollision,
+        LayoutPositionColorNormal
     }
 
     public static class MeshLayoutUtils
@@ -38,6 +40,10 @@ namespace StudioCore.Resource
                     return FlverLayoutUV2.Layout;
                 case MeshLayoutType.LayoutUV4:
                     return FlverLayoutUV2.Layout;
+                case MeshLayoutType.LayoutCollision:
+                    return CollisionLayout.Layout;
+                case MeshLayoutType.LayoutPositionColorNormal:
+                    return VertexPositionColorNormal.Layout;
                 default:
                     throw new ArgumentException("Invalid layout type");
             }
@@ -59,6 +65,10 @@ namespace StudioCore.Resource
                     return (uint)sizeof(FlverLayoutUV2);
                 case MeshLayoutType.LayoutUV4:
                     return (uint)sizeof(FlverLayoutUV2);
+                case MeshLayoutType.LayoutCollision:
+                    return (uint)sizeof(CollisionLayout);
+                case MeshLayoutType.LayoutPositionColorNormal:
+                    return (uint)sizeof(VertexPositionColorNormal);
                 default:
                     throw new ArgumentException("Invalid layout type");
             }
@@ -186,5 +196,53 @@ namespace StudioCore.Resource
         public Vector3 Position;
         public fixed sbyte Normal[4];
         public fixed byte Color[4];
+
+        public static VertexLayoutDescription Layout = new VertexLayoutDescription(
+             new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
+             new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
+             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+    }
+
+    //[StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct VertexPositionColorNormal
+    {
+        private struct _color
+        {
+            public byte r;
+            public byte g;
+            public byte b;
+            public byte a;
+        }
+
+        public Vector3 Position;
+        private _color _Color;
+        public Vector3 Normal;
+
+        public Color Color
+        {
+            set
+            {
+                _Color.r = value.R;
+                _Color.g = value.G;
+                _Color.b = value.B;
+                _Color.a = value.A;
+            }
+        }
+
+        public VertexPositionColorNormal(Vector3 position, Color color, Vector3 normal)
+        {
+            Position = position;
+            _Color = new _color();
+            _Color.r = color.R;
+            _Color.g = color.G;
+            _Color.b = color.B;
+            _Color.a = color.A;
+            Normal = normal;
+        }
+
+        public static VertexLayoutDescription Layout = new VertexLayoutDescription(
+            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
+            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
+            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3));
     }
 }

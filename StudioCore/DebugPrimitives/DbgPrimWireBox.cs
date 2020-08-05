@@ -21,16 +21,15 @@ namespace StudioCore.DebugPrimitives
             Vector3 center = ((LocalMax + LocalMin) / 2);
             Vector3 size = (LocalMax - LocalMin) / 2;
 
-            Transform = new Transform(Matrix4x4.CreateScale(size) 
-                * Matrix4x4.CreateTranslation(center) 
-                * newTransform.WorldMatrix);
+            //Transform = new Transform(Matrix4x4.CreateScale(size) 
+            //    * Matrix4x4.CreateTranslation(center) 
+            //    * newTransform.WorldMatrix);
         }
 
         private DbgPrimGeometryData GeometryData = null;
 
         public DbgPrimWireBox(Transform location, Vector3 localMin, Vector3 localMax, Color color)
         {
-            Transform = location;
             NameColor = color;
 
             LocalMin = localMin;
@@ -92,16 +91,16 @@ namespace StudioCore.DebugPrimitives
 
                 GeometryData = new DbgPrimGeometryData()
                 {
-                    GeomBuffer = GeomBuffer
+                    GeomBuffer = GeometryBuffer
                 };
             }
         }
 
-        public override bool RayCast(Ray ray, out float dist)
+        public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)
         {
             Vector3 scale;
             Matrix4x4 transformNoScale;
-            Utils.ExtractScale(Transform.WorldMatrix, out scale, out transformNoScale);
+            Utils.ExtractScale(transform, out scale, out transformNoScale);
             var invw = transformNoScale.Inverse();
             var newo = Vector3.Transform(ray.Origin, invw);
             var newd = Vector3.TransformNormal(ray.Direction, invw);

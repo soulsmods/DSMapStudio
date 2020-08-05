@@ -92,7 +92,7 @@ namespace StudioCore.DebugPrimitives
 
                     GeometryData = new DbgPrimGeometryData()
                     {
-                        GeomBuffer = GeomBuffer
+                        GeomBuffer = GeometryBuffer
                     };
                 }
 
@@ -125,7 +125,7 @@ namespace StudioCore.DebugPrimitives
 
                     GeometryData = new DbgPrimGeometryData()
                     {
-                        GeomBuffer = GeomBuffer
+                        GeomBuffer = GeometryBuffer
                     };
                 }
 
@@ -155,9 +155,9 @@ namespace StudioCore.DebugPrimitives
             mtHemisphereB *= Matrix4x4.CreateRotationX(Utils.PiOver2);
             mtHemisphereB *= Matrix4x4.CreateTranslation(new Vector3(0, 0, dist));
 
-            HemisphereA.Transform = new Transform(mtHemisphereA);
-            Midst.Transform = new Transform(mtMidst);
-            HemisphereB.Transform = new Transform(mtHemisphereB);
+            //HemisphereA.Transform = new Transform(mtHemisphereA);
+            //Midst.Transform = new Transform(mtMidst);
+            //HemisphereB.Transform = new Transform(mtHemisphereB);
 
             var forward = -Vector3.Normalize(b - a);
 
@@ -173,7 +173,7 @@ namespace StudioCore.DebugPrimitives
 
             //Matrix hitboxMatrix = Matrix.CreateFromQuaternion(Quaternion.CreateFromAxisAngle(Vector3.Normalize(b - a), 0)) * Matrix.CreateTranslation(a);
 
-            Transform = new Transform(hitboxMatrix);
+            //Transform = new Transform(hitboxMatrix);
         }
 
         public DbgPrimWireCapsule(Color color)
@@ -191,9 +191,9 @@ namespace StudioCore.DebugPrimitives
                 Category = DbgPrimCategory.DummyPolyHelper,
             };
 
-            Children.Add(HemisphereA);
-            Children.Add(Midst);
-            Children.Add(HemisphereB);
+            //Children.Add(HemisphereA);
+            //Children.Add(Midst);
+            //Children.Add(HemisphereB);
         }
     }
 }

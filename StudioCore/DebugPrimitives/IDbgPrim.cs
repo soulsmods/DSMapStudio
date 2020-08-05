@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioCore.Resource;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Drawing;
@@ -6,30 +7,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veldrid;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
     public interface IDbgPrim : IDisposable
     {
-        Transform Transform { get; set; }
         string Name { get; set; }
         Color NameColor { get; set; }
 
-        object ExtraData { get; set; }
-
         DbgPrimCategory Category { get; set; }
 
-        bool EnableDraw { get; set; }
-        bool EnableDbgLabelDraw { get; set; }
-        bool EnableNameDraw { get; set; }
+        /// <summary>
+        /// Underlying layout type of the mesh data
+        /// </summary>
+        public abstract MeshLayoutType LayoutType { get; }
 
-        List<IDbgPrim> Children { get; set; }
-        List<IDbgPrim> UnparentedChildren { get; set; }
+        public abstract VertexLayoutDescription LayoutDescription { get; }
 
-        void Draw(Scene.Renderer.IndirectDrawEncoder encoder, Scene.SceneRenderPipeline sp, IDbgPrim parent, Matrix4x4 world);
-        void LabelDraw(Matrix4x4 world);
+        public abstract BoundingBox Bounds { get; }
 
-        void LabelDraw_Billboard(Matrix4x4 world);
+        /// <summary>
+        /// Get handle to the GPU allocated geometry
+        /// </summary>
+        public abstract Scene.VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer { get; }
 
+        // Pipeline state
+        public abstract string ShaderName { get; }
+
+        public abstract SpecializationConstant[] SpecializationConstants { get; }
+
+        public abstract FaceCullMode CullMode { get; }
+
+        public abstract PolygonFillMode FillMode { get; }
+
+        public virtual FrontFace FrontFace { get => FrontFace.CounterClockwise; }
+
+        public abstract PrimitiveTopology Topology { get; }
+
+        // Mesh data
+        public virtual bool Is32Bit { get => false; }
+
+        public virtual int IndexOffset { get => 0; }
+
+        public abstract int IndexCount { get; }
+
+        public abstract uint VertexSize { get; }
     }
 }

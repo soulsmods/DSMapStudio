@@ -8,18 +8,32 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.Drawing;
 using StudioCore.Scene;
+using StudioCore.Resource;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
     public class DbgPrimWire : DbgPrim
     {
-        //public override IGFXShader<DbgPrimWireShader> Shader => GFX.DbgPrimWireShader;
-
-        //protected override PrimitiveType PrimType => PrimitiveType.LineList;
-
         public int LineCount => Indices.Length / 2;
 
-        //private static Pipeline 
+        public override MeshLayoutType LayoutType => MeshLayoutType.LayoutPositionColorNormal;
+
+        public override VertexLayoutDescription LayoutDescription => VertexPositionColorNormal.Layout;
+
+        public override BoundingBox Bounds => new BoundingBox();
+
+        public override string ShaderName => "DebugWire";
+
+        public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
+
+        public override FaceCullMode CullMode => FaceCullMode.None;
+
+        public override PolygonFillMode FillMode => PolygonFillMode.Wireframe;
+
+        public override PrimitiveTopology Topology => PrimitiveTopology.LineList;
+
+        public override uint VertexSize => MeshLayoutUtils.GetLayoutVertexSize(MeshLayoutType.LayoutPositionColorNormal);
 
         public void AddLine(Vector3 start, Vector3 end)
         {
@@ -78,31 +92,14 @@ namespace StudioCore.DebugPrimitives
             //VertBuffer?.Dispose();
         }
 
-        public override DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null)
-        {
-            var newPrim = new DbgPrimWire();
-            newPrim.Indices = Indices;
-            newPrim.GeomBuffer = GeomBuffer;
-            newPrim.Vertices = Vertices;
-            newPrim.NeedToRecreateGeomBuffer = NeedToRecreateGeomBuffer;
-
-            newPrim.Transform = newLocation;
-
-            newPrim.Name = newName;
-
-            newPrim.NameColor = newNameColor ?? NameColor;
-
-            return newPrim;
-        }
-
-        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
+        public void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
         {
             Draw(encoder, sp, null, new Matrix4x4());
         }
 
-        public override void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            var factory = gd.ResourceFactory;
+            /*var factory = gd.ResourceFactory;
             WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             WorldBuffer.FillBuffer(Transform.WorldMatrix);
 
@@ -152,7 +149,7 @@ namespace StudioCore.DebugPrimitives
                 gd.ResourceFactory,
                 StaticResourceCache.SceneParamLayoutDescription), mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.GlobalCubeTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);*/
         }
 
     }

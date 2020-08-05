@@ -23,10 +23,6 @@ namespace StudioCore.DebugPrimitives
 
             Category = DbgPrimCategory.HkxBone;
 
-            Transform = Transform.Default;
-            //NameColor = color;
-            //Name = name;
-
             if (GeometryData != null)
             {
                 SetBuffers(GeometryData.GeomBuffer);
@@ -90,7 +86,7 @@ namespace StudioCore.DebugPrimitives
 
                 GeometryData = new DbgPrimGeometryData()
                 {
-                    GeomBuffer = GeomBuffer
+                    GeomBuffer = GeometryBuffer
                 };
             }
         }

@@ -7,16 +7,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veldrid;
+using StudioCore.Resource;
+using Veldrid.Utilities;
 
 namespace StudioCore.DebugPrimitives
 {
     public class DbgPrimGizmo : DbgPrim
     {
-        //public override IGFXShader<DbgPrimSolidShader> Shader => GFX.DbgPrimSolidShader;
-
-        //protected override PrimitiveType PrimType => PrimitiveType.TriangleList;
-
         public int TriCount => Indices.Length / 3;
+
+        public override MeshLayoutType LayoutType => MeshLayoutType.LayoutPositionColorNormal;
+
+        public override VertexLayoutDescription LayoutDescription => VertexPositionColorNormal.Layout;
+
+        public override BoundingBox Bounds => new BoundingBox();
+
+        public override string ShaderName => "DebugWire";
+
+        public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
+
+        public override FaceCullMode CullMode => FaceCullMode.None;
+
+        public override PolygonFillMode FillMode => PolygonFillMode.Solid;
+
+        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+
+        public override uint VertexSize => MeshLayoutUtils.GetLayoutVertexSize(MeshLayoutType.LayoutPositionColorNormal);
 
         public void AddQuad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color color)
         {
@@ -66,21 +82,6 @@ namespace StudioCore.DebugPrimitives
             AddIndex((short)vertIndexC);
             AddIndex((short)vertIndexB);
             AddIndex((short)vertIndexA);
-
-            //if (NeedToRecreateVertBuffer)
-            //{
-            //    VertBuffer = new VertexBuffer(GFX.Device, 
-            //        typeof(VertexPositionColor), Vertices.Length, BufferUsage.WriteOnly);
-            //    VertBuffer.SetData(Vertices);
-            //    NeedToRecreateVertBuffer = false;
-            //} 
-
-            //if (NeedToRecreateIndexBuffer)
-            //{
-            //    IndexBuffer = new IndexBuffer(GFX.Device, IndexElementSize.ThirtyTwoBits, Indices.Length, BufferUsage.WriteOnly);
-            //    IndexBuffer.SetData(Indices);
-            //    NeedToRecreateIndexBuffer = false;
-            //}
         }
 
         protected override void DisposeBuffers()
@@ -88,11 +89,11 @@ namespace StudioCore.DebugPrimitives
             //VertBuffer?.Dispose();
         }
 
-        public override DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null)
+        /*public override DbgPrim Instantiate(string newName, Transform newLocation, Color? newNameColor = null)
         {
             var newPrim = new DbgPrimGizmo();
             newPrim.Indices = Indices;
-            newPrim.GeomBuffer = GeomBuffer;
+            newPrim.GeometryBuffer = GeometryBuffer;
             newPrim.Vertices = Vertices;
             newPrim.NeedToRecreateGeomBuffer = NeedToRecreateGeomBuffer;
 
@@ -103,16 +104,11 @@ namespace StudioCore.DebugPrimitives
             newPrim.NameColor = newNameColor ?? NameColor;
 
             return newPrim;
-        }
+        }*/
 
-        public override void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
+        public void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            Draw(encoder, sp, null, new Matrix4x4());
-        }
-
-        public override void CreateDeviceObjects(Veldrid.GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
-        {
-            var factory = gd.ResourceFactory;
+            /*var factory = gd.ResourceFactory;
             WorldBuffer = Renderer.UniformBufferAllocator.Allocate(128, 128);
             var identity = System.Numerics.Matrix4x4.Identity;
             WorldBuffer.FillBuffer(cl, ref identity);
@@ -163,7 +159,7 @@ namespace StudioCore.DebugPrimitives
                 gd.ResourceFactory,
                 StaticResourceCache.SceneParamLayoutDescription), mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.GlobalCubeTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+            RenderPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);*/
         }
     }
 }

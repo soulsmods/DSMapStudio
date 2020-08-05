@@ -14,7 +14,6 @@ namespace StudioCore.DebugPrimitives
         {
             Category = isHkx ? DbgPrimCategory.HkxBone : DbgPrimCategory.FlverBone;
 
-            Transform = location;
             NameColor = color;
             Name = name;
 

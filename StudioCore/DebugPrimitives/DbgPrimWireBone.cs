@@ -16,7 +16,6 @@ namespace StudioCore.DebugPrimitives
 
         public DbgPrimWireBone(string name, Transform location, Color color)
         {
-            Transform = location;
             NameColor = color;
             Name = name;
 
@@ -55,7 +54,7 @@ namespace StudioCore.DebugPrimitives
 
                 GeometryData = new DbgPrimGeometryData()
                 {
-                    GeomBuffer = GeomBuffer
+                    GeomBuffer = GeometryBuffer
                 };
             }
 

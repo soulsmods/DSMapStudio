@@ -55,12 +55,12 @@ namespace StudioCore.Scene
                     }
                     else
                     {
-                        DebugBoundingBox.EnableDraw = true;
+                        //DebugBoundingBox.EnableDraw = true;
                     }
                 }
                 else
                 {
-                    DebugBoundingBox.EnableDraw = false;
+                    //DebugBoundingBox.EnableDraw = false;
                 }
             }
             get
@@ -159,7 +159,7 @@ namespace StudioCore.Scene
             }
             if (DebugBoundingBox != null)
             {
-                DebugBoundingBox.Transform = new Transform(_WorldMatrix);
+                //DebugBoundingBox.Transform = new Transform(_WorldMatrix);
             }
         }
 
