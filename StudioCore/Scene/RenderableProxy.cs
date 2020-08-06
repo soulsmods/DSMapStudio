@@ -719,5 +719,42 @@ namespace StudioCore.Scene
 
             return new RenderKey((code << 41) | (index << 40) | ((ulong)(_renderablesSet.cDrawParameters[_renderable]._bufferIndex & 0xFF) << 32) + cameraDistanceInt);
         }
+
+        private static DbgPrimWireBox _regionBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 1.0f, 0.5f), Color.Blue);
+        private static DbgPrimWireCylinder _regionCylinder = new DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
+        private static DbgPrimWireSphere _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
+        private static DbgPrimWireSphere _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
+
+        public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
+            r.BaseColor = Color.Blue;
+            r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+
+        public static DebugPrimitiveRenderableProxy GetCylinderRegionProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionCylinder);
+            r.BaseColor = Color.Blue;
+            r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+
+        public static DebugPrimitiveRenderableProxy GetSphereRegionProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionSphere);
+            r.BaseColor = Color.Blue;
+            r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+
+        public static DebugPrimitiveRenderableProxy GetPointRegionProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionPoint);
+            r.BaseColor = Color.Yellow;
+            r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
     }
 }

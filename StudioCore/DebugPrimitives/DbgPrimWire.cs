@@ -21,7 +21,7 @@ namespace StudioCore.DebugPrimitives
 
         public override VertexLayoutDescription LayoutDescription => VertexPositionColorNormal.Layout;
 
-        public override BoundingBox Bounds => new BoundingBox();
+        public override BoundingBox Bounds => new BoundingBox(new Vector3(-1, -1, -1), new Vector3(1, 1, 1));
 
         public override string ShaderName => "DebugWire";
 

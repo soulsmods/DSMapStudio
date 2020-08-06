@@ -505,31 +505,31 @@ namespace StudioCore.MsbEditor
                 }
                 if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
                 {
-                    var mesh = Scene.Region.GetBoxRegion(_renderScene);
-                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                    //FIX:obj.RenderSceneMesh = mesh;
-                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                    var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
+                    mesh.World = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.SetSelectable(obj);
                 }
                 else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
                 {
-                    var mesh = Scene.Region.GetSphereRegion(_renderScene);
-                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                    //FIX:obj.RenderSceneMesh = mesh;
-                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                    var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
+                    mesh.World = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.SetSelectable(obj);
                 }
                 else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
                 {
-                    var mesh = Scene.Region.GetPointRegion(_renderScene);
-                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                    //FIX:obj.RenderSceneMesh = mesh;
-                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                    var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
+                    mesh.World = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.SetSelectable(obj);
                 }
                 else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
                 {
-                    var mesh = Scene.Region.GetCylinderRegion(_renderScene);
-                    mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                    //FIX:obj.RenderSceneMesh = mesh;
-                    mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                    var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
+                    mesh.World = obj.GetTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.SetSelectable(obj);
                 }
 
                 // Try to find the map offset

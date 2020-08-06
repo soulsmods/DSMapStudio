@@ -136,12 +136,6 @@ void UpdatePickingBuffer(ivec2 pos, uint64_t identity, float z)
 
 void main()
 {
-	if (c_picking)
-	{
-		ivec2 coord = ivec2(gl_FragCoord.xy - vec2(0.49, 0.49));
-		UpdatePickingBuffer(coord, uint64_t(fsin_entityid), gl_FragCoord.z);
-	}
-
     //fsout_color = vec4(1.0, 1.0, 1.0, 1.0);
 	vec3 lightdir = normalize(vec3(sceneparam.lightDirection));
 	vec3 viewVec = normalize(fsin_view);
@@ -162,6 +156,13 @@ void main()
 	if (diffuseColor.w < 0.5)
 	{
 		discard;
+	}
+
+	// Do picking after discard
+	if (c_picking)
+	{
+		ivec2 coord = ivec2(gl_FragCoord.xy - vec2(0.49, 0.49));
+		UpdatePickingBuffer(coord, uint64_t(fsin_entityid), gl_FragCoord.z);
 	}
 	
 #ifdef MATERIAL_BLEND

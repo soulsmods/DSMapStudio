@@ -93,6 +93,11 @@ namespace StudioCore.DebugPrimitives
                 {
                     GeomBuffer = GeometryBuffer
                 };
+
+                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    UpdatePerFrameResources(d, cl, null);
+                });
             }
         }
 

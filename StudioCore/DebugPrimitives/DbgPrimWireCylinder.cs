@@ -50,6 +50,11 @@ namespace StudioCore.DebugPrimitives
                 // Make pillar from top to bottom
                 AddLine(new Vector3(x, bottom, z), new Vector3(x, top, z), color);
             }
+
+            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+            {
+                UpdatePerFrameResources(d, cl, null);
+            });
         }
 
         public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)

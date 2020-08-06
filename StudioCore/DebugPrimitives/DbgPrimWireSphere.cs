@@ -88,6 +88,11 @@ namespace StudioCore.DebugPrimitives
                     VertBuffer = VertBuffer,
                     IndexBuffer = IndexBuffer,
                 };*/
+
+                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    UpdatePerFrameResources(d, cl, null);
+                });
             }
         }
 
