@@ -803,7 +803,7 @@ namespace StudioCore.MsbEditor
         public override void UpdateRenderModel()
         {
             // If the model field changed, then update the visible model
-            /*FIX:if (Type == MapEntityType.DS2Generator)
+            if (Type == MapEntityType.DS2Generator)
             {
 
             }
@@ -811,7 +811,6 @@ namespace StudioCore.MsbEditor
             {
                 if (RenderSceneMesh != null)
                 {
-                    RenderSceneMesh.AutoRegister = false;
                     RenderSceneMesh.UnregisterAndRelease();
                 }
                 RenderSceneMesh = Universe.GetDS2EventLocationDrawable(ContainingMap, this);
@@ -820,7 +819,6 @@ namespace StudioCore.MsbEditor
             {
                 if (RenderSceneMesh != null)
                 {
-                    RenderSceneMesh.AutoRegister = false;
                     RenderSceneMesh.UnregisterAndRelease();
                 }
                 RenderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
@@ -830,7 +828,6 @@ namespace StudioCore.MsbEditor
                 var model = GetPropertyValue<string>("ModelName");
                 if (model != null && model != CurrentModel)
                 {
-                    RenderSceneMesh.AutoRegister = false;
                     RenderSceneMesh.UnregisterAndRelease();
                     CurrentModel = model;
                     RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
@@ -839,7 +836,7 @@ namespace StudioCore.MsbEditor
                         OnSelected();
                     }
                 }
-            }*/
+            }
 
             if (!HasTransform)
             {

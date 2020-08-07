@@ -175,7 +175,7 @@ namespace StudioCore.MsbEditor
                     newobj.UpdateRenderModel();
                     if (newobj.RenderSceneMesh != null)
                     {
-                        //FIX:newobj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(newobj);
+                        newobj.RenderSceneMesh.SetSelectable(newobj);
                     }
                     if (clonesCached)
                     {
@@ -206,8 +206,8 @@ namespace StudioCore.MsbEditor
                 }
                 if (Clones[i].RenderSceneMesh != null)
                 {
-                    //FIX:Clones[i].RenderSceneMesh.AutoRegister = false;
-                    //Clones[i].RenderSceneMesh.UnregisterWithScene();
+                    Clones[i].RenderSceneMesh.AutoRegister = false;
+                    Clones[i].RenderSceneMesh.UnregisterWithScene();
                 }
             }
             //Clones.Clear();
@@ -347,8 +347,8 @@ namespace StudioCore.MsbEditor
                     m.Objects.RemoveAt(RemoveIndices.Last());
                     if (obj.RenderSceneMesh != null)
                     {
-                        //FIX:obj.RenderSceneMesh.AutoRegister = false;
-                        //obj.RenderSceneMesh.UnregisterWithScene();
+                        obj.RenderSceneMesh.AutoRegister = false;
+                        obj.RenderSceneMesh.UnregisterWithScene();
                     }
                     RemoveParent.Add((MapEntity)obj.Parent);
                     if (obj.Parent != null)
@@ -386,8 +386,8 @@ namespace StudioCore.MsbEditor
                 RemoveMaps[i].Objects.Insert(RemoveIndices[i], Deletables[i]);
                 if (Deletables[i].RenderSceneMesh != null)
                 {
-                    //FIX:Deletables[i].RenderSceneMesh.AutoRegister = true;
-                    //Deletables[i].RenderSceneMesh.RegisterWithScene(Scene);
+                    Deletables[i].RenderSceneMesh.AutoRegister = true;
+                    Deletables[i].RenderSceneMesh.Register();
                 }
                 if (RemoveParent[i] != null)
                 {

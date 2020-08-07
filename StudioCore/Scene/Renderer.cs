@@ -272,7 +272,7 @@ namespace StudioCore.Scene
             /// <summary>
             /// Called when the object is scheduled to destroy renderables under its control
             /// </summary>
-            public void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+            public void DestroyRenderables();
         }
 
         public class RenderQueue

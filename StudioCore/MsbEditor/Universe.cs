@@ -43,45 +43,45 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
-        public Scene.IDrawable GetRegionDrawable(Map map, Entity obj)
+        public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
             if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
             {
-                var mesh = Scene.Region.GetBoxRegion(_renderScene);
-                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
+                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.SetSelectable(obj);
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
             {
-                var mesh = Scene.Region.GetSphereRegion(_renderScene);
-                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
+                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.SetSelectable(obj);
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
             {
-                var mesh = Scene.Region.GetPointRegion(_renderScene);
-                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
+                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.SetSelectable(obj);
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
             {
-                var mesh = Scene.Region.GetCylinderRegion(_renderScene);
-                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
+                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.SetSelectable(obj);
                 return mesh;
             }
             return null;
         }
 
-        public Scene.IDrawable GetDS2EventLocationDrawable(Map map, Entity obj)
+        public RenderableProxy GetDS2EventLocationDrawable(Map map, Entity obj)
         {
-            var mesh = Scene.Region.GetBoxRegion(_renderScene);
-            mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-            //FIX:obj.RenderSceneMesh = mesh;
-            mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+            var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
+            mesh.World = obj.GetTransform().WorldMatrix;
+            obj.RenderSceneMesh = mesh;
+            mesh.SetSelectable(obj);
             return mesh;
         }
 
@@ -91,7 +91,7 @@ namespace StudioCore.MsbEditor
         /// </summary>
         /// <param name="modelname"></param>
         /// <returns></returns>
-        public Scene.IDrawable GetModelDrawable(Map map, Entity obj, string modelname)
+        public RenderableProxy GetModelDrawable(Map map, Entity obj, string modelname)
         {
             AssetDescription asset;
             bool loadcol = false;
@@ -133,10 +133,10 @@ namespace StudioCore.MsbEditor
             if (loadcol)
             {
                 var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                var mesh = new Scene.CollisionMesh(_renderScene, res, _assetLocator.Type == GameType.DarkSoulsIISOTFS);
-                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                //FIX:obj.RenderSceneMesh = mesh;
-                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
+                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.SetSelectable(obj);
+                obj.RenderSceneMesh = mesh;
                 if (!res.IsLoaded)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
@@ -170,7 +170,8 @@ namespace StudioCore.MsbEditor
                     }
                     job.StartJobAsync();
                 }
-                return mesh;
+                //return mesh;
+                return null;
             }
             else if (loadnav && _assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -179,11 +180,11 @@ namespace StudioCore.MsbEditor
             else
             {
                 var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                var model = new NewMesh(_renderScene, res);
-                model.DrawFilter = filt;
-                model.WorldMatrix = obj.GetTransform().WorldMatrix;
-                //FIX:obj.RenderSceneMesh = model;
-                model.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
+                //model.DrawFilter = filt;
+                model.World = obj.GetTransform().WorldMatrix;
+                obj.RenderSceneMesh = model;
+                model.SetSelectable(obj);
                 if (!res.IsLoaded)
                 {
                     if (asset.AssetArchiveVirtualPath != null)

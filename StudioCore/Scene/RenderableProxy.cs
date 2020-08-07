@@ -18,10 +18,12 @@ namespace StudioCore.Scene
     /// heirarchy and the actual underlying renderable representation. Used to handle
     /// things like renderable construction, selection, hiding/showing, etc
     /// </summary>
-    public abstract class RenderableProxy : Renderer.IRendererUpdatable
+    public abstract class RenderableProxy : Renderer.IRendererUpdatable, IDisposable
     {
+        private bool disposedValue;
+
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
-        public abstract void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
+        public abstract void DestroyRenderables();
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
 
         public abstract void SetSelectable(ISelectable sel);
@@ -31,6 +33,11 @@ namespace StudioCore.Scene
         public abstract Matrix4x4 World { get; set; }
 
         public abstract bool Visible { get; set; }
+
+        protected bool _autoregister = true;
+        public virtual bool AutoRegister { get => _autoregister; set => _autoregister = value; }
+
+        protected bool _registered = false;
 
         protected void ScheduleRenderableConstruction()
         {
@@ -46,6 +53,68 @@ namespace StudioCore.Scene
             {
                 UpdateRenderables(gd, cl, null);
             });
+        }
+
+        public virtual void Register()
+        {
+            if (_registered)
+            {
+                return;
+            }
+            _registered = true;
+            ScheduleRenderableConstruction();
+        }
+
+        public virtual void UnregisterWithScene()
+        {
+            if (_registered)
+            {
+                _registered = false;
+                DestroyRenderables();
+            }
+        }
+
+        public virtual void UnregisterAndRelease()
+        {
+            if (_registered)
+            {
+                UnregisterWithScene();
+            }
+            /*if (Resource != null)
+            {
+                Resource.Release();
+            }
+            Resource = null;
+            Created = false;
+            Submeshes = null;*/
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                }
+
+                UnregisterAndRelease();
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        ~RenderableProxy()
+        {
+             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+             Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 
@@ -72,6 +141,18 @@ namespace StudioCore.Scene
         private Matrix4x4 _world = Matrix4x4.Identity;
 
         private WeakReference<ISelectable> _selectable = null;
+
+        public override bool AutoRegister 
+        { 
+            get => _autoregister; set
+            {
+                _autoregister = value;
+                foreach (var c in _submeshes)
+                {
+                    c.AutoRegister = value;
+                }
+            }
+        }
 
         public override Matrix4x4 World
         {
@@ -119,7 +200,10 @@ namespace StudioCore.Scene
             set
             {
                 _renderOutline = value;
-                ScheduleRenderableConstruction();
+                if (_registered)
+                {
+                    ScheduleRenderableConstruction();
+                }
                 foreach (var child in _submeshes)
                 {
                     child.RenderSelectionOutline = value;
@@ -127,16 +211,74 @@ namespace StudioCore.Scene
             }
         }
 
-        public MeshRenderableProxy(MeshRenderables renderables, MeshProvider provider)
+        public MeshRenderableProxy(MeshRenderables renderables, MeshProvider provider, bool autoregister=true)
         {
+            AutoRegister = autoregister;
             _renderablesSet = renderables;
             _meshProvider = provider;
             _meshProvider.AddEventListener(this);
+            if (autoregister)
+            {
+                _registered = true;
+                ScheduleRenderableConstruction();
+            }
+        }
+
+        public override void Register()
+        {
+            if (_registered)
+            {
+                return;
+            }
+            foreach (var c in _submeshes)
+            {
+                c.Register();
+            }
+            _registered = true;
             ScheduleRenderableConstruction();
+        }
+
+        public override void UnregisterWithScene()
+        {
+            if (_registered)
+            {
+                _registered = false;
+                DestroyRenderables();
+            }
+            foreach (var c in _submeshes)
+            {
+                c.UnregisterWithScene();
+            }
+        }
+
+        public override void UnregisterAndRelease()
+        {
+            if (_registered)
+            {
+                UnregisterWithScene();
+            }
+            foreach (var c in _submeshes)
+            {
+                c.UnregisterAndRelease();
+            }
+            /*if (Resource != null)
+            {
+                Resource.Release();
+            }
+            Resource = null;
+            Created = false;
+            Submeshes = null;*/
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
+            foreach (var c in _submeshes)
+            {
+                if (c._registered)
+                {
+                    c.ScheduleRenderableConstruction();
+                }
+            }
             if (_renderable != -1)
             {
                 _renderablesSet.RemoveRenderable(_renderable);
@@ -329,9 +471,22 @@ namespace StudioCore.Scene
             }
         }
 
-        public override void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void DestroyRenderables()
         {
-            //throw new NotImplementedException();
+            if (_renderable != -1)
+            {
+                _renderablesSet.RemoveRenderable(_renderable);
+                _renderable = -1;
+            }
+            if (_selectionOutlineRenderable != -1)
+            {
+                _renderablesSet.RemoveRenderable(_selectionOutlineRenderable);
+                _selectionOutlineRenderable = -1;
+            }
+            foreach (var c in _submeshes)
+            {
+                c.DestroyRenderables();
+            }
         }
 
         public override void SetSelectable(ISelectable sel)
@@ -353,7 +508,7 @@ namespace StudioCore.Scene
             {
                 for (int i = 0; i < _meshProvider.ChildCount; i++)
                 {
-                    var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i));
+                    var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i), AutoRegister);
                     child.World = _world;
                     _submeshes.Add(child);
                     ISelectable sel = null;
@@ -374,6 +529,10 @@ namespace StudioCore.Scene
         {
             if (_meshProvider.IsAtomic())
             {
+                foreach (var c in _submeshes)
+                {
+                    c.UnregisterAndRelease();
+                }
                 _submeshes.Clear();
             }
         }
@@ -512,8 +671,12 @@ namespace StudioCore.Scene
             get => _renderOutline;
             set
             {
+                bool old = _renderOutline;
                 _renderOutline = value;
-                ScheduleRenderableUpdate();
+                if (_registered && old != _renderOutline)
+                {
+                    ScheduleRenderableUpdate();
+                }
             }
         }
 
@@ -523,8 +686,12 @@ namespace StudioCore.Scene
             get => _overdraw;
             set
             {
+                bool old = _overdraw;
                 _overdraw = true;
-                ScheduleRenderableConstruction();
+                if (_registered && _overdraw != old)
+                {
+                    ScheduleRenderableConstruction();
+                }
             }
         }
 
@@ -533,6 +700,8 @@ namespace StudioCore.Scene
             _renderablesSet = renderables;
             _debugPrimitive = prim;
             ScheduleRenderableConstruction();
+            AutoRegister = true;
+            _registered = true;
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -690,9 +859,13 @@ namespace StudioCore.Scene
             }
         }
 
-        public override void DestroyRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        public override void DestroyRenderables()
         {
-            
+            if (_renderable != -1)
+            {
+                _renderablesSet.RemoveRenderable(_renderable);
+                _renderable = -1;
+            }
         }
 
         public override void SetSelectable(ISelectable sel)
