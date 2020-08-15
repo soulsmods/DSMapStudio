@@ -179,7 +179,16 @@ namespace StudioCore.Scene
                 return null;
             }
 
-            var sel = Scene.OpaqueRenderables.cSelectables[_pickingEntity];
+            uint renderableSystemIndex = (uint)_pickingEntity >> 30;
+            WeakReference<ISelectable> sel;
+            if (renderableSystemIndex == 0)
+            {
+                sel = Scene.OpaqueRenderables.cSelectables[_pickingEntity & 0x3FFFFFFF];
+            }
+            else
+            {
+                sel = Scene.OverlayRenderables.cSelectables[_pickingEntity & 0x3FFFFFFF];
+            }
             ISelectable selected;
             if (sel != null && sel.TryGetTarget(out selected))
             {

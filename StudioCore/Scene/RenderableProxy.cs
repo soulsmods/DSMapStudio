@@ -34,10 +34,15 @@ namespace StudioCore.Scene
 
         public abstract bool Visible { get; set; }
 
+        public abstract RenderFilter DrawFilter { get; set; }
+        public abstract DrawGroup DrawGroups { get; set; }
+
         protected bool _autoregister = true;
         public virtual bool AutoRegister { get => _autoregister; set => _autoregister = value; }
 
         protected bool _registered = false;
+
+        public abstract BoundingBox GetBounds();
 
         protected void ScheduleRenderableConstruction()
         {
@@ -103,6 +108,11 @@ namespace StudioCore.Scene
             }
         }
 
+        protected uint GetPackedEntityID(int system, int index)
+        {
+            return (((uint)system) << 30) | ((uint)index) & 0x3FFFFFFF;
+        }
+
         // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~RenderableProxy()
         {
@@ -127,6 +137,8 @@ namespace StudioCore.Scene
         private MeshRenderables _renderablesSet;
 
         private List<MeshRenderableProxy> _submeshes = new List<MeshRenderableProxy>();
+
+        public IReadOnlyList<MeshRenderableProxy> Submeshes { get => _submeshes; }
 
         private int _renderable = -1;
         private int _selectionOutlineRenderable = -1;
@@ -192,6 +204,48 @@ namespace StudioCore.Scene
             }
         }
 
+        private RenderFilter _drawfilter = RenderFilter.All;
+        public override RenderFilter DrawFilter
+        {
+            get
+            {
+                return _drawfilter;
+            }
+            set
+            {
+                _drawfilter = value;
+                if (_renderable != -1)
+                {
+                    _renderablesSet.cSceneVis[_renderable]._renderFilter = value;
+                }
+                foreach (var sm in _submeshes)
+                {
+                    sm.DrawFilter = _drawfilter;
+                }
+            }
+        }
+
+        private DrawGroup _drawgroups = new DrawGroup();
+        public override DrawGroup DrawGroups
+        {
+            get
+            {
+                return _drawgroups;
+            }
+            set
+            {
+                _drawgroups = value;
+                if (_renderable != -1)
+                {
+                    _renderablesSet.cSceneVis[_renderable]._drawGroup = value;
+                }
+                foreach (var sm in _submeshes)
+                {
+                    sm.DrawGroups = _drawgroups;
+                }
+            }
+        }
+
         private bool _renderOutline = false;
 
         public override bool RenderSelectionOutline 
@@ -211,6 +265,21 @@ namespace StudioCore.Scene
             }
         }
 
+        public override BoundingBox GetBounds()
+        {
+            if (_meshProvider.IsAvailable() && _meshProvider.HasMeshData() && _meshProvider.TryLock())
+            {
+                _meshProvider.Unlock();
+                return BoundingBox.Transform(_meshProvider.Bounds, _world);
+            }
+            BoundingBox b = new BoundingBox();
+            foreach (var c in _submeshes)
+            {
+                b = BoundingBox.Combine(b, c.GetBounds());
+            }
+            return b;
+        }
+
         public MeshRenderableProxy(MeshRenderables renderables, MeshProvider provider, bool autoregister=true)
         {
             AutoRegister = autoregister;
@@ -222,6 +291,11 @@ namespace StudioCore.Scene
                 _registered = true;
                 ScheduleRenderableConstruction();
             }
+        }
+
+        public MeshRenderableProxy(MeshRenderableProxy clone) : this(clone._renderablesSet, clone._meshProvider)
+        {
+            clone.DrawFilter = _drawfilter;
         }
 
         public override void Register()
@@ -400,7 +474,7 @@ namespace StudioCore.Scene
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
-                dat.EntityID = (uint)_renderable;
+                dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
                 _worldBuffer.FillBuffer(cl, ref dat);
 
                 // Selectable
@@ -408,6 +482,8 @@ namespace StudioCore.Scene
 
                 // Visible
                 _renderablesSet.cVisible[_renderable]._visible = _visible;
+                _renderablesSet.cSceneVis[_renderable]._renderFilter = _drawfilter;
+                _renderablesSet.cSceneVis[_renderable]._drawGroup = _drawgroups;
 
                 // Build mesh for selection outline
                 if (_renderOutline)
@@ -453,7 +529,7 @@ namespace StudioCore.Scene
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
-                dat.EntityID = (uint)_renderable;
+                dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
                 if (_worldBuffer == null)
                 {
                     _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
@@ -510,6 +586,9 @@ namespace StudioCore.Scene
                 {
                     var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i), AutoRegister);
                     child.World = _world;
+                    child.Visible = _visible;
+                    child.DrawFilter = _drawfilter;
+                    child.DrawGroups = _drawgroups;
                     _submeshes.Add(child);
                     ISelectable sel = null;
                     if (_selectable != null)
@@ -664,6 +743,40 @@ namespace StudioCore.Scene
             }
         }
 
+        private RenderFilter _drawfilter = RenderFilter.All;
+        public override RenderFilter DrawFilter
+        {
+            get
+            {
+                return _drawfilter;
+            }
+            set
+            {
+                _drawfilter = value;
+                if (_renderable != -1)
+                {
+                    _renderablesSet.cSceneVis[_renderable]._renderFilter = value;
+                }
+            }
+        }
+
+        private DrawGroup _drawgroups = new DrawGroup();
+        public override DrawGroup DrawGroups
+        {
+            get
+            {
+                return _drawgroups;
+            }
+            set
+            {
+                _drawgroups = value;
+                if (_renderable != -1)
+                {
+                    _renderablesSet.cSceneVis[_renderable]._drawGroup = value;
+                }
+            }
+        }
+
         private bool _renderOutline = false;
 
         public override bool RenderSelectionOutline
@@ -695,6 +808,11 @@ namespace StudioCore.Scene
             }
         }
 
+        public override BoundingBox GetBounds()
+        {
+            return BoundingBox.Transform(_debugPrimitive.Bounds, _world);
+        }
+
         public DebugPrimitiveRenderableProxy(MeshRenderables renderables, IDbgPrim prim)
         {
             _renderablesSet = renderables;
@@ -702,6 +820,11 @@ namespace StudioCore.Scene
             ScheduleRenderableConstruction();
             AutoRegister = true;
             _registered = true;
+        }
+
+        public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
+        {
+            clone.DrawFilter = _drawfilter;
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -817,7 +940,7 @@ namespace StudioCore.Scene
             InstanceData dat = new InstanceData();
             dat.WorldMatrix = _world;
             dat.MaterialID = _materialBuffer.AllocationStart / (uint)sizeof(DbgMaterial);
-            dat.EntityID = (uint)_renderable;
+            dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
             _worldBuffer.FillBuffer(cl, ref dat);
 
             // Update material data
@@ -830,6 +953,8 @@ namespace StudioCore.Scene
 
             // Visible
             _renderablesSet.cVisible[_renderable]._visible = _visible;
+            _renderablesSet.cSceneVis[_renderable]._renderFilter = _drawfilter;
+            _renderablesSet.cSceneVis[_renderable]._drawGroup = _drawgroups;
         }
 
         public unsafe override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -842,7 +967,7 @@ namespace StudioCore.Scene
             InstanceData dat = new InstanceData();
             dat.WorldMatrix = _world;
             dat.MaterialID = _materialBuffer.AllocationStart / (uint)sizeof(DbgMaterial);
-            dat.EntityID = (uint)_renderable;
+            dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
             if (_worldBuffer == null)
             {
                 _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
@@ -897,6 +1022,7 @@ namespace StudioCore.Scene
         private static DbgPrimWireCylinder _regionCylinder = new DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
         private static DbgPrimWireSphere _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
         private static DbgPrimWireSphere _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
+        private static DbgPrimWireSphere _dmyPoint = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Yellow, 1, 4);
 
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
@@ -925,6 +1051,14 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetPointRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionPoint);
+            r.BaseColor = Color.Yellow;
+            r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+
+        public static DebugPrimitiveRenderableProxy GetDummyPolyRegionProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OverlayRenderables, _dmyPoint);
             r.BaseColor = Color.Yellow;
             r.HighlightedColor = Color.DarkViolet;
             return r;

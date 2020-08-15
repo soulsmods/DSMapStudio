@@ -9,7 +9,7 @@ namespace SoulsFormats
         {
             public string Name;
 
-            public Vector3 Translation;
+            public Vector3 Position;
 
             public Vector3 Rotation;
 
@@ -29,7 +29,7 @@ namespace SoulsFormats
 
             internal Bone(BinaryReaderEx br, FLVER0 flv)
             {
-                Translation = br.ReadVector3();
+                Position = br.ReadVector3();
                 int nameOffset = br.ReadInt32();
                 Rotation = br.ReadVector3();
                 ParentIndex = br.ReadInt16();

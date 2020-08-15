@@ -45,6 +45,7 @@ namespace SoulsFormats
             /// <summary>
             /// Vertices in this mesh.
             /// </summary>
+            [HideProperty]
             public FLVER.Vertex[] Vertices { get; set; }
             IReadOnlyList<FLVER.Vertex> IFlverMesh.Vertices => Vertices;
 
@@ -53,6 +54,7 @@ namespace SoulsFormats
             /// <summary>
             /// Optional bounding box struct; may be null.
             /// </summary>
+            [HideProperty]
             public BoundingBoxes BoundingBox { get; set; }
 
             private int[] faceSetIndices, vertexBufferIndices;

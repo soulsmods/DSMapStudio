@@ -63,11 +63,13 @@ namespace SoulsFormats
             /// </summary>
             public byte Unk07 { get; set; }
 
+            [HideProperty]
             public int IndicesCount { get; set; }
 
             /// <summary>
             /// Indices to vertices in a mesh.
             /// </summary>
+            [HideProperty]
             public int[] Indices { get; set; }
 
             /// <summary>

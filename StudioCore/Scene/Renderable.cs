@@ -28,6 +28,12 @@ namespace StudioCore.Scene
         public int _bufferIndex;
     }
 
+    public struct SceneVisibilityComponent
+    {
+        public RenderFilter _renderFilter;
+        public DrawGroup _drawGroup;
+    }
+
     /// <summary>
     /// Data oriented structure that contains renderables. This is basically a structure
     /// of arrays intended of containing all the renderables for a certain mesh. Management
@@ -35,14 +41,17 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 26000;
+        protected const int SYSTEM_SIZE = 37000;
 
         private int _topIndex = 0;
+
+        public int RenderableSystemIndex { get; protected set; }
 
         /// <summary>
         /// Component for if the renderable is visible or active
         /// </summary>
         public VisibleValidComponent[] cVisible = new VisibleValidComponent[SYSTEM_SIZE];
+        public SceneVisibilityComponent[] cSceneVis = new SceneVisibilityComponent[SYSTEM_SIZE];
         public RenderKey[] cRenderKeys = new RenderKey[SYSTEM_SIZE];
 
         protected int GetNextInvalidIndex()
@@ -63,6 +72,8 @@ namespace StudioCore.Scene
             cVisible[next]._valid = true;
             cVisible[next]._visible = true;
             cRenderKeys[next] = new RenderKey(0);
+            cSceneVis[next]._renderFilter = RenderFilter.All;
+            cSceneVis[next]._drawGroup = new DrawGroup();
             return next;
         }
 
@@ -84,6 +95,11 @@ namespace StudioCore.Scene
 
         public Pipeline[] cSelectionPipelines = new Pipeline[SYSTEM_SIZE];
         public WeakReference<ISelectable>[] cSelectables = new WeakReference<ISelectable>[SYSTEM_SIZE];
+
+        public MeshRenderables(int id)
+        {
+            RenderableSystemIndex = id;
+        }
 
         public int CreateMesh(ref BoundingBox bounds, ref MeshDrawParametersComponent drawArgs)
         {
@@ -107,6 +123,29 @@ namespace StudioCore.Scene
                     cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
                 }
                 else
+                {
+                    cCulled[i] = true;
+                }
+            }
+        }
+
+        public void ProcessSceneVisibility(RenderFilter filter, DrawGroup dispGroup)
+        {
+            bool alwaysVis = dispGroup != null ? dispGroup.AlwaysVisible : true;
+            for (int i = 0; i < SYSTEM_SIZE; i++)
+            {
+                if (cCulled[i])
+                {
+                    continue;
+                }
+
+                if ((cSceneVis[i]._renderFilter & filter) == 0)
+                {
+                    cCulled[i] = true;
+                    continue;
+                }
+
+                if (!alwaysVis && cSceneVis[i]._drawGroup != null && !cSceneVis[i]._drawGroup.IsInDisplayGroup(dispGroup))
                 {
                     cCulled[i] = true;
                 }

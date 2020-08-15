@@ -31,7 +31,7 @@ namespace StudioCore.MsbEditor
 
         private ResourceHandle<FlverResource> _flverhandle = null;
         private string _currentModel = null;
-        private IDrawable _renderMesh = null;
+        private MeshRenderableProxy _renderMesh = null;
 
         private Task _loadingTask = null;
 
@@ -83,7 +83,7 @@ namespace StudioCore.MsbEditor
                         var r = _flverhandle.Get();
                         if (r.Flver != null)
                         {
-                            _universe.LoadFlver(r.Flver, _currentModel);
+                            _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
                         }
                         _flverhandle.Unlock();
                     }
@@ -135,9 +135,9 @@ namespace StudioCore.MsbEditor
             {
                 //RenderScene.RemoveObject(_renderMesh);
             }
-            _renderMesh = new NewMesh(RenderScene, res);
-            _renderMesh.DrawFilter = filt;
-            _renderMesh.WorldMatrix = Matrix4x4.Identity;
+            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(RenderScene, res);
+            //_renderMesh.DrawFilter = filt;
+            _renderMesh.World = Matrix4x4.Identity;
             _flverhandle = res;
             _currentModel = modelid;
             if (!res.IsLoaded || res.AccessLevel != AccessLevel.AccessFull)
@@ -221,7 +221,7 @@ namespace StudioCore.MsbEditor
                 // F key frames the selection
                 if (InputTracker.GetKeyDown(Key.F))
                 {
-                    /*FIX:var selected = _selection.GetFilteredSelection<Entity>();
+                    var selected = _selection.GetFilteredSelection<Entity>();
                     bool first = false;
                     BoundingBox box = new BoundingBox();
                     foreach (var s in selected)
@@ -242,7 +242,7 @@ namespace StudioCore.MsbEditor
                     if (first)
                     {
                         Viewport.FrameBox(box);
-                    }*/
+                    }
                 }
 
                 // Render settings

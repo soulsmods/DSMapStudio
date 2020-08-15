@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
 using SoulsFormats;
+using StudioCore.Scene;
 
 namespace StudioCore.MsbEditor
 {
@@ -83,7 +84,7 @@ namespace StudioCore.MsbEditor
             return value;
         }
 
-        public void LoadFlver(FLVER2 flver)
+        public void LoadFlver(FLVER2 flver, MeshRenderableProxy proxy)
         {
             var meshesNode = new NamedEntity(this, null, "Meshes");
             Objects.Add(meshesNode);
@@ -91,6 +92,11 @@ namespace StudioCore.MsbEditor
             for (int i = 0; i < flver.Meshes.Count; i++)
             {
                 var meshnode = new NamedEntity(this, flver.Meshes[i], $@"mesh_{i}");
+                if (proxy.Submeshes.Count > 0)
+                {
+                    meshnode.RenderSceneMesh = proxy.Submeshes[i];
+                    proxy.Submeshes[i].SetSelectable(meshnode);
+                }
                 Objects.Add(meshnode);
                 meshesNode.AddChild(meshnode);
             }
@@ -135,6 +141,18 @@ namespace StudioCore.MsbEditor
                 {
                     boneEntList[flver.Bones[i].ParentIndex].AddChild(boneEntList[i]);
                 }
+            }
+
+            // Add dummy polys attached to bones
+            var dmysNode = new NamedEntity(this, null, "DummyPolys");
+            Objects.Add(dmysNode);
+            RootObject.AddChild(dmysNode);
+            for (int i = 0; i < flver.BufferLayouts.Count; i++)
+            {
+                var dmynode = new TransformableNamedEntity(this, flver.Dummies[i], $@"dmy_{i}");
+                dmynode.RenderSceneMesh = Universe.GetDummyPolyDrawable(this, dmynode);
+                Objects.Add(dmynode);
+                dmysNode.AddChild(dmynode);
             }
         }
     }

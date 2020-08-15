@@ -526,6 +526,11 @@ namespace StudioCore.MsbEditor
                         continue;
                     }
 
+                    if (prop.GetCustomAttribute<HideProperty>() != null)
+                    {
+                        continue;
+                    }
+
                     ImGui.PushID(id);
                     ImGui.AlignTextToFramePadding();
                     //ImGui.AlignTextToFramePadding();

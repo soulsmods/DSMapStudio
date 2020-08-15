@@ -37,11 +37,12 @@ namespace SoulsFormats
             /// <summary>
             /// Translation of this bone.
             /// </summary>
-            public Vector3 Translation { get; set; }
+            public Vector3 Position { get; set; }
 
             /// <summary>
             /// Rotation of this bone; euler radians.
             /// </summary>
+            [RotationRadians]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
@@ -79,7 +80,7 @@ namespace SoulsFormats
 
             internal Bone(BinaryReaderEx br, FLVERHeader header)
             {
-                Translation = br.ReadVector3();
+                Position = br.ReadVector3();
                 int nameOffset = br.ReadInt32();
                 Rotation = br.ReadVector3();
                 ParentIndex = br.ReadInt16();
@@ -100,7 +101,7 @@ namespace SoulsFormats
 
             internal void Write(BinaryWriterEx bw, int index)
             {
-                bw.WriteVector3(Translation);
+                bw.WriteVector3(Position);
                 bw.ReserveInt32($"BoneName{index}");
                 bw.WriteVector3(Rotation);
                 bw.WriteInt16(ParentIndex);

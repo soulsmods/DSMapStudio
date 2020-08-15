@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Numerics;
 using System.Xml.Serialization;
 using SoulsFormats;
+using StudioCore.Scene;
 
 namespace StudioCore.MsbEditor
 {
@@ -144,7 +145,7 @@ namespace StudioCore.MsbEditor
                 _EditorVisible = value;
                 if (RenderSceneMesh != null)
                 {
-                    //FIX:RenderSceneMesh.IsVisible = _EditorVisible;
+                    RenderSceneMesh.Visible = _EditorVisible;
                 }
             }
         }
@@ -167,7 +168,7 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                //FIX:RenderSceneMesh.UnregisterAndRelease();
+                RenderSceneMesh.UnregisterAndRelease();
                 RenderSceneMesh = null;
             }
         }
@@ -223,27 +224,16 @@ namespace StudioCore.MsbEditor
         {
             if (RenderSceneMesh != null)
             {
-                //FIX
-                /*if (RenderSceneMesh is NewMesh m)
+                if (RenderSceneMesh is MeshRenderableProxy m)
                 {
-                    obj.RenderSceneMesh = new NewMesh(m);
-                    obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                    obj.RenderSceneMesh = new MeshRenderableProxy(m);
+                    obj.RenderSceneMesh.SetSelectable(this);
                 }
-                else if (RenderSceneMesh is Scene.CollisionMesh c)
+                else if (RenderSceneMesh is DebugPrimitiveRenderableProxy c)
                 {
-                    obj.RenderSceneMesh = new Scene.CollisionMesh(c);
-                    obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
+                    obj.RenderSceneMesh = new DebugPrimitiveRenderableProxy(c);
+                    obj.RenderSceneMesh.SetSelectable(this);
                 }
-                else if (RenderSceneMesh is Scene.NvmMesh n)
-                {
-                    obj.RenderSceneMesh = new Scene.NvmMesh(n);
-                    obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
-                }
-                else if (RenderSceneMesh is Scene.Region r)
-                {
-                    //obj.RenderSceneMesh = new Scene.Region(r);
-                    //obj.RenderSceneMesh.Selectable = new WeakReference<Scene.ISelectable>(this);
-                }*/
             }
         }
 
@@ -346,6 +336,19 @@ namespace StudioCore.MsbEditor
                 return p.GetValue(WrappedObject, null);
             }
             return null;
+        }
+
+        public bool IsRotationPropertyRadians(string prop)
+        {
+            if (WrappedObject == null)
+            {
+                return false;
+            }
+            if (WrappedObject is PARAM.Row row || WrappedObject is MergedParamRow mrow)
+            {
+                return false;
+            }
+            return WrappedObject.GetType().GetProperty(prop).GetCustomAttribute<RotationRadians>() != null;
         }
 
         public T GetPropertyValue<T>(string prop)
@@ -543,7 +546,14 @@ namespace StudioCore.MsbEditor
             if (rot != null)
             {
                 var r = (Vector3)rot;
-                t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                if (IsRotationPropertyRadians("Rotation"))
+                {
+                    t.EulerRotation = new Vector3(r.X, r.Y, r.Z);
+                }
+                else
+                {
+                    t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                }
             }
             else
             {
@@ -616,7 +626,10 @@ namespace StudioCore.MsbEditor
                 var prop = WrappedObject.GetType().GetProperty("Position");
                 act.AddPropertyChange(prop, newt.Position);
                 prop = WrappedObject.GetType().GetProperty("Rotation");
-                act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
+                if (prop != null)
+                {
+                    act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
+                }
                 act.SetPostExecutionAction((undo) =>
                 {
                     UpdateRenderModel();
@@ -627,7 +640,43 @@ namespace StudioCore.MsbEditor
 
         public virtual void UpdateRenderModel()
         {
+            if (!HasTransform)
+            {
+                return;
+            }
+            Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetTransform().WorldMatrix;
+            var p = Parent;
+            while (p != null)
+            {
+                t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetTransform().WorldMatrix);
+                p = p.Parent;
+            }
+            if (RenderSceneMesh != null)
+            {
+                RenderSceneMesh.World = t;
+            }
+            foreach (var c in Children)
+            {
+                if (c.HasTransform)
+                {
+                    c.UpdateRenderModel();
+                }
+            }
 
+            if (UseDrawGroups)
+            {
+                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
+                if (prop != null && RenderSceneMesh != null)
+                {
+                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
+                }
+            }
+
+            if (RenderSceneMesh != null)
+            {
+                RenderSceneMesh.Visible = _EditorVisible;
+            }
         }
 
         public void OnSelected()
@@ -838,44 +887,7 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            if (!HasTransform)
-            {
-                return;
-            }
-            Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetTransform().WorldMatrix;
-            var p = Parent;
-            while (p != null)
-            {
-                t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetTransform().WorldMatrix);
-                p = p.Parent;
-            }
-            if (RenderSceneMesh != null)
-            {
-                RenderSceneMesh.World = t;
-            }
-            foreach (var c in Children)
-            {
-                if (c.HasTransform)
-                {
-                    c.UpdateRenderModel();
-                }
-            }
-
-            if (UseDrawGroups)
-            {
-                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
-                if (prop != null && RenderSceneMesh != null)
-                {
-                    // TODO
-                    //RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                    //RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
-                }
-            }
-
-            if (RenderSceneMesh != null)
-            {
-                RenderSceneMesh.Visible = _EditorVisible;
-            }
+            base.UpdateRenderModel();
         }
 
         public override Transform GetTransform()

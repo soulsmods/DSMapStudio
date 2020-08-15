@@ -177,10 +177,18 @@ namespace StudioCore.MsbEditor
                     {
                         newobj.RenderSceneMesh.SetSelectable(newobj);
                     }
-                    if (clonesCached)
+                    if (!clonesCached)
                     {
                         Clones.Add(newobj);
                         CloneMaps.Add(m);
+                    }
+                    else
+                    {
+                        if (Clones[i].RenderSceneMesh != null)
+                        {
+                            Clones[i].RenderSceneMesh.AutoRegister = true;
+                            Clones[i].RenderSceneMesh.Register();
+                        }
                     }
                 }
             }

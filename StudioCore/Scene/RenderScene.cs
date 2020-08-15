@@ -24,8 +24,8 @@ namespace StudioCore.Scene
 
         //private List<IDrawable> CulledObjects = new List<IDrawable>(500);
 
-        public MeshRenderables OpaqueRenderables { get; private set; } = new MeshRenderables();
-        public MeshRenderables OverlayRenderables { get; private set; } = new MeshRenderables();
+        public MeshRenderables OpaqueRenderables { get; private set; } = new MeshRenderables(0);
+        public MeshRenderables OverlayRenderables { get; private set; } = new MeshRenderables(1);
 
         private object SceneUpdateLock = new object();
 
@@ -115,6 +115,7 @@ namespace StudioCore.Scene
             CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);*/
             var watch = Stopwatch.StartNew();
             OpaqueRenderables.CullRenderables(frustum);
+            OpaqueRenderables.ProcessSceneVisibility(DrawFilter, DisplayGroup);
             watch.Stop();
             OctreeCullTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
 
@@ -124,11 +125,13 @@ namespace StudioCore.Scene
             CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
 
             queue.SetDrawParameters(OpaqueRenderables.cDrawParameters, _pickingEnabled ? OpaqueRenderables.cSelectionPipelines : OpaqueRenderables.cPipelines);
-            _pickingEnabled = false;
 
             OverlayRenderables.CullRenderables(frustum);
+            OverlayRenderables.ProcessSceneVisibility(DrawFilter, DisplayGroup);
             OverlayRenderables.SubmitRenderables(overlayQueue);
-            overlayQueue.SetDrawParameters(OverlayRenderables.cDrawParameters, OverlayRenderables.cPipelines);
+            overlayQueue.SetDrawParameters(OverlayRenderables.cDrawParameters, _pickingEnabled ? OverlayRenderables.cSelectionPipelines : OverlayRenderables.cPipelines);
+
+            _pickingEnabled = false;
         }
     }
 }
