@@ -181,6 +181,7 @@ namespace StudioCore.MsbEditor
                     {
                         Clones.Add(newobj);
                         CloneMaps.Add(m);
+                        m.HasUnsavedChanges = true;
                     }
                     else
                     {
@@ -351,6 +352,7 @@ namespace StudioCore.MsbEditor
                 if (m != null)
                 {
                     RemoveMaps.Add(m);
+                    m.HasUnsavedChanges = true;
                     RemoveIndices.Add(m.Objects.IndexOf(obj));
                     m.Objects.RemoveAt(RemoveIndices.Last());
                     if (obj.RenderSceneMesh != null)
@@ -477,6 +479,7 @@ namespace StudioCore.MsbEditor
             {
                 var m = SourceObjects[i].Container;
                 Containers.Add(m);
+                m.HasUnsavedChanges = true;
                 sourceindices[i] = m.Objects.IndexOf(SourceObjects[i]);
             }
             for (int i = 0; i < sourceindices.Length; i++)

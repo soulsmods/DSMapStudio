@@ -181,7 +181,7 @@ namespace StudioCore.Resource
                 public int IndexCount;
                 public int IndexOffset;
                 public int PickingIndicesCount;
-                public IntPtr PickingIndices;
+                //public IntPtr PickingIndices;
                 public bool BackfaceCulling;
                 public bool IsTriangleStrip;
                 public byte LOD;
@@ -668,11 +668,11 @@ namespace StudioCore.Resource
                     IndexCount = indices.Length,
                     Is32Bit = is32bit,
                     PickingIndicesCount = indices.Length,
-                    PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
+                    //PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
                 };
                 fixed (void* iptr = indices)
                 {
-                    Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
+                    //Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
                 }
 
                 if (is32bit)
@@ -806,11 +806,11 @@ namespace StudioCore.Resource
                     IndexCount = faceset.IndicesCount,
                     Is32Bit = is32bit,
                     PickingIndicesCount = indices.Length,
-                    PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
+                    //PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
                 };
                 fixed (void* iptr = indices)
                 {
-                    Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
+                    //Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
                 }
                 
 
@@ -896,6 +896,8 @@ namespace StudioCore.Resource
                     }
                 }
             }
+
+            Marshal.FreeHGlobal(dest.PickingVertices);
         }
 
         private bool LoadInternalDeS(AccessLevel al, GameType type)
@@ -1012,36 +1014,6 @@ namespace StudioCore.Resource
             return ret;
         }
 
-        public unsafe bool RayCast(Ray ray, Matrix4x4 transform, Utils.RayCastCull cull, out float dist)
-        {
-            bool hit = false;
-            float mindist = float.MaxValue;
-            var invw = transform.Inverse();
-            var newo = Vector3.Transform(ray.Origin, invw);
-            var newd = Vector3.TransformNormal(ray.Direction, invw);
-            var tray = new Ray(newo, newd);
-            foreach (var mesh in GPUMeshes)
-            {
-                if (!tray.Intersects(mesh.Bounds))
-                {
-                    continue;
-                }
-                float locdist;
-                var fc = mesh.MeshFacesets[0];
-                if (Utils.RayMeshIntersection(tray, new Span<Vector3>(mesh.PickingVertices.ToPointer(), mesh.VertexCount),
-                    new Span<int>(fc.PickingIndices.ToPointer(), fc.PickingIndicesCount), cull, out locdist))
-                {
-                    hit = true;
-                    if (locdist < mindist)
-                    {
-                        mindist = locdist;
-                    }
-                }
-            }
-            dist = mindist;
-            return hit;
-        }
-
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -1059,7 +1031,7 @@ namespace StudioCore.Resource
                     foreach (var m in GPUMeshes)
                     {
                         m.GeomBuffer.Dispose();
-                        Marshal.FreeHGlobal(m.PickingVertices);
+                        //Marshal.FreeHGlobal(m.PickingVertices);
                     }
                 }
 

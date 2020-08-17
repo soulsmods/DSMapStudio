@@ -73,7 +73,7 @@ namespace StudioCore.MsbEditor
             Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
             Universe = new Universe(AssetLocator, RenderScene, _selection);
 
-            SceneTree = new SceneTree(this, "mapedittree", Universe, _selection, EditorActionManager, Viewport, AssetLocator);
+            SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection, EditorActionManager, Viewport, AssetLocator);
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
             PropSearch = new SearchProperties(Universe);

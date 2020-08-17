@@ -45,12 +45,19 @@ namespace StudioCore.MsbEditor
 
         private Dictionary<string, Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>> _cachedTypeView = null;
 
+        private bool _initiatedDragDrop = false;
+        private bool _pendingDragDrop = false;
         private Dictionary<int, DragDropPayload> _dragDropPayloads = new Dictionary<int, DragDropPayload>();
         private int _dragDropPayloadCounter = 0;
 
         private List<Entity> _dragDropSources = new List<Entity>();
         private List<int> _dragDropDests = new List<int>();
         private List<Entity> _dragDropDestObjects = new List<Entity>();
+
+        // Keep track of open tree nodes for selection management purposes
+        private HashSet<Entity> _treeOpenEntities = new HashSet<Entity>();
+
+        private Entity _pendingClick = null;
 
         private bool _setNextFocus = false;
 
@@ -70,7 +77,15 @@ namespace StudioCore.MsbEditor
 
         private ViewMode _viewMode = ViewMode.Flat;
 
-        public SceneTree(SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public enum Configuration
+        {
+            MapEditor,
+            ModelEditor
+        }
+
+        private Configuration _configuration;
+
+        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
         {
             _handler = handler;
             _id = id;
@@ -79,6 +94,11 @@ namespace StudioCore.MsbEditor
             _editorActionManager = aman;
             _viewport = vp;
             _assetLocator = al;
+            _configuration = configuration;
+            if (_configuration == Configuration.ModelEditor)
+            {
+                _viewMode = ViewMode.Hierarchy;
+            }
         }
 
         private void RebuildTypeViewCache(Map map)
@@ -195,7 +215,7 @@ namespace StudioCore.MsbEditor
                 {
                     if (e.RenderSceneMesh != null)
                     {
-                        //FIX:_viewport.FrameBox(e.RenderSceneMesh.GetBounds());
+                        _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
                     }
                 }
             }
@@ -208,19 +228,46 @@ namespace StudioCore.MsbEditor
                     {
                         if (e.RenderSceneMesh != null)
                         {
-                            //FIX:_viewport.FrameBox(e.RenderSceneMesh.GetBounds());
+                            _viewport.FrameBox(e.RenderSceneMesh.GetBounds());
                         }
                     }
                 }
             }
             if (ImGui.IsItemClicked(0))
             {
-                doSelect = true;
+                _pendingClick = e;
+            }
+
+            if (_pendingClick == e && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
+            {
+                if (ImGui.IsItemHovered())
+                {
+                    doSelect = true;
+                }
+                _pendingClick = null;
             }
 
             if (ImGui.IsItemFocused() && !_selection.IsSelected(e))
             {
                 doSelect = true;
+            }
+
+            if (hierarchial && doSelect)
+            {
+                if ((nodeopen && !_treeOpenEntities.Contains(e)) ||
+                    (!nodeopen && _treeOpenEntities.Contains(e)))
+                {
+                    doSelect = false;
+                }
+
+                if (nodeopen && !_treeOpenEntities.Contains(e))
+                {
+                    _treeOpenEntities.Add(e);
+                }
+                else if (!nodeopen && _treeOpenEntities.Contains(e))
+                {
+                    _treeOpenEntities.Remove(e);
+                }
             }
 
             if (ImGui.BeginPopupContextItem())
@@ -243,6 +290,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SetDragDropPayload("entity", handle.AddrOfPinnedObject(), (uint)sizeof(DragDropPayloadReference));
                 ImGui.EndDragDropSource();
                 handle.Free();
+                _initiatedDragDrop = true;
             }
             if (hierarchial && ImGui.BeginDragDropTarget())
             {
@@ -293,42 +341,45 @@ namespace StudioCore.MsbEditor
             ImGui.PopID();
 
             // Invisible item to be a drag drop target between nodes
-            if (e is MapEntity me2)
+            if (_pendingDragDrop)
             {
-                ImGui.SetItemAllowOverlap();
-                ImGui.InvisibleButton(me2.Type.ToString() + e.Name, new Vector2(-1, 4.0f));
-            }
-            else
-            {
-                ImGui.SetItemAllowOverlap();
-                ImGui.InvisibleButton(e.Name, new Vector2(-1, 4.0f));
-            }
-            if (ImGui.IsItemFocused())
-            {
-                _setNextFocus = true;
-            }
-            if (ImGui.BeginDragDropTarget())
-            {
-                var payload = ImGui.AcceptDragDropPayload("entity");
-                if (payload.NativePtr != null)
+                if (e is MapEntity me2)
                 {
-                    DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
-                    var pload = _dragDropPayloads[h->Index];
-                    _dragDropPayloads.Remove(h->Index);
-                    if (hierarchial)
-                    {
-                        _dragDropSources.Add(pload.Entity);
-                        _dragDropDestObjects.Add(e.Parent);
-                        _dragDropDests.Add(e.Parent.ChildIndex(e) + 1);
-                    }
-                    else
-                    {
-                        _dragDropSources.Add(pload.Entity);
-                        _dragDropDests.Add(pload.Entity.Container.Objects.IndexOf(e) + 1);
-                    }
-                    
+                    ImGui.SetItemAllowOverlap();
+                    ImGui.InvisibleButton(me2.Type.ToString() + e.Name, new Vector2(-1, 3.0f));
                 }
-                ImGui.EndDragDropTarget();
+                else
+                {
+                    ImGui.SetItemAllowOverlap();
+                    ImGui.InvisibleButton(e.Name, new Vector2(-1, 3.0f));
+                }
+                if (ImGui.IsItemFocused())
+                {
+                    _setNextFocus = true;
+                }
+                if (ImGui.BeginDragDropTarget())
+                {
+                    var payload = ImGui.AcceptDragDropPayload("entity");
+                    if (payload.NativePtr != null)
+                    {
+                        DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
+                        var pload = _dragDropPayloads[h->Index];
+                        _dragDropPayloads.Remove(h->Index);
+                        if (hierarchial)
+                        {
+                            _dragDropSources.Add(pload.Entity);
+                            _dragDropDestObjects.Add(e.Parent);
+                            _dragDropDests.Add(e.Parent.ChildIndex(e) + 1);
+                        }
+                        else
+                        {
+                            _dragDropSources.Add(pload.Entity);
+                            _dragDropDests.Add(pload.Entity.Container.Objects.IndexOf(e) + 1);
+                        }
+
+                    }
+                    ImGui.EndDragDropTarget();
+                }
             }
 
             // If there's children then draw them
@@ -415,15 +466,36 @@ namespace StudioCore.MsbEditor
         public void OnGui()
         {
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
-            if (ImGui.Begin($@"Map Object List##{_id}"))
+            if (_configuration == Configuration.MapEditor)
             {
-                ImGui.PopStyleVar();
-                int mode = (int)_viewMode;
-                ImGui.SetNextItemWidth(-1);
-                if (ImGui.Combo("##typecombo", ref mode, _viewModeStrings, _viewModeStrings.Length))
+                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            }
+            else
+            {
+                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 2.0f));
+            }
+            string titleString = _configuration == Configuration.MapEditor ? $@"Map Object List##{_id}" : $@"Model Hierarchy##{_id}";
+            if (ImGui.Begin(titleString))
+            {
+                if (_initiatedDragDrop)
                 {
-                    _viewMode = (ViewMode)mode;
+                    _initiatedDragDrop = false;
+                    _pendingDragDrop = true;
+                }
+                if (_pendingDragDrop && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
+                {
+                    _pendingDragDrop = false;
+                }
+
+                ImGui.PopStyleVar();
+                ImGui.SetNextItemWidth(-1);
+                if (_configuration == Configuration.MapEditor)
+                {
+                    int mode = (int)_viewMode;
+                    if (ImGui.Combo("##typecombo", ref mode, _viewModeStrings, _viewModeStrings.Length))
+                    {
+                        _viewMode = (ViewMode)mode;
+                    }
                 }
 
                 ImGui.BeginChild("listtree");
@@ -438,9 +510,10 @@ namespace StudioCore.MsbEditor
                         treeflags |= ImGuiTreeNodeFlags.Selected;
                     }
                     bool nodeopen = false;
+                    string unsaved = (map != null && map.HasUnsavedChanges) ? "*" : "";
                     if (map != null)
                     {
-                        nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags);
+                        nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags, $@"{ForkAwesome.Cube} {mapid}{unsaved}");
                     }
                     else
                     {
@@ -482,19 +555,49 @@ namespace StudioCore.MsbEditor
                     }
                     if (ImGui.IsItemClicked() && map != null)
                     {
-                        if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                        _pendingClick = map.RootObject;
+                    }
+                    if (map != null && _pendingClick == map.RootObject && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
+                    {
+                        if (ImGui.IsItemHovered())
                         {
-                            _selection.AddSelection(map.RootObject);
+                            // Only select if a node is not currently being opened/closed
+                            if ((nodeopen && _treeOpenEntities.Contains(map.RootObject)) ||
+                                (!nodeopen && !_treeOpenEntities.Contains(map.RootObject)))
+                            {
+                                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                                {
+                                    _selection.AddSelection(map.RootObject);
+                                }
+                                else
+                                {
+                                    _selection.ClearSelection();
+                                    _selection.AddSelection(map.RootObject);
+                                }
+                            }
+
+                            // Update the open/closed state
+                            if (nodeopen && !_treeOpenEntities.Contains(map.RootObject))
+                            {
+                                _treeOpenEntities.Add(map.RootObject);
+                            }
+                            else if (!nodeopen && _treeOpenEntities.Contains(map.RootObject))
+                            {
+                                _treeOpenEntities.Remove(map.RootObject);
+                            }
                         }
-                        else
-                        {
-                            _selection.ClearSelection();
-                            _selection.AddSelection(map.RootObject);
-                        }
+                        _pendingClick = null;
                     }
                     if (nodeopen)
                     {
-                        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 0.0f));
+                        if (_pendingDragDrop)
+                        {
+                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 0.0f));
+                        }
+                        else
+                        {
+                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 3.0f));
+                        }
                         if (_viewMode == ViewMode.Hierarchy)
                         {
                             HierarchyView(map.RootObject);
@@ -511,7 +614,7 @@ namespace StudioCore.MsbEditor
                         ImGui.TreePop();
                     }
                 }
-                if (_assetLocator.Type == GameType.Bloodborne)
+                if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
                 {
                     ChaliceDungeonImportButton();
                 }

@@ -26,6 +26,8 @@ namespace StudioCore.MsbEditor
         [XmlIgnore]
         public Universe Universe { get; protected set; }
 
+        public bool HasUnsavedChanges { get; set; } = false;
+
         public ObjectContainer()
         {
 
@@ -147,7 +149,7 @@ namespace StudioCore.MsbEditor
             var dmysNode = new NamedEntity(this, null, "DummyPolys");
             Objects.Add(dmysNode);
             RootObject.AddChild(dmysNode);
-            for (int i = 0; i < flver.BufferLayouts.Count; i++)
+            for (int i = 0; i < flver.Dummies.Count; i++)
             {
                 var dmynode = new TransformableNamedEntity(this, flver.Dummies[i], $@"dmy_{i}");
                 dmynode.RenderSceneMesh = Universe.GetDummyPolyDrawable(this, dmynode);

@@ -45,7 +45,7 @@ namespace StudioCore.MsbEditor
             Viewport = new Gui.Viewport("Modeleditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
             _universe = new Universe(AssetLocator, RenderScene, _selection);
 
-            _sceneTree = new SceneTree(this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
+            _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
             _propEditor = new PropertyEditor(EditorActionManager);
             _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator);
         }

@@ -238,7 +238,7 @@ namespace StudioCore
             var res = Resource.Get();
             if (res != null)
             {
-                return res.RayCast(ray, WorldMatrix, Utils.RayCastCull.CullBack, out dist);
+                //return res.RayCast(ray, WorldMatrix, Utils.RayCastCull.CullBack, out dist);
             }
             dist = float.MaxValue;
             return false;

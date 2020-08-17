@@ -295,10 +295,10 @@ namespace StudioCore.MsbEditor
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
                         var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                        var model = new NewMesh(_renderScene, res);
-                        model.DrawFilter = Scene.RenderFilter.Character;
-                        //FIX:generatorObjs[row.ID].RenderSceneMesh = model;
-                        model.Selectable = new WeakReference<Scene.ISelectable>(generatorObjs[row.ID]);
+                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
+                        model.DrawFilter = RenderFilter.Character;
+                        generatorObjs[row.ID].RenderSceneMesh = model;
+                        model.SetSelectable(generatorObjs[row.ID]);
                         chrsToLoad.Add(asset);
                     }
                 }
@@ -939,6 +939,8 @@ namespace StudioCore.MsbEditor
                 SaveDS2Generators(map);
             }
 
+            map.HasUnsavedChanges = false;
+
             //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
             //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
             //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
@@ -988,7 +990,9 @@ namespace StudioCore.MsbEditor
             foreach (var un in toUnload)
             {
                 if (un is Map ma)
+                {
                     UnloadMap(ma);
+                }
             }
         }
 

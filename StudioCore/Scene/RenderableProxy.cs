@@ -44,6 +44,8 @@ namespace StudioCore.Scene
 
         public abstract BoundingBox GetBounds();
 
+        public abstract BoundingBox GetLocalBounds();
+
         protected void ScheduleRenderableConstruction()
         {
             Renderer.AddBackgroundUploadTask((gd, cl) =>
@@ -267,15 +269,20 @@ namespace StudioCore.Scene
 
         public override BoundingBox GetBounds()
         {
+            return BoundingBox.Transform(GetLocalBounds(), _world);
+        }
+
+        public override BoundingBox GetLocalBounds()
+        {
             if (_meshProvider.IsAvailable() && _meshProvider.HasMeshData() && _meshProvider.TryLock())
             {
                 _meshProvider.Unlock();
-                return BoundingBox.Transform(_meshProvider.Bounds, _world);
+                return _meshProvider.Bounds;
             }
-            BoundingBox b = new BoundingBox();
+            BoundingBox b = _submeshes.Count > 0 ? _submeshes[0].GetLocalBounds() : new BoundingBox();
             foreach (var c in _submeshes)
             {
-                b = BoundingBox.Combine(b, c.GetBounds());
+                b = BoundingBox.Combine(b, c.GetLocalBounds());
             }
             return b;
         }
@@ -295,7 +302,7 @@ namespace StudioCore.Scene
 
         public MeshRenderableProxy(MeshRenderableProxy clone) : this(clone._renderablesSet, clone._meshProvider)
         {
-            clone.DrawFilter = _drawfilter;
+            DrawFilter = clone._drawfilter;
         }
 
         public override void Register()
@@ -813,6 +820,11 @@ namespace StudioCore.Scene
             return BoundingBox.Transform(_debugPrimitive.Bounds, _world);
         }
 
+        public override BoundingBox GetLocalBounds()
+        {
+            return _debugPrimitive.Bounds;
+        }
+
         public DebugPrimitiveRenderableProxy(MeshRenderables renderables, IDbgPrim prim)
         {
             _renderablesSet = renderables;
@@ -824,7 +836,9 @@ namespace StudioCore.Scene
 
         public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
         {
-            clone.DrawFilter = _drawfilter;
+            _drawfilter = clone.DrawFilter;
+            _baseColor = clone._baseColor;
+            _highlightedColor = clone._highlightedColor;
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)

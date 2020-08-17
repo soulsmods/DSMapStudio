@@ -400,6 +400,12 @@ namespace StudioCore.Scene
                 PreDrawSetup.Invoke(Device, drawCommandList);
                 ResourceUpdateCommandList.PopDebugGroup();
 
+                foreach (var obj in Indices)
+                {
+                    var o = Renderables[obj.ItemIndex];
+                    _drawEncoders[_nextBuffer].AddDraw(ref _drawParameters[o], _pipelines[o]);
+                }
+
                 Device.WaitForFence(lastOutstandingDrawFence);
                 ResourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
                 _drawEncoders[_currentBuffer].UpdateBuffer(ResourceUpdateCommandList);
@@ -407,16 +413,10 @@ namespace StudioCore.Scene
                 ResourceUpdateCommandList.End();
                 Device.SubmitCommands(ResourceUpdateCommandList, _resourcesUpdatedFence[_currentBuffer]);
 
-                foreach (var obj in Indices)
-                {
-                    var o = Renderables[obj.ItemIndex];
-                    _drawEncoders[_nextBuffer].AddDraw(ref _drawParameters[o], _pipelines[o]);
-                }
-
                 // Wait on the last outstanding frame in flight and submit the draws
-                Device.WaitForFence(_resourcesUpdatedFence[_nextBuffer], ulong.MaxValue - 1);
+                //Device.WaitForFence(_resourcesUpdatedFence[_nextBuffer], ulong.MaxValue - 1);
                 drawCommandList.InsertDebugMarker($@"{Name}: Draw");
-                _drawEncoders[_nextBuffer].SubmitBatches(drawCommandList, Pipeline);
+                _drawEncoders[_currentBuffer].SubmitBatches(drawCommandList, Pipeline);
                 drawCommandList.PopDebugGroup();
                 watch.Stop();
                 CPURenderTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
