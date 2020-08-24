@@ -6,6 +6,7 @@ using Veldrid.Utilities;
 using System.Numerics;
 using System.IO;
 using SoulsFormats;
+using System.Collections.Generic;
 
 namespace StudioCore
 {
@@ -624,6 +625,27 @@ namespace StudioCore
                         -1, -1, 0, 1
                 };
             }
+        }
+
+        public static Matrix4x4 GetBoneObjectMatrix(FLVER.Bone bone, List<FLVER.Bone> bones)
+        {
+            var res = Matrix4x4.Identity;
+            var parentBone = bone;
+            do
+            {
+                res *= bone.ComputeLocalTransform();
+                if (parentBone.ParentIndex >= 0)
+                {
+                    parentBone = bones[parentBone.ParentIndex];
+                }
+                else
+                {
+                    parentBone = null;
+                }
+            }
+            while (parentBone != null);
+
+            return res;
         }
     }
 }

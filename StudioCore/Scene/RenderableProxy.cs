@@ -168,6 +168,8 @@ namespace StudioCore.Scene
             }
         }
 
+        private Matrix4x4 _meshTransform = Matrix4x4.Identity;
+
         public override Matrix4x4 World
         {
             get
@@ -277,7 +279,7 @@ namespace StudioCore.Scene
             if (_meshProvider.IsAvailable() && _meshProvider.HasMeshData() && _meshProvider.TryLock())
             {
                 _meshProvider.Unlock();
-                return _meshProvider.Bounds;
+                return BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform);
             }
             BoundingBox b = _submeshes.Count > 0 ? _submeshes[0].GetLocalBounds() : new BoundingBox();
             foreach (var c in _submeshes)
@@ -469,7 +471,7 @@ namespace StudioCore.Scene
                 meshcomp._bufferIndex = geombuffer.BufferIndex;
 
                 // Instantiate renderable
-                var bounds = BoundingBox.Transform(_meshProvider.Bounds, _world);
+                var bounds = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
                 _renderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
                 _renderablesSet.cRenderKeys[_renderable] = GetRenderKey(0.0f);
 
@@ -479,7 +481,7 @@ namespace StudioCore.Scene
 
                 // Update instance data
                 InstanceData dat = new InstanceData();
-                dat.WorldMatrix = _world;
+                dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
                 dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
                 _worldBuffer.FillBuffer(cl, ref dat);
@@ -534,7 +536,7 @@ namespace StudioCore.Scene
                     return;
                 }
                 InstanceData dat = new InstanceData();
-                dat.WorldMatrix = _world;
+                dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
                 dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
                 if (_worldBuffer == null)
@@ -545,11 +547,11 @@ namespace StudioCore.Scene
 
                 if (_renderable != -1)
                 {
-                    _renderablesSet.cBounds[_renderable] = BoundingBox.Transform(_meshProvider.Bounds, _world);
+                    _renderablesSet.cBounds[_renderable] = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
                 }
                 if (_selectionOutlineRenderable != -1)
                 {
-                    _renderablesSet.cBounds[_selectionOutlineRenderable] = BoundingBox.Transform(_meshProvider.Bounds, _world);
+                    _renderablesSet.cBounds[_selectionOutlineRenderable] = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
                 }
             }
         }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using Veldrid;
 using Veldrid.Utilities;
+using System.Numerics;
 
 namespace StudioCore.Scene
 {
@@ -159,6 +160,11 @@ namespace StudioCore.Scene
         public abstract VertexLayoutDescription LayoutDescription { get; }
 
         public abstract BoundingBox Bounds { get; }
+
+        /// <summary>
+        /// Object space transform of the mesh
+        /// </summary>
+        public virtual Matrix4x4 ObjectTransform { get => Matrix4x4.Identity; }
 
         /// <summary>
         /// Get handle to the GPU allocated geometry
@@ -350,6 +356,8 @@ namespace StudioCore.Scene
         }
 
         public override BoundingBox Bounds => _resource.Get().GPUMeshes[_meshIndex].Bounds;
+
+        public override Matrix4x4 ObjectTransform => _resource.Get().GPUMeshes[_meshIndex].LocalTransform;
 
         public override MeshLayoutType LayoutType => _resource.Get().GPUMeshes[_meshIndex].Material.LayoutType;
 

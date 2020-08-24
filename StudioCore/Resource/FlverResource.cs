@@ -199,6 +199,8 @@ namespace StudioCore.Resource
 
             public BoundingBox Bounds { get; set; }
 
+            public Matrix4x4 LocalTransform = Matrix4x4.Identity;
+
             public int DefaultBoneIndex { get; set; } = -1;
 
             public FlverMaterial Material { get; set; } = null;
@@ -897,6 +899,11 @@ namespace StudioCore.Resource
                 }
             }
 
+            if (mesh.DefaultBoneIndex != -1 && mesh.DefaultBoneIndex < Bones.Count)
+            {
+                dest.LocalTransform = Utils.GetBoneObjectMatrix(Bones[mesh.DefaultBoneIndex], Bones);
+            }
+
             Marshal.FreeHGlobal(dest.PickingVertices);
         }
 
@@ -907,6 +914,7 @@ namespace StudioCore.Resource
                 GPUMeshes = new FlverSubmesh[FlverDeS.Meshes.Count()];
                 GPUMaterials = new FlverMaterial[FlverDeS.Materials.Count()];
                 Bounds = new BoundingBox();
+                Bones = FlverDeS.Bones;
 
                 for (int i = 0; i < FlverDeS.Materials.Count(); i++)
                 {
@@ -927,8 +935,6 @@ namespace StudioCore.Resource
                         Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                     }
                 }
-
-                Bones = FlverDeS.Bones;
             }
 
             if (al == AccessLevel.AccessGPUOptimizedOnly)
@@ -946,6 +952,7 @@ namespace StudioCore.Resource
                 GPUMeshes = new FlverSubmesh[Flver.Meshes.Count()];
                 GPUMaterials = new FlverMaterial[Flver.Materials.Count()];
                 Bounds = new BoundingBox();
+                Bones = Flver.Bones;
 
                 for (int i = 0; i < Flver.Materials.Count(); i++)
                 {
@@ -966,8 +973,6 @@ namespace StudioCore.Resource
                         Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                     }
                 }
-
-                Bones = Flver.Bones;
             }
 
             if (al == AccessLevel.AccessGPUOptimizedOnly)
