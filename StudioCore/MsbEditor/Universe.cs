@@ -48,28 +48,28 @@ namespace StudioCore.MsbEditor
             if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
-                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
-                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
-                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 return mesh;
             }
@@ -79,7 +79,7 @@ namespace StudioCore.MsbEditor
         public RenderableProxy GetDS2EventLocationDrawable(Map map, Entity obj)
         {
             var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-            mesh.World = obj.GetTransform().WorldMatrix;
+            mesh.World = obj.GetWorldMatrix();
             obj.RenderSceneMesh = mesh;
             mesh.SetSelectable(obj);
             return mesh;
@@ -88,7 +88,16 @@ namespace StudioCore.MsbEditor
         public RenderableProxy GetDummyPolyDrawable(ObjectContainer map, Entity obj)
         {
             var mesh = DebugPrimitiveRenderableProxy.GetDummyPolyRegionProxy(_renderScene);
-            mesh.World = obj.GetTransform().WorldMatrix;
+            mesh.World = obj.GetWorldMatrix();
+            obj.RenderSceneMesh = mesh;
+            mesh.SetSelectable(obj);
+            return mesh;
+        }
+
+        public RenderableProxy GetBoneDrawable(ObjectContainer map, Entity obj)
+        {
+            var mesh = new SkeletonBoneRenderableProxy(_renderScene);
+            mesh.World = obj.GetWorldMatrix();
             obj.RenderSceneMesh = mesh;
             mesh.SetSelectable(obj);
             return mesh;
@@ -143,7 +152,7 @@ namespace StudioCore.MsbEditor
             {
                 var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
                 var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
-                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 obj.RenderSceneMesh = mesh;
                 if (!res.IsLoaded)
@@ -164,7 +173,7 @@ namespace StudioCore.MsbEditor
             {
                 var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                 var mesh = new Scene.NvmMesh(_renderScene, res, false);
-                mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                mesh.WorldMatrix = obj.GetWorldMatrix();
                 //FIX:obj.RenderSceneMesh = mesh;
                 mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                 if (!res.IsLoaded)
@@ -191,7 +200,7 @@ namespace StudioCore.MsbEditor
                 var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
                 var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
                 model.DrawFilter = filt;
-                model.World = obj.GetTransform().WorldMatrix;
+                model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
                 model.SetSelectable(obj);
                 if (!res.IsLoaded)
@@ -342,7 +351,7 @@ namespace StudioCore.MsbEditor
 
                 // Try rendering as a box for now
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                mesh.World = obj.GetTransform().WorldMatrix;
+                mesh.World = obj.GetLocalTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
             }
@@ -483,7 +492,7 @@ namespace StudioCore.MsbEditor
                         //FIX:obj.RenderSceneMesh = mesh;
                         //mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                         var model = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
-                        model.World = obj.GetTransform().WorldMatrix;
+                        model.World = obj.GetWorldMatrix();
                         model.DrawFilter = RenderFilter.Collision;
                         obj.RenderSceneMesh = model;
                         model.SetSelectable(obj);
@@ -492,7 +501,7 @@ namespace StudioCore.MsbEditor
                     {
                         var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                         var mesh = new Scene.NvmMesh(_renderScene, res, false);
-                        mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
+                        mesh.WorldMatrix = obj.GetWorldMatrix();
                         //FIX:obj.RenderSceneMesh = mesh;
                         mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                     }
@@ -509,7 +518,7 @@ namespace StudioCore.MsbEditor
                         //FIX:obj.RenderSceneMesh = model;
                         //model.Selectable = new WeakReference<Scene.ISelectable>(obj);
                         var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
-                        model.World = obj.GetTransform().WorldMatrix;
+                        model.World = obj.GetWorldMatrix();
                         model.DrawFilter = filt;
                         obj.RenderSceneMesh = model;
                         model.SetSelectable(obj);
@@ -518,7 +527,7 @@ namespace StudioCore.MsbEditor
                 if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
                 {
                     var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                    mesh.World = obj.GetTransform().WorldMatrix;
+                    mesh.World = obj.GetWorldMatrix();
                     mesh.DrawFilter = RenderFilter.Region;
                     obj.RenderSceneMesh = mesh;
                     mesh.SetSelectable(obj);
@@ -526,7 +535,7 @@ namespace StudioCore.MsbEditor
                 else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
                 {
                     var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
-                    mesh.World = obj.GetTransform().WorldMatrix;
+                    mesh.World = obj.GetWorldMatrix();
                     mesh.DrawFilter = RenderFilter.Region;
                     obj.RenderSceneMesh = mesh;
                     mesh.SetSelectable(obj);
@@ -534,7 +543,7 @@ namespace StudioCore.MsbEditor
                 else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
                 {
                     var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
-                    mesh.World = obj.GetTransform().WorldMatrix;
+                    mesh.World = obj.GetWorldMatrix();
                     mesh.DrawFilter = RenderFilter.Region;
                     obj.RenderSceneMesh = mesh;
                     mesh.SetSelectable(obj);
@@ -542,7 +551,7 @@ namespace StudioCore.MsbEditor
                 else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
                 {
                     var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
-                    mesh.World = obj.GetTransform().WorldMatrix;
+                    mesh.World = obj.GetWorldMatrix();
                     mesh.DrawFilter = RenderFilter.Region;
                     obj.RenderSceneMesh = mesh;
                     mesh.SetSelectable(obj);

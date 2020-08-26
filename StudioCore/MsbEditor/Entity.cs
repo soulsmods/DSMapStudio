@@ -181,6 +181,7 @@ namespace StudioCore.MsbEditor
             }
             child.Parent = this;
             Children.Add(child);
+            child.UpdateRenderModel();
         }
 
         public void AddChild(Entity child, int index)
@@ -191,6 +192,7 @@ namespace StudioCore.MsbEditor
             }
             child.Parent = this;
             Children.Insert(index, child);
+            child.UpdateRenderModel();
         }
 
         public int ChildIndex(Entity child)
@@ -515,7 +517,7 @@ namespace StudioCore.MsbEditor
             ReferencingObjects = null;
         }
 
-        public virtual Transform GetTransform()
+        public virtual Transform GetLocalTransform()
         {
             var t = Transform.Default;
             var pos = GetPropertyValue("Position");
@@ -585,6 +587,21 @@ namespace StudioCore.MsbEditor
             return t;
         }
 
+        public virtual Matrix4x4 GetWorldMatrix()
+        {
+            Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetLocalTransform().WorldMatrix;
+            var p = Parent;
+            while (p != null)
+            {
+                if (p.HasTransform)
+                {
+                    t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetLocalTransform().WorldMatrix);
+                }
+                p = p.Parent;
+            }
+            return t;
+        }
+
         public void SetTemporaryTransform(Transform t)
         {
             TempTransform = t;
@@ -644,11 +661,11 @@ namespace StudioCore.MsbEditor
             {
                 return;
             }
-            Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetTransform().WorldMatrix;
+            Matrix4x4 t = UseTempTransform ? TempTransform.WorldMatrix : GetLocalTransform().WorldMatrix;
             var p = Parent;
             while (p != null)
             {
-                t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetTransform().WorldMatrix);
+                t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetLocalTransform().WorldMatrix);
                 p = p.Parent;
             }
             if (RenderSceneMesh != null)
@@ -890,9 +907,9 @@ namespace StudioCore.MsbEditor
             base.UpdateRenderModel();
         }
 
-        public override Transform GetTransform()
+        public override Transform GetLocalTransform()
         {
-            var t = base.GetTransform();
+            var t = base.GetLocalTransform();
             // If this is a region scale the region primitive by its respective parameters
             if (Type == MapEntityType.Region)
             {
@@ -951,7 +968,7 @@ namespace StudioCore.MsbEditor
             e.Name = Name;
             if (HasTransform)
             {
-                e.Transform = GetTransform();
+                e.Transform = GetLocalTransform();
             }
             e.Type = Type;
             e.Children = new List<MapSerializationEntity>();

@@ -206,7 +206,7 @@ namespace StudioCore.MsbEditor
                     foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                     {
                         sel.ClearTemporaryTransform(false);
-                        actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetTransform())));
+                        actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetLocalTransform())));
                     }
                     var action = new CompoundAction(actlist);
                     ActionManager.ExecuteAction(action);
@@ -251,7 +251,7 @@ namespace StudioCore.MsbEditor
                         //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
                         foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                         {
-                            sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetTransform()));
+                            sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetLocalTransform()));
                         }
                     }
                 }
@@ -263,7 +263,7 @@ namespace StudioCore.MsbEditor
                     if (_selection.IsSingleFilteredSelection<Entity>((o) => o.HasTransform))
                     {
                         var sel = _selection.GetSingleFilteredSelection<Entity>((o) => o.HasTransform);
-                        OriginalTransform = sel.GetTransform();
+                        OriginalTransform = sel.GetLocalTransform();
                         if (Origin == GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
                         {
                             OriginalTransform.Position = sel.RenderSceneMesh.GetBounds().GetCenter();
@@ -279,7 +279,7 @@ namespace StudioCore.MsbEditor
                         Vector3 accumPos = Vector3.Zero;
                         foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                         {
-                            accumPos += sel.GetTransform().Position;
+                            accumPos += sel.GetLocalTransform().Position;
                         }
                         OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, Vector3.Zero);
                     }

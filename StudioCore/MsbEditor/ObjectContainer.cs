@@ -130,6 +130,7 @@ namespace StudioCore.MsbEditor
             for (int i = 0; i < flver.Bones.Count; i++)
             {
                 var bonenode = new TransformableNamedEntity(this, flver.Bones[i], flver.Bones[i].Name);
+                bonenode.RenderSceneMesh = Universe.GetBoneDrawable(this, bonenode);
                 Objects.Add(bonenode);
                 boneEntList.Add(bonenode);
             }

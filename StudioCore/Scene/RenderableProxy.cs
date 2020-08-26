@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using StudioCore.DebugPrimitives;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace StudioCore.Scene
 {
@@ -46,7 +47,7 @@ namespace StudioCore.Scene
 
         public abstract BoundingBox GetLocalBounds();
 
-        protected void ScheduleRenderableConstruction()
+        internal void ScheduleRenderableConstruction()
         {
             Renderer.AddBackgroundUploadTask((gd, cl) =>
             {
@@ -54,7 +55,7 @@ namespace StudioCore.Scene
             });
         }
 
-        protected void ScheduleRenderableUpdate()
+        internal void ScheduleRenderableUpdate()
         {
             Renderer.AddBackgroundUploadTask((gd, cl) =>
             {
@@ -167,8 +168,6 @@ namespace StudioCore.Scene
                 }
             }
         }
-
-        private Matrix4x4 _meshTransform = Matrix4x4.Identity;
 
         public override Matrix4x4 World
         {
@@ -1039,6 +1038,7 @@ namespace StudioCore.Scene
         private static DbgPrimWireSphere _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
         private static DbgPrimWireSphere _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
         private static DbgPrimWireSphere _dmyPoint = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Yellow, 1, 4);
+        private static DbgPrimWireSphere _jointSphere = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Blue, 6, 6);
 
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
@@ -1078,6 +1078,188 @@ namespace StudioCore.Scene
             r.BaseColor = Color.Yellow;
             r.HighlightedColor = Color.DarkViolet;
             return r;
+        }
+
+        public static DebugPrimitiveRenderableProxy GetBonePointProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OverlayRenderables, _jointSphere);
+            r.BaseColor = Color.Blue;
+            r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+    }
+
+    public class SkeletonBoneRenderableProxy : RenderableProxy
+    {
+        /// <summary>
+        /// Renderable for the actual bone
+        /// </summary>
+        private DebugPrimitiveRenderableProxy _bonePointRenderable = null;
+
+        /// <summary>
+        /// Renderables for the bones to child joints
+        /// </summary>
+        private List<DebugPrimitiveRenderableProxy> _boneRenderables = new List<DebugPrimitiveRenderableProxy>();
+
+        /// <summary>
+        /// Child renderables that this bone is connected to
+        /// </summary>
+        private List<SkeletonBoneRenderableProxy> _childBones = new List<SkeletonBoneRenderableProxy>();
+
+        public SkeletonBoneRenderableProxy(RenderScene scene)
+        {
+            _bonePointRenderable = DebugPrimitiveRenderableProxy.GetBonePointProxy(scene);
+            ScheduleRenderableConstruction();
+            AutoRegister = true;
+            _registered = true;
+        }
+
+        public override bool AutoRegister
+        {
+            get => _autoregister; set
+            {
+                _autoregister = value;
+                _bonePointRenderable.AutoRegister = value;
+                foreach (var c in _boneRenderables)
+                {
+                    c.AutoRegister = value;
+                }
+            }
+        }
+
+        private bool _renderOutline = false;
+        public override bool RenderSelectionOutline
+        {
+            get => _renderOutline;
+            set
+            {
+                _renderOutline = value;
+                _bonePointRenderable.RenderSelectionOutline = _renderOutline;
+                foreach (var c in _boneRenderables)
+                {
+                    c.RenderSelectionOutline = value;
+                }
+            }
+        }
+
+        private Matrix4x4 _world = Matrix4x4.Identity;
+        public override Matrix4x4 World
+        {
+            get
+            {
+                return _world;
+            }
+            set
+            {
+                _world = value;
+                ScheduleRenderableUpdate();
+                _bonePointRenderable.World = _world;
+                foreach (var c in _boneRenderables)
+                {
+                    c.World = _world;
+                }
+            }
+        }
+        private bool _visible = true;
+        public override bool Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                _visible = value;
+                _bonePointRenderable.Visible = value;
+                foreach (var c in _boneRenderables)
+                {
+                    c.Visible = _visible;
+                }
+            }
+        }
+
+        private RenderFilter _drawfilter = RenderFilter.All;
+        public override RenderFilter DrawFilter
+        {
+            get
+            {
+                return _drawfilter;
+            }
+            set
+            {
+                _drawfilter = value;
+                _bonePointRenderable.DrawFilter = value;
+                foreach (var c in _boneRenderables)
+                {
+                    c.DrawFilter = _drawfilter;
+                }
+            }
+        }
+
+        private DrawGroup _drawgroups = new DrawGroup();
+        public override DrawGroup DrawGroups
+        {
+            get
+            {
+                return _drawgroups;
+            }
+            set
+            {
+                _drawgroups = value;
+                _bonePointRenderable.DrawGroups = _drawgroups;
+                foreach (var c in _boneRenderables)
+                {
+                    c.DrawGroups = _drawgroups;
+                }
+            }
+        }
+
+        public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        {
+            _bonePointRenderable.ScheduleRenderableConstruction();
+            foreach (var c in _boneRenderables)
+            {
+                c.ScheduleRenderableConstruction();
+            }
+        }
+
+        public override void DestroyRenderables()
+        {
+            _bonePointRenderable.DestroyRenderables();
+            foreach (var c in _boneRenderables)
+            {
+                c.DestroyRenderables();
+            }
+        }
+
+        public override BoundingBox GetBounds()
+        {
+            return BoundingBox.Transform(GetLocalBounds(), _world);
+        }
+
+        public override BoundingBox GetLocalBounds()
+        {
+            BoundingBox b = _bonePointRenderable.GetLocalBounds();
+            foreach (var c in _boneRenderables)
+            {
+                b = BoundingBox.Combine(b, c.GetLocalBounds());
+            }
+            return b;
+        }
+
+        private WeakReference<ISelectable> _selectable = null;
+        public override void SetSelectable(ISelectable sel)
+        {
+            _selectable = new WeakReference<ISelectable>(sel);
+            _bonePointRenderable.SetSelectable(sel);
+            foreach (var c in _boneRenderables)
+            {
+                c.SetSelectable(sel);
+            }
+        }
+
+        public override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
+        {
         }
     }
 }

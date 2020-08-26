@@ -530,7 +530,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public static Fence Frame(CommandList drawCommandList)
+        public static Fence Frame(CommandList drawCommandList, bool backgroundOnly)
         {
             MainCommandList.Begin();
 
@@ -572,6 +572,11 @@ namespace StudioCore.Scene
             if (cleanCubeTexPool)
             {
                 GlobalCubeTexturePool.CleanTexturePool();
+            }
+
+            if (backgroundOnly)
+            {
+                return null;
             }
 
             foreach (var rq in RenderQueues)

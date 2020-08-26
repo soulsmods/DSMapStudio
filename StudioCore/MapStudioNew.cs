@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using StudioCore.Scene;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -242,6 +243,11 @@ namespace StudioCore
                 if (_window.Focused)
                 {
                     Draw();
+                }
+                else
+                {
+                    // Flush the background queues
+                    Renderer.Frame(null, true);
                 }
             }
 
@@ -836,7 +842,7 @@ namespace StudioCore
             {
                 ModelEditor.Draw(_gd, MainWindowCommandList);
             }
-            var fence = Scene.Renderer.Frame(MainWindowCommandList);
+            var fence = Scene.Renderer.Frame(MainWindowCommandList, false);
             //GuiCommandList.Begin();
             //GuiCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
             MainWindowCommandList.SetFullViewport(0);
