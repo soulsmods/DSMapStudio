@@ -15,7 +15,7 @@ namespace StudioCore.MsbEditor
     /// A logical map object that can be either a part, a region, or an event. Uses
     /// reflection to access and update properties
     /// </summary>
-    public class Entity : Scene.ISelectable
+    public class Entity : Scene.ISelectable, IDisposable
     {
         public object WrappedObject { get; set; }
 
@@ -162,15 +162,6 @@ namespace StudioCore.MsbEditor
         {
             Container = map;
             WrappedObject = msbo;
-        }
-
-        ~Entity()
-        {
-            if (RenderSceneMesh != null)
-            {
-                RenderSceneMesh.UnregisterAndRelease();
-                RenderSceneMesh = null;
-            }
         }
 
         public void AddChild(Entity child)
@@ -478,6 +469,7 @@ namespace StudioCore.MsbEditor
         }
 
         private HashSet<Entity> ReferencingObjects = null;
+        private bool disposedValue;
 
         public IReadOnlyCollection<Entity> GetReferencingObjects()
         {
@@ -710,6 +702,35 @@ namespace StudioCore.MsbEditor
             {
                 RenderSceneMesh.RenderSelectionOutline = false;
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (RenderSceneMesh != null)
+                    {
+                        RenderSceneMesh.Dispose();
+                        _RenderSceneMesh = null;
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        ~Entity()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 

@@ -277,6 +277,7 @@ namespace StudioCore.Resource
                         {
                             spin = false;
                             IsLoaded = false;
+                            AccessLevel = AccessLevel.AccessUnloaded;
                         }
                     }
                 }

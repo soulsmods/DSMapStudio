@@ -81,7 +81,7 @@ namespace StudioCore.Resource
             GC.Collect();
         }
 
-        public class FlverMaterial : IResourceEventListener
+        public class FlverMaterial : IResourceEventListener, IDisposable
         {
             public string MaterialName;
             public Scene.GPUBufferAllocator.GPUBufferHandle MaterialBuffer;
@@ -102,6 +102,7 @@ namespace StudioCore.Resource
             public TextureResourceHande ShininessTextureResource = null;
             public TextureResourceHande ShininessTextureResource2 = null;
             public TextureResourceHande BlendmaskTextureResource = null;
+            private bool disposedValue;
 
             private void SetMaterialTexture(TextureResourceHande handle, ref ushort matTex, ushort defaultTex)
             {
@@ -171,6 +172,32 @@ namespace StudioCore.Resource
             public void OnResourceUnloaded(IResourceHandle handle)
             {
                 UpdateMaterial();
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        MaterialBuffer.Dispose();
+                    }
+
+                    ReleaseTextures();
+                    disposedValue = true;
+                }
+            }
+
+            ~FlverMaterial()
+            {
+                Dispose(disposing: false);
+            }
+
+            public void Dispose()
+            {
+                // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+                Dispose(disposing: true);
+                GC.SuppressFinalize(this);
             }
         }
 
@@ -1028,7 +1055,13 @@ namespace StudioCore.Resource
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    if (GPUMaterials != null)
+                    {
+                        foreach (var m in GPUMaterials)
+                        {
+                            m.Dispose();
+                        }
+                    }
                 }
 
                 if (GPUMeshes != null)
@@ -1037,14 +1070,6 @@ namespace StudioCore.Resource
                     {
                         m.GeomBuffer.Dispose();
                         //Marshal.FreeHGlobal(m.PickingVertices);
-                    }
-                }
-
-                if (GPUMaterials != null)
-                {
-                    foreach (var m in GPUMaterials)
-                    {
-                        m.ReleaseTextures();
                     }
                 }
 

@@ -206,6 +206,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     Viewport.SetEnvMap(tex.Get().GPUTexture.TexHandle);
                                 }
+                                tex.Unlock();
                             }
                         }
                     }

@@ -294,6 +294,7 @@ namespace StudioCore.Scene
             _renderablesSet = renderables;
             _meshProvider = provider;
             _meshProvider.AddEventListener(this);
+            _meshProvider.Acquire();
             if (autoregister)
             {
                 _registered = true;
@@ -343,13 +344,15 @@ namespace StudioCore.Scene
             {
                 c.UnregisterAndRelease();
             }
-            /*if (Resource != null)
+            if (_meshProvider != null)
             {
-                Resource.Release();
+                _meshProvider.Release();
             }
-            Resource = null;
-            Created = false;
-            Submeshes = null;*/
+            if (_worldBuffer != null)
+            {
+                _worldBuffer.Dispose();
+                _worldBuffer = null;
+            }
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -552,6 +555,7 @@ namespace StudioCore.Scene
                 {
                     _renderablesSet.cBounds[_selectionOutlineRenderable] = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
                 }
+                _meshProvider.Unlock();
             }
         }
 
@@ -840,6 +844,24 @@ namespace StudioCore.Scene
             _drawfilter = clone.DrawFilter;
             _baseColor = clone._baseColor;
             _highlightedColor = clone._highlightedColor;
+        }
+
+        public override void UnregisterAndRelease()
+        {
+            if (_registered)
+            {
+                UnregisterWithScene();
+            }
+            if (_worldBuffer != null)
+            {
+                _worldBuffer.Dispose();
+                _worldBuffer = null;
+            }
+            if (_materialBuffer != null)
+            {
+                _materialBuffer.Dispose();
+                _materialBuffer = null;
+            }
         }
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)

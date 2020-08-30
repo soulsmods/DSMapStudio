@@ -975,10 +975,9 @@ namespace StudioCore.MsbEditor
             {
                 foreach (var obj in map.Objects)
                 {
-                    if (obj.RenderSceneMesh != null)
+                    if (obj != null)
                     {
-                        obj.RenderSceneMesh.UnregisterAndRelease();
-                        //_renderScene.RemoveObject(obj.RenderSceneMesh);
+                        obj.Dispose();
                     }
                 }
                 map.Clear();

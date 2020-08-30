@@ -114,6 +114,9 @@ namespace StudioCore.Scene
         /// </summary>
         public virtual void Unlock() { }
 
+        public virtual void Acquire() { }
+        public virtual void Release() { }
+
         /// <summary>
         /// This mesh provider is capable of supplying mesh data at the moment.
         /// For example, this may return true if the underlying resource is loaded,
@@ -210,7 +213,7 @@ namespace StudioCore.Scene
         public FlverMeshProvider(ResourceHandle<Resource.FlverResource> res)
         {
             _resource = res;
-            _resource.Acquire();
+            //_resource.Acquire();
             _resource.AddResourceEventListener(this);
         }
 
@@ -218,7 +221,7 @@ namespace StudioCore.Scene
         {
             if (_resource != null)
             {
-                _resource.Release();
+                //_resource.Release();
             }
         }
 
@@ -237,6 +240,16 @@ namespace StudioCore.Scene
         public override void Unlock()
         {
             _resource.Unlock();
+        }
+
+        public override void Acquire()
+        {
+            _resource.Acquire();
+        }
+
+        public override void Release()
+        {
+            _resource.Release();
         }
 
         public override bool IsAvailable()
@@ -398,7 +411,7 @@ namespace StudioCore.Scene
         public CollisionMeshProvider(ResourceHandle<Resource.HavokCollisionResource> res)
         {
             _resource = res;
-            _resource.Acquire();
+            //_resource.Acquire();
             _resource.AddResourceEventListener(this);
         }
 
@@ -406,7 +419,7 @@ namespace StudioCore.Scene
         {
             if (_resource != null)
             {
-                _resource.Release();
+                //_resource.Release();
             }
         }
 
@@ -425,6 +438,16 @@ namespace StudioCore.Scene
         public override void Unlock()
         {
             _resource.Unlock();
+        }
+
+        public override void Acquire()
+        {
+            _resource.Acquire();
+        }
+
+        public override void Release()
+        {
+            _resource.Release();
         }
 
         public override bool IsAvailable()

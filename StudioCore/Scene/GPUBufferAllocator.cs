@@ -4,16 +4,15 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Veldrid;
+using StudioCore.Memory;
 
 namespace StudioCore.Scene
 {
     public class GPUBufferAllocator
     {
         private long _bufferSize = 0;
-        private long _allocatedbytes = 0;
 
         public long BufferSize { get => _bufferSize; }
-        public long AllocatedSize { get => _allocatedbytes; }
 
         private object _allocationLock = new object();
 
@@ -25,12 +24,15 @@ namespace StudioCore.Scene
         private ResourceLayout _bufferLayout = null;
         private ResourceSet _bufferResourceSet = null;
 
+        private FreeListAllocator _allocator = null;
+
         public GPUBufferAllocator(uint initialSize, BufferUsage usage)
         {
             BufferDescription desc = new BufferDescription(
                 initialSize, usage);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
+            _allocator = new FreeListAllocator(initialSize);
         }
 
         public GPUBufferAllocator(uint initialSize, BufferUsage usage, uint stride)
@@ -39,6 +41,7 @@ namespace StudioCore.Scene
                 initialSize, usage, stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
+            _allocator = new FreeListAllocator(initialSize);
         }
 
         public GPUBufferAllocator(string name, uint initialSize, BufferUsage usage, uint stride, ShaderStages stages)
@@ -47,6 +50,7 @@ namespace StudioCore.Scene
                 initialSize, usage, stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
+            _allocator = new FreeListAllocator(initialSize);
 
             var layoutdesc = new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription(name, ResourceKind.StructuredBufferReadWrite, stages));
@@ -60,19 +64,27 @@ namespace StudioCore.Scene
             GPUBufferHandle handle;
             lock (_allocationLock)
             {
-                if ((_allocatedbytes % alignment) != 0)
-                {
-                    _allocatedbytes += (alignment - (_allocatedbytes % alignment));
-                }
-                handle = new GPUBufferHandle(this, (uint)_allocatedbytes, size);
-                _allocatedbytes += size;
-                if (_allocatedbytes > _bufferSize)
+                //if ((_allocatedbytes % alignment) != 0)
+                //{
+                //    _allocatedbytes += (alignment - (_allocatedbytes % alignment));
+                //}
+                uint addr;
+                if (!_allocator.AlignedAlloc(size, (uint)alignment, out addr))
                 {
                     throw new Exception("Download more RAM 4head");
                 }
+                handle = new GPUBufferHandle(this, addr, size);
                 _allocations.Add(handle);
             }
             return handle;
+        }
+
+        private void Free(uint addr)
+        {
+            lock (_allocationLock)
+            {
+                _allocator.Free(addr);
+            }
         }
 
         public void BindAsVertexBuffer(CommandList cl)
@@ -98,9 +110,10 @@ namespace StudioCore.Scene
             }
         }
 
-        public class GPUBufferHandle
+        public class GPUBufferHandle : IDisposable
         {
             private GPUBufferAllocator _allocator;
+            private bool disposedValue;
 
             public uint AllocationStart { get; private set; }
             public uint AllocationSize { get; private set; }
@@ -153,6 +166,32 @@ namespace StudioCore.Scene
                     cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, data, size);
                     completionHandler.Invoke();
                 });
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        // TODO: dispose managed state (managed objects)
+                    }
+
+                    _allocator.Free(AllocationStart);
+                    disposedValue = true;
+                }
+            }
+
+            // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+            ~GPUBufferHandle()
+            {
+                Dispose(disposing: false);
+            }
+
+            public void Dispose()
+            {
+                Dispose(disposing: true);
+                GC.SuppressFinalize(this);
             }
         }
     }
@@ -428,6 +467,9 @@ namespace StudioCore.Scene
             public long _bufferSizeIndex = 0;
 
             internal int _handleCount = 0;
+
+            internal FreeListAllocator _vertAllocator;
+            internal FreeListAllocator _indexAllocator;
 
             public DeviceBuffer _backingVertBuffer { get; internal set; } = null;
             public DeviceBuffer _backingIndexBuffer { get; internal set; } = null;
