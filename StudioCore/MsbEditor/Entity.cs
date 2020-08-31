@@ -898,7 +898,7 @@ namespace StudioCore.MsbEditor
             {
                 if (RenderSceneMesh != null)
                 {
-                    RenderSceneMesh.UnregisterAndRelease();
+                    RenderSceneMesh.Dispose();
                 }
                 RenderSceneMesh = Universe.GetDS2EventLocationDrawable(ContainingMap, this);
             }
@@ -906,7 +906,7 @@ namespace StudioCore.MsbEditor
             {
                 if (RenderSceneMesh != null)
                 {
-                    RenderSceneMesh.UnregisterAndRelease();
+                    RenderSceneMesh.Dispose();
                 }
                 RenderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
             }
@@ -915,7 +915,7 @@ namespace StudioCore.MsbEditor
                 var model = GetPropertyValue<string>("ModelName");
                 if (model != null && model != CurrentModel)
                 {
-                    RenderSceneMesh.UnregisterAndRelease();
+                    RenderSceneMesh.Dispose();
                     CurrentModel = model;
                     RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
                     if (Universe.Selection.IsSelected(this))

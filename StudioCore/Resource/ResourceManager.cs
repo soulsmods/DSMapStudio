@@ -837,8 +837,8 @@ namespace StudioCore.Resource
         {
             if (ActiveJobProgress.Count() > 0)
             {
-                ImGui.SetNextWindowSize(new Vector2(400, 250));
-                ImGui.SetNextWindowPos(new Vector2(w - 450, h - 300));
+                ImGui.SetNextWindowSize(new Vector2(400, 310));
+                ImGui.SetNextWindowPos(new Vector2(w - 100, h - 300));
                 if (!ImGui.Begin("Resource Loading Tasks", ref TaskWindowOpen, ImGuiWindowFlags.NoDecoration))
                 {
                     ImGui.End();

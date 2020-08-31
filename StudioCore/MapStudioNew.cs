@@ -401,6 +401,13 @@ namespace StudioCore
 
             if (success)
             {
+                if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
+                {
+                    System.Windows.Forms.MessageBox.Show($@"The files for {settings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.None);
+                    return false;
+                }
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename));
                 CFG.Current.LastProjectFile = filename;
@@ -692,14 +699,23 @@ namespace StudioCore
                         validated = false;
                     }
 
+                    string gameroot = Path.GetDirectoryName(_newProjectSettings.GameRoot);
+                    if (_newProjectSettings.GameType == GameType.Bloodborne)
+                    {
+                        _newProjectSettings.GameRoot = _newProjectSettings.GameRoot + @"\dvdroot_ps4";
+                    }
+                    if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectSettings.GameType))
+                    {
+                        System.Windows.Forms.MessageBox.Show($@"The files for {_newProjectSettings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
+                            System.Windows.Forms.MessageBoxButtons.OK,
+                            System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+
                     if (validated)
                     {
                         _projectSettings = _newProjectSettings;
-                        _projectSettings.GameRoot = Path.GetDirectoryName(_projectSettings.GameRoot);
-                        if (_projectSettings.GameType == GameType.Bloodborne)
-                        {
-                            _projectSettings.GameRoot = _projectSettings.GameRoot + @"\dvdroot_ps4";
-                        }
+                        _projectSettings.GameRoot = gameroot;
                         _projectSettings.Serialize($@"{_newProjectDirectory}\project.json");
                         ChangeProjectSettings(_projectSettings, _newProjectDirectory);
 

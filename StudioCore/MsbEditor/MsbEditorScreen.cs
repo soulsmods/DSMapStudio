@@ -331,7 +331,7 @@ namespace StudioCore.MsbEditor
                 // F key frames the selection
                 if (InputTracker.GetKeyDown(Key.F))
                 {
-                    /*FIX:var selected = _selection.GetFilteredSelection<Entity>();
+                    var selected = _selection.GetFilteredSelection<Entity>();
                     bool first = false;
                     BoundingBox box = new BoundingBox();
                     foreach (var s in selected)
@@ -352,7 +352,7 @@ namespace StudioCore.MsbEditor
                     if (first)
                     {
                         Viewport.FrameBox(box);
-                    }*/
+                    }
                 }
 
                 // Render settings
@@ -368,6 +368,7 @@ namespace StudioCore.MsbEditor
                 {
                     RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                 }
+                CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
             }
 
             // Parse select commands

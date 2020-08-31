@@ -151,6 +151,33 @@ namespace StudioCore
             return type;
         }
 
+        public bool CheckFilesExpanded(string gamepath, GameType game)
+        {
+            if (game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsIII || game == GameType.Sekiro)
+            {
+                if (!Directory.Exists($@"{gamepath}\map"))
+                {
+                    return false;
+                }
+                if (!Directory.Exists($@"{gamepath}\obj"))
+                {
+                    return false;
+                }
+            }
+            if (game == GameType.DarkSoulsIISOTFS)
+            {
+                if (!Directory.Exists($@"{gamepath}\map"))
+                {
+                    return false;
+                }
+                if (!Directory.Exists($@"{gamepath}\model\obj"))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// Sets the game root directory by giving a path to the game exe/eboot.bin. Autodetects the game type.
         /// </summary>
