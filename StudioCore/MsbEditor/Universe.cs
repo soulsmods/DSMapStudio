@@ -154,6 +154,7 @@ namespace StudioCore.MsbEditor
                 var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Collision;
                 obj.RenderSceneMesh = mesh;
                 if (!res.IsLoaded)
                 {
@@ -176,6 +177,7 @@ namespace StudioCore.MsbEditor
                 mesh.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Navmesh;
                 if (!res.IsLoaded)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
@@ -495,6 +497,7 @@ namespace StudioCore.MsbEditor
                         var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
                         var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
                         mesh.World = obj.GetWorldMatrix();
+                        mesh.DrawFilter = RenderFilter.Navmesh;
                         obj.RenderSceneMesh = mesh;
                         mesh.SetSelectable(obj);
                     }
