@@ -50,6 +50,21 @@ namespace StudioCore.Scene
             _cache.Add(handle.AssetVirtualPath, nfmp);
             return nfmp;
         }
+
+        public static NavmeshProvider GetNVMMeshProvider(ResourceHandle<NVMNavmeshResource> handle)
+        {
+            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            {
+                if (_cache[handle.AssetVirtualPath] is NavmeshProvider fmp)
+                {
+                    return fmp;
+                }
+                throw new Exception("Mesh provider exists but in the wrong form");
+            }
+            NavmeshProvider nfmp = new NavmeshProvider(handle);
+            _cache.Add(handle.AssetVirtualPath, nfmp);
+            return nfmp;
+        }
     }
 
     /// <summary>
@@ -202,6 +217,10 @@ namespace StudioCore.Scene
         public virtual int IndexCount { get => 0; }
 
         public virtual uint VertexSize { get => 0; }
+
+        // Selection properties
+        public virtual bool SelectedUseBackface { get => true; }
+        public virtual bool SelectedRenderBaseMesh { get => true; }
     }
 
     public class FlverMeshProvider : MeshProvider, Resource.IResourceEventListener
@@ -526,11 +545,6 @@ namespace StudioCore.Scene
         private Resource.ResourceHandle<Resource.HavokCollisionResource> _resource;
         private int _meshIndex;
 
-        private static VertexLayoutDescription _layoutDesc = new VertexLayoutDescription(
-                    new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-                    new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-                    new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
-
         public CollisionSubmeshProvider(ResourceHandle<Resource.HavokCollisionResource> handle, int idx)
         {
             _resource = handle;
@@ -575,7 +589,7 @@ namespace StudioCore.Scene
 
         public override MeshLayoutType LayoutType => MeshLayoutType.LayoutCollision;
 
-        public override VertexLayoutDescription LayoutDescription => _layoutDesc;
+        public override VertexLayoutDescription LayoutDescription => CollisionLayout.Layout;
 
         public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => _resource.Get().GPUMeshes[_meshIndex].GeomBuffer;
 
@@ -600,5 +614,109 @@ namespace StudioCore.Scene
         public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].IndexCount;
 
         public override uint VertexSize => Resource.CollisionLayout.SizeInBytes;
+
+        public override bool SelectedUseBackface => false;
+
+        public override bool SelectedRenderBaseMesh => false;
+    }
+
+    public unsafe class NavmeshProvider : MeshProvider, IResourceEventListener
+    {
+        private Resource.ResourceHandle<Resource.NVMNavmeshResource> _resource;
+
+        public NavmeshProvider(ResourceHandle<Resource.NVMNavmeshResource> handle)
+        {
+            _resource = handle;
+            _resource.AddResourceEventListener(this);
+        }
+
+        public override bool TryLock()
+        {
+            return _resource.TryLock();
+        }
+
+        public override void Unlock()
+        {
+            _resource.Unlock();
+        }
+
+        public override void Acquire()
+        {
+            _resource.Acquire();
+        }
+
+        public override void Release()
+        {
+            _resource.Release();
+        }
+
+        public override bool IsAvailable()
+        {
+            return _resource.IsLoaded &&
+                (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
+                 _resource.AccessLevel == AccessLevel.AccessFull);
+        }
+
+        public override bool IsAtomic()
+        {
+            return true;
+        }
+
+        public override bool HasMeshData()
+        {
+            if (_resource.IsLoaded && _resource.Get().VertexCount > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void OnResourceLoaded(IResourceHandle handle)
+        {
+            if (_resource != null && _resource.TryLock())
+            {
+                _resource.Unlock();
+                NotifyAvailable();
+            }
+        }
+
+        public void OnResourceUnloaded(IResourceHandle handle)
+        {
+            NotifyUnavailable();
+        }
+
+        public override BoundingBox Bounds => _resource.Get().Bounds;
+
+        public override MeshLayoutType LayoutType => MeshLayoutType.LayoutNavmesh;
+
+        public override VertexLayoutDescription LayoutDescription => NavmeshLayout.Layout;
+
+        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => _resource.Get().GeomBuffer;
+
+        public override GPUBufferAllocator.GPUBufferHandle MaterialBuffer => null;
+
+        //public override uint MaterialIndex => MaterialBuffer.AllocationStart / (uint)sizeof(Material);
+
+        public override string ShaderName => "NavSolid";
+
+        public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
+
+        public override FaceCullMode CullMode => FaceCullMode.Back;
+
+        public override FrontFace FrontFace => FrontFace.Clockwise;
+
+        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+
+        public override bool Is32Bit => true;
+
+        public override int IndexOffset => 0;
+
+        public override int IndexCount => _resource.Get().IndexCount;
+
+        public override uint VertexSize => Resource.NavmeshLayout.SizeInBytes;
+
+        public override bool SelectedUseBackface => false;
+
+        public override bool SelectedRenderBaseMesh => false;
     }
 }

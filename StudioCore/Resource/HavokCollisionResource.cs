@@ -83,6 +83,12 @@ namespace StudioCore.Resource
                 MeshVertices[i+2].Color[1] = (byte)(157);
                 MeshVertices[i+2].Color[2] = (byte)(255);
                 MeshVertices[i+2].Color[3] = (byte)(255);
+                MeshVertices[i].Barycentric[0] = 0;
+                MeshVertices[i].Barycentric[1] = 0;
+                MeshVertices[i+1].Barycentric[0] = 1;
+                MeshVertices[i+1].Barycentric[1] = 0;
+                MeshVertices[i+2].Barycentric[0] = 0;
+                MeshVertices[i+2].Barycentric[1] = 1;
 
                 MeshIndices[i] = i;
                 MeshIndices[i + 1] = i + 1;
@@ -269,6 +275,12 @@ namespace StudioCore.Resource
                 MeshVertices[i + 2].Color[1] = (byte)(157);
                 MeshVertices[i + 2].Color[2] = (byte)(255);
                 MeshVertices[i + 2].Color[3] = (byte)(255);
+                MeshVertices[i].Barycentric[0] = 0;
+                MeshVertices[i].Barycentric[1] = 0;
+                MeshVertices[i + 1].Barycentric[0] = 1;
+                MeshVertices[i + 1].Barycentric[1] = 0;
+                MeshVertices[i + 2].Barycentric[0] = 0;
+                MeshVertices[i + 2].Barycentric[1] = 1;
 
                 MeshIndices[i] = i;
                 MeshIndices[i + 1] = i + 1;
@@ -459,7 +471,6 @@ namespace StudioCore.Resource
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
                 }
 
                 if (GPUMeshes != null)
@@ -474,19 +485,14 @@ namespace StudioCore.Resource
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
         ~HavokCollisionResource()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(false);
         }
 
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
             GC.SuppressFinalize(this);
         }
         #endregion

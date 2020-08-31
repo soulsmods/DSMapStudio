@@ -37,6 +37,7 @@ layout(set = 1, binding = 0, std140) buffer WorldBuffer
 layout(location = 0) in vec3 position;
 layout(location = 1) in ivec4 normal;
 layout(location = 2) in uvec4 color;
+layout(location = 3) in uvec4 barycentric;
 layout(location = 0) out vec3 fsin_normal;
 layout(location = 1) out vec4 fsin_color;
 layout(location = 2) out vec3 fsin_view;

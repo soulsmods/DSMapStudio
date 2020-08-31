@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using StudioCore.MsbEditor;
 using StudioCore.Scene;
 using System;
 using System.Diagnostics;
@@ -185,8 +186,8 @@ namespace StudioCore
             {
                 if (File.Exists(CFG.Current.LastProjectFile))
                 {
-                    _projectSettings = MsbEditor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
-                    ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(CFG.Current.LastProjectFile));
+                    var project = MsbEditor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
+                    AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
                 }
             }
         }
@@ -200,9 +201,13 @@ namespace StudioCore
                     Thread.Sleep(5000);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
+
                     GC.Collect();
                 }
             });*/
+
+            // Flush geometry megabuffers for editor geometry
+            Renderer.GeometryBufferAllocator.FlushStaging();
 
             long previousFrameTicks = 0;
             Stopwatch sw = new Stopwatch();
@@ -342,6 +347,79 @@ namespace StudioCore
             }
         }
 
+        private bool AttemptLoadProject(ProjectSettings settings, string filename, bool updateRecents=true)
+        {
+            bool success = true;
+
+            // Check if game exe exists
+            if (!Directory.Exists(settings.GameRoot))
+            {
+                success = false;
+                System.Windows.Forms.MessageBox.Show($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
+
+                var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                {
+                    Filter = AssetLocator.GameExecutatbleFilter,
+                    ValidateNames = true,
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    //ShowReadOnly = true,
+                };
+
+                var gametype = GameType.Undefined;
+                while (gametype != settings.GameType)
+                {
+                    if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        settings.GameRoot = rbrowseDlg.FileName;
+                        gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
+                        if (gametype != settings.GameType)
+                        {
+                            System.Windows.Forms.MessageBox.Show($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
+                                System.Windows.Forms.MessageBoxButtons.OK,
+                                System.Windows.Forms.MessageBoxIcon.None);
+                        }
+                        else
+                        {
+                            success = true;
+                            settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
+                            if (settings.GameType == GameType.Bloodborne)
+                            {
+                                settings.GameRoot = settings.GameRoot + @"\dvdroot_ps4";
+                            }
+                            settings.Serialize(filename);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (success)
+            {
+                _projectSettings = settings;
+                ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename));
+                CFG.Current.LastProjectFile = filename;
+                if (updateRecents)
+                {
+                    var recent = new CFG.RecentProject();
+                    recent.Name = _projectSettings.ProjectName;
+                    recent.GameType = _projectSettings.GameType;
+                    recent.ProjectFile = filename;
+                    CFG.Current.RecentProjects.Insert(0, recent);
+                    if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
+                    {
+                        CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
+                    }
+                }
+            }
+            return success;
+        }
+
         private void Update(float deltaseconds)
         {
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
@@ -410,18 +488,8 @@ namespace StudioCore
 
                         if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
-                            _projectSettings = MsbEditor.ProjectSettings.Deserialize(browseDlg.FileName);
-                            ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(browseDlg.FileName));
-                            CFG.Current.LastProjectFile = browseDlg.FileName;
-                            var recent = new CFG.RecentProject();
-                            recent.Name = _projectSettings.ProjectName;
-                            recent.GameType = _projectSettings.GameType;
-                            recent.ProjectFile = browseDlg.FileName;
-                            CFG.Current.RecentProjects.Insert(0, recent);
-                            if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
-                            {
-                                CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
-                            }
+                            var settings = MsbEditor.ProjectSettings.Deserialize(browseDlg.FileName);
+                            AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
                     if (ImGui.BeginMenu("Recent Projects"))
@@ -433,9 +501,11 @@ namespace StudioCore
                             {
                                 if (File.Exists(p.ProjectFile))
                                 {
-                                    _projectSettings = MsbEditor.ProjectSettings.Deserialize(p.ProjectFile);
-                                    ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(p.ProjectFile));
-                                    recent = p;
+                                    var settings = MsbEditor.ProjectSettings.Deserialize(p.ProjectFile);
+                                    if (AttemptLoadProject(settings, p.ProjectFile, false))
+                                    {
+                                        recent = p;
+                                    }
                                 }
                             }
                         }

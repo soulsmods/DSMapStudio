@@ -30,7 +30,7 @@ namespace StudioCore.Resource
         {
             var verts = mesh.Vertices;
             var MeshIndices = new int[mesh.Triangles.Count * 3];
-            var MeshVertices = new CollisionLayout[mesh.Triangles.Count * 3];
+            var MeshVertices = new NavmeshLayout[mesh.Triangles.Count * 3];
             PickingVertices = new Vector3[mesh.Triangles.Count * 3];
             PickingIndices = new int[mesh.Triangles.Count * 3];
 
@@ -43,9 +43,9 @@ namespace StudioCore.Resource
                 var vert2 = mesh.Vertices[mesh.Triangles[id].VertexIndex2];
                 var vert3 = mesh.Vertices[mesh.Triangles[id].VertexIndex3];
 
-                MeshVertices[i] = new CollisionLayout();
-                MeshVertices[i+1] = new CollisionLayout();
-                MeshVertices[i+2] = new CollisionLayout();
+                MeshVertices[i] = new NavmeshLayout();
+                MeshVertices[i+1] = new NavmeshLayout();
+                MeshVertices[i+2] = new NavmeshLayout();
 
                 MeshVertices[i].Position = new Vector3(vert1.X, vert1.Y, vert1.Z);
                 MeshVertices[i+1].Position = new Vector3(vert2.X, vert2.Y, vert2.Z);
@@ -77,6 +77,13 @@ namespace StudioCore.Resource
                 MeshVertices[i+2].Color[2] = (byte)(255);
                 MeshVertices[i+2].Color[3] = (byte)(255);
 
+                MeshVertices[i].Barycentric[0] = (byte)(0);
+                MeshVertices[i].Barycentric[1] = (byte)(0);
+                MeshVertices[i + 1].Barycentric[0] = (byte)(1);
+                MeshVertices[i + 1].Barycentric[1] = (byte)(0);
+                MeshVertices[i + 2].Barycentric[0] = (byte)(0);
+                MeshVertices[i + 2].Barycentric[1] = (byte)(1);
+
                 MeshIndices[i] = i;
                 MeshIndices[i + 1] = i + 1;
                 MeshIndices[i + 2] = i + 2;
@@ -102,9 +109,9 @@ namespace StudioCore.Resource
                 Bounds = new BoundingBox();
             }
 
-            uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
+            uint vbuffersize = (uint)MeshVertices.Length * NavmeshLayout.SizeInBytes;
 
-            GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
+            GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)NavmeshLayout.SizeInBytes, 4, (h) =>
             {
                 h.FillIBuffer(MeshIndices, () =>
                 {
@@ -185,30 +192,25 @@ namespace StudioCore.Resource
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                GeomBuffer.Dispose();
 
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~HavokCollisionResource()
-        // {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
+        ~NVMNavmeshResource()
+        {
+            Dispose(false);
+        }
 
         // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

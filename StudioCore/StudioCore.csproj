@@ -241,6 +241,8 @@
     <None Remove="Assets\Shaders\imgui.vert.spv" />
     <None Remove="Assets\Shaders\NavSolid.frag.spv" />
     <None Remove="Assets\Shaders\NavSolid.vert.spv" />
+    <None Remove="Assets\Shaders\NavSolid_selected.frag.spv" />
+    <None Remove="Assets\Shaders\NavSolid_selected.vert.spv" />
     <None Remove="Assets\Shaders\NavWire.frag.spv" />
     <None Remove="Assets\Shaders\NavWire.vert.spv" />
     <None Remove="Assets\Shaders\SimpleFlver.frag.spv" />
@@ -356,6 +358,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Shaders\NavSolid.vert.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\NavSolid_selected.frag.spv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\NavSolid_selected.vert.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Shaders\NavWire.frag.spv">

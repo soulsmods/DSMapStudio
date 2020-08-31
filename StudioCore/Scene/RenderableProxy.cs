@@ -199,6 +199,10 @@ namespace StudioCore.Scene
                 if (_renderable != -1)
                 {
                     _renderablesSet.cVisible[_renderable]._visible = value;
+                    if (!_meshProvider.SelectedRenderBaseMesh && _renderOutline)
+                    {
+                        _renderablesSet.cVisible[_renderable]._visible = false;
+                    }
                 }
                 foreach (var sm in _submeshes)
                 {
@@ -493,6 +497,10 @@ namespace StudioCore.Scene
 
                 // Visible
                 _renderablesSet.cVisible[_renderable]._visible = _visible;
+                if (!_meshProvider.SelectedRenderBaseMesh && _renderOutline)
+                {
+                    _renderablesSet.cVisible[_renderable]._visible = false;
+                }
                 _renderablesSet.cSceneVis[_renderable]._renderFilter = _drawfilter;
                 _renderablesSet.cSceneVis[_renderable]._drawGroup = _drawgroups;
 
@@ -500,7 +508,9 @@ namespace StudioCore.Scene
                 if (_renderOutline)
                 {
                     pipelineDescription.RasterizerState = new RasterizerStateDescription(
-                        cullMode: (_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front,
+                        cullMode: _meshProvider.SelectedUseBackface ?
+                            ((_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front) :
+                            _meshProvider.CullMode,
                         fillMode: _meshProvider.FillMode,
                         frontFace: _meshProvider.FrontFace,
                         depthClipEnabled: true,
@@ -594,6 +604,10 @@ namespace StudioCore.Scene
         {
             if (_meshProvider.TryLock())
             {
+                if (_meshProvider.HasMeshData())
+                {
+                    ScheduleRenderableConstruction();
+                }
                 for (int i = 0; i < _meshProvider.ChildCount; i++)
                 {
                     var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i), AutoRegister);
@@ -656,6 +670,12 @@ namespace StudioCore.Scene
         public static MeshRenderableProxy MeshRenderableFromCollisionResource(RenderScene scene, ResourceHandle<HavokCollisionResource> handle)
         {
             var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetCollisionMeshProvider(handle));
+            return renderable;
+        }
+
+        public static MeshRenderableProxy MeshRenderableFromNVMResource(RenderScene scene, ResourceHandle<NVMNavmeshResource> handle)
+        {
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetNVMMeshProvider(handle));
             return renderable;
         }
     }

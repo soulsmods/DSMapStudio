@@ -19,6 +19,7 @@ namespace StudioCore.Resource
         LayoutUV3,
         LayoutUV4,
         LayoutCollision,
+        LayoutNavmesh,
         LayoutPositionColorNormal
     }
 
@@ -42,6 +43,8 @@ namespace StudioCore.Resource
                     return FlverLayoutUV2.Layout;
                 case MeshLayoutType.LayoutCollision:
                     return CollisionLayout.Layout;
+                case MeshLayoutType.LayoutNavmesh:
+                    return NavmeshLayout.Layout;
                 case MeshLayoutType.LayoutPositionColorNormal:
                     return VertexPositionColorNormal.Layout;
                 default:
@@ -67,6 +70,8 @@ namespace StudioCore.Resource
                     return (uint)sizeof(FlverLayoutUV2);
                 case MeshLayoutType.LayoutCollision:
                     return (uint)sizeof(CollisionLayout);
+                case MeshLayoutType.LayoutNavmesh:
+                    return (uint)sizeof(NavmeshLayout);
                 case MeshLayoutType.LayoutPositionColorNormal:
                     return (uint)sizeof(VertexPositionColorNormal);
                 default:
@@ -192,15 +197,33 @@ namespace StudioCore.Resource
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct CollisionLayout
     {
-        public const uint SizeInBytes = 20;
+        public const uint SizeInBytes = 24;
         public Vector3 Position;
         public fixed sbyte Normal[4];
         public fixed byte Color[4];
+        public fixed byte Barycentric[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
              new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
              new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
+             new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct NavmeshLayout
+    {
+        public const uint SizeInBytes = 24;
+        public Vector3 Position;
+        public fixed sbyte Normal[4];
+        public fixed byte Color[4];
+        public fixed byte Barycentric[4];
+
+        public static VertexLayoutDescription Layout = new VertexLayoutDescription(
+             new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
+             new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
+             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
+             new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
     }
 
     //[StructLayout(LayoutKind.Sequential, Pack = 1)]

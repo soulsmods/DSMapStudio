@@ -172,10 +172,10 @@ namespace StudioCore.MsbEditor
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
                 var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                var mesh = new Scene.NvmMesh(_renderScene, res, false);
-                mesh.WorldMatrix = obj.GetWorldMatrix();
-                //FIX:obj.RenderSceneMesh = mesh;
-                mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
+                mesh.World = obj.GetWorldMatrix();
+                obj.RenderSceneMesh = mesh;
+                mesh.SetSelectable(obj);
                 if (!res.IsLoaded)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
@@ -188,8 +188,7 @@ namespace StudioCore.MsbEditor
                     }
                     job.StartJobAsync();
                 }
-                //return mesh;
-                return null;
+                return mesh;
             }
             else if (loadnav && _assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -485,12 +484,6 @@ namespace StudioCore.MsbEditor
                     if (loadcol)
                     {
                         var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                        //var mesh = new Scene.CollisionMesh(_renderScene, res, _assetLocator.Type == GameType.DarkSoulsIISOTFS
-                        //                                        || _assetLocator.Type == GameType.DarkSoulsIII
-                        //                                        || _assetLocator.Type == GameType.Bloodborne);
-                        //mesh.WorldMatrix = obj.GetTransform().WorldMatrix;
-                        //FIX:obj.RenderSceneMesh = mesh;
-                        //mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
                         var model = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
                         model.World = obj.GetWorldMatrix();
                         model.DrawFilter = RenderFilter.Collision;
@@ -500,10 +493,10 @@ namespace StudioCore.MsbEditor
                     else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
                     {
                         var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                        var mesh = new Scene.NvmMesh(_renderScene, res, false);
-                        mesh.WorldMatrix = obj.GetWorldMatrix();
-                        //FIX:obj.RenderSceneMesh = mesh;
-                        mesh.Selectable = new WeakReference<Scene.ISelectable>(obj);
+                        var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
+                        mesh.World = obj.GetWorldMatrix();
+                        obj.RenderSceneMesh = mesh;
+                        mesh.SetSelectable(obj);
                     }
                     else if (loadnav && (_assetLocator.Type == GameType.DarkSoulsIISOTFS || _assetLocator.Type == GameType.Bloodborne))
                     {
@@ -512,11 +505,6 @@ namespace StudioCore.MsbEditor
                     else
                     {
                         var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                        //var model = new NewMesh(_renderScene, res);
-                        //model.DrawFilter = filt;
-                        //model.WorldMatrix = obj.GetTransform().WorldMatrix;
-                        //FIX:obj.RenderSceneMesh = model;
-                        //model.Selectable = new WeakReference<Scene.ISelectable>(obj);
                         var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
                         model.World = obj.GetWorldMatrix();
                         model.DrawFilter = filt;
