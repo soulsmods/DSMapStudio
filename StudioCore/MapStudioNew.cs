@@ -702,7 +702,7 @@ namespace StudioCore
                     string gameroot = Path.GetDirectoryName(_newProjectSettings.GameRoot);
                     if (_newProjectSettings.GameType == GameType.Bloodborne)
                     {
-                        _newProjectSettings.GameRoot = _newProjectSettings.GameRoot + @"\dvdroot_ps4";
+                        gameroot = gameroot + @"\dvdroot_ps4";
                     }
                     if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectSettings.GameType))
                     {
