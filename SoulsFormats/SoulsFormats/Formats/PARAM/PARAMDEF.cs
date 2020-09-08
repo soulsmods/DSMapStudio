@@ -419,6 +419,11 @@ namespace SoulsFormats
             public string InternalName { get; set; }
 
             /// <summary>
+            /// Name of another Param that a Field may refer to. null for a field that does not refer to a param.
+            /// </summary>
+            public string RefType { get; set; }
+
+            /// <summary>
             /// Number of bits used by a bitfield; only supported for unsigned types, -1 when not used.
             /// </summary>
             public int BitSize { get; set; }
@@ -597,7 +602,7 @@ namespace SoulsFormats
             }
 
             #region XML Serialization
-            private static readonly Regex defOuterRx = new Regex($@"^(?<type>\S+)\s+(?<name>.+?)(?:\s*=\s*(?<default>\S+))?$");
+            private static readonly Regex defOuterRx = new Regex($@"^(?<type>[^\s\*]+)(\*\[(?<ref>\S+)\])?\s+(?<name>.+?)(?:\s*=\s*(?<default>\S+))?$");
             private static readonly Regex defBitRx = new Regex($@"^(?<name>.+?)\s*:\s*(?<size>\d+)$");
             private static readonly Regex defArrayRx = new Regex($@"^(?<name>.+?)\s*\[\s*(?<length>\d+)\]$");
 
@@ -625,6 +630,13 @@ namespace SoulsFormats
                     internalName = arrayMatch.Groups["name"].Value;
                 }
                 InternalName = internalName;
+                
+                string reftype = null;
+                Group refmatch = outerMatch.Groups["ref"];
+                if(refmatch.Success){
+                    reftype = refmatch.Value;
+                }
+                RefType = reftype;
 
                 DisplayName = node.ReadStringOrDefault(nameof(DisplayName), InternalName);
                 InternalType = node.ReadStringOrDefault("Enum", DisplayType.ToString());

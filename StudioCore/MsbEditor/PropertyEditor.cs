@@ -316,9 +316,10 @@ namespace StudioCore.MsbEditor
 
             foreach (var cell in cells)
             {
+                string reftype = cell.Def.RefType;
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Def.InternalName);
+                ImGui.Text(cell.Def.InternalName+(reftype!=null?" "+reftype:""));
                 ImGui.NextColumn();
                 ImGui.SetNextItemWidth(-1);
                 //ImGui.AlignTextToFramePadding();
@@ -333,6 +334,17 @@ namespace StudioCore.MsbEditor
                 ChangeProperty(cell.GetType().GetProperty("Value"), selection, cell, newval, changed, committed, shouldUpdateVisual);
 
                 ImGui.NextColumn();
+                //Add context menu
+                if(reftype!=null){
+                    if (ImGui.BeginPopupContextItem(cell.Def.InternalName))
+                    {   
+                        if (ImGui.Selectable($@"Go to {reftype}"))
+                        {   
+                            EditorCommandQueue.AddCommand($@"param/select/{reftype}/{cell.Value}");
+                        }
+                        ImGui.EndPopup();
+                    }
+                }
                 ImGui.PopID();
                 id++;
             }
@@ -380,9 +392,10 @@ namespace StudioCore.MsbEditor
 
             foreach (var cell in cells)
             {
+                string reftype = cell.Def.RefType;
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Def.InternalName);
+                ImGui.Text(cell.Def.InternalName+(reftype!=null?"<"+reftype+">":""));
                 ImGui.NextColumn();
                 ImGui.SetNextItemWidth(-1);
                 //ImGui.AlignTextToFramePadding();
@@ -397,6 +410,17 @@ namespace StudioCore.MsbEditor
                 ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
 
                 ImGui.NextColumn();
+                //Add context menu
+                if(reftype!=null){
+                    if (ImGui.BeginPopupContextItem(cell.Def.InternalName))
+                    {   
+                        if (ImGui.Selectable($@"Go to {reftype}"))
+                        {   
+                            EditorCommandQueue.AddCommand($@"param/select/{reftype}/{cell.Value}");
+                        }
+                        ImGui.EndPopup();
+                    }
+                }
                 ImGui.PopID();
                 id++;
             }
