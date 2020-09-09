@@ -419,9 +419,9 @@ namespace SoulsFormats
             public string InternalName { get; set; }
 
             /// <summary>
-            /// Name of another Param that a Field may refer to. null for a field that does not refer to a param.
+            /// Name of another Param that a Field may refer to. null for a field that does not refer to a param. Comma-seperated list for multiple, just because I'm a trash programmer. (t. phil)
             /// </summary>
-            public string RefType { get; set; }
+            public List<string> RefTypes { get; set; }
 
             /// <summary>
             /// Number of bits used by a bitfield; only supported for unsigned types, -1 when not used.
@@ -602,7 +602,7 @@ namespace SoulsFormats
             }
 
             #region XML Serialization
-            private static readonly Regex defOuterRx = new Regex($@"^(?<type>[^\s\*]+)(\*\[(?<ref>\S+)\])?\s+(?<name>.+?)(?:\s*=\s*(?<default>\S+))?$");
+            private static readonly Regex defOuterRx = new Regex($@"^(?<type>[^\s\*]+)\s+(?<name>.+?)(?:\s*=\s*(?<default>\S+))?$");
             private static readonly Regex defBitRx = new Regex($@"^(?<name>.+?)\s*:\s*(?<size>\d+)$");
             private static readonly Regex defArrayRx = new Regex($@"^(?<name>.+?)\s*\[\s*(?<length>\d+)\]$");
 
@@ -631,12 +631,11 @@ namespace SoulsFormats
                 }
                 InternalName = internalName;
                 
-                string reftype = null;
-                Group refmatch = outerMatch.Groups["ref"];
-                if(refmatch.Success){
-                    reftype = refmatch.Value;
+                RefTypes = null;
+                XmlAttribute Ref = node.Attributes["Refs"];
+                if(Ref!=null){
+                    RefTypes = new List<string>(Ref.InnerText.Split(","));
                 }
-                RefType = reftype;
 
                 DisplayName = node.ReadStringOrDefault(nameof(DisplayName), InternalName);
                 InternalType = node.ReadStringOrDefault("Enum", DisplayType.ToString());
