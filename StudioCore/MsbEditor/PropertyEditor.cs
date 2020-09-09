@@ -350,6 +350,7 @@ namespace StudioCore.MsbEditor
             int id = 0;
 
             // This should be rewritten somehow it's super ugly
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
             object oval = nameProp.GetValue(row);
@@ -379,6 +380,7 @@ namespace StudioCore.MsbEditor
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
+            ImGui.PopStyleColor();
 
             foreach (var cell in cells)
             {
@@ -386,6 +388,7 @@ namespace StudioCore.MsbEditor
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text(cell.Def.InternalName);
+                //If reftype, add reference info line
                 if(reftypes!=null){
                     ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', reftypes)+">");
                 }
@@ -406,60 +409,81 @@ namespace StudioCore.MsbEditor
                 if(reftypes!=null){
                     ImGui.PopStyleColor();
                 }
-                //Add named row and context menu
-                //This should probably be moved to PropertyRow stuff, but the whole drawing system is all over the place anyway
-                if(reftypes!=null && cell.Value.GetType()==typeof(int)){
-                    foreach(string rt in reftypes){
-                        if(ParamBank.Params.ContainsKey(rt)){
-                            PARAM.Row r = ParamBank.Params[rt][(int)cell.Value];
-                            if(r!=null && r.Name!=null){
-                                ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), r.Name);
-                            }
-                        }
-                    }
-                    if (ImGui.BeginPopupContextItem(cell.Def.InternalName))
-                    {   
-                        foreach(string rt in reftypes){
-                            if(!ParamBank.Params.ContainsKey(rt)){
-                                continue;
-                            }
-                            if (ParamBank.Params[rt][(int)cell.Value]!=null && ImGui.Selectable($@"Go to {rt}"))
-                            {   
-                                EditorCommandQueue.AddCommand($@"param/select/{rt}/{cell.Value}");
-                                ImGui.CloseCurrentPopup();
-                            }
-                            ImGui.InputText("##value", ref currentAutoComplete, 128);
-                            if(currentAutoComplete!=""){
-                                int max = 15;
-                                foreach(PARAM.Row r in ParamBank.Params[rt].Rows){
-                                    if(max<=0){
-                                    break;
-                                    }
-                                    if(r.Name==null){
-                                        continue;
-                                    }
-                                    if(r.Name.ToLower().Contains(currentAutoComplete.ToLower())){
-                                        if(ImGui.Selectable(r.Name)){
-                                            newval = (int)r.ID;
-                                            changed = true;
-                                            committed = true;
-                                            currentAutoComplete = "";
-                                            ImGui.CloseCurrentPopup();
-                                        }
-                                        max--;
-                                    }
-                                }
-                            }
-                        }
-                        ImGui.EndPopup();
-                    }
-                }
+                //add reference data line
+                changed |= PropertyRowRefs(cell, ref newval);
                 ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
                 ImGui.NextColumn();
                 ImGui.PopID();
                 id++;
             }
             ImGui.Columns(1);
+        }
+        private bool PropertyRowRefs(PARAM.Cell cell, ref object newval){
+            //Add named row and context menu
+            //This should probably be moved to PropertyRow stuff, but the whole drawing system is all over the place anyway
+            List<string> reftypes = cell.Def.RefTypes;
+            if(reftypes!=null && cell.Value.GetType()==typeof(int)){
+                //List located params
+                ImGui.NewLine();
+                foreach(string rt in reftypes){
+                    if(ParamBank.Params.ContainsKey(rt)){
+                        PARAM.Row r = ParamBank.Params[rt][(int)cell.Value];
+                        if(r!=null && r.Name!=null){
+                            ImGui.SameLine();
+                            ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), r.Name);
+                        }
+                    }
+                }
+                //Attach context menu
+                return PropertyRowRefsContextMenu(cell, ref newval);
+            }
+            return false;
+        }
+        private bool PropertyRowRefsContextMenu(PARAM.Cell cell, ref object newval){
+            List<string> reftypes = cell.Def.RefTypes;
+            if (ImGui.BeginPopupContextItem(String.Join(',', reftypes)))
+            {   
+                //Add Goto statements
+                foreach(string rt in reftypes){
+                    if(!ParamBank.Params.ContainsKey(rt)){
+                        continue;
+                    }
+                    if (ParamBank.Params[rt][(int)cell.Value]!=null && ImGui.Selectable($@"Go to {rt}"))
+                    {   
+                        EditorCommandQueue.AddCommand($@"param/select/{rt}/{cell.Value}");
+                    }
+                }
+                //Add searchbar for named editing
+                ImGui.InputText("##value", ref currentAutoComplete, 128);
+                //Unordered scanthrough search for matching param entries.
+                foreach(string rt in reftypes){
+                    if(currentAutoComplete!=""){
+                        int max = 15/reftypes.Count;//Magic numbers
+                        foreach(PARAM.Row r in ParamBank.Params[rt].Rows){
+                            if(max<=0){
+                                break;
+                            }
+                            if(r.Name==null){
+                                continue;
+                            }
+                            if(RefContextSearchMatch(r.Name, currentAutoComplete)){
+                                if(ImGui.Selectable(r.Name)){
+                                    newval = (int)r.ID;
+                                    currentAutoComplete = "";
+                                    return true;
+                                }
+                                max--;
+                            }
+                        }
+                    }
+                }
+                ImGui.EndPopup();
+            }
+            return false;
+        }
+        //Return true if a param name should be found by searching term. Ordering is not provided.
+        private bool RefContextSearchMatch(string name, string term){
+            return name.ToLower().Contains(term.ToLower());
         }
 
         private int _fmgID = 0;

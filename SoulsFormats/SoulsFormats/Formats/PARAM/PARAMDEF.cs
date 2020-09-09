@@ -419,7 +419,8 @@ namespace SoulsFormats
             public string InternalName { get; set; }
 
             /// <summary>
-            /// Name of another Param that a Field may refer to. null for a field that does not refer to a param. Comma-seperated list for multiple, just because I'm a trash programmer. (t. phil)
+            /// Name of another Param that a Field may refer to. null for field that does not refer to params.
+            /// Syntax in param def files is to include Refs="xx,yy,zz" in the Field xml node.
             /// </summary>
             public List<string> RefTypes { get; set; }
 
