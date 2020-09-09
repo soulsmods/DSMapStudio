@@ -395,7 +395,12 @@ namespace StudioCore.MsbEditor
                 string reftype = cell.Def.RefType;
                 ImGui.PushID(id);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Def.InternalName+(reftype!=null?"<"+reftype+">":""));
+                ImGui.Text(cell.Def.InternalName);
+                if(reftype!=null){
+                    ImGui.SameLine();
+                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+reftype+">");
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
+                }
                 ImGui.NextColumn();
                 ImGui.SetNextItemWidth(-1);
                 //ImGui.AlignTextToFramePadding();
@@ -405,13 +410,16 @@ namespace StudioCore.MsbEditor
                 bool changed = false;
                 object newval = null;
 
-                changed = PropertyRow(typ, oldval, out newval, null, cell.Def.InternalName);
-                bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
-
-                ImGui.NextColumn();
-                //Add context menu
-                if(reftype!=null){
+                //Add named row and context menu
+                if(reftype!=null && ParamBank.Params.ContainsKey(reftype)){
+                    if(cell.Value.GetType()==typeof(int)){
+                        PARAM.Row r = ParamBank.Params[reftype][(int)cell.Value];
+                        if(r!=null){
+                            ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), r.Name);
+                            ImGui.SameLine();
+                        }
+                    }
+                    ImGui.PopStyleColor();
                     if (ImGui.BeginPopupContextItem(cell.Def.InternalName))
                     {   
                         if (ImGui.Selectable($@"Go to {reftype}"))
@@ -421,6 +429,12 @@ namespace StudioCore.MsbEditor
                         ImGui.EndPopup();
                     }
                 }
+
+                changed = PropertyRow(typ, oldval, out newval, null, cell.Def.InternalName);
+                bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
+
+                ImGui.NextColumn();
                 ImGui.PopID();
                 id++;
             }
