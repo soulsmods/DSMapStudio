@@ -392,11 +392,15 @@ namespace StudioCore
             {
                 path = $@"msg\na_english\item.msgbnd.dcx";
             }
-            if (Type == GameType.DarkSoulsPTDE)
+            else if (Type == GameType.DarkSoulsPTDE)
             {
                 path = $@"msg\ENGLISH\item.msgbnd";
             }
-            if (Type == GameType.DarkSoulsIISOTFS)
+            else if(Type == GameType.DarkSoulsRemastered)
+            {
+                path = $@"msg\ENGLISH\item.msgbnd.dcx";
+            }
+            else if(Type == GameType.DarkSoulsIISOTFS)
             {
                 // DS2 does not have an msgbnd but loose fmg files instead
                 path = $@"menu\text\english";
@@ -404,7 +408,7 @@ namespace StudioCore
                 ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
                 return ad2;
             }
-            if (Type == GameType.DarkSoulsIII)
+            else if(Type == GameType.DarkSoulsIII)
             {
                 path = $@"msg\engus\item_dlc2.msgbnd.dcx";
             }
@@ -637,6 +641,10 @@ namespace StudioCore
             {
                 ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.flver");
             }
+            else if (Type == GameType.DarkSoulsRemastered)
+            {
+                ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.flver.dcx");
+            }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
                 ret.AssetPath = GetAssetPath($@"model\map\{mapid}.mapbhd");
@@ -653,7 +661,7 @@ namespace StudioCore
             }
             else
             {
-                if (Type != GameType.DarkSoulsPTDE && Type != GameType.Bloodborne && Type != GameType.DemonsSouls)
+                if (Type != GameType.DarkSoulsPTDE && Type != GameType.DarkSoulsRemastered && Type != GameType.Bloodborne && Type != GameType.DemonsSouls)
                 {
                     ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
                 }
@@ -763,7 +771,14 @@ namespace StudioCore
                 t0003.AssetArchiveVirtualPath = $@"map/tex/{mid}/0003";
                 ads.Add(t0003);
 
-                if (Type != GameType.Sekiro)
+                if (Type == GameType.DarkSoulsRemastered)
+                {
+                    var env = new AssetDescription();
+                    env.AssetPath = GetAssetPath($@"map\{mid}\GI_EnvM_{mid}.tpfbhd");
+                    env.AssetArchiveVirtualPath = $@"map/tex/{mid}/env";
+                    ads.Add(env);
+                }
+                else if (Type != GameType.Sekiro)
                 {
                     var env = new AssetDescription();
                     env.AssetPath = GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
@@ -820,7 +835,7 @@ namespace StudioCore
         public AssetDescription GetMapNVMModel(string mapid, string model)
         {
             var ret = new AssetDescription();
-            if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
+            if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered || Type == GameType.DemonsSouls)
             {
                 ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.nvm");
                 ret.AssetName = model;
@@ -1019,6 +1034,10 @@ namespace StudioCore
                         bndpath = "";
                         if (pathElements[i] == "env")
                         {
+                            if (Type == GameType.DarkSoulsRemastered)
+                            {
+                                return GetAssetPath($@"map\{mid}\GI_EnvM_{mid}.tpf.dcx");
+                            }
                             return GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
                         }
                         return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpfbhd");
@@ -1035,6 +1054,10 @@ namespace StudioCore
                         if (Type == GameType.DarkSoulsPTDE)
                         {
                             return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver");
+                        }
+                        else if (Type == GameType.DarkSoulsRemastered)
+                        {
+                            return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver.dcx");
                         }
                         else if (Type == GameType.DarkSoulsIISOTFS)
                         {
@@ -1076,7 +1099,7 @@ namespace StudioCore
                     else if (pathElements[i].Equals("nav"))
                     {
                         i++;
-                        if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls)
+                        if (Type == GameType.DarkSoulsPTDE || Type == GameType.DemonsSouls || Type == GameType.DarkSoulsRemastered)
                         {
                             if (i < pathElements.Length)
                             {
@@ -1085,6 +1108,10 @@ namespace StudioCore
                             else
                             {
                                 bndpath = "";
+                            }
+                            if (Type == GameType.DarkSoulsRemastered)
+                            {
+                                return GetAssetPath($@"map\{mapid}\{mapid}.nvmbnd.dcx");
                             }
                             return GetAssetPath($@"map\{mapid}\{mapid}.nvmbnd");
                         }
@@ -1131,20 +1158,20 @@ namespace StudioCore
             else if (pathElements[i].Equals("obj"))
             {
                 i++;
-                var chrid = pathElements[i];
+                var objid = pathElements[i];
                 i++;
                 if (pathElements[i].Equals("model"))
                 {
                     bndpath = "";
                     if (Type == GameType.DarkSoulsPTDE)
                     {
-                        return GetOverridenFilePath($@"obj\{chrid}.objbnd");
+                        return GetOverridenFilePath($@"obj\{objid}.objbnd");
                     }
                     else if (Type == GameType.DarkSoulsIISOTFS)
                     {
-                        return GetOverridenFilePath($@"model\obj\{chrid}.bnd");
+                        return GetOverridenFilePath($@"model\obj\{objid}.bnd");
                     }
-                    return GetOverridenFilePath($@"obj\{chrid}.objbnd.dcx");
+                    return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
             }
 
