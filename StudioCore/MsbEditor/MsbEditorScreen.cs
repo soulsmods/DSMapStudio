@@ -110,6 +110,53 @@ namespace StudioCore.MsbEditor
             //Viewport.ResizeViewport(device, new Rectangle(0, 0, window.Width, window.Height));
         }
 
+        public void FrameSelection()
+        {
+            var selected = _selection.GetFilteredSelection<Entity>();
+            bool first = false;
+            BoundingBox box = new BoundingBox();
+            foreach (var s in selected)
+            {
+                if (s.RenderSceneMesh != null)
+                {
+                    if (!first)
+                    {
+                        box = s.RenderSceneMesh.GetBounds();
+                        first = true;
+                    }
+                    else
+                    {
+                        box = BoundingBox.Combine(box, s.RenderSceneMesh.GetBounds());
+                    }
+                }
+            }
+            if (first)
+            {
+                Viewport.FrameBox(box);
+            }
+        }
+
+        /// <summary>
+        /// Hides all the selected objects, unless all of them are hidden in which
+        /// they will be unhidden
+        /// </summary>
+        public void HideShowSelection()
+        {
+            var selected = _selection.GetFilteredSelection<Entity>();
+            bool allhidden = true;
+            foreach (var s in selected)
+            {
+                if (s.EditorVisible)
+                {
+                    allhidden = false;
+                }
+            }
+            foreach (var s in selected)
+            {
+                s.EditorVisible = allhidden;
+            }
+        }
+
         public override void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit"))
@@ -131,6 +178,14 @@ namespace StudioCore.MsbEditor
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
+                }
+                if (ImGui.MenuItem("Hide/Show", "Ctrl+H", false, _selection.IsSelection()))
+                {
+                    HideShowSelection();
+                }
+                if (ImGui.MenuItem("Frame", "Ctrl-F", false, _selection.IsSelection()))
+                {
+                    FrameSelection();
                 }
                 ImGui.EndMenu();
             }
@@ -328,31 +383,16 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
+                // Hide/Show
+                if (InputTracker.GetControlShortcut(Key.H) && _selection.IsSelection())
+                {
+                    HideShowSelection();
+                }
+
                 // F key frames the selection
                 if (InputTracker.GetKeyDown(Key.F))
                 {
-                    var selected = _selection.GetFilteredSelection<Entity>();
-                    bool first = false;
-                    BoundingBox box = new BoundingBox();
-                    foreach (var s in selected)
-                    {
-                        if (s.RenderSceneMesh != null)
-                        {
-                            if (!first)
-                            {
-                                box = s.RenderSceneMesh.GetBounds();
-                                first = true;
-                            }
-                            else
-                            {
-                                box = BoundingBox.Combine(box, s.RenderSceneMesh.GetBounds());
-                            }
-                        }
-                    }
-                    if (first)
-                    {
-                        Viewport.FrameBox(box);
-                    }
+                    FrameSelection();
                 }
 
                 // Render settings
