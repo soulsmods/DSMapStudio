@@ -54,6 +54,8 @@ namespace Veldrid.Vk
         public VkCommandPool CommandPool => _pool;
         public VkCommandBuffer CommandBuffer => _cb;
 
+        public bool IsTransfer => _isTransfer;
+
         public ResourceRefCount RefCount { get; }
 
         public VkCommandList(VkGraphicsDevice gd, ref CommandListDescription description)
@@ -62,7 +64,7 @@ namespace Veldrid.Vk
             _gd = gd;
             VkCommandPoolCreateInfo poolCI = VkCommandPoolCreateInfo.New();
             poolCI.flags = VkCommandPoolCreateFlags.ResetCommandBuffer;
-            poolCI.queueFamilyIndex = gd.GraphicsQueueIndex;
+            poolCI.queueFamilyIndex = description.IsTransfer ? gd.TransferQueueIndex : gd.GraphicsQueueIndex;
             VkResult result = vkCreateCommandPool(_gd.Device, ref poolCI, null, out _pool);
             CheckResult(result);
 

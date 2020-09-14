@@ -584,19 +584,22 @@ namespace StudioCore.MsbEditor
             } 
             job.StartJobAsync();
 
-            job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
-            foreach (var asset in _assetLocator.GetMapTextures(amapid))
+            if (CFG.Current.EnableTexturing)
             {
-                if (asset.AssetArchiveVirtualPath != null)
+                job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
+                foreach (var asset in _assetLocator.GetMapTextures(amapid))
                 {
-                    job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                    if (asset.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                    }
+                    else if (asset.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    }
                 }
-                else if (asset.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                }
+                job.StartJobAsync();
             }
-            job.StartJobAsync();
 
             job = ResourceManager.CreateNewJob($@"Loading {amapid} collisions");
             string archive = null;

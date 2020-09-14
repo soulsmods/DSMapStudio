@@ -386,7 +386,7 @@ namespace StudioCore.Scene
                     return;
                 }
 
-                if (_meshProvider.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                if (_meshProvider.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
                 {
                     ScheduleRenderableConstruction();
                     _meshProvider.Unlock();
@@ -490,7 +490,7 @@ namespace StudioCore.Scene
                 dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
                 dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
-                _worldBuffer.FillBuffer(cl, ref dat);
+                _worldBuffer.FillBuffer(gd, cl, ref dat);
 
                 // Selectable
                 _renderablesSet.cSelectables[_renderable] = _selectable;
@@ -555,7 +555,7 @@ namespace StudioCore.Scene
                 {
                     _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
                 }
-                _worldBuffer.FillBuffer(cl, ref dat);
+                _worldBuffer.FillBuffer(gd, cl, ref dat);
 
                 if (_renderable != -1)
                 {
@@ -891,7 +891,7 @@ namespace StudioCore.Scene
                 _renderablesSet.RemoveRenderable(_renderable);
                 _renderable = -1;
             }
-            if (_debugPrimitive.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+            if (_debugPrimitive.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
             {
                 ScheduleRenderableConstruction();
                 return;
@@ -998,12 +998,12 @@ namespace StudioCore.Scene
             dat.WorldMatrix = _world;
             dat.MaterialID = _materialBuffer.AllocationStart / (uint)sizeof(DbgMaterial);
             dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
-            _worldBuffer.FillBuffer(cl, ref dat);
+            _worldBuffer.FillBuffer(gd, cl, ref dat);
 
             // Update material data
             var colmat = new DbgMaterial();
             colmat.Color = (_renderOutline ? HighlightedColor : BaseColor);
-            _materialBuffer.FillBuffer(cl, ref colmat);
+            _materialBuffer.FillBuffer(gd, cl, ref colmat);
 
             // Selectable
             _renderablesSet.cSelectables[_renderable] = _selectable;
@@ -1029,11 +1029,11 @@ namespace StudioCore.Scene
             {
                 _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
             }
-            _worldBuffer.FillBuffer(cl, ref dat);
+            _worldBuffer.FillBuffer(gd, cl, ref dat);
 
             var colmat = new DbgMaterial();
             colmat.Color = (_renderOutline ? HighlightedColor : BaseColor);
-            _materialBuffer.FillBuffer(cl, ref colmat);
+            _materialBuffer.FillBuffer(gd, cl, ref colmat);
 
             if (_renderable != -1)
             {

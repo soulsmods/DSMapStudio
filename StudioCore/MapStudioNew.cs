@@ -207,7 +207,7 @@ namespace StudioCore
             });*/
 
             // Flush geometry megabuffers for editor geometry
-            Renderer.GeometryBufferAllocator.FlushStaging();
+            //Renderer.GeometryBufferAllocator.FlushStaging();
 
             long previousFrameTicks = 0;
             Stopwatch sw = new Stopwatch();

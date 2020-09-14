@@ -116,7 +116,7 @@ namespace StudioCore.DebugPrimitives
                     return bufferIndexCached;
                 }
 
-                if (GeometryBuffer != null && GeometryBuffer.AllocStatus == VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+                if (GeometryBuffer != null && GeometryBuffer.AllocStatus == VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
                 {
                     bufferIndexCached = GeometryBuffer.BufferIndex;
                     return bufferIndexCached;
@@ -196,7 +196,7 @@ namespace StudioCore.DebugPrimitives
                 throw new Exception("DbgPrim geometry is empty and it had no children. Something went wrong...");
             }
 
-            if (GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBufferHandle.Status.Resident)
+            if (GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
             {
                 return;
             }

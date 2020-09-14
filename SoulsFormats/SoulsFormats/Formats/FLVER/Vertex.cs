@@ -449,19 +449,19 @@ namespace SoulsFormats
             }
 
             #region Read Helpers
-            private static float ReadByteNorm(BinaryReaderEx br)
+            public static float ReadByteNorm(BinaryReaderEx br)
                 => (br.ReadByte() - 127) / 127f;
 
-            private static Vector3 ReadByteNormXYZ(BinaryReaderEx br)
+            public static Vector3 ReadByteNormXYZ(BinaryReaderEx br)
                 => new Vector3(ReadByteNorm(br), ReadByteNorm(br), ReadByteNorm(br));
 
-            private static Vector4 ReadByteNormXYZW(BinaryReaderEx br)
+            public static Vector4 ReadByteNormXYZW(BinaryReaderEx br)
                 => new Vector4(ReadByteNorm(br), ReadByteNorm(br), ReadByteNorm(br), ReadByteNorm(br));
 
-            private static float ReadSByteNorm(BinaryReaderEx br)
+            public static float ReadSByteNorm(BinaryReaderEx br)
                 => br.ReadSByte() / 127f;
 
-            private static Vector3 ReadSByteNormZYX(BinaryReaderEx br)
+            public static Vector3 ReadSByteNormZYX(BinaryReaderEx br)
             {
                 float z = ReadSByteNorm(br);
                 float y = ReadSByteNorm(br);
@@ -469,19 +469,19 @@ namespace SoulsFormats
                 return new Vector3(x, y, z);
             }
 
-            private static float ReadShortNorm(BinaryReaderEx br)
+            public static float ReadShortNorm(BinaryReaderEx br)
                 => br.ReadInt16() / 32767f;
 
-            private static Vector3 ReadShortNormXYZ(BinaryReaderEx br)
+            public static Vector3 ReadShortNormXYZ(BinaryReaderEx br)
                 => new Vector3(ReadShortNorm(br), ReadShortNorm(br), ReadShortNorm(br));
 
-            private static Vector4 ReadShortNormXYZW(BinaryReaderEx br)
+            public static Vector4 ReadShortNormXYZW(BinaryReaderEx br)
                 => new Vector4(ReadShortNorm(br), ReadShortNorm(br), ReadShortNorm(br), ReadShortNorm(br));
 
-            private static float ReadUShortNorm(BinaryReaderEx br)
+            public static float ReadUShortNorm(BinaryReaderEx br)
                 => (br.ReadUInt16() - 32767) / 32767f;
 
-            private static unsafe float ReadFloat16(BinaryReaderEx br)
+            public static unsafe float ReadFloat16(BinaryReaderEx br)
             {
                 // Only handles normalized float 16
                 ushort f = br.ReadUInt16();
@@ -494,10 +494,10 @@ namespace SoulsFormats
                 return *(float*)&nf;
             }
 
-            private static Vector3 ReadUShortNormXYZ(BinaryReaderEx br)
+            public static Vector3 ReadUShortNormXYZ(BinaryReaderEx br)
                 => new Vector3(ReadUShortNorm(br), ReadUShortNorm(br), ReadUShortNorm(br));
 
-            private static Vector3 ReadFloat16NormXYZ(BinaryReaderEx br)
+            public static Vector3 ReadFloat16NormXYZ(BinaryReaderEx br)
                 => new Vector3(ReadFloat16(br), ReadFloat16(br), ReadFloat16(br));
             #endregion
 

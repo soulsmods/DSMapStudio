@@ -24,11 +24,16 @@ namespace Veldrid.Vk
         private VkPhysicalDeviceMemoryProperties _physicalDeviceMemProperties;
         private VkDevice _device;
         private uint _graphicsQueueIndex;
+        private uint _transferQueueIndex;
         private uint _presentQueueIndex;
         private VkCommandPool _graphicsCommandPool;
         private readonly object _graphicsCommandPoolLock = new object();
+        private VkCommandPool _transferCommandPool;
+        private readonly object _transferCommandPoolLock = new object();
         private VkQueue _graphicsQueue;
+        private VkQueue _transferQueue;
         private readonly object _graphicsQueueLock = new object();
+        private readonly object _transferQueueLock = new object();
         private VkDebugReportCallbackEXT _debugCallbackHandle;
         private PFN_vkDebugReportCallbackEXT _debugCallbackFunc;
         private bool _debugMarkerEnabled;
@@ -86,6 +91,7 @@ namespace Veldrid.Vk
         public VkPhysicalDeviceMemoryProperties PhysicalDeviceMemProperties => _physicalDeviceMemProperties;
         public VkQueue GraphicsQueue => _graphicsQueue;
         public uint GraphicsQueueIndex => _graphicsQueueIndex;
+        public uint TransferQueueIndex => _transferQueueIndex;
         public uint PresentQueueIndex => _presentQueueIndex;
         public VkDeviceMemoryManager MemoryManager => _memoryManager;
         public VkDescriptorPoolManager DescriptorPoolManager => _descriptorPoolManager;
@@ -155,6 +161,7 @@ namespace Veldrid.Vk
 
             CreateDescriptorPool();
             CreateGraphicsCommandPool();
+            CreateTransferCommandPool();
             for (int i = 0; i < SharedCommandPoolCount; i++)
             {
                 _sharedGraphicsCommandPools.Push(new SharedCommandPool(this, true));
@@ -184,7 +191,7 @@ namespace Veldrid.Vk
             VkCommandBuffer vkCB = vkCL.CommandBuffer;
 
             vkCL.CommandBufferSubmitted(vkCB);
-            SubmitCommandBuffer(vkCL, vkCB, waitSemaphoreCount, waitSemaphoresPtr, signalSemaphoreCount, signalSemaphoresPtr, fence);
+            SubmitCommandBuffer(vkCL, vkCB, waitSemaphoreCount, waitSemaphoresPtr, signalSemaphoreCount, signalSemaphoresPtr, fence, vkCL.IsTransfer);
         }
 
         private void SubmitCommandBuffer(
@@ -194,7 +201,8 @@ namespace Veldrid.Vk
             VkSemaphore* waitSemaphoresPtr,
             uint signalSemaphoreCount,
             VkSemaphore* signalSemaphoresPtr,
-            Fence fence)
+            Fence fence,
+            bool isTransfer)
         {
             CheckSubmittedFences();
 
@@ -223,14 +231,30 @@ namespace Veldrid.Vk
                 submissionFence = vkFence;
             }
 
-            lock (_graphicsQueueLock)
+            if (isTransfer)
             {
-                VkResult result = vkQueueSubmit(_graphicsQueue, 1, ref si, vkFence);
-                CheckResult(result);
-                if (useExtraFence)
+                lock (_transferQueueLock)
                 {
-                    result = vkQueueSubmit(_graphicsQueue, 0, null, submissionFence);
+                    VkResult result = vkQueueSubmit(_transferQueue, 1, ref si, vkFence);
                     CheckResult(result);
+                    if (useExtraFence)
+                    {
+                        result = vkQueueSubmit(_transferQueue, 0, null, submissionFence);
+                        CheckResult(result);
+                    }
+                }
+            }
+            else
+            {
+                lock (_graphicsQueueLock)
+                {
+                    VkResult result = vkQueueSubmit(_graphicsQueue, 1, ref si, vkFence);
+                    CheckResult(result);
+                    if (useExtraFence)
+                    {
+                        result = vkQueueSubmit(_graphicsQueue, 0, null, submissionFence);
+                        CheckResult(result);
+                    }
                 }
             }
 
@@ -635,7 +659,7 @@ namespace Veldrid.Vk
         {
             GetQueueFamilyIndices(surface);
 
-            HashSet<uint> familyIndices = new HashSet<uint> { _graphicsQueueIndex, _presentQueueIndex };
+            HashSet<uint> familyIndices = new HashSet<uint> { _graphicsQueueIndex, _presentQueueIndex, _transferQueueIndex };
             VkDeviceQueueCreateInfo* queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[familyIndices.Count];
             uint queueCreateInfosCount = (uint)familyIndices.Count;
 
@@ -643,7 +667,7 @@ namespace Veldrid.Vk
             foreach (uint index in familyIndices)
             {
                 VkDeviceQueueCreateInfo queueCreateInfo = VkDeviceQueueCreateInfo.New();
-                queueCreateInfo.queueFamilyIndex = _graphicsQueueIndex;
+                queueCreateInfo.queueFamilyIndex = (index == _transferQueueIndex) ? _transferQueueIndex : _graphicsQueueIndex;
                 queueCreateInfo.queueCount = 1;
                 float priority = 1f;
                 queueCreateInfo.pQueuePriorities = &priority;
@@ -757,6 +781,7 @@ namespace Veldrid.Vk
             CheckResult(result);
 
             vkGetDeviceQueue(_device, _graphicsQueueIndex, 0, out _graphicsQueue);
+            vkGetDeviceQueue(_device, _transferQueueIndex, 0, out _transferQueue);
 
             if (_debugMarkerEnabled)
             {
@@ -821,6 +846,7 @@ namespace Veldrid.Vk
             vkGetPhysicalDeviceQueueFamilyProperties(_physicalDevice, ref queueFamilyCount, out qfp[0]);
 
             bool foundGraphics = false;
+            bool foundTransfer = false;
             bool foundPresent = surface == VkSurfaceKHR.Null;
 
             for (uint i = 0; i < qfp.Length; i++)
@@ -828,6 +854,12 @@ namespace Veldrid.Vk
                 if ((qfp[i].queueFlags & VkQueueFlags.Graphics) != 0)
                 {
                     _graphicsQueueIndex = i;
+                }
+
+                if ((qfp[i].queueFlags & VkQueueFlags.Transfer) != 0)
+                {
+                    _transferQueueIndex = i;
+                    foundTransfer = true;
                 }
 
                 if (!foundPresent)
@@ -840,10 +872,15 @@ namespace Veldrid.Vk
                     }
                 }
 
-                if (foundGraphics && foundPresent)
+                if (foundGraphics && foundPresent && foundTransfer)
                 {
                     return;
                 }
+            }
+
+            if (!foundTransfer)
+            {
+                _transferQueueIndex = _graphicsQueueIndex;
             }
         }
 
@@ -858,6 +895,15 @@ namespace Veldrid.Vk
             commandPoolCI.flags = VkCommandPoolCreateFlags.ResetCommandBuffer;
             commandPoolCI.queueFamilyIndex = _graphicsQueueIndex;
             VkResult result = vkCreateCommandPool(_device, ref commandPoolCI, null, out _graphicsCommandPool);
+            CheckResult(result);
+        }
+
+        private void CreateTransferCommandPool()
+        {
+            VkCommandPoolCreateInfo commandPoolCI = VkCommandPoolCreateInfo.New();
+            commandPoolCI.flags = VkCommandPoolCreateFlags.ResetCommandBuffer;
+            commandPoolCI.queueFamilyIndex = _transferQueueIndex;
+            VkResult result = vkCreateCommandPool(_device, ref commandPoolCI, null, out _transferCommandPool);
             CheckResult(result);
         }
 
@@ -948,6 +994,7 @@ namespace Veldrid.Vk
 
             _descriptorPoolManager.DestroyAll();
             vkDestroyCommandPool(_device, _graphicsCommandPool, null);
+            vkDestroyCommandPool(_device, _transferCommandPool, null);
 
             Debug.Assert(_submittedStagingTextures.Count == 0);
             foreach (VkTexture tex in _availableStagingTextures)
@@ -1443,7 +1490,7 @@ namespace Veldrid.Vk
             {
                 VkResult result = vkEndCommandBuffer(cb);
                 CheckResult(result);
-                _gd.SubmitCommandBuffer(null, cb, 0, null, 0, null, null);
+                _gd.SubmitCommandBuffer(null, cb, 0, null, 0, null, null, false);
                 lock (_gd._stagingResourcesLock)
                 {
                     _gd._submittedSharedCommandPools.Add(cb, this);
