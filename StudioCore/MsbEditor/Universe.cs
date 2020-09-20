@@ -134,7 +134,7 @@ namespace StudioCore.MsbEditor
             else if (modelname.StartsWith("h"))
             {
                 loadcol = true;
-                asset = _assetLocator.GetMapCollisionModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname));
+                asset = _assetLocator.GetMapCollisionModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname), false);
                 filt = Scene.RenderFilter.Collision;
             }
             else if (modelname.StartsWith("n"))
