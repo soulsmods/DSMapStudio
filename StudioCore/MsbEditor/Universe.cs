@@ -228,6 +228,7 @@ namespace StudioCore.MsbEditor
             Dictionary<long, Entity> generatorObjs = new Dictionary<long, Entity>();
             Dictionary<long, PARAM.Row> eventParams = new Dictionary<long, PARAM.Row>();
             Dictionary<long, PARAM.Row> eventLocationParams = new Dictionary<long, PARAM.Row>();
+            Dictionary<long, PARAM.Row> objectInstanceParams = new Dictionary<long, PARAM.Row>();
 
             var regparamad = _assetLocator.GetDS2GeneratorRegistParam(mapid);
             var regparam = PARAM.Read(regparamad.AssetPath);
@@ -355,6 +356,22 @@ namespace StudioCore.MsbEditor
                 mesh.World = obj.GetLocalTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
+            }
+
+            var objparamad = _assetLocator.GetDS2ObjInstanceParam(mapid);
+            var objparam = PARAM.Read(objparamad.AssetPath);
+            var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
+            objparam.ApplyParamdef(objlayout);
+            foreach (var row in objparam.Rows)
+            {
+                if (row.Name == null || row.Name == "")
+                {
+                    row.Name = "objinstance_" + row.ID.ToString();
+                }
+                objectInstanceParams.Add(row.ID, row);
+
+                var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2ObjectInstance);
+                map.AddObject(obj);
             }
 
             var job = ResourceManager.CreateNewJob($@"Loading chrs");
@@ -647,12 +664,19 @@ namespace StudioCore.MsbEditor
             var evtllayout = _assetLocator.GetParamdefForParam(evtlparam.ParamType);
             evtlparam.ApplyParamdef(evtllayout);
 
+            var objparamad = _assetLocator.GetDS2ObjInstanceParam(map.Name);
+            var objparamadw = _assetLocator.GetDS2ObjInstanceParam(map.Name, true);
+            var objparam = PARAM.Read(objparamad.AssetPath);
+            var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
+            objparam.ApplyParamdef(objlayout);
+
             // Clear them out
             regparam.Rows.Clear();
             locparam.Rows.Clear();
             genparam.Rows.Clear();
             evtparam.Rows.Clear();
             evtlparam.Rows.Clear();
+            objparam.Rows.Clear();
 
             // Serialize objects
             if (!map.SerializeDS2Generators(locparam, genparam))
@@ -668,6 +692,10 @@ namespace StudioCore.MsbEditor
                 return;
             }
             if (!map.SerializeDS2EventLocations(evtlparam))
+            {
+                return;
+            }
+            if (!map.SerializeDS2ObjInstances(objparam))
             {
                 return;
             }
@@ -760,6 +788,23 @@ namespace StudioCore.MsbEditor
                 File.Delete(evtlparamadw.AssetPath);
             }
             File.Move(evtlparamadw.AssetPath + ".temp", evtlparamadw.AssetPath);
+
+            // Object instances
+            if (File.Exists(objparamadw.AssetPath + ".temp"))
+            {
+                File.Delete(objparamadw.AssetPath + ".temp");
+            }
+            objparam.Write(objparamadw.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            if (File.Exists(objparamadw.AssetPath))
+            {
+                if (!File.Exists(objparamadw.AssetPath + ".bak"))
+                {
+                    File.Copy(objparamadw.AssetPath, objparamadw.AssetPath + ".bak", true);
+                }
+                File.Copy(objparamadw.AssetPath, objparamadw.AssetPath + ".prev", true);
+                File.Delete(objparamadw.AssetPath);
+            }
+            File.Move(objparamadw.AssetPath + ".temp", objparamadw.AssetPath);
         }
 
         public void SaveMap(Map map)

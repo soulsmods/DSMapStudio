@@ -789,6 +789,7 @@ namespace StudioCore.MsbEditor
             DS2GeneratorRegist,
             DS2Event,
             DS2EventLocation,
+            DS2ObjectInstance,
         }
 
         public MapEntityType Type { get; set; }
@@ -833,6 +834,10 @@ namespace StudioCore.MsbEditor
                 else if (Type == MapEntityType.DS2Event)
                 {
                     icon = ForkAwesome.FlagCheckered;
+                }
+                else if (Type == MapEntityType.DS2ObjectInstance)
+                {
+                    icon = ForkAwesome.Database;
                 }
 
                 return $@"{icon} {Name}";

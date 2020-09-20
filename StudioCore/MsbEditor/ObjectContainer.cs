@@ -721,6 +721,30 @@ namespace StudioCore.MsbEditor
             return true;
         }
 
+        public bool SerializeDS2ObjInstances(PARAM objs)
+        {
+            HashSet<long> ids = new HashSet<long>();
+            foreach (var o in Objects)
+            {
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2ObjectInstance && m.WrappedObject is PARAM.Row mp)
+                {
+                    if (!ids.Contains(mp.ID))
+                    {
+                        ids.Add(mp.ID);
+                    }
+                    else
+                    {
+                        MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+
+                    var newobj = new PARAM.Row(mp);
+                    objs.Rows.Add(newobj);
+                }
+            }
+            return true;
+        }
+
         public MapSerializationEntity SerializeHierarchy()
         {
             Dictionary<Entity, int> idmap = new Dictionary<Entity, int>();

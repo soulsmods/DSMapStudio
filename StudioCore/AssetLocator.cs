@@ -574,6 +574,22 @@ namespace StudioCore
             return ad;
         }
 
+        public AssetDescription GetDS2ObjInstanceParam(string mapid, bool writemode = false)
+        {
+            AssetDescription ad = new AssetDescription();
+            var path = $@"Param\mapobjectinstanceparam_{mapid}";
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            }
+            ad.AssetName = mapid + "_object_instance_params";
+            return ad;
+        }
+
         public List<AssetDescription> GetMapModels(string mapid)
         {
             var ret = new List<AssetDescription>();
