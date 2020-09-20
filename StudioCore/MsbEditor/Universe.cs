@@ -109,7 +109,7 @@ namespace StudioCore.MsbEditor
         /// </summary>
         /// <param name="modelname"></param>
         /// <returns></returns>
-        public RenderableProxy GetModelDrawable(Map map, Entity obj, string modelname)
+        public RenderableProxy GetModelDrawable(Map map, Entity obj, string modelname, bool load)
         {
             AssetDescription asset;
             bool loadcol = false;
@@ -156,7 +156,7 @@ namespace StudioCore.MsbEditor
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Collision;
                 obj.RenderSceneMesh = mesh;
-                if (!res.IsLoaded)
+                if (!res.IsLoaded && load)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -178,7 +178,7 @@ namespace StudioCore.MsbEditor
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Navmesh;
-                if (!res.IsLoaded)
+                if (!res.IsLoaded && load)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -204,7 +204,7 @@ namespace StudioCore.MsbEditor
                 model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
                 model.SetSelectable(obj);
-                if (!res.IsLoaded)
+                if (!res.IsLoaded && load)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -430,122 +430,52 @@ namespace StudioCore.MsbEditor
                 amapid = "m29_00_00_00";
             }
 
-            // Temporary garbage
+            foreach (var model in msb.Models.GetEntries())
+            {
+                AssetDescription asset;
+                if (model.Name.StartsWith("m"))
+                {
+                    asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
+                    mappiecesToLoad.Add(asset);
+                }
+                else if (model.Name.StartsWith("c"))
+                {
+                    asset = _assetLocator.GetChrModel(model.Name);
+                    chrsToLoad.Add(asset);
+                    var tasset = _assetLocator.GetChrTextures(model.Name);
+                    if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                    {
+                        chrsToLoad.Add(tasset);
+                    }
+                }
+                else if (model.Name.StartsWith("o"))
+                {
+                    asset = _assetLocator.GetObjModel(model.Name);
+                    objsToLoad.Add(asset);
+                }
+                else if (model.Name.StartsWith("h"))
+                {
+                    asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
+                    colsToLoad.Add(asset);
+                }
+                else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
+                {
+                    asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
+                    navsToLoad.Add(asset);
+                }
+            }
+
             foreach (var obj in map.Objects)
             {
                 if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "")
                 {
-                    AssetDescription asset;
-                    bool loadcol = false;
-                    bool loadnav = false;
-                    bool usedrawgroups = false;
-                    Scene.RenderFilter filt = Scene.RenderFilter.All;
-                    if (mp.ModelName.StartsWith("m"))
-                    {
-                        asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, mp.ModelName));
-                        filt = Scene.RenderFilter.MapPiece;
-                        obj.UseDrawGroups = true;
-                        mappiecesToLoad.Add(asset);
-                    }
-                    else if (mp.ModelName.StartsWith("c"))
-                    {
-                        asset = _assetLocator.GetChrModel(mp.ModelName);
-                        filt = Scene.RenderFilter.Character;
-                        chrsToLoad.Add(asset);
-                        var tasset = _assetLocator.GetChrTextures(mp.ModelName);
-                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
-                        {
-                            chrsToLoad.Add(tasset);
-                        }
-                    }
-                    else if (mp.ModelName.StartsWith("o"))
-                    {
-                        asset = _assetLocator.GetObjModel(mp.ModelName);
-                        filt = Scene.RenderFilter.Object;
-                        objsToLoad.Add(asset);
-                    }
-                    else if (mp.ModelName.StartsWith("h"))
-                    {
-                        loadcol = true;
-                        asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, mp.ModelName), false);
-                        filt = Scene.RenderFilter.Collision;
-                        colsToLoad.Add(asset);
-                    }
-                    else if (mp.ModelName.StartsWith("n"))
-                    {
-                        loadnav = true;
-                        asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, mp.ModelName));
-                        filt = Scene.RenderFilter.Navmesh;
-                        navsToLoad.Add(asset);
-                    }
-                    else
-                    {
-                        asset = _assetLocator.GetNullAsset();
-                    }
-
-                    if (loadcol)
-                    {
-                        var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                        var model = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
-                        model.World = obj.GetWorldMatrix();
-                        model.DrawFilter = RenderFilter.Collision;
-                        obj.RenderSceneMesh = model;
-                        model.SetSelectable(obj);
-                    }
-                    else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
-                    {
-                        var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                        var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
-                        mesh.World = obj.GetWorldMatrix();
-                        mesh.DrawFilter = RenderFilter.Navmesh;
-                        obj.RenderSceneMesh = mesh;
-                        mesh.SetSelectable(obj);
-                    }
-                    else if (loadnav && (_assetLocator.Type == GameType.DarkSoulsIISOTFS || _assetLocator.Type == GameType.Bloodborne))
-                    {
-
-                    }
-                    else
-                    {
-                        var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
-                        model.World = obj.GetWorldMatrix();
-                        model.DrawFilter = filt;
-                        obj.RenderSceneMesh = model;
-                        model.SetSelectable(obj);
-                    }
+                    GetModelDrawable(map, obj, mp.ModelName, false);
                 }
-                if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
+                if (obj.WrappedObject is IMsbRegion r)
                 {
-                    var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
-                }
-                else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
-                }
-                else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
-                }
-                else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
+                    //var mesh = GetRegionDrawable(map, obj);
+                    //mesh.DrawFilter = RenderFilter.Region;
+                    //obj.RenderSceneMesh = mesh;
                 }
 
                 // Try to find the map offset

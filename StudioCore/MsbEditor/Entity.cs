@@ -917,7 +917,7 @@ namespace StudioCore.MsbEditor
                 {
                     _renderSceneMesh.Dispose();
                     CurrentModel = model;
-                    _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
+                    _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
                     if (Universe.Selection.IsSelected(this))
                     {
                         OnSelected();
