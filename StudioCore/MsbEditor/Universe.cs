@@ -471,12 +471,6 @@ namespace StudioCore.MsbEditor
                 {
                     GetModelDrawable(map, obj, mp.ModelName, false);
                 }
-                if (obj.WrappedObject is IMsbRegion r)
-                {
-                    //var mesh = GetRegionDrawable(map, obj);
-                    //mesh.DrawFilter = RenderFilter.Region;
-                    //obj.RenderSceneMesh = mesh;
-                }
 
                 // Try to find the map offset
                 if (obj.WrappedObject is MSB2.Event.MapOffset mo)
