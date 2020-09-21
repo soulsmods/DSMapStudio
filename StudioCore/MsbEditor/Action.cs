@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using SoulsFormats;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace StudioCore.MsbEditor
 {
@@ -145,6 +146,8 @@ namespace StudioCore.MsbEditor
         private List<ObjectContainer> CloneMaps = new List<ObjectContainer>();
         private bool SetSelection;
 
+        private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
+
         public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
         {
             Universe = univ;
@@ -157,15 +160,57 @@ namespace StudioCore.MsbEditor
         {
             bool clonesCached = Clones.Count() > 0;
             //foreach (var obj in Clonables)
+
+            var objectnames = new Dictionary<string, HashSet<string>>();
             for (int i = 0; i < Clonables.Count(); i++)
             {
                 var m = Universe.GetLoadedMap(Clonables[i].MapID);
                 if (m != null)
                 {
+                    // Get list of names that exist so our duplicate names don't trample over them
+                    if (!objectnames.ContainsKey(Clonables[i].MapID))
+                    {
+                        var nameset = new HashSet<string>();
+                        foreach (var n in m.Objects)
+                        {
+                            nameset.Add(n.Name);
+                        }
+                        objectnames.Add(Clonables[i].MapID, nameset);
+                    }
+
                     // If this was executed in the past we reused the cloned objects so because redo
                     // actions that follow this may reference the previously cloned object
                     MapEntity newobj = clonesCached ? Clones[i] : (MapEntity)Clonables[i].Clone();
-                    newobj.Name = Clonables[i].Name + "_1";
+
+                    // Use pattern matching to attempt renames based on appended ID
+                    Match idmatch = TrailIDRegex.Match(Clonables[i].Name);
+                    if (idmatch.Success)
+                    {
+                        var idstring = idmatch.Result("${id}");
+                        int id = int.Parse(idstring);
+                        string newid = idstring;
+                        while (objectnames[Clonables[i].MapID].Contains(Clonables[i].Name.Substring(0, Clonables[i].Name.Length - idstring.Length) + newid))
+                        {
+                            id++;
+                            newid = id.ToString("D" + idstring.Length.ToString());
+                        }
+                        newobj.Name = Clonables[i].Name.Substring(0, Clonables[i].Name.Length - idstring.Length) + newid;
+                        objectnames[Clonables[i].MapID].Add(newobj.Name);
+                    }
+                    else
+                    {
+                        var idstring = "0001";
+                        int id = int.Parse(idstring);
+                        string newid = idstring;
+                        while (objectnames[Clonables[i].MapID].Contains(Clonables[i].Name + "_" + newid))
+                        {
+                            id++;
+                            newid = id.ToString("D" + idstring.Length.ToString());
+                        }
+                        newobj.Name = Clonables[i].Name + "_" + newid;
+                        objectnames[Clonables[i].MapID].Add(newobj.Name);
+                    }
+
                     m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
                     if (Clonables[i].Parent != null)
                     {
