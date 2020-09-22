@@ -581,7 +581,7 @@ namespace SoulsFormats
             /// <summary>
             /// Returns the first cell in the row with the given internal name.
             /// </summary>
-            public Cell this[string name] => Cells.First(cell => cell.Def.InternalName == name);
+            public Cell this[string name] => Cells.FirstOrDefault(cell => cell.Def.InternalName == name);
         }
 
         /// <summary>

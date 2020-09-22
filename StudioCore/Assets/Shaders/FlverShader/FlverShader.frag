@@ -295,5 +295,6 @@ void main()
 		
 		fsout_color = vec4((direct * sceneparam.directLightMult + indirect * sceneparam.indirectLightMult) * sceneparam.sceneBrightness, 1.0);
 	}
+	fsout_color = sqrt(fsout_color);
 	//fsout_color = vec4(vec3((vec4(N, 1.0) / 2.0) + 0.5), 1.0);
 }
