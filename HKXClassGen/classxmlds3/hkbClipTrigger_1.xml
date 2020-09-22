@@ -1,0 +1,9 @@
+<struct name='hkbClipTrigger' version='1' signature='0x7eb45cea'>
+	<members>
+		<member name='localTime' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='event' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='8' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='relativeToEndOfClip' type='hkBool' offset='24' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='acyclic' type='hkBool' offset='25' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='isAnnotation' type='hkBool' offset='26' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+	</members>
+</struct>

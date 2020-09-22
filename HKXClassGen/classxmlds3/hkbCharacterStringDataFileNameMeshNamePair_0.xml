@@ -1,0 +1,6 @@
+<struct name='hkbCharacterStringDataFileNameMeshNamePair' version='0' signature='0x026c3a96'>
+	<members>
+		<member name='fileName' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='meshName' type='hkStringPtr' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

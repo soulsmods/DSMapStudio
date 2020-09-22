@@ -1,0 +1,20 @@
+<class name='hkbCharacterStringData' version='9' signature='0x0b9d8a52' parent='hkReferencedObject'>
+	<members>
+		<member name='skinNames' type='hkArray&lt;struct hkbCharacterStringDataFileNameMeshNamePair&gt;' ctype='hkbCharacterStringDataFileNameMeshNamePair' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneAttachmentNames' type='hkArray&lt;struct hkbCharacterStringDataFileNameMeshNamePair&gt;' ctype='hkbCharacterStringDataFileNameMeshNamePair' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='animationBundleNameData' type='hkArray&lt;struct hkbAssetBundleStringData&gt;' ctype='hkbAssetBundleStringData' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='animationBundleFilenameData' type='hkArray&lt;struct hkbAssetBundleStringData&gt;' ctype='hkbAssetBundleStringData' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='characterPropertyNames' type='hkArray&lt;hkStringPtr&gt;' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='retargetingSkeletonMapperFilenames' type='hkArray&lt;hkStringPtr&gt;' offset='96' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lodNames' type='hkArray&lt;hkStringPtr&gt;' offset='112' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='mirroredSyncPointSubstringsA' type='hkArray&lt;hkStringPtr&gt;' offset='128' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='mirroredSyncPointSubstringsB' type='hkArray&lt;hkStringPtr&gt;' offset='144' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='name' type='hkStringPtr' offset='160' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rigName' type='hkStringPtr' offset='168' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ragdollName' type='hkStringPtr' offset='176' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='behaviorFilename' type='hkStringPtr' offset='184' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='luaScriptOnCharacterActivated' type='hkStringPtr' offset='192' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='luaScriptOnCharacterDeactivated' type='hkStringPtr' offset='200' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='luaFiles' type='hkArray&lt;hkStringPtr&gt;' offset='208' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,5 @@
+<struct name='hkFloat16Transform' version='0' signature='0x8727ee17'>
+	<members>
+		<member name='elements' type='struct hkFloat16[12]' ctype='hkFloat16' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='12' flags='FLAGS_NONE'/>
+	</members>
+</struct>

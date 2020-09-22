@@ -1,0 +1,14 @@
+<struct name='hkcdShapeDispatchType' version='0' signature='0x3eca000e'>
+	<enums>
+		<enum name='ShapeDispatchTypeEnum' flags='00000000'>
+			<enumitem name='CONVEX_IMPLICIT' value='0'/>
+			<enumitem name='CONVEX' value='1'/>
+			<enumitem name='HEIGHT_FIELD' value='2'/>
+			<enumitem name='COMPOSITE' value='3'/>
+			<enumitem name='USER' value='4'/>
+			<enumitem name='NUM_DISPATCH_TYPES' value='5'/>
+		</enum>
+	</enums>
+	<members>
+	</members>
+</struct>

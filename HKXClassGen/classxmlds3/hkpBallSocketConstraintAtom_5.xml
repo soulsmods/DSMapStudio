@@ -1,0 +1,10 @@
+<struct name='hkpBallSocketConstraintAtom' version='5' signature='0x6ba88f7a' parent='hkpConstraintAtom'>
+	<members>
+		<member name='solvingMethod' type='enum SolvingMethod' etype='SolvingMethod' offset='2' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='bodiesToNotify' type='hkUint8' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
+		<member name='velocityStabilizationFactor' type='struct hkUFloat8' ctype='hkUFloat8' offset='4' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='enableLinearImpulseLimit' type='hkBool' offset='5' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='breachImpulse' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='340282001837565597733306976381245063168.000000'/>
+		<member name='inertiaStabilizationFactor' type='hkReal' offset='12' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</struct>

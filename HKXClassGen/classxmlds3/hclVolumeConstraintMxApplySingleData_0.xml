@@ -1,0 +1,8 @@
+<struct name='hclVolumeConstraintMxApplySingleData' version='0' signature='0x2dd9d0d9'>
+	<members>
+		<member name='frameVector' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='particleIndex' type='hkUint16' offset='16' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='stiffness' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='padding' type='hkUInt64' offset='24' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

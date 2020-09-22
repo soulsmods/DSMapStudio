@@ -1,0 +1,10 @@
+<struct name='hkVertexFormatElement' version='0' signature='0x54867cbf'>
+	<members>
+		<member name='dataType' type='enum ComponentType' etype='ComponentType' offset='0' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numValues' type='hkUint8' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='usage' type='enum ComponentUsage' etype='ComponentUsage' offset='2' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='subUsage' type='hkUint8' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='flags' type='flags HintFlags' etype='HintFlags' offset='4' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pad' type='hkUint8[3]' offset='5' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+	</members>
+</struct>

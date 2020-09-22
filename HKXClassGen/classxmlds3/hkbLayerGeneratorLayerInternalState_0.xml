@@ -1,0 +1,18 @@
+<struct name='hkbLayerGeneratorLayerInternalState' version='0' signature='0xe27d5e54'>
+	<enums>
+		<enum name='FadingState' flags='00000000'>
+			<enumitem name='FADING_STATE_NONE' value='0'/>
+			<enumitem name='FADING_STATE_IN' value='1'/>
+			<enumitem name='FADING_STATE_OUT' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='weight' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='timeElapsed' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='onFraction' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='fadingState' type='enum FadingState' etype='FadingState' offset='12' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='useMotion' type='hkBool' offset='13' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='syncNextFrame' type='hkBool' offset='14' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isActive' type='hkBool' offset='15' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

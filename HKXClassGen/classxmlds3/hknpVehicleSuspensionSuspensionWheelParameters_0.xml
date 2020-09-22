@@ -1,0 +1,7 @@
+<struct name='hknpVehicleSuspensionSuspensionWheelParameters' version='0' signature='0x358bfe9c'>
+	<members>
+		<member name='hardpointChassisSpace' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='directionChassisSpace' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='length' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

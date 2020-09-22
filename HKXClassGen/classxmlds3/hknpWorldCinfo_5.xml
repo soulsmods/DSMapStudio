@@ -1,0 +1,65 @@
+<struct name='hknpWorldCinfo' version='5' signature='0x6300cf42'>
+	<enums>
+		<enum name='SimulationType' flags='00000000'>
+			<enumitem name='SIMULATION_TYPE_SINGLE_THREADED' value='0'/>
+			<enumitem name='SIMULATION_TYPE_MULTI_THREADED' value='1'/>
+		</enum>
+		<enum name='SolverType' flags='00000000'>
+			<enumitem name='SOLVER_TYPE_INVALID' value='0'/>
+			<enumitem name='SOLVER_TYPE_2ITERS_SOFT' value='1'/>
+			<enumitem name='SOLVER_TYPE_2ITERS_MEDIUM' value='2'/>
+			<enumitem name='SOLVER_TYPE_2ITERS_HARD' value='3'/>
+			<enumitem name='SOLVER_TYPE_4ITERS_SOFT' value='4'/>
+			<enumitem name='SOLVER_TYPE_4ITERS_MEDIUM' value='5'/>
+			<enumitem name='SOLVER_TYPE_4ITERS_HARD' value='6'/>
+			<enumitem name='SOLVER_TYPE_8ITERS_SOFT' value='7'/>
+			<enumitem name='SOLVER_TYPE_8ITERS_MEDIUM' value='8'/>
+			<enumitem name='SOLVER_TYPE_8ITERS_HARD' value='9'/>
+			<enumitem name='SOLVER_TYPE_MAX' value='10'/>
+		</enum>
+		<enum name='LeavingBroadPhaseBehavior' flags='00000000'>
+			<enumitem name='ON_LEAVING_BROAD_PHASE_DO_NOTHING' value='0'/>
+			<enumitem name='ON_LEAVING_BROAD_PHASE_REMOVE_BODY' value='1'/>
+			<enumitem name='ON_LEAVING_BROAD_PHASE_FREEZE_BODY' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='bodyBufferCapacity' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='4096'/>
+		<member name='userBodyBuffer' type='void*' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='motionBufferCapacity' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='4096'/>
+		<member name='userMotionBuffer' type='void*' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='constraintBufferCapacity' type='hkInt32' offset='32' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='512'/>
+		<member name='userConstraintBuffer' type='void*' offset='40' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='persistentStreamAllocator' type='void*' offset='48' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='materialLibrary' type='struct hknpMaterialLibrary*' ctype='hknpMaterialLibrary' offset='56' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='motionPropertiesLibrary' type='struct hknpMotionPropertiesLibrary*' ctype='hknpMotionPropertiesLibrary' offset='64' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='qualityLibrary' type='struct hknpBodyQualityLibrary*' ctype='hknpBodyQualityLibrary' offset='72' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='simulationType' type='enum SimulationType' etype='SimulationType' offset='80' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numSplitterCells' type='hkInt32' offset='84' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='16'/>
+		<member name='gravity' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='enableContactCaching' type='hkBool' offset='112' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+		<member name='mergeEventsBeforeDispatch' type='hkBool' offset='113' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+		<member name='leavingBroadPhaseBehavior' type='enum LeavingBroadPhaseBehavior' etype='LeavingBroadPhaseBehavior' offset='114' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='broadPhaseAabb' type='struct hkAabb' ctype='hkAabb' offset='128' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='broadPhaseConfig' type='struct hknpBroadPhaseConfig*' ctype='hknpBroadPhaseConfig' offset='160' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='collisionFilter' type='struct hknpCollisionFilter*' ctype='hknpCollisionFilter' offset='168' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shapeTagCodec' type='struct hknpShapeTagCodec*' ctype='hknpShapeTagCodec' offset='176' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='collisionTolerance' type='hkReal' offset='184' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.050000'/>
+		<member name='relativeCollisionAccuracy' type='hkReal' offset='188' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.050000'/>
+		<member name='enableWeldingForDefaultObjects' type='hkBool' offset='192' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='enableWeldingForCriticalObjects' type='hkBool' offset='193' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='solverTau' type='hkReal' offset='196' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.600000'/>
+		<member name='solverDamp' type='hkReal' offset='200' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='solverIterations' type='hkInt32' offset='204' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='4'/>
+		<member name='solverMicrosteps' type='hkInt32' offset='208' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1'/>
+		<member name='defaultSolverTimestep' type='hkReal' offset='212' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.033333'/>
+		<member name='maxApproachSpeedForHighQualitySolver' type='hkReal' offset='216' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='enableDeactivation' type='hkBool' offset='220' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+		<member name='deleteCachesOnDeactivation' type='hkBool' offset='221' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='largeIslandSize' type='hkInt32' offset='224' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='100'/>
+		<member name='enableSolverDynamicScheduling' type='hkBool' offset='228' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='contactSolverType' type='hkInt32' offset='232' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
+		<member name='unitScale' type='hkReal' offset='236' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='applyUnitScaleToStaticConstants' type='hkBool' offset='240' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+	</members>
+</struct>

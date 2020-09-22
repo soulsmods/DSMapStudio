@@ -1,0 +1,19 @@
+<struct name='hkpLinearClearanceConstraintDataAtoms' version='0' signature='0xd0748d53'>
+	<enums>
+		<enum name='Axis' flags='00000000'>
+			<enumitem name='AXIS_SHAFT' value='0'/>
+			<enumitem name='AXIS_PERP_TO_SHAFT' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='transforms' type='struct hkpSetLocalTransformsConstraintAtom' ctype='hkpSetLocalTransformsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='motor' type='struct hkpLinMotorConstraintAtom' ctype='hkpLinMotorConstraintAtom' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='friction0' type='struct hkpLinFrictionConstraintAtom' ctype='hkpLinFrictionConstraintAtom' offset='168' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='friction1' type='struct hkpLinFrictionConstraintAtom' ctype='hkpLinFrictionConstraintAtom' offset='184' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='friction2' type='struct hkpLinFrictionConstraintAtom' ctype='hkpLinFrictionConstraintAtom' offset='200' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ang' type='struct hkpAngConstraintAtom' ctype='hkpAngConstraintAtom' offset='216' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='linLimit0' type='struct hkpLinLimitConstraintAtom' ctype='hkpLinLimitConstraintAtom' offset='232' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='linLimit1' type='struct hkpLinLimitConstraintAtom' ctype='hkpLinLimitConstraintAtom' offset='248' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='linLimit2' type='struct hkpLinLimitConstraintAtom' ctype='hkpLinLimitConstraintAtom' offset='264' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

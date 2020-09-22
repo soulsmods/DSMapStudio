@@ -1,0 +1,8 @@
+<struct name='hknpMinMaxQuadTree' version='0' signature='0x0e7ba4e4'>
+	<members>
+		<member name='coarseTreeData' type='hkArray&lt;struct hknpMinMaxQuadTreeMinMaxLevel&gt;' ctype='hknpMinMaxQuadTreeMinMaxLevel' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='offset' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='multiplier' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='invMultiplier' type='hkReal' offset='36' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

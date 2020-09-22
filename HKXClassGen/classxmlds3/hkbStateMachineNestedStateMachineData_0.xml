@@ -1,0 +1,6 @@
+<struct name='hkbStateMachineNestedStateMachineData' version='0' signature='0x7358f5da'>
+	<members>
+		<member name='nestedStateMachine' type='void*' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='eventIdMap' type='void*' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>

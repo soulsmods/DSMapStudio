@@ -1,0 +1,11 @@
+<struct name='hkbEventBase' version='0' signature='0x76bddb31'>
+	<enums>
+		<enum name='SystemEventIds' flags='00000000'>
+			<enumitem name='EVENT_ID_NULL' value='-1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='id' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='payload' type='struct hkbEventPayload*' ctype='hkbEventPayload' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

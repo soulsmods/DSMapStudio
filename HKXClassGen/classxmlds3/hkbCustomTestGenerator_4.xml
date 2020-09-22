@@ -1,0 +1,6 @@
+<class name='hkbCustomTestGenerator' version='4' signature='0x4aa6a88c' parent='hkbCustomTestGeneratorAnnotatedTypes'>
+	<members>
+		<member name='protectedHiddenMember' type='hkBool' offset='1664' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='privateHiddenMember' type='hkBool' offset='1665' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

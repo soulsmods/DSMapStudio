@@ -1,0 +1,6 @@
+<class name='hknpGroupCollisionFilterBasehknpGroupCollisionFilterTypesConfig55516' version='0' signature='0x2fef5ac0' parent='hknpCollisionFilter'>
+	<members>
+		<member name='nextFreeSystemGroup' type='hkInt32' offset='32' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+		<member name='collisionLookupTable' type='hkUint32[32]' offset='36' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='32' flags='FLAGS_NONE'/>
+	</members>
+</class>

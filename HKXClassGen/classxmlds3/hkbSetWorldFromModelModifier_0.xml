@@ -1,0 +1,8 @@
+<class name='hkbSetWorldFromModelModifier' version='0' signature='0xb45bd4ff' parent='hkbModifier'>
+	<members>
+		<member name='translation' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rotation' type='hkQuaternion' offset='112' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='setTranslation' type='hkBool' offset='128' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+		<member name='setRotation' type='hkBool' offset='129' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+	</members>
+</class>

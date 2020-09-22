@@ -1,0 +1,6 @@
+<struct name='hkbEvaluateExpressionModifierInternalExpressionData' version='0' signature='0xb8686f6b'>
+	<members>
+		<member name='raisedEvent' type='hkBool' offset='0' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wasTrueInPreviousFrame' type='hkBool' offset='1' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

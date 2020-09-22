@@ -1,0 +1,18 @@
+<class name='hkbCustomTestGeneratorBoneTypes' version='0' signature='0x2fc8c9b2' parent='hkbCustomTestGeneratorNestedTypes'>
+	<members>
+		<member name='boneHiddenTypeCopyStart' type='hkBool' offset='1424' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='oldBoneIndex' type='hkInt16' offset='1426' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='oldBoneIndexNoVar' type='hkInt16' offset='1428' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneIndex' type='hkInt16' offset='1430' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneIndexNoVar' type='hkInt16' offset='1432' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneChainIndex0' type='hkInt16' offset='1434' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneChainIndex1' type='hkInt16' offset='1436' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneChainIndex2' type='hkInt16' offset='1438' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneContractIndex0' type='hkInt16' offset='1440' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneContractIndex1' type='hkInt16' offset='1442' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneContractIndex2' type='hkInt16' offset='1444' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneHiddenTypeCopyEnd' type='hkBool' offset='1446' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneWeightArray' type='struct hkbBoneWeightArray*' ctype='hkbBoneWeightArray' offset='1448' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneIndexArray' type='struct hkbBoneIndexArray*' ctype='hkbBoneIndexArray' offset='1456' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

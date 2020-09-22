@@ -1,0 +1,15 @@
+<class name='hkMultipleVertexBuffer' version='0' signature='0x3216c42a' parent='hkMeshVertexBuffer'>
+	<members>
+		<member name='vertexFormat' type='struct hkVertexFormat' ctype='hkVertexFormat' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lockedElements' type='hkArray&lt;struct hkMultipleVertexBufferLockedElement&gt;' ctype='hkMultipleVertexBufferLockedElement' offset='280' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lockedBuffer' type='struct hkMemoryMeshVertexBuffer*' ctype='hkMemoryMeshVertexBuffer' offset='296' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='elementInfos' type='hkArray&lt;struct hkMultipleVertexBufferElementInfo&gt;' ctype='hkMultipleVertexBufferElementInfo' offset='304' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='vertexBufferInfos' type='hkArray&lt;struct hkMultipleVertexBufferVertexBufferInfo&gt;' ctype='hkMultipleVertexBufferVertexBufferInfo' offset='320' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numVertices' type='hkInt32' offset='336' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isLocked' type='hkBool' offset='340' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='updateCount' type='hkUint32' offset='344' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='writeLock' type='hkBool' offset='348' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isSharable' type='hkBool' offset='349' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='constructionComplete' type='hkBool' offset='350' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

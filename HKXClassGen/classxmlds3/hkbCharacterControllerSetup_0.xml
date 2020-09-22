@@ -1,0 +1,6 @@
+<struct name='hkbCharacterControllerSetup' version='0' signature='0xaf5f7339'>
+	<members>
+		<member name='rigidBodySetup' type='struct hkbRigidBodySetup' ctype='hkbRigidBodySetup' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='controllerCinfo' type='struct hkReferencedObject*' ctype='hkReferencedObject' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

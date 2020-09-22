@@ -1,0 +1,5 @@
+<struct name='hkcdStaticTreeCodecRaw' version='0' signature='0x2d65e9f4'>
+	<members>
+		<member name='aabb' type='struct hkAabb' ctype='hkAabb' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

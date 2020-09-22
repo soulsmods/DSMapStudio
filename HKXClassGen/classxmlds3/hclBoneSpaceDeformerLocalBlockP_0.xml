@@ -1,0 +1,5 @@
+<struct name='hclBoneSpaceDeformerLocalBlockP' version='0' signature='0xf11d6383'>
+	<members>
+		<member name='localPosition' type='hkVector4[16]' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+	</members>
+</struct>

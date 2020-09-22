@@ -1,0 +1,19 @@
+<struct name='hkpRagdollConstraintDataAtoms' version='1' signature='0xe11fb3ac'>
+	<enums>
+		<enum name='Axis' flags='00000000'>
+			<enumitem name='AXIS_TWIST' value='0'/>
+			<enumitem name='AXIS_PLANES' value='1'/>
+			<enumitem name='AXIS_CROSS_PRODUCT' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='transforms' type='struct hkpSetLocalTransformsConstraintAtom' ctype='hkpSetLocalTransformsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='setupStabilization' type='struct hkpSetupStabilizationAtom' ctype='hkpSetupStabilizationAtom' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ragdollMotors' type='struct hkpRagdollMotorConstraintAtom' ctype='hkpRagdollMotorConstraintAtom' offset='160' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='angFriction' type='struct hkpAngFrictionConstraintAtom' ctype='hkpAngFrictionConstraintAtom' offset='256' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='twistLimit' type='struct hkpTwistLimitConstraintAtom' ctype='hkpTwistLimitConstraintAtom' offset='272' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='coneLimit' type='struct hkpConeLimitConstraintAtom' ctype='hkpConeLimitConstraintAtom' offset='304' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='planesLimit' type='struct hkpConeLimitConstraintAtom' ctype='hkpConeLimitConstraintAtom' offset='336' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ballSocket' type='struct hkpBallSocketConstraintAtom' ctype='hkpBallSocketConstraintAtom' offset='368' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

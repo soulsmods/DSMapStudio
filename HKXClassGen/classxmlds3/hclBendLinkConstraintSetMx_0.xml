@@ -1,0 +1,6 @@
+<class name='hclBendLinkConstraintSetMx' version='0' signature='0x230b6ab4' parent='hclConstraintSet'>
+	<members>
+		<member name='batches' type='hkArray&lt;struct hclBendLinkConstraintSetMxBatch&gt;' ctype='hclBendLinkConstraintSetMxBatch' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='singles' type='hkArray&lt;struct hclBendLinkConstraintSetMxSingle&gt;' ctype='hclBendLinkConstraintSetMxSingle' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

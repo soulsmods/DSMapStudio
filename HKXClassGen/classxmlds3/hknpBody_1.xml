@@ -1,0 +1,35 @@
+<struct name='hknpBody' version='1' signature='0x028533d8'>
+	<enums>
+		<enum name='Flags' flags='00000000'>
+			<enumitem name='IS_STATIC' value='1'/>
+			<enumitem name='IS_DYNAMIC' value='2'/>
+			<enumitem name='IS_KEYFRAMED' value='4'/>
+			<enumitem name='IS_ACTIVE' value='8'/>
+		</enum>
+		<enum name='SpuFlagsEnum' flags='00000000'>
+			<enumitem name='FORCE_NARROW_PHASE_PPU' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='transform' type='hkTransform' offset='0' vtype='TYPE_TRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='flags' type='hkInt32' offset='64' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='collisionFilterInfo' type='hkUint32' offset='68' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shape' type='struct hknpShape*' ctype='hknpShape' offset='72' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='aabb' type='struct hkAabb16' ctype='hkAabb16' offset='80' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='id' type='hkUint32' offset='96' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nextAttachedBodyId' type='hkUint32' offset='100' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='motionId' type='hkUint32' offset='104' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='broadPhaseId' type='hkUint32' offset='108' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='materialId' type='hkUint16' offset='112' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='qualityId' type='hkUint8' offset='114' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='timAngle' type='hkUint8' offset='115' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxTimDistance' type='hkUint16' offset='116' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxContactDistance' type='hkUint16' offset='118' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='indexIntoActiveListOrDeactivatedIslandId' type='hkUint32' offset='120' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='radiusOfComCenteredBoundingSphere' type='hkHalf' offset='124' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='spuFlags' type='flags SpuFlagsEnum' etype='SpuFlagsEnum' offset='126' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shapeSizeDiv16' type='hkUint8' offset='127' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='motionToBodyRotation' type='hkInt16[4]' offset='128' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='userData' type='hkUint64' offset='136' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

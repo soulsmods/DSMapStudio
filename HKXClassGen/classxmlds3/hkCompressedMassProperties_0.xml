@@ -1,0 +1,9 @@
+<struct name='hkCompressedMassProperties' version='0' signature='0x9ac5cee1'>
+	<members>
+		<member name='centerOfMass' type='hkInt16[4]' offset='0' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='inertia' type='hkInt16[4]' offset='8' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='majorAxisSpace' type='hkInt16[4]' offset='16' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='mass' type='hkReal' offset='24' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='volume' type='hkReal' offset='28' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

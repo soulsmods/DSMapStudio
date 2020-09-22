@@ -1,0 +1,48 @@
+<class name='hkbCustomTestGeneratorAnnotatedTypes' version='0' signature='0x37c5d497' parent='hkbCustomTestGeneratorBoneTypes'>
+	<members>
+		<member name='annotatedTypeCStringFilename' type='char*' offset='1472' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkStringPtrFilename' type='hkStringPtr' offset='1480' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeCStringScript' type='char*' offset='1488' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkStringPtrScript' type='hkStringPtr' offset='1496' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeCStringBoneAttachment' type='char*' offset='1504' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkStringPtrBoneAttachment' type='hkStringPtr' offset='1512' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeCStringLocalFrame' type='char*' offset='1520' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkStringPtrLocalFrame' type='hkStringPtr' offset='1528' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeCopyStart' type='hkBool' offset='1536' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt32EventID' type='hkInt32' offset='1540' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt32VariableIndex' type='hkInt32' offset='1544' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt32AttributeIndex' type='hkInt32' offset='1548' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkRealTime' type='hkReal' offset='1552' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeBoolNoVar' type='hkBool' offset='1556' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkBoolNoVar' type='hkBool' offset='1557' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt8NoVar' type='hkInt8' offset='1558' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt16NoVar' type='hkInt16' offset='1560' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt32NoVar' type='hkInt32' offset='1564' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkUint8NoVar' type='hkUint8' offset='1568' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkUint16NoVar' type='hkUint16' offset='1570' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkUint32NoVar' type='hkUint32' offset='1572' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkRealNoVar' type='hkReal' offset='1576' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeBoolOutput' type='hkBool' offset='1580' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkBoolOutput' type='hkBool' offset='1581' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt8Output' type='hkInt8' offset='1582' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt16Output' type='hkInt16' offset='1584' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkInt32Output' type='hkInt32' offset='1588' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkUint8Output' type='hkUint8' offset='1592' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkUint16Output' type='hkUint16' offset='1594' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkUint32Output' type='hkUint32' offset='1596' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedTypeHkRealOutput' type='hkReal' offset='1600' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeBool' type='hkBool' offset='1604' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkBool' type='hkBool' offset='1605' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeCString1' type='char*' offset='1608' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkStringPtr1' type='hkStringPtr' offset='1616' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeCString2' type='char*' offset='1624' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkStringPtr2' type='hkStringPtr' offset='1632' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkInt8' type='hkInt8' offset='1640' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkInt16' type='hkInt16' offset='1642' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkInt32' type='hkInt32' offset='1644' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkUint8' type='hkUint8' offset='1648' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkUint16' type='hkUint16' offset='1650' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeHkUint32' type='hkUint32' offset='1652' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='annotatedHiddenTypeCopyEnd' type='hkBool' offset='1656' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

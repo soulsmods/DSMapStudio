@@ -1,0 +1,7 @@
+<struct name='hclSimClothDataCollidablePinchingData' version='1' signature='0x4c1edaa8'>
+	<members>
+		<member name='pinchDetectionEnabled' type='hkBool' offset='0' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pinchDetectionPriority' type='hkInt8' offset='1' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pinchDetectionRadius' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,5 @@
+<struct name='hkTraceStreamTitle' version='0' signature='0x6a4ca82c'>
+	<members>
+		<member name='value' type='hkChar[32]' offset='0' vtype='TYPE_CHAR' vsubtype='TYPE_VOID' arrsize='32' flags='FLAGS_NONE'/>
+	</members>
+</struct>

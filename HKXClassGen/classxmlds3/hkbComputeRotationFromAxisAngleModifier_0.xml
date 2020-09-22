@@ -1,0 +1,7 @@
+<class name='hkbComputeRotationFromAxisAngleModifier' version='0' signature='0xfe285fd9' parent='hkbModifier'>
+	<members>
+		<member name='rotationOut' type='hkQuaternion' offset='96' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='axis' type='hkVector4' offset='112' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='angleDegrees' type='hkReal' offset='128' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</class>

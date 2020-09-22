@@ -1,0 +1,6 @@
+<struct name='hkSethkIntRealPairhkContainerHeapAllocatorhkMapOperationshkIntRealPair' version='0' signature='0x0fc87019'>
+	<members>
+		<member name='elem' type='hkArray&lt;struct hkIntRealPair&gt;' ctype='hkIntRealPair' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numElems' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

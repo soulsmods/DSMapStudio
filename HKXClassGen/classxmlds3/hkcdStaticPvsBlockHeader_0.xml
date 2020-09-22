@@ -1,0 +1,6 @@
+<struct name='hkcdStaticPvsBlockHeader' version='0' signature='0xbff36644'>
+	<members>
+		<member name='offset' type='hkUint32' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='length' type='hkUint32' offset='4' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,20 @@
+<struct name='hknpMotion' version='2' signature='0xbaa216da'>
+	<members>
+		<member name='centerOfMassAndMassFactor' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='orientation' type='hkQuaternion' offset='16' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='inverseInertia' type='hkHalf[4]' offset='32' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='firstAttachedBodyId' type='hkUint32' offset='40' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='solverId' type='hkUint32' offset='44' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='linearVelocityCage' type='hkHalf[3]' offset='48' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='3' flags='ALIGN_16'/>
+		<member name='integrationFactor' type='hkHalf' offset='54' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='motionPropertiesId' type='hkUint16' offset='56' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxLinearAccelerationDistancePerStep' type='hkHalf' offset='58' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxRotationToPreventTunneling' type='hkHalf' offset='60' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='cellIndex' type='hkUint8' offset='62' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='spaceSplitterWeight' type='hkUint8' offset='63' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='linearVelocity' type='hkVector4' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='angularVelocity' type='hkVector4' offset='80' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='previousStepLinearVelocity' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='previousStepAngularVelocity' type='hkVector4' offset='112' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

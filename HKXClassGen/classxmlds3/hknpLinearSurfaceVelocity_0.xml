@@ -1,0 +1,15 @@
+<class name='hknpLinearSurfaceVelocity' version='0' signature='0x108689b1' parent='hknpSurfaceVelocity'>
+	<enums>
+		<enum name='ProjectMethod' flags='00000000'>
+			<enumitem name='VELOCITY_PROJECT' value='0'/>
+			<enumitem name='VELOCITY_RESCALE' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='space' type='enum Space' etype='Space' offset='16' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='projectMethod' type='enum ProjectMethod' etype='ProjectMethod' offset='17' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxVelocityScale' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='velocityMeasurePlane' type='hkVector4' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='velocity' type='hkVector4' offset='48' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

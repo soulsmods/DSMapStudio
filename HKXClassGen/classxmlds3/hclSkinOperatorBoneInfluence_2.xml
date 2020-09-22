@@ -1,0 +1,6 @@
+<struct name='hclSkinOperatorBoneInfluence' version='2' signature='0x750286a2'>
+	<members>
+		<member name='boneIndex' type='hkUint8' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='weight' type='hkUint8' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,9 @@
+<class name='hknpCompressedHeightFieldShape' version='0' signature='0x2261d04e' parent='hknpHeightFieldShape'>
+	<members>
+		<member name='storage' type='hkArray&lt;hkUint16&gt;' offset='240' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shapeTags' type='hkArray&lt;hkUint16&gt;' offset='256' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='triangleFlip' type='hkBool' offset='272' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='offset' type='hkReal' offset='276' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='scale' type='hkReal' offset='280' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

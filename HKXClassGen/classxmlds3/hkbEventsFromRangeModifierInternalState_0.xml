@@ -1,0 +1,5 @@
+<class name='hkbEventsFromRangeModifierInternalState' version='0' signature='0xed752820' parent='hkReferencedObject'>
+	<members>
+		<member name='wasActiveInPreviousFrame' type='hkArray&lt;hkBool&gt;' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_BOOL' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

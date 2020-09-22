@@ -1,0 +1,5 @@
+<struct name='hkDescriptionAttribute' version='0' signature='0xe9f9578a'>
+	<members>
+		<member name='string' type='char*' offset='0' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

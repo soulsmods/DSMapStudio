@@ -1,0 +1,7 @@
+<struct name='hkbClipGeneratorEcho' version='0' signature='0x750edf40'>
+	<members>
+		<member name='offsetLocalTime' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+		<member name='weight' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='dwdt' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

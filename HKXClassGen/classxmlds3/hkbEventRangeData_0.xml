@@ -1,0 +1,13 @@
+<struct name='hkbEventRangeData' version='0' signature='0x6cb92c76'>
+	<enums>
+		<enum name='EventRangeMode' flags='00000000'>
+			<enumitem name='EVENT_MODE_SEND_ON_ENTER_RANGE' value='0'/>
+			<enumitem name='EVENT_MODE_SEND_WHEN_IN_RANGE' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='upperBound' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='event' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='8' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='eventMode' type='enum EventRangeMode' etype='EventRangeMode' offset='24' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

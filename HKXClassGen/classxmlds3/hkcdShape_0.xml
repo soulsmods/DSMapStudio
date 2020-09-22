@@ -1,0 +1,8 @@
+<class name='hkcdShape' version='0' signature='0x79090bbb' parent='hkReferencedObject'>
+	<members>
+		<member name='type' type='enum unknown' offset='16' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='dispatchType' type='enum ShapeDispatchTypeEnum' etype='ShapeDispatchTypeEnum' offset='17' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='bitsPerKey' type='hkUint8' offset='18' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shapeInfoCodecType' type='enum ShapeInfoCodecTypeEnum' etype='ShapeInfoCodecTypeEnum' offset='19' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

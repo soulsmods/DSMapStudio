@@ -1,0 +1,7 @@
+<struct name='hclRuntimeConversionInfoElementConversion' version='0' signature='0xa19a443a'>
+	<members>
+		<member name='index' type='hkUint8' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='offset' type='hkUint8' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='conversion' type='enum VectorConversion' etype='VectorConversion' offset='2' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

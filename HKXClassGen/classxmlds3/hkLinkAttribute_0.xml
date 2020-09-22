@@ -1,0 +1,15 @@
+<struct name='hkLinkAttribute' version='0' signature='0x62ca5ac0'>
+	<enums>
+		<enum name='Link' flags='00000000'>
+			<enumitem name='NONE' value='0'/>
+			<enumitem name='DIRECT_LINK' value='1'/>
+			<enumitem name='CHILD' value='2'/>
+			<enumitem name='MESH' value='3'/>
+			<enumitem name='PARENT_NAME' value='4'/>
+			<enumitem name='IMGSELECT' value='5'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='type' type='enum Link' etype='Link' offset='0' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

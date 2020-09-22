@@ -1,0 +1,37 @@
+<class name='hkbBlendingTransitionEffect' version='2' signature='0x14e54c5c' parent='hkbTransitionEffect'>
+	<enums>
+		<enum name='FlagBits' flags='00000000'>
+			<enumitem name='FLAG_NONE' value='0'/>
+			<enumitem name='FLAG_IGNORE_FROM_WORLD_FROM_MODEL' value='1'/>
+			<enumitem name='FLAG_SYNC' value='2'/>
+			<enumitem name='FLAG_IGNORE_TO_WORLD_FROM_MODEL' value='4'/>
+			<enumitem name='FLAG_IGNORE_TO_WORLD_FROM_MODEL_ROTATION' value='8'/>
+		</enum>
+		<enum name='EndMode' flags='00000000'>
+			<enumitem name='END_MODE_NONE' value='0'/>
+			<enumitem name='END_MODE_TRANSITION_UNTIL_END_OF_FROM_GENERATOR' value='1'/>
+			<enumitem name='END_MODE_CAP_DURATION_AT_END_OF_FROM_GENERATOR' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='duration' type='hkReal' offset='168' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='toGeneratorStartTimeFraction' type='hkReal' offset='172' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='flags' type='flags FlagBits' etype='FlagBits' offset='176' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='endMode' type='enum EndMode' etype='EndMode' offset='178' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='blendCurve' type='enum BlendCurve' etype='BlendCurve' offset='179' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='alignmentBone' type='hkInt16' offset='180' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='fromPos' type='hkVector4' offset='192' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='fromRot' type='hkQuaternion' offset='208' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='toPos' type='hkVector4' offset='224' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='toRot' type='hkQuaternion' offset='240' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='lastPos' type='hkVector4' offset='256' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='lastRot' type='hkQuaternion' offset='272' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='characterPoseAtBeginningOfTransition' type='hkArray&lt;void&gt;' offset='288' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='timeRemaining' type='hkReal' offset='304' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='timeInTransition' type='hkReal' offset='308' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='toGeneratorSelfTranstitionMode' type='enum unknown' offset='312' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='initializeCharacterPose' type='hkBool' offset='313' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='alignThisFrame' type='hkBool' offset='314' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='alignmentFinished' type='hkBool' offset='315' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

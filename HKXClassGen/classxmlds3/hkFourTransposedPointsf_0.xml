@@ -1,0 +1,5 @@
+<struct name='hkFourTransposedPointsf' version='0' signature='0xce97c03f'>
+	<members>
+		<member name='vertices' type='hkVector4[3]' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+	</members>
+</struct>

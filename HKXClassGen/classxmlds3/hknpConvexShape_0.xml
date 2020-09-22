@@ -1,0 +1,5 @@
+<class name='hknpConvexShape' version='0' signature='0xc8f7c10d' parent='hknpShape'>
+	<members>
+		<member name='vertices' type='hkRelArray&lt;hkVector4&gt;' offset='48' vtype='TYPE_RELARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

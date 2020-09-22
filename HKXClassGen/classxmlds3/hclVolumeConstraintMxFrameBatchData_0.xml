@@ -1,0 +1,7 @@
+<struct name='hclVolumeConstraintMxFrameBatchData' version='0' signature='0xd5bf326b'>
+	<members>
+		<member name='frameVector' type='hkVector4[16]' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particleIndex' type='hkUint16[16]' offset='256' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='weight' type='hkReal[16]' offset='288' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,29 @@
+<struct name='hkMeshSection' version='2' signature='0x5d99cc5b'>
+	<enums>
+		<enum name='MeshSectionIndexType' flags='00000000'>
+			<enumitem name='INDEX_TYPE_NONE' value='0'/>
+			<enumitem name='INDEX_TYPE_UINT16' value='1'/>
+			<enumitem name='INDEX_TYPE_UINT32' value='2'/>
+		</enum>
+		<enum name='PrimitiveType' flags='00000000'>
+			<enumitem name='PRIMITIVE_TYPE_UNKNOWN' value='0'/>
+			<enumitem name='PRIMITIVE_TYPE_POINT_LIST' value='1'/>
+			<enumitem name='PRIMITIVE_TYPE_LINE_LIST' value='2'/>
+			<enumitem name='PRIMITIVE_TYPE_TRIANGLE_LIST' value='3'/>
+			<enumitem name='PRIMITIVE_TYPE_TRIANGLE_STRIP' value='4'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='primitiveType' type='enum PrimitiveType' etype='PrimitiveType' offset='0' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numPrimitives' type='hkInt32' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numIndices' type='hkInt32' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='vertexStartIndex' type='hkInt32' offset='12' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='transformIndex' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='indexType' type='enum MeshSectionIndexType' etype='MeshSectionIndexType' offset='20' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='indices' type='void*' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='vertexBuffer' type='struct hkMeshVertexBuffer*' ctype='hkMeshVertexBuffer' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='material' type='struct hkMeshMaterial*' ctype='hkMeshMaterial' offset='40' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneMatrixMap' type='struct hkMeshBoneIndexMapping*' ctype='hkMeshBoneIndexMapping' offset='48' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='sectionIndex' type='hkInt32' offset='56' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

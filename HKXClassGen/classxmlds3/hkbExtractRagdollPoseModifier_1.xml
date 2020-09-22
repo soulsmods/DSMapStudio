@@ -1,0 +1,8 @@
+<class name='hkbExtractRagdollPoseModifier' version='1' signature='0x10af9d59' parent='hkbModifier'>
+	<members>
+		<member name='poseMatchingBone0' type='hkInt16' offset='88' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='poseMatchingBone1' type='hkInt16' offset='90' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='poseMatchingBone2' type='hkInt16' offset='92' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='enableComputeWorldFromModel' type='hkBool' offset='94' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+	</members>
+</class>

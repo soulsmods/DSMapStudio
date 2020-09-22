@@ -1,0 +1,7 @@
+<class name='hkSkinBinding' version='0' signature='0x6351081e' parent='hkMeshShape'>
+	<members>
+		<member name='skin' type='struct hkMeshShape*' ctype='hkMeshShape' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='worldFromBoneTransforms' type='hkArray&lt;hkMatrix4&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_MATRIX4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneNames' type='hkArray&lt;hkStringPtr&gt;' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

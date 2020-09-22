@@ -1,0 +1,11 @@
+<struct name='hkcdAdf' version='0' signature='0xb1171408'>
+	<members>
+		<member name='accuracy' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='domain' type='struct hkAabb' ctype='hkAabb' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='origin' type='hkVector4' offset='48' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='scale' type='hkVector4' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='range' type='hkReal[2]' offset='80' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='2' flags='FLAGS_NONE'/>
+		<member name='nodes' type='hkArray&lt;hkUint32&gt;' offset='88' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='voxels' type='hkArray&lt;hkUint16&gt;' offset='104' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

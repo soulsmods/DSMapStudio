@@ -1,0 +1,15 @@
+<class name='hclUpdateAllVertexFramesOperator' version='3' signature='0x9f7b4db7' parent='hclOperator'>
+	<members>
+		<member name='vertToNormalID' type='hkArray&lt;hkUint16&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='triangleFlips' type='hkArray&lt;hkUint8&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='referenceVertices' type='hkArray&lt;hkUint16&gt;' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='tangentEdgeCosAngle' type='hkArray&lt;hkReal&gt;' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='tangentEdgeSinAngle' type='hkArray&lt;hkReal&gt;' offset='96' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='biTangentFlip' type='hkArray&lt;hkReal&gt;' offset='112' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='bufferIdx' type='hkUint32' offset='128' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numUniqueNormalIDs' type='hkUint32' offset='132' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='updateNormals' type='hkBool' offset='136' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='updateTangents' type='hkBool' offset='137' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='updateBiTangents' type='hkBool' offset='138' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

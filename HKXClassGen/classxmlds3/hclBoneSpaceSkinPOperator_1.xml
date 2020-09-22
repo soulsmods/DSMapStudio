@@ -1,0 +1,6 @@
+<class name='hclBoneSpaceSkinPOperator' version='1' signature='0x557518bd' parent='hclBoneSpaceSkinOperator'>
+	<members>
+		<member name='localPs' type='hkArray&lt;struct hclBoneSpaceDeformerLocalBlockP&gt;' ctype='hclBoneSpaceDeformerLocalBlockP' offset='144' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='localUnpackedPs' type='hkArray&lt;struct hclBoneSpaceDeformerLocalBlockUnpackedP&gt;' ctype='hclBoneSpaceDeformerLocalBlockUnpackedP' offset='160' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

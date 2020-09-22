@@ -1,0 +1,8 @@
+<struct name='hkpLinLimitConstraintAtom' version='0' signature='0x5cace91d' parent='hkpConstraintAtom'>
+	<members>
+		<member name='axisIndex' type='hkUint8' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='min' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='max' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='padding' type='hkUint8[4]' offset='12' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='4' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>

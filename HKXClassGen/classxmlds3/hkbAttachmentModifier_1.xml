@@ -1,0 +1,16 @@
+<class name='hkbAttachmentModifier' version='1' signature='0x33bc845f' parent='hkbModifier'>
+	<members>
+		<member name='sendToAttacherOnAttach' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='88' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='sendToAttacheeOnAttach' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='104' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='sendToAttacherOnDetach' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='120' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='sendToAttacheeOnDetach' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='136' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='attachmentSetup' type='struct hkbAttachmentSetup*' ctype='hkbAttachmentSetup' offset='152' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='attacherHandle' type='struct hkbHandle*' ctype='hkbHandle' offset='160' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='attacheeHandle' type='struct hkbHandle*' ctype='hkbHandle' offset='168' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='attacheeLayer' type='hkInt32' offset='176' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='attacheeRB' type='void*' offset='184' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='oldMotionType' type='enum unknown' offset='192' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='oldFilterInfo' type='hkInt32' offset='196' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
+		<member name='attachment' type='void*' offset='200' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

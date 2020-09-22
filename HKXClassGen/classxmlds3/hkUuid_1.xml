@@ -1,0 +1,5 @@
+<struct name='hkUuid' version='1' signature='0xaf28b5cf'>
+	<members>
+		<member name='data' type='hkUint32[4]' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+	</members>
+</struct>

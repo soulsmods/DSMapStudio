@@ -1,0 +1,11 @@
+<class name='hkbDetectCloseToGroundModifier' version='2' signature='0x875d28c2' parent='hkbModifier'>
+	<members>
+		<member name='closeToGroundEvent' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='88' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='closeToGroundHeight' type='hkReal' offset='104' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.500000'/>
+		<member name='raycastDistanceDown' type='hkReal' offset='108' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.800000'/>
+		<member name='collisionFilterInfo' type='hkUint32' offset='112' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='3'/>
+		<member name='boneIndex' type='hkInt16' offset='116' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='animBoneIndex' type='hkInt16' offset='118' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='isCloseToGround' type='hkBool' offset='120' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

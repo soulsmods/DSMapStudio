@@ -1,0 +1,6 @@
+<struct name='hkpPulleyConstraintDataAtoms' version='0' signature='0xf62576d0'>
+	<members>
+		<member name='translations' type='struct hkpSetLocalTranslationsConstraintAtom' ctype='hkpSetLocalTranslationsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pulley' type='struct hkpPulleyConstraintAtom' ctype='hkpPulleyConstraintAtom' offset='48' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

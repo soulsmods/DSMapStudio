@@ -1,0 +1,18 @@
+<struct name='hclBendStiffnessConstraintSetMxBatch' version='0' signature='0x395d6341'>
+	<members>
+		<member name='weightsA' type='hkReal[16]' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='weightsB' type='hkReal[16]' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='weightsC' type='hkReal[16]' offset='128' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='weightsD' type='hkReal[16]' offset='192' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='bendStiffnesses' type='hkReal[16]' offset='256' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='restCurvatures' type='hkReal[16]' offset='320' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='invMassesA' type='hkReal[16]' offset='384' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='invMassesB' type='hkReal[16]' offset='448' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='invMassesC' type='hkReal[16]' offset='512' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='invMassesD' type='hkReal[16]' offset='576' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesA' type='hkUint16[16]' offset='640' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesB' type='hkUint16[16]' offset='672' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesC' type='hkUint16[16]' offset='704' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesD' type='hkUint16[16]' offset='736' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+	</members>
+</struct>

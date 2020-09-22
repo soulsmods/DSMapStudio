@@ -1,0 +1,11 @@
+<class name='hkpRackAndPinionConstraintData' version='0' signature='0x677cbcf3' parent='hkpConstraintData'>
+	<enums>
+		<enum name='Type' flags='00000000'>
+			<enumitem name='TYPE_RACK_AND_PINION' value='0'/>
+			<enumitem name='TYPE_SCREW' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='atoms' type='struct hkpRackAndPinionConstraintDataAtoms' ctype='hkpRackAndPinionConstraintDataAtoms' offset='32' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+	</members>
+</class>

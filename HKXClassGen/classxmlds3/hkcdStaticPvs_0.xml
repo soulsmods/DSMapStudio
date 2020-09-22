@@ -1,0 +1,10 @@
+<struct name='hkcdStaticPvs' version='0' signature='0xb1dc4e96'>
+	<members>
+		<member name='cells' type='struct hkcdStaticTreeTreehkcdStaticTreeDynamicStorage6' ctype='hkcdStaticTreeTreehkcdStaticTreeDynamicStorage6' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='bytesPerCells' type='hkInt32' offset='48' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='cellsPerBlock' type='hkInt32' offset='52' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pvs' type='hkArray&lt;hkUint8&gt;' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='map' type='hkArray&lt;hkUint16&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='blocks' type='hkArray&lt;struct hkcdStaticPvsBlockHeader&gt;' ctype='hkcdStaticPvsBlockHeader' offset='88' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

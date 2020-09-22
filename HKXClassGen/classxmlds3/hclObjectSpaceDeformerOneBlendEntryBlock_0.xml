@@ -1,0 +1,6 @@
+<struct name='hclObjectSpaceDeformerOneBlendEntryBlock' version='0' signature='0xc1c287ad'>
+	<members>
+		<member name='vertexIndices' type='hkUint16[16]' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='boneIndices' type='hkUint16[16]' offset='32' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+	</members>
+</struct>

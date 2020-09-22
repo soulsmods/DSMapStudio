@@ -1,0 +1,6 @@
+<class name='hkpSpringDamperConstraintMotor' version='0' signature='0x06aaf69d' parent='hkpLimitedForceConstraintMotor'>
+	<members>
+		<member name='springConstant' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='springDamping' type='hkReal' offset='36' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

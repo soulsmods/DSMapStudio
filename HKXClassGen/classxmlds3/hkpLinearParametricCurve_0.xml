@@ -1,0 +1,9 @@
+<class name='hkpLinearParametricCurve' version='0' signature='0x6ac6ce35' parent='hkpParametricCurve'>
+	<members>
+		<member name='smoothingFactor' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='closedLoop' type='hkBool' offset='20' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='dirNotParallelToTangentAlongWholePath' type='hkVector4' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='points' type='hkArray&lt;hkVector4&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='distance' type='hkArray&lt;hkReal&gt;' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

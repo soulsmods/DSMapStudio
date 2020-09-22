@@ -1,0 +1,6 @@
+<struct name='hkcdDynamicTreeDynamicStorage0hkcdDynamicTreeAnisotropicMetrichkcdDynamicTreeCodecInt16' version='0' signature='0xd1212014' parent='hkcdDynamicTreeAnisotropicMetric'>
+	<members>
+		<member name='nodes' type='hkArray&lt;struct hkcdDynamicTreeCodecInt16&gt;' ctype='hkcdDynamicTreeCodecInt16' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='firstFree' type='hkUint32' offset='16' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

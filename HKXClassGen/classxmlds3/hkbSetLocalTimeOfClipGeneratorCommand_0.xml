@@ -1,0 +1,7 @@
+<class name='hkbSetLocalTimeOfClipGeneratorCommand' version='0' signature='0x7161bde7' parent='hkReferencedObject'>
+	<members>
+		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='localTime' type='hkReal' offset='24' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nodeId' type='hkUint16' offset='28' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

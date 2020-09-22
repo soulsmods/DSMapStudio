@@ -1,0 +1,6 @@
+<struct name='hkMultipleVertexBufferElementInfo' version='0' signature='0x4731fb1b'>
+	<members>
+		<member name='vertexBufferIndex' type='hkUint8' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='elementIndex' type='hkUint8' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

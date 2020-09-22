@@ -1,0 +1,11 @@
+<struct name='hkModelerNodeTypeAttribute' version='0' signature='0x338c092f'>
+	<enums>
+		<enum name='ModelerType' flags='00000000'>
+			<enumitem name='DEFAULT' value='0'/>
+			<enumitem name='LOCATOR' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='type' type='enum ModelerType' etype='ModelerType' offset='0' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,25 @@
+<class name='hkbClientCharacterState' version='2' signature='0x049b7d7b' parent='hkReferencedObject'>
+	<members>
+		<member name='deformableSkinIds' type='hkArray&lt;hkUint64&gt;' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT64' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rigidSkinIds' type='hkArray&lt;hkUint64&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT64' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='externalEventIds' type='hkArray&lt;hkInt16&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='auxiliaryInfo' type='hkArray&lt;hkbAuxiliaryNodeInfo*&gt;' ctype='hkbAuxiliaryNodeInfo' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='activeEventIds' type='hkArray&lt;hkInt16&gt;' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='activeVariableIds' type='hkArray&lt;hkInt16&gt;' offset='96' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='characterId' type='hkUint64' offset='112' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='instanceName' type='hkStringPtr' offset='120' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='templateName' type='hkStringPtr' offset='128' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='fullPathToProject' type='hkStringPtr' offset='136' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='localScriptsPath' type='hkStringPtr' offset='144' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='remoteScriptsPath' type='hkStringPtr' offset='152' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='behaviorData' type='struct hkbBehaviorGraphData*' ctype='hkbBehaviorGraphData' offset='160' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='behaviorInternalState' type='struct hkbBehaviorGraphInternalState*' ctype='hkbBehaviorGraphInternalState' offset='168' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nodeIdToInternalStateMap' type='void*' offset='176' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='visible' type='hkBool' offset='184' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='elapsedSimulationTime' type='hkReal' offset='188' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='skeleton' type='struct hkaSkeleton*' ctype='hkaSkeleton' offset='192' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='worldFromModel' type='hkQsTransform' offset='208' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='poseModelSpace' type='hkArray&lt;hkQsTransform&gt;' offset='256' vtype='TYPE_ARRAY' vsubtype='TYPE_QSTRANSFORM' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rigidAttachmentTransforms' type='hkArray&lt;hkQsTransform&gt;' offset='272' vtype='TYPE_ARRAY' vsubtype='TYPE_QSTRANSFORM' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

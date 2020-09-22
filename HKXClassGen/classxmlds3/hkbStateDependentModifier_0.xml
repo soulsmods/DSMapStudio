@@ -1,0 +1,9 @@
+<class name='hkbStateDependentModifier' version='0' signature='0x025731e0' parent='hkbModifier'>
+	<members>
+		<member name='applyModifierDuringTransition' type='hkBool' offset='88' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='stateIds' type='hkArray&lt;hkInt32&gt;' offset='96' vtype='TYPE_ARRAY' vsubtype='TYPE_INT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='modifier' type='struct hkbModifier*' ctype='hkbModifier' offset='112' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isActive' type='hkBool' offset='120' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='stateMachine' type='struct hkbStateMachine*' ctype='hkbStateMachine' offset='128' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

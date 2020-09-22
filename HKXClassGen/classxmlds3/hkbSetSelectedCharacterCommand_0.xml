@@ -1,0 +1,5 @@
+<class name='hkbSetSelectedCharacterCommand' version='0' signature='0xcb3bcf33' parent='hkReferencedObject'>
+	<members>
+		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,22 @@
+<class name='hkaLosslessCompressedAnimation' version='0' signature='0x278bffe8' parent='hkaAnimation'>
+	<enums>
+		<enum name='LosslessTrackType' flags='00000000'>
+			<enumitem name='TRACK_TYPE_CLEAR' value='0'/>
+			<enumitem name='TRACK_TYPE_STATIC' value='1'/>
+			<enumitem name='TRACK_TYPE_DYNAMIC' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='dynamicTranslations' type='hkArray&lt;hkReal&gt;' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='staticTranslations' type='hkArray&lt;hkReal&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='translationTypeAndOffsets' type='hkArray&lt;hkUint64&gt;' offset='88' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT64' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='dynamicRotations' type='hkArray&lt;hkQuaternion&gt;' offset='104' vtype='TYPE_ARRAY' vsubtype='TYPE_QUATERNION' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='staticRotations' type='hkArray&lt;hkQuaternion&gt;' offset='120' vtype='TYPE_ARRAY' vsubtype='TYPE_QUATERNION' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rotationTypeAndOffsets' type='hkArray&lt;hkUint16&gt;' offset='136' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='dynamicScales' type='hkArray&lt;hkReal&gt;' offset='152' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='staticScales' type='hkArray&lt;hkReal&gt;' offset='168' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='scaleTypeAndOffsets' type='hkArray&lt;hkUint64&gt;' offset='184' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT64' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='floats' type='hkArray&lt;hkReal&gt;' offset='200' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numFrames' type='hkInt32' offset='216' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

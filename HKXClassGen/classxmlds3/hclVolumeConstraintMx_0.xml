@@ -1,0 +1,8 @@
+<class name='hclVolumeConstraintMx' version='0' signature='0x037582f2' parent='hclConstraintSet'>
+	<members>
+		<member name='frameBatchDatas' type='hkArray&lt;struct hclVolumeConstraintMxFrameBatchData&gt;' ctype='hclVolumeConstraintMxFrameBatchData' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='frameSingleDatas' type='hkArray&lt;struct hclVolumeConstraintMxFrameSingleData&gt;' ctype='hclVolumeConstraintMxFrameSingleData' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='applyBatchDatas' type='hkArray&lt;struct hclVolumeConstraintMxApplyBatchData&gt;' ctype='hclVolumeConstraintMxApplyBatchData' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='applySingleDatas' type='hkArray&lt;struct hclVolumeConstraintMxApplySingleData&gt;' ctype='hclVolumeConstraintMxApplySingleData' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,5 @@
+<class name='hkbEvaluateExpressionModifierInternalState' version='0' signature='0x9a40953b' parent='hkReferencedObject'>
+	<members>
+		<member name='internalExpressionsData' type='hkArray&lt;struct hkbEvaluateExpressionModifierInternalExpressionData&gt;' ctype='hkbEvaluateExpressionModifierInternalExpressionData' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

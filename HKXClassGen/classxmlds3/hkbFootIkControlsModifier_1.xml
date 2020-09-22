@@ -1,0 +1,6 @@
+<class name='hkbFootIkControlsModifier' version='1' signature='0xf0393a52' parent='hkbModifier'>
+	<members>
+		<member name='controlData' type='struct hkbFootIkControlData' ctype='hkbFootIkControlData' offset='96' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='legs' type='hkArray&lt;struct hkbFootIkControlsModifierLeg&gt;' ctype='hkbFootIkControlsModifierLeg' offset='272' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,6 @@
+<struct name='hknpTyremarkPoint' version='0' signature='0x6bb7c5e8'>
+	<members>
+		<member name='pointLeft' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pointRight' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

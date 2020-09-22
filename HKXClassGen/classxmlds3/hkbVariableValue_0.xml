@@ -1,0 +1,5 @@
+<struct name='hkbVariableValue' version='0' signature='0x0b99bd6a'>
+	<members>
+		<member name='value' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

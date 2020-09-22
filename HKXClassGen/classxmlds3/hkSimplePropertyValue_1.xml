@@ -1,0 +1,5 @@
+<struct name='hkSimplePropertyValue' version='1' signature='0xc75925aa'>
+	<members>
+		<member name='data' type='hkUint64' offset='0' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,8 @@
+<struct name='hkpFixedConstraintDataAtoms' version='0' signature='0x269ef9c5'>
+	<members>
+		<member name='transforms' type='struct hkpSetLocalTransformsConstraintAtom' ctype='hkpSetLocalTransformsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='setupStabilization' type='struct hkpSetupStabilizationAtom' ctype='hkpSetupStabilizationAtom' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ballSocket' type='struct hkpBallSocketConstraintAtom' ctype='hkpBallSocketConstraintAtom' offset='160' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ang' type='struct hkp3dAngConstraintAtom' ctype='hkp3dAngConstraintAtom' offset='176' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,5 @@
+<struct name='hkcdStaticTreeTreehkcdStaticTreeDynamicStorage4' version='0' signature='0xe603f6aa' parent='hkcdStaticTreeDynamicStorage4'>
+	<members>
+		<member name='domain' type='struct hkAabb' ctype='hkAabb' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

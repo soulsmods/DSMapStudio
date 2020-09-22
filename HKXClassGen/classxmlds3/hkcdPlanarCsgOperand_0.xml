@@ -1,0 +1,9 @@
+<class name='hkcdPlanarCsgOperand' version='0' signature='0x40034abe' parent='hkReferencedObject'>
+	<members>
+		<member name='geometry' type='struct hkcdPlanarGeometry*' ctype='hkcdPlanarGeometry' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='danglingGeometry' type='struct hkcdPlanarGeometry*' ctype='hkcdPlanarGeometry' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='solid' type='struct hkcdPlanarSolid*' ctype='hkcdPlanarSolid' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='geomSources' type='hkArray&lt;struct hkcdPlanarCsgOperandGeomSource&gt;' ctype='hkcdPlanarCsgOperandGeomSource' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='regions' type='void*' offset='56' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

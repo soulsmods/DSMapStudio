@@ -1,0 +1,8 @@
+<struct name='hkcdPlanarCsgOperandGeomSource' version='0' signature='0x805fcffd'>
+	<members>
+		<member name='geometry' type='struct hkcdPlanarGeometry*' ctype='hkcdPlanarGeometry' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='materialOffset' type='hkInt32' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numMaterialIds' type='hkInt32' offset='12' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='flipPolygons' type='hkUint32' offset='16' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

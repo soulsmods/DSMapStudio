@@ -1,0 +1,27 @@
+<class name='hkbCustomTestGeneratorNestedTypesBase' version='0' signature='0x5645dad0' parent='hkbCustomTestGeneratorComplexTypes'>
+	<members>
+		<member name='nestedTypeHkbGeneratorPtr' type='struct hkbGenerator*' ctype='hkbGenerator' offset='384' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeHkbGeneratorRefPtr' type='struct hkbGenerator*' ctype='hkbGenerator' offset='392' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeHkbModifierPtr' type='struct hkbModifier*' ctype='hkbModifier' offset='400' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeHkbModifierRefPtr' type='struct hkbModifier*' ctype='hkbModifier' offset='408' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeHkbCustomIdSelectorPtr' type='struct hkbCustomIdSelector*' ctype='hkbCustomIdSelector' offset='416' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeHkbCustomIdSelectorRefPtr' type='struct hkbCustomIdSelector*' ctype='hkbCustomIdSelector' offset='424' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayBool' type='hkArray&lt;hkBool&gt;' offset='432' vtype='TYPE_ARRAY' vsubtype='TYPE_BOOL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkBool' type='hkArray&lt;hkBool&gt;' offset='448' vtype='TYPE_ARRAY' vsubtype='TYPE_BOOL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayCString' type='hkArray&lt;char*&gt;' offset='464' vtype='TYPE_ARRAY' vsubtype='TYPE_CSTRING' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkStringPtr' type='hkArray&lt;hkStringPtr&gt;' offset='480' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkInt8' type='hkArray&lt;hkInt8&gt;' offset='496' vtype='TYPE_ARRAY' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkInt16' type='hkArray&lt;hkInt16&gt;' offset='512' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkInt32' type='hkArray&lt;hkInt32&gt;' offset='528' vtype='TYPE_ARRAY' vsubtype='TYPE_INT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkUint8' type='hkArray&lt;hkUint8&gt;' offset='544' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkUint16' type='hkArray&lt;hkUint16&gt;' offset='560' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkUint32' type='hkArray&lt;hkUint32&gt;' offset='576' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkReal' type='hkArray&lt;hkReal&gt;' offset='592' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkbGeneratorPtr' type='hkArray&lt;hkbGenerator*&gt;' ctype='hkbGenerator' offset='608' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkbGeneratorRefPtr' type='hkArray&lt;hkbGenerator*&gt;' ctype='hkbGenerator' offset='624' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkbModifierPtr' type='hkArray&lt;hkbModifier*&gt;' ctype='hkbModifier' offset='640' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkbModifierRefPtr' type='hkArray&lt;hkbModifier*&gt;' ctype='hkbModifier' offset='656' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkbCustomIdSelectorPtr' type='hkArray&lt;hkbCustomIdSelector*&gt;' ctype='hkbCustomIdSelector' offset='672' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayHkbCustomIdSelectorRefPtr' type='hkArray&lt;hkbCustomIdSelector*&gt;' ctype='hkbCustomIdSelector' offset='688' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,7 @@
+<class name='hkbMoveBoneAttachmentModifier' version='0' signature='0x50d0cf7c' parent='hkbModifier'>
+	<members>
+		<member name='activateEventId' type='hkInt32' offset='88' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='attachment' type='hkStringPtr' offset='96' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='localFrame' type='hkStringPtr' offset='104' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

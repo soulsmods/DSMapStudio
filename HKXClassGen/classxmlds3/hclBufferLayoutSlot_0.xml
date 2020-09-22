@@ -1,0 +1,6 @@
+<struct name='hclBufferLayoutSlot' version='0' signature='0xc485fa70'>
+	<members>
+		<member name='flags' type='enum SlotFlags' etype='SlotFlags' offset='0' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='stride' type='hkUint8' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,8 @@
+<class name='hkSkinnedRefMeshShape' version='1' signature='0x46ed5bf9' parent='hkMeshShape'>
+	<members>
+		<member name='skinnedMeshShape' type='struct hkSkinnedMeshShape*' ctype='hkSkinnedMeshShape' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='bones' type='hkArray&lt;hkInt16&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='localFromRootTransforms' type='hkArray&lt;hkVector4&gt;' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='name' type='hkStringPtr' offset='56' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

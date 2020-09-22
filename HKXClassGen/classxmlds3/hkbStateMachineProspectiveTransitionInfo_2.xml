@@ -1,0 +1,7 @@
+<struct name='hkbStateMachineProspectiveTransitionInfo' version='2' signature='0x3ab09a2e'>
+	<members>
+		<member name='transitionInfoReference' type='struct hkbStateMachineTransitionInfoReference' ctype='hkbStateMachineTransitionInfoReference' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='transitionInfoReferenceForTE' type='struct hkbStateMachineTransitionInfoReference' ctype='hkbStateMachineTransitionInfoReference' offset='6' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='toStateId' type='hkInt32' offset='12' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

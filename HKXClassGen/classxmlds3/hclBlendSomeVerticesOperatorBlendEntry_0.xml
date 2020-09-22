@@ -1,0 +1,6 @@
+<struct name='hclBlendSomeVerticesOperatorBlendEntry' version='0' signature='0xa538f48c'>
+	<members>
+		<member name='vertexIndex' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='blendWeight' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

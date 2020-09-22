@@ -1,0 +1,6 @@
+<class name='hclSimClothPose' version='0' signature='0x1b254ca1' parent='hkReferencedObject'>
+	<members>
+		<member name='name' type='hkStringPtr' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='positions' type='hkArray&lt;hkVector4&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

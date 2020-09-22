@@ -1,0 +1,16 @@
+<class name='hkbStateMachineInternalState' version='0' signature='0xb6120561' parent='hkReferencedObject'>
+	<members>
+		<member name='activeTransitions' type='hkArray&lt;struct hkbStateMachineActiveTransitionInfo&gt;' ctype='hkbStateMachineActiveTransitionInfo' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='transitionFlags' type='hkArray&lt;hkUint8&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wildcardTransitionFlags' type='hkArray&lt;hkUint8&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='delayedTransitions' type='hkArray&lt;struct hkbStateMachineDelayedTransitionInfo&gt;' ctype='hkbStateMachineDelayedTransitionInfo' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='timeInState' type='hkReal' offset='80' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lastLocalTime' type='hkReal' offset='84' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='currentStateId' type='hkInt32' offset='88' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='previousStateId' type='hkInt32' offset='92' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nextStartStateIndexOverride' type='hkInt32' offset='96' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='stateOrTransitionChanged' type='hkBool' offset='100' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='echoNextUpdate' type='hkBool' offset='101' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='hasEventlessWildcardTransitions' type='hkBool' offset='102' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

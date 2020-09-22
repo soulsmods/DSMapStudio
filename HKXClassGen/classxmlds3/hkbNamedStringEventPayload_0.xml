@@ -1,0 +1,5 @@
+<class name='hkbNamedStringEventPayload' version='0' signature='0x3512e373' parent='hkbNamedEventPayload'>
+	<members>
+		<member name='data' type='hkStringPtr' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

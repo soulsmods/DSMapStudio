@@ -1,0 +1,11 @@
+<class name='hknpVehicleDefaultTransmission' version='0' signature='0x127272a9' parent='hknpVehicleTransmission'>
+	<members>
+		<member name='downshiftRPM' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='upshiftRPM' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='primaryTransmissionRatio' type='hkReal' offset='24' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='clutchDelayTime' type='hkReal' offset='28' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='reverseGearRatio' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='gearsRatio' type='hkArray&lt;hkReal&gt;' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wheelsTorqueRatio' type='hkArray&lt;hkReal&gt;' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

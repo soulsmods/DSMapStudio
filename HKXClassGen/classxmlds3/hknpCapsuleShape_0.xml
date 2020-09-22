@@ -1,0 +1,6 @@
+<class name='hknpCapsuleShape' version='0' signature='0x60a75f4c' parent='hknpConvexPolytopeShape'>
+	<members>
+		<member name='a' type='hkVector4' offset='80' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='b' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

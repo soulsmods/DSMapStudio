@@ -1,0 +1,23 @@
+<struct name='hkClass' version='1' signature='0x33d42383'>
+	<enums>
+		<enum name='SignatureFlags' flags='00000000'>
+			<enumitem name='SIGNATURE_LOCAL' value='1'/>
+		</enum>
+		<enum name='FlagValues' flags='00000000'>
+			<enumitem name='FLAGS_NONE' value='0'/>
+			<enumitem name='FLAGS_NOT_SERIALIZABLE' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='name' type='char*' offset='0' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='parent' type='struct hkClass*' ctype='hkClass' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='objectSize' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numImplementedInterfaces' type='hkInt32' offset='20' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='declaredEnums' type='hkSimpleArray&lt;struct hkClassEnum&gt;' ctype='hkClassEnum' offset='24' vtype='TYPE_SIMPLEARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='declaredMembers' type='hkSimpleArray&lt;struct hkClassMember&gt;' ctype='hkClassMember' offset='40' vtype='TYPE_SIMPLEARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='defaults' type='void*' offset='56' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='attributes' type='struct hkCustomAttributes*' ctype='hkCustomAttributes' offset='64' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='flags' type='flags FlagValues' etype='FlagValues' offset='72' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='describedVersion' type='hkInt32' offset='76' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

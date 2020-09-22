@@ -1,0 +1,10 @@
+<class name='hkIndexedTransformSet' version='2' signature='0x2bd88724' parent='hkReferencedObject'>
+	<members>
+		<member name='matrices' type='hkArray&lt;hkMatrix4&gt;' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_MATRIX4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='inverseMatrices' type='hkArray&lt;hkMatrix4&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_MATRIX4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='matricesOrder' type='hkArray&lt;hkInt16&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='matricesNames' type='hkArray&lt;hkStringPtr&gt;' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='indexMappings' type='hkArray&lt;struct hkMeshBoneIndexMapping&gt;' ctype='hkMeshBoneIndexMapping' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='allMatricesAreAffine' type='hkBool' offset='96' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

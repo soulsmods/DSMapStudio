@@ -1,0 +1,6 @@
+<struct name='hkbAttributeModifierAssignment' version='0' signature='0x48b8ad52'>
+	<members>
+		<member name='attributeIndex' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='attributeValue' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</struct>

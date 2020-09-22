@@ -1,0 +1,8 @@
+<class name='hkMemoryMeshShape' version='1' signature='0xd109683a' parent='hkMeshShape'>
+	<members>
+		<member name='sections' type='hkArray&lt;struct hkMemoryMeshShapeSection&gt;' ctype='hkMemoryMeshShapeSection' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='indices16' type='hkArray&lt;hkUint16&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='indices32' type='hkArray&lt;hkUint32&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='name' type='hkStringPtr' offset='64' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

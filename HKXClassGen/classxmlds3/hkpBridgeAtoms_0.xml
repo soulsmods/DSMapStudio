@@ -1,0 +1,5 @@
+<struct name='hkpBridgeAtoms' version='0' signature='0x8214e9fc'>
+	<members>
+		<member name='bridgeAtom' type='struct hkpBridgeConstraintAtom' ctype='hkpBridgeConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+	</members>
+</struct>

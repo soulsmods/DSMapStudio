@@ -1,0 +1,6 @@
+<class name='hknpBodyQualityLibrary' version='0' signature='0x5f45f059' parent='hkReferencedObject'>
+	<members>
+		<member name='qualityModifiedSignal' type='void*' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='qualities' type='struct hknpBodyQuality[32]' ctype='hknpBodyQuality' offset='32' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='32' flags='ALIGN_16'/>
+	</members>
+</class>

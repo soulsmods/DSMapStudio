@@ -1,0 +1,6 @@
+<struct name='hkcdPlanarGeometryPrimitivesPlane' version='0' signature='0xf9fd78c4'>
+	<members>
+		<member name='iEqn' type='hkInt64[4]' offset='0' vtype='TYPE_INT64' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='dEqn' type='hkInt64[4]' offset='32' vtype='TYPE_INT64' vsubtype='TYPE_VOID' arrsize='4' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>

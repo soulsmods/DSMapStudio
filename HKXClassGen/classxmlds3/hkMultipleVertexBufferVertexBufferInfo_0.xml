@@ -1,0 +1,7 @@
+<struct name='hkMultipleVertexBufferVertexBufferInfo' version='0' signature='0xdafbe0e6'>
+	<members>
+		<member name='vertexBuffer' type='struct hkMeshVertexBuffer*' ctype='hkMeshVertexBuffer' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lockedVertices' type='void*' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='isLocked' type='hkBool' offset='16' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

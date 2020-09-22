@@ -1,0 +1,5 @@
+<struct name='hkPackedVector3' version='0' signature='0x82a6cb83'>
+	<members>
+		<member name='values' type='hkInt16[4]' offset='0' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='4' flags='ALIGN_8'/>
+	</members>
+</struct>

@@ -1,0 +1,6 @@
+<struct name='hkbFootIkModifierInternalLegData' version='1' signature='0xe5ca3677'>
+	<members>
+		<member name='groundPosition' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='footIkSolver' type='void*' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>

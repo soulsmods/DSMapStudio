@@ -1,0 +1,7 @@
+<struct name='hkaSkeletonMapperDataSimpleMapping' version='0' signature='0x3405deca'>
+	<members>
+		<member name='boneA' type='hkInt16' offset='0' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneB' type='hkInt16' offset='2' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='aFromBTransform' type='hkQsTransform' offset='16' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

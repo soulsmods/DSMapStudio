@@ -1,0 +1,15 @@
+<struct name='hkbRigidBodySetup' version='0' signature='0x3b082f95'>
+	<enums>
+		<enum name='Type' flags='00000000'>
+			<enumitem name='INVALID' value='-1'/>
+			<enumitem name='KEYFRAMED' value='0'/>
+			<enumitem name='DYNAMIC' value='1'/>
+			<enumitem name='FIXED' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='collisionFilterInfo' type='hkUint32' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1'/>
+		<member name='type' type='enum Type' etype='Type' offset='4' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shapeSetup' type='struct hkbShapeSetup' ctype='hkbShapeSetup' offset='8' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,11 @@
+<class name='hknpLodShape' version='1' signature='0xca634210' parent='hknpCompositeShape'>
+	<members>
+		<member name='numLevelsOfDetail' type='hkInt32' offset='96' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='infos' type='struct hknpLodShapeLevelOfDetailInfo[8]' ctype='hknpLodShapeLevelOfDetailInfo' offset='100' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='8' flags='FLAGS_NONE'/>
+		<member name='shapes' type='struct hknpShape*' ctype='hknpShape' offset='168' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='8' flags='FLAGS_NONE'/>
+		<member name='shapesMemorySizes' type='hkUint32[8]' offset='232' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='8' flags='FLAGS_NONE'/>
+		<member name='indexCurrentShapeOnSpu' type='hkInt32' offset='264' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='currentShapePpuAddress' type='struct hknpShape*' ctype='hknpShape' offset='272' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maximumAabb' type='struct hkAabb' ctype='hkAabb' offset='288' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

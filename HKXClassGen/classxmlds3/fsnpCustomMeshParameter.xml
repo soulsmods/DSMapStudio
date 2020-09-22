@@ -1,0 +1,5 @@
+<class name='fsnpCustomMeshParameter' version='5' signature='0x5f60d536'>
+	<members>
+		<member name='vtable' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

@@ -1,0 +1,6 @@
+<struct name='hkIntRealPair' version='0' signature='0x47509ea2'>
+	<members>
+		<member name='key' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='value' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,7 @@
+<struct name='hkRootLevelContainerNamedVariant' version='1' signature='0xb103a2cd'>
+	<members>
+		<member name='name' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='className' type='hkStringPtr' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='variant' type='struct hkReferencedObject*' ctype='hkReferencedObject' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

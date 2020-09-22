@@ -1,0 +1,6 @@
+<class name='hkbCustomTestGeneratorNestedTypes' version='0' signature='0x511ec9e5' parent='hkbCustomTestGeneratorNestedTypesBase'>
+	<members>
+		<member name='nestedTypeStruct' type='struct hkbCustomTestGeneratorNestedTypesBase' ctype='hkbCustomTestGeneratorNestedTypesBase' offset='704' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nestedTypeArrayStruct' type='hkArray&lt;struct hkbCustomTestGeneratorNestedTypesBase&gt;' ctype='hkbCustomTestGeneratorNestedTypesBase' offset='1408' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

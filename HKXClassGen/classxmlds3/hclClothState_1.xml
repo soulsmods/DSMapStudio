@@ -1,0 +1,9 @@
+<class name='hclClothState' version='1' signature='0x7b02cd1b' parent='hkReferencedObject'>
+	<members>
+		<member name='name' type='hkStringPtr' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='operators' type='hkArray&lt;hkUint32&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='usedBuffers' type='hkArray&lt;struct hclClothStateBufferAccess&gt;' ctype='hclClothStateBufferAccess' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='usedTransformSets' type='hkArray&lt;struct hclClothStateTransformSetAccess&gt;' ctype='hclClothStateTransformSetAccess' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='usedSimCloths' type='hkArray&lt;hkUint32&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

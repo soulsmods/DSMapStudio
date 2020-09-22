@@ -1,0 +1,5 @@
+<class name='hkbStateMachineEventPropertyArray' version='0' signature='0x71957c2d' parent='hkReferencedObject'>
+	<members>
+		<member name='events' type='hkArray&lt;struct hkbEventProperty&gt;' ctype='hkbEventProperty' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

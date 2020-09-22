@@ -1,0 +1,49 @@
+<class name='hkbClipGenerator' version='4' signature='0x0d4cc9f6' parent='hkbGenerator'>
+	<enums>
+		<enum name='PlaybackMode' flags='00000000'>
+			<enumitem name='MODE_SINGLE_PLAY' value='0'/>
+			<enumitem name='MODE_LOOPING' value='1'/>
+			<enumitem name='MODE_USER_CONTROLLED' value='2'/>
+			<enumitem name='MODE_PING_PONG' value='3'/>
+			<enumitem name='MODE_COUNT' value='4'/>
+		</enum>
+		<enum name='ClipFlags' flags='00000000'>
+			<enumitem name='FLAG_CONTINUE_MOTION_AT_END' value='1'/>
+			<enumitem name='FLAG_SYNC_HALF_CYCLE_IN_PING_PONG_MODE' value='2'/>
+			<enumitem name='FLAG_MIRROR' value='4'/>
+			<enumitem name='FLAG_FORCE_DENSE_POSE' value='8'/>
+			<enumitem name='FLAG_DONT_CONVERT_ANNOTATIONS_TO_TRIGGERS' value='16'/>
+			<enumitem name='FLAG_IGNORE_MOTION' value='32'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='animationBundleName' type='hkStringPtr' offset='136' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='animationName' type='hkStringPtr' offset='144' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='triggers' type='struct hkbClipTriggerArray*' ctype='hkbClipTriggerArray' offset='152' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='userPartitionMask' type='hkUint32' offset='160' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='cropStartAmountLocalTime' type='hkReal' offset='164' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='cropEndAmountLocalTime' type='hkReal' offset='168' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='startTime' type='hkReal' offset='172' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='playbackSpeed' type='hkReal' offset='176' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='enforcedDuration' type='hkReal' offset='180' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='userControlledTimeFraction' type='hkReal' offset='184' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='animationBindingIndex' type='hkInt16' offset='188' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='mode' type='enum PlaybackMode' etype='PlaybackMode' offset='190' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='flags' type='hkInt8' offset='191' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
+		<member name='animDatas' type='hkArray&lt;void&gt;' offset='192' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='animationControl' type='void*' offset='208' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='originalTriggers' type='void*' offset='216' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='mapperData' type='void*' offset='224' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='binding' type='void*' offset='232' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='numAnimationTracks' type='hkInt32' offset='240' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='extractedMotion' type='hkQsTransform' offset='256' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='echos' type='hkArray&lt;void&gt;' offset='304' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='localTime' type='hkReal' offset='320' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='time' type='hkReal' offset='324' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='previousUserControlledTimeFraction' type='hkReal' offset='328' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='bufferSize' type='hkInt32' offset='332' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='atEnd' type='hkBool' offset='336' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='ignoreStartTime' type='hkBool' offset='337' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='pingPongBackward' type='hkBool' offset='338' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

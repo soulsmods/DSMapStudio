@@ -1,0 +1,9 @@
+<class name='hkSimpleLocalFrame' version='1' signature='0x798adf92' parent='hkLocalFrame'>
+	<members>
+		<member name='transform' type='hkTransform' offset='16' vtype='TYPE_TRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='children' type='hkArray&lt;hkLocalFrame*&gt;' ctype='hkLocalFrame' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='parentFrame' type='struct hkLocalFrame*' ctype='hkLocalFrame' offset='96' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='NOT_OWNED'/>
+		<member name='group' type='struct hkLocalFrameGroup*' ctype='hkLocalFrameGroup' offset='104' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='name' type='hkStringPtr' offset='112' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

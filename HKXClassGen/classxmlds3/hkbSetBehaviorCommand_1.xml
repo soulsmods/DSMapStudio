@@ -1,0 +1,11 @@
+<class name='hkbSetBehaviorCommand' version='1' signature='0x6481ed01' parent='hkReferencedObject'>
+	<members>
+		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='behavior' type='struct hkbBehaviorGraph*' ctype='hkbBehaviorGraph' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rootGenerator' type='struct hkbGenerator*' ctype='hkbGenerator' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='referencedBehaviors' type='hkArray&lt;hkbBehaviorGraph*&gt;' ctype='hkbBehaviorGraph' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='startStateIndex' type='hkInt32' offset='56' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='randomizeSimulation' type='hkBool' offset='60' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='padding' type='hkInt32' offset='64' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

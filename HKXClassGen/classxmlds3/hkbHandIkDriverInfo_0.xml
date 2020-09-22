@@ -1,0 +1,6 @@
+<class name='hkbHandIkDriverInfo' version='0' signature='0x3eab47f1' parent='hkReferencedObject'>
+	<members>
+		<member name='hands' type='hkArray&lt;struct hkbHandIkDriverInfoHand&gt;' ctype='hkbHandIkDriverInfoHand' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='fadeInOutCurve' type='enum BlendCurve' etype='BlendCurve' offset='32' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

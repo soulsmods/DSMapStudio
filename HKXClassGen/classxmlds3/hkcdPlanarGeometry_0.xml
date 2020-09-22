@@ -1,0 +1,7 @@
+<class name='hkcdPlanarGeometry' version='0' signature='0xaf117de5' parent='hkcdPlanarEntity'>
+	<members>
+		<member name='planes' type='struct hkcdPlanarGeometryPlanesCollection*' ctype='hkcdPlanarGeometryPlanesCollection' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='polys' type='struct hkcdPlanarGeometryPolygonCollection*' ctype='hkcdPlanarGeometryPolygonCollection' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='vertices' type='void*' offset='40' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

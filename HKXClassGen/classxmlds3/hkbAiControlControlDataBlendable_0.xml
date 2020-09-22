@@ -1,0 +1,6 @@
+<struct name='hkbAiControlControlDataBlendable' version='0' signature='0xbb8d1bbc'>
+	<members>
+		<member name='desiredSpeed' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='5.000000'/>
+		<member name='maximumSpeed' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='5.000000'/>
+	</members>
+</struct>

@@ -1,0 +1,9 @@
+<class name='hclSimulateOperator' version='3' signature='0x75c72f0f' parent='hclOperator'>
+	<members>
+		<member name='simClothIndex' type='hkUint32' offset='32' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='subSteps' type='hkUint32' offset='36' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numberOfSolveIterations' type='hkInt32' offset='40' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='constraintExecution' type='hkArray&lt;hkInt32&gt;' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_INT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='adaptConstraintStiffness' type='hkBool' offset='64' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

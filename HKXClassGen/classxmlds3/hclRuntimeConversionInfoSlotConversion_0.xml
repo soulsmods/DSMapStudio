@@ -1,0 +1,8 @@
+<struct name='hclRuntimeConversionInfoSlotConversion' version='0' signature='0xd8db9c79'>
+	<members>
+		<member name='elements' type='hkUint8[4]' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
+		<member name='numElements' type='hkUint8' offset='4' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='index' type='hkUint8' offset='5' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='partialWrite' type='hkBool' offset='6' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

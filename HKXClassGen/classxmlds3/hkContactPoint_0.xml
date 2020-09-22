@@ -1,0 +1,6 @@
+<struct name='hkContactPoint' version='0' signature='0x91d7dd8e'>
+	<members>
+		<member name='position' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='separatingNormal' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

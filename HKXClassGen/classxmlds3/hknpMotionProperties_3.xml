@@ -1,0 +1,45 @@
+<struct name='hknpMotionProperties' version='3' signature='0x5dee8641'>
+	<enums>
+		<enum name='FlagsEnum' flags='00000000'>
+			<enumitem name='NEVER_REBUILD_MASS_PROPERTIES' value='2'/>
+			<enumitem name='ENABLE_GRAVITY_MODIFICATION' value='536870912'/>
+			<enumitem name='ENABLE_TIME_FACTOR' value='1073741824'/>
+			<enumitem name='FLAGS_MASK' value='-536870912'/>
+			<enumitem name='AUTO_FLAGS_MASK' value='66060288'/>
+		</enum>
+		<enum name='SolverStabilizationType' flags='00000000'>
+			<enumitem name='SOLVER_STABILIZATION_OFF' value='0'/>
+			<enumitem name='SOLVER_STABILIZATION_LOW' value='1'/>
+			<enumitem name='SOLVER_STABILIZATION_MEDIUM' value='2'/>
+			<enumitem name='SOLVER_STABILIZATION_HIGH' value='3'/>
+			<enumitem name='SOLVER_STABILIZATION_AGGRESSIVE' value='4'/>
+		</enum>
+		<enum name='DeactivationStrategy' flags='00000000'>
+			<enumitem name='DEACTIVATION_STRATEGY_AGGRESSIVE' value='3'/>
+			<enumitem name='DEACTIVATION_STRATEGY_BALANCED' value='4'/>
+			<enumitem name='DEACTIVATION_STRATEGY_ACCURATE' value='5'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='isExclusive' type='hkUint32' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+		<member name='flags' type='flags FlagsEnum' etype='FlagsEnum' offset='4' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='gravityFactor' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='timeFactor' type='hkReal' offset='12' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='maxLinearSpeed' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxAngularSpeed' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='linearDamping' type='hkReal' offset='24' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='angularDamping' type='hkReal' offset='28' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='solverStabilizationSpeedThreshold' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='solverStabilizationSpeedReduction' type='hkReal' offset='36' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='maxDistSqrd' type='hkReal' offset='40' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxRotSqrd' type='hkReal' offset='44' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='invBlockSize' type='hkReal' offset='48' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pathingUpperThreshold' type='hkInt16' offset='52' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pathingLowerThreshold' type='hkInt16' offset='54' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numDeactivationFrequencyPasses' type='hkUint8' offset='56' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='deactivationVelocityScaleSquare' type='hkUint8' offset='57' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='minimumPathingVelocityScaleSquare' type='hkUint8' offset='58' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='spikingVelocityScaleThresholdSquared' type='hkUint8' offset='59' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='minimumSpikingVelocityScaleSquared' type='hkUint8' offset='60' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,15 @@
+<struct name='hkGizmoAttribute' version='0' signature='0x23aadfb6'>
+	<enums>
+		<enum name='GizmoType' flags='00000000'>
+			<enumitem name='POINT' value='0'/>
+			<enumitem name='SPHERE' value='1'/>
+			<enumitem name='PLANE' value='2'/>
+			<enumitem name='ARROW' value='3'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='visible' type='hkBool' offset='0' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='label' type='char*' offset='8' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='type' type='enum GizmoType' etype='GizmoType' offset='16' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

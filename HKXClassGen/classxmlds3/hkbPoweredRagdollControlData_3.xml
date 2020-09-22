@@ -1,0 +1,9 @@
+<struct name='hkbPoweredRagdollControlData' version='3' signature='0x0f5ba21b'>
+	<members>
+		<member name='maxForce' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16' default='50.000000'/>
+		<member name='tau' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.800000'/>
+		<member name='damping' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='proportionalRecoveryVelocity' type='hkReal' offset='12' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='2.000000'/>
+		<member name='constantRecoveryVelocity' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+	</members>
+</struct>

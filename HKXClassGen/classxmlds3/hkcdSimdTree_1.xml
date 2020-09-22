@@ -1,0 +1,5 @@
+<class name='hkcdSimdTree' version='1' signature='0x84c43960' parent='hkBaseObject'>
+	<members>
+		<member name='nodes' type='hkArray&lt;struct hkcdSimdTreeNode&gt;' ctype='hkcdSimdTreeNode' offset='8' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

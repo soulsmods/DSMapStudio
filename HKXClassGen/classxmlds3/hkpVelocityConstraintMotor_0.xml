@@ -1,0 +1,7 @@
+<class name='hkpVelocityConstraintMotor' version='0' signature='0x69ac4621' parent='hkpLimitedForceConstraintMotor'>
+	<members>
+		<member name='tau' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='velocityTarget' type='hkReal' offset='36' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='useVelocityTargetFromConstraintTargets' type='hkBool' offset='40' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

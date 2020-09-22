@@ -1,0 +1,6 @@
+<class name='hkbModifierGenerator' version='0' signature='0xc499fc9e' parent='hkbGenerator'>
+	<members>
+		<member name='modifier' type='struct hkbModifier*' ctype='hkbModifier' offset='136' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='generator' type='struct hkbGenerator*' ctype='hkbGenerator' offset='144' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

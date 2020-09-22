@@ -1,0 +1,7 @@
+<class name='hkbPoseStoringGeneratorOutputListener' version='0' signature='0xab105315' parent='hkbGeneratorOutputListener'>
+	<members>
+		<member name='storedPoses' type='hkArray&lt;hkbPoseStoringGeneratorOutputListenerStoredPose*&gt;' ctype='hkbPoseStoringGeneratorOutputListenerStoredPose' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='dirty' type='hkBool' offset='32' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='nodeToIndexMap' type='void*' offset='40' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

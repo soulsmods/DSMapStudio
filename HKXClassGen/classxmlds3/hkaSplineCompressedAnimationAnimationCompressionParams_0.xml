@@ -1,0 +1,6 @@
+<struct name='hkaSplineCompressedAnimationAnimationCompressionParams' version='0' signature='0xde830789'>
+	<members>
+		<member name='maxFramesPerBlock' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='enableSampleSingleTracks' type='hkBool' offset='2' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

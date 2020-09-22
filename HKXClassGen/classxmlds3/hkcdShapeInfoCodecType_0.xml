@@ -1,0 +1,11 @@
+<struct name='hkcdShapeInfoCodecType' version='0' signature='0x6b5c7ec0'>
+	<enums>
+		<enum name='ShapeInfoCodecTypeEnum' flags='00000000'>
+			<enumitem name='NULL_CODEC' value='0'/>
+			<enumitem name='UFM358' value='1'/>
+			<enumitem name='MAX_NUM_CODECS' value='16'/>
+		</enum>
+	</enums>
+	<members>
+	</members>
+</struct>

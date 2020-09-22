@@ -1,0 +1,8 @@
+<struct name='hkbKeyframeBonesModifierKeyframeInfo' version='0' signature='0x72deb7a6'>
+	<members>
+		<member name='keyframedPosition' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='keyframedRotation' type='hkQuaternion' offset='16' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneIndex' type='hkInt16' offset='32' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
+		<member name='isValid' type='hkBool' offset='34' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+	</members>
+</struct>

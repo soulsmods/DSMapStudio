@@ -1,0 +1,5 @@
+<class name='hknpUnaryAction' version='1' signature='0x654be19a' parent='hknpAction'>
+	<members>
+		<member name='bodyId' type='hkUint32' offset='24' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

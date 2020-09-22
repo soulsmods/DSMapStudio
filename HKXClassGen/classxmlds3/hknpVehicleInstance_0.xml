@@ -1,0 +1,31 @@
+<class name='hknpVehicleInstance' version='0' signature='0x57f814a8' parent='hknpUnaryAction'>
+	<members>
+		<member name='world' type='void*' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='data' type='struct hknpVehicleData*' ctype='hknpVehicleData' offset='40' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='driverInput' type='struct hknpVehicleDriverInput*' ctype='hknpVehicleDriverInput' offset='48' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='steering' type='struct hknpVehicleSteering*' ctype='hknpVehicleSteering' offset='56' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='engine' type='struct hknpVehicleEngine*' ctype='hknpVehicleEngine' offset='64' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='transmission' type='struct hknpVehicleTransmission*' ctype='hknpVehicleTransmission' offset='72' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='brake' type='struct hknpVehicleBrake*' ctype='hknpVehicleBrake' offset='80' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='suspension' type='struct hknpVehicleSuspension*' ctype='hknpVehicleSuspension' offset='88' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='aerodynamics' type='struct hknpVehicleAerodynamics*' ctype='hknpVehicleAerodynamics' offset='96' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wheelCollide' type='struct hknpVehicleWheelCollide*' ctype='hknpVehicleWheelCollide' offset='104' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='tyreMarks' type='struct hknpTyremarksInfo*' ctype='hknpTyremarksInfo' offset='112' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='velocityDamper' type='struct hknpVehicleVelocityDamper*' ctype='hknpVehicleVelocityDamper' offset='120' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wheelsInfo' type='hkArray&lt;struct hknpVehicleInstanceWheelInfo&gt;' ctype='hknpVehicleInstanceWheelInfo' offset='128' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='frictionStatus' type='struct hkpVehicleFrictionStatus' ctype='hkpVehicleFrictionStatus' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='deviceStatus' type='struct hknpVehicleDriverInputStatus*' ctype='hknpVehicleDriverInputStatus' offset='216' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isFixed' type='hkArray&lt;hkBool&gt;' offset='224' vtype='TYPE_ARRAY' vsubtype='TYPE_BOOL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wheelsTimeSinceMaxPedalInput' type='hkReal' offset='240' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='tryingToReverse' type='hkBool' offset='244' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='torque' type='hkReal' offset='248' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='rpm' type='hkReal' offset='252' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='mainSteeringAngle' type='hkReal' offset='256' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='mainSteeringAngleAssumingNoReduction' type='hkReal' offset='260' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wheelsSteeringAngle' type='hkArray&lt;hkReal&gt;' offset='264' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isReversing' type='hkBool' offset='280' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='currentGear' type='hkInt8' offset='281' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='delayed' type='hkBool' offset='282' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='clutchDelayCountdown' type='hkReal' offset='284' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

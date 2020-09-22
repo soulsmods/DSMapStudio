@@ -1,0 +1,5 @@
+<class name='hknpRefWorldCinfo' version='0' signature='0xfbaaa6df' parent='hkReferencedObject'>
+	<members>
+		<member name='info' type='struct hknpWorldCinfo' ctype='hknpWorldCinfo' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,17 @@
+<struct name='hkContactPointMaterial' version='1' signature='0x5b304c3c'>
+	<enums>
+		<enum name='FlagEnum' flags='00000000'>
+			<enumitem name='CONTACT_IS_NEW' value='1'/>
+			<enumitem name='CONTACT_USES_SOLVER_PATH2' value='2'/>
+			<enumitem name='CONTACT_BREAKOFF_OBJECT_ID_SMALLER' value='4'/>
+			<enumitem name='CONTACT_IS_DISABLED' value='8'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='userData' type='hkUlong' offset='0' vtype='TYPE_ULONG' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
+		<member name='friction' type='struct hkUFloat8' ctype='hkUFloat8' offset='8' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='restitution' type='hkUint8' offset='9' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxImpulse' type='struct hkUFloat8' ctype='hkUFloat8' offset='10' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='flags' type='hkUint8' offset='11' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

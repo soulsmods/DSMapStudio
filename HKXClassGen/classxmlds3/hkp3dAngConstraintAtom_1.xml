@@ -1,0 +1,5 @@
+<struct name='hkp3dAngConstraintAtom' version='1' signature='0xed1ebd41' parent='hkpConstraintAtom'>
+	<members>
+		<member name='padding' type='hkUint8[14]' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='14' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>

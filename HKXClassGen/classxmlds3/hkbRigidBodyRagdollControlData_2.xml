@@ -1,0 +1,6 @@
+<struct name='hkbRigidBodyRagdollControlData' version='2' signature='0x34a56bef'>
+	<members>
+		<member name='keyFrameControlData' type='struct hkbKeyFrameControlData' ctype='hkbKeyFrameControlData' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+		<member name='durationToBlend' type='hkReal' offset='48' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</struct>

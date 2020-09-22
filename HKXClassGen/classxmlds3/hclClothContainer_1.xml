@@ -1,0 +1,6 @@
+<class name='hclClothContainer' version='1' signature='0x3512912b' parent='hkReferencedObject'>
+	<members>
+		<member name='collidables' type='hkArray&lt;hclCollidable*&gt;' ctype='hclCollidable' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='clothDatas' type='hkArray&lt;hclClothData*&gt;' ctype='hclClothData' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

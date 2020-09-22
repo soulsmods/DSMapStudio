@@ -1,0 +1,5 @@
+<struct name='hclUpdateSomeVertexFramesOperatorTriangle' version='0' signature='0x308967e1'>
+	<members>
+		<member name='indices' type='hkUint16[3]' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+	</members>
+</struct>

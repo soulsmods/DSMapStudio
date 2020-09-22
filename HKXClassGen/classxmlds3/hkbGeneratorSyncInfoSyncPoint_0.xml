@@ -1,0 +1,6 @@
+<struct name='hkbGeneratorSyncInfoSyncPoint' version='0' signature='0xb597cf92'>
+	<members>
+		<member name='id' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='time' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

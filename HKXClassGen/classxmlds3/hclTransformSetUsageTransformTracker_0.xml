@@ -1,0 +1,7 @@
+<struct name='hclTransformSetUsageTransformTracker' version='0' signature='0xd9c5ea8b'>
+	<members>
+		<member name='read' type='struct hkBitField' ctype='hkBitField' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='readBeforeWrite' type='struct hkBitField' ctype='hkBitField' offset='24' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='written' type='struct hkBitField' ctype='hkBitField' offset='48' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

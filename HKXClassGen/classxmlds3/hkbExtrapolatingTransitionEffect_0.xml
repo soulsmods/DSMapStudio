@@ -1,0 +1,15 @@
+<class name='hkbExtrapolatingTransitionEffect' version='0' signature='0x422e2752' parent='hkbBlendingTransitionEffect'>
+	<members>
+		<member name='fromGeneratorSyncInfo' type='struct hkbGeneratorSyncInfo' ctype='hkbGeneratorSyncInfo' offset='320' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='fromGeneratorPartitionInfo' type='struct hkbGeneratorPartitionInfo' ctype='hkbGeneratorPartitionInfo' offset='488' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='worldFromModel' type='hkQsTransform' offset='528' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='motion' type='hkQsTransform' offset='576' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='pose' type='hkArray&lt;void&gt;' offset='624' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='additivePose' type='hkArray&lt;void&gt;' offset='640' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='boneWeights' type='hkArray&lt;void&gt;' offset='656' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='toGeneratorDuration' type='hkReal' offset='672' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='isFromGeneratorActive' type='hkBool' offset='676' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='gotPose' type='hkBool' offset='677' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='gotAdditivePose' type='hkBool' offset='678' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

@@ -1,0 +1,5 @@
+<class name='hkbManualSelectorTransitionEffectInternalState' version='0' signature='0xd7f56e84' parent='hkReferencedObject'>
+	<members>
+		<member name='currentTransitionEffectIndex' type='hkUint8' offset='16' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,5 @@
+<class name='hknpMaterialPalette' version='0' signature='0x18d95deb' parent='hkReferencedObject'>
+	<members>
+		<member name='entries' type='hkArray&lt;struct hknpMaterialDescriptor&gt;' ctype='hknpMaterialDescriptor' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

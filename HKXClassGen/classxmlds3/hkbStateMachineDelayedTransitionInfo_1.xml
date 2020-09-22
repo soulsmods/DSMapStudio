@@ -1,0 +1,8 @@
+<struct name='hkbStateMachineDelayedTransitionInfo' version='1' signature='0x026d5499'>
+	<members>
+		<member name='delayedTransition' type='struct hkbStateMachineProspectiveTransitionInfo' ctype='hkbStateMachineProspectiveTransitionInfo' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='timeDelayed' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='isDelayedTransitionReturnToPreviousState' type='hkBool' offset='20' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='wasInAbutRangeLastFrame' type='hkBool' offset='21' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

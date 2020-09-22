@@ -1,0 +1,8 @@
+<class name='hkbPinBonesGenerator' version='0' signature='0x32044489' parent='hkbGenerator'>
+	<members>
+		<member name='referenceFrameGenerator' type='struct hkbGenerator*' ctype='hkbGenerator' offset='136' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='pinnedGenerator' type='struct hkbGenerator*' ctype='hkbGenerator' offset='144' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneIndices' type='struct hkbBoneIndexArray*' ctype='hkbBoneIndexArray' offset='152' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='fraction' type='hkReal' offset='160' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</class>

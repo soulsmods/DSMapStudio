@@ -1,0 +1,6 @@
+<struct name='hkcdDynamicTreeCodec18' version='0' signature='0x7088a159'>
+	<members>
+		<member name='aabb' type='struct hkAabbHalf' ctype='hkAabbHalf' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='parent' type='hkUint16' offset='16' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

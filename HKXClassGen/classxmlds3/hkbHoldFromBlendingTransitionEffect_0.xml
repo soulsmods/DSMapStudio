@@ -1,0 +1,8 @@
+<class name='hkbHoldFromBlendingTransitionEffect' version='0' signature='0xc0052dee' parent='hkbBlendingTransitionEffect'>
+	<members>
+		<member name='heldFromPose' type='void*' offset='320' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='heldFromPoseSize' type='hkInt32' offset='328' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
+		<member name='heldWorldFromModel' type='hkQsTransform' offset='336' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='heldFromSkeleton' type='void*' offset='384' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

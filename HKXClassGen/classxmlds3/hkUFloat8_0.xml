@@ -1,0 +1,5 @@
+<struct name='hkUFloat8' version='0' signature='0x7c076f9a'>
+	<members>
+		<member name='value' type='hkUint8' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

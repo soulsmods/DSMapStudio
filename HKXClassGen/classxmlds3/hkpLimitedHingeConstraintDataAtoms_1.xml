@@ -1,0 +1,18 @@
+<struct name='hkpLimitedHingeConstraintDataAtoms' version='1' signature='0x28231532'>
+	<enums>
+		<enum name='Axis' flags='00000000'>
+			<enumitem name='AXIS_AXLE' value='0'/>
+			<enumitem name='AXIS_PERP_TO_AXLE_1' value='1'/>
+			<enumitem name='AXIS_PERP_TO_AXLE_2' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='transforms' type='struct hkpSetLocalTransformsConstraintAtom' ctype='hkpSetLocalTransformsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='setupStabilization' type='struct hkpSetupStabilizationAtom' ctype='hkpSetupStabilizationAtom' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='angMotor' type='struct hkpAngMotorConstraintAtom' ctype='hkpAngMotorConstraintAtom' offset='160' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='angFriction' type='struct hkpAngFrictionConstraintAtom' ctype='hkpAngFrictionConstraintAtom' offset='200' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='angLimit' type='struct hkpAngLimitConstraintAtom' ctype='hkpAngLimitConstraintAtom' offset='216' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='2dAng' type='struct hkp2dAngConstraintAtom' ctype='hkp2dAngConstraintAtom' offset='232' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='ballSocket' type='struct hkpBallSocketConstraintAtom' ctype='hkpBallSocketConstraintAtom' offset='248' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

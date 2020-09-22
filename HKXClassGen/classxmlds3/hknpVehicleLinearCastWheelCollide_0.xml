@@ -1,0 +1,8 @@
+<class name='hknpVehicleLinearCastWheelCollide' version='0' signature='0xe6330f00' parent='hknpVehicleWheelCollide'>
+	<members>
+		<member name='wheelStates' type='hkArray&lt;struct hknpVehicleLinearCastWheelCollideWheelState&gt;' ctype='hknpVehicleLinearCastWheelCollideWheelState' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='maxExtraPenetration' type='hkReal' offset='40' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='startPointTolerance' type='hkReal' offset='44' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='chassisBody' type='hkUint32' offset='48' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,8 @@
+<struct name='hclBoneSpaceDeformerLocalBlockPNTB' version='0' signature='0x173a7006'>
+	<members>
+		<member name='localPosition' type='hkVector4[16]' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='localNormal' type='hkInt16[64]' offset='256' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='64' flags='FLAGS_NONE'/>
+		<member name='localTangent' type='hkInt16[64]' offset='384' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='64' flags='FLAGS_NONE'/>
+		<member name='localBiTangent' type='hkInt16[64]' offset='512' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='64' flags='FLAGS_NONE'/>
+	</members>
+</struct>

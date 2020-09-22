@@ -1,0 +1,6 @@
+<class name='hkbAiControlPathToCommand' version='0' signature='0xb17d3e25' parent='hkReferencedObject'>
+	<members>
+		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='goalPoint' type='hkVector4' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

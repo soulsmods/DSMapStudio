@@ -1,0 +1,6 @@
+<class name='hclVolumeConstraint' version='2' signature='0x5478425e' parent='hclConstraintSet'>
+	<members>
+		<member name='frameDatas' type='hkArray&lt;struct hclVolumeConstraintFrameData&gt;' ctype='hclVolumeConstraintFrameData' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='applyDatas' type='hkArray&lt;struct hclVolumeConstraintApplyData&gt;' ctype='hclVolumeConstraintApplyData' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

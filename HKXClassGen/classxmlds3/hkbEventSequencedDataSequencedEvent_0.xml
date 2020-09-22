@@ -1,0 +1,6 @@
+<struct name='hkbEventSequencedDataSequencedEvent' version='0' signature='0x9139b821'>
+	<members>
+		<member name='event' type='struct hkbEvent' ctype='hkbEvent' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='time' type='hkReal' offset='24' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</struct>

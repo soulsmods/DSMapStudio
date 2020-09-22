@@ -1,0 +1,13 @@
+<struct name='hkVariableTweakingHelper' version='0' signature='0xc9d21eef'>
+	<members>
+		<member name='boolVariableInfo' type='hkArray&lt;struct hkVariableTweakingHelperBoolVariableInfo&gt;' ctype='hkVariableTweakingHelperBoolVariableInfo' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='intVariableInfo' type='hkArray&lt;struct hkVariableTweakingHelperIntVariableInfo&gt;' ctype='hkVariableTweakingHelperIntVariableInfo' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='realVariableInfo' type='hkArray&lt;struct hkVariableTweakingHelperRealVariableInfo&gt;' ctype='hkVariableTweakingHelperRealVariableInfo' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='vector4VariableInfo' type='hkArray&lt;struct hkVariableTweakingHelperVector4VariableInfo&gt;' ctype='hkVariableTweakingHelperVector4VariableInfo' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='behavior' type='void*' offset='64' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='boolIndices' type='hkArray&lt;void&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='intIndices' type='hkArray&lt;void&gt;' offset='88' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='realIndices' type='hkArray&lt;void&gt;' offset='104' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='vector4Indices' type='hkArray&lt;void&gt;' offset='120' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>

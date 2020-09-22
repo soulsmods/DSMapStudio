@@ -1,0 +1,9 @@
+<class name='hkbPoweredRagdollControlsModifier' version='6' signature='0x522211cb' parent='hkbModifier'>
+	<members>
+		<member name='controlData' type='struct hkbPoweredRagdollControlData' ctype='hkbPoweredRagdollControlData' offset='96' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='bones' type='struct hkbBoneIndexArray*' ctype='hkbBoneIndexArray' offset='128' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='worldFromModelModeData' type='struct hkbWorldFromModelModeData' ctype='hkbWorldFromModelModeData' offset='136' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneWeights' type='struct hkbBoneWeightArray*' ctype='hkbBoneWeightArray' offset='144' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='animationBlendFraction' type='hkReal' offset='152' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+	</members>
+</class>

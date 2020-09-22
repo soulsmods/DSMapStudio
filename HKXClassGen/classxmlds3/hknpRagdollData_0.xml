@@ -1,0 +1,6 @@
+<class name='hknpRagdollData' version='0' signature='0xdc8f20ab' parent='hknpPhysicsSystemData'>
+	<members>
+		<member name='skeleton' type='struct hkaSkeleton*' ctype='hkaSkeleton' offset='120' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneToBodyMap' type='hkArray&lt;hkInt32&gt;' offset='128' vtype='TYPE_ARRAY' vsubtype='TYPE_INT32' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

@@ -1,0 +1,5 @@
+<class name='hknpVehicleSuspension' version='0' signature='0x0b6f4fde' parent='hkReferencedObject'>
+	<members>
+		<member name='wheelParams' type='hkArray&lt;struct hknpVehicleSuspensionSuspensionWheelParameters&gt;' ctype='hknpVehicleSuspensionSuspensionWheelParameters' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

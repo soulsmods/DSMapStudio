@@ -1,0 +1,9 @@
+<class name='hclShadowBufferDefinition' version='0' signature='0x4b5133e0' parent='hclBufferDefinition'>
+	<members>
+		<member name='triangleIndices' type='hkArray&lt;hkUint16&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shadowPositions' type='hkBool' offset='88' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shadowNormals' type='hkBool' offset='89' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shadowTangents' type='hkBool' offset='90' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='shadowBiTangents' type='hkBool' offset='91' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

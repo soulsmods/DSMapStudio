@@ -1,0 +1,21 @@
+<class name='hkbCharacterData' version='10' signature='0xfec46c1f' parent='hkReferencedObject'>
+	<members>
+		<member name='characterControllerSetup' type='struct hkbCharacterControllerSetup' ctype='hkbCharacterControllerSetup' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='modelUpMS' type='hkVector4' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='modelForwardMS' type='hkVector4' offset='80' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='modelRightMS' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='characterPropertyInfos' type='hkArray&lt;struct hkbVariableInfo&gt;' ctype='hkbVariableInfo' offset='112' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numBonesPerLod' type='hkArray&lt;hkInt32&gt;' offset='128' vtype='TYPE_ARRAY' vsubtype='TYPE_INT32' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='characterPropertyValues' type='struct hkbVariableValueSet*' ctype='hkbVariableValueSet' offset='144' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='footIkDriverInfo' type='struct hkbFootIkDriverInfo*' ctype='hkbFootIkDriverInfo' offset='152' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='handIkDriverInfo' type='struct hkbHandIkDriverInfo*' ctype='hkbHandIkDriverInfo' offset='160' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='aiControlDriverInfo' type='struct hkReferencedObject*' ctype='hkReferencedObject' offset='168' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='stringData' type='struct hkbCharacterStringData*' ctype='hkbCharacterStringData' offset='176' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='mirroredSkeletonInfo' type='struct hkbMirroredSkeletonInfo*' ctype='hkbMirroredSkeletonInfo' offset='184' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneAttachmentBoneIndices' type='hkArray&lt;hkInt16&gt;' offset='192' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='boneAttachmentTransforms' type='hkArray&lt;hkMatrix4&gt;' offset='208' vtype='TYPE_ARRAY' vsubtype='TYPE_MATRIX4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='scale' type='hkReal' offset='224' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='numHands' type='hkInt16' offset='228' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='numFloatSlots' type='hkInt16' offset='230' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

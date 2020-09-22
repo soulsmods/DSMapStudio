@@ -1,0 +1,18 @@
+<class name='hkbParametricMotionGenerator' version='2' signature='0x8d0e0781' parent='hkbProceduralBlenderGenerator'>
+	<enums>
+		<enum name='MotionSpaceType' flags='00000000'>
+			<enumitem name='MST_UNKNOWN' value='0'/>
+			<enumitem name='MST_ANGULAR' value='1'/>
+			<enumitem name='MST_DIRECTIONAL' value='2'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='motionSpace' type='enum MotionSpaceType' etype='MotionSpaceType' offset='144' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='generators' type='hkArray&lt;hkbGenerator*&gt;' ctype='hkbGenerator' offset='152' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='xAxisParameterValue' type='hkReal' offset='168' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='yAxisParameterValue' type='hkReal' offset='172' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
+		<member name='paramsDomain' type='struct hkAabb' ctype='hkAabb' offset='176' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='animationSpace' type='void*' offset='208' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='clipDurations' type='hkArray&lt;void&gt;' offset='216' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

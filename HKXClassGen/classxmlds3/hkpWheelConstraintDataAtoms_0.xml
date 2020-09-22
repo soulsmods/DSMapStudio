@@ -1,0 +1,19 @@
+<struct name='hkpWheelConstraintDataAtoms' version='0' signature='0xe7b0e20d'>
+	<enums>
+		<enum name='Axis' flags='00000000'>
+			<enumitem name='AXIS_SUSPENSION' value='0'/>
+			<enumitem name='AXIS_PERP_SUSPENSION' value='1'/>
+			<enumitem name='AXIS_AXLE' value='0'/>
+			<enumitem name='AXIS_STEERING' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='suspensionBase' type='struct hkpSetLocalTransformsConstraintAtom' ctype='hkpSetLocalTransformsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lin0Limit' type='struct hkpLinLimitConstraintAtom' ctype='hkpLinLimitConstraintAtom' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lin0Soft' type='struct hkpLinSoftConstraintAtom' ctype='hkpLinSoftConstraintAtom' offset='160' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lin1' type='struct hkpLinConstraintAtom' ctype='hkpLinConstraintAtom' offset='176' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='lin2' type='struct hkpLinConstraintAtom' ctype='hkpLinConstraintAtom' offset='192' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='steeringBase' type='struct hkpSetLocalRotationsConstraintAtom' ctype='hkpSetLocalRotationsConstraintAtom' offset='208' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='2dAng' type='struct hkp2dAngConstraintAtom' ctype='hkp2dAngConstraintAtom' offset='320' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

@@ -1,0 +1,13 @@
+<class name='hclConvexGeometryShape' version='0' signature='0x8e10aa76' parent='hclShape'>
+	<members>
+		<member name='tetrahedraGrid' type='hkArray&lt;hkUint16&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='gridCells' type='hkArray&lt;hkUint8&gt;' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='tetrahedraEquations' type='hkArray&lt;hkMatrix4&gt;' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_MATRIX4' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='localFromWorld' type='hkTransform' offset='80' vtype='TYPE_TRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='worldFromLocal' type='hkTransform' offset='144' vtype='TYPE_TRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='objAabb' type='struct hkAabb' ctype='hkAabb' offset='208' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
+		<member name='geomCentroid' type='hkVector4' offset='240' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='invCellSize' type='hkVector4' offset='256' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='gridRes' type='hkUint16' offset='272' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

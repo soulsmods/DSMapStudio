@@ -1,0 +1,6 @@
+<struct name='hkbVariableBounds' version='0' signature='0x9b766364'>
+	<members>
+		<member name='min' type='struct hkbVariableValue' ctype='hkbVariableValue' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='max' type='struct hkbVariableValue' ctype='hkbVariableValue' offset='4' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

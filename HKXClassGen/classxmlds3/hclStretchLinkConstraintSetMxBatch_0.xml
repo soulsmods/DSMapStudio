@@ -1,0 +1,8 @@
+<struct name='hclStretchLinkConstraintSetMxBatch' version='0' signature='0xc317188e'>
+	<members>
+		<member name='restLengths' type='hkReal[16]' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='stiffnesses' type='hkReal[16]' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesA' type='hkUint16[16]' offset='128' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesB' type='hkUint16[16]' offset='160' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+	</members>
+</struct>

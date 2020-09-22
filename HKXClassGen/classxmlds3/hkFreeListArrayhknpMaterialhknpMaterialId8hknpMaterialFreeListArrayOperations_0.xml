@@ -1,0 +1,6 @@
+<struct name='hkFreeListArrayhknpMaterialhknpMaterialId8hknpMaterialFreeListArrayOperations' version='0' signature='0x7a67e9de'>
+	<members>
+		<member name='elements' type='hkArray&lt;struct hknpMaterial&gt;' ctype='hknpMaterial' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='firstFree' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

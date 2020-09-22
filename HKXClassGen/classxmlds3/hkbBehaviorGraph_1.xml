@@ -1,0 +1,44 @@
+<class name='hkbBehaviorGraph' version='1' signature='0xfdedb83b' parent='hkbGenerator'>
+	<enums>
+		<enum name='VariableMode' flags='00000000'>
+			<enumitem name='VARIABLE_MODE_DISCARD_WHEN_INACTIVE' value='0'/>
+			<enumitem name='VARIABLE_MODE_MAINTAIN_VALUES_WHEN_INACTIVE' value='1'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='variableMode' type='enum VariableMode' etype='VariableMode' offset='136' vtype='TYPE_ENUM' vsubtype='TYPE_INT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='uniqueIdPool' type='hkArray&lt;void&gt;' offset='144' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='idToStateMachineTemplateMap' type='void*' offset='160' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='mirroredExternalIdMap' type='hkArray&lt;void&gt;' offset='168' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='pseudoRandomGenerator' type='void*' offset='184' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='rootGenerator' type='struct hkbGenerator*' ctype='hkbGenerator' offset='192' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='data' type='struct hkbBehaviorGraphData*' ctype='hkbBehaviorGraphData' offset='200' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='template' type='void*' offset='208' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='rootGeneratorClone' type='void*' offset='216' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='activeNodes' type='void*' offset='224' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='globalTransitionData' type='void*' offset='232' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='eventIdMap' type='void*' offset='240' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='attributeIdMap' type='void*' offset='248' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='variableIdMap' type='void*' offset='256' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='characterPropertyIdMap' type='void*' offset='264' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='variableValueSet' type='void*' offset='272' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='nodeTemplateToCloneMap' type='void*' offset='280' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='stateListenerTemplateToCloneMap' type='void*' offset='288' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='recentlyCreatedClones' type='hkArray&lt;void*&gt;' offset='296' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='nodePartitionInfo' type='void*' offset='312' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='numIntermediateOutputs' type='hkInt32' offset='320' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='intermediateOutputSizes' type='hkArray&lt;void&gt;' offset='328' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='jobs' type='hkArray&lt;void*&gt;' offset='344' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='allPartitionMemory' type='hkArray&lt;void*&gt;' offset='360' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='internalToRootVariableIdMap' type='hkArray&lt;void&gt;' offset='376' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='internalToCharacterCharacterPropertyIdMap' type='hkArray&lt;void&gt;' offset='392' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='internalToRootAttributeIdMap' type='hkArray&lt;void&gt;' offset='408' vtype='TYPE_ARRAY' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='nextUniqueId' type='hkUint16' offset='424' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='isActive' type='hkBool' offset='426' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='isLinked' type='hkBool' offset='427' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='updateActiveNodes' type='hkBool' offset='428' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='updateActiveNodesForEnable' type='hkBool' offset='429' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='checkNodeValidity' type='hkBool' offset='430' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='stateOrTransitionChanged' type='hkBool' offset='431' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

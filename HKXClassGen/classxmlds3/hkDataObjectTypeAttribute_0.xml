@@ -1,0 +1,5 @@
+<struct name='hkDataObjectTypeAttribute' version='0' signature='0x1e3857bb'>
+	<members>
+		<member name='typeName' type='char*' offset='0' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

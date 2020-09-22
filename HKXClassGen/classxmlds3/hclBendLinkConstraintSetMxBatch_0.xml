@@ -1,0 +1,12 @@
+<struct name='hclBendLinkConstraintSetMxBatch' version='0' signature='0x96e40e87'>
+	<members>
+		<member name='bendMinLengths' type='hkReal[16]' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='stretchMaxLengths' type='hkReal[16]' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='stretchStiffnesses' type='hkReal[16]' offset='128' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='bendStiffnesses' type='hkReal[16]' offset='192' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='invMassesA' type='hkReal[16]' offset='256' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='invMassesB' type='hkReal[16]' offset='320' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesA' type='hkUint16[16]' offset='384' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+		<member name='particlesB' type='hkUint16[16]' offset='416' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
+	</members>
+</struct>

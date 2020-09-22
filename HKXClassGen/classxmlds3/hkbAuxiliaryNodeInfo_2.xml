@@ -1,0 +1,8 @@
+<class name='hkbAuxiliaryNodeInfo' version='2' signature='0xc902fcac' parent='hkReferencedObject'>
+	<members>
+		<member name='type' type='enum NodeType' etype='NodeType' offset='16' vtype='TYPE_ENUM' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='depth' type='hkUint8' offset='18' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='referenceBehaviorName' type='hkStringPtr' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='selfTransitionNames' type='hkArray&lt;hkStringPtr&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</class>

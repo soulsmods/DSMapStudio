@@ -1,0 +1,5 @@
+<struct name='hclObjectSpaceDeformerLocalBlockP' version='0' signature='0x3992aad4'>
+	<members>
+		<member name='localPosition' type='hkInt16[64]' offset='0' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='64' flags='FLAGS_NONE'/>
+	</members>
+</struct>

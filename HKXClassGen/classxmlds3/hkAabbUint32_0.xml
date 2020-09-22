@@ -1,0 +1,10 @@
+<struct name='hkAabbUint32' version='0' signature='0x011e7c11'>
+	<members>
+		<member name='min' type='hkUint32[3]' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='3' flags='ALIGN_16'/>
+		<member name='expansionMin' type='hkUint8[3]' offset='12' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+		<member name='expansionShift' type='hkUint8' offset='15' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='max' type='hkUint32[3]' offset='16' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+		<member name='expansionMax' type='hkUint8[3]' offset='28' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+		<member name='shapeKeyByte' type='hkUint8' offset='31' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

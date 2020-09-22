@@ -1,0 +1,41 @@
+<class name='hkaPredictiveCompressedAnimation' version='1' signature='0xca3194b2' parent='hkaAnimation'>
+	<enums>
+		<enum name='StorageClass' flags='00000000'>
+			<enumitem name='STORAGE_STATIC' value='0'/>
+			<enumitem name='STORAGE_REFERENCE' value='1'/>
+			<enumitem name='STORAGE_DYNAMIC_RANGE' value='2'/>
+			<enumitem name='STORAGE_DYNAMIC_FIXED' value='3'/>
+		</enum>
+		<enum name='IntArrayID' flags='00000000'>
+			<enumitem name='BLOCK_OFFSETS' value='0'/>
+			<enumitem name='FIRST_FLOAT_BLOCK_OFFSETS' value='1'/>
+			<enumitem name='IS_ANIMATED_BITMAP' value='2'/>
+			<enumitem name='IS_FIXED_RANGE_BITMAP' value='3'/>
+			<enumitem name='DYNAMIC_BONE_TRACK_INDEX' value='4'/>
+			<enumitem name='DYNAMIC_FLOAT_TRACK_INDEX' value='5'/>
+			<enumitem name='STATIC_BONE_TRACK_INDEX' value='6'/>
+			<enumitem name='STATIC_FLOAT_TRACK_INDEX' value='7'/>
+			<enumitem name='RENORM_QUATERNION_INDEX' value='8'/>
+			<enumitem name='NUM_INT_ARRAYS' value='9'/>
+		</enum>
+		<enum name='FloatArrayID' flags='00000000'>
+			<enumitem name='STATIC_VALUES' value='0'/>
+			<enumitem name='DYNAMIC_SCALES' value='1'/>
+			<enumitem name='DYNAMIC_OFFSETS' value='2'/>
+			<enumitem name='NUM_FLOAT_ARRAYS' value='3'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='compressedData' type='hkArray&lt;hkUint8&gt;' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='intData' type='hkArray&lt;hkUint16&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='intArrayOffsets' type='hkInt32[9]' offset='88' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='9' flags='FLAGS_NONE'/>
+		<member name='floatData' type='hkArray&lt;hkReal&gt;' offset='128' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='floatArrayOffsets' type='hkInt32[3]' offset='144' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
+		<member name='numBones' type='hkInt32' offset='156' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numFloatSlots' type='hkInt32' offset='160' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='numFrames' type='hkInt32' offset='164' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='firstFloatBlockScaleAndOffsetIndex' type='hkInt32' offset='168' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='skeleton' type='void*' offset='176' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='maxCompressedBytesPerFrame' type='hkInt32' offset='184' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

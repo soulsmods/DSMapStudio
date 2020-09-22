@@ -1,0 +1,13 @@
+<struct name='hkClassEnum' version='0' signature='0x8a3609cf'>
+	<enums>
+		<enum name='FlagValues' flags='00000000'>
+			<enumitem name='FLAGS_NONE' value='0'/>
+		</enum>
+	</enums>
+	<members>
+		<member name='name' type='char*' offset='0' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='items' type='hkSimpleArray&lt;struct hkClassEnumItem&gt;' ctype='hkClassEnumItem' offset='8' vtype='TYPE_SIMPLEARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='attributes' type='struct hkCustomAttributes*' ctype='hkCustomAttributes' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='SERIALIZE_IGNORED'/>
+		<member name='flags' type='flags FlagValues' etype='FlagValues' offset='32' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
+	</members>
+</struct>

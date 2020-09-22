@@ -1,0 +1,14 @@
+<class name='hkbJigglerGroup' version='1' signature='0x99b14961' parent='hkbBindable'>
+	<members>
+		<member name='boneIndices' type='struct hkbBoneIndexArray*' ctype='hkbBoneIndexArray' offset='48' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
+		<member name='mass' type='hkReal' offset='56' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='stiffness' type='hkReal' offset='60' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='100.000000'/>
+		<member name='damping' type='hkReal' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='maxElongation' type='hkReal' offset='68' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
+		<member name='maxCompression' type='hkReal' offset='72' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.500000'/>
+		<member name='propagateToChildren' type='hkBool' offset='76' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+		<member name='affectSiblings' type='hkBool' offset='77' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='rotateBonesForSkinning' type='hkBool' offset='78' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
+		<member name='pad' type='hkBool[5]' offset='79' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='5' flags='SERIALIZE_IGNORED'/>
+	</members>
+</class>

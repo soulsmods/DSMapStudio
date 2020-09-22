@@ -1,0 +1,6 @@
+<struct name='hkbAiControlControlDataNonBlendable' version='0' signature='0xa7750bd1'>
+	<members>
+		<member name='canControl' type='hkBool' offset='0' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='true'/>
+		<member name='padding' type='hkUint8[3]' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='3' flags='SERIALIZE_IGNORED'/>
+	</members>
+</struct>
