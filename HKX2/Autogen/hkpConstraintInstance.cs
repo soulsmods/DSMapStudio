@@ -1,0 +1,95 @@
+using SoulsFormats;
+using System.Collections.Generic;
+using System.Numerics;
+
+namespace HKX2
+{
+    public enum ConstraintPriority
+    {
+        PRIORITY_INVALID = 0,
+        PRIORITY_PSI = 1,
+        PRIORITY_SIMPLIFIED_TOI_UNUSED = 2,
+        PRIORITY_TOI = 3,
+        PRIORITY_TOI_HIGHER = 4,
+        PRIORITY_TOI_FORCED = 5,
+        NUM_PRIORITIES = 6,
+    }
+    
+    public enum InstanceType
+    {
+        TYPE_NORMAL = 0,
+        TYPE_CHAIN = 1,
+        TYPE_DISABLE_SPU = 2,
+    }
+    
+    public enum AddReferences
+    {
+        DO_NOT_ADD_REFERENCES = 0,
+        DO_ADD_REFERENCES = 1,
+    }
+    
+    public enum CloningMode
+    {
+        CLONE_SHALLOW_IF_NOT_CONSTRAINED_TO_WORLD = 0,
+        CLONE_DATAS_WITH_MOTORS = 1,
+        CLONE_FORCE_SHALLOW = 2,
+    }
+    
+    public enum OnDestructionRemapInfo
+    {
+        ON_DESTRUCTION_REMAP = 0,
+        ON_DESTRUCTION_REMOVE = 1,
+        ON_DESTRUCTION_RESET_REMOVE = 2,
+    }
+    
+    public class hkpConstraintInstance : hkReferencedObject
+    {
+        public hkpConstraintData m_data;
+        public hkpModifierConstraintAtom m_constraintModifiers;
+        public hkpEntity m_entities;
+        public ConstraintPriority m_priority;
+        public bool m_wantRuntime;
+        public OnDestructionRemapInfo m_destructionRemapInfo;
+        public string m_name;
+        public ulong m_userData;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            br.AssertUInt64(0);
+            m_data = des.ReadClassPointer<hkpConstraintData>(br);
+            m_constraintModifiers = des.ReadClassPointer<hkpModifierConstraintAtom>(br);
+            m_entities = des.ReadClassPointer<hkpEntity>(br);
+            br.AssertUInt64(0);
+            m_priority = (ConstraintPriority)br.ReadByte();
+            m_wantRuntime = br.ReadBoolean();
+            m_destructionRemapInfo = (OnDestructionRemapInfo)br.ReadByte();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+            br.AssertByte(0);
+            m_name = des.ReadStringPointer(br);
+            m_userData = br.ReadUInt64();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt64(0);
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            bw.WriteUInt64(0);
+            bw.WriteBoolean(m_wantRuntime);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+            bw.WriteByte(0);
+            bw.WriteUInt64(m_userData);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+        }
+    }
+}

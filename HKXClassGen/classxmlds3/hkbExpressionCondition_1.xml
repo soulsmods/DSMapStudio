@@ -1,6 +1,0 @@
-<class name='hkbExpressionCondition' version='1' signature='0x78a69526' parent='hkbCondition'>
-	<members>
-		<member name='expression' type='hkStringPtr' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='compiledExpressionSet' type='void*' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

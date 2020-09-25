@@ -1,8 +1,0 @@
-<class name='hkbGravityModifier' version='0' signature='0x9fdfa49d' parent='hkbModifier'>
-	<members>
-		<member name='initialVelocityInMS' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='gravityConstant' type='hkReal' offset='112' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='9.800000'/>
-		<member name='currentVelocityInMS' type='hkVector4' offset='128' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='secondsElapsed' type='hkReal' offset='144' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

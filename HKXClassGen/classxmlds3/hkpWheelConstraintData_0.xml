@@ -1,7 +1,0 @@
-<class name='hkpWheelConstraintData' version='0' signature='0x55e3aca0' parent='hkpConstraintData'>
-	<members>
-		<member name='atoms' type='struct hkpWheelConstraintDataAtoms' ctype='hkpWheelConstraintDataAtoms' offset='32' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='ALIGN_16'/>
-		<member name='initialAxleInB' type='hkVector4' offset='368' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='initialSteeringAxisInB' type='hkVector4' offset='384' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

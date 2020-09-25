@@ -1,6 +1,0 @@
-<struct name='hclSimpleMeshBoneDeformOperatorTriangleBonePair' version='0' signature='0xa6d8c675'>
-	<members>
-		<member name='boneOffset' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='triangleOffset' type='hkUint16' offset='2' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

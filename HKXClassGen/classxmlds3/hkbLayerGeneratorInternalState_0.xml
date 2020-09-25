@@ -1,7 +1,0 @@
-<class name='hkbLayerGeneratorInternalState' version='0' signature='0x2b0d683a' parent='hkReferencedObject'>
-	<members>
-		<member name='numActiveLayers' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='layerInternalStates' type='hkArray&lt;struct hkbLayerGeneratorLayerInternalState&gt;' ctype='hkbLayerGeneratorLayerInternalState' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='initSync' type='hkBool' offset='40' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

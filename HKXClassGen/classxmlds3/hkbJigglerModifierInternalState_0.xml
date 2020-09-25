@@ -1,8 +1,0 @@
-<class name='hkbJigglerModifierInternalState' version='0' signature='0x95df236f' parent='hkReferencedObject'>
-	<members>
-		<member name='currentVelocitiesWS' type='hkArray&lt;hkVector4&gt;' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='currentPositions' type='hkArray&lt;hkVector4&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='timeStep' type='hkReal' offset='48' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='initNextModify' type='hkBool' offset='52' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

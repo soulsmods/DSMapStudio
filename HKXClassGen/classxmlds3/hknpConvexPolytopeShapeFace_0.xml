@@ -1,7 +1,0 @@
-<struct name='hknpConvexPolytopeShapeFace' version='0' signature='0xf3c05540'>
-	<members>
-		<member name='firstIndex' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numIndices' type='hkUint8' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='minHalfAngle' type='hkUint8' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

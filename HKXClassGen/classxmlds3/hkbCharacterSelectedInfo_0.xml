@@ -1,7 +1,0 @@
-<class name='hkbCharacterSelectedInfo' version='0' signature='0xf5c7f4c9' parent='hkReferencedObject'>
-	<members>
-		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='scriptDebuggingPort' type='hkInt32' offset='24' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='padding' type='hkInt32' offset='28' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

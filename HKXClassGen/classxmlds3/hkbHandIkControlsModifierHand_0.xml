@@ -1,7 +1,0 @@
-<struct name='hkbHandIkControlsModifierHand' version='0' signature='0x9c72e9e3'>
-	<members>
-		<member name='controlData' type='struct hkbHandIkControlData' ctype='hkbHandIkControlData' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='handIndex' type='hkInt32' offset='96' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
-		<member name='enable' type='hkBool' offset='100' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
-	</members>
-</struct>

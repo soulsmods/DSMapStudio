@@ -1,0 +1,43 @@
+using SoulsFormats;
+using System.Collections.Generic;
+using System.Numerics;
+
+namespace HKX2
+{
+    public enum EffectType
+    {
+        EFFECT_TYPE_INVALID = 0,
+        EFFECT_TYPE_UNKNOWN = 1,
+        EFFECT_TYPE_HLSL_FX_INLINE = 2,
+        EFFECT_TYPE_CG_FX_INLINE = 3,
+        EFFECT_TYPE_HLSL_FX_FILENAME = 4,
+        EFFECT_TYPE_CG_FX_FILENAME = 5,
+        EFFECT_TYPE_MAX_ID = 6,
+    }
+    
+    public class hkxMaterialEffect : hkReferencedObject
+    {
+        public string m_name;
+        public EffectType m_type;
+        public List<byte> m_data;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_name = des.ReadStringPointer(br);
+            m_type = (EffectType)br.ReadByte();
+            br.AssertUInt32(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_data = des.ReadByteArray(br);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt32(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
+    }
+}

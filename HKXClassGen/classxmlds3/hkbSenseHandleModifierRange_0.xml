@@ -1,8 +1,0 @@
-<struct name='hkbSenseHandleModifierRange' version='0' signature='0xfb56b692'>
-	<members>
-		<member name='event' type='struct hkbEventProperty' ctype='hkbEventProperty' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='minDistance' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-		<member name='maxDistance' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
-		<member name='ignoreHandle' type='hkBool' offset='24' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

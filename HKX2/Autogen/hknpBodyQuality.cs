@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpBodyQuality
+    public class hknpBodyQuality : IHavokObject
     {
         public enum FlagsEnum
         {
@@ -31,5 +32,19 @@ namespace HKX2
         public uint m_supportedFlags;
         public uint m_requestedFlags;
         public float m_contactCachingRelativeMovementThreshold;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_priority = br.ReadInt32();
+            m_supportedFlags = br.ReadUInt32();
+            m_requestedFlags = br.ReadUInt32();
+            m_contactCachingRelativeMovementThreshold = br.ReadSingle();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteInt32(m_priority);
+            bw.WriteSingle(m_contactCachingRelativeMovementThreshold);
+        }
     }
 }

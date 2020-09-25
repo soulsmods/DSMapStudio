@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpWheelFrictionConstraintAtomAxle
+    public class hkpWheelFrictionConstraintAtomAxle : IHavokObject
     {
         public float m_spinVelocity;
         public float m_sumVelocity;
@@ -16,5 +17,39 @@ namespace HKX2
         public float m_impulseMax;
         public bool m_isFixed;
         public int m_numWheelsOnGround;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_spinVelocity = br.ReadSingle();
+            m_sumVelocity = br.ReadSingle();
+            m_numWheels = br.ReadInt32();
+            m_wheelsSolved = br.ReadInt32();
+            m_stepsSolved = br.ReadInt32();
+            m_invInertia = br.ReadSingle();
+            m_inertia = br.ReadSingle();
+            m_impulseScaling = br.ReadSingle();
+            m_impulseMax = br.ReadSingle();
+            m_isFixed = br.ReadBoolean();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_numWheelsOnGround = br.ReadInt32();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteSingle(m_spinVelocity);
+            bw.WriteSingle(m_sumVelocity);
+            bw.WriteInt32(m_numWheels);
+            bw.WriteInt32(m_wheelsSolved);
+            bw.WriteInt32(m_stepsSolved);
+            bw.WriteSingle(m_invInertia);
+            bw.WriteSingle(m_inertia);
+            bw.WriteSingle(m_impulseScaling);
+            bw.WriteSingle(m_impulseMax);
+            bw.WriteBoolean(m_isFixed);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+            bw.WriteInt32(m_numWheelsOnGround);
+        }
     }
 }

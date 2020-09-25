@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -13,8 +14,17 @@ namespace HKX2
         COSINE_ANGLE = 5,
     }
     
-    public class hkSemanticsAttribute
+    public class hkSemanticsAttribute : IHavokObject
     {
         public Semantics m_type;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_type = (Semantics)br.ReadSByte();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+        }
     }
 }

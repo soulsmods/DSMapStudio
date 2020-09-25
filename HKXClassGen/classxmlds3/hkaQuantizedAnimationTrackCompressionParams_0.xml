@@ -1,8 +1,0 @@
-<struct name='hkaQuantizedAnimationTrackCompressionParams' version='0' signature='0xf7d64649'>
-	<members>
-		<member name='rotationTolerance' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='translationTolerance' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='scaleTolerance' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='floatingTolerance' type='hkReal' offset='12' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

@@ -1,6 +1,0 @@
-<class name='hknpCompressedMeshShapeInternalsKeyMask' version='0' signature='0x89e976ba' parent='hknpShapeKeyMask'>
-	<members>
-		<member name='shape' type='struct hknpCompressedMeshShape*' ctype='hknpCompressedMeshShape' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='NOT_OWNED'/>
-		<member name='filter' type='hkArray&lt;hkUint32&gt;' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,5 +19,28 @@ namespace HKX2
         public List<short> m_floatTrackToFloatSlotIndices;
         public List<short> m_partitionIndices;
         public BlendHint m_blendHint;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_originalSkeletonName = des.ReadStringPointer(br);
+            m_animation = des.ReadClassPointer<hkaAnimation>(br);
+            m_transformTrackToBoneIndices = des.ReadInt16Array(br);
+            m_floatTrackToFloatSlotIndices = des.ReadInt16Array(br);
+            m_partitionIndices = des.ReadInt16Array(br);
+            m_blendHint = (BlendHint)br.ReadSByte();
+            br.AssertUInt32(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            // Implement Write
+            bw.WriteUInt32(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

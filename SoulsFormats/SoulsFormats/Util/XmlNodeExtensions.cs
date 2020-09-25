@@ -124,6 +124,9 @@ namespace SoulsFormats.XmlExtensions
         public static uint ReadUInt32(this XmlNode node, string xpath)
             => ReadT(node, xpath, uint.Parse);
 
+        public static uint ReadUInt32Attribute(this XmlNode node, string xpath)
+            => ReadTAttribute(node, xpath, uint.Parse);
+
         public static uint ReadUInt32HexAttribute(this XmlNode node, string xpath)
             => ReadTAttribute(node, xpath, (x) => Convert.ToUInt32(x, 16));
 

@@ -1,6 +1,0 @@
-<struct name='hkpStiffSpringConstraintAtom' version='1' signature='0x1f044420' parent='hkpConstraintAtom'>
-	<members>
-		<member name='length' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='maxLength' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

@@ -1,5 +1,0 @@
-<class name='hkaDirectionalReferenceFrame' version='0' signature='0xb64fa980' parent='hkaParameterizedReferenceFrame'>
-	<members>
-		<member name='movementDir' type='hkVector4' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

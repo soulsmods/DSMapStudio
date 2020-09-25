@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -44,5 +45,48 @@ namespace HKX2
         public int m_numFloatSlots;
         public int m_numFrames;
         public int m_firstFloatBlockScaleAndOffsetIndex;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_compressedData = des.ReadByteArray(br);
+            m_intData = des.ReadUInt16Array(br);
+            m_intArrayOffsets = br.ReadInt32();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+            m_floatData = des.ReadSingleArray(br);
+            m_floatArrayOffsets = br.ReadInt32();
+            br.AssertUInt64(0);
+            m_numBones = br.ReadInt32();
+            m_numFloatSlots = br.ReadInt32();
+            m_numFrames = br.ReadInt32();
+            m_firstFloatBlockScaleAndOffsetIndex = br.ReadInt32();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteInt32(m_intArrayOffsets);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+            bw.WriteInt32(m_floatArrayOffsets);
+            bw.WriteUInt64(0);
+            bw.WriteInt32(m_numBones);
+            bw.WriteInt32(m_numFloatSlots);
+            bw.WriteInt32(m_numFrames);
+            bw.WriteInt32(m_firstFloatBlockScaleAndOffsetIndex);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+        }
     }
 }

@@ -1,5 +1,0 @@
-<class name='hclCompressibleLinkConstraintSet' version='0' signature='0x51e7d475' parent='hclConstraintSet'>
-	<members>
-		<member name='links' type='hkArray&lt;struct hclCompressibleLinkConstraintSetLink&gt;' ctype='hclCompressibleLinkConstraintSetLink' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

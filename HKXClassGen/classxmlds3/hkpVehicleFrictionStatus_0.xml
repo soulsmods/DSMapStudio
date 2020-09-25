@@ -1,5 +1,0 @@
-<struct name='hkpVehicleFrictionStatus' version='0' signature='0x1c076a84'>
-	<members>
-		<member name='axis' type='struct hkpVehicleFrictionStatusAxisStatus[2]' ctype='hkpVehicleFrictionStatusAxisStatus' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='2' flags='FLAGS_NONE'/>
-	</members>
-</struct>

@@ -1,5 +1,0 @@
-<class name='hknpMaskedShapeMaskWrapper' version='0' signature='0xdfa054c9' parent='hknpShapeKeyMask'>
-	<members>
-		<member name='maskedShape' type='void*' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

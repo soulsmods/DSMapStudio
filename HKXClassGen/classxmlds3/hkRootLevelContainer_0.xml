@@ -1,5 +1,0 @@
-<struct name='hkRootLevelContainer' version='0' signature='0x2772c11e'>
-	<members>
-		<member name='namedVariants' type='hkArray&lt;struct hkRootLevelContainerNamedVariant&gt;' ctype='hkRootLevelContainerNamedVariant' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

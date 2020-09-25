@@ -1,11 +1,142 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hclObjectSpaceDeformerLocalBlockUnpackedPN
+    public class hclObjectSpaceDeformerLocalBlockUnpackedPN : IHavokObject
     {
         public Vector4 m_localPosition;
         public Vector4 m_localNormal;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_localPosition = des.ReadVector4(br);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            m_localNormal = des.ReadVector4(br);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+        }
     }
 }

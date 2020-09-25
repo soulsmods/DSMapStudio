@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -13,7 +14,17 @@ namespace HKX2
         NUM_TYPES = 5,
     }
     
-    public class hknpCollisionDispatchType
+    public class hknpCollisionDispatchType : IHavokObject
     {
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteByte(0);
+        }
     }
 }

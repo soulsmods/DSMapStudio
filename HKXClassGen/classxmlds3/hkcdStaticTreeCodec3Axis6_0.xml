@@ -1,6 +1,0 @@
-<struct name='hkcdStaticTreeCodec3Axis6' version='0' signature='0x569b5d82' parent='hkcdStaticTreeCodec3Axis'>
-	<members>
-		<member name='hiData' type='hkUint8' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='loData' type='hkUint16' offset='4' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

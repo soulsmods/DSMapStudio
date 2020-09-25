@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -35,11 +36,33 @@ namespace HKX2
             IS_QUAD_SHAPE = 4096,
         }
         
-        public uint m_flags;
+        public ushort m_flags;
         public byte m_numShapeKeyBits;
         public Enum m_dispatchType;
         public float m_convexRadius;
         public ulong m_userData;
         public hkRefCountedProperties m_properties;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_flags = br.ReadUInt16();
+            m_numShapeKeyBits = br.ReadByte();
+            m_dispatchType = (Enum)br.ReadByte();
+            m_convexRadius = br.ReadSingle();
+            m_userData = br.ReadUInt64();
+            m_properties = des.ReadClassPointer<hkRefCountedProperties>(br);
+            br.AssertUInt64(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteByte(m_numShapeKeyBits);
+            bw.WriteSingle(m_convexRadius);
+            bw.WriteUInt64(m_userData);
+            // Implement Write
+            bw.WriteUInt64(0);
+        }
     }
 }

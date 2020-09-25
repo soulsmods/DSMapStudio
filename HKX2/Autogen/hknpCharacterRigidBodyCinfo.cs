@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -22,5 +23,60 @@ namespace HKX2
         public float m_maxSpeedForSimplexSolver;
         public float m_supportDistance;
         public float m_hardSupportDistance;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_collisionFilterInfo = br.ReadUInt32();
+            br.AssertUInt32(0);
+            m_shape = des.ReadClassPointer<hknpShape>(br);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            m_position = des.ReadVector4(br);
+            m_orientation = des.ReadQuaternion(br);
+            m_mass = br.ReadSingle();
+            m_dynamicFriction = br.ReadSingle();
+            m_staticFriction = br.ReadSingle();
+            m_weldingTolerance = br.ReadSingle();
+            m_reservedBodyId = br.ReadUInt32();
+            m_additionMode = br.ReadByte();
+            m_additionFlags = br.ReadByte();
+            br.AssertUInt64(0);
+            br.AssertUInt16(0);
+            m_up = des.ReadVector4(br);
+            m_maxSlope = br.ReadSingle();
+            m_maxForce = br.ReadSingle();
+            m_maxSpeedForSimplexSolver = br.ReadSingle();
+            m_supportDistance = br.ReadSingle();
+            m_hardSupportDistance = br.ReadSingle();
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt32(m_collisionFilterInfo);
+            bw.WriteUInt32(0);
+            // Implement Write
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteSingle(m_mass);
+            bw.WriteSingle(m_dynamicFriction);
+            bw.WriteSingle(m_staticFriction);
+            bw.WriteSingle(m_weldingTolerance);
+            bw.WriteUInt32(m_reservedBodyId);
+            bw.WriteByte(m_additionMode);
+            bw.WriteByte(m_additionFlags);
+            bw.WriteUInt64(0);
+            bw.WriteUInt16(0);
+            bw.WriteSingle(m_maxSlope);
+            bw.WriteSingle(m_maxForce);
+            bw.WriteSingle(m_maxSpeedForSimplexSolver);
+            bw.WriteSingle(m_supportDistance);
+            bw.WriteSingle(m_hardSupportDistance);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+        }
     }
 }

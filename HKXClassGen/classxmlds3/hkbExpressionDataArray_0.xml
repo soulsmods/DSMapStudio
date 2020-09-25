@@ -1,5 +1,0 @@
-<class name='hkbExpressionDataArray' version='0' signature='0x1ebfc6d7' parent='hkReferencedObject'>
-	<members>
-		<member name='expressionsData' type='hkArray&lt;struct hkbExpressionData&gt;' ctype='hkbExpressionData' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

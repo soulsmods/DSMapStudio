@@ -1,7 +1,0 @@
-<struct name='hkbRadialSelectorGeneratorGeneratorPair' version='0' signature='0xb10ff169'>
-	<members>
-		<member name='generators' type='struct hkbRadialSelectorGeneratorGeneratorInfo[2]' ctype='hkbRadialSelectorGeneratorGeneratorInfo' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='2' flags='FLAGS_NONE'/>
-		<member name='minAngle' type='hkReal' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-		<member name='maxAngle' type='hkReal' offset='36' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-	</members>
-</struct>

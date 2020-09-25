@@ -1,7 +1,0 @@
-<struct name='hkMeshTextureRawBufferDescriptor' version='0' signature='0x60687e0c'>
-	<members>
-		<member name='offset' type='hkInt64' offset='0' vtype='TYPE_INT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='stride' type='hkUint32' offset='8' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numElements' type='hkUint32' offset='12' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

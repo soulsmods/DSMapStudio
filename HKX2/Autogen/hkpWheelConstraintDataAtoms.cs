@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpWheelConstraintDataAtoms
+    public class hkpWheelConstraintDataAtoms : IHavokObject
     {
         public enum Axis
         {
@@ -20,5 +21,34 @@ namespace HKX2
         public hkpLinConstraintAtom m_lin2;
         public hkpSetLocalRotationsConstraintAtom m_steeringBase;
         public hkp2dAngConstraintAtom m_2dAng;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_suspensionBase = new hkpSetLocalTransformsConstraintAtom();
+            m_suspensionBase.Read(des, br);
+            m_lin0Limit = new hkpLinLimitConstraintAtom();
+            m_lin0Limit.Read(des, br);
+            m_lin0Soft = new hkpLinSoftConstraintAtom();
+            m_lin0Soft.Read(des, br);
+            m_lin1 = new hkpLinConstraintAtom();
+            m_lin1.Read(des, br);
+            m_lin2 = new hkpLinConstraintAtom();
+            m_lin2.Read(des, br);
+            m_steeringBase = new hkpSetLocalRotationsConstraintAtom();
+            m_steeringBase.Read(des, br);
+            m_2dAng = new hkp2dAngConstraintAtom();
+            m_2dAng.Read(des, br);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            m_suspensionBase.Write(bw);
+            m_lin0Limit.Write(bw);
+            m_lin0Soft.Write(bw);
+            m_lin1.Write(bw);
+            m_lin2.Write(bw);
+            m_steeringBase.Write(bw);
+            m_2dAng.Write(bw);
+        }
     }
 }

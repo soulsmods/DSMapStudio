@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbFootIkGains
+    public class hkbFootIkGains : IHavokObject
     {
         public float m_onOffGain;
         public float m_groundAscendingGain;
@@ -15,7 +16,33 @@ namespace HKX2
         public float m_errorUpDownBias;
         public float m_alignWorldFromModelGain;
         public float m_hipOrientationGain;
-        public float m_maxKneeAngleDifference;
-        public float m_ankleOrientationGain;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_onOffGain = br.ReadSingle();
+            m_groundAscendingGain = br.ReadSingle();
+            m_groundDescendingGain = br.ReadSingle();
+            m_footPlantedGain = br.ReadSingle();
+            m_footRaisedGain = br.ReadSingle();
+            m_footLockingGain = br.ReadSingle();
+            m_worldFromModelFeedbackGain = br.ReadSingle();
+            m_errorUpDownBias = br.ReadSingle();
+            m_alignWorldFromModelGain = br.ReadSingle();
+            m_hipOrientationGain = br.ReadSingle();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteSingle(m_onOffGain);
+            bw.WriteSingle(m_groundAscendingGain);
+            bw.WriteSingle(m_groundDescendingGain);
+            bw.WriteSingle(m_footPlantedGain);
+            bw.WriteSingle(m_footRaisedGain);
+            bw.WriteSingle(m_footLockingGain);
+            bw.WriteSingle(m_worldFromModelFeedbackGain);
+            bw.WriteSingle(m_errorUpDownBias);
+            bw.WriteSingle(m_alignWorldFromModelGain);
+            bw.WriteSingle(m_hipOrientationGain);
+        }
     }
 }

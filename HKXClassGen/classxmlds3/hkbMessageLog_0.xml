@@ -1,6 +1,0 @@
-<struct name='hkbMessageLog' version='0' signature='0x26a196c5'>
-	<members>
-		<member name='messages' type='void*' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='maxMessages' type='hkInt32' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</struct>

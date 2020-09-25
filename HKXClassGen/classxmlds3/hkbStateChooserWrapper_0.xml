@@ -1,5 +1,0 @@
-<class name='hkbStateChooserWrapper' version='0' signature='0xe787b2fe' parent='hkbCustomIdSelector'>
-	<members>
-		<member name='wrappedChooser' type='struct hkbStateChooser*' ctype='hkbStateChooser' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

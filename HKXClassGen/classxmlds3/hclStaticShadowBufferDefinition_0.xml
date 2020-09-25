@@ -1,9 +1,0 @@
-<class name='hclStaticShadowBufferDefinition' version='0' signature='0x449a5173' parent='hclBufferDefinition'>
-	<members>
-		<member name='staticPositions' type='hkArray&lt;hkVector4&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='staticNormals' type='hkArray&lt;hkVector4&gt;' offset='88' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='staticTangents' type='hkArray&lt;hkVector4&gt;' offset='104' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='staticBiTangents' type='hkArray&lt;hkVector4&gt;' offset='120' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='triangleIndices' type='hkArray&lt;hkUint16&gt;' offset='136' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

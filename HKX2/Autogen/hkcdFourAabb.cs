@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -13,7 +14,7 @@ namespace HKX2
         Z_MAX = 5,
     }
     
-    public class hkcdFourAabb
+    public class hkcdFourAabb : IHavokObject
     {
         public Vector4 m_lx;
         public Vector4 m_hx;
@@ -21,5 +22,19 @@ namespace HKX2
         public Vector4 m_hy;
         public Vector4 m_lz;
         public Vector4 m_hz;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_lx = des.ReadVector4(br);
+            m_hx = des.ReadVector4(br);
+            m_ly = des.ReadVector4(br);
+            m_hy = des.ReadVector4(br);
+            m_lz = des.ReadVector4(br);
+            m_hz = des.ReadVector4(br);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+        }
     }
 }

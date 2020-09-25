@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -29,9 +30,19 @@ namespace HKX2
         FLAG_CHAIN = 64,
     }
     
-    public class hkbRoleAttribute
+    public class hkbRoleAttribute : IHavokObject
     {
         public Role m_role;
-        public uint m_flags;
+        public short m_flags;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_role = (Role)br.ReadInt16();
+            m_flags = br.ReadInt16();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+        }
     }
 }

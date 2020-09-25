@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -17,5 +18,37 @@ namespace HKX2
         public bool m_stateOrTransitionChanged;
         public bool m_echoNextUpdate;
         public bool m_hasEventlessWildcardTransitions;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_activeTransitions = des.ReadClassArray<hkbStateMachineActiveTransitionInfo>(br);
+            m_transitionFlags = des.ReadByteArray(br);
+            m_wildcardTransitionFlags = des.ReadByteArray(br);
+            m_delayedTransitions = des.ReadClassArray<hkbStateMachineDelayedTransitionInfo>(br);
+            m_timeInState = br.ReadSingle();
+            m_lastLocalTime = br.ReadSingle();
+            m_currentStateId = br.ReadInt32();
+            m_previousStateId = br.ReadInt32();
+            m_nextStartStateIndexOverride = br.ReadInt32();
+            m_stateOrTransitionChanged = br.ReadBoolean();
+            m_echoNextUpdate = br.ReadBoolean();
+            m_hasEventlessWildcardTransitions = br.ReadBoolean();
+            br.AssertByte(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_timeInState);
+            bw.WriteSingle(m_lastLocalTime);
+            bw.WriteInt32(m_currentStateId);
+            bw.WriteInt32(m_previousStateId);
+            bw.WriteInt32(m_nextStartStateIndexOverride);
+            bw.WriteBoolean(m_stateOrTransitionChanged);
+            bw.WriteBoolean(m_echoNextUpdate);
+            bw.WriteBoolean(m_hasEventlessWildcardTransitions);
+            bw.WriteByte(0);
+        }
     }
 }

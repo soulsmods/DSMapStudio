@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -19,7 +20,7 @@ namespace HKX2
         DEACTIVATION_STRATEGY_ACCURATE = 5,
     }
     
-    public class hknpMotionProperties
+    public class hknpMotionProperties : IHavokObject
     {
         public enum FlagsEnum
         {
@@ -50,5 +51,56 @@ namespace HKX2
         public byte m_minimumPathingVelocityScaleSquare;
         public byte m_spikingVelocityScaleThresholdSquared;
         public byte m_minimumSpikingVelocityScaleSquared;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_isExclusive = br.ReadUInt32();
+            m_flags = br.ReadUInt32();
+            m_gravityFactor = br.ReadSingle();
+            m_timeFactor = br.ReadSingle();
+            m_maxLinearSpeed = br.ReadSingle();
+            m_maxAngularSpeed = br.ReadSingle();
+            m_linearDamping = br.ReadSingle();
+            m_angularDamping = br.ReadSingle();
+            m_solverStabilizationSpeedThreshold = br.ReadSingle();
+            m_solverStabilizationSpeedReduction = br.ReadSingle();
+            m_maxDistSqrd = br.ReadSingle();
+            m_maxRotSqrd = br.ReadSingle();
+            m_invBlockSize = br.ReadSingle();
+            m_pathingUpperThreshold = br.ReadInt16();
+            m_pathingLowerThreshold = br.ReadInt16();
+            m_numDeactivationFrequencyPasses = br.ReadByte();
+            m_deactivationVelocityScaleSquare = br.ReadByte();
+            m_minimumPathingVelocityScaleSquare = br.ReadByte();
+            m_spikingVelocityScaleThresholdSquared = br.ReadByte();
+            m_minimumSpikingVelocityScaleSquared = br.ReadByte();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteUInt32(m_isExclusive);
+            bw.WriteSingle(m_gravityFactor);
+            bw.WriteSingle(m_timeFactor);
+            bw.WriteSingle(m_maxLinearSpeed);
+            bw.WriteSingle(m_maxAngularSpeed);
+            bw.WriteSingle(m_linearDamping);
+            bw.WriteSingle(m_angularDamping);
+            bw.WriteSingle(m_solverStabilizationSpeedThreshold);
+            bw.WriteSingle(m_solverStabilizationSpeedReduction);
+            bw.WriteSingle(m_maxDistSqrd);
+            bw.WriteSingle(m_maxRotSqrd);
+            bw.WriteSingle(m_invBlockSize);
+            bw.WriteInt16(m_pathingUpperThreshold);
+            bw.WriteInt16(m_pathingLowerThreshold);
+            bw.WriteByte(m_numDeactivationFrequencyPasses);
+            bw.WriteByte(m_deactivationVelocityScaleSquare);
+            bw.WriteByte(m_minimumPathingVelocityScaleSquare);
+            bw.WriteByte(m_spikingVelocityScaleThresholdSquared);
+            bw.WriteByte(m_minimumSpikingVelocityScaleSquared);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

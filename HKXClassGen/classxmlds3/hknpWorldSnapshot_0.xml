@@ -1,9 +1,0 @@
-<class name='hknpWorldSnapshot' version='0' signature='0x70aa3c32' parent='hkReferencedObject'>
-	<members>
-		<member name='worldCinfo' type='struct hknpWorldCinfo' ctype='hknpWorldCinfo' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='bodies' type='hkArray&lt;struct hknpBody&gt;' ctype='hknpBody' offset='272' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='bodyNames' type='hkArray&lt;hkStringPtr&gt;' offset='288' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='motions' type='hkArray&lt;struct hknpMotion&gt;' ctype='hknpMotion' offset='304' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='constraints' type='hkArray&lt;struct hknpConstraintCinfo&gt;' ctype='hknpConstraintCinfo' offset='320' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

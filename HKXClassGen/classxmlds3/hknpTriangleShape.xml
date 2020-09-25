@@ -1,0 +1,4 @@
+<class name='hknpTriangleShape' version='1' signature='0x00000000' size='80' parent='hknpConvexPolytopeShape'>
+  <members>
+  </members>
+</class>

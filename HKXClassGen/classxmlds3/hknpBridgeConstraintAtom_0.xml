@@ -1,7 +1,0 @@
-<struct name='hknpBridgeConstraintAtom' version='0' signature='0x929fbcb8' parent='hkpConstraintAtom'>
-	<members>
-		<member name='numSolverResults' type='hkInt32' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='constraintData' type='struct hkpConstraintData*' ctype='hkpConstraintData' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='NOT_OWNED'/>
-		<member name='padding' type='hkUint8[4]' offset='16' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='4' flags='SERIALIZE_IGNORED'/>
-	</members>
-</struct>

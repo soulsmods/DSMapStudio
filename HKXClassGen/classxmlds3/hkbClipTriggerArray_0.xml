@@ -1,5 +1,0 @@
-<class name='hkbClipTriggerArray' version='0' signature='0xf757cd66' parent='hkReferencedObject'>
-	<members>
-		<member name='triggers' type='hkArray&lt;struct hkbClipTrigger&gt;' ctype='hkbClipTrigger' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

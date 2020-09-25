@@ -1,8 +1,0 @@
-<struct name='hclObjectSpaceDeformerLocalBlockUnpackedPNTB' version='0' signature='0xf66f32f2'>
-	<members>
-		<member name='localPosition' type='hkVector4[16]' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
-		<member name='localNormal' type='hkVector4[16]' offset='256' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
-		<member name='localTangent' type='hkVector4[16]' offset='512' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
-		<member name='localBiTangent' type='hkVector4[16]' offset='768' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
-	</members>
-</struct>

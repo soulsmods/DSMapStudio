@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hclTransformSetUsage
+    public class hclTransformSetUsage : IHavokObject
     {
         public enum Component
         {
@@ -23,5 +24,22 @@ namespace HKX2
         
         public byte m_perComponentFlags;
         public List<hclTransformSetUsageTransformTracker> m_perComponentTransformTrackers;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_perComponentFlags = br.ReadByte();
+            br.AssertUInt32(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_perComponentTransformTrackers = des.ReadClassArray<hclTransformSetUsageTransformTracker>(br);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteByte(m_perComponentFlags);
+            bw.WriteUInt32(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

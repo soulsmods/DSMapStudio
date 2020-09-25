@@ -1,6 +1,0 @@
-<class name='hknpBinaryAction' version='1' signature='0x57430e03' parent='hknpAction'>
-	<members>
-		<member name='bodyIdA' type='hkUint32' offset='24' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='bodyIdB' type='hkUint32' offset='28' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

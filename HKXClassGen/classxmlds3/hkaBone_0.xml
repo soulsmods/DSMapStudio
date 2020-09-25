@@ -1,6 +1,0 @@
-<struct name='hkaBone' version='0' signature='0x35912f8a'>
-	<members>
-		<member name='name' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='lockTranslation' type='hkBool' offset='8' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

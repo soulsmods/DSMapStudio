@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,5 +19,41 @@ namespace HKX2
         public Vector4 m_vecPreviousError;
         public float m_errorSum;
         public float m_previousError;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_kP = br.ReadSingle();
+            m_kI = br.ReadSingle();
+            m_kD = br.ReadSingle();
+            m_enableScalarDamping = br.ReadBoolean();
+            m_enableVectorDamping = br.ReadBoolean();
+            br.AssertUInt16(0);
+            m_rawValue = br.ReadSingle();
+            m_dampedValue = br.ReadSingle();
+            m_rawVector = des.ReadVector4(br);
+            m_dampedVector = des.ReadVector4(br);
+            m_vecErrorSum = des.ReadVector4(br);
+            m_vecPreviousError = des.ReadVector4(br);
+            m_errorSum = br.ReadSingle();
+            m_previousError = br.ReadSingle();
+            br.AssertUInt64(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_kP);
+            bw.WriteSingle(m_kI);
+            bw.WriteSingle(m_kD);
+            bw.WriteBoolean(m_enableScalarDamping);
+            bw.WriteBoolean(m_enableVectorDamping);
+            bw.WriteUInt16(0);
+            bw.WriteSingle(m_rawValue);
+            bw.WriteSingle(m_dampedValue);
+            bw.WriteSingle(m_errorSum);
+            bw.WriteSingle(m_previousError);
+            bw.WriteUInt64(0);
+        }
     }
 }

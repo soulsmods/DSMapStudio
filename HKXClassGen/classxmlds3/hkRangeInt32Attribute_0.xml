@@ -1,8 +1,0 @@
-<struct name='hkRangeInt32Attribute' version='0' signature='0x4846be29'>
-	<members>
-		<member name='absmin' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='absmax' type='hkInt32' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='softmin' type='hkInt32' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='softmax' type='hkInt32' offset='12' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

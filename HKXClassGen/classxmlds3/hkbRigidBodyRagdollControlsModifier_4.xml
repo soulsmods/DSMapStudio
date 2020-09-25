@@ -1,7 +1,0 @@
-<class name='hkbRigidBodyRagdollControlsModifier' version='4' signature='0xb7c3fe7d' parent='hkbModifier'>
-	<members>
-		<member name='controlData' type='struct hkbRigidBodyRagdollControlData' ctype='hkbRigidBodyRagdollControlData' offset='96' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='bones' type='struct hkbBoneIndexArray*' ctype='hkbBoneIndexArray' offset='160' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='animationBlendFraction' type='hkReal' offset='168' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-	</members>
-</class>

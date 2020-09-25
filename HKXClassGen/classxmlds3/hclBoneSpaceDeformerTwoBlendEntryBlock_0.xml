@@ -1,6 +1,0 @@
-<struct name='hclBoneSpaceDeformerTwoBlendEntryBlock' version='0' signature='0x5d34fa72'>
-	<members>
-		<member name='vertexIndices' type='hkUint16[8]' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='8' flags='FLAGS_NONE'/>
-		<member name='boneIndices' type='hkUint16[16]' offset='16' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE'/>
-	</members>
-</struct>

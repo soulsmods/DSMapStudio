@@ -1,7 +1,0 @@
-<struct name='hkaSkeletonPartition' version='1' signature='0x7c8e6a55'>
-	<members>
-		<member name='name' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='startBoneIndex' type='hkInt16' offset='8' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numBones' type='hkInt16' offset='10' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

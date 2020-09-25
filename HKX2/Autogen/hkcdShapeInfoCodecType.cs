@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -10,7 +11,17 @@ namespace HKX2
         MAX_NUM_CODECS = 16,
     }
     
-    public class hkcdShapeInfoCodecType
+    public class hkcdShapeInfoCodecType : IHavokObject
     {
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteByte(0);
+        }
     }
 }

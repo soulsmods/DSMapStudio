@@ -1,9 +1,0 @@
-<class name='hkaAnimationContainer' version='1' signature='0x26859f4c' parent='hkReferencedObject'>
-	<members>
-		<member name='skeletons' type='hkArray&lt;hkaSkeleton*&gt;' ctype='hkaSkeleton' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='animations' type='hkArray&lt;hkaAnimation*&gt;' ctype='hkaAnimation' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='bindings' type='hkArray&lt;hkaAnimationBinding*&gt;' ctype='hkaAnimationBinding' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='attachments' type='hkArray&lt;hkaBoneAttachment*&gt;' ctype='hkaBoneAttachment' offset='64' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='skins' type='hkArray&lt;hkaMeshBinding*&gt;' ctype='hkaMeshBinding' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

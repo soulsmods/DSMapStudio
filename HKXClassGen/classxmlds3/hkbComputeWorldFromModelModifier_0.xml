@@ -1,7 +1,0 @@
-<class name='hkbComputeWorldFromModelModifier' version='0' signature='0x812c2c22' parent='hkbModifier'>
-	<members>
-		<member name='poseMatchingRootBoneIndex' type='hkInt16' offset='88' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-		<member name='poseMatchingOtherBoneIndex' type='hkInt16' offset='90' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-		<member name='poseMatchingAnotherBoneIndex' type='hkInt16' offset='92' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-	</members>
-</class>

@@ -1,6 +1,0 @@
-<class name='hkaInterleavedUncompressedAnimation' version='0' signature='0xa5eff3f2' parent='hkaAnimation'>
-	<members>
-		<member name='transforms' type='hkArray&lt;hkQsTransform&gt;' offset='56' vtype='TYPE_ARRAY' vsubtype='TYPE_QSTRANSFORM' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='floats' type='hkArray&lt;hkReal&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

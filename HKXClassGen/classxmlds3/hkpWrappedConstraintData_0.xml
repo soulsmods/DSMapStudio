@@ -1,5 +1,0 @@
-<class name='hkpWrappedConstraintData' version='0' signature='0x5a93639c' parent='hkpConstraintData'>
-	<members>
-		<member name='constraintData' type='struct hkpConstraintData*' ctype='hkpConstraintData' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

@@ -1,9 +1,0 @@
-<struct name='hclMeshMeshDeformOperatorTriangleVertexPair' version='0' signature='0x53b3b40d'>
-	<members>
-		<member name='localPosition' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='localNormal' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='triangleIndex' type='hkUint16' offset='32' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='weight' type='hkReal' offset='36' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='padding' type='hkUint32' offset='44' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</struct>

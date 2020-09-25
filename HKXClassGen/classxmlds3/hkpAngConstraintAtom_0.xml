@@ -1,7 +1,0 @@
-<struct name='hkpAngConstraintAtom' version='0' signature='0x34b35c3c' parent='hkpConstraintAtom'>
-	<members>
-		<member name='firstConstrainedAxis' type='hkUint8' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numConstrainedAxes' type='hkUint8' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='padding' type='hkUint8[12]' offset='4' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='12' flags='SERIALIZE_IGNORED'/>
-	</members>
-</struct>

@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -10,5 +11,29 @@ namespace HKX2
         public bool m_triangleFlip;
         public float m_offset;
         public float m_scale;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_storage = des.ReadUInt16Array(br);
+            m_shapeTags = des.ReadUInt16Array(br);
+            m_triangleFlip = br.ReadBoolean();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_offset = br.ReadSingle();
+            m_scale = br.ReadSingle();
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteBoolean(m_triangleFlip);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+            bw.WriteSingle(m_offset);
+            bw.WriteSingle(m_scale);
+            bw.WriteUInt32(0);
+        }
     }
 }

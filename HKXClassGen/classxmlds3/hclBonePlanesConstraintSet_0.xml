@@ -1,6 +1,0 @@
-<class name='hclBonePlanesConstraintSet' version='0' signature='0x5ac4c7c9' parent='hclConstraintSet'>
-	<members>
-		<member name='bonePlanes' type='hkArray&lt;struct hclBonePlanesConstraintSetBonePlane&gt;' ctype='hclBonePlanesConstraintSetBonePlane' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='transformSetIndex' type='hkUint32' offset='48' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

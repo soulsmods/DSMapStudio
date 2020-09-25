@@ -1,6 +1,0 @@
-<struct name='hkpOverwritePivotConstraintAtom' version='0' signature='0xcfa1ac27' parent='hkpConstraintAtom'>
-	<members>
-		<member name='copyToPivotBFromPivotA' type='hkUint8' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='padding' type='hkUint8[12]' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='12' flags='SERIALIZE_IGNORED'/>
-	</members>
-</struct>

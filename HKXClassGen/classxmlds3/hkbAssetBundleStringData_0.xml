@@ -1,6 +1,0 @@
-<struct name='hkbAssetBundleStringData' version='0' signature='0x46132bad'>
-	<members>
-		<member name='bundleName' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='assetNames' type='hkArray&lt;hkStringPtr&gt;' offset='8' vtype='TYPE_ARRAY' vsubtype='TYPE_STRINGPTR' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

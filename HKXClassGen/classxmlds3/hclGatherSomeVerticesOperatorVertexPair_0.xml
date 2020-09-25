@@ -1,6 +1,0 @@
-<struct name='hclGatherSomeVerticesOperatorVertexPair' version='0' signature='0x1c3606cc'>
-	<members>
-		<member name='indexInput' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='indexOutput' type='hkUint16' offset='2' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

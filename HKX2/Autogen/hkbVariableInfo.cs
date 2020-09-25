@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -17,9 +18,23 @@ namespace HKX2
         VARIABLE_TYPE_QUATERNION = 8,
     }
     
-    public class hkbVariableInfo
+    public class hkbVariableInfo : IHavokObject
     {
         public hkbRoleAttribute m_role;
         public VariableType m_type;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_role = new hkbRoleAttribute();
+            m_role.Read(des, br);
+            m_type = (VariableType)br.ReadSByte();
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            m_role.Write(bw);
+            bw.WriteByte(0);
+        }
     }
 }

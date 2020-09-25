@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -19,7 +20,7 @@ namespace HKX2
         PRIMITIVE_TYPE_TRIANGLE_STRIP = 4,
     }
     
-    public class hkMeshSection
+    public class hkMeshSection : IHavokObject
     {
         public PrimitiveType m_primitiveType;
         public int m_numPrimitives;
@@ -31,5 +32,43 @@ namespace HKX2
         public hkMeshMaterial m_material;
         public hkMeshBoneIndexMapping m_boneMatrixMap;
         public int m_sectionIndex;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_primitiveType = (PrimitiveType)br.ReadByte();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_numPrimitives = br.ReadInt32();
+            m_numIndices = br.ReadInt32();
+            m_vertexStartIndex = br.ReadInt32();
+            m_transformIndex = br.ReadInt32();
+            m_indexType = (MeshSectionIndexType)br.ReadByte();
+            br.AssertUInt64(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_vertexBuffer = des.ReadClassPointer<hkMeshVertexBuffer>(br);
+            m_material = des.ReadClassPointer<hkMeshMaterial>(br);
+            m_boneMatrixMap = des.ReadClassPointer<hkMeshBoneIndexMapping>(br);
+            m_sectionIndex = br.ReadInt32();
+            br.AssertUInt32(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+            bw.WriteInt32(m_numPrimitives);
+            bw.WriteInt32(m_numIndices);
+            bw.WriteInt32(m_vertexStartIndex);
+            bw.WriteInt32(m_transformIndex);
+            bw.WriteUInt64(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            bw.WriteInt32(m_sectionIndex);
+            bw.WriteUInt32(0);
+        }
     }
 }

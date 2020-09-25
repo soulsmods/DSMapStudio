@@ -1,17 +1,9 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public enum FlagBits
-    {
-        FLAG_NONE = 0,
-        FLAG_IGNORE_FROM_WORLD_FROM_MODEL = 1,
-        FLAG_SYNC = 2,
-        FLAG_IGNORE_TO_WORLD_FROM_MODEL = 4,
-        FLAG_IGNORE_TO_WORLD_FROM_MODEL_ROTATION = 8,
-    }
-    
     public enum EndMode
     {
         END_MODE_NONE = 0,
@@ -21,11 +13,75 @@ namespace HKX2
     
     public class hkbBlendingTransitionEffect : hkbTransitionEffect
     {
+        public enum FlagBits
+        {
+            FLAG_NONE = 0,
+            FLAG_IGNORE_FROM_WORLD_FROM_MODEL = 1,
+            FLAG_SYNC = 2,
+            FLAG_IGNORE_TO_WORLD_FROM_MODEL = 4,
+            FLAG_IGNORE_TO_WORLD_FROM_MODEL_ROTATION = 8,
+        }
+        
         public float m_duration;
         public float m_toGeneratorStartTimeFraction;
-        public uint m_flags;
+        public ushort m_flags;
         public EndMode m_endMode;
         public BlendCurve m_blendCurve;
         public short m_alignmentBone;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_duration = br.ReadSingle();
+            m_toGeneratorStartTimeFraction = br.ReadSingle();
+            m_flags = br.ReadUInt16();
+            m_endMode = (EndMode)br.ReadSByte();
+            m_blendCurve = (BlendCurve)br.ReadSByte();
+            m_alignmentBone = br.ReadInt16();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt16(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_duration);
+            bw.WriteSingle(m_toGeneratorStartTimeFraction);
+            bw.WriteInt16(m_alignmentBone);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt16(0);
+        }
     }
 }

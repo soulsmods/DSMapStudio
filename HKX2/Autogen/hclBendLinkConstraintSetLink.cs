@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBendLinkConstraintSetLink
+    public class hclBendLinkConstraintSetLink : IHavokObject
     {
         public ushort m_particleA;
         public ushort m_particleB;
@@ -11,5 +12,25 @@ namespace HKX2
         public float m_stretchMaxLength;
         public float m_bendStiffness;
         public float m_stretchStiffness;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_particleA = br.ReadUInt16();
+            m_particleB = br.ReadUInt16();
+            m_bendMinLength = br.ReadSingle();
+            m_stretchMaxLength = br.ReadSingle();
+            m_bendStiffness = br.ReadSingle();
+            m_stretchStiffness = br.ReadSingle();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteUInt16(m_particleA);
+            bw.WriteUInt16(m_particleB);
+            bw.WriteSingle(m_bendMinLength);
+            bw.WriteSingle(m_stretchMaxLength);
+            bw.WriteSingle(m_bendStiffness);
+            bw.WriteSingle(m_stretchStiffness);
+        }
     }
 }

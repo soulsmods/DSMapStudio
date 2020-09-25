@@ -1,5 +1,0 @@
-<class name='hkbModifierWrapper' version='0' signature='0xfe7050f4' parent='hkbModifier'>
-	<members>
-		<member name='modifier' type='struct hkbModifier*' ctype='hkbModifier' offset='88' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

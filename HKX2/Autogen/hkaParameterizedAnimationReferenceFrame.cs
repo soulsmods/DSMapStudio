@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -15,5 +16,17 @@ namespace HKX2
     {
         public List<float> m_parameterValues;
         public List<int> m_parameterTypes;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_parameterValues = des.ReadSingleArray(br);
+            m_parameterTypes = des.ReadInt32Array(br);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+        }
     }
 }

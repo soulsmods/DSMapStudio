@@ -1,7 +1,0 @@
-<class name='hkbCharacterSkinInfo' version='2' signature='0xaed90d81' parent='hkReferencedObject'>
-	<members>
-		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='deformableSkins' type='hkArray&lt;hkUint64&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT64' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='rigidSkins' type='hkArray&lt;hkUint64&gt;' offset='40' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT64' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

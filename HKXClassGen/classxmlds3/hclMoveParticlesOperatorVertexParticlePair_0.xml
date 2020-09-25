@@ -1,6 +1,0 @@
-<struct name='hclMoveParticlesOperatorVertexParticlePair' version='0' signature='0xdecad447'>
-	<members>
-		<member name='vertexIndex' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='particleIndex' type='hkUint16' offset='2' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

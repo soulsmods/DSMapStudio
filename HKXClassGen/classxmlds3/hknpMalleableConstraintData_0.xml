@@ -1,7 +1,0 @@
-<class name='hknpMalleableConstraintData' version='0' signature='0x56beacef' parent='hkpWrappedConstraintData'>
-	<members>
-		<member name='atom' type='struct hknpBridgeConstraintAtom' ctype='hknpBridgeConstraintAtom' offset='32' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='wantsRuntime' type='hkBool' offset='56' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='strength' type='hkReal' offset='60' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

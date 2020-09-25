@@ -1,7 +1,0 @@
-<struct name='hkSimpleProperty' version='2' signature='0x12089954'>
-	<members>
-		<member name='key' type='hkUint32' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='alignmentPadding' type='hkUint32' offset='4' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='value' type='struct hkSimplePropertyValue' ctype='hkSimplePropertyValue' offset='8' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

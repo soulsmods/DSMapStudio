@@ -1,7 +1,0 @@
-<class name='hkbBehaviorInfo' version='1' signature='0x3e583ac3' parent='hkReferencedObject'>
-	<members>
-		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='data' type='struct hkbBehaviorGraphData*' ctype='hkbBehaviorGraphData' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='idToNamePairs' type='hkArray&lt;struct hkbBehaviorInfoIdToNamePair&gt;' ctype='hkbBehaviorInfoIdToNamePair' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

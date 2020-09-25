@@ -1,29 +1,30 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public enum PlaybackMode
-    {
-        MODE_SINGLE_PLAY = 0,
-        MODE_LOOPING = 1,
-        MODE_USER_CONTROLLED = 2,
-        MODE_PING_PONG = 3,
-        MODE_COUNT = 4,
-    }
-    
-    public enum ClipFlags
-    {
-        FLAG_CONTINUE_MOTION_AT_END = 1,
-        FLAG_SYNC_HALF_CYCLE_IN_PING_PONG_MODE = 2,
-        FLAG_MIRROR = 4,
-        FLAG_FORCE_DENSE_POSE = 8,
-        FLAG_DONT_CONVERT_ANNOTATIONS_TO_TRIGGERS = 16,
-        FLAG_IGNORE_MOTION = 32,
-    }
-    
     public class hkbClipGenerator : hkbGenerator
     {
+        public enum PlaybackMode
+        {
+            MODE_SINGLE_PLAY = 0,
+            MODE_LOOPING = 1,
+            MODE_USER_CONTROLLED = 2,
+            MODE_PING_PONG = 3,
+            MODE_COUNT = 4,
+        }
+        
+        public enum ClipFlags
+        {
+            FLAG_CONTINUE_MOTION_AT_END = 1,
+            FLAG_SYNC_HALF_CYCLE_IN_PING_PONG_MODE = 2,
+            FLAG_MIRROR = 4,
+            FLAG_FORCE_DENSE_POSE = 8,
+            FLAG_DONT_CONVERT_ANNOTATIONS_TO_TRIGGERS = 16,
+            FLAG_IGNORE_MOTION = 32,
+        }
+        
         public string m_animationBundleName;
         public string m_animationName;
         public hkbClipTriggerArray m_triggers;
@@ -36,6 +37,79 @@ namespace HKX2
         public float m_userControlledTimeFraction;
         public short m_animationBindingIndex;
         public PlaybackMode m_mode;
-        public char m_flags;
+        public sbyte m_flags;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_animationBundleName = des.ReadStringPointer(br);
+            m_animationName = des.ReadStringPointer(br);
+            m_triggers = des.ReadClassPointer<hkbClipTriggerArray>(br);
+            m_userPartitionMask = br.ReadUInt32();
+            m_cropStartAmountLocalTime = br.ReadSingle();
+            m_cropEndAmountLocalTime = br.ReadSingle();
+            m_startTime = br.ReadSingle();
+            m_playbackSpeed = br.ReadSingle();
+            m_enforcedDuration = br.ReadSingle();
+            m_userControlledTimeFraction = br.ReadSingle();
+            m_animationBindingIndex = br.ReadInt16();
+            m_mode = (PlaybackMode)br.ReadSByte();
+            m_flags = br.ReadSByte();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            // Implement Write
+            bw.WriteUInt32(m_userPartitionMask);
+            bw.WriteSingle(m_cropStartAmountLocalTime);
+            bw.WriteSingle(m_cropEndAmountLocalTime);
+            bw.WriteSingle(m_startTime);
+            bw.WriteSingle(m_playbackSpeed);
+            bw.WriteSingle(m_enforcedDuration);
+            bw.WriteSingle(m_userControlledTimeFraction);
+            bw.WriteInt16(m_animationBindingIndex);
+            bw.WriteSByte(m_flags);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+        }
     }
 }

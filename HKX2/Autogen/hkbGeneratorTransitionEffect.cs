@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -32,5 +33,35 @@ namespace HKX2
         public float m_blendInDuration;
         public float m_blendOutDuration;
         public bool m_syncToGeneratorStartTime;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_transitionGenerator = des.ReadClassPointer<hkbGenerator>(br);
+            m_blendInDuration = br.ReadSingle();
+            m_blendOutDuration = br.ReadSingle();
+            m_syncToGeneratorStartTime = br.ReadBoolean();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            // Implement Write
+            bw.WriteSingle(m_blendInDuration);
+            bw.WriteSingle(m_blendOutDuration);
+            bw.WriteBoolean(m_syncToGeneratorStartTime);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

@@ -1,7 +1,0 @@
-<struct name='hkcdDynamicTreeCodecRawunsignedint' version='0' signature='0x267c3f84'>
-	<members>
-		<member name='aabb' type='struct hkAabb' ctype='hkAabb' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='parent' type='hkUint32' offset='32' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='children' type='hkUint32[2]' offset='36' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='2' flags='FLAGS_NONE'/>
-	</members>
-</struct>

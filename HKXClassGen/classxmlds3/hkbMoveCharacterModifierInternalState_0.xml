@@ -1,5 +1,0 @@
-<class name='hkbMoveCharacterModifierInternalState' version='0' signature='0x865d859c' parent='hkReferencedObject'>
-	<members>
-		<member name='timeSinceLastModify' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -12,7 +13,30 @@ namespace HKX2
         public string m_localScriptsPath;
         public string m_remoteScriptsPath;
         public hkaSkeleton m_skeleton;
-        public hkQTransform m_worldFromModel;
-        public List<hkQTransform> m_poseModelSpace;
+        public Matrix4x4 m_worldFromModel;
+        public List<Matrix4x4> m_poseModelSpace;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_characterId = br.ReadUInt64();
+            m_instanceName = des.ReadStringPointer(br);
+            m_templateName = des.ReadStringPointer(br);
+            m_fullPathToProject = des.ReadStringPointer(br);
+            m_localScriptsPath = des.ReadStringPointer(br);
+            m_remoteScriptsPath = des.ReadStringPointer(br);
+            m_skeleton = des.ReadClassPointer<hkaSkeleton>(br);
+            br.AssertUInt64(0);
+            m_worldFromModel = des.ReadQSTransform(br);
+            m_poseModelSpace = des.ReadQSTransformArray(br);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt64(m_characterId);
+            // Implement Write
+            bw.WriteUInt64(0);
+        }
     }
 }

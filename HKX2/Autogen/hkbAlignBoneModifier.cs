@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -28,5 +29,38 @@ namespace HKX2
         public float m_duration;
         public int m_alignModeIndex;
         public int m_alignTargetModeIndex;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_alignMode = (AlignModeABAM)br.ReadSByte();
+            m_alignTargetMode = (AlignTargetMode)br.ReadSByte();
+            m_alignSingleAxis = br.ReadBoolean();
+            br.AssertUInt32(0);
+            br.AssertByte(0);
+            m_alignAxis = des.ReadVector4(br);
+            m_alignTargetAxis = des.ReadVector4(br);
+            m_frameOfReference = des.ReadQuaternion(br);
+            m_duration = br.ReadSingle();
+            m_alignModeIndex = br.ReadInt32();
+            m_alignTargetModeIndex = br.ReadInt32();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteBoolean(m_alignSingleAxis);
+            bw.WriteUInt32(0);
+            bw.WriteByte(0);
+            bw.WriteSingle(m_duration);
+            bw.WriteInt32(m_alignModeIndex);
+            bw.WriteInt32(m_alignTargetModeIndex);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+        }
     }
 }

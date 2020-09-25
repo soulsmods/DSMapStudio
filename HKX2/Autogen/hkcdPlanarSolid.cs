@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,5 +19,23 @@ namespace HKX2
         public hkcdPlanarSolidNodeStorage m_nodes;
         public hkcdPlanarGeometryPlanesCollection m_planes;
         public uint m_rootNodeId;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_nodes = des.ReadClassPointer<hkcdPlanarSolidNodeStorage>(br);
+            m_planes = des.ReadClassPointer<hkcdPlanarGeometryPlanesCollection>(br);
+            m_rootNodeId = br.ReadUInt32();
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            // Implement Write
+            // Implement Write
+            bw.WriteUInt32(m_rootNodeId);
+            bw.WriteUInt32(0);
+        }
     }
 }

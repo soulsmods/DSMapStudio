@@ -1,8 +1,0 @@
-<struct name='hknpSparseCompactMapunsignedshort' version='0' signature='0x4558127c'>
-	<members>
-		<member name='secondaryKeyMask' type='hkUint32' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='sencondaryKeyBits' type='hkUint32' offset='4' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='primaryKeyToIndex' type='hkArray&lt;hkUint16&gt;' offset='8' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='valueAndSecondaryKeys' type='hkArray&lt;hkUint16&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

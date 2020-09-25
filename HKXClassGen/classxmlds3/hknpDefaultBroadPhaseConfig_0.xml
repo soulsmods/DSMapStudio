@@ -1,5 +1,0 @@
-<class name='hknpDefaultBroadPhaseConfig' version='0' signature='0x4f3b8459' parent='hknpBroadPhaseConfig'>
-	<members>
-		<member name='layers' type='struct hknpBroadPhaseConfigLayer[4]' ctype='hknpBroadPhaseConfigLayer' offset='16' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='4' flags='FLAGS_NONE'/>
-	</members>
-</class>

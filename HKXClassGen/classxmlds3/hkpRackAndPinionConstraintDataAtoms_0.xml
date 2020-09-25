@@ -1,6 +1,0 @@
-<struct name='hkpRackAndPinionConstraintDataAtoms' version='0' signature='0x019ada54'>
-	<members>
-		<member name='transforms' type='struct hkpSetLocalTransformsConstraintAtom' ctype='hkpSetLocalTransformsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='rackAndPinion' type='struct hkpRackAndPinionConstraintAtom' ctype='hkpRackAndPinionConstraintAtom' offset='144' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

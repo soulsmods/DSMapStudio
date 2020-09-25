@@ -1,6 +1,0 @@
-<struct name='hkbBoolVariableSequencedDataSample' version='0' signature='0x514763dc'>
-	<members>
-		<member name='time' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-		<member name='value' type='hkBool' offset='4' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
-	</members>
-</struct>

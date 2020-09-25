@@ -1,7 +1,0 @@
-<struct name='hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters' version='0' signature='0x7be5bed1'>
-	<members>
-		<member name='strength' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='dampingCompression' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='dampingRelaxation' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

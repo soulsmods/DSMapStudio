@@ -1,9 +1,0 @@
-<class name='hkMemoryMeshBody' version='0' signature='0x1abba62d' parent='hkMeshBody'>
-	<members>
-		<member name='transform' type='hkMatrix4' offset='16' vtype='TYPE_MATRIX4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='transformSet' type='struct hkIndexedTransformSet*' ctype='hkIndexedTransformSet' offset='80' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='shape' type='struct hkMeshShape*' ctype='hkMeshShape' offset='88' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='vertexBuffers' type='hkArray&lt;hkMeshVertexBuffer*&gt;' ctype='hkMeshVertexBuffer' offset='96' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='name' type='hkStringPtr' offset='112' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

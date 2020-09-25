@@ -1,6 +1,0 @@
-<struct name='hkpSetLocalTranslationsConstraintAtom' version='0' signature='0x3d4c316a' parent='hkpConstraintAtom'>
-	<members>
-		<member name='translationA' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='translationB' type='hkVector4' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

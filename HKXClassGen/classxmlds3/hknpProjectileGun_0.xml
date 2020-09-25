@@ -1,9 +1,0 @@
-<class name='hknpProjectileGun' version='0' signature='0x2055ed38' parent='hknpFirstPersonGun'>
-	<members>
-		<member name='maxProjectiles' type='hkInt32' offset='64' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='5'/>
-		<member name='reloadTime' type='hkReal' offset='68' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.300000'/>
-		<member name='reload' type='hkReal' offset='72' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='projectiles' type='hkArray&lt;void*&gt;' offset='80' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='npWorld' type='void*' offset='96' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

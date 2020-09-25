@@ -1,5 +1,0 @@
-<struct name='hkcdStaticTreeCodec3Axis' version='0' signature='0x4ad23f31'>
-	<members>
-		<member name='xyz' type='hkUint8[3]' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
-	</members>
-</struct>

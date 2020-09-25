@@ -1,7 +1,0 @@
-<struct name='hclMeshBoneDeformOperatorTriangleBonePair' version='0' signature='0x25d066df'>
-	<members>
-		<member name='localBoneTransform' type='hkMatrix4' offset='0' vtype='TYPE_MATRIX4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='weight' type='hkReal' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='triangleIndex' type='hkUint16' offset='68' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

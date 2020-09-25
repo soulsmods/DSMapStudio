@@ -1,6 +1,0 @@
-<class name='hkbKeyframeBonesModifier' version='3' signature='0x4e45d0f7' parent='hkbModifier'>
-	<members>
-		<member name='keyframeInfo' type='hkArray&lt;struct hkbKeyframeBonesModifierKeyframeInfo&gt;' ctype='hkbKeyframeBonesModifierKeyframeInfo' offset='88' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='keyframedBonesList' type='struct hkbBoneIndexArray*' ctype='hkbBoneIndexArray' offset='104' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

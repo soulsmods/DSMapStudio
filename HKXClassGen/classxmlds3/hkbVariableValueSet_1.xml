@@ -1,7 +1,0 @@
-<class name='hkbVariableValueSet' version='1' signature='0xeb5f7e25' parent='hkReferencedObject'>
-	<members>
-		<member name='wordVariableValues' type='hkArray&lt;struct hkbVariableValue&gt;' ctype='hkbVariableValue' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='quadVariableValues' type='hkArray&lt;hkVector4&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_VECTOR4' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='variantVariableValues' type='hkArray&lt;hkReferencedObject*&gt;' ctype='hkReferencedObject' offset='48' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

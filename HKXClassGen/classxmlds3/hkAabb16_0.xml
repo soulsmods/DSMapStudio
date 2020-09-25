@@ -1,8 +1,0 @@
-<struct name='hkAabb16' version='0' signature='0x59d7896d'>
-	<members>
-		<member name='min' type='hkUint16[3]' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='3' flags='ALIGN_16'/>
-		<member name='key' type='hkUint16' offset='6' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='max' type='hkUint16[3]' offset='8' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE'/>
-		<member name='key1' type='hkUint16' offset='14' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

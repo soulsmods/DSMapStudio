@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -11,7 +12,17 @@ namespace HKX2
         BLEND_CURVE_SMOOTH_TO_LINEAR = 3,
     }
     
-    public class hkbBlendCurveUtils
+    public class hkbBlendCurveUtils : IHavokObject
     {
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteByte(0);
+        }
     }
 }

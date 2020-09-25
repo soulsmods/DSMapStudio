@@ -1,8 +1,0 @@
-<class name='hkbGetHandleOnBoneModifier' version='0' signature='0x702ba6fc' parent='hkbModifier'>
-	<members>
-		<member name='handleOut' type='struct hkbHandle*' ctype='hkbHandle' offset='88' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='localFrameName' type='hkStringPtr' offset='96' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='ragdollBoneIndex' type='hkInt16' offset='104' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-		<member name='animationBoneIndex' type='hkInt16' offset='106' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-	</members>
-</class>

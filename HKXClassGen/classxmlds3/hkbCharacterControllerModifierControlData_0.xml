@@ -1,8 +1,0 @@
-<struct name='hkbCharacterControllerModifierControlData' version='0' signature='0xc4e809af'>
-	<members>
-		<member name='verticalGain' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
-		<member name='horizontalCatchUpGain' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
-		<member name='maxVerticalSeparation' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-		<member name='maxHorizontalSeparation' type='hkReal' offset='12' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-	</members>
-</struct>

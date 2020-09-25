@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -19,7 +20,7 @@ namespace HKX2
         BITS16 = 1,
     }
     
-    public class hkaSplineCompressedAnimationTrackCompressionParams
+    public class hkaSplineCompressedAnimationTrackCompressionParams : IHavokObject
     {
         public float m_rotationTolerance;
         public float m_translationTolerance;
@@ -33,5 +34,33 @@ namespace HKX2
         public ScalarQuantization m_translationQuantizationType;
         public ScalarQuantization m_scaleQuantizationType;
         public ScalarQuantization m_floatQuantizationType;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_rotationTolerance = br.ReadSingle();
+            m_translationTolerance = br.ReadSingle();
+            m_scaleTolerance = br.ReadSingle();
+            m_floatingTolerance = br.ReadSingle();
+            m_rotationDegree = br.ReadUInt16();
+            m_translationDegree = br.ReadUInt16();
+            m_scaleDegree = br.ReadUInt16();
+            m_floatingDegree = br.ReadUInt16();
+            m_rotationQuantizationType = (RotationQuantization)br.ReadByte();
+            m_translationQuantizationType = (ScalarQuantization)br.ReadByte();
+            m_scaleQuantizationType = (ScalarQuantization)br.ReadByte();
+            m_floatQuantizationType = (ScalarQuantization)br.ReadByte();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteSingle(m_rotationTolerance);
+            bw.WriteSingle(m_translationTolerance);
+            bw.WriteSingle(m_scaleTolerance);
+            bw.WriteSingle(m_floatingTolerance);
+            bw.WriteUInt16(m_rotationDegree);
+            bw.WriteUInt16(m_translationDegree);
+            bw.WriteUInt16(m_scaleDegree);
+            bw.WriteUInt16(m_floatingDegree);
+        }
     }
 }

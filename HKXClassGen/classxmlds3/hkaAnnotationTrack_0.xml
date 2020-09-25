@@ -1,6 +1,0 @@
-<struct name='hkaAnnotationTrack' version='0' signature='0xd4114fdd'>
-	<members>
-		<member name='trackName' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='annotations' type='hkArray&lt;struct hkaAnnotationTrackAnnotation&gt;' ctype='hkaAnnotationTrackAnnotation' offset='8' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

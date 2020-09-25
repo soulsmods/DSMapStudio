@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -22,5 +23,34 @@ namespace HKX2
         public float m_maxLinearDistance;
         public float m_maxAngularDistance;
         public AttachmentType m_attachmentType;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_blendInTime = br.ReadSingle();
+            m_moveAttacherFraction = br.ReadSingle();
+            m_gain = br.ReadSingle();
+            m_extrapolationTimeStep = br.ReadSingle();
+            m_fixUpGain = br.ReadSingle();
+            m_maxLinearDistance = br.ReadSingle();
+            m_maxAngularDistance = br.ReadSingle();
+            m_attachmentType = (AttachmentType)br.ReadSByte();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_blendInTime);
+            bw.WriteSingle(m_moveAttacherFraction);
+            bw.WriteSingle(m_gain);
+            bw.WriteSingle(m_extrapolationTimeStep);
+            bw.WriteSingle(m_fixUpGain);
+            bw.WriteSingle(m_maxLinearDistance);
+            bw.WriteSingle(m_maxAngularDistance);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

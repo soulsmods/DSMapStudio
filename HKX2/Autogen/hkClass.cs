@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -8,7 +9,7 @@ namespace HKX2
         SIGNATURE_LOCAL = 1,
     }
     
-    public class hkClass
+    public class hkClass : IHavokObject
     {
         public enum FlagValues
         {
@@ -24,5 +25,31 @@ namespace HKX2
         public List<hkClassMember> m_declaredMembers;
         public uint m_flags;
         public int m_describedVersion;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_name = des.ReadStringPointer(br);
+            m_parent = des.ReadClassPointer<hkClass>(br);
+            m_objectSize = br.ReadInt32();
+            m_numImplementedInterfaces = br.ReadInt32();
+            // Read TYPE_SIMPLEARRAY
+            // Read TYPE_SIMPLEARRAY
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            m_flags = br.ReadUInt32();
+            m_describedVersion = br.ReadInt32();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            // Implement Write
+            bw.WriteInt32(m_objectSize);
+            bw.WriteInt32(m_numImplementedInterfaces);
+            // Read TYPE_SIMPLEARRAY
+            // Read TYPE_SIMPLEARRAY
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteInt32(m_describedVersion);
+        }
     }
 }

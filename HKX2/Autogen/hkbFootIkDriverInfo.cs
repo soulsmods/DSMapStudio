@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,5 +19,42 @@ namespace HKX2
         public bool m_useCharacterUpVector;
         public bool m_isQuadrupedNarrow;
         public bool m_keepSourceFootEndAboveGround;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_legs = des.ReadClassArray<hkbFootIkDriverInfoLeg>(br);
+            m_raycastDistanceUp = br.ReadSingle();
+            m_raycastDistanceDown = br.ReadSingle();
+            m_originalGroundHeightMS = br.ReadSingle();
+            m_verticalOffset = br.ReadSingle();
+            m_collisionFilterInfo = br.ReadUInt32();
+            m_forwardAlignFraction = br.ReadSingle();
+            m_sidewaysAlignFraction = br.ReadSingle();
+            m_sidewaysSampleWidth = br.ReadSingle();
+            m_lockFeetWhenPlanted = br.ReadBoolean();
+            m_useCharacterUpVector = br.ReadBoolean();
+            m_isQuadrupedNarrow = br.ReadBoolean();
+            m_keepSourceFootEndAboveGround = br.ReadBoolean();
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_raycastDistanceUp);
+            bw.WriteSingle(m_raycastDistanceDown);
+            bw.WriteSingle(m_originalGroundHeightMS);
+            bw.WriteSingle(m_verticalOffset);
+            bw.WriteUInt32(m_collisionFilterInfo);
+            bw.WriteSingle(m_forwardAlignFraction);
+            bw.WriteSingle(m_sidewaysAlignFraction);
+            bw.WriteSingle(m_sidewaysSampleWidth);
+            bw.WriteBoolean(m_lockFeetWhenPlanted);
+            bw.WriteBoolean(m_useCharacterUpVector);
+            bw.WriteBoolean(m_isQuadrupedNarrow);
+            bw.WriteBoolean(m_keepSourceFootEndAboveGround);
+            bw.WriteUInt32(0);
+        }
     }
 }

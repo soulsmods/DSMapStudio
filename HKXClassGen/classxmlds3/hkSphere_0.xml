@@ -1,5 +1,0 @@
-<struct name='hkSphere' version='0' signature='0x143dff99'>
-	<members>
-		<member name='pos' type='hkVector4' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

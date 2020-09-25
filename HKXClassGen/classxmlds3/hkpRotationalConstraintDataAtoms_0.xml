@@ -1,6 +1,0 @@
-<struct name='hkpRotationalConstraintDataAtoms' version='0' signature='0x0029f3a1'>
-	<members>
-		<member name='rotations' type='struct hkpSetLocalRotationsConstraintAtom' ctype='hkpSetLocalRotationsConstraintAtom' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='ang' type='struct hkpAngConstraintAtom' ctype='hkpAngConstraintAtom' offset='112' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

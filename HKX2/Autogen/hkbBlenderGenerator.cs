@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -25,5 +26,46 @@ namespace HKX2
         public short m_flags;
         public bool m_subtractLastChild;
         public List<hkbBlenderGeneratorChild> m_children;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_referencePoseWeightThreshold = br.ReadSingle();
+            m_blendParameter = br.ReadSingle();
+            m_minCyclicBlendParameter = br.ReadSingle();
+            m_maxCyclicBlendParameter = br.ReadSingle();
+            m_indexOfSyncMasterChild = br.ReadInt16();
+            m_flags = br.ReadInt16();
+            m_subtractLastChild = br.ReadBoolean();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_children = des.ReadClassPointerArray<hkbBlenderGeneratorChild>(br);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_referencePoseWeightThreshold);
+            bw.WriteSingle(m_blendParameter);
+            bw.WriteSingle(m_minCyclicBlendParameter);
+            bw.WriteSingle(m_maxCyclicBlendParameter);
+            bw.WriteInt16(m_indexOfSyncMasterChild);
+            bw.WriteInt16(m_flags);
+            bw.WriteBoolean(m_subtractLastChild);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+        }
     }
 }

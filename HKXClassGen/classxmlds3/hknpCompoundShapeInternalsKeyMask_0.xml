@@ -1,7 +1,0 @@
-<class name='hknpCompoundShapeInternalsKeyMask' version='0' signature='0x53ad7d78' parent='hknpCompoundShapeKeyMask'>
-	<members>
-		<member name='shape' type='struct hknpCompoundShape*' ctype='hknpCompoundShape' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='NOT_OWNED'/>
-		<member name='instanceMasks' type='hkArray&lt;hknpShapeKeyMask*&gt;' ctype='hknpShapeKeyMask' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='filter' type='hkArray&lt;hkUint32&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

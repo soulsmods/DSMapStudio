@@ -1,6 +1,0 @@
-<class name='hknpPhysicsSceneData' version='1' signature='0x701ce72c' parent='hkReferencedObject'>
-	<members>
-		<member name='systemDatas' type='hkArray&lt;hknpPhysicsSystemData*&gt;' ctype='hknpPhysicsSystemData' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='worldCinfo' type='struct hknpRefWorldCinfo*' ctype='hknpRefWorldCinfo' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

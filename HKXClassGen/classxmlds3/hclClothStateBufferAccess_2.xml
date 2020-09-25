@@ -1,7 +1,0 @@
-<struct name='hclClothStateBufferAccess' version='2' signature='0x06a9c903'>
-	<members>
-		<member name='bufferIndex' type='hkUint32' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='bufferUsage' type='struct hclBufferUsage' ctype='hclBufferUsage' offset='4' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='shadowBufferIndex' type='hkUint32' offset='12' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

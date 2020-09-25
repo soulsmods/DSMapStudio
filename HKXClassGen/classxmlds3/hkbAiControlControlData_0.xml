@@ -1,6 +1,0 @@
-<struct name='hkbAiControlControlData' version='0' signature='0x185eba78'>
-	<members>
-		<member name='blendable' type='struct hkbAiControlControlDataBlendable' ctype='hkbAiControlControlDataBlendable' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='nonBlendable' type='struct hkbAiControlControlDataNonBlendable' ctype='hkbAiControlControlDataNonBlendable' offset='8' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

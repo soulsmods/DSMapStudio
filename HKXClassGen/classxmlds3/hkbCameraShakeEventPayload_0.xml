@@ -1,6 +1,0 @@
-<class name='hkbCameraShakeEventPayload' version='0' signature='0xcd4e4482' parent='hkbEventPayload'>
-	<members>
-		<member name='amplitude' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
-		<member name='halfLife' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='1.000000'/>
-	</members>
-</class>

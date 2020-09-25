@@ -1,5 +1,0 @@
-<class name='hkbEventDrivenModifierInternalState' version='0' signature='0x65cf10aa' parent='hkReferencedObject'>
-	<members>
-		<member name='isActive' type='hkBool' offset='16' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

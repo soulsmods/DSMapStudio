@@ -1,6 +1,0 @@
-<struct name='hkClassEnumItem' version='0' signature='0xce6f8a6c'>
-	<members>
-		<member name='value' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='name' type='char*' offset='8' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

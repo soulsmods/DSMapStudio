@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,5 +19,30 @@ namespace HKX2
         public bool m_blendNormals;
         public bool m_blendTangents;
         public bool m_blendBitangents;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_blendEntries = des.ReadClassArray<hclBlendSomeVerticesOperatorBlendEntry>(br);
+            m_bufferIdx_A = br.ReadUInt32();
+            m_bufferIdx_B = br.ReadUInt32();
+            m_bufferIdx_C = br.ReadUInt32();
+            m_blendNormals = br.ReadBoolean();
+            m_blendTangents = br.ReadBoolean();
+            m_blendBitangents = br.ReadBoolean();
+            br.AssertByte(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt32(m_bufferIdx_A);
+            bw.WriteUInt32(m_bufferIdx_B);
+            bw.WriteUInt32(m_bufferIdx_C);
+            bw.WriteBoolean(m_blendNormals);
+            bw.WriteBoolean(m_blendTangents);
+            bw.WriteBoolean(m_blendBitangents);
+            bw.WriteByte(0);
+        }
     }
 }

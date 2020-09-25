@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -61,8 +62,17 @@ namespace HKX2
         METHOD_OLD = 1,
     }
     
-    public class hkpConstraintAtom
+    public class hkpConstraintAtom : IHavokObject
     {
         public AtomType m_type;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_type = (AtomType)br.ReadUInt16();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+        }
     }
 }

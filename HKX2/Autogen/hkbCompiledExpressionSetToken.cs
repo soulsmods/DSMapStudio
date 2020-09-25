@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -63,10 +64,24 @@ namespace HKX2
         OP_COND = 43,
     }
     
-    public class hkbCompiledExpressionSetToken
+    public class hkbCompiledExpressionSetToken : IHavokObject
     {
         public float m_data;
         public TokenType m_type;
         public Operator m_operator;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_data = br.ReadSingle();
+            m_type = (TokenType)br.ReadSByte();
+            m_operator = (Operator)br.ReadSByte();
+            br.AssertUInt16(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteSingle(m_data);
+            bw.WriteUInt16(0);
+        }
     }
 }

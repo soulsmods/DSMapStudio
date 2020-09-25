@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -28,7 +29,7 @@ namespace HKX2
         FLAG_INTERNAL_IN_INITIATE_INTERVAL = 2,
     }
     
-    public class hkbStateMachineTransitionInfo
+    public class hkbStateMachineTransitionInfo : IHavokObject
     {
         public hkbStateMachineTimeInterval m_triggerInterval;
         public hkbStateMachineTimeInterval m_initiateInterval;
@@ -39,6 +40,37 @@ namespace HKX2
         public int m_fromNestedStateId;
         public int m_toNestedStateId;
         public short m_priority;
-        public uint m_flags;
+        public short m_flags;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_triggerInterval = new hkbStateMachineTimeInterval();
+            m_triggerInterval.Read(des, br);
+            m_initiateInterval = new hkbStateMachineTimeInterval();
+            m_initiateInterval.Read(des, br);
+            m_transition = des.ReadClassPointer<hkbTransitionEffect>(br);
+            m_condition = des.ReadClassPointer<hkbCondition>(br);
+            m_eventId = br.ReadInt32();
+            m_toStateId = br.ReadInt32();
+            m_fromNestedStateId = br.ReadInt32();
+            m_toNestedStateId = br.ReadInt32();
+            m_priority = br.ReadInt16();
+            m_flags = br.ReadInt16();
+            br.AssertUInt32(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            m_triggerInterval.Write(bw);
+            m_initiateInterval.Write(bw);
+            // Implement Write
+            // Implement Write
+            bw.WriteInt32(m_eventId);
+            bw.WriteInt32(m_toStateId);
+            bw.WriteInt32(m_fromNestedStateId);
+            bw.WriteInt32(m_toNestedStateId);
+            bw.WriteInt16(m_priority);
+            bw.WriteUInt32(0);
+        }
     }
 }

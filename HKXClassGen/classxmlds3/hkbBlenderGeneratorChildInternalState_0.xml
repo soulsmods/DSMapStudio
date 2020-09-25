@@ -1,6 +1,0 @@
-<struct name='hkbBlenderGeneratorChildInternalState' version='0' signature='0xff7327c0'>
-	<members>
-		<member name='isActive' type='hkBool' offset='0' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='syncNextFrame' type='hkBool' offset='1' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

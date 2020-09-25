@@ -1,5 +1,0 @@
-<struct name='hkMeshBoneIndexMapping' version='0' signature='0x48aceb75'>
-	<members>
-		<member name='mapping' type='hkArray&lt;hkInt16&gt;' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

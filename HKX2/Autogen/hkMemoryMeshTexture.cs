@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -12,5 +13,24 @@ namespace HKX2
         public FilterMode m_filterMode;
         public TextureUsageType m_usageHint;
         public int m_textureCoordChannel;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_filename = des.ReadStringPointer(br);
+            m_data = des.ReadByteArray(br);
+            m_format = (Format)br.ReadSByte();
+            m_hasMipMaps = br.ReadBoolean();
+            m_filterMode = (FilterMode)br.ReadSByte();
+            m_usageHint = (TextureUsageType)br.ReadSByte();
+            m_textureCoordChannel = br.ReadInt32();
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteBoolean(m_hasMipMaps);
+            bw.WriteInt32(m_textureCoordChannel);
+        }
     }
 }

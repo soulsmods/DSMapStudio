@@ -1,6 +1,0 @@
-<struct name='hkMemoryResourceHandleExternalLink' version='1' signature='0x3144d17c'>
-	<members>
-		<member name='memberName' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='externalId' type='hkStringPtr' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

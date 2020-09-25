@@ -1,5 +1,0 @@
-<class name='hkbProceduralBlenderGenerator' version='0' signature='0x4c677067' parent='hkbGenerator'>
-	<members>
-		<member name='blender' type='void*' offset='136' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

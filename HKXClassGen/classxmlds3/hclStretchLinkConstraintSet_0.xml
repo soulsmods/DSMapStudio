@@ -1,5 +1,0 @@
-<class name='hclStretchLinkConstraintSet' version='0' signature='0x426b3354' parent='hclConstraintSet'>
-	<members>
-		<member name='links' type='hkArray&lt;struct hclStretchLinkConstraintSetLink&gt;' ctype='hclStretchLinkConstraintSetLink' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

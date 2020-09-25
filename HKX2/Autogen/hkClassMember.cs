@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -13,7 +14,7 @@ namespace HKX2
         DEPRECATED_ENUM_32 = 32,
     }
     
-    public class hkClassMember
+    public class hkClassMember : IHavokObject
     {
         public enum Type
         {
@@ -72,7 +73,29 @@ namespace HKX2
         public Type m_type;
         public Type m_subtype;
         public short m_cArraySize;
-        public uint m_flags;
+        public ushort m_flags;
         public ushort m_offset;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_name = des.ReadStringPointer(br);
+            m_class = des.ReadClassPointer<hkClass>(br);
+            m_enum = des.ReadClassPointer<hkClassEnum>(br);
+            m_type = (Type)br.ReadByte();
+            m_subtype = (Type)br.ReadByte();
+            m_cArraySize = br.ReadInt16();
+            m_flags = br.ReadUInt16();
+            m_offset = br.ReadUInt16();
+            br.AssertUInt64(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            // Implement Write
+            // Implement Write
+            bw.WriteInt16(m_cArraySize);
+            bw.WriteUInt16(m_offset);
+            bw.WriteUInt64(0);
+        }
     }
 }

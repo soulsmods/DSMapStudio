@@ -1,7 +1,0 @@
-<struct name='hkcdDynamicTreeTreehkcdDynamicTreeDynamicStoragePtr' version='0' signature='0xd4849ddc' parent='hkcdDynamicTreeDynamicStoragePtr'>
-	<members>
-		<member name='numLeaves' type='hkUint32' offset='24' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='path' type='hkUint32' offset='28' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='root' type='hkUlong' offset='32' vtype='TYPE_ULONG' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

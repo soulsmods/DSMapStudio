@@ -1,7 +1,0 @@
-<class name='hclScratchBufferDefinition' version='0' signature='0xa0130a2c' parent='hclBufferDefinition'>
-	<members>
-		<member name='triangleIndices' type='hkArray&lt;hkUint16&gt;' offset='72' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='storeNormals' type='hkBool' offset='88' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
-		<member name='storeTangentsAndBiTangents' type='hkBool' offset='89' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
-	</members>
-</class>

@@ -1,6 +1,0 @@
-<struct name='hkQTransformf' version='0' signature='0x471a21ee'>
-	<members>
-		<member name='rotation' type='hkQuaternion' offset='0' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='translation' type='hkVector4' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

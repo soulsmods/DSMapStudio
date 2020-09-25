@@ -1,5 +1,0 @@
-<struct name='hkBitFieldBasehkOffsetBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator' version='0' signature='0xb8bf0adc'>
-	<members>
-		<member name='storage' type='struct hkOffsetBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator' ctype='hkOffsetBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator' offset='0' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

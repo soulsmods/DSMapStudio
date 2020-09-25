@@ -1,8 +1,0 @@
-<class name='hkbHandle' version='2' signature='0x43c54f34' parent='hkReferencedObject'>
-	<members>
-		<member name='frame' type='struct hkLocalFrame*' ctype='hkLocalFrame' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='rigidBody' type='struct hkReferencedObject*' ctype='hkReferencedObject' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='character' type='struct hkbCharacter*' ctype='hkbCharacter' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='animationBoneIndex' type='hkInt16' offset='40' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-	</members>
-</class>

@@ -1,8 +1,0 @@
-<struct name='hkbGeneratorPartitionInfo' version='0' signature='0xc5cf46e6'>
-	<members>
-		<member name='boneMask' type='hkUint32[8]' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='8' flags='FLAGS_NONE'/>
-		<member name='partitionMask' type='hkUint32[1]' offset='32' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='1' flags='FLAGS_NONE'/>
-		<member name='numBones' type='hkInt16' offset='36' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numMaxPartitions' type='hkInt16' offset='38' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

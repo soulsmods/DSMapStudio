@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -9,5 +10,23 @@ namespace HKX2
         public float m_previousLocalTime;
         public float m_intervalStartLocalTime;
         public float m_intervalEndLocalTime;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_localTime = br.ReadSingle();
+            m_previousLocalTime = br.ReadSingle();
+            m_intervalStartLocalTime = br.ReadSingle();
+            m_intervalEndLocalTime = br.ReadSingle();
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_localTime);
+            bw.WriteSingle(m_previousLocalTime);
+            bw.WriteSingle(m_intervalStartLocalTime);
+            bw.WriteSingle(m_intervalEndLocalTime);
+        }
     }
 }

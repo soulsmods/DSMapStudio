@@ -1,9 +1,0 @@
-<class name='hkbEventRaisedInfo' version='2' signature='0xb3f86047' parent='hkReferencedObject'>
-	<members>
-		<member name='characterId' type='hkUint64' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='eventName' type='hkStringPtr' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='raisedBySdk' type='hkBool' offset='32' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='senderId' type='hkInt32' offset='36' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='padding' type='hkInt32' offset='40' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

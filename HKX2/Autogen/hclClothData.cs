@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -34,5 +35,25 @@ namespace HKX2
         public List<hclClothState> m_clothStateDatas;
         public List<hclAction> m_actions;
         public Platform m_targetPlatform;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_name = des.ReadStringPointer(br);
+            m_simClothDatas = des.ReadClassPointerArray<hclSimClothData>(br);
+            m_bufferDefinitions = des.ReadClassPointerArray<hclBufferDefinition>(br);
+            m_transformSetDefinitions = des.ReadClassPointerArray<hclTransformSetDefinition>(br);
+            m_operators = des.ReadClassPointerArray<hclOperator>(br);
+            m_clothStateDatas = des.ReadClassPointerArray<hclClothState>(br);
+            m_actions = des.ReadClassPointerArray<hclAction>(br);
+            m_targetPlatform = (Platform)br.ReadUInt32();
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt32(0);
+        }
     }
 }

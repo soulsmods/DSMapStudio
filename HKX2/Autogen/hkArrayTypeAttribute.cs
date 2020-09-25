@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -10,8 +11,17 @@ namespace HKX2
         ENTITIES = 2,
     }
     
-    public class hkArrayTypeAttribute
+    public class hkArrayTypeAttribute : IHavokObject
     {
         public ArrayType m_type;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_type = (ArrayType)br.ReadSByte();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+        }
     }
 }

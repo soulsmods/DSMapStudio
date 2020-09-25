@@ -1,5 +1,0 @@
-<class name='DynamicAnimationTaggingGenerator' version='1' signature='0xe7633191' parent='hkbGenerator'>
-	<members>
-		<member name='pDefaultGenerator' type='struct hkbGenerator*' ctype='hkbGenerator' offset='144' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='ALIGN_16'/>
-	</members>
-</class>

@@ -1,5 +1,0 @@
-<class name='hkbReferencePoseGenerator' version='0' signature='0xbc1536ee' parent='hkbGenerator'>
-	<members>
-		<member name='skeleton' type='void*' offset='136' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

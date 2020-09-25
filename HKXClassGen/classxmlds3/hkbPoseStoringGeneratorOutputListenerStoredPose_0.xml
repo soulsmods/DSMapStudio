@@ -1,8 +1,0 @@
-<class name='hkbPoseStoringGeneratorOutputListenerStoredPose' version='0' signature='0x0d507f72' parent='hkReferencedObject'>
-	<members>
-		<member name='node' type='struct hkbNode*' ctype='hkbNode' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='pose' type='hkArray&lt;hkQsTransform&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_QSTRANSFORM' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='worldFromModel' type='hkQsTransform' offset='48' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='isPoseValid' type='hkBool' offset='96' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

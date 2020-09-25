@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -11,11 +12,31 @@ namespace HKX2
         EVENT_MODE_SEND_EVERY_FRAME_ONCE_TRUE = 3,
     }
     
-    public class hkbExpressionData
+    public class hkbExpressionData : IHavokObject
     {
         public string m_expression;
         public int m_assignmentVariableIndex;
         public int m_assignmentEventIndex;
         public ExpressionEventMode m_eventMode;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_expression = des.ReadStringPointer(br);
+            m_assignmentVariableIndex = br.ReadInt32();
+            m_assignmentEventIndex = br.ReadInt32();
+            m_eventMode = (ExpressionEventMode)br.ReadSByte();
+            br.AssertUInt32(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteInt32(m_assignmentVariableIndex);
+            bw.WriteInt32(m_assignmentEventIndex);
+            bw.WriteUInt32(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

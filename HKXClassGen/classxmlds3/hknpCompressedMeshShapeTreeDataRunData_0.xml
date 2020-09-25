@@ -1,5 +1,0 @@
-<struct name='hknpCompressedMeshShapeTreeDataRunData' version='0' signature='0xc253682b'>
-	<members>
-		<member name='data' type='hkUint16' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

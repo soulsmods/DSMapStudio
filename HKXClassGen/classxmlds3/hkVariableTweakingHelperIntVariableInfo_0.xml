@@ -1,7 +1,0 @@
-<struct name='hkVariableTweakingHelperIntVariableInfo' version='0' signature='0xdb61e827'>
-	<members>
-		<member name='name' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='value' type='hkInt32' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='tweakOn' type='hkBool' offset='12' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

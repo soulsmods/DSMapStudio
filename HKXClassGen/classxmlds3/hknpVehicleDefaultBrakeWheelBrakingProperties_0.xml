@@ -1,7 +1,0 @@
-<struct name='hknpVehicleDefaultBrakeWheelBrakingProperties' version='0' signature='0x1ffad971'>
-	<members>
-		<member name='maxBreakingTorque' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='minPedalInputToBlock' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='isConnectedToHandbrake' type='hkBool' offset='8' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

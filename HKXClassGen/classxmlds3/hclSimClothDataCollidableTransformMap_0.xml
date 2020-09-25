@@ -1,7 +1,0 @@
-<struct name='hclSimClothDataCollidableTransformMap' version='0' signature='0x8addbbbb'>
-	<members>
-		<member name='transformSetIndex' type='hkInt32' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='-1'/>
-		<member name='transformIndices' type='hkArray&lt;hkUint32&gt;' offset='8' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='offsets' type='hkArray&lt;hkMatrix4&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_MATRIX4' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

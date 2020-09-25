@@ -1,5 +1,0 @@
-<class name='hkStringObject' version='0' signature='0x21a4bc90' parent='hkReferencedObject'>
-	<members>
-		<member name='string' type='hkStringPtr' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

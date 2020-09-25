@@ -1,5 +1,0 @@
-<struct name='hkcdStaticTreeDynamicStoragehkcdStaticTreeCodec3Axis5' version='0' signature='0x0926c0cf'>
-	<members>
-		<member name='nodes' type='hkArray&lt;struct hkcdStaticTreeCodec3Axis5&gt;' ctype='hkcdStaticTreeCodec3Axis5' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

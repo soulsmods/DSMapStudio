@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -46,7 +47,17 @@ namespace HKX2
         ALL_SHAPE_TYPES = -1,
     }
     
-    public class hkcdShapeType
+    public class hkcdShapeType : IHavokObject
     {
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            br.AssertByte(0);
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteByte(0);
+        }
     }
 }

@@ -1,6 +1,0 @@
-<struct name='hkbRealVariableSequencedDataSample' version='0' signature='0xbb708bbd'>
-	<members>
-		<member name='time' type='hkReal' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-		<member name='value' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0.000000'/>
-	</members>
-</struct>

@@ -1,7 +1,0 @@
-<class name='hkbCompiledExpressionSet' version='1' signature='0x7e4793ea' parent='hkReferencedObject'>
-	<members>
-		<member name='rpn' type='hkArray&lt;struct hkbCompiledExpressionSetToken&gt;' ctype='hkbCompiledExpressionSetToken' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='expressionToRpnIndex' type='hkArray&lt;hkInt32&gt;' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_INT32' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numExpressions' type='hkInt8' offset='48' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

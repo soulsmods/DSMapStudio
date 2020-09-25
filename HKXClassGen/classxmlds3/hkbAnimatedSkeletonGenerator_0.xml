@@ -1,5 +1,0 @@
-<class name='hkbAnimatedSkeletonGenerator' version='0' signature='0x1bea44d0' parent='hkbGenerator'>
-	<members>
-		<member name='animatedSkeleton' type='void*' offset='136' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>

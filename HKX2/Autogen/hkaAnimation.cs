@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -22,5 +23,25 @@ namespace HKX2
         public int m_numberOfFloatTracks;
         public hkaAnimatedReferenceFrame m_extractedMotion;
         public List<hkaAnnotationTrack> m_annotationTracks;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_type = (AnimationType)br.ReadInt32();
+            m_duration = br.ReadSingle();
+            m_numberOfTransformTracks = br.ReadInt32();
+            m_numberOfFloatTracks = br.ReadInt32();
+            m_extractedMotion = des.ReadClassPointer<hkaAnimatedReferenceFrame>(br);
+            m_annotationTracks = des.ReadClassArray<hkaAnnotationTrack>(br);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_duration);
+            bw.WriteInt32(m_numberOfTransformTracks);
+            bw.WriteInt32(m_numberOfFloatTracks);
+            // Implement Write
+        }
     }
 }

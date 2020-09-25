@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -14,5 +15,35 @@ namespace HKX2
         public Vector4 m_geomCentroid;
         public Vector4 m_invCellSize;
         public ushort m_gridRes;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_tetrahedraGrid = des.ReadUInt16Array(br);
+            m_gridCells = des.ReadByteArray(br);
+            m_tetrahedraEquations = des.ReadMatrix4Array(br);
+            br.AssertUInt64(0);
+            m_localFromWorld = des.ReadTransform(br);
+            m_worldFromLocal = des.ReadTransform(br);
+            m_objAabb = new hkAabb();
+            m_objAabb.Read(des, br);
+            m_geomCentroid = des.ReadVector4(br);
+            m_invCellSize = des.ReadVector4(br);
+            m_gridRes = br.ReadUInt16();
+            br.AssertUInt64(0);
+            br.AssertUInt32(0);
+            br.AssertUInt16(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteUInt64(0);
+            m_objAabb.Write(bw);
+            bw.WriteUInt16(m_gridRes);
+            bw.WriteUInt64(0);
+            bw.WriteUInt32(0);
+            bw.WriteUInt16(0);
+        }
     }
 }

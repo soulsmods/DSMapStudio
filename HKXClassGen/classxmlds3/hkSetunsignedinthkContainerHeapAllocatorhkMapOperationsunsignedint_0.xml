@@ -1,6 +1,0 @@
-<struct name='hkSetunsignedinthkContainerHeapAllocatorhkMapOperationsunsignedint' version='0' signature='0xe7e9b88a'>
-	<members>
-		<member name='elem' type='hkArray&lt;hkUint32&gt;' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='numElems' type='hkInt32' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

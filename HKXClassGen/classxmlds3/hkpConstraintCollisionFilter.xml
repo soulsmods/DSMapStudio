@@ -1,0 +1,4 @@
+<class name='hkpConstraintCollisionFilter' version='1' signature='0x00000000' size='104' parent='hkpPairCollisionFilter'>
+  <members>
+  </members>
+</class>

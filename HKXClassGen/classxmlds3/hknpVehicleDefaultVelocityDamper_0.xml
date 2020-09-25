@@ -1,7 +1,0 @@
-<class name='hknpVehicleDefaultVelocityDamper' version='0' signature='0xb95b74ee' parent='hknpVehicleVelocityDamper'>
-	<members>
-		<member name='normalSpinDamping' type='hkReal' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='collisionSpinDamping' type='hkReal' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='collisionThreshold' type='hkReal' offset='24' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</class>

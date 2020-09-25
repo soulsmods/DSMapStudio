@@ -1,7 +1,0 @@
-<struct name='hknpPairCollisionFilterMapPairFilterKeyOverrideType' version='0' signature='0x36195969'>
-	<members>
-		<member name='elem' type='void*' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='numElems' type='hkInt32' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='hashMod' type='hkInt32' offset='12' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

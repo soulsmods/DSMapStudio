@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -5,11 +6,11 @@ namespace HKX2
 {
     public class hkaFootstepAnalysisInfo : hkReferencedObject
     {
-        public List<char> m_name;
-        public List<char> m_nameStrike;
-        public List<char> m_nameLift;
-        public List<char> m_nameLock;
-        public List<char> m_nameUnlock;
+        public List<sbyte> m_name;
+        public List<sbyte> m_nameStrike;
+        public List<sbyte> m_nameLift;
+        public List<sbyte> m_nameLock;
+        public List<sbyte> m_nameUnlock;
         public List<float> m_minPos;
         public List<float> m_maxPos;
         public List<float> m_minVel;
@@ -19,5 +20,34 @@ namespace HKX2
         public float m_posTol;
         public float m_velTol;
         public float m_duration;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_name = des.ReadSByteArray(br);
+            m_nameStrike = des.ReadSByteArray(br);
+            m_nameLift = des.ReadSByteArray(br);
+            m_nameLock = des.ReadSByteArray(br);
+            m_nameUnlock = des.ReadSByteArray(br);
+            m_minPos = des.ReadSingleArray(br);
+            m_maxPos = des.ReadSingleArray(br);
+            m_minVel = des.ReadSingleArray(br);
+            m_maxVel = des.ReadSingleArray(br);
+            m_allBonesDown = des.ReadSingleArray(br);
+            m_anyBonesDown = des.ReadSingleArray(br);
+            m_posTol = br.ReadSingle();
+            m_velTol = br.ReadSingle();
+            m_duration = br.ReadSingle();
+            br.AssertUInt32(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            bw.WriteSingle(m_posTol);
+            bw.WriteSingle(m_velTol);
+            bw.WriteSingle(m_duration);
+            bw.WriteUInt32(0);
+        }
     }
 }

@@ -1,7 +1,0 @@
-<struct name='hknpMaterialDescriptor' version='0' signature='0x879edb1f'>
-	<members>
-		<member name='name' type='hkStringPtr' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='material' type='struct hknpRefMaterial*' ctype='hknpRefMaterial' offset='8' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='materialId' type='hkUint16' offset='16' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE'/>
-	</members>
-</struct>

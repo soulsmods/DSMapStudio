@@ -1,9 +1,10 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpConstraint
+    public class hknpConstraint : IHavokObject
     {
         public enum FlagsEnum
         {
@@ -22,7 +23,7 @@ namespace HKX2
         public uint m_bodyIdB;
         public hkpConstraintData m_data;
         public uint m_id;
-        public uint m_flags;
+        public byte m_flags;
         public ConstraintType m_type;
         public ushort m_sizeOfAtoms;
         public ushort m_sizeOfSchemas;
@@ -30,5 +31,41 @@ namespace HKX2
         public byte m_numSolverElemTemps;
         public ushort m_runtimeSize;
         public ulong m_userData;
+        
+        public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            m_bodyIdA = br.ReadUInt32();
+            m_bodyIdB = br.ReadUInt32();
+            m_data = des.ReadClassPointer<hkpConstraintData>(br);
+            m_id = br.ReadUInt32();
+            br.AssertUInt16(0);
+            m_flags = br.ReadByte();
+            m_type = (ConstraintType)br.ReadByte();
+            br.AssertUInt64(0);
+            m_sizeOfAtoms = br.ReadUInt16();
+            m_sizeOfSchemas = br.ReadUInt16();
+            m_numSolverResults = br.ReadByte();
+            m_numSolverElemTemps = br.ReadByte();
+            m_runtimeSize = br.ReadUInt16();
+            br.AssertUInt64(0);
+            m_userData = br.ReadUInt64();
+        }
+        
+        public virtual void Write(BinaryWriterEx bw)
+        {
+            bw.WriteUInt32(m_bodyIdA);
+            bw.WriteUInt32(m_bodyIdB);
+            // Implement Write
+            bw.WriteUInt32(m_id);
+            bw.WriteUInt16(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt16(m_sizeOfAtoms);
+            bw.WriteUInt16(m_sizeOfSchemas);
+            bw.WriteByte(m_numSolverResults);
+            bw.WriteByte(m_numSolverElemTemps);
+            bw.WriteUInt16(m_runtimeSize);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(m_userData);
+        }
     }
 }

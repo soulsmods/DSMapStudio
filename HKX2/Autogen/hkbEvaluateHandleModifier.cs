@@ -1,3 +1,4 @@
+using SoulsFormats;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,5 +19,58 @@ namespace HKX2
         public float m_extrapolationTimeStep;
         public float m_handleChangeSpeed;
         public HandleChangeMode m_handleChangeMode;
+        
+        public override void Read(PackFileDeserializer des, BinaryReaderEx br)
+        {
+            base.Read(des, br);
+            m_handle = des.ReadClassPointer<hkbHandle>(br);
+            m_handlePositionOut = des.ReadVector4(br);
+            m_handleRotationOut = des.ReadQuaternion(br);
+            m_isValidOut = br.ReadBoolean();
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+            m_extrapolationTimeStep = br.ReadSingle();
+            m_handleChangeSpeed = br.ReadSingle();
+            m_handleChangeMode = (HandleChangeMode)br.ReadSByte();
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt64(0);
+            br.AssertUInt16(0);
+            br.AssertByte(0);
+        }
+        
+        public override void Write(BinaryWriterEx bw)
+        {
+            base.Write(bw);
+            // Implement Write
+            bw.WriteBoolean(m_isValidOut);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+            bw.WriteSingle(m_extrapolationTimeStep);
+            bw.WriteSingle(m_handleChangeSpeed);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            bw.WriteUInt16(0);
+            bw.WriteByte(0);
+        }
     }
 }

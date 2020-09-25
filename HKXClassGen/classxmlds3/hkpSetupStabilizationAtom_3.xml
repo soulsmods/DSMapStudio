@@ -1,9 +1,0 @@
-<struct name='hkpSetupStabilizationAtom' version='3' signature='0x870ee10a' parent='hkpConstraintAtom'>
-	<members>
-		<member name='enabled' type='hkBool' offset='2' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='false'/>
-		<member name='padding' type='hkUint8[1]' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='1' flags='SERIALIZE_IGNORED'/>
-		<member name='maxLinImpulse' type='hkReal' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='340282001837565597733306976381245063168.000000'/>
-		<member name='maxAngImpulse' type='hkReal' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='340282001837565597733306976381245063168.000000'/>
-		<member name='maxAngle' type='hkReal' offset='12' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='18446726481523507200.000000'/>
-	</members>
-</struct>

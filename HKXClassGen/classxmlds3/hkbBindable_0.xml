@@ -1,8 +1,0 @@
-<class name='hkbBindable' version='0' signature='0x654ce763' parent='hkReferencedObject'>
-	<members>
-		<member name='variableBindingSet' type='struct hkbVariableBindingSet*' ctype='hkbVariableBindingSet' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE'/>
-		<member name='cachedBindables' type='hkArray&lt;void*&gt;' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='areBindablesCached' type='hkBool' offset='40' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-		<member name='hasEnableChanged' type='hkBool' offset='41' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED'/>
-	</members>
-</class>
