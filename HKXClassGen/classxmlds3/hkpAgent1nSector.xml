@@ -1,4 +1,4 @@
-<class name='hkpAgent1nSector' version='1' signature='0x00000000' size='512'>
+<class name='hkpAgent1nSector' version='1' signature='0x626e55a' size='512'>
   <members>
     <member name='bytesAllocated' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='pad0' offset='4' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

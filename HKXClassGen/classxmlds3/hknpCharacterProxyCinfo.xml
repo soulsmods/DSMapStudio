@@ -1,4 +1,4 @@
-<class name='hknpCharacterProxyCinfo' version='1' signature='0x00000000' size='176' parent='hkReferencedObject'>
+<class name='hknpCharacterProxyCinfo' version='1' signature='0x33a03d52' size='176' parent='hkReferencedObject'>
   <members>
     <member name='position' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='orientation' offset='32' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

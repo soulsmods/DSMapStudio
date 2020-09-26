@@ -1,4 +1,4 @@
-<class name='hkbGenerator' version='1' signature='0x00000000' size='136' parent='hkbNode'>
+<class name='hkbGenerator' version='1' signature='0xad634f7e' size='136' parent='hkbNode'>
   <members>
     <member name='partitionInfo' offset='80' ctype='hkbGeneratorPartitionInfo' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='syncInfo' offset='120' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

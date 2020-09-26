@@ -1,4 +1,4 @@
-<class name='hkbVariableInfo' version='1' signature='0x00000000' size='6'>
+<class name='hkbVariableInfo' version='1' signature='0xa5ae6be2' size='6'>
   <enums>
     <enum name='VariableType' flags='00000000'>
       <enumitem name='VARIABLE_TYPE_INVALID' value='-1'/>

@@ -1,4 +1,4 @@
-<class name='hclSimClothBufferSetupObject' version='1' signature='0x00000000' size='40' parent='hclBufferSetupObject'>
+<class name='hclSimClothBufferSetupObject' version='1' signature='0x9f6a88ab' size='40' parent='hclBufferSetupObject'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='SIM_CLOTH_MESH_CURRENT_POSITIONS' value='0'/>

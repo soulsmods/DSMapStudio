@@ -1,4 +1,4 @@
-<class name='hkpSerializedAgentNnEntry' version='1' signature='0x00000000' size='400' parent='hkReferencedObject'>
+<class name='hkpSerializedAgentNnEntry' version='1' signature='0x4b13e677' size='400' parent='hkReferencedObject'>
   <enums>
     <enum name='SerializedAgentType' flags='00000000'>
       <enumitem name='INVALID_AGENT_TYPE' value='0'/>

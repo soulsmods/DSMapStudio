@@ -1,4 +1,4 @@
-<class name='hkaiNavMeshGenerationSettings' version='1' signature='0x00000000' size='528' parent='hkReferencedObject'>
+<class name='hkaiNavMeshGenerationSettings' version='1' signature='0x8d773f14' size='528' parent='hkReferencedObject'>
   <enums>
     <enum name='ConstructionFlagsBits' flags='00000000'>
       <enumitem name='MATERIAL_WALKABLE' value='1'/>

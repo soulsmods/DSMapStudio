@@ -1,4 +1,4 @@
-<class name='hclTransitionSetupObject' version='1' signature='0x00000000' size='112' parent='hclConstraintSetSetupObject'>
+<class name='hclTransitionSetupObject' version='1' signature='0xef6271c4' size='112' parent='hclConstraintSetSetupObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='simulationMesh' offset='24' ctype='hclSimulationSetupMesh' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

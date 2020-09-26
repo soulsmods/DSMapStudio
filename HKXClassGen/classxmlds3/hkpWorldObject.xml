@@ -1,4 +1,4 @@
-<class name='hkpWorldObject' version='1' signature='0x00000000' size='200' parent='hkReferencedObject'>
+<class name='hkpWorldObject' version='1' signature='0xeff021bd' size='200' parent='hkReferencedObject'>
   <enums>
     <enum name='MtChecks' flags='00000000'>
       <enumitem name='MULTI_THREADING_CHECKS_ENABLE' value='0'/>

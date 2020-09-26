@@ -1,4 +1,4 @@
-<class name='hkpWheelConstraintDataAtoms' version='1' signature='0x00000000' size='336'>
+<class name='hkpWheelConstraintDataAtoms' version='1' signature='0xe7b0e20d' size='336'>
   <enums>
     <enum name='Axis' flags='00000000'>
       <enumitem name='AXIS_SUSPENSION' value='0'/>

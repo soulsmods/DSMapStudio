@@ -1,4 +1,4 @@
-<class name='hkaiDirectedGraphExplicitCost' version='1' signature='0x00000000' size='120' parent='hkReferencedObject'>
+<class name='hkaiDirectedGraphExplicitCost' version='1' signature='0x2f02d92c' size='120' parent='hkReferencedObject'>
   <enums>
     <enum name='Constants' flags='00000000'>
       <enumitem name='INVALID_NODE_INDEX' value='-1'/>

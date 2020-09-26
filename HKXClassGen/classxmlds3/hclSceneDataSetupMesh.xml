@@ -1,4 +1,4 @@
-<class name='hclSceneDataSetupMesh' version='1' signature='0x00000000' size='176' parent='hclSetupMesh'>
+<class name='hclSceneDataSetupMesh' version='1' signature='0xd7cf6c61' size='176' parent='hclSetupMesh'>
   <members>
     <member name='node' offset='16' ctype='hkxNode' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='worldFromMesh' offset='32' vtype='TYPE_MATRIX4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

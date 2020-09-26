@@ -1,4 +1,4 @@
-<class name='hkbCharacterData' version='1' signature='0x00000000' size='240' parent='hkReferencedObject'>
+<class name='hkbCharacterData' version='1' signature='0xfec46c1f' size='240' parent='hkReferencedObject'>
   <members>
     <member name='characterControllerSetup' offset='16' ctype='hkbCharacterControllerSetup' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='modelUpMS' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

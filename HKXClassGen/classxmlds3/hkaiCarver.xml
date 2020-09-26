@@ -1,4 +1,4 @@
-<class name='hkaiCarver' version='1' signature='0x00000000' size='32' parent='hkReferencedObject'>
+<class name='hkaiCarver' version='1' signature='0x1421050f' size='32' parent='hkReferencedObject'>
   <enums>
     <enum name='FlagBits' flags='00000000'>
       <enumitem name='CARVER_ERODE_EDGES' value='1'/>

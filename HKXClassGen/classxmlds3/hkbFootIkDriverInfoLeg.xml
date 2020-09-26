@@ -1,4 +1,4 @@
-<class name='hkbFootIkDriverInfoLeg' version='1' signature='0x00000000' size='80'>
+<class name='hkbFootIkDriverInfoLeg' version='1' signature='0xfcb4eea5' size='80'>
   <members>
     <member name='kneeAxisLS' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='footEndLS' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hknpShapeTagCodec' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hknpShapeTagCodec' version='1' signature='0x85b7c832' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='TYPE_NULL' value='0'/>

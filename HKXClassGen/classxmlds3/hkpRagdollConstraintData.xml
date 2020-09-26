@@ -1,4 +1,4 @@
-<class name='hkpRagdollConstraintData' version='1' signature='0x00000000' size='416' parent='hkpConstraintData'>
+<class name='hkpRagdollConstraintData' version='1' signature='0xb77d2036' size='416' parent='hkpConstraintData'>
   <enums>
     <enum name='MotorIndex' flags='00000000'>
       <enumitem name='MOTOR_TWIST' value='0'/>

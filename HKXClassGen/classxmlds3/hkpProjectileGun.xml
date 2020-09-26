@@ -1,4 +1,4 @@
-<class name='hkpProjectileGun' version='1' signature='0x00000000' size='104' parent='hkpFirstPersonGun'>
+<class name='hkpProjectileGun' version='1' signature='0x804801cd' size='104' parent='hkpFirstPersonGun'>
   <members>
     <member name='maxProjectiles' offset='56' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='reloadTime' offset='60' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

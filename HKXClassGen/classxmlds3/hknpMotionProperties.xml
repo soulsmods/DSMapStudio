@@ -1,4 +1,4 @@
-<class name='hknpMotionProperties' version='1' signature='0x00000000' size='64'>
+<class name='hknpMotionProperties' version='1' signature='0x5dee8641' size='64'>
   <enums>
     <enum name='FlagsEnum' flags='00000000'>
       <enumitem name='NEVER_REBUILD_MASS_PROPERTIES' value='2'/>

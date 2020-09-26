@@ -1,4 +1,4 @@
-<class name='hkMultipleVertexBufferLockedElement' version='1' signature='0x00000000' size='7'>
+<class name='hkMultipleVertexBufferLockedElement' version='1' signature='0xa0e22afc' size='7'>
   <members>
     <member name='vertexBufferIndex' offset='0' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='elementIndex' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

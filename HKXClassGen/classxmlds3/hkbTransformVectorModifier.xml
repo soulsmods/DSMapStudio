@@ -1,4 +1,4 @@
-<class name='hkbTransformVectorModifier' version='1' signature='0x00000000' size='176' parent='hkbModifier'>
+<class name='hkbTransformVectorModifier' version='1' signature='0xc44a286c' size='176' parent='hkbModifier'>
   <members>
     <member name='rotation' offset='96' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='translation' offset='112' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

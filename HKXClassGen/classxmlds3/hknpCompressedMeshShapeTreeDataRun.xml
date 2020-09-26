@@ -1,4 +1,4 @@
-<class name='hknpCompressedMeshShapeTreeDataRun' version='1' signature='0x00000000' size='4' parent='hkcdStaticMeshTreeBasePrimitiveDataRunBasehknpCompressedMeshShapeTreeDataRunData'>
+<class name='hknpCompressedMeshShapeTreeDataRun' version='1' signature='0xd6dfcdd7' size='4' parent='hkcdStaticMeshTreeBasePrimitiveDataRunBasehknpCompressedMeshShapeTreeDataRunData'>
   <members>
   </members>
 </class>

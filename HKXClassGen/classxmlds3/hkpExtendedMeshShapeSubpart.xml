@@ -1,4 +1,4 @@
-<class name='hkpExtendedMeshShapeSubpart' version='1' signature='0x00000000' size='32'>
+<class name='hkpExtendedMeshShapeSubpart' version='1' signature='0x9c32ae12' size='32'>
   <members>
     <member name='typeAndFlags' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='shapeInfo' offset='2' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

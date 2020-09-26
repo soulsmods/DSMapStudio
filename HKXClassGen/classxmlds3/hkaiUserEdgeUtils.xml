@@ -1,4 +1,4 @@
-<class name='hkaiUserEdgeUtils' version='1' signature='0x00000000' size='1'>
+<class name='hkaiUserEdgeUtils' version='1' signature='0x1b125b1f' size='1'>
   <enums>
     <enum name='UserEdgeDirection' flags='00000000'>
       <enumitem name='USER_EDGE_BLOCKED' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkxSplineControlPoint' version='1' signature='0x00000000' size='64'>
+<class name='hkxSplineControlPoint' version='1' signature='0xb0a304a8' size='64'>
   <members>
     <member name='position' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='tangentIn' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

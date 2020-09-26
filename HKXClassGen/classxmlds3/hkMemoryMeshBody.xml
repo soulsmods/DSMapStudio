@@ -1,4 +1,4 @@
-<class name='hkMemoryMeshBody' version='1' signature='0x00000000' size='128' parent='hkMeshBody'>
+<class name='hkMemoryMeshBody' version='1' signature='0x1abba62d' size='128' parent='hkMeshBody'>
   <members>
     <member name='transform' offset='16' vtype='TYPE_MATRIX4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='transformSet' offset='80' ctype='hkIndexedTransformSet' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

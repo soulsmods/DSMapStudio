@@ -1,4 +1,4 @@
-<class name='hkaSplineCompressedAnimationTrackCompressionParams' version='1' signature='0x00000000' size='28'>
+<class name='hkaSplineCompressedAnimationTrackCompressionParams' version='1' signature='0x42e878d3' size='28'>
   <enums>
     <enum name='RotationQuantization' flags='00000000'>
       <enumitem name='POLAR32' value='0'/>

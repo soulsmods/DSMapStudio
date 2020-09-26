@@ -1,4 +1,4 @@
-<class name='hkxScene' version='1' signature='0x00000000' size='240' parent='hkReferencedObject'>
+<class name='hkxScene' version='1' signature='0xc093dd28' size='240' parent='hkReferencedObject'>
   <members>
     <member name='modeller' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='asset' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hclBufferUsage' version='1' signature='0x00000000' size='5'>
+<class name='hclBufferUsage' version='1' signature='0xf02067ba' size='5'>
   <enums>
     <enum name='Component' flags='00000000'>
       <enumitem name='COMPONENT_POSITION' value='0'/>

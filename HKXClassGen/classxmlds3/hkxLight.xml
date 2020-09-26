@@ -1,4 +1,4 @@
-<class name='hkxLight' version='1' signature='0x00000000' size='96' parent='hkReferencedObject'>
+<class name='hkxLight' version='1' signature='0x99965dc0' size='96' parent='hkReferencedObject'>
   <enums>
     <enum name='LightType' flags='00000000'>
       <enumitem name='POINT_LIGHT' value='0'/>

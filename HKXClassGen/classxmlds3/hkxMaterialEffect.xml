@@ -1,4 +1,4 @@
-<class name='hkxMaterialEffect' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkxMaterialEffect' version='1' signature='0x5b0717f9' size='48' parent='hkReferencedObject'>
   <enums>
     <enum name='EffectType' flags='00000000'>
       <enumitem name='EFFECT_TYPE_INVALID' value='0'/>

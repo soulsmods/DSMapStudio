@@ -1,4 +1,4 @@
-<class name='hclBufferDefinition' version='1' signature='0x00000000' size='72' parent='hkReferencedObject'>
+<class name='hclBufferDefinition' version='1' signature='0x7f4a5bfc' size='72' parent='hkReferencedObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='type' offset='24' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

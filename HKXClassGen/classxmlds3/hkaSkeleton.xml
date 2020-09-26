@@ -1,4 +1,4 @@
-<class name='hkaSkeleton' version='1' signature='0x00000000' size='136' parent='hkReferencedObject'>
+<class name='hkaSkeleton' version='1' signature='0xfec1cedb' size='136' parent='hkReferencedObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='parentIndices' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE' default='0'/>

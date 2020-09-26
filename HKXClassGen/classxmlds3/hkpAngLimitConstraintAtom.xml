@@ -1,4 +1,4 @@
-<class name='hkpAngLimitConstraintAtom' version='1' signature='0x00000000' size='16' parent='hkpConstraintAtom'>
+<class name='hkpAngLimitConstraintAtom' version='1' signature='0x1c5a0dd' size='16' parent='hkpConstraintAtom'>
   <members>
     <member name='isEnabled' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='limitAxis' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

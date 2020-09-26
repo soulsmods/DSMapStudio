@@ -1,4 +1,4 @@
-<class name='hkbParametricMotionGenerator' version='1' signature='0x00000000' size='240' parent='hkbProceduralBlenderGenerator'>
+<class name='hkbParametricMotionGenerator' version='1' signature='0x8d0e0781' size='240' parent='hkbProceduralBlenderGenerator'>
   <enums>
     <enum name='MotionSpaceType' flags='00000000'>
       <enumitem name='MST_UNKNOWN' value='0'/>

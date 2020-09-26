@@ -1,4 +1,4 @@
-<class name='hkpSimpleBreakableMaterial' version='1' signature='0x00000000' size='32' parent='hkpBreakableMaterial'>
+<class name='hkpSimpleBreakableMaterial' version='1' signature='0xd09da24' size='32' parent='hkpBreakableMaterial'>
   <members>
   </members>
 </class>

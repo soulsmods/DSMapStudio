@@ -1,4 +1,4 @@
-<class name='hkpCallbackConstraintMotor' version='1' signature='0x00000000' size='72' parent='hkpLimitedForceConstraintMotor'>
+<class name='hkpCallbackConstraintMotor' version='1' signature='0x59e75537' size='72' parent='hkpLimitedForceConstraintMotor'>
   <enums>
     <enum name='CallbackType' flags='00000000'>
       <enumitem name='CALLBACK_MOTOR_TYPE_HAVOK_DEMO_SPRING_DAMPER' value='0'/>

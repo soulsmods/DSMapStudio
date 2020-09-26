@@ -1,4 +1,4 @@
-<class name='hkbGeneratorTransitionEffectInternalState' version='1' signature='0x00000000' size='40' parent='hkReferencedObject'>
+<class name='hkbGeneratorTransitionEffectInternalState' version='1' signature='0xeb0a68b4' size='40' parent='hkReferencedObject'>
   <members>
     <member name='timeInTransition' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='duration' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

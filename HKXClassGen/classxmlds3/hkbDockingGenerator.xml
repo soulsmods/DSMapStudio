@@ -1,4 +1,4 @@
-<class name='hkbDockingGenerator' version='1' signature='0x00000000' size='224' parent='hkbGenerator'>
+<class name='hkbDockingGenerator' version='1' signature='0x7f8f8240' size='224' parent='hkbGenerator'>
   <enums>
     <enum name='BlendType' flags='00000000'>
       <enumitem name='BLEND_TYPE_BLEND_IN' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaSkeletonMapperData' version='1' signature='0x00000000' size='176'>
+<class name='hkaSkeletonMapperData' version='1' signature='0x3e0a67fd' size='176'>
   <enums>
     <enum name='MappingType' flags='00000000'>
       <enumitem name='HK_RAGDOLL_MAPPING' value='0'/>

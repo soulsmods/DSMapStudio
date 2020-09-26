@@ -1,4 +1,4 @@
-<class name='CustomManualSelectorGeneratorInternalState' version='1' signature='0x00000000' size='40' parent='hkReferencedObject'>
+<class name='CustomManualSelectorGeneratorInternalState' version='1' signature='0x6fb85d54' size='40' parent='hkReferencedObject'>
   <members>
     <member name='currentGeneratorIndex' offset='16' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='generatorIndexAtActivate' offset='17' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

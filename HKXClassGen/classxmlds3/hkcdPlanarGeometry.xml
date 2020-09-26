@@ -1,4 +1,4 @@
-<class name='hkcdPlanarGeometry' version='1' signature='0x00000000' size='48' parent='hkcdPlanarEntity'>
+<class name='hkcdPlanarGeometry' version='1' signature='0xaf117de5' size='48' parent='hkcdPlanarEntity'>
   <members>
     <member name='planes' offset='24' ctype='hkcdPlanarGeometryPlanesCollection' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='polys' offset='32' ctype='hkcdPlanarGeometryPolygonCollection' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

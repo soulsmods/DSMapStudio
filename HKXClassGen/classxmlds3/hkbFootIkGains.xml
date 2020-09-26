@@ -1,4 +1,4 @@
-<class name='hkbFootIkGains' version='1' signature='0x00000000' size='40'>
+<class name='hkbFootIkGains' version='1' signature='0xded7c527' size='40'>
   <members>
     <member name='onOffGain' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='groundAscendingGain' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbLayerGenerator' version='1' signature='0x00000000' size='184' parent='hkbGenerator'>
+<class name='hkbLayerGenerator' version='1' signature='0xb4e0c52f' size='184' parent='hkbGenerator'>
   <enums>
     <enum name='LayerFlagBits' flags='00000000'>
       <enumitem name='FLAG_SYNC' value='1'/>

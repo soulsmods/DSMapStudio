@@ -1,4 +1,4 @@
-<class name='hkpVehicleFrictionStatusAxisStatus' version='1' signature='0x00000000' size='36'>
+<class name='hkpVehicleFrictionStatusAxisStatus' version='1' signature='0xe70e2bb4' size='36'>
   <members>
     <member name='forward_slip_velocity' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='side_slip_velocity' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

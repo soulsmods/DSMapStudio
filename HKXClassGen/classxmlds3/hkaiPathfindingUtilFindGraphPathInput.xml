@@ -1,4 +1,4 @@
-<class name='hkaiPathfindingUtilFindGraphPathInput' version='1' signature='0x00000000' size='152'>
+<class name='hkaiPathfindingUtilFindGraphPathInput' version='1' signature='0x67555bec' size='152'>
   <members>
     <member name='startNodeKeys' offset='0' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='initialCosts' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE' default='0'/>

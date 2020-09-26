@@ -1,4 +1,4 @@
-<class name='CustomManualSelectorGenerator' version='1' signature='0x00000000' size='256' parent='hkbGenerator'>
+<class name='CustomManualSelectorGenerator' version='1' signature='0xff6b0824' size='256' parent='hkbGenerator'>
   <enums>
     <enum name='OffsetType' flags='00000000'>
       <enumitem name='WeaponCategoryRight' value='13'/>

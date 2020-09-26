@@ -1,4 +1,4 @@
-<class name='hkaParameterizedAnimationReferenceFrame' version='1' signature='0x00000000' size='128' parent='hkaDefaultAnimatedReferenceFrame'>
+<class name='hkaParameterizedAnimationReferenceFrame' version='1' signature='0x3f2c9910' size='128' parent='hkaDefaultAnimatedReferenceFrame'>
   <enums>
     <enum name='ParameterType' flags='00000000'>
       <enumitem name='UNKNOWN' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hclObjectSpaceMeshMeshDeformOperator' version='1' signature='0x00000000' size='168' parent='hclOperator'>
+<class name='hclObjectSpaceMeshMeshDeformOperator' version='1' signature='0x7fc45151' size='168' parent='hclOperator'>
   <enums>
     <enum name='ScaleNormalBehaviour' flags='00000000'>
       <enumitem name='SCALE_NORMAL_IGNORE' value='0'/>

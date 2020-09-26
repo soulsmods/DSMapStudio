@@ -1,4 +1,4 @@
-<class name='hkbSenseHandleModifier' version='1' signature='0x00000000' size='240' parent='hkbModifier'>
+<class name='hkbSenseHandleModifier' version='1' signature='0x4fb828b7' size='240' parent='hkbModifier'>
   <enums>
     <enum name='SensingMode' flags='00000000'>
       <enumitem name='SENSE_IN_NEARBY_RIGID_BODIES' value='0'/>

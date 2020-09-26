@@ -1,4 +1,4 @@
-<class name='hkpMouseSpringAction' version='1' signature='0x00000000' size='144' parent='hkpUnaryAction'>
+<class name='hkpMouseSpringAction' version='1' signature='0x6035e5a1' size='144' parent='hkpUnaryAction'>
   <members>
     <member name='positionInRbLocal' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='mousePositionInWorld' offset='80' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

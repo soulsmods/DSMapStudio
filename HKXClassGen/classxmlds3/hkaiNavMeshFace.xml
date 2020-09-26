@@ -1,4 +1,4 @@
-<class name='hkaiNavMeshFace' version='1' signature='0x00000000' size='16'>
+<class name='hkaiNavMeshFace' version='1' signature='0xa46914a6' size='16'>
   <members>
     <member name='startEdgeIndex' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='startUserEdgeIndex' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

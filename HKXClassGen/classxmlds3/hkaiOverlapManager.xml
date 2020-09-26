@@ -1,4 +1,4 @@
-<class name='hkaiOverlapManager' version='1' signature='0x00000000' size='128' parent='hkReferencedObject'>
+<class name='hkaiOverlapManager' version='1' signature='0x325ee0c1' size='128' parent='hkReferencedObject'>
   <enums>
     <enum name='UpdateFlags' flags='00000000'>
       <enumitem name='UPDATE_NORMAL' value='0'/>

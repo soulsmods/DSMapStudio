@@ -1,4 +1,4 @@
-<class name='hclMoveParticlesOperator' version='1' signature='0x00000000' size='56' parent='hclOperator'>
+<class name='hclMoveParticlesOperator' version='1' signature='0xe65a701c' size='56' parent='hclOperator'>
   <enums>
     <enum name='ForceUpgrade610' flags='00000000'>
       <enumitem name='HCL_FORCE_UPGRADE610' value='0'/>

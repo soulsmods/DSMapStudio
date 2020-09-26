@@ -1,4 +1,4 @@
-<class name='hkaiNavMeshSimplificationUtilsSettings' version='1' signature='0x00000000' size='160'>
+<class name='hkaiNavMeshSimplificationUtilsSettings' version='1' signature='0xdb60153e' size='160'>
   <members>
     <member name='maxBorderSimplifyArea' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='maxConcaveBorderSimplifyArea' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

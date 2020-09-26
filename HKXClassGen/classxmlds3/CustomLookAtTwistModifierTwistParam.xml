@@ -1,4 +1,4 @@
-<class name='CustomLookAtTwistModifierTwistParam' version='1' signature='0x00000000' size='24'>
+<class name='CustomLookAtTwistModifierTwistParam' version='1' signature='0x47106ce7' size='24'>
   <members>
     <member name='startBoneIndex' offset='0' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='endBoneIndex' offset='2' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

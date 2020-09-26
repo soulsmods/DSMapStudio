@@ -1,4 +1,4 @@
-<class name='hkpPointToPathConstraintData' version='1' signature='0x00000000' size='208' parent='hkpConstraintData'>
+<class name='hkpPointToPathConstraintData' version='1' signature='0x6c108777' size='208' parent='hkpConstraintData'>
   <enums>
     <enum name='OrientationConstraintType' flags='00000000'>
       <enumitem name='CONSTRAIN_ORIENTATION_INVALID' value='0'/>

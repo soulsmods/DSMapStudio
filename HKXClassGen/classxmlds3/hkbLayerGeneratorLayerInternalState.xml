@@ -1,4 +1,4 @@
-<class name='hkbLayerGeneratorLayerInternalState' version='1' signature='0x00000000' size='16'>
+<class name='hkbLayerGeneratorLayerInternalState' version='1' signature='0xe27d5e54' size='16'>
   <enums>
     <enum name='FadingState' flags='00000000'>
       <enumitem name='FADING_STATE_NONE' value='0'/>

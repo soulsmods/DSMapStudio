@@ -1,4 +1,4 @@
-<class name='hkaiUserEdgeUtilsUserEdgeSetup' version='1' signature='0x00000000' size='224'>
+<class name='hkaiUserEdgeUtilsUserEdgeSetup' version='1' signature='0xc5c5864' size='224'>
   <members>
     <member name='obbA' offset='0' ctype='hkaiUserEdgeUtilsObb' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='obbB' offset='80' ctype='hkaiUserEdgeUtilsObb' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbpMoveBoneTowardTargetModifier' version='1' signature='0x00000000' size='464' parent='hkbModifier'>
+<class name='hkbpMoveBoneTowardTargetModifier' version='1' signature='0xfaa5ca49' size='464' parent='hkbModifier'>
   <enums>
     <enum name='TargetModeMBTT' flags='00000000'>
       <enumitem name='TARGET_POSITION' value='0'/>

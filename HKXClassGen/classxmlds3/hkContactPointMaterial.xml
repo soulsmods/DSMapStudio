@@ -1,4 +1,4 @@
-<class name='hkContactPointMaterial' version='1' signature='0x00000000' size='16'>
+<class name='hkContactPointMaterial' version='1' signature='0x5b304c3c' size='16'>
   <enums>
     <enum name='FlagEnum' flags='00000000'>
       <enumitem name='CONTACT_IS_NEW' value='1'/>

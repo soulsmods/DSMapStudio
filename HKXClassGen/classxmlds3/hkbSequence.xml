@@ -1,4 +1,4 @@
-<class name='hkbSequence' version='1' signature='0x00000000' size='256' parent='hkbModifier'>
+<class name='hkbSequence' version='1' signature='0x144c5fb9' size='256' parent='hkbModifier'>
   <members>
     <member name='eventSequencedData' offset='88' ctype='hkbEventSequencedData' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='realVariableSequencedData' offset='104' ctype='hkbRealVariableSequencedData' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE' default='0'/>

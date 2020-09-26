@@ -1,4 +1,4 @@
-<class name='hkbCustomTestGeneratorAnnotatedTypes' version='1' signature='0x00000000' size='1664' parent='hkbCustomTestGeneratorBoneTypes'>
+<class name='hkbCustomTestGeneratorAnnotatedTypes' version='1' signature='0x37c5d497' size='1664' parent='hkbCustomTestGeneratorBoneTypes'>
   <members>
     <member name='annotatedTypeCStringFilename' offset='1472' vtype='TYPE_CSTRING' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='annotatedTypeHkStringPtrFilename' offset='1480' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

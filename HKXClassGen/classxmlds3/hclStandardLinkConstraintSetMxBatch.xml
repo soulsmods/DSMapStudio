@@ -1,4 +1,4 @@
-<class name='hclStandardLinkConstraintSetMxBatch' version='1' signature='0x00000000' size='256'>
+<class name='hclStandardLinkConstraintSetMxBatch' version='1' signature='0x7c3c5dce' size='256'>
   <members>
     <member name='restLengths' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>
     <member name='stiffnessesA' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>

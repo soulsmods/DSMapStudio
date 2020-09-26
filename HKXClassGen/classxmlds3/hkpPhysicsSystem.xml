@@ -1,4 +1,4 @@
-<class name='hkpPhysicsSystem' version='1' signature='0x00000000' size='104' parent='hkReferencedObject'>
+<class name='hkpPhysicsSystem' version='1' signature='0xb3cc6e64' size='104' parent='hkReferencedObject'>
   <enums>
     <enum name='CloneConstraintMode' flags='00000000'>
       <enumitem name='CLONE_SHALLOW_IF_NOT_CONSTRAINED_TO_WORLD' value='0'/>

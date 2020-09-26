@@ -1,4 +1,4 @@
-<class name='hkbScriptGenerator' version='1' signature='0x00000000' size='208' parent='hkbGenerator'>
+<class name='hkbScriptGenerator' version='1' signature='0x300a9171' size='208' parent='hkbGenerator'>
   <members>
     <member name='child' offset='136' ctype='hkbGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='onActivateScript' offset='144' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

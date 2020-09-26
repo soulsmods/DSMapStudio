@@ -1,4 +1,4 @@
-<class name='hkcdFourAabb' version='1' signature='0x00000000' size='96'>
+<class name='hkcdFourAabb' version='1' signature='0xad9bb6f1' size='96'>
   <enums>
     <enum name='BoundIndex' flags='00000000'>
       <enumitem name='X_MIN' value='0'/>

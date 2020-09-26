@@ -1,4 +1,4 @@
-<class name='hkaiPhysics2012ShapeVolume' version='1' signature='0x00000000' size='144' parent='hkaiVolume'>
+<class name='hkaiPhysics2012ShapeVolume' version='1' signature='0x70fc3140' size='144' parent='hkaiVolume'>
   <members>
     <member name='dispatcher' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='shape' offset='24' ctype='hkpShape' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

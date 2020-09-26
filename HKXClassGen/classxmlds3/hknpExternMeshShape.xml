@@ -1,4 +1,4 @@
-<class name='hknpExternMeshShape' version='1' signature='0x00000000' size='112' parent='hknpCompositeShape'>
+<class name='hknpExternMeshShape' version='1' signature='0x4458e295' size='112' parent='hknpCompositeShape'>
   <enums>
     <enum name='RebuildFlagsEnum' flags='00000000'>
       <enumitem name='REBUILD_USE_DOUBLE_BUFFERING' value='1'/>

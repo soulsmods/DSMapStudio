@@ -1,4 +1,4 @@
-<class name='hkpStaticCompoundShape' version='1' signature='0x00000000' size='160' parent='hkpBvTreeShape'>
+<class name='hkpStaticCompoundShape' version='1' signature='0xd029071e' size='160' parent='hkpBvTreeShape'>
   <enums>
     <enum name='Config' flags='00000000'>
       <enumitem name='NUM_BYTES_FOR_TREE' value='48'/>

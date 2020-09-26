@@ -1,4 +1,4 @@
-<class name='hkaiAstarEdgeFilter' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hkaiAstarEdgeFilter' version='1' signature='0xb2108223' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='EdgeFilterType' flags='00000000'>
       <enumitem name='EDGE_FILTER_DEFAULT' value='0'/>

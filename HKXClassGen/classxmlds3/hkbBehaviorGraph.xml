@@ -1,4 +1,4 @@
-<class name='hkbBehaviorGraph' version='1' signature='0x00000000' size='432' parent='hkbGenerator'>
+<class name='hkbBehaviorGraph' version='1' signature='0xfdedb83b' size='432' parent='hkbGenerator'>
   <enums>
     <enum name='VariableMode' flags='00000000'>
       <enumitem name='VARIABLE_MODE_DISCARD_WHEN_INACTIVE' value='0'/>

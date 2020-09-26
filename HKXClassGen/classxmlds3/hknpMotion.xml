@@ -1,4 +1,4 @@
-<class name='hknpMotion' version='1' signature='0x00000000' size='128'>
+<class name='hknpMotion' version='1' signature='0xbaa216da' size='128'>
   <members>
     <member name='centerOfMassAndMassFactor' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='orientation' offset='16' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

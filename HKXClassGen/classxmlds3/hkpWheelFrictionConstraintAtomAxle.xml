@@ -1,4 +1,4 @@
-<class name='hkpWheelFrictionConstraintAtomAxle' version='1' signature='0x00000000' size='44'>
+<class name='hkpWheelFrictionConstraintAtomAxle' version='1' signature='0xd950f2ac' size='44'>
   <members>
     <member name='spinVelocity' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='sumVelocity' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

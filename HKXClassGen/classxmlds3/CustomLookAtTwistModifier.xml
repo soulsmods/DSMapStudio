@@ -1,4 +1,4 @@
-<class name='CustomLookAtTwistModifier' version='1' signature='0x00000000' size='192' parent='hkbModifier'>
+<class name='CustomLookAtTwistModifier' version='1' signature='0xf04d8abf' size='192' parent='hkbModifier'>
   <enums>
     <enum name='MultiRotationAxisType' flags='00000000'>
       <enumitem name='AxisXY' value='0'/>

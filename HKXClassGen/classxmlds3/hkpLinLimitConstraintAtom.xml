@@ -1,4 +1,4 @@
-<class name='hkpLinLimitConstraintAtom' version='1' signature='0x00000000' size='16' parent='hkpConstraintAtom'>
+<class name='hkpLinLimitConstraintAtom' version='1' signature='0x5cace91d' size='16' parent='hkpConstraintAtom'>
   <members>
     <member name='axisIndex' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='min' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hclBendStiffnessSetupObject' version='1' signature='0x00000000' size='72' parent='hclConstraintSetSetupObject'>
+<class name='hclBendStiffnessSetupObject' version='1' signature='0x5ad7b372' size='72' parent='hclConstraintSetSetupObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='simulationMesh' offset='24' ctype='hclSimulationSetupMesh' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

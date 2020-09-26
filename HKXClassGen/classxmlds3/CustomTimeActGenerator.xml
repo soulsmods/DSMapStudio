@@ -1,4 +1,4 @@
-<class name='CustomTimeActGenerator' version='1' signature='0x00000000' size='176' parent='hkbGenerator'>
+<class name='CustomTimeActGenerator' version='1' signature='0x73bc458f' size='176' parent='hkbGenerator'>
   <enums>
     <enum name='OffsetType' flags='00000000'>
       <enumitem name='WeaponCategory' value='10'/>

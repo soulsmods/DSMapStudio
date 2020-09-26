@@ -1,4 +1,4 @@
-<class name='hkaiSearchParametersBufferSizes' version='1' signature='0x00000000' size='8'>
+<class name='hkaiSearchParametersBufferSizes' version='1' signature='0x79281d30' size='8'>
   <enums>
     <enum name='ThreadingType' flags='00000000'>
       <enumitem name='SINGLE_THREADED' value='0'/>

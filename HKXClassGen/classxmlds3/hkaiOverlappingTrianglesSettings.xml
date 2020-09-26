@@ -1,4 +1,4 @@
-<class name='hkaiOverlappingTrianglesSettings' version='1' signature='0x00000000' size='12'>
+<class name='hkaiOverlappingTrianglesSettings' version='1' signature='0x33777038' size='12'>
   <members>
     <member name='coplanarityTolerance' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='raycastLengthMultiplier' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

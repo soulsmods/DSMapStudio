@@ -1,4 +1,4 @@
-<class name='hclMeshBoneDeformOperator' version='1' signature='0x00000000' size='72' parent='hclOperator'>
+<class name='hclMeshBoneDeformOperator' version='1' signature='0xf0d3505c' size='72' parent='hclOperator'>
   <members>
     <member name='inputBufferIdx' offset='32' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='outputTransformSetIdx' offset='36' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

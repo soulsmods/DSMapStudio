@@ -1,4 +1,4 @@
-<class name='hkaSkeletonMapperDataChainMapping' version='1' signature='0x00000000' size='112'>
+<class name='hkaSkeletonMapperDataChainMapping' version='1' signature='0xa528f7cf' size='112'>
   <members>
     <member name='startBoneA' offset='0' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='endBoneA' offset='2' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

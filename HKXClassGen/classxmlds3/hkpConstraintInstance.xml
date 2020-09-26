@@ -1,4 +1,4 @@
-<class name='hkpConstraintInstance' version='1' signature='0x00000000' size='112' parent='hkReferencedObject'>
+<class name='hkpConstraintInstance' version='1' signature='0xda4ce91e' size='112' parent='hkReferencedObject'>
   <enums>
     <enum name='ConstraintPriority' flags='00000000'>
       <enumitem name='PRIORITY_INVALID' value='0'/>

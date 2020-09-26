@@ -1,4 +1,4 @@
-<class name='hkaPredictiveCompressedAnimationTrackCompressionParams' version='1' signature='0x00000000' size='32'>
+<class name='hkaPredictiveCompressedAnimationTrackCompressionParams' version='1' signature='0x739c5f1' size='32'>
   <members>
     <member name='staticTranslationTolerance' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='staticRotationTolerance' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

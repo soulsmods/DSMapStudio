@@ -1,4 +1,4 @@
-<class name='hkaiNavMeshSimplificationUtilsExtraVertexSettings' version='1' signature='0x00000000' size='56'>
+<class name='hkaiNavMeshSimplificationUtilsExtraVertexSettings' version='1' signature='0xe4afcb2d' size='56'>
   <enums>
     <enum name='VertexSelectionMethod' flags='00000000'>
       <enumitem name='PROPORTIONAL_TO_AREA' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkMultipleVertexBuffer' version='1' signature='0x00000000' size='352' parent='hkMeshVertexBuffer'>
+<class name='hkMultipleVertexBuffer' version='1' signature='0x3216c42a' size='352' parent='hkMeshVertexBuffer'>
   <members>
     <member name='vertexFormat' offset='16' ctype='hkVertexFormat' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='lockedElements' offset='280' ctype='hkMultipleVertexBufferLockedElement' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

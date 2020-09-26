@@ -1,4 +1,4 @@
-<class name='hkbSetBehaviorCommand' version='1' signature='0x00000000' size='72' parent='hkReferencedObject'>
+<class name='hkbSetBehaviorCommand' version='1' signature='0x6481ed01' size='72' parent='hkReferencedObject'>
   <members>
     <member name='characterId' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='behavior' offset='24' ctype='hkbBehaviorGraph' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

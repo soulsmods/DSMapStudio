@@ -1,4 +1,4 @@
-<class name='hkbCharacterControlCommand' version='1' signature='0x00000000' size='32' parent='hkReferencedObject'>
+<class name='hkbCharacterControlCommand' version='1' signature='0xc281c421' size='32' parent='hkReferencedObject'>
   <enums>
     <enum name='CharacterControlCommand' flags='00000000'>
       <enumitem name='COMMAND_HIDE' value='0'/>

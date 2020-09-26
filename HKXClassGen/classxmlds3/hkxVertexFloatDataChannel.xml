@@ -1,4 +1,4 @@
-<class name='hkxVertexFloatDataChannel' version='1' signature='0x00000000' size='40' parent='hkReferencedObject'>
+<class name='hkxVertexFloatDataChannel' version='1' signature='0x8a540045' size='40' parent='hkReferencedObject'>
   <enums>
     <enum name='VertexFloatDimensions' flags='00000000'>
       <enumitem name='FLOAT' value='0'/>

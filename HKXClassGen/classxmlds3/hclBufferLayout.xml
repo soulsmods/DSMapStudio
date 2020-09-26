@@ -1,4 +1,4 @@
-<class name='hclBufferLayout' version='1' signature='0x00000000' size='26'>
+<class name='hclBufferLayout' version='1' signature='0xd26825a7' size='26'>
   <enums>
     <enum name='SlotFlags' flags='00000000'>
       <enumitem name='SF_NO_ALIGNED_START' value='0'/>

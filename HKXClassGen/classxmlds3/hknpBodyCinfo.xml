@@ -1,4 +1,4 @@
-<class name='hknpBodyCinfo' version='1' signature='0x00000000' size='96'>
+<class name='hknpBodyCinfo' version='1' signature='0x6896f7c9' size='96'>
   <members>
     <member name='shape' offset='0' ctype='hknpShape' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='reservedBodyId' offset='8' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

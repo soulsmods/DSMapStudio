@@ -1,4 +1,4 @@
-<class name='hkbConstraintSetup' version='1' signature='0x00000000' size='1'>
+<class name='hkbConstraintSetup' version='1' signature='0x3b496447' size='1'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='BALL_AND_SOCKET' value='0'/>

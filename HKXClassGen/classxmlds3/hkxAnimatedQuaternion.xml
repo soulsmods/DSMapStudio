@@ -1,4 +1,4 @@
-<class name='hkxAnimatedQuaternion' version='1' signature='0x00000000' size='32' parent='hkReferencedObject'>
+<class name='hkxAnimatedQuaternion' version='1' signature='0x4f5721b' size='32' parent='hkReferencedObject'>
   <members>
     <member name='quaternions' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_REAL' arrsize='0' flags='FLAGS_NONE' default='0'/>
   </members>

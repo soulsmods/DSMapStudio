@@ -1,4 +1,4 @@
-<class name='hkpConeLimitConstraintAtom' version='1' signature='0x00000000' size='32' parent='hkpConstraintAtom'>
+<class name='hkpConeLimitConstraintAtom' version='1' signature='0x159ea5c9' size='32' parent='hkpConstraintAtom'>
   <enums>
     <enum name='MeasurementMode' flags='00000000'>
       <enumitem name='ZERO_WHEN_VECTORS_ALIGNED' value='0'/>

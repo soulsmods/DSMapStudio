@@ -1,4 +1,4 @@
-<class name='hkpExtendedMeshShape' version='1' signature='0x00000000' size='320' parent='hkpShapeCollection'>
+<class name='hkpExtendedMeshShape' version='1' signature='0xc7cf26da' size='320' parent='hkpShapeCollection'>
   <enums>
     <enum name='IndexStridingType' flags='00000000'>
       <enumitem name='INDICES_INVALID' value='0'/>

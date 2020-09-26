@@ -1,4 +1,4 @@
-<class name='hkpRackAndPinionConstraintData' version='1' signature='0x00000000' size='192' parent='hkpConstraintData'>
+<class name='hkpRackAndPinionConstraintData' version='1' signature='0x677cbcf3' size='192' parent='hkpConstraintData'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='TYPE_RACK_AND_PINION' value='0'/>

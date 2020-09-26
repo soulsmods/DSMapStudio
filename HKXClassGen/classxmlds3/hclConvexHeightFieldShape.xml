@@ -1,4 +1,4 @@
-<class name='hclConvexHeightFieldShape' version='1' signature='0x00000000' size='176' parent='hclShape'>
+<class name='hclConvexHeightFieldShape' version='1' signature='0x7327ec97' size='176' parent='hclShape'>
   <members>
     <member name='res' offset='24' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='resIncBorder' offset='26' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

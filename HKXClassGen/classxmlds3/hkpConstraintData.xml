@@ -1,4 +1,4 @@
-<class name='hkpConstraintData' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hkpConstraintData' version='1' signature='0x57339dd7' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='ConstraintType' flags='00000000'>
       <enumitem name='CONSTRAINT_TYPE_BALLANDSOCKET' value='0'/>

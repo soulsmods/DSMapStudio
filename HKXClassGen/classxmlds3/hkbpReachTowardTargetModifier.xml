@@ -1,4 +1,4 @@
-<class name='hkbpReachTowardTargetModifier' version='1' signature='0x00000000' size='176' parent='hkbModifier'>
+<class name='hkbpReachTowardTargetModifier' version='1' signature='0x39c55ef6' size='176' parent='hkbModifier'>
   <enums>
     <enum name='FadeState' flags='00000000'>
       <enumitem name='FADE_IN' value='0'/>

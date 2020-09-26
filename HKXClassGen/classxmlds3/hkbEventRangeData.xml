@@ -1,4 +1,4 @@
-<class name='hkbEventRangeData' version='1' signature='0x00000000' size='32'>
+<class name='hkbEventRangeData' version='1' signature='0x6cb92c76' size='32'>
   <enums>
     <enum name='EventRangeMode' flags='00000000'>
       <enumitem name='EVENT_MODE_SEND_ON_ENTER_RANGE' value='0'/>

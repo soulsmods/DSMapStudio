@@ -1,4 +1,4 @@
-<class name='hkpRagdollMotorConstraintAtom' version='1' signature='0x00000000' size='96' parent='hkpConstraintAtom'>
+<class name='hkpRagdollMotorConstraintAtom' version='1' signature='0x9d94d42c' size='96' parent='hkpConstraintAtom'>
   <members>
     <member name='isEnabled' offset='2' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='initializedOffset' offset='4' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

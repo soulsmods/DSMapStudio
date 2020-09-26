@@ -1,4 +1,4 @@
-<class name='hkaiSilhouetteMerger' version='1' signature='0x00000000' size='96' parent='hkReferencedObject'>
+<class name='hkaiSilhouetteMerger' version='1' signature='0x1b5ff640' size='96' parent='hkReferencedObject'>
   <enums>
     <enum name='MergeType' flags='00000000'>
       <enumitem name='UNUSED_MERGING_SIMPLE' value='0'/>

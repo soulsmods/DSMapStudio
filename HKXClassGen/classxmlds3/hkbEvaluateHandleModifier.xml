@@ -1,4 +1,4 @@
-<class name='hkbEvaluateHandleModifier' version='1' signature='0x00000000' size='240' parent='hkbModifier'>
+<class name='hkbEvaluateHandleModifier' version='1' signature='0x4943a778' size='240' parent='hkbModifier'>
   <enums>
     <enum name='HandleChangeMode' flags='00000000'>
       <enumitem name='HANDLE_CHANGE_MODE_ABRUPT' value='0'/>

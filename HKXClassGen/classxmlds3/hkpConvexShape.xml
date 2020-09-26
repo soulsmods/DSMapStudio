@@ -1,4 +1,4 @@
-<class name='hkpConvexShape' version='1' signature='0x00000000' size='40' parent='hkpSphereRepShape'>
+<class name='hkpConvexShape' version='1' signature='0xf54e3c3a' size='40' parent='hkpSphereRepShape'>
   <enums>
     <enum name='WeldResult' flags='00000000'>
       <enumitem name='WELD_RESULT_REJECT_CONTACT_POINT' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaiAstarOutputParameters' version='1' signature='0x00000000' size='16'>
+<class name='hkaiAstarOutputParameters' version='1' signature='0x1613ae07' size='16'>
   <enums>
     <enum name='SearchStatus' flags='00000000'>
       <enumitem name='SEARCH_IN_PROGRESS' value='0'/>

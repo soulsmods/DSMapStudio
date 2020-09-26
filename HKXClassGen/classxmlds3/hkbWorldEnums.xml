@@ -1,4 +1,4 @@
-<class name='hkbWorldEnums' version='1' signature='0x00000000' size='1'>
+<class name='hkbWorldEnums' version='1' signature='0x25640b46' size='1'>
   <enums>
     <enum name='SimulationState' flags='00000000'>
       <enumitem name='SIMULATION_STATE_PLAY' value='0'/>

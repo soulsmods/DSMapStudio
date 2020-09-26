@@ -1,4 +1,4 @@
-<class name='hkbpTargetRigidBodyModifier' version='1' signature='0x00000000' size='288' parent='hkbModifier'>
+<class name='hkbpTargetRigidBodyModifier' version='1' signature='0xe2cc7aed' size='288' parent='hkbModifier'>
   <enums>
     <enum name='EventModeTRBAM' flags='00000000'>
       <enumitem name='EVENT_MODE_DO_NOT_SEND' value='0'/>

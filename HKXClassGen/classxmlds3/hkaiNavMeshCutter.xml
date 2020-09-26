@@ -1,4 +1,4 @@
-<class name='hkaiNavMeshCutter' version='1' signature='0x00000000' size='208' parent='hkReferencedObject'>
+<class name='hkaiNavMeshCutter' version='1' signature='0x904d0cb2' size='208' parent='hkReferencedObject'>
   <enums>
     <enum name='ClearanceResetMethod' flags='00000000'>
       <enumitem name='CLEARANCE_RESET_ALL' value='0'/>

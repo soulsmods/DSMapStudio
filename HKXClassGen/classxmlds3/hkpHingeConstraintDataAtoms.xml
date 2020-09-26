@@ -1,4 +1,4 @@
-<class name='hkpHingeConstraintDataAtoms' version='1' signature='0x00000000' size='192'>
+<class name='hkpHingeConstraintDataAtoms' version='1' signature='0x1f6f4807' size='192'>
   <enums>
     <enum name='Axis' flags='00000000'>
       <enumitem name='AXIS_AXLE' value='0'/>

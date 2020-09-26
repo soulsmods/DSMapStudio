@@ -1,4 +1,4 @@
-<class name='hkbAssetBundle' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkbAssetBundle' version='1' signature='0x10d3e271' size='48' parent='hkReferencedObject'>
   <enums>
     <enum name='BundleType' flags='00000000'>
       <enumitem name='ANIMATION_BUNDLE' value='0'/>

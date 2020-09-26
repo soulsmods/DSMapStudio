@@ -1,4 +1,4 @@
-<class name='hkaPredictiveCompressedAnimation' version='1' signature='0x00000000' size='192' parent='hkaAnimation'>
+<class name='hkaPredictiveCompressedAnimation' version='1' signature='0xca3194b2' size='192' parent='hkaAnimation'>
   <enums>
     <enum name='StorageClass' flags='00000000'>
       <enumitem name='STORAGE_STATIC' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbFootIkDriverInfo' version='1' signature='0x00000000' size='72' parent='hkReferencedObject'>
+<class name='hkbFootIkDriverInfo' version='1' signature='0xf9a87f89' size='72' parent='hkReferencedObject'>
   <members>
     <member name='legs' offset='16' ctype='hkbFootIkDriverInfoLeg' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='raycastDistanceUp' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

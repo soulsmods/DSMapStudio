@@ -1,4 +1,4 @@
-<class name='hkbVariableBindingSetBinding' version='1' signature='0x00000000' size='40'>
+<class name='hkbVariableBindingSetBinding' version='1' signature='0x4d592f72' size='40'>
   <enums>
     <enum name='BindingType' flags='00000000'>
       <enumitem name='BINDING_TYPE_VARIABLE' value='0'/>

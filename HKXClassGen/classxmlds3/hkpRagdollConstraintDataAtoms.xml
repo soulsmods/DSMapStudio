@@ -1,4 +1,4 @@
-<class name='hkpRagdollConstraintDataAtoms' version='1' signature='0x00000000' size='384'>
+<class name='hkpRagdollConstraintDataAtoms' version='1' signature='0xe11fb3ac' size='384'>
   <enums>
     <enum name='Axis' flags='00000000'>
       <enumitem name='AXIS_TWIST' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbBehaviorInfoIdToNamePair' version='1' signature='0x00000000' size='24'>
+<class name='hkbBehaviorInfoIdToNamePair' version='1' signature='0x56e2a82a' size='24'>
   <members>
     <member name='behaviorName' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='nodeName' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

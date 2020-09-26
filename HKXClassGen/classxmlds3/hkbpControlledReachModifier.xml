@@ -1,4 +1,4 @@
-<class name='hkbpControlledReachModifier' version='1' signature='0x00000000' size='136' parent='hkbModifier'>
+<class name='hkbpControlledReachModifier' version='1' signature='0x6f568aeb' size='136' parent='hkbModifier'>
   <members>
     <member name='target' offset='88' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='time' offset='96' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

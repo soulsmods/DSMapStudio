@@ -1,4 +1,4 @@
-<class name='hkbPoseMatchingGenerator' version='1' signature='0x00000000' size='304' parent='hkbBlenderGenerator'>
+<class name='hkbPoseMatchingGenerator' version='1' signature='0xb2aa2982' size='304' parent='hkbBlenderGenerator'>
   <enums>
     <enum name='Mode' flags='00000000'>
       <enumitem name='MODE_MATCH' value='0'/>

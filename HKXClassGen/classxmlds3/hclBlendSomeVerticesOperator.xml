@@ -1,4 +1,4 @@
-<class name='hclBlendSomeVerticesOperator' version='1' signature='0x00000000' size='64' parent='hclOperator'>
+<class name='hclBlendSomeVerticesOperator' version='1' signature='0x2b45e438' size='64' parent='hclOperator'>
   <enums>
     <enum name='VectorContext' flags='00000000'>
       <enumitem name='VEC_POSITION' value='0'/>

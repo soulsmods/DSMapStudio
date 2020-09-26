@@ -1,4 +1,4 @@
-<class name='hkpFirstPersonGun' version='1' signature='0x00000000' size='56' parent='hkReferencedObject'>
+<class name='hkpFirstPersonGun' version='1' signature='0x595b1d82' size='56' parent='hkReferencedObject'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='WEAPON_TYPE_INVALID' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkcdPlanarSolid' version='1' signature='0x00000000' size='48' parent='hkcdPlanarEntity'>
+<class name='hkcdPlanarSolid' version='1' signature='0x1828ba3' size='48' parent='hkcdPlanarEntity'>
   <enums>
     <enum name='NodeTypes' flags='00000000'>
       <enumitem name='NODE_TYPE_INTERNAL' value='0'/>

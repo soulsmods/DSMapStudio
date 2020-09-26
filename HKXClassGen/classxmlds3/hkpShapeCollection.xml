@@ -1,4 +1,4 @@
-<class name='hkpShapeCollection' version='1' signature='0x00000000' size='48' parent='hkpShape'>
+<class name='hkpShapeCollection' version='1' signature='0x93c7f0b' size='48' parent='hkpShape'>
   <enums>
     <enum name='CollectionType' flags='00000000'>
       <enumitem name='COLLECTION_LIST' value='0'/>

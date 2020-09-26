@@ -1,4 +1,4 @@
-<class name='hkpSimpleContactConstraintAtom' version='1' signature='0x00000000' size='48' parent='hkpConstraintAtom'>
+<class name='hkpSimpleContactConstraintAtom' version='1' signature='0x642fc205' size='48' parent='hkpConstraintAtom'>
   <members>
     <member name='sizeOfAllAtoms' offset='2' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='numContactPoints' offset='4' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hclBonePlanesSetupObjectPerParticleAngle' version='1' signature='0x00000000' size='128'>
+<class name='hclBonePlanesSetupObjectPerParticleAngle' version='1' signature='0x3f6d2b32' size='128'>
   <members>
     <member name='transformName' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='particlesMaxAngle' offset='8' ctype='hclVertexSelectionInput' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

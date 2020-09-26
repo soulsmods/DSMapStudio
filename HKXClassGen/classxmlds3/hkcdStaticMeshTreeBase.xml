@@ -1,4 +1,4 @@
-<class name='hkcdStaticMeshTreeBase' version='1' signature='0x00000000' size='112' parent='hkcdStaticTreeTreehkcdStaticTreeDynamicStorage5'>
+<class name='hkcdStaticMeshTreeBase' version='1' signature='0xf885dcd0' size='112' parent='hkcdStaticTreeTreehkcdStaticTreeDynamicStorage5'>
   <enums>
     <enum name='CompressionMode' flags='00000000'>
       <enumitem name='CM_GLOBAL' value='0'/>

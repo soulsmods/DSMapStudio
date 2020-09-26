@@ -1,4 +1,4 @@
-<class name='hkbCustomTestGeneratorComplexTypes' version='1' signature='0x00000000' size='384' parent='hkbCustomTestGeneratorSimpleTypes'>
+<class name='hkbCustomTestGeneratorComplexTypes' version='1' signature='0x74966e2f' size='384' parent='hkbCustomTestGeneratorSimpleTypes'>
   <enums>
     <enum name='CustomEnum' flags='00000000'>
       <enumitem name='CUSTOM_ENUM_ALA' value='0'/>

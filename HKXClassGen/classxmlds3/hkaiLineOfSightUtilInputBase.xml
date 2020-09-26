@@ -1,4 +1,4 @@
-<class name='hkaiLineOfSightUtilInputBase' version='1' signature='0x00000000' size='80'>
+<class name='hkaiLineOfSightUtilInputBase' version='1' signature='0x399a366c' size='80'>
   <enums>
     <enum name='QueryMode' flags='00000000'>
       <enumitem name='MODE_LINE_OF_SIGHT' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbGeneratorTransitionEffect' version='1' signature='0x00000000' size='216' parent='hkbTransitionEffect'>
+<class name='hkbGeneratorTransitionEffect' version='1' signature='0x44208f07' size='216' parent='hkbTransitionEffect'>
   <enums>
     <enum name='ToGeneratorState' flags='00000000'>
       <enumitem name='STATE_INACTIVE' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hclObjectSpaceDeformer' version='1' signature='0x00000000' size='88'>
+<class name='hclObjectSpaceDeformer' version='1' signature='0x342813e1' size='88'>
   <enums>
     <enum name='ControlByte' flags='00000000'>
       <enumitem name='FOUR_BLEND' value='0'/>

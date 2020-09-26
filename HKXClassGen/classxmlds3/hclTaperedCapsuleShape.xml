@@ -1,4 +1,4 @@
-<class name='hclTaperedCapsuleShape' version='1' signature='0x00000000' size='176' parent='hclShape'>
+<class name='hclTaperedCapsuleShape' version='1' signature='0xdfa58f21' size='176' parent='hclShape'>
   <members>
     <member name='small' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='big' offset='48' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

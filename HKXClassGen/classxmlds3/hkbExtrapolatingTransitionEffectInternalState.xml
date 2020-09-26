@@ -1,4 +1,4 @@
-<class name='hkbExtrapolatingTransitionEffectInternalState' version='1' signature='0x00000000' size='384' parent='hkReferencedObject'>
+<class name='hkbExtrapolatingTransitionEffectInternalState' version='1' signature='0xb8d848b0' size='384' parent='hkReferencedObject'>
   <members>
     <member name='fromGeneratorSyncInfo' offset='16' ctype='hkbGeneratorSyncInfo' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='fromGeneratorPartitionInfo' offset='180' ctype='hkbGeneratorPartitionInfo' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

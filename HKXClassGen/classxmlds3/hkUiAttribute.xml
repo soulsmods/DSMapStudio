@@ -1,4 +1,4 @@
-<class name='hkUiAttribute' version='1' signature='0x00000000' size='40'>
+<class name='hkUiAttribute' version='1' signature='0xc55346c1' size='40'>
   <enums>
     <enum name='HideCriteria' flags='00000000'>
       <enumitem name='NONE' value='0'/>

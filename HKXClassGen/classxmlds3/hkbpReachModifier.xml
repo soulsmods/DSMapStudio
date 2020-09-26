@@ -1,4 +1,4 @@
-<class name='hkbpReachModifier' version='1' signature='0x00000000' size='160' parent='hkbModifier'>
+<class name='hkbpReachModifier' version='1' signature='0x2c3a1751' size='160' parent='hkbModifier'>
   <enums>
     <enum name='ReachMode' flags='00000000'>
       <enumitem name='REACH_MODE_TERRAIN' value='0'/>

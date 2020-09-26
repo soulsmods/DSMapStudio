@@ -1,4 +1,4 @@
-<class name='hkaiNavVolumeGenerationSettings' version='1' signature='0x00000000' size='272' parent='hkReferencedObject'>
+<class name='hkaiNavVolumeGenerationSettings' version='1' signature='0xcbb70f6d' size='272' parent='hkReferencedObject'>
   <enums>
     <enum name='MaterialFlagsBits' flags='00000000'>
       <enumitem name='MATERIAL_NONE' value='0'/>

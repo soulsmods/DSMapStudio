@@ -1,4 +1,4 @@
-<class name='hkxVertexDescriptionElementDecl' version='1' signature='0x00000000' size='24'>
+<class name='hkxVertexDescriptionElementDecl' version='1' signature='0x865bf29f' size='24'>
   <members>
     <member name='byteOffset' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='type' offset='4' etype='DataType' vtype='TYPE_ENUM' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE' default='0'/>

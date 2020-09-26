@@ -1,4 +1,4 @@
-<class name='hkpConstraintAtom' version='1' signature='0x00000000' size='2'>
+<class name='hkpConstraintAtom' version='1' signature='0xc132ad1f' size='2'>
   <enums>
     <enum name='AtomType' flags='00000000'>
       <enumitem name='TYPE_INVALID' value='0'/>

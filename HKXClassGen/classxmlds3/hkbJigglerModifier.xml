@@ -1,4 +1,4 @@
-<class name='hkbJigglerModifier' version='1' signature='0x00000000' size='152' parent='hkbModifier'>
+<class name='hkbJigglerModifier' version='1' signature='0x1c1623ad' size='152' parent='hkbModifier'>
   <enums>
     <enum name='JiggleCoordinates' flags='00000000'>
       <enumitem name='JIGGLE_IN_WORLD_COORDINATES' value='0'/>

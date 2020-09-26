@@ -1,4 +1,4 @@
-<class name='hkbStateMachine' version='1' signature='0x00000000' size='336' parent='hkbGenerator'>
+<class name='hkbStateMachine' version='1' signature='0xe1221651' size='336' parent='hkbGenerator'>
   <enums>
     <enum name='StartStateMode' flags='00000000'>
       <enumitem name='START_STATE_MODE_DEFAULT' value='0'/>

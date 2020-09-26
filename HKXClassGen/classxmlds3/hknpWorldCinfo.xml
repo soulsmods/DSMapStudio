@@ -1,4 +1,4 @@
-<class name='hknpWorldCinfo' version='1' signature='0x00000000' size='256'>
+<class name='hknpWorldCinfo' version='1' signature='0x6300cf42' size='256'>
   <enums>
     <enum name='SimulationType' flags='00000000'>
       <enumitem name='SIMULATION_TYPE_SINGLE_THREADED' value='0'/>

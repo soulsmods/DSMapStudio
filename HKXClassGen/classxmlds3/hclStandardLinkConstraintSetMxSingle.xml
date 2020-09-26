@@ -1,4 +1,4 @@
-<class name='hclStandardLinkConstraintSetMxSingle' version='1' signature='0x00000000' size='16'>
+<class name='hclStandardLinkConstraintSetMxSingle' version='1' signature='0xe41334af' size='16'>
   <members>
     <member name='restLength' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='stiffnessA' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

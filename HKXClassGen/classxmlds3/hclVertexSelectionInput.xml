@@ -1,4 +1,4 @@
-<class name='hclVertexSelectionInput' version='1' signature='0x00000000' size='16'>
+<class name='hclVertexSelectionInput' version='1' signature='0x4591bbfb' size='16'>
   <enums>
     <enum name='VertexSelectionType' flags='00000000'>
       <enumitem name='VERTEX_SELECTION_ALL' value='0'/>

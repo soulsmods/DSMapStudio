@@ -1,4 +1,4 @@
-<class name='CustomSprjGenerator' version='1' signature='0x00000000' size='200' parent='hkbGenerator'>
+<class name='CustomSprjGenerator' version='1' signature='0x3eb7f6b1' size='200' parent='hkbGenerator'>
   <enums>
     <enum name='OffsetType' flags='00000000'>
       <enumitem name='WeaponCategory' value='10'/>

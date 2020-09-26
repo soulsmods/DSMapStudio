@@ -1,4 +1,4 @@
-<class name='hkcdStaticMeshTreeBaseSection' version='1' signature='0x00000000' size='96' parent='hkcdStaticTreeTreehkcdStaticTreeDynamicStorage4'>
+<class name='hkcdStaticMeshTreeBaseSection' version='1' signature='0xfd01ccd8' size='96' parent='hkcdStaticTreeTreehkcdStaticTreeDynamicStorage4'>
   <enums>
     <enum name='Flags' flags='00000000'>
       <enumitem name='SF_REQUIRE_TREE' value='1'/>

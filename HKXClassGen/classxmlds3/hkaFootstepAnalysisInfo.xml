@@ -1,4 +1,4 @@
-<class name='hkaFootstepAnalysisInfo' version='1' signature='0x00000000' size='208' parent='hkReferencedObject'>
+<class name='hkaFootstepAnalysisInfo' version='1' signature='0x92d00fb7' size='208' parent='hkReferencedObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_CHAR' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='nameStrike' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_CHAR' arrsize='0' flags='FLAGS_NONE' default='0'/>

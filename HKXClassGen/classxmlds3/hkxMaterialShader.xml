@@ -1,4 +1,4 @@
-<class name='hkxMaterialShader' version='1' signature='0x00000000' size='72' parent='hkReferencedObject'>
+<class name='hkxMaterialShader' version='1' signature='0x4fd20af0' size='72' parent='hkReferencedObject'>
   <enums>
     <enum name='ShaderType' flags='00000000'>
       <enumitem name='EFFECT_TYPE_INVALID' value='0'/>

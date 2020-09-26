@@ -1,4 +1,4 @@
-<class name='hclSimulationSetupMeshMapOptions' version='1' signature='0x00000000' size='24'>
+<class name='hclSimulationSetupMeshMapOptions' version='1' signature='0xa89834af' size='24'>
   <members>
     <member name='collapseVertices' offset='0' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='collapseThreshold' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

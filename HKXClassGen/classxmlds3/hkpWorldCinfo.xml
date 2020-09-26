@@ -1,4 +1,4 @@
-<class name='hkpWorldCinfo' version='1' signature='0x00000000' size='256' parent='hkReferencedObject'>
+<class name='hkpWorldCinfo' version='1' signature='0x5be9b78c' size='256' parent='hkReferencedObject'>
   <enums>
     <enum name='SolverType' flags='00000000'>
       <enumitem name='SOLVER_TYPE_INVALID' value='0'/>

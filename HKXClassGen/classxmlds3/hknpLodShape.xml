@@ -1,4 +1,4 @@
-<class name='hknpLodShape' version='1' signature='0x00000000' size='320' parent='hknpCompositeShape'>
+<class name='hknpLodShape' version='1' signature='0xca634210' size='320' parent='hknpCompositeShape'>
   <members>
     <member name='numLevelsOfDetail' offset='96' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='infos' offset='100' ctype='hknpLodShapeLevelOfDetailInfo' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='8' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbCustomTestGeneratorSimpleTypes' version='1' signature='0x00000000' size='256' parent='hkbCustomTestGeneratorHiddenTypes'>
+<class name='hkbCustomTestGeneratorSimpleTypes' version='1' signature='0x7b280d91' size='256' parent='hkbCustomTestGeneratorHiddenTypes'>
   <members>
     <member name='simpleTypeHkInt64' offset='152' vtype='TYPE_INT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='simpleTypeHkUint64' offset='160' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

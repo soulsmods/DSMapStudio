@@ -1,4 +1,4 @@
-<class name='hknpRagdollKeyFrameHierarchyUtilityControlData' version='1' signature='0x00000000' size='48'>
+<class name='hknpRagdollKeyFrameHierarchyUtilityControlData' version='1' signature='0xa3d0ac71' size='48'>
   <members>
     <member name='hierarchyGain' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='velocityDamping' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

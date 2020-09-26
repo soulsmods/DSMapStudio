@@ -1,4 +1,4 @@
-<class name='hkaAnimationBinding' version='1' signature='0x00000000' size='88' parent='hkReferencedObject'>
+<class name='hkaAnimationBinding' version='1' signature='0xfaf9150' size='88' parent='hkReferencedObject'>
   <enums>
     <enum name='BlendHint' flags='00000000'>
       <enumitem name='NORMAL' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hclVertexFloatInput' version='1' signature='0x00000000' size='16'>
+<class name='hclVertexFloatInput' version='1' signature='0xf7629ecf' size='16'>
   <enums>
     <enum name='VertexFloatType' flags='00000000'>
       <enumitem name='VERTEX_FLOAT_CONSTANT' value='0'/>

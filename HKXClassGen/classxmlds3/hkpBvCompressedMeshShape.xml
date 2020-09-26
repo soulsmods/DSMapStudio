@@ -1,4 +1,4 @@
-<class name='hkpBvCompressedMeshShape' version='1' signature='0x00000000' size='272' parent='hkpBvTreeShape'>
+<class name='hkpBvCompressedMeshShape' version='1' signature='0xabab6bb3' size='272' parent='hkpBvTreeShape'>
   <enums>
     <enum name='PerPrimitiveDataMode' flags='00000000'>
       <enumitem name='PER_PRIMITIVE_DATA_NONE' value='0'/>

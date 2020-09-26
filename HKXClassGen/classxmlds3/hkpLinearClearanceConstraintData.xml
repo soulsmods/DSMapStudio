@@ -1,4 +1,4 @@
-<class name='hkpLinearClearanceConstraintData' version='1' signature='0x00000000' size='320' parent='hkpConstraintData'>
+<class name='hkpLinearClearanceConstraintData' version='1' signature='0x9f2f89bd' size='320' parent='hkpConstraintData'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='PRISMATIC' value='0'/>

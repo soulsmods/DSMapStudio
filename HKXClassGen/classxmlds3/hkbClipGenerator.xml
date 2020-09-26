@@ -1,4 +1,4 @@
-<class name='hkbClipGenerator' version='1' signature='0x00000000' size='352' parent='hkbGenerator'>
+<class name='hkbClipGenerator' version='1' signature='0xd4cc9f6' size='352' parent='hkbGenerator'>
   <enums>
     <enum name='PlaybackMode' flags='00000000'>
       <enumitem name='MODE_SINGLE_PLAY' value='0'/>

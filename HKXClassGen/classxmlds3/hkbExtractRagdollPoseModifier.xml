@@ -1,4 +1,4 @@
-<class name='hkbExtractRagdollPoseModifier' version='1' signature='0x00000000' size='96' parent='hkbModifier'>
+<class name='hkbExtractRagdollPoseModifier' version='1' signature='0x10af9d59' size='96' parent='hkbModifier'>
   <members>
     <member name='poseMatchingBone0' offset='88' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='poseMatchingBone1' offset='90' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

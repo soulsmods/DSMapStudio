@@ -1,4 +1,4 @@
-<class name='hknpAction' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hknpAction' version='1' signature='0x2a292922' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='Result' flags='00000000'>
       <enumitem name='RESULT_OK' value='0'/>

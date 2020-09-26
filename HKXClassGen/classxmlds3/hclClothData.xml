@@ -1,4 +1,4 @@
-<class name='hclClothData' version='1' signature='0x00000000' size='128' parent='hkReferencedObject'>
+<class name='hclClothData' version='1' signature='0xf943cea2' size='128' parent='hkReferencedObject'>
   <enums>
     <enum name='Platform' flags='00000000'>
       <enumitem name='HCL_PLATFORM_INVALID' value='0'/>

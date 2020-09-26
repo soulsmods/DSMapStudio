@@ -1,4 +1,4 @@
-<class name='hkxIndexBuffer' version='1' signature='0x00000000' size='64' parent='hkReferencedObject'>
+<class name='hkxIndexBuffer' version='1' signature='0x81d1cd6e' size='64' parent='hkReferencedObject'>
   <enums>
     <enum name='IndexType' flags='00000000'>
       <enumitem name='INDEX_TYPE_INVALID' value='0'/>

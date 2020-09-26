@@ -1,4 +1,4 @@
-<class name='hkxCamera' version='1' signature='0x00000000' size='80' parent='hkReferencedObject'>
+<class name='hkxCamera' version='1' signature='0x61d40c54' size='80' parent='hkReferencedObject'>
   <members>
     <member name='from' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='focus' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

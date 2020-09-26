@@ -1,4 +1,4 @@
-<class name='hkbCharacterStringData' version='1' signature='0x00000000' size='224' parent='hkReferencedObject'>
+<class name='hkbCharacterStringData' version='1' signature='0xb9d8a52' size='224' parent='hkReferencedObject'>
   <members>
     <member name='skinNames' offset='16' ctype='hkbCharacterStringDataFileNameMeshNamePair' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='boneAttachmentNames' offset='32' ctype='hkbCharacterStringDataFileNameMeshNamePair' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

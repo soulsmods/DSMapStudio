@@ -1,4 +1,4 @@
-<class name='hclSimClothDataTransferMotionData' version='1' signature='0x00000000' size='48'>
+<class name='hclSimClothDataTransferMotionData' version='1' signature='0xd49be55' size='48'>
   <members>
     <member name='transformSetIndex' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='transformIndex' offset='4' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

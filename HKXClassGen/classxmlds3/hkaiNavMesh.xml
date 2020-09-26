@@ -1,4 +1,4 @@
-<class name='hkaiNavMesh' version='1' signature='0x00000000' size='176' parent='hkReferencedObject'>
+<class name='hkaiNavMesh' version='1' signature='0x6d493bdb' size='176' parent='hkReferencedObject'>
   <enums>
     <enum name='FaceFlagBits' flags='00000000'>
       <enumitem name='FACE_HIDDEN' value='1'/>

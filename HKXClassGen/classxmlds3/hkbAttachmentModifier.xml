@@ -1,4 +1,4 @@
-<class name='hkbAttachmentModifier' version='1' signature='0x00000000' size='208' parent='hkbModifier'>
+<class name='hkbAttachmentModifier' version='1' signature='0x33bc845f' size='208' parent='hkbModifier'>
   <members>
     <member name='sendToAttacherOnAttach' offset='88' ctype='hkbEventProperty' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='sendToAttacheeOnAttach' offset='104' ctype='hkbEventProperty' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

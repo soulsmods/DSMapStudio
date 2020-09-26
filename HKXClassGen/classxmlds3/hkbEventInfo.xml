@@ -1,4 +1,4 @@
-<class name='hkbEventInfo' version='1' signature='0x00000000' size='4'>
+<class name='hkbEventInfo' version='1' signature='0x5874eed4' size='4'>
   <enums>
     <enum name='Flags' flags='00000000'>
       <enumitem name='FLAG_SILENT' value='1'/>

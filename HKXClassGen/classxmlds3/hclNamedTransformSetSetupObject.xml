@@ -1,4 +1,4 @@
-<class name='hclNamedTransformSetSetupObject' version='1' signature='0x00000000' size='40' parent='hclTransformSetSetupObject'>
+<class name='hclNamedTransformSetSetupObject' version='1' signature='0x955cee1d' size='40' parent='hclTransformSetSetupObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='skelName' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

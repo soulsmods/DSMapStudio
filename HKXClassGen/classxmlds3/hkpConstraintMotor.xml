@@ -1,4 +1,4 @@
-<class name='hkpConstraintMotor' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hkpConstraintMotor' version='1' signature='0xc464ae4d' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='MotorType' flags='00000000'>
       <enumitem name='TYPE_INVALID' value='0'/>

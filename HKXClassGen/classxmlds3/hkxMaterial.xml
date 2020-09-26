@@ -1,4 +1,4 @@
-<class name='hkxMaterial' version='1' signature='0x00000000' size='224' parent='hkxAttributeHolder'>
+<class name='hkxMaterial' version='1' signature='0x785ec362' size='224' parent='hkxAttributeHolder'>
   <enums>
     <enum name='TextureType' flags='00000000'>
       <enumitem name='TEX_UNKNOWN' value='0'/>

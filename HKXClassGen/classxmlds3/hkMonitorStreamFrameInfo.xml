@@ -1,4 +1,4 @@
-<class name='hkMonitorStreamFrameInfo' version='1' signature='0x00000000' size='40'>
+<class name='hkMonitorStreamFrameInfo' version='1' signature='0x7798b7db' size='40'>
   <enums>
     <enum name='AbsoluteTimeCounter' flags='00000000'>
       <enumitem name='ABSOLUTE_TIME_TIMER_0' value='0'/>

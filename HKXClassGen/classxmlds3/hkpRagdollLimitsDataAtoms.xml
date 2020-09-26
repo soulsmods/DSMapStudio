@@ -1,4 +1,4 @@
-<class name='hkpRagdollLimitsDataAtoms' version='1' signature='0x00000000' size='208'>
+<class name='hkpRagdollLimitsDataAtoms' version='1' signature='0xaa28b6d5' size='208'>
   <enums>
     <enum name='Axis' flags='00000000'>
       <enumitem name='AXIS_TWIST' value='0'/>

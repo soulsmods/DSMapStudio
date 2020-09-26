@@ -1,4 +1,4 @@
-<class name='hkbSimulationControlCommand' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hkbSimulationControlCommand' version='1' signature='0xc92ab66a' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='SimulationControlCommand' flags='00000000'>
       <enumitem name='COMMAND_PLAY' value='0'/>

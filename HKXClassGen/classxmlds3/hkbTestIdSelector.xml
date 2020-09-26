@@ -1,4 +1,4 @@
-<class name='hkbTestIdSelector' version='1' signature='0x00000000' size='32' parent='hkbCustomIdSelector'>
+<class name='hkbTestIdSelector' version='1' signature='0x91929bea' size='32' parent='hkbCustomIdSelector'>
   <members>
     <member name='int' offset='16' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='real' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='CustomBoneFixModifier' version='1' signature='0x00000000' size='208' parent='hkbModifier'>
+<class name='CustomBoneFixModifier' version='1' signature='0xa93127ed' size='208' parent='hkbModifier'>
   <enums>
     <enum name='GainState' flags='00000000'>
       <enumitem name='GainStateTargetGain' value='0'/>

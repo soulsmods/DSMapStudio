@@ -1,4 +1,4 @@
-<class name='hclTriangleSelectionInput' version='1' signature='0x00000000' size='16'>
+<class name='hclTriangleSelectionInput' version='1' signature='0x8e8b20eb' size='16'>
   <enums>
     <enum name='TriangleSelectionType' flags='00000000'>
       <enumitem name='TRIANGLE_SELECTION_ALL' value='0'/>

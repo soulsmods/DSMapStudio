@@ -1,4 +1,4 @@
-<class name='hclLocalRangeConstraintSetLocalConstraint' version='1' signature='0x00000000' size='16'>
+<class name='hclLocalRangeConstraintSetLocalConstraint' version='1' signature='0x63abec5e' size='16'>
   <members>
     <member name='particleIndex' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='referenceVertex' offset='2' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

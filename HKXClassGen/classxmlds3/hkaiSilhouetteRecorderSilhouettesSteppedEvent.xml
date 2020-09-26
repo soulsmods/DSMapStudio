@@ -1,4 +1,4 @@
-<class name='hkaiSilhouetteRecorderSilhouettesSteppedEvent' version='1' signature='0x00000000' size='104' parent='hkaiSilhouetteRecorderReplayEvent'>
+<class name='hkaiSilhouetteRecorderSilhouettesSteppedEvent' version='1' signature='0xee653e82' size='104' parent='hkaiSilhouetteRecorderReplayEvent'>
   <members>
     <member name='stepThreading' offset='24' etype='StepThreading' vtype='TYPE_ENUM' vsubtype='TYPE_UINT32' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='generators' offset='32' ctype='hkaiSilhouetteGenerator' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE' default='0'/>

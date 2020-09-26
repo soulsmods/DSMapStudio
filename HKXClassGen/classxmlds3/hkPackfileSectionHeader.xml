@@ -1,4 +1,4 @@
-<class name='hkPackfileSectionHeader' version='1' signature='0x00000000' size='64'>
+<class name='hkPackfileSectionHeader' version='1' signature='0xc6ef4461' size='64'>
   <members>
     <member name='sectionTag' offset='0' vtype='TYPE_CHAR' vsubtype='TYPE_VOID' arrsize='19' flags='FLAGS_NONE' default='0'/>
     <member name='nullByte' offset='19' vtype='TYPE_CHAR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

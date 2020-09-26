@@ -1,4 +1,4 @@
-<class name='hkRangeInt32Attribute' version='1' signature='0x00000000' size='16'>
+<class name='hkRangeInt32Attribute' version='1' signature='0x4846be29' size='16'>
   <members>
     <member name='absmin' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='absmax' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbNode' version='1' signature='0x00000000' size='80' parent='hkbBindable'>
+<class name='hkbNode' version='1' signature='0x8b4251f' size='80' parent='hkbBindable'>
   <enums>
     <enum name='GetChildrenFlagBits' flags='00000000'>
       <enumitem name='FLAG_ACTIVE_ONLY' value='1'/>

@@ -1,4 +1,4 @@
-<class name='hkpBallSocketConstraintAtom' version='1' signature='0x00000000' size='16' parent='hkpConstraintAtom'>
+<class name='hkpBallSocketConstraintAtom' version='1' signature='0x6ba88f7a' size='16' parent='hkpConstraintAtom'>
   <members>
     <member name='solvingMethod' offset='2' etype='SolvingMethod' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='bodiesToNotify' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

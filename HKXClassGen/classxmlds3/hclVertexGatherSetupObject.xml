@@ -1,4 +1,4 @@
-<class name='hclVertexGatherSetupObject' version='1' signature='0x00000000' size='88' parent='hclOperatorSetupObject'>
+<class name='hclVertexGatherSetupObject' version='1' signature='0xb96bf3ed' size='88' parent='hclOperatorSetupObject'>
   <enums>
     <enum name='Direction' flags='00000000'>
       <enumitem name='SIMULATION_TO_DISPLAY' value='0'/>

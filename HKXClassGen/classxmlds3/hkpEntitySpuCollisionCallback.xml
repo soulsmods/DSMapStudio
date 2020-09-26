@@ -1,4 +1,4 @@
-<class name='hkpEntitySpuCollisionCallback' version='1' signature='0x00000000' size='16'>
+<class name='hkpEntitySpuCollisionCallback' version='1' signature='0x81147f05' size='16'>
   <members>
     <member name='util' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='capacity' offset='8' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

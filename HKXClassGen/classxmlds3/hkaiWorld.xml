@@ -1,4 +1,4 @@
-<class name='hkaiWorld' version='1' signature='0x00000000' size='672' parent='hkReferencedObject'>
+<class name='hkaiWorld' version='1' signature='0xb155a7f6' size='672' parent='hkReferencedObject'>
   <enums>
     <enum name='StepThreading' flags='00000000'>
       <enumitem name='STEP_SINGLE_THREADED' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbHandIkDriverInfoHand' version='1' signature='0x00000000' size='96'>
+<class name='hkbHandIkDriverInfoHand' version='1' signature='0x14dfe1dd' size='96'>
   <members>
     <member name='elbowAxisLS' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='backHandNormalLS' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

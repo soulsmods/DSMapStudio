@@ -1,4 +1,4 @@
-<class name='hknpMaterialLibrary' version='1' signature='0x00000000' size='64' parent='hkReferencedObject'>
+<class name='hknpMaterialLibrary' version='1' signature='0x5c07fd6a' size='64' parent='hkReferencedObject'>
   <members>
     <member name='materialAddedSignal' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='materialModifiedSignal' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

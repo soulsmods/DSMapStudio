@@ -1,4 +1,4 @@
-<class name='hkpExtendedMeshShapeTrianglesSubpart' version='1' signature='0x00000000' size='144' parent='hkpExtendedMeshShapeSubpart'>
+<class name='hkpExtendedMeshShapeTrianglesSubpart' version='1' signature='0x27cfa4d8' size='144' parent='hkpExtendedMeshShapeSubpart'>
   <members>
     <member name='numTriangleShapes' offset='32' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='vertexBase' offset='40' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

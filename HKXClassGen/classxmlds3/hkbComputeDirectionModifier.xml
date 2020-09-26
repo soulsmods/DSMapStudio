@@ -1,4 +1,4 @@
-<class name='hkbComputeDirectionModifier' version='1' signature='0x00000000' size='160' parent='hkbModifier'>
+<class name='hkbComputeDirectionModifier' version='1' signature='0x74a9a686' size='160' parent='hkbModifier'>
   <members>
     <member name='pointIn' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='pointOut' offset='112' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

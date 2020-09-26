@@ -1,4 +1,4 @@
-<class name='hknpVehicleWheelCollide' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hknpVehicleWheelCollide' version='1' signature='0x22fd4847' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='WheelCollideType' flags='00000000'>
       <enumitem name='INVALID_WHEEL_COLLIDE' value='0'/>

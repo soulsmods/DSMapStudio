@@ -1,4 +1,4 @@
-<class name='hkaAnimation' version='1' signature='0x00000000' size='56' parent='hkReferencedObject'>
+<class name='hkaAnimation' version='1' signature='0xb545fe18' size='56' parent='hkReferencedObject'>
   <enums>
     <enum name='AnimationType' flags='00000000'>
       <enumitem name='HK_UNKNOWN_ANIMATION' value='0'/>

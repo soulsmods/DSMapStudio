@@ -1,4 +1,4 @@
-<class name='hkbShapeSetup' version='1' signature='0x00000000' size='24'>
+<class name='hkbShapeSetup' version='1' signature='0xd7ff86be' size='24'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='CAPSULE' value='0'/>

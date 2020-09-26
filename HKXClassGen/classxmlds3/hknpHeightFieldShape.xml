@@ -1,4 +1,4 @@
-<class name='hknpHeightFieldShape' version='1' signature='0x00000000' size='240' parent='hknpCompositeShape'>
+<class name='hknpHeightFieldShape' version='1' signature='0xf196fcc7' size='240' parent='hknpCompositeShape'>
   <members>
     <member name='aabb' offset='96' ctype='hkAabb' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='floatToIntScale' offset='128' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkMeshVertexBuffer' version='1' signature='0x00000000' size='16' parent='hkReferencedObject'>
+<class name='hkMeshVertexBuffer' version='1' signature='0x1a7eb639' size='16' parent='hkReferencedObject'>
   <enums>
     <enum name='Flags' flags='00000000'>
       <enumitem name='ACCESS_READ' value='1'/>

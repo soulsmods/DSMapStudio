@@ -1,4 +1,4 @@
-<class name='hkpCharacterProxyCinfo' version='1' signature='0x00000000' size='144' parent='hkpCharacterControllerCinfo'>
+<class name='hkpCharacterProxyCinfo' version='1' signature='0xcb21ff57' size='144' parent='hkpCharacterControllerCinfo'>
   <members>
     <member name='position' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='velocity' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

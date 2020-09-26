@@ -1,4 +1,4 @@
-<class name='hkpEntity' version='1' signature='0x00000000' size='720' parent='hkpWorldObject'>
+<class name='hkpEntity' version='1' signature='0x88049864' size='720' parent='hkpWorldObject'>
   <enums>
     <enum name='SpuCollisionCallbackEventFilter' flags='00000000'>
       <enumitem name='SPU_SEND_NONE' value='0'/>

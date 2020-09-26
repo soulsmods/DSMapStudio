@@ -1,4 +1,4 @@
-<class name='hkbParticleSystemEventPayload' version='1' signature='0x00000000' size='80' parent='hkbEventPayload'>
+<class name='hkbParticleSystemEventPayload' version='1' signature='0xce130434' size='80' parent='hkbEventPayload'>
   <enums>
     <enum name='SystemType' flags='00000000'>
       <enumitem name='DEBRIS' value='0'/>

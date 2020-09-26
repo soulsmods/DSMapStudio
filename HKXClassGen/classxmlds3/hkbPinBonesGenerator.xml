@@ -1,4 +1,4 @@
-<class name='hkbPinBonesGenerator' version='1' signature='0x00000000' size='168' parent='hkbGenerator'>
+<class name='hkbPinBonesGenerator' version='1' signature='0x32044489' size='168' parent='hkbGenerator'>
   <members>
     <member name='referenceFrameGenerator' offset='136' ctype='hkbGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='pinnedGenerator' offset='144' ctype='hkbGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

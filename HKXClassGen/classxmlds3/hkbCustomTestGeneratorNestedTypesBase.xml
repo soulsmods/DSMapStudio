@@ -1,4 +1,4 @@
-<class name='hkbCustomTestGeneratorNestedTypesBase' version='1' signature='0x00000000' size='704' parent='hkbCustomTestGeneratorComplexTypes'>
+<class name='hkbCustomTestGeneratorNestedTypesBase' version='1' signature='0x5645dad0' size='704' parent='hkbCustomTestGeneratorComplexTypes'>
   <members>
     <member name='nestedTypeHkbGeneratorPtr' offset='384' ctype='hkbGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='nestedTypeHkbGeneratorRefPtr' offset='392' ctype='hkbGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaSplineCompressedAnimation' version='1' signature='0x00000000' size='176' parent='hkaAnimation'>
+<class name='hkaSplineCompressedAnimation' version='1' signature='0x8c3b5f7e' size='176' parent='hkaAnimation'>
   <members>
     <member name='numFrames' offset='56' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='numBlocks' offset='60' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

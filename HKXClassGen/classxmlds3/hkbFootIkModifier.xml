@@ -1,4 +1,4 @@
-<class name='hkbFootIkModifier' version='1' signature='0x00000000' size='216' parent='hkbModifier'>
+<class name='hkbFootIkModifier' version='1' signature='0xc689e38c' size='216' parent='hkbModifier'>
   <enums>
     <enum name='AlignMode' flags='00000000'>
       <enumitem name='ALIGN_MODE_FORWARD_RIGHT' value='0'/>

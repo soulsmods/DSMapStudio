@@ -1,4 +1,4 @@
-<class name='hkaMeshBinding' version='1' signature='0x00000000' size='80' parent='hkReferencedObject'>
+<class name='hkaMeshBinding' version='1' signature='0x32b0ecb6' size='80' parent='hkReferencedObject'>
   <members>
     <member name='mesh' offset='16' ctype='hkxMesh' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='originalSkeletonName' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

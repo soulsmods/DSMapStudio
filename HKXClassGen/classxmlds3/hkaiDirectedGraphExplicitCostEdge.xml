@@ -1,4 +1,4 @@
-<class name='hkaiDirectedGraphExplicitCostEdge' version='1' signature='0x00000000' size='8'>
+<class name='hkaiDirectedGraphExplicitCostEdge' version='1' signature='0x57fdf491' size='8'>
   <members>
     <member name='cost' offset='0' vtype='TYPE_HALF' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='flags' offset='2' etype='EdgeBits' vtype='TYPE_FLAGS' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hclSimClothSetupObjectTransferMotionSetupData' version='1' signature='0x00000000' size='56'>
+<class name='hclSimClothSetupObjectTransferMotionSetupData' version='1' signature='0xdb341cb1' size='56'>
   <members>
     <member name='transferMotionTransformSetSetup' offset='0' ctype='hclTransformSetSetupObject' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='transferMotionTransformName' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

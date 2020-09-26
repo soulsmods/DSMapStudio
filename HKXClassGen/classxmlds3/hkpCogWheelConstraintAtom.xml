@@ -1,4 +1,4 @@
-<class name='hkpCogWheelConstraintAtom' version='1' signature='0x00000000' size='16' parent='hkpConstraintAtom'>
+<class name='hkpCogWheelConstraintAtom' version='1' signature='0x57c62967' size='16' parent='hkpConstraintAtom'>
   <members>
     <member name='cogWheelRadiusA' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='cogWheelRadiusB' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

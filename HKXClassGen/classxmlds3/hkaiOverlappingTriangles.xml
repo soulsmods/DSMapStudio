@@ -1,4 +1,4 @@
-<class name='hkaiOverlappingTriangles' version='1' signature='0x00000000' size='1'>
+<class name='hkaiOverlappingTriangles' version='1' signature='0x84174756' size='1'>
   <enums>
     <enum name='WalkableTriangleSettings' flags='00000000'>
       <enumitem name='ONLY_FIX_WALKABLE' value='0'/>

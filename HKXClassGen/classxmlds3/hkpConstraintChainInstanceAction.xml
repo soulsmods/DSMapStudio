@@ -1,4 +1,4 @@
-<class name='hkpConstraintChainInstanceAction' version='1' signature='0x00000000' size='56' parent='hkpAction'>
+<class name='hkpConstraintChainInstanceAction' version='1' signature='0xb2eedfe0' size='56' parent='hkpAction'>
   <members>
     <member name='constraintInstance' offset='48' ctype='hkpConstraintChainInstance' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
   </members>

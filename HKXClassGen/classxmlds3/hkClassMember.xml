@@ -1,4 +1,4 @@
-<class name='hkClassMember' version='1' signature='0x00000000' size='40'>
+<class name='hkClassMember' version='1' signature='0xb0efa719' size='40'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='TYPE_VOID' value='0'/>

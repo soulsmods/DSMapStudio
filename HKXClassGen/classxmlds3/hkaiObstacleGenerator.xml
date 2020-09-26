@@ -1,4 +1,4 @@
-<class name='hkaiObstacleGenerator' version='1' signature='0x00000000' size='144' parent='hkReferencedObject'>
+<class name='hkaiObstacleGenerator' version='1' signature='0xd387ec5' size='144' parent='hkReferencedObject'>
   <members>
     <member name='useSpheres' offset='16' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='useBoundaries' offset='17' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

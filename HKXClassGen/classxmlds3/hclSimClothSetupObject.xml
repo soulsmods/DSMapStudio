@@ -1,4 +1,4 @@
-<class name='hclSimClothSetupObject' version='1' signature='0x00000000' size='352' parent='hkReferencedObject'>
+<class name='hclSimClothSetupObject' version='1' signature='0x474aa25' size='352' parent='hkReferencedObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='simulationMesh' offset='24' ctype='hclSimulationSetupMesh' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

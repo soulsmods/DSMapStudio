@@ -1,4 +1,4 @@
-<class name='hkpTriggerVolume' version='1' signature='0x00000000' size='104' parent='hkReferencedObject'>
+<class name='hkpTriggerVolume' version='1' signature='0xdfa344b7' size='104' parent='hkReferencedObject'>
   <enums>
     <enum name='EventType' flags='00000000'>
       <enumitem name='ENTERED_EVENT' value='1'/>

@@ -1,4 +1,4 @@
-<class name='hkbRagdollControllerSetup' version='1' signature='0x00000000' size='1'>
+<class name='hkbRagdollControllerSetup' version='1' signature='0x6c2e5821' size='1'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='POWERED' value='1'/>

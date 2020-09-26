@@ -1,4 +1,4 @@
-<class name='hkcdStaticMeshTreehkcdStaticMeshTreeCommonConfigunsignedintunsignedlonglong1121hknpCompressedMeshShapeTreeDataRun' version='1' signature='0x00000000' size='160' parent='hkcdStaticMeshTreeBase'>
+<class name='hkcdStaticMeshTreehkcdStaticMeshTreeCommonConfigunsignedintunsignedlonglong1121hknpCompressedMeshShapeTreeDataRun' version='1' signature='0x1da85e02' size='160' parent='hkcdStaticMeshTreeBase'>
   <enums>
     <enum name='TriangleMaterial' flags='00000000'>
       <enumitem name='TM_SET_FROM_TRIANGLE_DATA_TYPE' value='0'/>

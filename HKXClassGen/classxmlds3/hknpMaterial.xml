@@ -1,4 +1,4 @@
-<class name='hknpMaterial' version='1' signature='0x00000000' size='80'>
+<class name='hknpMaterial' version='1' signature='0xb7c5f24e' size='80'>
   <enums>
     <enum name='TriggerType' flags='00000000'>
       <enumitem name='TRIGGER_TYPE_NONE' value='0'/>

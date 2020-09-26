@@ -1,4 +1,4 @@
-<class name='hkaiNavVolume' version='1' signature='0x00000000' size='160' parent='hkReferencedObject'>
+<class name='hkaiNavVolume' version='1' signature='0x8aa1da8a' size='160' parent='hkReferencedObject'>
   <enums>
     <enum name='Constants' flags='00000000'>
       <enumitem name='INVALID_CELL_INDEX' value='-1'/>

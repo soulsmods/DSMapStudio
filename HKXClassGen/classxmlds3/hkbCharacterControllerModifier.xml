@@ -1,4 +1,4 @@
-<class name='hkbCharacterControllerModifier' version='1' signature='0x00000000' size='176' parent='hkbModifier'>
+<class name='hkbCharacterControllerModifier' version='1' signature='0x74239623' size='176' parent='hkbModifier'>
   <enums>
     <enum name='InitialVelocityCoordinates' flags='00000000'>
       <enumitem name='INITIAL_VELOCITY_IN_WORLD_COORDINATES' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaiUserEdgeUtilsUserEdgePair' version='1' signature='0x00000000' size='80'>
+<class name='hkaiUserEdgeUtilsUserEdgePair' version='1' signature='0xfc9ee9f2' size='80'>
   <members>
     <member name='x' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='y' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

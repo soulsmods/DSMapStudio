@@ -1,4 +1,4 @@
-<class name='hkMeshSectionCinfo' version='1' signature='0x00000000' size='64'>
+<class name='hkMeshSectionCinfo' version='1' signature='0x19cb3aca' size='64'>
   <members>
     <member name='vertexBuffer' offset='0' ctype='hkMeshVertexBuffer' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='material' offset='8' ctype='hkMeshMaterial' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

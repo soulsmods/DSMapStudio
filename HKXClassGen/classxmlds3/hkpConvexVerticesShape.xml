@@ -1,4 +1,4 @@
-<class name='hkpConvexVerticesShape' version='1' signature='0x00000000' size='128' parent='hkpConvexShape'>
+<class name='hkpConvexVerticesShape' version='1' signature='0xc21c8b5a' size='128' parent='hkpConvexShape'>
   <members>
     <member name='aabbHalfExtents' offset='48' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='aabbCenter' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

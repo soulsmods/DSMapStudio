@@ -1,4 +1,4 @@
-<class name='hkbAttachmentSetup' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkbAttachmentSetup' version='1' signature='0xcf95eff3' size='48' parent='hkReferencedObject'>
   <enums>
     <enum name='AttachmentType' flags='00000000'>
       <enumitem name='ATTACHMENT_TYPE_KEYFRAME_RIGID_BODY' value='0'/>

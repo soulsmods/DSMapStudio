@@ -1,4 +1,4 @@
-<class name='hkbBlendingTransitionEffectInternalState' version='1' signature='0x00000000' size='144' parent='hkReferencedObject'>
+<class name='hkbBlendingTransitionEffectInternalState' version='1' signature='0x7b3a67c3' size='144' parent='hkReferencedObject'>
   <members>
     <member name='fromPos' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='fromRot' offset='32' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

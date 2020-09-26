@@ -1,4 +1,4 @@
-<class name='hkbBlendCurveUtils' version='1' signature='0x00000000' size='1'>
+<class name='hkbBlendCurveUtils' version='1' signature='0x23041af0' size='1'>
   <enums>
     <enum name='BlendCurve' flags='00000000'>
       <enumitem name='BLEND_CURVE_SMOOTH' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkpConvexPieceMeshShape' version='1' signature='0x00000000' size='72' parent='hkpShapeCollection'>
+<class name='hkpConvexPieceMeshShape' version='1' signature='0xbe1c544a' size='72' parent='hkpShapeCollection'>
   <members>
     <member name='convexPieceStream' offset='48' ctype='hkpConvexPieceStreamData' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='displayMesh' offset='56' ctype='hkpShapeCollection' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

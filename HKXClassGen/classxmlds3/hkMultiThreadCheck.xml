@@ -1,4 +1,4 @@
-<class name='hkMultiThreadCheck' version='1' signature='0x00000000' size='12'>
+<class name='hkMultiThreadCheck' version='1' signature='0x11e4408b' size='12'>
   <enums>
     <enum name='AccessType' flags='00000000'>
       <enumitem name='HK_ACCESS_IGNORE' value='0'/>

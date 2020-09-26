@@ -1,4 +1,4 @@
-<class name='hkpCapsuleShape' version='1' signature='0x00000000' size='80' parent='hkpConvexShape'>
+<class name='hkpCapsuleShape' version='1' signature='0xfda179f3' size='80' parent='hkpConvexShape'>
   <enums>
     <enum name='RayHitType' flags='00000000'>
       <enumitem name='HIT_CAP0' value='0'/>

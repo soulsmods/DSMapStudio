@@ -1,4 +1,4 @@
-<class name='hkxVertexDescription' version='1' signature='0x00000000' size='16'>
+<class name='hkxVertexDescription' version='1' signature='0x476106c0' size='16'>
   <enums>
     <enum name='DataType' flags='00000000'>
       <enumitem name='HKX_DT_NONE' value='0'/>

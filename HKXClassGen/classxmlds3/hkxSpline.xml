@@ -1,4 +1,4 @@
-<class name='hkxSpline' version='1' signature='0x00000000' size='40' parent='hkReferencedObject'>
+<class name='hkxSpline' version='1' signature='0x5ad44352' size='40' parent='hkReferencedObject'>
   <enums>
     <enum name='ControlType' flags='00000000'>
       <enumitem name='BEZIER_SMOOTH' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hclSkinOperator' version='1' signature='0x00000000' size='120' parent='hclOperator'>
+<class name='hclSkinOperator' version='1' signature='0xd1f2ea5e' size='120' parent='hclOperator'>
   <enums>
     <enum name='BONE_GROUP_SIZE' flags='00000000'>
       <enumitem name='GROUP_SIZE_1' value='1'/>

@@ -1,4 +1,4 @@
-<class name='hkpListShape' version='1' signature='0x00000000' size='144' parent='hkpShapeCollection'>
+<class name='hkpListShape' version='1' signature='0xf2ec3ed5' size='144' parent='hkpShapeCollection'>
   <enums>
     <enum name='ListShapeFlags' flags='00000000'>
       <enumitem name='ALL_FLAGS_CLEAR' value='0'/>

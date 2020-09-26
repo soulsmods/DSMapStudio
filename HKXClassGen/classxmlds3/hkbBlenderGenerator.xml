@@ -1,4 +1,4 @@
-<class name='hkbBlenderGenerator' version='1' signature='0x00000000' size='224' parent='hkbGenerator'>
+<class name='hkbBlenderGenerator' version='1' signature='0xce45c088' size='224' parent='hkbGenerator'>
   <enums>
     <enum name='BlenderFlags' flags='00000000'>
       <enumitem name='FLAG_SYNC' value='1'/>

@@ -1,4 +1,4 @@
-<class name='hkaiSearchParameters' version='1' signature='0x00000000' size='1'>
+<class name='hkaiSearchParameters' version='1' signature='0x6fed3214' size='1'>
   <enums>
     <enum name='ElementSizes' flags='00000000'>
       <enumitem name='OPENSET_ELEMENT_SIZE' value='8'/>

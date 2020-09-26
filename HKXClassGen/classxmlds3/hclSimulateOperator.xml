@@ -1,4 +1,4 @@
-<class name='hclSimulateOperator' version='1' signature='0x00000000' size='72' parent='hclOperator'>
+<class name='hclSimulateOperator' version='1' signature='0x75c72f0f' size='72' parent='hclOperator'>
   <members>
     <member name='simClothIndex' offset='32' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='subSteps' offset='36' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

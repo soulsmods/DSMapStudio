@@ -1,4 +1,4 @@
-<class name='hkpPrismaticConstraintDataAtoms' version='1' signature='0x00000000' size='256'>
+<class name='hkpPrismaticConstraintDataAtoms' version='1' signature='0xe617f094' size='256'>
   <enums>
     <enum name='Axis' flags='00000000'>
       <enumitem name='AXIS_SHAFT' value='0'/>

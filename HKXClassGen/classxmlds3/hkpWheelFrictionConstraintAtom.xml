@@ -1,4 +1,4 @@
-<class name='hkpWheelFrictionConstraintAtom' version='1' signature='0x00000000' size='48' parent='hkpConstraintAtom'>
+<class name='hkpWheelFrictionConstraintAtom' version='1' signature='0x7e0cea25' size='48' parent='hkpConstraintAtom'>
   <members>
     <member name='isEnabled' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='forwardAxis' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

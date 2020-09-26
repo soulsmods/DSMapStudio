@@ -1,4 +1,4 @@
-<class name='hclRuntimeConversionInfo' version='1' signature='0x00000000' size='42'>
+<class name='hclRuntimeConversionInfo' version='1' signature='0xe36985b8' size='42'>
   <enums>
     <enum name='VectorConversion' flags='00000000'>
       <enumitem name='VC_FLOAT4' value='0'/>

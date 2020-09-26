@@ -1,4 +1,4 @@
-<class name='hkVariableTweakingHelperVector4VariableInfo' version='1' signature='0x00000000' size='32'>
+<class name='hkVariableTweakingHelperVector4VariableInfo' version='1' signature='0x3f606072' size='32'>
   <members>
     <member name='name' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='x' offset='8' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

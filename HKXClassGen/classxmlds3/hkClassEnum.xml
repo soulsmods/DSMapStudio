@@ -1,4 +1,4 @@
-<class name='hkClassEnum' version='1' signature='0x00000000' size='40'>
+<class name='hkClassEnum' version='1' signature='0x8a3609cf' size='40'>
   <enums>
     <enum name='FlagValues' flags='00000000'>
       <enumitem name='FLAGS_NONE' value='0'/>

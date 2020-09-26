@@ -1,4 +1,4 @@
-<class name='hkbpCheckBalanceModifier' version='1' signature='0x00000000' size='208' parent='hkbModifier'>
+<class name='hkbpCheckBalanceModifier' version='1' signature='0x81c5e121' size='208' parent='hkbModifier'>
   <members>
     <member name='ragdollLeftFootBoneIndex' offset='88' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='ragdollRightFootBoneIndex' offset='90' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

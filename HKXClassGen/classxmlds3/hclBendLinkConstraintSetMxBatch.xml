@@ -1,4 +1,4 @@
-<class name='hclBendLinkConstraintSetMxBatch' version='1' signature='0x00000000' size='448'>
+<class name='hclBendLinkConstraintSetMxBatch' version='1' signature='0x96e40e87' size='448'>
   <members>
     <member name='bendMinLengths' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>
     <member name='stretchMaxLengths' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>

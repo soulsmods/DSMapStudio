@@ -1,4 +1,4 @@
-<class name='hkbDetectCloseToGroundModifier' version='1' signature='0x00000000' size='128' parent='hkbModifier'>
+<class name='hkbDetectCloseToGroundModifier' version='1' signature='0x875d28c2' size='128' parent='hkbModifier'>
   <members>
     <member name='closeToGroundEvent' offset='88' ctype='hkbEventProperty' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='closeToGroundHeight' offset='104' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

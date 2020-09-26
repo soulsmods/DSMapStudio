@@ -1,4 +1,4 @@
-<class name='hclBoneSpaceSkinOperator' version='1' signature='0x00000000' size='144' parent='hclOperator'>
+<class name='hclBoneSpaceSkinOperator' version='1' signature='0xcd8191c6' size='144' parent='hclOperator'>
   <members>
     <member name='transformSubset' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT16' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='outputBufferIndex' offset='48' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

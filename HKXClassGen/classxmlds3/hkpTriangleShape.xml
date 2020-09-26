@@ -1,4 +1,4 @@
-<class name='hkpTriangleShape' version='1' signature='0x00000000' size='112' parent='hkpConvexShape'>
+<class name='hkpTriangleShape' version='1' signature='0x16fc1f32' size='112' parent='hkpConvexShape'>
   <members>
     <member name='weldingInfo' offset='40' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='weldingType' offset='42' etype='WeldingType' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE' default='0'/>

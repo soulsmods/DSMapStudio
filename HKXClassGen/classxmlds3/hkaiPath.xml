@@ -1,4 +1,4 @@
-<class name='hkaiPath' version='1' signature='0x00000000' size='40' parent='hkReferencedObject'>
+<class name='hkaiPath' version='1' signature='0x8b3cb0fd' size='40' parent='hkReferencedObject'>
   <enums>
     <enum name='PathPointBits' flags='00000000'>
       <enumitem name='EDGE_TYPE_USER_START' value='1'/>

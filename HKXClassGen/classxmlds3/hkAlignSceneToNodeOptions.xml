@@ -1,4 +1,4 @@
-<class name='hkAlignSceneToNodeOptions' version='1' signature='0x00000000' size='40' parent='hkReferencedObject'>
+<class name='hkAlignSceneToNodeOptions' version='1' signature='0xa4c9bfe6' size='40' parent='hkReferencedObject'>
   <members>
     <member name='invert' offset='16' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='transformPositionX' offset='17' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

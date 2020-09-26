@@ -1,4 +1,4 @@
-<class name='hkaiReferenceFrameAndExtrusion' version='1' signature='0x00000000' size='32'>
+<class name='hkaiReferenceFrameAndExtrusion' version='1' signature='0x58d204d9' size='32'>
   <enums>
     <enum name='UpVectorTransformMethod' flags='00000000'>
       <enumitem name='USE_GLOBAL_UP' value='0'/>

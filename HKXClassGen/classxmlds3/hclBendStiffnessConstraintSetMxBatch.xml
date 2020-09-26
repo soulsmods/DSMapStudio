@@ -1,4 +1,4 @@
-<class name='hclBendStiffnessConstraintSetMxBatch' version='1' signature='0x00000000' size='768'>
+<class name='hclBendStiffnessConstraintSetMxBatch' version='1' signature='0x395d6341' size='768'>
   <members>
     <member name='weightsA' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>
     <member name='weightsB' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>

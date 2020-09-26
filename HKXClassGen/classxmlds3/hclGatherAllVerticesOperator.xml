@@ -1,4 +1,4 @@
-<class name='hclGatherAllVerticesOperator' version='1' signature='0x00000000' size='64' parent='hclOperator'>
+<class name='hclGatherAllVerticesOperator' version='1' signature='0xda737296' size='64' parent='hclOperator'>
   <members>
     <member name='vertexInputFromVertexOutput' offset='32' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='inputBufferIdx' offset='48' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

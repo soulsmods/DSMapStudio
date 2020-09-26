@@ -1,4 +1,4 @@
-<class name='hkaiPointCloudSilhouetteGenerator' version='1' signature='0x00000000' size='160' parent='hkaiSilhouetteGenerator'>
+<class name='hkaiPointCloudSilhouetteGenerator' version='1' signature='0xdef85332' size='160' parent='hkaiSilhouetteGenerator'>
   <enums>
     <enum name='DetailLevel' flags='00000000'>
       <enumitem name='DETAIL_INVALID' value='0'/>

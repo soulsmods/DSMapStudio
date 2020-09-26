@@ -1,4 +1,4 @@
-<class name='hclToolNamedObjectReference' version='1' signature='0x00000000' size='24'>
+<class name='hclToolNamedObjectReference' version='1' signature='0xd00d5189' size='24'>
   <members>
     <member name='pluginName' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='objectName' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

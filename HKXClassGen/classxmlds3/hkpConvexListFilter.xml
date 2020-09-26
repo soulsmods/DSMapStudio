@@ -1,4 +1,4 @@
-<class name='hkpConvexListFilter' version='1' signature='0x00000000' size='16' parent='hkReferencedObject'>
+<class name='hkpConvexListFilter' version='1' signature='0xe74016' size='16' parent='hkReferencedObject'>
   <enums>
     <enum name='ConvexListCollisionType' flags='00000000'>
       <enumitem name='TREAT_CONVEX_LIST_AS_NORMAL' value='0'/>

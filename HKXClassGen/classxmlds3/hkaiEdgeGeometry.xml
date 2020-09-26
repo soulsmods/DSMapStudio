@@ -1,4 +1,4 @@
-<class name='hkaiEdgeGeometry' version='1' signature='0x00000000' size='80' parent='hkReferencedObject'>
+<class name='hkaiEdgeGeometry' version='1' signature='0xe1e66d28' size='80' parent='hkReferencedObject'>
   <enums>
     <enum name='FaceFlagBits' flags='00000000'>
       <enumitem name='FLAGS_NONE' value='0'/>

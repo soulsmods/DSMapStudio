@@ -1,4 +1,4 @@
-<class name='hknpBodyQuality' version='1' signature='0x00000000' size='16'>
+<class name='hknpBodyQuality' version='1' signature='0x4d0fbd5b' size='16'>
   <enums>
     <enum name='FlagsEnum' flags='00000000'>
       <enumitem name='DROP_MANIFOLD_CACHE' value='1'/>

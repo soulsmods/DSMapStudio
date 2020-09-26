@@ -1,4 +1,4 @@
-<class name='hkaiEdgePath' version='1' signature='0x00000000' size='64' parent='hkReferencedObject'>
+<class name='hkaiEdgePath' version='1' signature='0x5a490aeb' size='64' parent='hkReferencedObject'>
   <enums>
     <enum name='PpivResult' flags='00000000'>
       <enumitem name='PPIV_RESULT_SUCCESS' value='0'/>

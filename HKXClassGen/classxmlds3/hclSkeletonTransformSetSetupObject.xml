@@ -1,4 +1,4 @@
-<class name='hclSkeletonTransformSetSetupObject' version='1' signature='0x00000000' size='96' parent='hclTransformSetSetupObject'>
+<class name='hclSkeletonTransformSetSetupObject' version='1' signature='0xa53ce11e' size='96' parent='hclTransformSetSetupObject'>
   <members>
     <member name='name' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='skeleton' offset='24' ctype='hkaSkeleton' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

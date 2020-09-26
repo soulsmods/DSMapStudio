@@ -1,4 +1,4 @@
-<class name='hkpCollisionFilter' version='1' signature='0x00000000' size='72' parent='hkReferencedObject'>
+<class name='hkpCollisionFilter' version='1' signature='0x23f26829' size='72' parent='hkReferencedObject'>
   <enums>
     <enum name='hkpFilterType' flags='00000000'>
       <enumitem name='HK_FILTER_UNKNOWN' value='0'/>

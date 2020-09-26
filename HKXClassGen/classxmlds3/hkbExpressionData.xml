@@ -1,4 +1,4 @@
-<class name='hkbExpressionData' version='1' signature='0x00000000' size='24'>
+<class name='hkbExpressionData' version='1' signature='0x6740042a' size='24'>
   <enums>
     <enum name='ExpressionEventMode' flags='00000000'>
       <enumitem name='EVENT_MODE_SEND_ONCE' value='0'/>

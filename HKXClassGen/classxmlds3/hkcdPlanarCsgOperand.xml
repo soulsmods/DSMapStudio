@@ -1,4 +1,4 @@
-<class name='hkcdPlanarCsgOperand' version='1' signature='0x00000000' size='64' parent='hkReferencedObject'>
+<class name='hkcdPlanarCsgOperand' version='1' signature='0x40034abe' size='64' parent='hkReferencedObject'>
   <members>
     <member name='geometry' offset='16' ctype='hkcdPlanarGeometry' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='danglingGeometry' offset='24' ctype='hkcdPlanarGeometry' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaiCharacter' version='1' signature='0x00000000' size='208' parent='hkReferencedObject'>
+<class name='hkaiCharacter' version='1' signature='0x1eedaf86' size='208' parent='hkReferencedObject'>
   <enums>
     <enum name='State' flags='00000000'>
       <enumitem name='STATE_NEEDS_NEW_PATH' value='0'/>

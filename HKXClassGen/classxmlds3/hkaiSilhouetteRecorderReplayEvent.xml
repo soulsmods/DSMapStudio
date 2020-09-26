@@ -1,4 +1,4 @@
-<class name='hkaiSilhouetteRecorderReplayEvent' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hkaiSilhouetteRecorderReplayEvent' version='1' signature='0x837d619b' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='ReplayEventType' flags='00000000'>
       <enumitem name='EVENT_CONNECT_TO_WORLD' value='0'/>

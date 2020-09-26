@@ -1,4 +1,4 @@
-<class name='hkbTwistModifier' version='1' signature='0x00000000' size='160' parent='hkbModifier'>
+<class name='hkbTwistModifier' version='1' signature='0x98d623bc' size='160' parent='hkbModifier'>
   <enums>
     <enum name='SetAngleMethod' flags='00000000'>
       <enumitem name='LINEAR' value='0'/>

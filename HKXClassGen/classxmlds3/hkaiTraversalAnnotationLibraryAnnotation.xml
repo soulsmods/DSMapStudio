@@ -1,4 +1,4 @@
-<class name='hkaiTraversalAnnotationLibraryAnnotation' version='1' signature='0x00000000' size='32'>
+<class name='hkaiTraversalAnnotationLibraryAnnotation' version='1' signature='0x536da0c3' size='32'>
   <members>
     <member name='tEquation' offset='0' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='userdata' offset='16' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

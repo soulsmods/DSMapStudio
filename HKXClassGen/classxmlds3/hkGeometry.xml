@@ -1,4 +1,4 @@
-<class name='hkGeometry' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkGeometry' version='1' signature='0x301ba2e4' size='48' parent='hkReferencedObject'>
   <enums>
     <enum name='GeometryType' flags='00000000'>
       <enumitem name='GEOMETRY_STATIC' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkpAngConstraintAtom' version='1' signature='0x00000000' size='16' parent='hkpConstraintAtom'>
+<class name='hkpAngConstraintAtom' version='1' signature='0x34b35c3c' size='16' parent='hkpConstraintAtom'>
   <members>
     <member name='firstConstrainedAxis' offset='2' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='numConstrainedAxes' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkRefCountedProperties' version='1' signature='0x00000000' size='16'>
+<class name='hkRefCountedProperties' version='1' signature='0x7c574867' size='16'>
   <enums>
     <enum name='ReferenceCountHandling' flags='00000000'>
       <enumitem name='REFERENCE_COUNT_INCREMENT' value='0'/>

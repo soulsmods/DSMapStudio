@@ -1,4 +1,4 @@
-<class name='hkbLayer' version='1' signature='0x00000000' size='96' parent='hkbBindable'>
+<class name='hkbLayer' version='1' signature='0x2916a243' size='96' parent='hkbBindable'>
   <members>
     <member name='generator' offset='48' ctype='hkbGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='weight' offset='56' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

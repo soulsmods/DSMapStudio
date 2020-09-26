@@ -1,4 +1,4 @@
-<class name='hknpVehicleDefaultTransmission' version='1' signature='0x00000000' size='72' parent='hknpVehicleTransmission'>
+<class name='hknpVehicleDefaultTransmission' version='1' signature='0x127272a9' size='72' parent='hknpVehicleTransmission'>
   <members>
     <member name='downshiftRPM' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='upshiftRPM' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

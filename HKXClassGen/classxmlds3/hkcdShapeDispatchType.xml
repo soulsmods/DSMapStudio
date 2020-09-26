@@ -1,4 +1,4 @@
-<class name='hkcdShapeDispatchType' version='1' signature='0x00000000' size='1'>
+<class name='hkcdShapeDispatchType' version='1' signature='0x3eca000e' size='1'>
   <enums>
     <enum name='ShapeDispatchTypeEnum' flags='00000000'>
       <enumitem name='CONVEX_IMPLICIT' value='0'/>

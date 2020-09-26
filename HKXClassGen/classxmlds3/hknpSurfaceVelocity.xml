@@ -1,4 +1,4 @@
-<class name='hknpSurfaceVelocity' version='1' signature='0x00000000' size='16' parent='hkReferencedObject'>
+<class name='hknpSurfaceVelocity' version='1' signature='0x9650a6b' size='16' parent='hkReferencedObject'>
   <enums>
     <enum name='Space' flags='00000000'>
       <enumitem name='USE_LOCAL_SPACE' value='0'/>

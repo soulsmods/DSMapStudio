@@ -1,4 +1,4 @@
-<class name='hkbBlendingTransitionEffect' version='1' signature='0x00000000' size='320' parent='hkbTransitionEffect'>
+<class name='hkbBlendingTransitionEffect' version='1' signature='0x14e54c5c' size='320' parent='hkbTransitionEffect'>
   <enums>
     <enum name='FlagBits' flags='00000000'>
       <enumitem name='FLAG_NONE' value='0'/>

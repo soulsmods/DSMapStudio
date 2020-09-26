@@ -1,4 +1,4 @@
-<class name='hkbManualSelectorGenerator' version='1' signature='0x00000000' size='216' parent='hkbGenerator'>
+<class name='hkbManualSelectorGenerator' version='1' signature='0x591a8476' size='216' parent='hkbGenerator'>
   <members>
     <member name='generators' offset='136' ctype='hkbGenerator' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='selectedGeneratorIndex' offset='152' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

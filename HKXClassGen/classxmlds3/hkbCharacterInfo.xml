@@ -1,4 +1,4 @@
-<class name='hkbCharacterInfo' version='1' signature='0x00000000' size='32' parent='hkReferencedObject'>
+<class name='hkbCharacterInfo' version='1' signature='0xe5e3cae6' size='32' parent='hkReferencedObject'>
   <enums>
     <enum name='Event' flags='00000000'>
       <enumitem name='REMOVED_FROM_WORLD' value='0'/>

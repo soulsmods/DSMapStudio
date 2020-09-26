@@ -1,4 +1,4 @@
-<class name='hkbExtrapolatingTransitionEffect' version='1' signature='0x00000000' size='688' parent='hkbBlendingTransitionEffect'>
+<class name='hkbExtrapolatingTransitionEffect' version='1' signature='0xa32ae34a' size='688' parent='hkbBlendingTransitionEffect'>
   <members>
     <member name='fromGeneratorSyncInfo' offset='320' ctype='hkbGeneratorSyncInfo' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='fromGeneratorPartitionInfo' offset='484' ctype='hkbGeneratorPartitionInfo' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

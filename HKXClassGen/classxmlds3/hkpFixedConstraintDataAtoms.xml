@@ -1,4 +1,4 @@
-<class name='hkpFixedConstraintDataAtoms' version='1' signature='0x00000000' size='192'>
+<class name='hkpFixedConstraintDataAtoms' version='1' signature='0x269ef9c5' size='192'>
   <members>
     <member name='transforms' offset='0' ctype='hkpSetLocalTransformsConstraintAtom' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='setupStabilization' offset='144' ctype='hkpSetupStabilizationAtom' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

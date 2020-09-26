@@ -1,4 +1,4 @@
-<class name='hclConstraintSet' version='1' signature='0x00000000' size='32' parent='hkReferencedObject'>
+<class name='hclConstraintSet' version='1' signature='0x2f15c82b' size='32' parent='hkReferencedObject'>
   <enums>
     <enum name='MaxConstraintSetSize' flags='00000000'>
       <enumitem name='MAX_CONSTRAINT_SET_SIZE' value='128'/>

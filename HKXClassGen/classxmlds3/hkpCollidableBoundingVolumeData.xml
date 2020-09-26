@@ -1,4 +1,4 @@
-<class name='hkpCollidableBoundingVolumeData' version='1' signature='0x00000000' size='56'>
+<class name='hkpCollidableBoundingVolumeData' version='1' signature='0x5ec25f90' size='56'>
   <members>
     <member name='min' offset='0' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE' default='0'/>
     <member name='expansionMin' offset='12' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='3' flags='FLAGS_NONE' default='0'/>

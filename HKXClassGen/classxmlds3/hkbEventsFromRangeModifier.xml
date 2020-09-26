@@ -1,4 +1,4 @@
-<class name='hkbEventsFromRangeModifier' version='1' signature='0x00000000' size='120' parent='hkbModifier'>
+<class name='hkbEventsFromRangeModifier' version='1' signature='0xc9ece705' size='120' parent='hkbModifier'>
   <members>
     <member name='inputValue' offset='88' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='lowerBound' offset='92' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

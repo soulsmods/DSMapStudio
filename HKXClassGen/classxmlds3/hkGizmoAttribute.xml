@@ -1,4 +1,4 @@
-<class name='hkGizmoAttribute' version='1' signature='0x00000000' size='24'>
+<class name='hkGizmoAttribute' version='1' signature='0x23aadfb6' size='24'>
   <enums>
     <enum name='GizmoType' flags='00000000'>
       <enumitem name='POINT' value='0'/>

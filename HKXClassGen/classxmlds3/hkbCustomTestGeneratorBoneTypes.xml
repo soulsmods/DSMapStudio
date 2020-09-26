@@ -1,4 +1,4 @@
-<class name='hkbCustomTestGeneratorBoneTypes' version='1' signature='0x00000000' size='1472' parent='hkbCustomTestGeneratorNestedTypes'>
+<class name='hkbCustomTestGeneratorBoneTypes' version='1' signature='0x2fc8c9b2' size='1472' parent='hkbCustomTestGeneratorNestedTypes'>
   <members>
     <member name='boneHiddenTypeCopyStart' offset='1424' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='oldBoneIndex' offset='1426' vtype='TYPE_INT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

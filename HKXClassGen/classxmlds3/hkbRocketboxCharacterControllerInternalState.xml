@@ -1,4 +1,4 @@
-<class name='hkbRocketboxCharacterControllerInternalState' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkbRocketboxCharacterControllerInternalState' version='1' signature='0x69a6a0ec' size='48' parent='hkReferencedObject'>
   <members>
     <member name='rapidTurnRequest' offset='16' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='currPose' offset='20' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

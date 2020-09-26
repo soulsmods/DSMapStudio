@@ -1,4 +1,4 @@
-<class name='hkbHandIkControlData' version='1' signature='0x00000000' size='96'>
+<class name='hkbHandIkControlData' version='1' signature='0xd72b8d17' size='96'>
   <enums>
     <enum name='HandleChangeMode' flags='00000000'>
       <enumitem name='HANDLE_CHANGE_MODE_ABRUPT' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbTransitionEffect' version='1' signature='0x00000000' size='168' parent='hkbGenerator'>
+<class name='hkbTransitionEffect' version='1' signature='0xeca9d564' size='168' parent='hkbGenerator'>
   <enums>
     <enum name='SelfTransitionMode' flags='00000000'>
       <enumitem name='SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC' value='0'/>

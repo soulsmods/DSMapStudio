@@ -1,4 +1,4 @@
-<class name='hkaiSilhouetteGeneratorSectionContext' version='1' signature='0x00000000' size='48'>
+<class name='hkaiSilhouetteGeneratorSectionContext' version='1' signature='0xdda1d854' size='48'>
   <members>
     <member name='lastRelativeTransform' offset='0' ctype='hkQTransform' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='generator' offset='32' ctype='hkaiSilhouetteGenerator' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

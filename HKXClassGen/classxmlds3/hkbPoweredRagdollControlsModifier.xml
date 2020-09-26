@@ -1,4 +1,4 @@
-<class name='hkbPoweredRagdollControlsModifier' version='1' signature='0x00000000' size='160' parent='hkbModifier'>
+<class name='hkbPoweredRagdollControlsModifier' version='1' signature='0xb1db2808' size='160' parent='hkbModifier'>
   <members>
     <member name='controlData' offset='96' ctype='hkbPoweredRagdollControlData' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='bones' offset='128' ctype='hkbBoneIndexArray' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

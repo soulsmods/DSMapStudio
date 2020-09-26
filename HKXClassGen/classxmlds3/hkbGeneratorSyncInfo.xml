@@ -1,4 +1,4 @@
-<class name='hkbGeneratorSyncInfo' version='1' signature='0x00000000' size='164'>
+<class name='hkbGeneratorSyncInfo' version='1' signature='0x86cf6104' size='164'>
   <members>
     <member name='syncPoints' offset='0' ctype='hkbGeneratorSyncInfoSyncPoint' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='16' flags='FLAGS_NONE' default='0'/>
     <member name='duration' offset='128' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

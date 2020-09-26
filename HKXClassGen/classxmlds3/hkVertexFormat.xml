@@ -1,4 +1,4 @@
-<class name='hkVertexFormat' version='1' signature='0x00000000' size='260'>
+<class name='hkVertexFormat' version='1' signature='0xf11e3ff7' size='260'>
   <enums>
     <enum name='ComponentType' flags='00000000'>
       <enumitem name='TYPE_NONE' value='0'/>

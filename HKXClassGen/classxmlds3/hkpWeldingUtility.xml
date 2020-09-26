@@ -1,4 +1,4 @@
-<class name='hkpWeldingUtility' version='1' signature='0x00000000' size='1'>
+<class name='hkpWeldingUtility' version='1' signature='0xb2b41feb' size='1'>
   <enums>
     <enum name='WeldingType' flags='00000000'>
       <enumitem name='WELDING_TYPE_ANTICLOCKWISE' value='0'/>

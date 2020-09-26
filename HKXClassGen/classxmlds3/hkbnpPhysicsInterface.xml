@@ -1,4 +1,4 @@
-<class name='hkbnpPhysicsInterface' version='1' signature='0x00000000' size='160' parent='hkbPhysicsInterface'>
+<class name='hkbnpPhysicsInterface' version='1' signature='0xe96e7679' size='160' parent='hkbPhysicsInterface'>
   <members>
     <member name='world' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='taskQueue' offset='32' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

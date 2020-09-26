@@ -1,4 +1,4 @@
-<class name='hkpAngMotorConstraintAtom' version='1' signature='0x00000000' size='40' parent='hkpConstraintAtom'>
+<class name='hkpAngMotorConstraintAtom' version='1' signature='0x42498456' size='40' parent='hkpConstraintAtom'>
   <members>
     <member name='isEnabled' offset='2' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='motorAxis' offset='3' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

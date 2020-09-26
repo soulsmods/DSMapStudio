@@ -1,4 +1,4 @@
-<class name='hknpVehicleInstanceWheelInfo' version='1' signature='0x00000000' size='192'>
+<class name='hknpVehicleInstanceWheelInfo' version='1' signature='0x1f939b50' size='192'>
   <members>
     <member name='contactPoint' offset='0' ctype='hkContactPoint' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='contactFriction' offset='32' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

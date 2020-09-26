@@ -1,4 +1,4 @@
-<class name='hkbDampingModifier' version='1' signature='0x00000000' size='192' parent='hkbModifier'>
+<class name='hkbDampingModifier' version='1' signature='0x68a51d05' size='192' parent='hkbModifier'>
   <members>
     <member name='kP' offset='88' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='kI' offset='92' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

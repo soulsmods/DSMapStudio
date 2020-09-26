@@ -1,4 +1,4 @@
-<class name='hkbpConstrainRigidBodyModifier' version='1' signature='0x00000000' size='120' parent='hkbModifier'>
+<class name='hkbpConstrainRigidBodyModifier' version='1' signature='0xdbb1c59a' size='120' parent='hkbModifier'>
   <enums>
     <enum name='PivotPlacement' flags='00000000'>
       <enumitem name='PIVOT_MIDWAY_BETWEEN_CENTROIDS' value='0'/>

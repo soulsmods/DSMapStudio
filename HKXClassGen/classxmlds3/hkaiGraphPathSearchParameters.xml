@@ -1,4 +1,4 @@
-<class name='hkaiGraphPathSearchParameters' version='1' signature='0x00000000' size='40'>
+<class name='hkaiGraphPathSearchParameters' version='1' signature='0x938334de' size='40'>
   <members>
     <member name='heuristicWeight' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='useHierarchicalHeuristic' offset='4' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

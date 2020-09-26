@@ -1,4 +1,4 @@
-<class name='hkpBvTreeShape' version='1' signature='0x00000000' size='40' parent='hkpShape'>
+<class name='hkpBvTreeShape' version='1' signature='0x13f65b68' size='40' parent='hkpShape'>
   <enums>
     <enum name='BvTreeType' flags='00000000'>
       <enumitem name='BVTREE_MOPP' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hclOutputConvertOperator' version='1' signature='0x00000000' size='88' parent='hclOperator'>
+<class name='hclOutputConvertOperator' version='1' signature='0xed50bb9f' size='88' parent='hclOperator'>
   <members>
     <member name='userBufferIndex' offset='32' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='shadowBufferIndex' offset='36' vtype='TYPE_UINT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

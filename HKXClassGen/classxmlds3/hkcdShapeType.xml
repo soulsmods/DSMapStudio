@@ -1,4 +1,4 @@
-<class name='hkcdShapeType' version='1' signature='0x00000000' size='1'>
+<class name='hkcdShapeType' version='1' signature='0x7413992d' size='1'>
   <enums>
     <enum name='ShapeTypeEnum' flags='00000000'>
       <enumitem name='SPHERE' value='0'/>

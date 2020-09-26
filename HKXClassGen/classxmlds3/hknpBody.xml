@@ -1,4 +1,4 @@
-<class name='hknpBody' version='1' signature='0x00000000' size='144'>
+<class name='hknpBody' version='1' signature='0x28533d8' size='144'>
   <enums>
     <enum name='Flags' flags='00000000'>
       <enumitem name='IS_STATIC' value='1'/>

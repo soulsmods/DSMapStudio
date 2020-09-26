@@ -1,4 +1,4 @@
-<class name='hkpAction' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkpAction' version='1' signature='0xf0946df7' size='48' parent='hkReferencedObject'>
   <members>
     <member name='world' offset='16' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='island' offset='24' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>

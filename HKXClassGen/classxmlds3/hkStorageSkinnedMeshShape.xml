@@ -1,4 +1,4 @@
-<class name='hkStorageSkinnedMeshShape' version='1' signature='0x00000000' size='88' parent='hkSkinnedMeshShape'>
+<class name='hkStorageSkinnedMeshShape' version='1' signature='0xe648a6ae' size='88' parent='hkSkinnedMeshShape'>
   <members>
     <member name='bonesBuffer' offset='16' vtype='TYPE_ARRAY' vsubtype='TYPE_INT16' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='boneSets' offset='32' ctype='hkSkinnedMeshShapeBoneSet' vtype='TYPE_ARRAY' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

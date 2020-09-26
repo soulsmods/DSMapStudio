@@ -1,4 +1,4 @@
-<class name='hkSemanticsAttribute' version='1' signature='0x00000000' size='1'>
+<class name='hkSemanticsAttribute' version='1' signature='0x837099c3' size='1'>
   <enums>
     <enum name='Semantics' flags='00000000'>
       <enumitem name='UNKNOWN' value='0'/>

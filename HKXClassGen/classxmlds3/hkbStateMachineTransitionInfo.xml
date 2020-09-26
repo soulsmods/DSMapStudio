@@ -1,4 +1,4 @@
-<class name='hkbStateMachineTransitionInfo' version='1' signature='0x00000000' size='72'>
+<class name='hkbStateMachineTransitionInfo' version='1' signature='0xcdec8025' size='72'>
   <enums>
     <enum name='TransitionFlags' flags='00000000'>
       <enumitem name='FLAG_USE_TRIGGER_INTERVAL' value='1'/>

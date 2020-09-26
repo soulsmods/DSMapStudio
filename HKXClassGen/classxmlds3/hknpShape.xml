@@ -1,4 +1,4 @@
-<class name='hknpShape' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hknpShape' version='1' signature='0xdb52aabb' size='48' parent='hkReferencedObject'>
   <enums>
     <enum name='FlagsEnum' flags='00000000'>
       <enumitem name='IS_CONVEX_SHAPE' value='1'/>

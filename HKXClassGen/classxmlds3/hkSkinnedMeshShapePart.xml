@@ -1,4 +1,4 @@
-<class name='hkSkinnedMeshShapePart' version='1' signature='0x00000000' size='48'>
+<class name='hkSkinnedMeshShapePart' version='1' signature='0xd8e11dbe' size='48'>
   <members>
     <member name='startVertex' offset='0' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='numVertices' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

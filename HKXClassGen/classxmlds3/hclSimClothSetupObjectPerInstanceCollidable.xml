@@ -1,4 +1,4 @@
-<class name='hclSimClothSetupObjectPerInstanceCollidable' version='1' signature='0x00000000' size='40'>
+<class name='hclSimClothSetupObjectPerInstanceCollidable' version='1' signature='0x15905a67' size='40'>
   <members>
     <member name='collidable' offset='0' ctype='hclCollidable' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='collidingParticles' offset='8' ctype='hclVertexSelectionInput' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

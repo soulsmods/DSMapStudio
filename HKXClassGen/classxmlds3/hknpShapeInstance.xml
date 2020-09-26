@@ -1,4 +1,4 @@
-<class name='hknpShapeInstance' version='1' signature='0x00000000' size='128'>
+<class name='hknpShapeInstance' version='1' signature='0x5e3dae05' size='128'>
   <enums>
     <enum name='Flags' flags='00000000'>
       <enumitem name='HAS_TRANSLATION' value='2'/>

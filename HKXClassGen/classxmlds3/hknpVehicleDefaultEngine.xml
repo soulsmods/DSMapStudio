@@ -1,4 +1,4 @@
-<class name='hknpVehicleDefaultEngine' version='1' signature='0x00000000' size='56' parent='hknpVehicleEngine'>
+<class name='hknpVehicleDefaultEngine' version='1' signature='0xa5f968c3' size='56' parent='hknpVehicleEngine'>
   <members>
     <member name='minRPM' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='optRPM' offset='20' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

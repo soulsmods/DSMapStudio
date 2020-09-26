@@ -1,4 +1,4 @@
-<class name='hkaiAvoidanceProperties' version='1' signature='0x00000000' size='128' parent='hkReferencedObject'>
+<class name='hkaiAvoidanceProperties' version='1' signature='0xa499e271' size='128' parent='hkReferencedObject'>
   <enums>
     <enum name='NearbyBoundariesSearchType' flags='00000000'>
       <enumitem name='SEARCH_NEIGHBORS' value='0'/>

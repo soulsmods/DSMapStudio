@@ -1,4 +1,4 @@
-<class name='hkVertexFormatElement' version='1' signature='0x00000000' size='8'>
+<class name='hkVertexFormatElement' version='1' signature='0x54867cbf' size='8'>
   <members>
     <member name='dataType' offset='0' etype='ComponentType' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='numValues' offset='1' vtype='TYPE_UINT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

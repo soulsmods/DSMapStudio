@@ -1,4 +1,4 @@
-<class name='hkMeshShape' version='1' signature='0x00000000' size='16' parent='hkReferencedObject'>
+<class name='hkMeshShape' version='1' signature='0x694fda80' size='16' parent='hkReferencedObject'>
   <enums>
     <enum name='AccessFlags' flags='00000000'>
       <enumitem name='ACCESS_INDICES' value='1'/>

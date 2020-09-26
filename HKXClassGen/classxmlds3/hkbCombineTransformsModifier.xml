@@ -1,4 +1,4 @@
-<class name='hkbCombineTransformsModifier' version='1' signature='0x00000000' size='208' parent='hkbModifier'>
+<class name='hkbCombineTransformsModifier' version='1' signature='0x766c95a6' size='208' parent='hkbModifier'>
   <members>
     <member name='translationOut' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='rotationOut' offset='112' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

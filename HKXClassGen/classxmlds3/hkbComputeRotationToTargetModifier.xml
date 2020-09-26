@@ -1,4 +1,4 @@
-<class name='hkbComputeRotationToTargetModifier' version='1' signature='0x00000000' size='208' parent='hkbModifier'>
+<class name='hkbComputeRotationToTargetModifier' version='1' signature='0xfed6e7c4' size='208' parent='hkbModifier'>
   <members>
     <member name='rotationOut' offset='96' vtype='TYPE_QUATERNION' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='targetPosition' offset='112' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

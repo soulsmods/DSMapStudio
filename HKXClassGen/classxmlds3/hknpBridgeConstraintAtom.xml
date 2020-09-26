@@ -1,4 +1,4 @@
-<class name='hknpBridgeConstraintAtom' version='1' signature='0x00000000' size='24' parent='hkpConstraintAtom'>
+<class name='hknpBridgeConstraintAtom' version='1' signature='0x929fbcb8' size='24' parent='hkpConstraintAtom'>
   <members>
     <member name='numSolverResults' offset='4' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='constraintData' offset='8' ctype='hkpConstraintData' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters' version='1' signature='0x00000000' size='12'>
+<class name='hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters' version='1' signature='0x7be5bed1' size='12'>
   <members>
     <member name='strength' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='dampingCompression' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

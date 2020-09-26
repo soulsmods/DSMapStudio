@@ -1,4 +1,4 @@
-<class name='hkbStateMachineActiveTransitionInfo' version='1' signature='0x00000000' size='40'>
+<class name='hkbStateMachineActiveTransitionInfo' version='1' signature='0xbb90d54f' size='40'>
   <members>
     <member name='transitionEffect' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='transitionEffectInternalStateInfo' offset='8' ctype='hkbNodeInternalStateInfo' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

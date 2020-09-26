@@ -1,4 +1,4 @@
-<class name='hkpPulleyConstraintAtom' version='1' signature='0x00000000' size='64' parent='hkpConstraintAtom'>
+<class name='hkpPulleyConstraintAtom' version='1' signature='0x68919279' size='64' parent='hkpConstraintAtom'>
   <members>
     <member name='fixedPivotAinWorld' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='fixedPivotBinWorld' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

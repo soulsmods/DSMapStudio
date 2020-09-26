@@ -1,4 +1,4 @@
-<class name='hkbpFaceTargetModifier' version='1' signature='0x00000000' size='104' parent='hkbModifier'>
+<class name='hkbpFaceTargetModifier' version='1' signature='0xef7eb84f' size='104' parent='hkbModifier'>
   <members>
     <member name='targetIn' offset='88' ctype='hkbpTarget' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='offsetAngle' offset='96' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

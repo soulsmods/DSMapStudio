@@ -1,4 +1,4 @@
-<class name='hkbCharacter' version='1' signature='0x00000000' size='224' parent='hkReferencedObject'>
+<class name='hkbCharacter' version='1' signature='0x6d1abf8a' size='224' parent='hkReferencedObject'>
   <enums>
     <enum name='CapabilityTypes' flags='00000000'>
       <enumitem name='FULL_POSE' value='1'/>

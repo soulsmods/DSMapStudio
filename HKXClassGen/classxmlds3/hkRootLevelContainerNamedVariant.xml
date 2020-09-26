@@ -1,4 +1,4 @@
-<class name='hkRootLevelContainerNamedVariant' version='1' signature='0x00000000' size='24'>
+<class name='hkRootLevelContainerNamedVariant' version='1' signature='0xb103a2cd' size='24'>
   <members>
     <member name='name' offset='0' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='className' offset='8' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

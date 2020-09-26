@@ -1,4 +1,4 @@
-<class name='hkbCustomTestGeneratorHiddenTypes' version='1' signature='0x00000000' size='152' parent='hkbReferencePoseGenerator'>
+<class name='hkbCustomTestGeneratorHiddenTypes' version='1' signature='0x82b0a30f' size='152' parent='hkbReferencePoseGenerator'>
   <members>
     <member name='inheritedHiddenMember' offset='144' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='protectedInheritedHiddenMember' offset='145' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

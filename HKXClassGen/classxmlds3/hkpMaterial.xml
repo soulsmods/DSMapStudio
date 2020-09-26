@@ -1,4 +1,4 @@
-<class name='hkpMaterial' version='1' signature='0x00000000' size='12'>
+<class name='hkpMaterial' version='1' signature='0x33be6570' size='12'>
   <enums>
     <enum name='ResponseType' flags='00000000'>
       <enumitem name='RESPONSE_INVALID' value='0'/>

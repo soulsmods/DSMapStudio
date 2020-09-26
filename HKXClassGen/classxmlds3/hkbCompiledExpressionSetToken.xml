@@ -1,4 +1,4 @@
-<class name='hkbCompiledExpressionSetToken' version='1' signature='0x00000000' size='8'>
+<class name='hkbCompiledExpressionSetToken' version='1' signature='0xc2879bd5' size='8'>
   <enums>
     <enum name='TokenType' flags='00000000'>
       <enumitem name='TOKEN_TYPE_NONE' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaiMovementProperties' version='1' signature='0x00000000' size='36'>
+<class name='hkaiMovementProperties' version='1' signature='0xd0211f76' size='36'>
   <enums>
     <enum name='KinematicConstraintType' flags='00000000'>
       <enumitem name='CONSTRAINTS_NONE' value='0'/>

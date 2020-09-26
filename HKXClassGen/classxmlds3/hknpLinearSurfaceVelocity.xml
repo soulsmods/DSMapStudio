@@ -1,4 +1,4 @@
-<class name='hknpLinearSurfaceVelocity' version='1' signature='0x00000000' size='64' parent='hknpSurfaceVelocity'>
+<class name='hknpLinearSurfaceVelocity' version='1' signature='0x108689b1' size='64' parent='hknpSurfaceVelocity'>
   <enums>
     <enum name='ProjectMethod' flags='00000000'>
       <enumitem name='VELOCITY_PROJECT' value='0'/>

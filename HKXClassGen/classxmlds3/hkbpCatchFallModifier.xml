@@ -1,4 +1,4 @@
-<class name='hkbpCatchFallModifier' version='1' signature='0x00000000' size='304' parent='hkbModifier'>
+<class name='hkbpCatchFallModifier' version='1' signature='0xa9264369' size='304' parent='hkbModifier'>
   <enums>
     <enum name='FadeState' flags='00000000'>
       <enumitem name='FADE_IN' value='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbFootIkModifierLeg' version='1' signature='0x00000000' size='144'>
+<class name='hkbFootIkModifierLeg' version='1' signature='0xe9c42c5d' size='144'>
   <members>
     <member name='originalAnkleTransformMS' offset='0' vtype='TYPE_QSTRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='kneeAxisLS' offset='48' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkaiNavVolumePathSearchParameters' version='1' signature='0x00000000' size='64'>
+<class name='hkaiNavVolumePathSearchParameters' version='1' signature='0x1221b75f' size='64'>
   <enums>
     <enum name='LineOfSightFlags' flags='00000000'>
       <enumitem name='NO_LINE_OF_SIGHT_CHECK' value='0'/>

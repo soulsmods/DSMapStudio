@@ -1,4 +1,4 @@
-<class name='hkpMoppCode' version='1' signature='0x00000000' size='64' parent='hkReferencedObject'>
+<class name='hkpMoppCode' version='1' signature='0x5104fd7d' size='64' parent='hkReferencedObject'>
   <enums>
     <enum name='BuildType' flags='00000000'>
       <enumitem name='BUILT_WITH_CHUNK_SUBDIVISION' value='0'/>

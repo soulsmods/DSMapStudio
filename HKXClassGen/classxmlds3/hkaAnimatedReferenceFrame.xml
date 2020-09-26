@@ -1,4 +1,4 @@
-<class name='hkaAnimatedReferenceFrame' version='1' signature='0x00000000' size='24' parent='hkReferencedObject'>
+<class name='hkaAnimatedReferenceFrame' version='1' signature='0x985e4297' size='24' parent='hkReferencedObject'>
   <enums>
     <enum name='hkaReferenceFrameTypeEnum' flags='00000000'>
       <enumitem name='REFERENCE_FRAME_UNKNOWN' value='0'/>

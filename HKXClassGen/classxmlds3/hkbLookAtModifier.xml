@@ -1,4 +1,4 @@
-<class name='hkbLookAtModifier' version='1' signature='0x00000000' size='272' parent='hkbModifier'>
+<class name='hkbLookAtModifier' version='1' signature='0x6ec9edc3' size='272' parent='hkbModifier'>
   <members>
     <member name='targetWS' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='headForwardLS' offset='112' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

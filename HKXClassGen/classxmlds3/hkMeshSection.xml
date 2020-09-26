@@ -1,4 +1,4 @@
-<class name='hkMeshSection' version='1' signature='0x00000000' size='64'>
+<class name='hkMeshSection' version='1' signature='0x5d99cc5b' size='64'>
   <enums>
     <enum name='MeshSectionIndexType' flags='00000000'>
       <enumitem name='INDEX_TYPE_NONE' value='0'/>

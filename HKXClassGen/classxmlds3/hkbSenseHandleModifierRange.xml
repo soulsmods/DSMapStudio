@@ -1,4 +1,4 @@
-<class name='hkbSenseHandleModifierRange' version='1' signature='0x00000000' size='32'>
+<class name='hkbSenseHandleModifierRange' version='1' signature='0xfb56b692' size='32'>
   <members>
     <member name='event' offset='0' ctype='hkbEventProperty' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='minDistance' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

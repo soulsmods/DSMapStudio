@@ -1,4 +1,4 @@
-<class name='hclSimulationSetupMesh' version='1' signature='0x00000000' size='208' parent='hclSetupMesh'>
+<class name='hclSimulationSetupMesh' version='1' signature='0xefda0ea4' size='208' parent='hclSetupMesh'>
   <members>
     <member name='originalMesh' offset='24' ctype='hclSetupMesh' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='mergeOptions' offset='32' ctype='hclSimulationSetupMeshMapOptions' vtype='TYPE_STRUCT' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

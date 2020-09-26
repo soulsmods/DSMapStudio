@@ -1,4 +1,4 @@
-<class name='hkMotionState' version='1' signature='0x00000000' size='176'>
+<class name='hkMotionState' version='1' signature='0x6c4bed59' size='176'>
   <members>
     <member name='transform' offset='0' vtype='TYPE_TRANSFORM' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='sweptTransform' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='5' flags='FLAGS_NONE' default='0'/>

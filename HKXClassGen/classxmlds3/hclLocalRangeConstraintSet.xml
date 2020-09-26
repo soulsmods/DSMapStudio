@@ -1,4 +1,4 @@
-<class name='hclLocalRangeConstraintSet' version='1' signature='0x00000000' size='64' parent='hclConstraintSet'>
+<class name='hclLocalRangeConstraintSet' version='1' signature='0x82567805' size='64' parent='hclConstraintSet'>
   <enums>
     <enum name='ShapeType' flags='00000000'>
       <enumitem name='SHAPE_SPHERE' value='0'/>

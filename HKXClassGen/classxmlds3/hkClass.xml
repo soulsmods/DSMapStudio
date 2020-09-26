@@ -1,4 +1,4 @@
-<class name='hkClass' version='1' signature='0x00000000' size='80'>
+<class name='hkClass' version='1' signature='0x33d42383' size='80'>
   <enums>
     <enum name='SignatureFlags' flags='00000000'>
       <enumitem name='SIGNATURE_LOCAL' value='1'/>

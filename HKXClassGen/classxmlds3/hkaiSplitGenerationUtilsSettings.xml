@@ -1,4 +1,4 @@
-<class name='hkaiSplitGenerationUtilsSettings' version='1' signature='0x00000000' size='64'>
+<class name='hkaiSplitGenerationUtilsSettings' version='1' signature='0x631722b1' size='64'>
   <members>
     <member name='simplificationOptions' offset='0' etype='SplitAndGenerateOptions' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='splitMethod' offset='1' etype='SplitMethod' vtype='TYPE_ENUM' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE' default='0'/>

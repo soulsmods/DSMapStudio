@@ -1,4 +1,4 @@
-<class name='hknpBallGun' version='1' signature='0x00000000' size='144' parent='hknpFirstPersonGun'>
+<class name='hknpBallGun' version='1' signature='0xfbbc39e7' size='144' parent='hknpFirstPersonGun'>
   <members>
     <member name='bulletRadius' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='bulletVelocity' offset='68' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

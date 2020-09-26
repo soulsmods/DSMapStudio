@@ -1,4 +1,4 @@
-<class name='hkpMotion' version='1' signature='0x00000000' size='320' parent='hkReferencedObject'>
+<class name='hkpMotion' version='1' signature='0x867134af' size='320' parent='hkReferencedObject'>
   <enums>
     <enum name='MotionType' flags='00000000'>
       <enumitem name='MOTION_INVALID' value='0'/>

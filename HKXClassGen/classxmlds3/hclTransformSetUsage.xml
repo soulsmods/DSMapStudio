@@ -1,4 +1,4 @@
-<class name='hclTransformSetUsage' version='1' signature='0x00000000' size='24'>
+<class name='hclTransformSetUsage' version='1' signature='0xbf809381' size='24'>
   <enums>
     <enum name='Component' flags='00000000'>
       <enumitem name='COMPONENT_TRANSFORM' value='0'/>

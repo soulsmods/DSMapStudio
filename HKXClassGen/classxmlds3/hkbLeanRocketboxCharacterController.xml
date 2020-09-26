@@ -1,4 +1,4 @@
-<class name='hkbLeanRocketboxCharacterController' version='1' signature='0x00000000' size='296' parent='hkbModifier'>
+<class name='hkbLeanRocketboxCharacterController' version='1' signature='0x878358b3' size='296' parent='hkbModifier'>
   <enums>
     <enum name='MovementSpeedsEnum' flags='00000000'>
       <enumitem name='SL_Walk' value='0'/>

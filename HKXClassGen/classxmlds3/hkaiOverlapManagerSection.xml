@@ -1,4 +1,4 @@
-<class name='hkaiOverlapManagerSection' version='1' signature='0x00000000' size='72'>
+<class name='hkaiOverlapManagerSection' version='1' signature='0xb0b96189' size='72'>
   <members>
     <member name='generatorDataMap' offset='0' vtype='TYPE_POINTER' vsubtype='TYPE_VOID' arrsize='0' flags='SERIALIZE_IGNORED' default='0'/>
     <member name='numOriginalFaces' offset='8' vtype='TYPE_INT32' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

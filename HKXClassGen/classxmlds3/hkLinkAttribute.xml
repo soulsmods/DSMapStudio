@@ -1,4 +1,4 @@
-<class name='hkLinkAttribute' version='1' signature='0x00000000' size='1'>
+<class name='hkLinkAttribute' version='1' signature='0x62ca5ac0' size='1'>
   <enums>
     <enum name='Link' flags='00000000'>
       <enumitem name='NONE' value='0'/>

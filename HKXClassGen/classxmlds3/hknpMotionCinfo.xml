@@ -1,4 +1,4 @@
-<class name='hknpMotionCinfo' version='1' signature='0x00000000' size='112'>
+<class name='hknpMotionCinfo' version='1' signature='0x693d1b16' size='112'>
   <members>
     <member name='motionPropertiesId' offset='0' vtype='TYPE_UINT16' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='enableDeactivation' offset='2' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

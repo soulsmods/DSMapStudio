@@ -1,4 +1,4 @@
-<class name='hkpLinearClearanceConstraintDataAtoms' version='1' signature='0x00000000' size='288'>
+<class name='hkpLinearClearanceConstraintDataAtoms' version='1' signature='0xd0748d53' size='288'>
   <enums>
     <enum name='Axis' flags='00000000'>
       <enumitem name='AXIS_SHAFT' value='0'/>

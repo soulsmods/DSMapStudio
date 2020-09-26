@@ -1,4 +1,4 @@
-<class name='hkbRoleAttribute' version='1' signature='0x00000000' size='4'>
+<class name='hkbRoleAttribute' version='1' signature='0xfecef669' size='4'>
   <enums>
     <enum name='Role' flags='00000000'>
       <enumitem name='ROLE_DEFAULT' value='0'/>

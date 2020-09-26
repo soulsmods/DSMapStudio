@@ -1,4 +1,4 @@
-<class name='hkaDefaultAnimatedReferenceFrame' version='1' signature='0x00000000' size='96' parent='hkaAnimatedReferenceFrame'>
+<class name='hkaDefaultAnimatedReferenceFrame' version='1' signature='0x60f8e0b8' size='96' parent='hkaAnimatedReferenceFrame'>
   <members>
     <member name='up' offset='32' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='forward' offset='48' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

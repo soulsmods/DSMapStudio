@@ -1,4 +1,4 @@
-<class name='hkbSetNodePropertyCommand' version='1' signature='0x00000000' size='48' parent='hkReferencedObject'>
+<class name='hkbSetNodePropertyCommand' version='1' signature='0xf7d875f5' size='48' parent='hkReferencedObject'>
   <members>
     <member name='characterId' offset='16' vtype='TYPE_UINT64' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='nodeName' offset='24' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

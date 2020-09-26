@@ -1,4 +1,4 @@
-<class name='hkaiSilhouetteGenerator' version='1' signature='0x00000000' size='80' parent='hkReferencedObject'>
+<class name='hkaiSilhouetteGenerator' version='1' signature='0xb65d2fc' size='80' parent='hkReferencedObject'>
   <enums>
     <enum name='GeneratorType' flags='00000000'>
       <enumitem name='GENERATOR_PHYSICS_2012_BODY' value='0'/>

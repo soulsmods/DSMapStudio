@@ -1,4 +1,4 @@
-<class name='hkbGetUpModifier' version='1' signature='0x00000000' size='144' parent='hkbModifier'>
+<class name='hkbGetUpModifier' version='1' signature='0x84519a60' size='144' parent='hkbModifier'>
   <members>
     <member name='groundNormal' offset='96' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='duration' offset='112' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hclCompressibleLinkConstraintSetMxSingle' version='1' signature='0x00000000' size='20'>
+<class name='hclCompressibleLinkConstraintSetMxSingle' version='1' signature='0xc78fbf8b' size='20'>
   <members>
     <member name='restLength' offset='0' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='compressionLength' offset='4' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

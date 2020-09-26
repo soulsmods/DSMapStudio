@@ -1,4 +1,4 @@
-<class name='hkMemoryMeshTexture' version='1' signature='0x00000000' size='48' parent='hkMeshTexture'>
+<class name='hkMemoryMeshTexture' version='1' signature='0xae7b46bb' size='48' parent='hkMeshTexture'>
   <members>
     <member name='filename' offset='16' vtype='TYPE_STRINGPTR' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='data' offset='24' vtype='TYPE_ARRAY' vsubtype='TYPE_UINT8' arrsize='0' flags='FLAGS_NONE' default='0'/>

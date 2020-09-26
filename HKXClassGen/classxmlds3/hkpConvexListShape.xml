@@ -1,4 +1,4 @@
-<class name='hkpConvexListShape' version='1' signature='0x00000000' size='128' parent='hkpConvexShape'>
+<class name='hkpConvexListShape' version='1' signature='0x85cf47fa' size='128' parent='hkpConvexShape'>
   <members>
     <member name='minDistanceToUseConvexHullForGetClosestPoints' offset='48' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='aabbHalfExtents' offset='64' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

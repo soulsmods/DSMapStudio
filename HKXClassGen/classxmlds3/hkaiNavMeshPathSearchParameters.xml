@@ -1,4 +1,4 @@
-<class name='hkaiNavMeshPathSearchParameters' version='1' signature='0x00000000' size='80'>
+<class name='hkaiNavMeshPathSearchParameters' version='1' signature='0x3b79185' size='80'>
   <enums>
     <enum name='OutputPathFlags' flags='00000000'>
       <enumitem name='OUTPUT_PATH_SMOOTHED' value='1'/>

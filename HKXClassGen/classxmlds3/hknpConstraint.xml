@@ -1,4 +1,4 @@
-<class name='hknpConstraint' version='1' signature='0x00000000' size='56'>
+<class name='hknpConstraint' version='1' signature='0x68e3b294' size='56'>
   <enums>
     <enum name='FlagsEnum' flags='00000000'>
       <enumitem name='NO_FLAGS' value='0'/>

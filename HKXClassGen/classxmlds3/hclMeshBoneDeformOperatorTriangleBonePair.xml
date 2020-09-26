@@ -1,4 +1,4 @@
-<class name='hclMeshBoneDeformOperatorTriangleBonePair' version='1' signature='0x00000000' size='80'>
+<class name='hclMeshBoneDeformOperatorTriangleBonePair' version='1' signature='0x25d066df' size='80'>
   <members>
     <member name='localBoneTransform' offset='0' vtype='TYPE_MATRIX4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='weight' offset='64' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

@@ -1,4 +1,4 @@
-<class name='hkbRigidBodySetup' version='1' signature='0x00000000' size='32'>
+<class name='hkbRigidBodySetup' version='1' signature='0x3b082f95' size='32'>
   <enums>
     <enum name='Type' flags='00000000'>
       <enumitem name='INVALID' value='-1'/>

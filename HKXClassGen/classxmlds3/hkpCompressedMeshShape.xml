@@ -1,4 +1,4 @@
-<class name='hkpCompressedMeshShape' version='1' signature='0x00000000' size='288' parent='hkpShapeCollection'>
+<class name='hkpCompressedMeshShape' version='1' signature='0xe092d6d4' size='288' parent='hkpShapeCollection'>
   <enums>
     <enum name='MaterialType' flags='00000000'>
       <enumitem name='MATERIAL_NONE' value='0'/>

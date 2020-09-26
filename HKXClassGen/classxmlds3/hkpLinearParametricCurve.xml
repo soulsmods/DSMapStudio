@@ -1,4 +1,4 @@
-<class name='hkpLinearParametricCurve' version='1' signature='0x00000000' size='80' parent='hkpParametricCurve'>
+<class name='hkpLinearParametricCurve' version='1' signature='0x6ac6ce35' size='80' parent='hkpParametricCurve'>
   <members>
     <member name='smoothingFactor' offset='16' vtype='TYPE_REAL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='closedLoop' offset='20' vtype='TYPE_BOOL' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>

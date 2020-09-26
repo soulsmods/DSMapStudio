@@ -1,4 +1,4 @@
-<class name='hkpCylinderShape' version='1' signature='0x00000000' size='112' parent='hkpConvexShape'>
+<class name='hkpCylinderShape' version='1' signature='0xfaae1f08' size='112' parent='hkpConvexShape'>
   <enums>
     <enum name='VertexIdEncoding' flags='00000000'>
       <enumitem name='VERTEX_ID_ENCODING_IS_BASE_A_SHIFT' value='7'/>

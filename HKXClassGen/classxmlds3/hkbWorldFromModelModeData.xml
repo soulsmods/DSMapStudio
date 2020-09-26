@@ -1,4 +1,4 @@
-<class name='hkbWorldFromModelModeData' version='1' signature='0x00000000' size='8'>
+<class name='hkbWorldFromModelModeData' version='1' signature='0x321c5008' size='8'>
   <enums>
     <enum name='WorldFromModelMode' flags='00000000'>
       <enumitem name='WORLD_FROM_MODEL_MODE_USE_OLD' value='0'/>

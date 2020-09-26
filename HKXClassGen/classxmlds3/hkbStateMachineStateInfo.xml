@@ -1,4 +1,4 @@
-<class name='hkbStateMachineStateInfo' version='1' signature='0x00000000' size='120' parent='hkbBindable'>
+<class name='hkbStateMachineStateInfo' version='1' signature='0x39d76713' size='120' parent='hkbBindable'>
   <members>
     <member name='listeners' offset='48' ctype='hkbStateListener' vtype='TYPE_ARRAY' vsubtype='TYPE_POINTER' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='enterNotifyEvents' offset='64' ctype='hkbStateMachineEventPropertyArray' vtype='TYPE_POINTER' vsubtype='TYPE_STRUCT' arrsize='0' flags='FLAGS_NONE' default='0'/>

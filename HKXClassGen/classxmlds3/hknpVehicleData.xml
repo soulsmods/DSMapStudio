@@ -1,4 +1,4 @@
-<class name='hknpVehicleData' version='1' signature='0x00000000' size='432' parent='hkReferencedObject'>
+<class name='hknpVehicleData' version='1' signature='0xe1a0223d' size='432' parent='hkReferencedObject'>
   <members>
     <member name='gravity' offset='16' vtype='TYPE_VECTOR4' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
     <member name='numWheels' offset='32' vtype='TYPE_INT8' vsubtype='TYPE_VOID' arrsize='0' flags='FLAGS_NONE' default='0'/>
