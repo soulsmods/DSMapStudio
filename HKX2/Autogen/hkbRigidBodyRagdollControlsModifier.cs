@@ -13,12 +13,12 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_controlData = new hkbRigidBodyRagdollControlData();
             m_controlData.Read(des, br);
             m_bones = des.ReadClassPointer<hkbBoneIndexArray>(br);
             m_animationBlendFraction = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

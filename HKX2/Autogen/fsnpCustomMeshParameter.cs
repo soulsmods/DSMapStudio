@@ -20,7 +20,7 @@ namespace HKX2
             m_vertexDataStride = br.ReadInt32();
             m_triangleDataStride = br.ReadInt32();
             m_version = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

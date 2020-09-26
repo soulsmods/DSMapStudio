@@ -36,7 +36,7 @@ namespace HKX2
             m_wristIndex = br.ReadInt16();
             m_enforceEndPosition = br.ReadBoolean();
             m_enforceEndRotation = br.ReadBoolean();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_localFrameName = des.ReadStringPointer(br);
         }
         

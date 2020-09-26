@@ -30,7 +30,7 @@ namespace HKX2
             m_blendNormals = br.ReadBoolean();
             m_blendTangents = br.ReadBoolean();
             m_blendBitangents = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

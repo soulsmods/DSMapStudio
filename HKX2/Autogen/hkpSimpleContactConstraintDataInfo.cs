@@ -10,9 +10,13 @@ namespace HKX2
         public ushort m_biNormalAxis;
         public short m_rollingFrictionMultiplier;
         public short m_internalData1;
-        public short m_rhsRolling;
+        public short m_rhsRolling_0;
+        public short m_rhsRolling_1;
         public float m_contactRadius;
-        public float m_data;
+        public float m_data_0;
+        public float m_data_1;
+        public float m_data_2;
+        public float m_data_3;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
@@ -20,12 +24,13 @@ namespace HKX2
             m_biNormalAxis = br.ReadUInt16();
             m_rollingFrictionMultiplier = br.ReadInt16();
             m_internalData1 = br.ReadInt16();
-            m_rhsRolling = br.ReadInt16();
-            br.AssertUInt16(0);
+            m_rhsRolling_0 = br.ReadInt16();
+            m_rhsRolling_1 = br.ReadInt16();
             m_contactRadius = br.ReadSingle();
-            m_data = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            m_data_0 = br.ReadSingle();
+            m_data_1 = br.ReadSingle();
+            m_data_2 = br.ReadSingle();
+            m_data_3 = br.ReadSingle();
         }
         
         public virtual void Write(BinaryWriterEx bw)
@@ -34,12 +39,13 @@ namespace HKX2
             bw.WriteUInt16(m_biNormalAxis);
             bw.WriteInt16(m_rollingFrictionMultiplier);
             bw.WriteInt16(m_internalData1);
-            bw.WriteInt16(m_rhsRolling);
-            bw.WriteUInt16(0);
+            bw.WriteInt16(m_rhsRolling_0);
+            bw.WriteInt16(m_rhsRolling_1);
             bw.WriteSingle(m_contactRadius);
-            bw.WriteSingle(m_data);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(0);
+            bw.WriteSingle(m_data_0);
+            bw.WriteSingle(m_data_1);
+            bw.WriteSingle(m_data_2);
+            bw.WriteSingle(m_data_3);
         }
     }
 }

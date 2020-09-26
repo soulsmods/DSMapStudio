@@ -11,9 +11,9 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_entries = new hkFreeListArrayhknpMaterialhknpMaterialId8hknpMaterialFreeListArrayOperations();
             m_entries.Read(des, br);
         }

@@ -20,18 +20,18 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_sectionUid = br.ReadUInt32();
             m_runtimeId = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_originalGraph = des.ReadClassPointer<hkaiDirectedGraphExplicitCost>(br);
             m_nodeMap = des.ReadInt32Array(br);
             m_instancedNodes = des.ReadClassArray<hkaiDirectedGraphExplicitCostNode>(br);
@@ -39,7 +39,7 @@ namespace HKX2
             m_ownedEdgeData = des.ReadUInt32Array(br);
             m_userEdgeCount = des.ReadInt32Array(br);
             m_freeEdgeBlocks = des.ReadClassArray<hkaiDirectedGraphInstanceFreeBlockList>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_transform = des.ReadTransform(br);
         }
         

@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_lists = des.ReadClassPointer<hkpShapeKeyTableBlock>(br);
             m_occupancyBitField = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

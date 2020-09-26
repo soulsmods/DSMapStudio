@@ -18,8 +18,8 @@ namespace HKX2
             m_rigidBody = des.ReadClassPointer<hkReferencedObject>(br);
             m_character = des.ReadClassPointer<hkbCharacter>(br);
             m_animationBoneIndex = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

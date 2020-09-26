@@ -16,7 +16,7 @@ namespace HKX2
             m_isEnabled = br.ReadByte();
             m_frictionAxis = br.ReadByte();
             m_maxFrictionForce = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

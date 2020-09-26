@@ -16,7 +16,7 @@ namespace HKX2
             // Read TYPE_RELARRAY
             // Read TYPE_RELARRAY
             // Read TYPE_RELARRAY
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

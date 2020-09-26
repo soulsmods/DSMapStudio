@@ -12,7 +12,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_rigidBody = des.ReadClassPointer<hkpRigidBody>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

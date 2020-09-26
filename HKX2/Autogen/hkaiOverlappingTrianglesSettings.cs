@@ -15,8 +15,8 @@ namespace HKX2
             m_coplanarityTolerance = br.ReadSingle();
             m_raycastLengthMultiplier = br.ReadSingle();
             m_walkableTriangleSettings = (WalkableTriangleSettings)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

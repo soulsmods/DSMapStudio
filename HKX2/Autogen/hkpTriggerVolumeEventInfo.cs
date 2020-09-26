@@ -15,7 +15,7 @@ namespace HKX2
             m_sortValue = br.ReadUInt64();
             m_body = des.ReadClassPointer<hkpRigidBody>(br);
             m_operation = (Operation)br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

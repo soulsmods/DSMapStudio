@@ -16,7 +16,7 @@ namespace HKX2
             m_aabb = new hkAabb();
             m_aabb.Read(des, br);
             m_shape = des.ReadClassPointer<hknpShape>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_transform = des.ReadTransform(br);
             m_to = des.ReadVector4(br);
         }

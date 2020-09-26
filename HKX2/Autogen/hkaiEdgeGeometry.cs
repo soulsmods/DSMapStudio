@@ -29,7 +29,7 @@ namespace HKX2
             m_vertices = des.ReadVector4Array(br);
             m_zeroFace = new hkaiEdgeGeometryFace();
             m_zeroFace.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

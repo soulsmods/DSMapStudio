@@ -14,8 +14,8 @@ namespace HKX2
             base.Read(des, br);
             m_goalPoint = des.ReadVector4(br);
             m_goalFaceKey = br.ReadUInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

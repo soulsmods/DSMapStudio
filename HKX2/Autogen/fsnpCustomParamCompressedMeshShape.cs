@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_pParam = des.ReadClassPointer<fsnpCustomMeshParameter>(br);
             m_triangleIndexToShapeKey = des.ReadUInt32Array(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

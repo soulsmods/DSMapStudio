@@ -32,8 +32,8 @@ namespace HKX2
             m_selectionSets = des.ReadClassPointerArray<hkxNodeSelectionSet>(br);
             m_cameras = des.ReadClassPointerArray<hkxCamera>(br);
             m_lights = des.ReadClassPointerArray<hkxLight>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_materials = des.ReadClassPointerArray<hkxMaterial>(br);
             m_inplaceTextures = des.ReadClassPointerArray<hkxTextureInplace>(br);
             m_externalTextures = des.ReadClassPointerArray<hkxTextureFile>(br);

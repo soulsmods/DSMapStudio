@@ -29,12 +29,12 @@ namespace HKX2
             m_refAxisInB = br.ReadByte();
             m_angleMeasurementMode = (MeasurementMode)br.ReadByte();
             m_memOffsetToAngleOffset = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_minAngle = br.ReadSingle();
             m_maxAngle = br.ReadSingle();
             m_angularLimitsTauFactor = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

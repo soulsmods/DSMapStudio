@@ -26,7 +26,7 @@ namespace HKX2
             m_inputBufferIdx = br.ReadUInt32();
             m_outputBufferIdx = br.ReadUInt32();
             m_scaleNormalBehaviour = (ScaleNormalBehaviour)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_inputTrianglesSubset = des.ReadUInt16Array(br);
             m_triangleFromMeshTransforms = des.ReadMatrix4Array(br);
             m_objectSpaceDeformer = new hclObjectSpaceDeformer();

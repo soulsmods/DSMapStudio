@@ -30,14 +30,14 @@ namespace HKX2
             m_blockDuration = br.ReadSingle();
             m_blockInverseDuration = br.ReadSingle();
             m_frameDuration = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_blockOffsets = des.ReadUInt32Array(br);
             m_floatBlockOffsets = des.ReadUInt32Array(br);
             m_transformOffsets = des.ReadUInt32Array(br);
             m_floatOffsets = des.ReadUInt32Array(br);
             m_data = des.ReadByteArray(br);
             m_endian = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

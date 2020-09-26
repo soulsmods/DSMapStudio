@@ -21,7 +21,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_pointIn = des.ReadVector4(br);
             m_pointOut = des.ReadVector4(br);
             m_groundAngleOut = br.ReadSingle();
@@ -33,9 +33,9 @@ namespace HKX2
             m_normalizePoint = br.ReadBoolean();
             m_computeOnlyOnce = br.ReadBoolean();
             m_computedOutput = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

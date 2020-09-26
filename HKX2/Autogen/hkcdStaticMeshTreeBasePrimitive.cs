@@ -15,20 +15,25 @@ namespace HKX2
             NUM_TYPES = 4,
         }
         
-        public byte m_indices;
+        public byte m_indices_0;
+        public byte m_indices_1;
+        public byte m_indices_2;
+        public byte m_indices_3;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_indices = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            m_indices_0 = br.ReadByte();
+            m_indices_1 = br.ReadByte();
+            m_indices_2 = br.ReadByte();
+            m_indices_3 = br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteByte(m_indices);
-            bw.WriteUInt16(0);
-            bw.WriteByte(0);
+            bw.WriteByte(m_indices_0);
+            bw.WriteByte(m_indices_1);
+            bw.WriteByte(m_indices_2);
+            bw.WriteByte(m_indices_3);
         }
     }
 }

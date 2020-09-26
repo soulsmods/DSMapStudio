@@ -16,8 +16,8 @@ namespace HKX2
             m_numLeaves = br.ReadUInt32();
             m_path = br.ReadUInt32();
             m_root = br.ReadUInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

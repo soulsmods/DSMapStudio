@@ -36,7 +36,7 @@ namespace HKX2
             m_useCharacterUpVector = br.ReadBoolean();
             m_isQuadrupedNarrow = br.ReadBoolean();
             m_keepSourceFootEndAboveGround = br.ReadBoolean();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

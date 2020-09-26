@@ -29,9 +29,9 @@ namespace HKX2
             m_movementProperties = new hkaiMovementProperties();
             m_movementProperties.Read(des, br);
             m_nearbyBoundariesSearchType = (NearbyBoundariesSearchType)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
             m_localSensorAabb = new hkAabb();
             m_localSensorAabb.Read(des, br);
             m_wallFollowingAngle = br.ReadSingle();
@@ -41,7 +41,7 @@ namespace HKX2
             m_collisionPenalty = br.ReadSingle();
             m_penetrationPenalty = br.ReadSingle();
             m_maxNeighbors = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

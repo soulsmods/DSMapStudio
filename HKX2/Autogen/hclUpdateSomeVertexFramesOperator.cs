@@ -38,8 +38,8 @@ namespace HKX2
             m_updateNormals = br.ReadBoolean();
             m_updateTangents = br.ReadBoolean();
             m_updateBiTangents = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

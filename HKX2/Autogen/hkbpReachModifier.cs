@@ -37,11 +37,11 @@ namespace HKX2
             m_sensingPropertyKey = br.ReadUInt32();
             m_reachMode = (ReachMode)br.ReadSByte();
             m_ignoreMySystemGroup = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_extrapolate = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

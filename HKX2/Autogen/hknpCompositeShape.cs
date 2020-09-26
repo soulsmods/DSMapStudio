@@ -15,7 +15,7 @@ namespace HKX2
             m_edgeWeldingMap = new hknpSparseCompactMapunsignedshort();
             m_edgeWeldingMap.Read(des, br);
             m_shapeTagCodecInfo = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -16,7 +16,7 @@ namespace HKX2
             m_meshTree.Read(des, br);
             m_simdTree = new hkcdSimdTree();
             m_simdTree.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -19,28 +19,22 @@ namespace HKX2
         public hkpParametricCurve m_path;
         public float m_maxFrictionForce;
         public OrientationConstraintType m_angularConstrainedDOF;
-        public Matrix4x4 m_transform_OS_KS;
+        public Matrix4x4 m_transform_OS_KS_0;
+        public Matrix4x4 m_transform_OS_KS_1;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_atoms = new hkpBridgeAtoms();
             m_atoms.Read(des, br);
             m_path = des.ReadClassPointer<hkpParametricCurve>(br);
             m_maxFrictionForce = br.ReadSingle();
             m_angularConstrainedDOF = (OrientationConstraintType)br.ReadSByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
-            m_transform_OS_KS = des.ReadTransform(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt16();
+            br.ReadByte();
+            m_transform_OS_KS_0 = des.ReadTransform(br);
+            m_transform_OS_KS_1 = des.ReadTransform(br);
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -52,14 +46,6 @@ namespace HKX2
             bw.WriteSingle(m_maxFrictionForce);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
         }
     }
 }

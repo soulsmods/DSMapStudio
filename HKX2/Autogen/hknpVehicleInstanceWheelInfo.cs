@@ -29,14 +29,14 @@ namespace HKX2
             m_contactPoint = new hkContactPoint();
             m_contactPoint.Read(des, br);
             m_contactFriction = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_contactShapeKey = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_hardPointWs = des.ReadVector4(br);
             m_rayEndPointWs = des.ReadVector4(br);
             m_currentSuspensionLength = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_suspensionDirectionWs = des.ReadVector4(br);
             m_spinAxisChassisSpace = des.ReadVector4(br);
             m_spinAxisWs = des.ReadVector4(br);
@@ -48,7 +48,7 @@ namespace HKX2
             m_sideForce = br.ReadSingle();
             m_forwardSlipVelocity = br.ReadSingle();
             m_sideSlipVelocity = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

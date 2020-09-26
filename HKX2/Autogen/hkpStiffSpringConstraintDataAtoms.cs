@@ -18,7 +18,7 @@ namespace HKX2
             m_setupStabilization.Read(des, br);
             m_spring = new hkpStiffSpringConstraintAtom();
             m_spring.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

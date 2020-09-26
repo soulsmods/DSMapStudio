@@ -14,10 +14,10 @@ namespace HKX2
         {
             base.Read(des, br);
             m_axisIndex = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_min = br.ReadSingle();
             m_max = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

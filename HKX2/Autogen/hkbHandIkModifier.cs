@@ -14,11 +14,11 @@ namespace HKX2
             base.Read(des, br);
             m_hands = des.ReadClassArray<hkbHandIkModifierHand>(br);
             m_fadeInOutCurve = (BlendCurve)br.ReadSByte();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -15,8 +15,8 @@ namespace HKX2
             m_hardpointChassisSpace = des.ReadVector4(br);
             m_directionChassisSpace = des.ReadVector4(br);
             m_length = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -15,7 +15,7 @@ namespace HKX2
             m_object = des.ReadClassPointer<hkReferencedObject>(br);
             m_key = br.ReadUInt16();
             m_flags = br.ReadUInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -38,7 +38,7 @@ namespace HKX2
             m_posTol = br.ReadSingle();
             m_velTol = br.ReadSingle();
             m_duration = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

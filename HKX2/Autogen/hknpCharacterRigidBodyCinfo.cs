@@ -28,10 +28,10 @@ namespace HKX2
         {
             base.Read(des, br);
             m_collisionFilterInfo = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_shape = des.ReadClassPointer<hknpShape>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_position = des.ReadVector4(br);
             m_orientation = des.ReadQuaternion(br);
             m_mass = br.ReadSingle();
@@ -41,16 +41,16 @@ namespace HKX2
             m_reservedBodyId = br.ReadUInt32();
             m_additionMode = br.ReadByte();
             m_additionFlags = br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
             m_up = des.ReadVector4(br);
             m_maxSlope = br.ReadSingle();
             m_maxForce = br.ReadSingle();
             m_maxSpeedForSimplexSolver = br.ReadSingle();
             m_supportDistance = br.ReadSingle();
             m_hardSupportDistance = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

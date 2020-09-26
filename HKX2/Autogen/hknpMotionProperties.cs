@@ -74,8 +74,8 @@ namespace HKX2
             m_minimumPathingVelocityScaleSquare = br.ReadByte();
             m_spikingVelocityScaleThresholdSquared = br.ReadByte();
             m_minimumSpikingVelocityScaleSquared = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

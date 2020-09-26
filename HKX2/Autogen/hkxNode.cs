@@ -28,8 +28,8 @@ namespace HKX2
             m_userProperties = des.ReadStringPointer(br);
             m_selected = br.ReadBoolean();
             m_bone = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

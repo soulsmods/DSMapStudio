@@ -58,21 +58,21 @@ namespace HKX2
             m_enableScript = br.ReadBoolean();
             m_enableTae = br.ReadBoolean();
             m_changeTypeOfSelectedIndexAfterActivate = (ChangeTypeOfSelectedIndexAfterActivate)br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_generatorChangedTransitionEffect = des.ReadClassPointer<hkbTransitionEffect>(br);
             m_checkAnimEndSlotNo = br.ReadInt32();
             m_replanningAI = (ReplanningAI)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

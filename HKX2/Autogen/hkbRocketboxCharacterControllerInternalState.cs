@@ -19,8 +19,8 @@ namespace HKX2
         {
             base.Read(des, br);
             m_rapidTurnRequest = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_currPose = br.ReadInt32();
             m_prevPose = br.ReadInt32();
             m_noVelocityTimer = br.ReadSingle();

@@ -13,11 +13,11 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertByte(0);
+            br.ReadByte();
             m_dispatchType = (ShapeDispatchTypeEnum)br.ReadByte();
             m_bitsPerKey = br.ReadByte();
             m_shapeInfoCodecType = (ShapeInfoCodecTypeEnum)br.ReadByte();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

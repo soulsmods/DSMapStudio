@@ -16,7 +16,7 @@ namespace HKX2
             m_rotation = des.ReadQuaternion(br);
             m_strength = br.ReadSingle();
             m_damping = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -23,20 +23,20 @@ namespace HKX2
             base.Read(des, br);
             m_vertexFormat = new hkVertexFormat();
             m_vertexFormat.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_lockedElements = des.ReadClassArray<hkMultipleVertexBufferLockedElement>(br);
             m_lockedBuffer = des.ReadClassPointer<hkMemoryMeshVertexBuffer>(br);
             m_elementInfos = des.ReadClassArray<hkMultipleVertexBufferElementInfo>(br);
             m_vertexBufferInfos = des.ReadClassArray<hkMultipleVertexBufferVertexBufferInfo>(br);
             m_numVertices = br.ReadInt32();
             m_isLocked = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_updateCount = br.ReadUInt32();
             m_writeLock = br.ReadBoolean();
             m_isSharable = br.ReadBoolean();
             m_constructionComplete = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -17,8 +17,8 @@ namespace HKX2
             m_vertices = des.ReadUInt16Array(br);
             m_reference = br.ReadUInt16();
             m_transformIndex = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

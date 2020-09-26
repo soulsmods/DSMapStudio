@@ -37,11 +37,11 @@ namespace HKX2
             m_dynamicFriction = br.ReadSingle();
             m_staticFriction = br.ReadSingle();
             m_keepContactTolerance = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_up = des.ReadVector4(br);
             m_shape = des.ReadClassPointer<hknpShape>(br);
             m_userData = br.ReadUInt64();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_collisionFilterInfo = br.ReadUInt32();
             m_keepDistance = br.ReadSingle();
             m_contactAngleSensitivity = br.ReadSingle();
@@ -54,9 +54,9 @@ namespace HKX2
             m_maxCastIterations = br.ReadInt32();
             m_refreshManifoldInCheckSupport = br.ReadBoolean();
             m_presenceInWorld = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

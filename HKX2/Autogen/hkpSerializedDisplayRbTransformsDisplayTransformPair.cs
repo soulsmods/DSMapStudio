@@ -12,7 +12,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_rb = des.ReadClassPointer<hkpRigidBody>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_localToDisplay = des.ReadTransform(br);
         }
         

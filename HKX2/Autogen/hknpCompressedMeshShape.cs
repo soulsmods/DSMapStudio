@@ -18,7 +18,7 @@ namespace HKX2
             m_quadIsFlat.Read(des, br);
             m_triangleIsInterior = new hkBitField();
             m_triangleIsInterior.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

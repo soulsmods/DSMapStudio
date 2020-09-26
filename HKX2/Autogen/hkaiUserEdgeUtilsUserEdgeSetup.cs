@@ -33,9 +33,9 @@ namespace HKX2
             m_direction = (UserEdgeDirection)br.ReadByte();
             m_space = (UserEdgeSetupSpace)br.ReadByte();
             m_forceAlign = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

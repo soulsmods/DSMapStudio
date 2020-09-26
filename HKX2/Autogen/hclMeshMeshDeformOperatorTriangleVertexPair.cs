@@ -16,9 +16,9 @@ namespace HKX2
             m_localPosition = des.ReadVector4(br);
             m_localNormal = des.ReadVector4(br);
             m_triangleIndex = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_weight = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

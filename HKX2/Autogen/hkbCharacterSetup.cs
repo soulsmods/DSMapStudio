@@ -19,12 +19,12 @@ namespace HKX2
             m_animationSkeleton = des.ReadClassPointer<hkaSkeleton>(br);
             m_ragdollToAnimationSkeletonMapper = des.ReadClassPointer<hkaSkeletonMapper>(br);
             m_animationToRagdollSkeletonMapper = des.ReadClassPointer<hkaSkeletonMapper>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_data = des.ReadClassPointer<hkbCharacterData>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

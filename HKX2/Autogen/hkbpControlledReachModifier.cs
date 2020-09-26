@@ -12,26 +12,28 @@ namespace HKX2
         public float m_fadeOutEnd;
         public float m_fadeOutDuration;
         public float m_sensorAngle;
-        public short m_handIndex;
-        public bool m_isHandEnabled;
+        public short m_handIndex_0;
+        public short m_handIndex_1;
+        public bool m_isHandEnabled_0;
+        public bool m_isHandEnabled_1;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_fadeInStart = br.ReadSingle();
             m_fadeInEnd = br.ReadSingle();
             m_fadeOutStart = br.ReadSingle();
             m_fadeOutEnd = br.ReadSingle();
             m_fadeOutDuration = br.ReadSingle();
             m_sensorAngle = br.ReadSingle();
-            m_handIndex = br.ReadInt16();
-            br.AssertUInt16(0);
-            m_isHandEnabled = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            m_handIndex_0 = br.ReadInt16();
+            m_handIndex_1 = br.ReadInt16();
+            m_isHandEnabled_0 = br.ReadBoolean();
+            m_isHandEnabled_1 = br.ReadBoolean();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -45,12 +47,12 @@ namespace HKX2
             bw.WriteSingle(m_fadeOutEnd);
             bw.WriteSingle(m_fadeOutDuration);
             bw.WriteSingle(m_sensorAngle);
-            bw.WriteInt16(m_handIndex);
-            bw.WriteUInt16(0);
-            bw.WriteBoolean(m_isHandEnabled);
+            bw.WriteInt16(m_handIndex_0);
+            bw.WriteInt16(m_handIndex_1);
+            bw.WriteBoolean(m_isHandEnabled_0);
+            bw.WriteBoolean(m_isHandEnabled_1);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
-            bw.WriteByte(0);
         }
     }
 }

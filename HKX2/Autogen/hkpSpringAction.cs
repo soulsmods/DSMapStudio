@@ -26,7 +26,7 @@ namespace HKX2
             m_damping = br.ReadSingle();
             m_onCompression = br.ReadBoolean();
             m_onExtension = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

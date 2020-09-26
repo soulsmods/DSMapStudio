@@ -11,7 +11,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_name = des.ReadStringPointer(br);
         }
         

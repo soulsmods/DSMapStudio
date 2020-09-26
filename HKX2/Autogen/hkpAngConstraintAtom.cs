@@ -14,8 +14,8 @@ namespace HKX2
             base.Read(des, br);
             m_firstConstrainedAxis = br.ReadByte();
             m_numConstrainedAxes = br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

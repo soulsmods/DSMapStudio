@@ -16,10 +16,10 @@ namespace HKX2
             m_mask = des.ReadClassPointer<hknpShapeKeyMask>(br);
             m_maskWrapper = new hknpMaskedShapeMaskWrapper();
             m_maskWrapper.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_maskSize = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

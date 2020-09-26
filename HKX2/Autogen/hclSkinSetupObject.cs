@@ -29,7 +29,7 @@ namespace HKX2
             m_skinTangents = br.ReadBoolean();
             m_skinBiTangents = br.ReadBoolean();
             m_useDualQuaternionMethod = br.ReadBoolean();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

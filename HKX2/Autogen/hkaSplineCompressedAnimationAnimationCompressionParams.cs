@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_maxFramesPerBlock = br.ReadUInt16();
             m_enableSampleSingleTracks = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

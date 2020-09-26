@@ -21,7 +21,7 @@ namespace HKX2
             m_settings = new hkaiNavMeshGenerationSettings();
             m_settings.Read(des, br);
             m_unsimplifiedNavMesh = des.ReadClassPointer<hkaiNavMesh>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

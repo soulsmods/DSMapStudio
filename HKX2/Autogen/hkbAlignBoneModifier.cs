@@ -36,17 +36,17 @@ namespace HKX2
             m_alignMode = (AlignModeABAM)br.ReadSByte();
             m_alignTargetMode = (AlignTargetMode)br.ReadSByte();
             m_alignSingleAxis = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
             m_alignAxis = des.ReadVector4(br);
             m_alignTargetAxis = des.ReadVector4(br);
             m_frameOfReference = des.ReadQuaternion(br);
             m_duration = br.ReadSingle();
             m_alignModeIndex = br.ReadInt32();
             m_alignTargetModeIndex = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

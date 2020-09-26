@@ -40,13 +40,13 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_sensorLocalOffset = des.ReadVector4(br);
             m_ranges = des.ReadClassArray<hkbSenseHandleModifierRange>(br);
             m_handleOut = des.ReadClassPointer<hkbHandle>(br);
@@ -63,7 +63,7 @@ namespace HKX2
             m_extrapolateSensorPosition = br.ReadBoolean();
             m_keepFirstSensedHandle = br.ReadBoolean();
             m_foundHandleOut = br.ReadBoolean();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

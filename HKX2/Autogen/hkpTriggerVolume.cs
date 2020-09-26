@@ -30,16 +30,16 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_overlappingBodies = des.ReadClassPointerArray<hkpRigidBody>(br);
             m_eventQueue = des.ReadClassArray<hkpTriggerVolumeEventInfo>(br);
             m_triggerBody = des.ReadClassPointer<hkpRigidBody>(br);
             m_sequenceNumber = br.ReadUInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

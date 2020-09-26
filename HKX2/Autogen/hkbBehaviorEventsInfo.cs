@@ -16,7 +16,7 @@ namespace HKX2
             m_characterId = br.ReadUInt64();
             m_externalEventIds = des.ReadInt16Array(br);
             m_padding = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

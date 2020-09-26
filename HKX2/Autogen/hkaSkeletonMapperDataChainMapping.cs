@@ -19,7 +19,7 @@ namespace HKX2
             m_endBoneA = br.ReadInt16();
             m_startBoneB = br.ReadInt16();
             m_endBoneB = br.ReadInt16();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_startAFromBTransform = des.ReadQSTransform(br);
             m_endAFromBTransform = des.ReadQSTransform(br);
         }

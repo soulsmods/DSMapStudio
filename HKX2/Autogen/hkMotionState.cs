@@ -7,7 +7,11 @@ namespace HKX2
     public class hkMotionState : IHavokObject
     {
         public Matrix4x4 m_transform;
-        public Vector4 m_sweptTransform;
+        public Vector4 m_sweptTransform_0;
+        public Vector4 m_sweptTransform_1;
+        public Vector4 m_sweptTransform_2;
+        public Vector4 m_sweptTransform_3;
+        public Vector4 m_sweptTransform_4;
         public Vector4 m_deltaAngle;
         public float m_objectRadius;
         public short m_linearDamping;
@@ -20,15 +24,11 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_transform = des.ReadTransform(br);
-            m_sweptTransform = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            m_sweptTransform_0 = des.ReadVector4(br);
+            m_sweptTransform_1 = des.ReadVector4(br);
+            m_sweptTransform_2 = des.ReadVector4(br);
+            m_sweptTransform_3 = des.ReadVector4(br);
+            m_sweptTransform_4 = des.ReadVector4(br);
             m_deltaAngle = des.ReadVector4(br);
             m_objectRadius = br.ReadSingle();
             m_linearDamping = br.ReadInt16();
@@ -39,20 +39,12 @@ namespace HKX2
             m_maxAngularVelocity = new hkUFloat8();
             m_maxAngularVelocity.Read(des, br);
             m_deactivationClass = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
             bw.WriteSingle(m_objectRadius);
             bw.WriteInt16(m_linearDamping);
             bw.WriteInt16(m_angularDamping);

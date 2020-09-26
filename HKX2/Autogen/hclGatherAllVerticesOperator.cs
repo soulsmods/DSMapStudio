@@ -20,8 +20,8 @@ namespace HKX2
             m_outputBufferIdx = br.ReadUInt32();
             m_gatherNormals = br.ReadBoolean();
             m_partialGather = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

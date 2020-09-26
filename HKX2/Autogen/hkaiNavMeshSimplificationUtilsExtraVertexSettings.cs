@@ -28,8 +28,8 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_vertexSelectionMethod = (VertexSelectionMethod)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_vertexFraction = br.ReadSingle();
             m_areaFraction = br.ReadSingle();
             m_minPartitionArea = br.ReadSingle();
@@ -37,7 +37,7 @@ namespace HKX2
             m_iterationDamping = br.ReadSingle();
             m_addVerticesOnBoundaryEdges = br.ReadBoolean();
             m_addVerticesOnPartitionBorders = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_boundaryEdgeSplitLength = br.ReadSingle();
             m_partitionBordersSplitLength = br.ReadSingle();
             m_userVertexOnBoundaryTolerance = br.ReadSingle();

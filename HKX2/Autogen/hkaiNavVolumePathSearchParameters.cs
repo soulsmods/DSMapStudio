@@ -22,17 +22,17 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_up = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_lineOfSightFlags = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_heuristicWeight = br.ReadSingle();
             m_maximumPathLength = br.ReadSingle();
             m_bufferSizes = new hkaiSearchParametersBufferSizes();
             m_bufferSizes.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

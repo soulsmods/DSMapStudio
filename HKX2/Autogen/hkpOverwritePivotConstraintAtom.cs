@@ -12,9 +12,9 @@ namespace HKX2
         {
             base.Read(des, br);
             m_copyToPivotBFromPivotA = br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

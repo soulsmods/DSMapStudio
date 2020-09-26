@@ -17,7 +17,7 @@ namespace HKX2
             m_particleIndex = br.ReadUInt16();
             m_transformIndex = br.ReadUInt16();
             m_stiffness = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

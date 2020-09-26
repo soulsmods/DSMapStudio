@@ -14,9 +14,9 @@ namespace HKX2
         {
             m_frameVector = des.ReadVector4(br);
             m_particleIndex = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_stiffness = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

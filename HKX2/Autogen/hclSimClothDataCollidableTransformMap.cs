@@ -13,7 +13,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_transformSetIndex = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_transformIndices = des.ReadUInt32Array(br);
             m_offsets = des.ReadMatrix4Array(br);
         }

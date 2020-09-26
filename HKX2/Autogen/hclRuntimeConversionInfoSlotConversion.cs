@@ -6,16 +6,20 @@ namespace HKX2
 {
     public class hclRuntimeConversionInfoSlotConversion : IHavokObject
     {
-        public byte m_elements;
+        public byte m_elements_0;
+        public byte m_elements_1;
+        public byte m_elements_2;
+        public byte m_elements_3;
         public byte m_numElements;
         public byte m_index;
         public bool m_partialWrite;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_elements = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            m_elements_0 = br.ReadByte();
+            m_elements_1 = br.ReadByte();
+            m_elements_2 = br.ReadByte();
+            m_elements_3 = br.ReadByte();
             m_numElements = br.ReadByte();
             m_index = br.ReadByte();
             m_partialWrite = br.ReadBoolean();
@@ -23,9 +27,10 @@ namespace HKX2
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteByte(m_elements);
-            bw.WriteUInt16(0);
-            bw.WriteByte(0);
+            bw.WriteByte(m_elements_0);
+            bw.WriteByte(m_elements_1);
+            bw.WriteByte(m_elements_2);
+            bw.WriteByte(m_elements_3);
             bw.WriteByte(m_numElements);
             bw.WriteByte(m_index);
             bw.WriteBoolean(m_partialWrite);

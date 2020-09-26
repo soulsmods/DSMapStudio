@@ -13,7 +13,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_shape = des.ReadClassPointer<hknpShape>(br);
             m_shapeTransform = des.ReadTransform(br);
             m_geometry = new hkGeometry();

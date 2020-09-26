@@ -12,12 +12,12 @@ namespace HKX2
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_numOriginalFaces = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_generatorData = des.ReadClassPointerArray<hkaiOverlapManagerSectionGeneratorData>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_facePriorities = new hkSetIntFloatPair();
             m_facePriorities.Read(des, br);
         }

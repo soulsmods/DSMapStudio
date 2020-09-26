@@ -24,26 +24,26 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_targetWS = des.ReadVector4(br);
             m_targetBoneIndex = br.ReadInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_newTargetGain = br.ReadSingle();
             m_onGain = br.ReadSingle();
             m_offGain = br.ReadSingle();
             m_isOk = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

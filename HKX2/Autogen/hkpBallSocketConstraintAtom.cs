@@ -21,7 +21,7 @@ namespace HKX2
             m_velocityStabilizationFactor = new hkUFloat8();
             m_velocityStabilizationFactor.Read(des, br);
             m_enableLinearImpulseLimit = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_breachImpulse = br.ReadSingle();
             m_inertiaStabilizationFactor = br.ReadSingle();
         }

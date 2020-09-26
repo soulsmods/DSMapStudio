@@ -20,24 +20,24 @@ namespace HKX2
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_vertexStriding = br.ReadInt32();
             m_numVertices = br.ReadInt32();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_stridingType = (MeshShapeIndexStridingType)br.ReadSByte();
             m_materialIndexStridingType = (MeshShapeMaterialIndexStridingType)br.ReadSByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_indexStriding = br.ReadInt32();
             m_flipAlternateTriangles = br.ReadInt32();
             m_numTriangles = br.ReadInt32();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_materialIndexStriding = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_materialStriding = br.ReadInt32();
             m_numMaterials = br.ReadInt32();
             m_triangleOffset = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

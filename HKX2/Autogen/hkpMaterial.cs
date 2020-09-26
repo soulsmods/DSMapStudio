@@ -23,7 +23,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_responseType = (ResponseType)br.ReadSByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_rollingFrictionMultiplier = br.ReadInt16();
             m_friction = br.ReadSingle();
             m_restitution = br.ReadSingle();

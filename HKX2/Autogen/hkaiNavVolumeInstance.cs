@@ -18,10 +18,10 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_originalVolume = des.ReadClassPointer<hkaiNavVolume>(br);
             m_cellMap = des.ReadInt32Array(br);
             m_instancedCells = des.ReadClassArray<hkaiNavVolumeInstanceCellInstance>(br);
@@ -29,8 +29,8 @@ namespace HKX2
             m_sectionUid = br.ReadUInt32();
             m_runtimeId = br.ReadInt32();
             m_layer = br.ReadUInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_translation = des.ReadVector4(br);
         }
         

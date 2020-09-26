@@ -22,7 +22,7 @@ namespace HKX2
             m_primaryTransmissionRatio = br.ReadSingle();
             m_clutchDelayTime = br.ReadSingle();
             m_reverseGearRatio = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_gearsRatio = des.ReadSingleArray(br);
             m_wheelsTorqueRatio = des.ReadSingleArray(br);
         }

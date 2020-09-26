@@ -30,7 +30,7 @@ namespace HKX2
             m_justActivated = br.ReadBoolean();
             m_updateActiveNodes = br.ReadBoolean();
             m_stage = (Stage)br.ReadSByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -15,14 +15,14 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_localTime = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_event = new hkbEventProperty();
             m_event.Read(des, br);
             m_relativeToEndOfClip = br.ReadBoolean();
             m_acyclic = br.ReadBoolean();
             m_isAnnotation = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

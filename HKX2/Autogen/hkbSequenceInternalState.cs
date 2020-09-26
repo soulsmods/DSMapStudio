@@ -22,8 +22,8 @@ namespace HKX2
             m_nextSampleInts = des.ReadInt32Array(br);
             m_time = br.ReadSingle();
             m_isEnabled = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

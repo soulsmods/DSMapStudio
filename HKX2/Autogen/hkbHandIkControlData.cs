@@ -39,9 +39,9 @@ namespace HKX2
             m_handleChangeSpeed = br.ReadSingle();
             m_handleChangeMode = (HandleChangeMode)br.ReadSByte();
             m_fixUp = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

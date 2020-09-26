@@ -19,7 +19,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_name = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_worldFromMesh = des.ReadMatrix4(br);
             m_sections = des.ReadClassPointerArray<hclStorageSetupMeshSection>(br);
             m_vertexChannels = des.ReadClassArray<hclStorageSetupMeshVertexChannel>(br);
@@ -27,10 +27,10 @@ namespace HKX2
             m_triangleChannels = des.ReadClassArray<hclStorageSetupMeshTriangleChannel>(br);
             m_bones = des.ReadClassArray<hclStorageSetupMeshBone>(br);
             m_isSkinned = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -16,8 +16,8 @@ namespace HKX2
             m_atom = new hknpBridgeConstraintAtom();
             m_atom.Read(des, br);
             m_wantsRuntime = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_strength = br.ReadSingle();
         }
         

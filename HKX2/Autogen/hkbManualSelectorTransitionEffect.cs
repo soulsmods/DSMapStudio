@@ -15,14 +15,14 @@ namespace HKX2
             base.Read(des, br);
             m_transitionEffects = des.ReadClassPointerArray<hkbTransitionEffect>(br);
             m_selectedIndex = br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_indexSelector = des.ReadClassPointer<hkbCustomIdSelector>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

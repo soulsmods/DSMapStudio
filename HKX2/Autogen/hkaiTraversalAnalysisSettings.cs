@@ -22,8 +22,8 @@ namespace HKX2
             m_characterHeight = br.ReadSingle();
             m_characterRadius = br.ReadSingle();
             m_raiseEdgeHeightLimit = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

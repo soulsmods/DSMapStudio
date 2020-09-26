@@ -12,7 +12,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_vertexIndex = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_blendWeight = br.ReadSingle();
         }
         

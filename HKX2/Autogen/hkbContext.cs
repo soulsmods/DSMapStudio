@@ -11,18 +11,18 @@ namespace HKX2
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_rootBehavior = des.ReadClassPointer<hkbBehaviorGraph>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_generatorOutputListener = des.ReadClassPointer<hkbGeneratorOutputListener>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

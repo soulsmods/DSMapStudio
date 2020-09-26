@@ -14,7 +14,7 @@ namespace HKX2
             m_faceKey = new hkaiPersistentFaceKey();
             m_faceKey.Read(des, br);
             m_edgeOffset = br.ReadInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_shoulderIndex = br.ReadInt16();
             m_isEnabled = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

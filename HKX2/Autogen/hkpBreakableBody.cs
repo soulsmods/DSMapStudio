@@ -17,9 +17,9 @@ namespace HKX2
             m_controller = des.ReadClassPointer<hkpBreakableBodyController>(br);
             m_breakableShape = des.ReadClassPointer<hkpBreakableShape>(br);
             m_bodyTypeAndFlags = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_constraintStrength = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

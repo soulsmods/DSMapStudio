@@ -30,13 +30,13 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_userData = br.ReadUInt64();
             m_collidable = new hkpLinkedCollidable();
             m_collidable.Read(des, br);
             m_multiThreadCheck = new hkMultiThreadCheck();
             m_multiThreadCheck.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_name = des.ReadStringPointer(br);
             m_properties = des.ReadClassArray<hkSimpleProperty>(br);
         }

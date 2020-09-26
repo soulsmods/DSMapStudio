@@ -12,7 +12,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_name = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_boneFromSkin = des.ReadMatrix4(br);
         }
         

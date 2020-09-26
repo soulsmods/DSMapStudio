@@ -36,10 +36,10 @@ namespace HKX2
             m_unmappedBones = des.ReadInt16Array(br);
             m_extractedMotionMapping = des.ReadQSTransform(br);
             m_keepUnmappedLocal = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_mappingType = (MappingType)br.ReadInt32();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -17,7 +17,7 @@ namespace HKX2
             m_b = br.ReadInt32();
             m_c = br.ReadInt32();
             m_weldingInfo = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

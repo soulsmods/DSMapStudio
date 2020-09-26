@@ -18,12 +18,12 @@ namespace HKX2
             m_volume = des.ReadClassPointer<hkaiVolume>(br);
             m_material = br.ReadInt32();
             m_characterWidthUsage = (CharacterWidthUsage)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_maxWalkableSlope = br.ReadSingle();
             m_edgeMatchingParams = new hkaiNavMeshEdgeMatchingParameters();
             m_edgeMatchingParams.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_simplificationSettings = new hkaiNavMeshSimplificationUtilsSettings();
             m_simplificationSettings.Read(des, br);
         }

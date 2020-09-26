@@ -6,20 +6,25 @@ namespace HKX2
 {
     public class hkPackedVector3 : IHavokObject
     {
-        public short m_values;
+        public short m_values_0;
+        public short m_values_1;
+        public short m_values_2;
+        public short m_values_3;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_values = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            m_values_0 = br.ReadInt16();
+            m_values_1 = br.ReadInt16();
+            m_values_2 = br.ReadInt16();
+            m_values_3 = br.ReadInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteInt16(m_values);
-            bw.WriteUInt32(0);
-            bw.WriteUInt16(0);
+            bw.WriteInt16(m_values_0);
+            bw.WriteInt16(m_values_1);
+            bw.WriteInt16(m_values_2);
+            bw.WriteInt16(m_values_3);
         }
     }
 }

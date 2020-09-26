@@ -19,8 +19,8 @@ namespace HKX2
             m_damping = br.ReadSingle();
             m_proportionalRecoveryVelocity = br.ReadSingle();
             m_constantRecoveryVelocity = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

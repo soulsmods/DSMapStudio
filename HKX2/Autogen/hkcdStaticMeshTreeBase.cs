@@ -27,7 +27,7 @@ namespace HKX2
             m_numPrimitiveKeys = br.ReadInt32();
             m_bitsPerKey = br.ReadInt32();
             m_maxKeyValue = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_sections = des.ReadClassArray<hkcdStaticMeshTreeBaseSection>(br);
             m_primitives = des.ReadClassArray<hkcdStaticMeshTreeBasePrimitive>(br);
             m_sharedVerticesIndex = des.ReadUInt16Array(br);

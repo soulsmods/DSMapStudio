@@ -13,15 +13,15 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_modifierAtomSize = br.ReadUInt16();
             m_childSize = br.ReadUInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_child = des.ReadClassPointer<hkpConstraintAtom>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

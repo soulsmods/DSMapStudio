@@ -30,8 +30,8 @@ namespace HKX2
             m_impulseScaling = br.ReadSingle();
             m_impulseMax = br.ReadSingle();
             m_isFixed = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_numWheelsOnGround = br.ReadInt32();
         }
         

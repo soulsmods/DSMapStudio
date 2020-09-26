@@ -16,14 +16,14 @@ namespace HKX2
         {
             base.Read(des, br);
             m_originalSkeletonName = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_boneFromAttachment = des.ReadMatrix4(br);
             m_attachment = des.ReadClassPointer<hkReferencedObject>(br);
             m_name = des.ReadStringPointer(br);
             m_boneIndex = br.ReadInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

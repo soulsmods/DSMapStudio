@@ -26,7 +26,7 @@ namespace HKX2
             m_endIntervalIndex = br.ReadInt16();
             m_initSync = br.ReadBoolean();
             m_doSubtractiveBlend = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

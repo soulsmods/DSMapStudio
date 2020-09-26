@@ -86,7 +86,7 @@ namespace HKX2
             m_cArraySize = br.ReadInt16();
             m_flags = br.ReadUInt16();
             m_offset = br.ReadUInt16();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

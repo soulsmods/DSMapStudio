@@ -17,8 +17,8 @@ namespace HKX2
             m_shadowBufferIndex = br.ReadUInt32();
             m_conversionInfo = new hclRuntimeConversionInfo();
             m_conversionInfo.Read(des, br);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

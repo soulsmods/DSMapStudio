@@ -19,9 +19,9 @@ namespace HKX2
             m_tangentOut = des.ReadVector4(br);
             m_inType = (ControlType)br.ReadByte();
             m_outType = (ControlType)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

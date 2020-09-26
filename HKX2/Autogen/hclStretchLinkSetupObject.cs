@@ -36,8 +36,8 @@ namespace HKX2
             m_useMeshTopology = br.ReadBoolean();
             m_allowDynamicLinks = br.ReadBoolean();
             m_useTopologicalStretchDistance = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

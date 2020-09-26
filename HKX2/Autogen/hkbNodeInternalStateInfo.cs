@@ -22,7 +22,7 @@ namespace HKX2
             m_nodeId = br.ReadUInt16();
             m_hasActivateBeenCalled = br.ReadBoolean();
             m_isModifierEnabled = br.ReadBoolean();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

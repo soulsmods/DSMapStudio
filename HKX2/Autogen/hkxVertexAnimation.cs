@@ -15,7 +15,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_time = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_vertData = new hkxVertexBuffer();
             m_vertData.Read(des, br);
             m_vertexIndexMap = des.ReadInt32Array(br);

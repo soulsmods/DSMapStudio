@@ -17,7 +17,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_id = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_payload = des.ReadClassPointer<hkbEventPayload>(br);
         }
         

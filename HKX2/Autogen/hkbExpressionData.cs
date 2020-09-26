@@ -25,9 +25,9 @@ namespace HKX2
             m_assignmentVariableIndex = br.ReadInt32();
             m_assignmentEventIndex = br.ReadInt32();
             m_eventMode = (ExpressionEventMode)br.ReadSByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

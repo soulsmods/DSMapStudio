@@ -16,7 +16,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_version = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             // Read TYPE_SIMPLEARRAY
             m_vertexDataStride = br.ReadInt32();
             // Read TYPE_SIMPLEARRAY

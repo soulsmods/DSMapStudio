@@ -42,7 +42,7 @@ namespace HKX2
             m_triangleIndices = des.ReadUInt16Array(br);
             m_triangleFlips = des.ReadByteArray(br);
             m_totalMass = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_collidableTransformMap = new hclSimClothDataCollidableTransformMap();
             m_collidableTransformMap.Read(des, br);
             m_perInstanceCollidables = des.ReadClassPointerArray<hclCollidable>(br);
@@ -61,8 +61,8 @@ namespace HKX2
             m_landscapeCollisionData.Read(des, br);
             m_numLandscapeCollidableParticles = br.ReadUInt32();
             m_doNormals = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_transferMotionData = new hclSimClothDataTransferMotionData();
             m_transferMotionData.Read(des, br);
         }

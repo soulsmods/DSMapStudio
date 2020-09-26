@@ -15,8 +15,8 @@ namespace HKX2
             m_maxBreakingTorque = br.ReadSingle();
             m_minPedalInputToBlock = br.ReadSingle();
             m_isConnectedToHandbrake = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

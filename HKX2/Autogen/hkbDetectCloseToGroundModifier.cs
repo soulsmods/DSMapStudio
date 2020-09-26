@@ -23,7 +23,7 @@ namespace HKX2
             m_collisionFilterInfo = br.ReadUInt32();
             m_boneIndex = br.ReadInt16();
             m_animBoneIndex = br.ReadInt16();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

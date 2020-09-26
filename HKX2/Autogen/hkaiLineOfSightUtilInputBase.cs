@@ -48,7 +48,7 @@ namespace HKX2
             m_mode = (QueryMode)br.ReadByte();
             m_userEdgeHandling = br.ReadByte();
             m_ignoreBackfacingEdges = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -20,16 +20,16 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_numBitsForChildShapeKey = br.ReadSByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_instances = des.ReadClassArray<hkpStaticCompoundShapeInstance>(br);
             m_instanceExtraInfos = des.ReadUInt16Array(br);
             m_disabledLargeShapeKeyTable = new hkpShapeKeyTable();
             m_disabledLargeShapeKeyTable.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_tree = new hkcdStaticTreeDefaultTreeStorage6();
             m_tree.Read(des, br);
         }

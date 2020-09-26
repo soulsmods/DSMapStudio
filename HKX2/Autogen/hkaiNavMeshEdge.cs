@@ -20,7 +20,7 @@ namespace HKX2
             m_oppositeEdge = br.ReadUInt32();
             m_oppositeFace = br.ReadUInt32();
             m_flags = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_userEdgeCost = br.ReadInt16();
         }
         

@@ -13,13 +13,13 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_desiredFacesPerCluster = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_searchParameters = new hkaiNavMeshPathSearchParameters();
             m_searchParameters.Read(des, br);
             m_agentInfo = new hkaiAgentTraversalInfo();
             m_agentInfo.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

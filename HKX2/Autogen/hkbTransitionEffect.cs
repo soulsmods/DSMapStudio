@@ -30,11 +30,11 @@ namespace HKX2
             base.Read(des, br);
             m_selfTransitionMode = (SelfTransitionMode)br.ReadSByte();
             m_eventMode = (EventMode)br.ReadSByte();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

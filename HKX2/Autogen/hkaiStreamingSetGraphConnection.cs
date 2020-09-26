@@ -17,7 +17,7 @@ namespace HKX2
             m_oppositeNodeIndex = br.ReadInt32();
             m_edgeData = br.ReadUInt32();
             m_edgeCost = br.ReadInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

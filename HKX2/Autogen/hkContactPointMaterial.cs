@@ -29,7 +29,7 @@ namespace HKX2
             m_maxImpulse = new hkUFloat8();
             m_maxImpulse.Read(des, br);
             m_flags = br.ReadByte();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

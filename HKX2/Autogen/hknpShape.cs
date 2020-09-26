@@ -52,7 +52,7 @@ namespace HKX2
             m_convexRadius = br.ReadSingle();
             m_userData = br.ReadUInt64();
             m_properties = des.ReadClassPointer<hkRefCountedProperties>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

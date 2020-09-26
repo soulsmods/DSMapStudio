@@ -16,9 +16,9 @@ namespace HKX2
             m_rpn = des.ReadClassArray<hkbCompiledExpressionSetToken>(br);
             m_expressionToRpnIndex = des.ReadInt32Array(br);
             m_numExpressions = br.ReadSByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

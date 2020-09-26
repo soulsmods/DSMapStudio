@@ -15,9 +15,9 @@ namespace HKX2
             m_shape = des.ReadClassPointer<hkpShape>(br);
             m_collisionFilterInfo = br.ReadUInt32();
             m_shapeInfo = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

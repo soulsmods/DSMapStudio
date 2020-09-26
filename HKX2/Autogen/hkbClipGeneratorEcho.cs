@@ -15,7 +15,7 @@ namespace HKX2
             m_offsetLocalTime = br.ReadSingle();
             m_weight = br.ReadSingle();
             m_dwdt = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

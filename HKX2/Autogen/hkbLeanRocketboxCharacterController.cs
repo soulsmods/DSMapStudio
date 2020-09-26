@@ -57,7 +57,7 @@ namespace HKX2
             m_rotationSpeed = br.ReadSingle();
             m_poseIdx = br.ReadInt32();
             m_rotationAllowed = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_leftFootDownEvent = new hkbEventProperty();
             m_leftFootDownEvent.Read(des, br);
             m_rightFootDownEvent = new hkbEventProperty();
@@ -71,9 +71,9 @@ namespace HKX2
             m_stopEvent = new hkbEventProperty();
             m_stopEvent.Read(des, br);
             m_moveVelocities = des.ReadSingleArray(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

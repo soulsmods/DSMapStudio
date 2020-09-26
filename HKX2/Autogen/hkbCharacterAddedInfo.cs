@@ -26,7 +26,7 @@ namespace HKX2
             m_localScriptsPath = des.ReadStringPointer(br);
             m_remoteScriptsPath = des.ReadStringPointer(br);
             m_skeleton = des.ReadClassPointer<hkaSkeleton>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_worldFromModel = des.ReadQSTransform(br);
             m_poseModelSpace = des.ReadQSTransformArray(br);
         }

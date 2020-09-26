@@ -16,12 +16,12 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_aabbHalfExtents = des.ReadVector4(br);
             m_aabbCenter = des.ReadVector4(br);
             m_rotatedVertices = des.ReadMatrix3Array(br);
             m_numVertices = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_planeEquations = des.ReadVector4Array(br);
             m_connectivity = des.ReadClassPointer<hkpConvexVerticesConnectivity>(br);
         }

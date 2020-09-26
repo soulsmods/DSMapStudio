@@ -20,8 +20,8 @@ namespace HKX2
             m_materialIndices = des.ReadByteArray(br);
             m_radius = br.ReadSingle();
             m_weldingType = (WeldingType)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

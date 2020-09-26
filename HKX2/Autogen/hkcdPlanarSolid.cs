@@ -26,7 +26,7 @@ namespace HKX2
             m_nodes = des.ReadClassPointer<hkcdPlanarSolidNodeStorage>(br);
             m_planes = des.ReadClassPointer<hkcdPlanarGeometryPlanesCollection>(br);
             m_rootNodeId = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

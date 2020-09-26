@@ -18,7 +18,7 @@ namespace HKX2
             m_maxExtraPenetration = br.ReadSingle();
             m_startPointTolerance = br.ReadSingle();
             m_chassisBody = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

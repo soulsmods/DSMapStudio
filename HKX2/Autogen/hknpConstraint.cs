@@ -38,16 +38,16 @@ namespace HKX2
             m_bodyIdB = br.ReadUInt32();
             m_data = des.ReadClassPointer<hkpConstraintData>(br);
             m_id = br.ReadUInt32();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_flags = br.ReadByte();
             m_type = (ConstraintType)br.ReadByte();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_sizeOfAtoms = br.ReadUInt16();
             m_sizeOfSchemas = br.ReadUInt16();
             m_numSolverResults = br.ReadByte();
             m_numSolverElemTemps = br.ReadByte();
             m_runtimeSize = br.ReadUInt16();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_userData = br.ReadUInt64();
         }
         

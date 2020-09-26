@@ -14,13 +14,13 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_up = des.ReadVector4(br);
             m_forward = des.ReadVector4(br);
             m_duration = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_referenceFrameSamples = des.ReadVector4Array(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

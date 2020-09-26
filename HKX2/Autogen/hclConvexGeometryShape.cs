@@ -22,7 +22,7 @@ namespace HKX2
             m_tetrahedraGrid = des.ReadUInt16Array(br);
             m_gridCells = des.ReadByteArray(br);
             m_tetrahedraEquations = des.ReadMatrix4Array(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_localFromWorld = des.ReadTransform(br);
             m_worldFromLocal = des.ReadTransform(br);
             m_objAabb = new hkAabb();
@@ -30,9 +30,9 @@ namespace HKX2
             m_geomCentroid = des.ReadVector4(br);
             m_invCellSize = des.ReadVector4(br);
             m_gridRes = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

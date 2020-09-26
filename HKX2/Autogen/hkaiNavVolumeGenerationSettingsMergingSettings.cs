@@ -21,16 +21,16 @@ namespace HKX2
             m_nodeWeight = br.ReadSingle();
             m_edgeWeight = br.ReadSingle();
             m_estimateNewEdges = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_iterationsStabilizationThreshold = br.ReadInt32();
             m_slopeThreshold = br.ReadSingle();
             m_maxMergingIterations = br.ReadInt32();
             m_randomSeed = br.ReadInt32();
             m_multiplier = br.ReadSingle();
             m_useSimpleFirstMergePass = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

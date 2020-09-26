@@ -17,7 +17,7 @@ namespace HKX2
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

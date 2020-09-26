@@ -28,9 +28,9 @@ namespace HKX2
             m_atEnd = br.ReadBoolean();
             m_ignoreStartTime = br.ReadBoolean();
             m_pingPongBackward = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

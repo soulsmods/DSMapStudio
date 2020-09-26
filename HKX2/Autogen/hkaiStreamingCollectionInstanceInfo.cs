@@ -21,7 +21,7 @@ namespace HKX2
             m_mediator = des.ReadClassPointer<hkaiNavMeshQueryMediator>(br);
             m_volumeMediator = des.ReadClassPointer<hkaiNavVolumeMediator>(br);
             m_treeNode = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

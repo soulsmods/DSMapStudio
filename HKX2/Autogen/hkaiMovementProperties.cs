@@ -34,8 +34,8 @@ namespace HKX2
             m_maxAngularVelocity = br.ReadSingle();
             m_maxTurnVelocity = br.ReadSingle();
             m_kinematicConstraintType = (KinematicConstraintType)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

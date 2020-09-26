@@ -20,14 +20,14 @@ namespace HKX2
             m_useSpheres = br.ReadBoolean();
             m_useBoundaries = br.ReadBoolean();
             m_clipBoundaries = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
             m_transform = des.ReadTransform(br);
             m_spheres = des.ReadClassArray<hkaiAvoidanceSolverSphereObstacle>(br);
             m_boundaries = des.ReadClassArray<hkaiAvoidanceSolverBoundaryObstacle>(br);
             m_userData = br.ReadUInt64();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -16,7 +16,7 @@ namespace HKX2
             m_poseMatchingRootBoneIndex = br.ReadInt16();
             m_poseMatchingOtherBoneIndex = br.ReadInt16();
             m_poseMatchingAnotherBoneIndex = br.ReadInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

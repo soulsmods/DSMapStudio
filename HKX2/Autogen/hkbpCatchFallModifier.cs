@@ -34,17 +34,20 @@ namespace HKX2
         public short m_velocityRagdollBoneIndex;
         public short m_directionOfFallRagdollBoneIndex;
         public bool m_orientHands;
-        public Vector4 m_catchFallPosInBS;
-        public float m_currentReachGain;
+        public Vector4 m_catchFallPosInBS_0;
+        public Vector4 m_catchFallPosInBS_1;
+        public float m_currentReachGain_0;
+        public float m_currentReachGain_1;
         public float m_timeSinceLastModify;
         public float m_currentTwistGain;
         public short m_currentTwistDirection;
-        public bool m_catchFallPosIsValid;
+        public bool m_catchFallPosIsValid_0;
+        public bool m_catchFallPosIsValid_1;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_directionOfFallForwardLS = des.ReadVector4(br);
             m_directionOfFallRightLS = des.ReadVector4(br);
             m_directionOfFallUpLS = des.ReadVector4(br);
@@ -53,7 +56,7 @@ namespace HKX2
             m_leftHand.Read(des, br);
             m_rightHand = new hkbpCatchFallModifierHand();
             m_rightHand.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_catchFallDoneEvent = new hkbEventProperty();
             m_catchFallDoneEvent.Read(des, br);
             m_spreadHandsMultiplier = br.ReadSingle();
@@ -71,20 +74,19 @@ namespace HKX2
             m_velocityRagdollBoneIndex = br.ReadInt16();
             m_directionOfFallRagdollBoneIndex = br.ReadInt16();
             m_orientHands = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
-            m_catchFallPosInBS = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            m_currentReachGain = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
+            br.ReadByte();
+            m_catchFallPosInBS_0 = des.ReadVector4(br);
+            m_catchFallPosInBS_1 = des.ReadVector4(br);
+            m_currentReachGain_0 = br.ReadSingle();
+            m_currentReachGain_1 = br.ReadSingle();
             m_timeSinceLastModify = br.ReadSingle();
             m_currentTwistGain = br.ReadSingle();
             m_currentTwistDirection = br.ReadInt16();
-            m_catchFallPosIsValid = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            m_catchFallPosIsValid_0 = br.ReadBoolean();
+            m_catchFallPosIsValid_1 = br.ReadBoolean();
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -113,17 +115,15 @@ namespace HKX2
             bw.WriteBoolean(m_orientHands);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteSingle(m_currentReachGain);
-            bw.WriteUInt32(0);
+            bw.WriteSingle(m_currentReachGain_0);
+            bw.WriteSingle(m_currentReachGain_1);
             bw.WriteSingle(m_timeSinceLastModify);
             bw.WriteSingle(m_currentTwistGain);
             bw.WriteInt16(m_currentTwistDirection);
-            bw.WriteBoolean(m_catchFallPosIsValid);
+            bw.WriteBoolean(m_catchFallPosIsValid_0);
+            bw.WriteBoolean(m_catchFallPosIsValid_1);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
-            bw.WriteByte(0);
         }
     }
 }

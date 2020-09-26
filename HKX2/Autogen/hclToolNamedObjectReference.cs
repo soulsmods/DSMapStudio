@@ -15,7 +15,7 @@ namespace HKX2
             m_pluginName = des.ReadStringPointer(br);
             m_objectName = des.ReadStringPointer(br);
             m_hash = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

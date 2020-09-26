@@ -17,7 +17,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_rotationOut = des.ReadQuaternion(br);
             m_targetPosition = des.ReadVector4(br);
             m_currentPosition = des.ReadVector4(br);
@@ -25,10 +25,10 @@ namespace HKX2
             m_localAxisOfRotation = des.ReadVector4(br);
             m_localFacingDirection = des.ReadVector4(br);
             m_resultIsDelta = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

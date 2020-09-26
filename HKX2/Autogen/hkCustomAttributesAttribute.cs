@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_name = des.ReadStringPointer(br);
             // Read TYPE_VARIANT
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

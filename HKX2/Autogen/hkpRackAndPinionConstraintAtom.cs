@@ -15,13 +15,13 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_pinionRadiusOrScrewPitch = br.ReadSingle();
             m_isScrew = br.ReadBoolean();
             m_memOffsetToInitialAngleOffset = br.ReadSByte();
             m_memOffsetToPrevAngle = br.ReadSByte();
             m_memOffsetToRevolutionCounter = br.ReadSByte();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

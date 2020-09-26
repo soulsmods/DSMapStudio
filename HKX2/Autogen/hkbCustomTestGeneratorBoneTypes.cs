@@ -25,7 +25,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_boneHiddenTypeCopyStart = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_oldBoneIndex = br.ReadInt16();
             m_oldBoneIndexNoVar = br.ReadInt16();
             m_boneIndex = br.ReadInt16();
@@ -37,10 +37,10 @@ namespace HKX2
             m_boneContractIndex1 = br.ReadInt16();
             m_boneContractIndex2 = br.ReadInt16();
             m_boneHiddenTypeCopyEnd = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_boneWeightArray = des.ReadClassPointer<hkbBoneWeightArray>(br);
             m_boneIndexArray = des.ReadClassPointer<hkbBoneIndexArray>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

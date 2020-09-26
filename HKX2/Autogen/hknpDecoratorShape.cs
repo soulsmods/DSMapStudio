@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_coreShape = des.ReadClassPointer<hknpShape>(br);
             m_coreShapeSize = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

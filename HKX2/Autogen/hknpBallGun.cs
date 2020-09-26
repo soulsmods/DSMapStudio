@@ -21,13 +21,13 @@ namespace HKX2
             m_bulletMass = br.ReadSingle();
             m_damageMultiplier = br.ReadSingle();
             m_maxBulletsInWorld = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_bulletOffsetFromCenter = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

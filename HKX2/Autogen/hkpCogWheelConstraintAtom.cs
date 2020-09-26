@@ -16,7 +16,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_cogWheelRadiusA = br.ReadSingle();
             m_cogWheelRadiusB = br.ReadSingle();
             m_isScrew = br.ReadBoolean();

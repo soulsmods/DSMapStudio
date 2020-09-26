@@ -28,7 +28,7 @@ namespace HKX2
             m_role = new hkbRoleAttribute();
             m_role.Read(des, br);
             m_type = (VariableType)br.ReadSByte();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

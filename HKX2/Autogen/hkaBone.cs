@@ -13,9 +13,9 @@ namespace HKX2
         {
             m_name = des.ReadStringPointer(br);
             m_lockTranslation = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -20,7 +20,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_type = (EdgeSelectionType)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_channelName = des.ReadStringPointer(br);
         }
         

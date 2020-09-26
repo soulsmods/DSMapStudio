@@ -13,13 +13,13 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_setupMesh = des.ReadClassPointer<hclSceneDataSetupMesh>(br);
             m_meshSection = des.ReadClassPointer<hkxMeshSection>(br);
             m_skinnedSection = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

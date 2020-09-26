@@ -21,8 +21,8 @@ namespace HKX2
             base.Read(des, br);
             m_characterId = br.ReadUInt64();
             m_command = (CharacterControlCommand)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_padding = br.ReadInt32();
         }
         

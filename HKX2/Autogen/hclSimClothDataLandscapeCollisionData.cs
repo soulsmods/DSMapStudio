@@ -17,12 +17,12 @@ namespace HKX2
         {
             m_landscapeRadius = br.ReadSingle();
             m_enableStuckParticleDetection = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_stuckParticlesStretchFactorSq = br.ReadSingle();
             m_pinchDetectionEnabled = br.ReadBoolean();
             m_pinchDetectionPriority = br.ReadSByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_pinchDetectionRadius = br.ReadSingle();
         }
         

@@ -25,7 +25,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_small = des.ReadVector4(br);
             m_big = des.ReadVector4(br);
             m_coneApex = des.ReadVector4(br);

@@ -19,9 +19,9 @@ namespace HKX2
         {
             m_name = des.ReadStringPointer(br);
             // Read TYPE_SIMPLEARRAY
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_flags = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

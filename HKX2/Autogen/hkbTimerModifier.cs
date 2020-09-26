@@ -13,10 +13,10 @@ namespace HKX2
         {
             base.Read(des, br);
             m_alarmTimeSeconds = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_alarmEvent = new hkbEventProperty();
             m_alarmEvent.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -16,8 +16,8 @@ namespace HKX2
             m_inheritedHiddenMember = br.ReadBoolean();
             m_protectedInheritedHiddenMember = br.ReadBoolean();
             m_privateInheritedHiddenMember = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

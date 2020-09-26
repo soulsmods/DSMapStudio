@@ -17,12 +17,12 @@ namespace HKX2
             m_input = des.ReadClassPointer<hkaiVolumePathfindingUtilFindPathInput>(br);
             m_output = des.ReadClassPointer<hkaiVolumePathfindingUtilFindPathOutput>(br);
             m_priority = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_markedForDeletion = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

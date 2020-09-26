@@ -21,20 +21,20 @@ namespace HKX2
         {
             base.Read(des, br);
             m_giveUp = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_comDistThreshold = br.ReadSingle();
             m_passThrough = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_ragdollLeftFootBoneIndex = br.ReadInt16();
             m_ragdollRightFootBoneIndex = br.ReadInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_balanceOnAnklesFraction = br.ReadSingle();
             m_upAxis = br.ReadInt32();
             m_fadeInTime = br.ReadSingle();
             m_comBiasX = br.ReadSingle();
             m_stepInfo = des.ReadClassArray<hkbpBalanceModifierStepInfo>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

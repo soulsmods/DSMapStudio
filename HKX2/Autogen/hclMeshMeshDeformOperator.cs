@@ -37,8 +37,8 @@ namespace HKX2
             m_scaleNormalBehaviour = (ScaleNormalBehaviour)br.ReadUInt32();
             m_deformNormals = br.ReadBoolean();
             m_partialDeform = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

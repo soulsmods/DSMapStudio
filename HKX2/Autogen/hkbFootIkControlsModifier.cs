@@ -12,7 +12,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_controlData = new hkbFootIkControlData();
             m_controlData.Read(des, br);
             m_legs = des.ReadClassArray<hkbFootIkControlsModifierLeg>(br);

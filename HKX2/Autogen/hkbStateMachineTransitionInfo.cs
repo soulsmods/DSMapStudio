@@ -56,7 +56,7 @@ namespace HKX2
             m_toNestedStateId = br.ReadInt32();
             m_priority = br.ReadInt16();
             m_flags = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

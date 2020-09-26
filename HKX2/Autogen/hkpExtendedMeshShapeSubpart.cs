@@ -15,10 +15,10 @@ namespace HKX2
         {
             m_typeAndFlags = br.ReadUInt16();
             m_shapeInfo = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_materialIndexStriding = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_userData = br.ReadUInt64();
         }
         

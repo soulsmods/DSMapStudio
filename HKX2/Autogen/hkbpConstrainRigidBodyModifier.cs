@@ -41,8 +41,8 @@ namespace HKX2
             m_constraintType = (ConstraintType)br.ReadSByte();
             m_clearTargetData = br.ReadBoolean();
             m_isConstraintHinge = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

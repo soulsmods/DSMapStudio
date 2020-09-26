@@ -18,7 +18,7 @@ namespace HKX2
             m_a = br.ReadUInt16();
             m_b = br.ReadUInt16();
             m_c = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_material = br.ReadUInt32();
             m_weldingInfo = br.ReadUInt16();
             m_transformIndex = br.ReadUInt16();

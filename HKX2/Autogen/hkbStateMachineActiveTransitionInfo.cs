@@ -15,7 +15,7 @@ namespace HKX2
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_transitionEffectInternalStateInfo = des.ReadClassPointer<hkbNodeInternalStateInfo>(br);
             m_transitionInfoReference = new hkbStateMachineTransitionInfoReference();
             m_transitionInfoReference.Read(des, br);
@@ -24,8 +24,8 @@ namespace HKX2
             m_fromStateId = br.ReadInt32();
             m_toStateId = br.ReadInt32();
             m_isReturnToPreviousState = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

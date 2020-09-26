@@ -40,7 +40,7 @@ namespace HKX2
             m_flags = br.ReadByte();
             m_localPointsChanged = br.ReadBoolean();
             m_isEnabled = br.ReadBoolean();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

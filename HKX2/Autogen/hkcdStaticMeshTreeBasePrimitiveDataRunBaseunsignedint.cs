@@ -15,7 +15,7 @@ namespace HKX2
             m_value = br.ReadUInt32();
             m_index = br.ReadByte();
             m_count = br.ReadByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

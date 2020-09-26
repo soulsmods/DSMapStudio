@@ -12,9 +12,9 @@ namespace HKX2
         {
             base.Read(des, br);
             m_isAdditive = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

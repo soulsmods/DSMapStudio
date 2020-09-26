@@ -21,7 +21,7 @@ namespace HKX2
             m_newTargetGain = br.ReadSingle();
             m_onGain = br.ReadSingle();
             m_offGain = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

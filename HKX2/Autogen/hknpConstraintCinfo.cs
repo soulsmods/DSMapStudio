@@ -17,9 +17,9 @@ namespace HKX2
             m_bodyA = br.ReadUInt32();
             m_bodyB = br.ReadUInt32();
             m_flags = br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

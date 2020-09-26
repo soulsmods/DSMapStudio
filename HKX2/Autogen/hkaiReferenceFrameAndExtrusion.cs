@@ -24,9 +24,9 @@ namespace HKX2
             m_cellExtrusion = br.ReadSingle();
             m_silhouetteRadiusExpasion = br.ReadSingle();
             m_upTransformMethod = (UpVectorTransformMethod)br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

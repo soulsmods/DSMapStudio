@@ -22,13 +22,13 @@ namespace HKX2
         {
             m_motionPropertiesId = br.ReadUInt16();
             m_enableDeactivation = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_inverseMass = br.ReadSingle();
             m_massFactor = br.ReadSingle();
             m_maxLinearAccelerationDistancePerStep = br.ReadSingle();
             m_maxRotationToPreventTunneling = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_inverseInertiaLocal = des.ReadVector4(br);
             m_centerOfMassWorld = des.ReadVector4(br);
             m_orientation = des.ReadQuaternion(br);

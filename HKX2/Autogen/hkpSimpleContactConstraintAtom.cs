@@ -24,9 +24,9 @@ namespace HKX2
             m_numUserDatasForBodyA = br.ReadByte();
             m_numUserDatasForBodyB = br.ReadByte();
             m_contactPointPropertiesStriding = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_maxNumContactPoints = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_info = new hkpSimpleContactConstraintDataInfo();
             m_info.Read(des, br);
         }

@@ -18,9 +18,9 @@ namespace HKX2
             m_inputBufferSetupObject = des.ReadClassPointer<hclBufferSetupObject>(br);
             m_outputBufferSetupObject = des.ReadClassPointer<hclBufferSetupObject>(br);
             m_copyNormals = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

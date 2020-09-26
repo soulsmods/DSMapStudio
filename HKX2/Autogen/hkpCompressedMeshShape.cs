@@ -47,7 +47,7 @@ namespace HKX2
             m_radius = br.ReadSingle();
             m_weldingType = (WeldingType)br.ReadByte();
             m_materialType = (MaterialType)br.ReadByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_materials = des.ReadUInt32Array(br);
             m_materials16 = des.ReadUInt16Array(br);
             m_materials8 = des.ReadByteArray(br);
@@ -57,17 +57,17 @@ namespace HKX2
             m_chunks = des.ReadClassArray<hkpCompressedMeshShapeChunk>(br);
             m_convexPieces = des.ReadClassArray<hkpCompressedMeshShapeConvexPiece>(br);
             m_error = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_bounds = new hkAabb();
             m_bounds.Read(des, br);
             m_defaultCollisionFilterInfo = br.ReadUInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_materialStriding = br.ReadUInt16();
             m_numMaterials = br.ReadUInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_namedMaterials = des.ReadClassArray<hkpNamedMeshMaterial>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

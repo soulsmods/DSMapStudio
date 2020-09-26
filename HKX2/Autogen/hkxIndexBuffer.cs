@@ -25,9 +25,9 @@ namespace HKX2
         {
             base.Read(des, br);
             m_indexType = (IndexType)br.ReadSByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_indices16 = des.ReadUInt16Array(br);
             m_indices32 = des.ReadUInt32Array(br);
             m_vertexBaseOffset = br.ReadUInt32();

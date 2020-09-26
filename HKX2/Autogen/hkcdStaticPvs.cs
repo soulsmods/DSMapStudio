@@ -22,7 +22,7 @@ namespace HKX2
             m_pvs = des.ReadByteArray(br);
             m_map = des.ReadUInt16Array(br);
             m_blocks = des.ReadClassArray<hkcdStaticPvsBlockHeader>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -21,8 +21,8 @@ namespace HKX2
             m_distancesOut = des.ReadSingleArray(br);
             m_pointsOut = des.ReadVector4Array(br);
             m_doNotExceedArrayCapacity = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_numIterationsOut = br.ReadInt32();
             m_finalFaceKey = br.ReadUInt32();
             m_accumulatedDistance = br.ReadSingle();

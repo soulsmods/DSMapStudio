@@ -17,9 +17,9 @@ namespace HKX2
             m_keyframedRotation = des.ReadQuaternion(br);
             m_boneIndex = br.ReadInt16();
             m_isValid = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

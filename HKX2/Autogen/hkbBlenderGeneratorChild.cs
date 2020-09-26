@@ -18,7 +18,7 @@ namespace HKX2
             m_boneWeights = des.ReadClassPointer<hkbBoneWeightArray>(br);
             m_weight = br.ReadSingle();
             m_worldFromModelWeight = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -18,7 +18,7 @@ namespace HKX2
             m_danglingGeometry = des.ReadClassPointer<hkcdPlanarGeometry>(br);
             m_solid = des.ReadClassPointer<hkcdPlanarSolid>(br);
             m_geomSources = des.ReadClassArray<hkcdPlanarCsgOperandGeomSource>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

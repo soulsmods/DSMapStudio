@@ -14,8 +14,8 @@ namespace HKX2
         {
             m_boneA = br.ReadInt16();
             m_boneB = br.ReadInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_aFromBTransform = des.ReadQSTransform(br);
         }
         

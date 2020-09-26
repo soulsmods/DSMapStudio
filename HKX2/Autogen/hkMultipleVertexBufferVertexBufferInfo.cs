@@ -12,11 +12,11 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_vertexBuffer = des.ReadClassPointer<hkMeshVertexBuffer>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_isLocked = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

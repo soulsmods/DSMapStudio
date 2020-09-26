@@ -24,8 +24,8 @@ namespace HKX2
             m_maximumDrag = br.ReadSingle();
             m_airVelocity = des.ReadVector4(br);
             m_currentTime = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

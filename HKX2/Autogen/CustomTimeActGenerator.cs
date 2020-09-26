@@ -30,8 +30,8 @@ namespace HKX2
             m_taeId = br.ReadInt32();
             m_valIndex = br.ReadInt32();
             m_valRate = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

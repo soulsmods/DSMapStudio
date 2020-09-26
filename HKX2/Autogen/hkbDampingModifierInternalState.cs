@@ -22,7 +22,7 @@ namespace HKX2
             m_dampedValue = br.ReadSingle();
             m_errorSum = br.ReadSingle();
             m_previousError = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

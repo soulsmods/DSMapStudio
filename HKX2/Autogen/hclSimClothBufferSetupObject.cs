@@ -21,7 +21,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_type = (Type)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_name = des.ReadStringPointer(br);
             m_simClothSetupObject = des.ReadClassPointer<hclSimClothSetupObject>(br);
         }

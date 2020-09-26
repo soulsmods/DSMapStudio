@@ -6,27 +6,21 @@ namespace HKX2
 {
     public class hkpVehicleFrictionStatus : IHavokObject
     {
-        public hkpVehicleFrictionStatusAxisStatus m_axis;
+        public hkpVehicleFrictionStatusAxisStatus m_axis_0;
+        public hkpVehicleFrictionStatusAxisStatus m_axis_1;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_axis = new hkpVehicleFrictionStatusAxisStatus();
-            m_axis.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            m_axis_0 = new hkpVehicleFrictionStatusAxisStatus();
+            m_axis_0.Read(des, br);
+            m_axis_1 = new hkpVehicleFrictionStatusAxisStatus();
+            m_axis_1.Read(des, br);
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            m_axis.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(0);
+            m_axis_0.Write(bw);
+            m_axis_1.Write(bw);
         }
     }
 }

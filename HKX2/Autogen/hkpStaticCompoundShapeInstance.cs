@@ -19,7 +19,7 @@ namespace HKX2
             m_filterInfo = br.ReadUInt32();
             m_childFilterInfoMask = br.ReadUInt32();
             m_userData = br.ReadUInt64();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -17,7 +17,7 @@ namespace HKX2
             m_offset = des.ReadVector4(br);
             m_multiplier = br.ReadSingle();
             m_invMultiplier = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -18,8 +18,8 @@ namespace HKX2
             m_initialSlope = br.ReadSingle();
             m_deadZone = br.ReadSingle();
             m_autoReverse = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

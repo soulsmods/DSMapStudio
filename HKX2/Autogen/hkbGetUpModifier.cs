@@ -16,16 +16,16 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_groundNormal = des.ReadVector4(br);
             m_duration = br.ReadSingle();
             m_alignWithGroundDuration = br.ReadSingle();
             m_rootBoneIndex = br.ReadInt16();
             m_otherBoneIndex = br.ReadInt16();
             m_anotherBoneIndex = br.ReadInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

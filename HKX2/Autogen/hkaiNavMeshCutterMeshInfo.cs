@@ -16,7 +16,7 @@ namespace HKX2
             m_originalNumFaces = br.ReadInt32();
             m_originalNumEdges = br.ReadInt32();
             m_originalNumVertices = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_magic = des.ReadInt32Array(br);
         }
         

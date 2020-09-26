@@ -22,8 +22,8 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_referenceFrameAndExtrusion = new hkaiReferenceFrameAndExtrusion();
             m_referenceFrameAndExtrusion.Read(des, br);
             m_navMeshCollection = des.ReadClassPointer<hkaiStreamingCollection>(br);
@@ -31,10 +31,10 @@ namespace HKX2
             m_stepCount = br.ReadInt32();
             m_hasMovedTolerance = br.ReadSingle();
             m_maxCutFacesPerStep = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

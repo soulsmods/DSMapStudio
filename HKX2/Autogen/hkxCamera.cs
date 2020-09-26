@@ -24,8 +24,8 @@ namespace HKX2
             m_far = br.ReadSingle();
             m_near = br.ReadSingle();
             m_leftHanded = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

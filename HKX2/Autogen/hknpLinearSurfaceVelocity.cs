@@ -23,9 +23,9 @@ namespace HKX2
             base.Read(des, br);
             m_space = (Space)br.ReadByte();
             m_projectMethod = (ProjectMethod)br.ReadByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_maxVelocityScale = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_velocityMeasurePlane = des.ReadVector4(br);
             m_velocity = des.ReadVector4(br);
         }

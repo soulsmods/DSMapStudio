@@ -21,10 +21,10 @@ namespace HKX2
             m_layers = des.ReadClassPointerArray<hkbLayer>(br);
             m_indexOfSyncMasterChild = br.ReadInt16();
             m_flags = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

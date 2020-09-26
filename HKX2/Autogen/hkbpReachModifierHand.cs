@@ -19,7 +19,7 @@ namespace HKX2
             m_sensingRadius = br.ReadSingle();
             m_boneIndex = br.ReadInt16();
             m_handIkTrackIndex = br.ReadInt16();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

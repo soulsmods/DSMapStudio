@@ -46,8 +46,8 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_up = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_validateInputs = br.ReadBoolean();
             m_outputPathFlags = br.ReadByte();
             m_lineOfSightFlags = br.ReadByte();
@@ -55,7 +55,7 @@ namespace HKX2
             m_projectedRadiusCheck = br.ReadBoolean();
             m_userEdgeTraversalTestType = (UserEdgeTraversalTestType)br.ReadByte();
             m_useGrandparentDistanceCalculation = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_heuristicWeight = br.ReadSingle();
             m_simpleRadiusThreshold = br.ReadSingle();
             m_maximumPathLength = br.ReadSingle();
@@ -65,7 +65,7 @@ namespace HKX2
             m_bufferSizes.Read(des, br);
             m_hierarchyBufferSizes = new hkaiSearchParametersBufferSizes();
             m_hierarchyBufferSizes.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

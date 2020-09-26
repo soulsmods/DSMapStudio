@@ -13,8 +13,8 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_collapseVertices = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_collapseThreshold = br.ReadSingle();
             m_vertexSelection = new hclVertexSelectionInput();
             m_vertexSelection.Read(des, br);

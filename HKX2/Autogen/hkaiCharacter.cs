@@ -57,7 +57,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_userData = br.ReadUInt64();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_position = des.ReadVector4(br);
             m_forward = des.ReadVector4(br);
             m_velocity = des.ReadVector4(br);
@@ -69,22 +69,22 @@ namespace HKX2
             m_adaptiveRanger.Read(des, br);
             m_costModifier = des.ReadClassPointer<hkaiAstarCostModifier>(br);
             m_edgeFilter = des.ReadClassPointer<hkaiAstarEdgeFilter>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_agentFilterInfo = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_avoidanceProperties = des.ReadClassPointer<hkaiAvoidanceProperties>(br);
             m_avoidanceState = br.ReadSingle();
             m_agentPriority = br.ReadUInt32();
             m_avoidanceType = br.ReadUInt16();
             m_avoidanceEnabledMask = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_state = (State)br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_layer = br.ReadUInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

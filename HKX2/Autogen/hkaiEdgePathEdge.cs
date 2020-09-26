@@ -28,10 +28,10 @@ namespace HKX2
             m_rightFollowingCorner = new hkaiEdgePathFollowingCornerInfo();
             m_rightFollowingCorner.Read(des, br);
             m_flags = br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

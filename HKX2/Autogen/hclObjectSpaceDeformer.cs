@@ -36,7 +36,7 @@ namespace HKX2
             m_endVertexIndex = br.ReadUInt16();
             m_batchSizeSpu = br.ReadUInt16();
             m_partialWrite = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

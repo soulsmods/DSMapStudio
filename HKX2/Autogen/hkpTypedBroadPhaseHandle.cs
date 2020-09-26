@@ -14,9 +14,9 @@ namespace HKX2
         {
             base.Read(des, br);
             m_type = br.ReadSByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_objectQualityType = br.ReadSByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_collisionFilterInfo = br.ReadUInt32();
         }
         

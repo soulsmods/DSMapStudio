@@ -29,9 +29,9 @@ namespace HKX2
             base.Read(des, br);
             m_name = des.ReadStringPointer(br);
             m_type = (ShaderType)br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_vertexEntryName = des.ReadStringPointer(br);
             m_geomEntryName = des.ReadStringPointer(br);
             m_pixelEntryName = des.ReadStringPointer(br);

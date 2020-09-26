@@ -15,7 +15,7 @@ namespace HKX2
             m_minMaxData = des.ReadUInt32Array(br);
             m_xRes = br.ReadUInt16();
             m_zRes = br.ReadUInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

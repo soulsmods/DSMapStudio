@@ -20,8 +20,8 @@ namespace HKX2
             m_usage = (DataUsage)br.ReadUInt16();
             m_byteStride = br.ReadUInt32();
             m_numElements = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_channelID = des.ReadStringPointer(br);
         }
         

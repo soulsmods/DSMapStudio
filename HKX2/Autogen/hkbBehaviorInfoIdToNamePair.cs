@@ -17,7 +17,7 @@ namespace HKX2
             m_nodeName = des.ReadStringPointer(br);
             m_toolType = (NodeType)br.ReadUInt16();
             m_id = br.ReadUInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

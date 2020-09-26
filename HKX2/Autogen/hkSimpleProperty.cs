@@ -12,7 +12,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_key = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_value = new hkSimplePropertyValue();
             m_value.Read(des, br);
         }

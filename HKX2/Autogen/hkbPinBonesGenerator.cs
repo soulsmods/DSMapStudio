@@ -18,7 +18,7 @@ namespace HKX2
             m_pinnedGenerator = des.ReadClassPointer<hkbGenerator>(br);
             m_boneIndices = des.ReadClassPointer<hkbBoneIndexArray>(br);
             m_fraction = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -44,9 +44,9 @@ namespace HKX2
             m_hitSomething = br.ReadBoolean();
             m_isPlantedMS = br.ReadBoolean();
             m_isOriginalAnkleTransformMSSet = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

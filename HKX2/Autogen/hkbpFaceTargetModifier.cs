@@ -16,8 +16,8 @@ namespace HKX2
             m_targetIn = des.ReadClassPointer<hkbpTarget>(br);
             m_offsetAngle = br.ReadSingle();
             m_onlyOnce = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

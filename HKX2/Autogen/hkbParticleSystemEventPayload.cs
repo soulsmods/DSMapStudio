@@ -26,15 +26,15 @@ namespace HKX2
         {
             base.Read(des, br);
             m_type = (SystemType)br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_emitBoneIndex = br.ReadInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_offset = des.ReadVector4(br);
             m_direction = des.ReadVector4(br);
             m_numParticles = br.ReadInt32();
             m_speed = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

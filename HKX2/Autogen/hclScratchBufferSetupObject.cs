@@ -20,8 +20,8 @@ namespace HKX2
             m_storeNormals = br.ReadBoolean();
             m_storeTangentsAndBiTangents = br.ReadBoolean();
             m_storeTriangles = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

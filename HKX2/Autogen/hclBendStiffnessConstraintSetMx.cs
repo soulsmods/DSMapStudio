@@ -16,9 +16,9 @@ namespace HKX2
             m_batches = des.ReadClassArray<hclBendStiffnessConstraintSetMxBatch>(br);
             m_singles = des.ReadClassArray<hclBendStiffnessConstraintSetMxSingle>(br);
             m_useRestPoseConfig = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

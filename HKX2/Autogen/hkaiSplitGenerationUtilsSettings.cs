@@ -22,18 +22,18 @@ namespace HKX2
             m_simplificationOptions = (SplitAndGenerateOptions)br.ReadByte();
             m_splitMethod = (SplitMethod)br.ReadByte();
             m_generateClusterGraphs = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_desiredFacesPerCluster = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_borderPreserveShrinkSize = br.ReadSingle();
             m_streamingEdgeMatchTolerance = br.ReadSingle();
             m_numX = br.ReadInt32();
             m_numY = br.ReadInt32();
             m_maxSplits = br.ReadInt32();
             m_desiredTrisPerChunk = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

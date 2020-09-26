@@ -14,7 +14,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_activateEventId = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_attachment = des.ReadStringPointer(br);
             m_localFrame = des.ReadStringPointer(br);
         }

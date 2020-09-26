@@ -58,20 +58,20 @@ namespace HKX2
             m_embeddedTrianglesSubpart.Read(des, br);
             m_aabbHalfExtents = des.ReadVector4(br);
             m_aabbCenter = des.ReadVector4(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_numBitsForSubpartIndex = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_trianglesSubparts = des.ReadClassArray<hkpExtendedMeshShapeTrianglesSubpart>(br);
             m_shapesSubparts = des.ReadClassArray<hkpExtendedMeshShapeShapesSubpart>(br);
             m_weldingInfo = des.ReadUInt16Array(br);
             m_weldingType = (WeldingType)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_defaultCollisionFilterInfo = br.ReadUInt32();
             m_cachedNumChildShapes = br.ReadInt32();
             m_triangleRadius = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

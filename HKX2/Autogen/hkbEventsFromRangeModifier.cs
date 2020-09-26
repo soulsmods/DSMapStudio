@@ -16,8 +16,8 @@ namespace HKX2
             m_inputValue = br.ReadSingle();
             m_lowerBound = br.ReadSingle();
             m_eventRanges = des.ReadClassPointer<hkbEventRangeDataArray>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

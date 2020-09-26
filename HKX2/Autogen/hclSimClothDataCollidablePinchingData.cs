@@ -14,7 +14,7 @@ namespace HKX2
         {
             m_pinchDetectionEnabled = br.ReadBoolean();
             m_pinchDetectionPriority = br.ReadSByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_pinchDetectionRadius = br.ReadSingle();
         }
         

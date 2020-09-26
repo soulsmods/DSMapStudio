@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_colorName = des.ReadStringPointer(br);
             m_color = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

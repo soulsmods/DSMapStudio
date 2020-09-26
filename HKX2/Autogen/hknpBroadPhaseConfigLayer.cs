@@ -13,8 +13,8 @@ namespace HKX2
         {
             m_collideWithLayerMask = br.ReadUInt32();
             m_isVolatile = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

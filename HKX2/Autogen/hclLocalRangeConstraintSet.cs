@@ -31,8 +31,8 @@ namespace HKX2
             m_stiffness = br.ReadSingle();
             m_shapeType = (ShapeType)br.ReadUInt32();
             m_applyNormalComponent = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -16,7 +16,7 @@ namespace HKX2
             m_convexPieceStream = des.ReadClassPointer<hkpConvexPieceStreamData>(br);
             m_displayMesh = des.ReadClassPointer<hkpShapeCollection>(br);
             m_radius = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -22,8 +22,8 @@ namespace HKX2
         {
             m_collisionFilterInfo = br.ReadUInt32();
             m_type = (Type)br.ReadSByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_shapeSetup = new hkbShapeSetup();
             m_shapeSetup.Read(des, br);
         }

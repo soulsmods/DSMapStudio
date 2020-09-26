@@ -23,9 +23,9 @@ namespace HKX2
             m_capsuleRadius = br.ReadSingle();
             m_fileName = des.ReadStringPointer(br);
             m_type = (Type)br.ReadSByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

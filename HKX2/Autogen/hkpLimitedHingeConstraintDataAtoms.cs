@@ -37,7 +37,7 @@ namespace HKX2
             m_2dAng.Read(des, br);
             m_ballSocket = new hkpBallSocketConstraintAtom();
             m_ballSocket.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

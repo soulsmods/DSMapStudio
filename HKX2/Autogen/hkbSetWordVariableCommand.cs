@@ -20,14 +20,14 @@ namespace HKX2
             m_variableName = des.ReadStringPointer(br);
             m_value = new hkbVariableValue();
             m_value.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_quadValue = des.ReadVector4(br);
             m_type = (VariableType)br.ReadByte();
             m_global = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

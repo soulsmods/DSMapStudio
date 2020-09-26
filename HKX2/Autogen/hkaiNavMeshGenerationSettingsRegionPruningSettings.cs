@@ -20,7 +20,7 @@ namespace HKX2
             m_borderPreservationTolerance = br.ReadSingle();
             m_preserveVerticalBorderRegions = br.ReadBoolean();
             m_pruneBeforeTriangulation = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_regionSeedPoints = des.ReadVector4Array(br);
         }
         

@@ -17,22 +17,26 @@ namespace HKX2
     
     public class hkpCollisionFilter : hkReferencedObject
     {
-        public uint m_prepad;
+        public uint m_prepad_0;
+        public uint m_prepad_1;
         public hkpFilterType m_type;
-        public uint m_postpad;
+        public uint m_postpad_0;
+        public uint m_postpad_1;
+        public uint m_postpad_2;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            m_prepad = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            m_prepad_0 = br.ReadUInt32();
+            m_prepad_1 = br.ReadUInt32();
             m_type = (hkpFilterType)br.ReadUInt32();
-            m_postpad = br.ReadUInt32();
-            br.AssertUInt64(0);
+            m_postpad_0 = br.ReadUInt32();
+            m_postpad_1 = br.ReadUInt32();
+            m_postpad_2 = br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -42,10 +46,11 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            bw.WriteUInt32(m_prepad);
-            bw.WriteUInt32(0);
-            bw.WriteUInt32(m_postpad);
-            bw.WriteUInt64(0);
+            bw.WriteUInt32(m_prepad_0);
+            bw.WriteUInt32(m_prepad_1);
+            bw.WriteUInt32(m_postpad_0);
+            bw.WriteUInt32(m_postpad_1);
+            bw.WriteUInt32(m_postpad_2);
         }
     }
 }

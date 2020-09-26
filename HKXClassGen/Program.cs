@@ -200,6 +200,11 @@ namespace HKXClassGen
 
         public static uint MemberSize(HKXMember m, VTYPE t, bool v = false)
         {
+            var adjarrsize = m.ArraySize;
+            if (v || adjarrsize == 0)
+            {
+                adjarrsize = 1;
+            }
             if (t == VTYPE.TYPE_ENUM)
             {
                 return MemberSize(m, m.VSubType, true);
@@ -215,59 +220,59 @@ namespace HKXClassGen
             }
             else if (t == VTYPE.TYPE_UINT8)
             {
-                return 1;
+                return 1 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_INT8)
             {
-                return 1;
+                return 1 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_CHAR)
             {
-                return 1;
+                return 1 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_UINT16)
             {
-                return 2;
+                return 2 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_INT16)
             {
-                return 2;
+                return 2 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_HALF)
             {
-                return 2;
+                return 2 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_UINT32)
             {
-                return 4;
+                return 4 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_INT32)
             {
-                return 4;
+                return 4 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_ULONG)
             {
-                return 8;
+                return 8 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_UINT64)
             {
-                return 8;
+                return 8 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_LONG)
             {
-                return 8;
+                return 8 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_INT64)
             {
-                return 8;
+                return 8 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_INT32)
             {
-                return 4;
+                return 4 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_BOOL)
             {
-                return 1;
+                return 1 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_FLAGS)
             {
@@ -275,39 +280,39 @@ namespace HKXClassGen
             }
             else if (t == VTYPE.TYPE_REAL)
             {
-                return 4;
+                return 4 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_QUATERNION)
             {
-                return 16;
+                return 16 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_ROTATION)
             {
-                return 48;
+                return 48 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_VECTOR4)
             {
-                return 16;
+                return 16 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_MATRIX4)
             {
-                return 64;
+                return 64 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_MATRIX3)
             {
-                return 48;
+                return 48 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_TRANSFORM)
             {
-                return 64;
+                return 64 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_QSTRANSFORM)
             {
-                return 64;
+                return 64 * adjarrsize;
             }
             else if (t == VTYPE.TYPE_POINTER)
             {
-                return POINTER_SIZE;
+                return POINTER_SIZE * adjarrsize;
             }
             else if (t == VTYPE.TYPE_ARRAY)
             {
@@ -323,7 +328,7 @@ namespace HKXClassGen
             }
             else if (t == VTYPE.TYPE_STRUCT)
             {
-                return Classes[m.CType].Size;
+                return Classes[m.CType].Size * adjarrsize;
             }
             else if (t == VTYPE.TYPE_VARIANT)
             {
@@ -491,7 +496,17 @@ namespace HKXClassGen
             var n = "m_" + m.Name;
 
             string type = ReduceType(m, m.VType);
-            WriteLine("public " + type + " " + n + ";");
+            if (m.VType != VTYPE.TYPE_ARRAY && m.VType != VTYPE.TYPE_RELARRAY && m.VType != VTYPE.TYPE_SIMPLEARRAY && m.ArraySize > 0)
+            {
+                for (int i = 0; i < m.ArraySize; i++)
+                {
+                    WriteLine("public " + type + " " + n + $@"_{i}" + ";");
+                }
+            }
+            else
+            {
+                WriteLine("public " + type + " " + n + ";");
+            }
         }
 
         public static string GetSimpleType(VTYPE t)
@@ -587,7 +602,8 @@ namespace HKXClassGen
                     }
                     else
                     {
-                        WriteLine("br.AssertUInt64(0);");
+                        //WriteLine("br.AssertUInt64(0);");
+                        WriteLine("br.ReadUInt64();");
                     }
                     toWrite -= 8;
                 }
@@ -599,7 +615,8 @@ namespace HKXClassGen
                     }
                     else
                     {
-                        WriteLine("br.AssertUInt32(0);");
+                        //WriteLine("br.AssertUInt32(0);");
+                        WriteLine("br.ReadUInt32();");
                     }
                     toWrite -= 4;
                 }
@@ -611,7 +628,8 @@ namespace HKXClassGen
                     }
                     else
                     {
-                        WriteLine("br.AssertUInt16(0);");
+                        //WriteLine("br.AssertUInt16(0);");
+                        WriteLine("br.ReadUInt16();");
                     }
                     toWrite -= 2;
                 }
@@ -623,7 +641,8 @@ namespace HKXClassGen
                     }
                     else
                     {
-                        WriteLine("br.AssertByte(0);");
+                        //WriteLine("br.AssertByte(0);");
+                        WriteLine("br.ReadByte();");
                     }
                     toWrite -= 1;
                 }
@@ -679,13 +698,30 @@ namespace HKXClassGen
                 string brPrimitive = GetSimpleType(m.VType);
                 if (brPrimitive != null)
                 {
-                    if (isWriter)
+                    if (m.ArraySize > 0)
                     {
-                        WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                        for (int j = 0; j < m.ArraySize; j++)
+                        {
+                            if (isWriter)
+                            {
+                                WriteLine($@"bw.Write{brPrimitive}(m_{m.Name}_{j});");
+                            }
+                            else
+                            {
+                                WriteLine($@"m_{m.Name}_{j} = br.Read{brPrimitive}();");
+                            }
+                        }
                     }
                     else
                     {
-                        WriteLine($@"m_{m.Name} = br.Read{brPrimitive}();");
+                        if (isWriter)
+                        {
+                            WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                        }
+                        else
+                        {
+                            WriteLine($@"m_{m.Name} = br.Read{brPrimitive}();");
+                        }
                     }
                     continue;
                 }
@@ -693,13 +729,30 @@ namespace HKXClassGen
                 brPrimitive = GetComplexType(m.VType);
                 if (brPrimitive != null)
                 {
-                    if (isWriter)
+                    if (m.ArraySize > 0)
                     {
-                        //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                        for (int j = 0; j < m.ArraySize; j++)
+                        {
+                            if (isWriter)
+                            {
+                                //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                            }
+                            else
+                            {
+                                WriteLine($@"m_{m.Name}_{j} = des.Read{brPrimitive}(br);");
+                            }
+                        }
                     }
                     else
                     {
-                        WriteLine($@"m_{m.Name} = des.Read{brPrimitive}(br);");
+                        if (isWriter)
+                        {
+                            //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                        }
+                        else
+                        {
+                            WriteLine($@"m_{m.Name} = des.Read{brPrimitive}(br);");
+                        }
                     }
                     continue;
                 }
@@ -784,14 +837,32 @@ namespace HKXClassGen
                 // Read inline class
                 if (m.VType == VTYPE.TYPE_STRUCT)
                 {
-                    if (isWriter)
+                    if (m.ArraySize > 0)
                     {
-                        WriteLine($@"m_{m.Name}.Write(bw);");
+                        for (int j = 0; j < m.ArraySize; j++)
+                        {
+                            if (isWriter)
+                            {
+                                WriteLine($@"m_{m.Name}_{j}.Write(bw);");
+                            }
+                            else
+                            {
+                                WriteLine($@"m_{m.Name}_{j} = new {m.CType}();");
+                                WriteLine($@"m_{m.Name}_{j}.Read(des, br);");
+                            }
+                        }
                     }
                     else
                     {
-                        WriteLine($@"m_{m.Name} = new {m.CType}();");
-                        WriteLine($@"m_{m.Name}.Read(des, br);");
+                        if (isWriter)
+                        {
+                            WriteLine($@"m_{m.Name}.Write(bw);");
+                        }
+                        else
+                        {
+                            WriteLine($@"m_{m.Name} = new {m.CType}();");
+                            WriteLine($@"m_{m.Name}.Read(des, br);");
+                        }
                     }
                     continue;
                 }
@@ -803,13 +874,30 @@ namespace HKXClassGen
                     {
                         throw new Exception("bruh");
                     }
-                    if (isWriter)
+                    if (m.ArraySize > 0)
                     {
-                        WriteLine("// Implement Write");
+                        for (int j = 0; j < m.ArraySize; j++)
+                        {
+                            if (isWriter)
+                            {
+                                WriteLine("// Implement Write");
+                            }
+                            else
+                            {
+                                WriteLine($@"m_{m.Name}_{j} = des.ReadClassPointer<{m.CType}>(br);");
+                            }
+                        }
                     }
                     else
                     {
-                        WriteLine($@"m_{m.Name} = des.ReadClassPointer<{m.CType}>(br);");
+                        if (isWriter)
+                        {
+                            WriteLine("// Implement Write");
+                        }
+                        else
+                        {
+                            WriteLine($@"m_{m.Name} = des.ReadClassPointer<{m.CType}>(br);");
+                        }
                     }
                     continue;
                 }

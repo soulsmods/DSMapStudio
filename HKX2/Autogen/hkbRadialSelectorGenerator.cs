@@ -16,9 +16,9 @@ namespace HKX2
             m_generatorPairs = des.ReadClassArray<hkbRadialSelectorGeneratorGeneratorPair>(br);
             m_angle = br.ReadSingle();
             m_radius = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

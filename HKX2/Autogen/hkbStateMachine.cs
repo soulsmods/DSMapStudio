@@ -48,27 +48,27 @@ namespace HKX2
             m_transitionToNextHigherStateEventId = br.ReadInt32();
             m_transitionToNextLowerStateEventId = br.ReadInt32();
             m_syncVariableIndex = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_wrapAroundStateId = br.ReadBoolean();
             m_maxSimultaneousTransitions = br.ReadSByte();
             m_startStateMode = (StartStateMode)br.ReadSByte();
             m_selfTransitionMode = (StateMachineSelfTransitionMode)br.ReadSByte();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_states = des.ReadClassPointerArray<hkbStateMachineStateInfo>(br);
             m_wildcardTransitions = des.ReadClassPointer<hkbStateMachineTransitionInfoArray>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

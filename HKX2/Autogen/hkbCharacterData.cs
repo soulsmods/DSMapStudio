@@ -27,7 +27,7 @@ namespace HKX2
             base.Read(des, br);
             m_characterControllerSetup = new hkbCharacterControllerSetup();
             m_characterControllerSetup.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_modelUpMS = des.ReadVector4(br);
             m_modelForwardMS = des.ReadVector4(br);
             m_modelRightMS = des.ReadVector4(br);
@@ -42,8 +42,8 @@ namespace HKX2
             m_boneAttachmentBoneIndices = des.ReadInt16Array(br);
             m_boneAttachmentTransforms = des.ReadMatrix4Array(br);
             m_scale = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

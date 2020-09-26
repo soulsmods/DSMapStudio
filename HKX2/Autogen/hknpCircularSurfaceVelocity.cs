@@ -14,10 +14,10 @@ namespace HKX2
         {
             base.Read(des, br);
             m_velocityIsLocalSpace = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_pivot = des.ReadVector4(br);
             m_angularVelocity = des.ReadVector4(br);
         }

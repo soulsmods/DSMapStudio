@@ -25,9 +25,9 @@ namespace HKX2
             m_edgeSelection = new hclEdgeSelectionInput();
             m_edgeSelection.Read(des, br);
             m_ignoreHiddenEdges = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_stiffness = new hclVertexFloatInput();
             m_stiffness.Read(des, br);
             m_allowedCompression = new hclVertexFloatInput();

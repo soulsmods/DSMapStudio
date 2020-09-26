@@ -14,8 +14,8 @@ namespace HKX2
             base.Read(des, br);
             m_nodes = des.ReadClassArray<hkcdDynamicTreeCodec32>(br);
             m_firstFree = br.ReadUInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -14,8 +14,8 @@ namespace HKX2
             m_keyFrameControlData = new hkbKeyFrameControlData();
             m_keyFrameControlData.Read(des, br);
             m_durationToBlend = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

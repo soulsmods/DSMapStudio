@@ -28,8 +28,8 @@ namespace HKX2
             m_propagateToChildren = br.ReadBoolean();
             m_affectSiblings = br.ReadBoolean();
             m_rotateBonesForSkinning = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

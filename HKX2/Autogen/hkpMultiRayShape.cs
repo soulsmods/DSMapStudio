@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_rays = des.ReadClassArray<hkpMultiRayShapeRay>(br);
             m_rayPenetrationDistance = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

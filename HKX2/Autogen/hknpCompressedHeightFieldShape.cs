@@ -18,11 +18,11 @@ namespace HKX2
             m_storage = des.ReadUInt16Array(br);
             m_shapeTags = des.ReadUInt16Array(br);
             m_triangleFlip = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_offset = br.ReadSingle();
             m_scale = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

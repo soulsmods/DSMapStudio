@@ -19,10 +19,10 @@ namespace HKX2
         {
             base.Read(des, br);
             m_mergeType = (MergeType)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_mergeParams = new hkaiSilhouetteGenerationParameters();
             m_mergeParams.Read(des, br);
         }

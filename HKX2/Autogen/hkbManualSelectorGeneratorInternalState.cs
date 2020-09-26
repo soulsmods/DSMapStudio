@@ -15,7 +15,7 @@ namespace HKX2
             base.Read(des, br);
             m_currentGeneratorIndex = br.ReadInt16();
             m_generatorIndexAtActivate = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_activeTransitions = des.ReadClassArray<hkbStateMachineActiveTransitionInfo>(br);
         }
         

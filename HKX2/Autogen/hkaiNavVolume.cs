@@ -23,7 +23,9 @@ namespace HKX2
         public hkAabb m_aabb;
         public Vector4 m_quantizationScale;
         public Vector4 m_quantizationOffset;
-        public int m_res;
+        public int m_res_0;
+        public int m_res_1;
+        public int m_res_2;
         public ulong m_userData;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -36,19 +38,21 @@ namespace HKX2
             m_aabb.Read(des, br);
             m_quantizationScale = des.ReadVector4(br);
             m_quantizationOffset = des.ReadVector4(br);
-            m_res = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            m_res_0 = br.ReadInt32();
+            m_res_1 = br.ReadInt32();
+            m_res_2 = br.ReadInt32();
+            br.ReadUInt32();
             m_userData = br.ReadUInt64();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)
         {
             base.Write(bw);
             m_aabb.Write(bw);
-            bw.WriteInt32(m_res);
-            bw.WriteUInt64(0);
+            bw.WriteInt32(m_res_0);
+            bw.WriteInt32(m_res_1);
+            bw.WriteInt32(m_res_2);
             bw.WriteUInt32(0);
             bw.WriteUInt64(m_userData);
             bw.WriteUInt64(0);

@@ -27,7 +27,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_collisionFilterInfo = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_shape = des.ReadClassPointer<hkpShape>(br);
             m_position = des.ReadVector4(br);
             m_rotation = des.ReadQuaternion(br);
@@ -43,7 +43,7 @@ namespace HKX2
             m_supportDistance = br.ReadSingle();
             m_hardSupportDistance = br.ReadSingle();
             m_vdbColor = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

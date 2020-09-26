@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_name = des.ReadStringPointer(br);
             m_type = (EdgeChannelType)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

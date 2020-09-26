@@ -17,7 +17,7 @@ namespace HKX2
             m_triangleData = des.ReadByteArray(br);
             m_primitiveData = des.ReadByteArray(br);
             m_materialNameData = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

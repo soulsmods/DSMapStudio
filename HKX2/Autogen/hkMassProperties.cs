@@ -15,7 +15,7 @@ namespace HKX2
         {
             m_volume = br.ReadSingle();
             m_mass = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_centerOfMass = des.ReadVector4(br);
             m_inertiaTensor = des.ReadMatrix3(br);
         }

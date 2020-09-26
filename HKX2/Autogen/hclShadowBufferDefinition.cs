@@ -20,7 +20,7 @@ namespace HKX2
             m_shadowNormals = br.ReadBoolean();
             m_shadowTangents = br.ReadBoolean();
             m_shadowBiTangents = br.ReadBoolean();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

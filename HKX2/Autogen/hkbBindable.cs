@@ -12,9 +12,9 @@ namespace HKX2
         {
             base.Read(des, br);
             m_variableBindingSet = des.ReadClassPointer<hkbVariableBindingSet>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

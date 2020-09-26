@@ -28,8 +28,8 @@ namespace HKX2
             m_repairPaths = br.ReadBoolean();
             m_setManualControlOnUserEdges = br.ReadBoolean();
             m_pullThroughInternalVertices = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

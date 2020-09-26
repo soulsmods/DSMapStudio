@@ -7,9 +7,30 @@ namespace HKX2
     public class hknpLodShape : hknpCompositeShape
     {
         public int m_numLevelsOfDetail;
-        public hknpLodShapeLevelOfDetailInfo m_infos;
-        public hknpShape m_shapes;
-        public uint m_shapesMemorySizes;
+        public hknpLodShapeLevelOfDetailInfo m_infos_0;
+        public hknpLodShapeLevelOfDetailInfo m_infos_1;
+        public hknpLodShapeLevelOfDetailInfo m_infos_2;
+        public hknpLodShapeLevelOfDetailInfo m_infos_3;
+        public hknpLodShapeLevelOfDetailInfo m_infos_4;
+        public hknpLodShapeLevelOfDetailInfo m_infos_5;
+        public hknpLodShapeLevelOfDetailInfo m_infos_6;
+        public hknpLodShapeLevelOfDetailInfo m_infos_7;
+        public hknpShape m_shapes_0;
+        public hknpShape m_shapes_1;
+        public hknpShape m_shapes_2;
+        public hknpShape m_shapes_3;
+        public hknpShape m_shapes_4;
+        public hknpShape m_shapes_5;
+        public hknpShape m_shapes_6;
+        public hknpShape m_shapes_7;
+        public uint m_shapesMemorySizes_0;
+        public uint m_shapesMemorySizes_1;
+        public uint m_shapesMemorySizes_2;
+        public uint m_shapesMemorySizes_3;
+        public uint m_shapesMemorySizes_4;
+        public uint m_shapesMemorySizes_5;
+        public uint m_shapesMemorySizes_6;
+        public uint m_shapesMemorySizes_7;
         public int m_indexCurrentShapeOnSpu;
         public hknpShape m_currentShapePpuAddress;
         public hkAabb m_maximumAabb;
@@ -18,33 +39,43 @@ namespace HKX2
         {
             base.Read(des, br);
             m_numLevelsOfDetail = br.ReadInt32();
-            m_infos = new hknpLodShapeLevelOfDetailInfo();
-            m_infos.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            m_shapes = des.ReadClassPointer<hknpShape>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            m_shapesMemorySizes = br.ReadUInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            m_infos_0 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_0.Read(des, br);
+            m_infos_1 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_1.Read(des, br);
+            m_infos_2 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_2.Read(des, br);
+            m_infos_3 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_3.Read(des, br);
+            m_infos_4 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_4.Read(des, br);
+            m_infos_5 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_5.Read(des, br);
+            m_infos_6 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_6.Read(des, br);
+            m_infos_7 = new hknpLodShapeLevelOfDetailInfo();
+            m_infos_7.Read(des, br);
+            br.ReadUInt32();
+            m_shapes_0 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_1 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_2 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_3 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_4 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_5 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_6 = des.ReadClassPointer<hknpShape>(br);
+            m_shapes_7 = des.ReadClassPointer<hknpShape>(br);
+            m_shapesMemorySizes_0 = br.ReadUInt32();
+            m_shapesMemorySizes_1 = br.ReadUInt32();
+            m_shapesMemorySizes_2 = br.ReadUInt32();
+            m_shapesMemorySizes_3 = br.ReadUInt32();
+            m_shapesMemorySizes_4 = br.ReadUInt32();
+            m_shapesMemorySizes_5 = br.ReadUInt32();
+            m_shapesMemorySizes_6 = br.ReadUInt32();
+            m_shapesMemorySizes_7 = br.ReadUInt32();
             m_indexCurrentShapeOnSpu = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_currentShapePpuAddress = des.ReadClassPointer<hknpShape>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_maximumAabb = new hkAabb();
             m_maximumAabb.Read(des, br);
         }
@@ -53,28 +84,31 @@ namespace HKX2
         {
             base.Write(bw);
             bw.WriteInt32(m_numLevelsOfDetail);
-            m_infos.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
+            m_infos_0.Write(bw);
+            m_infos_1.Write(bw);
+            m_infos_2.Write(bw);
+            m_infos_3.Write(bw);
+            m_infos_4.Write(bw);
+            m_infos_5.Write(bw);
+            m_infos_6.Write(bw);
+            m_infos_7.Write(bw);
             bw.WriteUInt32(0);
             // Implement Write
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(m_shapesMemorySizes);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(0);
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            // Implement Write
+            bw.WriteUInt32(m_shapesMemorySizes_0);
+            bw.WriteUInt32(m_shapesMemorySizes_1);
+            bw.WriteUInt32(m_shapesMemorySizes_2);
+            bw.WriteUInt32(m_shapesMemorySizes_3);
+            bw.WriteUInt32(m_shapesMemorySizes_4);
+            bw.WriteUInt32(m_shapesMemorySizes_5);
+            bw.WriteUInt32(m_shapesMemorySizes_6);
+            bw.WriteUInt32(m_shapesMemorySizes_7);
             bw.WriteInt32(m_indexCurrentShapeOnSpu);
             bw.WriteUInt32(0);
             // Implement Write

@@ -36,7 +36,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_data = des.ReadClassPointer<hknpVehicleData>(br);
             m_driverInput = des.ReadClassPointer<hknpVehicleDriverInput>(br);
             m_steering = des.ReadClassPointer<hknpVehicleSteering>(br);
@@ -55,8 +55,8 @@ namespace HKX2
             m_isFixed = des.ReadBooleanArray(br);
             m_wheelsTimeSinceMaxPedalInput = br.ReadSingle();
             m_tryingToReverse = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_torque = br.ReadSingle();
             m_rpm = br.ReadSingle();
             m_mainSteeringAngle = br.ReadSingle();
@@ -65,7 +65,7 @@ namespace HKX2
             m_isReversing = br.ReadBoolean();
             m_currentGear = br.ReadSByte();
             m_delayed = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_clutchDelayCountdown = br.ReadSingle();
         }
         

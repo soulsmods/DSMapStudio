@@ -15,8 +15,8 @@ namespace HKX2
             m_atoms = new hkpBridgeAtoms();
             m_atoms.Read(des, br);
             m_strength = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

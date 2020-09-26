@@ -16,13 +16,13 @@ namespace HKX2
             base.Read(des, br);
             m_node = des.ReadClassPointer<hkbNode>(br);
             m_pose = des.ReadQSTransformArray(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_worldFromModel = des.ReadQSTransform(br);
             m_isPoseValid = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

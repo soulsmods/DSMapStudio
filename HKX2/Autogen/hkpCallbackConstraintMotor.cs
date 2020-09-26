@@ -23,9 +23,9 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_callbackType = (CallbackType)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_userData0 = br.ReadUInt64();
             m_userData1 = br.ReadUInt64();
             m_userData2 = br.ReadUInt64();

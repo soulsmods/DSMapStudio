@@ -28,7 +28,7 @@ namespace HKX2
             m_kD = br.ReadSingle();
             m_enableScalarDamping = br.ReadBoolean();
             m_enableVectorDamping = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_rawValue = br.ReadSingle();
             m_dampedValue = br.ReadSingle();
             m_rawVector = des.ReadVector4(br);
@@ -37,7 +37,7 @@ namespace HKX2
             m_vecPreviousError = des.ReadVector4(br);
             m_errorSum = br.ReadSingle();
             m_previousError = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

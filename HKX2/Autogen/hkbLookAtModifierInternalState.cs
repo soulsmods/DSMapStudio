@@ -16,9 +16,9 @@ namespace HKX2
             m_lookAtLastTargetWS = des.ReadVector4(br);
             m_lookAtWeight = br.ReadSingle();
             m_isTargetInsideLimitCone = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

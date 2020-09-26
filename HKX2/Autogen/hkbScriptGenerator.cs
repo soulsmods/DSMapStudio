@@ -22,9 +22,9 @@ namespace HKX2
             m_onGenerateScript = des.ReadStringPointer(br);
             m_onHandleEventScript = des.ReadStringPointer(br);
             m_onDeactivateScript = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

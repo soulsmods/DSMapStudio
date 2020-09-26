@@ -23,10 +23,10 @@ namespace HKX2
             m_referencedBehaviors = des.ReadClassPointerArray<hkbBehaviorGraph>(br);
             m_startStateIndex = br.ReadInt32();
             m_randomizeSimulation = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_padding = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

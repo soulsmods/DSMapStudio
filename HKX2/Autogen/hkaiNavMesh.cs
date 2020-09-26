@@ -65,13 +65,13 @@ namespace HKX2
             m_faceDataStriding = br.ReadInt32();
             m_edgeDataStriding = br.ReadInt32();
             m_flags = br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_aabb = new hkAabb();
             m_aabb.Read(des, br);
             m_erosionRadius = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_userData = br.ReadUInt64();
         }
         

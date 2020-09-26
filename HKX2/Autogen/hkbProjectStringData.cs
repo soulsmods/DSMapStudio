@@ -28,7 +28,7 @@ namespace HKX2
             m_characterPath = des.ReadStringPointer(br);
             m_scriptsPath = des.ReadStringPointer(br);
             m_fullPathToSource = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

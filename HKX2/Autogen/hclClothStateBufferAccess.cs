@@ -15,8 +15,8 @@ namespace HKX2
             m_bufferIndex = br.ReadUInt32();
             m_bufferUsage = new hclBufferUsage();
             m_bufferUsage.Read(des, br);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_shadowBufferIndex = br.ReadUInt32();
         }
         

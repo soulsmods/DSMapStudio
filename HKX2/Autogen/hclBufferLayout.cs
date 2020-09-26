@@ -20,33 +20,49 @@ namespace HKX2
     
     public class hclBufferLayout : IHavokObject
     {
-        public hclBufferLayoutBufferElement m_elementsLayout;
-        public hclBufferLayoutSlot m_slots;
+        public hclBufferLayoutBufferElement m_elementsLayout_0;
+        public hclBufferLayoutBufferElement m_elementsLayout_1;
+        public hclBufferLayoutBufferElement m_elementsLayout_2;
+        public hclBufferLayoutBufferElement m_elementsLayout_3;
+        public hclBufferLayoutSlot m_slots_0;
+        public hclBufferLayoutSlot m_slots_1;
+        public hclBufferLayoutSlot m_slots_2;
+        public hclBufferLayoutSlot m_slots_3;
         public byte m_numSlots;
         public TriangleFormat m_triangleFormat;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_elementsLayout = new hclBufferLayoutBufferElement();
-            m_elementsLayout.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            m_slots = new hclBufferLayoutSlot();
-            m_slots.Read(des, br);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            m_elementsLayout_0 = new hclBufferLayoutBufferElement();
+            m_elementsLayout_0.Read(des, br);
+            m_elementsLayout_1 = new hclBufferLayoutBufferElement();
+            m_elementsLayout_1.Read(des, br);
+            m_elementsLayout_2 = new hclBufferLayoutBufferElement();
+            m_elementsLayout_2.Read(des, br);
+            m_elementsLayout_3 = new hclBufferLayoutBufferElement();
+            m_elementsLayout_3.Read(des, br);
+            m_slots_0 = new hclBufferLayoutSlot();
+            m_slots_0.Read(des, br);
+            m_slots_1 = new hclBufferLayoutSlot();
+            m_slots_1.Read(des, br);
+            m_slots_2 = new hclBufferLayoutSlot();
+            m_slots_2.Read(des, br);
+            m_slots_3 = new hclBufferLayoutSlot();
+            m_slots_3.Read(des, br);
             m_numSlots = br.ReadByte();
             m_triangleFormat = (TriangleFormat)br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            m_elementsLayout.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(0);
-            m_slots.Write(bw);
-            bw.WriteUInt32(0);
-            bw.WriteUInt16(0);
+            m_elementsLayout_0.Write(bw);
+            m_elementsLayout_1.Write(bw);
+            m_elementsLayout_2.Write(bw);
+            m_elementsLayout_3.Write(bw);
+            m_slots_0.Write(bw);
+            m_slots_1.Write(bw);
+            m_slots_2.Write(bw);
+            m_slots_3.Write(bw);
             bw.WriteByte(m_numSlots);
         }
     }

@@ -20,7 +20,7 @@ namespace HKX2
             m_weldingInfo = br.ReadUInt16();
             m_weldingType = (WeldingType)br.ReadByte();
             m_isExtruded = br.ReadByte();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_vertexA = des.ReadVector4(br);
             m_vertexB = des.ReadVector4(br);
             m_vertexC = des.ReadVector4(br);

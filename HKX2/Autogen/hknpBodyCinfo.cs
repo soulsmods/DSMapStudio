@@ -27,7 +27,7 @@ namespace HKX2
             m_reservedBodyId = br.ReadUInt32();
             m_motionId = br.ReadUInt32();
             m_qualityId = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_materialId = br.ReadUInt16();
             m_collisionFilterInfo = br.ReadUInt32();
             m_flags = br.ReadInt32();
@@ -37,9 +37,9 @@ namespace HKX2
             m_position = des.ReadVector4(br);
             m_orientation = des.ReadQuaternion(br);
             m_spuFlags = br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_localFrame = des.ReadClassPointer<hkLocalFrame>(br);
         }
         

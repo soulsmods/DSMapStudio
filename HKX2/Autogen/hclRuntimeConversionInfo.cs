@@ -21,37 +21,49 @@ namespace HKX2
     
     public class hclRuntimeConversionInfo : IHavokObject
     {
-        public hclRuntimeConversionInfoSlotConversion m_slotConversions;
-        public hclRuntimeConversionInfoElementConversion m_elementConversions;
+        public hclRuntimeConversionInfoSlotConversion m_slotConversions_0;
+        public hclRuntimeConversionInfoSlotConversion m_slotConversions_1;
+        public hclRuntimeConversionInfoSlotConversion m_slotConversions_2;
+        public hclRuntimeConversionInfoSlotConversion m_slotConversions_3;
+        public hclRuntimeConversionInfoElementConversion m_elementConversions_0;
+        public hclRuntimeConversionInfoElementConversion m_elementConversions_1;
+        public hclRuntimeConversionInfoElementConversion m_elementConversions_2;
+        public hclRuntimeConversionInfoElementConversion m_elementConversions_3;
         public byte m_numSlotsConverted;
         public byte m_numElementsConverted;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_slotConversions = new hclRuntimeConversionInfoSlotConversion();
-            m_slotConversions.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
-            m_elementConversions = new hclRuntimeConversionInfoElementConversion();
-            m_elementConversions.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertByte(0);
+            m_slotConversions_0 = new hclRuntimeConversionInfoSlotConversion();
+            m_slotConversions_0.Read(des, br);
+            m_slotConversions_1 = new hclRuntimeConversionInfoSlotConversion();
+            m_slotConversions_1.Read(des, br);
+            m_slotConversions_2 = new hclRuntimeConversionInfoSlotConversion();
+            m_slotConversions_2.Read(des, br);
+            m_slotConversions_3 = new hclRuntimeConversionInfoSlotConversion();
+            m_slotConversions_3.Read(des, br);
+            m_elementConversions_0 = new hclRuntimeConversionInfoElementConversion();
+            m_elementConversions_0.Read(des, br);
+            m_elementConversions_1 = new hclRuntimeConversionInfoElementConversion();
+            m_elementConversions_1.Read(des, br);
+            m_elementConversions_2 = new hclRuntimeConversionInfoElementConversion();
+            m_elementConversions_2.Read(des, br);
+            m_elementConversions_3 = new hclRuntimeConversionInfoElementConversion();
+            m_elementConversions_3.Read(des, br);
             m_numSlotsConverted = br.ReadByte();
             m_numElementsConverted = br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            m_slotConversions.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(0);
-            bw.WriteByte(0);
-            m_elementConversions.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteByte(0);
+            m_slotConversions_0.Write(bw);
+            m_slotConversions_1.Write(bw);
+            m_slotConversions_2.Write(bw);
+            m_slotConversions_3.Write(bw);
+            m_elementConversions_0.Write(bw);
+            m_elementConversions_1.Write(bw);
+            m_elementConversions_2.Write(bw);
+            m_elementConversions_3.Write(bw);
             bw.WriteByte(m_numSlotsConverted);
             bw.WriteByte(m_numElementsConverted);
         }

@@ -15,7 +15,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_enabled = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_maxLinImpulse = br.ReadSingle();
             m_maxAngImpulse = br.ReadSingle();
             m_maxAngle = br.ReadSingle();

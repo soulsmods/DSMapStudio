@@ -67,15 +67,15 @@ namespace HKX2
             m_useVelocityPrediction = br.ReadBoolean();
             m_affectOrientation = br.ReadBoolean();
             m_currentBoneIsValidOut = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
             m_finalAnimBonePositionMS = des.ReadVector4(br);
             m_initialAnimBonePositionMS = des.ReadVector4(br);
             m_finalAnimBoneOrientationMS = des.ReadQuaternion(br);
@@ -83,10 +83,10 @@ namespace HKX2
             m_totalMotion = des.ReadQSTransform(br);
             m_accumulatedMotion = des.ReadQSTransform(br);
             m_useAnimationData = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

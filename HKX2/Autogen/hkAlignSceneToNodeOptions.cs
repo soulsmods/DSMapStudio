@@ -26,9 +26,9 @@ namespace HKX2
             m_transformRotation = br.ReadBoolean();
             m_transformScale = br.ReadBoolean();
             m_transformSkew = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_keyframe = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_nodeName = des.ReadStringPointer(br);
         }
         

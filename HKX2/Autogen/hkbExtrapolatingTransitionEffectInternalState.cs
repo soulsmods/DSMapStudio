@@ -25,7 +25,7 @@ namespace HKX2
             m_fromGeneratorSyncInfo.Read(des, br);
             m_fromGeneratorPartitionInfo = new hkbGeneratorPartitionInfo();
             m_fromGeneratorPartitionInfo.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_worldFromModel = des.ReadQSTransform(br);
             m_motion = des.ReadQSTransform(br);
             m_pose = des.ReadQSTransformArray(br);
@@ -35,8 +35,8 @@ namespace HKX2
             m_isFromGeneratorActive = br.ReadBoolean();
             m_gotPose = br.ReadBoolean();
             m_gotAdditivePose = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

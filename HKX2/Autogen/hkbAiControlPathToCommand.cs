@@ -13,7 +13,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_characterId = br.ReadUInt64();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_goalPoint = des.ReadVector4(br);
         }
         

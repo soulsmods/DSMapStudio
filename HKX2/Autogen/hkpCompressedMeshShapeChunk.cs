@@ -25,7 +25,7 @@ namespace HKX2
             m_materialInfo = br.ReadUInt32();
             m_reference = br.ReadUInt16();
             m_transformIndex = br.ReadUInt16();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

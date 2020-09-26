@@ -10,7 +10,9 @@ namespace HKX2
         public Vector4 m_pivotInB;
         public Quaternion m_aTc;
         public Quaternion m_bTc;
-        public hkpConstraintMotor m_motors;
+        public hkpConstraintMotor m_motors_0;
+        public hkpConstraintMotor m_motors_1;
+        public hkpConstraintMotor m_motors_2;
         public bool m_switchBodies;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -19,20 +21,20 @@ namespace HKX2
             m_pivotInB = des.ReadVector4(br);
             m_aTc = des.ReadQuaternion(br);
             m_bTc = des.ReadQuaternion(br);
-            m_motors = des.ReadClassPointer<hkpConstraintMotor>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            m_motors_0 = des.ReadClassPointer<hkpConstraintMotor>(br);
+            m_motors_1 = des.ReadClassPointer<hkpConstraintMotor>(br);
+            m_motors_2 = des.ReadClassPointer<hkpConstraintMotor>(br);
             m_switchBodies = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
             // Implement Write
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
+            // Implement Write
+            // Implement Write
             bw.WriteBoolean(m_switchBodies);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

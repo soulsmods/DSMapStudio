@@ -15,8 +15,8 @@ namespace HKX2
             base.Read(des, br);
             m_childShape = new hkpSingleShapeContainer();
             m_childShape.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_rotation = des.ReadQuaternion(br);
             m_transform = des.ReadTransform(br);
         }

@@ -16,10 +16,10 @@ namespace HKX2
             m_lastRelativeTransform = new hkQTransform();
             m_lastRelativeTransform.Read(des, br);
             m_generator = des.ReadClassPointer<hkaiSilhouetteGenerator>(br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_generatedLastFrame = br.ReadBoolean();
             m_generatingThisFrame = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

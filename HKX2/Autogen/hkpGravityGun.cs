@@ -17,14 +17,14 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_maxNumObjectsPicked = br.ReadInt32();
             m_maxMassOfObjectPicked = br.ReadSingle();
             m_maxDistOfObjectPicked = br.ReadSingle();
             m_impulseAppliedWhenObjectNotPicked = br.ReadSingle();
             m_throwVelocity = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_capturedObjectPosition = des.ReadVector4(br);
             m_capturedObjectsOffset = des.ReadVector4(br);
         }

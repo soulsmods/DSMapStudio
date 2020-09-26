@@ -23,8 +23,8 @@ namespace HKX2
             m_numberOfSolveIterations = br.ReadUInt32();
             m_adaptConstraintStiffness = br.ReadBoolean();
             m_explicitConstraintOrder = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_constraintSetExecutionOrder = des.ReadClassPointerArray<hclConstraintSetSetupObject>(br);
         }
         

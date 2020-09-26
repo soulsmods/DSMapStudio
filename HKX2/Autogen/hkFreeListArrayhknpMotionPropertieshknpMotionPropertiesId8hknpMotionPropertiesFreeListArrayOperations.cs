@@ -13,7 +13,7 @@ namespace HKX2
         {
             m_elements = des.ReadClassArray<hknpMotionProperties>(br);
             m_firstFree = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

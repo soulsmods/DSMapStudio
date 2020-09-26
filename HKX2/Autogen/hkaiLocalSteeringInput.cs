@@ -26,16 +26,16 @@ namespace HKX2
             m_desiredVelocity = des.ReadVector4(br);
             m_localGoalPlane = des.ReadVector4(br);
             m_distToLocalGoal = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_applyKinematicConstraints = br.ReadBoolean();
             m_applyAvoidanceSteering = br.ReadBoolean();
             m_enableLocalSteering = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

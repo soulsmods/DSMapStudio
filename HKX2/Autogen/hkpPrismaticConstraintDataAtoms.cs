@@ -36,7 +36,7 @@ namespace HKX2
             m_lin1.Read(des, br);
             m_linLimit = new hkpLinLimitConstraintAtom();
             m_linLimit.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

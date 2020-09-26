@@ -37,9 +37,9 @@ namespace HKX2
             m_kneeSiblingIndex = br.ReadInt16();
             m_ankleIndex = br.ReadInt16();
             m_ForceFootGround = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

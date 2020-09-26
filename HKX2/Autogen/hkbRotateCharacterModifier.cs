@@ -16,8 +16,8 @@ namespace HKX2
             m_degreesPerSecond = br.ReadSingle();
             m_speedMultiplier = br.ReadSingle();
             m_axisOfRotation = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

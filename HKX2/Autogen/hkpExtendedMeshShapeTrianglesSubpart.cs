@@ -20,18 +20,18 @@ namespace HKX2
         {
             base.Read(des, br);
             m_numTriangleShapes = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_numVertices = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_vertexStriding = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_triangleOffset = br.ReadInt32();
             m_indexStriding = br.ReadUInt16();
             m_stridingType = (IndexStridingType)br.ReadSByte();
             m_flipAlternateTriangles = br.ReadSByte();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_extrusion = des.ReadVector4(br);
             m_transform = des.ReadQSTransform(br);
         }

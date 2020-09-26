@@ -15,14 +15,14 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_atoms = new hkpBridgeAtoms();
             m_atoms.Read(des, br);
             m_infos = des.ReadClassArray<hkpStiffSpringChainDataConstraintInfo>(br);
             m_tau = br.ReadSingle();
             m_damping = br.ReadSingle();
             m_cfm = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

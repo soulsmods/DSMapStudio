@@ -22,24 +22,25 @@ namespace HKX2
             USAGE_READ_BEFORE_WRITE = 8,
         }
         
-        public byte m_perComponentFlags;
+        public byte m_perComponentFlags_0;
+        public byte m_perComponentFlags_1;
         public List<hclTransformSetUsageTransformTracker> m_perComponentTransformTrackers;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_perComponentFlags = br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            m_perComponentFlags_0 = br.ReadByte();
+            m_perComponentFlags_1 = br.ReadByte();
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_perComponentTransformTrackers = des.ReadClassArray<hclTransformSetUsageTransformTracker>(br);
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteByte(m_perComponentFlags);
+            bw.WriteByte(m_perComponentFlags_0);
+            bw.WriteByte(m_perComponentFlags_1);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
-            bw.WriteByte(0);
         }
     }
 }

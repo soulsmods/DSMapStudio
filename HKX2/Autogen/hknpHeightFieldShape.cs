@@ -32,9 +32,9 @@ namespace HKX2
             m_minMaxTree.Read(des, br);
             m_minMaxTreeCoarseness = br.ReadInt32();
             m_includeShapeKeyInSdfContacts = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

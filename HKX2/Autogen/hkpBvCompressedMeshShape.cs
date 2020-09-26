@@ -42,16 +42,16 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_convexRadius = br.ReadSingle();
             m_weldingType = (WeldingType)br.ReadByte();
             m_hasPerPrimitiveCollisionFilterInfo = br.ReadBoolean();
             m_hasPerPrimitiveUserData = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_collisionFilterInfoPalette = des.ReadUInt32Array(br);
             m_userDataPalette = des.ReadUInt32Array(br);
             m_userStringPalette = des.ReadStringPointerArray(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_tree = new hkpBvCompressedMeshShapeTree();
             m_tree.Read(des, br);
         }

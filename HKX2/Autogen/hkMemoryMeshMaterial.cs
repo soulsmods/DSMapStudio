@@ -21,7 +21,7 @@ namespace HKX2
             base.Read(des, br);
             m_materialName = des.ReadStringPointer(br);
             m_textures = des.ReadClassPointerArray<hkMeshTexture>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_diffuseColor = des.ReadVector4(br);
             m_ambientColor = des.ReadVector4(br);
             m_specularColor = des.ReadVector4(br);

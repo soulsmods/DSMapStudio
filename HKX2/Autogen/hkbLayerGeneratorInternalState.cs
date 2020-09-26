@@ -14,12 +14,12 @@ namespace HKX2
         {
             base.Read(des, br);
             m_numActiveLayers = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_layerInternalStates = des.ReadClassArray<hkbLayerGeneratorLayerInternalState>(br);
             m_initSync = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -17,7 +17,7 @@ namespace HKX2
             m_materialOffset = br.ReadInt32();
             m_numMaterialIds = br.ReadInt32();
             m_flipPolygons = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

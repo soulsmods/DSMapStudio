@@ -13,7 +13,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_material = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_volume = des.ReadClassPointer<hkaiVolume>(br);
         }
         

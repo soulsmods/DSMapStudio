@@ -71,8 +71,10 @@ namespace HKX2
         public Vector4 m_emissiveColor;
         public List<hkxMaterial> m_subMaterials;
         public hkReferencedObject m_extraData;
-        public float m_uvMapScale;
-        public float m_uvMapOffset;
+        public float m_uvMapScale_0;
+        public float m_uvMapScale_1;
+        public float m_uvMapOffset_0;
+        public float m_uvMapOffset_1;
         public float m_uvMapRotation;
         public UVMappingAlgorithm m_uvMapAlgorithm;
         public float m_specularMultiplier;
@@ -86,28 +88,28 @@ namespace HKX2
             base.Read(des, br);
             m_name = des.ReadStringPointer(br);
             m_stages = des.ReadClassArray<hkxMaterialTextureStage>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_diffuseColor = des.ReadVector4(br);
             m_ambientColor = des.ReadVector4(br);
             m_specularColor = des.ReadVector4(br);
             m_emissiveColor = des.ReadVector4(br);
             m_subMaterials = des.ReadClassPointerArray<hkxMaterial>(br);
             m_extraData = des.ReadClassPointer<hkReferencedObject>(br);
-            m_uvMapScale = br.ReadSingle();
-            br.AssertUInt32(0);
-            m_uvMapOffset = br.ReadSingle();
-            br.AssertUInt32(0);
+            m_uvMapScale_0 = br.ReadSingle();
+            m_uvMapScale_1 = br.ReadSingle();
+            m_uvMapOffset_0 = br.ReadSingle();
+            m_uvMapOffset_1 = br.ReadSingle();
             m_uvMapRotation = br.ReadSingle();
             m_uvMapAlgorithm = (UVMappingAlgorithm)br.ReadUInt32();
             m_specularMultiplier = br.ReadSingle();
             m_specularExponent = br.ReadSingle();
             m_transparency = (Transparency)br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_userData = br.ReadUInt64();
             m_properties = des.ReadClassArray<hkxMaterialProperty>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -115,10 +117,10 @@ namespace HKX2
             base.Write(bw);
             bw.WriteUInt64(0);
             // Implement Write
-            bw.WriteSingle(m_uvMapScale);
-            bw.WriteUInt32(0);
-            bw.WriteSingle(m_uvMapOffset);
-            bw.WriteUInt32(0);
+            bw.WriteSingle(m_uvMapScale_0);
+            bw.WriteSingle(m_uvMapScale_1);
+            bw.WriteSingle(m_uvMapOffset_0);
+            bw.WriteSingle(m_uvMapOffset_1);
             bw.WriteSingle(m_uvMapRotation);
             bw.WriteSingle(m_specularMultiplier);
             bw.WriteSingle(m_specularExponent);

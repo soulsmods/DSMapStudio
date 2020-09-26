@@ -22,7 +22,7 @@ namespace HKX2
             m_toSimPeriod = br.ReadSingle();
             m_toSimPlusDelayPeriod = br.ReadSingle();
             m_referenceMeshBufferIdx = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

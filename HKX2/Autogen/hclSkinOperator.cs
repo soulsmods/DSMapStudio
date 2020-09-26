@@ -50,7 +50,7 @@ namespace HKX2
             m_partialSkinning = br.ReadBoolean();
             m_dualQuaternionSkinning = br.ReadBoolean();
             m_boneGroupSize = br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

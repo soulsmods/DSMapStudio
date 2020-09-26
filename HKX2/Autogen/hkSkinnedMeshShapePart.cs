@@ -22,8 +22,8 @@ namespace HKX2
             m_numIndices = br.ReadInt32();
             m_boneSetId = br.ReadUInt16();
             m_meshSectionIndex = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_boundingSphere = des.ReadVector4(br);
         }
         

@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_colorPairs = des.ReadClassArray<hkMonitorStreamColorTableColorPair>(br);
             m_defaultColor = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

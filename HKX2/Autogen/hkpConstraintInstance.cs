@@ -46,7 +46,8 @@ namespace HKX2
     {
         public hkpConstraintData m_data;
         public hkpModifierConstraintAtom m_constraintModifiers;
-        public hkpEntity m_entities;
+        public hkpEntity m_entities_0;
+        public hkpEntity m_entities_1;
         public ConstraintPriority m_priority;
         public bool m_wantRuntime;
         public OnDestructionRemapInfo m_destructionRemapInfo;
@@ -56,22 +57,22 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_data = des.ReadClassPointer<hkpConstraintData>(br);
             m_constraintModifiers = des.ReadClassPointer<hkpModifierConstraintAtom>(br);
-            m_entities = des.ReadClassPointer<hkpEntity>(br);
-            br.AssertUInt64(0);
+            m_entities_0 = des.ReadClassPointer<hkpEntity>(br);
+            m_entities_1 = des.ReadClassPointer<hkpEntity>(br);
             m_priority = (ConstraintPriority)br.ReadByte();
             m_wantRuntime = br.ReadBoolean();
             m_destructionRemapInfo = (OnDestructionRemapInfo)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
             m_name = des.ReadStringPointer(br);
             m_userData = br.ReadUInt64();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -81,7 +82,7 @@ namespace HKX2
             // Implement Write
             // Implement Write
             // Implement Write
-            bw.WriteUInt64(0);
+            // Implement Write
             bw.WriteBoolean(m_wantRuntime);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

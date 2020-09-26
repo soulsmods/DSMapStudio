@@ -22,14 +22,14 @@ namespace HKX2
             m_boneMatrixMap = new hkMeshBoneIndexMapping();
             m_boneMatrixMap.Read(des, br);
             m_primitiveType = (PrimitiveType)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_numPrimitives = br.ReadInt32();
             m_indexType = (MeshSectionIndexType)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_vertexStartIndex = br.ReadInt32();
             m_transformIndex = br.ReadInt32();
         }

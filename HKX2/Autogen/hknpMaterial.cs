@@ -68,23 +68,23 @@ namespace HKX2
             m_maxContactImpulse = br.ReadSingle();
             m_fractionOfClippedImpulseToApply = br.ReadSingle();
             m_massChangerCategory = (MassChangerCategory)br.ReadByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_massChangerHeavyObjectFactor = br.ReadInt16();
             m_softContactForceFactor = br.ReadInt16();
             m_softContactDampFactor = br.ReadInt16();
             m_softContactSeperationVelocity = new hkUFloat8();
             m_softContactSeperationVelocity.Read(des, br);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_surfaceVelocity = des.ReadClassPointer<hknpSurfaceVelocity>(br);
             m_disablingCollisionsBetweenCvxCvxDynamicObjectsDistance = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_userData = br.ReadUInt64();
             m_isShared = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

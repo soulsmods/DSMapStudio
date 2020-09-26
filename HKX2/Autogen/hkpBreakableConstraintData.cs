@@ -16,12 +16,12 @@ namespace HKX2
             base.Read(des, br);
             m_atoms = new hkpBridgeAtoms();
             m_atoms.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_solverResultLimit = br.ReadSingle();
             m_removeWhenBroken = br.ReadBoolean();
             m_revertBackVelocityOnBreak = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

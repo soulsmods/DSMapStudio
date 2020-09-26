@@ -23,7 +23,7 @@ namespace HKX2
             m_pinchDetectionEnabled = br.ReadBoolean();
             m_landscapeCollisionEnabled = br.ReadBoolean();
             m_transferMotionEnabled = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

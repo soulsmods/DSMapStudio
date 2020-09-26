@@ -19,13 +19,13 @@ namespace HKX2
             m_isEnabled = br.ReadByte();
             m_twistAxis = br.ReadByte();
             m_refAxis = br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_minAngle = br.ReadSingle();
             m_maxAngle = br.ReadSingle();
             m_angularLimitsTauFactor = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

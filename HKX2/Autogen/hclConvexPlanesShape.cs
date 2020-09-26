@@ -16,7 +16,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_planeEquations = des.ReadVector4Array(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_localFromWorld = des.ReadTransform(br);
             m_worldFromLocal = des.ReadTransform(br);
             m_objAabb = new hkAabb();

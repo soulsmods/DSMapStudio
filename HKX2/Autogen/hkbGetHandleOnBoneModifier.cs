@@ -18,7 +18,7 @@ namespace HKX2
             m_localFrameName = des.ReadStringPointer(br);
             m_ragdollBoneIndex = br.ReadInt16();
             m_animationBoneIndex = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

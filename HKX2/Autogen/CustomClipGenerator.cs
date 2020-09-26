@@ -45,31 +45,31 @@ namespace HKX2
             base.Read(des, br);
             m_playbackSpeed = br.ReadSingle();
             m_mode = (PlaybackMode)br.ReadSByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_animId = br.ReadInt32();
             m_animeEndEventType = (AnimeEndEventType)br.ReadInt32();
             m_endEvent = new hkbEvent();
             m_endEvent.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_cropStartAmountLocalTime = br.ReadSingle();
             m_cropEndAmountLocalTime = br.ReadSingle();
             m_startTime = br.ReadSingle();
             m_enforcedDuration = br.ReadSingle();
             m_flags = br.ReadSByte();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

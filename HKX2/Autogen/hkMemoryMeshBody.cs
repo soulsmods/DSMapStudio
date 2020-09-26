@@ -20,7 +20,7 @@ namespace HKX2
             m_shape = des.ReadClassPointer<hkMeshShape>(br);
             m_vertexBuffers = des.ReadClassPointerArray<hkMeshVertexBuffer>(br);
             m_name = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

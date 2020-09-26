@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_wheelBrakingProperties = des.ReadClassArray<hknpVehicleDefaultBrakeWheelBrakingProperties>(br);
             m_wheelsMinTimeToBlock = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -18,8 +18,8 @@ namespace HKX2
             m_currentPositions = des.ReadVector4Array(br);
             m_timeStep = br.ReadSingle();
             m_initNextModify = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -18,19 +18,19 @@ namespace HKX2
             base.Read(des, br);
             m_generators = des.ReadClassPointerArray<hkbGenerator>(br);
             m_selectedGeneratorIndex = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_indexSelector = des.ReadClassPointer<hkbCustomIdSelector>(br);
             m_selectedIndexCanChangeAfterActivate = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_generatorChangedTransitionEffect = des.ReadClassPointer<hkbTransitionEffect>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_endOfClipEventId = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

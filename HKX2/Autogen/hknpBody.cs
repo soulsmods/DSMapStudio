@@ -37,7 +37,10 @@ namespace HKX2
         public short m_radiusOfComCenteredBoundingSphere;
         public byte m_spuFlags;
         public byte m_shapeSizeDiv16;
-        public short m_motionToBodyRotation;
+        public short m_motionToBodyRotation_0;
+        public short m_motionToBodyRotation_1;
+        public short m_motionToBodyRotation_2;
+        public short m_motionToBodyRotation_3;
         public ulong m_userData;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -61,9 +64,10 @@ namespace HKX2
             m_radiusOfComCenteredBoundingSphere = br.ReadInt16();
             m_spuFlags = br.ReadByte();
             m_shapeSizeDiv16 = br.ReadByte();
-            m_motionToBodyRotation = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            m_motionToBodyRotation_0 = br.ReadInt16();
+            m_motionToBodyRotation_1 = br.ReadInt16();
+            m_motionToBodyRotation_2 = br.ReadInt16();
+            m_motionToBodyRotation_3 = br.ReadInt16();
             m_userData = br.ReadUInt64();
         }
         
@@ -85,9 +89,10 @@ namespace HKX2
             bw.WriteUInt32(m_indexIntoActiveListOrDeactivatedIslandId);
             bw.WriteInt16(m_radiusOfComCenteredBoundingSphere);
             bw.WriteByte(m_shapeSizeDiv16);
-            bw.WriteInt16(m_motionToBodyRotation);
-            bw.WriteUInt32(0);
-            bw.WriteUInt16(0);
+            bw.WriteInt16(m_motionToBodyRotation_0);
+            bw.WriteInt16(m_motionToBodyRotation_1);
+            bw.WriteInt16(m_motionToBodyRotation_2);
+            bw.WriteInt16(m_motionToBodyRotation_3);
             bw.WriteUInt64(m_userData);
         }
     }

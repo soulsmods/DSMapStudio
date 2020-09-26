@@ -15,7 +15,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_originalSkeletonName = des.ReadStringPointer(br);
             m_name = des.ReadStringPointer(br);
             m_skeleton = des.ReadClassPointer<hkaSkeleton>(br);

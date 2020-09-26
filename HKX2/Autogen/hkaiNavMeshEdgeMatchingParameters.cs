@@ -37,8 +37,8 @@ namespace HKX2
             m_minAngleBetweenFaces = br.ReadSingle();
             m_edgeParallelTolerance = br.ReadSingle();
             m_useSafeEdgeTraversibilityHorizontalEpsilon = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

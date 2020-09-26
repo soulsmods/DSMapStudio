@@ -38,7 +38,7 @@ namespace HKX2
             m_pathLength = br.ReadSingle();
             m_status = (SearchStatus)br.ReadByte();
             m_terminationCause = (TerminationCause)br.ReadByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

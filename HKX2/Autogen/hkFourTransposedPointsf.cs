@@ -6,23 +6,19 @@ namespace HKX2
 {
     public class hkFourTransposedPointsf : IHavokObject
     {
-        public Vector4 m_vertices;
+        public Vector4 m_vertices_0;
+        public Vector4 m_vertices_1;
+        public Vector4 m_vertices_2;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
-            m_vertices = des.ReadVector4(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            m_vertices_0 = des.ReadVector4(br);
+            m_vertices_1 = des.ReadVector4(br);
+            m_vertices_2 = des.ReadVector4(br);
         }
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
         }
     }
 }

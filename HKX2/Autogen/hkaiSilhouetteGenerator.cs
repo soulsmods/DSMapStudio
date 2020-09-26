@@ -49,9 +49,9 @@ namespace HKX2
             m_lazyRecomputeDisplacementThreshold = br.ReadSingle();
             m_type = (GeneratorType)br.ReadByte();
             m_forceGenerateOntoPpu = br.ReadByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_materialId = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_cachedSilhouettes = des.ReadClassPointer<hkaiConvexSilhouetteSet>(br);
             m_transform = new hkQTransform();
             m_transform.Read(des, br);

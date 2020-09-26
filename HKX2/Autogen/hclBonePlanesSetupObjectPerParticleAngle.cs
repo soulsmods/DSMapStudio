@@ -22,7 +22,7 @@ namespace HKX2
             m_particlesMaxAngle.Read(des, br);
             m_particlesMinAngle = new hclVertexSelectionInput();
             m_particlesMinAngle.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_originBoneSpace = des.ReadVector4(br);
             m_axisBoneSpace = des.ReadVector4(br);
             m_minAngle = new hclVertexFloatInput();

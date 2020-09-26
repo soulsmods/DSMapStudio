@@ -47,7 +47,7 @@ namespace HKX2
             m_up = des.ReadVector4(br);
             m_edgeMatchParams = new hkaiNavMeshEdgeMatchingParameters();
             m_edgeMatchParams.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_cutEdgeTolerance = br.ReadSingle();
             m_minEdgeMatchingLength = br.ReadSingle();
             m_smallGapFixupTolerance = br.ReadSingle();
@@ -56,8 +56,8 @@ namespace HKX2
             m_recomputeClearanceAfterCutting = br.ReadBoolean();
             m_useNewCutter = br.ReadBoolean();
             m_domainQuantum = br.ReadSingle();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

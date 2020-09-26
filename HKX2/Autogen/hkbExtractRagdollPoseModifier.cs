@@ -18,7 +18,7 @@ namespace HKX2
             m_poseMatchingBone1 = br.ReadInt16();
             m_poseMatchingBone2 = br.ReadInt16();
             m_enableComputeWorldFromModel = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

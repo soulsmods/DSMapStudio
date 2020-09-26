@@ -19,13 +19,13 @@ namespace HKX2
         {
             base.Read(des, br);
             m_name = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_transform = des.ReadTransform(br);
             m_linearVelocity = des.ReadVector4(br);
             m_angularVelocity = des.ReadVector4(br);
             m_pinchDetectionEnabled = br.ReadBoolean();
             m_pinchDetectionPriority = br.ReadSByte();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_pinchDetectionRadius = br.ReadSingle();
             m_shape = des.ReadClassPointer<hclShape>(br);
         }

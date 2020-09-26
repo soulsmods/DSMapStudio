@@ -16,8 +16,8 @@ namespace HKX2
             base.Read(des, br);
             m_type = (NodeType)br.ReadUInt16();
             m_depth = br.ReadByte();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
             m_referenceBehaviorName = des.ReadStringPointer(br);
             m_selfTransitionNames = des.ReadStringPointerArray(br);
         }

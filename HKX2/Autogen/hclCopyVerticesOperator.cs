@@ -22,8 +22,8 @@ namespace HKX2
             m_startVertexIn = br.ReadUInt32();
             m_startVertexOut = br.ReadUInt32();
             m_copyNormals = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

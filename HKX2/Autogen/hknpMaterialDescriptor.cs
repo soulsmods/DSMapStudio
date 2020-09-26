@@ -15,8 +15,8 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
             m_material = des.ReadClassPointer<hknpRefMaterial>(br);
             m_materialId = br.ReadUInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

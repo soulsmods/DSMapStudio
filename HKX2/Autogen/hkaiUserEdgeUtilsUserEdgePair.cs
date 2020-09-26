@@ -33,8 +33,8 @@ namespace HKX2
             m_costAtoB = br.ReadInt16();
             m_costBtoA = br.ReadInt16();
             m_direction = (UserEdgeDirection)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

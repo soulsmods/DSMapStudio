@@ -8,9 +8,14 @@ namespace HKX2
     {
         public Vector4 m_centerOfMassAndMassFactor;
         public Quaternion m_orientation;
-        public short m_inverseInertia;
+        public short m_inverseInertia_0;
+        public short m_inverseInertia_1;
+        public short m_inverseInertia_2;
+        public short m_inverseInertia_3;
         public uint m_firstAttachedBodyId;
-        public short m_linearVelocityCage;
+        public short m_linearVelocityCage_0;
+        public short m_linearVelocityCage_1;
+        public short m_linearVelocityCage_2;
         public short m_integrationFactor;
         public ushort m_motionPropertiesId;
         public short m_maxLinearAccelerationDistancePerStep;
@@ -26,13 +31,15 @@ namespace HKX2
         {
             m_centerOfMassAndMassFactor = des.ReadVector4(br);
             m_orientation = des.ReadQuaternion(br);
-            m_inverseInertia = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            m_inverseInertia_0 = br.ReadInt16();
+            m_inverseInertia_1 = br.ReadInt16();
+            m_inverseInertia_2 = br.ReadInt16();
+            m_inverseInertia_3 = br.ReadInt16();
             m_firstAttachedBodyId = br.ReadUInt32();
-            br.AssertUInt32(0);
-            m_linearVelocityCage = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
+            m_linearVelocityCage_0 = br.ReadInt16();
+            m_linearVelocityCage_1 = br.ReadInt16();
+            m_linearVelocityCage_2 = br.ReadInt16();
             m_integrationFactor = br.ReadInt16();
             m_motionPropertiesId = br.ReadUInt16();
             m_maxLinearAccelerationDistancePerStep = br.ReadInt16();
@@ -47,13 +54,15 @@ namespace HKX2
         
         public virtual void Write(BinaryWriterEx bw)
         {
-            bw.WriteInt16(m_inverseInertia);
-            bw.WriteUInt32(0);
-            bw.WriteUInt16(0);
+            bw.WriteInt16(m_inverseInertia_0);
+            bw.WriteInt16(m_inverseInertia_1);
+            bw.WriteInt16(m_inverseInertia_2);
+            bw.WriteInt16(m_inverseInertia_3);
             bw.WriteUInt32(m_firstAttachedBodyId);
             bw.WriteUInt32(0);
-            bw.WriteInt16(m_linearVelocityCage);
-            bw.WriteUInt32(0);
+            bw.WriteInt16(m_linearVelocityCage_0);
+            bw.WriteInt16(m_linearVelocityCage_1);
+            bw.WriteInt16(m_linearVelocityCage_2);
             bw.WriteInt16(m_integrationFactor);
             bw.WriteUInt16(m_motionPropertiesId);
             bw.WriteInt16(m_maxLinearAccelerationDistancePerStep);

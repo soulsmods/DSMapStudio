@@ -71,30 +71,30 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_bodyBufferCapacity = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_motionBufferCapacity = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_constraintBufferCapacity = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_materialLibrary = des.ReadClassPointer<hknpMaterialLibrary>(br);
             m_motionPropertiesLibrary = des.ReadClassPointer<hknpMotionPropertiesLibrary>(br);
             m_qualityLibrary = des.ReadClassPointer<hknpBodyQualityLibrary>(br);
             m_simulationType = (SimulationType)br.ReadByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_numSplitterCells = br.ReadInt32();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_gravity = des.ReadVector4(br);
             m_enableContactCaching = br.ReadBoolean();
             m_mergeEventsBeforeDispatch = br.ReadBoolean();
             m_leavingBroadPhaseBehavior = (LeavingBroadPhaseBehavior)br.ReadByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadByte();
             m_broadPhaseAabb = new hkAabb();
             m_broadPhaseAabb.Read(des, br);
             m_broadPhaseConfig = des.ReadClassPointer<hknpBroadPhaseConfig>(br);
@@ -104,7 +104,7 @@ namespace HKX2
             m_relativeCollisionAccuracy = br.ReadSingle();
             m_enableWeldingForDefaultObjects = br.ReadBoolean();
             m_enableWeldingForCriticalObjects = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_solverTau = br.ReadSingle();
             m_solverDamp = br.ReadSingle();
             m_solverIterations = br.ReadInt32();
@@ -113,18 +113,18 @@ namespace HKX2
             m_maxApproachSpeedForHighQualitySolver = br.ReadSingle();
             m_enableDeactivation = br.ReadBoolean();
             m_deleteCachesOnDeactivation = br.ReadBoolean();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_largeIslandSize = br.ReadInt32();
             m_enableSolverDynamicScheduling = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_contactSolverType = br.ReadInt32();
             m_unitScale = br.ReadSingle();
             m_applyUnitScaleToStaticConstants = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

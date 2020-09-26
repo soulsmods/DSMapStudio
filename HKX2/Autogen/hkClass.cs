@@ -34,8 +34,8 @@ namespace HKX2
             m_numImplementedInterfaces = br.ReadInt32();
             // Read TYPE_SIMPLEARRAY
             // Read TYPE_SIMPLEARRAY
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
             m_flags = br.ReadUInt32();
             m_describedVersion = br.ReadInt32();
         }

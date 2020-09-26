@@ -8,28 +8,18 @@ namespace HKX2
     {
         public float m_wheelDistance;
         public float m_chassisMassInv;
-        public hkpVehicleFrictionDescriptionAxisDescription m_axleDescr;
+        public hkpVehicleFrictionDescriptionAxisDescription m_axleDescr_0;
+        public hkpVehicleFrictionDescriptionAxisDescription m_axleDescr_1;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
             m_wheelDistance = br.ReadSingle();
             m_chassisMassInv = br.ReadSingle();
-            m_axleDescr = new hkpVehicleFrictionDescriptionAxisDescription();
-            m_axleDescr.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            m_axleDescr_0 = new hkpVehicleFrictionDescriptionAxisDescription();
+            m_axleDescr_0.Read(des, br);
+            m_axleDescr_1 = new hkpVehicleFrictionDescriptionAxisDescription();
+            m_axleDescr_1.Read(des, br);
         }
         
         public override void Write(BinaryWriterEx bw)
@@ -37,20 +27,8 @@ namespace HKX2
             base.Write(bw);
             bw.WriteSingle(m_wheelDistance);
             bw.WriteSingle(m_chassisMassInv);
-            m_axleDescr.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
-            bw.WriteUInt32(0);
+            m_axleDescr_0.Write(bw);
+            m_axleDescr_1.Write(bw);
         }
     }
 }

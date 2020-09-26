@@ -17,9 +17,9 @@ namespace HKX2
             base.Read(des, br);
             m_smoothingFactor = br.ReadSingle();
             m_closedLoop = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
             m_dirNotParallelToTangentAlongWholePath = des.ReadVector4(br);
             m_points = des.ReadVector4Array(br);
             m_distance = des.ReadSingleArray(br);

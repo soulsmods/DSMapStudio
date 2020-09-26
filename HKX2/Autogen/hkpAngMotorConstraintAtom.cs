@@ -16,11 +16,11 @@ namespace HKX2
             base.Read(des, br);
             m_isEnabled = br.ReadBoolean();
             m_motorAxis = br.ReadByte();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_targetAngle = br.ReadSingle();
             m_motor = des.ReadClassPointer<hkpConstraintMotor>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

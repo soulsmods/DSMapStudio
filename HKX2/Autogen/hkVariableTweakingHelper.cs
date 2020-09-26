@@ -17,15 +17,15 @@ namespace HKX2
             m_intVariableInfo = des.ReadClassArray<hkVariableTweakingHelperIntVariableInfo>(br);
             m_realVariableInfo = des.ReadClassArray<hkVariableTweakingHelperRealVariableInfo>(br);
             m_vector4VariableInfo = des.ReadClassArray<hkVariableTweakingHelperVector4VariableInfo>(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public virtual void Write(BinaryWriterEx bw)

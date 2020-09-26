@@ -19,8 +19,8 @@ namespace HKX2
             m_shape = des.ReadClassPointer<hkpShape>(br);
             m_isHierarchicalCompound = br.ReadBoolean();
             m_hkdShapesCollected = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_childShapeNames = des.ReadStringPointerArray(br);
             m_childTransforms = des.ReadTransformArray(br);
             m_transform = des.ReadTransform(br);

@@ -20,7 +20,7 @@ namespace HKX2
             m_characterAngle = br.ReadSingle();
             m_plantedFootIdx = br.ReadInt32();
             m_timeStep = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

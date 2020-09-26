@@ -15,7 +15,7 @@ namespace HKX2
             m_meshBuffer = des.ReadClassPointer<hkMeshShape>(br);
             m_startBoneSetId = br.ReadUInt16();
             m_numBoneSets = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

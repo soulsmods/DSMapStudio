@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_topAngle = br.ReadSingle();
             m_radius = br.ReadSingle();
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

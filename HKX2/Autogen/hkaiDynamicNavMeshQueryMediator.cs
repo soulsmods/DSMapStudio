@@ -18,7 +18,7 @@ namespace HKX2
             m_aabbTree = des.ReadClassPointer<hkcdDynamicAabbTree>(br);
             m_cutter = des.ReadClassPointer<hkaiNavMeshCutter>(br);
             m_cutAabbTolerance = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

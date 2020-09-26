@@ -32,20 +32,20 @@ namespace HKX2
         {
             base.Read(des, br);
             m_dockingBone = br.ReadInt16();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
             m_translationOffset = des.ReadVector4(br);
             m_rotationOffset = des.ReadQuaternion(br);
             m_blendType = (BlendType)br.ReadSByte();
-            br.AssertByte(0);
+            br.ReadByte();
             m_flags = br.ReadUInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_child = des.ReadClassPointer<hkbGenerator>(br);
             m_intervalStart = br.ReadInt32();
             m_intervalEnd = br.ReadInt32();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

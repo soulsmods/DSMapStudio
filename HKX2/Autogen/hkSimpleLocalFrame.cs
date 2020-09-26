@@ -20,7 +20,7 @@ namespace HKX2
             m_parentFrame = des.ReadClassPointer<hkLocalFrame>(br);
             m_group = des.ReadClassPointer<hkLocalFrameGroup>(br);
             m_name = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -26,7 +26,7 @@ namespace HKX2
             base.Read(des, br);
             m_name = des.ReadStringPointer(br);
             m_direction = (Direction)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_simulationBuffer = des.ReadClassPointer<hclSimClothBufferSetupObject>(br);
             m_simulationParticleSelection = new hclVertexSelectionInput();
             m_simulationParticleSelection.Read(des, br);
@@ -35,8 +35,8 @@ namespace HKX2
             m_displayVertexSelection.Read(des, br);
             m_gatherAllThreshold = br.ReadSingle();
             m_gatherNormals = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

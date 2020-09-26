@@ -24,10 +24,10 @@ namespace HKX2
             m_info.Read(des, br);
             m_data = des.ReadByteArray(br);
             m_buildType = (BuildType)br.ReadSByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

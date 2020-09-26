@@ -35,8 +35,8 @@ namespace HKX2
             m_maxLinearDistance = br.ReadSingle();
             m_maxAngularDistance = br.ReadSingle();
             m_attachmentType = (AttachmentType)br.ReadSByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

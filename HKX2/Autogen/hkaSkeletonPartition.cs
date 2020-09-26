@@ -15,7 +15,7 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
             m_startBoneIndex = br.ReadInt16();
             m_numBones = br.ReadInt16();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public virtual void Write(BinaryWriterEx bw)

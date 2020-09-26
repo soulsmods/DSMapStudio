@@ -12,7 +12,7 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_boneIndex = br.ReadInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
             m_fractionOfSolution = br.ReadSingle();
         }
         

@@ -21,7 +21,7 @@ namespace HKX2
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_parentSetupMesh = des.ReadClassPointer<hclSetupMesh>(br);
             m_vertices = des.ReadVector4Array(br);
             m_normals = des.ReadVector4Array(br);

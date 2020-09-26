@@ -26,14 +26,14 @@ namespace HKX2
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             m_memberPath = des.ReadStringPointer(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_variableIndex = br.ReadInt32();
             m_bitIndex = br.ReadSByte();
             m_bindingType = (BindingType)br.ReadSByte();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

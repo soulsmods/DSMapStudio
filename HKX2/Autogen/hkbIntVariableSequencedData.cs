@@ -14,7 +14,7 @@ namespace HKX2
             base.Read(des, br);
             m_samples = des.ReadClassArray<hkbIntVariableSequencedDataSample>(br);
             m_variableIndex = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

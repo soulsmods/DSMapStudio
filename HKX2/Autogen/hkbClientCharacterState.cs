@@ -44,13 +44,13 @@ namespace HKX2
             m_remoteScriptsPath = des.ReadStringPointer(br);
             m_behaviorData = des.ReadClassPointer<hkbBehaviorGraphData>(br);
             m_behaviorInternalState = des.ReadClassPointer<hkbBehaviorGraphInternalState>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_visible = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_elapsedSimulationTime = br.ReadSingle();
             m_skeleton = des.ReadClassPointer<hkaSkeleton>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_worldFromModel = des.ReadQSTransform(br);
             m_poseModelSpace = des.ReadQSTransformArray(br);
             m_rigidAttachmentTransforms = des.ReadQSTransformArray(br);

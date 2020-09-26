@@ -18,9 +18,9 @@ namespace HKX2
         {
             base.Read(des, br);
             m_node = des.ReadClassPointer<hkxNode>(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_worldFromMesh = des.ReadMatrix4(br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_skinBinding = des.ReadClassPointer<hkxSkinBinding>(br);
             m_vertexChannels = des.ReadUInt32Array(br);
             m_triangleChannels = des.ReadUInt32Array(br);

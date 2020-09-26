@@ -15,10 +15,10 @@ namespace HKX2
         {
             m_heuristicWeight = br.ReadSingle();
             m_useHierarchicalHeuristic = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt16();
+            br.ReadByte();
             m_bufferSizes = new hkaiSearchParametersBufferSizes();
             m_bufferSizes.Read(des, br);
             m_hierarchyBufferSizes = new hkaiSearchParametersBufferSizes();

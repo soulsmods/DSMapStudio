@@ -50,8 +50,8 @@ namespace HKX2
             base.Read(des, br);
             m_child = des.ReadClassPointer<hkbGenerator>(br);
             m_autoTurnsAllowed = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_desiredAIMovementMode = br.ReadInt32();
             m_effectiveLinearSpeed = br.ReadSingle();
             m_effectiveAngularSpeed = br.ReadSingle();
@@ -61,8 +61,8 @@ namespace HKX2
             m_desiredAIMovementSpeed = br.ReadSingle();
             m_currentMaximumSpeed = br.ReadSingle();
             m_stopRequest = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_idleToMoveAnimIdx = br.ReadInt32();
             m_linearSpeed = br.ReadSingle();
             m_angularSpeed = br.ReadSingle();
@@ -71,9 +71,9 @@ namespace HKX2
             m_rotationAllowed = br.ReadBoolean();
             m_poseChangeAllowed = br.ReadBoolean();
             m_modifyLinearSpeed = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
             m_poseIdx = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_leftFootDownEvent = new hkbEventProperty();
             m_leftFootDownEvent.Read(des, br);
             m_rightFootDownEvent = new hkbEventProperty();
@@ -93,10 +93,10 @@ namespace HKX2
             m_characterHasHalted = new hkbEventProperty();
             m_characterHasHalted.Read(des, br);
             m_moveVelocities = des.ReadSingleArray(br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

@@ -16,15 +16,15 @@ namespace HKX2
         {
             base.Read(des, br);
             m_applyModifierDuringTransition = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_stateIds = des.ReadInt32Array(br);
             m_modifier = des.ReadClassPointer<hkbModifier>(br);
             m_isActive = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_stateMachine = des.ReadClassPointer<hkbStateMachine>(br);
         }
         

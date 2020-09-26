@@ -20,17 +20,17 @@ namespace HKX2
             m_startPoint = des.ReadVector4(br);
             m_goalPoints = des.ReadVector4Array(br);
             m_startCellKey = br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_goalCellKeys = des.ReadUInt32Array(br);
             m_maxNumberOfIterations = br.ReadInt32();
             m_agentInfo = new hkaiAgentTraversalInfo();
             m_agentInfo.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
             m_searchParameters = new hkaiNavVolumePathSearchParameters();
             m_searchParameters.Read(des, br);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
         }
         
         public override void Write(BinaryWriterEx bw)

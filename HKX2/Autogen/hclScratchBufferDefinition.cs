@@ -16,8 +16,8 @@ namespace HKX2
             m_triangleIndices = des.ReadUInt16Array(br);
             m_storeNormals = br.ReadBoolean();
             m_storeTangentsAndBiTangents = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

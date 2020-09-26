@@ -32,7 +32,7 @@ namespace HKX2
             base.Read(des, br);
             m_controlData = new hkbCharacterControllerModifierControlData();
             m_controlData.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_initialVelocity = des.ReadVector4(br);
             m_initialVelocityCoordinates = (InitialVelocityCoordinates)br.ReadSByte();
             m_motionMode = (MotionMode)br.ReadSByte();
@@ -40,12 +40,12 @@ namespace HKX2
             m_applyGravity = br.ReadBoolean();
             m_setInitialVelocity = br.ReadBoolean();
             m_isTouchingGround = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

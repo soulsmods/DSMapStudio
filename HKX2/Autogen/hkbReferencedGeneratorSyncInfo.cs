@@ -13,7 +13,7 @@ namespace HKX2
             base.Read(des, br);
             m_syncInfo = new hkbGeneratorSyncInfo();
             m_syncInfo.Read(des, br);
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

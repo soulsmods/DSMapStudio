@@ -34,7 +34,7 @@ namespace HKX2
             m_stateOrTransitionChanged = br.ReadBoolean();
             m_echoNextUpdate = br.ReadBoolean();
             m_hasEventlessWildcardTransitions = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

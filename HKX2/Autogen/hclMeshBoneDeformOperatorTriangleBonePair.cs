@@ -15,8 +15,8 @@ namespace HKX2
             m_localBoneTransform = des.ReadMatrix4(br);
             m_weight = br.ReadSingle();
             m_triangleIndex = br.ReadUInt16();
-            br.AssertUInt64(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt16();
         }
         
         public virtual void Write(BinaryWriterEx bw)

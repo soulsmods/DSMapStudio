@@ -17,7 +17,7 @@ namespace HKX2
             base.Read(des, br);
             m_characterId = br.ReadUInt64();
             m_deltaTime = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_worldFromModel = des.ReadQSTransform(br);
             m_poseModelSpace = des.ReadQSTransformArray(br);
             m_rigidAttachmentTransforms = des.ReadQSTransformArray(br);

@@ -8,7 +8,8 @@ namespace HKX2
     {
         public hkcdDynamicTreeCodecInt16IntAabb m_aabb;
         public uint m_parent;
-        public uint m_children;
+        public uint m_children_0;
+        public uint m_children_1;
         public uint m_pad;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -16,8 +17,8 @@ namespace HKX2
             m_aabb = new hkcdDynamicTreeCodecInt16IntAabb();
             m_aabb.Read(des, br);
             m_parent = br.ReadUInt32();
-            m_children = br.ReadUInt32();
-            br.AssertUInt32(0);
+            m_children_0 = br.ReadUInt32();
+            m_children_1 = br.ReadUInt32();
             m_pad = br.ReadUInt32();
         }
         
@@ -25,8 +26,8 @@ namespace HKX2
         {
             m_aabb.Write(bw);
             bw.WriteUInt32(m_parent);
-            bw.WriteUInt32(m_children);
-            bw.WriteUInt32(0);
+            bw.WriteUInt32(m_children_0);
+            bw.WriteUInt32(m_children_1);
             bw.WriteUInt32(m_pad);
         }
     }

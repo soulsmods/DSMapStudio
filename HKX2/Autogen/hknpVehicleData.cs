@@ -31,10 +31,10 @@ namespace HKX2
             base.Read(des, br);
             m_gravity = des.ReadVector4(br);
             m_numWheels = br.ReadSByte();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_chassisOrientation = des.ReadMatrix3(br);
             m_torqueRollFactor = br.ReadSingle();
             m_torquePitchFactor = br.ReadSingle();
@@ -47,17 +47,17 @@ namespace HKX2
             m_frictionEqualizer = br.ReadSingle();
             m_normalClippingAngleCos = br.ReadSingle();
             m_maxFrictionSolverMassRatio = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_wheelParams = des.ReadClassArray<hknpVehicleDataWheelComponentParams>(br);
             m_numWheelsPerAxle = des.ReadSByteArray(br);
             m_frictionDescription = new hkpVehicleFrictionDescription();
             m_frictionDescription.Read(des, br);
             m_chassisFrictionInertiaInvDiag = des.ReadVector4(br);
             m_alreadyInitialised = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

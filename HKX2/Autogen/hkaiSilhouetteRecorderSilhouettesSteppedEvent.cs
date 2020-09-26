@@ -16,7 +16,7 @@ namespace HKX2
         {
             base.Read(des, br);
             m_stepThreading = (StepThreading)br.ReadUInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_generators = des.ReadClassPointerArray<hkaiSilhouetteGenerator>(br);
             m_instanceTransforms = des.ReadTransformArray(br);
             m_overlapManagerSections = des.ReadClassArray<hkaiOverlapManagerSection>(br);

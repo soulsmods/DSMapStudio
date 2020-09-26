@@ -16,7 +16,7 @@ namespace HKX2
             m_characterId = br.ReadUInt64();
             m_localTime = br.ReadSingle();
             m_nodeId = br.ReadUInt16();
-            br.AssertUInt16(0);
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

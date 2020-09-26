@@ -406,6 +406,11 @@ namespace HKX2
         public string ReadStringPointer(BinaryReaderEx br)
         {
             // Do a local fixup lookup
+            if (!_dataSection._localMap.ContainsKey((uint)br.Position))
+            {
+                br.AssertUInt64(0);
+                return null;
+            }
             var f = _dataSection._localMap[(uint)br.Position];
 
             // Consume pointer
@@ -418,12 +423,44 @@ namespace HKX2
 
         public List<string> ReadStringPointerArray(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<string>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(ReadStringPointer(br));
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<byte> ReadByteArray(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<byte>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(br.ReadByte());
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<sbyte> ReadSByteArray(BinaryReaderEx br)
@@ -459,7 +496,23 @@ namespace HKX2
 
         public List<uint> ReadUInt32Array(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<uint>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(br.ReadUInt32());
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<int> ReadInt32Array(BinaryReaderEx br)
@@ -469,7 +522,23 @@ namespace HKX2
 
         public List<ulong> ReadUInt64Array(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<ulong>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(br.ReadUInt64());
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<long> ReadInt64Array(BinaryReaderEx br)
@@ -479,7 +548,23 @@ namespace HKX2
 
         public List<float> ReadSingleArray(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<float>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(br.ReadSingle());
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<bool> ReadBooleanArray(BinaryReaderEx br)
@@ -489,12 +574,28 @@ namespace HKX2
 
         public Vector4 ReadVector4(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            return br.ReadVector4();
         }
 
         public List<Vector4> ReadVector4Array(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<Vector4>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(ReadVector4(br));
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public Matrix4x4 ReadMatrix3(BinaryReaderEx br)
@@ -539,7 +640,7 @@ namespace HKX2
 
         public Quaternion ReadQuaternion(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            return new Quaternion(br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
         }
 
         public List<Quaternion> ReadQuaternionArray(BinaryReaderEx br)

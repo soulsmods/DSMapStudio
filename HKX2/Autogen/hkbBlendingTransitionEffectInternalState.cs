@@ -36,7 +36,7 @@ namespace HKX2
             m_initializeCharacterPose = br.ReadBoolean();
             m_alignThisFrame = br.ReadBoolean();
             m_alignmentFinished = br.ReadBoolean();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)

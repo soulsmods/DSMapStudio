@@ -17,7 +17,7 @@ namespace HKX2
             m_maxChunkSizeY = br.ReadUInt16();
             m_maxChunkSizeZ = br.ReadUInt16();
             m_doGreedyMergeAfterCombine = br.ReadBoolean();
-            br.AssertByte(0);
+            br.ReadByte();
         }
         
         public virtual void Write(BinaryWriterEx bw)

@@ -45,12 +45,12 @@ namespace HKX2
             m_maxBorderDistanceError = br.ReadSingle();
             m_maxPartitionSize = br.ReadInt32();
             m_useHeightPartitioning = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_maxPartitionHeightError = br.ReadSingle();
             m_useConservativeHeightPartitioning = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_hertelMehlhornHeightError = br.ReadSingle();
             m_cosPlanarityThreshold = br.ReadSingle();
             m_nonconvexityThreshold = br.ReadSingle();
@@ -60,14 +60,14 @@ namespace HKX2
             m_maxBoundaryVertexHorizontalError = br.ReadSingle();
             m_maxBoundaryVertexVerticalError = br.ReadSingle();
             m_mergeLongestEdgesFirst = br.ReadBoolean();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_extraVertexSettings = new hkaiNavMeshSimplificationUtilsExtraVertexSettings();
             m_extraVertexSettings.Read(des, br);
             m_saveInputSnapshot = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadUInt16();
+            br.ReadByte();
             m_snapshotFilename = des.ReadStringPointer(br);
         }
         

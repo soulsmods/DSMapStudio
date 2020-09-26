@@ -22,7 +22,7 @@ namespace HKX2
             base.Read(des, br);
             m_generator = des.ReadClassPointer<hkbGenerator>(br);
             m_weight = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_boneWeights = des.ReadClassPointer<hkbBoneWeightArray>(br);
             m_fadeInDuration = br.ReadSingle();
             m_fadeOutDuration = br.ReadSingle();
@@ -31,8 +31,8 @@ namespace HKX2
             m_onByDefault = br.ReadBoolean();
             m_useMotion = br.ReadBoolean();
             m_forceFullFadeDurations = br.ReadBoolean();
-            br.AssertUInt32(0);
-            br.AssertByte(0);
+            br.ReadUInt32();
+            br.ReadByte();
         }
         
         public override void Write(BinaryWriterEx bw)

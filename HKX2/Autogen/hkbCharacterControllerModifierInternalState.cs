@@ -16,9 +16,9 @@ namespace HKX2
             m_gravity = des.ReadVector4(br);
             m_isInitialVelocityAdded = br.ReadBoolean();
             m_isTouchingGround = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
-            br.AssertUInt16(0);
+            br.ReadUInt64();
+            br.ReadUInt32();
+            br.ReadUInt16();
         }
         
         public override void Write(BinaryWriterEx bw)

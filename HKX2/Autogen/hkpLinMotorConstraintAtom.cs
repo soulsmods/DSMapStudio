@@ -16,9 +16,9 @@ namespace HKX2
             base.Read(des, br);
             m_isEnabled = br.ReadBoolean();
             m_motorAxis = br.ReadByte();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_targetPosition = br.ReadSingle();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_motor = des.ReadClassPointer<hkpConstraintMotor>(br);
         }
         

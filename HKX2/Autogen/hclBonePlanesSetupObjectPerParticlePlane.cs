@@ -17,7 +17,7 @@ namespace HKX2
             m_transformName = des.ReadStringPointer(br);
             m_particles = new hclVertexSelectionInput();
             m_particles.Read(des, br);
-            br.AssertUInt64(0);
+            br.ReadUInt64();
             m_directionBoneSpace = des.ReadVector4(br);
             m_allowedDistance = new hclVertexFloatInput();
             m_allowedDistance.Read(des, br);

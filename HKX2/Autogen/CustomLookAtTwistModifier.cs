@@ -58,10 +58,10 @@ namespace HKX2
             base.Read(des, br);
             m_ModifierID = br.ReadInt32();
             m_rotationAxisType = (MultiRotationAxisType)br.ReadSByte();
-            br.AssertUInt16(0);
-            br.AssertByte(0);
+            br.ReadUInt16();
+            br.ReadByte();
             m_SensingDummyPoly = br.ReadInt32();
-            br.AssertUInt32(0);
+            br.ReadUInt32();
             m_twistParam = des.ReadClassArray<CustomLookAtTwistModifierTwistParam>(br);
             m_UpLimitAngle = br.ReadSingle();
             m_DownLimitAngle = br.ReadSingle();
@@ -74,11 +74,11 @@ namespace HKX2
             m_SensingAngle = br.ReadInt16();
             m_setAngleMethod = (SetAngleMethod)br.ReadSByte();
             m_isAdditive = br.ReadBoolean();
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt64(0);
-            br.AssertUInt32(0);
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt64();
+            br.ReadUInt32();
         }
         
         public override void Write(BinaryWriterEx bw)
