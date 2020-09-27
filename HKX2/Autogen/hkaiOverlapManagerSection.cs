@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiOverlapManagerSection : IHavokObject
     {
+        public virtual uint Signature { get => 2964939145; }
+        
         public int m_numOriginalFaces;
         public List<hkaiOverlapManagerSectionGeneratorData> m_generatorData;
         public hkSetIntFloatPair m_facePriorities;
@@ -22,14 +24,15 @@ namespace HKX2
             m_facePriorities.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteInt32(m_numOriginalFaces);
             bw.WriteUInt32(0);
+            s.WriteClassPointerArray<hkaiOverlapManagerSectionGeneratorData>(bw, m_generatorData);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            m_facePriorities.Write(bw);
+            m_facePriorities.Write(s, bw);
         }
     }
 }

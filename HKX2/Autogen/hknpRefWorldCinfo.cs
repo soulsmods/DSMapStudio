@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpRefWorldCinfo : hkReferencedObject
     {
+        public override uint Signature { get => 4222265055; }
+        
         public hknpWorldCinfo m_info;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,10 @@ namespace HKX2
             m_info.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_info.Write(bw);
+            base.Write(s, bw);
+            m_info.Write(s, bw);
         }
     }
 }

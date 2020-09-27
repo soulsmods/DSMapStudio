@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaQuantizedAnimation : hkaAnimation
     {
+        public override uint Signature { get => 827906510; }
+        
         public List<byte> m_data;
         public uint m_endian;
         
@@ -18,9 +20,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteByteArray(bw, m_data);
             bw.WriteUInt32(m_endian);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

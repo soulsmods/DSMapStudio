@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxTextureInplace : hkReferencedObject
     {
+        public override uint Signature { get => 524754443; }
+        
         public sbyte m_fileType_0;
         public sbyte m_fileType_1;
         public sbyte m_fileType_2;
@@ -27,14 +29,17 @@ namespace HKX2
             m_originalFilename = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSByte(m_fileType_0);
             bw.WriteSByte(m_fileType_1);
             bw.WriteSByte(m_fileType_2);
             bw.WriteSByte(m_fileType_3);
             bw.WriteUInt32(0);
+            s.WriteByteArray(bw, m_data);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteStringPointer(bw, m_originalFilename);
         }
     }
 }

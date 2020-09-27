@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPhysics2012ShapeVolume : hkaiVolume
     {
+        public override uint Signature { get => 1895575872; }
+        
         public hkpShape m_shape;
         public Matrix4x4 m_shapeTransform;
         public hkGeometry m_geometry;
@@ -20,12 +22,13 @@ namespace HKX2
             m_geometry.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            m_geometry.Write(bw);
+            s.WriteClassPointer<hkpShape>(bw, m_shape);
+            s.WriteTransform(bw, m_shapeTransform);
+            m_geometry.Write(s, bw);
         }
     }
 }

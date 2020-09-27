@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkbBehaviorGraph : hkbGenerator
     {
+        public override uint Signature { get => 4260214843; }
+        
         public VariableMode m_variableMode;
         public hkbGenerator m_rootGenerator;
         public hkbBehaviorGraphData m_data;
@@ -61,9 +63,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteSByte((sbyte)m_variableMode);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
@@ -73,8 +76,8 @@ namespace HKX2
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkbGenerator>(bw, m_rootGenerator);
+            s.WriteClassPointer<hkbBehaviorGraphData>(bw, m_data);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkBitFieldBasehkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator : IHavokObject
     {
+        public virtual uint Signature { get => 1966625691; }
+        
         public hkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator m_storage;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,9 @@ namespace HKX2
             m_storage.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_storage.Write(bw);
+            m_storage.Write(s, bw);
         }
     }
 }

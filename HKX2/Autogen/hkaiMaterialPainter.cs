@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiMaterialPainter : hkReferencedObject
     {
+        public override uint Signature { get => 2472070834; }
+        
         public int m_material;
         public hkaiVolume m_volume;
         
@@ -17,12 +19,12 @@ namespace HKX2
             m_volume = des.ReadClassPointer<hkaiVolume>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_material);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkaiVolume>(bw, m_volume);
         }
     }
 }

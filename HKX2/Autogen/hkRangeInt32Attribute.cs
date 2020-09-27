@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkRangeInt32Attribute : IHavokObject
     {
+        public virtual uint Signature { get => 1212595753; }
+        
         public int m_absmin;
         public int m_absmax;
         public int m_softmin;
@@ -19,7 +21,7 @@ namespace HKX2
             m_softmax = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_absmin);
             bw.WriteInt32(m_absmax);

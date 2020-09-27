@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxVertexDescriptionElementDecl : IHavokObject
     {
+        public virtual uint Signature { get => 2254172831; }
+        
         public uint m_byteOffset;
         public DataType m_type;
         public DataUsage m_usage;
@@ -25,13 +27,16 @@ namespace HKX2
             m_channelID = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_byteOffset);
+            bw.WriteUInt16((ushort)m_type);
+            bw.WriteUInt16((ushort)m_usage);
             bw.WriteUInt32(m_byteStride);
             bw.WriteByte(m_numElements);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_channelID);
         }
     }
 }

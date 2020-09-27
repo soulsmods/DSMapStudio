@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpTransformShape : hkpShape
     {
+        public override uint Signature { get => 783161109; }
+        
         public hkpSingleShapeContainer m_childShape;
         public Quaternion m_rotation;
         public Matrix4x4 m_transform;
@@ -21,12 +23,14 @@ namespace HKX2
             m_transform = des.ReadTransform(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_childShape.Write(bw);
+            base.Write(s, bw);
+            m_childShape.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            s.WriteQuaternion(bw, m_rotation);
+            s.WriteTransform(bw, m_transform);
         }
     }
 }

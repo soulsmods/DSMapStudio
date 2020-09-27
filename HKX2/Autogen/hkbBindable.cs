@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBindable : hkReferencedObject
     {
+        public override uint Signature { get => 1699538787; }
+        
         public hkbVariableBindingSet m_variableBindingSet;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -17,10 +19,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbVariableBindingSet>(bw, m_variableBindingSet);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

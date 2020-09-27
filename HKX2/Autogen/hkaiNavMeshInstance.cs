@@ -17,6 +17,8 @@ namespace HKX2
     
     public class hkaiNavMeshInstance : hkReferencedObject
     {
+        public override uint Signature { get => 3427274754; }
+        
         public hkaiNavMesh m_originalMesh;
         public hkaiReferenceFrame m_referenceFrame;
         public List<int> m_edgeMap;
@@ -79,9 +81,9 @@ namespace HKX2
             m_layer = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
@@ -92,9 +94,25 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkaiNavMesh>(bw, m_originalMesh);
             bw.WriteUInt64(0);
-            m_referenceFrame.Write(bw);
+            m_referenceFrame.Write(s, bw);
+            s.WriteInt32Array(bw, m_edgeMap);
+            s.WriteInt32Array(bw, m_faceMap);
+            s.WriteClassArray<hkaiNavMeshFace>(bw, m_instancedFaces);
+            s.WriteClassArray<hkaiNavMeshEdge>(bw, m_instancedEdges);
+            s.WriteClassArray<hkaiNavMeshFace>(bw, m_ownedFaces);
+            s.WriteClassArray<hkaiNavMeshEdge>(bw, m_ownedEdges);
+            s.WriteVector4Array(bw, m_ownedVertices);
+            s.WriteByteArray(bw, m_faceFlags);
+            s.WriteUInt16Array(bw, m_cuttingInfo);
+            s.WriteInt32Array(bw, m_instancedFaceData);
+            s.WriteInt32Array(bw, m_instancedEdgeData);
+            s.WriteInt32Array(bw, m_ownedFaceData);
+            s.WriteInt32Array(bw, m_ownedEdgeData);
+            s.WriteInt16Array(bw, m_clearanceCache);
+            s.WriteInt16Array(bw, m_globalClearanceCache);
+            s.WriteInt32Array(bw, m_faceClearanceIndices);
             bw.WriteSingle(m_maxGlobalClearance);
             bw.WriteUInt32(m_sectionUid);
             bw.WriteInt32(m_runtimeId);

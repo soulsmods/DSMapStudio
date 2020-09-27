@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpStiffSpringConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3494829737; }
+        
         public hkpSetLocalTranslationsConstraintAtom m_pivots;
         public hkpSetupStabilizationAtom m_setupStabilization;
         public hkpStiffSpringConstraintAtom m_spring;
@@ -21,11 +23,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_pivots.Write(bw);
-            m_setupStabilization.Write(bw);
-            m_spring.Write(bw);
+            m_pivots.Write(s, bw);
+            m_setupStabilization.Write(s, bw);
+            m_spring.Write(s, bw);
             bw.WriteUInt32(0);
         }
     }

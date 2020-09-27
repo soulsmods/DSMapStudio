@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGenerator : hkbCustomTestGeneratorAnnotatedTypes
     {
+        public override uint Signature { get => 1252436108; }
+        
         public bool m_protectedHiddenMember;
         public bool m_privateHiddenMember;
         
@@ -19,9 +21,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_protectedHiddenMember);
             bw.WriteBoolean(m_privateHiddenMember);
             bw.WriteUInt64(0);

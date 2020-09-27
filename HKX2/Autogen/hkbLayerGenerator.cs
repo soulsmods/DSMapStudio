@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hkbLayerGenerator : hkbGenerator
     {
+        public override uint Signature { get => 3034629423; }
+        
         public List<hkbLayer> m_layers;
         public short m_indexOfSyncMasterChild;
         public ushort m_flags;
@@ -27,10 +29,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbLayer>(bw, m_layers);
             bw.WriteInt16(m_indexOfSyncMasterChild);
+            bw.WriteUInt16(m_flags);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

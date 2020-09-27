@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPoweredChainDataConstraintInfo : IHavokObject
     {
+        public virtual uint Signature { get => 4169854501; }
+        
         public Vector4 m_pivotInA;
         public Vector4 m_pivotInB;
         public Quaternion m_aTc;
@@ -30,11 +32,15 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteVector4(bw, m_pivotInA);
+            s.WriteVector4(bw, m_pivotInB);
+            s.WriteQuaternion(bw, m_aTc);
+            s.WriteQuaternion(bw, m_bTc);
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motors_0);
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motors_1);
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motors_2);
             bw.WriteBoolean(m_switchBodies);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

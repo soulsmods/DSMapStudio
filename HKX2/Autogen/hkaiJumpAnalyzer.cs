@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiJumpAnalyzer : hkaiTraversalAnalyzer
     {
+        public override uint Signature { get => 2753075461; }
+        
         public float m_maxHorizontalDistance;
         public float m_maxUpHeight;
         public float m_maxDownHeight;
@@ -20,9 +22,9 @@ namespace HKX2
             m_verticalApex = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_maxHorizontalDistance);
             bw.WriteSingle(m_maxUpHeight);
             bw.WriteSingle(m_maxDownHeight);

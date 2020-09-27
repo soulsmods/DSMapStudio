@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventPayloadList : hkbEventPayload
     {
+        public override uint Signature { get => 4015043109; }
+        
         public List<hkbEventPayload> m_payloads;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_payloads = des.ReadClassPointerArray<hkbEventPayload>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbEventPayload>(bw, m_payloads);
         }
     }
 }

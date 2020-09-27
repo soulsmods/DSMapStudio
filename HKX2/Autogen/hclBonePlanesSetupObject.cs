@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBonePlanesSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 1076021204; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclTransformSetSetupObject m_transformSetSetup;
@@ -29,11 +31,15 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            s.WriteClassPointer<hclTransformSetSetupObject>(bw, m_transformSetSetup);
+            s.WriteClassArray<hclBonePlanesSetupObjectPerParticlePlane>(bw, m_perParticlePlanes);
+            s.WriteClassArray<hclBonePlanesSetupObjectGlobalPlane>(bw, m_globalPlanes);
+            s.WriteClassArray<hclBonePlanesSetupObjectPerParticleAngle>(bw, m_perParticleAngle);
             bw.WriteBoolean(m_angleSpecifiedInDegrees);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

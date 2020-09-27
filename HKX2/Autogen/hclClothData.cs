@@ -27,6 +27,8 @@ namespace HKX2
     
     public class hclClothData : hkReferencedObject
     {
+        public override uint Signature { get => 4181970594; }
+        
         public string m_name;
         public List<hclSimClothData> m_simClothDatas;
         public List<hclBufferDefinition> m_bufferDefinitions;
@@ -50,9 +52,17 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointerArray<hclSimClothData>(bw, m_simClothDatas);
+            s.WriteClassPointerArray<hclBufferDefinition>(bw, m_bufferDefinitions);
+            s.WriteClassPointerArray<hclTransformSetDefinition>(bw, m_transformSetDefinitions);
+            s.WriteClassPointerArray<hclOperator>(bw, m_operators);
+            s.WriteClassPointerArray<hclClothState>(bw, m_clothStateDatas);
+            s.WriteClassPointerArray<hclAction>(bw, m_actions);
+            bw.WriteUInt32((uint)m_targetPlatform);
             bw.WriteUInt32(0);
         }
     }

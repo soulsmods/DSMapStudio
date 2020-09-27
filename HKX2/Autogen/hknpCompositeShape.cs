@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCompositeShape : hknpShape
     {
+        public override uint Signature { get => 314260463; }
+        
         public hknpSparseCompactMapunsignedshort m_edgeWeldingMap;
         public uint m_shapeTagCodecInfo;
         
@@ -18,10 +20,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_edgeWeldingMap.Write(bw);
+            base.Write(s, bw);
+            m_edgeWeldingMap.Write(s, bw);
             bw.WriteUInt32(m_shapeTagCodecInfo);
             bw.WriteUInt32(0);
         }

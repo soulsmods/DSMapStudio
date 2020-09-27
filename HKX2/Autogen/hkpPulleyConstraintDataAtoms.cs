@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPulleyConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 4129650384; }
+        
         public hkpSetLocalTranslationsConstraintAtom m_translations;
         public hkpPulleyConstraintAtom m_pulley;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_pulley.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_translations.Write(bw);
-            m_pulley.Write(bw);
+            m_translations.Write(s, bw);
+            m_pulley.Write(s, bw);
         }
     }
 }

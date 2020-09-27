@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventRaisedInfo : hkReferencedObject
     {
+        public override uint Signature { get => 3019399239; }
+        
         public ulong m_characterId;
         public string m_eventName;
         public bool m_raisedBySdk;
@@ -25,10 +27,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
+            s.WriteStringPointer(bw, m_eventName);
             bw.WriteBoolean(m_raisedBySdk);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

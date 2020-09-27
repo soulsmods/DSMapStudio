@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbMoveBoneAttachmentModifier : hkbModifier
     {
+        public override uint Signature { get => 1355861884; }
+        
         public int m_activateEventId;
         public string m_attachment;
         public string m_localFrame;
@@ -19,11 +21,13 @@ namespace HKX2
             m_localFrame = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_activateEventId);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_attachment);
+            s.WriteStringPointer(bw, m_localFrame);
         }
     }
 }

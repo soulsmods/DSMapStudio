@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPathfindingUtilFindPathInput : hkReferencedObject
     {
+        public override uint Signature { get => 1998238741; }
+        
         public Vector4 m_startPoint;
         public List<Vector4> m_goalPoints;
         public uint m_startFaceKey;
@@ -35,16 +37,19 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_startPoint);
+            s.WriteVector4Array(bw, m_goalPoints);
             bw.WriteUInt32(m_startFaceKey);
             bw.WriteUInt32(0);
+            s.WriteUInt32Array(bw, m_goalFaceKeys);
             bw.WriteInt32(m_maxNumberOfIterations);
-            m_agentInfo.Write(bw);
+            m_agentInfo.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
-            m_searchParameters.Write(bw);
+            m_searchParameters.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

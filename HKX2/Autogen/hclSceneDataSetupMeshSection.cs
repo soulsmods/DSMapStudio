@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSceneDataSetupMeshSection : hkReferencedObject
     {
+        public override uint Signature { get => 180466600; }
+        
         public hclSceneDataSetupMesh m_setupMesh;
         public hkxMeshSection m_meshSection;
         public bool m_skinnedSection;
@@ -22,12 +24,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hclSceneDataSetupMesh>(bw, m_setupMesh);
+            s.WriteClassPointer<hkxMeshSection>(bw, m_meshSection);
             bw.WriteBoolean(m_skinnedSection);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

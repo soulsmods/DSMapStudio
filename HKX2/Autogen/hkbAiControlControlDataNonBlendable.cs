@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbAiControlControlDataNonBlendable : IHavokObject
     {
+        public virtual uint Signature { get => 2809465809; }
+        
         public bool m_canControl;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,7 +17,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_canControl);
             bw.WriteUInt16(0);

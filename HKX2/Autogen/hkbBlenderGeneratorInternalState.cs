@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBlenderGeneratorInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 2675405271; }
+        
         public List<hkbBlenderGeneratorChildInternalState> m_childrenInternalStates;
         public List<short> m_sortedChildren;
         public float m_endIntervalWeight;
@@ -29,9 +31,11 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbBlenderGeneratorChildInternalState>(bw, m_childrenInternalStates);
+            s.WriteInt16Array(bw, m_sortedChildren);
             bw.WriteSingle(m_endIntervalWeight);
             bw.WriteInt32(m_numActiveChildren);
             bw.WriteInt16(m_beginIntervalIndex);

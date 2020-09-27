@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpGroupFilter : hkpCollisionFilter
     {
+        public override uint Signature { get => 2289863781; }
+        
         public int m_nextFreeSystemGroup;
         public uint m_collisionLookupTable_0;
         public uint m_collisionLookupTable_1;
@@ -87,9 +89,9 @@ namespace HKX2
             m_pad256_3 = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_nextFreeSystemGroup);
             bw.WriteUInt32(m_collisionLookupTable_0);
             bw.WriteUInt32(m_collisionLookupTable_1);
@@ -124,6 +126,10 @@ namespace HKX2
             bw.WriteUInt32(m_collisionLookupTable_30);
             bw.WriteUInt32(m_collisionLookupTable_31);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_pad256_0);
+            s.WriteVector4(bw, m_pad256_1);
+            s.WriteVector4(bw, m_pad256_2);
+            s.WriteVector4(bw, m_pad256_3);
         }
     }
 }

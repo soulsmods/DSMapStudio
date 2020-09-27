@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkGains : IHavokObject
     {
+        public virtual uint Signature { get => 3738682663; }
+        
         public float m_onOffGain;
         public float m_groundAscendingGain;
         public float m_groundDescendingGain;
@@ -31,7 +33,7 @@ namespace HKX2
             m_hipOrientationGain = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_onOffGain);
             bw.WriteSingle(m_groundAscendingGain);

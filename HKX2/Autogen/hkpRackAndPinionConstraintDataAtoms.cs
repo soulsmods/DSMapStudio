@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRackAndPinionConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 26925652; }
+        
         public hkpSetLocalTransformsConstraintAtom m_transforms;
         public hkpRackAndPinionConstraintAtom m_rackAndPinion;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_rackAndPinion.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_rackAndPinion.Write(bw);
+            m_transforms.Write(s, bw);
+            m_rackAndPinion.Write(s, bw);
         }
     }
 }

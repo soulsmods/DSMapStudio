@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkVariableTweakingHelperBoolVariableInfo : IHavokObject
     {
+        public virtual uint Signature { get => 1731769824; }
+        
         public string m_name;
         public bool m_value;
         public bool m_tweakOn;
@@ -19,8 +21,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             bw.WriteBoolean(m_value);
             bw.WriteBoolean(m_tweakOn);
             bw.WriteUInt32(0);

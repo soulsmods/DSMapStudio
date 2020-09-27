@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclObjectSpaceDeformerLocalBlockP : IHavokObject
     {
+        public virtual uint Signature { get => 965913300; }
+        
         public short m_localPosition_0;
         public short m_localPosition_1;
         public short m_localPosition_2;
@@ -139,7 +141,7 @@ namespace HKX2
             m_localPosition_63 = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_localPosition_0);
             bw.WriteInt16(m_localPosition_1);

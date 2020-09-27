@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclScratchBufferDefinition : hclBufferDefinition
     {
+        public override uint Signature { get => 2685602348; }
+        
         public List<ushort> m_triangleIndices;
         public bool m_storeNormals;
         public bool m_storeTangentsAndBiTangents;
@@ -20,9 +22,10 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt16Array(bw, m_triangleIndices);
             bw.WriteBoolean(m_storeNormals);
             bw.WriteBoolean(m_storeTangentsAndBiTangents);
             bw.WriteUInt32(0);

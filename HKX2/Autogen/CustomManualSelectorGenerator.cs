@@ -19,6 +19,8 @@ namespace HKX2
     
     public class CustomManualSelectorGenerator : hkbGenerator
     {
+        public override uint Signature { get => 4285204516; }
+        
         public enum OffsetType
         {
             WeaponCategoryRight = 13,
@@ -75,15 +77,20 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbGenerator>(bw, m_generators);
+            bw.WriteInt32((int)m_offsetType);
             bw.WriteInt32(m_animId);
+            bw.WriteInt32((int)m_animeEndEventType);
             bw.WriteBoolean(m_enableScript);
             bw.WriteBoolean(m_enableTae);
+            bw.WriteByte((byte)m_changeTypeOfSelectedIndexAfterActivate);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hkbTransitionEffect>(bw, m_generatorChangedTransitionEffect);
             bw.WriteInt32(m_checkAnimEndSlotNo);
+            bw.WriteByte((byte)m_replanningAI);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

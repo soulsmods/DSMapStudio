@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkModifierLeg : IHavokObject
     {
+        public virtual uint Signature { get => 3921947741; }
+        
         public Matrix4x4 m_originalAnkleTransformMS;
         public Vector4 m_kneeAxisLS;
         public Vector4 m_footEndLS;
@@ -49,9 +51,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_ungroundedEvent.Write(bw);
+            s.WriteQSTransform(bw, m_originalAnkleTransformMS);
+            s.WriteVector4(bw, m_kneeAxisLS);
+            s.WriteVector4(bw, m_footEndLS);
+            m_ungroundedEvent.Write(s, bw);
             bw.WriteSingle(m_footPlantedAnkleHeightMS);
             bw.WriteSingle(m_footRaisedAnkleHeightMS);
             bw.WriteSingle(m_maxAnkleHeightMS);

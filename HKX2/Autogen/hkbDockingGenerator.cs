@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkbDockingGenerator : hkbGenerator
     {
+        public override uint Signature { get => 2140111424; }
+        
         public short m_dockingBone;
         public Vector4 m_translationOffset;
         public Quaternion m_rotationOffset;
@@ -48,15 +50,19 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt16(m_dockingBone);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteVector4(bw, m_translationOffset);
+            s.WriteQuaternion(bw, m_rotationOffset);
+            bw.WriteSByte((sbyte)m_blendType);
             bw.WriteByte(0);
+            bw.WriteUInt16(m_flags);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkbGenerator>(bw, m_child);
             bw.WriteInt32(m_intervalStart);
             bw.WriteInt32(m_intervalEnd);
             bw.WriteUInt64(0);

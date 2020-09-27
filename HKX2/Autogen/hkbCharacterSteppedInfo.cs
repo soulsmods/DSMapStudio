@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterSteppedInfo : hkReferencedObject
     {
+        public override uint Signature { get => 13372306; }
+        
         public ulong m_characterId;
         public float m_deltaTime;
         public Matrix4x4 m_worldFromModel;
@@ -23,12 +25,15 @@ namespace HKX2
             m_rigidAttachmentTransforms = des.ReadQSTransformArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
             bw.WriteSingle(m_deltaTime);
             bw.WriteUInt32(0);
+            s.WriteQSTransform(bw, m_worldFromModel);
+            s.WriteQSTransformArray(bw, m_poseModelSpace);
+            s.WriteQSTransformArray(bw, m_rigidAttachmentTransforms);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiConvexSilhouetteSet : hkReferencedObject
     {
+        public override uint Signature { get => 3424370516; }
+        
         public List<Vector4> m_vertexPool;
         public List<int> m_silhouetteOffsets;
         public hkQTransform m_cachedTransform;
@@ -21,10 +23,13 @@ namespace HKX2
             m_cachedUp = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_cachedTransform.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_vertexPool);
+            s.WriteInt32Array(bw, m_silhouetteOffsets);
+            m_cachedTransform.Write(s, bw);
+            s.WriteVector4(bw, m_cachedUp);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpCheckRagdollSpeedModifier : hkbModifier
     {
+        public override uint Signature { get => 152932438; }
+        
         public hkbEventProperty m_eventToSend;
         public float m_minSpeedThreshold;
         public float m_maxSpeedThreshold;
@@ -19,10 +21,10 @@ namespace HKX2
             m_maxSpeedThreshold = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_eventToSend.Write(bw);
+            base.Write(s, bw);
+            m_eventToSend.Write(s, bw);
             bw.WriteSingle(m_minSpeedThreshold);
             bw.WriteSingle(m_maxSpeedThreshold);
         }

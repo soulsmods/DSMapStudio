@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBvShape : hkpShape
     {
+        public override uint Signature { get => 2915716736; }
+        
         public hkpShape m_boundingVolumeShape;
         public hkpSingleShapeContainer m_childShape;
         
@@ -17,11 +19,11 @@ namespace HKX2
             m_childShape.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_childShape.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpShape>(bw, m_boundingVolumeShape);
+            m_childShape.Write(s, bw);
         }
     }
 }

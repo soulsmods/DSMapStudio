@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterStringDataFileNameMeshNamePair : IHavokObject
     {
+        public virtual uint Signature { get => 40647318; }
+        
         public string m_fileName;
         public string m_meshName;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_meshName = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_fileName);
+            s.WriteStringPointer(bw, m_meshName);
         }
     }
 }

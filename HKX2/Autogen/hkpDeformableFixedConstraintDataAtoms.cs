@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpDeformableFixedConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3854492133; }
+        
         public hkpSetLocalTransformsConstraintAtom m_transforms;
         public hkpDeformableLinConstraintAtom m_lin;
         public hkpDeformableAngConstraintAtom m_ang;
@@ -20,11 +22,11 @@ namespace HKX2
             m_ang.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_lin.Write(bw);
-            m_ang.Write(bw);
+            m_transforms.Write(s, bw);
+            m_lin.Write(s, bw);
+            m_ang.Write(s, bw);
         }
     }
 }

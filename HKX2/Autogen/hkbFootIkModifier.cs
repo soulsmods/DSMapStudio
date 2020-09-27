@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkbFootIkModifier : hkbModifier
     {
+        public override uint Signature { get => 3330925452; }
+        
         public hkbFootIkGains m_gains;
         public List<hkbFootIkModifierLeg> m_legs;
         public float m_raycastDistanceUp;
@@ -57,10 +59,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_gains.Write(bw);
+            base.Write(s, bw);
+            m_gains.Write(s, bw);
+            s.WriteClassArray<hkbFootIkModifierLeg>(bw, m_legs);
             bw.WriteSingle(m_raycastDistanceUp);
             bw.WriteSingle(m_raycastDistanceDown);
             bw.WriteSingle(m_originalGroundHeightMS);
@@ -74,6 +77,7 @@ namespace HKX2
             bw.WriteBoolean(m_lockFeetWhenPlanted);
             bw.WriteBoolean(m_useCharacterUpVector);
             bw.WriteBoolean(m_keepSourceFootEndAboveGround);
+            bw.WriteSByte((sbyte)m_alignMode);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

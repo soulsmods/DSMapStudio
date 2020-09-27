@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultAerodynamics : hknpVehicleAerodynamics
     {
+        public override uint Signature { get => 1150598957; }
+        
         public float m_airDensity;
         public float m_frontalArea;
         public float m_dragCoefficient;
@@ -22,13 +24,14 @@ namespace HKX2
             m_extraGravityws = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_airDensity);
             bw.WriteSingle(m_frontalArea);
             bw.WriteSingle(m_dragCoefficient);
             bw.WriteSingle(m_liftCoefficient);
+            s.WriteVector4(bw, m_extraGravityws);
         }
     }
 }

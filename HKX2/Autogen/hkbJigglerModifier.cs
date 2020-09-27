@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkbJigglerModifier : hkbModifier
     {
+        public override uint Signature { get => 471212973; }
+        
         public List<hkbJigglerGroup> m_jigglerGroups;
         public JiggleCoordinates m_jiggleCoordinates;
         
@@ -30,9 +32,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbJigglerGroup>(bw, m_jigglerGroups);
+            bw.WriteSByte((sbyte)m_jiggleCoordinates);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

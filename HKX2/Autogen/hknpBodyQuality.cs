@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpBodyQuality : IHavokObject
     {
+        public virtual uint Signature { get => 1292877147; }
+        
         public enum FlagsEnum
         {
             DROP_MANIFOLD_CACHE = 1,
@@ -41,9 +43,11 @@ namespace HKX2
             m_contactCachingRelativeMovementThreshold = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_priority);
+            bw.WriteUInt32(m_supportedFlags);
+            bw.WriteUInt32(m_requestedFlags);
             bw.WriteSingle(m_contactCachingRelativeMovementThreshold);
         }
     }

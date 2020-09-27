@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGetHandleOnBoneModifier : hkbModifier
     {
+        public override uint Signature { get => 1881908988; }
+        
         public hkbHandle m_handleOut;
         public string m_localFrameName;
         public short m_ragdollBoneIndex;
@@ -21,10 +23,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbHandle>(bw, m_handleOut);
+            s.WriteStringPointer(bw, m_localFrameName);
             bw.WriteInt16(m_ragdollBoneIndex);
             bw.WriteInt16(m_animationBoneIndex);
             bw.WriteUInt32(0);

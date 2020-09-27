@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclTransitionConstraintSet : hclConstraintSet
     {
+        public override uint Signature { get => 2633903229; }
+        
         public List<hclTransitionConstraintSetPerParticle> m_perParticleData;
         public float m_toAnimPeriod;
         public float m_toAnimPlusDelayPeriod;
@@ -25,9 +27,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclTransitionConstraintSetPerParticle>(bw, m_perParticleData);
             bw.WriteSingle(m_toAnimPeriod);
             bw.WriteSingle(m_toAnimPlusDelayPeriod);
             bw.WriteSingle(m_toSimPeriod);

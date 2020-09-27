@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpGroupCollisionFilterBasehknpGroupCollisionFilterTypesConfig55516 : hknpCollisionFilter
     {
+        public override uint Signature { get => 804215488; }
+        
         public int m_nextFreeSystemGroup;
         public uint m_collisionLookupTable_0;
         public uint m_collisionLookupTable_1;
@@ -81,9 +83,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteInt32(m_nextFreeSystemGroup);
             bw.WriteUInt32(m_collisionLookupTable_0);

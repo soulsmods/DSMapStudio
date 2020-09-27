@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRigidBodyRagdollControlData : IHavokObject
     {
+        public virtual uint Signature { get => 883256303; }
+        
         public hkbKeyFrameControlData m_keyFrameControlData;
         public float m_durationToBlend;
         
@@ -18,9 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_keyFrameControlData.Write(bw);
+            m_keyFrameControlData.Write(s, bw);
             bw.WriteSingle(m_durationToBlend);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

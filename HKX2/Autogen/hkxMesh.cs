@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxMesh : hkReferencedObject
     {
+        public override uint Signature { get => 3235576879; }
+        
         public List<hkxMeshSection> m_sections;
         public List<hkxMeshUserChannelInfo> m_userChannelInfos;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_userChannelInfos = des.ReadClassPointerArray<hkxMeshUserChannelInfo>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkxMeshSection>(bw, m_sections);
+            s.WriteClassPointerArray<hkxMeshUserChannelInfo>(bw, m_userChannelInfos);
         }
     }
 }

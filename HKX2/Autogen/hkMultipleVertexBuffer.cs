@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMultipleVertexBuffer : hkMeshVertexBuffer
     {
+        public override uint Signature { get => 840352810; }
+        
         public hkVertexFormat m_vertexFormat;
         public List<hkMultipleVertexBufferLockedElement> m_lockedElements;
         public hkMemoryMeshVertexBuffer m_lockedBuffer;
@@ -39,12 +41,15 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_vertexFormat.Write(bw);
+            base.Write(s, bw);
+            m_vertexFormat.Write(s, bw);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassArray<hkMultipleVertexBufferLockedElement>(bw, m_lockedElements);
+            s.WriteClassPointer<hkMemoryMeshVertexBuffer>(bw, m_lockedBuffer);
+            s.WriteClassArray<hkMultipleVertexBufferElementInfo>(bw, m_elementInfos);
+            s.WriteClassArray<hkMultipleVertexBufferVertexBufferInfo>(bw, m_vertexBufferInfos);
             bw.WriteInt32(m_numVertices);
             bw.WriteBoolean(m_isLocked);
             bw.WriteUInt16(0);

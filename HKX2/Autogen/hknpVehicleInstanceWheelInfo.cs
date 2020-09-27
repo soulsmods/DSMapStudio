@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleInstanceWheelInfo : IHavokObject
     {
+        public virtual uint Signature { get => 529767248; }
+        
         public hkContactPoint m_contactPoint;
         public float m_contactFriction;
         public uint m_contactShapeKey;
@@ -51,16 +53,22 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_contactPoint.Write(bw);
+            m_contactPoint.Write(s, bw);
             bw.WriteSingle(m_contactFriction);
             bw.WriteUInt32(0);
             bw.WriteUInt32(m_contactShapeKey);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_hardPointWs);
+            s.WriteVector4(bw, m_rayEndPointWs);
             bw.WriteSingle(m_currentSuspensionLength);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_suspensionDirectionWs);
+            s.WriteVector4(bw, m_spinAxisChassisSpace);
+            s.WriteVector4(bw, m_spinAxisWs);
+            s.WriteQuaternion(bw, m_steeringOrientationChassisSpace);
             bw.WriteSingle(m_spinVelocity);
             bw.WriteSingle(m_noSlipIdealSpinVelocity);
             bw.WriteSingle(m_spinAngle);

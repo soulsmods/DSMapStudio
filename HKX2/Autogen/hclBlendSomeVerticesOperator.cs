@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hclBlendSomeVerticesOperator : hclOperator
     {
+        public override uint Signature { get => 726000696; }
+        
         public List<hclBlendSomeVerticesOperatorBlendEntry> m_blendEntries;
         public uint m_bufferIdx_A;
         public uint m_bufferIdx_B;
@@ -33,9 +35,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclBlendSomeVerticesOperatorBlendEntry>(bw, m_blendEntries);
             bw.WriteUInt32(m_bufferIdx_A);
             bw.WriteUInt32(m_bufferIdx_B);
             bw.WriteUInt32(m_bufferIdx_C);

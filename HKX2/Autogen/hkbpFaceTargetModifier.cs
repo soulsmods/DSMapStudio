@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpFaceTargetModifier : hkbModifier
     {
+        public override uint Signature { get => 4018059343; }
+        
         public hkbpTarget m_targetIn;
         public float m_offsetAngle;
         public bool m_onlyOnce;
@@ -20,10 +22,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbpTarget>(bw, m_targetIn);
             bw.WriteSingle(m_offsetAngle);
             bw.WriteBoolean(m_onlyOnce);
             bw.WriteUInt16(0);

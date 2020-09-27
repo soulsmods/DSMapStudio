@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbClipGeneratorEcho : IHavokObject
     {
+        public virtual uint Signature { get => 1963908928; }
+        
         public float m_offsetLocalTime;
         public float m_weight;
         public float m_dwdt;
@@ -18,7 +20,7 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_offsetLocalTime);
             bw.WriteSingle(m_weight);

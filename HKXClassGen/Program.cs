@@ -654,7 +654,7 @@ namespace HKXClassGen
             string virtAbstract = cls.ParentName != null ? "override" : "virtual";
             if (isWriter)
             {
-                WriteLine("public " + virtAbstract + " void Write(BinaryWriterEx bw)");
+                WriteLine("public " + virtAbstract + " void Write(PackFileSerializer s, BinaryWriterEx bw)");
             }
             else
             {
@@ -665,7 +665,7 @@ namespace HKXClassGen
 
             if (cls.ParentName != null && isWriter)
             {
-                WriteLine("base.Write(bw);");
+                WriteLine("base.Write(s, bw);");
             }
             else if (cls.ParentName != null)
             {
@@ -735,7 +735,7 @@ namespace HKXClassGen
                         {
                             if (isWriter)
                             {
-                                //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                                WriteLine($@"s.Write{brPrimitive}(bw, m_{m.Name}_{j});");
                             }
                             else
                             {
@@ -747,7 +747,7 @@ namespace HKXClassGen
                     {
                         if (isWriter)
                         {
-                            //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                            WriteLine($@"s.Write{brPrimitive}(bw, m_{m.Name});");
                         }
                         else
                         {
@@ -769,7 +769,7 @@ namespace HKXClassGen
                     {
                         if (isWriter)
                         {
-                            //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                            WriteLine($@"s.Write{brPrimitive}Array(bw, m_{m.Name});");
                         }
                         else
                         {
@@ -781,7 +781,7 @@ namespace HKXClassGen
                     {
                         if (isWriter)
                         {
-                            //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                            WriteLine($@"s.WriteClassArray<{m.CType}>(bw, m_{m.Name});");
                         }
                         else
                         {
@@ -793,7 +793,7 @@ namespace HKXClassGen
                     {
                         if (isWriter)
                         {
-                            //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                            WriteLine($@"s.WriteClassPointerArray<{m.CType}>(bw, m_{m.Name});");
                         }
                         else
                         {
@@ -811,7 +811,7 @@ namespace HKXClassGen
                     brPrimitive = GetEnumType(m.VSubType, m.EType);
                     if (isWriter)
                     {
-                        //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                        WriteLine($@"bw.Write{brPrimitive}(({ReduceType(m, m.VSubType, true)})m_{m.Name});");
                     }
                     else
                     {
@@ -825,7 +825,7 @@ namespace HKXClassGen
                     brPrimitive = GetEnumType(m.VSubType, m.EType);
                     if (isWriter)
                     {
-                        //WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
+                        WriteLine($@"bw.Write{brPrimitive}(m_{m.Name});");
                     }
                     else
                     {
@@ -843,7 +843,7 @@ namespace HKXClassGen
                         {
                             if (isWriter)
                             {
-                                WriteLine($@"m_{m.Name}_{j}.Write(bw);");
+                                WriteLine($@"m_{m.Name}_{j}.Write(s, bw);");
                             }
                             else
                             {
@@ -856,7 +856,7 @@ namespace HKXClassGen
                     {
                         if (isWriter)
                         {
-                            WriteLine($@"m_{m.Name}.Write(bw);");
+                            WriteLine($@"m_{m.Name}.Write(s, bw);");
                         }
                         else
                         {
@@ -880,7 +880,7 @@ namespace HKXClassGen
                         {
                             if (isWriter)
                             {
-                                WriteLine("// Implement Write");
+                                WriteLine($@"s.WriteClassPointer<{m.CType}>(bw, m_{m.Name}_{j});");
                             }
                             else
                             {
@@ -892,7 +892,7 @@ namespace HKXClassGen
                     {
                         if (isWriter)
                         {
-                            WriteLine("// Implement Write");
+                            WriteLine($@"s.WriteClassPointer<{m.CType}>(bw, m_{m.Name});");
                         }
                         else
                         {
@@ -967,6 +967,10 @@ namespace HKXClassGen
             WriteLine("public class " + name + (cls.ParentName != null ? " : " + cls.ParentName : " : IHavokObject"));
             WriteLine("{");
             PushIndent();
+
+            string virtAbstract = cls.ParentName != null ? "override" : "virtual";
+            WriteLine($@"public {virtAbstract} uint Signature " + "{ get => " + cls.Signature + "; }");
+            WriteLine("");
 
             foreach (var e in cls.Enums)
             {

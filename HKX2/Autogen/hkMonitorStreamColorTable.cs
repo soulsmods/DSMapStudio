@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMonitorStreamColorTable : hkReferencedObject
     {
+        public override uint Signature { get => 2650983547; }
+        
         public List<hkMonitorStreamColorTableColorPair> m_colorPairs;
         public uint m_defaultColor;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkMonitorStreamColorTableColorPair>(bw, m_colorPairs);
             bw.WriteUInt32(m_defaultColor);
             bw.WriteUInt32(0);
         }

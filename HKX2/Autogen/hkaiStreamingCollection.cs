@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiStreamingCollection : hkReferencedObject
     {
+        public override uint Signature { get => 1609844644; }
+        
         public bool m_isTemporary;
         public hkcdDynamicAabbTree m_tree;
         public List<hkaiStreamingCollectionInstanceInfo> m_instances;
@@ -21,14 +23,15 @@ namespace HKX2
             m_instances = des.ReadClassArray<hkaiStreamingCollectionInstanceInfo>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_isTemporary);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hkcdDynamicAabbTree>(bw, m_tree);
+            s.WriteClassArray<hkaiStreamingCollectionInstanceInfo>(bw, m_instances);
         }
     }
 }

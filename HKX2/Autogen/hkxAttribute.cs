@@ -16,6 +16,8 @@ namespace HKX2
     
     public class hkxAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 1937099491; }
+        
         public string m_name;
         public hkReferencedObject m_value;
         
@@ -25,9 +27,10 @@ namespace HKX2
             m_value = des.ReadClassPointer<hkReferencedObject>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_value);
         }
     }
 }

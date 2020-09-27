@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpFirstPersonGun : hkReferencedObject
     {
+        public override uint Signature { get => 1499143554; }
+        
         public enum Type
         {
             WEAPON_TYPE_INVALID = 0,
@@ -53,10 +55,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteStringPointer(bw, m_name);
+            bw.WriteByte((byte)m_keyboardKey);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

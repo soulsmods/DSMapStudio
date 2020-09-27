@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMemoryMeshMaterial : hkMeshMaterial
     {
+        public override uint Signature { get => 3379202540; }
+        
         public string m_materialName;
         public List<hkMeshTexture> m_textures;
         public Vector4 m_diffuseColor;
@@ -31,10 +33,16 @@ namespace HKX2
             m_displacementAmount = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_materialName);
+            s.WriteClassPointerArray<hkMeshTexture>(bw, m_textures);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_diffuseColor);
+            s.WriteVector4(bw, m_ambientColor);
+            s.WriteVector4(bw, m_specularColor);
+            s.WriteVector4(bw, m_emissiveColor);
             bw.WriteUInt64(m_userData);
             bw.WriteSingle(m_tesselationFactor);
             bw.WriteSingle(m_displacementAmount);

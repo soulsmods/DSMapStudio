@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshGenerationSettingsOverrideSettings : IHavokObject
     {
+        public virtual uint Signature { get => 431992409; }
+        
         public hkaiVolume m_volume;
         public int m_material;
         public CharacterWidthUsage m_characterWidthUsage;
@@ -28,16 +30,17 @@ namespace HKX2
             m_simplificationSettings.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkaiVolume>(bw, m_volume);
             bw.WriteInt32(m_material);
+            bw.WriteByte((byte)m_characterWidthUsage);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_maxWalkableSlope);
-            m_edgeMatchingParams.Write(bw);
+            m_edgeMatchingParams.Write(s, bw);
             bw.WriteUInt32(0);
-            m_simplificationSettings.Write(bw);
+            m_simplificationSettings.Write(s, bw);
         }
     }
 }

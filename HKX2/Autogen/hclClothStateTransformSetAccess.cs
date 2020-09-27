@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclClothStateTransformSetAccess : IHavokObject
     {
+        public virtual uint Signature { get => 45534125; }
+        
         public uint m_transformSetIndex;
         public hclTransformSetUsage m_transformSetUsage;
         
@@ -17,11 +19,11 @@ namespace HKX2
             m_transformSetUsage.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_transformSetIndex);
             bw.WriteUInt32(0);
-            m_transformSetUsage.Write(bw);
+            m_transformSetUsage.Write(s, bw);
         }
     }
 }

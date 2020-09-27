@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBehaviorInfo : hkReferencedObject
     {
+        public override uint Signature { get => 1045969603; }
+        
         public ulong m_characterId;
         public hkbBehaviorGraphData m_data;
         public List<hkbBehaviorInfoIdToNamePair> m_idToNamePairs;
@@ -18,11 +20,12 @@ namespace HKX2
             m_idToNamePairs = des.ReadClassArray<hkbBehaviorInfoIdToNamePair>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
-            // Implement Write
+            s.WriteClassPointer<hkbBehaviorGraphData>(bw, m_data);
+            s.WriteClassArray<hkbBehaviorInfoIdToNamePair>(bw, m_idToNamePairs);
         }
     }
 }

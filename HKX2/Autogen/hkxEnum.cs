@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxEnum : hkReferencedObject
     {
+        public override uint Signature { get => 472389837; }
+        
         public List<hkxEnumItem> m_items;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_items = des.ReadClassArray<hkxEnumItem>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkxEnumItem>(bw, m_items);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSilhouetteReferenceFrame : IHavokObject
     {
+        public virtual uint Signature { get => 1006741638; }
+        
         public Vector4 m_up;
         public Vector4 m_referenceAxis;
         public Vector4 m_orthogonalAxis;
@@ -17,8 +19,11 @@ namespace HKX2
             m_orthogonalAxis = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_up);
+            s.WriteVector4(bw, m_referenceAxis);
+            s.WriteVector4(bw, m_orthogonalAxis);
         }
     }
 }

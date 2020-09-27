@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRocketboxCharacterController : hkbModifier
     {
+        public override uint Signature { get => 956945900; }
+        
         public enum MovementSpeedsEnum
         {
             SL_Walk = 0,
@@ -99,10 +101,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_child);
             bw.WriteBoolean(m_autoTurnsAllowed);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
@@ -128,15 +130,16 @@ namespace HKX2
             bw.WriteByte(0);
             bw.WriteInt32(m_poseIdx);
             bw.WriteUInt32(0);
-            m_leftFootDownEvent.Write(bw);
-            m_rightFootDownEvent.Write(bw);
-            m_immediateStopEvent.Write(bw);
-            m_rapidTurnEvent.Write(bw);
-            m_changeMovementDirectionEvent.Write(bw);
-            m_changePoseEvent.Write(bw);
-            m_moveEvent.Write(bw);
-            m_stopEvent.Write(bw);
-            m_characterHasHalted.Write(bw);
+            m_leftFootDownEvent.Write(s, bw);
+            m_rightFootDownEvent.Write(s, bw);
+            m_immediateStopEvent.Write(s, bw);
+            m_rapidTurnEvent.Write(s, bw);
+            m_changeMovementDirectionEvent.Write(s, bw);
+            m_changePoseEvent.Write(s, bw);
+            m_moveEvent.Write(s, bw);
+            m_stopEvent.Write(s, bw);
+            m_characterHasHalted.Write(s, bw);
+            s.WriteSingleArray(bw, m_moveVelocities);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

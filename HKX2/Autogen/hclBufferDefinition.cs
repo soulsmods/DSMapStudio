@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBufferDefinition : hkReferencedObject
     {
+        public override uint Signature { get => 2135579644; }
+        
         public string m_name;
         public int m_type;
         public int m_subType;
@@ -27,14 +29,15 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteInt32(m_type);
             bw.WriteInt32(m_subType);
             bw.WriteUInt32(m_numVertices);
             bw.WriteUInt32(m_numTriangles);
-            m_bufferLayout.Write(bw);
+            m_bufferLayout.Write(s, bw);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
         }

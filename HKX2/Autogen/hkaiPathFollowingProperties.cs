@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPathFollowingProperties : hkReferencedObject
     {
+        public override uint Signature { get => 3720691019; }
+        
         public float m_repathDistance;
         public int m_incompleteRepathSegments;
         public float m_searchPathLimit;
@@ -32,9 +34,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_repathDistance);
             bw.WriteInt32(m_incompleteRepathSegments);
             bw.WriteSingle(m_searchPathLimit);

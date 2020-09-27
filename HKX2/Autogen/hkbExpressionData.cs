@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkbExpressionData : IHavokObject
     {
+        public virtual uint Signature { get => 1732248618; }
+        
         public string m_expression;
         public int m_assignmentVariableIndex;
         public int m_assignmentEventIndex;
@@ -30,10 +32,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_expression);
             bw.WriteInt32(m_assignmentVariableIndex);
             bw.WriteInt32(m_assignmentEventIndex);
+            bw.WriteSByte((sbyte)m_eventMode);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

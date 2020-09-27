@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbManualSelectorGenerator : hkbGenerator
     {
+        public override uint Signature { get => 1494910070; }
+        
         public List<hkbGenerator> m_generators;
         public short m_selectedGeneratorIndex;
         public hkbCustomIdSelector m_indexSelector;
@@ -33,18 +35,19 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbGenerator>(bw, m_generators);
             bw.WriteInt16(m_selectedGeneratorIndex);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
-            // Implement Write
+            s.WriteClassPointer<hkbCustomIdSelector>(bw, m_indexSelector);
             bw.WriteBoolean(m_selectedIndexCanChangeAfterActivate);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hkbTransitionEffect>(bw, m_generatorChangedTransitionEffect);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

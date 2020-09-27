@@ -21,6 +21,8 @@ namespace HKX2
     
     public class hkaiPath : hkReferencedObject
     {
+        public override uint Signature { get => 2336010493; }
+        
         public List<hkaiPathPathPoint> m_points;
         public ReferenceFrame m_referenceFrame;
         
@@ -34,9 +36,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiPathPathPoint>(bw, m_points);
+            bw.WriteByte((byte)m_referenceFrame);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMassProperties : IHavokObject
     {
+        public virtual uint Signature { get => 1755670580; }
+        
         public float m_volume;
         public float m_mass;
         public Vector4 m_centerOfMass;
@@ -20,11 +22,13 @@ namespace HKX2
             m_inertiaTensor = des.ReadMatrix3(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_volume);
             bw.WriteSingle(m_mass);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_centerOfMass);
+            s.WriteMatrix3(bw, m_inertiaTensor);
         }
     }
 }

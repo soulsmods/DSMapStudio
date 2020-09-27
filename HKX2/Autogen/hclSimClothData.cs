@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothData : hkReferencedObject
     {
+        public override uint Signature { get => 3859829127; }
+        
         public hclSimClothDataOverridableSimulationInfo m_simulationInfo;
         public string m_name;
         public List<hclSimClothDataParticleData> m_particleDatas;
@@ -67,23 +69,36 @@ namespace HKX2
             m_transferMotionData.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_simulationInfo.Write(bw);
+            base.Write(s, bw);
+            m_simulationInfo.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassArray<hclSimClothDataParticleData>(bw, m_particleDatas);
+            s.WriteUInt16Array(bw, m_fixedParticles);
+            s.WriteUInt16Array(bw, m_triangleIndices);
+            s.WriteByteArray(bw, m_triangleFlips);
             bw.WriteSingle(m_totalMass);
             bw.WriteUInt32(0);
-            m_collidableTransformMap.Write(bw);
+            m_collidableTransformMap.Write(s, bw);
+            s.WriteClassPointerArray<hclCollidable>(bw, m_perInstanceCollidables);
+            s.WriteClassPointerArray<hclConstraintSet>(bw, m_staticConstraintSets);
+            s.WriteClassPointerArray<hclConstraintSet>(bw, m_antiPinchConstraintSets);
+            s.WriteClassPointerArray<hclSimClothPose>(bw, m_simClothPoses);
+            s.WriteClassPointerArray<hclAction>(bw, m_actions);
+            s.WriteUInt32Array(bw, m_staticCollisionMasks);
+            s.WriteBooleanArray(bw, m_perParticlePinchDetectionEnabledFlags);
+            s.WriteClassArray<hclSimClothDataCollidablePinchingData>(bw, m_collidablePinchingDatas);
             bw.WriteUInt16(m_minPinchedParticleIndex);
             bw.WriteUInt16(m_maxPinchedParticleIndex);
             bw.WriteUInt32(m_maxCollisionPairs);
             bw.WriteSingle(m_maxParticleRadius);
-            m_landscapeCollisionData.Write(bw);
+            m_landscapeCollisionData.Write(s, bw);
             bw.WriteUInt32(m_numLandscapeCollidableParticles);
             bw.WriteBoolean(m_doNormals);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_transferMotionData.Write(bw);
+            m_transferMotionData.Write(s, bw);
         }
     }
 }

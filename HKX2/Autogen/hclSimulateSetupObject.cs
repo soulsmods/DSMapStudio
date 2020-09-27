@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimulateSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 941908184; }
+        
         public string m_name;
         public hclSimClothSetupObject m_simClothSetupObject;
         public uint m_numberOfSubsteps;
@@ -28,16 +30,18 @@ namespace HKX2
             m_constraintSetExecutionOrder = des.ReadClassPointerArray<hclConstraintSetSetupObject>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimClothSetupObject>(bw, m_simClothSetupObject);
             bw.WriteUInt32(m_numberOfSubsteps);
             bw.WriteUInt32(m_numberOfSolveIterations);
             bw.WriteBoolean(m_adaptConstraintStiffness);
             bw.WriteBoolean(m_explicitConstraintOrder);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteClassPointerArray<hclConstraintSetSetupObject>(bw, m_constraintSetExecutionOrder);
         }
     }
 }

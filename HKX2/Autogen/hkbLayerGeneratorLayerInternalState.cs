@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkbLayerGeneratorLayerInternalState : IHavokObject
     {
+        public virtual uint Signature { get => 3799866964; }
+        
         public float m_weight;
         public float m_timeElapsed;
         public float m_onFraction;
@@ -32,11 +34,12 @@ namespace HKX2
             m_isActive = br.ReadBoolean();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_weight);
             bw.WriteSingle(m_timeElapsed);
             bw.WriteSingle(m_onFraction);
+            bw.WriteSByte((sbyte)m_fadingState);
             bw.WriteBoolean(m_useMotion);
             bw.WriteBoolean(m_syncNextFrame);
             bw.WriteBoolean(m_isActive);

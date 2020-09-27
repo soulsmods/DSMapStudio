@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpExtendedMeshShapeShapesSubpart : hkpExtendedMeshShapeSubpart
     {
+        public override uint Signature { get => 2579100016; }
+        
         public List<hkpConvexShape> m_childShapes;
         public Quaternion m_rotation;
         public Vector4 m_translation;
@@ -18,9 +20,12 @@ namespace HKX2
             m_translation = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpConvexShape>(bw, m_childShapes);
+            s.WriteQuaternion(bw, m_rotation);
+            s.WriteVector4(bw, m_translation);
         }
     }
 }

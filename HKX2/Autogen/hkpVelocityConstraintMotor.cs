@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpVelocityConstraintMotor : hkpLimitedForceConstraintMotor
     {
+        public override uint Signature { get => 1772897825; }
+        
         public float m_tau;
         public float m_velocityTarget;
         public bool m_useVelocityTargetFromConstraintTargets;
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_tau);
             bw.WriteSingle(m_velocityTarget);
             bw.WriteBoolean(m_useVelocityTargetFromConstraintTargets);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMeshBoneDeformOperator : hclOperator
     {
+        public override uint Signature { get => 4040380508; }
+        
         public uint m_inputBufferIdx;
         public uint m_outputTransformSetIdx;
         public List<hclMeshBoneDeformOperatorTriangleBonePair> m_triangleBonePairs;
@@ -20,11 +22,13 @@ namespace HKX2
             m_triangleBoneStartForBone = des.ReadUInt16Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_inputBufferIdx);
             bw.WriteUInt32(m_outputTransformSetIdx);
+            s.WriteClassArray<hclMeshBoneDeformOperatorTriangleBonePair>(bw, m_triangleBonePairs);
+            s.WriteUInt16Array(bw, m_triangleBoneStartForBone);
         }
     }
 }

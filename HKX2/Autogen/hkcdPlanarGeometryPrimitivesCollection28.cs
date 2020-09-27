@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdPlanarGeometryPrimitivesCollection28 : hkReferencedObject
     {
+        public override uint Signature { get => 958515043; }
+        
         public List<int> m_storage;
         public uint m_primaryBitmap;
         public uint m_secondaryBitmaps_0;
@@ -1733,9 +1735,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteInt32Array(bw, m_storage);
             bw.WriteUInt32(m_primaryBitmap);
             bw.WriteUInt32(m_secondaryBitmaps_0);
             bw.WriteUInt32(m_secondaryBitmaps_1);

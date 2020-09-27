@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPoweredChainMapperLinkInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3473349147; }
+        
         public int m_firstTargetIdx;
         public int m_numTargets;
         public hkpConstraintInstance m_limitConstraint;
@@ -17,11 +19,11 @@ namespace HKX2
             m_limitConstraint = des.ReadClassPointer<hkpConstraintInstance>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_firstTargetIdx);
             bw.WriteInt32(m_numTargets);
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintInstance>(bw, m_limitConstraint);
         }
     }
 }

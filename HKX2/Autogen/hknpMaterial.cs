@@ -28,6 +28,8 @@ namespace HKX2
     
     public class hknpMaterial : IHavokObject
     {
+        public virtual uint Signature { get => 3083203150; }
+        
         public string m_name;
         public uint m_isExclusive;
         public int m_flags;
@@ -87,25 +89,30 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt32(m_isExclusive);
             bw.WriteInt32(m_flags);
-            m_triggerManifoldTolerance.Write(bw);
+            bw.WriteByte((byte)m_triggerType);
+            m_triggerManifoldTolerance.Write(s, bw);
             bw.WriteInt16(m_dynamicFriction);
             bw.WriteInt16(m_staticFriction);
             bw.WriteInt16(m_restitution);
+            bw.WriteByte((byte)m_frictionCombinePolicy);
+            bw.WriteByte((byte)m_restitutionCombinePolicy);
             bw.WriteInt16(m_weldingTolerance);
             bw.WriteSingle(m_maxContactImpulse);
             bw.WriteSingle(m_fractionOfClippedImpulseToApply);
+            bw.WriteByte((byte)m_massChangerCategory);
             bw.WriteByte(0);
             bw.WriteInt16(m_massChangerHeavyObjectFactor);
             bw.WriteInt16(m_softContactForceFactor);
             bw.WriteInt16(m_softContactDampFactor);
-            m_softContactSeperationVelocity.Write(bw);
+            m_softContactSeperationVelocity.Write(s, bw);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hknpSurfaceVelocity>(bw, m_surfaceVelocity);
             bw.WriteInt16(m_disablingCollisionsBetweenCvxCvxDynamicObjectsDistance);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hknpVehicleWheelCollide : hkReferencedObject
     {
+        public override uint Signature { get => 587024455; }
+        
         public bool m_alreadyUsed;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -29,9 +31,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_alreadyUsed);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

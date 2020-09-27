@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpDisplayBindingData : hkReferencedObject
     {
+        public override uint Signature { get => 3482735242; }
+        
         public List<hkpDisplayBindingDataRigidBody> m_rigidBodyBindings;
         public List<hkpDisplayBindingDataPhysicsSystem> m_physicsSystemBindings;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_physicsSystemBindings = des.ReadClassPointerArray<hkpDisplayBindingDataPhysicsSystem>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpDisplayBindingDataRigidBody>(bw, m_rigidBodyBindings);
+            s.WriteClassPointerArray<hkpDisplayBindingDataPhysicsSystem>(bw, m_physicsSystemBindings);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConvexTransformShape : hkpConvexTransformShapeBase
     {
+        public override uint Signature { get => 988457571; }
+        
         public Matrix4x4 m_transform;
         public Vector4 m_extraScale;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_extraScale = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteQSTransform(bw, m_transform);
+            s.WriteVector4(bw, m_extraScale);
         }
     }
 }

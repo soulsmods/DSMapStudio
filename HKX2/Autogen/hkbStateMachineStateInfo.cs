@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateMachineStateInfo : hkbBindable
     {
+        public override uint Signature { get => 970417939; }
+        
         public List<hkbStateListener> m_listeners;
         public hkbStateMachineEventPropertyArray m_enterNotifyEvents;
         public hkbStateMachineEventPropertyArray m_exitNotifyEvents;
@@ -33,13 +35,15 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbStateListener>(bw, m_listeners);
+            s.WriteClassPointer<hkbStateMachineEventPropertyArray>(bw, m_enterNotifyEvents);
+            s.WriteClassPointer<hkbStateMachineEventPropertyArray>(bw, m_exitNotifyEvents);
+            s.WriteClassPointer<hkbStateMachineTransitionInfoArray>(bw, m_transitions);
+            s.WriteClassPointer<hkbGenerator>(bw, m_generator);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteInt32(m_stateId);
             bw.WriteSingle(m_probability);
             bw.WriteBoolean(m_enable);

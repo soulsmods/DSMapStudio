@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshGenerationSettingsRegionPruningSettings : IHavokObject
     {
+        public virtual uint Signature { get => 164984537; }
+        
         public float m_minRegionArea;
         public float m_minDistanceToSeedPoints;
         public float m_borderPreservationTolerance;
@@ -24,7 +26,7 @@ namespace HKX2
             m_regionSeedPoints = des.ReadVector4Array(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_minRegionArea);
             bw.WriteSingle(m_minDistanceToSeedPoints);
@@ -32,6 +34,7 @@ namespace HKX2
             bw.WriteBoolean(m_preserveVerticalBorderRegions);
             bw.WriteBoolean(m_pruneBeforeTriangulation);
             bw.WriteUInt16(0);
+            s.WriteVector4Array(bw, m_regionSeedPoints);
         }
     }
 }

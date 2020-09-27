@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaSkeletonMapperData : IHavokObject
     {
+        public virtual uint Signature { get => 1040869373; }
+        
         public hkaSkeleton m_skeletonA;
         public hkaSkeleton m_skeletonB;
         public List<short> m_partitionMap;
@@ -42,13 +44,21 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkaSkeleton>(bw, m_skeletonA);
+            s.WriteClassPointer<hkaSkeleton>(bw, m_skeletonB);
+            s.WriteInt16Array(bw, m_partitionMap);
+            s.WriteClassArray<hkaSkeletonMapperDataPartitionMappingRange>(bw, m_simpleMappingPartitionRanges);
+            s.WriteClassArray<hkaSkeletonMapperDataPartitionMappingRange>(bw, m_chainMappingPartitionRanges);
+            s.WriteClassArray<hkaSkeletonMapperDataSimpleMapping>(bw, m_simpleMappings);
+            s.WriteClassArray<hkaSkeletonMapperDataChainMapping>(bw, m_chainMappings);
+            s.WriteInt16Array(bw, m_unmappedBones);
+            s.WriteQSTransform(bw, m_extractedMotionMapping);
             bw.WriteBoolean(m_keepUnmappedLocal);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            bw.WriteInt32((int)m_mappingType);
             bw.WriteUInt64(0);
         }
     }

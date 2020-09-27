@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPoweredChainData : hkpConstraintChainData
     {
+        public override uint Signature { get => 3681710190; }
+        
         public hkpBridgeAtoms m_atoms;
         public List<hkpPoweredChainDataConstraintInfo> m_infos;
         public float m_tau;
@@ -33,11 +35,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
+            s.WriteClassArray<hkpPoweredChainDataConstraintInfo>(bw, m_infos);
             bw.WriteSingle(m_tau);
             bw.WriteSingle(m_damping);
             bw.WriteSingle(m_cfmLinAdd);

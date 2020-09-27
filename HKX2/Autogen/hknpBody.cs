@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hknpBody : IHavokObject
     {
+        public virtual uint Signature { get => 42283992; }
+        
         public enum Flags
         {
             IS_STATIC = 1,
@@ -71,12 +73,13 @@ namespace HKX2
             m_userData = br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteTransform(bw, m_transform);
             bw.WriteInt32(m_flags);
             bw.WriteUInt32(m_collisionFilterInfo);
-            // Implement Write
-            m_aabb.Write(bw);
+            s.WriteClassPointer<hknpShape>(bw, m_shape);
+            m_aabb.Write(s, bw);
             bw.WriteUInt32(m_id);
             bw.WriteUInt32(m_nextAttachedBodyId);
             bw.WriteUInt32(m_motionId);
@@ -88,6 +91,7 @@ namespace HKX2
             bw.WriteUInt16(m_maxContactDistance);
             bw.WriteUInt32(m_indexIntoActiveListOrDeactivatedIslandId);
             bw.WriteInt16(m_radiusOfComCenteredBoundingSphere);
+            bw.WriteByte(m_spuFlags);
             bw.WriteByte(m_shapeSizeDiv16);
             bw.WriteInt16(m_motionToBodyRotation_0);
             bw.WriteInt16(m_motionToBodyRotation_1);

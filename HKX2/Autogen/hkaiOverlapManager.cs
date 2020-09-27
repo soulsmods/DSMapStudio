@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiOverlapManager : hkReferencedObject
     {
+        public override uint Signature { get => 845078721; }
+        
         public hkaiReferenceFrameAndExtrusion m_referenceFrameAndExtrusion;
         public hkaiStreamingCollection m_navMeshCollection;
         public List<hkaiOverlapManagerSection> m_sections;
@@ -37,13 +39,14 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            m_referenceFrameAndExtrusion.Write(bw);
-            // Implement Write
+            m_referenceFrameAndExtrusion.Write(s, bw);
+            s.WriteClassPointer<hkaiStreamingCollection>(bw, m_navMeshCollection);
+            s.WriteClassArray<hkaiOverlapManagerSection>(bw, m_sections);
             bw.WriteInt32(m_stepCount);
             bw.WriteSingle(m_hasMovedTolerance);
             bw.WriteInt32(m_maxCutFacesPerStep);

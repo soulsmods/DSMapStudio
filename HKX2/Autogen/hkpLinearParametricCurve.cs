@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpLinearParametricCurve : hkpParametricCurve
     {
+        public override uint Signature { get => 1791413813; }
+        
         public float m_smoothingFactor;
         public bool m_closedLoop;
         public Vector4 m_dirNotParallelToTangentAlongWholePath;
@@ -25,14 +27,17 @@ namespace HKX2
             m_distance = des.ReadSingleArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_smoothingFactor);
             bw.WriteBoolean(m_closedLoop);
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteVector4(bw, m_dirNotParallelToTangentAlongWholePath);
+            s.WriteVector4Array(bw, m_points);
+            s.WriteSingleArray(bw, m_distance);
         }
     }
 }

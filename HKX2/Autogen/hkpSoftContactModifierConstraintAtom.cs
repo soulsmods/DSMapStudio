@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSoftContactModifierConstraintAtom : hkpModifierConstraintAtom
     {
+        public override uint Signature { get => 3775335334; }
+        
         public float m_tau;
         public float m_maxAcceleration;
         
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_tau);
             bw.WriteSingle(m_maxAcceleration);
             bw.WriteUInt64(0);

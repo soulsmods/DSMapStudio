@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiVaultAnalyzer : hkaiTraversalAnalyzer
     {
+        public override uint Signature { get => 1223626616; }
+        
         public float m_minWallWidth;
         public float m_maxWallWidth;
         public float m_minWallHeight;
@@ -32,9 +34,9 @@ namespace HKX2
             m_handPlantRightExtent = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_minWallWidth);
             bw.WriteSingle(m_maxWallWidth);
             bw.WriteSingle(m_minWallHeight);

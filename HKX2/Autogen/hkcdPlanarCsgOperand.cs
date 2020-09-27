@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdPlanarCsgOperand : hkReferencedObject
     {
+        public override uint Signature { get => 1073957566; }
+        
         public hkcdPlanarGeometry m_geometry;
         public hkcdPlanarGeometry m_danglingGeometry;
         public hkcdPlanarSolid m_solid;
@@ -21,12 +23,13 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkcdPlanarGeometry>(bw, m_geometry);
+            s.WriteClassPointer<hkcdPlanarGeometry>(bw, m_danglingGeometry);
+            s.WriteClassPointer<hkcdPlanarSolid>(bw, m_solid);
+            s.WriteClassArray<hkcdPlanarCsgOperandGeomSource>(bw, m_geomSources);
             bw.WriteUInt64(0);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBlendSomeVerticesOperatorBlendEntry : IHavokObject
     {
+        public virtual uint Signature { get => 2771973260; }
+        
         public ushort m_vertexIndex;
         public float m_blendWeight;
         
@@ -16,7 +18,7 @@ namespace HKX2
             m_blendWeight = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_vertexIndex);
             bw.WriteUInt16(0);

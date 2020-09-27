@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpDisableEntityCollisionFilter : hkpCollisionFilter
     {
+        public override uint Signature { get => 4148424604; }
+        
         public List<hkpEntity> m_disabledEntities;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,11 @@ namespace HKX2
             m_disabledEntities = des.ReadClassPointerArray<hkpEntity>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteClassPointerArray<hkpEntity>(bw, m_disabledEntities);
         }
     }
 }

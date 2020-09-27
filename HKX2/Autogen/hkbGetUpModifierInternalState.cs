@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGetUpModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 2241841700; }
+        
         public float m_timeSinceBegin;
         public float m_timeStep;
         public bool m_initNextModify;
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_timeSinceBegin);
             bw.WriteSingle(m_timeStep);
             bw.WriteBoolean(m_initNextModify);

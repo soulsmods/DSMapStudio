@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkVariableTweakingHelperVector4VariableInfo : IHavokObject
     {
+        public virtual uint Signature { get => 1063280754; }
+        
         public string m_name;
         public float m_x;
         public float m_y;
@@ -26,8 +28,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             bw.WriteSingle(m_x);
             bw.WriteSingle(m_y);
             bw.WriteSingle(m_z);

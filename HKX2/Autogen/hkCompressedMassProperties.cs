@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkCompressedMassProperties : IHavokObject
     {
+        public virtual uint Signature { get => 2596654817; }
+        
         public short m_centerOfMass_0;
         public short m_centerOfMass_1;
         public short m_centerOfMass_2;
@@ -39,7 +41,7 @@ namespace HKX2
             m_volume = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_centerOfMass_0);
             bw.WriteInt16(m_centerOfMass_1);

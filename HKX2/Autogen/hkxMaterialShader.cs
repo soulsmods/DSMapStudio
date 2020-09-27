@@ -17,6 +17,8 @@ namespace HKX2
     
     public class hkxMaterialShader : hkReferencedObject
     {
+        public override uint Signature { get => 1339165424; }
+        
         public string m_name;
         public ShaderType m_type;
         public string m_vertexEntryName;
@@ -38,12 +40,18 @@ namespace HKX2
             m_data = des.ReadByteArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            bw.WriteByte((byte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_vertexEntryName);
+            s.WriteStringPointer(bw, m_geomEntryName);
+            s.WriteStringPointer(bw, m_pixelEntryName);
+            s.WriteByteArray(bw, m_data);
         }
     }
 }

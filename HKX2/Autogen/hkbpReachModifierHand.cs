@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpReachModifierHand : IHavokObject
     {
+        public virtual uint Signature { get => 2074831058; }
+        
         public Vector4 m_targetOrSensingPosition;
         public Vector4 m_targetBackHandNormal;
         public float m_sensingRadius;
@@ -22,8 +24,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_targetOrSensingPosition);
+            s.WriteVector4(bw, m_targetBackHandNormal);
             bw.WriteSingle(m_sensingRadius);
             bw.WriteInt16(m_boneIndex);
             bw.WriteInt16(m_handIkTrackIndex);

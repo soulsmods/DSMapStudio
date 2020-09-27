@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAngMotorConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 1112114262; }
+        
         public bool m_isEnabled;
         public byte m_motorAxis;
         public float m_targetAngle;
@@ -23,14 +25,14 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_isEnabled);
             bw.WriteByte(m_motorAxis);
             bw.WriteUInt64(0);
             bw.WriteSingle(m_targetAngle);
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motor);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

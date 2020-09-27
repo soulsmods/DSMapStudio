@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCircularSurfaceVelocity : hknpSurfaceVelocity
     {
+        public override uint Signature { get => 3000298053; }
+        
         public bool m_velocityIsLocalSpace;
         public Vector4 m_pivot;
         public Vector4 m_angularVelocity;
@@ -22,14 +24,16 @@ namespace HKX2
             m_angularVelocity = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_velocityIsLocalSpace);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteVector4(bw, m_pivot);
+            s.WriteVector4(bw, m_angularVelocity);
         }
     }
 }

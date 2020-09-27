@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableMultiMaterialInverseMappingDescriptor : IHavokObject
     {
+        public virtual uint Signature { get => 11198310; }
+        
         public ushort m_offset;
         public ushort m_numKeys;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_numKeys = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_offset);
             bw.WriteUInt16(m_numKeys);

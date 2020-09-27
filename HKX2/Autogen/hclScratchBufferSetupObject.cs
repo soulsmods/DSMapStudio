@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclScratchBufferSetupObject : hclBufferSetupObject
     {
+        public override uint Signature { get => 2025773992; }
+        
         public string m_name;
         public hclSetupMesh m_setupMesh;
         public bool m_storeNormals;
@@ -24,10 +26,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSetupMesh>(bw, m_setupMesh);
             bw.WriteBoolean(m_storeNormals);
             bw.WriteBoolean(m_storeTangentsAndBiTangents);
             bw.WriteBoolean(m_storeTriangles);

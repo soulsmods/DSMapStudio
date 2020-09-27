@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpEntitySpuCollisionCallback : IHavokObject
     {
+        public virtual uint Signature { get => 2165604101; }
+        
         public byte m_eventFilter;
         public byte m_userFilter;
         
@@ -18,7 +20,7 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);

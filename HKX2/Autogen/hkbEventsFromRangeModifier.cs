@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventsFromRangeModifier : hkbModifier
     {
+        public override uint Signature { get => 3387746053; }
+        
         public float m_inputValue;
         public float m_lowerBound;
         public hkbEventRangeDataArray m_eventRanges;
@@ -20,12 +22,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_inputValue);
             bw.WriteSingle(m_lowerBound);
-            // Implement Write
+            s.WriteClassPointer<hkbEventRangeDataArray>(bw, m_eventRanges);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

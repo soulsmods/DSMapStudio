@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGeneratorBoneTypes : hkbCustomTestGeneratorNestedTypes
     {
+        public override uint Signature { get => 801687986; }
+        
         public bool m_boneHiddenTypeCopyStart;
         public short m_oldBoneIndex;
         public short m_oldBoneIndexNoVar;
@@ -43,9 +45,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_boneHiddenTypeCopyStart);
             bw.WriteByte(0);
             bw.WriteInt16(m_oldBoneIndex);
@@ -60,8 +62,8 @@ namespace HKX2
             bw.WriteInt16(m_boneContractIndex2);
             bw.WriteBoolean(m_boneHiddenTypeCopyEnd);
             bw.WriteByte(0);
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkbBoneWeightArray>(bw, m_boneWeightArray);
+            s.WriteClassPointer<hkbBoneIndexArray>(bw, m_boneIndexArray);
             bw.WriteUInt64(0);
         }
     }

@@ -14,7 +14,14 @@ namespace HKX2ReadWrite
             {
                 BinaryReaderEx br = new BinaryReaderEx(false, stream);
                 var des = new HKX2.PackFileDeserializer();
-                des.Deserialize(br);
+                var root = des.Deserialize(br);
+
+                using (FileStream s2 = File.Create(hkxpath + ".out"))
+                {
+                    BinaryWriterEx bw = new BinaryWriterEx(false, s2);
+                    var s = new HKX2.PackFileSerializer();
+                    s.Serialize(root, bw);
+                }
             }
         }
     }

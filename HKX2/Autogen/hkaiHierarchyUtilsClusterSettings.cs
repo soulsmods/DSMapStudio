@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiHierarchyUtilsClusterSettings : IHavokObject
     {
+        public virtual uint Signature { get => 1429065203; }
+        
         public int m_desiredFacesPerCluster;
         public hkaiNavMeshPathSearchParameters m_searchParameters;
         public hkaiAgentTraversalInfo m_agentInfo;
@@ -22,13 +24,13 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_desiredFacesPerCluster);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
-            m_searchParameters.Write(bw);
-            m_agentInfo.Write(bw);
+            m_searchParameters.Write(s, bw);
+            m_agentInfo.Write(s, bw);
             bw.WriteUInt64(0);
         }
     }

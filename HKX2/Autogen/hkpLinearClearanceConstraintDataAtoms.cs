@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpLinearClearanceConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3497299283; }
+        
         public enum Axis
         {
             AXIS_SHAFT = 0,
@@ -45,17 +47,17 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_motor.Write(bw);
-            m_friction0.Write(bw);
-            m_friction1.Write(bw);
-            m_friction2.Write(bw);
-            m_ang.Write(bw);
-            m_linLimit0.Write(bw);
-            m_linLimit1.Write(bw);
-            m_linLimit2.Write(bw);
+            m_transforms.Write(s, bw);
+            m_motor.Write(s, bw);
+            m_friction0.Write(s, bw);
+            m_friction1.Write(s, bw);
+            m_friction2.Write(s, bw);
+            m_ang.Write(s, bw);
+            m_linLimit0.Write(s, bw);
+            m_linLimit1.Write(s, bw);
+            m_linLimit2.Write(s, bw);
             bw.WriteUInt64(0);
         }
     }

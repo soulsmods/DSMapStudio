@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hkbVariableBindingSetBinding : IHavokObject
     {
+        public virtual uint Signature { get => 1297690482; }
+        
         public string m_memberPath;
         public int m_variableIndex;
         public sbyte m_bitIndex;
@@ -36,13 +38,15 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_memberPath);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteInt32(m_variableIndex);
             bw.WriteSByte(m_bitIndex);
+            bw.WriteSByte((sbyte)m_bindingType);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
         }

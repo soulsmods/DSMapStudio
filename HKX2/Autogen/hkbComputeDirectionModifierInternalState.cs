@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbComputeDirectionModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3034672341; }
+        
         public Vector4 m_pointOut;
         public float m_groundAngleOut;
         public float m_upAngleOut;
@@ -23,9 +25,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_pointOut);
             bw.WriteSingle(m_groundAngleOut);
             bw.WriteSingle(m_upAngleOut);
             bw.WriteBoolean(m_computedOutput);

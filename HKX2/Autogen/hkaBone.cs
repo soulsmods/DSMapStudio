@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaBone : IHavokObject
     {
+        public virtual uint Signature { get => 898707338; }
+        
         public string m_name;
         public bool m_lockTranslation;
         
@@ -18,8 +20,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             bw.WriteBoolean(m_lockTranslation);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

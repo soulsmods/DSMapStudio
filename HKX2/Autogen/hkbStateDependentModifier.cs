@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateDependentModifier : hkbModifier
     {
+        public override uint Signature { get => 39268832; }
+        
         public bool m_applyModifierDuringTransition;
         public List<int> m_stateIds;
         public hkbModifier m_modifier;
@@ -28,19 +30,20 @@ namespace HKX2
             m_stateMachine = des.ReadClassPointer<hkbStateMachine>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_applyModifierDuringTransition);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteInt32Array(bw, m_stateIds);
+            s.WriteClassPointer<hkbModifier>(bw, m_modifier);
             bw.WriteBoolean(m_isActive);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hkbStateMachine>(bw, m_stateMachine);
         }
     }
 }

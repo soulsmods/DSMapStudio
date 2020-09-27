@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpHeightFieldShape : hknpCompositeShape
     {
+        public override uint Signature { get => 4053204167; }
+        
         public hkAabb m_aabb;
         public Vector4 m_floatToIntScale;
         public Vector4 m_intToFloatScale;
@@ -37,15 +39,17 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_aabb.Write(bw);
+            base.Write(s, bw);
+            m_aabb.Write(s, bw);
+            s.WriteVector4(bw, m_floatToIntScale);
+            s.WriteVector4(bw, m_intToFloatScale);
             bw.WriteInt32(m_intSizeX);
             bw.WriteInt32(m_intSizeZ);
             bw.WriteInt32(m_numBitsX);
             bw.WriteInt32(m_numBitsZ);
-            m_minMaxTree.Write(bw);
+            m_minMaxTree.Write(s, bw);
             bw.WriteInt32(m_minMaxTreeCoarseness);
             bw.WriteBoolean(m_includeShapeKeyInSdfContacts);
             bw.WriteUInt64(0);

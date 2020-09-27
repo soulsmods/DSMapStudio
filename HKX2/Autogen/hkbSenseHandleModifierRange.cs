@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSenseHandleModifierRange : IHavokObject
     {
+        public virtual uint Signature { get => 4216764050; }
+        
         public hkbEventProperty m_event;
         public float m_minDistance;
         public float m_maxDistance;
@@ -23,9 +25,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_event.Write(bw);
+            m_event.Write(s, bw);
             bw.WriteSingle(m_minDistance);
             bw.WriteSingle(m_maxDistance);
             bw.WriteBoolean(m_ignoreHandle);

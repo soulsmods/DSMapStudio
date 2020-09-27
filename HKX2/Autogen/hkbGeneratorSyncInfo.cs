@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGeneratorSyncInfo : IHavokObject
     {
+        public virtual uint Signature { get => 2261737732; }
+        
         public hkbGeneratorSyncInfoSyncPoint m_syncPoints_0;
         public hkbGeneratorSyncInfoSyncPoint m_syncPoints_1;
         public hkbGeneratorSyncInfoSyncPoint m_syncPoints_2;
@@ -76,24 +78,24 @@ namespace HKX2
             m_activeInterval.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_syncPoints_0.Write(bw);
-            m_syncPoints_1.Write(bw);
-            m_syncPoints_2.Write(bw);
-            m_syncPoints_3.Write(bw);
-            m_syncPoints_4.Write(bw);
-            m_syncPoints_5.Write(bw);
-            m_syncPoints_6.Write(bw);
-            m_syncPoints_7.Write(bw);
-            m_syncPoints_8.Write(bw);
-            m_syncPoints_9.Write(bw);
-            m_syncPoints_10.Write(bw);
-            m_syncPoints_11.Write(bw);
-            m_syncPoints_12.Write(bw);
-            m_syncPoints_13.Write(bw);
-            m_syncPoints_14.Write(bw);
-            m_syncPoints_15.Write(bw);
+            m_syncPoints_0.Write(s, bw);
+            m_syncPoints_1.Write(s, bw);
+            m_syncPoints_2.Write(s, bw);
+            m_syncPoints_3.Write(s, bw);
+            m_syncPoints_4.Write(s, bw);
+            m_syncPoints_5.Write(s, bw);
+            m_syncPoints_6.Write(s, bw);
+            m_syncPoints_7.Write(s, bw);
+            m_syncPoints_8.Write(s, bw);
+            m_syncPoints_9.Write(s, bw);
+            m_syncPoints_10.Write(s, bw);
+            m_syncPoints_11.Write(s, bw);
+            m_syncPoints_12.Write(s, bw);
+            m_syncPoints_13.Write(s, bw);
+            m_syncPoints_14.Write(s, bw);
+            m_syncPoints_15.Write(s, bw);
             bw.WriteSingle(m_duration);
             bw.WriteSingle(m_localTime);
             bw.WriteSingle(m_playbackSpeed);
@@ -101,7 +103,7 @@ namespace HKX2
             bw.WriteBoolean(m_isCyclic);
             bw.WriteBoolean(m_isMirrored);
             bw.WriteBoolean(m_isAdditive);
-            m_activeInterval.Write(bw);
+            m_activeInterval.Write(s, bw);
         }
     }
 }

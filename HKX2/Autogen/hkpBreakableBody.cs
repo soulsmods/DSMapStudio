@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableBody : hkReferencedObject
     {
+        public override uint Signature { get => 2470556408; }
+        
         public hkpBreakableBodyController m_controller;
         public hkpBreakableShape m_breakableShape;
         public byte m_bodyTypeAndFlags;
@@ -22,11 +24,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpBreakableBodyController>(bw, m_controller);
+            s.WriteClassPointer<hkpBreakableShape>(bw, m_breakableShape);
             bw.WriteByte(m_bodyTypeAndFlags);
             bw.WriteByte(0);
             bw.WriteInt16(m_constraintStrength);

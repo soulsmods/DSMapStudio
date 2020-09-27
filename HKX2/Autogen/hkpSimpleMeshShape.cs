@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSimpleMeshShape : hkpShapeCollection
     {
+        public override uint Signature { get => 3874847999; }
+        
         public List<Vector4> m_vertices;
         public List<hkpSimpleMeshShapeTriangle> m_triangles;
         public List<byte> m_materialIndices;
@@ -24,10 +26,14 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_vertices);
+            s.WriteClassArray<hkpSimpleMeshShapeTriangle>(bw, m_triangles);
+            s.WriteByteArray(bw, m_materialIndices);
             bw.WriteSingle(m_radius);
+            bw.WriteByte((byte)m_weldingType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
         }

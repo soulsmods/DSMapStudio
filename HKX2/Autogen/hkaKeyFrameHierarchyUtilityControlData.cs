@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaKeyFrameHierarchyUtilityControlData : IHavokObject
     {
+        public virtual uint Signature { get => 2748361841; }
+        
         public float m_hierarchyGain;
         public float m_velocityDamping;
         public float m_accelerationGain;
@@ -35,7 +37,7 @@ namespace HKX2
             m_snapMaxAngularDistance = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_hierarchyGain);
             bw.WriteSingle(m_velocityDamping);

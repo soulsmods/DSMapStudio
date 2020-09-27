@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxMeshSection : hkReferencedObject
     {
+        public override uint Signature { get => 1414739601; }
+        
         public hkxVertexBuffer m_vertexBuffer;
         public List<hkxIndexBuffer> m_indexBuffers;
         public hkxMaterial m_material;
@@ -26,11 +28,16 @@ namespace HKX2
             m_boneMatrixMap = des.ReadClassArray<hkMeshBoneIndexMapping>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkxVertexBuffer>(bw, m_vertexBuffer);
+            s.WriteClassPointerArray<hkxIndexBuffer>(bw, m_indexBuffers);
+            s.WriteClassPointer<hkxMaterial>(bw, m_material);
+            s.WriteClassPointerArray<hkReferencedObject>(bw, m_userChannels);
+            s.WriteClassPointerArray<hkxVertexAnimation>(bw, m_vertexAnimations);
+            s.WriteSingleArray(bw, m_linearKeyFrameHints);
+            s.WriteClassArray<hkMeshBoneIndexMapping>(bw, m_boneMatrixMap);
         }
     }
 }

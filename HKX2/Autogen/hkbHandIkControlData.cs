@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbHandIkControlData : IHavokObject
     {
+        public virtual uint Signature { get => 3609955607; }
+        
         public enum HandleChangeMode
         {
             HANDLE_CHANGE_MODE_ABRUPT = 0,
@@ -44,15 +46,19 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteVector4(bw, m_targetPosition);
+            s.WriteQuaternion(bw, m_targetRotation);
+            s.WriteVector4(bw, m_targetNormal);
+            s.WriteClassPointer<hkbHandle>(bw, m_targetHandle);
             bw.WriteSingle(m_transformOnFraction);
             bw.WriteSingle(m_normalOnFraction);
             bw.WriteSingle(m_fadeInDuration);
             bw.WriteSingle(m_fadeOutDuration);
             bw.WriteSingle(m_extrapolationTimeStep);
             bw.WriteSingle(m_handleChangeSpeed);
+            bw.WriteSByte((sbyte)m_handleChangeMode);
             bw.WriteBoolean(m_fixUp);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

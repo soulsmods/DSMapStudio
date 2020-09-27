@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeGenerationSettingsChunkSettings : IHavokObject
     {
+        public virtual uint Signature { get => 4175032160; }
+        
         public ushort m_maxChunkSizeX;
         public ushort m_maxChunkSizeY;
         public ushort m_maxChunkSizeZ;
@@ -20,7 +22,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_maxChunkSizeX);
             bw.WriteUInt16(m_maxChunkSizeY);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGeneratorSyncInfoActiveInterval : IHavokObject
     {
+        public virtual uint Signature { get => 692550698; }
+        
         public hkbGeneratorSyncInfoSyncPoint m_syncPoints_0;
         public hkbGeneratorSyncInfoSyncPoint m_syncPoints_1;
         public float m_fraction;
@@ -19,10 +21,10 @@ namespace HKX2
             m_fraction = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_syncPoints_0.Write(bw);
-            m_syncPoints_1.Write(bw);
+            m_syncPoints_0.Write(s, bw);
+            m_syncPoints_1.Write(s, bw);
             bw.WriteSingle(m_fraction);
         }
     }

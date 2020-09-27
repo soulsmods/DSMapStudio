@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSpringDamperConstraintMotor : hkpLimitedForceConstraintMotor
     {
+        public override uint Signature { get => 111867549; }
+        
         public float m_springConstant;
         public float m_springDamping;
         
@@ -16,9 +18,9 @@ namespace HKX2
             m_springDamping = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_springConstant);
             bw.WriteSingle(m_springDamping);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPoweredChainMapper : hkReferencedObject
     {
+        public override uint Signature { get => 3365603871; }
+        
         public List<hkpPoweredChainMapperLinkInfo> m_links;
         public List<hkpPoweredChainMapperTarget> m_targets;
         public List<hkpConstraintChainInstance> m_chains;
@@ -18,9 +20,12 @@ namespace HKX2
             m_chains = des.ReadClassPointerArray<hkpConstraintChainInstance>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkpPoweredChainMapperLinkInfo>(bw, m_links);
+            s.WriteClassArray<hkpPoweredChainMapperTarget>(bw, m_targets);
+            s.WriteClassPointerArray<hkpConstraintChainInstance>(bw, m_chains);
         }
     }
 }

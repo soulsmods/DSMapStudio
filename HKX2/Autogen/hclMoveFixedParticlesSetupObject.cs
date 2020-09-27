@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMoveFixedParticlesSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 386333361; }
+        
         public string m_name;
         public hclSimClothSetupObject m_simClothSetupObject;
         public hclBufferSetupObject m_displayBufferSetup;
@@ -18,11 +20,12 @@ namespace HKX2
             m_displayBufferSetup = des.ReadClassPointer<hclBufferSetupObject>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimClothSetupObject>(bw, m_simClothSetupObject);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_displayBufferSetup);
         }
     }
 }

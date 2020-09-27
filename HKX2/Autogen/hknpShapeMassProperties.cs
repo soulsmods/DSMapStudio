@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpShapeMassProperties : hkReferencedObject
     {
+        public override uint Signature { get => 3910735656; }
+        
         public hkCompressedMassProperties m_compressedMassProperties;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,10 @@ namespace HKX2
             m_compressedMassProperties.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_compressedMassProperties.Write(bw);
+            base.Write(s, bw);
+            m_compressedMassProperties.Write(s, bw);
         }
     }
 }

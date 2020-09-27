@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbLayerGeneratorInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 722298938; }
+        
         public int m_numActiveLayers;
         public List<hkbLayerGeneratorLayerInternalState> m_layerInternalStates;
         public bool m_initSync;
@@ -22,11 +24,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_numActiveLayers);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkbLayerGeneratorLayerInternalState>(bw, m_layerInternalStates);
             bw.WriteBoolean(m_initSync);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

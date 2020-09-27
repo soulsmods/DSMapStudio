@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxNode : hkxAttributeHolder
     {
+        public override uint Signature { get => 451561904; }
+        
         public string m_name;
         public hkReferencedObject m_object;
         public List<Matrix4x4> m_keyFrames;
@@ -32,10 +34,16 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_object);
+            s.WriteMatrix4Array(bw, m_keyFrames);
+            s.WriteClassPointerArray<hkxNode>(bw, m_children);
+            s.WriteClassArray<hkxNodeAnnotationData>(bw, m_annotations);
+            s.WriteSingleArray(bw, m_linearKeyFrameHints);
+            s.WriteStringPointer(bw, m_userProperties);
             bw.WriteBoolean(m_selected);
             bw.WriteBoolean(m_bone);
             bw.WriteUInt32(0);

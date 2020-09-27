@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkaiNavMeshCutter : hkReferencedObject
     {
+        public override uint Signature { get => 2420968626; }
+        
         public List<hkaiNavMeshCutterMeshInfo> m_meshInfos;
         public hkaiNavMeshCutterSavedConnectivity m_connectivityInfo;
         public hkaiStreamingCollection m_streamingCollection;
@@ -60,17 +62,22 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_connectivityInfo.Write(bw);
-            // Implement Write
-            m_edgeMatchParams.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiNavMeshCutterMeshInfo>(bw, m_meshInfos);
+            m_connectivityInfo.Write(s, bw);
+            s.WriteClassPointer<hkaiStreamingCollection>(bw, m_streamingCollection);
+            s.WriteUInt32Array(bw, m_forceRecutFaceKeys);
+            s.WriteUInt32Array(bw, m_forceClearanceCalcFaceKeys);
+            s.WriteVector4(bw, m_up);
+            m_edgeMatchParams.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteSingle(m_cutEdgeTolerance);
             bw.WriteSingle(m_minEdgeMatchingLength);
             bw.WriteSingle(m_smallGapFixupTolerance);
             bw.WriteBoolean(m_performValidationChecks);
+            bw.WriteByte((byte)m_clearanceResetMethod);
             bw.WriteBoolean(m_recomputeClearanceAfterCutting);
             bw.WriteBoolean(m_useNewCutter);
             bw.WriteSingle(m_domainQuantum);

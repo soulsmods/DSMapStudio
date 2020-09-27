@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateMachineTransitionInfoReference : IHavokObject
     {
+        public virtual uint Signature { get => 2551235280; }
+        
         public short m_fromStateIndex;
         public short m_transitionIndex;
         public short m_stateMachineId;
@@ -17,7 +19,7 @@ namespace HKX2
             m_stateMachineId = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_fromStateIndex);
             bw.WriteInt16(m_transitionIndex);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiUserEdgeSetupArray : hkReferencedObject
     {
+        public override uint Signature { get => 55940824; }
+        
         public List<hkaiUserEdgeUtilsUserEdgeSetup> m_edgeSetups;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_edgeSetups = des.ReadClassArray<hkaiUserEdgeUtilsUserEdgeSetup>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiUserEdgeUtilsUserEdgeSetup>(bw, m_edgeSetups);
         }
     }
 }

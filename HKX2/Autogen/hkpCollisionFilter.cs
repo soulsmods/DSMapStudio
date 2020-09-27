@@ -17,6 +17,8 @@ namespace HKX2
     
     public class hkpCollisionFilter : hkReferencedObject
     {
+        public override uint Signature { get => 603088937; }
+        
         public uint m_prepad_0;
         public uint m_prepad_1;
         public hkpFilterType m_type;
@@ -39,15 +41,16 @@ namespace HKX2
             m_postpad_2 = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(m_prepad_0);
             bw.WriteUInt32(m_prepad_1);
+            bw.WriteUInt32((uint)m_type);
             bw.WriteUInt32(m_postpad_0);
             bw.WriteUInt32(m_postpad_1);
             bw.WriteUInt32(m_postpad_2);

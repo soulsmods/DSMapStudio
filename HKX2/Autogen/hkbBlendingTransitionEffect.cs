@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkbBlendingTransitionEffect : hkbTransitionEffect
     {
+        public override uint Signature { get => 350571612; }
+        
         public enum FlagBits
         {
             FLAG_NONE = 0,
@@ -58,11 +60,14 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_duration);
             bw.WriteSingle(m_toGeneratorStartTimeFraction);
+            bw.WriteUInt16(m_flags);
+            bw.WriteSByte((sbyte)m_endMode);
+            bw.WriteSByte((sbyte)m_blendCurve);
             bw.WriteInt16(m_alignmentBone);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

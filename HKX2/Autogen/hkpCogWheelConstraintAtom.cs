@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCogWheelConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 1472604519; }
+        
         public float m_cogWheelRadiusA;
         public float m_cogWheelRadiusB;
         public bool m_isScrew;
@@ -25,9 +27,9 @@ namespace HKX2
             m_memOffsetToRevolutionCounter = br.ReadSByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_cogWheelRadiusA);
             bw.WriteSingle(m_cogWheelRadiusB);

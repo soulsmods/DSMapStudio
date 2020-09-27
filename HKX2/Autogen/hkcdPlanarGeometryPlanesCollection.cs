@@ -17,6 +17,8 @@ namespace HKX2
     
     public class hkcdPlanarGeometryPlanesCollection : hkReferencedObject
     {
+        public override uint Signature { get => 850946192; }
+        
         public Vector4 m_offsetAndScale;
         public List<hkcdPlanarGeometryPrimitivesPlane> m_planes;
         
@@ -29,9 +31,11 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_offsetAndScale);
+            s.WriteClassArray<hkcdPlanarGeometryPrimitivesPlane>(bw, m_planes);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

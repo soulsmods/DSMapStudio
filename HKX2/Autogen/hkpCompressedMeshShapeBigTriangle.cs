@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCompressedMeshShapeBigTriangle : IHavokObject
     {
+        public virtual uint Signature { get => 3422328228; }
+        
         public ushort m_a;
         public ushort m_b;
         public ushort m_c;
@@ -24,7 +26,7 @@ namespace HKX2
             m_transformIndex = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_a);
             bw.WriteUInt16(m_b);

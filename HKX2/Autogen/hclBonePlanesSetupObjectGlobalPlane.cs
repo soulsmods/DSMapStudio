@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBonePlanesSetupObjectGlobalPlane : IHavokObject
     {
+        public virtual uint Signature { get => 1650705927; }
+        
         public string m_transformName;
         public hclVertexSelectionInput m_particles;
         public Vector4 m_planeEquationBoneSpace;
@@ -25,12 +27,14 @@ namespace HKX2
             m_stiffness.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_particles.Write(bw);
+            s.WriteStringPointer(bw, m_transformName);
+            m_particles.Write(s, bw);
             bw.WriteUInt64(0);
-            m_allowedPenetration.Write(bw);
-            m_stiffness.Write(bw);
+            s.WriteVector4(bw, m_planeEquationBoneSpace);
+            m_allowedPenetration.Write(s, bw);
+            m_stiffness.Write(s, bw);
         }
     }
 }

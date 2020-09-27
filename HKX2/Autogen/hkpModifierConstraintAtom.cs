@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpModifierConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 144790047; }
+        
         public ushort m_modifierAtomSize;
         public ushort m_childSize;
         public hkpConstraintAtom m_child;
@@ -24,16 +26,16 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteUInt16(m_modifierAtomSize);
             bw.WriteUInt16(m_childSize);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintAtom>(bw, m_child);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

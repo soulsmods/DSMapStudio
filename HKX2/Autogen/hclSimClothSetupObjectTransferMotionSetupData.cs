@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothSetupObjectTransferMotionSetupData : IHavokObject
     {
+        public virtual uint Signature { get => 3677625521; }
+        
         public hclTransformSetSetupObject m_transferMotionTransformSetSetup;
         public string m_transferMotionTransformName;
         public bool m_transferTranslationMotion;
@@ -39,9 +41,10 @@ namespace HKX2
             m_maxRotationBlend = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hclTransformSetSetupObject>(bw, m_transferMotionTransformSetSetup);
+            s.WriteStringPointer(bw, m_transferMotionTransformName);
             bw.WriteBoolean(m_transferTranslationMotion);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

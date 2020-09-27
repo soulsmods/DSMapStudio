@@ -6,13 +6,15 @@ namespace HKX2
 {
     public class hkBaseObject : IHavokObject
     {
+        public virtual uint Signature { get => 3765471744; }
+        
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
         }

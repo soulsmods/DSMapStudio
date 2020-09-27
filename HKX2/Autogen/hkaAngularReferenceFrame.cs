@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaAngularReferenceFrame : hkaParameterizedReferenceFrame
     {
+        public override uint Signature { get => 3167958132; }
+        
         public float m_topAngle;
         public float m_radius;
         
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_topAngle);
             bw.WriteSingle(m_radius);
             bw.WriteUInt64(0);

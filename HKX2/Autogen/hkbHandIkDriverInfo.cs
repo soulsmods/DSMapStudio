@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbHandIkDriverInfo : hkReferencedObject
     {
+        public override uint Signature { get => 1051412465; }
+        
         public List<hkbHandIkDriverInfoHand> m_hands;
         public BlendCurve m_fadeInOutCurve;
         
@@ -19,9 +21,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbHandIkDriverInfoHand>(bw, m_hands);
+            bw.WriteSByte((sbyte)m_fadeInOutCurve);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

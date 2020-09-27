@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkControlData : IHavokObject
     {
+        public virtual uint Signature { get => 2132322726; }
+        
         public hkbFootIkGains m_gains;
         public float m_enabled_0;
         public float m_enabled_1;
@@ -79,9 +81,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_gains.Write(bw);
+            m_gains.Write(s, bw);
             bw.WriteSingle(m_enabled_0);
             bw.WriteSingle(m_enabled_1);
             bw.WriteSingle(m_enabled_2);

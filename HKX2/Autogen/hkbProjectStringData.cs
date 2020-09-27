@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbProjectStringData : hkReferencedObject
     {
+        public override uint Signature { get => 3389571770; }
+        
         public List<string> m_animationFilenames;
         public List<string> m_behaviorFilenames;
         public List<string> m_characterFilenames;
@@ -31,9 +33,18 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointerArray(bw, m_animationFilenames);
+            s.WriteStringPointerArray(bw, m_behaviorFilenames);
+            s.WriteStringPointerArray(bw, m_characterFilenames);
+            s.WriteStringPointerArray(bw, m_eventNames);
+            s.WriteStringPointer(bw, m_animationPath);
+            s.WriteStringPointer(bw, m_behaviorPath);
+            s.WriteStringPointer(bw, m_characterPath);
+            s.WriteStringPointer(bw, m_scriptsPath);
+            s.WriteStringPointer(bw, m_fullPathToSource);
             bw.WriteUInt64(0);
         }
     }

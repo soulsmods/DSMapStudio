@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclTransformSetUsage : IHavokObject
     {
+        public virtual uint Signature { get => 3212874625; }
+        
         public enum Component
         {
             COMPONENT_TRANSFORM = 0,
@@ -35,12 +37,13 @@ namespace HKX2
             m_perComponentTransformTrackers = des.ReadClassArray<hclTransformSetUsageTransformTracker>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_perComponentFlags_0);
             bw.WriteByte(m_perComponentFlags_1);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteClassArray<hclTransformSetUsageTransformTracker>(bw, m_perComponentTransformTrackers);
         }
     }
 }

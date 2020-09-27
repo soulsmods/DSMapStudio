@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkGeometryTriangle : IHavokObject
     {
+        public virtual uint Signature { get => 2525450555; }
+        
         public int m_a;
         public int m_b;
         public int m_c;
@@ -19,7 +21,7 @@ namespace HKX2
             m_material = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_a);
             bw.WriteInt32(m_b);

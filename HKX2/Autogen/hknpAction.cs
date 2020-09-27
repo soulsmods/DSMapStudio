@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hknpAction : hkReferencedObject
     {
+        public override uint Signature { get => 707340578; }
+        
         public ulong m_userData;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -20,9 +22,9 @@ namespace HKX2
             m_userData = br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_userData);
         }
     }

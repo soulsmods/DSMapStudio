@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxSplineControlPoint : IHavokObject
     {
+        public virtual uint Signature { get => 2963473576; }
+        
         public Vector4 m_position;
         public Vector4 m_tangentIn;
         public Vector4 m_tangentOut;
@@ -24,8 +26,13 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_position);
+            s.WriteVector4(bw, m_tangentIn);
+            s.WriteVector4(bw, m_tangentOut);
+            bw.WriteByte((byte)m_inType);
+            bw.WriteByte((byte)m_outType);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

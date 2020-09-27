@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBallSocketConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 1806208890; }
+        
         public SolvingMethod m_solvingMethod;
         public byte m_bodiesToNotify;
         public hkUFloat8 m_velocityStabilizationFactor;
@@ -26,11 +28,12 @@ namespace HKX2
             m_inertiaStabilizationFactor = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_solvingMethod);
             bw.WriteByte(m_bodiesToNotify);
-            m_velocityStabilizationFactor.Write(bw);
+            m_velocityStabilizationFactor.Write(s, bw);
             bw.WriteBoolean(m_enableLinearImpulseLimit);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_breachImpulse);

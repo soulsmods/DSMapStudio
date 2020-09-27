@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkArrayTypeAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 3557073818; }
+        
         public ArrayType m_type;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -20,8 +22,9 @@ namespace HKX2
             m_type = (ArrayType)br.ReadSByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteSByte((sbyte)m_type);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpReorientAction : hkpUnaryAction
     {
+        public override uint Signature { get => 289189946; }
+        
         public Vector4 m_rotationAxis;
         public Vector4 m_upAxis;
         public float m_strength;
@@ -22,10 +24,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_rotationAxis);
+            s.WriteVector4(bw, m_upAxis);
             bw.WriteSingle(m_strength);
             bw.WriteSingle(m_damping);
             bw.WriteUInt64(0);

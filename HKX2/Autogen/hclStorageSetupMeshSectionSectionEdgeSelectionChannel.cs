@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStorageSetupMeshSectionSectionEdgeSelectionChannel : hkReferencedObject
     {
+        public override uint Signature { get => 1016706522; }
+        
         public List<uint> m_edgeIndices;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_edgeIndices = des.ReadUInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt32Array(bw, m_edgeIndices);
         }
     }
 }

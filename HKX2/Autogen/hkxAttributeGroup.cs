@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxAttributeGroup : IHavokObject
     {
+        public virtual uint Signature { get => 878487901; }
+        
         public string m_name;
         public List<hkxAttribute> m_attributes;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_attributes = des.ReadClassArray<hkxAttribute>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassArray<hkxAttribute>(bw, m_attributes);
         }
     }
 }

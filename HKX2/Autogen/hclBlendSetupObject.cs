@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBlendSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 3725915741; }
+        
         public string m_name;
         public hclBufferSetupObject m_A;
         public hclBufferSetupObject m_B;
@@ -35,14 +37,15 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            m_vertexSelection.Write(bw);
-            m_blendWeights.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_A);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_B);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_C);
+            m_vertexSelection.Write(s, bw);
+            m_blendWeights.Write(s, bw);
             bw.WriteBoolean(m_mapToScurve);
             bw.WriteBoolean(m_blendNormals);
             bw.WriteBoolean(m_blendTangents);

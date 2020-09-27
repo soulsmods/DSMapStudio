@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAngularDashpotAction : hkpBinaryAction
     {
+        public override uint Signature { get => 2787682799; }
+        
         public Quaternion m_rotation;
         public float m_strength;
         public float m_damping;
@@ -19,9 +21,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteQuaternion(bw, m_rotation);
             bw.WriteSingle(m_strength);
             bw.WriteSingle(m_damping);
             bw.WriteUInt64(0);

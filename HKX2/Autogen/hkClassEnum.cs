@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkClassEnum : IHavokObject
     {
+        public virtual uint Signature { get => 2318797263; }
+        
         public enum FlagValues
         {
             FLAGS_NONE = 0,
@@ -24,10 +26,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             // Read TYPE_SIMPLEARRAY
             bw.WriteUInt64(0);
+            bw.WriteUInt32(m_flags);
             bw.WriteUInt32(0);
         }
     }

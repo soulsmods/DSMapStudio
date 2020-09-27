@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBlendingTransitionEffectInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 2067425219; }
+        
         public Vector4 m_fromPos;
         public Quaternion m_fromRot;
         public Vector4 m_toPos;
@@ -39,11 +41,19 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_fromPos);
+            s.WriteQuaternion(bw, m_fromRot);
+            s.WriteVector4(bw, m_toPos);
+            s.WriteQuaternion(bw, m_toRot);
+            s.WriteVector4(bw, m_lastPos);
+            s.WriteQuaternion(bw, m_lastRot);
+            s.WriteQSTransformArray(bw, m_characterPoseAtBeginningOfTransition);
             bw.WriteSingle(m_timeRemaining);
             bw.WriteSingle(m_timeInTransition);
+            bw.WriteSByte((sbyte)m_toGeneratorSelfTranstitionMode);
             bw.WriteBoolean(m_initializeCharacterPose);
             bw.WriteBoolean(m_alignThisFrame);
             bw.WriteBoolean(m_alignmentFinished);

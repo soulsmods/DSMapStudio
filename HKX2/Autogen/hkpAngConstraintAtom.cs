@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAngConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 884169788; }
+        
         public byte m_firstConstrainedAxis;
         public byte m_numConstrainedAxes;
         
@@ -18,9 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_firstConstrainedAxis);
             bw.WriteByte(m_numConstrainedAxes);
             bw.WriteUInt64(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMultipleVertexBufferLockedElement : IHavokObject
     {
+        public virtual uint Signature { get => 2699176700; }
+        
         public byte m_vertexBufferIndex;
         public byte m_elementIndex;
         public byte m_lockedBufferIndex;
@@ -25,7 +27,7 @@ namespace HKX2
             m_emulatedIndex = br.ReadSByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_vertexBufferIndex);
             bw.WriteByte(m_elementIndex);

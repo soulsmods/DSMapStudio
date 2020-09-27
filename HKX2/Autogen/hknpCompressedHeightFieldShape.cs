@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCompressedHeightFieldShape : hknpHeightFieldShape
     {
+        public override uint Signature { get => 576835662; }
+        
         public List<ushort> m_storage;
         public List<ushort> m_shapeTags;
         public bool m_triangleFlip;
@@ -25,9 +27,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt16Array(bw, m_storage);
+            s.WriteUInt16Array(bw, m_shapeTags);
             bw.WriteBoolean(m_triangleFlip);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

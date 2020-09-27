@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbShapeSetup : IHavokObject
     {
+        public virtual uint Signature { get => 3623847614; }
+        
         public enum Type
         {
             CAPSULE = 0,
@@ -28,10 +30,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_capsuleHeight);
             bw.WriteSingle(m_capsuleRadius);
+            s.WriteStringPointer(bw, m_fileName);
+            bw.WriteSByte((sbyte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclGatherSomeVerticesOperatorVertexPair : IHavokObject
     {
+        public virtual uint Signature { get => 473302732; }
+        
         public ushort m_indexInput;
         public ushort m_indexOutput;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_indexOutput = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_indexInput);
             bw.WriteUInt16(m_indexOutput);

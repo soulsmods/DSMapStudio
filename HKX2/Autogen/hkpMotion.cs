@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkpMotion : hkReferencedObject
     {
+        public override uint Signature { get => 2255565999; }
+        
         public MotionType m_type;
         public byte m_deactivationIntegrateCounter;
         public ushort m_deactivationNumInactiveFrames_0;
@@ -60,18 +62,24 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_type);
             bw.WriteByte(m_deactivationIntegrateCounter);
             bw.WriteUInt16(m_deactivationNumInactiveFrames_0);
             bw.WriteUInt16(m_deactivationNumInactiveFrames_1);
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
-            m_motionState.Write(bw);
+            m_motionState.Write(s, bw);
+            s.WriteVector4(bw, m_inertiaAndMassInv);
+            s.WriteVector4(bw, m_linearVelocity);
+            s.WriteVector4(bw, m_angularVelocity);
+            s.WriteVector4(bw, m_deactivationRefPosition_0);
+            s.WriteVector4(bw, m_deactivationRefPosition_1);
             bw.WriteUInt32(m_deactivationRefOrientation_0);
             bw.WriteUInt32(m_deactivationRefOrientation_1);
-            // Implement Write
+            s.WriteClassPointer<hkpMaxSizeMotion>(bw, m_savedMotion);
             bw.WriteUInt16(m_savedQualityTypeIndex);
             bw.WriteInt16(m_gravityFactor);
             bw.WriteUInt64(0);

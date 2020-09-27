@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBallSocketChainData : hkpConstraintChainData
     {
+        public override uint Signature { get => 2114207309; }
+        
         public hkpBridgeAtoms m_atoms;
         public List<hkpBallSocketChainDataConstraintInfo> m_infos;
         public float m_tau;
@@ -32,11 +34,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
+            s.WriteClassArray<hkpBallSocketChainDataConstraintInfo>(bw, m_infos);
             bw.WriteSingle(m_tau);
             bw.WriteSingle(m_damping);
             bw.WriteSingle(m_cfm);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothSetupObject : hkReferencedObject
     {
+        public override uint Signature { get => 74754597; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclTransformSetSetupObject m_collidableTransformSet;
@@ -101,40 +103,42 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            s.WriteClassPointer<hclTransformSetSetupObject>(bw, m_collidableTransformSet);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_gravity);
             bw.WriteSingle(m_globalDampingPerSecond);
             bw.WriteBoolean(m_doNormals);
             bw.WriteBoolean(m_specifyDensity);
             bw.WriteUInt16(0);
-            m_vertexDensity.Write(bw);
+            m_vertexDensity.Write(s, bw);
             bw.WriteBoolean(m_rescaleMass);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_totalMass);
-            m_particleMass.Write(bw);
-            m_particleRadius.Write(bw);
-            m_particleFriction.Write(bw);
-            m_fixedParticles.Write(bw);
+            m_particleMass.Write(s, bw);
+            m_particleRadius.Write(s, bw);
+            m_particleFriction.Write(s, bw);
+            m_fixedParticles.Write(s, bw);
             bw.WriteBoolean(m_enablePinchDetection);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_pinchDetectionEnabledParticles.Write(bw);
+            m_pinchDetectionEnabledParticles.Write(s, bw);
             bw.WriteSingle(m_toAnimPeriod);
             bw.WriteSingle(m_toSimPeriod);
             bw.WriteBoolean(m_drivePinchedParticlesToReferenceMesh);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_pinchReferenceBufferSetup);
             bw.WriteSingle(m_collisionTolerance);
             bw.WriteUInt32(0);
-            m_landscapeCollisionParticleSelection.Write(bw);
+            m_landscapeCollisionParticleSelection.Write(s, bw);
             bw.WriteSingle(m_landscapeCollisionParticleRadius);
             bw.WriteBoolean(m_enableStuckParticleDetection);
             bw.WriteUInt16(0);
@@ -147,7 +151,9 @@ namespace HKX2
             bw.WriteBoolean(m_enableTransferMotion);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_transferMotionSetupData.Write(bw);
+            m_transferMotionSetupData.Write(s, bw);
+            s.WriteClassPointerArray<hclConstraintSetSetupObject>(bw, m_constraintSetSetups);
+            s.WriteClassArray<hclSimClothSetupObjectPerInstanceCollidable>(bw, m_perInstanceCollidables);
             bw.WriteUInt64(0);
         }
     }

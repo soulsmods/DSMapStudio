@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbClipGeneratorInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 4161740659; }
+        
         public Matrix4x4 m_extractedMotion;
         public List<hkbClipGeneratorEcho> m_echos;
         public float m_localTime;
@@ -33,9 +35,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteQSTransform(bw, m_extractedMotion);
+            s.WriteClassArray<hkbClipGeneratorEcho>(bw, m_echos);
             bw.WriteSingle(m_localTime);
             bw.WriteSingle(m_time);
             bw.WriteSingle(m_previousUserControlledTimeFraction);

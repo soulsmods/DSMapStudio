@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpBodyQualityLibrary : hkReferencedObject
     {
+        public override uint Signature { get => 1598419033; }
+        
         public hknpBodyQuality m_qualities_0;
         public hknpBodyQuality m_qualities_1;
         public hknpBodyQuality m_qualities_2;
@@ -110,43 +112,43 @@ namespace HKX2
             m_qualities_31.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            m_qualities_0.Write(bw);
-            m_qualities_1.Write(bw);
-            m_qualities_2.Write(bw);
-            m_qualities_3.Write(bw);
-            m_qualities_4.Write(bw);
-            m_qualities_5.Write(bw);
-            m_qualities_6.Write(bw);
-            m_qualities_7.Write(bw);
-            m_qualities_8.Write(bw);
-            m_qualities_9.Write(bw);
-            m_qualities_10.Write(bw);
-            m_qualities_11.Write(bw);
-            m_qualities_12.Write(bw);
-            m_qualities_13.Write(bw);
-            m_qualities_14.Write(bw);
-            m_qualities_15.Write(bw);
-            m_qualities_16.Write(bw);
-            m_qualities_17.Write(bw);
-            m_qualities_18.Write(bw);
-            m_qualities_19.Write(bw);
-            m_qualities_20.Write(bw);
-            m_qualities_21.Write(bw);
-            m_qualities_22.Write(bw);
-            m_qualities_23.Write(bw);
-            m_qualities_24.Write(bw);
-            m_qualities_25.Write(bw);
-            m_qualities_26.Write(bw);
-            m_qualities_27.Write(bw);
-            m_qualities_28.Write(bw);
-            m_qualities_29.Write(bw);
-            m_qualities_30.Write(bw);
-            m_qualities_31.Write(bw);
+            m_qualities_0.Write(s, bw);
+            m_qualities_1.Write(s, bw);
+            m_qualities_2.Write(s, bw);
+            m_qualities_3.Write(s, bw);
+            m_qualities_4.Write(s, bw);
+            m_qualities_5.Write(s, bw);
+            m_qualities_6.Write(s, bw);
+            m_qualities_7.Write(s, bw);
+            m_qualities_8.Write(s, bw);
+            m_qualities_9.Write(s, bw);
+            m_qualities_10.Write(s, bw);
+            m_qualities_11.Write(s, bw);
+            m_qualities_12.Write(s, bw);
+            m_qualities_13.Write(s, bw);
+            m_qualities_14.Write(s, bw);
+            m_qualities_15.Write(s, bw);
+            m_qualities_16.Write(s, bw);
+            m_qualities_17.Write(s, bw);
+            m_qualities_18.Write(s, bw);
+            m_qualities_19.Write(s, bw);
+            m_qualities_20.Write(s, bw);
+            m_qualities_21.Write(s, bw);
+            m_qualities_22.Write(s, bw);
+            m_qualities_23.Write(s, bw);
+            m_qualities_24.Write(s, bw);
+            m_qualities_25.Write(s, bw);
+            m_qualities_26.Write(s, bw);
+            m_qualities_27.Write(s, bw);
+            m_qualities_28.Write(s, bw);
+            m_qualities_29.Write(s, bw);
+            m_qualities_30.Write(s, bw);
+            m_qualities_31.Write(s, bw);
         }
     }
 }

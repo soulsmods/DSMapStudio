@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCogWheelConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 1533852857; }
+        
         public hkpSetLocalTransformsConstraintAtom m_transforms;
         public hkpCogWheelConstraintAtom m_cogWheels;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_cogWheels.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_cogWheels.Write(bw);
+            m_transforms.Write(s, bw);
+            m_cogWheels.Write(s, bw);
         }
     }
 }

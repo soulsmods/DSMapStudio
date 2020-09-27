@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclRuntimeConversionInfoSlotConversion : IHavokObject
     {
+        public virtual uint Signature { get => 3638271097; }
+        
         public byte m_elements_0;
         public byte m_elements_1;
         public byte m_elements_2;
@@ -25,7 +27,7 @@ namespace HKX2
             m_partialWrite = br.ReadBoolean();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_elements_0);
             bw.WriteByte(m_elements_1);

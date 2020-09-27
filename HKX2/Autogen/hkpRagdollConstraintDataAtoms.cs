@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRagdollConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3776951212; }
+        
         public enum Axis
         {
             AXIS_TWIST = 0,
@@ -42,16 +44,16 @@ namespace HKX2
             m_ballSocket.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_setupStabilization.Write(bw);
-            m_ragdollMotors.Write(bw);
-            m_angFriction.Write(bw);
-            m_twistLimit.Write(bw);
-            m_coneLimit.Write(bw);
-            m_planesLimit.Write(bw);
-            m_ballSocket.Write(bw);
+            m_transforms.Write(s, bw);
+            m_setupStabilization.Write(s, bw);
+            m_ragdollMotors.Write(s, bw);
+            m_angFriction.Write(s, bw);
+            m_twistLimit.Write(s, bw);
+            m_coneLimit.Write(s, bw);
+            m_planesLimit.Write(s, bw);
+            m_ballSocket.Write(s, bw);
         }
     }
 }

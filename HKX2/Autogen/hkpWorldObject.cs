@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkpWorldObject : hkReferencedObject
     {
+        public override uint Signature { get => 4025491901; }
+        
         public enum BroadPhaseType
         {
             BROAD_PHASE_INVALID = 0,
@@ -41,14 +43,16 @@ namespace HKX2
             m_properties = des.ReadClassArray<hkSimpleProperty>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(m_userData);
-            m_collidable.Write(bw);
-            m_multiThreadCheck.Write(bw);
+            m_collidable.Write(s, bw);
+            m_multiThreadCheck.Write(s, bw);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassArray<hkSimpleProperty>(bw, m_properties);
         }
     }
 }

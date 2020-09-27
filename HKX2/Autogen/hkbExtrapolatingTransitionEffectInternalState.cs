@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbExtrapolatingTransitionEffectInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3101182128; }
+        
         public hkbGeneratorSyncInfo m_fromGeneratorSyncInfo;
         public hkbGeneratorPartitionInfo m_fromGeneratorPartitionInfo;
         public Matrix4x4 m_worldFromModel;
@@ -39,12 +41,17 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_fromGeneratorSyncInfo.Write(bw);
-            m_fromGeneratorPartitionInfo.Write(bw);
+            base.Write(s, bw);
+            m_fromGeneratorSyncInfo.Write(s, bw);
+            m_fromGeneratorPartitionInfo.Write(s, bw);
             bw.WriteUInt32(0);
+            s.WriteQSTransform(bw, m_worldFromModel);
+            s.WriteQSTransform(bw, m_motion);
+            s.WriteQSTransformArray(bw, m_pose);
+            s.WriteQSTransformArray(bw, m_additivePose);
+            s.WriteSingleArray(bw, m_boneWeights);
             bw.WriteSingle(m_toGeneratorDuration);
             bw.WriteBoolean(m_isFromGeneratorActive);
             bw.WriteBoolean(m_gotPose);

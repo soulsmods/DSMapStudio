@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkPackfileSectionHeader : IHavokObject
     {
+        public virtual uint Signature { get => 3337569377; }
+        
         public sbyte m_sectionTag_0;
         public sbyte m_sectionTag_1;
         public sbyte m_sectionTag_2;
@@ -73,7 +75,7 @@ namespace HKX2
             m_pad_3 = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSByte(m_sectionTag_0);
             bw.WriteSByte(m_sectionTag_1);

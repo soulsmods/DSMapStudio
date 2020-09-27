@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSimpleContactConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 1680851461; }
+        
         public ushort m_sizeOfAllAtoms;
         public ushort m_numContactPoints;
         public ushort m_numReservedContactPoints;
@@ -31,9 +33,9 @@ namespace HKX2
             m_info.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(m_sizeOfAllAtoms);
             bw.WriteUInt16(m_numContactPoints);
             bw.WriteUInt16(m_numReservedContactPoints);
@@ -43,7 +45,7 @@ namespace HKX2
             bw.WriteByte(0);
             bw.WriteUInt16(m_maxNumContactPoints);
             bw.WriteUInt16(0);
-            m_info.Write(bw);
+            m_info.Write(s, bw);
         }
     }
 }

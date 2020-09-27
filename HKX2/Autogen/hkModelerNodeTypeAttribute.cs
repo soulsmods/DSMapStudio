@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkModelerNodeTypeAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 864815407; }
+        
         public ModelerType m_type;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -19,8 +21,9 @@ namespace HKX2
             m_type = (ModelerType)br.ReadSByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteSByte((sbyte)m_type);
         }
     }
 }

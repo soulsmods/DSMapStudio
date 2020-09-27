@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkQTransformf : IHavokObject
     {
+        public virtual uint Signature { get => 1192894958; }
+        
         public Quaternion m_rotation;
         public Vector4 m_translation;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_translation = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteQuaternion(bw, m_rotation);
+            s.WriteVector4(bw, m_translation);
         }
     }
 }

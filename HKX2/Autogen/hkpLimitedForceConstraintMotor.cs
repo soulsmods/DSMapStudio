@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpLimitedForceConstraintMotor : hkpConstraintMotor
     {
+        public override uint Signature { get => 278399229; }
+        
         public float m_minForce;
         public float m_maxForce;
         
@@ -16,9 +18,9 @@ namespace HKX2
             m_maxForce = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_minForce);
             bw.WriteSingle(m_maxForce);
         }

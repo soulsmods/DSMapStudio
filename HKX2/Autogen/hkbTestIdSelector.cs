@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbTestIdSelector : hkbCustomIdSelector
     {
+        public override uint Signature { get => 2442304490; }
+        
         public int m_int;
         public float m_real;
         public string m_string;
@@ -18,11 +20,12 @@ namespace HKX2
             m_string = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_int);
             bw.WriteSingle(m_real);
+            s.WriteStringPointer(bw, m_string);
         }
     }
 }

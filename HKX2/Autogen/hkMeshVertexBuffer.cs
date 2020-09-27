@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkMeshVertexBuffer : hkReferencedObject
     {
+        public override uint Signature { get => 444511801; }
+        
         public enum Flags
         {
             ACCESS_READ = 1,
@@ -28,9 +30,9 @@ namespace HKX2
             base.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
         }
     }
 }

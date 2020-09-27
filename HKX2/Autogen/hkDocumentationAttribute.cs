@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkDocumentationAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 1661918622; }
+        
         public string m_docsSectionTag;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,8 +15,9 @@ namespace HKX2
             m_docsSectionTag = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_docsSectionTag);
         }
     }
 }

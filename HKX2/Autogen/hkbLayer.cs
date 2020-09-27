@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbLayer : hkbBindable
     {
+        public override uint Signature { get => 689349187; }
+        
         public hkbGenerator m_generator;
         public float m_weight;
         public hkbBoneWeightArray m_boneWeights;
@@ -35,13 +37,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_generator);
             bw.WriteSingle(m_weight);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkbBoneWeightArray>(bw, m_boneWeights);
             bw.WriteSingle(m_fadeInDuration);
             bw.WriteSingle(m_fadeOutDuration);
             bw.WriteInt32(m_onEventId);

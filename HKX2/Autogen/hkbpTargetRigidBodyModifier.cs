@@ -34,6 +34,8 @@ namespace HKX2
     
     public class hkbpTargetRigidBodyModifier : hkbModifier
     {
+        public override uint Signature { get => 3805051629; }
+        
         public hkbpTarget m_targetOut;
         public TargetMode m_targetMode;
         public int m_sensingLayer;
@@ -113,10 +115,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbpTarget>(bw, m_targetOut);
+            bw.WriteSByte((sbyte)m_targetMode);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_sensingLayer);
@@ -126,6 +129,8 @@ namespace HKX2
             bw.WriteSingle(m_maxTargetDistance);
             bw.WriteSingle(m_maxTargetHeightAboveSensor);
             bw.WriteSingle(m_closeToTargetDistanceThreshold);
+            bw.WriteSByte((sbyte)m_targetAngleMode);
+            bw.WriteSByte((sbyte)m_targetDistanceMode);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_maxAngleToTarget);
             bw.WriteInt16(m_sensorRagdollBoneIndex);
@@ -133,6 +138,10 @@ namespace HKX2
             bw.WriteInt16(m_closeToTargetRagdollBoneIndex);
             bw.WriteInt16(m_closeToTargetAnimationBoneIndex);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_sensorOffsetInBoneSpace);
+            s.WriteVector4(bw, m_closeToTargetOffsetInBoneSpace);
+            s.WriteVector4(bw, m_sensorDirectionBS);
+            bw.WriteSByte((sbyte)m_eventMode);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteUInt32(m_sensingPropertyKey);
@@ -140,9 +149,9 @@ namespace HKX2
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_eventToSend.Write(bw);
-            m_eventToSendToTarget.Write(bw);
-            m_closeToTargetEvent.Write(bw);
+            m_eventToSend.Write(s, bw);
+            m_eventToSendToTarget.Write(s, bw);
+            m_closeToTargetEvent.Write(s, bw);
             bw.WriteBoolean(m_useVelocityPrediction);
             bw.WriteBoolean(m_targetOnlySpheres);
             bw.WriteBoolean(m_isCloseToTargetOut);

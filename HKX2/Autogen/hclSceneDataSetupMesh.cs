@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSceneDataSetupMesh : hclSetupMesh
     {
+        public override uint Signature { get => 3620695137; }
+        
         public hkxNode m_node;
         public Matrix4x4 m_worldFromMesh;
         public hkxSkinBinding m_skinBinding;
@@ -28,13 +30,18 @@ namespace HKX2
             m_meshBufferInterfaces = des.ReadClassPointerArray<hclSceneDataSetupMeshSection>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkxNode>(bw, m_node);
             bw.WriteUInt64(0);
+            s.WriteMatrix4(bw, m_worldFromMesh);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkxSkinBinding>(bw, m_skinBinding);
+            s.WriteUInt32Array(bw, m_vertexChannels);
+            s.WriteUInt32Array(bw, m_triangleChannels);
+            s.WriteUInt32Array(bw, m_edgeChannels);
+            s.WriteClassPointerArray<hclSceneDataSetupMeshSection>(bw, m_meshBufferInterfaces);
         }
     }
 }

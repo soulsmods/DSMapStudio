@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRotateCharacterModifier : hkbModifier
     {
+        public override uint Signature { get => 2166830607; }
+        
         public float m_degreesPerSecond;
         public float m_speedMultiplier;
         public Vector4 m_axisOfRotation;
@@ -20,11 +22,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_degreesPerSecond);
             bw.WriteSingle(m_speedMultiplier);
+            s.WriteVector4(bw, m_axisOfRotation);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDirectedGraphInstance : hkReferencedObject
     {
+        public override uint Signature { get => 2771129964; }
+        
         public uint m_sectionUid;
         public int m_runtimeId;
         public hkaiDirectedGraphExplicitCost m_originalGraph;
@@ -43,9 +45,9 @@ namespace HKX2
             m_transform = des.ReadTransform(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
@@ -58,8 +60,15 @@ namespace HKX2
             bw.WriteUInt32(m_sectionUid);
             bw.WriteInt32(m_runtimeId);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkaiDirectedGraphExplicitCost>(bw, m_originalGraph);
+            s.WriteInt32Array(bw, m_nodeMap);
+            s.WriteClassArray<hkaiDirectedGraphExplicitCostNode>(bw, m_instancedNodes);
+            s.WriteClassArray<hkaiDirectedGraphExplicitCostEdge>(bw, m_ownedEdges);
+            s.WriteUInt32Array(bw, m_ownedEdgeData);
+            s.WriteInt32Array(bw, m_userEdgeCount);
+            s.WriteClassArray<hkaiDirectedGraphInstanceFreeBlockList>(bw, m_freeEdgeBlocks);
             bw.WriteUInt64(0);
+            s.WriteTransform(bw, m_transform);
         }
     }
 }

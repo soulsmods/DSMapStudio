@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbLookAtModifier : hkbModifier
     {
+        public override uint Signature { get => 1858727363; }
+        
         public Vector4 m_targetWS;
         public Vector4 m_headForwardLS;
         public Vector4 m_neckForwardLS;
@@ -60,10 +62,15 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_targetWS);
+            s.WriteVector4(bw, m_headForwardLS);
+            s.WriteVector4(bw, m_neckForwardLS);
+            s.WriteVector4(bw, m_neckRightLS);
+            s.WriteVector4(bw, m_eyePositionHS);
             bw.WriteSingle(m_newTargetGain);
             bw.WriteSingle(m_onGain);
             bw.WriteSingle(m_offGain);

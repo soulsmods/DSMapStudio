@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpHingeConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 527386631; }
+        
         public enum Axis
         {
             AXIS_AXLE = 0,
@@ -28,12 +30,12 @@ namespace HKX2
             m_ballSocket.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_setupStabilization.Write(bw);
-            m_2dAng.Write(bw);
-            m_ballSocket.Write(bw);
+            m_transforms.Write(s, bw);
+            m_setupStabilization.Write(s, bw);
+            m_2dAng.Write(s, bw);
+            m_ballSocket.Write(s, bw);
         }
     }
 }

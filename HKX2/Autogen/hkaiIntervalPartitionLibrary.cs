@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiIntervalPartitionLibrary : IHavokObject
     {
+        public virtual uint Signature { get => 181298268; }
+        
         public List<float> m_data;
         public List<hkaiIntervalPartitionLibraryPartitionRecord> m_partitionRecords;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_partitionRecords = des.ReadClassArray<hkaiIntervalPartitionLibraryPartitionRecord>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteSingleArray(bw, m_data);
+            s.WriteClassArray<hkaiIntervalPartitionLibraryPartitionRecord>(bw, m_partitionRecords);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclLocalRangeConstraintSetLocalConstraint : IHavokObject
     {
+        public virtual uint Signature { get => 1672211550; }
+        
         public ushort m_particleIndex;
         public ushort m_referenceVertex;
         public float m_maximumDistance;
@@ -21,7 +23,7 @@ namespace HKX2
             m_minNormalDistance = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_particleIndex);
             bw.WriteUInt16(m_referenceVertex);

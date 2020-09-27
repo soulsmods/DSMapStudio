@@ -55,6 +55,8 @@ namespace HKX2
     
     public class hkVertexFormat : IHavokObject
     {
+        public virtual uint Signature { get => 4045291511; }
+        
         public hkVertexFormatElement m_elements_0;
         public hkVertexFormatElement m_elements_1;
         public hkVertexFormatElement m_elements_2;
@@ -158,40 +160,40 @@ namespace HKX2
             m_numElements = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_elements_0.Write(bw);
-            m_elements_1.Write(bw);
-            m_elements_2.Write(bw);
-            m_elements_3.Write(bw);
-            m_elements_4.Write(bw);
-            m_elements_5.Write(bw);
-            m_elements_6.Write(bw);
-            m_elements_7.Write(bw);
-            m_elements_8.Write(bw);
-            m_elements_9.Write(bw);
-            m_elements_10.Write(bw);
-            m_elements_11.Write(bw);
-            m_elements_12.Write(bw);
-            m_elements_13.Write(bw);
-            m_elements_14.Write(bw);
-            m_elements_15.Write(bw);
-            m_elements_16.Write(bw);
-            m_elements_17.Write(bw);
-            m_elements_18.Write(bw);
-            m_elements_19.Write(bw);
-            m_elements_20.Write(bw);
-            m_elements_21.Write(bw);
-            m_elements_22.Write(bw);
-            m_elements_23.Write(bw);
-            m_elements_24.Write(bw);
-            m_elements_25.Write(bw);
-            m_elements_26.Write(bw);
-            m_elements_27.Write(bw);
-            m_elements_28.Write(bw);
-            m_elements_29.Write(bw);
-            m_elements_30.Write(bw);
-            m_elements_31.Write(bw);
+            m_elements_0.Write(s, bw);
+            m_elements_1.Write(s, bw);
+            m_elements_2.Write(s, bw);
+            m_elements_3.Write(s, bw);
+            m_elements_4.Write(s, bw);
+            m_elements_5.Write(s, bw);
+            m_elements_6.Write(s, bw);
+            m_elements_7.Write(s, bw);
+            m_elements_8.Write(s, bw);
+            m_elements_9.Write(s, bw);
+            m_elements_10.Write(s, bw);
+            m_elements_11.Write(s, bw);
+            m_elements_12.Write(s, bw);
+            m_elements_13.Write(s, bw);
+            m_elements_14.Write(s, bw);
+            m_elements_15.Write(s, bw);
+            m_elements_16.Write(s, bw);
+            m_elements_17.Write(s, bw);
+            m_elements_18.Write(s, bw);
+            m_elements_19.Write(s, bw);
+            m_elements_20.Write(s, bw);
+            m_elements_21.Write(s, bw);
+            m_elements_22.Write(s, bw);
+            m_elements_23.Write(s, bw);
+            m_elements_24.Write(s, bw);
+            m_elements_25.Write(s, bw);
+            m_elements_26.Write(s, bw);
+            m_elements_27.Write(s, bw);
+            m_elements_28.Write(s, bw);
+            m_elements_29.Write(s, bw);
+            m_elements_30.Write(s, bw);
+            m_elements_31.Write(s, bw);
             bw.WriteInt32(m_numElements);
         }
     }

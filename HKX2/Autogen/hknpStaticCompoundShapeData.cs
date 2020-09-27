@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpStaticCompoundShapeData : hkReferencedObject
     {
+        public override uint Signature { get => 1339588569; }
+        
         public hknpStaticCompoundShapeTree m_aabbTree;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,10 @@ namespace HKX2
             m_aabbTree.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_aabbTree.Write(bw);
+            base.Write(s, bw);
+            m_aabbTree.Write(s, bw);
         }
     }
 }

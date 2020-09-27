@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclTransformSetDefinition : hkReferencedObject
     {
+        public override uint Signature { get => 419251557; }
+        
         public string m_name;
         public int m_type;
         public uint m_numTransforms;
@@ -18,9 +20,10 @@ namespace HKX2
             m_numTransforms = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteInt32(m_type);
             bw.WriteUInt32(m_numTransforms);
         }

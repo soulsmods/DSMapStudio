@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiUserEdgeUtilsUserEdgePair : IHavokObject
     {
+        public virtual uint Signature { get => 4238273010; }
+        
         public Vector4 m_x;
         public Vector4 m_y;
         public Vector4 m_z;
@@ -37,8 +39,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_x);
+            s.WriteVector4(bw, m_y);
+            s.WriteVector4(bw, m_z);
             bw.WriteUInt32(m_instanceUidA);
             bw.WriteUInt32(m_instanceUidB);
             bw.WriteInt32(m_faceA);
@@ -47,6 +52,7 @@ namespace HKX2
             bw.WriteInt32(m_userDataB);
             bw.WriteInt16(m_costAtoB);
             bw.WriteInt16(m_costBtoA);
+            bw.WriteByte((byte)m_direction);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
         }

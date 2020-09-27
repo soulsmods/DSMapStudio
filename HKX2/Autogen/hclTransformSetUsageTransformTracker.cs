@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclTransformSetUsageTransformTracker : IHavokObject
     {
+        public virtual uint Signature { get => 3653626507; }
+        
         public hkBitField m_read;
         public hkBitField m_readBeforeWrite;
         public hkBitField m_written;
@@ -20,11 +22,11 @@ namespace HKX2
             m_written.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_read.Write(bw);
-            m_readBeforeWrite.Write(bw);
-            m_written.Write(bw);
+            m_read.Write(s, bw);
+            m_readBeforeWrite.Write(s, bw);
+            m_written.Write(s, bw);
         }
     }
 }

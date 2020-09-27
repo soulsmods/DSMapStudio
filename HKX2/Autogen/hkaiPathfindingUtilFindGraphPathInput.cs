@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPathfindingUtilFindGraphPathInput : IHavokObject
     {
+        public virtual uint Signature { get => 1733647340; }
+        
         public List<uint> m_startNodeKeys;
         public List<float> m_initialCosts;
         public List<uint> m_goalNodeKeys;
@@ -32,12 +34,16 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteUInt32Array(bw, m_startNodeKeys);
+            s.WriteSingleArray(bw, m_initialCosts);
+            s.WriteUInt32Array(bw, m_goalNodeKeys);
+            s.WriteSingleArray(bw, m_finalCosts);
             bw.WriteInt32(m_maxNumberOfIterations);
-            m_agentInfo.Write(bw);
+            m_agentInfo.Write(s, bw);
             bw.WriteUInt32(0);
-            m_searchParameters.Write(bw);
+            m_searchParameters.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

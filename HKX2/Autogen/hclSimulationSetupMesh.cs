@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimulationSetupMesh : hclSetupMesh
     {
+        public override uint Signature { get => 4024045220; }
+        
         public hclSetupMesh m_originalMesh;
         public hclSimulationSetupMeshMapOptions m_mergeOptions;
         
@@ -37,12 +39,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            m_mergeOptions.Write(bw);
+            s.WriteClassPointer<hclSetupMesh>(bw, m_originalMesh);
+            m_mergeOptions.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

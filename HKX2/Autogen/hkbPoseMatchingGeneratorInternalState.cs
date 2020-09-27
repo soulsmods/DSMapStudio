@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbPoseMatchingGeneratorInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 396665285; }
+        
         public int m_currentMatch;
         public int m_bestMatch;
         public float m_timeSinceBetterMatch;
@@ -25,9 +27,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_currentMatch);
             bw.WriteInt32(m_bestMatch);
             bw.WriteSingle(m_timeSinceBetterMatch);

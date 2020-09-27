@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbDetectCloseToGroundModifier : hkbModifier
     {
+        public override uint Signature { get => 2271029442; }
+        
         public hkbEventProperty m_closeToGroundEvent;
         public float m_closeToGroundHeight;
         public float m_raycastDistanceDown;
@@ -26,10 +28,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_closeToGroundEvent.Write(bw);
+            base.Write(s, bw);
+            m_closeToGroundEvent.Write(s, bw);
             bw.WriteSingle(m_closeToGroundHeight);
             bw.WriteSingle(m_raycastDistanceDown);
             bw.WriteUInt32(m_collisionFilterInfo);

@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkaiMovementProperties : IHavokObject
     {
+        public virtual uint Signature { get => 3491831670; }
+        
         public float m_minVelocity;
         public float m_maxVelocity;
         public float m_maxAcceleration;
@@ -38,7 +40,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_minVelocity);
             bw.WriteSingle(m_maxVelocity);
@@ -48,6 +50,7 @@ namespace HKX2
             bw.WriteSingle(m_rightTurnRadius);
             bw.WriteSingle(m_maxAngularVelocity);
             bw.WriteSingle(m_maxTurnVelocity);
+            bw.WriteByte((byte)m_kinematicConstraintType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
         }

@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkbParametricMotionGenerator : hkbProceduralBlenderGenerator
     {
+        public override uint Signature { get => 2366506881; }
+        
         public MotionSpaceType m_motionSpace;
         public List<hkbGenerator> m_generators;
         public float m_xAxisParameterValue;
@@ -38,12 +40,14 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteSByte((sbyte)m_motionSpace);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteClassPointerArray<hkbGenerator>(bw, m_generators);
             bw.WriteSingle(m_xAxisParameterValue);
             bw.WriteSingle(m_yAxisParameterValue);
             bw.WriteUInt64(0);

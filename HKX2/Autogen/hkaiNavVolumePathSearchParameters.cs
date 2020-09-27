@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumePathSearchParameters : IHavokObject
     {
+        public virtual uint Signature { get => 304199519; }
+        
         public enum LineOfSightFlags
         {
             NO_LINE_OF_SIGHT_CHECK = 0,
@@ -35,15 +37,17 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_up);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            bw.WriteByte(m_lineOfSightFlags);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_heuristicWeight);
             bw.WriteSingle(m_maximumPathLength);
-            m_bufferSizes.Write(bw);
+            m_bufferSizes.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
         }

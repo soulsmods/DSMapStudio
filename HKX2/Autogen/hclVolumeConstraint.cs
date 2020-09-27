@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclVolumeConstraint : hclConstraintSet
     {
+        public override uint Signature { get => 1417167454; }
+        
         public List<hclVolumeConstraintFrameData> m_frameDatas;
         public List<hclVolumeConstraintApplyData> m_applyDatas;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_applyDatas = des.ReadClassArray<hclVolumeConstraintApplyData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclVolumeConstraintFrameData>(bw, m_frameDatas);
+            s.WriteClassArray<hclVolumeConstraintApplyData>(bw, m_applyDatas);
         }
     }
 }

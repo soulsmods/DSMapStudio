@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hkbEventBase : IHavokObject
     {
+        public virtual uint Signature { get => 1992153905; }
+        
         public int m_id;
         public hkbEventPayload m_payload;
         
@@ -21,11 +23,11 @@ namespace HKX2
             m_payload = des.ReadClassPointer<hkbEventPayload>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_id);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkbEventPayload>(bw, m_payload);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace HKX2
     
     public class hkLinkAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 1657428672; }
+        
         public Link m_type;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -23,8 +25,9 @@ namespace HKX2
             m_type = (Link)br.ReadSByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteSByte((sbyte)m_type);
         }
     }
 }

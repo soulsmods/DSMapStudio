@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hclVertexGatherSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 3110859757; }
+        
         public string m_name;
         public Direction m_direction;
         public hclSimClothBufferSetupObject m_simulationBuffer;
@@ -39,14 +41,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            bw.WriteUInt32((uint)m_direction);
             bw.WriteUInt32(0);
-            // Implement Write
-            m_simulationParticleSelection.Write(bw);
-            // Implement Write
-            m_displayVertexSelection.Write(bw);
+            s.WriteClassPointer<hclSimClothBufferSetupObject>(bw, m_simulationBuffer);
+            m_simulationParticleSelection.Write(s, bw);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_displayBuffer);
+            m_displayVertexSelection.Write(s, bw);
             bw.WriteSingle(m_gatherAllThreshold);
             bw.WriteBoolean(m_gatherNormals);
             bw.WriteUInt16(0);

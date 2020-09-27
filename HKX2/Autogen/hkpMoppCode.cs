@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkpMoppCode : hkReferencedObject
     {
+        public override uint Signature { get => 1359281533; }
+        
         public hkpMoppCodeCodeInfo m_info;
         public List<byte> m_data;
         public BuildType m_buildType;
@@ -30,10 +32,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_info.Write(bw);
+            base.Write(s, bw);
+            m_info.Write(s, bw);
+            s.WriteByteArray(bw, m_data);
+            bw.WriteSByte((sbyte)m_buildType);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

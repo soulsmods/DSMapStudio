@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbComputeRotationFromAxisAngleModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 1265518636; }
+        
         public Quaternion m_rotationOut;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_rotationOut = des.ReadQuaternion(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteQuaternion(bw, m_rotationOut);
         }
     }
 }

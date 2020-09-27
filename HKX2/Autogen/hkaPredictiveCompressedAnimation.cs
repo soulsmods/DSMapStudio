@@ -36,6 +36,8 @@ namespace HKX2
     
     public class hkaPredictiveCompressedAnimation : hkaAnimation
     {
+        public override uint Signature { get => 3392246962; }
+        
         public List<byte> m_compressedData;
         public List<ushort> m_intData;
         public int m_intArrayOffsets_0;
@@ -84,9 +86,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteByteArray(bw, m_compressedData);
+            s.WriteUInt16Array(bw, m_intData);
             bw.WriteInt32(m_intArrayOffsets_0);
             bw.WriteInt32(m_intArrayOffsets_1);
             bw.WriteInt32(m_intArrayOffsets_2);
@@ -97,6 +101,7 @@ namespace HKX2
             bw.WriteInt32(m_intArrayOffsets_7);
             bw.WriteInt32(m_intArrayOffsets_8);
             bw.WriteUInt32(0);
+            s.WriteSingleArray(bw, m_floatData);
             bw.WriteInt32(m_floatArrayOffsets_0);
             bw.WriteInt32(m_floatArrayOffsets_1);
             bw.WriteInt32(m_floatArrayOffsets_2);

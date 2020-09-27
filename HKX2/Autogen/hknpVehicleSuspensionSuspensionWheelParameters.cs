@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleSuspensionSuspensionWheelParameters : IHavokObject
     {
+        public virtual uint Signature { get => 898367132; }
+        
         public Vector4 m_hardpointChassisSpace;
         public Vector4 m_directionChassisSpace;
         public float m_length;
@@ -19,8 +21,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_hardpointChassisSpace);
+            s.WriteVector4(bw, m_directionChassisSpace);
             bw.WriteSingle(m_length);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

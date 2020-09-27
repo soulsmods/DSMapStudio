@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbAiControlPathToCommand : hkReferencedObject
     {
+        public override uint Signature { get => 2977775141; }
+        
         public ulong m_characterId;
         public Vector4 m_goalPoint;
         
@@ -17,11 +19,12 @@ namespace HKX2
             m_goalPoint = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_goalPoint);
         }
     }
 }

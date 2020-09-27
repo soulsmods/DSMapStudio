@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBehaviorEventsInfo : hkReferencedObject
     {
+        public override uint Signature { get => 1694681928; }
+        
         public ulong m_characterId;
         public List<short> m_externalEventIds;
         public int m_padding;
@@ -19,10 +21,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
+            s.WriteInt16Array(bw, m_externalEventIds);
             bw.WriteInt32(m_padding);
             bw.WriteUInt32(0);
         }

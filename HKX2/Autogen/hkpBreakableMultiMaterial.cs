@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableMultiMaterial : hkpBreakableMaterial
     {
+        public override uint Signature { get => 2869840868; }
+        
         public List<hkpBreakableMaterial> m_subMaterials;
         public hkpBreakableMultiMaterialInverseMapping m_inverseMapping;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_inverseMapping = des.ReadClassPointer<hkpBreakableMultiMaterialInverseMapping>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpBreakableMaterial>(bw, m_subMaterials);
+            s.WriteClassPointer<hkpBreakableMultiMaterialInverseMapping>(bw, m_inverseMapping);
         }
     }
 }

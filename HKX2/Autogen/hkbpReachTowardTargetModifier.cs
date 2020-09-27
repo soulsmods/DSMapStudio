@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpReachTowardTargetModifier : hkbModifier
     {
+        public override uint Signature { get => 969236214; }
+        
         public enum FadeState
         {
             FADE_IN = 0,
@@ -51,12 +53,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_leftHand.Write(bw);
-            m_rightHand.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            m_leftHand.Write(s, bw);
+            m_rightHand.Write(s, bw);
+            s.WriteClassPointer<hkbpTarget>(bw, m_targetIn);
             bw.WriteSingle(m_distanceBetweenHands);
             bw.WriteSingle(m_reachDistance);
             bw.WriteSingle(m_fadeInGainSpeed);

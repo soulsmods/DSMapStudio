@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomLookAtTwistModifierTwistParam : IHavokObject
     {
+        public virtual uint Signature { get => 1192258791; }
+        
         public short m_startBoneIndex;
         public short m_endBoneIndex;
         public float m_targetRotationRate;
@@ -24,7 +26,7 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_startBoneIndex);
             bw.WriteInt16(m_endBoneIndex);

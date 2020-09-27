@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMeshShapeSubpart : IHavokObject
     {
+        public virtual uint Signature { get => 657682013; }
+        
         public int m_vertexStriding;
         public int m_numVertices;
         public MeshShapeIndexStridingType m_stridingType;
@@ -40,12 +42,14 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteInt32(m_vertexStriding);
             bw.WriteInt32(m_numVertices);
             bw.WriteUInt64(0);
+            bw.WriteSByte((sbyte)m_stridingType);
+            bw.WriteSByte((sbyte)m_materialIndexStridingType);
             bw.WriteUInt16(0);
             bw.WriteInt32(m_indexStriding);
             bw.WriteInt32(m_flipAlternateTriangles);

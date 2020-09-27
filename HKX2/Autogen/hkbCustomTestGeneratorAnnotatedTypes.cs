@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGeneratorAnnotatedTypes : hkbCustomTestGeneratorBoneTypes
     {
+        public override uint Signature { get => 935711895; }
+        
         public string m_annotatedTypeCStringFilename;
         public string m_annotatedTypeHkStringPtrFilename;
         public string m_annotatedTypeCStringScript;
@@ -114,9 +116,17 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_annotatedTypeCStringFilename);
+            s.WriteStringPointer(bw, m_annotatedTypeHkStringPtrFilename);
+            s.WriteStringPointer(bw, m_annotatedTypeCStringScript);
+            s.WriteStringPointer(bw, m_annotatedTypeHkStringPtrScript);
+            s.WriteStringPointer(bw, m_annotatedTypeCStringBoneAttachment);
+            s.WriteStringPointer(bw, m_annotatedTypeHkStringPtrBoneAttachment);
+            s.WriteStringPointer(bw, m_annotatedTypeCStringLocalFrame);
+            s.WriteStringPointer(bw, m_annotatedTypeHkStringPtrLocalFrame);
             bw.WriteBoolean(m_annotatedHiddenTypeCopyStart);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
@@ -151,6 +161,10 @@ namespace HKX2
             bw.WriteBoolean(m_annotatedHiddenTypeBool);
             bw.WriteBoolean(m_annotatedHiddenTypeHkBool);
             bw.WriteUInt16(0);
+            s.WriteStringPointer(bw, m_annotatedHiddenTypeCString1);
+            s.WriteStringPointer(bw, m_annotatedHiddenTypeHkStringPtr1);
+            s.WriteStringPointer(bw, m_annotatedHiddenTypeCString2);
+            s.WriteStringPointer(bw, m_annotatedHiddenTypeHkStringPtr2);
             bw.WriteSByte(m_annotatedHiddenTypeHkInt8);
             bw.WriteByte(0);
             bw.WriteInt16(m_annotatedHiddenTypeHkInt16);

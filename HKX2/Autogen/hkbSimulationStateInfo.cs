@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSimulationStateInfo : hkReferencedObject
     {
+        public override uint Signature { get => 1047453923; }
+        
         public SimulationState m_simulationState;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_simulationState);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

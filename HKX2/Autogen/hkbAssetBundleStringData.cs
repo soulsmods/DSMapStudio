@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbAssetBundleStringData : IHavokObject
     {
+        public virtual uint Signature { get => 1175661485; }
+        
         public string m_bundleName;
         public List<string> m_assetNames;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_assetNames = des.ReadStringPointerArray(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_bundleName);
+            s.WriteStringPointerArray(bw, m_assetNames);
         }
     }
 }

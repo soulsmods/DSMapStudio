@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkDriverInfoLeg : IHavokObject
     {
+        public virtual uint Signature { get => 4239716005; }
+        
         public Vector4 m_kneeAxisLS;
         public Vector4 m_footEndLS;
         public float m_footPlantedAnkleHeightMS;
@@ -42,8 +44,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_kneeAxisLS);
+            s.WriteVector4(bw, m_footEndLS);
             bw.WriteSingle(m_footPlantedAnkleHeightMS);
             bw.WriteSingle(m_footRaisedAnkleHeightMS);
             bw.WriteSingle(m_maxAnkleHeightMS);

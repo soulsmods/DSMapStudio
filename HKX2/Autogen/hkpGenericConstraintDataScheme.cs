@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpGenericConstraintDataScheme : IHavokObject
     {
+        public virtual uint Signature { get => 301821804; }
+        
         public List<Vector4> m_data;
         public List<int> m_commands;
         public List<hkpConstraintMotor> m_motors;
@@ -21,12 +23,15 @@ namespace HKX2
             m_motors = des.ReadClassPointerArray<hkpConstraintMotor>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            s.WriteVector4Array(bw, m_data);
+            s.WriteInt32Array(bw, m_commands);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            s.WriteClassPointerArray<hkpConstraintMotor>(bw, m_motors);
         }
     }
 }

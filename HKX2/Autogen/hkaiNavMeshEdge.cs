@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshEdge : IHavokObject
     {
+        public virtual uint Signature { get => 2177874386; }
+        
         public int m_a;
         public int m_b;
         public uint m_oppositeEdge;
@@ -24,12 +26,13 @@ namespace HKX2
             m_userEdgeCost = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_a);
             bw.WriteInt32(m_b);
             bw.WriteUInt32(m_oppositeEdge);
             bw.WriteUInt32(m_oppositeFace);
+            bw.WriteByte(m_flags);
             bw.WriteByte(0);
             bw.WriteInt16(m_userEdgeCost);
         }

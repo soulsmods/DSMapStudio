@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbComputeWorldFromModelModifier : hkbModifier
     {
+        public override uint Signature { get => 2167155746; }
+        
         public short m_poseMatchingRootBoneIndex;
         public short m_poseMatchingOtherBoneIndex;
         public short m_poseMatchingAnotherBoneIndex;
@@ -19,9 +21,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt16(m_poseMatchingRootBoneIndex);
             bw.WriteInt16(m_poseMatchingOtherBoneIndex);
             bw.WriteInt16(m_poseMatchingAnotherBoneIndex);

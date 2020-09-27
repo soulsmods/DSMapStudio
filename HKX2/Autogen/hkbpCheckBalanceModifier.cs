@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpCheckBalanceModifier : hkbModifier
     {
+        public override uint Signature { get => 2177229089; }
+        
         public short m_ragdollLeftFootBoneIndex;
         public short m_ragdollRightFootBoneIndex;
         public float m_balanceOnAnklesFraction;
@@ -40,13 +42,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt16(m_ragdollLeftFootBoneIndex);
             bw.WriteInt16(m_ragdollRightFootBoneIndex);
             bw.WriteSingle(m_balanceOnAnklesFraction);
-            m_eventToSendWhenOffBalance.Write(bw);
+            m_eventToSendWhenOffBalance.Write(s, bw);
             bw.WriteSingle(m_offBalanceEventThreshold);
             bw.WriteInt32(m_worldUpAxisIndex);
             bw.WriteSingle(m_comBiasX);

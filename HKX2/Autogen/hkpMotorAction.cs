@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMotorAction : hkpUnaryAction
     {
+        public override uint Signature { get => 3258803535; }
+        
         public Vector4 m_axis;
         public float m_spinRate;
         public float m_gain;
@@ -24,10 +26,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_axis);
             bw.WriteSingle(m_spinRate);
             bw.WriteSingle(m_gain);
             bw.WriteBoolean(m_active);

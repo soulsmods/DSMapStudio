@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGetUpModifier : hkbModifier
     {
+        public override uint Signature { get => 2219940448; }
+        
         public Vector4 m_groundNormal;
         public float m_duration;
         public float m_alignWithGroundDuration;
@@ -28,10 +30,11 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_groundNormal);
             bw.WriteSingle(m_duration);
             bw.WriteSingle(m_alignWithGroundDuration);
             bw.WriteInt16(m_rootBoneIndex);

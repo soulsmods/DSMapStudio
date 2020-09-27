@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultEngine : hknpVehicleEngine
     {
+        public override uint Signature { get => 2784585923; }
+        
         public float m_minRPM;
         public float m_optRPM;
         public float m_maxRPM;
@@ -32,9 +34,9 @@ namespace HKX2
             m_clutchSlipRPM = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_minRPM);
             bw.WriteSingle(m_optRPM);
             bw.WriteSingle(m_maxRPM);

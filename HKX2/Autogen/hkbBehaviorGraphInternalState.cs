@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBehaviorGraphInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3260275680; }
+        
         public List<hkbNodeInternalStateInfo> m_nodeInternalStateInfos;
         public hkbVariableValueSet m_variableValueSet;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_variableValueSet = des.ReadClassPointer<hkbVariableValueSet>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbNodeInternalStateInfo>(bw, m_nodeInternalStateInfos);
+            s.WriteClassPointer<hkbVariableValueSet>(bw, m_variableValueSet);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRagdollMotorConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 2643776556; }
+        
         public bool m_isEnabled;
         public Matrix4x4 m_target_bRca;
         public hkpConstraintMotor m_motors_0;
@@ -26,16 +28,17 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_isEnabled);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteMatrix3(bw, m_target_bRca);
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motors_0);
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motors_1);
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motors_2);
             bw.WriteUInt64(0);
         }
     }

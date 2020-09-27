@@ -29,6 +29,8 @@ namespace HKX2
     
     public class hkxVertexDescription : IHavokObject
     {
+        public virtual uint Signature { get => 1197541056; }
+        
         public List<hkxVertexDescriptionElementDecl> m_decls;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -36,8 +38,9 @@ namespace HKX2
             m_decls = des.ReadClassArray<hkxVertexDescriptionElementDecl>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hkxVertexDescriptionElementDecl>(bw, m_decls);
         }
     }
 }

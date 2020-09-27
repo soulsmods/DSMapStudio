@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSerializedDisplayMarker : hkReferencedObject
     {
+        public override uint Signature { get => 1278589633; }
+        
         public Matrix4x4 m_transform;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_transform = des.ReadTransform(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteTransform(bw, m_transform);
         }
     }
 }

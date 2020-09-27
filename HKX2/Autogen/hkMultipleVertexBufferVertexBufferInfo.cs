@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMultipleVertexBufferVertexBufferInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3673940198; }
+        
         public hkMeshVertexBuffer m_vertexBuffer;
         public bool m_isLocked;
         
@@ -19,9 +21,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkMeshVertexBuffer>(bw, m_vertexBuffer);
             bw.WriteUInt64(0);
             bw.WriteBoolean(m_isLocked);
             bw.WriteUInt32(0);

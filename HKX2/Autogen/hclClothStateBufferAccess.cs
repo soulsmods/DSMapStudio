@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclClothStateBufferAccess : IHavokObject
     {
+        public virtual uint Signature { get => 111790339; }
+        
         public uint m_bufferIndex;
         public hclBufferUsage m_bufferUsage;
         public uint m_shadowBufferIndex;
@@ -20,10 +22,10 @@ namespace HKX2
             m_shadowBufferIndex = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_bufferIndex);
-            m_bufferUsage.Write(bw);
+            m_bufferUsage.Write(s, bw);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteUInt32(m_shadowBufferIndex);

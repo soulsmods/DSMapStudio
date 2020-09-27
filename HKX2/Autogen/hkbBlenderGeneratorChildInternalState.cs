@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBlenderGeneratorChildInternalState : IHavokObject
     {
+        public virtual uint Signature { get => 4285736896; }
+        
         public bool m_isActive;
         public bool m_syncNextFrame;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_syncNextFrame = br.ReadBoolean();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_isActive);
             bw.WriteBoolean(m_syncNextFrame);

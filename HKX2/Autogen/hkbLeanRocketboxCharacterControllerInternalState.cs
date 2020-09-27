@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbLeanRocketboxCharacterControllerInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 2006244339; }
+        
         public int m_currPose;
         public int m_prevPose;
         public float m_characterAngle;
@@ -23,9 +25,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_currPose);
             bw.WriteInt32(m_prevPose);
             bw.WriteSingle(m_characterAngle);

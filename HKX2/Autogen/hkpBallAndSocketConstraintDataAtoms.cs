@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBallAndSocketConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3843967948; }
+        
         public hkpSetLocalTranslationsConstraintAtom m_pivots;
         public hkpSetupStabilizationAtom m_setupStabilization;
         public hkpBallSocketConstraintAtom m_ballSocket;
@@ -20,11 +22,11 @@ namespace HKX2
             m_ballSocket.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_pivots.Write(bw);
-            m_setupStabilization.Write(bw);
-            m_ballSocket.Write(bw);
+            m_pivots.Write(s, bw);
+            m_setupStabilization.Write(s, bw);
+            m_ballSocket.Write(s, bw);
         }
     }
 }

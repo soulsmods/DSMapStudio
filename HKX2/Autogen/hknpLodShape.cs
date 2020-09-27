@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpLodShape : hknpCompositeShape
     {
+        public override uint Signature { get => 3395502608; }
+        
         public int m_numLevelsOfDetail;
         public hknpLodShapeLevelOfDetailInfo m_infos_0;
         public hknpLodShapeLevelOfDetailInfo m_infos_1;
@@ -80,27 +82,27 @@ namespace HKX2
             m_maximumAabb.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_numLevelsOfDetail);
-            m_infos_0.Write(bw);
-            m_infos_1.Write(bw);
-            m_infos_2.Write(bw);
-            m_infos_3.Write(bw);
-            m_infos_4.Write(bw);
-            m_infos_5.Write(bw);
-            m_infos_6.Write(bw);
-            m_infos_7.Write(bw);
+            m_infos_0.Write(s, bw);
+            m_infos_1.Write(s, bw);
+            m_infos_2.Write(s, bw);
+            m_infos_3.Write(s, bw);
+            m_infos_4.Write(s, bw);
+            m_infos_5.Write(s, bw);
+            m_infos_6.Write(s, bw);
+            m_infos_7.Write(s, bw);
             bw.WriteUInt32(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_0);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_1);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_2);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_3);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_4);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_5);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_6);
+            s.WriteClassPointer<hknpShape>(bw, m_shapes_7);
             bw.WriteUInt32(m_shapesMemorySizes_0);
             bw.WriteUInt32(m_shapesMemorySizes_1);
             bw.WriteUInt32(m_shapesMemorySizes_2);
@@ -111,9 +113,9 @@ namespace HKX2
             bw.WriteUInt32(m_shapesMemorySizes_7);
             bw.WriteInt32(m_indexCurrentShapeOnSpu);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hknpShape>(bw, m_currentShapePpuAddress);
             bw.WriteUInt64(0);
-            m_maximumAabb.Write(bw);
+            m_maximumAabb.Write(s, bw);
         }
     }
 }

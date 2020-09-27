@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpExtendedMeshShapeTrianglesSubpart : hkpExtendedMeshShapeSubpart
     {
+        public override uint Signature { get => 667919576; }
+        
         public int m_numTriangleShapes;
         public int m_numVertices;
         public ushort m_vertexStriding;
@@ -36,9 +38,9 @@ namespace HKX2
             m_transform = des.ReadQSTransform(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_numTriangleShapes);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
@@ -49,8 +51,11 @@ namespace HKX2
             bw.WriteUInt16(0);
             bw.WriteInt32(m_triangleOffset);
             bw.WriteUInt16(m_indexStriding);
+            bw.WriteSByte((sbyte)m_stridingType);
             bw.WriteSByte(m_flipAlternateTriangles);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_extrusion);
+            s.WriteQSTransform(bw, m_transform);
         }
     }
 }

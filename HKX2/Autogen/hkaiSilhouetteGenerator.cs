@@ -34,6 +34,8 @@ namespace HKX2
     
     public class hkaiSilhouetteGenerator : hkReferencedObject
     {
+        public override uint Signature { get => 191222524; }
+        
         public ulong m_userData;
         public float m_lazyRecomputeDisplacementThreshold;
         public GeneratorType m_type;
@@ -57,17 +59,18 @@ namespace HKX2
             m_transform.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_userData);
             bw.WriteSingle(m_lazyRecomputeDisplacementThreshold);
+            bw.WriteByte((byte)m_type);
             bw.WriteByte(m_forceGenerateOntoPpu);
             bw.WriteUInt16(0);
             bw.WriteInt32(m_materialId);
             bw.WriteUInt32(0);
-            // Implement Write
-            m_transform.Write(bw);
+            s.WriteClassPointer<hkaiConvexSilhouetteSet>(bw, m_cachedSilhouettes);
+            m_transform.Write(s, bw);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiEdgeGeometryEdge : IHavokObject
     {
+        public virtual uint Signature { get => 365804318; }
+        
         public uint m_a;
         public uint m_b;
         public uint m_face;
@@ -19,7 +21,7 @@ namespace HKX2
             m_data = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_a);
             bw.WriteUInt32(m_b);

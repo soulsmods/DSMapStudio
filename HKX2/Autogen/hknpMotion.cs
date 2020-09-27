@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpMotion : IHavokObject
     {
+        public virtual uint Signature { get => 3131184858; }
+        
         public Vector4 m_centerOfMassAndMassFactor;
         public Quaternion m_orientation;
         public short m_inverseInertia_0;
@@ -52,8 +54,10 @@ namespace HKX2
             m_previousStepAngularVelocity = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_centerOfMassAndMassFactor);
+            s.WriteQuaternion(bw, m_orientation);
             bw.WriteInt16(m_inverseInertia_0);
             bw.WriteInt16(m_inverseInertia_1);
             bw.WriteInt16(m_inverseInertia_2);
@@ -69,6 +73,10 @@ namespace HKX2
             bw.WriteInt16(m_maxRotationToPreventTunneling);
             bw.WriteByte(m_cellIndex);
             bw.WriteByte(m_spaceSplitterWeight);
+            s.WriteVector4(bw, m_linearVelocity);
+            s.WriteVector4(bw, m_angularVelocity);
+            s.WriteVector4(bw, m_previousStepLinearVelocity);
+            s.WriteVector4(bw, m_previousStepAngularVelocity);
         }
     }
 }

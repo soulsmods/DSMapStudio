@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxSparselyAnimatedInt : hkReferencedObject
     {
+        public override uint Signature { get => 4076501767; }
+        
         public List<int> m_ints;
         public List<float> m_times;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_times = des.ReadSingleArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteInt32Array(bw, m_ints);
+            s.WriteSingleArray(bw, m_times);
         }
     }
 }

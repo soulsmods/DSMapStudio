@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdSimdTreeNode : hkcdFourAabb
     {
+        public override uint Signature { get => 3303278279; }
+        
         public enum Flags
         {
             HAS_INTERNALS = 1,
@@ -27,9 +29,9 @@ namespace HKX2
             m_data_3 = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_data_0);
             bw.WriteUInt32(m_data_1);
             bw.WriteUInt32(m_data_2);

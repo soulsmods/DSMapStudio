@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkAlignSceneToNodeOptions : hkReferencedObject
     {
+        public override uint Signature { get => 2764685286; }
+        
         public bool m_invert;
         public bool m_transformPositionX;
         public bool m_transformPositionY;
@@ -32,9 +34,9 @@ namespace HKX2
             m_nodeName = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_invert);
             bw.WriteBoolean(m_transformPositionX);
             bw.WriteBoolean(m_transformPositionY);
@@ -45,6 +47,7 @@ namespace HKX2
             bw.WriteByte(0);
             bw.WriteInt32(m_keyframe);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_nodeName);
         }
     }
 }

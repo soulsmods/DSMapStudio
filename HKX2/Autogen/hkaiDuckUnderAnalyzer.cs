@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDuckUnderAnalyzer : hkaiTraversalAnalyzer
     {
+        public override uint Signature { get => 2383458190; }
+        
         public float m_maxHorizontalDistance;
         public float m_minClearance;
         public float m_maxClearance;
@@ -20,9 +22,9 @@ namespace HKX2
             m_maxHeightDifference = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_maxHorizontalDistance);
             bw.WriteSingle(m_minClearance);
             bw.WriteSingle(m_maxClearance);

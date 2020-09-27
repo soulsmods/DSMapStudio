@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothDataCollidablePinchingData : IHavokObject
     {
+        public virtual uint Signature { get => 1277090472; }
+        
         public bool m_pinchDetectionEnabled;
         public sbyte m_pinchDetectionPriority;
         public float m_pinchDetectionRadius;
@@ -18,7 +20,7 @@ namespace HKX2
             m_pinchDetectionRadius = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_pinchDetectionEnabled);
             bw.WriteSByte(m_pinchDetectionPriority);

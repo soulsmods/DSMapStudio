@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBendStiffnessConstraintSet : hclConstraintSet
     {
+        public override uint Signature { get => 288448265; }
+        
         public List<hclBendStiffnessConstraintSetLink> m_links;
         public bool m_useRestPoseConfig;
         
@@ -19,9 +21,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclBendStiffnessConstraintSetLink>(bw, m_links);
             bw.WriteBoolean(m_useRestPoseConfig);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

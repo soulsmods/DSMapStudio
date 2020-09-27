@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRadialSelectorGeneratorGeneratorInfo : IHavokObject
     {
+        public virtual uint Signature { get => 80516196; }
+        
         public hkbGenerator m_generator;
         public float m_angle;
         public float m_radialSpeed;
@@ -17,9 +19,9 @@ namespace HKX2
             m_radialSpeed = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkbGenerator>(bw, m_generator);
             bw.WriteSingle(m_angle);
             bw.WriteSingle(m_radialSpeed);
         }

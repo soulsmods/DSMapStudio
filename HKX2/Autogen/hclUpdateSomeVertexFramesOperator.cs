@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclUpdateSomeVertexFramesOperator : hclOperator
     {
+        public override uint Signature { get => 2595073772; }
+        
         public List<hclUpdateSomeVertexFramesOperatorTriangle> m_involvedTriangles;
         public List<ushort> m_involvedVertices;
         public List<ushort> m_selectionVertexToInvolvedVertex;
@@ -42,9 +44,18 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclUpdateSomeVertexFramesOperatorTriangle>(bw, m_involvedTriangles);
+            s.WriteUInt16Array(bw, m_involvedVertices);
+            s.WriteUInt16Array(bw, m_selectionVertexToInvolvedVertex);
+            s.WriteUInt16Array(bw, m_involvedVertexToNormalID);
+            s.WriteByteArray(bw, m_triangleFlips);
+            s.WriteUInt16Array(bw, m_referenceVertices);
+            s.WriteSingleArray(bw, m_tangentEdgeCosAngle);
+            s.WriteSingleArray(bw, m_tangentEdgeSinAngle);
+            s.WriteSingleArray(bw, m_biTangentFlip);
             bw.WriteUInt32(m_bufferIdx);
             bw.WriteUInt32(m_numUniqueNormalIDs);
             bw.WriteBoolean(m_updateNormals);

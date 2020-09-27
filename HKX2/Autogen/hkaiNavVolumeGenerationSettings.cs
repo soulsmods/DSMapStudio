@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkaiNavVolumeGenerationSettings : hkReferencedObject
     {
+        public override uint Signature { get => 3417771885; }
+        
         public hkAabb m_volumeAabb;
         public float m_maxHorizontalRange;
         public float m_maxVerticalRange;
@@ -85,19 +87,21 @@ namespace HKX2
             m_snapshotFilename = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_volumeAabb.Write(bw);
+            base.Write(s, bw);
+            m_volumeAabb.Write(s, bw);
             bw.WriteSingle(m_maxHorizontalRange);
             bw.WriteSingle(m_maxVerticalRange);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_characterHeight);
             bw.WriteSingle(m_characterDepth);
             bw.WriteSingle(m_characterWidth);
             bw.WriteSingle(m_cellWidth);
+            bw.WriteByte((byte)m_resolutionRoundingMode);
             bw.WriteByte(0);
-            m_chunkSettings.Write(bw);
+            m_chunkSettings.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
@@ -105,16 +109,21 @@ namespace HKX2
             bw.WriteBoolean(m_useBorderCells);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_mergingSettings.Write(bw);
+            m_mergingSettings.Write(s, bw);
             bw.WriteSingle(m_minRegionVolume);
             bw.WriteSingle(m_minDistanceToSeedPoints);
             bw.WriteUInt32(0);
-            m_defaultConstructionInfo.Write(bw);
+            s.WriteVector4Array(bw, m_regionSeedPoints);
+            m_defaultConstructionInfo.Write(s, bw);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkaiNavVolumeGenerationSettingsMaterialConstructionInfo>(bw, m_materialMap);
+            s.WriteClassPointerArray<hkaiCarver>(bw, m_carvers);
+            s.WriteClassPointerArray<hkaiMaterialPainter>(bw, m_painters);
             bw.WriteBoolean(m_saveInputSnapshot);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_snapshotFilename);
         }
     }
 }

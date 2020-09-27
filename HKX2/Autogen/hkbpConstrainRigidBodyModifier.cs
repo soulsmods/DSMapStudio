@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkbpConstrainRigidBodyModifier : hkbModifier
     {
+        public override uint Signature { get => 3685860762; }
+        
         public hkbpTarget m_targetIn;
         public float m_breakThreshold;
         public short m_ragdollBoneToConstrain;
@@ -45,13 +47,16 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbpTarget>(bw, m_targetIn);
             bw.WriteSingle(m_breakThreshold);
             bw.WriteInt16(m_ragdollBoneToConstrain);
             bw.WriteBoolean(m_breakable);
+            bw.WriteSByte((sbyte)m_pivotPlacement);
+            bw.WriteSByte((sbyte)m_boneToConstrainPlacement);
+            bw.WriteSByte((sbyte)m_constraintType);
             bw.WriteBoolean(m_clearTargetData);
             bw.WriteBoolean(m_isConstraintHinge);
             bw.WriteUInt64(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultBrake : hknpVehicleBrake
     {
+        public override uint Signature { get => 826511072; }
+        
         public List<hknpVehicleDefaultBrakeWheelBrakingProperties> m_wheelBrakingProperties;
         public float m_wheelsMinTimeToBlock;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hknpVehicleDefaultBrakeWheelBrakingProperties>(bw, m_wheelBrakingProperties);
             bw.WriteSingle(m_wheelsMinTimeToBlock);
             bw.WriteUInt32(0);
         }

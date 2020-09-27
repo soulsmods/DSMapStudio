@@ -39,6 +39,8 @@ namespace HKX2
     
     public class hkpExtendedMeshShape : hkpShapeCollection
     {
+        public override uint Signature { get => 3352241882; }
+        
         public hkpExtendedMeshShapeTrianglesSubpart m_embeddedTrianglesSubpart;
         public Vector4 m_aabbHalfExtents;
         public Vector4 m_aabbCenter;
@@ -74,13 +76,19 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_embeddedTrianglesSubpart.Write(bw);
+            base.Write(s, bw);
+            m_embeddedTrianglesSubpart.Write(s, bw);
+            s.WriteVector4(bw, m_aabbHalfExtents);
+            s.WriteVector4(bw, m_aabbCenter);
             bw.WriteUInt64(0);
             bw.WriteInt32(m_numBitsForSubpartIndex);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkpExtendedMeshShapeTrianglesSubpart>(bw, m_trianglesSubparts);
+            s.WriteClassArray<hkpExtendedMeshShapeShapesSubpart>(bw, m_shapesSubparts);
+            s.WriteUInt16Array(bw, m_weldingInfo);
+            bw.WriteByte((byte)m_weldingType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteUInt32(m_defaultCollisionFilterInfo);

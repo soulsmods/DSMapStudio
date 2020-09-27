@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStringCondition : hkbCondition
     {
+        public override uint Signature { get => 2482243061; }
+        
         public string m_conditionString;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_conditionString = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_conditionString);
         }
     }
 }

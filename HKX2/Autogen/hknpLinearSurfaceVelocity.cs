@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hknpLinearSurfaceVelocity : hknpSurfaceVelocity
     {
+        public override uint Signature { get => 277252529; }
+        
         public Space m_space;
         public ProjectMethod m_projectMethod;
         public float m_maxVelocityScale;
@@ -30,12 +32,16 @@ namespace HKX2
             m_velocity = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_space);
+            bw.WriteByte((byte)m_projectMethod);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_maxVelocityScale);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_velocityMeasurePlane);
+            s.WriteVector4(bw, m_velocity);
         }
     }
 }

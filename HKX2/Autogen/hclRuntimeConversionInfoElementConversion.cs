@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclRuntimeConversionInfoElementConversion : IHavokObject
     {
+        public virtual uint Signature { get => 2711241786; }
+        
         public byte m_index;
         public byte m_offset;
         public VectorConversion m_conversion;
@@ -17,10 +19,11 @@ namespace HKX2
             m_conversion = (VectorConversion)br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_index);
             bw.WriteByte(m_offset);
+            bw.WriteByte((byte)m_conversion);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkContactPoint : IHavokObject
     {
+        public virtual uint Signature { get => 2446843278; }
+        
         public Vector4 m_position;
         public Vector4 m_separatingNormal;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_separatingNormal = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_position);
+            s.WriteVector4(bw, m_separatingNormal);
         }
     }
 }

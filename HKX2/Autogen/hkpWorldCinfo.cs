@@ -21,6 +21,8 @@ namespace HKX2
     
     public class hkpWorldCinfo : hkReferencedObject
     {
+        public override uint Signature { get => 1542043532; }
+        
         public enum SolverType
         {
             SOLVER_TYPE_INVALID = 0,
@@ -182,25 +184,29 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_gravity);
             bw.WriteInt32(m_broadPhaseQuerySize);
             bw.WriteSingle(m_contactRestingVelocity);
+            bw.WriteSByte((sbyte)m_broadPhaseType);
+            bw.WriteSByte((sbyte)m_broadPhaseBorderBehaviour);
             bw.WriteBoolean(m_mtPostponeAndSortBroadPhaseBorderCallbacks);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
-            m_broadPhaseWorldAabb.Write(bw);
+            m_broadPhaseWorldAabb.Write(s, bw);
             bw.WriteSingle(m_collisionTolerance);
             bw.WriteUInt32(0);
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkpCollisionFilter>(bw, m_collisionFilter);
+            s.WriteClassPointer<hkpConvexListFilter>(bw, m_convexListFilter);
             bw.WriteSingle(m_expectedMaxLinearVelocity);
             bw.WriteInt32(m_sizeOfToiEventQueue);
             bw.WriteSingle(m_expectedMinPsiDeltaTime);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkWorldMemoryAvailableWatchDog>(bw, m_memoryWatchDog);
             bw.WriteInt32(m_broadPhaseNumMarkers);
+            bw.WriteSByte((sbyte)m_contactPointGeneration);
             bw.WriteBoolean(m_allowToSkipConfirmedCallbacks);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_solverTau);
@@ -240,6 +246,7 @@ namespace HKX2
             bw.WriteSingle(m_numToisTillAllowedPenetrationToiHigher);
             bw.WriteSingle(m_numToisTillAllowedPenetrationToiForced);
             bw.WriteBoolean(m_enableDeactivation);
+            bw.WriteSByte((sbyte)m_simulationType);
             bw.WriteBoolean(m_enableSimulationIslands);
             bw.WriteByte(0);
             bw.WriteUInt32(m_minDesiredIslandSize);

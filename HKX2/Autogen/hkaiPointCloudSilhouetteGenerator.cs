@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkaiPointCloudSilhouetteGenerator : hkaiSilhouetteGenerator
     {
+        public override uint Signature { get => 3740816178; }
+        
         public hkAabb m_localAabb;
         public List<Vector4> m_localPoints;
         public List<int> m_silhouetteSizes;
@@ -43,11 +45,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_localAabb.Write(bw);
+            base.Write(s, bw);
+            m_localAabb.Write(s, bw);
+            s.WriteVector4Array(bw, m_localPoints);
+            s.WriteInt32Array(bw, m_silhouetteSizes);
             bw.WriteSingle(m_weldTolerance);
+            bw.WriteByte((byte)m_silhouetteDetailLevel);
+            bw.WriteByte(m_flags);
             bw.WriteBoolean(m_localPointsChanged);
             bw.WriteBoolean(m_isEnabled);
             bw.WriteUInt64(0);

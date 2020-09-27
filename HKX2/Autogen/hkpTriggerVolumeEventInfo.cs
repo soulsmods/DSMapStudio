@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpTriggerVolumeEventInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3948999729; }
+        
         public ulong m_sortValue;
         public hkpRigidBody m_body;
         public Operation m_operation;
@@ -18,10 +20,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(m_sortValue);
-            // Implement Write
+            s.WriteClassPointer<hkpRigidBody>(bw, m_body);
+            bw.WriteInt32((int)m_operation);
             bw.WriteUInt32(0);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSkinOperatorBoneInfluence : IHavokObject
     {
+        public virtual uint Signature { get => 1963099810; }
+        
         public byte m_boneIndex;
         public byte m_weight;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_weight = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_boneIndex);
             bw.WriteByte(m_weight);

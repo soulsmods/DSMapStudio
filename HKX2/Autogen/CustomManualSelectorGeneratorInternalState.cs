@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomManualSelectorGeneratorInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 1874353492; }
+        
         public sbyte m_currentGeneratorIndex;
         public sbyte m_generatorIndexAtActivate;
         public List<hkbStateMachineActiveTransitionInfo> m_activeTransitions;
@@ -20,13 +22,14 @@ namespace HKX2
             m_activeTransitions = des.ReadClassArray<hkbStateMachineActiveTransitionInfo>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSByte(m_currentGeneratorIndex);
             bw.WriteSByte(m_generatorIndexAtActivate);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteClassArray<hkbStateMachineActiveTransitionInfo>(bw, m_activeTransitions);
         }
     }
 }

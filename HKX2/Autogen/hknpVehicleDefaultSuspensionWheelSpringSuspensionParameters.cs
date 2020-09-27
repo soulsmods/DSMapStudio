@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters : IHavokObject
     {
+        public virtual uint Signature { get => 2078654161; }
+        
         public float m_strength;
         public float m_dampingCompression;
         public float m_dampingRelaxation;
@@ -17,7 +19,7 @@ namespace HKX2
             m_dampingRelaxation = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_strength);
             bw.WriteSingle(m_dampingCompression);

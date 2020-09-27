@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdPlanarGeometryPrimitivesPlane : IHavokObject
     {
+        public virtual uint Signature { get => 4194138308; }
+        
         public long m_iEqn_0;
         public long m_iEqn_1;
         public long m_iEqn_2;
@@ -23,7 +25,7 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt64(m_iEqn_0);
             bw.WriteInt64(m_iEqn_1);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclUpdateVertexFramesSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 2829133505; }
+        
         public string m_name;
         public hclBufferSetupObject m_buffer;
         public hclVertexSelectionInput m_vertexSelection;
@@ -27,11 +29,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_vertexSelection.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_buffer);
+            m_vertexSelection.Write(s, bw);
             bw.WriteBoolean(m_updateNormals);
             bw.WriteBoolean(m_updateTangents);
             bw.WriteBoolean(m_updateBiTangents);

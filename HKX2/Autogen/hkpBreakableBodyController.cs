@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableBodyController : hkReferencedObject
     {
+        public override uint Signature { get => 2210474037; }
+        
         public float m_breakingImpulse;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,9 +17,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_breakingImpulse);
             bw.WriteUInt32(0);
         }

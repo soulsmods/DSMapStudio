@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiTraversalAnalysisInput : hkReferencedObject
     {
+        public override uint Signature { get => 3654283239; }
+        
         public List<hkaiTraversalAnalysisInputSection> m_sections;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_sections = des.ReadClassArray<hkaiTraversalAnalysisInputSection>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiTraversalAnalysisInputSection>(bw, m_sections);
         }
     }
 }

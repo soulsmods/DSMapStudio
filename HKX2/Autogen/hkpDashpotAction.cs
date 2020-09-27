@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpDashpotAction : hkpBinaryAction
     {
+        public override uint Signature { get => 2898892615; }
+        
         public Vector4 m_point_0;
         public Vector4 m_point_1;
         public float m_strength;
@@ -23,12 +25,15 @@ namespace HKX2
             m_impulse = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_point_0);
+            s.WriteVector4(bw, m_point_1);
             bw.WriteSingle(m_strength);
             bw.WriteSingle(m_damping);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_impulse);
         }
     }
 }

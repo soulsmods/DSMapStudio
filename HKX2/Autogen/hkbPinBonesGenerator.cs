@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbPinBonesGenerator : hkbGenerator
     {
+        public override uint Signature { get => 839140489; }
+        
         public hkbGenerator m_referenceFrameGenerator;
         public hkbGenerator m_pinnedGenerator;
         public hkbBoneIndexArray m_boneIndices;
@@ -21,12 +23,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_referenceFrameGenerator);
+            s.WriteClassPointer<hkbGenerator>(bw, m_pinnedGenerator);
+            s.WriteClassPointer<hkbBoneIndexArray>(bw, m_boneIndices);
             bw.WriteSingle(m_fraction);
             bw.WriteUInt32(0);
         }

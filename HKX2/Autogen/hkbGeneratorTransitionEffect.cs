@@ -29,6 +29,8 @@ namespace HKX2
     
     public class hkbGeneratorTransitionEffect : hkbTransitionEffect
     {
+        public override uint Signature { get => 1142984455; }
+        
         public hkbGenerator m_transitionGenerator;
         public float m_blendInDuration;
         public float m_blendOutDuration;
@@ -49,10 +51,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_transitionGenerator);
             bw.WriteSingle(m_blendInDuration);
             bw.WriteSingle(m_blendOutDuration);
             bw.WriteBoolean(m_syncToGeneratorStartTime);

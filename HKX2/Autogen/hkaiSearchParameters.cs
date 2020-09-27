@@ -29,13 +29,15 @@ namespace HKX2
     
     public class hkaiSearchParameters : IHavokObject
     {
+        public virtual uint Signature { get => 1877815828; }
+        
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(0);
         }

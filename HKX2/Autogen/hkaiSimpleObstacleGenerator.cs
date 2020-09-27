@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSimpleObstacleGenerator : hkaiObstacleGenerator
     {
+        public override uint Signature { get => 530878806; }
+        
         public hkAabb m_localAabb;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,10 @@ namespace HKX2
             m_localAabb.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_localAabb.Write(bw);
+            base.Write(s, bw);
+            m_localAabb.Write(s, bw);
         }
     }
 }

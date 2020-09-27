@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaFootstepAnalysisInfo : hkReferencedObject
     {
+        public override uint Signature { get => 2463109047; }
+        
         public List<sbyte> m_name;
         public List<sbyte> m_nameStrike;
         public List<sbyte> m_nameLift;
@@ -41,9 +43,20 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteSByteArray(bw, m_name);
+            s.WriteSByteArray(bw, m_nameStrike);
+            s.WriteSByteArray(bw, m_nameLift);
+            s.WriteSByteArray(bw, m_nameLock);
+            s.WriteSByteArray(bw, m_nameUnlock);
+            s.WriteSingleArray(bw, m_minPos);
+            s.WriteSingleArray(bw, m_maxPos);
+            s.WriteSingleArray(bw, m_minVel);
+            s.WriteSingleArray(bw, m_maxVel);
+            s.WriteSingleArray(bw, m_allBonesDown);
+            s.WriteSingleArray(bw, m_anyBonesDown);
             bw.WriteSingle(m_posTol);
             bw.WriteSingle(m_velTol);
             bw.WriteSingle(m_duration);

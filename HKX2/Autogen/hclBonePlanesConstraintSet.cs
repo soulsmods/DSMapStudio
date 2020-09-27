@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBonePlanesConstraintSet : hclConstraintSet
     {
+        public override uint Signature { get => 1522845641; }
+        
         public List<hclBonePlanesConstraintSetBonePlane> m_bonePlanes;
         public uint m_transformSetIndex;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclBonePlanesConstraintSetBonePlane>(bw, m_bonePlanes);
             bw.WriteUInt32(m_transformSetIndex);
             bw.WriteUInt32(0);
         }

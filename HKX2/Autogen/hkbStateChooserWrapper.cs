@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateChooserWrapper : hkbCustomIdSelector
     {
+        public override uint Signature { get => 3884430078; }
+        
         public hkbStateChooser m_wrappedChooser;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_wrappedChooser = des.ReadClassPointer<hkbStateChooser>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbStateChooser>(bw, m_wrappedChooser);
         }
     }
 }

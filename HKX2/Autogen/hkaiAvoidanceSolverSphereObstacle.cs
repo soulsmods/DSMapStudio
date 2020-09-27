@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiAvoidanceSolverSphereObstacle : IHavokObject
     {
+        public virtual uint Signature { get => 4015293709; }
+        
         public hkSphere m_sphere;
         public Vector4 m_velocity;
         
@@ -16,9 +18,10 @@ namespace HKX2
             m_velocity = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_sphere.Write(bw);
+            m_sphere.Write(s, bw);
+            s.WriteVector4(bw, m_velocity);
         }
     }
 }

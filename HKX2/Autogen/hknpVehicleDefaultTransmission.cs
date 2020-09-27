@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultTransmission : hknpVehicleTransmission
     {
+        public override uint Signature { get => 309490345; }
+        
         public float m_downshiftRPM;
         public float m_upshiftRPM;
         public float m_primaryTransmissionRatio;
@@ -27,15 +29,17 @@ namespace HKX2
             m_wheelsTorqueRatio = des.ReadSingleArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_downshiftRPM);
             bw.WriteSingle(m_upshiftRPM);
             bw.WriteSingle(m_primaryTransmissionRatio);
             bw.WriteSingle(m_clutchDelayTime);
             bw.WriteSingle(m_reverseGearRatio);
             bw.WriteUInt32(0);
+            s.WriteSingleArray(bw, m_gearsRatio);
+            s.WriteSingleArray(bw, m_wheelsTorqueRatio);
         }
     }
 }

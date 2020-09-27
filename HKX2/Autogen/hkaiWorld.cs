@@ -24,6 +24,8 @@ namespace HKX2
     
     public class hkaiWorld : hkReferencedObject
     {
+        public override uint Signature { get => 2975180790; }
+        
         public Vector4 m_up;
         public hkaiStreamingCollection m_streamingCollection;
         public hkaiNavMeshCutter m_cutter;
@@ -96,26 +98,29 @@ namespace HKX2
             m_defaultVolumePathfindingInput.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_up);
+            s.WriteClassPointer<hkaiStreamingCollection>(bw, m_streamingCollection);
+            s.WriteClassPointer<hkaiNavMeshCutter>(bw, m_cutter);
             bw.WriteBoolean(m_performValidationChecks);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            m_silhouetteGenerationParameters.Write(bw);
+            s.WriteClassPointer<hkaiDynamicNavMeshQueryMediator>(bw, m_dynamicNavMeshMediator);
+            s.WriteClassPointer<hkaiDynamicNavVolumeMediator>(bw, m_dynamicNavVolumeMediator);
+            s.WriteClassPointer<hkaiOverlapManager>(bw, m_overlapManager);
+            m_silhouetteGenerationParameters.Write(s, bw);
             bw.WriteSingle(m_silhouetteExtrusion);
             bw.WriteBoolean(m_forceSilhouetteUpdates);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointerArray<hkaiSilhouetteGenerator>(bw, m_silhouetteGenerators);
+            s.WriteClassPointerArray<hkaiObstacleGenerator>(bw, m_obstacleGenerators);
+            s.WriteClassPointer<hkaiAvoidancePairProperties>(bw, m_avoidancePairProps);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
@@ -133,8 +138,8 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_defaultPathfindingInput.Write(bw);
-            m_defaultVolumePathfindingInput.Write(bw);
+            m_defaultPathfindingInput.Write(s, bw);
+            m_defaultVolumePathfindingInput.Write(s, bw);
         }
     }
 }

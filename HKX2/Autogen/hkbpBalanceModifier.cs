@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpBalanceModifier : hkbModifier
     {
+        public override uint Signature { get => 648393776; }
+        
         public bool m_giveUp;
         public float m_comDistThreshold;
         public bool m_passThrough;
@@ -37,9 +39,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_giveUp);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
@@ -53,6 +55,7 @@ namespace HKX2
             bw.WriteInt32(m_upAxis);
             bw.WriteSingle(m_fadeInTime);
             bw.WriteSingle(m_comBiasX);
+            s.WriteClassArray<hkbpBalanceModifierStepInfo>(bw, m_stepInfo);
             bw.WriteUInt64(0);
         }
     }

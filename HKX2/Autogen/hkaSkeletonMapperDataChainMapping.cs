@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaSkeletonMapperDataChainMapping : IHavokObject
     {
+        public virtual uint Signature { get => 2770925519; }
+        
         public short m_startBoneA;
         public short m_endBoneA;
         public short m_startBoneB;
@@ -24,13 +26,15 @@ namespace HKX2
             m_endAFromBTransform = des.ReadQSTransform(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_startBoneA);
             bw.WriteInt16(m_endBoneA);
             bw.WriteInt16(m_startBoneB);
             bw.WriteInt16(m_endBoneB);
             bw.WriteUInt64(0);
+            s.WriteQSTransform(bw, m_startAFromBTransform);
+            s.WriteQSTransform(bw, m_endAFromBTransform);
         }
     }
 }

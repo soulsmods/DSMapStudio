@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxBlob : hkReferencedObject
     {
+        public override uint Signature { get => 3859109972; }
+        
         public List<byte> m_data;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_data = des.ReadByteArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteByteArray(bw, m_data);
         }
     }
 }

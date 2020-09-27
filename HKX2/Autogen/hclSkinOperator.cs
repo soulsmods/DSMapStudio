@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hclSkinOperator : hclOperator
     {
+        public override uint Signature { get => 3522357854; }
+        
         public List<hclSkinOperatorBoneInfluence> m_boneInfluences;
         public List<ushort> m_boneInfluenceStartPerVertex;
         public List<Matrix4x4> m_boneFromSkinMeshTransforms;
@@ -53,9 +55,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclSkinOperatorBoneInfluence>(bw, m_boneInfluences);
+            s.WriteUInt16Array(bw, m_boneInfluenceStartPerVertex);
+            s.WriteMatrix4Array(bw, m_boneFromSkinMeshTransforms);
+            s.WriteUInt16Array(bw, m_usedBoneGroupIds);
             bw.WriteBoolean(m_skinPositions);
             bw.WriteBoolean(m_skinNormals);
             bw.WriteBoolean(m_skinTangents);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaSkeletonLocalFrameOnBone : IHavokObject
     {
+        public virtual uint Signature { get => 3910475484; }
+        
         public hkLocalFrame m_localFrame;
         public short m_boneIndex;
         
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkLocalFrame>(bw, m_localFrame);
             bw.WriteInt16(m_boneIndex);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSkinSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 3352518069; }
+        
         public string m_name;
         public hclTransformSetSetupObject m_transformSetSetup;
         public hclBufferSetupObject m_referenceBufferSetup;
@@ -32,13 +34,14 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            m_vertexSelection.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclTransformSetSetupObject>(bw, m_transformSetSetup);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_referenceBufferSetup);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_outputBufferSetup);
+            m_vertexSelection.Write(s, bw);
             bw.WriteBoolean(m_skinNormals);
             bw.WriteBoolean(m_skinTangents);
             bw.WriteBoolean(m_skinBiTangents);

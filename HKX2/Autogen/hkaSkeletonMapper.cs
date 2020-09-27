@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkaSkeletonMapper : hkReferencedObject
     {
+        public override uint Signature { get => 2900984988; }
+        
         public hkaSkeletonMapperData m_mapping;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -22,10 +24,10 @@ namespace HKX2
             m_mapping.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_mapping.Write(bw);
+            base.Write(s, bw);
+            m_mapping.Write(s, bw);
         }
     }
 }

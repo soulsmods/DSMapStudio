@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPulleyConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 1754370681; }
+        
         public Vector4 m_fixedPivotAinWorld;
         public Vector4 m_fixedPivotBinWorld;
         public float m_ropeLength;
@@ -24,12 +26,14 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteVector4(bw, m_fixedPivotAinWorld);
+            s.WriteVector4(bw, m_fixedPivotBinWorld);
             bw.WriteSingle(m_ropeLength);
             bw.WriteSingle(m_leverageOnBodyB);
             bw.WriteUInt64(0);

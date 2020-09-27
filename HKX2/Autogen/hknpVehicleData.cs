@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleData : hkReferencedObject
     {
+        public override uint Signature { get => 3785368125; }
+        
         public Vector4 m_gravity;
         public sbyte m_numWheels;
         public Matrix4x4 m_chassisOrientation;
@@ -60,14 +62,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_gravity);
             bw.WriteSByte(m_numWheels);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteMatrix3(bw, m_chassisOrientation);
             bw.WriteSingle(m_torqueRollFactor);
             bw.WriteSingle(m_torquePitchFactor);
             bw.WriteSingle(m_torqueYawFactor);
@@ -80,7 +84,10 @@ namespace HKX2
             bw.WriteSingle(m_normalClippingAngleCos);
             bw.WriteSingle(m_maxFrictionSolverMassRatio);
             bw.WriteUInt32(0);
-            m_frictionDescription.Write(bw);
+            s.WriteClassArray<hknpVehicleDataWheelComponentParams>(bw, m_wheelParams);
+            s.WriteSByteArray(bw, m_numWheelsPerAxle);
+            m_frictionDescription.Write(s, bw);
+            s.WriteVector4(bw, m_chassisFrictionInertiaInvDiag);
             bw.WriteBoolean(m_alreadyInitialised);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

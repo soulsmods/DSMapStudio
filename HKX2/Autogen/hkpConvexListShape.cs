@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConvexListShape : hkpConvexShape
     {
+        public override uint Signature { get => 2244954106; }
+        
         public float m_minDistanceToUseConvexHullForGetClosestPoints;
         public Vector4 m_aabbHalfExtents;
         public Vector4 m_aabbCenter;
@@ -29,17 +31,20 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteSingle(m_minDistanceToUseConvexHullForGetClosestPoints);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_aabbHalfExtents);
+            s.WriteVector4(bw, m_aabbCenter);
             bw.WriteBoolean(m_useCachedAabb);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteClassPointerArray<hkpConvexShape>(bw, m_childShapes);
             bw.WriteUInt64(0);
         }
     }

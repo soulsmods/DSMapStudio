@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpGravityGun : hkpFirstPersonGun
     {
+        public override uint Signature { get => 1479190421; }
+        
         public int m_maxNumObjectsPicked;
         public float m_maxMassOfObjectPicked;
         public float m_maxDistOfObjectPicked;
@@ -29,9 +31,9 @@ namespace HKX2
             m_capturedObjectsOffset = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteInt32(m_maxNumObjectsPicked);
@@ -40,6 +42,8 @@ namespace HKX2
             bw.WriteSingle(m_impulseAppliedWhenObjectNotPicked);
             bw.WriteSingle(m_throwVelocity);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_capturedObjectPosition);
+            s.WriteVector4(bw, m_capturedObjectsOffset);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbDockingGeneratorInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 4252706033; }
+        
         public float m_localTime;
         public float m_previousLocalTime;
         public float m_intervalStartLocalTime;
@@ -20,9 +22,9 @@ namespace HKX2
             m_intervalEndLocalTime = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_localTime);
             bw.WriteSingle(m_previousLocalTime);
             bw.WriteSingle(m_intervalStartLocalTime);

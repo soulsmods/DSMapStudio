@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBehaviorReferenceGenerator : hkbGenerator
     {
+        public override uint Signature { get => 357552042; }
+        
         public string m_behaviorName;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,9 +17,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_behaviorName);
             bw.WriteUInt64(0);
         }
     }

@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkbEventRangeData : IHavokObject
     {
+        public virtual uint Signature { get => 1824074870; }
+        
         public float m_upperBound;
         public hkbEventProperty m_event;
         public EventRangeMode m_eventMode;
@@ -28,11 +30,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_upperBound);
             bw.WriteUInt32(0);
-            m_event.Write(bw);
+            m_event.Write(s, bw);
+            bw.WriteSByte((sbyte)m_eventMode);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

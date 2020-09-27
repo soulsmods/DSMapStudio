@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiAabbTreeNavVolumeMediator : hkaiNavVolumeMediator
     {
+        public override uint Signature { get => 2902232628; }
+        
         public hkaiNavVolume m_navVolume;
         public hkcdStaticAabbTree m_tree;
         
@@ -16,11 +18,11 @@ namespace HKX2
             m_tree = des.ReadClassPointer<hkcdStaticAabbTree>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiNavVolume>(bw, m_navVolume);
+            s.WriteClassPointer<hkcdStaticAabbTree>(bw, m_tree);
         }
     }
 }

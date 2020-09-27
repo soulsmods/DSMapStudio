@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclObjectSpaceSkinPNOperator : hclObjectSpaceSkinOperator
     {
+        public override uint Signature { get => 2219346838; }
+        
         public List<hclObjectSpaceDeformerLocalBlockPN> m_localPNs;
         public List<hclObjectSpaceDeformerLocalBlockUnpackedPN> m_localUnpackedPNs;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_localUnpackedPNs = des.ReadClassArray<hclObjectSpaceDeformerLocalBlockUnpackedPN>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclObjectSpaceDeformerLocalBlockPN>(bw, m_localPNs);
+            s.WriteClassArray<hclObjectSpaceDeformerLocalBlockUnpackedPN>(bw, m_localUnpackedPNs);
         }
     }
 }

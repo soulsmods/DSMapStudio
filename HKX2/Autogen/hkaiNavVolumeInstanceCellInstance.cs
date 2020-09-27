@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeInstanceCellInstance : IHavokObject
     {
+        public virtual uint Signature { get => 2093390254; }
+        
         public int m_startEdgeIndex;
         public int m_numEdges;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_numEdges = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_startEdgeIndex);
             bw.WriteInt32(m_numEdges);

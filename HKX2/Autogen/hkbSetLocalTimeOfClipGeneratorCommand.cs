@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSetLocalTimeOfClipGeneratorCommand : hkReferencedObject
     {
+        public override uint Signature { get => 1902231015; }
+        
         public ulong m_characterId;
         public float m_localTime;
         public ushort m_nodeId;
@@ -19,9 +21,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
             bw.WriteSingle(m_localTime);
             bw.WriteUInt16(m_nodeId);

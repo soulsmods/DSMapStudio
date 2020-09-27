@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGeneratorNestedTypes : hkbCustomTestGeneratorNestedTypesBase
     {
+        public override uint Signature { get => 1360972261; }
+        
         public hkbCustomTestGeneratorNestedTypesBase m_nestedTypeStruct;
         public List<hkbCustomTestGeneratorNestedTypesBase> m_nestedTypeArrayStruct;
         
@@ -17,10 +19,11 @@ namespace HKX2
             m_nestedTypeArrayStruct = des.ReadClassArray<hkbCustomTestGeneratorNestedTypesBase>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_nestedTypeStruct.Write(bw);
+            base.Write(s, bw);
+            m_nestedTypeStruct.Write(s, bw);
+            s.WriteClassArray<hkbCustomTestGeneratorNestedTypesBase>(bw, m_nestedTypeArrayStruct);
         }
     }
 }

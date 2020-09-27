@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterData : hkReferencedObject
     {
+        public override uint Signature { get => 4274285599; }
+        
         public hkbCharacterControllerSetup m_characterControllerSetup;
         public Vector4 m_modelUpMS;
         public Vector4 m_modelForwardMS;
@@ -46,17 +48,24 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_characterControllerSetup.Write(bw);
+            base.Write(s, bw);
+            m_characterControllerSetup.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteVector4(bw, m_modelUpMS);
+            s.WriteVector4(bw, m_modelForwardMS);
+            s.WriteVector4(bw, m_modelRightMS);
+            s.WriteClassArray<hkbVariableInfo>(bw, m_characterPropertyInfos);
+            s.WriteInt32Array(bw, m_numBonesPerLod);
+            s.WriteClassPointer<hkbVariableValueSet>(bw, m_characterPropertyValues);
+            s.WriteClassPointer<hkbFootIkDriverInfo>(bw, m_footIkDriverInfo);
+            s.WriteClassPointer<hkbHandIkDriverInfo>(bw, m_handIkDriverInfo);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_aiControlDriverInfo);
+            s.WriteClassPointer<hkbCharacterStringData>(bw, m_stringData);
+            s.WriteClassPointer<hkbMirroredSkeletonInfo>(bw, m_mirroredSkeletonInfo);
+            s.WriteInt16Array(bw, m_boneAttachmentBoneIndices);
+            s.WriteMatrix4Array(bw, m_boneAttachmentTransforms);
             bw.WriteSingle(m_scale);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

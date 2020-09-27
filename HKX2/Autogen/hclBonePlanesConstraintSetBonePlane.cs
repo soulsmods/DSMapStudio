@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBonePlanesConstraintSetBonePlane : IHavokObject
     {
+        public virtual uint Signature { get => 1442969623; }
+        
         public Vector4 m_planeEquationBone;
         public ushort m_particleIndex;
         public ushort m_transformIndex;
@@ -20,8 +22,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_planeEquationBone);
             bw.WriteUInt16(m_particleIndex);
             bw.WriteUInt16(m_transformIndex);
             bw.WriteSingle(m_stiffness);

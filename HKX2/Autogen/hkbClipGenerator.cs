@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbClipGenerator : hkbGenerator
     {
+        public override uint Signature { get => 223136246; }
+        
         public enum PlaybackMode
         {
             MODE_SINGLE_PLAY = 0,
@@ -77,10 +79,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_animationBundleName);
+            s.WriteStringPointer(bw, m_animationName);
+            s.WriteClassPointer<hkbClipTriggerArray>(bw, m_triggers);
             bw.WriteUInt32(m_userPartitionMask);
             bw.WriteSingle(m_cropStartAmountLocalTime);
             bw.WriteSingle(m_cropEndAmountLocalTime);
@@ -89,6 +93,7 @@ namespace HKX2
             bw.WriteSingle(m_enforcedDuration);
             bw.WriteSingle(m_userControlledTimeFraction);
             bw.WriteInt16(m_animationBindingIndex);
+            bw.WriteSByte((sbyte)m_mode);
             bw.WriteSByte(m_flags);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

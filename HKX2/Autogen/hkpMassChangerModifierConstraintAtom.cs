@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMassChangerModifierConstraintAtom : hkpModifierConstraintAtom
     {
+        public override uint Signature { get => 3256327912; }
+        
         public Vector4 m_factorA;
         public Vector4 m_factorB;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_factorB = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_factorA);
+            s.WriteVector4(bw, m_factorB);
         }
     }
 }

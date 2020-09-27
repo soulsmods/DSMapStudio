@@ -20,6 +20,8 @@ namespace HKX2
     
     public class hkbSenseHandleModifier : hkbModifier
     {
+        public override uint Signature { get => 1337469111; }
+        
         public Vector4 m_sensorLocalOffset;
         public List<hkbSenseHandleModifierRange> m_ranges;
         public hkbHandle m_handleOut;
@@ -66,9 +68,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
@@ -76,14 +78,19 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
-            // Implement Write
+            s.WriteVector4(bw, m_sensorLocalOffset);
+            s.WriteClassArray<hkbSenseHandleModifierRange>(bw, m_ranges);
+            s.WriteClassPointer<hkbHandle>(bw, m_handleOut);
+            s.WriteClassPointer<hkbHandle>(bw, m_handleIn);
+            s.WriteStringPointer(bw, m_localFrameName);
+            s.WriteStringPointer(bw, m_sensorLocalFrameName);
             bw.WriteSingle(m_minDistance);
             bw.WriteSingle(m_maxDistance);
             bw.WriteSingle(m_distanceOut);
             bw.WriteUInt32(m_collisionFilterInfo);
             bw.WriteInt16(m_sensorRagdollBoneIndex);
             bw.WriteInt16(m_sensorAnimationBoneIndex);
+            bw.WriteSByte((sbyte)m_sensingMode);
             bw.WriteBoolean(m_extrapolateSensorPosition);
             bw.WriteBoolean(m_keepFirstSensedHandle);
             bw.WriteBoolean(m_foundHandleOut);

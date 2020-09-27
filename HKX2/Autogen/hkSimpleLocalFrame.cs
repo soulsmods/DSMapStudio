@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSimpleLocalFrame : hkLocalFrame
     {
+        public override uint Signature { get => 2039144338; }
+        
         public Matrix4x4 m_transform;
         public List<hkLocalFrame> m_children;
         public hkLocalFrame m_parentFrame;
@@ -23,11 +25,14 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteTransform(bw, m_transform);
+            s.WriteClassPointerArray<hkLocalFrame>(bw, m_children);
+            s.WriteClassPointer<hkLocalFrame>(bw, m_parentFrame);
+            s.WriteClassPointer<hkLocalFrameGroup>(bw, m_group);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(0);
         }
     }

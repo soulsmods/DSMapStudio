@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSetNodePropertyCommand : hkReferencedObject
     {
+        public override uint Signature { get => 4158158325; }
+        
         public ulong m_characterId;
         public string m_nodeName;
         public string m_propertyName;
@@ -23,11 +25,13 @@ namespace HKX2
             m_padding = br.ReadInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
-            m_propertyValue.Write(bw);
+            s.WriteStringPointer(bw, m_nodeName);
+            s.WriteStringPointer(bw, m_propertyName);
+            m_propertyValue.Write(s, bw);
             bw.WriteInt32(m_padding);
         }
     }

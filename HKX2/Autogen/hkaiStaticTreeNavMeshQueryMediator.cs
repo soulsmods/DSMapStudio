@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiStaticTreeNavMeshQueryMediator : hkaiNavMeshQueryMediator
     {
+        public override uint Signature { get => 1127882337; }
+        
         public hkcdStaticAabbTree m_tree;
         public hkaiNavMesh m_navMesh;
         
@@ -16,11 +18,11 @@ namespace HKX2
             m_navMesh = des.ReadClassPointer<hkaiNavMesh>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkcdStaticAabbTree>(bw, m_tree);
+            s.WriteClassPointer<hkaiNavMesh>(bw, m_navMesh);
         }
     }
 }

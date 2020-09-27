@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCompressedMeshShapeChunk : IHavokObject
     {
+        public virtual uint Signature { get => 1561159613; }
+        
         public Vector4 m_offset;
         public List<ushort> m_vertices;
         public List<ushort> m_indices;
@@ -28,8 +30,13 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_offset);
+            s.WriteUInt16Array(bw, m_vertices);
+            s.WriteUInt16Array(bw, m_indices);
+            s.WriteUInt16Array(bw, m_stripLengths);
+            s.WriteUInt16Array(bw, m_weldingInfo);
             bw.WriteUInt32(m_materialInfo);
             bw.WriteUInt16(m_reference);
             bw.WriteUInt16(m_transformIndex);

@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hkpTriggerVolume : hkReferencedObject
     {
+        public override uint Signature { get => 3752019127; }
+        
         public List<hkpRigidBody> m_overlappingBodies;
         public List<hkpTriggerVolumeEventInfo> m_eventQueue;
         public hkpRigidBody m_triggerBody;
@@ -42,13 +44,15 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointerArray<hkpRigidBody>(bw, m_overlappingBodies);
+            s.WriteClassArray<hkpTriggerVolumeEventInfo>(bw, m_eventQueue);
+            s.WriteClassPointer<hkpRigidBody>(bw, m_triggerBody);
             bw.WriteUInt32(m_sequenceNumber);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

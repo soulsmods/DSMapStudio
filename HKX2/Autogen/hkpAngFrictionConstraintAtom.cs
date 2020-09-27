@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAngFrictionConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 2314667299; }
+        
         public byte m_isEnabled;
         public byte m_firstFrictionAxis;
         public byte m_numFrictionAxes;
@@ -23,9 +25,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_isEnabled);
             bw.WriteByte(m_firstFrictionAxis);
             bw.WriteByte(m_numFrictionAxes);

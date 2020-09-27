@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclCapsuleShape : hclShape
     {
+        public override uint Signature { get => 3708024100; }
+        
         public Vector4 m_start;
         public Vector4 m_end;
         public Vector4 m_dir;
@@ -24,10 +26,13 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_start);
+            s.WriteVector4(bw, m_end);
+            s.WriteVector4(bw, m_dir);
             bw.WriteSingle(m_radius);
             bw.WriteSingle(m_capLenSqrdInv);
             bw.WriteUInt64(0);

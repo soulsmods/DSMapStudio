@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpOverwritePivotConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 3483479079; }
+        
         public byte m_copyToPivotBFromPivotA;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_copyToPivotBFromPivotA);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

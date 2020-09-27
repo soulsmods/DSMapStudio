@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkAabbHalf : IHavokObject
     {
+        public virtual uint Signature { get => 297169822; }
+        
         public ushort m_data_0;
         public ushort m_data_1;
         public ushort m_data_2;
@@ -27,7 +29,7 @@ namespace HKX2
             m_data_7 = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_data_0);
             bw.WriteUInt16(m_data_1);

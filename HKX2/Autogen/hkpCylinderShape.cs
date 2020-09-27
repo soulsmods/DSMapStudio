@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkpCylinderShape : hkpConvexShape
     {
+        public override uint Signature { get => 4205715208; }
+        
         public float m_cylRadius;
         public float m_cylBaseRadiusFactorForHeightFieldCollisions;
         public Vector4 m_vertexA;
@@ -33,11 +35,15 @@ namespace HKX2
             m_perpendicular2 = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_cylRadius);
             bw.WriteSingle(m_cylBaseRadiusFactorForHeightFieldCollisions);
+            s.WriteVector4(bw, m_vertexA);
+            s.WriteVector4(bw, m_vertexB);
+            s.WriteVector4(bw, m_perpendicular1);
+            s.WriteVector4(bw, m_perpendicular2);
         }
     }
 }

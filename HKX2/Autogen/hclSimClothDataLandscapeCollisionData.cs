@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothDataLandscapeCollisionData : IHavokObject
     {
+        public virtual uint Signature { get => 492394560; }
+        
         public float m_landscapeRadius;
         public bool m_enableStuckParticleDetection;
         public float m_stuckParticlesStretchFactorSq;
@@ -26,7 +28,7 @@ namespace HKX2
             m_pinchDetectionRadius = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_landscapeRadius);
             bw.WriteBoolean(m_enableStuckParticleDetection);

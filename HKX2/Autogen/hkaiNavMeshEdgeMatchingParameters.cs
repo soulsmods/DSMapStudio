@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshEdgeMatchingParameters : IHavokObject
     {
+        public virtual uint Signature { get => 3800051401; }
+        
         public float m_maxStepHeight;
         public float m_maxSeparation;
         public float m_maxOverhang;
@@ -41,7 +43,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_maxStepHeight);
             bw.WriteSingle(m_maxSeparation);

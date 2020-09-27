@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkAabb : IHavokObject
     {
+        public virtual uint Signature { get => 1251248918; }
+        
         public Vector4 m_min;
         public Vector4 m_max;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_max = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_min);
+            s.WriteVector4(bw, m_max);
         }
     }
 }

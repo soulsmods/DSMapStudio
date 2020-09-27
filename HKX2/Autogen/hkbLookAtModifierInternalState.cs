@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbLookAtModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 586253050; }
+        
         public Vector4 m_lookAtLastTargetWS;
         public float m_lookAtWeight;
         public bool m_isTargetInsideLimitCone;
@@ -21,9 +23,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_lookAtLastTargetWS);
             bw.WriteSingle(m_lookAtWeight);
             bw.WriteBoolean(m_isTargetInsideLimitCone);
             bw.WriteUInt64(0);

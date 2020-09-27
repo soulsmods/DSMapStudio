@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultVelocityDamper : hknpVehicleVelocityDamper
     {
+        public override uint Signature { get => 3109778670; }
+        
         public float m_normalSpinDamping;
         public float m_collisionSpinDamping;
         public float m_collisionThreshold;
@@ -19,9 +21,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_normalSpinDamping);
             bw.WriteSingle(m_collisionSpinDamping);
             bw.WriteSingle(m_collisionThreshold);

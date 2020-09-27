@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothBufferSetupObject : hclBufferSetupObject
     {
+        public override uint Signature { get => 2674559147; }
+        
         public enum Type
         {
             SIM_CLOTH_MESH_CURRENT_POSITIONS = 0,
@@ -26,11 +28,13 @@ namespace HKX2
             m_simClothSetupObject = des.ReadClassPointer<hclSimClothSetupObject>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteUInt32((uint)m_type);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimClothSetupObject>(bw, m_simClothSetupObject);
         }
     }
 }

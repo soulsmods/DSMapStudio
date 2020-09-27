@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothDataParticleData : IHavokObject
     {
+        public virtual uint Signature { get => 588024872; }
+        
         public float m_mass;
         public float m_invMass;
         public float m_radius;
@@ -19,7 +21,7 @@ namespace HKX2
             m_friction = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_mass);
             bw.WriteSingle(m_invMass);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiAgentTraversalInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3554359924; }
+        
         public float m_diameter;
         public uint m_filterInfo;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_filterInfo = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_diameter);
             bw.WriteUInt32(m_filterInfo);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclClothState : hkReferencedObject
     {
+        public override uint Signature { get => 2063781147; }
+        
         public string m_name;
         public List<uint> m_operators;
         public List<hclClothStateBufferAccess> m_usedBuffers;
@@ -22,9 +24,14 @@ namespace HKX2
             m_usedSimCloths = des.ReadUInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteUInt32Array(bw, m_operators);
+            s.WriteClassArray<hclClothStateBufferAccess>(bw, m_usedBuffers);
+            s.WriteClassArray<hclClothStateTransformSetAccess>(bw, m_usedTransformSets);
+            s.WriteUInt32Array(bw, m_usedSimCloths);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpPairCollisionFilter : hknpCollisionFilter
     {
+        public override uint Signature { get => 817452534; }
+        
         public hknpCollisionFilter m_childFilter;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -16,12 +18,12 @@ namespace HKX2
             m_childFilter = des.ReadClassPointer<hknpCollisionFilter>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hknpCollisionFilter>(bw, m_childFilter);
         }
     }
 }

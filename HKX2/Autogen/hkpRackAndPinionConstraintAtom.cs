@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRackAndPinionConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 2821035908; }
+        
         public float m_pinionRadiusOrScrewPitch;
         public bool m_isScrew;
         public sbyte m_memOffsetToInitialAngleOffset;
@@ -24,9 +26,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_pinionRadiusOrScrewPitch);
             bw.WriteBoolean(m_isScrew);

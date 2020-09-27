@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiDirectedGraphExplicitCost : hkReferencedObject
     {
+        public override uint Signature { get => 788715820; }
+        
         public enum Constants
         {
             INVALID_NODE_INDEX = -1,
@@ -41,11 +43,17 @@ namespace HKX2
             m_streamingSets = des.ReadClassArray<hkaiStreamingSet>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_positions);
+            s.WriteClassArray<hkaiDirectedGraphExplicitCostNode>(bw, m_nodes);
+            s.WriteClassArray<hkaiDirectedGraphExplicitCostEdge>(bw, m_edges);
+            s.WriteUInt32Array(bw, m_nodeData);
+            s.WriteUInt32Array(bw, m_edgeData);
             bw.WriteInt32(m_nodeDataStriding);
             bw.WriteInt32(m_edgeDataStriding);
+            s.WriteClassArray<hkaiStreamingSet>(bw, m_streamingSets);
         }
     }
 }

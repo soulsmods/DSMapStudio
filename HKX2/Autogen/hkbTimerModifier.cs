@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbTimerModifier : hkbModifier
     {
+        public override uint Signature { get => 2021705186; }
+        
         public float m_alarmTimeSeconds;
         public hkbEventProperty m_alarmEvent;
         
@@ -19,12 +21,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_alarmTimeSeconds);
             bw.WriteUInt32(0);
-            m_alarmEvent.Write(bw);
+            m_alarmEvent.Write(s, bw);
             bw.WriteUInt64(0);
         }
     }

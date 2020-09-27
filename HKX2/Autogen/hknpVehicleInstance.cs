@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleInstance : hknpUnaryAction
     {
+        public override uint Signature { get => 1475876008; }
+        
         public hknpVehicleData m_data;
         public hknpVehicleDriverInput m_driverInput;
         public hknpVehicleSteering m_steering;
@@ -69,23 +71,25 @@ namespace HKX2
             m_clutchDelayCountdown = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            m_frictionStatus.Write(bw);
-            // Implement Write
+            s.WriteClassPointer<hknpVehicleData>(bw, m_data);
+            s.WriteClassPointer<hknpVehicleDriverInput>(bw, m_driverInput);
+            s.WriteClassPointer<hknpVehicleSteering>(bw, m_steering);
+            s.WriteClassPointer<hknpVehicleEngine>(bw, m_engine);
+            s.WriteClassPointer<hknpVehicleTransmission>(bw, m_transmission);
+            s.WriteClassPointer<hknpVehicleBrake>(bw, m_brake);
+            s.WriteClassPointer<hknpVehicleSuspension>(bw, m_suspension);
+            s.WriteClassPointer<hknpVehicleAerodynamics>(bw, m_aerodynamics);
+            s.WriteClassPointer<hknpVehicleWheelCollide>(bw, m_wheelCollide);
+            s.WriteClassPointer<hknpTyremarksInfo>(bw, m_tyreMarks);
+            s.WriteClassPointer<hknpVehicleVelocityDamper>(bw, m_velocityDamper);
+            s.WriteClassArray<hknpVehicleInstanceWheelInfo>(bw, m_wheelsInfo);
+            m_frictionStatus.Write(s, bw);
+            s.WriteClassPointer<hknpVehicleDriverInputStatus>(bw, m_deviceStatus);
+            s.WriteBooleanArray(bw, m_isFixed);
             bw.WriteSingle(m_wheelsTimeSinceMaxPedalInput);
             bw.WriteBoolean(m_tryingToReverse);
             bw.WriteUInt16(0);
@@ -94,6 +98,7 @@ namespace HKX2
             bw.WriteSingle(m_rpm);
             bw.WriteSingle(m_mainSteeringAngle);
             bw.WriteSingle(m_mainSteeringAngleAssumingNoReduction);
+            s.WriteSingleArray(bw, m_wheelsSteeringAngle);
             bw.WriteBoolean(m_isReversing);
             bw.WriteSByte(m_currentGear);
             bw.WriteBoolean(m_delayed);

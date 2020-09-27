@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableShape : hkReferencedObject
     {
+        public override uint Signature { get => 145098340; }
+        
         public hkcdShape m_physicsShape;
         public hkpBreakableMaterial m_material;
         
@@ -16,11 +18,11 @@ namespace HKX2
             m_material = des.ReadClassPointer<hkpBreakableMaterial>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkcdShape>(bw, m_physicsShape);
+            s.WriteClassPointer<hkpBreakableMaterial>(bw, m_material);
         }
     }
 }

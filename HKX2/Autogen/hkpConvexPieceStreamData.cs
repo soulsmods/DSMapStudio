@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConvexPieceStreamData : hkReferencedObject
     {
+        public override uint Signature { get => 968978824; }
+        
         public List<uint> m_convexPieceStream;
         public List<uint> m_convexPieceOffsets;
         public List<uint> m_convexPieceSingleTriangles;
@@ -18,9 +20,12 @@ namespace HKX2
             m_convexPieceSingleTriangles = des.ReadUInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt32Array(bw, m_convexPieceStream);
+            s.WriteUInt32Array(bw, m_convexPieceOffsets);
+            s.WriteUInt32Array(bw, m_convexPieceSingleTriangles);
         }
     }
 }

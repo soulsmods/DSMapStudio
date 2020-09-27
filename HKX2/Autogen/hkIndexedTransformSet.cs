@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkIndexedTransformSet : hkReferencedObject
     {
+        public override uint Signature { get => 735610660; }
+        
         public List<Matrix4x4> m_matrices;
         public List<Matrix4x4> m_inverseMatrices;
         public List<short> m_matricesOrder;
@@ -27,9 +29,14 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteMatrix4Array(bw, m_matrices);
+            s.WriteMatrix4Array(bw, m_inverseMatrices);
+            s.WriteInt16Array(bw, m_matricesOrder);
+            s.WriteStringPointerArray(bw, m_matricesNames);
+            s.WriteClassArray<hkMeshBoneIndexMapping>(bw, m_indexMappings);
             bw.WriteBoolean(m_allMatricesAreAffine);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

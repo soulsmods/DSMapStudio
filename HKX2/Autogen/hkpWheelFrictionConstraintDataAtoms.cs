@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpWheelFrictionConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 4035821319; }
+        
         public hkpSetLocalTransformsConstraintAtom m_transforms;
         public hkpWheelFrictionConstraintAtom m_friction;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_friction.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_friction.Write(bw);
+            m_transforms.Write(s, bw);
+            m_friction.Write(s, bw);
         }
     }
 }

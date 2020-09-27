@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStretchLinkConstraintSetLink : IHavokObject
     {
+        public virtual uint Signature { get => 2145577102; }
+        
         public ushort m_particleA;
         public ushort m_particleB;
         public float m_restLength;
@@ -19,7 +21,7 @@ namespace HKX2
             m_stiffness = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_particleA);
             bw.WriteUInt16(m_particleB);

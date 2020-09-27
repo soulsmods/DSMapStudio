@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticMeshTreeBaseSection : hkcdStaticTreeTreehkcdStaticTreeDynamicStorage4
     {
+        public override uint Signature { get => 4244753624; }
+        
         public enum Flags
         {
             SF_REQUIRE_TREE = 1,
@@ -54,9 +56,9 @@ namespace HKX2
             m_unusedData = br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_codecParms_0);
             bw.WriteSingle(m_codecParms_1);
             bw.WriteSingle(m_codecParms_2);
@@ -64,9 +66,9 @@ namespace HKX2
             bw.WriteSingle(m_codecParms_4);
             bw.WriteSingle(m_codecParms_5);
             bw.WriteUInt32(m_firstPackedVertex);
-            m_sharedVertices.Write(bw);
-            m_primitives.Write(bw);
-            m_dataRuns.Write(bw);
+            m_sharedVertices.Write(s, bw);
+            m_primitives.Write(s, bw);
+            m_dataRuns.Write(s, bw);
             bw.WriteByte(m_numPackedVertices);
             bw.WriteByte(m_numSharedIndices);
             bw.WriteUInt16(m_leafIndex);

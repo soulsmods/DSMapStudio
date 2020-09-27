@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSetupStabilizationAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 2265899274; }
+        
         public bool m_enabled;
         public float m_maxLinImpulse;
         public float m_maxAngImpulse;
@@ -21,9 +23,9 @@ namespace HKX2
             m_maxAngle = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_enabled);
             bw.WriteByte(0);
             bw.WriteSingle(m_maxLinImpulse);

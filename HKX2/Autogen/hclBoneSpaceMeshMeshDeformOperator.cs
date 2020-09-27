@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hclBoneSpaceMeshMeshDeformOperator : hclOperator
     {
+        public override uint Signature { get => 2790841359; }
+        
         public uint m_inputBufferIdx;
         public uint m_outputBufferIdx;
         public ScaleNormalBehaviour m_scaleNormalBehaviour;
@@ -31,13 +33,15 @@ namespace HKX2
             m_boneSpaceDeformer.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_inputBufferIdx);
             bw.WriteUInt32(m_outputBufferIdx);
+            bw.WriteUInt32((uint)m_scaleNormalBehaviour);
             bw.WriteUInt32(0);
-            m_boneSpaceDeformer.Write(bw);
+            s.WriteUInt16Array(bw, m_inputTrianglesSubset);
+            m_boneSpaceDeformer.Write(s, bw);
         }
     }
 }

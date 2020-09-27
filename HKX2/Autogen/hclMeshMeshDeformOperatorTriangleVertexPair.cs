@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMeshMeshDeformOperatorTriangleVertexPair : IHavokObject
     {
+        public virtual uint Signature { get => 1404285965; }
+        
         public Vector4 m_localPosition;
         public Vector4 m_localNormal;
         public ushort m_triangleIndex;
@@ -21,8 +23,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_localPosition);
+            s.WriteVector4(bw, m_localNormal);
             bw.WriteUInt16(m_triangleIndex);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_weight);

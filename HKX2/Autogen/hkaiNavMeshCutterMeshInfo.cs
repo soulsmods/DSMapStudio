@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshCutterMeshInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3865013252; }
+        
         public int m_originalNumFaces;
         public int m_originalNumEdges;
         public int m_originalNumVertices;
@@ -20,12 +22,13 @@ namespace HKX2
             m_magic = des.ReadInt32Array(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_originalNumFaces);
             bw.WriteInt32(m_originalNumEdges);
             bw.WriteInt32(m_originalNumVertices);
             bw.WriteUInt32(0);
+            s.WriteInt32Array(bw, m_magic);
         }
     }
 }

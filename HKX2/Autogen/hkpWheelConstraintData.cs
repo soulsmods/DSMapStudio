@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpWheelConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 1440984224; }
+        
         public hkpWheelConstraintDataAtoms m_atoms;
         public Vector4 m_initialAxleInB;
         public Vector4 m_initialSteeringAxisInB;
@@ -20,11 +22,13 @@ namespace HKX2
             m_initialSteeringAxisInB = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
+            s.WriteVector4(bw, m_initialAxleInB);
+            s.WriteVector4(bw, m_initialSteeringAxisInB);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbClipTrigger : IHavokObject
     {
+        public virtual uint Signature { get => 2125749482; }
+        
         public float m_localTime;
         public hkbEventProperty m_event;
         public bool m_relativeToEndOfClip;
@@ -25,11 +27,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_localTime);
             bw.WriteUInt32(0);
-            m_event.Write(bw);
+            m_event.Write(s, bw);
             bw.WriteBoolean(m_relativeToEndOfClip);
             bw.WriteBoolean(m_acyclic);
             bw.WriteBoolean(m_isAnnotation);

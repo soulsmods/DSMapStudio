@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticMeshTreehkcdStaticMeshTreeCommonConfigunsignedintunsignedlonglong1121hknpCompressedMeshShapeTreeDataRun : hkcdStaticMeshTreeBase
     {
+        public override uint Signature { get => 497573378; }
+        
         public enum TriangleMaterial
         {
             TM_SET_FROM_TRIANGLE_DATA_TYPE = 0,
@@ -24,9 +26,12 @@ namespace HKX2
             m_primitiveDataRuns = des.ReadClassArray<hknpCompressedMeshShapeTreeDataRun>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt32Array(bw, m_packedVertices);
+            s.WriteUInt64Array(bw, m_sharedVertices);
+            s.WriteClassArray<hknpCompressedMeshShapeTreeDataRun>(bw, m_primitiveDataRuns);
         }
     }
 }

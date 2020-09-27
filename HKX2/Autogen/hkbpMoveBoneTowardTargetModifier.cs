@@ -21,6 +21,8 @@ namespace HKX2
     
     public class hkbpMoveBoneTowardTargetModifier : hkbModifier
     {
+        public override uint Signature { get => 4205169225; }
+        
         public hkbpTarget m_targetIn;
         public Vector4 m_offsetInBoneSpace;
         public Vector4 m_alignAxisBS;
@@ -89,15 +91,22 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_eventToSendWhenTargetReached.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbpTarget>(bw, m_targetIn);
+            s.WriteVector4(bw, m_offsetInBoneSpace);
+            s.WriteVector4(bw, m_alignAxisBS);
+            s.WriteVector4(bw, m_targetAlignAxisTS);
+            s.WriteVector4(bw, m_alignWithCharacterForwardBS);
+            s.WriteVector4(bw, m_currentBonePositionOut);
+            s.WriteQuaternion(bw, m_currentBoneRotationOut);
+            m_eventToSendWhenTargetReached.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_childGenerator);
             bw.WriteSingle(m_duration);
             bw.WriteInt16(m_ragdollBoneIndex);
             bw.WriteInt16(m_animationBoneIndex);
+            bw.WriteSByte((sbyte)m_targetMode);
             bw.WriteSByte(m_alignMode);
             bw.WriteBoolean(m_useVelocityPrediction);
             bw.WriteBoolean(m_affectOrientation);
@@ -111,6 +120,12 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteVector4(bw, m_finalAnimBonePositionMS);
+            s.WriteVector4(bw, m_initialAnimBonePositionMS);
+            s.WriteQuaternion(bw, m_finalAnimBoneOrientationMS);
+            s.WriteQuaternion(bw, m_animationFromRagdoll);
+            s.WriteQSTransform(bw, m_totalMotion);
+            s.WriteQSTransform(bw, m_accumulatedMotion);
             bw.WriteBoolean(m_useAnimationData);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

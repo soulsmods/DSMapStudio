@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxVertexBufferVertexData : IHavokObject
     {
+        public virtual uint Signature { get => 1115423220; }
+        
         public List<uint> m_vectorData;
         public List<uint> m_floatData;
         public List<uint> m_uint32Data;
@@ -33,8 +35,13 @@ namespace HKX2
             m_uint8Stride = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteUInt32Array(bw, m_vectorData);
+            s.WriteUInt32Array(bw, m_floatData);
+            s.WriteUInt32Array(bw, m_uint32Data);
+            s.WriteUInt16Array(bw, m_uint16Data);
+            s.WriteByteArray(bw, m_uint8Data);
             bw.WriteUInt32(m_numVerts);
             bw.WriteUInt32(m_vectorStride);
             bw.WriteUInt32(m_floatStride);

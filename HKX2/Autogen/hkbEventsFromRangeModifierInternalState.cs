@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventsFromRangeModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3983878176; }
+        
         public List<bool> m_wasActiveInPreviousFrame;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_wasActiveInPreviousFrame = des.ReadBooleanArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteBooleanArray(bw, m_wasActiveInPreviousFrame);
         }
     }
 }

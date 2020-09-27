@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSkinBinding : hkMeshShape
     {
+        public override uint Signature { get => 1666254878; }
+        
         public hkMeshShape m_skin;
         public List<Matrix4x4> m_worldFromBoneTransforms;
         public List<string> m_boneNames;
@@ -18,10 +20,12 @@ namespace HKX2
             m_boneNames = des.ReadStringPointerArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkMeshShape>(bw, m_skin);
+            s.WriteMatrix4Array(bw, m_worldFromBoneTransforms);
+            s.WriteStringPointerArray(bw, m_boneNames);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpBridgeConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 2459942072; }
+        
         public int m_numSolverResults;
         public hkpConstraintData m_constraintData;
         
@@ -18,12 +20,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(0);
             bw.WriteInt32(m_numSolverResults);
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintData>(bw, m_constraintData);
             bw.WriteUInt64(0);
         }
     }

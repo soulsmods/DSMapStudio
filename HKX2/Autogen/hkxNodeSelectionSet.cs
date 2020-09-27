@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxNodeSelectionSet : hkxAttributeHolder
     {
+        public override uint Signature { get => 2568320674; }
+        
         public List<hkxNode> m_selectedNodes;
         public string m_name;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkxNode>(bw, m_selectedNodes);
+            s.WriteStringPointer(bw, m_name);
         }
     }
 }

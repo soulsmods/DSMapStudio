@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCollidableBoundingVolumeData : IHavokObject
     {
+        public virtual uint Signature { get => 1589796752; }
+        
         public uint m_min_0;
         public uint m_min_1;
         public uint m_min_2;
@@ -41,7 +43,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_min_0);
             bw.WriteUInt32(m_min_1);

@@ -6,13 +6,15 @@ namespace HKX2
 {
     public class hkpWheelFrictionConstraintDataRuntime : IHavokObject
     {
+        public virtual uint Signature { get => 2077607535; }
+        
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(0);
         }

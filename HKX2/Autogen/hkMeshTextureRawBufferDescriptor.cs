@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMeshTextureRawBufferDescriptor : IHavokObject
     {
+        public virtual uint Signature { get => 1617460748; }
+        
         public long m_offset;
         public uint m_stride;
         public uint m_numElements;
@@ -17,7 +19,7 @@ namespace HKX2
             m_numElements = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt64(m_offset);
             bw.WriteUInt32(m_stride);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGeneratorSyncInfoSyncPoint : IHavokObject
     {
+        public virtual uint Signature { get => 3046625170; }
+        
         public int m_id;
         public float m_time;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_time = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_id);
             bw.WriteSingle(m_time);

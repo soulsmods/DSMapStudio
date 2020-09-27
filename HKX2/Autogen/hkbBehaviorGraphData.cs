@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBehaviorGraphData : hkReferencedObject
     {
+        public override uint Signature { get => 2423947810; }
+        
         public List<float> m_attributeDefaults;
         public List<hkbVariableInfo> m_variableInfos;
         public List<hkbVariableInfo> m_characterPropertyInfos;
@@ -26,11 +28,16 @@ namespace HKX2
             m_stringData = des.ReadClassPointer<hkbBehaviorGraphStringData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteSingleArray(bw, m_attributeDefaults);
+            s.WriteClassArray<hkbVariableInfo>(bw, m_variableInfos);
+            s.WriteClassArray<hkbVariableInfo>(bw, m_characterPropertyInfos);
+            s.WriteClassArray<hkbEventInfo>(bw, m_eventInfos);
+            s.WriteClassArray<hkbVariableBounds>(bw, m_variableBounds);
+            s.WriteClassPointer<hkbVariableValueSet>(bw, m_variableInitialValues);
+            s.WriteClassPointer<hkbBehaviorGraphStringData>(bw, m_stringData);
         }
     }
 }

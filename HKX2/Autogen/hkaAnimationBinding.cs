@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkaAnimationBinding : hkReferencedObject
     {
+        public override uint Signature { get => 263164240; }
+        
         public string m_originalSkeletonName;
         public hkaAnimation m_animation;
         public List<short> m_transformTrackToBoneIndices;
@@ -34,10 +36,15 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_originalSkeletonName);
+            s.WriteClassPointer<hkaAnimation>(bw, m_animation);
+            s.WriteInt16Array(bw, m_transformTrackToBoneIndices);
+            s.WriteInt16Array(bw, m_floatTrackToFloatSlotIndices);
+            s.WriteInt16Array(bw, m_partitionIndices);
+            bw.WriteSByte((sbyte)m_blendHint);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

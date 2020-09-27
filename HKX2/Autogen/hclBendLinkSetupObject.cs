@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBendLinkSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 2979266589; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public bool m_createStandardLinks;
@@ -33,18 +35,19 @@ namespace HKX2
             m_flatnessFactor.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
             bw.WriteBoolean(m_createStandardLinks);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_vertexSelection.Write(bw);
-            m_bendStiffness.Write(bw);
-            m_stretchStiffness.Write(bw);
-            m_flatnessFactor.Write(bw);
+            m_vertexSelection.Write(s, bw);
+            m_bendStiffness.Write(s, bw);
+            m_stretchStiffness.Write(s, bw);
+            m_flatnessFactor.Write(s, bw);
         }
     }
 }

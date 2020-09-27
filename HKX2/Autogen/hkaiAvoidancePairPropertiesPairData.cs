@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiAvoidancePairPropertiesPairData : IHavokObject
     {
+        public virtual uint Signature { get => 1296548935; }
+        
         public uint m_key;
         public float m_weight;
         public float m_cosViewAngle;
@@ -17,7 +19,7 @@ namespace HKX2
             m_cosViewAngle = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_key);
             bw.WriteSingle(m_weight);

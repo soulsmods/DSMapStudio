@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStorageSetupMeshTriangleChannel : IHavokObject
     {
+        public virtual uint Signature { get => 1935860136; }
+        
         public string m_name;
         public TriangleChannelType m_type;
         
@@ -16,8 +18,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
+            bw.WriteUInt32((uint)m_type);
             bw.WriteUInt32(0);
         }
     }

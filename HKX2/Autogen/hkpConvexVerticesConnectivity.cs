@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConvexVerticesConnectivity : hkReferencedObject
     {
+        public override uint Signature { get => 310342283; }
+        
         public List<ushort> m_vertexIndices;
         public List<byte> m_numVerticesPerFace;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_numVerticesPerFace = des.ReadByteArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt16Array(bw, m_vertexIndices);
+            s.WriteByteArray(bw, m_numVerticesPerFace);
         }
     }
 }

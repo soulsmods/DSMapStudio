@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSilhouetteGenerationParameters : IHavokObject
     {
+        public virtual uint Signature { get => 2282972156; }
+        
         public float m_extraExpansion;
         public float m_bevelThreshold;
         public float m_maxSilhouetteSize;
@@ -22,13 +24,13 @@ namespace HKX2
             m_referenceFrame.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_extraExpansion);
             bw.WriteSingle(m_bevelThreshold);
             bw.WriteSingle(m_maxSilhouetteSize);
             bw.WriteSingle(m_simplify2dConvexHullThreshold);
-            m_referenceFrame.Write(bw);
+            m_referenceFrame.Write(s, bw);
         }
     }
 }

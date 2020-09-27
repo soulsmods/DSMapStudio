@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclGatherAllVerticesOperator : hclOperator
     {
+        public override uint Signature { get => 3664999062; }
+        
         public List<short> m_vertexInputFromVertexOutput;
         public uint m_inputBufferIdx;
         public uint m_outputBufferIdx;
@@ -24,9 +26,10 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteInt16Array(bw, m_vertexInputFromVertexOutput);
             bw.WriteUInt32(m_inputBufferIdx);
             bw.WriteUInt32(m_outputBufferIdx);
             bw.WriteBoolean(m_gatherNormals);

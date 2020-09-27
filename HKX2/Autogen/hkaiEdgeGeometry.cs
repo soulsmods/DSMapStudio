@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiEdgeGeometry : hkReferencedObject
     {
+        public override uint Signature { get => 3789974824; }
+        
         public enum FaceFlagBits
         {
             FLAGS_NONE = 0,
@@ -32,10 +34,13 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_zeroFace.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiEdgeGeometryEdge>(bw, m_edges);
+            s.WriteClassArray<hkaiEdgeGeometryFace>(bw, m_faces);
+            s.WriteVector4Array(bw, m_vertices);
+            m_zeroFace.Write(s, bw);
             bw.WriteUInt32(0);
         }
     }

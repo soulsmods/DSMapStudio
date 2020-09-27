@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpVehicleFrictionDescriptionAxisDescription : IHavokObject
     {
+        public virtual uint Signature { get => 1506678079; }
+        
         public float m_frictionCircleYtab_0;
         public float m_frictionCircleYtab_1;
         public float m_frictionCircleYtab_2;
@@ -61,7 +63,7 @@ namespace HKX2
             m_wheelDownForceSumFactor = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_frictionCircleYtab_0);
             bw.WriteSingle(m_frictionCircleYtab_1);

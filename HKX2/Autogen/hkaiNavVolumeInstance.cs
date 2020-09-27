@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeInstance : hkReferencedObject
     {
+        public override uint Signature { get => 4187855647; }
+        
         public hkaiNavVolume m_originalVolume;
         public List<int> m_cellMap;
         public List<hkaiNavVolumeInstanceCellInstance> m_instancedCells;
@@ -34,19 +36,23 @@ namespace HKX2
             m_translation = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkaiNavVolume>(bw, m_originalVolume);
+            s.WriteInt32Array(bw, m_cellMap);
+            s.WriteClassArray<hkaiNavVolumeInstanceCellInstance>(bw, m_instancedCells);
+            s.WriteClassArray<hkaiNavVolumeEdge>(bw, m_ownedEdges);
             bw.WriteUInt32(m_sectionUid);
             bw.WriteInt32(m_runtimeId);
             bw.WriteUInt32(m_layer);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_translation);
         }
     }
 }

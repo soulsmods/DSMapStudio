@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMemoryResourceHandleExternalLink : IHavokObject
     {
+        public virtual uint Signature { get => 826593660; }
+        
         public string m_memberName;
         public string m_externalId;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_externalId = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_memberName);
+            s.WriteStringPointer(bw, m_externalId);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxEnumItem : IHavokObject
     {
+        public virtual uint Signature { get => 3746361833; }
+        
         public int m_value;
         public string m_name;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_value);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_name);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPrismaticConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3860328596; }
+        
         public enum Axis
         {
             AXIS_SHAFT = 0,
@@ -39,15 +41,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_motor.Write(bw);
-            m_friction.Write(bw);
-            m_ang.Write(bw);
-            m_lin0.Write(bw);
-            m_lin1.Write(bw);
-            m_linLimit.Write(bw);
+            m_transforms.Write(s, bw);
+            m_motor.Write(s, bw);
+            m_friction.Write(s, bw);
+            m_ang.Write(s, bw);
+            m_lin0.Write(s, bw);
+            m_lin1.Write(s, bw);
+            m_linLimit.Write(s, bw);
             bw.WriteUInt64(0);
         }
     }

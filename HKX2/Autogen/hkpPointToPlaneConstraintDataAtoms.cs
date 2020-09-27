@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPointToPlaneConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 2468667051; }
+        
         public hkpSetLocalTransformsConstraintAtom m_transforms;
         public hkpLinConstraintAtom m_lin;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_lin.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transforms.Write(bw);
-            m_lin.Write(bw);
+            m_transforms.Write(s, bw);
+            m_lin.Write(s, bw);
         }
     }
 }

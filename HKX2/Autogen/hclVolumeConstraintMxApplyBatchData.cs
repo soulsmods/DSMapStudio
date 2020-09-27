@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclVolumeConstraintMxApplyBatchData : IHavokObject
     {
+        public virtual uint Signature { get => 2552784552; }
+        
         public Vector4 m_frameVector_0;
         public Vector4 m_frameVector_1;
         public Vector4 m_frameVector_2;
@@ -107,8 +109,24 @@ namespace HKX2
             m_stiffness_15 = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_frameVector_0);
+            s.WriteVector4(bw, m_frameVector_1);
+            s.WriteVector4(bw, m_frameVector_2);
+            s.WriteVector4(bw, m_frameVector_3);
+            s.WriteVector4(bw, m_frameVector_4);
+            s.WriteVector4(bw, m_frameVector_5);
+            s.WriteVector4(bw, m_frameVector_6);
+            s.WriteVector4(bw, m_frameVector_7);
+            s.WriteVector4(bw, m_frameVector_8);
+            s.WriteVector4(bw, m_frameVector_9);
+            s.WriteVector4(bw, m_frameVector_10);
+            s.WriteVector4(bw, m_frameVector_11);
+            s.WriteVector4(bw, m_frameVector_12);
+            s.WriteVector4(bw, m_frameVector_13);
+            s.WriteVector4(bw, m_frameVector_14);
+            s.WriteVector4(bw, m_frameVector_15);
             bw.WriteUInt16(m_particleIndex_0);
             bw.WriteUInt16(m_particleIndex_1);
             bw.WriteUInt16(m_particleIndex_2);

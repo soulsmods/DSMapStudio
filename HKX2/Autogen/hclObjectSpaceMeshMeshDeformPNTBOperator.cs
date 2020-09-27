@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclObjectSpaceMeshMeshDeformPNTBOperator : hclObjectSpaceMeshMeshDeformOperator
     {
+        public override uint Signature { get => 2213112367; }
+        
         public List<hclObjectSpaceDeformerLocalBlockPNTB> m_localPNTBs;
         public List<hclObjectSpaceDeformerLocalBlockUnpackedPNTB> m_localUnpackedPNTBs;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_localUnpackedPNTBs = des.ReadClassArray<hclObjectSpaceDeformerLocalBlockUnpackedPNTB>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclObjectSpaceDeformerLocalBlockPNTB>(bw, m_localPNTBs);
+            s.WriteClassArray<hclObjectSpaceDeformerLocalBlockUnpackedPNTB>(bw, m_localUnpackedPNTBs);
         }
     }
 }

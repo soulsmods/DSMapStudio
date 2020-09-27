@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbIntVariableSequencedDataSample : IHavokObject
     {
+        public virtual uint Signature { get => 3195717180; }
+        
         public float m_time;
         public int m_value;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_value = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_time);
             bw.WriteInt32(m_value);

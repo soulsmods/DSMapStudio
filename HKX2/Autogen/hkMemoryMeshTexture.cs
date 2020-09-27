@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMemoryMeshTexture : hkMeshTexture
     {
+        public override uint Signature { get => 2927314619; }
+        
         public string m_filename;
         public List<byte> m_data;
         public Format m_format;
@@ -26,10 +28,15 @@ namespace HKX2
             m_textureCoordChannel = br.ReadInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_filename);
+            s.WriteByteArray(bw, m_data);
+            bw.WriteSByte((sbyte)m_format);
             bw.WriteBoolean(m_hasMipMaps);
+            bw.WriteSByte((sbyte)m_filterMode);
+            bw.WriteSByte((sbyte)m_usageHint);
             bw.WriteInt32(m_textureCoordChannel);
         }
     }

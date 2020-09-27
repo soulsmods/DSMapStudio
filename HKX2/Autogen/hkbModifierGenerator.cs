@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbModifierGenerator : hkbGenerator
     {
+        public override uint Signature { get => 3298426014; }
+        
         public hkbModifier m_modifier;
         public hkbGenerator m_generator;
         
@@ -16,11 +18,11 @@ namespace HKX2
             m_generator = des.ReadClassPointer<hkbGenerator>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbModifier>(bw, m_modifier);
+            s.WriteClassPointer<hkbGenerator>(bw, m_generator);
         }
     }
 }

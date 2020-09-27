@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hkbBlenderGenerator : hkbGenerator
     {
+        public override uint Signature { get => 3460677768; }
+        
         public float m_referencePoseWeightThreshold;
         public float m_blendParameter;
         public float m_minCyclicBlendParameter;
@@ -48,9 +50,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_referencePoseWeightThreshold);
             bw.WriteSingle(m_blendParameter);
             bw.WriteSingle(m_minCyclicBlendParameter);
@@ -60,6 +62,7 @@ namespace HKX2
             bw.WriteBoolean(m_subtractLastChild);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteClassPointerArray<hkbBlenderGeneratorChild>(bw, m_children);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

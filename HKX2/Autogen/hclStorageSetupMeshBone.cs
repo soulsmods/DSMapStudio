@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStorageSetupMeshBone : IHavokObject
     {
+        public virtual uint Signature { get => 3822018135; }
+        
         public string m_name;
         public Matrix4x4 m_boneFromSkin;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_boneFromSkin = des.ReadMatrix4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(0);
+            s.WriteMatrix4(bw, m_boneFromSkin);
         }
     }
 }

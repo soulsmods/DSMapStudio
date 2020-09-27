@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxAttributeHolder : hkReferencedObject
     {
+        public override uint Signature { get => 4235330075; }
+        
         public List<hkxAttributeGroup> m_attributeGroups;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_attributeGroups = des.ReadClassArray<hkxAttributeGroup>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkxAttributeGroup>(bw, m_attributeGroups);
         }
     }
 }

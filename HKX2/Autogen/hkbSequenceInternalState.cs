@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSequenceInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 4274199809; }
+        
         public List<int> m_nextSampleEvents;
         public List<int> m_nextSampleReals;
         public List<int> m_nextSampleBools;
@@ -26,9 +28,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteInt32Array(bw, m_nextSampleEvents);
+            s.WriteInt32Array(bw, m_nextSampleReals);
+            s.WriteInt32Array(bw, m_nextSampleBools);
+            s.WriteInt32Array(bw, m_nextSampleInts);
             bw.WriteSingle(m_time);
             bw.WriteBoolean(m_isEnabled);
             bw.WriteUInt16(0);

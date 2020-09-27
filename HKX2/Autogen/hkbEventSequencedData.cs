@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventSequencedData : hkbSequencedData
     {
+        public override uint Signature { get => 3303412058; }
+        
         public List<hkbEventSequencedDataSequencedEvent> m_events;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_events = des.ReadClassArray<hkbEventSequencedDataSequencedEvent>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbEventSequencedDataSequencedEvent>(bw, m_events);
         }
     }
 }

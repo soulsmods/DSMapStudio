@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxCamera : hkReferencedObject
     {
+        public override uint Signature { get => 1641286740; }
+        
         public Vector4 m_from;
         public Vector4 m_focus;
         public Vector4 m_up;
@@ -28,9 +30,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_from);
+            s.WriteVector4(bw, m_focus);
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_fov);
             bw.WriteSingle(m_far);
             bw.WriteSingle(m_near);

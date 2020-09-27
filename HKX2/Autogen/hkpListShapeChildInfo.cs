@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpListShapeChildInfo : IHavokObject
     {
+        public virtual uint Signature { get => 563350563; }
+        
         public hkpShape m_shape;
         public uint m_collisionFilterInfo;
         public ushort m_shapeInfo;
@@ -20,9 +22,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkpShape>(bw, m_shape);
             bw.WriteUInt32(m_collisionFilterInfo);
             bw.WriteUInt16(m_shapeInfo);
             bw.WriteUInt64(0);

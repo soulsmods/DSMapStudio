@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkaiReferenceFrameAndExtrusion : IHavokObject
     {
+        public virtual uint Signature { get => 1490158809; }
+        
         public Vector4 m_up;
         public float m_cellExtrusion;
         public float m_silhouetteRadiusExpasion;
@@ -29,10 +31,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_cellExtrusion);
             bw.WriteSingle(m_silhouetteRadiusExpasion);
+            bw.WriteByte((byte)m_upTransformMethod);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

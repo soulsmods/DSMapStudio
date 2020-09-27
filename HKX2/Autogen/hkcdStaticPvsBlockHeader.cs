@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticPvsBlockHeader : IHavokObject
     {
+        public virtual uint Signature { get => 3220399684; }
+        
         public uint m_offset;
         public uint m_length;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_length = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_offset);
             bw.WriteUInt32(m_length);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiOverlappingTrianglesSettings : IHavokObject
     {
+        public virtual uint Signature { get => 863465528; }
+        
         public float m_coplanarityTolerance;
         public float m_raycastLengthMultiplier;
         public WalkableTriangleSettings m_walkableTriangleSettings;
@@ -19,10 +21,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_coplanarityTolerance);
             bw.WriteSingle(m_raycastLengthMultiplier);
+            bw.WriteByte((byte)m_walkableTriangleSettings);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
         }

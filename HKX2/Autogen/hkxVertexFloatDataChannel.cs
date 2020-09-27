@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkxVertexFloatDataChannel : hkReferencedObject
     {
+        public override uint Signature { get => 2320760901; }
+        
         public List<float> m_perVertexFloats;
         public VertexFloatDimensions m_dimensions;
         
@@ -26,9 +28,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteSingleArray(bw, m_perVertexFloats);
+            bw.WriteByte((byte)m_dimensions);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

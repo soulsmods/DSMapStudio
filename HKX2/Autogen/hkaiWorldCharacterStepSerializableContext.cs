@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiWorldCharacterStepSerializableContext : hkReferencedObject
     {
+        public override uint Signature { get => 3240525311; }
+        
         public CharacterCallbackType m_callbackType;
         public float m_timestep;
         public List<hkaiCharacter> m_characters;
@@ -25,13 +27,17 @@ namespace HKX2
             m_obstacleGenerators = des.ReadClassPointerArray<hkaiObstacleGenerator>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            bw.WriteByte((byte)m_callbackType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_timestep);
+            s.WriteClassPointerArray<hkaiCharacter>(bw, m_characters);
+            s.WriteClassArray<hkaiLocalSteeringInput>(bw, m_localSteeringInputs);
+            s.WriteClassPointerArray<hkaiObstacleGenerator>(bw, m_obstacleGenerators);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkaiEdgePath : hkReferencedObject
     {
+        public override uint Signature { get => 1514736363; }
+        
         public List<hkaiEdgePathEdge> m_edges;
         public List<int> m_edgeData;
         public int m_edgeDataStriding;
@@ -31,9 +33,11 @@ namespace HKX2
             m_characterRadius = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiEdgePathEdge>(bw, m_edges);
+            s.WriteInt32Array(bw, m_edgeData);
             bw.WriteInt32(m_edgeDataStriding);
             bw.WriteSingle(m_leftTurnRadius);
             bw.WriteSingle(m_rightTurnRadius);

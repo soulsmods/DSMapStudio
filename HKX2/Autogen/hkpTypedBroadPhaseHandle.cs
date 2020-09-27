@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpTypedBroadPhaseHandle : hkpBroadPhaseHandle
     {
+        public override uint Signature { get => 4105238425; }
+        
         public sbyte m_type;
         public sbyte m_objectQualityType;
         public uint m_collisionFilterInfo;
@@ -20,9 +22,9 @@ namespace HKX2
             m_collisionFilterInfo = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSByte(m_type);
             bw.WriteByte(0);
             bw.WriteSByte(m_objectQualityType);

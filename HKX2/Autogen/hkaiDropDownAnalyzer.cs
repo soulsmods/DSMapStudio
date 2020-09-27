@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDropDownAnalyzer : hkaiTraversalAnalyzer
     {
+        public override uint Signature { get => 1877069901; }
+        
         public float m_minDropDistance;
         public float m_maxDropDistance;
         public float m_maxUnderhang;
@@ -20,9 +22,9 @@ namespace HKX2
             m_verticalLipHeight = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_minDropDistance);
             bw.WriteSingle(m_maxDropDistance);
             bw.WriteSingle(m_maxUnderhang);

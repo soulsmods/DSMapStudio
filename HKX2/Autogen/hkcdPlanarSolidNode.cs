@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdPlanarSolidNode : IHavokObject
     {
+        public virtual uint Signature { get => 4005511420; }
+        
         public uint m_parent;
         public uint m_left;
         public uint m_right;
@@ -25,7 +27,7 @@ namespace HKX2
             m_typeAndFlags = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_parent);
             bw.WriteUInt32(m_left);

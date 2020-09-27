@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSilhouetteRecorderVolumeLoadedEvent : hkaiSilhouetteRecorderReplayEvent
     {
+        public override uint Signature { get => 1732499054; }
+        
         public hkaiNavVolumeInstance m_volume;
         public hkaiNavVolumeMediator m_mediator;
         
@@ -16,11 +18,11 @@ namespace HKX2
             m_mediator = des.ReadClassPointer<hkaiNavVolumeMediator>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiNavVolumeInstance>(bw, m_volume);
+            s.WriteClassPointer<hkaiNavVolumeMediator>(bw, m_mediator);
         }
     }
 }

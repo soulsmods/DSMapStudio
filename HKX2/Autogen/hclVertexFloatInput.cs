@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hclVertexFloatInput : IHavokObject
     {
+        public virtual uint Signature { get => 4150435535; }
+        
         public VertexFloatType m_type;
         public float m_constantValue;
         public string m_channelName;
@@ -23,9 +25,11 @@ namespace HKX2
             m_channelName = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteUInt32((uint)m_type);
             bw.WriteSingle(m_constantValue);
+            s.WriteStringPointer(bw, m_channelName);
         }
     }
 }

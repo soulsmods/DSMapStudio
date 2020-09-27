@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSingleShapeContainer : hkpShapeContainer
     {
+        public override uint Signature { get => 1940528440; }
+        
         public hkpShape m_childShape;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_childShape = des.ReadClassPointer<hkpShape>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpShape>(bw, m_childShape);
         }
     }
 }

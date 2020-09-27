@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpStiffSpringConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 520373280; }
+        
         public float m_length;
         public float m_maxLength;
         
@@ -17,9 +19,9 @@ namespace HKX2
             m_maxLength = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_length);
             bw.WriteSingle(m_maxLength);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAction : hkReferencedObject
     {
+        public override uint Signature { get => 4036259319; }
+        
         public ulong m_userData;
         public string m_name;
         
@@ -18,12 +20,13 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(m_userData);
+            s.WriteStringPointer(bw, m_name);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkbPoseMatchingGenerator : hkbBlenderGenerator
     {
+        public override uint Signature { get => 2997496194; }
+        
         public Quaternion m_worldFromModelRotation;
         public float m_blendSpeed;
         public float m_minSpeedToSwitch;
@@ -48,9 +50,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteQuaternion(bw, m_worldFromModelRotation);
             bw.WriteSingle(m_blendSpeed);
             bw.WriteSingle(m_minSpeedToSwitch);
             bw.WriteSingle(m_minSwitchTimeNoError);
@@ -61,6 +64,7 @@ namespace HKX2
             bw.WriteInt16(m_otherBoneIndex);
             bw.WriteInt16(m_anotherBoneIndex);
             bw.WriteInt16(m_pelvisIndex);
+            bw.WriteSByte((sbyte)m_mode);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

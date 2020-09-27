@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMeshMeshDeformSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 79408206; }
+        
         public string m_name;
         public hclBufferSetupObject m_inputBufferSetupObject;
         public hclTriangleSelectionInput m_inputTriangleSelection;
@@ -41,14 +43,16 @@ namespace HKX2
             m_useMeshTopology = br.ReadBoolean();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_inputTriangleSelection.Write(bw);
-            // Implement Write
-            m_outputVertexSelection.Write(bw);
-            m_influenceRadiusPerVertex.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_inputBufferSetupObject);
+            m_inputTriangleSelection.Write(s, bw);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_outputBufferSetupObject);
+            m_outputVertexSelection.Write(s, bw);
+            m_influenceRadiusPerVertex.Write(s, bw);
+            bw.WriteUInt32((uint)m_scaleNormalBehaviour);
             bw.WriteUInt32(m_maxTrianglesPerVertex);
             bw.WriteSingle(m_minimumTriangleWeight);
             bw.WriteBoolean(m_deformNormals);

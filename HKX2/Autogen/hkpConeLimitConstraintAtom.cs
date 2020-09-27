@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkpConeLimitConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 362718665; }
+        
         public byte m_isEnabled;
         public byte m_twistAxisInA;
         public byte m_refAxisInB;
@@ -37,12 +39,13 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_isEnabled);
             bw.WriteByte(m_twistAxisInA);
             bw.WriteByte(m_refAxisInB);
+            bw.WriteByte((byte)m_angleMeasurementMode);
             bw.WriteByte(m_memOffsetToAngleOffset);
             bw.WriteByte(0);
             bw.WriteSingle(m_minAngle);

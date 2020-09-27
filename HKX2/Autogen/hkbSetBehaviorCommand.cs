@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSetBehaviorCommand : hkReferencedObject
     {
+        public override uint Signature { get => 1686236417; }
+        
         public ulong m_characterId;
         public hkbBehaviorGraph m_behavior;
         public hkbGenerator m_rootGenerator;
@@ -29,12 +31,13 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkbBehaviorGraph>(bw, m_behavior);
+            s.WriteClassPointer<hkbGenerator>(bw, m_rootGenerator);
+            s.WriteClassPointerArray<hkbBehaviorGraph>(bw, m_referencedBehaviors);
             bw.WriteInt32(m_startStateIndex);
             bw.WriteBoolean(m_randomizeSimulation);
             bw.WriteUInt16(0);

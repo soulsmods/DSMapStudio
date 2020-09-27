@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSerializedTrack1nInfo : IHavokObject
     {
+        public virtual uint Signature { get => 4046276825; }
+        
         public List<hkpAgent1nSector> m_sectors;
         public List<hkpSerializedSubTrack1nInfo> m_subTracks;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_subTracks = des.ReadClassPointerArray<hkpSerializedSubTrack1nInfo>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassPointerArray<hkpAgent1nSector>(bw, m_sectors);
+            s.WriteClassPointerArray<hkpSerializedSubTrack1nInfo>(bw, m_subTracks);
         }
     }
 }

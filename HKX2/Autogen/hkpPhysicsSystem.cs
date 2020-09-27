@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkpPhysicsSystem : hkReferencedObject
     {
+        public override uint Signature { get => 3016519268; }
+        
         public List<hkpRigidBody> m_rigidBodies;
         public List<hkpConstraintInstance> m_constraints;
         public List<hkpAction> m_actions;
@@ -37,9 +39,14 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpRigidBody>(bw, m_rigidBodies);
+            s.WriteClassPointerArray<hkpConstraintInstance>(bw, m_constraints);
+            s.WriteClassPointerArray<hkpAction>(bw, m_actions);
+            s.WriteClassPointerArray<hkpPhantom>(bw, m_phantoms);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(m_userData);
             bw.WriteBoolean(m_active);
             bw.WriteUInt32(0);

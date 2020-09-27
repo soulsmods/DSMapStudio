@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkCustomAttributes : IHavokObject
     {
+        public virtual uint Signature { get => 3220279301; }
+        
         public List<hkCustomAttributesAttribute> m_attributes;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,7 +15,7 @@ namespace HKX2
             // Read TYPE_SIMPLEARRAY
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             // Read TYPE_SIMPLEARRAY
         }

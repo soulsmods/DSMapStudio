@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCompressedMeshShapeConvexPiece : IHavokObject
     {
+        public virtual uint Signature { get => 1114430838; }
+        
         public Vector4 m_offset;
         public List<ushort> m_vertices;
         public ushort m_reference;
@@ -21,8 +23,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_offset);
+            s.WriteUInt16Array(bw, m_vertices);
             bw.WriteUInt16(m_reference);
             bw.WriteUInt16(m_transformIndex);
             bw.WriteUInt64(0);

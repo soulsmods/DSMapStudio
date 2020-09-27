@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkxSpline : hkReferencedObject
     {
+        public override uint Signature { get => 1523860306; }
+        
         public List<hkxSplineControlPoint> m_controlPoints;
         public bool m_isClosed;
         
@@ -27,9 +29,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkxSplineControlPoint>(bw, m_controlPoints);
             bw.WriteBoolean(m_isClosed);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

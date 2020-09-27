@@ -21,6 +21,8 @@ namespace HKX2
     
     public class hclRuntimeConversionInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3815343544; }
+        
         public hclRuntimeConversionInfoSlotConversion m_slotConversions_0;
         public hclRuntimeConversionInfoSlotConversion m_slotConversions_1;
         public hclRuntimeConversionInfoSlotConversion m_slotConversions_2;
@@ -54,16 +56,16 @@ namespace HKX2
             m_numElementsConverted = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_slotConversions_0.Write(bw);
-            m_slotConversions_1.Write(bw);
-            m_slotConversions_2.Write(bw);
-            m_slotConversions_3.Write(bw);
-            m_elementConversions_0.Write(bw);
-            m_elementConversions_1.Write(bw);
-            m_elementConversions_2.Write(bw);
-            m_elementConversions_3.Write(bw);
+            m_slotConversions_0.Write(s, bw);
+            m_slotConversions_1.Write(s, bw);
+            m_slotConversions_2.Write(s, bw);
+            m_slotConversions_3.Write(s, bw);
+            m_elementConversions_0.Write(s, bw);
+            m_elementConversions_1.Write(s, bw);
+            m_elementConversions_2.Write(s, bw);
+            m_elementConversions_3.Write(s, bw);
             bw.WriteByte(m_numSlotsConverted);
             bw.WriteByte(m_numElementsConverted);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBufferLayoutBufferElement : IHavokObject
     {
+        public virtual uint Signature { get => 1040916212; }
+        
         public VectorConversion m_vectorConversion;
         public byte m_vectorSize;
         public byte m_slotId;
@@ -19,8 +21,9 @@ namespace HKX2
             m_slotStart = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteByte((byte)m_vectorConversion);
             bw.WriteByte(m_vectorSize);
             bw.WriteByte(m_slotId);
             bw.WriteByte(m_slotStart);

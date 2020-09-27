@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiNavMeshSimplificationUtilsExtraVertexSettings : IHavokObject
     {
+        public virtual uint Signature { get => 3836726061; }
+        
         public VertexSelectionMethod m_vertexSelectionMethod;
         public float m_vertexFraction;
         public float m_areaFraction;
@@ -44,8 +46,9 @@ namespace HKX2
             m_userVertices = des.ReadVector4Array(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteByte((byte)m_vertexSelectionMethod);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_vertexFraction);
@@ -59,6 +62,7 @@ namespace HKX2
             bw.WriteSingle(m_boundaryEdgeSplitLength);
             bw.WriteSingle(m_partitionBordersSplitLength);
             bw.WriteSingle(m_userVertexOnBoundaryTolerance);
+            s.WriteVector4Array(bw, m_userVertices);
         }
     }
 }

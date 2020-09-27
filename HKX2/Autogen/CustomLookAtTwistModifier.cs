@@ -18,6 +18,8 @@ namespace HKX2
     
     public class CustomLookAtTwistModifier : hkbModifier
     {
+        public override uint Signature { get => 4031613631; }
+        
         public enum SetAngleMethod
         {
             LINEAR = 0,
@@ -81,14 +83,16 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_ModifierID);
+            bw.WriteSByte((sbyte)m_rotationAxisType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_SensingDummyPoly);
             bw.WriteUInt32(0);
+            s.WriteClassArray<CustomLookAtTwistModifierTwistParam>(bw, m_twistParam);
             bw.WriteSingle(m_UpLimitAngle);
             bw.WriteSingle(m_DownLimitAngle);
             bw.WriteSingle(m_RightLimitAngle);
@@ -98,6 +102,7 @@ namespace HKX2
             bw.WriteSingle(m_RightMinimumAngle);
             bw.WriteSingle(m_LeftMinimumAngle);
             bw.WriteInt16(m_SensingAngle);
+            bw.WriteSByte((sbyte)m_setAngleMethod);
             bw.WriteBoolean(m_isAdditive);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

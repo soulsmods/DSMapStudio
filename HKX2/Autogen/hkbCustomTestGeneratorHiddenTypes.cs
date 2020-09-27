@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGeneratorHiddenTypes : hkbReferencePoseGenerator
     {
+        public override uint Signature { get => 2192614159; }
+        
         public bool m_inheritedHiddenMember;
         public bool m_protectedInheritedHiddenMember;
         public bool m_privateInheritedHiddenMember;
@@ -20,9 +22,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_inheritedHiddenMember);
             bw.WriteBoolean(m_protectedInheritedHiddenMember);
             bw.WriteBoolean(m_privateInheritedHiddenMember);

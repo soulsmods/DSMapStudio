@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpBalanceRadialSelectorGenerator : hkbRadialSelectorGenerator
     {
+        public override uint Signature { get => 624178690; }
+        
         public int m_xAxisMS;
         public int m_yAxisMS;
         public hkbpCheckBalanceModifier m_checkBalanceModifier;
@@ -18,12 +20,12 @@ namespace HKX2
             m_checkBalanceModifier = des.ReadClassPointer<hkbpCheckBalanceModifier>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_xAxisMS);
             bw.WriteInt32(m_yAxisMS);
-            // Implement Write
+            s.WriteClassPointer<hkbpCheckBalanceModifier>(bw, m_checkBalanceModifier);
         }
     }
 }

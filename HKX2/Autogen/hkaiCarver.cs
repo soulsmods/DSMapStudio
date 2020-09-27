@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiCarver : hkReferencedObject
     {
+        public override uint Signature { get => 337708303; }
+        
         public enum FlagBits
         {
             CARVER_ERODE_EDGES = 1,
@@ -22,10 +24,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiVolume>(bw, m_volume);
+            bw.WriteUInt32(m_flags);
             bw.WriteUInt32(0);
         }
     }

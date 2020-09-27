@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxTriangleSelectionChannel : hkReferencedObject
     {
+        public override uint Signature { get => 885683622; }
+        
         public List<int> m_selectedTriangles;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_selectedTriangles = des.ReadInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteInt32Array(bw, m_selectedTriangles);
         }
     }
 }

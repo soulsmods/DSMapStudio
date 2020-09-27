@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDirectedGraphExplicitCostEdge : IHavokObject
     {
+        public virtual uint Signature { get => 1476261009; }
+        
         public short m_cost;
         public ushort m_flags;
         public uint m_target;
@@ -17,9 +19,10 @@ namespace HKX2
             m_target = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_cost);
+            bw.WriteUInt16(m_flags);
             bw.WriteUInt32(m_target);
         }
     }

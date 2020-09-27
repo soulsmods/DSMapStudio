@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkVertexFormatElement : IHavokObject
     {
+        public virtual uint Signature { get => 1418099903; }
+        
         public ComponentType m_dataType;
         public byte m_numValues;
         public ComponentUsage m_usage;
@@ -27,10 +29,13 @@ namespace HKX2
             m_pad_2 = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteByte((byte)m_dataType);
             bw.WriteByte(m_numValues);
+            bw.WriteByte((byte)m_usage);
             bw.WriteByte(m_subUsage);
+            bw.WriteByte(m_flags);
             bw.WriteByte(m_pad_0);
             bw.WriteByte(m_pad_1);
             bw.WriteByte(m_pad_2);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEvaluateExpressionModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 2587923771; }
+        
         public List<hkbEvaluateExpressionModifierInternalExpressionData> m_internalExpressionsData;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_internalExpressionsData = des.ReadClassArray<hkbEvaluateExpressionModifierInternalExpressionData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbEvaluateExpressionModifierInternalExpressionData>(bw, m_internalExpressionsData);
         }
     }
 }

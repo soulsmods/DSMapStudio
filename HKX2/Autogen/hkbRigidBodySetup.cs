@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRigidBodySetup : IHavokObject
     {
+        public virtual uint Signature { get => 990392213; }
+        
         public enum Type
         {
             INVALID = -1,
@@ -28,12 +30,13 @@ namespace HKX2
             m_shapeSetup.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_collisionFilterInfo);
+            bw.WriteSByte((sbyte)m_type);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_shapeSetup.Write(bw);
+            m_shapeSetup.Write(s, bw);
         }
     }
 }

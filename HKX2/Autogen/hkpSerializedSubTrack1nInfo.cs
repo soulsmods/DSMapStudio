@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSerializedSubTrack1nInfo : hkpSerializedTrack1nInfo
     {
+        public override uint Signature { get => 1054042; }
+        
         public int m_sectorIndex;
         public int m_offsetInSector;
         
@@ -16,9 +18,9 @@ namespace HKX2
             m_offsetInSector = br.ReadInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_sectorIndex);
             bw.WriteInt32(m_offsetInSector);
         }

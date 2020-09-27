@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpDisplayBindingDataRigidBody : hkReferencedObject
     {
+        public override uint Signature { get => 2128346411; }
+        
         public hkpRigidBody m_rigidBody;
         public hkReferencedObject m_displayObjectPtr;
         public Matrix4x4 m_rigidBodyFromDisplayObjectTransform;
@@ -18,11 +20,12 @@ namespace HKX2
             m_rigidBodyFromDisplayObjectTransform = des.ReadMatrix4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpRigidBody>(bw, m_rigidBody);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_displayObjectPtr);
+            s.WriteMatrix4(bw, m_rigidBodyFromDisplayObjectTransform);
         }
     }
 }

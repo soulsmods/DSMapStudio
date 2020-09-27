@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdPlanarCsgOperandGeomSource : IHavokObject
     {
+        public virtual uint Signature { get => 2153762813; }
+        
         public hkcdPlanarGeometry m_geometry;
         public int m_materialOffset;
         public int m_numMaterialIds;
@@ -20,9 +22,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkcdPlanarGeometry>(bw, m_geometry);
             bw.WriteInt32(m_materialOffset);
             bw.WriteInt32(m_numMaterialIds);
             bw.WriteUInt32(m_flipPolygons);

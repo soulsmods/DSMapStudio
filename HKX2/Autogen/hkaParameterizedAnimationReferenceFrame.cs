@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkaParameterizedAnimationReferenceFrame : hkaDefaultAnimatedReferenceFrame
     {
+        public override uint Signature { get => 1059887376; }
+        
         public List<float> m_parameterValues;
         public List<int> m_parameterTypes;
         
@@ -24,9 +26,11 @@ namespace HKX2
             m_parameterTypes = des.ReadInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteSingleArray(bw, m_parameterValues);
+            s.WriteInt32Array(bw, m_parameterTypes);
         }
     }
 }

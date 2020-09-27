@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaSplineCompressedAnimation : hkaAnimation
     {
+        public override uint Signature { get => 2352701310; }
+        
         public int m_numFrames;
         public int m_numBlocks;
         public int m_maxFramesPerBlock;
@@ -40,9 +42,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_numFrames);
             bw.WriteInt32(m_numBlocks);
             bw.WriteInt32(m_maxFramesPerBlock);
@@ -51,6 +53,11 @@ namespace HKX2
             bw.WriteSingle(m_blockInverseDuration);
             bw.WriteSingle(m_frameDuration);
             bw.WriteUInt32(0);
+            s.WriteUInt32Array(bw, m_blockOffsets);
+            s.WriteUInt32Array(bw, m_floatBlockOffsets);
+            s.WriteUInt32Array(bw, m_transformOffsets);
+            s.WriteUInt32Array(bw, m_floatOffsets);
+            s.WriteByteArray(bw, m_data);
             bw.WriteInt32(m_endian);
             bw.WriteUInt32(0);
         }

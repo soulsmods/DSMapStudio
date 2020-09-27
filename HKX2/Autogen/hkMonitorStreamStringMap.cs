@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMonitorStreamStringMap : IHavokObject
     {
+        public virtual uint Signature { get => 3302205620; }
+        
         public List<hkMonitorStreamStringMapStringMap> m_map;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,8 +15,9 @@ namespace HKX2
             m_map = des.ReadClassArray<hkMonitorStreamStringMapStringMap>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hkMonitorStreamStringMapStringMap>(bw, m_map);
         }
     }
 }

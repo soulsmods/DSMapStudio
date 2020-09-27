@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclObjectSpaceDeformer : IHavokObject
     {
+        public virtual uint Signature { get => 875041761; }
+        
         public enum ControlByte
         {
             FOUR_BLEND = 0,
@@ -39,8 +41,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hclObjectSpaceDeformerFourBlendEntryBlock>(bw, m_fourBlendEntries);
+            s.WriteClassArray<hclObjectSpaceDeformerThreeBlendEntryBlock>(bw, m_threeBlendEntries);
+            s.WriteClassArray<hclObjectSpaceDeformerTwoBlendEntryBlock>(bw, m_twoBlendEntries);
+            s.WriteClassArray<hclObjectSpaceDeformerOneBlendEntryBlock>(bw, m_oneBlendEntries);
+            s.WriteByteArray(bw, m_controlBytes);
             bw.WriteUInt16(m_startVertexIndex);
             bw.WriteUInt16(m_endVertexIndex);
             bw.WriteUInt16(m_batchSizeSpu);

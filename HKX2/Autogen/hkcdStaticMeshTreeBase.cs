@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkcdStaticMeshTreeBase : hkcdStaticTreeTreehkcdStaticTreeDynamicStorage5
     {
+        public override uint Signature { get => 4169522384; }
+        
         public int m_numPrimitiveKeys;
         public int m_bitsPerKey;
         public uint m_maxKeyValue;
@@ -33,13 +35,16 @@ namespace HKX2
             m_sharedVerticesIndex = des.ReadUInt16Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_numPrimitiveKeys);
             bw.WriteInt32(m_bitsPerKey);
             bw.WriteUInt32(m_maxKeyValue);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkcdStaticMeshTreeBaseSection>(bw, m_sections);
+            s.WriteClassArray<hkcdStaticMeshTreeBasePrimitive>(bw, m_primitives);
+            s.WriteUInt16Array(bw, m_sharedVerticesIndex);
         }
     }
 }

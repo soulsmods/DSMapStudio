@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbComputeRotationFromAxisAngleModifier : hkbModifier
     {
+        public override uint Signature { get => 4264058841; }
+        
         public Quaternion m_rotationOut;
         public Vector4 m_axis;
         public float m_angleDegrees;
@@ -21,10 +23,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteQuaternion(bw, m_rotationOut);
+            s.WriteVector4(bw, m_axis);
             bw.WriteSingle(m_angleDegrees);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

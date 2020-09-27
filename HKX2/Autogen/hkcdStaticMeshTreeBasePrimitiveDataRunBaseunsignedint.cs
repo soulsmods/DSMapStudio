@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticMeshTreeBasePrimitiveDataRunBaseunsignedint : IHavokObject
     {
+        public virtual uint Signature { get => 4133272332; }
+        
         public uint m_value;
         public byte m_index;
         public byte m_count;
@@ -18,7 +20,7 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_value);
             bw.WriteByte(m_index);

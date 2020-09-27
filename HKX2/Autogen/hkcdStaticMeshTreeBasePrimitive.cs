@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticMeshTreeBasePrimitive : IHavokObject
     {
+        public virtual uint Signature { get => 1457139580; }
+        
         public enum Type
         {
             INVALID = 0,
@@ -28,7 +30,7 @@ namespace HKX2
             m_indices_3 = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_indices_0);
             bw.WriteByte(m_indices_1);

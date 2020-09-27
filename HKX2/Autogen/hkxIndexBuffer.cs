@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkxIndexBuffer : hkReferencedObject
     {
+        public override uint Signature { get => 2178010478; }
+        
         public IndexType m_indexType;
         public List<ushort> m_indices16;
         public List<uint> m_indices32;
@@ -34,12 +36,15 @@ namespace HKX2
             m_length = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteSByte((sbyte)m_indexType);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteUInt16Array(bw, m_indices16);
+            s.WriteUInt32Array(bw, m_indices32);
             bw.WriteUInt32(m_vertexBaseOffset);
             bw.WriteUInt32(m_length);
         }

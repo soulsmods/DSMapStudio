@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hkClass : IHavokObject
     {
+        public virtual uint Signature { get => 869540739; }
+        
         public enum FlagValues
         {
             FLAGS_NONE = 0,
@@ -40,15 +42,17 @@ namespace HKX2
             m_describedVersion = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hkClass>(bw, m_parent);
             bw.WriteInt32(m_objectSize);
             bw.WriteInt32(m_numImplementedInterfaces);
             // Read TYPE_SIMPLEARRAY
             // Read TYPE_SIMPLEARRAY
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            bw.WriteUInt32(m_flags);
             bw.WriteInt32(m_describedVersion);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpTyremarksInfo : hkReferencedObject
     {
+        public override uint Signature { get => 4102345107; }
+        
         public float m_minTyremarkEnergy;
         public float m_maxTyremarkEnergy;
         public List<hknpTyremarksWheel> m_tyremarksWheel;
@@ -18,11 +20,12 @@ namespace HKX2
             m_tyremarksWheel = des.ReadClassPointerArray<hknpTyremarksWheel>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_minTyremarkEnergy);
             bw.WriteSingle(m_maxTyremarkEnergy);
+            s.WriteClassPointerArray<hknpTyremarksWheel>(bw, m_tyremarksWheel);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkRefCountedPropertiesEntry : IHavokObject
     {
+        public virtual uint Signature { get => 686789613; }
+        
         public hkReferencedObject m_object;
         public ushort m_key;
         public ushort m_flags;
@@ -18,9 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkReferencedObject>(bw, m_object);
             bw.WriteUInt16(m_key);
             bw.WriteUInt16(m_flags);
             bw.WriteUInt32(0);

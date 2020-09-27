@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiOverlapManagerSectionGeneratorData : hkReferencedObject
     {
+        public override uint Signature { get => 1740166900; }
+        
         public hkaiSilhouetteGeneratorSectionContext m_context;
         public List<int> m_overlappedFaces;
         
@@ -17,10 +19,11 @@ namespace HKX2
             m_overlappedFaces = des.ReadInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_context.Write(bw);
+            base.Write(s, bw);
+            m_context.Write(s, bw);
+            s.WriteInt32Array(bw, m_overlappedFaces);
         }
     }
 }

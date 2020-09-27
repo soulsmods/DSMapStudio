@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclUpdateSomeVertexFramesOperatorTriangle : IHavokObject
     {
+        public virtual uint Signature { get => 814311393; }
+        
         public ushort m_indices_0;
         public ushort m_indices_1;
         public ushort m_indices_2;
@@ -17,7 +19,7 @@ namespace HKX2
             m_indices_2 = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_indices_0);
             bw.WriteUInt16(m_indices_1);

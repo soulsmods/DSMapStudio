@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateMachineDelayedTransitionInfo : IHavokObject
     {
+        public virtual uint Signature { get => 40719513; }
+        
         public hkbStateMachineProspectiveTransitionInfo m_delayedTransition;
         public float m_timeDelayed;
         public bool m_isDelayedTransitionReturnToPreviousState;
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_delayedTransition.Write(bw);
+            m_delayedTransition.Write(s, bw);
             bw.WriteSingle(m_timeDelayed);
             bw.WriteBoolean(m_isDelayedTransitionReturnToPreviousState);
             bw.WriteBoolean(m_wasInAbutRangeLastFrame);

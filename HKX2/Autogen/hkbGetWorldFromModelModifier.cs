@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGetWorldFromModelModifier : hkbModifier
     {
+        public override uint Signature { get => 2804055884; }
+        
         public Vector4 m_translationOut;
         public Quaternion m_rotationOut;
         
@@ -17,10 +19,12 @@ namespace HKX2
             m_rotationOut = des.ReadQuaternion(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_translationOut);
+            s.WriteQuaternion(bw, m_rotationOut);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCompoundShape : hknpCompositeShape
     {
+        public override uint Signature { get => 612195993; }
+        
         public hkFreeListArrayhknpShapeInstancehkHandleshort32767hknpShapeInstanceIdDiscriminant8hknpShapeInstance m_instances;
         public hkAabb m_aabb;
         public bool m_isMutable;
@@ -27,12 +29,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_instances.Write(bw);
+            base.Write(s, bw);
+            m_instances.Write(s, bw);
             bw.WriteUInt64(0);
-            m_aabb.Write(bw);
+            m_aabb.Write(s, bw);
             bw.WriteBoolean(m_isMutable);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

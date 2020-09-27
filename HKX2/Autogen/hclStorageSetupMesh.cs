@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStorageSetupMesh : hclSetupMesh
     {
+        public override uint Signature { get => 81577363; }
+        
         public string m_name;
         public Matrix4x4 m_worldFromMesh;
         public List<hclStorageSetupMeshSection> m_sections;
@@ -33,10 +35,17 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(0);
+            s.WriteMatrix4(bw, m_worldFromMesh);
+            s.WriteClassPointerArray<hclStorageSetupMeshSection>(bw, m_sections);
+            s.WriteClassArray<hclStorageSetupMeshVertexChannel>(bw, m_vertexChannels);
+            s.WriteClassArray<hclStorageSetupMeshEdgeChannel>(bw, m_edgeChannels);
+            s.WriteClassArray<hclStorageSetupMeshTriangleChannel>(bw, m_triangleChannels);
+            s.WriteClassArray<hclStorageSetupMeshBone>(bw, m_bones);
             bw.WriteBoolean(m_isSkinned);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpCatchFallModifier : hkbModifier
     {
+        public override uint Signature { get => 2837857129; }
+        
         public enum FadeState
         {
             FADE_IN = 0,
@@ -89,15 +91,18 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            m_leftHand.Write(bw);
-            m_rightHand.Write(bw);
+            s.WriteVector4(bw, m_directionOfFallForwardLS);
+            s.WriteVector4(bw, m_directionOfFallRightLS);
+            s.WriteVector4(bw, m_directionOfFallUpLS);
+            s.WriteClassPointer<hkbBoneIndexArray>(bw, m_spineIndices);
+            m_leftHand.Write(s, bw);
+            m_rightHand.Write(s, bw);
             bw.WriteUInt32(0);
-            m_catchFallDoneEvent.Write(bw);
+            m_catchFallDoneEvent.Write(s, bw);
             bw.WriteSingle(m_spreadHandsMultiplier);
             bw.WriteSingle(m_radarRange);
             bw.WriteSingle(m_previousTargetBlendWeight);
@@ -115,6 +120,8 @@ namespace HKX2
             bw.WriteBoolean(m_orientHands);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
+            s.WriteVector4(bw, m_catchFallPosInBS_0);
+            s.WriteVector4(bw, m_catchFallPosInBS_1);
             bw.WriteSingle(m_currentReachGain_0);
             bw.WriteSingle(m_currentReachGain_1);
             bw.WriteSingle(m_timeSinceLastModify);

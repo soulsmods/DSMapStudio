@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hknpWorldCinfo : IHavokObject
     {
+        public virtual uint Signature { get => 1660997442; }
+        
         public enum SimulationType
         {
             SIMULATION_TYPE_SINGLE_THREADED = 0,
@@ -127,7 +129,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_bodyBufferCapacity);
             bw.WriteUInt64(0);
@@ -139,22 +141,25 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hknpMaterialLibrary>(bw, m_materialLibrary);
+            s.WriteClassPointer<hknpMotionPropertiesLibrary>(bw, m_motionPropertiesLibrary);
+            s.WriteClassPointer<hknpBodyQualityLibrary>(bw, m_qualityLibrary);
+            bw.WriteByte((byte)m_simulationType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_numSplitterCells);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_gravity);
             bw.WriteBoolean(m_enableContactCaching);
             bw.WriteBoolean(m_mergeEventsBeforeDispatch);
+            bw.WriteByte((byte)m_leavingBroadPhaseBehavior);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
-            m_broadPhaseAabb.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            m_broadPhaseAabb.Write(s, bw);
+            s.WriteClassPointer<hknpBroadPhaseConfig>(bw, m_broadPhaseConfig);
+            s.WriteClassPointer<hknpCollisionFilter>(bw, m_collisionFilter);
+            s.WriteClassPointer<hknpShapeTagCodec>(bw, m_shapeTagCodec);
             bw.WriteSingle(m_collisionTolerance);
             bw.WriteSingle(m_relativeCollisionAccuracy);
             bw.WriteBoolean(m_enableWeldingForDefaultObjects);

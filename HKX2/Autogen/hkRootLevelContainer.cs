@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkRootLevelContainer : IHavokObject
     {
+        public virtual uint Signature { get => 661831966; }
+        
         public List<hkRootLevelContainerNamedVariant> m_namedVariants;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,8 +15,9 @@ namespace HKX2
             m_namedVariants = des.ReadClassArray<hkRootLevelContainerNamedVariant>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hkRootLevelContainerNamedVariant>(bw, m_namedVariants);
         }
     }
 }

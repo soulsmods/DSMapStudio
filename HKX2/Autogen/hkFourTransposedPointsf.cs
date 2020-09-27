@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkFourTransposedPointsf : IHavokObject
     {
+        public virtual uint Signature { get => 3466051647; }
+        
         public Vector4 m_vertices_0;
         public Vector4 m_vertices_1;
         public Vector4 m_vertices_2;
@@ -17,8 +19,11 @@ namespace HKX2
             m_vertices_2 = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_vertices_0);
+            s.WriteVector4(bw, m_vertices_1);
+            s.WriteVector4(bw, m_vertices_2);
         }
     }
 }

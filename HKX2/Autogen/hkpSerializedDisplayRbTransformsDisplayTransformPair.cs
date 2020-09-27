@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSerializedDisplayRbTransformsDisplayTransformPair : IHavokObject
     {
+        public virtual uint Signature { get => 2494323692; }
+        
         public hkpRigidBody m_rb;
         public Matrix4x4 m_localToDisplay;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_localToDisplay = des.ReadTransform(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkpRigidBody>(bw, m_rb);
             bw.WriteUInt64(0);
+            s.WriteTransform(bw, m_localToDisplay);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkControlsModifier : hkbModifier
     {
+        public override uint Signature { get => 623924386; }
+        
         public hkbFootIkControlData m_controlData;
         public List<hkbFootIkControlsModifierLeg> m_legs;
         
@@ -18,11 +20,12 @@ namespace HKX2
             m_legs = des.ReadClassArray<hkbFootIkControlsModifierLeg>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_controlData.Write(bw);
+            m_controlData.Write(s, bw);
+            s.WriteClassArray<hkbFootIkControlsModifierLeg>(bw, m_legs);
         }
     }
 }

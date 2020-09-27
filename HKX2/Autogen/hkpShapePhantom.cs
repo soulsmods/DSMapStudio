@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpShapePhantom : hkpPhantom
     {
+        public override uint Signature { get => 2107198013; }
+        
         public hkMotionState m_motionState;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -16,11 +18,11 @@ namespace HKX2
             m_motionState.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_motionState.Write(bw);
+            m_motionState.Write(s, bw);
         }
     }
 }

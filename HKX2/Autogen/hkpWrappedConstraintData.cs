@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpWrappedConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 1519608732; }
+        
         public hkpConstraintData m_constraintData;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_constraintData = des.ReadClassPointer<hkpConstraintData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpConstraintData>(bw, m_constraintData);
         }
     }
 }

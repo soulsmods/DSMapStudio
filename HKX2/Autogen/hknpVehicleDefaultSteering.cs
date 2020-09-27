@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultSteering : hknpVehicleSteering
     {
+        public override uint Signature { get => 255712478; }
+        
         public float m_maxSteeringAngle;
         public float m_maxSpeedFullSteeringAngle;
         public List<bool> m_doesWheelSteer;
@@ -18,11 +20,12 @@ namespace HKX2
             m_doesWheelSteer = des.ReadBooleanArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_maxSteeringAngle);
             bw.WriteSingle(m_maxSpeedFullSteeringAngle);
+            s.WriteBooleanArray(bw, m_doesWheelSteer);
         }
     }
 }

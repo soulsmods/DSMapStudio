@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpBallGun : hknpFirstPersonGun
     {
+        public override uint Signature { get => 4223416807; }
+        
         public float m_bulletRadius;
         public float m_bulletVelocity;
         public float m_bulletMass;
@@ -30,9 +32,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_bulletRadius);
             bw.WriteSingle(m_bulletVelocity);
             bw.WriteSingle(m_bulletMass);
@@ -40,6 +42,7 @@ namespace HKX2
             bw.WriteInt32(m_maxBulletsInWorld);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_bulletOffsetFromCenter);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

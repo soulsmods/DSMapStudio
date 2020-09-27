@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbModifierWrapper : hkbModifier
     {
+        public override uint Signature { get => 4268773620; }
+        
         public hkbModifier m_modifier;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_modifier = des.ReadClassPointer<hkbModifier>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbModifier>(bw, m_modifier);
         }
     }
 }

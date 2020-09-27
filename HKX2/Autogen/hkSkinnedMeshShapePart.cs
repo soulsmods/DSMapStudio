@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSkinnedMeshShapePart : IHavokObject
     {
+        public virtual uint Signature { get => 3638631870; }
+        
         public int m_startVertex;
         public int m_numVertices;
         public int m_startIndex;
@@ -27,7 +29,7 @@ namespace HKX2
             m_boundingSphere = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_startVertex);
             bw.WriteInt32(m_numVertices);
@@ -37,6 +39,7 @@ namespace HKX2
             bw.WriteUInt16(m_meshSectionIndex);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_boundingSphere);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdDynamicTreeCodec32 : IHavokObject
     {
+        public virtual uint Signature { get => 761653748; }
+        
         public hkAabb m_aabb;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,9 @@ namespace HKX2
             m_aabb.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_aabb.Write(bw);
+            m_aabb.Write(s, bw);
         }
     }
 }

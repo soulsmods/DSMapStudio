@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshGenerationSettingsWallClimbingSettings : IHavokObject
     {
+        public virtual uint Signature { get => 367014563; }
+        
         public bool m_enableWallClimbing;
         public bool m_excludeWalkableFaces;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_excludeWalkableFaces = br.ReadBoolean();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_enableWallClimbing);
             bw.WriteBoolean(m_excludeWalkableFaces);

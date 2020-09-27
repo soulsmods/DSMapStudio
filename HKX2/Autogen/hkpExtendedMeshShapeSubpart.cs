@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpExtendedMeshShapeSubpart : IHavokObject
     {
+        public virtual uint Signature { get => 2620567058; }
+        
         public ushort m_typeAndFlags;
         public ushort m_shapeInfo;
         public ushort m_materialIndexStriding;
@@ -22,7 +24,7 @@ namespace HKX2
             m_userData = br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_typeAndFlags);
             bw.WriteUInt16(m_shapeInfo);

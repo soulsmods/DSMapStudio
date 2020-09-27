@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiLineOfSightUtilInputBase : IHavokObject
     {
+        public virtual uint Signature { get => 966407788; }
+        
         public Vector4 m_startPoint;
         public Vector4 m_up;
         public uint m_startFaceKey;
@@ -51,19 +53,23 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_startPoint);
+            s.WriteVector4(bw, m_up);
             bw.WriteUInt32(m_startFaceKey);
             bw.WriteInt32(m_maxNumberOfIterations);
-            m_agentInfo.Write(bw);
+            m_agentInfo.Write(s, bw);
             bw.WriteSingle(m_searchRadius);
             bw.WriteSingle(m_maximumPathLength);
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkaiAstarCostModifier>(bw, m_costModifier);
+            s.WriteClassPointer<hkaiAstarEdgeFilter>(bw, m_edgeFilter);
             bw.WriteBoolean(m_outputEdgesOnFailure);
             bw.WriteBoolean(m_projectedRadiusCheck);
             bw.WriteBoolean(m_exactInternalVertexHandling);
             bw.WriteBoolean(m_isWallClimbing);
+            bw.WriteByte((byte)m_mode);
+            bw.WriteByte(m_userEdgeHandling);
             bw.WriteBoolean(m_ignoreBackfacingEdges);
             bw.WriteByte(0);
         }

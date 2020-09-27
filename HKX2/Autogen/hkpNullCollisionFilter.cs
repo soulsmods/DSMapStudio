@@ -6,15 +6,17 @@ namespace HKX2
 {
     public class hkpNullCollisionFilter : hkpCollisionFilter
     {
+        public override uint Signature { get => 912023932; }
+        
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSplitGenerationSnapshot : IHavokObject
     {
+        public virtual uint Signature { get => 2576061005; }
+        
         public hkaiNavMeshGenerationSnapshot m_generationSnapshot;
         public hkaiSplitGenerationUtilsSettings m_splitSettings;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_splitSettings.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_generationSnapshot.Write(bw);
-            m_splitSettings.Write(bw);
+            m_generationSnapshot.Write(s, bw);
+            m_splitSettings.Write(s, bw);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpBodyCinfo : IHavokObject
     {
+        public virtual uint Signature { get => 1754724297; }
+        
         public hknpShape m_shape;
         public uint m_reservedBodyId;
         public uint m_motionId;
@@ -43,9 +45,9 @@ namespace HKX2
             m_localFrame = des.ReadClassPointer<hkLocalFrame>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hknpShape>(bw, m_shape);
             bw.WriteUInt32(m_reservedBodyId);
             bw.WriteUInt32(m_motionId);
             bw.WriteByte(m_qualityId);
@@ -54,11 +56,15 @@ namespace HKX2
             bw.WriteUInt32(m_collisionFilterInfo);
             bw.WriteInt32(m_flags);
             bw.WriteSingle(m_collisionLookAheadDistance);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(m_userData);
+            s.WriteVector4(bw, m_position);
+            s.WriteQuaternion(bw, m_orientation);
+            bw.WriteByte(m_spuFlags);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
+            s.WriteClassPointer<hkLocalFrame>(bw, m_localFrame);
         }
     }
 }

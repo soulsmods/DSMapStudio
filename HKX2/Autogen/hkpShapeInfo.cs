@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpShapeInfo : hkReferencedObject
     {
+        public override uint Signature { get => 3556627176; }
+        
         public hkpShape m_shape;
         public bool m_isHierarchicalCompound;
         public bool m_hkdShapesCollected;
@@ -26,14 +28,17 @@ namespace HKX2
             m_transform = des.ReadTransform(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpShape>(bw, m_shape);
             bw.WriteBoolean(m_isHierarchicalCompound);
             bw.WriteBoolean(m_hkdShapesCollected);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteStringPointerArray(bw, m_childShapeNames);
+            s.WriteTransformArray(bw, m_childTransforms);
+            s.WriteTransform(bw, m_transform);
         }
     }
 }

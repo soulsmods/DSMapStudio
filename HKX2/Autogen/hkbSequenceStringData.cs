@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSequenceStringData : hkReferencedObject
     {
+        public override uint Signature { get => 2530083657; }
+        
         public List<string> m_eventNames;
         public List<string> m_variableNames;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_variableNames = des.ReadStringPointerArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointerArray(bw, m_eventNames);
+            s.WriteStringPointerArray(bw, m_variableNames);
         }
     }
 }

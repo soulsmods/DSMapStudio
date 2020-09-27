@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpScaledConvexShapeBase : hknpDecoratorShape
     {
+        public override uint Signature { get => 487899736; }
+        
         public Vector4 m_scale;
         public Vector4 m_translation;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_translation = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_scale);
+            s.WriteVector4(bw, m_translation);
         }
     }
 }

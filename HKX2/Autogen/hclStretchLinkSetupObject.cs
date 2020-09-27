@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStretchLinkSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 416625765; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclVertexSelectionInput m_movableParticlesSelection;
@@ -40,14 +42,16 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_movableParticlesSelection.Write(bw);
-            m_fixedParticlesSelection.Write(bw);
-            m_rigidFactor.Write(bw);
-            m_stiffness.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            m_movableParticlesSelection.Write(s, bw);
+            m_fixedParticlesSelection.Write(s, bw);
+            m_rigidFactor.Write(s, bw);
+            m_stiffness.Write(s, bw);
+            s.WriteVector4(bw, m_stretchDirection);
             bw.WriteBoolean(m_useStretchDirection);
             bw.WriteBoolean(m_useMeshTopology);
             bw.WriteBoolean(m_allowDynamicLinks);

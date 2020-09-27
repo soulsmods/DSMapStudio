@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaBoneAttachment : hkReferencedObject
     {
+        public override uint Signature { get => 3043424933; }
+        
         public string m_originalSkeletonName;
         public Matrix4x4 m_boneFromAttachment;
         public hkReferencedObject m_attachment;
@@ -26,11 +28,14 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_originalSkeletonName);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteMatrix4(bw, m_boneFromAttachment);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_attachment);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteInt16(m_boneIndex);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

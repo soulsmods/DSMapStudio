@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiAvoidanceProperties : hkReferencedObject
     {
+        public override uint Signature { get => 2761548401; }
+        
         public hkaiMovementProperties m_movementProperties;
         public NearbyBoundariesSearchType m_nearbyBoundariesSearchType;
         public hkAabb m_localSensorAabb;
@@ -44,14 +46,15 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_movementProperties.Write(bw);
+            base.Write(s, bw);
+            m_movementProperties.Write(s, bw);
+            bw.WriteByte((byte)m_nearbyBoundariesSearchType);
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_localSensorAabb.Write(bw);
+            m_localSensorAabb.Write(s, bw);
             bw.WriteSingle(m_wallFollowingAngle);
             bw.WriteSingle(m_dodgingPenalty);
             bw.WriteSingle(m_velocityHysteresis);

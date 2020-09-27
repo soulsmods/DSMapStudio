@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAgent1nSector : IHavokObject
     {
+        public virtual uint Signature { get => 103212378; }
+        
         public uint m_bytesAllocated;
         public uint m_pad0;
         public uint m_pad1;
@@ -1011,7 +1013,7 @@ namespace HKX2
             m_data_495 = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_bytesAllocated);
             bw.WriteUInt32(m_pad0);

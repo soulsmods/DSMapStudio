@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSweptTransformf : IHavokObject
     {
+        public virtual uint Signature { get => 189683568; }
+        
         public Vector4 m_centerOfMass0;
         public Vector4 m_centerOfMass1;
         public Quaternion m_rotation0;
@@ -21,8 +23,13 @@ namespace HKX2
             m_centerOfMassLocal = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_centerOfMass0);
+            s.WriteVector4(bw, m_centerOfMass1);
+            s.WriteQuaternion(bw, m_rotation0);
+            s.WriteQuaternion(bw, m_rotation1);
+            s.WriteVector4(bw, m_centerOfMassLocal);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSilhouetteRecorderWorldConnectedEvent : hkaiSilhouetteRecorderReplayEvent
     {
+        public override uint Signature { get => 2409019201; }
+        
         public hkaiWorld m_world;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_world = des.ReadClassPointer<hkaiWorld>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiWorld>(bw, m_world);
         }
     }
 }

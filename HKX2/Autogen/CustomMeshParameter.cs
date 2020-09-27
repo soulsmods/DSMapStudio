@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomMeshParameter : hkReferencedObject
     {
+        public override uint Signature { get => 2176292260; }
+        
         public uint m_version;
         public List<byte> m_vertexDataBuffer;
         public int m_vertexDataStride;
@@ -23,9 +25,9 @@ namespace HKX2
             m_materialNameData = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_version);
             bw.WriteUInt32(0);
             // Read TYPE_SIMPLEARRAY

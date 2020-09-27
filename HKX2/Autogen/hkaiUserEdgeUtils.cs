@@ -26,13 +26,15 @@ namespace HKX2
     
     public class hkaiUserEdgeUtils : IHavokObject
     {
+        public virtual uint Signature { get => 454187807; }
+        
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(0);
         }

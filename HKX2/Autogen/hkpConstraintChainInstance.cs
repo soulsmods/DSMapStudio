@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConstraintChainInstance : hkpConstraintInstance
     {
+        public override uint Signature { get => 2590709585; }
+        
         public List<hkpEntity> m_chainedEntities;
         public hkpConstraintChainInstanceAction m_action;
         public ulong m_chainConnectedness;
@@ -18,10 +20,11 @@ namespace HKX2
             m_chainConnectedness = br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpEntity>(bw, m_chainedEntities);
+            s.WriteClassPointer<hkpConstraintChainInstanceAction>(bw, m_action);
             bw.WriteUInt64(m_chainConnectedness);
         }
     }

@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkpCompressedMeshShape : hkpShapeCollection
     {
+        public override uint Signature { get => 3767719636; }
+        
         public int m_bitsPerIndex;
         public int m_bitsPerWIndex;
         public int m_wIndexMask;
@@ -70,24 +72,35 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_bitsPerIndex);
             bw.WriteInt32(m_bitsPerWIndex);
             bw.WriteInt32(m_wIndexMask);
             bw.WriteInt32(m_indexMask);
             bw.WriteSingle(m_radius);
+            bw.WriteByte((byte)m_weldingType);
+            bw.WriteByte((byte)m_materialType);
             bw.WriteUInt16(0);
+            s.WriteUInt32Array(bw, m_materials);
+            s.WriteUInt16Array(bw, m_materials16);
+            s.WriteByteArray(bw, m_materials8);
+            s.WriteQSTransformArray(bw, m_transforms);
+            s.WriteVector4Array(bw, m_bigVertices);
+            s.WriteClassArray<hkpCompressedMeshShapeBigTriangle>(bw, m_bigTriangles);
+            s.WriteClassArray<hkpCompressedMeshShapeChunk>(bw, m_chunks);
+            s.WriteClassArray<hkpCompressedMeshShapeConvexPiece>(bw, m_convexPieces);
             bw.WriteSingle(m_error);
             bw.WriteUInt32(0);
-            m_bounds.Write(bw);
+            m_bounds.Write(s, bw);
             bw.WriteUInt32(m_defaultCollisionFilterInfo);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(m_materialStriding);
             bw.WriteUInt16(m_numMaterials);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkpNamedMeshMaterial>(bw, m_namedMaterials);
             bw.WriteUInt64(0);
         }
     }

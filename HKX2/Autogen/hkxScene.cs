@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxScene : hkReferencedObject
     {
+        public override uint Signature { get => 3230915880; }
+        
         public string m_modeller;
         public string m_asset;
         public float m_sceneLength;
@@ -42,14 +44,25 @@ namespace HKX2
             m_appliedTransform = des.ReadMatrix3(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_modeller);
+            s.WriteStringPointer(bw, m_asset);
             bw.WriteSingle(m_sceneLength);
             bw.WriteUInt32(m_numFrames);
-            // Implement Write
+            s.WriteClassPointer<hkxNode>(bw, m_rootNode);
+            s.WriteClassPointerArray<hkxNodeSelectionSet>(bw, m_selectionSets);
+            s.WriteClassPointerArray<hkxCamera>(bw, m_cameras);
+            s.WriteClassPointerArray<hkxLight>(bw, m_lights);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            s.WriteClassPointerArray<hkxMaterial>(bw, m_materials);
+            s.WriteClassPointerArray<hkxTextureInplace>(bw, m_inplaceTextures);
+            s.WriteClassPointerArray<hkxTextureFile>(bw, m_externalTextures);
+            s.WriteClassPointerArray<hkxSkinBinding>(bw, m_skinBindings);
+            s.WriteClassPointerArray<hkxSpline>(bw, m_splines);
+            s.WriteMatrix3(bw, m_appliedTransform);
         }
     }
 }

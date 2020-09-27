@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeGenerationSettingsMaterialConstructionInfo : IHavokObject
     {
+        public virtual uint Signature { get => 1286768366; }
+        
         public int m_materialIndex;
         public uint m_flags;
         public int m_resolution;
@@ -17,9 +19,10 @@ namespace HKX2
             m_resolution = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_materialIndex);
+            bw.WriteUInt32(m_flags);
             bw.WriteInt32(m_resolution);
         }
     }

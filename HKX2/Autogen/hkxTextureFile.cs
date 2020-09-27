@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxTextureFile : hkReferencedObject
     {
+        public override uint Signature { get => 2240060295; }
+        
         public string m_filename;
         public string m_name;
         public string m_originalFilename;
@@ -18,9 +20,12 @@ namespace HKX2
             m_originalFilename = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_filename);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteStringPointer(bw, m_originalFilename);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclVolumeConstraintSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 1897212154; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclVertexSelectionInput m_applyToParticles;
@@ -28,14 +30,15 @@ namespace HKX2
             m_particleWeights.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_applyToParticles.Write(bw);
-            m_stiffness.Write(bw);
-            m_influenceParticles.Write(bw);
-            m_particleWeights.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            m_applyToParticles.Write(s, bw);
+            m_stiffness.Write(s, bw);
+            m_influenceParticles.Write(s, bw);
+            m_particleWeights.Write(s, bw);
         }
     }
 }

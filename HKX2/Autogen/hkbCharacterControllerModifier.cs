@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hkbCharacterControllerModifier : hkbModifier
     {
+        public override uint Signature { get => 1948489251; }
+        
         public hkbCharacterControllerModifierControlData m_controlData;
         public Vector4 m_initialVelocity;
         public InitialVelocityCoordinates m_initialVelocityCoordinates;
@@ -48,11 +50,14 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_controlData.Write(bw);
+            base.Write(s, bw);
+            m_controlData.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_initialVelocity);
+            bw.WriteSByte((sbyte)m_initialVelocityCoordinates);
+            bw.WriteSByte((sbyte)m_motionMode);
             bw.WriteBoolean(m_forceDownwardMomentum);
             bw.WriteBoolean(m_applyGravity);
             bw.WriteBoolean(m_setInitialVelocity);

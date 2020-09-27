@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkDataObjectTypeAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 507008955; }
+        
         public string m_typeName;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,8 +15,9 @@ namespace HKX2
             m_typeName = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_typeName);
         }
     }
 }

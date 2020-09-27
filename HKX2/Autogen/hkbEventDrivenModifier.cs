@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventDrivenModifier : hkbModifierWrapper
     {
+        public override uint Signature { get => 904869227; }
+        
         public int m_activateEventId;
         public int m_deactivateEventId;
         public bool m_activeByDefault;
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_activateEventId);
             bw.WriteInt32(m_deactivateEventId);
             bw.WriteBoolean(m_activeByDefault);

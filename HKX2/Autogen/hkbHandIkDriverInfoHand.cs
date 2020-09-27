@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbHandIkDriverInfoHand : IHavokObject
     {
+        public virtual uint Signature { get => 350216669; }
+        
         public Vector4 m_elbowAxisLS;
         public Vector4 m_backHandNormalLS;
         public Vector4 m_handOffsetLS;
@@ -40,8 +42,12 @@ namespace HKX2
             m_localFrameName = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_elbowAxisLS);
+            s.WriteVector4(bw, m_backHandNormalLS);
+            s.WriteVector4(bw, m_handOffsetLS);
+            s.WriteQuaternion(bw, m_handOrienationOffsetLS);
             bw.WriteSingle(m_maxElbowAngleDegrees);
             bw.WriteSingle(m_minElbowAngleDegrees);
             bw.WriteInt16(m_shoulderIndex);
@@ -52,6 +58,7 @@ namespace HKX2
             bw.WriteBoolean(m_enforceEndPosition);
             bw.WriteBoolean(m_enforceEndRotation);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_localFrameName);
         }
     }
 }

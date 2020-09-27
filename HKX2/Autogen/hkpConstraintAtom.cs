@@ -64,6 +64,8 @@ namespace HKX2
     
     public class hkpConstraintAtom : IHavokObject
     {
+        public virtual uint Signature { get => 3241323807; }
+        
         public AtomType m_type;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -71,8 +73,9 @@ namespace HKX2
             m_type = (AtomType)br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteUInt16((ushort)m_type);
         }
     }
 }

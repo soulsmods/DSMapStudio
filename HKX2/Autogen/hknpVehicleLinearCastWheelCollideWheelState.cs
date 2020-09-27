@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleLinearCastWheelCollideWheelState : IHavokObject
     {
+        public virtual uint Signature { get => 1069210085; }
+        
         public hkAabb m_aabb;
         public hknpShape m_shape;
         public Matrix4x4 m_transform;
@@ -21,11 +23,13 @@ namespace HKX2
             m_to = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_aabb.Write(bw);
-            // Implement Write
+            m_aabb.Write(s, bw);
+            s.WriteClassPointer<hknpShape>(bw, m_shape);
             bw.WriteUInt64(0);
+            s.WriteTransform(bw, m_transform);
+            s.WriteVector4(bw, m_to);
         }
     }
 }

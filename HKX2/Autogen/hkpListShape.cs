@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkpListShape : hkpShapeCollection
     {
+        public override uint Signature { get => 4075568853; }
+        
         public List<hkpListShapeChildInfo> m_childInfo;
         public ushort m_flags;
         public ushort m_numDisabledChildren;
@@ -46,13 +48,16 @@ namespace HKX2
             m_enabledChildren_7 = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkpListShapeChildInfo>(bw, m_childInfo);
             bw.WriteUInt16(m_flags);
             bw.WriteUInt16(m_numDisabledChildren);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_aabbHalfExtents);
+            s.WriteVector4(bw, m_aabbCenter);
             bw.WriteUInt32(m_enabledChildren_0);
             bw.WriteUInt32(m_enabledChildren_1);
             bw.WriteUInt32(m_enabledChildren_2);

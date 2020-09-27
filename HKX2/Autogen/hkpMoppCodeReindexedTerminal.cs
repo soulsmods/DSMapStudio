@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMoppCodeReindexedTerminal : IHavokObject
     {
+        public virtual uint Signature { get => 1859693574; }
+        
         public uint m_origShapeKey;
         public uint m_reindexedShapeKey;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_reindexedShapeKey = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_origShapeKey);
             bw.WriteUInt32(m_reindexedShapeKey);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbTransformVectorModifier : hkbModifier
     {
+        public override uint Signature { get => 3293194348; }
+        
         public Quaternion m_rotation;
         public Vector4 m_translation;
         public Vector4 m_vectorIn;
@@ -31,10 +33,14 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteQuaternion(bw, m_rotation);
+            s.WriteVector4(bw, m_translation);
+            s.WriteVector4(bw, m_vectorIn);
+            s.WriteVector4(bw, m_vectorOut);
             bw.WriteBoolean(m_rotateOnly);
             bw.WriteBoolean(m_inverse);
             bw.WriteBoolean(m_computeOnActivate);

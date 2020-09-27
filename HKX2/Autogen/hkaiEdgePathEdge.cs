@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiEdgePathEdge : IHavokObject
     {
+        public virtual uint Signature { get => 2677168875; }
+        
         public Vector4 m_left;
         public Vector4 m_right;
         public Vector4 m_up;
@@ -34,11 +36,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_edge.Write(bw);
-            m_leftFollowingCorner.Write(bw);
-            m_rightFollowingCorner.Write(bw);
+            s.WriteVector4(bw, m_left);
+            s.WriteVector4(bw, m_right);
+            s.WriteVector4(bw, m_up);
+            s.WriteMatrix4(bw, m_followingTransform);
+            m_edge.Write(s, bw);
+            m_leftFollowingCorner.Write(s, bw);
+            m_rightFollowingCorner.Write(s, bw);
+            bw.WriteByte(m_flags);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

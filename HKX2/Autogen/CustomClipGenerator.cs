@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomClipGenerator : hkbGenerator
     {
+        public override uint Signature { get => 488073960; }
+        
         public enum PlaybackMode
         {
             MODE_SINGLE_PLAY = 0,
@@ -72,14 +74,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_playbackSpeed);
+            bw.WriteSByte((sbyte)m_mode);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_animId);
-            m_endEvent.Write(bw);
+            bw.WriteInt32((int)m_animeEndEventType);
+            m_endEvent.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclClothContainer : hkReferencedObject
     {
+        public override uint Signature { get => 890409259; }
+        
         public List<hclCollidable> m_collidables;
         public List<hclClothData> m_clothDatas;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_clothDatas = des.ReadClassPointerArray<hclClothData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hclCollidable>(bw, m_collidables);
+            s.WriteClassPointerArray<hclClothData>(bw, m_clothDatas);
         }
     }
 }

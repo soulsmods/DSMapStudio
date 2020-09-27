@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpStorageExtendedMeshShape : hkpExtendedMeshShape
     {
+        public override uint Signature { get => 3246683740; }
+        
         public List<hkpStorageExtendedMeshShapeMeshSubpartStorage> m_meshstorage;
         public List<hkpStorageExtendedMeshShapeShapeSubpartStorage> m_shapestorage;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_shapestorage = des.ReadClassPointerArray<hkpStorageExtendedMeshShapeShapeSubpartStorage>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpStorageExtendedMeshShapeMeshSubpartStorage>(bw, m_meshstorage);
+            s.WriteClassPointerArray<hkpStorageExtendedMeshShapeShapeSubpartStorage>(bw, m_shapestorage);
         }
     }
 }

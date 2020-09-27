@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbDelayedModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3917985454; }
+        
         public float m_secondsElapsed;
         public bool m_isActive;
         
@@ -18,9 +20,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_secondsElapsed);
             bw.WriteBoolean(m_isActive);
             bw.WriteUInt16(0);

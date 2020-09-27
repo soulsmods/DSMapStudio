@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaQuantizedAnimationTrackCompressionParams : IHavokObject
     {
+        public virtual uint Signature { get => 4158015049; }
+        
         public float m_rotationTolerance;
         public float m_translationTolerance;
         public float m_scaleTolerance;
@@ -19,7 +21,7 @@ namespace HKX2
             m_floatingTolerance = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_rotationTolerance);
             bw.WriteSingle(m_translationTolerance);

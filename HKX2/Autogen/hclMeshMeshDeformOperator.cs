@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMeshMeshDeformOperator : hclOperator
     {
+        public override uint Signature { get => 4283377091; }
+        
         public enum ScaleNormalBehaviour
         {
             SCALE_NORMAL_IGNORE = 0,
@@ -41,13 +43,17 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt16Array(bw, m_inputTrianglesSubset);
+            s.WriteClassArray<hclMeshMeshDeformOperatorTriangleVertexPair>(bw, m_triangleVertexPairs);
+            s.WriteUInt16Array(bw, m_triangleVertexStartForVertex);
             bw.WriteUInt32(m_inputBufferIdx);
             bw.WriteUInt32(m_outputBufferIdx);
             bw.WriteUInt16(m_startVertex);
             bw.WriteUInt16(m_endVertex);
+            bw.WriteUInt32((uint)m_scaleNormalBehaviour);
             bw.WriteBoolean(m_deformNormals);
             bw.WriteBoolean(m_partialDeform);
             bw.WriteUInt32(0);

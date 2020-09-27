@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbProjectData : hkReferencedObject
     {
+        public override uint Signature { get => 909906265; }
+        
         public Vector4 m_worldUpWS;
         public hkbProjectStringData m_stringData;
         public EventMode m_defaultEventMode;
@@ -21,10 +23,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_worldUpWS);
+            s.WriteClassPointer<hkbProjectStringData>(bw, m_stringData);
+            bw.WriteSByte((sbyte)m_defaultEventMode);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpVehicleFrictionStatus : IHavokObject
     {
+        public virtual uint Signature { get => 470248068; }
+        
         public hkpVehicleFrictionStatusAxisStatus m_axis_0;
         public hkpVehicleFrictionStatusAxisStatus m_axis_1;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_axis_1.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_axis_0.Write(bw);
-            m_axis_1.Write(bw);
+            m_axis_0.Write(s, bw);
+            m_axis_1.Write(s, bw);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hkpMeshShape : hkpShapeCollection
     {
+        public override uint Signature { get => 2563947787; }
+        
         public Vector4 m_scaling;
         public int m_numBitsForSubpartIndex;
         public List<hkpMeshShapeSubpart> m_subparts;
@@ -50,11 +52,15 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_scaling);
             bw.WriteInt32(m_numBitsForSubpartIndex);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkpMeshShapeSubpart>(bw, m_subparts);
+            s.WriteUInt16Array(bw, m_weldingInfo);
+            bw.WriteByte((byte)m_weldingType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_radius);

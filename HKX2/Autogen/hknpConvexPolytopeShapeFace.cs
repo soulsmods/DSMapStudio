@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpConvexPolytopeShapeFace : IHavokObject
     {
+        public virtual uint Signature { get => 4089468224; }
+        
         public ushort m_firstIndex;
         public byte m_numIndices;
         public byte m_minHalfAngle;
@@ -17,7 +19,7 @@ namespace HKX2
             m_minHalfAngle = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_firstIndex);
             bw.WriteByte(m_numIndices);

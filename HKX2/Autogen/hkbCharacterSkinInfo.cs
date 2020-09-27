@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterSkinInfo : hkReferencedObject
     {
+        public override uint Signature { get => 2933460353; }
+        
         public ulong m_characterId;
         public List<ulong> m_deformableSkins;
         public List<ulong> m_rigidSkins;
@@ -18,10 +20,12 @@ namespace HKX2
             m_rigidSkins = des.ReadUInt64Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
+            s.WriteUInt64Array(bw, m_deformableSkins);
+            s.WriteUInt64Array(bw, m_rigidSkins);
         }
     }
 }

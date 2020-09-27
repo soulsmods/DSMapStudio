@@ -66,6 +66,8 @@ namespace HKX2
     
     public class hkbCompiledExpressionSetToken : IHavokObject
     {
+        public virtual uint Signature { get => 3263667157; }
+        
         public float m_data;
         public TokenType m_type;
         public Operator m_operator;
@@ -78,9 +80,11 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_data);
+            bw.WriteSByte((sbyte)m_type);
+            bw.WriteSByte((sbyte)m_operator);
             bw.WriteUInt16(0);
         }
     }

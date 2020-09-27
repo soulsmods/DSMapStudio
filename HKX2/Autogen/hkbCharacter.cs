@@ -21,6 +21,8 @@ namespace HKX2
     
     public class hkbCharacter : hkReferencedObject
     {
+        public override uint Signature { get => 1830469514; }
+        
         public List<hkbCharacter> m_nearbyCharacters;
         public ulong m_userData;
         public short m_currentLod;
@@ -69,14 +71,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbCharacter>(bw, m_nearbyCharacters);
             bw.WriteUInt64(m_userData);
             bw.WriteInt16(m_currentLod);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
@@ -84,9 +88,9 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkbCharacterSetup>(bw, m_setup);
+            s.WriteClassPointer<hkbBehaviorGraph>(bw, m_behaviorGraph);
+            s.WriteClassPointer<hkbProjectData>(bw, m_projectData);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

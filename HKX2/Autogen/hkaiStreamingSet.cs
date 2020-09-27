@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiStreamingSet : IHavokObject
     {
+        public virtual uint Signature { get => 2806168957; }
+        
         public uint m_thisUid;
         public uint m_oppositeUid;
         public List<hkaiStreamingSetNavMeshConnection> m_meshConnections;
@@ -21,10 +23,13 @@ namespace HKX2
             m_volumeConnections = des.ReadClassArray<hkaiStreamingSetVolumeConnection>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_thisUid);
             bw.WriteUInt32(m_oppositeUid);
+            s.WriteClassArray<hkaiStreamingSetNavMeshConnection>(bw, m_meshConnections);
+            s.WriteClassArray<hkaiStreamingSetGraphConnection>(bw, m_graphConnections);
+            s.WriteClassArray<hkaiStreamingSetVolumeConnection>(bw, m_volumeConnections);
         }
     }
 }

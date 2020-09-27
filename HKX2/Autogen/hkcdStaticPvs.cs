@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticPvs : IHavokObject
     {
+        public virtual uint Signature { get => 2984005270; }
+        
         public hkcdStaticTreeTreehkcdStaticTreeDynamicStorage6 m_cells;
         public int m_bytesPerCells;
         public int m_cellsPerBlock;
@@ -25,11 +27,14 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_cells.Write(bw);
+            m_cells.Write(s, bw);
             bw.WriteInt32(m_bytesPerCells);
             bw.WriteInt32(m_cellsPerBlock);
+            s.WriteByteArray(bw, m_pvs);
+            s.WriteUInt16Array(bw, m_map);
+            s.WriteClassArray<hkcdStaticPvsBlockHeader>(bw, m_blocks);
             bw.WriteUInt64(0);
         }
     }

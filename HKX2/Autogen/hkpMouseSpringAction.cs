@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMouseSpringAction : hkpUnaryAction
     {
+        public override uint Signature { get => 1614144929; }
+        
         public Vector4 m_positionInRbLocal;
         public Vector4 m_mousePositionInWorld;
         public float m_springDamping;
@@ -31,10 +33,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_positionInRbLocal);
+            s.WriteVector4(bw, m_mousePositionInWorld);
             bw.WriteSingle(m_springDamping);
             bw.WriteSingle(m_springElasticity);
             bw.WriteSingle(m_maxRelativeForce);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomBoneFixModifier : hkbModifier
     {
+        public override uint Signature { get => 2838570989; }
+        
         public enum GainState
         {
             GainStateTargetGain = 0,
@@ -46,10 +48,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_targetWS);
             bw.WriteInt16(m_targetBoneIndex);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_newTargetGain);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxVertexBuffer : hkReferencedObject
     {
+        public override uint Signature { get => 3340843844; }
+        
         public hkxVertexBufferVertexData m_data;
         public hkxVertexDescription m_desc;
         
@@ -18,11 +20,11 @@ namespace HKX2
             m_desc.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_data.Write(bw);
-            m_desc.Write(bw);
+            base.Write(s, bw);
+            m_data.Write(s, bw);
+            m_desc.Write(s, bw);
         }
     }
 }

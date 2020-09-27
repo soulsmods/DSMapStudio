@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiTraversalAnalysisSettings : hkReferencedObject
     {
+        public override uint Signature { get => 1711199392; }
+        
         public Vector4 m_up;
         public float m_minEdgeLength;
         public float m_maxSectionDistance;
@@ -26,9 +28,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_minEdgeLength);
             bw.WriteSingle(m_maxSectionDistance);
             bw.WriteSingle(m_characterHeight);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiStreamingSetGraphConnection : IHavokObject
     {
+        public virtual uint Signature { get => 1370206861; }
+        
         public int m_nodeIndex;
         public int m_oppositeNodeIndex;
         public uint m_edgeData;
@@ -20,7 +22,7 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_nodeIndex);
             bw.WriteInt32(m_oppositeNodeIndex);

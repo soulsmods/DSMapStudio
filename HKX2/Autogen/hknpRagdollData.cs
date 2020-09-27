@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpRagdollData : hknpPhysicsSystemData
     {
+        public override uint Signature { get => 3700367531; }
+        
         public hkaSkeleton m_skeleton;
         public List<int> m_boneToBodyMap;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_boneToBodyMap = des.ReadInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaSkeleton>(bw, m_skeleton);
+            s.WriteInt32Array(bw, m_boneToBodyMap);
         }
     }
 }

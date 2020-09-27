@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hkaiNavVolume : hkReferencedObject
     {
+        public override uint Signature { get => 2325863050; }
+        
         public enum Constants
         {
             INVALID_CELL_INDEX = -1,
@@ -46,10 +48,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_aabb.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiNavVolumeCell>(bw, m_cells);
+            s.WriteClassArray<hkaiNavVolumeEdge>(bw, m_edges);
+            s.WriteClassArray<hkaiStreamingSet>(bw, m_streamingSets);
+            m_aabb.Write(s, bw);
+            s.WriteVector4(bw, m_quantizationScale);
+            s.WriteVector4(bw, m_quantizationOffset);
             bw.WriteInt32(m_res_0);
             bw.WriteInt32(m_res_1);
             bw.WriteInt32(m_res_2);

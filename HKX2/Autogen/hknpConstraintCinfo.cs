@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpConstraintCinfo : IHavokObject
     {
+        public virtual uint Signature { get => 1743427693; }
+        
         public hkpConstraintData m_constraintData;
         public uint m_bodyA;
         public uint m_bodyB;
@@ -22,11 +24,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintData>(bw, m_constraintData);
             bw.WriteUInt32(m_bodyA);
             bw.WriteUInt32(m_bodyB);
+            bw.WriteByte(m_flags);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

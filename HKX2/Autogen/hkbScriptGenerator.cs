@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbScriptGenerator : hkbGenerator
     {
+        public override uint Signature { get => 805998961; }
+        
         public hkbGenerator m_child;
         public string m_onActivateScript;
         public string m_onPreUpdateScript;
@@ -27,10 +29,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_child);
+            s.WriteStringPointer(bw, m_onActivateScript);
+            s.WriteStringPointer(bw, m_onPreUpdateScript);
+            s.WriteStringPointer(bw, m_onGenerateScript);
+            s.WriteStringPointer(bw, m_onHandleEventScript);
+            s.WriteStringPointer(bw, m_onDeactivateScript);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

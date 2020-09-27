@@ -16,6 +16,8 @@ namespace HKX2
     
     public class hkcdPlanarSolid : hkcdPlanarEntity
     {
+        public override uint Signature { get => 25332643; }
+        
         public hkcdPlanarSolidNodeStorage m_nodes;
         public hkcdPlanarGeometryPlanesCollection m_planes;
         public uint m_rootNodeId;
@@ -29,11 +31,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkcdPlanarSolidNodeStorage>(bw, m_nodes);
+            s.WriteClassPointer<hkcdPlanarGeometryPlanesCollection>(bw, m_planes);
             bw.WriteUInt32(m_rootNodeId);
             bw.WriteUInt32(0);
         }

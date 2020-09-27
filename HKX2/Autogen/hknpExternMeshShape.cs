@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hknpExternMeshShape : hknpCompositeShape
     {
+        public override uint Signature { get => 1146675861; }
+        
         public hknpExternMeshShapeGeometry m_geometry;
         public hknpExternMeshShapeData m_boundingVolumeData;
         
@@ -22,11 +24,11 @@ namespace HKX2
             m_boundingVolumeData = des.ReadClassPointer<hknpExternMeshShapeData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hknpExternMeshShapeGeometry>(bw, m_geometry);
+            s.WriteClassPointer<hknpExternMeshShapeData>(bw, m_boundingVolumeData);
         }
     }
 }

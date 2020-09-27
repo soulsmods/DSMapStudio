@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterSetup : hkReferencedObject
     {
+        public override uint Signature { get => 1955659533; }
+        
         public List<hkaSkeletonMapper> m_retargetingSkeletonMappers;
         public hkaSkeleton m_animationSkeleton;
         public hkaSkeletonMapper m_ragdollToAnimationSkeletonMapper;
@@ -27,14 +29,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkaSkeletonMapper>(bw, m_retargetingSkeletonMappers);
+            s.WriteClassPointer<hkaSkeleton>(bw, m_animationSkeleton);
+            s.WriteClassPointer<hkaSkeletonMapper>(bw, m_ragdollToAnimationSkeletonMapper);
+            s.WriteClassPointer<hkaSkeletonMapper>(bw, m_animationToRagdollSkeletonMapper);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkbCharacterData>(bw, m_data);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

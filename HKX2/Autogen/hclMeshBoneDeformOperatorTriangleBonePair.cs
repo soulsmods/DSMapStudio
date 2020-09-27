@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMeshBoneDeformOperatorTriangleBonePair : IHavokObject
     {
+        public virtual uint Signature { get => 634414815; }
+        
         public Matrix4x4 m_localBoneTransform;
         public float m_weight;
         public ushort m_triangleIndex;
@@ -19,8 +21,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteMatrix4(bw, m_localBoneTransform);
             bw.WriteSingle(m_weight);
             bw.WriteUInt16(m_triangleIndex);
             bw.WriteUInt64(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpWorldSnapshot : hkReferencedObject
     {
+        public override uint Signature { get => 1890204722; }
+        
         public hknpWorldCinfo m_worldCinfo;
         public List<hknpBody> m_bodies;
         public List<string> m_bodyNames;
@@ -23,10 +25,14 @@ namespace HKX2
             m_constraints = des.ReadClassArray<hknpConstraintCinfo>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_worldCinfo.Write(bw);
+            base.Write(s, bw);
+            m_worldCinfo.Write(s, bw);
+            s.WriteClassArray<hknpBody>(bw, m_bodies);
+            s.WriteStringPointerArray(bw, m_bodyNames);
+            s.WriteClassArray<hknpMotion>(bw, m_motions);
+            s.WriteClassArray<hknpConstraintCinfo>(bw, m_constraints);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRadialSelectorGeneratorGeneratorPair : IHavokObject
     {
+        public virtual uint Signature { get => 2970612073; }
+        
         public hkbRadialSelectorGeneratorGeneratorInfo m_generators_0;
         public hkbRadialSelectorGeneratorGeneratorInfo m_generators_1;
         public float m_minAngle;
@@ -21,10 +23,10 @@ namespace HKX2
             m_maxAngle = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_generators_0.Write(bw);
-            m_generators_1.Write(bw);
+            m_generators_0.Write(s, bw);
+            m_generators_1.Write(s, bw);
             bw.WriteSingle(m_minAngle);
             bw.WriteSingle(m_maxAngle);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxAnimatedMatrix : hkReferencedObject
     {
+        public override uint Signature { get => 1537742490; }
+        
         public List<float> m_matrices;
         public Hint m_hint;
         
@@ -19,9 +21,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteSingleArray(bw, m_matrices);
+            bw.WriteByte((byte)m_hint);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRadialSelectorGenerator : hkbGenerator
     {
+        public override uint Signature { get => 131468265; }
+        
         public List<hkbRadialSelectorGeneratorGeneratorPair> m_generatorPairs;
         public float m_angle;
         public float m_radius;
@@ -21,9 +23,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbRadialSelectorGeneratorGeneratorPair>(bw, m_generatorPairs);
             bw.WriteSingle(m_angle);
             bw.WriteSingle(m_radius);
             bw.WriteUInt64(0);

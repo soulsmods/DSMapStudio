@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclPlaneShape : hclShape
     {
+        public override uint Signature { get => 1298182160; }
+        
         public Vector4 m_planeEquation;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,11 @@ namespace HKX2
             m_planeEquation = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_planeEquation);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkUFloat8 : IHavokObject
     {
+        public virtual uint Signature { get => 2080862106; }
+        
         public byte m_value;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,7 +15,7 @@ namespace HKX2
             m_value = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_value);
         }

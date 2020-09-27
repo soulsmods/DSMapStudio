@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBoneIndexArray : hkbBindable
     {
+        public override uint Signature { get => 1025963045; }
+        
         public List<short> m_boneIndices;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_boneIndices = des.ReadInt16Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteInt16Array(bw, m_boneIndices);
         }
     }
 }

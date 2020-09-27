@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpStorageExtendedMeshShapeMeshSubpartStorage : hkReferencedObject
     {
+        public override uint Signature { get => 4095606354; }
+        
         public List<Vector4> m_vertices;
         public List<byte> m_indices8;
         public List<ushort> m_indices16;
@@ -28,9 +30,17 @@ namespace HKX2
             m_materialIndices16 = des.ReadUInt16Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_vertices);
+            s.WriteByteArray(bw, m_indices8);
+            s.WriteUInt16Array(bw, m_indices16);
+            s.WriteUInt32Array(bw, m_indices32);
+            s.WriteByteArray(bw, m_materialIndices);
+            s.WriteClassArray<hkpStorageExtendedMeshShapeMaterial>(bw, m_materials);
+            s.WriteClassArray<hkpNamedMeshMaterial>(bw, m_namedMaterials);
+            s.WriteUInt16Array(bw, m_materialIndices16);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbContext : IHavokObject
     {
+        public virtual uint Signature { get => 3427916116; }
+        
         public hkbBehaviorGraph m_rootBehavior;
         public hkbGeneratorOutputListener m_generatorOutputListener;
         
@@ -25,15 +27,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkbBehaviorGraph>(bw, m_rootBehavior);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkbGeneratorOutputListener>(bw, m_generatorOutputListener);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMonitorStreamStringMapStringMap : IHavokObject
     {
+        public virtual uint Signature { get => 745983510; }
+        
         public ulong m_id;
         public string m_string;
         
@@ -15,9 +17,10 @@ namespace HKX2
             m_string = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(m_id);
+            s.WriteStringPointer(bw, m_string);
         }
     }
 }

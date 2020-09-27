@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothDataOverridableSimulationInfo : IHavokObject
     {
+        public virtual uint Signature { get => 943429711; }
+        
         public Vector4 m_gravity;
         public float m_globalDampingPerSecond;
         public float m_collisionTolerance;
@@ -26,8 +28,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_gravity);
             bw.WriteSingle(m_globalDampingPerSecond);
             bw.WriteSingle(m_collisionTolerance);
             bw.WriteUInt32(m_subSteps);

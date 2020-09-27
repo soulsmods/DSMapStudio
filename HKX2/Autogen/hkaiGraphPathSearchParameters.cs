@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiGraphPathSearchParameters : IHavokObject
     {
+        public virtual uint Signature { get => 2474849502; }
+        
         public float m_heuristicWeight;
         public bool m_useHierarchicalHeuristic;
         public hkaiSearchParametersBufferSizes m_bufferSizes;
@@ -25,7 +27,7 @@ namespace HKX2
             m_hierarchyBufferSizes.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_heuristicWeight);
             bw.WriteBoolean(m_useHierarchicalHeuristic);
@@ -33,8 +35,8 @@ namespace HKX2
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_bufferSizes.Write(bw);
-            m_hierarchyBufferSizes.Write(bw);
+            m_bufferSizes.Write(s, bw);
+            m_hierarchyBufferSizes.Write(s, bw);
         }
     }
 }

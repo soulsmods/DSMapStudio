@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPhysics2012BodyObstacleGenerator : hkaiObstacleGenerator
     {
+        public override uint Signature { get => 729055412; }
+        
         public float m_velocityThreshold;
         public hkpRigidBody m_rigidBody;
         
@@ -19,12 +21,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_velocityThreshold);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkpRigidBody>(bw, m_rigidBody);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

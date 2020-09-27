@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hkMultiThreadCheck : IHavokObject
     {
+        public virtual uint Signature { get => 300171403; }
+        
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
@@ -26,7 +28,7 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

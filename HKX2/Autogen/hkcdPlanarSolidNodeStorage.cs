@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdPlanarSolidNodeStorage : hkReferencedObject
     {
+        public override uint Signature { get => 108991865; }
+        
         public List<hkcdPlanarSolidNode> m_storage;
         public uint m_firstFreeNodeId;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkcdPlanarSolidNode>(bw, m_storage);
             bw.WriteUInt32(m_firstFreeNodeId);
             bw.WriteUInt32(0);
         }

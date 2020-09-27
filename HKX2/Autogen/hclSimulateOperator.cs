@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimulateOperator : hclOperator
     {
+        public override uint Signature { get => 1975987983; }
+        
         public uint m_simClothIndex;
         public uint m_subSteps;
         public int m_numberOfSolveIterations;
@@ -26,13 +28,14 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_simClothIndex);
             bw.WriteUInt32(m_subSteps);
             bw.WriteInt32(m_numberOfSolveIterations);
             bw.WriteUInt32(0);
+            s.WriteInt32Array(bw, m_constraintExecution);
             bw.WriteBoolean(m_adaptConstraintStiffness);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

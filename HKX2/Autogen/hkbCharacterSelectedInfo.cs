@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterSelectedInfo : hkReferencedObject
     {
+        public override uint Signature { get => 4123522249; }
+        
         public ulong m_characterId;
         public int m_scriptDebuggingPort;
         public int m_padding;
@@ -18,9 +20,9 @@ namespace HKX2
             m_padding = br.ReadInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
             bw.WriteInt32(m_scriptDebuggingPort);
             bw.WriteInt32(m_padding);

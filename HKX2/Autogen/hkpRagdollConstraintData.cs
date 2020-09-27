@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkpRagdollConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 3078430774; }
+        
         public hkpRagdollConstraintDataAtoms m_atoms;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -23,11 +25,11 @@ namespace HKX2
             m_atoms.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
         }
     }
 }

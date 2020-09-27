@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbTwistModifier : hkbModifier
     {
+        public override uint Signature { get => 2564170684; }
+        
         public enum SetAngleMethod
         {
             LINEAR = 0,
@@ -46,13 +48,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_axisOfRotation);
             bw.WriteSingle(m_twistAngle);
             bw.WriteInt16(m_startBoneIndex);
             bw.WriteInt16(m_endBoneIndex);
+            bw.WriteSByte((sbyte)m_setAngleMethod);
+            bw.WriteSByte((sbyte)m_rotationAxisCoordinates);
             bw.WriteBoolean(m_isAdditive);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

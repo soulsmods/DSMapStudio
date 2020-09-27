@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateMachineTimeInterval : IHavokObject
     {
+        public virtual uint Signature { get => 1621656037; }
+        
         public int m_enterEventId;
         public int m_exitEventId;
         public float m_enterTime;
@@ -19,7 +21,7 @@ namespace HKX2
             m_exitTime = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_enterEventId);
             bw.WriteInt32(m_exitEventId);

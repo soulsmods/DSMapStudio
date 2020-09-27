@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkGizmoAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 598400950; }
+        
         public bool m_visible;
         public string m_label;
         public GizmoType m_type;
@@ -31,12 +33,14 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_visible);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_label);
+            bw.WriteSByte((sbyte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

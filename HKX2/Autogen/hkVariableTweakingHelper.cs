@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkVariableTweakingHelper : IHavokObject
     {
+        public virtual uint Signature { get => 3385990895; }
+        
         public List<hkVariableTweakingHelperBoolVariableInfo> m_boolVariableInfo;
         public List<hkVariableTweakingHelperIntVariableInfo> m_intVariableInfo;
         public List<hkVariableTweakingHelperRealVariableInfo> m_realVariableInfo;
@@ -28,8 +30,12 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hkVariableTweakingHelperBoolVariableInfo>(bw, m_boolVariableInfo);
+            s.WriteClassArray<hkVariableTweakingHelperIntVariableInfo>(bw, m_intVariableInfo);
+            s.WriteClassArray<hkVariableTweakingHelperRealVariableInfo>(bw, m_realVariableInfo);
+            s.WriteClassArray<hkVariableTweakingHelperVector4VariableInfo>(bw, m_vector4VariableInfo);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

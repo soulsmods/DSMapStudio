@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableConstraintData : hkpWrappedConstraintData
     {
+        public override uint Signature { get => 1070475939; }
+        
         public hkpBridgeAtoms m_atoms;
         public float m_solverResultLimit;
         public bool m_removeWhenBroken;
@@ -24,10 +26,10 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_atoms.Write(bw);
+            base.Write(s, bw);
+            m_atoms.Write(s, bw);
             bw.WriteUInt32(0);
             bw.WriteSingle(m_solverResultLimit);
             bw.WriteBoolean(m_removeWhenBroken);

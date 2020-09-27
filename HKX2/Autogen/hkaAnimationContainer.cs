@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaAnimationContainer : hkReferencedObject
     {
+        public override uint Signature { get => 646291276; }
+        
         public List<hkaSkeleton> m_skeletons;
         public List<hkaAnimation> m_animations;
         public List<hkaAnimationBinding> m_bindings;
@@ -22,9 +24,14 @@ namespace HKX2
             m_skins = des.ReadClassPointerArray<hkaMeshBinding>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkaSkeleton>(bw, m_skeletons);
+            s.WriteClassPointerArray<hkaAnimation>(bw, m_animations);
+            s.WriteClassPointerArray<hkaAnimationBinding>(bw, m_bindings);
+            s.WriteClassPointerArray<hkaBoneAttachment>(bw, m_attachments);
+            s.WriteClassPointerArray<hkaMeshBinding>(bw, m_skins);
         }
     }
 }

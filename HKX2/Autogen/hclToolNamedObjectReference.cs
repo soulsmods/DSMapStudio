@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclToolNamedObjectReference : IHavokObject
     {
+        public virtual uint Signature { get => 3490533769; }
+        
         public string m_pluginName;
         public string m_objectName;
         public uint m_hash;
@@ -18,8 +20,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_pluginName);
+            s.WriteStringPointer(bw, m_objectName);
             bw.WriteUInt32(m_hash);
             bw.WriteUInt32(0);
         }

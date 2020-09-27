@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDynamicNavMeshQueryMediator : hkaiNavMeshQueryMediator
     {
+        public override uint Signature { get => 1760073921; }
+        
         public hkaiStreamingCollection m_collection;
         public hkcdDynamicAabbTree m_aabbTree;
         public hkaiNavMeshCutter m_cutter;
@@ -21,12 +23,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiStreamingCollection>(bw, m_collection);
+            s.WriteClassPointer<hkcdDynamicAabbTree>(bw, m_aabbTree);
+            s.WriteClassPointer<hkaiNavMeshCutter>(bw, m_cutter);
             bw.WriteSingle(m_cutAabbTolerance);
             bw.WriteUInt32(0);
         }

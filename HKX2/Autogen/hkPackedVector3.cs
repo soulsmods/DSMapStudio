@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkPackedVector3 : IHavokObject
     {
+        public virtual uint Signature { get => 2191969155; }
+        
         public short m_values_0;
         public short m_values_1;
         public short m_values_2;
@@ -19,7 +21,7 @@ namespace HKX2
             m_values_3 = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_values_0);
             bw.WriteInt16(m_values_1);

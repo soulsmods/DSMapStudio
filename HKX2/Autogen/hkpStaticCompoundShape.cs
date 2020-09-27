@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpStaticCompoundShape : hkpBvTreeShape
     {
+        public override uint Signature { get => 3492349726; }
+        
         public enum Config
         {
             NUM_BYTES_FOR_TREE = 48,
@@ -34,17 +36,19 @@ namespace HKX2
             m_tree.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteSByte(m_numBitsForChildShapeKey);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_disabledLargeShapeKeyTable.Write(bw);
+            s.WriteClassArray<hkpStaticCompoundShapeInstance>(bw, m_instances);
+            s.WriteUInt16Array(bw, m_instanceExtraInfos);
+            m_disabledLargeShapeKeyTable.Write(s, bw);
             bw.WriteUInt64(0);
-            m_tree.Write(bw);
+            m_tree.Write(s, bw);
         }
     }
 }

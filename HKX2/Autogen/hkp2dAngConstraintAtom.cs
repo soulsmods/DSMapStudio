@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkp2dAngConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 3531063572; }
+        
         public byte m_freeRotationAxis;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_freeRotationAxis);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

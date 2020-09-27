@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothDataCollidableTransformMap : IHavokObject
     {
+        public virtual uint Signature { get => 2329787323; }
+        
         public int m_transformSetIndex;
         public List<uint> m_transformIndices;
         public List<Matrix4x4> m_offsets;
@@ -18,10 +20,12 @@ namespace HKX2
             m_offsets = des.ReadMatrix4Array(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_transformSetIndex);
             bw.WriteUInt32(0);
+            s.WriteUInt32Array(bw, m_transformIndices);
+            s.WriteMatrix4Array(bw, m_offsets);
         }
     }
 }

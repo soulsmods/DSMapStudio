@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEventSequencedDataSequencedEvent : IHavokObject
     {
+        public virtual uint Signature { get => 2436479009; }
+        
         public hkbEvent m_event;
         public float m_time;
         
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_event.Write(bw);
+            m_event.Write(s, bw);
             bw.WriteSingle(m_time);
             bw.WriteUInt32(0);
         }

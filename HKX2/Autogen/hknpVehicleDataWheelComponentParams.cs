@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDataWheelComponentParams : IHavokObject
     {
+        public virtual uint Signature { get => 2197700832; }
+        
         public float m_radius;
         public float m_mass;
         public float m_width;
@@ -33,7 +35,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_radius);
             bw.WriteSingle(m_mass);

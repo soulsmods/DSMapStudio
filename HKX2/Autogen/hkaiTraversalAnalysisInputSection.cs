@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiTraversalAnalysisInputSection : IHavokObject
     {
+        public virtual uint Signature { get => 2909360209; }
+        
         public hkaiNavMeshInstance m_navMeshInstance;
         public hkGeometry m_geometry;
         public hkBitField m_walkableBitfield;
@@ -21,12 +23,12 @@ namespace HKX2
             m_cuttingBitfield.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            // Implement Write
-            m_walkableBitfield.Write(bw);
-            m_cuttingBitfield.Write(bw);
+            s.WriteClassPointer<hkaiNavMeshInstance>(bw, m_navMeshInstance);
+            s.WriteClassPointer<hkGeometry>(bw, m_geometry);
+            m_walkableBitfield.Write(s, bw);
+            m_cuttingBitfield.Write(s, bw);
         }
     }
 }

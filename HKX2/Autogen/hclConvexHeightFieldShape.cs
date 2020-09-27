@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclConvexHeightFieldShape : hclShape
     {
+        public override uint Signature { get => 1931996311; }
+        
         public ushort m_res;
         public ushort m_resIncBorder;
         public Vector4 m_floatCorrectionOffset;
@@ -38,12 +40,14 @@ namespace HKX2
             m_localToMapScale = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(m_res);
             bw.WriteUInt16(m_resIncBorder);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_floatCorrectionOffset);
+            s.WriteByteArray(bw, m_heights);
             bw.WriteInt32(m_faces_0);
             bw.WriteInt32(m_faces_1);
             bw.WriteInt32(m_faces_2);
@@ -51,6 +55,8 @@ namespace HKX2
             bw.WriteInt32(m_faces_4);
             bw.WriteInt32(m_faces_5);
             bw.WriteUInt64(0);
+            s.WriteTransform(bw, m_localToMapTransform);
+            s.WriteVector4(bw, m_localToMapScale);
         }
     }
 }

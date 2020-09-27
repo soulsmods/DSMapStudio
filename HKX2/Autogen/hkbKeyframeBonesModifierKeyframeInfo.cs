@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbKeyframeBonesModifierKeyframeInfo : IHavokObject
     {
+        public virtual uint Signature { get => 1927198630; }
+        
         public Vector4 m_keyframedPosition;
         public Quaternion m_keyframedRotation;
         public short m_boneIndex;
@@ -22,8 +24,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_keyframedPosition);
+            s.WriteQuaternion(bw, m_keyframedRotation);
             bw.WriteInt16(m_boneIndex);
             bw.WriteBoolean(m_isValid);
             bw.WriteUInt64(0);

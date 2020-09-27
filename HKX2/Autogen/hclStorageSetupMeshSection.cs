@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStorageSetupMeshSection : hkReferencedObject
     {
+        public override uint Signature { get => 789629041; }
+        
         public hclSetupMesh m_parentSetupMesh;
         public List<Vector4> m_vertices;
         public List<Vector4> m_normals;
@@ -35,11 +37,21 @@ namespace HKX2
             m_normalIDs = des.ReadUInt16Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hclSetupMesh>(bw, m_parentSetupMesh);
+            s.WriteVector4Array(bw, m_vertices);
+            s.WriteVector4Array(bw, m_normals);
+            s.WriteVector4Array(bw, m_tangents);
+            s.WriteVector4Array(bw, m_bitangents);
+            s.WriteClassArray<hclSetupMeshSectionTriangle>(bw, m_triangles);
+            s.WriteClassPointerArray<hclStorageSetupMeshSectionSectionVertexChannel>(bw, m_sectionVertexChannels);
+            s.WriteClassPointerArray<hclStorageSetupMeshSectionSectionEdgeSelectionChannel>(bw, m_sectionEdgeChannels);
+            s.WriteClassPointerArray<hclStorageSetupMeshSectionSectionTriangleSelectionChannel>(bw, m_sectionTriangleChannels);
+            s.WriteClassPointerArray<hclStorageSetupMeshSectionBoneInfluences>(bw, m_boneInfluences);
+            s.WriteUInt16Array(bw, m_normalIDs);
         }
     }
 }

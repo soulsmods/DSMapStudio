@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpMinMaxQuadTreeMinMaxLevel : IHavokObject
     {
+        public virtual uint Signature { get => 2013793389; }
+        
         public List<uint> m_minMaxData;
         public ushort m_xRes;
         public ushort m_zRes;
@@ -18,8 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteUInt32Array(bw, m_minMaxData);
             bw.WriteUInt16(m_xRes);
             bw.WriteUInt16(m_zRes);
             bw.WriteUInt32(0);

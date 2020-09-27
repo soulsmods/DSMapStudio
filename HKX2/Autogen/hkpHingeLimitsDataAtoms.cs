@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpHingeLimitsDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 457280656; }
+        
         public enum Axis
         {
             AXIS_AXLE = 0,
@@ -27,11 +29,11 @@ namespace HKX2
             m_2dAng.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_rotations.Write(bw);
-            m_angLimit.Write(bw);
-            m_2dAng.Write(bw);
+            m_rotations.Write(s, bw);
+            m_angLimit.Write(s, bw);
+            m_2dAng.Write(s, bw);
         }
     }
 }

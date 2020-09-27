@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkControlsModifierLeg : IHavokObject
     {
+        public virtual uint Signature { get => 3062576394; }
+        
         public Vector4 m_groundPosition;
         public hkbEventProperty m_ungroundedEvent;
         public float m_verticalError;
@@ -26,9 +28,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_ungroundedEvent.Write(bw);
+            s.WriteVector4(bw, m_groundPosition);
+            m_ungroundedEvent.Write(s, bw);
             bw.WriteSingle(m_verticalError);
             bw.WriteBoolean(m_hitSomething);
             bw.WriteBoolean(m_isPlantedMS);

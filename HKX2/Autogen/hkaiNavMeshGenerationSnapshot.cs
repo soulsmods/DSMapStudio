@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshGenerationSnapshot : IHavokObject
     {
+        public virtual uint Signature { get => 1142877440; }
+        
         public hkGeometry m_geometry;
         public hkaiNavMeshGenerationSettings m_settings;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_settings.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_geometry.Write(bw);
-            m_settings.Write(bw);
+            m_geometry.Write(s, bw);
+            m_settings.Write(s, bw);
         }
     }
 }

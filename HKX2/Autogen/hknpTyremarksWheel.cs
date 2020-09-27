@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpTyremarksWheel : hkReferencedObject
     {
+        public override uint Signature { get => 2405991805; }
+        
         public int m_currentPosition;
         public int m_numPoints;
         public List<hknpTyremarkPoint> m_tyremarkPoints;
@@ -18,11 +20,12 @@ namespace HKX2
             m_tyremarkPoints = des.ReadClassArray<hknpTyremarkPoint>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_currentPosition);
             bw.WriteInt32(m_numPoints);
+            s.WriteClassArray<hknpTyremarkPoint>(bw, m_tyremarkPoints);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclObjectSpaceDeformerThreeBlendEntryBlock : IHavokObject
     {
+        public virtual uint Signature { get => 1284583435; }
+        
         public ushort m_vertexIndices_0;
         public ushort m_vertexIndices_1;
         public ushort m_vertexIndices_2;
@@ -235,7 +237,7 @@ namespace HKX2
             m_boneWeights_47 = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_vertexIndices_0);
             bw.WriteUInt16(m_vertexIndices_1);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbHandle : hkReferencedObject
     {
+        public override uint Signature { get => 1137004340; }
+        
         public hkLocalFrame m_frame;
         public hkReferencedObject m_rigidBody;
         public hkbCharacter m_character;
@@ -22,12 +24,12 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkLocalFrame>(bw, m_frame);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_rigidBody);
+            s.WriteClassPointer<hkbCharacter>(bw, m_character);
             bw.WriteInt16(m_animationBoneIndex);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

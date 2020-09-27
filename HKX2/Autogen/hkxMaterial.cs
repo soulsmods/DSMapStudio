@@ -63,6 +63,8 @@ namespace HKX2
     
     public class hkxMaterial : hkxAttributeHolder
     {
+        public override uint Signature { get => 2019476322; }
+        
         public string m_name;
         public List<hkxMaterialTextureStage> m_stages;
         public Vector4 m_diffuseColor;
@@ -112,22 +114,32 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassArray<hkxMaterialTextureStage>(bw, m_stages);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteVector4(bw, m_diffuseColor);
+            s.WriteVector4(bw, m_ambientColor);
+            s.WriteVector4(bw, m_specularColor);
+            s.WriteVector4(bw, m_emissiveColor);
+            s.WriteClassPointerArray<hkxMaterial>(bw, m_subMaterials);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_extraData);
             bw.WriteSingle(m_uvMapScale_0);
             bw.WriteSingle(m_uvMapScale_1);
             bw.WriteSingle(m_uvMapOffset_0);
             bw.WriteSingle(m_uvMapOffset_1);
             bw.WriteSingle(m_uvMapRotation);
+            bw.WriteUInt32((uint)m_uvMapAlgorithm);
             bw.WriteSingle(m_specularMultiplier);
             bw.WriteSingle(m_specularExponent);
+            bw.WriteByte((byte)m_transparency);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteUInt64(m_userData);
+            s.WriteClassArray<hkxMaterialProperty>(bw, m_properties);
             bw.WriteUInt64(0);
         }
     }

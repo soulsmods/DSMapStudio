@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxBlobMeshShape : hkMeshShape
     {
+        public override uint Signature { get => 1704013991; }
+        
         public hkxBlob m_blob;
         public string m_name;
         
@@ -17,10 +19,11 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_blob.Write(bw);
+            base.Write(s, bw);
+            m_blob.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
         }
     }
 }

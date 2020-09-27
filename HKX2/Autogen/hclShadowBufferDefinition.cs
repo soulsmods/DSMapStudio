@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclShadowBufferDefinition : hclBufferDefinition
     {
+        public override uint Signature { get => 1263612896; }
+        
         public List<ushort> m_triangleIndices;
         public bool m_shadowPositions;
         public bool m_shadowNormals;
@@ -23,9 +25,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt16Array(bw, m_triangleIndices);
             bw.WriteBoolean(m_shadowPositions);
             bw.WriteBoolean(m_shadowNormals);
             bw.WriteBoolean(m_shadowTangents);

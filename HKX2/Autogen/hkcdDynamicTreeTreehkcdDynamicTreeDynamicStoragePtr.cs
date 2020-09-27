@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdDynamicTreeTreehkcdDynamicTreeDynamicStoragePtr : hkcdDynamicTreeDynamicStoragePtr
     {
+        public override uint Signature { get => 3565460956; }
+        
         public uint m_numLeaves;
         public uint m_path;
         public ulong m_root;
@@ -18,9 +20,9 @@ namespace HKX2
             m_root = br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_numLeaves);
             bw.WriteUInt32(m_path);
             bw.WriteUInt64(m_root);

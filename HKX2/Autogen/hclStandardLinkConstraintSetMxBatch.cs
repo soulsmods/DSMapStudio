@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStandardLinkConstraintSetMxBatch : IHavokObject
     {
+        public virtual uint Signature { get => 2084330958; }
+        
         public float m_restLengths_0;
         public float m_restLengths_1;
         public float m_restLengths_2;
@@ -171,7 +173,7 @@ namespace HKX2
             m_particlesB_15 = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_restLengths_0);
             bw.WriteSingle(m_restLengths_1);

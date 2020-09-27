@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpBroadPhaseConfigLayer : IHavokObject
     {
+        public virtual uint Signature { get => 31815071; }
+        
         public uint m_collideWithLayerMask;
         public bool m_isVolatile;
         
@@ -17,7 +19,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_collideWithLayerMask);
             bw.WriteBoolean(m_isVolatile);

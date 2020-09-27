@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpReachTowardTargetModifierHand : IHavokObject
     {
+        public virtual uint Signature { get => 1541759402; }
+        
         public short m_shoulderIndex;
         public bool m_isEnabled;
         
@@ -16,7 +18,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_shoulderIndex);
             bw.WriteBoolean(m_isEnabled);

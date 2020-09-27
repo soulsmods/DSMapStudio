@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbHandIkModifier : hkbModifier
     {
+        public override uint Signature { get => 1862699290; }
+        
         public List<hkbHandIkModifierHand> m_hands;
         public BlendCurve m_fadeInOutCurve;
         
@@ -21,9 +23,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbHandIkModifierHand>(bw, m_hands);
+            bw.WriteSByte((sbyte)m_fadeInOutCurve);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpShapeKeyTableBlock : IHavokObject
     {
+        public virtual uint Signature { get => 846627727; }
+        
         public uint m_slots_0;
         public uint m_slots_1;
         public uint m_slots_2;
@@ -141,7 +143,7 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_slots_0);
             bw.WriteUInt32(m_slots_1);
@@ -207,7 +209,7 @@ namespace HKX2
             bw.WriteUInt32(m_slots_61);
             bw.WriteUInt32(m_slots_62);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkpShapeKeyTableBlock>(bw, m_next);
             bw.WriteUInt64(0);
         }
     }

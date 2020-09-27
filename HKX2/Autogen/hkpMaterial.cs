@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkpMaterial : IHavokObject
     {
+        public virtual uint Signature { get => 868115824; }
+        
         public ResponseType m_responseType;
         public short m_rollingFrictionMultiplier;
         public float m_friction;
@@ -29,8 +31,9 @@ namespace HKX2
             m_restitution = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteSByte((sbyte)m_responseType);
             bw.WriteByte(0);
             bw.WriteInt16(m_rollingFrictionMultiplier);
             bw.WriteSingle(m_friction);

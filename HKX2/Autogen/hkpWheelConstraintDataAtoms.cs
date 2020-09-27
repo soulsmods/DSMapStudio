@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpWheelConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 3887129101; }
+        
         public enum Axis
         {
             AXIS_SUSPENSION = 0,
@@ -40,15 +42,15 @@ namespace HKX2
             m_2dAng.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_suspensionBase.Write(bw);
-            m_lin0Limit.Write(bw);
-            m_lin0Soft.Write(bw);
-            m_lin1.Write(bw);
-            m_lin2.Write(bw);
-            m_steeringBase.Write(bw);
-            m_2dAng.Write(bw);
+            m_suspensionBase.Write(s, bw);
+            m_lin0Limit.Write(s, bw);
+            m_lin0Soft.Write(s, bw);
+            m_lin1.Write(s, bw);
+            m_lin2.Write(s, bw);
+            m_steeringBase.Write(s, bw);
+            m_2dAng.Write(s, bw);
         }
     }
 }

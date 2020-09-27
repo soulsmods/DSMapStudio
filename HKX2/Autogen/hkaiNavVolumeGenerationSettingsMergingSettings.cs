@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeGenerationSettingsMergingSettings : IHavokObject
     {
+        public virtual uint Signature { get => 3148671488; }
+        
         public float m_nodeWeight;
         public float m_edgeWeight;
         public bool m_estimateNewEdges;
@@ -33,7 +35,7 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_nodeWeight);
             bw.WriteSingle(m_edgeWeight);

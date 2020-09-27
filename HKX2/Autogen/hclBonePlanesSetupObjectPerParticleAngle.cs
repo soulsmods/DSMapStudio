@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBonePlanesSetupObjectPerParticleAngle : IHavokObject
     {
+        public virtual uint Signature { get => 1064119090; }
+        
         public string m_transformName;
         public hclVertexSelectionInput m_particlesMaxAngle;
         public hclVertexSelectionInput m_particlesMinAngle;
@@ -33,14 +35,17 @@ namespace HKX2
             m_stiffness.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_particlesMaxAngle.Write(bw);
-            m_particlesMinAngle.Write(bw);
+            s.WriteStringPointer(bw, m_transformName);
+            m_particlesMaxAngle.Write(s, bw);
+            m_particlesMinAngle.Write(s, bw);
             bw.WriteUInt64(0);
-            m_minAngle.Write(bw);
-            m_maxAngle.Write(bw);
-            m_stiffness.Write(bw);
+            s.WriteVector4(bw, m_originBoneSpace);
+            s.WriteVector4(bw, m_axisBoneSpace);
+            m_minAngle.Write(s, bw);
+            m_maxAngle.Write(s, bw);
+            m_stiffness.Write(s, bw);
         }
     }
 }

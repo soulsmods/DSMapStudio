@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpLinMotorConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 3706241468; }
+        
         public bool m_isEnabled;
         public byte m_motorAxis;
         public float m_targetPosition;
@@ -22,15 +24,15 @@ namespace HKX2
             m_motor = des.ReadClassPointer<hkpConstraintMotor>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_isEnabled);
             bw.WriteByte(m_motorAxis);
             bw.WriteUInt32(0);
             bw.WriteSingle(m_targetPosition);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintMotor>(bw, m_motor);
         }
     }
 }

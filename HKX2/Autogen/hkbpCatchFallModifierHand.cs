@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpCatchFallModifierHand : IHavokObject
     {
+        public virtual uint Signature { get => 3906340000; }
+        
         public short m_animShoulderIndex;
         public short m_ragdollShoulderIndex;
         public short m_ragdollAnkleIndex;
@@ -17,7 +19,7 @@ namespace HKX2
             m_ragdollAnkleIndex = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_animShoulderIndex);
             bw.WriteInt16(m_ragdollShoulderIndex);

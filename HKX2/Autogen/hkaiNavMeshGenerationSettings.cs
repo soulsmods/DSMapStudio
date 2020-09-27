@@ -32,6 +32,8 @@ namespace HKX2
     
     public class hkaiNavMeshGenerationSettings : hkReferencedObject
     {
+        public override uint Signature { get => 2373402388; }
+        
         public float m_characterHeight;
         public Vector4 m_up;
         public float m_quantizationGridSize;
@@ -130,43 +132,51 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_characterHeight);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_quantizationGridSize);
             bw.WriteSingle(m_maxWalkableSlope);
+            bw.WriteByte((byte)m_triangleWinding);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_degenerateAreaThreshold);
             bw.WriteSingle(m_degenerateWidthThreshold);
             bw.WriteSingle(m_convexThreshold);
             bw.WriteInt32(m_maxNumEdgesPerFace);
-            m_edgeMatchingParams.Write(bw);
+            m_edgeMatchingParams.Write(s, bw);
+            bw.WriteUInt32((uint)m_edgeMatchingMetric);
             bw.WriteInt32(m_edgeConnectionIterations);
             bw.WriteUInt32(0);
-            m_regionPruningSettings.Write(bw);
-            m_wallClimbingSettings.Write(bw);
+            m_regionPruningSettings.Write(s, bw);
+            m_wallClimbingSettings.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
-            m_boundsAabb.Write(bw);
+            m_boundsAabb.Write(s, bw);
+            s.WriteClassPointerArray<hkaiCarver>(bw, m_carvers);
+            s.WriteClassPointerArray<hkaiMaterialPainter>(bw, m_painters);
             bw.WriteUInt64(0);
+            bw.WriteUInt32(m_defaultConstructionProperties);
             bw.WriteUInt32(0);
+            s.WriteClassArray<hkaiNavMeshGenerationSettingsMaterialConstructionPair>(bw, m_materialMap);
             bw.WriteBoolean(m_fixupOverlappingTriangles);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_overlappingTrianglesSettings.Write(bw);
+            m_overlappingTrianglesSettings.Write(s, bw);
             bw.WriteBoolean(m_weldInputVertices);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_weldThreshold);
             bw.WriteSingle(m_minCharacterWidth);
+            bw.WriteByte((byte)m_characterWidthUsage);
             bw.WriteBoolean(m_enableSimplification);
             bw.WriteUInt16(0);
-            m_simplificationSettings.Write(bw);
+            m_simplificationSettings.Write(s, bw);
             bw.WriteInt32(m_carvedMaterialDeprecated);
             bw.WriteInt32(m_carvedCuttingMaterialDeprecated);
             bw.WriteBoolean(m_setBestFaceCenters);
@@ -174,6 +184,8 @@ namespace HKX2
             bw.WriteBoolean(m_saveInputSnapshot);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_snapshotFilename);
+            s.WriteClassArray<hkaiNavMeshGenerationSettingsOverrideSettings>(bw, m_overrideSettings);
             bw.WriteUInt64(0);
         }
     }

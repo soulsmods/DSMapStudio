@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbVariableBindingSet : hkReferencedObject
     {
+        public override uint Signature { get => 3913478969; }
+        
         public List<hkbVariableBindingSetBinding> m_bindings;
         public int m_indexOfBindingToEnable;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbVariableBindingSetBinding>(bw, m_bindings);
             bw.WriteInt32(m_indexOfBindingToEnable);
             bw.WriteUInt32(0);
         }

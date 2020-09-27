@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbBoolVariableSequencedData : hkbSequencedData
     {
+        public override uint Signature { get => 3787018063; }
+        
         public List<hkbBoolVariableSequencedDataSample> m_samples;
         public int m_variableIndex;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbBoolVariableSequencedDataSample>(bw, m_samples);
             bw.WriteInt32(m_variableIndex);
             bw.WriteUInt32(0);
         }

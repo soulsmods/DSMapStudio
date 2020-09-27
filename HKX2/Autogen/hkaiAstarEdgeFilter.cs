@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiAstarEdgeFilter : hkReferencedObject
     {
+        public override uint Signature { get => 2987426339; }
+        
         public EdgeFilterType m_type;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -23,9 +25,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

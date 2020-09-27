@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbJigglerModifierInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 2514428783; }
+        
         public List<Vector4> m_currentVelocitiesWS;
         public List<Vector4> m_currentPositions;
         public float m_timeStep;
@@ -22,9 +24,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_currentVelocitiesWS);
+            s.WriteVector4Array(bw, m_currentPositions);
             bw.WriteSingle(m_timeStep);
             bw.WriteBoolean(m_initNextModify);
             bw.WriteUInt16(0);

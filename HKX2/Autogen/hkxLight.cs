@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkxLight : hkReferencedObject
     {
+        public override uint Signature { get => 2576768448; }
+        
         public LightType m_type;
         public Vector4 m_position;
         public Vector4 m_direction;
@@ -48,13 +50,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteSByte((sbyte)m_type);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteVector4(bw, m_position);
+            s.WriteVector4(bw, m_direction);
             bw.WriteUInt32(m_color);
             bw.WriteSingle(m_angle);
             bw.WriteSingle(m_range);

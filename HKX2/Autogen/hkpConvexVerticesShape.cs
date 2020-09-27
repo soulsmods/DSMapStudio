@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConvexVerticesShape : hkpConvexShape
     {
+        public override uint Signature { get => 3256650586; }
+        
         public Vector4 m_aabbHalfExtents;
         public Vector4 m_aabbCenter;
         public List<Matrix4x4> m_rotatedVertices;
@@ -26,13 +28,17 @@ namespace HKX2
             m_connectivity = des.ReadClassPointer<hkpConvexVerticesConnectivity>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_aabbHalfExtents);
+            s.WriteVector4(bw, m_aabbCenter);
+            s.WriteMatrix3Array(bw, m_rotatedVertices);
             bw.WriteInt32(m_numVertices);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteVector4Array(bw, m_planeEquations);
+            s.WriteClassPointer<hkpConvexVerticesConnectivity>(bw, m_connectivity);
         }
     }
 }

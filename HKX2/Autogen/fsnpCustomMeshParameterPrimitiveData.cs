@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class fsnpCustomMeshParameterPrimitiveData : IHavokObject
     {
+        public virtual uint Signature { get => 3013233085; }
+        
         public List<byte> m_vertexData;
         public List<byte> m_triangleData;
         public List<byte> m_primitiveData;
@@ -20,8 +22,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteByteArray(bw, m_vertexData);
+            s.WriteByteArray(bw, m_triangleData);
+            s.WriteByteArray(bw, m_primitiveData);
             bw.WriteUInt32(m_materialNameData);
             bw.WriteUInt32(0);
         }

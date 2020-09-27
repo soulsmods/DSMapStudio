@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkbWorldFromModelModeData : IHavokObject
     {
+        public virtual uint Signature { get => 840716296; }
+        
         public short m_poseMatchingBone0;
         public short m_poseMatchingBone1;
         public short m_poseMatchingBone2;
@@ -28,11 +30,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_poseMatchingBone0);
             bw.WriteInt16(m_poseMatchingBone1);
             bw.WriteInt16(m_poseMatchingBone2);
+            bw.WriteSByte((sbyte)m_mode);
             bw.WriteByte(0);
         }
     }

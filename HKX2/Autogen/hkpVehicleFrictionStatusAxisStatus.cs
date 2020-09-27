@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpVehicleFrictionStatusAxisStatus : IHavokObject
     {
+        public virtual uint Signature { get => 3876465588; }
+        
         public float m_forward_slip_velocity;
         public float m_side_slip_velocity;
         public float m_skid_energy_density;
@@ -29,7 +31,7 @@ namespace HKX2
             m_relativeForwardForce = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_forward_slip_velocity);
             bw.WriteSingle(m_side_slip_velocity);

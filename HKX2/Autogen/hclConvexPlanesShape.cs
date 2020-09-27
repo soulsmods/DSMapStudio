@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclConvexPlanesShape : hclShape
     {
+        public override uint Signature { get => 2579907977; }
+        
         public List<Vector4> m_planeEquations;
         public Matrix4x4 m_localFromWorld;
         public Matrix4x4 m_worldFromLocal;
@@ -24,11 +26,15 @@ namespace HKX2
             m_geomCentroid = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_planeEquations);
             bw.WriteUInt64(0);
-            m_objAabb.Write(bw);
+            s.WriteTransform(bw, m_localFromWorld);
+            s.WriteTransform(bw, m_worldFromLocal);
+            m_objAabb.Write(s, bw);
+            s.WriteVector4(bw, m_geomCentroid);
         }
     }
 }

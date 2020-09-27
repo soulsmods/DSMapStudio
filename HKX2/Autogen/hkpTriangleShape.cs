@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpTriangleShape : hkpConvexShape
     {
+        public override uint Signature { get => 385621810; }
+        
         public ushort m_weldingInfo;
         public WeldingType m_weldingType;
         public byte m_isExtruded;
@@ -27,12 +29,17 @@ namespace HKX2
             m_extrusion = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt16(m_weldingInfo);
+            bw.WriteByte((byte)m_weldingType);
             bw.WriteByte(m_isExtruded);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_vertexA);
+            s.WriteVector4(bw, m_vertexB);
+            s.WriteVector4(bw, m_vertexC);
+            s.WriteVector4(bw, m_extrusion);
         }
     }
 }

@@ -21,6 +21,8 @@ namespace HKX2
     
     public class hkbStateMachine : hkbGenerator
     {
+        public override uint Signature { get => 3777107537; }
+        
         public hkbEvent m_eventToSendWhenStateOrTransitionChanges;
         public hkbCustomIdSelector m_startStateIdSelector;
         public int m_startStateId;
@@ -71,11 +73,11 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_eventToSendWhenStateOrTransitionChanges.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            m_eventToSendWhenStateOrTransitionChanges.Write(s, bw);
+            s.WriteClassPointer<hkbCustomIdSelector>(bw, m_startStateIdSelector);
             bw.WriteInt32(m_startStateId);
             bw.WriteInt32(m_returnToPreviousStateEventId);
             bw.WriteInt32(m_randomTransitionEventId);
@@ -85,8 +87,11 @@ namespace HKX2
             bw.WriteUInt32(0);
             bw.WriteBoolean(m_wrapAroundStateId);
             bw.WriteSByte(m_maxSimultaneousTransitions);
+            bw.WriteSByte((sbyte)m_startStateMode);
+            bw.WriteSByte((sbyte)m_selfTransitionMode);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointerArray<hkbStateMachineStateInfo>(bw, m_states);
+            s.WriteClassPointer<hkbStateMachineTransitionInfoArray>(bw, m_wildcardTransitions);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

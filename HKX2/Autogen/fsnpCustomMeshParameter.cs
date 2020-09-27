@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class fsnpCustomMeshParameter : hkReferencedObject
     {
+        public override uint Signature { get => 3608770766; }
+        
         public List<fsnpCustomMeshParameterTriangleData> m_triangleDataArray;
         public List<fsnpCustomMeshParameterPrimitiveData> m_primitiveDataArray;
         public int m_vertexDataStride;
@@ -23,9 +25,11 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<fsnpCustomMeshParameterTriangleData>(bw, m_triangleDataArray);
+            s.WriteClassArray<fsnpCustomMeshParameterPrimitiveData>(bw, m_primitiveDataArray);
             bw.WriteInt32(m_vertexDataStride);
             bw.WriteInt32(m_triangleDataStride);
             bw.WriteUInt32(m_version);

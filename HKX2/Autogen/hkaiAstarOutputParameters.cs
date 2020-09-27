@@ -25,6 +25,8 @@ namespace HKX2
     
     public class hkaiAstarOutputParameters : IHavokObject
     {
+        public virtual uint Signature { get => 370388487; }
+        
         public int m_numIterations;
         public int m_goalIndex;
         public float m_pathLength;
@@ -41,11 +43,13 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_numIterations);
             bw.WriteInt32(m_goalIndex);
             bw.WriteSingle(m_pathLength);
+            bw.WriteByte((byte)m_status);
+            bw.WriteByte((byte)m_terminationCause);
             bw.WriteUInt16(0);
         }
     }

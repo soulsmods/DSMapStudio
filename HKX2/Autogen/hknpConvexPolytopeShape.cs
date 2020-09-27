@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpConvexPolytopeShape : hknpConvexShape
     {
+        public override uint Signature { get => 1021948899; }
+        
         public List<Vector4> m_planes;
         public List<hknpConvexPolytopeShapeFace> m_faces;
         public List<byte> m_indices;
@@ -19,9 +21,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             // Read TYPE_RELARRAY
             // Read TYPE_RELARRAY
             // Read TYPE_RELARRAY

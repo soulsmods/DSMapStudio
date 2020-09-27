@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbModifier : hkbNode
     {
+        public override uint Signature { get => 3356616716; }
+        
         public bool m_enable;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -17,9 +19,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_enable);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

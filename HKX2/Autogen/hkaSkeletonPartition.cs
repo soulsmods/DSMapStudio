@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaSkeletonPartition : IHavokObject
     {
+        public virtual uint Signature { get => 2089708117; }
+        
         public string m_name;
         public short m_startBoneIndex;
         public short m_numBones;
@@ -18,8 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             bw.WriteInt16(m_startBoneIndex);
             bw.WriteInt16(m_numBones);
             bw.WriteUInt32(0);

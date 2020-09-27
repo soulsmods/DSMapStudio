@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaFootstepAnalysisInfoContainer : hkReferencedObject
     {
+        public override uint Signature { get => 784826904; }
+        
         public List<hkaFootstepAnalysisInfo> m_previewInfo;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_previewInfo = des.ReadClassPointerArray<hkaFootstepAnalysisInfo>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkaFootstepAnalysisInfo>(bw, m_previewInfo);
         }
     }
 }

@@ -32,6 +32,8 @@ namespace HKX2
     
     public class hkbRoleAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 4274976361; }
+        
         public Role m_role;
         public short m_flags;
         
@@ -41,8 +43,10 @@ namespace HKX2
             m_flags = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteInt16((short)m_role);
+            bw.WriteInt16(m_flags);
         }
     }
 }

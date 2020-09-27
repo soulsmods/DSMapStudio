@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hkMonitorStreamFrameInfo : IHavokObject
     {
+        public virtual uint Signature { get => 2006497243; }
+        
         public string m_heading;
         public int m_indexOfTimer0;
         public int m_indexOfTimer1;
@@ -36,10 +38,12 @@ namespace HKX2
             m_frameStreamEnd = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_heading);
             bw.WriteInt32(m_indexOfTimer0);
             bw.WriteInt32(m_indexOfTimer1);
+            bw.WriteUInt32((uint)m_absoluteTimeCounter);
             bw.WriteSingle(m_timerFactor0);
             bw.WriteSingle(m_timerFactor1);
             bw.WriteInt32(m_threadId);

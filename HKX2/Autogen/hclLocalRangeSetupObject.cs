@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclLocalRangeSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 2945521065; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclBufferSetupObject m_referenceBufferSetup;
@@ -40,16 +42,18 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            m_vertexSelection.Write(bw);
-            m_maximumDistance.Write(bw);
-            m_minNormalDistance.Write(bw);
-            m_maxNormalDistance.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_referenceBufferSetup);
+            m_vertexSelection.Write(s, bw);
+            m_maximumDistance.Write(s, bw);
+            m_minNormalDistance.Write(s, bw);
+            m_maxNormalDistance.Write(s, bw);
             bw.WriteSingle(m_stiffness);
+            bw.WriteUInt32((uint)m_localRangeShape);
             bw.WriteBoolean(m_useMinNormalDistance);
             bw.WriteBoolean(m_useMaxNormalDistance);
             bw.WriteUInt32(0);

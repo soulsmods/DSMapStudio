@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpDefaultBroadPhaseConfig : hknpBroadPhaseConfig
     {
+        public override uint Signature { get => 1329300569; }
+        
         public hknpBroadPhaseConfigLayer m_layers_0;
         public hknpBroadPhaseConfigLayer m_layers_1;
         public hknpBroadPhaseConfigLayer m_layers_2;
@@ -24,13 +26,13 @@ namespace HKX2
             m_layers_3.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_layers_0.Write(bw);
-            m_layers_1.Write(bw);
-            m_layers_2.Write(bw);
-            m_layers_3.Write(bw);
+            base.Write(s, bw);
+            m_layers_0.Write(s, bw);
+            m_layers_1.Write(s, bw);
+            m_layers_2.Write(s, bw);
+            m_layers_3.Write(s, bw);
         }
     }
 }

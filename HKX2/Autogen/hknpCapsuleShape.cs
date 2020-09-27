@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCapsuleShape : hknpConvexPolytopeShape
     {
+        public override uint Signature { get => 1621581644; }
+        
         public Vector4 m_a;
         public Vector4 m_b;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_b = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_a);
+            s.WriteVector4(bw, m_b);
         }
     }
 }

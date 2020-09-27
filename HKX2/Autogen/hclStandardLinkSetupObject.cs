@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclStandardLinkSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 2114889770; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclVertexSelectionInput m_vertexSelection;
@@ -36,19 +38,20 @@ namespace HKX2
             m_allowedStretching.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_vertexSelection.Write(bw);
-            m_edgeSelection.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            m_vertexSelection.Write(s, bw);
+            m_edgeSelection.Write(s, bw);
             bw.WriteBoolean(m_ignoreHiddenEdges);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_stiffness.Write(bw);
-            m_allowedCompression.Write(bw);
-            m_allowedStretching.Write(bw);
+            m_stiffness.Write(s, bw);
+            m_allowedCompression.Write(s, bw);
+            m_allowedStretching.Write(s, bw);
         }
     }
 }

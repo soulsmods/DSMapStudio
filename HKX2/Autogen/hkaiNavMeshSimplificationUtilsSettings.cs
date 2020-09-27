@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshSimplificationUtilsSettings : IHavokObject
     {
+        public virtual uint Signature { get => 3680507198; }
+        
         public float m_maxBorderSimplifyArea;
         public float m_maxConcaveBorderSimplifyArea;
         public float m_minCorridorWidth;
@@ -71,7 +73,7 @@ namespace HKX2
             m_snapshotFilename = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_maxBorderSimplifyArea);
             bw.WriteSingle(m_maxConcaveBorderSimplifyArea);
@@ -101,11 +103,12 @@ namespace HKX2
             bw.WriteBoolean(m_mergeLongestEdgesFirst);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_extraVertexSettings.Write(bw);
+            m_extraVertexSettings.Write(s, bw);
             bw.WriteBoolean(m_saveInputSnapshot);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_snapshotFilename);
         }
     }
 }

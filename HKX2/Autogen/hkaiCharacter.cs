@@ -33,6 +33,8 @@ namespace HKX2
     
     public class hkaiCharacter : hkReferencedObject
     {
+        public override uint Signature { get => 518893446; }
+        
         public ulong m_userData;
         public Vector4 m_position;
         public Vector4 m_forward;
@@ -87,26 +89,32 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_userData);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_position);
+            s.WriteVector4(bw, m_forward);
+            s.WriteVector4(bw, m_velocity);
+            s.WriteVector4(bw, m_up);
             bw.WriteUInt32(m_currentNavMeshFace);
             bw.WriteSingle(m_radius);
             bw.WriteSingle(m_desiredSpeed);
-            m_adaptiveRanger.Write(bw);
-            // Implement Write
-            // Implement Write
+            m_adaptiveRanger.Write(s, bw);
+            s.WriteClassPointer<hkaiAstarCostModifier>(bw, m_costModifier);
+            s.WriteClassPointer<hkaiAstarEdgeFilter>(bw, m_edgeFilter);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(m_agentFilterInfo);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkaiAvoidanceProperties>(bw, m_avoidanceProperties);
             bw.WriteSingle(m_avoidanceState);
             bw.WriteUInt32(m_agentPriority);
             bw.WriteUInt16(m_avoidanceType);
+            bw.WriteByte(m_avoidanceEnabledMask);
             bw.WriteByte(0);
+            bw.WriteInt32((int)m_state);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(m_layer);

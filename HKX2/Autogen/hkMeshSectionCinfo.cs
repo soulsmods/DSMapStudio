@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMeshSectionCinfo : IHavokObject
     {
+        public virtual uint Signature { get => 432749258; }
+        
         public hkMeshVertexBuffer m_vertexBuffer;
         public hkMeshMaterial m_material;
         public hkMeshBoneIndexMapping m_boneMatrixMap;
@@ -34,14 +36,16 @@ namespace HKX2
             m_transformIndex = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            // Implement Write
-            m_boneMatrixMap.Write(bw);
+            s.WriteClassPointer<hkMeshVertexBuffer>(bw, m_vertexBuffer);
+            s.WriteClassPointer<hkMeshMaterial>(bw, m_material);
+            m_boneMatrixMap.Write(s, bw);
+            bw.WriteByte((byte)m_primitiveType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_numPrimitives);
+            bw.WriteByte((byte)m_indexType);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

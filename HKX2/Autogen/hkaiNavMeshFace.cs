@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshFace : IHavokObject
     {
+        public virtual uint Signature { get => 2758349990; }
+        
         public int m_startEdgeIndex;
         public int m_startUserEdgeIndex;
         public short m_numEdges;
@@ -23,7 +25,7 @@ namespace HKX2
             m_padding = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_startEdgeIndex);
             bw.WriteInt32(m_startUserEdgeIndex);

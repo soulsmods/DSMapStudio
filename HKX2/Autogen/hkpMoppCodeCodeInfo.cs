@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMoppCodeCodeInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3640507144; }
+        
         public Vector4 m_offset;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,8 +15,9 @@ namespace HKX2
             m_offset = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_offset);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRocketboxCharacterControllerInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 1772527852; }
+        
         public bool m_rapidTurnRequest;
         public int m_currPose;
         public int m_prevPose;
@@ -30,9 +32,9 @@ namespace HKX2
             m_timeStep = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_rapidTurnRequest);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

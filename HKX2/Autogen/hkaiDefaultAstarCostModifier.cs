@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDefaultAstarCostModifier : hkaiAstarCostModifier
     {
+        public override uint Signature { get => 1154498593; }
+        
         public float m_maxCostPenalty;
         public short m_costMultiplierLookupTable_0;
         public short m_costMultiplierLookupTable_1;
@@ -79,9 +81,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_maxCostPenalty);
             bw.WriteInt16(m_costMultiplierLookupTable_0);
             bw.WriteInt16(m_costMultiplierLookupTable_1);

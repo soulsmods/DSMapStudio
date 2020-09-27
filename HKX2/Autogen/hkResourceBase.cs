@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkResourceBase : hkReferencedObject
     {
+        public override uint Signature { get => 591704041; }
+        
         public enum Type
         {
             TYPE_RESOURCE = 0,
@@ -18,9 +20,9 @@ namespace HKX2
             base.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
         }
     }
 }

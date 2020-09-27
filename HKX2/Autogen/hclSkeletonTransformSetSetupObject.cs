@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSkeletonTransformSetSetupObject : hclTransformSetSetupObject
     {
+        public override uint Signature { get => 2772230430; }
+        
         public string m_name;
         public hkaSkeleton m_skeleton;
         public Matrix4x4 m_worldFromModel;
@@ -18,10 +20,12 @@ namespace HKX2
             m_worldFromModel = des.ReadMatrix4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hkaSkeleton>(bw, m_skeleton);
+            s.WriteMatrix4(bw, m_worldFromModel);
         }
     }
 }

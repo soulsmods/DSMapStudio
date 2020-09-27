@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiLineOfSightUtilLineOfSightOutput : IHavokObject
     {
+        public virtual uint Signature { get => 3729143435; }
+        
         public List<uint> m_visitedEdgesOut;
         public List<float> m_distancesOut;
         public List<Vector4> m_pointsOut;
@@ -29,14 +31,18 @@ namespace HKX2
             m_finalPoint = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteUInt32Array(bw, m_visitedEdgesOut);
+            s.WriteSingleArray(bw, m_distancesOut);
+            s.WriteVector4Array(bw, m_pointsOut);
             bw.WriteBoolean(m_doNotExceedArrayCapacity);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_numIterationsOut);
             bw.WriteUInt32(m_finalFaceKey);
             bw.WriteSingle(m_accumulatedDistance);
+            s.WriteVector4(bw, m_finalPoint);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaAnnotationTrackAnnotation : IHavokObject
     {
+        public virtual uint Signature { get => 1648096079; }
+        
         public float m_time;
         public string m_text;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_text = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_time);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_text);
         }
     }
 }

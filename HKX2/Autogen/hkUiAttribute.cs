@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkUiAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 3310569153; }
+        
         public bool m_visible;
         public bool m_editable;
         public HideCriteria m_hideCriteria;
@@ -42,12 +44,16 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_visible);
             bw.WriteBoolean(m_editable);
+            bw.WriteSByte((sbyte)m_hideCriteria);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_label);
+            s.WriteStringPointer(bw, m_group);
+            s.WriteStringPointer(bw, m_hideBaseClassMembers);
             bw.WriteBoolean(m_endGroup);
             bw.WriteBoolean(m_endGroup2);
             bw.WriteBoolean(m_advanced);

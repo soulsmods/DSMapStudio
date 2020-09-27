@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiTraversalAnalyzer : hkReferencedObject
     {
+        public override uint Signature { get => 2769283252; }
+        
         public float m_maxPlanarAngle;
         public float m_maxRelativeSlopeAngle;
         public uint m_userdata;
@@ -20,9 +22,9 @@ namespace HKX2
             m_baseCost = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_maxPlanarAngle);
             bw.WriteSingle(m_maxRelativeSlopeAngle);
             bw.WriteUInt32(m_userdata);

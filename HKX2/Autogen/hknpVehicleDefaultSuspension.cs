@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultSuspension : hknpVehicleSuspension
     {
+        public override uint Signature { get => 1667563898; }
+        
         public List<hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters> m_wheelSpringParams;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_wheelSpringParams = des.ReadClassArray<hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hknpVehicleDefaultSuspensionWheelSpringSuspensionParameters>(bw, m_wheelSpringParams);
         }
     }
 }

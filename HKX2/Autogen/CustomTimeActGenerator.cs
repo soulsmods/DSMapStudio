@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomTimeActGenerator : hkbGenerator
     {
+        public override uint Signature { get => 1941718415; }
+        
         public enum OffsetType
         {
             WeaponCategory = 10,
@@ -34,10 +36,11 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_generator);
+            bw.WriteInt32((int)m_offsetType);
             bw.WriteInt32(m_taeId);
             bw.WriteInt32(m_valIndex);
             bw.WriteSingle(m_valRate);

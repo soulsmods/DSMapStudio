@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hkpShapeCollection : hkpShape
     {
+        public override uint Signature { get => 154959627; }
+        
         public bool m_disableWelding;
         public CollectionType m_collectionType;
         
@@ -31,11 +33,12 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteBoolean(m_disableWelding);
+            bw.WriteByte((byte)m_collectionType);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
         }

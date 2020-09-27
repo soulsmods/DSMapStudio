@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkRefCountedProperties : IHavokObject
     {
+        public virtual uint Signature { get => 2086094951; }
+        
         public List<hkRefCountedPropertiesEntry> m_entries;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -19,8 +21,9 @@ namespace HKX2
             m_entries = des.ReadClassArray<hkRefCountedPropertiesEntry>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hkRefCountedPropertiesEntry>(bw, m_entries);
         }
     }
 }

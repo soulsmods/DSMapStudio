@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCharacterRigidBodyCinfo : hkReferencedObject
     {
+        public override uint Signature { get => 1232716325; }
+        
         public uint m_collisionFilterInfo;
         public hknpShape m_shape;
         public Vector4 m_position;
@@ -53,14 +55,16 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_collisionFilterInfo);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hknpShape>(bw, m_shape);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_position);
+            s.WriteQuaternion(bw, m_orientation);
             bw.WriteSingle(m_mass);
             bw.WriteSingle(m_dynamicFriction);
             bw.WriteSingle(m_staticFriction);
@@ -70,6 +74,7 @@ namespace HKX2
             bw.WriteByte(m_additionFlags);
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_maxSlope);
             bw.WriteSingle(m_maxForce);
             bw.WriteSingle(m_maxSpeedForSimplexSolver);

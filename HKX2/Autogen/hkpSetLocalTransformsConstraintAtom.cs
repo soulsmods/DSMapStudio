@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSetLocalTransformsConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 332208161; }
+        
         public Matrix4x4 m_transformA;
         public Matrix4x4 m_transformB;
         
@@ -19,12 +21,14 @@ namespace HKX2
             m_transformB = des.ReadTransform(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteTransform(bw, m_transformA);
+            s.WriteTransform(bw, m_transformB);
         }
     }
 }

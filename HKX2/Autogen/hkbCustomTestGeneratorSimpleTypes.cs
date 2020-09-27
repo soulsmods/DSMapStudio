@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGeneratorSimpleTypes : hkbCustomTestGeneratorHiddenTypes
     {
+        public override uint Signature { get => 2066222481; }
+        
         public long m_simpleTypeHkInt64;
         public ulong m_simpleTypeHkUint64;
         public bool m_simpleHiddenTypeCopyStart;
@@ -80,9 +82,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt64(m_simpleTypeHkInt64);
             bw.WriteUInt64(m_simpleTypeHkUint64);
             bw.WriteBoolean(m_simpleHiddenTypeCopyStart);
@@ -90,6 +92,8 @@ namespace HKX2
             bw.WriteBoolean(m_simpleTypeHkBool);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_simpleTypeCString);
+            s.WriteStringPointer(bw, m_simpleTypeHkStringPtr);
             bw.WriteSByte(m_simpleTypeHkInt8);
             bw.WriteByte(0);
             bw.WriteInt16(m_simpleTypeHkInt16);

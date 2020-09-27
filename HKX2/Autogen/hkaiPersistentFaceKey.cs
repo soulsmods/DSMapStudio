@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPersistentFaceKey : IHavokObject
     {
+        public virtual uint Signature { get => 2464299111; }
+        
         public uint m_key;
         public short m_offset;
         
@@ -16,7 +18,7 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_key);
             bw.WriteInt16(m_offset);

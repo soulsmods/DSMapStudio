@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSimpleContactConstraintDataInfo : IHavokObject
     {
+        public virtual uint Signature { get => 666540059; }
+        
         public ushort m_flags;
         public ushort m_biNormalAxis;
         public short m_rollingFrictionMultiplier;
@@ -33,7 +35,7 @@ namespace HKX2
             m_data_3 = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_flags);
             bw.WriteUInt16(m_biNormalAxis);

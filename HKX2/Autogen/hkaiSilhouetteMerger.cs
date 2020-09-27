@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkaiSilhouetteMerger : hkReferencedObject
     {
+        public override uint Signature { get => 459273792; }
+        
         public MergeType m_mergeType;
         public hkaiSilhouetteGenerationParameters m_mergeParams;
         
@@ -27,14 +29,15 @@ namespace HKX2
             m_mergeParams.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_mergeType);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_mergeParams.Write(bw);
+            m_mergeParams.Write(s, bw);
         }
     }
 }

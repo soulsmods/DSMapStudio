@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGeneratorTransitionEffectInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3943327924; }
+        
         public float m_timeInTransition;
         public float m_duration;
         public float m_effectiveBlendInDuration;
@@ -33,16 +35,19 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_timeInTransition);
             bw.WriteSingle(m_duration);
             bw.WriteSingle(m_effectiveBlendInDuration);
             bw.WriteSingle(m_effectiveBlendOutDuration);
+            bw.WriteSByte((sbyte)m_toGeneratorState);
             bw.WriteBoolean(m_echoTransitionGenerator);
+            bw.WriteSByte((sbyte)m_toGeneratorSelfTransitionMode);
             bw.WriteBoolean(m_justActivated);
             bw.WriteBoolean(m_updateActiveNodes);
+            bw.WriteSByte((sbyte)m_stage);
             bw.WriteUInt16(0);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclObjectSpaceSkinOperator : hclOperator
     {
+        public override uint Signature { get => 659928710; }
+        
         public List<Matrix4x4> m_boneFromSkinMeshTransforms;
         public List<ushort> m_transformSubset;
         public uint m_outputBufferIndex;
@@ -23,12 +25,14 @@ namespace HKX2
             m_objectSpaceDeformer.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteMatrix4Array(bw, m_boneFromSkinMeshTransforms);
+            s.WriteUInt16Array(bw, m_transformSubset);
             bw.WriteUInt32(m_outputBufferIndex);
             bw.WriteUInt32(m_transformSetIndex);
-            m_objectSpaceDeformer.Write(bw);
+            m_objectSpaceDeformer.Write(s, bw);
         }
     }
 }

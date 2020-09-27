@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclCompressibleLinkConstraintSetMx : hclConstraintSet
     {
+        public override uint Signature { get => 1119028181; }
+        
         public List<hclCompressibleLinkConstraintSetMxBatch> m_batches;
         public List<hclCompressibleLinkConstraintSetMxSingle> m_singles;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_singles = des.ReadClassArray<hclCompressibleLinkConstraintSetMxSingle>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclCompressibleLinkConstraintSetMxBatch>(bw, m_batches);
+            s.WriteClassArray<hclCompressibleLinkConstraintSetMxSingle>(bw, m_singles);
         }
     }
 }

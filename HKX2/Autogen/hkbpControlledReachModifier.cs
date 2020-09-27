@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpControlledReachModifier : hkbModifier
     {
+        public override uint Signature { get => 1867942635; }
+        
         public float m_fadeInStart;
         public float m_fadeInEnd;
         public float m_fadeOutStart;
@@ -36,9 +38,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteSingle(m_fadeInStart);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxEnvironmentVariable : IHavokObject
     {
+        public virtual uint Signature { get => 2793492757; }
+        
         public string m_name;
         public string m_value;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_value = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
+            s.WriteStringPointer(bw, m_value);
         }
     }
 }

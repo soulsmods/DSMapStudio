@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkMemoryMeshVertexBuffer : hkMeshVertexBuffer
     {
+        public override uint Signature { get => 1366656759; }
+        
         public hkVertexFormat m_format;
         public int m_elementOffsets_0;
         public int m_elementOffsets_1;
@@ -95,10 +97,10 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_format.Write(bw);
+            base.Write(s, bw);
+            m_format.Write(s, bw);
             bw.WriteInt32(m_elementOffsets_0);
             bw.WriteInt32(m_elementOffsets_1);
             bw.WriteInt32(m_elementOffsets_2);
@@ -132,6 +134,7 @@ namespace HKX2
             bw.WriteInt32(m_elementOffsets_30);
             bw.WriteInt32(m_elementOffsets_31);
             bw.WriteUInt32(0);
+            s.WriteByteArray(bw, m_memory);
             bw.WriteInt32(m_vertexStride);
             bw.WriteBoolean(m_locked);
             bw.WriteUInt16(0);

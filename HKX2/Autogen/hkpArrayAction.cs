@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpArrayAction : hkpAction
     {
+        public override uint Signature { get => 1419270593; }
+        
         public List<hkpEntity> m_entities;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_entities = des.ReadClassPointerArray<hkpEntity>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkpEntity>(bw, m_entities);
         }
     }
 }

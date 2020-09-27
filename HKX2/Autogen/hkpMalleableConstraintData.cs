@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMalleableConstraintData : hkpWrappedConstraintData
     {
+        public override uint Signature { get => 3045665034; }
+        
         public hkpBridgeAtoms m_atoms;
         public float m_strength;
         
@@ -19,10 +21,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_atoms.Write(bw);
+            base.Write(s, bw);
+            m_atoms.Write(s, bw);
             bw.WriteSingle(m_strength);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

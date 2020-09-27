@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpShapeInstance : IHavokObject
     {
+        public virtual uint Signature { get => 1581100549; }
+        
         public enum Flags
         {
             HAS_TRANSLATION = 2,
@@ -94,9 +96,11 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteTransform(bw, m_transform);
+            s.WriteVector4(bw, m_scale);
+            s.WriteClassPointer<hknpShape>(bw, m_shape);
             bw.WriteUInt16(m_shapeTag);
             bw.WriteUInt16(m_destructionTag);
             bw.WriteByte(m_padding_0);

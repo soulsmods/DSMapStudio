@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaSkeleton : hkReferencedObject
     {
+        public override uint Signature { get => 4274114267; }
+        
         public string m_name;
         public List<short> m_parentIndices;
         public List<hkaBone> m_bones;
@@ -28,9 +30,17 @@ namespace HKX2
             m_partitions = des.ReadClassArray<hkaSkeletonPartition>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteInt16Array(bw, m_parentIndices);
+            s.WriteClassArray<hkaBone>(bw, m_bones);
+            s.WriteQSTransformArray(bw, m_referencePose);
+            s.WriteSingleArray(bw, m_referenceFloats);
+            s.WriteStringPointerArray(bw, m_floatSlots);
+            s.WriteClassArray<hkaSkeletonLocalFrameOnBone>(bw, m_localFrames);
+            s.WriteClassArray<hkaSkeletonPartition>(bw, m_partitions);
         }
     }
 }

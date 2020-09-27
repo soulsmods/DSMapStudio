@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSilhouetteGeneratorSectionContext : IHavokObject
     {
+        public virtual uint Signature { get => 3718371412; }
+        
         public hkQTransform m_lastRelativeTransform;
         public hkaiSilhouetteGenerator m_generator;
         public bool m_generatedLastFrame;
@@ -22,10 +24,10 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_lastRelativeTransform.Write(bw);
-            // Implement Write
+            m_lastRelativeTransform.Write(s, bw);
+            s.WriteClassPointer<hkaiSilhouetteGenerator>(bw, m_generator);
             bw.WriteUInt32(0);
             bw.WriteBoolean(m_generatedLastFrame);
             bw.WriteBoolean(m_generatingThisFrame);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSequence : hkbModifier
     {
+        public override uint Signature { get => 340549561; }
+        
         public List<hkbEventSequencedData> m_eventSequencedData;
         public List<hkbRealVariableSequencedData> m_realVariableSequencedData;
         public List<hkbBoolVariableSequencedData> m_boolVariableSequencedData;
@@ -37,12 +39,16 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkbEventSequencedData>(bw, m_eventSequencedData);
+            s.WriteClassPointerArray<hkbRealVariableSequencedData>(bw, m_realVariableSequencedData);
+            s.WriteClassPointerArray<hkbBoolVariableSequencedData>(bw, m_boolVariableSequencedData);
+            s.WriteClassPointerArray<hkbIntVariableSequencedData>(bw, m_intVariableSequencedData);
             bw.WriteInt32(m_enableEventId);
             bw.WriteInt32(m_disableEventId);
-            // Implement Write
+            s.WriteClassPointer<hkbSequenceStringData>(bw, m_stringData);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

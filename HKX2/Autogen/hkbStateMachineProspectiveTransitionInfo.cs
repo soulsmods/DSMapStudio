@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateMachineProspectiveTransitionInfo : IHavokObject
     {
+        public virtual uint Signature { get => 984652334; }
+        
         public hkbStateMachineTransitionInfoReference m_transitionInfoReference;
         public hkbStateMachineTransitionInfoReference m_transitionInfoReferenceForTE;
         public int m_toStateId;
@@ -19,10 +21,10 @@ namespace HKX2
             m_toStateId = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_transitionInfoReference.Write(bw);
-            m_transitionInfoReferenceForTE.Write(bw);
+            m_transitionInfoReference.Write(s, bw);
+            m_transitionInfoReferenceForTE.Write(s, bw);
             bw.WriteInt32(m_toStateId);
         }
     }

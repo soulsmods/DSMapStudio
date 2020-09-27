@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkReferencedObject : hkBaseObject
     {
+        public override uint Signature { get => 3071048009; }
+        
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
@@ -13,9 +15,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
         }
     }

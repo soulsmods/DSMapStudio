@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclInputConvertOperator : hclOperator
     {
+        public override uint Signature { get => 3981491103; }
+        
         public uint m_userBufferIndex;
         public uint m_shadowBufferIndex;
         public hclRuntimeConversionInfo m_conversionInfo;
@@ -21,12 +23,12 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_userBufferIndex);
             bw.WriteUInt32(m_shadowBufferIndex);
-            m_conversionInfo.Write(bw);
+            m_conversionInfo.Write(s, bw);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMultiSphereShape : hkpSphereRepShape
     {
+        public override uint Signature { get => 1833984964; }
+        
         public int m_numSpheres;
         public Vector4 m_spheres_0;
         public Vector4 m_spheres_1;
@@ -32,12 +34,20 @@ namespace HKX2
             m_spheres_7 = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_numSpheres);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_spheres_0);
+            s.WriteVector4(bw, m_spheres_1);
+            s.WriteVector4(bw, m_spheres_2);
+            s.WriteVector4(bw, m_spheres_3);
+            s.WriteVector4(bw, m_spheres_4);
+            s.WriteVector4(bw, m_spheres_5);
+            s.WriteVector4(bw, m_spheres_6);
+            s.WriteVector4(bw, m_spheres_7);
         }
     }
 }

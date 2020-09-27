@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBinaryAction : hkpAction
     {
+        public override uint Signature { get => 1140005523; }
+        
         public hkpEntity m_entityA;
         public hkpEntity m_entityB;
         
@@ -16,11 +18,11 @@ namespace HKX2
             m_entityB = des.ReadClassPointer<hkpEntity>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpEntity>(bw, m_entityA);
+            s.WriteClassPointer<hkpEntity>(bw, m_entityB);
         }
     }
 }

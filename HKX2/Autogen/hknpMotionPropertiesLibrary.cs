@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpMotionPropertiesLibrary : hkReferencedObject
     {
+        public override uint Signature { get => 3241278065; }
+        
         public hkFreeListArrayhknpMotionPropertieshknpMotionPropertiesId8hknpMotionPropertiesFreeListArrayOperations m_entries;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -18,13 +20,13 @@ namespace HKX2
             m_entries.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            m_entries.Write(bw);
+            m_entries.Write(s, bw);
         }
     }
 }

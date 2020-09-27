@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiDefaultAstarEdgeFilter : hkaiAstarEdgeFilter
     {
+        public override uint Signature { get => 1762874940; }
+        
         public uint m_edgeMaskLookupTable_0;
         public uint m_edgeMaskLookupTable_1;
         public uint m_edgeMaskLookupTable_2;
@@ -81,9 +83,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(m_edgeMaskLookupTable_0);
             bw.WriteUInt32(m_edgeMaskLookupTable_1);

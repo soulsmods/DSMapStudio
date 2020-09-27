@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBendStiffnessConstraintSetLink : IHavokObject
     {
+        public virtual uint Signature { get => 2341101167; }
+        
         public float m_weightA;
         public float m_weightB;
         public float m_weightC;
@@ -31,7 +33,7 @@ namespace HKX2
             m_particleD = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_weightA);
             bw.WriteSingle(m_weightB);

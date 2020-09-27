@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hkaiSearchParametersBufferSizes : IHavokObject
     {
+        public virtual uint Signature { get => 2032672048; }
+        
         public int m_maxOpenSetSizeBytes;
         public int m_maxSearchStateSizeBytes;
         
@@ -27,7 +29,7 @@ namespace HKX2
             m_maxSearchStateSizeBytes = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_maxOpenSetSizeBytes);
             bw.WriteInt32(m_maxSearchStateSizeBytes);

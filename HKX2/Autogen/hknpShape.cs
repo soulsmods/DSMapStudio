@@ -19,6 +19,8 @@ namespace HKX2
     
     public class hknpShape : hkReferencedObject
     {
+        public override uint Signature { get => 3679627963; }
+        
         public enum FlagsEnum
         {
             IS_CONVEX_SHAPE = 1,
@@ -55,13 +57,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteUInt16(m_flags);
             bw.WriteByte(m_numShapeKeyBits);
+            bw.WriteByte((byte)m_dispatchType);
             bw.WriteSingle(m_convexRadius);
             bw.WriteUInt64(m_userData);
-            // Implement Write
+            s.WriteClassPointer<hkRefCountedProperties>(bw, m_properties);
             bw.WriteUInt64(0);
         }
     }

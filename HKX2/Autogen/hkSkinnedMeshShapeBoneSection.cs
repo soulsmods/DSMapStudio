@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSkinnedMeshShapeBoneSection : IHavokObject
     {
+        public virtual uint Signature { get => 565496218; }
+        
         public hkMeshShape m_meshBuffer;
         public ushort m_startBoneSetId;
         public short m_numBoneSets;
@@ -18,9 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkMeshShape>(bw, m_meshBuffer);
             bw.WriteUInt16(m_startBoneSetId);
             bw.WriteInt16(m_numBoneSets);
             bw.WriteUInt32(0);

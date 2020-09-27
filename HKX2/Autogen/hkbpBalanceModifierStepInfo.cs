@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbpBalanceModifierStepInfo : IHavokObject
     {
+        public virtual uint Signature { get => 2807684598; }
+        
         public short m_boneIndex;
         public float m_fractionOfSolution;
         
@@ -16,7 +18,7 @@ namespace HKX2
             m_fractionOfSolution = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt16(m_boneIndex);
             bw.WriteUInt16(0);

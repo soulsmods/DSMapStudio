@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBvCompressedMeshShape : hkpBvTreeShape
     {
+        public override uint Signature { get => 2880138163; }
+        
         public enum PerPrimitiveDataMode
         {
             PER_PRIMITIVE_DATA_NONE = 0,
@@ -56,16 +58,20 @@ namespace HKX2
             m_tree.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteSingle(m_convexRadius);
+            bw.WriteByte((byte)m_weldingType);
             bw.WriteBoolean(m_hasPerPrimitiveCollisionFilterInfo);
             bw.WriteBoolean(m_hasPerPrimitiveUserData);
             bw.WriteByte(0);
+            s.WriteUInt32Array(bw, m_collisionFilterInfoPalette);
+            s.WriteUInt32Array(bw, m_userDataPalette);
+            s.WriteStringPointerArray(bw, m_userStringPalette);
             bw.WriteUInt64(0);
-            m_tree.Write(bw);
+            m_tree.Write(s, bw);
         }
     }
 }

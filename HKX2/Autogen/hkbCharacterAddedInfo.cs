@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCharacterAddedInfo : hkReferencedObject
     {
+        public override uint Signature { get => 3473039583; }
+        
         public ulong m_characterId;
         public string m_instanceName;
         public string m_templateName;
@@ -31,12 +33,19 @@ namespace HKX2
             m_poseModelSpace = des.ReadQSTransformArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
-            // Implement Write
+            s.WriteStringPointer(bw, m_instanceName);
+            s.WriteStringPointer(bw, m_templateName);
+            s.WriteStringPointer(bw, m_fullPathToProject);
+            s.WriteStringPointer(bw, m_localScriptsPath);
+            s.WriteStringPointer(bw, m_remoteScriptsPath);
+            s.WriteClassPointer<hkaSkeleton>(bw, m_skeleton);
             bw.WriteUInt64(0);
+            s.WriteQSTransform(bw, m_worldFromModel);
+            s.WriteQSTransformArray(bw, m_poseModelSpace);
         }
     }
 }

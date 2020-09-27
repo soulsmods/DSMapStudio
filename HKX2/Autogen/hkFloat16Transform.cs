@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkFloat16Transform : IHavokObject
     {
+        public virtual uint Signature { get => 2267541015; }
+        
         public hkFloat16 m_elements_0;
         public hkFloat16 m_elements_1;
         public hkFloat16 m_elements_2;
@@ -47,20 +49,20 @@ namespace HKX2
             m_elements_11.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_elements_0.Write(bw);
-            m_elements_1.Write(bw);
-            m_elements_2.Write(bw);
-            m_elements_3.Write(bw);
-            m_elements_4.Write(bw);
-            m_elements_5.Write(bw);
-            m_elements_6.Write(bw);
-            m_elements_7.Write(bw);
-            m_elements_8.Write(bw);
-            m_elements_9.Write(bw);
-            m_elements_10.Write(bw);
-            m_elements_11.Write(bw);
+            m_elements_0.Write(s, bw);
+            m_elements_1.Write(s, bw);
+            m_elements_2.Write(s, bw);
+            m_elements_3.Write(s, bw);
+            m_elements_4.Write(s, bw);
+            m_elements_5.Write(s, bw);
+            m_elements_6.Write(s, bw);
+            m_elements_7.Write(s, bw);
+            m_elements_8.Write(s, bw);
+            m_elements_9.Write(s, bw);
+            m_elements_10.Write(s, bw);
+            m_elements_11.Write(s, bw);
         }
     }
 }

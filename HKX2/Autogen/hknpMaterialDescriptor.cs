@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpMaterialDescriptor : IHavokObject
     {
+        public virtual uint Signature { get => 2275334943; }
+        
         public string m_name;
         public hknpRefMaterial m_material;
         public ushort m_materialId;
@@ -19,9 +21,10 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hknpRefMaterial>(bw, m_material);
             bw.WriteUInt16(m_materialId);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

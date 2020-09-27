@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBendLinkConstraintSetMx : hclConstraintSet
     {
+        public override uint Signature { get => 587950772; }
+        
         public List<hclBendLinkConstraintSetMxBatch> m_batches;
         public List<hclBendLinkConstraintSetMxSingle> m_singles;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_singles = des.ReadClassArray<hclBendLinkConstraintSetMxSingle>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclBendLinkConstraintSetMxBatch>(bw, m_batches);
+            s.WriteClassArray<hclBendLinkConstraintSetMxSingle>(bw, m_singles);
         }
     }
 }

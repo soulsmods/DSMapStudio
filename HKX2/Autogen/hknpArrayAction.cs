@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpArrayAction : hknpAction
     {
+        public override uint Signature { get => 1747870410; }
+        
         public List<uint> m_bodyIds;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_bodyIds = des.ReadUInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt32Array(bw, m_bodyIds);
         }
     }
 }

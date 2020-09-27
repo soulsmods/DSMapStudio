@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPlaneVolume : hkaiVolume
     {
+        public override uint Signature { get => 361949590; }
+        
         public List<Vector4> m_planes;
         public hkGeometry m_geometry;
         public bool m_isInverted;
@@ -26,16 +28,17 @@ namespace HKX2
             m_aabb.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_geometry.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_planes);
+            m_geometry.Write(s, bw);
             bw.WriteBoolean(m_isInverted);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            m_aabb.Write(bw);
+            m_aabb.Write(s, bw);
         }
     }
 }

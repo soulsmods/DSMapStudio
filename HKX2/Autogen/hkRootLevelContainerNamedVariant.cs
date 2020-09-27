@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkRootLevelContainerNamedVariant : IHavokObject
     {
+        public virtual uint Signature { get => 2969805517; }
+        
         public string m_name;
         public string m_className;
         public hkReferencedObject m_variant;
@@ -17,9 +19,11 @@ namespace HKX2
             m_variant = des.ReadClassPointer<hkReferencedObject>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteStringPointer(bw, m_name);
+            s.WriteStringPointer(bw, m_className);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_variant);
         }
     }
 }

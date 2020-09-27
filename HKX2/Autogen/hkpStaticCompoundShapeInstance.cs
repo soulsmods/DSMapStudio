@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpStaticCompoundShapeInstance : IHavokObject
     {
+        public virtual uint Signature { get => 2584457571; }
+        
         public Matrix4x4 m_transform;
         public hkpShape m_shape;
         public uint m_filterInfo;
@@ -22,9 +24,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteQSTransform(bw, m_transform);
+            s.WriteClassPointer<hkpShape>(bw, m_shape);
             bw.WriteUInt32(m_filterInfo);
             bw.WriteUInt32(m_childFilterInfoMask);
             bw.WriteUInt64(m_userData);

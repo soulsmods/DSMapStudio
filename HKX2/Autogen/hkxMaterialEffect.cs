@@ -17,6 +17,8 @@ namespace HKX2
     
     public class hkxMaterialEffect : hkReferencedObject
     {
+        public override uint Signature { get => 1527191545; }
+        
         public string m_name;
         public EffectType m_type;
         public List<byte> m_data;
@@ -32,12 +34,15 @@ namespace HKX2
             m_data = des.ReadByteArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            bw.WriteByte((byte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteByteArray(bw, m_data);
         }
     }
 }

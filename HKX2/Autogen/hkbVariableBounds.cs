@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbVariableBounds : IHavokObject
     {
+        public virtual uint Signature { get => 2608227172; }
+        
         public hkbVariableValue m_min;
         public hkbVariableValue m_max;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_max.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_min.Write(bw);
-            m_max.Write(bw);
+            m_min.Write(s, bw);
+            m_max.Write(s, bw);
         }
     }
 }

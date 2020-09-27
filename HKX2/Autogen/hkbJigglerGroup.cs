@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbJigglerGroup : hkbBindable
     {
+        public override uint Signature { get => 2578532705; }
+        
         public hkbBoneIndexArray m_boneIndices;
         public float m_mass;
         public float m_stiffness;
@@ -32,10 +34,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbBoneIndexArray>(bw, m_boneIndices);
             bw.WriteSingle(m_mass);
             bw.WriteSingle(m_stiffness);
             bw.WriteSingle(m_damping);

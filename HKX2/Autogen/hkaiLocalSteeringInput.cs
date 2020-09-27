@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiLocalSteeringInput : IHavokObject
     {
+        public virtual uint Signature { get => 4063352422; }
+        
         public Vector4 m_currentPosition;
         public Vector4 m_currentForward;
         public Vector4 m_currentUp;
@@ -38,8 +40,14 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_currentPosition);
+            s.WriteVector4(bw, m_currentForward);
+            s.WriteVector4(bw, m_currentUp);
+            s.WriteVector4(bw, m_currentVelocity);
+            s.WriteVector4(bw, m_desiredVelocity);
+            s.WriteVector4(bw, m_localGoalPlane);
             bw.WriteSingle(m_distToLocalGoal);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

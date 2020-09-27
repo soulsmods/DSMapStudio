@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCharacterProxyCinfo : hkpCharacterControllerCinfo
     {
+        public override uint Signature { get => 3408002903; }
+        
         public Vector4 m_position;
         public Vector4 m_velocity;
         public float m_dynamicFriction;
@@ -54,16 +56,19 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_position);
+            s.WriteVector4(bw, m_velocity);
             bw.WriteSingle(m_dynamicFriction);
             bw.WriteSingle(m_staticFriction);
             bw.WriteSingle(m_keepContactTolerance);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_up);
             bw.WriteSingle(m_extraUpStaticFriction);
             bw.WriteSingle(m_extraDownStaticFriction);
-            // Implement Write
+            s.WriteClassPointer<hkpShapePhantom>(bw, m_shapePhantom);
             bw.WriteSingle(m_keepDistance);
             bw.WriteSingle(m_contactAngleSensitivity);
             bw.WriteUInt32(m_userPlanes);

@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkGeometry : hkReferencedObject
     {
+        public override uint Signature { get => 807117540; }
+        
         public List<Vector4> m_vertices;
         public List<hkGeometryTriangle> m_triangles;
         
@@ -22,9 +24,11 @@ namespace HKX2
             m_triangles = des.ReadClassArray<hkGeometryTriangle>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4Array(bw, m_vertices);
+            s.WriteClassArray<hkGeometryTriangle>(bw, m_triangles);
         }
     }
 }

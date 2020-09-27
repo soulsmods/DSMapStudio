@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomParamStorageExtendedMeshShape : hkpStorageExtendedMeshShape
     {
+        public override uint Signature { get => 375778053; }
+        
         public List<CustomMeshParameter> m_materialArray;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_materialArray = des.ReadClassPointerArray<CustomMeshParameter>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<CustomMeshParameter>(bw, m_materialArray);
         }
     }
 }

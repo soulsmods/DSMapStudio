@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSkinnedRefMeshShape : hkMeshShape
     {
+        public override uint Signature { get => 1189960697; }
+        
         public hkSkinnedMeshShape m_skinnedMeshShape;
         public List<short> m_bones;
         public List<Vector4> m_localFromRootTransforms;
@@ -20,10 +22,13 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkSkinnedMeshShape>(bw, m_skinnedMeshShape);
+            s.WriteInt16Array(bw, m_bones);
+            s.WriteVector4Array(bw, m_localFromRootTransforms);
+            s.WriteStringPointer(bw, m_name);
         }
     }
 }

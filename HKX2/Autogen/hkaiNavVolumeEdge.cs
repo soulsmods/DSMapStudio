@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeEdge : IHavokObject
     {
+        public virtual uint Signature { get => 137261323; }
+        
         public byte m_flags;
         public uint m_oppositeCell;
         
@@ -17,8 +19,9 @@ namespace HKX2
             m_oppositeCell = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteByte(m_flags);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteUInt32(m_oppositeCell);

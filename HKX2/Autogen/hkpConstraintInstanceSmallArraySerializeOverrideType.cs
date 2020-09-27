@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpConstraintInstanceSmallArraySerializeOverrideType : IHavokObject
     {
+        public virtual uint Signature { get => 3996920556; }
+        
         public ushort m_size;
         public ushort m_capacityAndFlags;
         
@@ -17,7 +19,7 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteUInt16(m_size);

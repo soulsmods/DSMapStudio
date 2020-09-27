@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbFootIkDriverInfo : hkReferencedObject
     {
+        public override uint Signature { get => 4188569481; }
+        
         public List<hkbFootIkDriverInfoLeg> m_legs;
         public float m_raycastDistanceUp;
         public float m_raycastDistanceDown;
@@ -39,9 +41,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbFootIkDriverInfoLeg>(bw, m_legs);
             bw.WriteSingle(m_raycastDistanceUp);
             bw.WriteSingle(m_raycastDistanceDown);
             bw.WriteSingle(m_originalGroundHeightMS);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBendLinkConstraintSetMxSingle : IHavokObject
     {
+        public virtual uint Signature { get => 691369221; }
+        
         public float m_bendMinLength;
         public float m_stretchMaxLength;
         public float m_stretchStiffness;
@@ -27,7 +29,7 @@ namespace HKX2
             m_particleB = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_bendMinLength);
             bw.WriteSingle(m_stretchMaxLength);

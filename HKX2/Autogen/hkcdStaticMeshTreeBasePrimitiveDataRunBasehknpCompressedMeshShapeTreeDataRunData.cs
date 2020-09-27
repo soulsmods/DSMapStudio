@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticMeshTreeBasePrimitiveDataRunBasehknpCompressedMeshShapeTreeDataRunData : IHavokObject
     {
+        public virtual uint Signature { get => 2911068802; }
+        
         public hknpCompressedMeshShapeTreeDataRunData m_value;
         public byte m_index;
         public byte m_count;
@@ -18,9 +20,9 @@ namespace HKX2
             m_count = br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_value.Write(bw);
+            m_value.Write(s, bw);
             bw.WriteByte(m_index);
             bw.WriteByte(m_count);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSphereShape : hclShape
     {
+        public override uint Signature { get => 3615093445; }
+        
         public hkSphere m_sphere;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -16,11 +18,11 @@ namespace HKX2
             m_sphere.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_sphere.Write(bw);
+            m_sphere.Write(s, bw);
         }
     }
 }

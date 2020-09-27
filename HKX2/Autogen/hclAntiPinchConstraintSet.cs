@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclAntiPinchConstraintSet : hclConstraintSet
     {
+        public override uint Signature { get => 2316547266; }
+        
         public List<hclAntiPinchConstraintSetPerParticle> m_perParticleData;
         public float m_toAnimPeriod;
         public float m_toSimPeriod;
@@ -22,9 +24,10 @@ namespace HKX2
             m_referenceMeshBufferIdx = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclAntiPinchConstraintSetPerParticle>(bw, m_perParticleData);
             bw.WriteSingle(m_toAnimPeriod);
             bw.WriteSingle(m_toSimPeriod);
             bw.WriteSingle(m_toSimMaxDistance);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBridgeAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 2182408700; }
+        
         public hkpBridgeConstraintAtom m_bridgeAtom;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,9 @@ namespace HKX2
             m_bridgeAtom.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_bridgeAtom.Write(bw);
+            m_bridgeAtom.Write(s, bw);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdDynamicTreeDynamicStorage0hkcdDynamicTreeAnisotropicMetrichkcdDynamicTreeCodecRawUlong : hkcdDynamicTreeAnisotropicMetric
     {
+        public override uint Signature { get => 3965307088; }
+        
         public List<hkcdDynamicTreeCodecRawUlong> m_nodes;
         public ulong m_firstFree;
         
@@ -16,9 +18,10 @@ namespace HKX2
             m_firstFree = br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkcdDynamicTreeCodecRawUlong>(bw, m_nodes);
             bw.WriteUInt64(m_firstFree);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpGenericConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 3729029518; }
+        
         public hkpBridgeAtoms m_atoms;
         public hkpGenericConstraintDataScheme m_scheme;
         
@@ -19,12 +21,12 @@ namespace HKX2
             m_scheme.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
-            m_scheme.Write(bw);
+            m_atoms.Write(s, bw);
+            m_scheme.Write(s, bw);
         }
     }
 }

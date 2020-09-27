@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpWheelFrictionConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 2114775589; }
+        
         public byte m_isEnabled;
         public byte m_forwardAxis;
         public byte m_sideAxis;
@@ -37,9 +39,9 @@ namespace HKX2
             m_axle = des.ReadClassPointer<hkpWheelFrictionConstraintAtomAxle>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_isEnabled);
             bw.WriteByte(m_forwardAxis);
             bw.WriteByte(m_sideAxis);
@@ -53,7 +55,7 @@ namespace HKX2
             bw.WriteSingle(m_slipImpulse_0);
             bw.WriteSingle(m_slipImpulse_1);
             bw.WriteUInt32(0);
-            // Implement Write
+            s.WriteClassPointer<hkpWheelFrictionConstraintAtomAxle>(bw, m_axle);
         }
     }
 }

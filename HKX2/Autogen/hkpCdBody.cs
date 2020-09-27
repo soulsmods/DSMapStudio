@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCdBody : IHavokObject
     {
+        public virtual uint Signature { get => 1420081217; }
+        
         public hkpShape m_shape;
         public uint m_shapeKey;
         
@@ -18,9 +20,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkpShape>(bw, m_shape);
             bw.WriteUInt32(m_shapeKey);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

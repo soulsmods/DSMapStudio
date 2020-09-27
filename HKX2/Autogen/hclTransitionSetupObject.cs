@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclTransitionSetupObject : hclConstraintSetSetupObject
     {
+        public override uint Signature { get => 4016206276; }
+        
         public string m_name;
         public hclSimulationSetupMesh m_simulationMesh;
         public hclVertexSelectionInput m_vertexSelection;
@@ -34,17 +36,18 @@ namespace HKX2
             m_referenceBufferSetup = des.ReadClassPointer<hclBufferSetupObject>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_vertexSelection.Write(bw);
-            m_toAnimDelay.Write(bw);
-            m_toSimDelay.Write(bw);
-            m_toSimMaxDistance.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclSimulationSetupMesh>(bw, m_simulationMesh);
+            m_vertexSelection.Write(s, bw);
+            m_toAnimDelay.Write(s, bw);
+            m_toSimDelay.Write(s, bw);
+            m_toSimMaxDistance.Write(s, bw);
             bw.WriteSingle(m_toAnimPeriod);
             bw.WriteSingle(m_toSimPeriod);
-            // Implement Write
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_referenceBufferSetup);
         }
     }
 }

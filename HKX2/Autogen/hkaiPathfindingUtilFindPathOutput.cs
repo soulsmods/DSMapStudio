@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiPathfindingUtilFindPathOutput : hkReferencedObject
     {
+        public override uint Signature { get => 965824045; }
+        
         public List<uint> m_visitedEdges;
         public List<hkaiPathPathPoint> m_pathOut;
         public hkaiAstarOutputParameters m_outputParameters;
@@ -19,10 +21,12 @@ namespace HKX2
             m_outputParameters.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_outputParameters.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt32Array(bw, m_visitedEdges);
+            s.WriteClassArray<hkaiPathPathPoint>(bw, m_pathOut);
+            m_outputParameters.Write(s, bw);
         }
     }
 }

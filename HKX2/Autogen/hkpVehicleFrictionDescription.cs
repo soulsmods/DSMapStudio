@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpVehicleFrictionDescription : hkReferencedObject
     {
+        public override uint Signature { get => 3159292022; }
+        
         public float m_wheelDistance;
         public float m_chassisMassInv;
         public hkpVehicleFrictionDescriptionAxisDescription m_axleDescr_0;
@@ -22,13 +24,13 @@ namespace HKX2
             m_axleDescr_1.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_wheelDistance);
             bw.WriteSingle(m_chassisMassInv);
-            m_axleDescr_0.Write(bw);
-            m_axleDescr_1.Write(bw);
+            m_axleDescr_0.Write(s, bw);
+            m_axleDescr_1.Write(s, bw);
         }
     }
 }

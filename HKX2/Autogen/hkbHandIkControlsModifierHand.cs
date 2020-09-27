@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbHandIkControlsModifierHand : IHavokObject
     {
+        public virtual uint Signature { get => 2624776675; }
+        
         public hkbHandIkControlData m_controlData;
         public int m_handIndex;
         public bool m_enable;
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_controlData.Write(bw);
+            m_controlData.Write(s, bw);
             bw.WriteInt32(m_handIndex);
             bw.WriteBoolean(m_enable);
             bw.WriteUInt64(0);

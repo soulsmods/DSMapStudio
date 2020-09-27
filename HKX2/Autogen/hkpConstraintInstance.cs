@@ -44,6 +44,8 @@ namespace HKX2
     
     public class hkpConstraintInstance : hkReferencedObject
     {
+        public override uint Signature { get => 3662473502; }
+        
         public hkpConstraintData m_data;
         public hkpModifierConstraintAtom m_constraintModifiers;
         public hkpEntity m_entities_0;
@@ -75,19 +77,22 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkpConstraintData>(bw, m_data);
+            s.WriteClassPointer<hkpModifierConstraintAtom>(bw, m_constraintModifiers);
+            s.WriteClassPointer<hkpEntity>(bw, m_entities_0);
+            s.WriteClassPointer<hkpEntity>(bw, m_entities_1);
+            bw.WriteByte((byte)m_priority);
             bw.WriteBoolean(m_wantRuntime);
+            bw.WriteByte((byte)m_destructionRemapInfo);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(m_userData);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

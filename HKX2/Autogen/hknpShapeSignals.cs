@@ -13,6 +13,8 @@ namespace HKX2
     
     public class hknpShapeSignals : IHavokObject
     {
+        public virtual uint Signature { get => 3247174980; }
+        
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
@@ -20,7 +22,7 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

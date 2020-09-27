@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSetunsignedlonglonghkContainerHeapAllocatorhkMapOperationsunsignedlonglong : IHavokObject
     {
+        public virtual uint Signature { get => 4070831077; }
+        
         public List<ulong> m_elem;
         public int m_numElems;
         
@@ -16,8 +18,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteUInt64Array(bw, m_elem);
             bw.WriteInt32(m_numElems);
             bw.WriteUInt32(0);
         }

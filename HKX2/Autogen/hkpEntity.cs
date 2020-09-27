@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkpEntity : hkpWorldObject
     {
+        public override uint Signature { get => 2282002532; }
+        
         public hkpMaterial m_material;
         public float m_damageMultiplier;
         public ushort m_storageIndex;
@@ -68,10 +70,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_material.Write(bw);
+            base.Write(s, bw);
+            m_material.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteSingle(m_damageMultiplier);
@@ -91,14 +93,14 @@ namespace HKX2
             bw.WriteByte(m_responseModifierFlags);
             bw.WriteByte(0);
             bw.WriteUInt32(m_uid);
-            m_spuCollisionCallback.Write(bw);
+            m_spuCollisionCallback.Write(s, bw);
             bw.WriteUInt64(0);
-            m_motion.Write(bw);
-            bw.WriteUInt64(0);
-            bw.WriteUInt64(0);
+            m_motion.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
-            // Implement Write
+            bw.WriteUInt64(0);
+            bw.WriteUInt64(0);
+            s.WriteClassPointer<hkLocalFrame>(bw, m_localFrame);
             bw.WriteUInt64(0);
             bw.WriteUInt32(m_npData);
             bw.WriteUInt64(0);

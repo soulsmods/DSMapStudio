@@ -18,6 +18,8 @@ namespace HKX2
     
     public class hkaiSilhouetteRecorderReplayEvent : hkReferencedObject
     {
+        public override uint Signature { get => 2206032283; }
+        
         public ReplayEventType m_eventType;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -29,9 +31,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_eventType);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

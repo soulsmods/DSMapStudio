@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbDampingModifier : hkbModifier
     {
+        public override uint Signature { get => 1755651333; }
+        
         public float m_kP;
         public float m_kI;
         public float m_kD;
@@ -40,9 +42,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_kP);
             bw.WriteSingle(m_kI);
             bw.WriteSingle(m_kD);
@@ -51,6 +53,10 @@ namespace HKX2
             bw.WriteUInt16(0);
             bw.WriteSingle(m_rawValue);
             bw.WriteSingle(m_dampedValue);
+            s.WriteVector4(bw, m_rawVector);
+            s.WriteVector4(bw, m_dampedVector);
+            s.WriteVector4(bw, m_vecErrorSum);
+            s.WriteVector4(bw, m_vecPreviousError);
             bw.WriteSingle(m_errorSum);
             bw.WriteSingle(m_previousError);
             bw.WriteUInt64(0);

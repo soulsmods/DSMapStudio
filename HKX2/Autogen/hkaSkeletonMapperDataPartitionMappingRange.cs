@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaSkeletonMapperDataPartitionMappingRange : IHavokObject
     {
+        public virtual uint Signature { get => 4260712071; }
+        
         public int m_startMappingIndex;
         public int m_numMappings;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_numMappings = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_startMappingIndex);
             bw.WriteInt32(m_numMappings);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBallSocketChainDataConstraintInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3385585138; }
+        
         public Vector4 m_pivotInA;
         public Vector4 m_pivotInB;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_pivotInB = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_pivotInA);
+            s.WriteVector4(bw, m_pivotInB);
         }
     }
 }

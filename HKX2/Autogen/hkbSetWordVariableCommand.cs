@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbSetWordVariableCommand : hkReferencedObject
     {
+        public override uint Signature { get => 4274729204; }
+        
         public ulong m_characterId;
         public string m_variableName;
         public hkbVariableValue m_value;
@@ -30,13 +32,16 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
-            m_value.Write(bw);
+            s.WriteStringPointer(bw, m_variableName);
+            m_value.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_quadValue);
+            bw.WriteByte((byte)m_type);
             bw.WriteBoolean(m_global);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCollisionFilter : hkReferencedObject
     {
+        public override uint Signature { get => 477198788; }
+        
         public enum Type
         {
             TYPE_UNKNOWN = 0,
@@ -26,9 +28,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbComputeDirectionModifier : hkbModifier
     {
+        public override uint Signature { get => 1957275270; }
+        
         public Vector4 m_pointIn;
         public Vector4 m_pointOut;
         public float m_groundAngleOut;
@@ -38,10 +40,12 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_pointIn);
+            s.WriteVector4(bw, m_pointOut);
             bw.WriteSingle(m_groundAngleOut);
             bw.WriteSingle(m_upAngleOut);
             bw.WriteSingle(m_verticalOffset);

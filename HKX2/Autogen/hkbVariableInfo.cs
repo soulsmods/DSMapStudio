@@ -20,6 +20,8 @@ namespace HKX2
     
     public class hkbVariableInfo : IHavokObject
     {
+        public virtual uint Signature { get => 2779671522; }
+        
         public hkbRoleAttribute m_role;
         public VariableType m_type;
         
@@ -31,9 +33,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_role.Write(bw);
+            m_role.Write(s, bw);
+            bw.WriteSByte((sbyte)m_type);
             bw.WriteByte(0);
         }
     }

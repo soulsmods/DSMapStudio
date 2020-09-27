@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbGeneratorPartitionInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3318695654; }
+        
         public uint m_boneMask_0;
         public uint m_boneMask_1;
         public uint m_boneMask_2;
@@ -33,7 +35,7 @@ namespace HKX2
             m_numMaxPartitions = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_boneMask_0);
             bw.WriteUInt32(m_boneMask_1);

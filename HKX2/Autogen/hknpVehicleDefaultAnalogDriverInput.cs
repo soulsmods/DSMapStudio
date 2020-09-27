@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDefaultAnalogDriverInput : hknpVehicleDriverInput
     {
+        public override uint Signature { get => 2512154512; }
+        
         public float m_slopeChangePointX;
         public float m_initialSlope;
         public float m_deadZone;
@@ -22,9 +24,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_slopeChangePointX);
             bw.WriteSingle(m_initialSlope);
             bw.WriteSingle(m_deadZone);

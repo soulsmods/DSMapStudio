@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiStreamingCollectionInstanceInfo : IHavokObject
     {
+        public virtual uint Signature { get => 707033962; }
+        
         public hkaiNavMeshInstance m_instancePtr;
         public hkaiNavVolumeInstance m_volumeInstancePtr;
         public hkaiDirectedGraphInstance m_clusterGraphInstance;
@@ -24,13 +26,13 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkaiNavMeshInstance>(bw, m_instancePtr);
+            s.WriteClassPointer<hkaiNavVolumeInstance>(bw, m_volumeInstancePtr);
+            s.WriteClassPointer<hkaiDirectedGraphInstance>(bw, m_clusterGraphInstance);
+            s.WriteClassPointer<hkaiNavMeshQueryMediator>(bw, m_mediator);
+            s.WriteClassPointer<hkaiNavVolumeMediator>(bw, m_volumeMediator);
             bw.WriteUInt32(m_treeNode);
             bw.WriteUInt32(0);
         }

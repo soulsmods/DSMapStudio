@@ -12,6 +12,8 @@ namespace HKX2
     
     public class hkbCharacterControlCommand : hkReferencedObject
     {
+        public override uint Signature { get => 3263284257; }
+        
         public ulong m_characterId;
         public CharacterControlCommand m_command;
         public int m_padding;
@@ -26,10 +28,11 @@ namespace HKX2
             m_padding = br.ReadInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
+            bw.WriteByte((byte)m_command);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_padding);

@@ -31,6 +31,8 @@ namespace HKX2
     
     public class hkbStateMachineTransitionInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3454828581; }
+        
         public hkbStateMachineTimeInterval m_triggerInterval;
         public hkbStateMachineTimeInterval m_initiateInterval;
         public hkbTransitionEffect m_transition;
@@ -59,17 +61,18 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_triggerInterval.Write(bw);
-            m_initiateInterval.Write(bw);
-            // Implement Write
-            // Implement Write
+            m_triggerInterval.Write(s, bw);
+            m_initiateInterval.Write(s, bw);
+            s.WriteClassPointer<hkbTransitionEffect>(bw, m_transition);
+            s.WriteClassPointer<hkbCondition>(bw, m_condition);
             bw.WriteInt32(m_eventId);
             bw.WriteInt32(m_toStateId);
             bw.WriteInt32(m_fromNestedStateId);
             bw.WriteInt32(m_toNestedStateId);
             bw.WriteInt16(m_priority);
+            bw.WriteInt16(m_flags);
             bw.WriteUInt32(0);
         }
     }

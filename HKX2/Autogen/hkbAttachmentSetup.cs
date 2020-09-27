@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkbAttachmentSetup : hkReferencedObject
     {
+        public override uint Signature { get => 3482710003; }
+        
         public float m_blendInTime;
         public float m_moveAttacherFraction;
         public float m_gain;
@@ -39,9 +41,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_blendInTime);
             bw.WriteSingle(m_moveAttacherFraction);
             bw.WriteSingle(m_gain);
@@ -49,6 +51,7 @@ namespace HKX2
             bw.WriteSingle(m_fixUpGain);
             bw.WriteSingle(m_maxLinearDistance);
             bw.WriteSingle(m_maxAngularDistance);
+            bw.WriteSByte((sbyte)m_attachmentType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
         }

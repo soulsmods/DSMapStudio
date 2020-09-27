@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiClimbUpAnalyzer : hkaiTraversalAnalyzer
     {
+        public override uint Signature { get => 3687978068; }
+        
         public float m_maxUnderhang;
         public float m_minUpHeight;
         public float m_maxUpHeight;
@@ -24,9 +26,9 @@ namespace HKX2
             m_verticalLipHeight = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_maxUnderhang);
             bw.WriteSingle(m_minUpHeight);
             bw.WriteSingle(m_maxUpHeight);

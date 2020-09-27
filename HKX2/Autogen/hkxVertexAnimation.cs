@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxVertexAnimation : hkReferencedObject
     {
+        public override uint Signature { get => 661097651; }
+        
         public float m_time;
         public hkxVertexBuffer m_vertData;
         public List<int> m_vertexIndexMap;
@@ -22,12 +24,14 @@ namespace HKX2
             m_componentMap = des.ReadClassArray<hkxVertexAnimationUsageMap>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_time);
             bw.WriteUInt32(0);
-            m_vertData.Write(bw);
+            m_vertData.Write(s, bw);
+            s.WriteInt32Array(bw, m_vertexIndexMap);
+            s.WriteClassArray<hkxVertexAnimationUsageMap>(bw, m_componentMap);
         }
     }
 }

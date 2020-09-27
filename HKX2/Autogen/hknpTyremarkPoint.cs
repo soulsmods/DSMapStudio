@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpTyremarkPoint : IHavokObject
     {
+        public virtual uint Signature { get => 1807205864; }
+        
         public Vector4 m_pointLeft;
         public Vector4 m_pointRight;
         
@@ -15,8 +17,10 @@ namespace HKX2
             m_pointRight = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_pointLeft);
+            s.WriteVector4(bw, m_pointRight);
         }
     }
 }

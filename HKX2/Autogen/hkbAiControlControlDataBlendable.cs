@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbAiControlControlDataBlendable : IHavokObject
     {
+        public virtual uint Signature { get => 3146587068; }
+        
         public float m_desiredSpeed;
         public float m_maximumSpeed;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_maximumSpeed = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_desiredSpeed);
             bw.WriteSingle(m_maximumSpeed);

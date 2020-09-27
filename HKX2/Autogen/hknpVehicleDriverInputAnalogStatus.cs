@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpVehicleDriverInputAnalogStatus : hknpVehicleDriverInputStatus
     {
+        public override uint Signature { get => 3791005235; }
+        
         public float m_positionX;
         public float m_positionY;
         public bool m_handbrakeButtonPressed;
@@ -22,9 +24,9 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_positionX);
             bw.WriteSingle(m_positionY);
             bw.WriteBoolean(m_handbrakeButtonPressed);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMultiRayShape : hkpShape
     {
+        public override uint Signature { get => 2612131923; }
+        
         public List<hkpMultiRayShapeRay> m_rays;
         public float m_rayPenetrationDistance;
         
@@ -17,9 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkpMultiRayShapeRay>(bw, m_rays);
             bw.WriteSingle(m_rayPenetrationDistance);
             bw.WriteUInt32(0);
         }

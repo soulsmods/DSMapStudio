@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRotationalConstraintDataAtoms : IHavokObject
     {
+        public virtual uint Signature { get => 2749345; }
+        
         public hkpSetLocalRotationsConstraintAtom m_rotations;
         public hkpAngConstraintAtom m_ang;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_ang.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_rotations.Write(bw);
-            m_ang.Write(bw);
+            m_rotations.Write(s, bw);
+            m_ang.Write(s, bw);
         }
     }
 }

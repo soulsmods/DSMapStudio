@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSerializedDisplayRbTransforms : hkReferencedObject
     {
+        public override uint Signature { get => 3318981991; }
+        
         public List<hkpSerializedDisplayRbTransformsDisplayTransformPair> m_transforms;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_transforms = des.ReadClassArray<hkpSerializedDisplayRbTransformsDisplayTransformPair>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkpSerializedDisplayRbTransformsDisplayTransformPair>(bw, m_transforms);
         }
     }
 }

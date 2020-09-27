@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCompiledExpressionSet : hkReferencedObject
     {
+        public override uint Signature { get => 2118620138; }
+        
         public List<hkbCompiledExpressionSetToken> m_rpn;
         public List<int> m_expressionToRpnIndex;
         public sbyte m_numExpressions;
@@ -21,9 +23,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbCompiledExpressionSetToken>(bw, m_rpn);
+            s.WriteInt32Array(bw, m_expressionToRpnIndex);
             bw.WriteSByte(m_numExpressions);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

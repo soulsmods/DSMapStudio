@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hkbTransitionEffect : hkbGenerator
     {
+        public override uint Signature { get => 3970553188; }
+        
         public SelfTransitionMode m_selfTransitionMode;
         public EventMode m_eventMode;
         
@@ -37,9 +39,11 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteSByte((sbyte)m_selfTransitionMode);
+            bw.WriteSByte((sbyte)m_eventMode);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

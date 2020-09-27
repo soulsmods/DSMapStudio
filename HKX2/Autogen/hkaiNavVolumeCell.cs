@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumeCell : IHavokObject
     {
+        public virtual uint Signature { get => 2418669306; }
+        
         public ushort m_min_0;
         public ushort m_min_1;
         public ushort m_min_2;
@@ -30,7 +32,7 @@ namespace HKX2
             m_data = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_min_0);
             bw.WriteUInt16(m_min_1);

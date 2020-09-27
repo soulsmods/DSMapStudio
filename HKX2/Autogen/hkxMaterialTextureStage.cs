@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxMaterialTextureStage : IHavokObject
     {
+        public virtual uint Signature { get => 3688529851; }
+        
         public hkReferencedObject m_texture;
         public TextureType m_usageHint;
         public int m_tcoordChannel;
@@ -17,9 +19,10 @@ namespace HKX2
             m_tcoordChannel = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkReferencedObject>(bw, m_texture);
+            bw.WriteInt32((int)m_usageHint);
             bw.WriteInt32(m_tcoordChannel);
         }
     }

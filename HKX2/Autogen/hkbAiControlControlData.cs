@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbAiControlControlData : IHavokObject
     {
+        public virtual uint Signature { get => 408861304; }
+        
         public hkbAiControlControlDataBlendable m_blendable;
         public hkbAiControlControlDataNonBlendable m_nonBlendable;
         
@@ -17,10 +19,10 @@ namespace HKX2
             m_nonBlendable.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_blendable.Write(bw);
-            m_nonBlendable.Write(bw);
+            m_blendable.Write(s, bw);
+            m_nonBlendable.Write(s, bw);
         }
     }
 }

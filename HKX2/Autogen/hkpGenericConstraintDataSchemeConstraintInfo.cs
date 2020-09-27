@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpGenericConstraintDataSchemeConstraintInfo : IHavokObject
     {
+        public virtual uint Signature { get => 3594657561; }
+        
         public int m_maxSizeOfSchema;
         public int m_sizeOfSchemas;
         public int m_numSolverResults;
@@ -19,7 +21,7 @@ namespace HKX2
             m_numSolverElemTemps = br.ReadInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_maxSizeOfSchema);
             bw.WriteInt32(m_sizeOfSchemas);

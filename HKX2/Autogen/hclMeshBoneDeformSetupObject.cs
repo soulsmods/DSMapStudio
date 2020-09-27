@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclMeshBoneDeformSetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 2071083108; }
+        
         public string m_name;
         public hclBufferSetupObject m_inputBufferSetupObject;
         public hclTriangleSelectionInput m_inputTriangleSelection;
@@ -27,12 +29,14 @@ namespace HKX2
             m_minimumTriangleWeight = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            m_inputTriangleSelection.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_inputBufferSetupObject);
+            m_inputTriangleSelection.Write(s, bw);
+            s.WriteClassPointer<hclTransformSetSetupObject>(bw, m_outputTransformSetSetupObject);
+            s.WriteStringPointerArray(bw, m_deformedBones);
             bw.WriteUInt32(m_maxTrianglesPerBone);
             bw.WriteSingle(m_minimumTriangleWeight);
         }

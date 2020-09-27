@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSplitGenerationUtilsSettings : IHavokObject
     {
+        public virtual uint Signature { get => 1662460593; }
+        
         public SplitAndGenerateOptions m_simplificationOptions;
         public SplitMethod m_splitMethod;
         public bool m_generateClusterGraphs;
@@ -36,8 +38,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteByte((byte)m_simplificationOptions);
+            bw.WriteByte((byte)m_splitMethod);
             bw.WriteBoolean(m_generateClusterGraphs);
             bw.WriteByte(0);
             bw.WriteInt32(m_desiredFacesPerCluster);

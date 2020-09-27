@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkCustomAttributesAttribute : IHavokObject
     {
+        public virtual uint Signature { get => 327734785; }
+        
         public string m_name;
         public ulong m_value;
         
@@ -16,8 +18,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteStringPointer(bw, m_name);
             // Read TYPE_VARIANT
             bw.WriteUInt64(0);
         }

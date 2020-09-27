@@ -20,6 +20,8 @@ namespace HKX2
     
     public class hkpSerializedAgentNnEntry : hkReferencedObject
     {
+        public override uint Signature { get => 1259595383; }
+        
         public hkpEntity m_bodyA;
         public hkpEntity m_bodyB;
         public ulong m_bodyAId;
@@ -448,18 +450,22 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpEntity>(bw, m_bodyA);
+            s.WriteClassPointer<hkpEntity>(bw, m_bodyB);
             bw.WriteUInt64(m_bodyAId);
             bw.WriteUInt64(m_bodyBId);
             bw.WriteBoolean(m_useEntityIds);
+            bw.WriteSByte((sbyte)m_agentType);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
-            m_atom.Write(bw);
+            m_atom.Write(s, bw);
+            s.WriteByteArray(bw, m_propertiesStream);
+            s.WriteClassArray<hkContactPoint>(bw, m_contactPoints);
+            s.WriteByteArray(bw, m_cpIdMgr);
             bw.WriteByte(m_nnEntryData_0);
             bw.WriteByte(m_nnEntryData_1);
             bw.WriteByte(m_nnEntryData_2);
@@ -652,7 +658,7 @@ namespace HKX2
             bw.WriteByte(m_nnEntryData_189);
             bw.WriteByte(m_nnEntryData_190);
             bw.WriteByte(m_nnEntryData_191);
-            m_trackInfo.Write(bw);
+            m_trackInfo.Write(s, bw);
             bw.WriteByte(m_endianCheckBuffer_0);
             bw.WriteByte(m_endianCheckBuffer_1);
             bw.WriteByte(m_endianCheckBuffer_2);

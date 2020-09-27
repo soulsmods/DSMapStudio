@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclVertexCopySetupObject : hclOperatorSetupObject
     {
+        public override uint Signature { get => 3805125141; }
+        
         public string m_name;
         public hclBufferSetupObject m_inputBufferSetupObject;
         public hclBufferSetupObject m_outputBufferSetupObject;
@@ -23,11 +25,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_inputBufferSetupObject);
+            s.WriteClassPointer<hclBufferSetupObject>(bw, m_outputBufferSetupObject);
             bw.WriteBoolean(m_copyNormals);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);

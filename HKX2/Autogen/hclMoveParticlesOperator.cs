@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hclMoveParticlesOperator : hclOperator
     {
+        public override uint Signature { get => 3864686620; }
+        
         public List<hclMoveParticlesOperatorVertexParticlePair> m_vertexParticlePairs;
         public uint m_simClothIndex;
         public uint m_refBufferIdx;
@@ -23,9 +25,10 @@ namespace HKX2
             m_refBufferIdx = br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hclMoveParticlesOperatorVertexParticlePair>(bw, m_vertexParticlePairs);
             bw.WriteUInt32(m_simClothIndex);
             bw.WriteUInt32(m_refBufferIdx);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpProjectileGun : hkpFirstPersonGun
     {
+        public override uint Signature { get => 2152202701; }
+        
         public int m_maxProjectiles;
         public float m_reloadTime;
         
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt32(m_maxProjectiles);
             bw.WriteSingle(m_reloadTime);
             bw.WriteUInt64(0);

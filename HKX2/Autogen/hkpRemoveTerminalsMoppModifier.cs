@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRemoveTerminalsMoppModifier : hkReferencedObject
     {
+        public override uint Signature { get => 1543443174; }
+        
         public List<uint> m_removeInfo;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -16,10 +18,11 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteUInt32Array(bw, m_removeInfo);
             bw.WriteUInt64(0);
         }
     }

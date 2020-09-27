@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticTreeCodec3Axis6 : hkcdStaticTreeCodec3Axis
     {
+        public override uint Signature { get => 1453022594; }
+        
         public byte m_hiData;
         public ushort m_loData;
         
@@ -16,9 +18,9 @@ namespace HKX2
             m_loData = br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_hiData);
             bw.WriteUInt16(m_loData);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxSkinBinding : hkReferencedObject
     {
+        public override uint Signature { get => 3138616879; }
+        
         public List<string> m_nodeNames;
         public List<Matrix4x4> m_bindPose;
         public Matrix4x4 m_initSkinTransform;
@@ -20,11 +22,14 @@ namespace HKX2
             m_initSkinTransform = des.ReadMatrix4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteStringPointerArray(bw, m_nodeNames);
+            s.WriteMatrix4Array(bw, m_bindPose);
             bw.WriteUInt64(0);
+            s.WriteMatrix4(bw, m_initSkinTransform);
         }
     }
 }

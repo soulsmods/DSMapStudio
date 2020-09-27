@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpRackAndPinionConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 1736228083; }
+        
         public enum Type
         {
             TYPE_RACK_AND_PINION = 0,
@@ -22,11 +24,11 @@ namespace HKX2
             m_atoms.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
         }
     }
 }

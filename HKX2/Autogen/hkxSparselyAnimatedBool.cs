@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxSparselyAnimatedBool : hkReferencedObject
     {
+        public override uint Signature { get => 744789732; }
+        
         public List<bool> m_bools;
         public List<float> m_times;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_times = des.ReadSingleArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteBooleanArray(bw, m_bools);
+            s.WriteSingleArray(bw, m_times);
         }
     }
 }

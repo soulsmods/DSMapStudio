@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbAttachmentModifier : hkbModifier
     {
+        public override uint Signature { get => 867992671; }
+        
         public hkbEventProperty m_sendToAttacherOnAttach;
         public hkbEventProperty m_sendToAttacheeOnAttach;
         public hkbEventProperty m_sendToAttacherOnDetach;
@@ -36,16 +38,16 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_sendToAttacherOnAttach.Write(bw);
-            m_sendToAttacheeOnAttach.Write(bw);
-            m_sendToAttacherOnDetach.Write(bw);
-            m_sendToAttacheeOnDetach.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            m_sendToAttacherOnAttach.Write(s, bw);
+            m_sendToAttacheeOnAttach.Write(s, bw);
+            m_sendToAttacherOnDetach.Write(s, bw);
+            m_sendToAttacheeOnDetach.Write(s, bw);
+            s.WriteClassPointer<hkbAttachmentSetup>(bw, m_attachmentSetup);
+            s.WriteClassPointer<hkbHandle>(bw, m_attacherHandle);
+            s.WriteClassPointer<hkbHandle>(bw, m_attacheeHandle);
             bw.WriteInt32(m_attacheeLayer);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hkMeshSection : IHavokObject
     {
+        public virtual uint Signature { get => 1570360411; }
+        
         public PrimitiveType m_primitiveType;
         public int m_numPrimitives;
         public int m_numIndices;
@@ -53,20 +55,22 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteByte((byte)m_primitiveType);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteInt32(m_numPrimitives);
             bw.WriteInt32(m_numIndices);
             bw.WriteInt32(m_vertexStartIndex);
             bw.WriteInt32(m_transformIndex);
+            bw.WriteByte((byte)m_indexType);
             bw.WriteUInt64(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            s.WriteClassPointer<hkMeshVertexBuffer>(bw, m_vertexBuffer);
+            s.WriteClassPointer<hkMeshMaterial>(bw, m_material);
+            s.WriteClassPointer<hkMeshBoneIndexMapping>(bw, m_boneMatrixMap);
             bw.WriteInt32(m_sectionIndex);
             bw.WriteUInt32(0);
         }

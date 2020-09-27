@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpBreakableMaterial : hkReferencedObject
     {
+        public override uint Signature { get => 545189131; }
+        
         public float m_strength;
         public int m_typeAndFlags;
         public hkRefCountedProperties m_properties;
@@ -18,12 +20,12 @@ namespace HKX2
             m_properties = des.ReadClassPointer<hkRefCountedProperties>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteSingle(m_strength);
             bw.WriteInt32(m_typeAndFlags);
-            // Implement Write
+            s.WriteClassPointer<hkRefCountedProperties>(bw, m_properties);
         }
     }
 }

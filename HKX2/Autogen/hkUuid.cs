@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkUuid : IHavokObject
     {
+        public virtual uint Signature { get => 2938680783; }
+        
         public uint m_data_0;
         public uint m_data_1;
         public uint m_data_2;
@@ -19,7 +21,7 @@ namespace HKX2
             m_data_3 = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_data_0);
             bw.WriteUInt32(m_data_1);

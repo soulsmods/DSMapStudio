@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hkbCustomTestGeneratorComplexTypes : hkbCustomTestGeneratorSimpleTypes
     {
+        public override uint Signature { get => 1956015663; }
+        
         public hkReferencedObject m_complexTypeHkObjectPtr;
         public bool m_complexHiddenTypeCopyStart;
         public Quaternion m_complexTypeHkQuaternion;
@@ -101,22 +103,48 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkReferencedObject>(bw, m_complexTypeHkObjectPtr);
             bw.WriteBoolean(m_complexHiddenTypeCopyStart);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
+            s.WriteQuaternion(bw, m_complexTypeHkQuaternion);
+            s.WriteVector4(bw, m_complexTypeHkVector4);
+            bw.WriteSByte((sbyte)m_complexTypeEnumHkInt8);
             bw.WriteByte(0);
+            bw.WriteInt16((short)m_complexTypeEnumHkInt16);
+            bw.WriteInt32((int)m_complexTypeEnumHkInt32);
+            bw.WriteByte((byte)m_complexTypeEnumHkUint8);
             bw.WriteByte(0);
+            bw.WriteUInt16((ushort)m_complexTypeEnumHkUint16);
+            bw.WriteUInt32((uint)m_complexTypeEnumHkUint32);
+            bw.WriteSByte((sbyte)m_complexTypeEnumHkInt8InvalidCheck);
             bw.WriteByte(0);
+            bw.WriteInt16((short)m_complexTypeEnumHkInt16InvalidCheck);
+            bw.WriteInt32((int)m_complexTypeEnumHkInt32InvalidCheck);
+            bw.WriteByte((byte)m_complexTypeEnumHkUint8InvalidCheck);
             bw.WriteByte(0);
+            bw.WriteUInt16((ushort)m_complexTypeEnumHkUint16InvalidCheck);
+            bw.WriteUInt32((uint)m_complexTypeEnumHkUint32InvalidCheck);
+            bw.WriteSByte(m_complexTypeFlagsHkInt8);
             bw.WriteByte(0);
+            bw.WriteInt16(m_complexTypeFlagsHkInt16);
+            bw.WriteInt32(m_complexTypeFlagsHkInt32);
+            bw.WriteByte(m_complexTypeFlagsHkUint8);
             bw.WriteByte(0);
+            bw.WriteUInt16(m_complexTypeFlagsHkUint16);
+            bw.WriteUInt32(m_complexTypeFlagsHkUint32);
+            bw.WriteSByte(m_complexTypeFlagsHkInt8InvalidCheck);
             bw.WriteByte(0);
+            bw.WriteInt16(m_complexTypeFlagsHkInt16InvalidCheck);
+            bw.WriteInt32(m_complexTypeFlagsHkInt32InvalidCheck);
+            bw.WriteByte(m_complexTypeFlagsHkUint8InvalidCheck);
             bw.WriteByte(0);
+            bw.WriteUInt16(m_complexTypeFlagsHkUint16InvalidCheck);
+            bw.WriteUInt32(m_complexTypeFlagsHkUint32InvalidCheck);
             bw.WriteBoolean(m_complexHiddenTypeCopyEnd);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

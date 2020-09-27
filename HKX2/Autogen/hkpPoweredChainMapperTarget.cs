@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPoweredChainMapperTarget : IHavokObject
     {
+        public virtual uint Signature { get => 4132554573; }
+        
         public hkpPoweredChainData m_chain;
         public int m_infoIndex;
         
@@ -16,9 +18,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
+            s.WriteClassPointer<hkpPoweredChainData>(bw, m_chain);
             bw.WriteInt32(m_infoIndex);
             bw.WriteUInt32(0);
         }

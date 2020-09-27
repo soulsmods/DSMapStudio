@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclSimClothSetupObjectPerInstanceCollidable : IHavokObject
     {
+        public virtual uint Signature { get => 361781863; }
+        
         public hclCollidable m_collidable;
         public hclVertexSelectionInput m_collidingParticles;
         public string m_drivingBoneName;
@@ -25,10 +27,11 @@ namespace HKX2
             m_pinchDetectionRadius = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            m_collidingParticles.Write(bw);
+            s.WriteClassPointer<hclCollidable>(bw, m_collidable);
+            m_collidingParticles.Write(s, bw);
+            s.WriteStringPointer(bw, m_drivingBoneName);
             bw.WriteBoolean(m_pinchDetectionEnabled);
             bw.WriteSByte(m_pinchDetectionPriority);
             bw.WriteUInt16(0);

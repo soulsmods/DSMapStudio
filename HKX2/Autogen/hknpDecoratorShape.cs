@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpDecoratorShape : hknpShape
     {
+        public override uint Signature { get => 430716898; }
+        
         public hknpShape m_coreShape;
         public int m_coreShapeSize;
         
@@ -17,10 +19,10 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hknpShape>(bw, m_coreShape);
             bw.WriteInt32(m_coreShapeSize);
             bw.WriteUInt32(0);
         }

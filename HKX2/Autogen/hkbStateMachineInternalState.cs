@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbStateMachineInternalState : hkReferencedObject
     {
+        public override uint Signature { get => 3054634337; }
+        
         public List<hkbStateMachineActiveTransitionInfo> m_activeTransitions;
         public List<byte> m_transitionFlags;
         public List<byte> m_wildcardTransitionFlags;
@@ -37,9 +39,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbStateMachineActiveTransitionInfo>(bw, m_activeTransitions);
+            s.WriteByteArray(bw, m_transitionFlags);
+            s.WriteByteArray(bw, m_wildcardTransitionFlags);
+            s.WriteClassArray<hkbStateMachineDelayedTransitionInfo>(bw, m_delayedTransitions);
             bw.WriteSingle(m_timeInState);
             bw.WriteSingle(m_lastLocalTime);
             bw.WriteInt32(m_currentStateId);

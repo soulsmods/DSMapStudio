@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbPoseStoringGeneratorOutputListenerStoredPose : hkReferencedObject
     {
+        public override uint Signature { get => 223379314; }
+        
         public hkbNode m_node;
         public List<Matrix4x4> m_pose;
         public Matrix4x4 m_worldFromModel;
@@ -25,11 +27,13 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbNode>(bw, m_node);
+            s.WriteQSTransformArray(bw, m_pose);
             bw.WriteUInt64(0);
+            s.WriteQSTransform(bw, m_worldFromModel);
             bw.WriteBoolean(m_isPoseValid);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

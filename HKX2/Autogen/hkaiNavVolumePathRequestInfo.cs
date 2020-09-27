@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavVolumePathRequestInfo : hkReferencedObject
     {
+        public override uint Signature { get => 118576998; }
+        
         public hkaiVolumePathfindingUtilFindPathInput m_input;
         public hkaiVolumePathfindingUtilFindPathOutput m_output;
         public int m_priority;
@@ -25,11 +27,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiVolumePathfindingUtilFindPathInput>(bw, m_input);
+            s.WriteClassPointer<hkaiVolumePathfindingUtilFindPathOutput>(bw, m_output);
             bw.WriteInt32(m_priority);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

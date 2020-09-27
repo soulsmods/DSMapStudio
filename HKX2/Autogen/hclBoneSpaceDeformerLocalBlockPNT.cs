@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBoneSpaceDeformerLocalBlockPNT : IHavokObject
     {
+        public virtual uint Signature { get => 2839795730; }
+        
         public Vector4 m_localPosition_0;
         public Vector4 m_localPosition_1;
         public Vector4 m_localPosition_2;
@@ -299,8 +301,24 @@ namespace HKX2
             m_localTangent_63 = br.ReadInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_localPosition_0);
+            s.WriteVector4(bw, m_localPosition_1);
+            s.WriteVector4(bw, m_localPosition_2);
+            s.WriteVector4(bw, m_localPosition_3);
+            s.WriteVector4(bw, m_localPosition_4);
+            s.WriteVector4(bw, m_localPosition_5);
+            s.WriteVector4(bw, m_localPosition_6);
+            s.WriteVector4(bw, m_localPosition_7);
+            s.WriteVector4(bw, m_localPosition_8);
+            s.WriteVector4(bw, m_localPosition_9);
+            s.WriteVector4(bw, m_localPosition_10);
+            s.WriteVector4(bw, m_localPosition_11);
+            s.WriteVector4(bw, m_localPosition_12);
+            s.WriteVector4(bw, m_localPosition_13);
+            s.WriteVector4(bw, m_localPosition_14);
+            s.WriteVector4(bw, m_localPosition_15);
             bw.WriteInt16(m_localNormal_0);
             bw.WriteInt16(m_localNormal_1);
             bw.WriteInt16(m_localNormal_2);

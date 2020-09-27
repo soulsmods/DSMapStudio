@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiSilhouetteRecorderGraphLoadedEvent : hkaiSilhouetteRecorderReplayEvent
     {
+        public override uint Signature { get => 3069279907; }
+        
         public hkaiDirectedGraphInstance m_graph;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_graph = des.ReadClassPointer<hkaiDirectedGraphInstance>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkaiDirectedGraphInstance>(bw, m_graph);
         }
     }
 }

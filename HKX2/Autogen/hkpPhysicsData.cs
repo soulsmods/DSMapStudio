@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpPhysicsData : hkReferencedObject
     {
+        public override uint Signature { get => 1202244227; }
+        
         public hkpWorldCinfo m_worldCinfo;
         public List<hkpPhysicsSystem> m_systems;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_systems = des.ReadClassPointerArray<hkpPhysicsSystem>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkpWorldCinfo>(bw, m_worldCinfo);
+            s.WriteClassPointerArray<hkpPhysicsSystem>(bw, m_systems);
         }
     }
 }

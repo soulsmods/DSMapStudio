@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBoneSpaceDeformerLocalBlockUnpackedPNTB : IHavokObject
     {
+        public virtual uint Signature { get => 4134482674; }
+        
         public Vector4 m_localPosition_0;
         public Vector4 m_localPosition_1;
         public Vector4 m_localPosition_2;
@@ -139,8 +141,72 @@ namespace HKX2
             m_localBiTangent_15 = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_localPosition_0);
+            s.WriteVector4(bw, m_localPosition_1);
+            s.WriteVector4(bw, m_localPosition_2);
+            s.WriteVector4(bw, m_localPosition_3);
+            s.WriteVector4(bw, m_localPosition_4);
+            s.WriteVector4(bw, m_localPosition_5);
+            s.WriteVector4(bw, m_localPosition_6);
+            s.WriteVector4(bw, m_localPosition_7);
+            s.WriteVector4(bw, m_localPosition_8);
+            s.WriteVector4(bw, m_localPosition_9);
+            s.WriteVector4(bw, m_localPosition_10);
+            s.WriteVector4(bw, m_localPosition_11);
+            s.WriteVector4(bw, m_localPosition_12);
+            s.WriteVector4(bw, m_localPosition_13);
+            s.WriteVector4(bw, m_localPosition_14);
+            s.WriteVector4(bw, m_localPosition_15);
+            s.WriteVector4(bw, m_localNormal_0);
+            s.WriteVector4(bw, m_localNormal_1);
+            s.WriteVector4(bw, m_localNormal_2);
+            s.WriteVector4(bw, m_localNormal_3);
+            s.WriteVector4(bw, m_localNormal_4);
+            s.WriteVector4(bw, m_localNormal_5);
+            s.WriteVector4(bw, m_localNormal_6);
+            s.WriteVector4(bw, m_localNormal_7);
+            s.WriteVector4(bw, m_localNormal_8);
+            s.WriteVector4(bw, m_localNormal_9);
+            s.WriteVector4(bw, m_localNormal_10);
+            s.WriteVector4(bw, m_localNormal_11);
+            s.WriteVector4(bw, m_localNormal_12);
+            s.WriteVector4(bw, m_localNormal_13);
+            s.WriteVector4(bw, m_localNormal_14);
+            s.WriteVector4(bw, m_localNormal_15);
+            s.WriteVector4(bw, m_localTangent_0);
+            s.WriteVector4(bw, m_localTangent_1);
+            s.WriteVector4(bw, m_localTangent_2);
+            s.WriteVector4(bw, m_localTangent_3);
+            s.WriteVector4(bw, m_localTangent_4);
+            s.WriteVector4(bw, m_localTangent_5);
+            s.WriteVector4(bw, m_localTangent_6);
+            s.WriteVector4(bw, m_localTangent_7);
+            s.WriteVector4(bw, m_localTangent_8);
+            s.WriteVector4(bw, m_localTangent_9);
+            s.WriteVector4(bw, m_localTangent_10);
+            s.WriteVector4(bw, m_localTangent_11);
+            s.WriteVector4(bw, m_localTangent_12);
+            s.WriteVector4(bw, m_localTangent_13);
+            s.WriteVector4(bw, m_localTangent_14);
+            s.WriteVector4(bw, m_localTangent_15);
+            s.WriteVector4(bw, m_localBiTangent_0);
+            s.WriteVector4(bw, m_localBiTangent_1);
+            s.WriteVector4(bw, m_localBiTangent_2);
+            s.WriteVector4(bw, m_localBiTangent_3);
+            s.WriteVector4(bw, m_localBiTangent_4);
+            s.WriteVector4(bw, m_localBiTangent_5);
+            s.WriteVector4(bw, m_localBiTangent_6);
+            s.WriteVector4(bw, m_localBiTangent_7);
+            s.WriteVector4(bw, m_localBiTangent_8);
+            s.WriteVector4(bw, m_localBiTangent_9);
+            s.WriteVector4(bw, m_localBiTangent_10);
+            s.WriteVector4(bw, m_localBiTangent_11);
+            s.WriteVector4(bw, m_localBiTangent_12);
+            s.WriteVector4(bw, m_localBiTangent_13);
+            s.WriteVector4(bw, m_localBiTangent_14);
+            s.WriteVector4(bw, m_localBiTangent_15);
         }
     }
 }

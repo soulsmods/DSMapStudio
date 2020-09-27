@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpLinearClearanceConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 2670692797; }
+        
         public enum Type
         {
             PRISMATIC = 0,
@@ -23,11 +25,11 @@ namespace HKX2
             m_atoms.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
         }
     }
 }

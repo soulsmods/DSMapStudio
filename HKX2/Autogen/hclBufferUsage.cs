@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclBufferUsage : IHavokObject
     {
+        public virtual uint Signature { get => 4028655546; }
+        
         public enum Component
         {
             COMPONENT_POSITION = 0,
@@ -38,7 +40,7 @@ namespace HKX2
             m_trianglesRead = br.ReadBoolean();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteByte(m_perComponentFlags_0);
             bw.WriteByte(m_perComponentFlags_1);

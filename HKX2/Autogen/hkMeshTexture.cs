@@ -41,15 +41,17 @@ namespace HKX2
     
     public class hkMeshTexture : hkReferencedObject
     {
+        public override uint Signature { get => 1373966989; }
+        
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
         {
             base.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
         }
     }
 }

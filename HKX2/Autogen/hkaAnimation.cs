@@ -17,6 +17,8 @@ namespace HKX2
     
     public class hkaAnimation : hkReferencedObject
     {
+        public override uint Signature { get => 3041263128; }
+        
         public AnimationType m_type;
         public float m_duration;
         public int m_numberOfTransformTracks;
@@ -35,13 +37,15 @@ namespace HKX2
             m_annotationTracks = des.ReadClassArray<hkaAnnotationTrack>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteInt32((int)m_type);
             bw.WriteSingle(m_duration);
             bw.WriteInt32(m_numberOfTransformTracks);
             bw.WriteInt32(m_numberOfFloatTracks);
-            // Implement Write
+            s.WriteClassPointer<hkaAnimatedReferenceFrame>(bw, m_extractedMotion);
+            s.WriteClassArray<hkaAnnotationTrack>(bw, m_annotationTracks);
         }
     }
 }

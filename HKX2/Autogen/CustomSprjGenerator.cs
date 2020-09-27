@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class CustomSprjGenerator : hkbGenerator
     {
+        public override uint Signature { get => 1052243633; }
+        
         public enum OffsetType
         {
             WeaponCategory = 10,
@@ -41,10 +43,11 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_child);
+            bw.WriteInt32((int)m_offsetType);
             bw.WriteInt32(m_taeId);
             bw.WriteInt32(m_valIndex);
             bw.WriteSingle(m_valRate);

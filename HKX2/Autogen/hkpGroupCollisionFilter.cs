@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpGroupCollisionFilter : hkpCollisionFilter
     {
+        public override uint Signature { get => 667383739; }
+        
         public bool m_noGroupCollisionEnabled;
         public uint m_collisionGroups_0;
         public uint m_collisionGroups_1;
@@ -81,9 +83,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_noGroupCollisionEnabled);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

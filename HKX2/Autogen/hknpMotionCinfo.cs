@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpMotionCinfo : IHavokObject
     {
+        public virtual uint Signature { get => 1765612310; }
+        
         public ushort m_motionPropertiesId;
         public bool m_enableDeactivation;
         public float m_inverseMass;
@@ -36,7 +38,7 @@ namespace HKX2
             m_angularVelocity = des.ReadVector4(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt16(m_motionPropertiesId);
             bw.WriteBoolean(m_enableDeactivation);
@@ -47,6 +49,11 @@ namespace HKX2
             bw.WriteSingle(m_maxRotationToPreventTunneling);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_inverseInertiaLocal);
+            s.WriteVector4(bw, m_centerOfMassWorld);
+            s.WriteQuaternion(bw, m_orientation);
+            s.WriteVector4(bw, m_linearVelocity);
+            s.WriteVector4(bw, m_angularVelocity);
         }
     }
 }

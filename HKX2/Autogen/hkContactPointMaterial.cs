@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkContactPointMaterial : IHavokObject
     {
+        public virtual uint Signature { get => 1529891900; }
+        
         public ulong m_userData;
         public hkUFloat8 m_friction;
         public byte m_restitution;
@@ -32,12 +34,12 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt64(m_userData);
-            m_friction.Write(bw);
+            m_friction.Write(s, bw);
             bw.WriteByte(m_restitution);
-            m_maxImpulse.Write(bw);
+            m_maxImpulse.Write(s, bw);
             bw.WriteByte(m_flags);
             bw.WriteUInt32(0);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbKeyframeBonesModifier : hkbModifier
     {
+        public override uint Signature { get => 1313198327; }
+        
         public List<hkbKeyframeBonesModifierKeyframeInfo> m_keyframeInfo;
         public hkbBoneIndexArray m_keyframedBonesList;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_keyframedBonesList = des.ReadClassPointer<hkbBoneIndexArray>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassArray<hkbKeyframeBonesModifierKeyframeInfo>(bw, m_keyframeInfo);
+            s.WriteClassPointer<hkbBoneIndexArray>(bw, m_keyframedBonesList);
         }
     }
 }

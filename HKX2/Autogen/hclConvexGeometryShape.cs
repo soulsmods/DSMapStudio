@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclConvexGeometryShape : hclShape
     {
+        public override uint Signature { get => 2383456886; }
+        
         public List<ushort> m_tetrahedraGrid;
         public List<byte> m_gridCells;
         public List<Matrix4x4> m_tetrahedraEquations;
@@ -35,11 +37,18 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt16Array(bw, m_tetrahedraGrid);
+            s.WriteByteArray(bw, m_gridCells);
+            s.WriteMatrix4Array(bw, m_tetrahedraEquations);
             bw.WriteUInt64(0);
-            m_objAabb.Write(bw);
+            s.WriteTransform(bw, m_localFromWorld);
+            s.WriteTransform(bw, m_worldFromLocal);
+            m_objAabb.Write(s, bw);
+            s.WriteVector4(bw, m_geomCentroid);
+            s.WriteVector4(bw, m_invCellSize);
             bw.WriteUInt16(m_gridRes);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);

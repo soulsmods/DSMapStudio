@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hknpMotionProperties : IHavokObject
     {
+        public virtual uint Signature { get => 1575913025; }
+        
         public enum FlagsEnum
         {
             NEVER_REBUILD_MASS_PROPERTIES = 2,
@@ -78,9 +80,10 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_isExclusive);
+            bw.WriteUInt32(m_flags);
             bw.WriteSingle(m_gravityFactor);
             bw.WriteSingle(m_timeFactor);
             bw.WriteSingle(m_maxLinearSpeed);

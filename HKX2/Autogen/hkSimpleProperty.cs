@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkSimpleProperty : IHavokObject
     {
+        public virtual uint Signature { get => 302553428; }
+        
         public uint m_key;
         public hkSimplePropertyValue m_value;
         
@@ -17,11 +19,11 @@ namespace HKX2
             m_value.Read(des, br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_key);
             bw.WriteUInt32(0);
-            m_value.Write(bw);
+            m_value.Write(s, bw);
         }
     }
 }

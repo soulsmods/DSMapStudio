@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclCopyVerticesOperator : hclOperator
     {
+        public override uint Signature { get => 3873113932; }
+        
         public uint m_inputBufferIdx;
         public uint m_outputBufferIdx;
         public uint m_numberOfVertices;
@@ -26,9 +28,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(m_inputBufferIdx);
             bw.WriteUInt32(m_outputBufferIdx);
             bw.WriteUInt32(m_numberOfVertices);

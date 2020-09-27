@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkPackfileHeader : IHavokObject
     {
+        public virtual uint Signature { get => 1446864575; }
+        
         public int m_magic_0;
         public int m_magic_1;
         public int m_userTag;
@@ -75,7 +77,7 @@ namespace HKX2
             m_predicateArraySizePlusPadding = br.ReadUInt16();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteInt32(m_magic_0);
             bw.WriteInt32(m_magic_1);

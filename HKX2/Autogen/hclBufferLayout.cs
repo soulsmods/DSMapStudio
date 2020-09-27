@@ -20,6 +20,8 @@ namespace HKX2
     
     public class hclBufferLayout : IHavokObject
     {
+        public virtual uint Signature { get => 3530040743; }
+        
         public hclBufferLayoutBufferElement m_elementsLayout_0;
         public hclBufferLayoutBufferElement m_elementsLayout_1;
         public hclBufferLayoutBufferElement m_elementsLayout_2;
@@ -53,17 +55,18 @@ namespace HKX2
             m_triangleFormat = (TriangleFormat)br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            m_elementsLayout_0.Write(bw);
-            m_elementsLayout_1.Write(bw);
-            m_elementsLayout_2.Write(bw);
-            m_elementsLayout_3.Write(bw);
-            m_slots_0.Write(bw);
-            m_slots_1.Write(bw);
-            m_slots_2.Write(bw);
-            m_slots_3.Write(bw);
+            m_elementsLayout_0.Write(s, bw);
+            m_elementsLayout_1.Write(s, bw);
+            m_elementsLayout_2.Write(s, bw);
+            m_elementsLayout_3.Write(s, bw);
+            m_slots_0.Write(s, bw);
+            m_slots_1.Write(s, bw);
+            m_slots_2.Write(s, bw);
+            m_slots_3.Write(s, bw);
             bw.WriteByte(m_numSlots);
+            bw.WriteByte((byte)m_triangleFormat);
         }
     }
 }

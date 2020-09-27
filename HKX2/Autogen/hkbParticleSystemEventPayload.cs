@@ -15,6 +15,8 @@ namespace HKX2
     
     public class hkbParticleSystemEventPayload : hkbEventPayload
     {
+        public override uint Signature { get => 3457352756; }
+        
         public SystemType m_type;
         public short m_emitBoneIndex;
         public Vector4 m_offset;
@@ -37,13 +39,16 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            bw.WriteByte((byte)m_type);
             bw.WriteByte(0);
             bw.WriteInt16(m_emitBoneIndex);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
+            s.WriteVector4(bw, m_offset);
+            s.WriteVector4(bw, m_direction);
             bw.WriteInt32(m_numParticles);
             bw.WriteSingle(m_speed);
             bw.WriteUInt64(0);

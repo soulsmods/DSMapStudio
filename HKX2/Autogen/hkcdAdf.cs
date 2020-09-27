@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdAdf : IHavokObject
     {
+        public virtual uint Signature { get => 2971079688; }
+        
         public float m_accuracy;
         public hkAabb m_domain;
         public Vector4 m_origin;
@@ -31,14 +33,18 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_accuracy);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
-            m_domain.Write(bw);
+            m_domain.Write(s, bw);
+            s.WriteVector4(bw, m_origin);
+            s.WriteVector4(bw, m_scale);
             bw.WriteSingle(m_range_0);
             bw.WriteSingle(m_range_1);
+            s.WriteUInt32Array(bw, m_nodes);
+            s.WriteUInt16Array(bw, m_voxels);
             bw.WriteUInt64(0);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpSpringAction : hkpBinaryAction
     {
+        public override uint Signature { get => 97905774; }
+        
         public Vector4 m_lastForce;
         public Vector4 m_positionAinA;
         public Vector4 m_positionBinB;
@@ -29,9 +31,12 @@ namespace HKX2
             br.ReadUInt16();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteVector4(bw, m_lastForce);
+            s.WriteVector4(bw, m_positionAinA);
+            s.WriteVector4(bw, m_positionBinB);
             bw.WriteSingle(m_restLength);
             bw.WriteSingle(m_strength);
             bw.WriteSingle(m_damping);

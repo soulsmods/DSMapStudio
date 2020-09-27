@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hkbAssetBundle : hkReferencedObject
     {
+        public override uint Signature { get => 282321521; }
+        
         public List<hkReferencedObject> m_assets;
         public string m_name;
         public BundleType m_type;
@@ -26,9 +28,12 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassPointerArray<hkReferencedObject>(bw, m_assets);
+            s.WriteStringPointer(bw, m_name);
+            bw.WriteSByte((sbyte)m_type);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
             bw.WriteByte(0);

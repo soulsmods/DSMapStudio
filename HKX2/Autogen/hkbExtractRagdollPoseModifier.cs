@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbExtractRagdollPoseModifier : hkbModifier
     {
+        public override uint Signature { get => 279944537; }
+        
         public short m_poseMatchingBone0;
         public short m_poseMatchingBone1;
         public short m_poseMatchingBone2;
@@ -21,9 +23,9 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteInt16(m_poseMatchingBone0);
             bw.WriteInt16(m_poseMatchingBone1);
             bw.WriteInt16(m_poseMatchingBone2);

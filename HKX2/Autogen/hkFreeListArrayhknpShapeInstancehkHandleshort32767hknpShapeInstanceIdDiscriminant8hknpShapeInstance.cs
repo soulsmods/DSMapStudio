@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkFreeListArrayhknpShapeInstancehkHandleshort32767hknpShapeInstanceIdDiscriminant8hknpShapeInstance : IHavokObject
     {
+        public virtual uint Signature { get => 2577527628; }
+        
         public List<hknpShapeInstance> m_elements;
         public int m_firstFree;
         
@@ -16,8 +18,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hknpShapeInstance>(bw, m_elements);
             bw.WriteInt32(m_firstFree);
             bw.WriteUInt32(0);
         }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpLodShapeLevelOfDetailInfo : IHavokObject
     {
+        public virtual uint Signature { get => 621158552; }
+        
         public float m_maxDistance;
         public float m_maxShrink;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_maxShrink = br.ReadSingle();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_maxDistance);
             bw.WriteSingle(m_maxShrink);

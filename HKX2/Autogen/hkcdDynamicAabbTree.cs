@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdDynamicAabbTree : hkReferencedObject
     {
+        public override uint Signature { get => 2582171851; }
+        
         public hkcdDynamicTreeDefaultTree48Storage m_treePtr;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,11 +17,11 @@ namespace HKX2
             m_treePtr = des.ReadClassPointer<hkcdDynamicTreeDefaultTree48Storage>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            // Implement Write
+            s.WriteClassPointer<hkcdDynamicTreeDefaultTree48Storage>(bw, m_treePtr);
         }
     }
 }

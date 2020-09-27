@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbExpressionDataArray : hkReferencedObject
     {
+        public override uint Signature { get => 515884759; }
+        
         public List<hkbExpressionData> m_expressionsData;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_expressionsData = des.ReadClassArray<hkbExpressionData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkbExpressionData>(bw, m_expressionsData);
         }
     }
 }

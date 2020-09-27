@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkcdStaticTreeDynamicStoragehkcdStaticTreeCodecRaw : IHavokObject
     {
+        public virtual uint Signature { get => 2231710934; }
+        
         public List<hkcdStaticTreeCodecRaw> m_nodes;
         
         public virtual void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -13,8 +15,9 @@ namespace HKX2
             m_nodes = des.ReadClassArray<hkcdStaticTreeCodecRaw>(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteClassArray<hkcdStaticTreeCodecRaw>(bw, m_nodes);
         }
     }
 }

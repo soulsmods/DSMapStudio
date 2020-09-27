@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiNavMeshSimplificationSnapshot : IHavokObject
     {
+        public virtual uint Signature { get => 1796332001; }
+        
         public hkGeometry m_geometry;
         public List<hkaiCarver> m_carvers;
         public hkBitField m_cuttingTriangles;
@@ -24,12 +26,13 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            m_cuttingTriangles.Write(bw);
-            m_settings.Write(bw);
-            // Implement Write
+            s.WriteClassPointer<hkGeometry>(bw, m_geometry);
+            s.WriteClassPointerArray<hkaiCarver>(bw, m_carvers);
+            m_cuttingTriangles.Write(s, bw);
+            m_settings.Write(s, bw);
+            s.WriteClassPointer<hkaiNavMesh>(bw, m_unsimplifiedNavMesh);
             bw.WriteUInt64(0);
         }
     }

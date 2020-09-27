@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiAvoidancePairProperties : hkReferencedObject
     {
+        public override uint Signature { get => 2677096424; }
+        
         public List<hkaiAvoidancePairPropertiesPairData> m_avoidancePairDataMap;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_avoidancePairDataMap = des.ReadClassArray<hkaiAvoidancePairPropertiesPairData>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteClassArray<hkaiAvoidancePairPropertiesPairData>(bw, m_avoidancePairDataMap);
         }
     }
 }

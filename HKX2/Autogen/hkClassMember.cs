@@ -16,6 +16,8 @@ namespace HKX2
     
     public class hkClassMember : IHavokObject
     {
+        public virtual uint Signature { get => 2968495897; }
+        
         public enum Type
         {
             TYPE_VOID = 0,
@@ -89,11 +91,15 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            // Implement Write
-            // Implement Write
+            s.WriteStringPointer(bw, m_name);
+            s.WriteClassPointer<hkClass>(bw, m_class);
+            s.WriteClassPointer<hkClassEnum>(bw, m_enum);
+            bw.WriteByte((byte)m_type);
+            bw.WriteByte((byte)m_subtype);
             bw.WriteInt16(m_cArraySize);
+            bw.WriteUInt16(m_flags);
             bw.WriteUInt16(m_offset);
             bw.WriteUInt64(0);
         }

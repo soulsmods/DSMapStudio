@@ -22,6 +22,8 @@ namespace HKX2
     
     public class hkaSplineCompressedAnimationTrackCompressionParams : IHavokObject
     {
+        public virtual uint Signature { get => 1122531539; }
+        
         public float m_rotationTolerance;
         public float m_translationTolerance;
         public float m_scaleTolerance;
@@ -51,7 +53,7 @@ namespace HKX2
             m_floatQuantizationType = (ScalarQuantization)br.ReadByte();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_rotationTolerance);
             bw.WriteSingle(m_translationTolerance);
@@ -61,6 +63,10 @@ namespace HKX2
             bw.WriteUInt16(m_translationDegree);
             bw.WriteUInt16(m_scaleDegree);
             bw.WriteUInt16(m_floatingDegree);
+            bw.WriteByte((byte)m_rotationQuantizationType);
+            bw.WriteByte((byte)m_translationQuantizationType);
+            bw.WriteByte((byte)m_scaleQuantizationType);
+            bw.WriteByte((byte)m_floatQuantizationType);
         }
     }
 }

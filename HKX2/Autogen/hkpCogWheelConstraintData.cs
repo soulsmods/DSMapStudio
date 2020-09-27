@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpCogWheelConstraintData : hkpConstraintData
     {
+        public override uint Signature { get => 18785234; }
+        
         public hkpCogWheelConstraintDataAtoms m_atoms;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -16,11 +18,11 @@ namespace HKX2
             m_atoms.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
-            m_atoms.Write(bw);
+            m_atoms.Write(s, bw);
         }
     }
 }

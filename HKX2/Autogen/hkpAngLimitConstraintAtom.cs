@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpAngLimitConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 29728989; }
+        
         public byte m_isEnabled;
         public byte m_limitAxis;
         public float m_minAngle;
@@ -22,9 +24,9 @@ namespace HKX2
             m_angularLimitsTauFactor = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_isEnabled);
             bw.WriteByte(m_limitAxis);
             bw.WriteSingle(m_minAngle);

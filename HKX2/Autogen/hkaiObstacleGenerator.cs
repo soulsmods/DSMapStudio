@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaiObstacleGenerator : hkReferencedObject
     {
+        public override uint Signature { get => 221806277; }
+        
         public bool m_useSpheres;
         public bool m_useBoundaries;
         public bool m_clipBoundaries;
@@ -30,15 +32,18 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteBoolean(m_useSpheres);
             bw.WriteBoolean(m_useBoundaries);
             bw.WriteBoolean(m_clipBoundaries);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteByte(0);
+            s.WriteTransform(bw, m_transform);
+            s.WriteClassArray<hkaiAvoidanceSolverSphereObstacle>(bw, m_spheres);
+            s.WriteClassArray<hkaiAvoidanceSolverBoundaryObstacle>(bw, m_boundaries);
             bw.WriteUInt64(m_userData);
             bw.WriteUInt64(0);
         }

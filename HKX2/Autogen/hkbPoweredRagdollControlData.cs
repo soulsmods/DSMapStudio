@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbPoweredRagdollControlData : IHavokObject
     {
+        public virtual uint Signature { get => 257663515; }
+        
         public float m_maxForce;
         public float m_tau;
         public float m_damping;
@@ -23,7 +25,7 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteSingle(m_maxForce);
             bw.WriteSingle(m_tau);

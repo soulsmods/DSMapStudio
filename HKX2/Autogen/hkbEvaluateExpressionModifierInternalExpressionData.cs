@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEvaluateExpressionModifierInternalExpressionData : IHavokObject
     {
+        public virtual uint Signature { get => 3093852011; }
+        
         public bool m_raisedEvent;
         public bool m_wasTrueInPreviousFrame;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_wasTrueInPreviousFrame = br.ReadBoolean();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteBoolean(m_raisedEvent);
             bw.WriteBoolean(m_wasTrueInPreviousFrame);

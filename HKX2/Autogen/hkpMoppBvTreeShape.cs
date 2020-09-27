@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpMoppBvTreeShape : hkMoppBvTreeShapeBase
     {
+        public override uint Signature { get => 1945275374; }
+        
         public hkpSingleShapeContainer m_child;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -17,10 +19,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_child.Write(bw);
+            base.Write(s, bw);
+            m_child.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
         }

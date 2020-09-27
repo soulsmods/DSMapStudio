@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCompressedMeshShapeInternalsKeyMask : hknpShapeKeyMask
     {
+        public override uint Signature { get => 2313778874; }
+        
         public hknpCompressedMeshShape m_shape;
         public List<uint> m_filter;
         
@@ -16,10 +18,11 @@ namespace HKX2
             m_filter = des.ReadUInt32Array(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hknpCompressedMeshShape>(bw, m_shape);
+            s.WriteUInt32Array(bw, m_filter);
         }
     }
 }

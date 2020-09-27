@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hkpCollidable : hkpCdBody
     {
+        public override uint Signature { get => 783215175; }
+        
         public byte m_forceCollideOntoPpu;
         public hkpTypedBroadPhaseHandle m_broadPhaseHandle;
         public float m_allowedPenetrationDepth;
@@ -37,13 +39,13 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(0);
             bw.WriteByte(m_forceCollideOntoPpu);
             bw.WriteUInt16(0);
-            m_broadPhaseHandle.Write(bw);
+            m_broadPhaseHandle.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

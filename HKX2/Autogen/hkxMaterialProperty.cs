@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxMaterialProperty : IHavokObject
     {
+        public virtual uint Signature { get => 3532989261; }
+        
         public uint m_key;
         public uint m_value;
         
@@ -15,7 +17,7 @@ namespace HKX2
             m_value = br.ReadUInt32();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
             bw.WriteUInt32(m_key);
             bw.WriteUInt32(m_value);

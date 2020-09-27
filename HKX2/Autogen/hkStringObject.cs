@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkStringObject : hkReferencedObject
     {
+        public override uint Signature { get => 564444304; }
+        
         public string m_string;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,9 +16,10 @@ namespace HKX2
             m_string = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_string);
         }
     }
 }

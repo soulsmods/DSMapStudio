@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpNamedMeshMaterial : hkpMeshMaterial
     {
+        public override uint Signature { get => 1723084273; }
+        
         public string m_name;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,11 @@ namespace HKX2
             m_name = des.ReadStringPointer(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_name);
         }
     }
 }

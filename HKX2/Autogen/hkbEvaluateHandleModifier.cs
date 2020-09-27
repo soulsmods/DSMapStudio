@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbEvaluateHandleModifier : hkbModifier
     {
+        public override uint Signature { get => 1229170552; }
+        
         public enum HandleChangeMode
         {
             HANDLE_CHANGE_MODE_ABRUPT = 0,
@@ -48,15 +50,18 @@ namespace HKX2
             br.ReadByte();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbHandle>(bw, m_handle);
+            s.WriteVector4(bw, m_handlePositionOut);
+            s.WriteQuaternion(bw, m_handleRotationOut);
             bw.WriteBoolean(m_isValidOut);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_extrapolationTimeStep);
             bw.WriteSingle(m_handleChangeSpeed);
+            bw.WriteSByte((sbyte)m_handleChangeMode);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);
             bw.WriteUInt64(0);

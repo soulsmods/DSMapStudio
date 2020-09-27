@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpDeformableAngConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 1225565180; }
+        
         public Quaternion m_offset;
         public Vector4 m_yieldStrengthDiag;
         public Vector4 m_yieldStrengthOffDiag;
@@ -25,12 +27,17 @@ namespace HKX2
             m_ultimateStrengthOffDiag = des.ReadVector4(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
             bw.WriteUInt32(0);
             bw.WriteUInt16(0);
+            s.WriteQuaternion(bw, m_offset);
+            s.WriteVector4(bw, m_yieldStrengthDiag);
+            s.WriteVector4(bw, m_yieldStrengthOffDiag);
+            s.WriteVector4(bw, m_ultimateStrengthDiag);
+            s.WriteVector4(bw, m_ultimateStrengthOffDiag);
         }
     }
 }

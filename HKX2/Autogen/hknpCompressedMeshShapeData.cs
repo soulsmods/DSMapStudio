@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpCompressedMeshShapeData : hkReferencedObject
     {
+        public override uint Signature { get => 2730359897; }
+        
         public hknpCompressedMeshShapeTree m_meshTree;
         public hkcdSimdTree m_simdTree;
         
@@ -19,11 +21,11 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_meshTree.Write(bw);
-            m_simdTree.Write(bw);
+            base.Write(s, bw);
+            m_meshTree.Write(s, bw);
+            m_simdTree.Write(s, bw);
             bw.WriteUInt64(0);
         }
     }

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbCustomTestGeneratorNestedTypesBase : hkbCustomTestGeneratorComplexTypes
     {
+        public override uint Signature { get => 1447418576; }
+        
         public hkbGenerator m_nestedTypeHkbGeneratorPtr;
         public hkbGenerator m_nestedTypeHkbGeneratorRefPtr;
         public hkbModifier m_nestedTypeHkbModifierPtr;
@@ -58,15 +60,32 @@ namespace HKX2
             m_nestedTypeArrayHkbCustomIdSelectorRefPtr = des.ReadClassPointerArray<hkbCustomIdSelector>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkbGenerator>(bw, m_nestedTypeHkbGeneratorPtr);
+            s.WriteClassPointer<hkbGenerator>(bw, m_nestedTypeHkbGeneratorRefPtr);
+            s.WriteClassPointer<hkbModifier>(bw, m_nestedTypeHkbModifierPtr);
+            s.WriteClassPointer<hkbModifier>(bw, m_nestedTypeHkbModifierRefPtr);
+            s.WriteClassPointer<hkbCustomIdSelector>(bw, m_nestedTypeHkbCustomIdSelectorPtr);
+            s.WriteClassPointer<hkbCustomIdSelector>(bw, m_nestedTypeHkbCustomIdSelectorRefPtr);
+            s.WriteBooleanArray(bw, m_nestedTypeArrayBool);
+            s.WriteBooleanArray(bw, m_nestedTypeArrayHkBool);
+            s.WriteStringPointerArray(bw, m_nestedTypeArrayCString);
+            s.WriteStringPointerArray(bw, m_nestedTypeArrayHkStringPtr);
+            s.WriteSByteArray(bw, m_nestedTypeArrayHkInt8);
+            s.WriteInt16Array(bw, m_nestedTypeArrayHkInt16);
+            s.WriteInt32Array(bw, m_nestedTypeArrayHkInt32);
+            s.WriteByteArray(bw, m_nestedTypeArrayHkUint8);
+            s.WriteUInt16Array(bw, m_nestedTypeArrayHkUint16);
+            s.WriteUInt32Array(bw, m_nestedTypeArrayHkUint32);
+            s.WriteSingleArray(bw, m_nestedTypeArrayHkReal);
+            s.WriteClassPointerArray<hkbGenerator>(bw, m_nestedTypeArrayHkbGeneratorPtr);
+            s.WriteClassPointerArray<hkbGenerator>(bw, m_nestedTypeArrayHkbGeneratorRefPtr);
+            s.WriteClassPointerArray<hkbModifier>(bw, m_nestedTypeArrayHkbModifierPtr);
+            s.WriteClassPointerArray<hkbModifier>(bw, m_nestedTypeArrayHkbModifierRefPtr);
+            s.WriteClassPointerArray<hkbCustomIdSelector>(bw, m_nestedTypeArrayHkbCustomIdSelectorPtr);
+            s.WriteClassPointerArray<hkbCustomIdSelector>(bw, m_nestedTypeArrayHkbCustomIdSelectorRefPtr);
         }
     }
 }

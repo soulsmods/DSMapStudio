@@ -14,6 +14,8 @@ namespace HKX2
     
     public class hclVertexSelectionInput : IHavokObject
     {
+        public virtual uint Signature { get => 1167178747; }
+        
         public VertexSelectionType m_type;
         public string m_channelName;
         
@@ -24,9 +26,11 @@ namespace HKX2
             m_channelName = des.ReadStringPointer(br);
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            bw.WriteUInt32((uint)m_type);
             bw.WriteUInt32(0);
+            s.WriteStringPointer(bw, m_channelName);
         }
     }
 }

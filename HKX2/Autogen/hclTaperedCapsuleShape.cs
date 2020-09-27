@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclTaperedCapsuleShape : hclShape
     {
+        public override uint Signature { get => 3752169249; }
+        
         public Vector4 m_small;
         public Vector4 m_big;
         public Vector4 m_coneApex;
@@ -43,10 +45,17 @@ namespace HKX2
             m_tanThetaSqr = br.ReadSingle();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(0);
+            s.WriteVector4(bw, m_small);
+            s.WriteVector4(bw, m_big);
+            s.WriteVector4(bw, m_coneApex);
+            s.WriteVector4(bw, m_coneAxis);
+            s.WriteVector4(bw, m_lVec);
+            s.WriteVector4(bw, m_dVec);
+            s.WriteVector4(bw, m_tanThetaVecNeg);
             bw.WriteSingle(m_smallRadius);
             bw.WriteSingle(m_bigRadius);
             bw.WriteSingle(m_l);

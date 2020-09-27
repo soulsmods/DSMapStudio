@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkaInterleavedUncompressedAnimation : hkaAnimation
     {
+        public override uint Signature { get => 2783966194; }
+        
         public List<Matrix4x4> m_transforms;
         public List<float> m_floats;
         
@@ -16,9 +18,11 @@ namespace HKX2
             m_floats = des.ReadSingleArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteQSTransformArray(bw, m_transforms);
+            s.WriteSingleArray(bw, m_floats);
         }
     }
 }

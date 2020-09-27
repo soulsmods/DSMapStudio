@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkxSparselyAnimatedEnum : hkxSparselyAnimatedInt
     {
+        public override uint Signature { get => 1214579830; }
+        
         public hkxEnum m_enum;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -14,10 +16,10 @@ namespace HKX2
             m_enum = des.ReadClassPointer<hkxEnum>(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            // Implement Write
+            base.Write(s, bw);
+            s.WriteClassPointer<hkxEnum>(bw, m_enum);
         }
     }
 }

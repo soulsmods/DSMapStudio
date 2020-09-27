@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hknpRefMaterial : hkReferencedObject
     {
+        public override uint Signature { get => 3627639183; }
+        
         public hknpMaterial m_material;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -15,10 +17,10 @@ namespace HKX2
             m_material.Read(des, br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
-            m_material.Write(bw);
+            base.Write(s, bw);
+            m_material.Write(s, bw);
         }
     }
 }

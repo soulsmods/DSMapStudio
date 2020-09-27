@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hclVolumeConstraintMxFrameSingleData : IHavokObject
     {
+        public virtual uint Signature { get => 2867475255; }
+        
         public Vector4 m_frameVector;
         public ushort m_particleIndex;
         public float m_weight;
@@ -19,8 +21,9 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public virtual void Write(BinaryWriterEx bw)
+        public virtual void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
+            s.WriteVector4(bw, m_frameVector);
             bw.WriteUInt16(m_particleIndex);
             bw.WriteUInt16(0);
             bw.WriteSingle(m_weight);

@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbRaiseEventCommand : hkReferencedObject
     {
+        public override uint Signature { get => 3354722925; }
+        
         public ulong m_characterId;
         public bool m_global;
         public int m_externalId;
@@ -20,9 +22,9 @@ namespace HKX2
             m_externalId = br.ReadInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteUInt64(m_characterId);
             bw.WriteBoolean(m_global);
             bw.WriteUInt16(0);

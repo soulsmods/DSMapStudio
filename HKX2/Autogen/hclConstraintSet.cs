@@ -11,6 +11,8 @@ namespace HKX2
     
     public class hclConstraintSet : hkReferencedObject
     {
+        public override uint Signature { get => 789956651; }
+        
         public string m_name;
         
         public override void Read(PackFileDeserializer des, BinaryReaderEx br)
@@ -20,9 +22,10 @@ namespace HKX2
             br.ReadUInt64();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteStringPointer(bw, m_name);
             bw.WriteUInt64(0);
         }
     }

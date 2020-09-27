@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkbClientCharacterState : hkReferencedObject
     {
+        public override uint Signature { get => 77299067; }
+        
         public List<ulong> m_deformableSkinIds;
         public List<ulong> m_rigidSkinIds;
         public List<short> m_externalEventIds;
@@ -56,19 +58,33 @@ namespace HKX2
             m_rigidAttachmentTransforms = des.ReadQSTransformArray(br);
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
+            s.WriteUInt64Array(bw, m_deformableSkinIds);
+            s.WriteUInt64Array(bw, m_rigidSkinIds);
+            s.WriteInt16Array(bw, m_externalEventIds);
+            s.WriteClassPointerArray<hkbAuxiliaryNodeInfo>(bw, m_auxiliaryInfo);
+            s.WriteInt16Array(bw, m_activeEventIds);
+            s.WriteInt16Array(bw, m_activeVariableIds);
             bw.WriteUInt64(m_characterId);
-            // Implement Write
-            // Implement Write
+            s.WriteStringPointer(bw, m_instanceName);
+            s.WriteStringPointer(bw, m_templateName);
+            s.WriteStringPointer(bw, m_fullPathToProject);
+            s.WriteStringPointer(bw, m_localScriptsPath);
+            s.WriteStringPointer(bw, m_remoteScriptsPath);
+            s.WriteClassPointer<hkbBehaviorGraphData>(bw, m_behaviorData);
+            s.WriteClassPointer<hkbBehaviorGraphInternalState>(bw, m_behaviorInternalState);
             bw.WriteUInt64(0);
             bw.WriteBoolean(m_visible);
             bw.WriteUInt16(0);
             bw.WriteByte(0);
             bw.WriteSingle(m_elapsedSimulationTime);
-            // Implement Write
+            s.WriteClassPointer<hkaSkeleton>(bw, m_skeleton);
             bw.WriteUInt64(0);
+            s.WriteQSTransform(bw, m_worldFromModel);
+            s.WriteQSTransformArray(bw, m_poseModelSpace);
+            s.WriteQSTransformArray(bw, m_rigidAttachmentTransforms);
         }
     }
 }

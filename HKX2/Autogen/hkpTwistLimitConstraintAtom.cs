@@ -6,6 +6,8 @@ namespace HKX2
 {
     public class hkpTwistLimitConstraintAtom : hkpConstraintAtom
     {
+        public override uint Signature { get => 3666936433; }
+        
         public byte m_isEnabled;
         public byte m_twistAxis;
         public byte m_refAxis;
@@ -28,9 +30,9 @@ namespace HKX2
             br.ReadUInt32();
         }
         
-        public override void Write(BinaryWriterEx bw)
+        public override void Write(PackFileSerializer s, BinaryWriterEx bw)
         {
-            base.Write(bw);
+            base.Write(s, bw);
             bw.WriteByte(m_isEnabled);
             bw.WriteByte(m_twistAxis);
             bw.WriteByte(m_refAxis);
