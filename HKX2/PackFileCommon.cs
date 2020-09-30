@@ -6,6 +6,15 @@ using System.Text;
 
 namespace HKX2
 {
+    public enum HKXVariation
+    {
+        HKXDeS,
+        HKXDS1,
+        HKXDS2,
+        HKXDS3,
+        HKXBloodBorne,
+        HKXBotwSwitch,
+    };
     internal class HKXHeader
     {
         public uint Magic0;
@@ -193,7 +202,7 @@ namespace HKX2
 
         }
 
-        internal HKXSection(BinaryReaderEx br, HKX.HKXVariation variation)
+        internal HKXSection(BinaryReaderEx br, HKXVariation variation)
         {
             SectionTag = br.ReadFixStr(19);
             br.AssertByte(0xFF);
@@ -255,7 +264,7 @@ namespace HKX2
             }
             br.StepOut();
 
-            if (variation == HKX.HKXVariation.HKXBloodBorne || variation == HKX.HKXVariation.HKXDS3)
+            if (variation == HKXVariation.HKXBloodBorne || variation == HKXVariation.HKXDS3)
             {
                 br.AssertUInt32(0xFFFFFFFF);
                 br.AssertUInt32(0xFFFFFFFF);

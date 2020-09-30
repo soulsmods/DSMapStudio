@@ -11,7 +11,7 @@ namespace HKX2
         PPIV_RESULT_INVALID_PATH = 2,
     }
     
-    public class hkaiEdgePath : hkReferencedObject
+    public partial class hkaiEdgePath : hkReferencedObject
     {
         public override uint Signature { get => 1514736363; }
         

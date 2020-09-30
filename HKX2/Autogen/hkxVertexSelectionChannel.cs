@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkxVertexSelectionChannel : hkReferencedObject
+    public partial class hkxVertexSelectionChannel : hkReferencedObject
     {
         public override uint Signature { get => 606589984; }
         

@@ -16,7 +16,7 @@ namespace HKX2
         SEARCH_HIERARCHICAL = 1,
     }
     
-    public class hkaiSearchParametersBufferSizes : IHavokObject
+    public partial class hkaiSearchParametersBufferSizes : IHavokObject
     {
         public virtual uint Signature { get => 2032672048; }
         

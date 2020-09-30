@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiOverlapManagerSection : IHavokObject
+    public partial class hkaiOverlapManagerSection : IHavokObject
     {
         public virtual uint Signature { get => 2964939145; }
         

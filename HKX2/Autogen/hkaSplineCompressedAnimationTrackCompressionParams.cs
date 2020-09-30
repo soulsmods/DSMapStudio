@@ -20,7 +20,7 @@ namespace HKX2
         BITS16 = 1,
     }
     
-    public class hkaSplineCompressedAnimationTrackCompressionParams : IHavokObject
+    public partial class hkaSplineCompressedAnimationTrackCompressionParams : IHavokObject
     {
         public virtual uint Signature { get => 1122531539; }
         

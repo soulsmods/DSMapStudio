@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiSearchParametersSearchBuffers : IHavokObject
+    public partial class hkaiSearchParametersSearchBuffers : IHavokObject
     {
         public virtual uint Signature { get => 1281450916; }
         

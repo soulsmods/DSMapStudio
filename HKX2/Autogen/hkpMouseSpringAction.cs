@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpMouseSpringAction : hkpUnaryAction
+    public partial class hkpMouseSpringAction : hkpUnaryAction
     {
         public override uint Signature { get => 1614144929; }
         

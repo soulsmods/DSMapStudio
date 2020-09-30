@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpBreakableBody : hkReferencedObject
+    public partial class hkpBreakableBody : hkReferencedObject
     {
         public override uint Signature { get => 2470556408; }
         

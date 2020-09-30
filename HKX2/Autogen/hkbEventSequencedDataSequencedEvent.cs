@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbEventSequencedDataSequencedEvent : IHavokObject
+    public partial class hkbEventSequencedDataSequencedEvent : IHavokObject
     {
         public virtual uint Signature { get => 2436479009; }
         

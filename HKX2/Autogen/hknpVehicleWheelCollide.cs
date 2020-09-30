@@ -16,7 +16,7 @@ namespace HKX2
         USER_WHEEL_COLLIDE5 = 7,
     }
     
-    public class hknpVehicleWheelCollide : hkReferencedObject
+    public partial class hknpVehicleWheelCollide : hkReferencedObject
     {
         public override uint Signature { get => 587024455; }
         

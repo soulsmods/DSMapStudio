@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbEventRangeDataArray : hkReferencedObject
+    public partial class hkbEventRangeDataArray : hkReferencedObject
     {
         public override uint Signature { get => 2203069485; }
         

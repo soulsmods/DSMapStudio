@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbHandIkDriverInfoHand : IHavokObject
+    public partial class hkbHandIkDriverInfoHand : IHavokObject
     {
         public virtual uint Signature { get => 350216669; }
         

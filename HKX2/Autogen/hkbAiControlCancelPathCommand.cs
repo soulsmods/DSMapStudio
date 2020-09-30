@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbAiControlCancelPathCommand : hkReferencedObject
+    public partial class hkbAiControlCancelPathCommand : hkReferencedObject
     {
         public override uint Signature { get => 3409694515; }
         

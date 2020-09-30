@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkxSplineControlPoint : IHavokObject
+    public partial class hkxSplineControlPoint : IHavokObject
     {
         public virtual uint Signature { get => 2963473576; }
         

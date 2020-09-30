@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiPathfindingUtilFindGraphPathInput : IHavokObject
+    public partial class hkaiPathfindingUtilFindGraphPathInput : IHavokObject
     {
         public virtual uint Signature { get => 1733647340; }
         

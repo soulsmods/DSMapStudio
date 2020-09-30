@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpHingeConstraintDataAtoms : IHavokObject
+    public partial class hkpHingeConstraintDataAtoms : IHavokObject
     {
         public virtual uint Signature { get => 527386631; }
         

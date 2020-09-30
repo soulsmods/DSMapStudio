@@ -17,7 +17,7 @@ namespace HKX2
         UPDATE = 2,
     }
     
-    public class CustomManualSelectorGenerator : hkbGenerator
+    public partial class CustomManualSelectorGenerator : hkbGenerator
     {
         public override uint Signature { get => 4285204516; }
         

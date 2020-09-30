@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpMotionPropertiesLibrary : hkReferencedObject
+    public partial class hknpMotionPropertiesLibrary : hkReferencedObject
     {
         public override uint Signature { get => 3241278065; }
         

@@ -10,7 +10,7 @@ namespace HKX2
         USE_WORLD_SPACE = 1,
     }
     
-    public class hknpSurfaceVelocity : hkReferencedObject
+    public partial class hknpSurfaceVelocity : hkReferencedObject
     {
         public override uint Signature { get => 157616747; }
         

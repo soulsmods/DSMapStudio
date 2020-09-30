@@ -10,7 +10,7 @@ namespace HKX2
         HK_RETARGETING_MAPPING = 1,
     }
     
-    public class hkaSkeletonMapperData : IHavokObject
+    public partial class hkaSkeletonMapperData : IHavokObject
     {
         public virtual uint Signature { get => 1040869373; }
         

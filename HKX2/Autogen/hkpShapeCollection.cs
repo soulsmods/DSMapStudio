@@ -16,7 +16,7 @@ namespace HKX2
         COLLECTION_MAX = 7,
     }
     
-    public class hkpShapeCollection : hkpShape
+    public partial class hkpShapeCollection : hkpShape
     {
         public override uint Signature { get => 154959627; }
         

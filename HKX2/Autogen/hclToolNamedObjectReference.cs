@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclToolNamedObjectReference : IHavokObject
+    public partial class hclToolNamedObjectReference : IHavokObject
     {
         public virtual uint Signature { get => 3490533769; }
         

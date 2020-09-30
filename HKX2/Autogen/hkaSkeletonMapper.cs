@@ -11,7 +11,7 @@ namespace HKX2
         CURRENT_POSE = 2,
     }
     
-    public class hkaSkeletonMapper : hkReferencedObject
+    public partial class hkaSkeletonMapper : hkReferencedObject
     {
         public override uint Signature { get => 2900984988; }
         

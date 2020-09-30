@@ -10,7 +10,7 @@ namespace HKX2
         CALLBACK_FACE = 1,
     }
     
-    public class hkaiPathfindingUtil : IHavokObject
+    public partial class hkaiPathfindingUtil : IHavokObject
     {
         public virtual uint Signature { get => 1857694414; }
         

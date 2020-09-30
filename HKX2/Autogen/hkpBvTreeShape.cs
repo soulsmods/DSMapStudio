@@ -14,7 +14,7 @@ namespace HKX2
         BVTREE_MAX = 5,
     }
     
-    public class hkpBvTreeShape : hkpShape
+    public partial class hkpBvTreeShape : hkpShape
     {
         public override uint Signature { get => 334912360; }
         

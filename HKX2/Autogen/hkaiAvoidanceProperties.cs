@@ -10,7 +10,7 @@ namespace HKX2
         SEARCH_FLOOD_FILL = 1,
     }
     
-    public class hkaiAvoidanceProperties : hkReferencedObject
+    public partial class hkaiAvoidanceProperties : hkReferencedObject
     {
         public override uint Signature { get => 2761548401; }
         

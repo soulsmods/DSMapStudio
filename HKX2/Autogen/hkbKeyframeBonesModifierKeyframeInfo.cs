@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbKeyframeBonesModifierKeyframeInfo : IHavokObject
+    public partial class hkbKeyframeBonesModifierKeyframeInfo : IHavokObject
     {
         public virtual uint Signature { get => 1927198630; }
         

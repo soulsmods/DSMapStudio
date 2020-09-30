@@ -964,7 +964,7 @@ namespace HKXClassGen
                 }
             }
 
-            WriteLine("public class " + name + (cls.ParentName != null ? " : " + cls.ParentName : " : IHavokObject"));
+            WriteLine("public partial class " + name + (cls.ParentName != null ? " : " + cls.ParentName : " : IHavokObject"));
             WriteLine("{");
             PushIndent();
 

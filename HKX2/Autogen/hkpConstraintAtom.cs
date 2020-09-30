@@ -62,7 +62,7 @@ namespace HKX2
         METHOD_OLD = 1,
     }
     
-    public class hkpConstraintAtom : IHavokObject
+    public partial class hkpConstraintAtom : IHavokObject
     {
         public virtual uint Signature { get => 3241323807; }
         

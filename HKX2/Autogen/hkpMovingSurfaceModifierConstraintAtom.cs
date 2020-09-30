@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpMovingSurfaceModifierConstraintAtom : hkpModifierConstraintAtom
+    public partial class hkpMovingSurfaceModifierConstraintAtom : hkpModifierConstraintAtom
     {
         public override uint Signature { get => 3616911747; }
         

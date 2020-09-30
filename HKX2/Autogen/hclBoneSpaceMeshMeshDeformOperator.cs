@@ -11,7 +11,7 @@ namespace HKX2
         SCALE_NORMAL_INVERT = 2,
     }
     
-    public class hclBoneSpaceMeshMeshDeformOperator : hclOperator
+    public partial class hclBoneSpaceMeshMeshDeformOperator : hclOperator
     {
         public override uint Signature { get => 2790841359; }
         

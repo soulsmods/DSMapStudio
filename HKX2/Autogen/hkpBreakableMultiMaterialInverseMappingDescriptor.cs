@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpBreakableMultiMaterialInverseMappingDescriptor : IHavokObject
+    public partial class hkpBreakableMultiMaterialInverseMappingDescriptor : IHavokObject
     {
         public virtual uint Signature { get => 11198310; }
         

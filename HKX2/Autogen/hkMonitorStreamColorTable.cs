@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMonitorStreamColorTable : hkReferencedObject
+    public partial class hkMonitorStreamColorTable : hkReferencedObject
     {
         public override uint Signature { get => 2650983547; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpWheelFrictionConstraintData : hkpConstraintData
+    public partial class hkpWheelFrictionConstraintData : hkpConstraintData
     {
         public override uint Signature { get => 2572814460; }
         

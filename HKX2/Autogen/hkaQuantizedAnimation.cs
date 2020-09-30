@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaQuantizedAnimation : hkaAnimation
+    public partial class hkaQuantizedAnimation : hkaAnimation
     {
         public override uint Signature { get => 827906510; }
         

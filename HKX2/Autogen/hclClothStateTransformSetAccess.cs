@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclClothStateTransformSetAccess : IHavokObject
+    public partial class hclClothStateTransformSetAccess : IHavokObject
     {
         public virtual uint Signature { get => 45534125; }
         

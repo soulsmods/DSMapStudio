@@ -13,7 +13,7 @@ namespace HKX2
         ATTACHMENT_TYPE_NONE = 4,
     }
     
-    public class hkbAttachmentSetup : hkReferencedObject
+    public partial class hkbAttachmentSetup : hkReferencedObject
     {
         public override uint Signature { get => 3482710003; }
         

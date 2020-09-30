@@ -53,7 +53,7 @@ namespace HKX2
         SHARING_MIXTURE = 2,
     }
     
-    public class hkVertexFormat : IHavokObject
+    public partial class hkVertexFormat : IHavokObject
     {
         public virtual uint Signature { get => 4045291511; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclStorageSetupMeshSectionSectionEdgeSelectionChannel : hkReferencedObject
+    public partial class hclStorageSetupMeshSectionSectionEdgeSelectionChannel : hkReferencedObject
     {
         public override uint Signature { get => 1016706522; }
         

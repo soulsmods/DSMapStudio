@@ -14,7 +14,23 @@ namespace HKX2ReadWrite
             {
                 BinaryReaderEx br = new BinaryReaderEx(false, stream);
                 var des = new HKX2.PackFileDeserializer();
-                var root = des.Deserialize(br);
+                var root = (hkRootLevelContainer)des.Deserialize(br);
+
+                // Strip some stuff
+                var v = (hknpPhysicsSceneData)root.m_namedVariants[0].m_variant;
+                foreach (fsnpCustomParamCompressedMeshShape s in v.m_systemDatas[0].m_referencedObjects)
+                {
+                    s.m_triangleIndexToShapeKey = null;
+                    s.m_pParam = null;
+                    s.m_edgeWeldingMap.m_primaryKeyToIndex = null;
+                    s.m_edgeWeldingMap.m_secondaryKeyMask = 0;
+                    s.m_edgeWeldingMap.m_sencondaryKeyBits = 0;
+                    s.m_edgeWeldingMap.m_valueAndSecondaryKeys = null;
+                    s.m_quadIsFlat.m_storage.m_numBits = 0;
+                    s.m_quadIsFlat.m_storage.m_words = null;
+                    s.m_triangleIsInterior.m_storage.m_numBits = 0;
+                    s.m_triangleIsInterior.m_storage.m_words = null;
+                }
 
                 using (FileStream s2 = File.Create(hkxpath + ".out"))
                 {

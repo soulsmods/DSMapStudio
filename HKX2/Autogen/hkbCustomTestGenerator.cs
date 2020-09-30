@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbCustomTestGenerator : hkbCustomTestGeneratorAnnotatedTypes
+    public partial class hkbCustomTestGenerator : hkbCustomTestGeneratorAnnotatedTypes
     {
         public override uint Signature { get => 1252436108; }
         

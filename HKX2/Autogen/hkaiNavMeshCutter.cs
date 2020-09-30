@@ -17,7 +17,7 @@ namespace HKX2
         GATHER_BOUNDARY_EDGES = 1,
     }
     
-    public class hkaiNavMeshCutter : hkReferencedObject
+    public partial class hkaiNavMeshCutter : hkReferencedObject
     {
         public override uint Signature { get => 2420968626; }
         

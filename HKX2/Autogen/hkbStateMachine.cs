@@ -19,7 +19,7 @@ namespace HKX2
         SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE = 2,
     }
     
-    public class hkbStateMachine : hkbGenerator
+    public partial class hkbStateMachine : hkbGenerator
     {
         public override uint Signature { get => 3777107537; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiOverlapManagerSectionGeneratorData : hkReferencedObject
+    public partial class hkaiOverlapManagerSectionGeneratorData : hkReferencedObject
     {
         public override uint Signature { get => 1740166900; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMemoryMeshShape : hkMeshShape
+    public partial class hkMemoryMeshShape : hkMeshShape
     {
         public override uint Signature { get => 3507054650; }
         

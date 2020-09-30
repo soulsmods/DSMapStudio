@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclStretchLinkConstraintSetMxBatch : IHavokObject
+    public partial class hclStretchLinkConstraintSetMxBatch : IHavokObject
     {
         public virtual uint Signature { get => 3273070734; }
         

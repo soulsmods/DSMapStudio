@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkLocalFrameGroup : hkReferencedObject
+    public partial class hkLocalFrameGroup : hkReferencedObject
     {
         public override uint Signature { get => 1103010746; }
         

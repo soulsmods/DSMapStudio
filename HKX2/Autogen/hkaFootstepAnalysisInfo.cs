@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaFootstepAnalysisInfo : hkReferencedObject
+    public partial class hkaFootstepAnalysisInfo : hkReferencedObject
     {
         public override uint Signature { get => 2463109047; }
         

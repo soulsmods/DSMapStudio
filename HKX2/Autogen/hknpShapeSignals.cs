@@ -11,7 +11,7 @@ namespace HKX2
         MUTATION_REBUILD_COLLISION_CACHES = 4,
     }
     
-    public class hknpShapeSignals : IHavokObject
+    public partial class hknpShapeSignals : IHavokObject
     {
         public virtual uint Signature { get => 3247174980; }
         

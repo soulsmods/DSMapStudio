@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdDynamicTreeCodecRawUlong : hkcdDynamicTreeCodecRawunsignedlong
+    public partial class hkcdDynamicTreeCodecRawUlong : hkcdDynamicTreeCodecRawunsignedlong
     {
         public override uint Signature { get => 3111138945; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbStateChooserWrapper : hkbCustomIdSelector
+    public partial class hkbStateChooserWrapper : hkbCustomIdSelector
     {
         public override uint Signature { get => 3884430078; }
         

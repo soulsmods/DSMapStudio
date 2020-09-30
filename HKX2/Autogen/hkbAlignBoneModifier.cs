@@ -18,7 +18,7 @@ namespace HKX2
         ALIGN_TARGET_MODE_USER_SPECIFIED_FRAME_OF_REFERENCE = 3,
     }
     
-    public class hkbAlignBoneModifier : hkbModifier
+    public partial class hkbAlignBoneModifier : hkbModifier
     {
         public override uint Signature { get => 2587847552; }
         

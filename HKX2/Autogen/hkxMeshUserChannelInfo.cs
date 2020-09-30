@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkxMeshUserChannelInfo : hkxAttributeHolder
+    public partial class hkxMeshUserChannelInfo : hkxAttributeHolder
     {
         public override uint Signature { get => 2731058033; }
         

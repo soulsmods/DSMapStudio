@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiStreamingSetVolumeConnection : IHavokObject
+    public partial class hkaiStreamingSetVolumeConnection : IHavokObject
     {
         public virtual uint Signature { get => 280354873; }
         

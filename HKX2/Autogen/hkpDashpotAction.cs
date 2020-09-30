@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpDashpotAction : hkpBinaryAction
+    public partial class hkpDashpotAction : hkpBinaryAction
     {
         public override uint Signature { get => 2898892615; }
         

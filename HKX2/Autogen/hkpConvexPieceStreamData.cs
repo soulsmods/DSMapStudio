@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpConvexPieceStreamData : hkReferencedObject
+    public partial class hkpConvexPieceStreamData : hkReferencedObject
     {
         public override uint Signature { get => 968978824; }
         

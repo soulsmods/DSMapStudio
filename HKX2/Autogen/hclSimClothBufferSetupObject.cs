@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclSimClothBufferSetupObject : hclBufferSetupObject
+    public partial class hclSimClothBufferSetupObject : hclBufferSetupObject
     {
         public override uint Signature { get => 2674559147; }
         

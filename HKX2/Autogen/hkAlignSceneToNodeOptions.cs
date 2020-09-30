@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkAlignSceneToNodeOptions : hkReferencedObject
+    public partial class hkAlignSceneToNodeOptions : hkReferencedObject
     {
         public override uint Signature { get => 2764685286; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBlendSomeVerticesOperatorBlendEntry : IHavokObject
+    public partial class hclBlendSomeVerticesOperatorBlendEntry : IHavokObject
     {
         public virtual uint Signature { get => 2771973260; }
         

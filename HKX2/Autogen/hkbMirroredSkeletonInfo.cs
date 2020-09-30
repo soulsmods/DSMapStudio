@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbMirroredSkeletonInfo : hkReferencedObject
+    public partial class hkbMirroredSkeletonInfo : hkReferencedObject
     {
         public override uint Signature { get => 2668823854; }
         

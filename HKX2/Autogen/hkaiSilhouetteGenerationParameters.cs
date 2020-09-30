@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiSilhouetteGenerationParameters : IHavokObject
+    public partial class hkaiSilhouetteGenerationParameters : IHavokObject
     {
         public virtual uint Signature { get => 2282972156; }
         

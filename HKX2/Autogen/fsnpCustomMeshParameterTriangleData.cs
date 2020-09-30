@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class fsnpCustomMeshParameterTriangleData : IHavokObject
+    public partial class fsnpCustomMeshParameterTriangleData : IHavokObject
     {
         public virtual uint Signature { get => 3419166696; }
         

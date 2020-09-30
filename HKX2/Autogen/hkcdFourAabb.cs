@@ -14,7 +14,7 @@ namespace HKX2
         Z_MAX = 5,
     }
     
-    public class hkcdFourAabb : IHavokObject
+    public partial class hkcdFourAabb : IHavokObject
     {
         public virtual uint Signature { get => 2912663281; }
         

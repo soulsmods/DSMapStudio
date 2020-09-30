@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleSuspension : hkReferencedObject
+    public partial class hknpVehicleSuspension : hkReferencedObject
     {
         public override uint Signature { get => 191844318; }
         

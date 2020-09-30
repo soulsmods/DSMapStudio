@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpSpringAction : hkpBinaryAction
+    public partial class hkpSpringAction : hkpBinaryAction
     {
         public override uint Signature { get => 97905774; }
         

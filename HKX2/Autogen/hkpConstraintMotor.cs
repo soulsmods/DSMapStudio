@@ -14,7 +14,7 @@ namespace HKX2
         TYPE_MAX = 5,
     }
     
-    public class hkpConstraintMotor : hkReferencedObject
+    public partial class hkpConstraintMotor : hkReferencedObject
     {
         public override uint Signature { get => 3294932557; }
         

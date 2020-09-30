@@ -12,7 +12,7 @@ namespace HKX2
         CUSTOM = 3,
     }
     
-    public class hkxSpline : hkReferencedObject
+    public partial class hkxSpline : hkReferencedObject
     {
         public override uint Signature { get => 1523860306; }
         

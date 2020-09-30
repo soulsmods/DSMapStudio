@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdStaticMeshTreeBaseSectionSharedVertices : IHavokObject
+    public partial class hkcdStaticMeshTreeBaseSectionSharedVertices : IHavokObject
     {
         public virtual uint Signature { get => 727890741; }
         

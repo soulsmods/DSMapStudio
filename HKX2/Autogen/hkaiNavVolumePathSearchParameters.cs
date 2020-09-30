@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiNavVolumePathSearchParameters : IHavokObject
+    public partial class hkaiNavVolumePathSearchParameters : IHavokObject
     {
         public virtual uint Signature { get => 304199519; }
         

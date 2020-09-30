@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpCompressedMeshShapeConvexPiece : IHavokObject
+    public partial class hkpCompressedMeshShapeConvexPiece : IHavokObject
     {
         public virtual uint Signature { get => 1114430838; }
         

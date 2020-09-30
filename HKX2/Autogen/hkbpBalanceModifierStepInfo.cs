@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbpBalanceModifierStepInfo : IHavokObject
+    public partial class hkbpBalanceModifierStepInfo : IHavokObject
     {
         public virtual uint Signature { get => 2807684598; }
         

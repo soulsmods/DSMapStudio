@@ -12,7 +12,7 @@ namespace HKX2
         CONTACT_IS_DISABLED = 8,
     }
     
-    public class hkContactPointMaterial : IHavokObject
+    public partial class hkContactPointMaterial : IHavokObject
     {
         public virtual uint Signature { get => 1529891900; }
         

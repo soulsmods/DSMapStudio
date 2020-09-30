@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiNavVolumePathRequestInfo : hkReferencedObject
+    public partial class hkaiNavVolumePathRequestInfo : hkReferencedObject
     {
         public override uint Signature { get => 118576998; }
         

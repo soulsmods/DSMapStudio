@@ -10,7 +10,7 @@ namespace HKX2
         ZERO_WHEN_VECTORS_PERPENDICULAR = 1,
     }
     
-    public class hkpConeLimitConstraintAtom : hkpConstraintAtom
+    public partial class hkpConeLimitConstraintAtom : hkpConstraintAtom
     {
         public override uint Signature { get => 362718665; }
         

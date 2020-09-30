@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpCharacterProxyCinfo : hkpCharacterControllerCinfo
+    public partial class hkpCharacterProxyCinfo : hkpCharacterControllerCinfo
     {
         public override uint Signature { get => 3408002903; }
         

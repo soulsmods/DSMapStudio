@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbSetWordVariableCommand : hkReferencedObject
+    public partial class hkbSetWordVariableCommand : hkReferencedObject
     {
         public override uint Signature { get => 4274729204; }
         

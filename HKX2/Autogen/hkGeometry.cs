@@ -10,7 +10,7 @@ namespace HKX2
         GEOMETRY_DYNAMIC_VERTICES = 1,
     }
     
-    public class hkGeometry : hkReferencedObject
+    public partial class hkGeometry : hkReferencedObject
     {
         public override uint Signature { get => 807117540; }
         

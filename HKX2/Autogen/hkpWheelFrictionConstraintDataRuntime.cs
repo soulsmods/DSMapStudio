@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpWheelFrictionConstraintDataRuntime : IHavokObject
+    public partial class hkpWheelFrictionConstraintDataRuntime : IHavokObject
     {
         public virtual uint Signature { get => 2077607535; }
         

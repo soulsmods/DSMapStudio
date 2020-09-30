@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaMeshBindingMapping : IHavokObject
+    public partial class hkaMeshBindingMapping : IHavokObject
     {
         public virtual uint Signature { get => 1219292021; }
         

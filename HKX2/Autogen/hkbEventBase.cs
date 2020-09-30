@@ -9,7 +9,7 @@ namespace HKX2
         EVENT_ID_NULL = -1,
     }
     
-    public class hkbEventBase : IHavokObject
+    public partial class hkbEventBase : IHavokObject
     {
         public virtual uint Signature { get => 1992153905; }
         

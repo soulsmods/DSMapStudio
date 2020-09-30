@@ -15,7 +15,7 @@ namespace HKX2
         NOT_CUT_EDGE = 65535,
     }
     
-    public class hkaiNavMeshInstance : hkReferencedObject
+    public partial class hkaiNavMeshInstance : hkReferencedObject
     {
         public override uint Signature { get => 3427274754; }
         

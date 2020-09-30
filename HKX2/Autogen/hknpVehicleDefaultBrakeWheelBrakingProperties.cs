@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleDefaultBrakeWheelBrakingProperties : IHavokObject
+    public partial class hknpVehicleDefaultBrakeWheelBrakingProperties : IHavokObject
     {
         public virtual uint Signature { get => 536533361; }
         

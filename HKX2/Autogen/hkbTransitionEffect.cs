@@ -20,7 +20,7 @@ namespace HKX2
         EVENT_MODE_IGNORE_TO_GENERATOR = 3,
     }
     
-    public class hkbTransitionEffect : hkbGenerator
+    public partial class hkbTransitionEffect : hkbGenerator
     {
         public override uint Signature { get => 3970553188; }
         

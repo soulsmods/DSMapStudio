@@ -18,7 +18,7 @@ namespace HKX2
         COLLECTION_AGENT3 = 9,
     }
     
-    public class hkpSerializedAgentNnEntry : hkReferencedObject
+    public partial class hkpSerializedAgentNnEntry : hkReferencedObject
     {
         public override uint Signature { get => 1259595383; }
         

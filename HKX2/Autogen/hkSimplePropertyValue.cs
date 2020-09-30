@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkSimplePropertyValue : IHavokObject
+    public partial class hkSimplePropertyValue : IHavokObject
     {
         public virtual uint Signature { get => 3344508330; }
         

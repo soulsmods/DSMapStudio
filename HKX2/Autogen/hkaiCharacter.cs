@@ -31,7 +31,7 @@ namespace HKX2
         AVOIDANCE_FAILURE = 1,
     }
     
-    public class hkaiCharacter : hkReferencedObject
+    public partial class hkaiCharacter : hkReferencedObject
     {
         public override uint Signature { get => 518893446; }
         

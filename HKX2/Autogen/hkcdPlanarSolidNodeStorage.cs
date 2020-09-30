@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdPlanarSolidNodeStorage : hkReferencedObject
+    public partial class hkcdPlanarSolidNodeStorage : hkReferencedObject
     {
         public override uint Signature { get => 108991865; }
         

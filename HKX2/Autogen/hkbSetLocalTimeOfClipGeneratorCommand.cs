@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbSetLocalTimeOfClipGeneratorCommand : hkReferencedObject
+    public partial class hkbSetLocalTimeOfClipGeneratorCommand : hkReferencedObject
     {
         public override uint Signature { get => 1902231015; }
         

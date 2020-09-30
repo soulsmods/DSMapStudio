@@ -11,7 +11,7 @@ namespace HKX2
         ABSOLUTE_TIME_NOT_TIMED = -1,
     }
     
-    public class hkMonitorStreamFrameInfo : IHavokObject
+    public partial class hkMonitorStreamFrameInfo : IHavokObject
     {
         public virtual uint Signature { get => 2006497243; }
         

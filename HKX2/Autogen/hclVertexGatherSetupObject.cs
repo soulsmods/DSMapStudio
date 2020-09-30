@@ -10,7 +10,7 @@ namespace HKX2
         DISPLAY_TO_SIMULATION = 1,
     }
     
-    public class hclVertexGatherSetupObject : hclOperatorSetupObject
+    public partial class hclVertexGatherSetupObject : hclOperatorSetupObject
     {
         public override uint Signature { get => 3110859757; }
         

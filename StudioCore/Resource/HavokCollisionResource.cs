@@ -7,6 +7,8 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
 using SoulsFormats;
+using System.IO;
+using HKX2;
 
 namespace StudioCore.Resource
 {
@@ -25,6 +27,7 @@ namespace StudioCore.Resource
             public BoundingBox Bounds { get; set; }
         }
         public HKX Hkx = null;
+        public HKX2.hkRootLevelContainer Hkx2 = null;
 
         public CollisionSubmesh[] GPUMeshes = null;
 
@@ -134,6 +137,18 @@ namespace StudioCore.Resource
             Vector3 trans = new Vector3(body.Position.Vector.X, body.Position.Vector.Y, body.Position.Vector.Z);
             Quaternion quat = new Quaternion(body.Orientation.Vector.X, body.Orientation.Vector.Y, body.Orientation.Vector.Z, body.Orientation.Vector.W);
             return Vector3.Transform(newVert, quat) + trans;
+        }
+
+        internal static Vector3 TransformVert(System.Numerics.Vector3 vert, HKX2.hknpBodyCinfo body)
+        {
+            var newVert = new Vector3(vert.X, vert.Y, vert.Z);
+            if (body == null)
+            {
+                return newVert;
+            }
+
+            Vector3 trans = new Vector3(body.m_position.X, body.m_position.Y, body.m_position.Z);
+            return Vector3.Transform(newVert, body.m_orientation) + trans;
         }
 
         unsafe private void ProcessMesh(HKX.FSNPCustomParamCompressedMeshShape mesh, HKX.HKNPBodyCInfo bodyinfo, CollisionSubmesh dest)
@@ -312,6 +327,186 @@ namespace StudioCore.Resource
             });
         }
 
+        unsafe private void ProcessMesh(HKX2.fsnpCustomParamCompressedMeshShape mesh, HKX2.hknpBodyCinfo bodyinfo, CollisionSubmesh dest)
+        {
+            var verts = new List<Vector3>();
+            var indices = new List<int>();
+
+            var coldata = mesh.m_data;
+            foreach (var section in coldata.m_meshTree.m_sections)
+            {
+                for (int i = 0; i < (section.m_primitives.m_data & 0xFF); i++)
+                {
+                    var tri = coldata.m_meshTree.m_primitives[i + (int)(section.m_primitives.m_data >> 8)];
+                    //if (tri.Idx2 == tri.Idx3 && tri.Idx1 != tri.Idx2)
+                    //{
+
+                    if (tri.m_indices_0 == 0xDE && tri.m_indices_1 == 0xAD && tri.m_indices_2 == 0xDE && tri.m_indices_3 == 0xAD)
+                    {
+                        continue; // Don't know what to do with this shape yet
+                    }
+
+                    uint sharedVerticesLength = section.m_sharedVertices.m_data & 0xFF;
+                    uint sharedVerticesIndex = section.m_sharedVertices.m_data >> 8;
+                    var smallVertexOffset = new Vector3(section.m_codecParms_0, section.m_codecParms_1, section.m_codecParms_2);
+                    var smallVertexScale = new Vector3(section.m_codecParms_3, section.m_codecParms_4, section.m_codecParms_5);
+                    if (tri.m_indices_0 < sharedVerticesLength)
+                    {
+                        ushort index = (ushort)((uint)tri.m_indices_0 + section.m_firstPackedVertex);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.DecompressPackedVertex(coldata.m_meshTree.m_packedVertices[index], smallVertexScale, smallVertexOffset);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+                    else
+                    {
+                        ushort index = (ushort)(coldata.m_meshTree.m_sharedVerticesIndex[(int)(tri.m_indices_0 + sharedVerticesIndex - sharedVerticesLength)]);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.DecompressSharedVertex(coldata.m_meshTree.m_sharedVertices[index], coldata.m_meshTree.m_domain.m_min, coldata.m_meshTree.m_domain.m_max);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+
+                    if (tri.m_indices_1 < sharedVerticesLength)
+                    {
+                        ushort index = (ushort)((uint)tri.m_indices_1 + section.m_firstPackedVertex);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.DecompressPackedVertex(coldata.m_meshTree.m_packedVertices[index], smallVertexScale, smallVertexOffset);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+                    else
+                    {
+                        ushort index = (ushort)(coldata.m_meshTree.m_sharedVerticesIndex[(int)(tri.m_indices_1 + sharedVerticesIndex - sharedVerticesLength)]);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.DecompressSharedVertex(coldata.m_meshTree.m_sharedVertices[index], coldata.m_meshTree.m_domain.m_min, coldata.m_meshTree.m_domain.m_max);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+
+                    if (tri.m_indices_2 < sharedVerticesLength)
+                    {
+                        ushort index = (ushort)((uint)tri.m_indices_2 + section.m_firstPackedVertex);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.DecompressPackedVertex(coldata.m_meshTree.m_packedVertices[index], smallVertexScale, smallVertexOffset);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+                    else
+                    {
+                        ushort index = (ushort)(coldata.m_meshTree.m_sharedVerticesIndex[(int)(tri.m_indices_2 + sharedVerticesIndex - sharedVerticesLength)]);
+                        indices.Add(verts.Count);
+
+                        var vert = coldata.DecompressSharedVertex(coldata.m_meshTree.m_sharedVertices[index], coldata.m_meshTree.m_domain.m_min, coldata.m_meshTree.m_domain.m_max);
+                        verts.Add(TransformVert(vert, bodyinfo));
+                    }
+
+                    if (tri.m_indices_2 != tri.m_indices_3)
+                    {
+                        indices.Add(verts.Count);
+                        verts.Add(verts[verts.Count - 3]);
+                        indices.Add(verts.Count);
+                        verts.Add(verts[verts.Count - 2]);
+                        if (tri.m_indices_3 < sharedVerticesLength)
+                        {
+                            ushort index = (ushort)((uint)tri.m_indices_3 + section.m_firstPackedVertex);
+                            indices.Add(verts.Count);
+
+                            var vert = coldata.DecompressPackedVertex(coldata.m_meshTree.m_packedVertices[index], smallVertexScale, smallVertexOffset);
+                            verts.Add(TransformVert(vert, bodyinfo));
+                        }
+                        else
+                        {
+                            ushort index = (ushort)(coldata.m_meshTree.m_sharedVerticesIndex[(int)(tri.m_indices_3 + sharedVerticesIndex - sharedVerticesLength)]);
+                            indices.Add(verts.Count);
+
+                            var vert = coldata.DecompressSharedVertex(coldata.m_meshTree.m_sharedVertices[index], coldata.m_meshTree.m_domain.m_min, coldata.m_meshTree.m_domain.m_max);
+                            verts.Add(TransformVert(vert, bodyinfo));
+                        }
+                    }
+                }
+            }
+
+            dest.PickingIndices = indices.ToArray();
+            dest.PickingVertices = verts.ToArray();
+
+            var MeshIndices = new int[indices.Count];
+            var MeshVertices = new CollisionLayout[indices.Count];
+            var factory = Scene.Renderer.Factory;
+
+            for (int i = 0; i < indices.Count; i += 3)
+            {
+                var vert1 = verts[indices[i]];
+                var vert2 = verts[indices[i + 1]];
+                var vert3 = verts[indices[i + 2]];
+
+                MeshVertices[i] = new CollisionLayout();
+                MeshVertices[i + 1] = new CollisionLayout();
+                MeshVertices[i + 2] = new CollisionLayout();
+
+                MeshVertices[i].Position = vert1;
+                MeshVertices[i + 1].Position = vert2;
+                MeshVertices[i + 2].Position = vert3;
+                var n = Vector3.Normalize(Vector3.Cross(MeshVertices[i + 2].Position - MeshVertices[i].Position, MeshVertices[i + 1].Position - MeshVertices[i].Position));
+                MeshVertices[i].Normal[0] = (sbyte)(n.X * 127.0f);
+                MeshVertices[i].Normal[1] = (sbyte)(n.Y * 127.0f);
+                MeshVertices[i].Normal[2] = (sbyte)(n.Z * 127.0f);
+                MeshVertices[i + 1].Normal[0] = (sbyte)(n.X * 127.0f);
+                MeshVertices[i + 1].Normal[1] = (sbyte)(n.Y * 127.0f);
+                MeshVertices[i + 1].Normal[2] = (sbyte)(n.Z * 127.0f);
+                MeshVertices[i + 2].Normal[0] = (sbyte)(n.X * 127.0f);
+                MeshVertices[i + 2].Normal[1] = (sbyte)(n.Y * 127.0f);
+                MeshVertices[i + 2].Normal[2] = (sbyte)(n.Z * 127.0f);
+
+                MeshVertices[i].Color[0] = (byte)(53);
+                MeshVertices[i].Color[1] = (byte)(157);
+                MeshVertices[i].Color[2] = (byte)(255);
+                MeshVertices[i].Color[3] = (byte)(255);
+                MeshVertices[i + 1].Color[0] = (byte)(53);
+                MeshVertices[i + 1].Color[1] = (byte)(157);
+                MeshVertices[i + 1].Color[2] = (byte)(255);
+                MeshVertices[i + 1].Color[3] = (byte)(255);
+                MeshVertices[i + 2].Color[0] = (byte)(53);
+                MeshVertices[i + 2].Color[1] = (byte)(157);
+                MeshVertices[i + 2].Color[2] = (byte)(255);
+                MeshVertices[i + 2].Color[3] = (byte)(255);
+                MeshVertices[i].Barycentric[0] = 0;
+                MeshVertices[i].Barycentric[1] = 0;
+                MeshVertices[i + 1].Barycentric[0] = 1;
+                MeshVertices[i + 1].Barycentric[1] = 0;
+                MeshVertices[i + 2].Barycentric[0] = 0;
+                MeshVertices[i + 2].Barycentric[1] = 1;
+
+                MeshIndices[i] = i;
+                MeshIndices[i + 1] = i + 1;
+                MeshIndices[i + 2] = i + 2;
+            }
+
+            dest.VertexCount = MeshVertices.Length;
+            dest.IndexCount = MeshIndices.Length;
+
+            uint buffersize = (uint)dest.IndexCount * 4u;
+
+            fixed (void* ptr = dest.PickingVertices)
+            {
+                dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, dest.PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+            }
+
+            uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
+
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
+            {
+                h.FillIBuffer(MeshIndices, () =>
+                {
+                    MeshIndices = null;
+                });
+                h.FillVBuffer(MeshVertices, () =>
+                {
+                    MeshVertices = null;
+                });
+            });
+        }
+
         private bool LoadInternal(AccessLevel al)
         {
             if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
@@ -389,12 +584,63 @@ namespace StudioCore.Resource
             return true;
         }
 
+        private bool LoadInternalNew(AccessLevel al)
+        {
+            if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
+            {
+                Bounds = new BoundingBox();
+                var submeshes = new List<CollisionSubmesh>();
+                bool first = true;
+                var physicsscene = (hknpPhysicsSceneData)Hkx2.m_namedVariants[0].m_variant;
+
+                foreach (var bodyInfo in physicsscene.m_systemDatas[0].m_bodyCinfos)
+                {
+                    var ncol = (HKX2.fsnpCustomParamCompressedMeshShape)bodyInfo.m_shape;
+                    try
+                    {
+                        var mesh = new CollisionSubmesh();
+                        ProcessMesh(ncol, bodyInfo, mesh);
+                        if (first)
+                        {
+                            Bounds = mesh.Bounds;
+                            first = false;
+                        }
+                        else
+                        {
+                            Bounds = BoundingBox.Combine(Bounds, mesh.Bounds);
+                        }
+                        submeshes.Add(mesh);
+                    }
+                    catch (Exception e)
+                    {
+                        // Debug failing cases later
+                    }
+                }
+
+                GPUMeshes = submeshes.ToArray();
+            }
+
+            if (al == AccessLevel.AccessGPUOptimizedOnly)
+            {
+                Hkx = null;
+            }
+            return true;
+        }
+
         bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
         {
             
             if (type == GameType.Bloodborne)
             {
                 Hkx = HKX.Read(bytes, HKX.HKXVariation.HKXBloodBorne);
+            }
+            else if (type == GameType.DarkSoulsIII)
+            {
+                DCX.Type t;
+                var decomp = DCX.Decompress(bytes, out t);
+                var br = new BinaryReaderEx(false, decomp);
+                var des = new HKX2.PackFileDeserializer();
+                Hkx2 = (hkRootLevelContainer)des.Deserialize(br);
             }
             else
             {
@@ -409,7 +655,11 @@ namespace StudioCore.Resource
             {
                 FrontFace = FrontFace.CounterClockwise;
             }
-                    
+
+            if (type == GameType.DarkSoulsIII)
+            {
+                return LoadInternalNew(al);
+            }
             return LoadInternal(al);
         }
 
@@ -418,6 +668,14 @@ namespace StudioCore.Resource
             if (type == GameType.Bloodborne)
             {
                 Hkx = HKX.Read(file, HKX.HKXVariation.HKXBloodBorne);
+            }
+            else if (type == GameType.DarkSoulsIII)
+            {
+                DCX.Type t;
+                var decomp = DCX.Decompress(file, out t);
+                var br = new BinaryReaderEx(false, decomp);
+                var des = new HKX2.PackFileDeserializer();
+                Hkx2 = (hkRootLevelContainer)des.Deserialize(br);
             }
             else
             {
@@ -431,6 +689,11 @@ namespace StudioCore.Resource
             else
             {
                 FrontFace = FrontFace.CounterClockwise;
+            }
+
+            if (type == GameType.DarkSoulsIII)
+            {
+                return LoadInternalNew(al);
             }
             return LoadInternal(al);
         }

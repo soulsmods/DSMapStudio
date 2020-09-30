@@ -17,7 +17,7 @@ namespace HKX2
         LOCAL_POINTS_CHANGED = 1,
     }
     
-    public class hkaiPointCloudSilhouetteGenerator : hkaiSilhouetteGenerator
+    public partial class hkaiPointCloudSilhouetteGenerator : hkaiSilhouetteGenerator
     {
         public override uint Signature { get => 3740816178; }
         

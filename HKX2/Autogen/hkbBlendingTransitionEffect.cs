@@ -11,7 +11,7 @@ namespace HKX2
         END_MODE_CAP_DURATION_AT_END_OF_FROM_GENERATOR = 2,
     }
     
-    public class hkbBlendingTransitionEffect : hkbTransitionEffect
+    public partial class hkbBlendingTransitionEffect : hkbTransitionEffect
     {
         public override uint Signature { get => 350571612; }
         

@@ -11,7 +11,7 @@ namespace HKX2
         ADDITIVE = 2,
     }
     
-    public class hkaAnimationBinding : hkReferencedObject
+    public partial class hkaAnimationBinding : hkReferencedObject
     {
         public override uint Signature { get => 263164240; }
         

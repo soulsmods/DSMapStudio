@@ -14,7 +14,7 @@ namespace HKX2
         COSINE_ANGLE = 5,
     }
     
-    public class hkSemanticsAttribute : IHavokObject
+    public partial class hkSemanticsAttribute : IHavokObject
     {
         public virtual uint Signature { get => 2205194691; }
         

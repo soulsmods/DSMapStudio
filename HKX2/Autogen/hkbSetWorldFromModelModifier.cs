@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbSetWorldFromModelModifier : hkbModifier
+    public partial class hkbSetWorldFromModelModifier : hkbModifier
     {
         public override uint Signature { get => 3025917183; }
         

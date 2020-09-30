@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class CustomSprjGenerator : hkbGenerator
+    public partial class CustomSprjGenerator : hkbGenerator
     {
         public override uint Signature { get => 1052243633; }
         

@@ -18,7 +18,7 @@ namespace HKX2
         SENSE_IN_GIVEN_LOCAL_FRAME_GROUP = 9,
     }
     
-    public class hkbSenseHandleModifier : hkbModifier
+    public partial class hkbSenseHandleModifier : hkbModifier
     {
         public override uint Signature { get => 1337469111; }
         

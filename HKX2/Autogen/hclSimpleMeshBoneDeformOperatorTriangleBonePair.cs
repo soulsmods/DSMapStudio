@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclSimpleMeshBoneDeformOperatorTriangleBonePair : IHavokObject
+    public partial class hclSimpleMeshBoneDeformOperatorTriangleBonePair : IHavokObject
     {
         public virtual uint Signature { get => 2799224437; }
         

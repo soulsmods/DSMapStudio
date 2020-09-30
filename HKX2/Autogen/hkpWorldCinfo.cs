@@ -19,7 +19,7 @@ namespace HKX2
         BROADPHASE_BORDER_DO_NOTHING = 3,
     }
     
-    public class hkpWorldCinfo : hkReferencedObject
+    public partial class hkpWorldCinfo : hkReferencedObject
     {
         public override uint Signature { get => 1542043532; }
         

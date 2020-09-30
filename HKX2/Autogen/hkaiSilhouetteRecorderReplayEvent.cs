@@ -16,7 +16,7 @@ namespace HKX2
         EVENT_GRAPH_UNLOADED = 7,
     }
     
-    public class hkaiSilhouetteRecorderReplayEvent : hkReferencedObject
+    public partial class hkaiSilhouetteRecorderReplayEvent : hkReferencedObject
     {
         public override uint Signature { get => 2206032283; }
         

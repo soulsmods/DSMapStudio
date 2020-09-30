@@ -10,7 +10,7 @@ namespace HKX2
         VERTEX_FLOAT_CHANNEL = 1,
     }
     
-    public class hclVertexFloatInput : IHavokObject
+    public partial class hclVertexFloatInput : IHavokObject
     {
         public virtual uint Signature { get => 4150435535; }
         

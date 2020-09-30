@@ -12,7 +12,7 @@ namespace HKX2
         EDGE_SELECTION_INVERSE_CHANNEL = 3,
     }
     
-    public class hclEdgeSelectionInput : IHavokObject
+    public partial class hclEdgeSelectionInput : IHavokObject
     {
         public virtual uint Signature { get => 2057749324; }
         

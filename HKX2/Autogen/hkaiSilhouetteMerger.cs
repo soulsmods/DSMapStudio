@@ -10,7 +10,7 @@ namespace HKX2
         UNUSED_MERGING_CONVEX_HULL = 1,
     }
     
-    public class hkaiSilhouetteMerger : hkReferencedObject
+    public partial class hkaiSilhouetteMerger : hkReferencedObject
     {
         public override uint Signature { get => 459273792; }
         

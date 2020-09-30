@@ -20,7 +20,7 @@ namespace HKX2
         PRIMITIVE_TYPE_TRIANGLE_STRIP = 4,
     }
     
-    public class hkMeshSection : IHavokObject
+    public partial class hkMeshSection : IHavokObject
     {
         public virtual uint Signature { get => 1570360411; }
         

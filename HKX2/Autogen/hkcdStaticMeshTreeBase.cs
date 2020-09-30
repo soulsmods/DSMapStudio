@@ -12,7 +12,7 @@ namespace HKX2
         CM_AUTO = 3,
     }
     
-    public class hkcdStaticMeshTreeBase : hkcdStaticTreeTreehkcdStaticTreeDynamicStorage5
+    public partial class hkcdStaticMeshTreeBase : hkcdStaticTreeTreehkcdStaticTreeDynamicStorage5
     {
         public override uint Signature { get => 4169522384; }
         

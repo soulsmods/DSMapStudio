@@ -25,7 +25,7 @@ namespace HKX2
         HCL_PLATFORM_XBOXONE = 32768,
     }
     
-    public class hclClothData : hkReferencedObject
+    public partial class hclClothData : hkReferencedObject
     {
         public override uint Signature { get => 4181970594; }
         

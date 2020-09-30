@@ -19,7 +19,7 @@ namespace HKX2
         VC_NONE = 250,
     }
     
-    public class hclRuntimeConversionInfo : IHavokObject
+    public partial class hclRuntimeConversionInfo : IHavokObject
     {
         public virtual uint Signature { get => 3815343544; }
         

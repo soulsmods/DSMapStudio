@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbpBalanceModifier : hkbModifier
+    public partial class hkbpBalanceModifier : hkbModifier
     {
         public override uint Signature { get => 648393776; }
         

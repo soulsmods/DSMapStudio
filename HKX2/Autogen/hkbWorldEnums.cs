@@ -18,7 +18,7 @@ namespace HKX2
         DO_NOT_ACCUMULATE_MOTION = 1,
     }
     
-    public class hkbWorldEnums : IHavokObject
+    public partial class hkbWorldEnums : IHavokObject
     {
         public virtual uint Signature { get => 627313478; }
         

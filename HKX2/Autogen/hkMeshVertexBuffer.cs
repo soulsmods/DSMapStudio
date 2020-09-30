@@ -11,7 +11,7 @@ namespace HKX2
         RESULT_IN_USE = 2,
     }
     
-    public class hkMeshVertexBuffer : hkReferencedObject
+    public partial class hkMeshVertexBuffer : hkReferencedObject
     {
         public override uint Signature { get => 444511801; }
         

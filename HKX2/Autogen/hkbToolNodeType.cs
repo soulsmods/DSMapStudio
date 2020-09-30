@@ -17,7 +17,7 @@ namespace HKX2
         NODE_TYPE_BEHAVIOR_FILE_REFERENCE = 128,
     }
     
-    public class hkbToolNodeType : IHavokObject
+    public partial class hkbToolNodeType : IHavokObject
     {
         public virtual uint Signature { get => 2908338143; }
         

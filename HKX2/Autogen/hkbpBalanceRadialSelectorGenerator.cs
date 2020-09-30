@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbpBalanceRadialSelectorGenerator : hkbRadialSelectorGenerator
+    public partial class hkbpBalanceRadialSelectorGenerator : hkbRadialSelectorGenerator
     {
         public override uint Signature { get => 624178690; }
         

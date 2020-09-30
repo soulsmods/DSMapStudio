@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiConvexHullSilhouetteMerger : hkaiSilhouetteMerger
+    public partial class hkaiConvexHullSilhouetteMerger : hkaiSilhouetteMerger
     {
         public override uint Signature { get => 2061259038; }
         

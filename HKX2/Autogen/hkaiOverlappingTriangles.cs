@@ -11,7 +11,7 @@ namespace HKX2
         PREFER_UNWALKABLE = 2,
     }
     
-    public class hkaiOverlappingTriangles : IHavokObject
+    public partial class hkaiOverlappingTriangles : IHavokObject
     {
         public virtual uint Signature { get => 2216118102; }
         

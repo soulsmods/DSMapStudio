@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiWorldCharacterStepSerializableContext : hkReferencedObject
+    public partial class hkaiWorldCharacterStepSerializableContext : hkReferencedObject
     {
         public override uint Signature { get => 3240525311; }
         

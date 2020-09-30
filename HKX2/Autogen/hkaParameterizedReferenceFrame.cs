@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaParameterizedReferenceFrame : hkaDefaultAnimatedReferenceFrame
+    public partial class hkaParameterizedReferenceFrame : hkaDefaultAnimatedReferenceFrame
     {
         public override uint Signature { get => 1610455379; }
         

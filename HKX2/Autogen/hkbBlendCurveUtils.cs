@@ -12,7 +12,7 @@ namespace HKX2
         BLEND_CURVE_SMOOTH_TO_LINEAR = 3,
     }
     
-    public class hkbBlendCurveUtils : IHavokObject
+    public partial class hkbBlendCurveUtils : IHavokObject
     {
         public virtual uint Signature { get => 587471600; }
         

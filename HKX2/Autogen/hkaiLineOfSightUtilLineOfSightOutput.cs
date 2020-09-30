@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiLineOfSightUtilLineOfSightOutput : IHavokObject
+    public partial class hkaiLineOfSightUtilLineOfSightOutput : IHavokObject
     {
         public virtual uint Signature { get => 3729143435; }
         

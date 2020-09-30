@@ -9,7 +9,7 @@ namespace HKX2
         FORCE_NARROW_PHASE_PPU = 1,
     }
     
-    public class hknpBody : IHavokObject
+    public partial class hknpBody : IHavokObject
     {
         public virtual uint Signature { get => 42283992; }
         

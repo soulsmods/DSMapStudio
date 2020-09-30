@@ -17,7 +17,7 @@ namespace HKX2
         USER_EDGE_TRAVERSAL_TEST_ENABLED = 1,
     }
     
-    public class hkaiNavMeshPathSearchParameters : IHavokObject
+    public partial class hkaiNavMeshPathSearchParameters : IHavokObject
     {
         public virtual uint Signature { get => 62361989; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdDynamicTreeTreehkcdDynamicTreeDynamicStorage32 : hkcdDynamicTreeDynamicStorage32
+    public partial class hkcdDynamicTreeTreehkcdDynamicTreeDynamicStorage32 : hkcdDynamicTreeDynamicStorage32
     {
         public override uint Signature { get => 2119524076; }
         

@@ -11,7 +11,7 @@ namespace HKX2
         MAX_NUM_CODECS = 16,
     }
     
-    public class hkcdShapeInfoCodecType : IHavokObject
+    public partial class hkcdShapeInfoCodecType : IHavokObject
     {
         public virtual uint Signature { get => 1801223872; }
         

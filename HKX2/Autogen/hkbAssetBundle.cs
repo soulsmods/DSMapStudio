@@ -9,7 +9,7 @@ namespace HKX2
         ANIMATION_BUNDLE = 0,
     }
     
-    public class hkbAssetBundle : hkReferencedObject
+    public partial class hkbAssetBundle : hkReferencedObject
     {
         public override uint Signature { get => 282321521; }
         

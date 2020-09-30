@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclTransitionConstraintSetPerParticle : IHavokObject
+    public partial class hclTransitionConstraintSetPerParticle : IHavokObject
     {
         public virtual uint Signature { get => 1754308830; }
         

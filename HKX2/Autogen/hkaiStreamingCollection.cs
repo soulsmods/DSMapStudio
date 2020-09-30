@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiStreamingCollection : hkReferencedObject
+    public partial class hkaiStreamingCollection : hkReferencedObject
     {
         public override uint Signature { get => 1609844644; }
         

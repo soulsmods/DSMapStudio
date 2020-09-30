@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclStorageSetupMesh : hclSetupMesh
+    public partial class hclStorageSetupMesh : hclSetupMesh
     {
         public override uint Signature { get => 81577363; }
         

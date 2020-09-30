@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdPlanarGeometry : hkcdPlanarEntity
+    public partial class hkcdPlanarGeometry : hkcdPlanarEntity
     {
         public override uint Signature { get => 2937159141; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclConvexHeightFieldShape : hclShape
+    public partial class hclConvexHeightFieldShape : hclShape
     {
         public override uint Signature { get => 1931996311; }
         

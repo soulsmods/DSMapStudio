@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaQuantizedAnimationTrackCompressionParams : IHavokObject
+    public partial class hkaQuantizedAnimationTrackCompressionParams : IHavokObject
     {
         public virtual uint Signature { get => 4158015049; }
         

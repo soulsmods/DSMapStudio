@@ -12,7 +12,7 @@ namespace HKX2
         ARROW = 3,
     }
     
-    public class hkGizmoAttribute : IHavokObject
+    public partial class hkGizmoAttribute : IHavokObject
     {
         public virtual uint Signature { get => 598400950; }
         

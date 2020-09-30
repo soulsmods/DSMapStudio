@@ -34,7 +34,7 @@ namespace HKX2
         NUM_FLOAT_ARRAYS = 3,
     }
     
-    public class hkaPredictiveCompressedAnimation : hkaAnimation
+    public partial class hkaPredictiveCompressedAnimation : hkaAnimation
     {
         public override uint Signature { get => 3392246962; }
         
