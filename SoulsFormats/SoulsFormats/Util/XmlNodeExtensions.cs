@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace SoulsFormats.XmlExtensions
 {
-    internal static class XmlNodeExtensions
+    public static class XmlNodeExtensions
     {
         private static T ReadT<T>(XmlNode node, string xpath, Func<string, T> parse)
         {
@@ -22,6 +22,15 @@ namespace SoulsFormats.XmlExtensions
                 throw new InvalidDataException($"Missing element: {xpath}");
 
             return parse(child.InnerText, provider);
+        }
+
+        private static T ReadTAttribute<T>(XmlNode node, string xpath, Func<string, T> parse)
+        {
+            XmlAttribute child = node.Attributes[xpath];
+            if (child == null)
+                throw new InvalidDataException($"Missing element: {xpath}");
+
+            return parse(child.InnerText);
         }
 
         private static T? ReadTIfExist<T>(XmlNode node, string xpath, Func<string, T> parse) where T : struct
@@ -102,6 +111,9 @@ namespace SoulsFormats.XmlExtensions
         public static int ReadInt32(this XmlNode node, string xpath)
             => ReadT(node, xpath, int.Parse);
 
+        public static int ReadInt32Attribute(this XmlNode node, string xpath)
+            => ReadTAttribute(node, xpath, int.Parse);
+
         public static int? ReadInt32IfExist(this XmlNode node, string xpath)
             => ReadTIfExist(node, xpath, int.Parse);
 
@@ -111,6 +123,12 @@ namespace SoulsFormats.XmlExtensions
 
         public static uint ReadUInt32(this XmlNode node, string xpath)
             => ReadT(node, xpath, uint.Parse);
+
+        public static uint ReadUInt32Attribute(this XmlNode node, string xpath)
+            => ReadTAttribute(node, xpath, uint.Parse);
+
+        public static uint ReadUInt32HexAttribute(this XmlNode node, string xpath)
+            => ReadTAttribute(node, xpath, (x) => Convert.ToUInt32(x, 16));
 
         public static uint? ReadUInt32IfExist(this XmlNode node, string xpath)
             => ReadTIfExist(node, xpath, uint.Parse);
@@ -131,6 +149,9 @@ namespace SoulsFormats.XmlExtensions
 
         public static ulong ReadUInt64(this XmlNode node, string xpath)
             => ReadT(node, xpath, ulong.Parse);
+
+        public static ulong ReadUInt64Attribute(this XmlNode node, string xpath)
+            => ReadTAttribute(node, xpath, ulong.Parse);
 
         public static ulong? ReadUInt64IfExist(this XmlNode node, string xpath)
             => ReadTIfExist(node, xpath, ulong.Parse);
@@ -182,6 +203,28 @@ namespace SoulsFormats.XmlExtensions
             XmlNode child = node.SelectSingleNode(xpath);
             if (child == null)
                 throw new InvalidDataException($"Missing element: {xpath}");
+
+            return child.InnerText;
+        }
+
+        public static string ReadStringAttribute(this XmlNode node, string xpath)
+        {
+            XmlAttribute child = node.Attributes[xpath];
+            if (child == null)
+            {
+                throw new InvalidDataException($"Missing element: {xpath}");
+            }
+
+            return child.InnerText;
+        }
+
+        public static string ReadStringAttributeOrDefault(this XmlNode node, string xpath)
+        {
+            XmlAttribute child = node.Attributes[xpath];
+            if (child == null)
+            {
+                return null;
+            }
 
             return child.InnerText;
         }

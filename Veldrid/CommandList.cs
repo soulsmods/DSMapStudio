@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace Veldrid
 {
@@ -31,6 +32,8 @@ namespace Veldrid
         private protected Pipeline _graphicsPipeline;
         private protected Pipeline _computePipeline;
 
+        private protected bool _isTransfer;
+
 #if VALIDATE_USAGE
         private DeviceBuffer _indexBuffer;
         private IndexFormat _indexFormat;
@@ -45,6 +48,7 @@ namespace Veldrid
             _features = features;
             _uniformBufferAlignment = uniformAlignment;
             _structuredBufferAlignment = structuredAlignment;
+            _isTransfer = description.IsTransfer;
         }
 
         internal void ClearCachedState()

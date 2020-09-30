@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Veldrid;
 using StudioCore.Memory;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace StudioCore.Scene
 {
@@ -31,6 +33,8 @@ namespace StudioCore.Scene
             BufferDescription desc = new BufferDescription(
                 initialSize, usage);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
+            desc = new BufferDescription(initialSize, BufferUsage.Staging);
+            _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
             _allocator = new FreeListAllocator(initialSize);
         }
@@ -40,6 +44,8 @@ namespace StudioCore.Scene
             BufferDescription desc = new BufferDescription(
                 initialSize, usage, stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
+            desc = new BufferDescription(initialSize, BufferUsage.Staging);
+            _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
             _allocator = new FreeListAllocator(initialSize);
         }
@@ -50,6 +56,8 @@ namespace StudioCore.Scene
                 initialSize, usage, stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
+            desc = new BufferDescription(initialSize, BufferUsage.Staging);
+            _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _allocator = new FreeListAllocator(initialSize);
 
             var layoutdesc = new ResourceLayoutDescription(
@@ -129,7 +137,8 @@ namespace StudioCore.Scene
             {
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
-                    cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, data);
+                    device.UpdateBuffer(_allocator._stagingBuffer, AllocationStart, data);
+                    cl.CopyBuffer(_allocator._stagingBuffer, AllocationStart, _allocator._backingBuffer, AllocationStart, AllocationSize);
                     if (completionHandler != null)
                     {
                         completionHandler.Invoke();
@@ -154,9 +163,11 @@ namespace StudioCore.Scene
                 });
             }
 
-            public void FillBuffer<T>(CommandList cl, ref T data) where T : struct
+            public void FillBuffer<T>(GraphicsDevice d, CommandList cl, ref T data) where T : struct
             {
-                cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, ref data);
+                //cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, ref data);
+                d.UpdateBuffer(_allocator._stagingBuffer, AllocationStart, data);
+                cl.CopyBuffer(_allocator._stagingBuffer, AllocationStart, _allocator._backingBuffer, AllocationStart, AllocationSize);
             }
 
             public void FillBuffer(IntPtr data, uint size, Action completionHandler)
@@ -205,17 +216,14 @@ namespace StudioCore.Scene
         private object _allocationLock = new object();
 
         private List<VertexIndexBufferHandle> _allocations = new List<VertexIndexBufferHandle>();
-        private List<VertexIndexBufferHandle> _stagingAllocations = new List<VertexIndexBufferHandle>();
-        private List<VertexIndexBufferHandle> _pendingAllocations = new List<VertexIndexBufferHandle>();
         private List<VertexIndexBuffer> _buffers = new List<VertexIndexBuffer>();
 
         private uint _maxVertsSize;
         private uint _maxIndicesSize;
 
-        private DeviceBuffer _stagingBufferVerts = null;
-        private DeviceBuffer _stagingBufferIndices = null;
-        private long _stagingVertsSize;
-        private long _stagingIndicesSize;
+        private VertexIndexBuffer _currentStaging = new VertexIndexBuffer();
+
+        private ConcurrentQueue<VertexIndexBuffer> _pendingUpload = new ConcurrentQueue<VertexIndexBuffer>();
 
         private bool _stagingLocked = false;
         private bool _pendingFlush = false;
@@ -258,12 +266,14 @@ namespace StudioCore.Scene
         {
             BufferDescription desc = new BufferDescription(
                 maxVertsSize, BufferUsage.Staging);
-            _stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
+            _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
             desc = new BufferDescription(
                 maxIndicesSize, BufferUsage.Staging);
-            _stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
+            _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
             _maxVertsSize = maxVertsSize;
             _maxIndicesSize = maxIndicesSize;
+            _currentStaging.BufferIndex = 0;
+            _buffers.Add(_currentStaging);
         }
 
         public VertexIndexBufferHandle Allocate(uint vsize, uint isize, int valignment, int ialignment, Action<VertexIndexBufferHandle> onStaging=null)
@@ -274,43 +284,54 @@ namespace StudioCore.Scene
             {
                 long val = 0;
                 long ial = 0;
-                if ((_stagingVertsSize % valignment) != 0)
+                if ((_currentStaging._stagingVertsSize % valignment) != 0)
                 {
-                    val += (valignment - (_stagingVertsSize % valignment));
+                    val += (valignment - (_currentStaging._stagingVertsSize % valignment));
                 }
-                if ((_stagingIndicesSize % ialignment) != 0)
+                if ((_currentStaging._stagingIndicesSize % ialignment) != 0)
                 {
-                    ial += (ialignment - (_stagingIndicesSize % ialignment));
+                    ial += (ialignment - (_currentStaging._stagingIndicesSize % ialignment));
                 }
                 
-                if (_stagingLocked || (_stagingVertsSize + vsize + val) > _maxVertsSize || (_stagingIndicesSize + isize + ial) > _maxIndicesSize)
+                if ((_currentStaging._stagingVertsSize + vsize + val) > _maxVertsSize || (_currentStaging._stagingIndicesSize + isize + ial) > _maxIndicesSize)
                 {
-                    // Buffer won't fit in current megabuffer. Make it pending
-                    handle = new VertexIndexBufferHandle(this);
-                    handle.VAllocationSize = vsize;
-                    handle.IAllocationSize = isize;
-                    handle._valign = valignment;
-                    handle._ialign = ialignment;
-                    handle._onStagedAction = onStaging;
-                    _pendingAllocations.Add(handle);
-                    if (!_pendingFlush)
-                    {
-                        needsFlush = true;
-                    }
-                    _stagingLocked = true;
-                }
-                else
-                {
+                    // Buffer won't fit in current megabuffer. Create a new one while the current one is still staging
+                    _currentStaging._allocationsFull = true;
+                    _currentStaging.FlushIfNeeded();
+
+                    _currentStaging = new VertexIndexBuffer();
+                    _currentStaging.BufferIndex = _buffers.Count;
+                    _buffers.Add(_currentStaging);
+                    BufferDescription desc = new BufferDescription(
+                        _maxVertsSize, BufferUsage.Staging);
+                    _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
+                    desc = new BufferDescription(
+                        _maxIndicesSize, BufferUsage.Staging);
+                    _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
+
                     // Add to currently staging megabuffer
-                    handle = new VertexIndexBufferHandle(this, (uint)(_stagingVertsSize + val), (uint)vsize, (uint)(_stagingIndicesSize + ial), (uint)isize);
-                    _stagingVertsSize += (vsize + val);
-                    _stagingIndicesSize += (isize + ial);
-                    _stagingAllocations.Add(handle);
+                    handle = new VertexIndexBufferHandle(this, _currentStaging, (uint)(_currentStaging._stagingVertsSize), (uint)vsize, (uint)(_currentStaging._stagingIndicesSize), (uint)isize);
+                    _currentStaging._stagingVertsSize += vsize;
+                    _currentStaging._stagingIndicesSize += isize;
+                    _allocations.Add(handle);
                     if (onStaging != null)
                     {
                         onStaging.Invoke(handle);
                     }
                 }
+                else
+                {
+                    // Add to currently staging megabuffer
+                    handle = new VertexIndexBufferHandle(this, _currentStaging, (uint)(_currentStaging._stagingVertsSize + val), (uint)vsize, (uint)(_currentStaging._stagingIndicesSize + ial), (uint)isize);
+                    _currentStaging._stagingVertsSize += (vsize + val);
+                    _currentStaging._stagingIndicesSize += (isize + ial);
+                    _allocations.Add(handle);
+                    if (onStaging != null)
+                    {
+                        onStaging.Invoke(handle);
+                    }
+                }
+                _currentStaging._handleCount++;
             }
 
             if (needsFlush)
@@ -320,50 +341,9 @@ namespace StudioCore.Scene
             return handle;
         }
 
-        /// <summary>
-        /// Fills the current staging buffer with any pending allocations up until it's full
-        /// </summary>
-        private void FlushPending()
-        {
-            bool full = false;
-            while (!full && _pendingAllocations.Count > 0)
-            {
-                var pend = _pendingAllocations[_pendingAllocations.Count - 1];
-
-                long avsize = pend.VAllocationSize;
-                long aisize = pend.IAllocationSize;
-                if ((_stagingVertsSize % pend._valign) != 0)
-                {
-                    _stagingVertsSize += (pend._valign - (_stagingVertsSize % pend._valign));
-                }
-                if ((_stagingIndicesSize % pend._ialign) != 0)
-                {
-                    _stagingIndicesSize += (pend._ialign - (_stagingIndicesSize % pend._ialign));
-                }
-
-                if ((_stagingVertsSize + avsize) > _maxVertsSize || (_stagingIndicesSize + aisize) > _maxIndicesSize)
-                {
-                    full = true;
-                    break;
-                }
-
-                pend.VAllocationStart = (uint)_stagingVertsSize;
-                pend.IAllocationStart = (uint)_stagingIndicesSize;
-                pend.AllocStatus = VertexIndexBufferHandle.Status.Staging;
-                if (pend._onStagedAction != null)
-                {
-                    pend._onStagedAction.Invoke(pend);
-                }
-                _stagingVertsSize += avsize;
-                _stagingIndicesSize += aisize;
-                _stagingAllocations.Add(pend);
-                _pendingAllocations.RemoveAt(_pendingAllocations.Count - 1);
-            }
-        }
-
         public bool HasStagingOrPending()
         {
-            if (_stagingVertsSize > 0 || _pendingAllocations.Count > 0)
+            if (_currentStaging._stagingVertsSize > 0)
             {
                 return true;
             }
@@ -372,70 +352,18 @@ namespace StudioCore.Scene
 
         public void FlushStaging(bool full = false)
         {
-            // Don't flush if we have a pending flush
-            if (_pendingFlush)
-            {
-                return;
-            }
+            _currentStaging._allocationsFull = true;
+            _currentStaging.FlushIfNeeded();
 
-            lock (_allocationLock)
-            {
-                _stagingLocked = true;
-                _pendingFlush = true;
-            }
-            Renderer.AddBackgroundUploadTask((d, cl) =>
-            {
-                while (_stagingVertsSize > 0)
-                {
-                    if (_stagingVertsSize > _maxVertsSize)
-                    {
-                        _stagingVertsSize = _maxVertsSize;
-                    }
-                    if (_stagingIndicesSize > _maxIndicesSize)
-                    {
-                        _stagingIndicesSize = _maxIndicesSize;
-                    }
-
-                    var buffer = new VertexIndexBuffer();
-                    buffer.BufferIndex = _buffers.Count;
-                    _buffers.Add(buffer);
-                    buffer._bufferSizeVert = _stagingVertsSize;
-                    buffer._bufferSizeIndex = _stagingIndicesSize;
-                    var vd = new BufferDescription((uint)_stagingVertsSize, BufferUsage.VertexBuffer);
-                    var id = new BufferDescription((uint)_stagingIndicesSize, BufferUsage.IndexBuffer);
-                    buffer._backingVertBuffer = d.ResourceFactory.CreateBuffer(ref vd);
-                    buffer._backingIndexBuffer = d.ResourceFactory.CreateBuffer(ref id);
-                    cl.CopyBuffer(_stagingBufferVerts, 0, buffer._backingVertBuffer, 0, (uint)_stagingVertsSize);
-                    cl.CopyBuffer(_stagingBufferIndices, 0, buffer._backingIndexBuffer, 0, (uint)_stagingIndicesSize);
-
-                    foreach (var alloc in _stagingAllocations)
-                    {
-                        alloc.AllocStatus = VertexIndexBufferHandle.Status.Resident;
-                        alloc._buffer = buffer;
-                        buffer._handleCount++;
-                        _allocations.Add(alloc);
-                    }
-                    _stagingAllocations.Clear();
-
-                    _stagingVertsSize = 0;
-                    _stagingIndicesSize = 0;
-
-                    lock (_allocationLock)
-                    {
-                        FlushPending();
-                    }
-
-                    if (!full)
-                    {
-                        break;
-                    }
-                }
-                lock (_allocationLock)
-                {
-                    _stagingLocked = false;
-                    _pendingFlush = false;
-                }
-            });
+            _currentStaging = new VertexIndexBuffer();
+            _currentStaging.BufferIndex = _buffers.Count;
+            _buffers.Add(_currentStaging);
+            BufferDescription desc = new BufferDescription(
+                _maxVertsSize, BufferUsage.Staging);
+            _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
+            desc = new BufferDescription(
+                _maxIndicesSize, BufferUsage.Staging);
+            _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
         }
 
         public bool BindAsVertexBuffer(CommandList cl, int index)
@@ -458,21 +386,89 @@ namespace StudioCore.Scene
             return true;
         }
 
-        internal class VertexIndexBuffer
+        public class VertexIndexBuffer
         {
             public List<VertexIndexBufferHandle> _allocations = new List<VertexIndexBufferHandle>();
+
+            public enum Status
+            {
+                /// <summary>
+                /// The buffer is currently a staging buffer, and data will be
+                /// copied into the staging buffer
+                /// </summary>
+                Staging,
+
+                /// <summary>
+                /// The buffer is currently being uploaded to the GPU, and cannot be mutated
+                /// </summary>
+                Uploading,
+
+                /// <summary>
+                /// The allocation is resident in GPU memory, and data cannot be uploaded anymore.
+                /// The buffer is now usable for graphics purposes
+                /// </summary>
+                Resident,
+            }
+
+            public Status AllocStatus { get; internal set; }
 
             public int BufferIndex { get; internal set; } = -1;
             public long _bufferSizeVert = 0;
             public long _bufferSizeIndex = 0;
 
             internal int _handleCount = 0;
+            internal int _vfillCount = 0;
+            internal int _ifillCount = 0;
+            internal bool _allocationsFull = false;
+            internal bool _pendingUpload = false;
 
             internal FreeListAllocator _vertAllocator;
             internal FreeListAllocator _indexAllocator;
 
+            public DeviceBuffer _stagingBufferVerts = null;
+            public DeviceBuffer _stagingBufferIndices = null;
+            public long _stagingVertsSize = 0;
+            public long _stagingIndicesSize = 0;
+
             public DeviceBuffer _backingVertBuffer { get; internal set; } = null;
             public DeviceBuffer _backingIndexBuffer { get; internal set; } = null;
+
+            public VertexIndexBuffer()
+            {
+                AllocStatus = Status.Staging;
+            }
+
+            internal void FlushIfNeeded()
+            {
+                if (_allocationsFull && _handleCount == _vfillCount && _handleCount == _ifillCount)
+                {
+                    AllocStatus = Status.Uploading;
+                    Renderer.AddBackgroundUploadTask((d, cl) =>
+                    {
+                        _bufferSizeVert = _stagingVertsSize;
+                        _bufferSizeIndex = _stagingIndicesSize;
+                        var vd = new BufferDescription((uint)_stagingVertsSize, BufferUsage.VertexBuffer);
+                        var id = new BufferDescription((uint)_stagingIndicesSize, BufferUsage.IndexBuffer);
+                        _backingVertBuffer = d.ResourceFactory.CreateBuffer(ref vd);
+                        _backingIndexBuffer = d.ResourceFactory.CreateBuffer(ref id);
+                        //cl.CopyBuffer(_stagingBufferVerts, 0, _backingVertBuffer, 0, (uint)_stagingVertsSize);
+                        //cl.CopyBuffer(_stagingBufferIndices, 0, _backingIndexBuffer, 0, (uint)_stagingIndicesSize);
+                        Renderer.AddAsyncTransfer(_backingVertBuffer, _stagingBufferVerts, (d) =>
+                        {
+                            _stagingBufferVerts.Dispose();
+                            _stagingBufferVerts = null;
+                        });
+                        Renderer.AddAsyncTransfer(_backingIndexBuffer, _stagingBufferIndices, (d) =>
+                        {
+                            _stagingVertsSize = 0;
+                            _stagingIndicesSize = 0;
+                            AllocStatus = Status.Resident;
+                            _stagingBufferIndices.Dispose();
+                            _stagingBufferIndices = null;
+                        });
+                    });
+                }
+            }
         }
 
         public class VertexIndexBufferHandle : IDisposable
@@ -482,29 +478,6 @@ namespace StudioCore.Scene
 
             internal Action<VertexIndexBufferHandle> _onStagedAction = null;
 
-            public enum Status
-            {
-                /// <summary>
-                /// The allocation has not been allocated yet, and references to the data
-                /// will be held
-                /// </summary>
-                Pending,
-
-                /// <summary>
-                /// The allocation has been reserved in a staging buffer, and data will be
-                /// copied into the staging buffer
-                /// </summary>
-                Staging,
-
-                /// <summary>
-                /// The allocation is resident in GPU memory, and data will have been copied
-                /// to it. The buffer is effectively usable
-                /// </summary>
-                Resident,
-            }
-
-            public Status AllocStatus { get; internal set; }
-
             public uint VAllocationStart { get; internal set; }
             public uint VAllocationSize { get; internal set; }
             public uint IAllocationStart { get; internal set; }
@@ -513,6 +486,8 @@ namespace StudioCore.Scene
             internal int _valign;
             internal int _ialign;
 
+            public VertexIndexBuffer.Status AllocStatus { get { return _buffer.AllocStatus; } }
+
             public int BufferIndex {
                 get
                 {
@@ -520,38 +495,55 @@ namespace StudioCore.Scene
                 }
             }
 
-            public VertexIndexBufferHandle(VertexIndexBufferAllocator alloc)
+            internal VertexIndexBufferHandle(VertexIndexBufferAllocator alloc, VertexIndexBuffer staging)
             {
                 _allocator = alloc;
-                AllocStatus = Status.Pending;
+                _buffer = staging;
             }
 
-            public VertexIndexBufferHandle(VertexIndexBufferAllocator alloc, uint vstart, uint vsize, uint istart, uint isize)
+            internal VertexIndexBufferHandle(VertexIndexBufferAllocator alloc, VertexIndexBuffer staging, uint vstart, uint vsize, uint istart, uint isize)
             {
                 _allocator = alloc;
+                _buffer = staging;
                 VAllocationStart = vstart;
                 VAllocationSize = vsize;
                 IAllocationStart = istart;
                 IAllocationSize = isize;
-                AllocStatus = Status.Staging;
+            }
+
+            public void SetVFilled()
+            {
+                Interlocked.Increment(ref _buffer._vfillCount);
+                _buffer.FlushIfNeeded();
+            }
+
+            public void SetIFilled()
+            {
+                Interlocked.Increment(ref _buffer._ifillCount);
+                _buffer.FlushIfNeeded();
             }
 
             public void FillVBuffer<T>(T[] vdata, Action completionHandler = null) where T : struct
             {
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
-                    if (AllocStatus == Status.Staging)
+                    if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
-                        cl.UpdateBuffer(_allocator._stagingBufferVerts, VAllocationStart, vdata);
+                        cl.UpdateBuffer(_buffer._stagingBufferVerts, VAllocationStart, vdata);
                     }
-                    else if (AllocStatus == Status.Resident)
+                    /*else if (AllocStatus == Status.Resident)
                     {
                         cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, vdata);
+                    }*/
+                    else
+                    {
+                        throw new Exception("Attempt to copy data to non-staging buffer");
                     }
                     if (completionHandler != null)
                     {
                         completionHandler.Invoke();
                     }
+                    SetVFilled();
                 });
             }
 
@@ -560,19 +552,24 @@ namespace StudioCore.Scene
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
                     GCHandle gch = GCHandle.Alloc(vdata, GCHandleType.Pinned);
-                    if (AllocStatus == Status.Staging)
+                    if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
-                        cl.UpdateBuffer(_allocator._stagingBufferVerts, VAllocationStart, gch.AddrOfPinnedObject(), (uint)count * (uint)Unsafe.SizeOf<T>());
+                        cl.UpdateBuffer(_buffer._stagingBufferVerts, VAllocationStart, gch.AddrOfPinnedObject(), (uint)count * (uint)Unsafe.SizeOf<T>());
                     }
-                    else if (AllocStatus == Status.Resident)
+                    /*else if (AllocStatus == Status.Resident)
                     {
                         cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, gch.AddrOfPinnedObject(), (uint)count * (uint)Unsafe.SizeOf<T>());
+                    }*/
+                    else
+                    {
+                        throw new Exception("Attempt to copy data to non-staging buffer");
                     }
                     if (completionHandler != null)
                     {
                         completionHandler.Invoke();
                     }
                     gch.Free();
+                    SetVFilled();
                 });
             }
 
@@ -580,31 +577,41 @@ namespace StudioCore.Scene
             {
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
-                    if (AllocStatus == Status.Staging)
+                    if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
-                        cl.UpdateBuffer(_allocator._stagingBufferVerts, VAllocationStart, vdata, size);
+                        cl.UpdateBuffer(_buffer._stagingBufferVerts, VAllocationStart, vdata, size);
                     }
-                    else if (AllocStatus == Status.Resident)
+                    /*else if (AllocStatus == Status.Resident)
                     {
                         cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, vdata, size);
+                    }*/
+                    else
+                    {
+                        throw new Exception("Attempt to copy data to non-staging buffer");
                     }
                     if (completionHandler != null)
                     {
                         completionHandler.Invoke();
                     }
+                    SetVFilled();
                 });
             }
 
             public void FillVBuffer<T>(CommandList cl, T[] vdata) where T : struct
             {
-                if (AllocStatus == Status.Staging)
+                if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                 {
-                    cl.UpdateBuffer(_allocator._stagingBufferVerts, VAllocationStart, vdata);
+                    cl.UpdateBuffer(_buffer._stagingBufferVerts, VAllocationStart, vdata);
                 }
-                else if (AllocStatus == Status.Resident)
+                /*else if (AllocStatus == Status.Resident)
                 {
                     cl.UpdateBuffer(_buffer._backingVertBuffer, VAllocationStart, vdata);
+                }*/
+                else
+                {
+                    throw new Exception("Attempt to copy data to non-staging buffer");
                 }
+                SetVFilled();
             }
 
             /*unsafe public Span<T> MapBuffer<T>() where T : struct
@@ -616,31 +623,41 @@ namespace StudioCore.Scene
             {
                 Renderer.AddBackgroundUploadTask((device, cl) =>
                 {
-                    if (AllocStatus == Status.Staging)
+                    if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
-                        cl.UpdateBuffer(_allocator._stagingBufferIndices, IAllocationStart, idata);
+                        cl.UpdateBuffer(_buffer._stagingBufferIndices, IAllocationStart, idata);
                     }
-                    else if (AllocStatus == Status.Resident)
+                    /*else if (AllocStatus == Status.Resident)
                     {
                         cl.UpdateBuffer(_buffer._backingIndexBuffer, IAllocationStart, idata);
+                    }*/
+                    else
+                    {
+                        throw new Exception("Attempt to copy data to non-staging buffer");
                     }
                     if (completionHandler != null)
                     {
                         completionHandler.Invoke();
                     }
+                    SetIFilled();
                 });
             }
 
             public void FillIBuffer<T>(CommandList cl, T[] idata) where T : struct
             {
-                if (AllocStatus == Status.Staging)
+                if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                 {
-                    cl.UpdateBuffer(_allocator._stagingBufferIndices, IAllocationStart, idata);
+                    cl.UpdateBuffer(_buffer._stagingBufferIndices, IAllocationStart, idata);
                 }
-                else if (AllocStatus == Status.Resident)
+                /*else if (AllocStatus == Status.Resident)
                 {
                     cl.UpdateBuffer(_buffer._backingIndexBuffer, IAllocationStart, idata);
+                }*/
+                else
+                {
+                    throw new Exception("Attempt to copy data to non-staging buffer");
                 }
+                SetIFilled();
             }
 
             #region IDisposable Support
@@ -652,18 +669,7 @@ namespace StudioCore.Scene
                 {
                     if (disposing)
                     {
-                        if (AllocStatus == Status.Resident)
-                        {
-                            _allocator._allocations.Remove(this);
-                        }
-                        if (AllocStatus == Status.Pending)
-                        {
-                            _allocator._pendingAllocations.Remove(this);
-                        }
-                        if (AllocStatus == Status.Staging)
-                        {
-                            _allocator._stagingAllocations.Remove(this);
-                        }
+                        _allocator._allocations.Remove(this);
                     }
 
                     if (_buffer != null)

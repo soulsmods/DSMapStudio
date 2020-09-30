@@ -7,6 +7,13 @@ namespace Veldrid
     /// </summary>
     public struct CommandListDescription : IEquatable<CommandListDescription>
     {
+        public bool IsTransfer;
+
+        public CommandListDescription(bool isTransfer)
+        {
+            IsTransfer = isTransfer;
+        }
+
         /// <summary>
         /// Element-wise equality.
         /// </summary>

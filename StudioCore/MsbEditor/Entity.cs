@@ -50,18 +50,18 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        protected Scene.RenderableProxy _RenderSceneMesh = null;
+        protected Scene.RenderableProxy _renderSceneMesh = null;
         [XmlIgnore]
         public Scene.RenderableProxy RenderSceneMesh
         {
             set
             {
-                _RenderSceneMesh = value;
+                _renderSceneMesh = value;
                 UpdateRenderModel();
             }
             get
             {
-                return _RenderSceneMesh;
+                return _renderSceneMesh;
             }
         }
         [XmlIgnore]
@@ -713,7 +713,7 @@ namespace StudioCore.MsbEditor
                     if (RenderSceneMesh != null)
                     {
                         RenderSceneMesh.Dispose();
-                        _RenderSceneMesh = null;
+                        _renderSceneMesh = null;
                     }
                 }
 
@@ -789,6 +789,7 @@ namespace StudioCore.MsbEditor
             DS2GeneratorRegist,
             DS2Event,
             DS2EventLocation,
+            DS2ObjectInstance,
         }
 
         public MapEntityType Type { get; set; }
@@ -833,6 +834,10 @@ namespace StudioCore.MsbEditor
                 else if (Type == MapEntityType.DS2Event)
                 {
                     icon = ForkAwesome.FlagCheckered;
+                }
+                else if (Type == MapEntityType.DS2ObjectInstance)
+                {
+                    icon = ForkAwesome.Database;
                 }
 
                 return $@"{icon} {Name}";
@@ -894,30 +899,30 @@ namespace StudioCore.MsbEditor
             {
 
             }
-            else if (Type == MapEntityType.DS2EventLocation && RenderSceneMesh == null)
+            else if (Type == MapEntityType.DS2EventLocation && _renderSceneMesh == null)
             {
-                if (RenderSceneMesh != null)
+                if (_renderSceneMesh != null)
                 {
-                    RenderSceneMesh.Dispose();
+                    _renderSceneMesh.Dispose();
                 }
-                RenderSceneMesh = Universe.GetDS2EventLocationDrawable(ContainingMap, this);
+                _renderSceneMesh = Universe.GetDS2EventLocationDrawable(ContainingMap, this);
             }
-            else if (Type == MapEntityType.Region && RenderSceneMesh == null)
+            else if (Type == MapEntityType.Region && _renderSceneMesh == null)
             {
-                if (RenderSceneMesh != null)
+                if (_renderSceneMesh != null)
                 {
-                    RenderSceneMesh.Dispose();
+                    _renderSceneMesh.Dispose();
                 }
-                RenderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
             }
             else
             {
                 var model = GetPropertyValue<string>("ModelName");
                 if (model != null && model != CurrentModel)
                 {
-                    RenderSceneMesh.Dispose();
+                    _renderSceneMesh.Dispose();
                     CurrentModel = model;
-                    RenderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model);
+                    _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
                     if (Universe.Selection.IsSelected(this))
                     {
                         OnSelected();

@@ -426,7 +426,7 @@ namespace Veldrid
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>
         /// <returns>A new <see cref="CommandList"/>.</returns>
-        public CommandList CreateCommandList() => CreateCommandList(new CommandListDescription());
+        public CommandList CreateCommandList() => CreateCommandList(new CommandListDescription(false));
         /// <summary>
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>

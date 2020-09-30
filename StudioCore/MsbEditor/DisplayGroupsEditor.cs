@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
             if (ImGui.Begin("Display Groups"))
             {
                 var dg = _scene.DisplayGroup;
-                var count = (game == GameType.DemonsSouls || game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsIISOTFS) ? 4 : 8;
+                var count = (game == GameType.DemonsSouls || game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsRemastered || game == GameType.DarkSoulsIISOTFS) ? 4 : 8;
                 if (dg.AlwaysVisible || dg.Drawgroups.Length != count)
                 {
                     dg.Drawgroups = new uint[count];

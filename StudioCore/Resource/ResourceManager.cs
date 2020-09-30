@@ -22,8 +22,8 @@ namespace StudioCore.Resource
     public static class ResourceManager
     {
         private static QueuedTaskScheduler JobScheduler = new QueuedTaskScheduler(4, "JobMaster");
-        private static QueuedTaskScheduler BinderWorkerScheduler = new QueuedTaskScheduler(6, "BinderWorker");
-        private static QueuedTaskScheduler ResourceWorkerScheduler = new QueuedTaskScheduler(6, "ResourceWorker");
+        private static QueuedTaskScheduler BinderWorkerScheduler = new QueuedTaskScheduler(12, "BinderWorker");
+        private static QueuedTaskScheduler ResourceWorkerScheduler = new QueuedTaskScheduler(12, "ResourceWorker");
 
         private static TaskFactory JobTaskFactory = new TaskFactory(JobScheduler);
         private static TaskFactory BinderTaskFactory = new TaskFactory(BinderWorkerScheduler);
@@ -85,6 +85,7 @@ namespace StudioCore.Resource
             public void Run()
             {
                 handle._LoadResource(bytes, AccessLevel, Game);
+                bytes = null;
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -92,6 +93,7 @@ namespace StudioCore.Resource
                 return ResourceTaskFactory.StartNew(() =>
                 {
                     Run();
+                    bytes = null;
                     progress.Report(1);
                 });
             }

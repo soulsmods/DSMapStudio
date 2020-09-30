@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Veldrid;
 using Veldrid.Sdl2;
+using System.Security.Policy;
+using System.Security.Cryptography;
 
 namespace StudioCore.Scene
 {
@@ -434,6 +436,11 @@ namespace StudioCore.Scene
         private static Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _readbackQueue;
         private static Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _readbackPendingQueue;
 
+        private static CommandList TransferCommandList;
+        private static ConcurrentQueue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _asyncTransfersPendingQueue;
+        private static List<(Fence, Action<GraphicsDevice>)> _asyncTransfers;
+        private static Queue<Fence> _freeTransferFences;
+
         private static bool _readyForReadback = false;
         private static int _readbackPendingFence = -1;
 
@@ -477,6 +484,15 @@ namespace StudioCore.Scene
             _readbackQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
             _readbackPendingQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
             RenderQueues = new List<RenderQueue>();
+
+            TransferCommandList = device.ResourceFactory.CreateCommandList(new CommandListDescription(true));
+            _asyncTransfers = new List<(Fence, Action<GraphicsDevice>)>();
+            _asyncTransfersPendingQueue = new ConcurrentQueue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
+            _freeTransferFences = new Queue<Fence>();
+            for (int i = 0; i < 3; i++)
+            {
+                _freeTransferFences.Enqueue(device.ResourceFactory.CreateFence(false));
+            }
 
             for (int i = 0; i < BUFFER_COUNT; i++)
             {
@@ -530,6 +546,11 @@ namespace StudioCore.Scene
             }
         }
 
+        public static void AddAsyncTransfer(DeviceBuffer dest, DeviceBuffer source, Action<GraphicsDevice> onFinished)
+        {
+            _asyncTransfersPendingQueue.Enqueue((dest, source, onFinished));
+        }
+
         public static Fence Frame(CommandList drawCommandList, bool backgroundOnly)
         {
             MainCommandList.Begin();
@@ -563,6 +584,52 @@ namespace StudioCore.Scene
 
             MainCommandList.End();
             Device.SubmitCommands(MainCommandList);
+
+            // Notify finished transfers
+            if (_asyncTransfers.Count > 0)
+            {
+                HashSet<Fence> done = new HashSet<Fence>();
+                for (int i = 0; i < _asyncTransfers.Count; i++)
+                {
+                    if (_asyncTransfers[i].Item1.Signaled)
+                    {
+                        done.Add(_asyncTransfers[i].Item1);
+                        _asyncTransfers[i].Item2.Invoke(Device);
+                        _asyncTransfers.RemoveAt(i);
+                        i--;
+                    }
+                }
+                foreach (var f in done)
+                {
+                    f.Reset();
+                    _freeTransferFences.Enqueue(f);
+                }
+            }
+
+            // Initiate async transfers
+            if (!_asyncTransfersPendingQueue.IsEmpty)
+            {
+                // Get a fence
+                Fence fence;
+                if (_freeTransferFences.Count > 0)
+                {
+                    fence = _freeTransferFences.Dequeue();
+                }
+                else
+                {
+                    fence = Device.ResourceFactory.CreateFence(false);
+                }
+
+                TransferCommandList.Begin();
+                (DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>) t;
+                while (_asyncTransfersPendingQueue.TryDequeue(out t))
+                {
+                    TransferCommandList.CopyBuffer(t.Item2, 0, t.Item1, 0, t.Item1.SizeInBytes);
+                    _asyncTransfers.Add((fence, t.Item3));
+                }
+                TransferCommandList.End();
+                Device.SubmitCommands(TransferCommandList, fence);
+            }
 
             if (cleanTexPool)
             {

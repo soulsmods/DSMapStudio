@@ -109,7 +109,7 @@ namespace StudioCore.MsbEditor
         /// </summary>
         /// <param name="modelname"></param>
         /// <returns></returns>
-        public RenderableProxy GetModelDrawable(Map map, Entity obj, string modelname)
+        public RenderableProxy GetModelDrawable(Map map, Entity obj, string modelname, bool load)
         {
             AssetDescription asset;
             bool loadcol = false;
@@ -134,7 +134,7 @@ namespace StudioCore.MsbEditor
             else if (modelname.StartsWith("h"))
             {
                 loadcol = true;
-                asset = _assetLocator.GetMapCollisionModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname));
+                asset = _assetLocator.GetMapCollisionModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname), false);
                 filt = Scene.RenderFilter.Collision;
             }
             else if (modelname.StartsWith("n"))
@@ -156,7 +156,7 @@ namespace StudioCore.MsbEditor
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Collision;
                 obj.RenderSceneMesh = mesh;
-                if (!res.IsLoaded)
+                if (!res.IsLoaded && load)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -178,7 +178,7 @@ namespace StudioCore.MsbEditor
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Navmesh;
-                if (!res.IsLoaded)
+                if (!res.IsLoaded && load)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -204,7 +204,7 @@ namespace StudioCore.MsbEditor
                 model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
                 model.SetSelectable(obj);
-                if (!res.IsLoaded)
+                if (!res.IsLoaded && load)
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -228,6 +228,7 @@ namespace StudioCore.MsbEditor
             Dictionary<long, Entity> generatorObjs = new Dictionary<long, Entity>();
             Dictionary<long, PARAM.Row> eventParams = new Dictionary<long, PARAM.Row>();
             Dictionary<long, PARAM.Row> eventLocationParams = new Dictionary<long, PARAM.Row>();
+            Dictionary<long, PARAM.Row> objectInstanceParams = new Dictionary<long, PARAM.Row>();
 
             var regparamad = _assetLocator.GetDS2GeneratorRegistParam(mapid);
             var regparam = PARAM.Read(regparamad.AssetPath);
@@ -357,6 +358,22 @@ namespace StudioCore.MsbEditor
                 mesh.SetSelectable(obj);
             }
 
+            var objparamad = _assetLocator.GetDS2ObjInstanceParam(mapid);
+            var objparam = PARAM.Read(objparamad.AssetPath);
+            var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
+            objparam.ApplyParamdef(objlayout);
+            foreach (var row in objparam.Rows)
+            {
+                if (row.Name == null || row.Name == "")
+                {
+                    row.Name = "objinstance_" + row.ID.ToString();
+                }
+                objectInstanceParams.Add(row.ID, row);
+
+                var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2ObjectInstance);
+                map.AddObject(obj);
+            }
+
             var job = ResourceManager.CreateNewJob($@"Loading chrs");
             foreach (var chr in chrsToLoad)
             {
@@ -430,122 +447,46 @@ namespace StudioCore.MsbEditor
                 amapid = "m29_00_00_00";
             }
 
-            // Temporary garbage
+            foreach (var model in msb.Models.GetEntries())
+            {
+                AssetDescription asset;
+                if (model.Name.StartsWith("m"))
+                {
+                    asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
+                    mappiecesToLoad.Add(asset);
+                }
+                else if (model.Name.StartsWith("c"))
+                {
+                    asset = _assetLocator.GetChrModel(model.Name);
+                    chrsToLoad.Add(asset);
+                    var tasset = _assetLocator.GetChrTextures(model.Name);
+                    if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                    {
+                        chrsToLoad.Add(tasset);
+                    }
+                }
+                else if (model.Name.StartsWith("o"))
+                {
+                    asset = _assetLocator.GetObjModel(model.Name);
+                    objsToLoad.Add(asset);
+                }
+                else if (model.Name.StartsWith("h"))
+                {
+                    asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
+                    colsToLoad.Add(asset);
+                }
+                else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
+                {
+                    asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
+                    navsToLoad.Add(asset);
+                }
+            }
+
             foreach (var obj in map.Objects)
             {
                 if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "")
                 {
-                    AssetDescription asset;
-                    bool loadcol = false;
-                    bool loadnav = false;
-                    bool usedrawgroups = false;
-                    Scene.RenderFilter filt = Scene.RenderFilter.All;
-                    if (mp.ModelName.StartsWith("m"))
-                    {
-                        asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, mp.ModelName));
-                        filt = Scene.RenderFilter.MapPiece;
-                        obj.UseDrawGroups = true;
-                        mappiecesToLoad.Add(asset);
-                    }
-                    else if (mp.ModelName.StartsWith("c"))
-                    {
-                        asset = _assetLocator.GetChrModel(mp.ModelName);
-                        filt = Scene.RenderFilter.Character;
-                        chrsToLoad.Add(asset);
-                        var tasset = _assetLocator.GetChrTextures(mp.ModelName);
-                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
-                        {
-                            chrsToLoad.Add(tasset);
-                        }
-                    }
-                    else if (mp.ModelName.StartsWith("o"))
-                    {
-                        asset = _assetLocator.GetObjModel(mp.ModelName);
-                        filt = Scene.RenderFilter.Object;
-                        objsToLoad.Add(asset);
-                    }
-                    else if (mp.ModelName.StartsWith("h"))
-                    {
-                        loadcol = true;
-                        asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, mp.ModelName), false);
-                        filt = Scene.RenderFilter.Collision;
-                        colsToLoad.Add(asset);
-                    }
-                    else if (mp.ModelName.StartsWith("n"))
-                    {
-                        loadnav = true;
-                        asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, mp.ModelName));
-                        filt = Scene.RenderFilter.Navmesh;
-                        navsToLoad.Add(asset);
-                    }
-                    else
-                    {
-                        asset = _assetLocator.GetNullAsset();
-                    }
-
-                    if (loadcol)
-                    {
-                        var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                        var model = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
-                        model.World = obj.GetWorldMatrix();
-                        model.DrawFilter = RenderFilter.Collision;
-                        obj.RenderSceneMesh = model;
-                        model.SetSelectable(obj);
-                    }
-                    else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
-                    {
-                        var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                        var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
-                        mesh.World = obj.GetWorldMatrix();
-                        mesh.DrawFilter = RenderFilter.Navmesh;
-                        obj.RenderSceneMesh = mesh;
-                        mesh.SetSelectable(obj);
-                    }
-                    else if (loadnav && (_assetLocator.Type == GameType.DarkSoulsIISOTFS || _assetLocator.Type == GameType.Bloodborne))
-                    {
-
-                    }
-                    else
-                    {
-                        var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
-                        model.World = obj.GetWorldMatrix();
-                        model.DrawFilter = filt;
-                        obj.RenderSceneMesh = model;
-                        model.SetSelectable(obj);
-                    }
-                }
-                if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
-                }
-                else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
-                }
-                else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
-                }
-                else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
-                {
-                    var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
-                    mesh.World = obj.GetWorldMatrix();
-                    mesh.DrawFilter = RenderFilter.Region;
-                    obj.RenderSceneMesh = mesh;
-                    mesh.SetSelectable(obj);
+                    GetModelDrawable(map, obj, mp.ModelName, false);
                 }
 
                 // Try to find the map offset
@@ -584,19 +525,22 @@ namespace StudioCore.MsbEditor
             } 
             job.StartJobAsync();
 
-            job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
-            foreach (var asset in _assetLocator.GetMapTextures(amapid))
+            if (CFG.Current.EnableTexturing)
             {
-                if (asset.AssetArchiveVirtualPath != null)
+                job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
+                foreach (var asset in _assetLocator.GetMapTextures(amapid))
                 {
-                    job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                    if (asset.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                    }
+                    else if (asset.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    }
                 }
-                else if (asset.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                }
+                job.StartJobAsync();
             }
-            job.StartJobAsync();
 
             job = ResourceManager.CreateNewJob($@"Loading {amapid} collisions");
             string archive = null;
@@ -720,12 +664,19 @@ namespace StudioCore.MsbEditor
             var evtllayout = _assetLocator.GetParamdefForParam(evtlparam.ParamType);
             evtlparam.ApplyParamdef(evtllayout);
 
+            var objparamad = _assetLocator.GetDS2ObjInstanceParam(map.Name);
+            var objparamadw = _assetLocator.GetDS2ObjInstanceParam(map.Name, true);
+            var objparam = PARAM.Read(objparamad.AssetPath);
+            var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
+            objparam.ApplyParamdef(objlayout);
+
             // Clear them out
             regparam.Rows.Clear();
             locparam.Rows.Clear();
             genparam.Rows.Clear();
             evtparam.Rows.Clear();
             evtlparam.Rows.Clear();
+            objparam.Rows.Clear();
 
             // Serialize objects
             if (!map.SerializeDS2Generators(locparam, genparam))
@@ -741,6 +692,10 @@ namespace StudioCore.MsbEditor
                 return;
             }
             if (!map.SerializeDS2EventLocations(evtlparam))
+            {
+                return;
+            }
+            if (!map.SerializeDS2ObjInstances(objparam))
             {
                 return;
             }
@@ -833,6 +788,23 @@ namespace StudioCore.MsbEditor
                 File.Delete(evtlparamadw.AssetPath);
             }
             File.Move(evtlparamadw.AssetPath + ".temp", evtlparamadw.AssetPath);
+
+            // Object instances
+            if (File.Exists(objparamadw.AssetPath + ".temp"))
+            {
+                File.Delete(objparamadw.AssetPath + ".temp");
+            }
+            objparam.Write(objparamadw.AssetPath + ".temp", SoulsFormats.DCX.Type.None);
+            if (File.Exists(objparamadw.AssetPath))
+            {
+                if (!File.Exists(objparamadw.AssetPath + ".bak"))
+                {
+                    File.Copy(objparamadw.AssetPath, objparamadw.AssetPath + ".bak", true);
+                }
+                File.Copy(objparamadw.AssetPath, objparamadw.AssetPath + ".prev", true);
+                File.Delete(objparamadw.AssetPath);
+            }
+            File.Move(objparamadw.AssetPath + ".temp", objparamadw.AssetPath);
         }
 
         public void SaveMap(Map map)

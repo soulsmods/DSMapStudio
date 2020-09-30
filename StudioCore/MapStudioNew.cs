@@ -14,7 +14,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Preview 8";
+        private static string _version = "Preview 9";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -207,7 +207,7 @@ namespace StudioCore
             });*/
 
             // Flush geometry megabuffers for editor geometry
-            Renderer.GeometryBufferAllocator.FlushStaging();
+            //Renderer.GeometryBufferAllocator.FlushStaging();
 
             long previousFrameTicks = 0;
             Stopwatch sw = new Stopwatch();

@@ -46,12 +46,12 @@ namespace StudioCore.MsbEditor
                 }
 
                 var sel = _selection.GetSingleFilteredSelection<Entity>();
-                if (sel == null || !(sel.RenderSceneMesh is Scene.CollisionMesh))
+                /*if (sel == null || !(sel.RenderSceneMesh is Scene.CollisionMesh))
                 {
                     ImGui.Text("Select a single collision mesh to generate a navmesh");
                     ImGui.End();
                     return;
-                }
+                }*/
 
                 ImGui.LabelText("value", "lable");
                 ImGui.DragFloat("Cell size", ref Cellsize, 0.005f, 0.0f);

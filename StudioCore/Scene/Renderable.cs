@@ -41,7 +41,7 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 37000;
+        protected const int SYSTEM_SIZE = 40000;
 
         private int _topIndex = 0;
 
