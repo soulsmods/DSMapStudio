@@ -29,9 +29,9 @@ namespace ColBakeTest
                 }
                 foreach (var idx in res.Groups[0].Faces)
                 {
-                    indices.Add((ushort)idx[0].VertexIndex);
-                    indices.Add((ushort)idx[1].VertexIndex);
-                    indices.Add((ushort)idx[2].VertexIndex);
+                    indices.Add((ushort)(idx[0].VertexIndex - 1));
+                    indices.Add((ushort)(idx[1].VertexIndex - 1));
+                    indices.Add((ushort)(idx[2].VertexIndex - 1));
                 }
 
                 HKX2.Builders.hknpCollisionMeshBuilder colBuilder = new HKX2.Builders.hknpCollisionMeshBuilder();

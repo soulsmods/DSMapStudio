@@ -20,7 +20,8 @@ namespace HKX2ReadWrite
                 var v = (hknpPhysicsSceneData)root.m_namedVariants[0].m_variant;
                 foreach (fsnpCustomParamCompressedMeshShape s in v.m_systemDatas[0].m_referencedObjects)
                 {
-                    s.m_triangleIndexToShapeKey = null;
+                    var bvh = s.m_data.getMeshBVH();
+                    /*s.m_triangleIndexToShapeKey = null;
                     s.m_pParam = null;
                     s.m_edgeWeldingMap.m_primaryKeyToIndex = null;
                     s.m_edgeWeldingMap.m_secondaryKeyMask = 0;
@@ -29,7 +30,11 @@ namespace HKX2ReadWrite
                     s.m_quadIsFlat.m_storage.m_numBits = 0;
                     s.m_quadIsFlat.m_storage.m_words = null;
                     s.m_triangleIsInterior.m_storage.m_numBits = 0;
-                    s.m_triangleIsInterior.m_storage.m_words = null;
+                    s.m_triangleIsInterior.m_storage.m_words = null;*/
+                    foreach (var sec in s.m_data.m_meshTree.m_sections)
+                    {
+                        var sbvh = sec.getSectionBVH();
+                    }
                 }
 
                 using (FileStream s2 = File.Create(hkxpath + ".out"))

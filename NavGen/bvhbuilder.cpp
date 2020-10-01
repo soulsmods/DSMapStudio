@@ -19,9 +19,9 @@ DllExport bool BuildBVHForMesh(float* verts, int vcount, unsigned short* indices
 	std::vector<Triangle> triangles;
 	for (int i = 0; i < icount / 3; i++)
 	{
-		int i1 = indices[i * 3] - 1;
-		int i2 = indices[i * 3 + 1] - 1;
-		int i3 = indices[i * 3 + 2] - 1;
+		int i1 = indices[i * 3];
+		int i2 = indices[i * 3 + 1];
+		int i3 = indices[i * 3 + 2];
 		float v1x = verts[i1 * 3];
 		float v1y = verts[i1 * 3 + 1];
 		float v1z = verts[i1 * 3 + 2];
@@ -44,6 +44,14 @@ DllExport bool BuildBVHForMesh(float* verts, int vcount, unsigned short* indices
 	auto [bboxes, centers] = bvh::compute_bounding_boxes_and_centers(triangles.data(), triangles.size());
 	auto globalBBox = bvh::compute_bounding_boxes_union(bboxes.get(), triangles.size());
 	builder.build(globalBBox, bboxes.get(), centers.get(), triangles.size());
+
+	for (int i = 0; i < bbvh.node_count; i++)
+	{
+		if (bbvh.nodes[i].is_leaf)
+		{
+			bbvh.nodes[i].first_child_or_primitive = bbvh.primitive_indices[bbvh.nodes[i].first_child_or_primitive];
+		}
+	}
 
 	return true;
 }

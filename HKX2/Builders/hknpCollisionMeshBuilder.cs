@@ -45,6 +45,7 @@ namespace HKX2.Builders
             public Vector3 Min;
             public Vector3 Max;
             public uint PrimitiveCount;
+            public uint UniqueIndicesCount;
 
             public bool IsSectionHead;
 
@@ -58,6 +59,24 @@ namespace HKX2.Builders
                 return PrimitiveCount;
             }
 
+            public HashSet<ushort> ComputeUniqueIndicesCounts(List<ushort> indices)
+            {
+                if (IsLeaf)
+                {
+                    var s = new HashSet<ushort>();
+                    s.Add(indices[(int)Primitive * 3]);
+                    s.Add(indices[(int)Primitive * 3 + 1]);
+                    s.Add(indices[(int)Primitive * 3 + 2]);
+                    UniqueIndicesCount = 3;
+                    return s;
+                }
+                var left = Left.ComputeUniqueIndicesCounts(indices);
+                var right = Right.ComputeUniqueIndicesCounts(indices);
+                left.UnionWith(right);
+                UniqueIndicesCount = (uint)left.Count;
+                return left;
+            }
+
             /// <summary>
             /// Marks nodes that are the head of sections - independently compressed mesh
             /// chunks with their own BVH
@@ -65,7 +84,7 @@ namespace HKX2.Builders
             public void AttemptSectionSplit()
             {
                 // Very simple primitive count based splitting heuristic for now
-                if (!IsLeaf && PrimitiveCount > 127)
+                if (!IsLeaf && (PrimitiveCount > 127 || UniqueIndicesCount > 255))
                 {
                     IsSectionHead = false;
                     Left.IsSectionHead = true;
@@ -73,6 +92,106 @@ namespace HKX2.Builders
                     Left.AttemptSectionSplit();
                     Right.AttemptSectionSplit();
                 }
+            }
+
+            private static byte CompressDim(float min, float max, float pmin, float pmax)
+            {
+                float snorm = 226.0f / (pmax - pmin);
+                float rmin = MathF.Sqrt(MathF.Max((min - pmin) * snorm, 0));
+                float rmax = MathF.Sqrt(MathF.Max((max - pmax) * -snorm, 0));
+                byte a = (byte)Math.Min(0xF, (int)MathF.Floor(rmin));
+                byte b = (byte)Math.Min(0xF, (int)MathF.Floor(rmax));
+                return (byte)((a << 4) | b);
+            }
+
+            /// <summary>
+            /// Converts the tree into an axis 4 compressed havok tree
+            /// </summary>
+            /// <returns></returns>
+            public List<hkcdStaticTreeCodec3Axis4> BuildAxis4Tree()
+            {
+                var ret = new List<hkcdStaticTreeCodec3Axis4>();
+
+                void CompressNode(BVNode node, Vector3 pbbmin, Vector3 pbbmax)
+                {
+                    var currindex = ret.Count();
+                    var compressed = new hkcdStaticTreeCodec3Axis4();
+                    ret.Add(compressed);
+
+                    // Compress the bounding box
+                    compressed.m_xyz_0 = CompressDim(node.Min.X, node.Max.X, pbbmin.X, pbbmax.X);
+                    compressed.m_xyz_1 = CompressDim(node.Min.Y, node.Max.Y, pbbmin.X, pbbmax.Y);
+                    compressed.m_xyz_2 = CompressDim(node.Min.Z, node.Max.Z, pbbmin.X, pbbmax.Z);
+
+                    // Read back the decompressed bounding box to use as reference for next compression
+                    var min = compressed.DecompressMin(pbbmin, pbbmax);
+                    var max = compressed.DecompressMax(pbbmin, pbbmax);
+
+                    if (node.IsLeaf)
+                    {
+                        compressed.m_data = (byte)(node.Primitive * 2);
+                    }
+                    else
+                    {
+                        // Add the left as the very next node
+                        CompressNode(node.Left, min, max);
+
+                        // Encode the index of the right then add it. The index should
+                        // always be even
+                        compressed.m_data = (byte)((ret.Count() - currindex) | 0x1);
+
+                        // Now encode the right
+                        CompressNode(node.Right, min, max);
+                    }
+                }
+
+                CompressNode(this, Min, Max);
+                return ret;
+            }
+
+            public List<hkcdStaticTreeCodec3Axis5> BuildAxis5Tree()
+            {
+                var ret = new List<hkcdStaticTreeCodec3Axis5>();
+
+                void CompressNode(BVNode node, Vector3 pbbmin, Vector3 pbbmax)
+                {
+                    var currindex = ret.Count();
+                    var compressed = new hkcdStaticTreeCodec3Axis5();
+                    ret.Add(compressed);
+
+                    // Compress the bounding box
+                    compressed.m_xyz_0 = CompressDim(node.Min.X, node.Max.X, pbbmin.X, pbbmax.X);
+                    compressed.m_xyz_1 = CompressDim(node.Min.Y, node.Max.Y, pbbmin.X, pbbmax.Y);
+                    compressed.m_xyz_2 = CompressDim(node.Min.Z, node.Max.Z, pbbmin.X, pbbmax.Z);
+
+                    // Read back the decompressed bounding box to use as reference for next compression
+                    var min = compressed.DecompressMin(pbbmin, pbbmax);
+                    var max = compressed.DecompressMax(pbbmin, pbbmax);
+
+                    if (node.IsLeaf)
+                    {
+                        ushort data = (ushort)(node.Primitive);
+                        compressed.m_loData = (byte)(data & 0xFF);
+                        compressed.m_hiData = (byte)((data >> 8) & 0x7F);
+                    }
+                    else
+                    {
+                        // Add the left as the very next node
+                        CompressNode(node.Left, min, max);
+
+                        // Encode the index of the right then add it. The index should
+                        // always be even
+                        ushort data = (ushort)((ret.Count() - currindex) / 2);
+                        compressed.m_loData = (byte)(data & 0xFF);
+                        compressed.m_hiData = (byte)(((data >> 8) & 0x7F) | 0x80);
+
+                        // Now encode the right
+                        CompressNode(node.Right, min, max);
+                    }
+                }
+
+                CompressNode(this, Min, Max);
+                return ret;
             }
         }
 
@@ -94,12 +213,18 @@ namespace HKX2.Builders
                 {
                     if (n.IsLeaf)
                     {
-                        Indices.Add(indices[(int)n.Primitive * 3]);
-                        Indices.Add(indices[(int)n.Primitive * 3 + 1]);
-                        Indices.Add(indices[(int)n.Primitive * 3 + 2]);
-                        UsedIndices.Add(indices[(int)n.Primitive * 3]);
-                        UsedIndices.Add(indices[(int)n.Primitive * 3 + 1]);
-                        UsedIndices.Add(indices[(int)n.Primitive * 3 + 2]);
+                        var p = n.Primitive;
+                        n.Primitive = (uint)(Indices.Count / 3);
+                        Indices.Add(indices[(int)p * 3]);
+                        Indices.Add(indices[(int)p * 3 + 1]);
+                        Indices.Add(indices[(int)p * 3 + 2]);
+                        UsedIndices.Add(indices[(int)p * 3]);
+                        UsedIndices.Add(indices[(int)p * 3 + 1]);
+                        UsedIndices.Add(indices[(int)p * 3 + 2]);
+                        if (indices[(int)p * 3] == 4 || indices[(int)p * 3 + 1] == 4 || indices[(int)p * 3 + 2] == 4)
+                        {
+                            n.Primitive = n.Primitive;
+                        }
                     }
                     else
                     {
@@ -109,6 +234,8 @@ namespace HKX2.Builders
                 }
             }
         }
+
+        private List<fsnpCustomParamCompressedMeshShape> _meshes = new List<fsnpCustomParamCompressedMeshShape>();
 
         /// <summary>
         /// Build a material with some default values shamelessly stolen from actual
@@ -164,6 +291,25 @@ namespace HKX2.Builders
             return cinfo;
         }
 
+        public ulong CompressSharedVertex(Vector3 vert, Vector3 min, Vector3 max)
+        {
+            float scaleX = (max.X - min.X) / (float)((1 << 21) - 1);
+            float scaleY = (max.Y - min.Y) / (float)((1 << 21) - 1);
+            float scaleZ = (max.Z - min.Z) / (float)((1 << 22) - 1);
+            ulong x = (ulong)((vert.X - min.X) / scaleX);
+            ulong y = (ulong)((vert.Y - min.Y) / scaleY);
+            ulong z = (ulong)((vert.Z - min.Z) / scaleZ);
+            return (x & 0x1FFFFF) | ((y & 0x1FFFFF) << 21) | ((z & 0x3FFFFF) << 42);
+        }
+
+        public uint CompressPackedVertex(Vector3 vert, Vector3 scale, Vector3 offset)
+        {
+            uint x = (uint)MathF.Min(MathF.Max((vert.X - offset.X), 0) / scale.X, 0x7FF);
+            uint y = (uint)MathF.Min(MathF.Max((vert.Y - offset.Y), 0) / scale.Y, 0x7FF);
+            uint z = (uint)MathF.Min(MathF.Max((vert.Z - offset.Z), 0) / scale.Z, 0x3FF);
+            return (x & 0x7FF) | ((y & 0x7FF) << 11) | ((z & 0x3FF) << 22);
+        }
+
         public void AddMesh(List<Vector3> verts, List<ushort> indices)
         {
             // Try and build the BVH for the mesh first
@@ -201,6 +347,7 @@ namespace HKX2.Builders
                 // Split the mesh into sections using the BVH and primitive counts as
                 // guidence
                 bnodes[0].ComputePrimitiveCounts();
+                bnodes[0].ComputeUniqueIndicesCounts(indices);
                 bnodes[0].IsSectionHead = true;
                 bnodes[0].AttemptSectionSplit();
 
@@ -251,6 +398,161 @@ namespace HKX2.Builders
                         shared.Add(i);
                     }
                 }
+
+                // Build shared indices mapping table and compress the shared verts
+                List<ulong> sharedVerts = new List<ulong>();
+                Dictionary<ushort, ushort> sharedIndexRemapTable = new Dictionary<ushort, ushort>();
+                foreach (var i in shared.OrderBy(x => x))
+                {
+                    sharedIndexRemapTable.Add(i, (ushort)sharedVerts.Count());
+                    sharedVerts.Add(CompressSharedVertex(verts[i], bnodes[0].Min, bnodes[0].Max));
+                }
+
+                // build the havok mesh
+                fsnpCustomParamCompressedMeshShape mesh = new fsnpCustomParamCompressedMeshShape();
+                mesh.m_convexRadius = 0.01f;
+                mesh.m_dispatchType = Enum.COMPOSITE;
+                mesh.m_edgeWeldingMap = new hknpSparseCompactMapunsignedshort();
+                mesh.m_edgeWeldingMap.m_primaryKeyToIndex = null;
+                mesh.m_edgeWeldingMap.m_secondaryKeyMask = 0;
+                mesh.m_edgeWeldingMap.m_sencondaryKeyBits = 0;
+                mesh.m_edgeWeldingMap.m_valueAndSecondaryKeys = null;
+                mesh.m_quadIsFlat = new hkBitField();
+                mesh.m_quadIsFlat.m_storage = new hkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator();
+                mesh.m_quadIsFlat.m_storage.m_numBits = 0;
+                mesh.m_quadIsFlat.m_storage.m_words = null;
+                mesh.m_triangleIsInterior = new hkBitField();
+                mesh.m_triangleIsInterior.m_storage = new hkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator();
+                mesh.m_triangleIsInterior.m_storage.m_numBits = 0;
+                mesh.m_triangleIsInterior.m_storage.m_words = null;
+                mesh.m_triangleIndexToShapeKey = null;
+                mesh.m_pParam = null;
+                mesh.m_shapeTagCodecInfo = 4294967295;
+                mesh.m_flags = 516;
+                mesh.m_numShapeKeyBits = 5; // ?
+
+                var meshdata = new hknpCompressedMeshShapeData();
+                mesh.m_data = meshdata;
+
+                var meshtree = new hknpCompressedMeshShapeTree();
+                meshdata.m_meshTree = meshtree;
+                meshtree.m_bitsPerKey = 5; // ?
+                meshtree.m_domain = new hkAabb();
+                meshtree.m_domain.m_min = new Vector4(bnodes[0].Min.X, bnodes[0].Min.Y, bnodes[0].Min.Z, 1.0f);
+                meshtree.m_domain.m_max = new Vector4(bnodes[0].Max.X, bnodes[0].Max.Y, bnodes[0].Max.Z, 1.0f);
+                meshtree.m_maxKeyValue = 30; // ?
+                meshtree.m_nodes = bnodes[0].BuildAxis5Tree();
+                meshtree.m_sharedVertices = sharedVerts;
+
+                // Now let's process all the sections
+                meshtree.m_packedVertices = new List<uint>();
+                meshtree.m_primitiveDataRuns = new List<hknpCompressedMeshShapeTreeDataRun>();
+                meshtree.m_sharedVerticesIndex = new List<ushort>();
+                meshtree.m_primitives = new List<hkcdStaticMeshTreeBasePrimitive>();
+                meshtree.m_sections = new List<hkcdStaticMeshTreeBaseSection>();
+                foreach (var s in sections)
+                {
+                    var sharedindexbase = meshtree.m_sharedVerticesIndex.Count;
+                    var packedvertbase = meshtree.m_packedVertices.Count;
+                    var primitivesbase = meshtree.m_primitives.Count;
+
+                    var sec = new hkcdStaticMeshTreeBaseSection();
+                    var offset = s.SectionHead.Min;
+                    var scale = (s.SectionHead.Max - s.SectionHead.Min) / new Vector3((float)0x7FF, (float)0x7FF, (float)0x3FF);
+                    sec.m_codecParms_0 = offset.X;
+                    sec.m_codecParms_1 = offset.Y;
+                    sec.m_codecParms_2 = offset.Z;
+                    sec.m_codecParms_3 = scale.X;
+                    sec.m_codecParms_4 = scale.Y;
+                    sec.m_codecParms_5 = scale.Z;
+                    sec.m_domain = new hkAabb();
+                    sec.m_domain.m_min = new Vector4(s.SectionHead.Min.X, s.SectionHead.Min.Y, s.SectionHead.Min.Z, 1.0f);
+                    sec.m_domain.m_max = new Vector4(s.SectionHead.Max.X, s.SectionHead.Max.Y, s.SectionHead.Max.Z, 1.0f);
+
+                    // Map the indices to either shared/packed verts and pack verts that need packing
+                    var packedIndicesRemap = new Dictionary<ushort, byte>();
+                    byte idxcounter = 0;
+                    foreach (var idx in s.UsedIndices.OrderBy(x => x))
+                    {
+                        if (!shared.Contains(idx))
+                        {
+                            packedIndicesRemap.Add(idx, idxcounter);
+                            var vert = verts[idx];
+                            meshtree.m_packedVertices.Add(CompressPackedVertex(verts[idx], scale, offset));
+                            var decomp = meshdata.DecompressPackedVertex(meshtree.m_packedVertices.Last(), scale, offset);
+                            idxcounter++;
+                        }
+                    }
+                    var sharedstart = idxcounter;
+                    idxcounter = 0;
+                    foreach (var idx in s.UsedIndices.OrderBy(x => x))
+                    {
+                        if (shared.Contains(idx))
+                        {
+                            packedIndicesRemap.Add(idx, (byte)(idxcounter + sharedstart));
+                            meshtree.m_sharedVerticesIndex.Add(sharedIndexRemapTable[idx]);
+                            idxcounter++;
+                        }
+                    }
+
+                    sec.m_firstPackedVertex = (uint)packedvertbase;
+                    sec.m_numSharedIndices = idxcounter;
+                    sec.m_numPackedVertices = sharedstart;
+                    sec.m_sharedVertices = new hkcdStaticMeshTreeBaseSectionSharedVertices();
+                    sec.m_sharedVertices.m_data = (uint)(((uint)sharedstart & 0xFF) | ((uint)sharedindexbase << 8));
+
+                    // Now pack the primitives
+                    for (int i = 0; i < s.Indices.Count / 3; i++)
+                    {
+                        var p = new hkcdStaticMeshTreeBasePrimitive();
+                        p.m_indices_0 = packedIndicesRemap[s.Indices[i * 3]];
+                        p.m_indices_1 = packedIndicesRemap[s.Indices[i * 3 + 1]];
+                        p.m_indices_2 = packedIndicesRemap[s.Indices[i * 3 + 2]];
+                        p.m_indices_3 = p.m_indices_2;
+                        meshtree.m_primitives.Add(p);
+                    }
+                    sec.m_primitives = new hkcdStaticMeshTreeBaseSectionPrimitives();
+                    sec.m_primitives.m_data = (((uint)s.Indices.Count / 3) & 0xFF) | ((uint)primitivesbase << 8);
+
+                    // Create a data run
+                    sec.m_dataRuns = new hkcdStaticMeshTreeBaseSectionDataRuns();
+                    sec.m_dataRuns.m_data = ((uint)meshtree.m_primitiveDataRuns.Count() << 8) | 1;
+                    var run = new hknpCompressedMeshShapeTreeDataRun();
+                    run.m_count = (byte)(s.Indices.Count / 3);
+                    run.m_index = 0;
+                    run.m_value = new hknpCompressedMeshShapeTreeDataRunData();
+                    run.m_value.m_data = 65535;
+                    meshtree.m_primitiveDataRuns.Add(run);
+
+                    sec.m_nodes = s.SectionHead.BuildAxis4Tree();
+
+                    meshtree.m_sections.Add(sec);
+                }
+
+                meshtree.m_numPrimitiveKeys = meshtree.m_primitives.Count;
+
+                var simdtree = new hkcdSimdTree();
+                meshdata.m_simdTree = simdtree;
+                simdtree.m_nodes = new List<hkcdSimdTreeNode>();
+                for (int i = 0; i < 2; i++)
+                {
+                    hkcdSimdTreeNode n = new hkcdSimdTreeNode();
+                    n.m_data_0 = 0;
+                    n.m_data_1 = 0;
+                    n.m_data_2 = 0;
+                    n.m_data_3 = 0;
+                    float mi = -3.40282E+38F;
+                    float ma = 3.40282E+38F;
+                    n.m_hx = new Vector4(mi, mi, mi, mi);
+                    n.m_hy = new Vector4(mi, mi, mi, mi);
+                    n.m_hz = new Vector4(mi, mi, mi, mi);
+                    n.m_lx = new Vector4(ma, ma, ma, ma);
+                    n.m_ly = new Vector4(ma, ma, ma, ma);
+                    n.m_lz = new Vector4(ma, ma, ma, ma);
+                    simdtree.m_nodes.Add(n);
+                }
+
+                _meshes.Add(mesh);
             }
         }
 
@@ -275,6 +577,19 @@ namespace HKX2.Builders
             var physicsSystemData = new hknpPhysicsSystemData();
             physicsSceneData.m_systemDatas.Add(physicsSystemData);
             physicsSystemData.m_name = "Default Physics System Data";
+            physicsSystemData.m_materials = new List<hknpMaterial>();
+            physicsSystemData.m_bodyCinfos = new List<hknpBodyCinfo>();
+            physicsSystemData.m_referencedObjects = new List<hkReferencedObject>();
+
+            foreach (var m in _meshes)
+            {
+                var mat = BuildMaterial();
+                var cbodyinfo = BuildBodyCInfo("l0000200");
+                cbodyinfo.m_shape = m;
+                physicsSystemData.m_referencedObjects.Add(m);
+                physicsSystemData.m_materials.Add(mat);
+                physicsSystemData.m_bodyCinfos.Add(cbodyinfo);
+            }
 
             return root;
         }
