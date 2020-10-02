@@ -120,8 +120,8 @@ namespace HKX2.Builders
 
                     // Compress the bounding box
                     compressed.m_xyz_0 = CompressDim(node.Min.X, node.Max.X, pbbmin.X, pbbmax.X);
-                    compressed.m_xyz_1 = CompressDim(node.Min.Y, node.Max.Y, pbbmin.X, pbbmax.Y);
-                    compressed.m_xyz_2 = CompressDim(node.Min.Z, node.Max.Z, pbbmin.X, pbbmax.Z);
+                    compressed.m_xyz_1 = CompressDim(node.Min.Y, node.Max.Y, pbbmin.Y, pbbmax.Y);
+                    compressed.m_xyz_2 = CompressDim(node.Min.Z, node.Max.Z, pbbmin.Z, pbbmax.Z);
 
                     // Read back the decompressed bounding box to use as reference for next compression
                     var min = compressed.DecompressMin(pbbmin, pbbmax);
@@ -153,7 +153,7 @@ namespace HKX2.Builders
             {
                 var ret = new List<hkcdStaticTreeCodec3Axis5>();
 
-                void CompressNode(BVNode node, Vector3 pbbmin, Vector3 pbbmax)
+                void CompressNode(BVNode node, Vector3 pbbmin, Vector3 pbbmax, bool root=false)
                 {
                     var currindex = ret.Count();
                     var compressed = new hkcdStaticTreeCodec3Axis5();
@@ -161,8 +161,8 @@ namespace HKX2.Builders
 
                     // Compress the bounding box
                     compressed.m_xyz_0 = CompressDim(node.Min.X, node.Max.X, pbbmin.X, pbbmax.X);
-                    compressed.m_xyz_1 = CompressDim(node.Min.Y, node.Max.Y, pbbmin.X, pbbmax.Y);
-                    compressed.m_xyz_2 = CompressDim(node.Min.Z, node.Max.Z, pbbmin.X, pbbmax.Z);
+                    compressed.m_xyz_1 = CompressDim(node.Min.Y, node.Max.Y, pbbmin.Y, pbbmax.Y);
+                    compressed.m_xyz_2 = CompressDim(node.Min.Z, node.Max.Z, pbbmin.Z, pbbmax.Z);
 
                     // Read back the decompressed bounding box to use as reference for next compression
                     var min = compressed.DecompressMin(pbbmin, pbbmax);
@@ -188,9 +188,15 @@ namespace HKX2.Builders
                         // Now encode the right
                         CompressNode(node.Right, min, max);
                     }
+                    if (root)
+                    {
+                        compressed.m_xyz_0 = 0;
+                        compressed.m_xyz_1 = 0;
+                        compressed.m_xyz_2 = 0;
+                    }
                 }
 
-                CompressNode(this, Min, Max);
+                CompressNode(this, Min, Max, true);
                 return ret;
             }
         }
@@ -443,6 +449,8 @@ namespace HKX2.Builders
                 meshtree.m_maxKeyValue = 30; // ?
                 meshtree.m_nodes = bnodes[0].BuildAxis5Tree();
                 meshtree.m_sharedVertices = sharedVerts;
+
+                var bvh = meshdata.getMeshBVH();
 
                 // Now let's process all the sections
                 meshtree.m_packedVertices = new List<uint>();
