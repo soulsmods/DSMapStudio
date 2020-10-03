@@ -158,24 +158,26 @@ namespace StudioCore.Resource
                 }
                 // Prevent any new completion handlers from being added while executing them all
                 // Any subsequent pending handlers will be executed after this is done
+                WeakReference<IResourceEventListener>[] listeners;
                 lock (HandlerLock)
                 {
                     IsLoaded = true;
-                    foreach (var listener in EventListeners)
+                    listeners = EventListeners.ToArray();
+                }
+                foreach (var listener in listeners)
+                {
+                    try
                     {
-                        try
+                        IResourceEventListener l;
+                        bool succ = listener.TryGetTarget(out l);
+                        if (succ)
                         {
-                            IResourceEventListener l;
-                            bool succ = listener.TryGetTarget(out l);
-                            if (succ)
-                            {
-                                l.OnResourceLoaded(this);
-                            }
+                            l.OnResourceLoaded(this);
                         }
-                        catch (Exception e)
-                        {
-                            System.Console.WriteLine("blah");
-                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Console.WriteLine("blah");
                     }
                 }
                 AccessLevel = al;
@@ -209,24 +211,26 @@ namespace StudioCore.Resource
                 }
                 // Prevent any new completion handlers from being added while executing them all
                 // Any subsequent pending handlers will be executed after this is done
+                WeakReference<IResourceEventListener>[] listeners;
                 lock (HandlerLock)
                 {
                     IsLoaded = true;
-                    foreach (var listener in EventListeners)
+                    listeners = EventListeners.ToArray();
+                }
+                foreach (var listener in listeners)
+                {
+                    try
                     {
-                        try
+                        IResourceEventListener l;
+                        bool succ = listener.TryGetTarget(out l);
+                        if (succ)
                         {
-                            IResourceEventListener l;
-                            bool succ = listener.TryGetTarget(out l);
-                            if (succ)
-                            {
-                                l.OnResourceLoaded(this);
-                            }
+                            l.OnResourceLoaded(this);
                         }
-                        catch (Exception e)
-                        {
-                            System.Console.WriteLine("blah");
-                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Console.WriteLine("blah");
                     }
                 }
                 AccessLevel = al;
@@ -243,17 +247,27 @@ namespace StudioCore.Resource
         public void AddResourceEventListener(IResourceEventListener listener)
         {
             // Prevent modification of loading status while doing this check
+            bool listenLoad = false;
+            bool listenUnload = false;
             lock (HandlerLock)
             {
                 if (IsLoaded)
                 {
-                    listener.OnResourceLoaded(this);
+                    listenLoad = true;
                 }
                 if (!IsLoaded)
                 {
-                    listener.OnResourceUnloaded(this);
+                    listenUnload = true;
                 }
                 EventListeners.Add(new WeakReference<IResourceEventListener>(listener));
+            }
+            if (listenLoad)
+            {
+                listener.OnResourceLoaded(this);
+            }
+            if (listenUnload)
+            {
+                listener.OnResourceUnloaded(this);
             }
         }
 
@@ -264,6 +278,7 @@ namespace StudioCore.Resource
         public void Unload()
         {
             // Make sure any outstanding handlers are added before changing
+            WeakReference<IResourceEventListener>[] listeners;
             lock (HandlerLock)
             {
                 bool spin = true;
@@ -281,15 +296,16 @@ namespace StudioCore.Resource
                         }
                     }
                 }
-                
-                foreach (var listener in EventListeners)
+
+                listeners = EventListeners.ToArray();
+            }
+            foreach (var listener in listeners)
+            {
+                IResourceEventListener l;
+                bool succ = listener.TryGetTarget(out l);
+                if (succ)
                 {
-                    IResourceEventListener l;
-                    bool succ = listener.TryGetTarget(out l);
-                    if (succ)
-                    {
-                        l.OnResourceUnloaded(this);
-                    }
+                    l.OnResourceUnloaded(this);
                 }
             }
             var handle = Resource;
@@ -361,24 +377,26 @@ namespace StudioCore.Resource
                 Resource._LoadTexture(al);
                 // Prevent any new completion handlers from being added while executing them all
                 // Any subsequent pending handlers will be executed after this is done
+                WeakReference<IResourceEventListener>[] listeners;
                 lock (HandlerLock)
                 {
                     IsLoaded = true;
-                    foreach (var listener in EventListeners)
+                    listeners = EventListeners.ToArray();
+                }
+                foreach (var listener in listeners)
+                {
+                    try
                     {
-                        try
+                        IResourceEventListener l;
+                        bool succ = listener.TryGetTarget(out l);
+                        if (succ)
                         {
-                            IResourceEventListener l;
-                            bool succ = listener.TryGetTarget(out l);
-                            if (succ)
-                            {
-                                l.OnResourceLoaded(this);
-                            }
+                            l.OnResourceLoaded(this);
                         }
-                        catch (Exception e)
-                        {
-                            System.Console.WriteLine("blah");
-                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Console.WriteLine("blah");
                     }
                 }
                 AccessLevel = al;

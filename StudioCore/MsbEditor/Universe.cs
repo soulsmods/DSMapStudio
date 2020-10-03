@@ -115,10 +115,16 @@ namespace StudioCore.MsbEditor
             bool loadcol = false;
             bool loadnav = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
+            var amapid = map.Name.Substring(0, 6) + "_00_00";
+            // Special case for chalice dungeon assets
+            if (map.Name.StartsWith("m29"))
+            {
+                amapid = "m29_00_00_00";
+            }
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.StartsWith("m"))
             {
-                asset = _assetLocator.GetMapModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname));
+                asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname));
                 filt = Scene.RenderFilter.MapPiece;
             }
             else if (modelname.StartsWith("c"))
@@ -134,13 +140,13 @@ namespace StudioCore.MsbEditor
             else if (modelname.StartsWith("h"))
             {
                 loadcol = true;
-                asset = _assetLocator.GetMapCollisionModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname), false);
+                asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname), false);
                 filt = Scene.RenderFilter.Collision;
             }
             else if (modelname.StartsWith("n"))
             {
                 loadnav = true;
-                asset = _assetLocator.GetMapNVMModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname));
+                asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname));
                 filt = Scene.RenderFilter.Navmesh;
             }
             else
