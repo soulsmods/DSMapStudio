@@ -14,7 +14,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Preview 9";
+        private static string _version = "Preview 10";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
