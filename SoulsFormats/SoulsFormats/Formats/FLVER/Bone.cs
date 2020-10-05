@@ -43,6 +43,7 @@ namespace SoulsFormats
             /// Rotation of this bone; euler radians in XZY order.
             /// </summary>
             [RotationRadians]
+            [RotationXZY]
             public Vector3 Rotation { get; set; }
 
             /// <summary>

@@ -13,4 +13,9 @@ namespace SoulsFormats
     public class RotationRadians : Attribute
     {
     }
+
+    [System.AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class RotationXZY : Attribute
+    {
+    }
 }

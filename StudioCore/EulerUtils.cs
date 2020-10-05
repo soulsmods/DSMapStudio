@@ -191,6 +191,19 @@ namespace StudioCore
                     result.X = res.Y;
                     result.Y = res.Z;
                     result.Z = res.X;
+                    // Handle poles
+                    if (test > 0.4995f * unit)
+                    {
+                        result.Y = 0.0f;
+                        result.X = 2.0f * (float)Math.Atan2(q.X, q.Z);
+                        result.Z = 90.0f * Utils.Deg2Rad;
+                    }
+                    if (test < -0.4995f * unit)
+                    {
+                        result.Y = 0.0f;
+                        result.X = -2.0f * (float)Math.Atan2(q.X, q.Z);
+                        result.Z = -90.0f * Utils.Deg2Rad;
+                    }
                     break;
 
                 default:
@@ -200,6 +213,27 @@ namespace StudioCore
             result.Y = (result.Y <= -180.0f * Utils.Deg2Rad) ? result.Y + 360.0f * Utils.Deg2Rad : result.Y;
             result.Z = (result.Z <= -180.0f * Utils.Deg2Rad) ? result.Z + 360.0f * Utils.Deg2Rad : result.Z;
             return result;
+        }
+
+        public static Vector3 MatrixToEulerXZY(Matrix4x4 m)
+        {
+            Vector3 ret;
+            ret.Z = MathF.Asin(-Math.Clamp(-m.M12, -1, 1));
+
+            if (Math.Abs(m.M12) < 0.9999999)
+            {
+                ret.X = MathF.Atan2(-m.M32, m.M22);
+                ret.Y = MathF.Atan2(-m.M13, m.M11);
+            }
+            else
+            {
+                ret.X = MathF.Atan2(m.M23, m.M33);
+                ret.Y = 0;
+            }
+            ret.X = (ret.X <= -180.0f * Utils.Deg2Rad) ? ret.X + 360.0f * Utils.Deg2Rad : ret.X;
+            ret.Y = (ret.Y <= -180.0f * Utils.Deg2Rad) ? ret.Y + 360.0f * Utils.Deg2Rad : ret.Y;
+            ret.Z = (ret.Z <= -180.0f * Utils.Deg2Rad) ? ret.Z + 360.0f * Utils.Deg2Rad : ret.Z;
+            return ret;
         }
     }
 }

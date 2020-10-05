@@ -439,6 +439,7 @@ namespace StudioCore
                 commandsplit = command.Split($@"/");
             }
 
+            ImGui.BeginFrame(); // Imguizmo begin frame
             ApplyStyle();
             var vp = ImGui.GetMainViewport();
             ImGui.SetNextWindowPos(vp.Pos);
