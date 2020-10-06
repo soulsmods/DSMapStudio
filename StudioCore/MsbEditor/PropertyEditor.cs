@@ -288,55 +288,12 @@ namespace StudioCore.MsbEditor
             // This should be rewritten somehow it's super ugly
             var nameProp = selection.WrappedObject.GetType().GetProperty("Name");
             var idProp = selection.WrappedObject.GetType().GetProperty("ID");
-            object oval = nameProp.GetValue(selection.WrappedObject);
-            object nval = null;
-            ImGui.PushID(id);
-            ImGui.AlignTextToFramePadding();
-            ImGui.Text("Name");
-            ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
-            bool ch = PropertyRow(nameProp.PropertyType, oval, out nval);
-            bool cm = ImGui.IsItemDeactivatedAfterEdit();
-            ChangeProperty(nameProp, selection, selection.WrappedObject, nval, ch, cm, false);
-            ImGui.NextColumn();
-            ImGui.PopID();
-            id++;
-
-            oval = idProp.GetValue(selection.WrappedObject);
-            nval = null;
-            ImGui.PushID(id);
-            ImGui.AlignTextToFramePadding();
-            ImGui.Text("ID");
-            ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
-            ch = PropertyRow(idProp.PropertyType, oval, out nval);
-            cm = ImGui.IsItemDeactivatedAfterEdit();
-            ChangeProperty(idProp, selection, selection.WrappedObject, nval, ch, cm, false);
-            ImGui.NextColumn();
-            ImGui.PopID();
-            id++;
+            PropEditorPropInfoRow(selection.WrappedObject, nameProp, "Name", ref id, selection);
+            PropEditorPropInfoRow(selection.WrappedObject, idProp, "ID", ref id, selection);
 
             foreach (var cell in cells)
             {
-                ImGui.PushID(id);
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Def.InternalName);
-                ImGui.NextColumn();
-                ImGui.SetNextItemWidth(-1);
-                //ImGui.AlignTextToFramePadding();
-                var typ = cell.Value.GetType();
-                var oldval = cell.Value;
-                bool shouldUpdateVisual = false;
-                bool changed = false;
-                object newval = null;
-
-                changed = PropertyRow(typ, oldval, out newval, selection, cell.Def.InternalName);
-                bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                ChangeProperty(cell.GetType().GetProperty("Value"), selection, cell, newval, changed, committed, shouldUpdateVisual);
-
-                ImGui.NextColumn();
-                ImGui.PopID();
-                id++;
+                PropEditorPropCellRow(cell, ref id, selection);
             }
             ImGui.Columns(1);
         }
@@ -353,94 +310,70 @@ namespace StudioCore.MsbEditor
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
-            object oval = nameProp.GetValue(row);
-            object nval = null;
-            ImGui.PushID(id);
-            ImGui.AlignTextToFramePadding();
-            ImGui.Text("Name");
-            ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
-            bool ch = PropertyRow(nameProp.PropertyType, oval, out nval);
-            bool cm = ImGui.IsItemDeactivatedAfterEdit();
-            ChangeProperty(nameProp, null, row, nval, ch, cm, false);
-            ImGui.NextColumn();
-            ImGui.PopID();
-            id++;
-
-            oval = idProp.GetValue(row);
-            nval = null;
-            ImGui.PushID(id);
-            ImGui.AlignTextToFramePadding();
-            ImGui.Text("ID");
-            ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
-            ch = PropertyRow(idProp.PropertyType, oval, out nval);
-            cm = ImGui.IsItemDeactivatedAfterEdit();
-            ChangeProperty(idProp, null, row, nval, ch, cm, false);
-            ImGui.NextColumn();
-            ImGui.PopID();
-            id++;
+            PropEditorPropInfoRow(row, nameProp, "Name", ref id, null);
+            PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
             ImGui.PopStyleColor();
 
             foreach (var cell in cells)
             {
-                List<string> reftypes = cell.Def.RefTypes;
-                ImGui.PushID(id);
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text(cell.Def.InternalName);
-                //If reftype, add reference info line
-                if(reftypes!=null){
-                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', reftypes)+">");
-                }
-                ImGui.NextColumn();
-                ImGui.SetNextItemWidth(-1);
-                //ImGui.AlignTextToFramePadding();
-                var typ = cell.Value.GetType();
-                var oldval = cell.Value;
-                bool shouldUpdateVisual = false;
-                bool changed = false;
-                object newval = null;
-
-                if(reftypes!=null){
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
-                }
-                changed = PropertyRow(typ, oldval, out newval, null, cell.Def.InternalName);
-                bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                if(reftypes!=null){
-                    ImGui.PopStyleColor();
-                }
-                //add reference data line
-                changed |= PropertyRowRefs(cell, ref newval);
-                ChangeProperty(cell.GetType().GetProperty("Value"), null, cell, newval, changed, committed, shouldUpdateVisual);
-                ImGui.NextColumn();
-                ImGui.PopID();
-                id++;
+                PropEditorPropCellRow(cell, ref id, null);
             }
             ImGui.Columns(1);
         }
-        private bool PropertyRowRefs(PARAM.Cell cell, ref object newval){
+        //Absolute parameter spam because everything is some minor variation
+        //Should really determine which options are necessary and which can be safely removed
+        private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection){
+            PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, null, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
+        }
+        private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection){
+            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Def.RefTypes, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
+        }
+        private void PropEditorPropRow(object oldval, ref int id, string visualName, List<string> reftypes, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection){
+            object newval = null;
+            ImGui.PushID(id);
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text(visualName);
+            if(reftypes!=null){
+                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', reftypes)+">");
+            }
+            ImGui.NextColumn();
+            ImGui.SetNextItemWidth(-1);
+            bool changed = false;
+            if(reftypes!=null){
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
+            }
+            changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            if(reftypes!=null){
+                ImGui.PopStyleColor();
+                if(propType==typeof(int)){
+                    changed |= PropertyRowRefs(reftypes, oldval, ref newval);
+                }
+            }
+            ChangeProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed, false);
+            ImGui.NextColumn();
+            ImGui.PopID();
+            id++;
+        }
+        private bool PropertyRowRefs(List<string> reftypes, object oldval ,ref object newval){
             //Add named row and context menu
             //This should probably be moved to PropertyRow stuff, but the whole drawing system is all over the place anyway
-            List<string> reftypes = cell.Def.RefTypes;
-            if(reftypes!=null && cell.Value.GetType()==typeof(int)){
-                //List located params
-                ImGui.NewLine();
-                foreach(string rt in reftypes){
-                    if(ParamBank.Params.ContainsKey(rt)){
-                        PARAM.Row r = ParamBank.Params[rt][(int)cell.Value];
-                        if(r!=null && r.Name!=null){
-                            ImGui.SameLine();
-                            ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), r.Name);
-                        }
+            //List located params
+            ImGui.NewLine();
+            foreach(string rt in reftypes){
+                if(ParamBank.Params.ContainsKey(rt)){
+                    PARAM.Row r = ParamBank.Params[rt][(int)oldval];
+                    if(r!=null && r.Name!=null){
+                        ImGui.SameLine();
+                        ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), r.Name);
                     }
                 }
                 //Attach context menu
-                return PropertyRowRefsContextMenu(cell, ref newval);
+                return PropertyRowRefsContextMenu(reftypes, oldval, ref newval);
             }
             return false;
         }
-        private bool PropertyRowRefsContextMenu(PARAM.Cell cell, ref object newval){
-            List<string> reftypes = cell.Def.RefTypes;
+        private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval){
             if (ImGui.BeginPopupContextItem(String.Join(',', reftypes)))
             {   
                 //Add Goto statements
@@ -448,9 +381,9 @@ namespace StudioCore.MsbEditor
                     if(!ParamBank.Params.ContainsKey(rt)){
                         continue;
                     }
-                    if (ParamBank.Params[rt][(int)cell.Value]!=null && ImGui.Selectable($@"Go to {rt}"))
+                    if (ParamBank.Params[rt][(int)oldval]!=null && ImGui.Selectable($@"Go to {rt}"))
                     {   
-                        EditorCommandQueue.AddCommand($@"param/select/{rt}/{cell.Value}");
+                        EditorCommandQueue.AddCommand($@"param/select/{rt}/{oldval}");
                     }
                 }
                 //Add searchbar for named editing
