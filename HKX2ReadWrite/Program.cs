@@ -17,7 +17,7 @@ namespace HKX2ReadWrite
                 var root = (hkRootLevelContainer)des.Deserialize(br);
 
                 // Strip some stuff
-                var v = (hknpPhysicsSceneData)root.m_namedVariants[0].m_variant;
+                /*var v = (hknpPhysicsSceneData)root.m_namedVariants[0].m_variant;
                 foreach (fsnpCustomParamCompressedMeshShape s in v.m_systemDatas[0].m_referencedObjects)
                 {
                     var bvh = s.m_data.getMeshBVH();
@@ -45,7 +45,7 @@ namespace HKX2ReadWrite
                         sec.m_flags = 0;
                         var sbvh = sec.getSectionBVH();
                     }
-                }
+                }*/
 
                 using (FileStream s2 = File.Create(args[1]))
                 {

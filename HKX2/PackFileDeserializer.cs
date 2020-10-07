@@ -191,7 +191,23 @@ namespace HKX2
 
         public List<int> ReadInt32Array(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<int>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(br.ReadInt32());
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<ulong> ReadUInt64Array(BinaryReaderEx br)

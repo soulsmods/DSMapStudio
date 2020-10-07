@@ -909,6 +909,13 @@ namespace StudioCore.Scene
                 _pool.DescriptorTableDirty = true;
             }
 
+            public void CreateRenderTarget(GraphicsDevice d, uint width, uint height, uint mips, uint layes, PixelFormat format, TextureUsage usage)
+            {
+                _texture = d.ResourceFactory.CreateTexture(TextureDescription.Texture2D(width, height, mips, layes, format, usage | TextureUsage.RenderTarget));
+                Resident = true;
+                _pool.DescriptorTableDirty = true;
+            }
+
             public void Clean()
             {
                 if (Resident && _staging != null)

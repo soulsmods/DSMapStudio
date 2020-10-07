@@ -116,10 +116,10 @@ namespace StudioCore
 
 
                 case RotSeq.xzy:
-                    return threeaxisrot(2 * (q.Y * q.Z + q.W * q.X),
+                    return threeaxisrot(2 * (q.Y * q.Z - q.W * q.X),
                         q.W * q.W - q.X * q.X + q.Y * q.Y - q.Z * q.Z,
-                        -2 * (q.X * q.Y - q.W * q.Z),
-                        2 * (q.X * q.Z + q.W * q.Y),
+                        -2 * (q.X * q.Y + q.W * q.Z),
+                        2 * (q.X * q.Z - q.W * q.Y),
                         q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z);
 
 
@@ -167,6 +167,7 @@ namespace StudioCore
                     result.Y = res.Z;
                     result.Z = res.Y;
                     // Handle poles
+                    test = q.Y* q.Z - q.W * q.X;
                     if (test > 0.4995f * unit)
                     {
                         result.X = 0.0f;
@@ -188,9 +189,9 @@ namespace StudioCore
                     break;
 
                 case RotSeq.xzy:
-                    result.X = res.Y;
-                    result.Y = res.Z;
-                    result.Z = res.X;
+                    result.X = -res.Z;
+                    result.Y = -res.X;
+                    result.Z = -res.Y;
                     // Handle poles
                     if (test > 0.4995f * unit)
                     {

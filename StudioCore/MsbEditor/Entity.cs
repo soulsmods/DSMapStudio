@@ -559,13 +559,22 @@ namespace StudioCore.MsbEditor
                     if (IsRotationXZY("Rotation"))
                     {
                         t.EulerRotationXZY = new Vector3(r.X, r.Y, r.Z);
-                        var test = t.EulerRotationXZY;
+                        /*var test = t.EulerRotationXZY;
                         if (MathF.Abs(r.X - test.X) > 0.01 ||
                             MathF.Abs(r.Y - test.Y) > 0.01 ||
                             MathF.Abs(r.Z - test.Z) > 0.01)
                         {
-                            Debug.Print("hi");
-                        }
+                            //Debug.Print("hi");
+                            var q2 = new Transform();
+                            q2.EulerRotationXZY = test;
+                            if (MathF.Abs(q2.Rotation.X - t.Rotation.X) > 0.01 ||
+                                MathF.Abs(q2.Rotation.Y - t.Rotation.Y) > 0.01 ||
+                                MathF.Abs(q2.Rotation.Z - t.Rotation.Z) > 0.01 ||
+                                MathF.Abs(q2.Rotation.W - t.Rotation.W) > 0.01)
+                            {
+                                Debug.Print("hi");
+                            }
+                        }*/
                     }
                     else
                     {
