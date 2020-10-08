@@ -591,6 +591,11 @@ namespace StudioCore.Resource
                 Bounds = new BoundingBox();
                 var submeshes = new List<CollisionSubmesh>();
                 bool first = true;
+                if (Hkx2.m_namedVariants.Count == 0)
+                {
+                    // Yes this happens for some cols wtf From???
+                    return false;
+                }
                 var physicsscene = (hknpPhysicsSceneData)Hkx2.m_namedVariants[0].m_variant;
 
                 foreach (var bodyInfo in physicsscene.m_systemDatas[0].m_bodyCinfos)

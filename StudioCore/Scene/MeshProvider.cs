@@ -65,6 +65,21 @@ namespace StudioCore.Scene
             _cache.Add(handle.AssetVirtualPath, nfmp);
             return nfmp;
         }
+
+        public static HavokNavmeshProvider GetHavokNavMeshProvider(ResourceHandle<HavokNavmeshResource> handle)
+        {
+            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            {
+                if (_cache[handle.AssetVirtualPath] is HavokNavmeshProvider fmp)
+                {
+                    return fmp;
+                }
+                throw new Exception("Mesh provider exists but in the wrong form");
+            }
+            HavokNavmeshProvider nfmp = new HavokNavmeshProvider(handle);
+            _cache.Add(handle.AssetVirtualPath, nfmp);
+            return nfmp;
+        }
     }
 
     /// <summary>
@@ -625,6 +640,106 @@ namespace StudioCore.Scene
         private Resource.ResourceHandle<Resource.NVMNavmeshResource> _resource;
 
         public NavmeshProvider(ResourceHandle<Resource.NVMNavmeshResource> handle)
+        {
+            _resource = handle;
+            _resource.AddResourceEventListener(this);
+        }
+
+        public override bool TryLock()
+        {
+            return _resource.TryLock();
+        }
+
+        public override void Unlock()
+        {
+            _resource.Unlock();
+        }
+
+        public override void Acquire()
+        {
+            _resource.Acquire();
+        }
+
+        public override void Release()
+        {
+            _resource.Release();
+        }
+
+        public override bool IsAvailable()
+        {
+            return _resource.IsLoaded &&
+                (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
+                 _resource.AccessLevel == AccessLevel.AccessFull);
+        }
+
+        public override bool IsAtomic()
+        {
+            return true;
+        }
+
+        public override bool HasMeshData()
+        {
+            if (_resource.IsLoaded && _resource.Get().VertexCount > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void OnResourceLoaded(IResourceHandle handle)
+        {
+            if (_resource != null && _resource.TryLock())
+            {
+                _resource.Unlock();
+                NotifyAvailable();
+            }
+        }
+
+        public void OnResourceUnloaded(IResourceHandle handle)
+        {
+            NotifyUnavailable();
+        }
+
+        public override BoundingBox Bounds => _resource.Get().Bounds;
+
+        public override MeshLayoutType LayoutType => MeshLayoutType.LayoutNavmesh;
+
+        public override VertexLayoutDescription LayoutDescription => NavmeshLayout.Layout;
+
+        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => _resource.Get().GeomBuffer;
+
+        public override GPUBufferAllocator.GPUBufferHandle MaterialBuffer => null;
+
+        //public override uint MaterialIndex => MaterialBuffer.AllocationStart / (uint)sizeof(Material);
+
+        public override string ShaderName => "NavSolid";
+
+        public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
+
+        public override FaceCullMode CullMode => FaceCullMode.Back;
+
+        public override FrontFace FrontFace => FrontFace.Clockwise;
+
+        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+
+        public override bool Is32Bit => true;
+
+        public override int IndexOffset => 0;
+
+        public override int IndexCount => _resource.Get().IndexCount;
+
+        public override uint VertexSize => Resource.NavmeshLayout.SizeInBytes;
+
+        public override bool SelectedUseBackface => false;
+
+        public override bool SelectedRenderBaseMesh => false;
+    }
+
+    public unsafe class HavokNavmeshProvider : MeshProvider, IResourceEventListener
+    {
+        private Resource.ResourceHandle<Resource.HavokNavmeshResource> _resource;
+
+        public HavokNavmeshProvider(ResourceHandle<HavokNavmeshResource> handle)
         {
             _resource = handle;
             _resource.AddResourceEventListener(this);

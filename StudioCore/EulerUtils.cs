@@ -166,8 +166,6 @@ namespace StudioCore
                     result.X = res.X;
                     result.Y = res.Z;
                     result.Z = res.Y;
-                    // Handle poles
-                    test = q.Y* q.Z - q.W * q.X;
                     if (test > 0.4995f * unit)
                     {
                         result.X = 0.0f;
@@ -193,6 +191,7 @@ namespace StudioCore
                     result.Y = -res.X;
                     result.Z = -res.Y;
                     // Handle poles
+                    test = q.Y * q.Z - q.W * q.X;
                     if (test > 0.4995f * unit)
                     {
                         result.Y = 0.0f;

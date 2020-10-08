@@ -385,6 +385,51 @@ namespace StudioCore
             return ad;
         }
 
+        public AssetDescription GetMapNVA(string mapid, bool writemode = false)
+        {
+            AssetDescription ad = new AssetDescription();
+            ad.AssetPath = null;
+            if (mapid.Length != 12)
+            {
+                return ad;
+            }
+            // BB chalice maps
+            else if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
+            {
+                var path = $@"\map\{mapid.Substring(0, 9)}_00\{mapid}";
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.nva.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}.nva.dcx";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}.nva.dcx"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
+                }
+            }
+            else
+            {
+                var path = $@"\map\{mapid}\{mapid}";
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.nva.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}.nva.dcx";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}.nva.dcx"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
+                }
+                else if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.nva") || (writemode && GameModDirectory != null))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}.nva";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}.nva"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}.nva";
+                }
+            }
+            ad.AssetName = mapid;
+            return ad;
+        }
+
         public AssetDescription GetEnglishItemMsgbnd(bool writemode = false)
         {
             string path = $@"msg\engus\item.msgbnd.dcx";
@@ -865,6 +910,26 @@ namespace StudioCore
             return ret;
         }
 
+        public AssetDescription GetHavokNavmeshes(string mapid)
+        {
+            var ret = new AssetDescription();
+            ret.AssetPath = GetAssetPath($@"map\{mapid}\{mapid}.nvmhktbnd.dcx");
+            ret.AssetName = mapid;
+            ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
+            return ret;
+        }
+
+        public AssetDescription GetHavokNavmeshModel(string mapid, string model)
+        {
+            var ret = new AssetDescription();
+            ret.AssetPath = GetAssetPath($@"map\{mapid}\{mapid}.nvmhktbnd.dcx");
+            ret.AssetName = model;
+            ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
+            ret.AssetVirtualPath = $@"map/{mapid}/nav/{model}.hkx";
+
+            return ret;
+        }
+
         public List<string> GetChrModels()
         {
             var chrs = new HashSet<string>();
@@ -1130,6 +1195,11 @@ namespace StudioCore
                                 return GetAssetPath($@"map\{mapid}\{mapid}.nvmbnd.dcx");
                             }
                             return GetAssetPath($@"map\{mapid}\{mapid}.nvmbnd");
+                        }
+                        else if (Type == GameType.DarkSoulsIII)
+                        {
+                            bndpath = "";
+                            return GetAssetPath($@"map\{mapid}\{ mapid}.nvmhktbnd.dcx");
                         }
                         bndpath = "";
                         return null;

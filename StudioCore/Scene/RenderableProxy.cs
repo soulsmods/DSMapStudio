@@ -678,6 +678,12 @@ namespace StudioCore.Scene
             var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetNVMMeshProvider(handle));
             return renderable;
         }
+
+        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(RenderScene scene, ResourceHandle<HavokNavmeshResource> handle)
+        {
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetHavokNavMeshProvider(handle));
+            return renderable;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

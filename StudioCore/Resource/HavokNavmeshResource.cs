@@ -40,8 +40,8 @@ namespace StudioCore.Resource
 
             var MeshIndices = new int[indexCount * 3];
             var MeshVertices = new NavmeshLayout[indexCount * 3];
-            //PickingVertices = new Vector3[mesh.Triangles.Count * 3];
-            //PickingIndices = new int[mesh.Triangles.Count * 3];
+            PickingVertices = new Vector3[indexCount * 3];
+            PickingIndices = new int[indexCount * 3];
 
             var factory = Scene.Renderer.Factory;
 
@@ -55,7 +55,11 @@ namespace StudioCore.Resource
                 // Use simple algorithm for convex polygon trianglization
                 for (int t = 0; t < ecount - 2; t++)
                 {
-                    var end = (sedge + t + 2 >= ecount) ? 0 : sedge + t + 2;
+                    if (ecount > 3)
+                    {
+                        //ecount = ecount;
+                    }
+                    var end = (t + 2 >= ecount) ? sedge : sedge + t + 2;
                     var vert1 = mesh.m_vertices[mesh.m_edges[sedge].m_a];
                     var vert2 = mesh.m_vertices[mesh.m_edges[sedge + t + 1].m_a];
                     var vert3 = mesh.m_vertices[mesh.m_edges[end].m_a];
@@ -107,6 +111,8 @@ namespace StudioCore.Resource
                     PickingIndices[idx] = idx;
                     PickingIndices[idx + 1] = idx + 1;
                     PickingIndices[idx + 2] = idx + 2;
+
+                    idx += 3;
                 }
             }
 

@@ -152,13 +152,17 @@ namespace HKX2
         {
             ClassNames = new List<HKXClassName>();
             OffsetClassNamesMap = new Dictionary<uint, HKXClassName>();
-            while (br.ReadUInt16() != 0xFFFF)
+            while (br.ReadByte() != 0xFF)
             {
-                br.Position -= 2;
+                br.Position -= 1;
                 uint stringStart = (uint)br.Position + 5;
                 var className = new HKXClassName(br);
                 ClassNames.Add(className);
                 OffsetClassNamesMap.Add(stringStart, className);
+                if (br.Position == br.Length)
+                {
+                    break;
+                }
             }
         }
 

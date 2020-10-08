@@ -77,7 +77,14 @@ namespace StudioCore.MsbEditor
                 {
                     return CachedName;
                 }
-                CachedName = (string)WrappedObject.GetType().GetProperty("Name").GetValue(WrappedObject, null);
+                if (WrappedObject.GetType().GetProperty("Name") != null)
+                {
+                    CachedName = (string)WrappedObject.GetType().GetProperty("Name").GetValue(WrappedObject, null);
+                }
+                else
+                {
+                    CachedName = "null";
+                }
                 return CachedName;
             }
             set

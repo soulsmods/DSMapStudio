@@ -36,6 +36,7 @@ namespace StudioCore.Resource
             Texture = 2,
             CollisionHKX = 4,
             Navmesh = 8,
+            NavmeshHKX = 16,
             All = 0xFFFFFFF,
         }
 
@@ -285,6 +286,12 @@ namespace StudioCore.Resource
                         else if (ResourceMask.HasFlag(ResourceType.Navmesh) && filevirtpath.ToUpper().EndsWith(".NVM"))
                         {
                             handle = ResourceManager.GetResource<NVMNavmeshResource>(filevirtpath);
+                        }
+                        else if (ResourceMask.HasFlag(ResourceType.NavmeshHKX) &&
+                            (filevirtpath.ToUpper().EndsWith(".HKX") ||
+                             filevirtpath.ToUpper().EndsWith(".HKX.DCX")))
+                        {
+                            handle = ResourceManager.GetResource<HavokNavmeshResource>(filevirtpath);
                         }
 
                         if (handle != null)

@@ -517,6 +517,28 @@ namespace StudioCore.MsbEditor
                 LoadDS2Generators(amapid, map);
             }
 
+            // Temporary DS3 navmesh loading
+            if (_assetLocator.Type == GameType.DarkSoulsIII)
+            {
+                var nvaasset = _assetLocator.GetMapNVA(amapid);
+                NVA nva = NVA.Read(nvaasset.AssetPath);
+                foreach (var nav in nva.Navmeshes)
+                {
+                    var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
+                    map.AddObject(n);
+                    var navid = $@"n{nav.ModelID:D6}";
+                    var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
+                    var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
+
+                    var res = ResourceManager.GetResource<Resource.HavokNavmeshResource>(nasset.AssetVirtualPath);
+                    var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, res);
+                    mesh.World = n.GetWorldMatrix();
+                    mesh.SetSelectable(n);
+                    mesh.DrawFilter = RenderFilter.Navmesh;
+                    n.RenderSceneMesh = mesh;
+                }
+            }
+
             var job = ResourceManager.CreateNewJob($@"Loading {amapid} geometry");
             foreach (var mappiece in mappiecesToLoad)
             {
@@ -597,15 +619,23 @@ namespace StudioCore.MsbEditor
             job.StartJobAsync();
 
             job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
-            foreach (var nav in navsToLoad)
+            if (_assetLocator.Type == GameType.DarkSoulsIII)
             {
-                if (nav.AssetArchiveVirtualPath != null)
+                var nav = _assetLocator.GetHavokNavmeshes(amapid);
+                job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
+            }
+            else
+            {
+                foreach (var nav in navsToLoad)
                 {
-                    job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
-                }
-                else if (nav.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    if (nav.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                    }
+                    else if (nav.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    }
                 }
             }
             job.StartJobAsync();

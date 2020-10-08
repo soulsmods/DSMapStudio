@@ -310,7 +310,12 @@ namespace HKX2
 
         public Matrix4x4 ReadTransform(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // TODO do a proper implementation
+            return new Matrix4x4(
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle(),
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle(),
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle(),
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
         }
 
         public List<Matrix4x4> ReadTransformArray(BinaryReaderEx br)
