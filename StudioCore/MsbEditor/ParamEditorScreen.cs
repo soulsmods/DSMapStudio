@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Numerics;
 using System.Linq;
 using Veldrid;
@@ -70,6 +71,24 @@ namespace StudioCore.MsbEditor
 
         private string _activeParam = null;
         private PARAM.Row _activeRow = null;
+        private string currentMEditinput = "PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);";
+        private string lastMEditinput = "";
+        //eg "EquipParamWeapon: "
+        private static string paramfilterRx = $@"^(?<paramrx>[^\s:]+):\s+";
+        //eg "id (100|200)00"
+        private static string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
+        //eg "name \s+ Arrow"
+        private static string rowfilternameRx = $@"(name\s+(?<rownamerx>[^:]+))";
+        //eg "prop sellValue 100"
+        private static string rowfilterpropRx = $@"(prop\s+(?<rowpropfield>[^\s]+)\s+(?<rowpropvalexp>[^:]+))";
+        //eg "propref originalEquipWep0 Dagger\[.+\]"
+        private static string rowfilterproprefRx = $@"(propref\s+(?<rowpropreffield>[^\s]+)\s+(?<rowproprefnamerx>[^:]+))";
+        private static string rowfilterRx = $@"({rowfilteridRx}|{rowfilternameRx}|{rowfilterpropRx}|{rowfilterproprefRx}):\s+";
+                        //eg "correctFaith: "
+        private static string fieldRx = $@"(?<fieldrx>[^\:]+):\s+";
+                        //eg "* 2;
+        private static string operationRx = $@"(?<op>=|\+|-|\*|/|ref)\s+(?<opparam>[^;]+);";
+        private static Regex commandRx = new Regex($@"{paramfilterRx}{rowfilterRx}{fieldRx}{operationRx}");
 
         private PropertyEditor _propEditor = null;
 
@@ -88,6 +107,8 @@ namespace StudioCore.MsbEditor
 
         public override void DrawEditorMenu()
         {
+            bool openMEdit = false;
+            //Menu Options
             if (ImGui.BeginMenu("Edit"))
             {
                 if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
@@ -115,8 +136,275 @@ namespace StudioCore.MsbEditor
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
+                if(ImGui.MenuItem("Mass Edit", null, false, true)){
+                    openMEdit = true;
+                }
                 ImGui.EndMenu();
             }
+            //Menu Popups
+            if(openMEdit){
+                ImGui.OpenPopup("massEditMenu");
+            }
+            MassEditPopup();
+        }
+
+        public void MassEditPopup(){
+            if(ImGui.BeginPopup("massEditMenu")){
+                ImGui.InputTextMultiline("MEditInput", ref currentMEditinput, 65536, new Vector2(1024, 256));
+                if(ImGui.Selectable("Submit")){
+
+                    string[] commands = currentMEditinput.Split('\n');
+                    MultiplePropertiesChangedAction action = new MultiplePropertiesChangedAction();
+                    foreach(string command in commands){
+                        Match comm = commandRx.Match(command);
+                        if(comm.Success){
+
+                            Regex paramRx = new Regex(comm.Groups["paramrx"].Value);
+                            Regex fieldRx = new Regex(comm.Groups["fieldrx"].Value);
+                            string op = comm.Groups["op"].Value;
+                            string opparam = comm.Groups["opparam"].Value;
+                            Group rowidexp = comm.Groups["rowidexp"];
+                            Group rownamerx = comm.Groups["rownamerx"];
+                            Group rowpropfield = comm.Groups["rowpropfield"];
+                            Group rowpropreffield = comm.Groups["rowpropreffield"];
+
+                            List<PARAM> affectedParams = getMatchingParams(paramRx);
+                            List<PARAM.Row> affectedRows = new List<PARAM.Row>();
+                            foreach(PARAM param in affectedParams){//not ideal to loop here as we rebuild regexes/recheck which method we use, but it's clean
+                                if(rowidexp.Success){
+                                    affectedRows = getMatchingParamRows(param, rowidexp.Value);
+                                }else if(rownamerx.Success){
+                                    affectedRows = getMatchingParamRows(param, new Regex(rownamerx.Value));
+                                }else if(rowpropfield.Success){
+                                    affectedRows = getMatchingParamRows(param, rowpropfield.Value, comm.Groups["rowpropvalexp"].Value);
+                                }else if(rowpropreffield.Success){
+                                    affectedRows = getMatchingParamRows(param, rowpropreffield.Value, new Regex(comm.Groups["rowproprefnamerx"].Value));
+                                }
+                                //somehow matched but also failed to identify a row address
+                            }
+                            List<PARAM.Cell> affectedCells = getMatchingCells(affectedRows, fieldRx);
+                            Console.WriteLine($@"{affectedCells.Count} cells changed");
+                            foreach(PARAM.Cell cell in affectedCells){
+                                object newval = performOperation(cell, op, opparam);
+                                if(newval == null){
+                                    //failed to perform op
+                                    return;
+                                }
+                                action.AddPropertyChange(cell, cell.GetType().GetProperty("Value"), newval);
+                            }
+                        }else{
+                            //invalid command. tell user at some point maybe.
+                        }
+                    }
+                    EditorActionManager.ExecuteAction(action);
+                    lastMEditinput = currentMEditinput;
+                    currentMEditinput = "";
+                }
+                ImGui.Text(lastMEditinput);//more of an output thing
+                ImGui.EndPopup();
+            }
+        }
+        public List<PARAM> getMatchingParams(Regex paramrx){
+            List<PARAM> plist = new List<PARAM>();
+            foreach(string name in ParamBank.Params.Keys){
+                if(paramrx.Match(name).Success){
+                    plist.Add(ParamBank.Params[name]);
+                }
+            }
+            return plist;
+        }
+        public List<PARAM.Row> getMatchingParamRows(PARAM param, string rowvalexp){
+            List<PARAM.Row> rlist = new List<PARAM.Row>();
+            foreach(PARAM.Row row in param.Rows){
+                if(matchNumExp(row.ID, rowvalexp)){
+                    rlist.Add(row);
+                }
+            }
+            return rlist;
+        }
+        public List<PARAM.Row> getMatchingParamRows(PARAM param, Regex rownamerx){
+            List<PARAM.Row> rlist = new List<PARAM.Row>();
+            foreach(PARAM.Row row in param.Rows){
+                if(row.Name==null){
+                    continue;
+                }
+                if(rownamerx.Match(row.Name).Success){
+                    rlist.Add(row);
+                }
+            }
+            return rlist;
+        }
+        public List<PARAM.Row> getMatchingParamRows(PARAM param, string rowfield, string rowvalexp){
+            List<PARAM.Row> rlist = new List<PARAM.Row>();
+            foreach(PARAM.Row row in param.Rows){
+                PARAM.Cell c = row[rowfield];
+                if(c!=null){
+                    if(matchNumExp(c.Value, rowvalexp)){
+                        rlist.Add(row);
+                    }
+                }
+            }
+            return rlist;
+        }
+        public List<PARAM.Row> getMatchingParamRows(PARAM param, string rowfield, Regex rownamerx){
+            List<PARAM.Row> rlist = new List<PARAM.Row>();
+            foreach(PARAM.Row row in param.Rows){
+                PARAM.Cell c = row[rowfield];
+                if(c!=null){
+                    int val = (int)c.Value;//assume int value
+                    foreach(string rt in c.Def.RefTypes){
+                        if(!ParamBank.Params.ContainsKey(rt)){
+                            continue;
+                        }
+                        PARAM.Row r = ParamBank.Params[rt][val];
+                        if(r.Name==null){
+                            continue;
+                        }
+                        if(r!=null && rownamerx.Match(r.Name).Success){
+                            rlist.Add(row);//don't add the ref'd row lol
+                            break;//no need to check other refs
+                        }
+                    }
+                }
+            }
+            return rlist;
+        }
+        public List<PARAM.Cell> getMatchingCells(List<PARAM.Row> rows, Regex fieldrx){
+            List<PARAM.Cell> clist = new List<PARAM.Cell>();
+            foreach(PARAM.Row row in rows){//we love seeing loops on top of loops so brazenly
+                foreach(PARAM.Cell c in row.Cells){
+                    if(fieldrx.Match(c.Def.DisplayName).Success){//using displayname instead of internal. questionable?
+                        clist.Add(c);
+                        //intentionally not breaking - potential for changing multiple cells at once eg. originalweapon0-10
+                    }
+                }
+            }
+            return clist;
+        }
+        public bool matchNumExp(object val, string valexp){
+            try{
+                return val.Equals(long.Parse(valexp));//basic right now and assumes long type, to be extended with x<y/100<z syntax nonsense
+            }catch(FormatException f){
+                //format error
+                return false;
+            }
+        }
+        public object performOperation(PARAM.Cell c, string op, string opparam){
+            try{
+                object val = c.Value;
+                //this is a hellish mess
+                //I feel like the cs grad meme
+                if(op.Equals("=")){
+                    if(val.GetType()==typeof(long)){
+                        return long.Parse(opparam);
+                    }else if(val.GetType()==typeof(int)){
+                        return int.Parse(opparam);
+                    }else if (val.GetType() == typeof(short)){
+                        return short.Parse(opparam);
+                    }else if (val.GetType() == typeof(ushort)){
+                        return ushort.Parse(opparam);
+                    }else if (val.GetType() == typeof(sbyte)){
+                        return sbyte.Parse(opparam);
+                    }else if (val.GetType() == typeof(byte)){
+                        return byte.Parse(opparam);
+                    }else if (val.GetType() == typeof(bool)){
+                        return bool.Parse(opparam);
+                    }else if (val.GetType() == typeof(float)){
+                        return float.Parse(opparam);
+                    }else if (val.GetType() == typeof(string)){
+                        return opparam;
+                    }else{
+                        return null;
+                    }
+                }else if(op.Equals("+")){
+                    if(val.GetType()==typeof(long)){
+                        return (long)val*long.Parse(opparam);
+                    }else if(val.GetType()==typeof(int)){
+                        return (int)val+int.Parse(opparam);
+                    }else if (val.GetType() == typeof(short)){
+                        return (short)val+short.Parse(opparam);
+                    }else if (val.GetType() == typeof(ushort)){
+                        return (ushort)val+ushort.Parse(opparam);
+                    }else if (val.GetType() == typeof(sbyte)){
+                        return (sbyte)val+sbyte.Parse(opparam);
+                    }else if (val.GetType() == typeof(byte)){
+                        return (byte)val+byte.Parse(opparam);
+                    }else if (val.GetType() == typeof(float)){
+                        return (float)val+float.Parse(opparam);
+                    }else{
+                        return null;
+                    }
+                }else if(op.Equals("-")){
+                    if(val.GetType()==typeof(long)){
+                        return (long)val-long.Parse(opparam);
+                    }else if(val.GetType()==typeof(int)){
+                        return (int)val-int.Parse(opparam);
+                    }else if (val.GetType() == typeof(short)){
+                        return (short)val-short.Parse(opparam);
+                    }else if (val.GetType() == typeof(ushort)){
+                        return (ushort)val-ushort.Parse(opparam);
+                    }else if (val.GetType() == typeof(sbyte)){
+                        return (sbyte)val-sbyte.Parse(opparam);
+                    }else if (val.GetType() == typeof(byte)){
+                        return (byte)val-byte.Parse(opparam);
+                    }else if (val.GetType() == typeof(float)){
+                        return (float)val-float.Parse(opparam);
+                    }else{
+                        return null;
+                    }
+                }else if(op.Equals("*")){
+                    if(val.GetType()==typeof(long)){
+                        return (long)val*long.Parse(opparam);
+                    }else if(val.GetType()==typeof(int)){
+                        return (int)val*int.Parse(opparam);
+                    }else if (val.GetType() == typeof(short)){
+                        return (short)val*short.Parse(opparam);
+                    }else if (val.GetType() == typeof(ushort)){
+                        return (ushort)val*ushort.Parse(opparam);
+                    }else if (val.GetType() == typeof(sbyte)){
+                        return (sbyte)val*sbyte.Parse(opparam);
+                    }else if (val.GetType() == typeof(byte)){
+                        return (byte)val*byte.Parse(opparam);
+                    }else if (val.GetType() == typeof(float)){
+                        return (float)val*float.Parse(opparam);
+                    }else{
+                        return null;
+                    }
+                }else if(op.Equals("/")){
+                    if(val.GetType()==typeof(long)){
+                        return (long)val/long.Parse(opparam);
+                    }else if(val.GetType()==typeof(int)){
+                        return (int)val/int.Parse(opparam);
+                    }else if (val.GetType() == typeof(short)){
+                        return (short)val/short.Parse(opparam);
+                    }else if (val.GetType() == typeof(ushort)){
+                        return (ushort)val/ushort.Parse(opparam);
+                    }else if (val.GetType() == typeof(sbyte)){
+                        return (sbyte)val/sbyte.Parse(opparam);
+                    }else if (val.GetType() == typeof(byte)){
+                        return (byte)val/byte.Parse(opparam);
+                    }else if (val.GetType() == typeof(float)){
+                        return (float)val/float.Parse(opparam);
+                    }else{
+                        return null;
+                    }
+                }else if(op.Equals("ref")){
+                    foreach(string reftype in c.Def.RefTypes){
+                        PARAM p = ParamBank.Params[reftype];
+                        if(p==null){
+                            continue;
+                        }
+                        foreach(PARAM.Row r in p.Rows){
+                            if(r.Name.Equals(opparam)){
+                                return r.ID;
+                            }
+                        }
+                    }
+                }
+            }catch(FormatException f){
+                //Parse Error
+            }
+            return null;
         }
 
         public void OnGUI(string[] initcmd)

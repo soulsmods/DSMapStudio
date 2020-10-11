@@ -137,6 +137,34 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class MultiplePropertiesChangedAction : Action
+    {
+        //Ended up with this because a single PropertiesChangedAction changes the properties of an individual object
+        private List<PropertiesChangedAction> Changes = new List<PropertiesChangedAction>();
+        public void AddPropertyChange(object changed, PropertyInfo prop, object newval, int index = -1)
+        {
+            Changes.Add(new PropertiesChangedAction(prop, index, changed, newval));
+        }
+        public override ActionEvent Execute()
+        {
+            foreach (var change in Changes)
+            {
+                change.Execute();
+            }
+            return ActionEvent.NoEvent;
+        }
+
+        public override ActionEvent Undo()
+        {
+            Changes.Reverse();//god I hope this is an access trick and not actually reversing
+            foreach (var change in Changes)
+            {
+                change.Undo();
+            }
+            return ActionEvent.NoEvent;
+        }
+    }
+
     public class CloneMapObjectsAction : Action
     {
         private Universe Universe;
