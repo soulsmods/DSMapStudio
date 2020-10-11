@@ -188,12 +188,14 @@ namespace StudioCore.MsbEditor
                                 object newval = performOperation(cell, op, opparam);
                                 if(newval == null){
                                     //failed to perform op
+                                    Console.WriteLine("An operation failed");
                                     return;
                                 }
                                 action.AddPropertyChange(cell, cell.GetType().GetProperty("Value"), newval);
                             }
                         }else{
                             //invalid command. tell user at some point maybe.
+                            Console.WriteLine("Bad command");
                         }
                     }
                     EditorActionManager.ExecuteAction(action);
@@ -289,122 +291,74 @@ namespace StudioCore.MsbEditor
                 return false;
             }
         }
-        public object performOperation(PARAM.Cell c, string op, string opparam){
+        public object performOperation(PARAM.Cell cell, string op, string opparam){
             try{
-                object val = c.Value;
-                //this is a hellish mess
-                //I feel like the cs grad meme
-                if(op.Equals("=")){
-                    if(val.GetType()==typeof(long)){
-                        return long.Parse(opparam);
-                    }else if(val.GetType()==typeof(int)){
-                        return int.Parse(opparam);
-                    }else if (val.GetType() == typeof(short)){
-                        return short.Parse(opparam);
-                    }else if (val.GetType() == typeof(ushort)){
-                        return ushort.Parse(opparam);
-                    }else if (val.GetType() == typeof(sbyte)){
-                        return sbyte.Parse(opparam);
-                    }else if (val.GetType() == typeof(byte)){
-                        return byte.Parse(opparam);
-                    }else if (val.GetType() == typeof(bool)){
-                        return bool.Parse(opparam);
-                    }else if (val.GetType() == typeof(float)){
-                        return float.Parse(opparam);
-                    }else if (val.GetType() == typeof(string)){
-                        return opparam;
-                    }else{
-                        return null;
-                    }
-                }else if(op.Equals("+")){
-                    if(val.GetType()==typeof(long)){
-                        return (long)val*long.Parse(opparam);
-                    }else if(val.GetType()==typeof(int)){
-                        return (int)val+int.Parse(opparam);
-                    }else if (val.GetType() == typeof(short)){
-                        return (short)val+short.Parse(opparam);
-                    }else if (val.GetType() == typeof(ushort)){
-                        return (ushort)val+ushort.Parse(opparam);
-                    }else if (val.GetType() == typeof(sbyte)){
-                        return (sbyte)val+sbyte.Parse(opparam);
-                    }else if (val.GetType() == typeof(byte)){
-                        return (byte)val+byte.Parse(opparam);
-                    }else if (val.GetType() == typeof(float)){
-                        return (float)val+float.Parse(opparam);
-                    }else{
-                        return null;
-                    }
-                }else if(op.Equals("-")){
-                    if(val.GetType()==typeof(long)){
-                        return (long)val-long.Parse(opparam);
-                    }else if(val.GetType()==typeof(int)){
-                        return (int)val-int.Parse(opparam);
-                    }else if (val.GetType() == typeof(short)){
-                        return (short)val-short.Parse(opparam);
-                    }else if (val.GetType() == typeof(ushort)){
-                        return (ushort)val-ushort.Parse(opparam);
-                    }else if (val.GetType() == typeof(sbyte)){
-                        return (sbyte)val-sbyte.Parse(opparam);
-                    }else if (val.GetType() == typeof(byte)){
-                        return (byte)val-byte.Parse(opparam);
-                    }else if (val.GetType() == typeof(float)){
-                        return (float)val-float.Parse(opparam);
-                    }else{
-                        return null;
-                    }
-                }else if(op.Equals("*")){
-                    if(val.GetType()==typeof(long)){
-                        return (long)val*long.Parse(opparam);
-                    }else if(val.GetType()==typeof(int)){
-                        return (int)val*int.Parse(opparam);
-                    }else if (val.GetType() == typeof(short)){
-                        return (short)val*short.Parse(opparam);
-                    }else if (val.GetType() == typeof(ushort)){
-                        return (ushort)val*ushort.Parse(opparam);
-                    }else if (val.GetType() == typeof(sbyte)){
-                        return (sbyte)val*sbyte.Parse(opparam);
-                    }else if (val.GetType() == typeof(byte)){
-                        return (byte)val*byte.Parse(opparam);
-                    }else if (val.GetType() == typeof(float)){
-                        return (float)val*float.Parse(opparam);
-                    }else{
-                        return null;
-                    }
-                }else if(op.Equals("/")){
-                    if(val.GetType()==typeof(long)){
-                        return (long)val/long.Parse(opparam);
-                    }else if(val.GetType()==typeof(int)){
-                        return (int)val/int.Parse(opparam);
-                    }else if (val.GetType() == typeof(short)){
-                        return (short)val/short.Parse(opparam);
-                    }else if (val.GetType() == typeof(ushort)){
-                        return (ushort)val/ushort.Parse(opparam);
-                    }else if (val.GetType() == typeof(sbyte)){
-                        return (sbyte)val/sbyte.Parse(opparam);
-                    }else if (val.GetType() == typeof(byte)){
-                        return (byte)val/byte.Parse(opparam);
-                    }else if (val.GetType() == typeof(float)){
-                        return (float)val/float.Parse(opparam);
-                    }else{
-                        return null;
-                    }
-                }else if(op.Equals("ref")){
-                    foreach(string reftype in c.Def.RefTypes){
-                        PARAM p = ParamBank.Params[reftype];
-                        if(p==null){
-                            continue;
-                        }
-                        foreach(PARAM.Row r in p.Rows){
-                            if(r.Name.Equals(opparam)){
-                                return r.ID;
+                if(op.Equals("ref")){
+                    if(cell.Value.GetType()==typeof(int)){
+                        foreach(string reftype in cell.Def.RefTypes){
+                            PARAM p = ParamBank.Params[reftype];
+                            if(p==null){
+                                continue;
+                            }
+                            foreach(PARAM.Row r in p.Rows){
+                                if(r.Name==null){
+                                    continue;
+                                }
+                                if(r.Name.Equals(opparam)){
+                                    return (int)r.ID;
+                                }
                             }
                         }
                     }
                 }
+                if(op.Equals("=")){
+                    if(cell.Value.GetType()==typeof(bool)){
+                        return bool.Parse(opparam);
+                    }else if(cell.Value.GetType()==typeof(string)){
+                        return opparam;
+                    }
+                }
+                if(cell.Value.GetType()==typeof(long)){
+                    return performBasicOperation<long>(cell, op, long.Parse(opparam));
+                }else if(cell.Value.GetType()==typeof(int)){
+                    return performBasicOperation<int>(cell, op, int.Parse(opparam));
+                }else if(cell.Value.GetType()==typeof(short)){
+                    return performBasicOperation<short>(cell, op, short.Parse(opparam));
+                }else if(cell.Value.GetType()==typeof(ushort)){
+                    return performBasicOperation<ushort>(cell, op, ushort.Parse(opparam));
+                }else if(cell.Value.GetType()==typeof(sbyte)){
+                    return performBasicOperation<sbyte>(cell, op, sbyte.Parse(opparam));
+                }else if(cell.Value.GetType()==typeof(byte)){
+                    return performBasicOperation<byte>(cell, op, byte.Parse(opparam));
+                }else if(cell.Value.GetType()==typeof(float)){
+                    return performBasicOperation<float>(cell, op, float.Parse(opparam));
+                }
             }catch(FormatException f){
-                //Parse Error
+                Console.WriteLine("Poorly formatted operation");
             }
             return null;
+        }
+        public T performBasicOperation<T>(PARAM.Cell c, string op, T opparam) where T : struct, IFormattable{
+            try{
+                dynamic val = c.Value;
+                dynamic opp = opparam;
+                //this is a hellish mess
+                //I feel like the cs grad meme
+                if(op.Equals("=")){
+                    return (T)(opp);
+                }else if(op.Equals("+")){
+                    return (T)(val+opp);
+                }else if(op.Equals("-")){
+                    return (T)(val-opp);
+                }else if(op.Equals("*")){
+                    return (T)(val*opp);
+                }else if(op.Equals("/")){
+                    return (T)(val/opp);
+                }
+            }catch(Exception e){
+                //Operation error
+            }
+            return default(T);
         }
 
         public void OnGUI(string[] initcmd)
