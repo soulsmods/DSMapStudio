@@ -22,6 +22,7 @@ namespace StudioCore.MsbEditor
         private Action LastUncommittedAction = null;
 
         private string currentAutoComplete = "";
+        private int searchStartPos = 0;
 
         public PropertyEditor(ActionManager manager)
         {
@@ -405,6 +406,7 @@ namespace StudioCore.MsbEditor
                 //Add searchbar for named editing
                 ImGui.InputText("##value", ref currentAutoComplete, 128);
                 //Unordered scanthrough search for matching param entries.
+                //This needs to be replaced by a proper search box with a scroll and everything
                 foreach(string rt in reftypes)
                 {
                     if(currentAutoComplete!="")
@@ -412,10 +414,10 @@ namespace StudioCore.MsbEditor
                         int max = 15/reftypes.Count;//Magic numbers
                         foreach(PARAM.Row r in ParamBank.Params[rt].Rows)
                         {
-                            if(max<=0 || r.Name==null)
-                            {
+                            if(max<=0)
                                 break;
-                            }
+                            if(r.Name==null)
+                                continue;
                             if(RefContextSearchMatch(r.Name, currentAutoComplete))
                             {
                                 if(ImGui.Selectable(r.Name))
