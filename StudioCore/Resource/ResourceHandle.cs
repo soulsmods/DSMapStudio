@@ -352,6 +352,22 @@ namespace StudioCore.Resource
             }
         }
 
+        /// <summary>
+        /// Constructs a temporary handle for a resource. This is useful for creating "fake"
+        /// resources that aren't serialized and registered with the resource management system
+        /// yet such as previews for freshly imported models
+        /// </summary>
+        /// <param name="res">The resource to create a handle from</param>
+        /// <returns></returns>
+        public static ResourceHandle<T> TempHandleFromResource(T res)
+        {
+            var ret = new ResourceHandle<T>("temp");
+            ret.AccessLevel = AccessLevel.AccessFull;
+            ret.IsLoaded = true;
+            ret.Resource = res;
+            return ret;
+        }
+
         public override string ToString()
         {
             return AssetVirtualPath;

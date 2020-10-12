@@ -77,7 +77,7 @@ namespace StudioCore.MsbEditor
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
             PropSearch = new SearchProperties(Universe);
-            NavMeshEditor = new NavmeshEditor(RenderScene, _selection);
+            NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
             EditorActionManager.AddEventHandler(SceneTree);
 
@@ -440,7 +440,7 @@ namespace StudioCore.MsbEditor
             PropSearch.OnGui(propSearchKey);
 
             // Not usable yet
-            //NavMeshEditor.OnGui(AssetLocator.Type);
+            NavMeshEditor.OnGui(AssetLocator.Type);
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawResourceList();

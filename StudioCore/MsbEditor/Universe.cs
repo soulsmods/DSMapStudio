@@ -50,6 +50,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
@@ -57,6 +58,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
@@ -64,6 +66,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
@@ -71,6 +74,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             return null;
@@ -521,21 +525,24 @@ namespace StudioCore.MsbEditor
             if (_assetLocator.Type == GameType.DarkSoulsIII)
             {
                 var nvaasset = _assetLocator.GetMapNVA(amapid);
-                NVA nva = NVA.Read(nvaasset.AssetPath);
-                foreach (var nav in nva.Navmeshes)
+                if (nvaasset.AssetPath != null)
                 {
-                    var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
-                    map.AddObject(n);
-                    var navid = $@"n{nav.ModelID:D6}";
-                    var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
-                    var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
+                    NVA nva = NVA.Read(nvaasset.AssetPath);
+                    foreach (var nav in nva.Navmeshes)
+                    {
+                        var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
+                        map.AddObject(n);
+                        var navid = $@"n{nav.ModelID:D6}";
+                        var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
+                        var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
 
-                    var res = ResourceManager.GetResource<Resource.HavokNavmeshResource>(nasset.AssetVirtualPath);
-                    var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, res);
-                    mesh.World = n.GetWorldMatrix();
-                    mesh.SetSelectable(n);
-                    mesh.DrawFilter = RenderFilter.Navmesh;
-                    n.RenderSceneMesh = mesh;
+                        var res = ResourceManager.GetResource<Resource.HavokNavmeshResource>(nasset.AssetVirtualPath);
+                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, res);
+                        mesh.World = n.GetWorldMatrix();
+                        mesh.SetSelectable(n);
+                        mesh.DrawFilter = RenderFilter.Navmesh;
+                        n.RenderSceneMesh = mesh;
+                    }
                 }
             }
 

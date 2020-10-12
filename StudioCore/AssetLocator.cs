@@ -857,10 +857,13 @@ namespace StudioCore
             if (Type == GameType.DarkSoulsIII)
             {
                 var mid = mapid.Substring(0, 3);
-                var t = TPF.Read(GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx"));
-                foreach (var tex in t.Textures)
+                if (File.Exists(GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx")))
                 {
-                    l.Add(tex.Name);
+                    var t = TPF.Read(GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx"));
+                    foreach (var tex in t.Textures)
+                    {
+                        l.Add(tex.Name);
+                    }
                 }
             }
             return l;

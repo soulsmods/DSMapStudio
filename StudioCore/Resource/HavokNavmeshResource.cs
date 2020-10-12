@@ -15,11 +15,16 @@ namespace StudioCore.Resource
     public class HavokNavmeshResource : IResource, IDisposable
     {
         public int IndexCount;
+        public int GraphIndexCount;
         public int[] PickingIndices;
 
         public Scene.VertexIndexBufferAllocator.VertexIndexBufferHandle GeomBuffer { get; set; }
 
+        public Scene.VertexIndexBufferAllocator.VertexIndexBufferHandle CostGraphGeomBuffer { get; set; }
+
+
         public int VertexCount { get; set; }
+        public int GraphVertexCount { get; set; }
 
         public Vector3[] PickingVertices;
 
@@ -47,8 +52,15 @@ namespace StudioCore.Resource
 
             int idx = 0;
 
+            int maxcluster = 0;
+
             for (int id = 0; id < mesh.m_faces.Count; id++)
             {
+                if (mesh.m_faces[id].m_clusterIndex > maxcluster)
+                {
+                    maxcluster = mesh.m_faces[id].m_clusterIndex;
+                }
+
                 var sedge = mesh.m_faces[id].m_startEdgeIndex;
                 var ecount = mesh.m_faces[id].m_numEdges;
 
@@ -148,13 +160,106 @@ namespace StudioCore.Resource
             });
         }
 
+        unsafe private void ProcessGraph(hkaiDirectedGraphExplicitCost graph)
+        {
+            var verts = graph.m_positions;
+            int indexCount = 0;
+            foreach (var g in graph.m_nodes)
+            {
+                // Simple formula for indices count for a triangulation of a poly
+                indexCount += g.m_numEdges;
+            }
+
+            var MeshIndices = new int[indexCount * 2];
+            var MeshVertices = new PositionColor[indexCount * 2];
+            var vertPos = new Vector3[indexCount * 2];
+
+            var factory = Scene.Renderer.Factory;
+
+            int idx = 0;
+
+            for (int id = 0; id < graph.m_nodes.Count; id++)
+            {
+                var sedge = graph.m_nodes[id].m_startEdgeIndex;
+                var ecount = graph.m_nodes[id].m_numEdges;
+
+                for (int e = 0; e < ecount; e++)
+                {
+                    var vert1 = graph.m_positions[id];
+                    var vert2 = graph.m_positions[(int)graph.m_edges[graph.m_nodes[id].m_startEdgeIndex + e].m_target];
+
+                    MeshVertices[idx] = new PositionColor();
+                    MeshVertices[idx + 1] = new PositionColor();
+
+                    MeshVertices[idx].Position = new Vector3(vert1.X, vert1.Y, vert1.Z);
+                    MeshVertices[idx + 1].Position = new Vector3(vert2.X, vert2.Y, vert2.Z);
+                    vertPos[idx] = new Vector3(vert1.X, vert1.Y, vert1.Z);
+                    vertPos[idx + 1] = new Vector3(vert2.X, vert2.Y, vert2.Z);
+
+                    MeshVertices[idx].Color[0] = (byte)(235);
+                    MeshVertices[idx].Color[1] = (byte)(200);
+                    MeshVertices[idx].Color[2] = (byte)(255);
+                    MeshVertices[idx].Color[3] = (byte)(255);
+                    MeshVertices[idx + 1].Color[0] = (byte)(235);
+                    MeshVertices[idx + 1].Color[1] = (byte)(200);
+                    MeshVertices[idx + 1].Color[2] = (byte)(255);
+                    MeshVertices[idx + 1].Color[3] = (byte)(255);
+
+                    MeshIndices[idx] = idx;
+                    MeshIndices[idx + 1] = idx + 1;
+
+                    idx += 2;
+                }
+            }
+
+            GraphVertexCount = MeshVertices.Length;
+            GraphIndexCount = MeshIndices.Length;
+
+            uint buffersize = (uint)GraphIndexCount * 4u;
+
+            if (GraphVertexCount > 0)
+            {
+                fixed (void* ptr = vertPos)
+                {
+                    Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, vertPos.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
+                }
+            }
+            else
+            {
+                Bounds = new BoundingBox();
+            }
+
+            var lsize = MeshLayoutUtils.GetLayoutVertexSize(MeshLayoutType.LayoutPositionColor);
+            uint vbuffersize = (uint)MeshVertices.Length * lsize;
+
+            CostGraphGeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)lsize, 4, (h) =>
+            {
+                h.FillIBuffer(MeshIndices, () =>
+                {
+                    MeshIndices = null;
+                });
+                h.FillVBuffer(MeshVertices, () =>
+                {
+                    MeshVertices = null;
+                });
+            });
+        }
+
         private bool LoadInternal(AccessLevel al)
         {
             if (al == AccessLevel.AccessFull || al == AccessLevel.AccessGPUOptimizedOnly)
             {
                 Bounds = new BoundingBox();
-                var mesh = (hkaiNavMesh)HkxRoot.m_namedVariants[0].m_variant;
-                ProcessMesh(mesh);
+                var mesh = HkxRoot.FindVariant<hkaiNavMesh>();
+                if (mesh != null)
+                {
+                    ProcessMesh(mesh);
+                }
+                var graph = HkxRoot.FindVariant<hkaiDirectedGraphExplicitCost>();
+                if (graph != null)
+                {
+                    ProcessGraph(graph);
+                }
             }
 
             if (al == AccessLevel.AccessGPUOptimizedOnly)
@@ -180,6 +285,14 @@ namespace StudioCore.Resource
                 HkxRoot = (hkRootLevelContainer)des.Deserialize(new BinaryReaderEx(false, s));
             }
             return LoadInternal(al);
+        }
+
+        public static HavokNavmeshResource ResourceFromNavmeshRoot(hkRootLevelContainer root)
+        {
+            var ret = new HavokNavmeshResource();
+            ret.HkxRoot = root;
+            ret.LoadInternal(AccessLevel.AccessFull);
+            return ret;
         }
 
         public bool RayCast(Ray ray, Matrix4x4 transform, out float dist)

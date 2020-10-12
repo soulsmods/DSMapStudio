@@ -157,6 +157,14 @@ namespace StudioCore.Scene
 
         private WeakReference<ISelectable> _selectable = null;
 
+        public IResourceHandle ResourceHandle
+        {
+            get
+            {
+                return _meshProvider.ResourceHandle;
+            }
+        }
+
         public override bool AutoRegister 
         { 
             get => _autoregister; set
@@ -386,6 +394,12 @@ namespace StudioCore.Scene
                     return;
                 }
 
+                if (_meshProvider.GeometryBuffer == null)
+                {
+                    _meshProvider.Unlock();
+                    return;
+                }
+
                 if (_meshProvider.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
                 {
                     ScheduleRenderableConstruction();
@@ -516,7 +530,7 @@ namespace StudioCore.Scene
                         depthClipEnabled: true,
                         scissorTestEnabled: false);
 
-                    var s = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, _meshProvider.ShaderName + "_selected").ToTuple();
+                    var s = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, _meshProvider.ShaderName + (_meshProvider.UseSelectedShader ? "_selected" : "")).ToTuple();
                     _shaders = new Shader[] { s.Item1, s.Item2 };
                     pipelineDescription.ShaderSet = new ShaderSetDescription(
                         vertexLayouts: mainVertexLayouts,
@@ -679,9 +693,9 @@ namespace StudioCore.Scene
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(RenderScene scene, ResourceHandle<HavokNavmeshResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(RenderScene scene, ResourceHandle<HavokNavmeshResource> handle, bool temp=false)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetHavokNavMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetHavokNavMeshProvider(handle, temp));
             return renderable;
         }
     }
