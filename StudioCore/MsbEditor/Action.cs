@@ -148,9 +148,7 @@ namespace StudioCore.MsbEditor
         public override ActionEvent Execute()
         {
             foreach (var change in Changes)
-            {
                 change.Execute();
-            }
             return ActionEvent.NoEvent;
         }
 
@@ -158,9 +156,8 @@ namespace StudioCore.MsbEditor
         {
             Changes.Reverse();//god I hope this is an access trick and not actually reversing
             foreach (var change in Changes)
-            {
                 change.Undo();
-            }
+            Changes.Reverse();
             return ActionEvent.NoEvent;
         }
     }

@@ -429,7 +429,7 @@ namespace StudioCore
             return ad;
         }
 
-        public string GetParamdefDir()
+        public string GetParamAssetsDir()
         {
             string game;
             switch (Type)
@@ -458,40 +458,21 @@ namespace StudioCore
                 default:
                     throw new Exception("Game type not set");
             }
-            return $@"Assets\Paramdex\{game}\Defs";
+            return  $@"Assets\Paramdex\{game}";
+        }
+
+        public string GetParamdefDir()
+        {
+            return $@"{GetParamAssetsDir()}\Defs";
+        }
+        public string GetParammetaDir()
+        {
+            return $@"{GetParamAssetsDir()}\Meta";
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)
         {
-            string game;
-            switch (Type)
-            {
-                case GameType.DemonsSouls:
-                    game = "DES";
-                    break;
-                case GameType.DarkSoulsPTDE:
-                    game = "DS1";
-                    break;
-                case GameType.DarkSoulsRemastered:
-                    game = "DS1R";
-                    break;
-                case GameType.DarkSoulsIISOTFS:
-                    game = "DS2S";
-                    break;
-                case GameType.Bloodborne:
-                    game = "BB";
-                    break;
-                case GameType.DarkSoulsIII:
-                    game = "DS3";
-                    break;
-                case GameType.Sekiro:
-                    game = "SDT";
-                    break;
-                default:
-                    throw new Exception("Game type not set");
-            }
-
-            return PARAMDEF.XmlDeserialize($@"Assets\Paramdex\{game}\Defs\{paramType}.xml");
+            return PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml", $@"{GetParammetaDir()}\{paramType}.xml");
         }
 
         public AssetDescription GetDS2GeneratorParam(string mapid, bool writemode=false)

@@ -324,31 +324,38 @@ namespace StudioCore.MsbEditor
         }
         //Absolute parameter spam because everything is some minor variation
         //Should really determine which options are necessary and which can be safely removed
-        private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection){
+        private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection)
+        {
             PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, null, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
         }
-        private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection){
-            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Def.RefTypes, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
+        private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection)
+        {
+            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Def.Meta.RefTypes, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
         }
-        private void PropEditorPropRow(object oldval, ref int id, string visualName, List<string> reftypes, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection){
+        private void PropEditorPropRow(object oldval, ref int id, string visualName, List<string> reftypes, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
+        {
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
             ImGui.Text(visualName);
-            if(reftypes!=null){
+            if(reftypes!=null)
+            {
                     ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', reftypes)+">");
             }
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
-            if(reftypes!=null){
+            if(reftypes!=null)
+            {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             }
             changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if(reftypes!=null){
+            if(reftypes!=null)
+            {
                 ImGui.PopStyleColor();
-                if(propType==typeof(int)){
+                if(propType==typeof(int))
+                {
                     changed |= PropertyRowRefs(reftypes, oldval, ref newval);
                 }
             }
@@ -357,15 +364,19 @@ namespace StudioCore.MsbEditor
             ImGui.PopID();
             id++;
         }
-        private bool PropertyRowRefs(List<string> reftypes, object oldval ,ref object newval){
+        private bool PropertyRowRefs(List<string> reftypes, object oldval ,ref object newval)
+        {
             //Add named row and context menu
             //This should probably be moved to PropertyRow stuff, but the whole drawing system is all over the place anyway
             //List located params
             ImGui.NewLine();
-            foreach(string rt in reftypes){
-                if(ParamBank.Params.ContainsKey(rt)){
+            foreach(string rt in reftypes)
+            {
+                if(ParamBank.Params.ContainsKey(rt))
+                {
                     PARAM.Row r = ParamBank.Params[rt][(int)oldval];
-                    if(r!=null && r.Name!=null){
+                    if(r!=null && r.Name!=null)
+                    {
                         ImGui.SameLine();
                         ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), r.Name);
                     }
@@ -375,12 +386,15 @@ namespace StudioCore.MsbEditor
             }
             return false;
         }
-        private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval){
+        private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval)
+        {
             if (ImGui.BeginPopupContextItem(String.Join(',', reftypes)))
             {   
                 //Add Goto statements
-                foreach(string rt in reftypes){
-                    if(!ParamBank.Params.ContainsKey(rt)){
+                foreach(string rt in reftypes)
+                {
+                    if(!ParamBank.Params.ContainsKey(rt))
+                    {
                         continue;
                     }
                     if (ParamBank.Params[rt][(int)oldval]!=null && ImGui.Selectable($@"Go to {rt}"))
@@ -391,18 +405,21 @@ namespace StudioCore.MsbEditor
                 //Add searchbar for named editing
                 ImGui.InputText("##value", ref currentAutoComplete, 128);
                 //Unordered scanthrough search for matching param entries.
-                foreach(string rt in reftypes){
-                    if(currentAutoComplete!=""){
+                foreach(string rt in reftypes)
+                {
+                    if(currentAutoComplete!="")
+                    {
                         int max = 15/reftypes.Count;//Magic numbers
-                        foreach(PARAM.Row r in ParamBank.Params[rt].Rows){
-                            if(max<=0){
+                        foreach(PARAM.Row r in ParamBank.Params[rt].Rows)
+                        {
+                            if(max<=0 || r.Name==null)
+                            {
                                 break;
                             }
-                            if(r.Name==null){
-                                continue;
-                            }
-                            if(RefContextSearchMatch(r.Name, currentAutoComplete)){
-                                if(ImGui.Selectable(r.Name)){
+                            if(RefContextSearchMatch(r.Name, currentAutoComplete))
+                            {
+                                if(ImGui.Selectable(r.Name))
+                                {
                                     newval = (int)r.ID;
                                     currentAutoComplete = "";
                                     return true;
@@ -417,8 +434,9 @@ namespace StudioCore.MsbEditor
             return false;
         }
         //Return true if a param name should be found by searching term. Ordering is not provided.
-        private bool RefContextSearchMatch(string name, string term){
-            return name.ToLower().Contains(term.ToLower());
+        private bool RefContextSearchMatch(string name, string term)
+        {
+            return name.ToLower().Contains(term.ToLower());//simple, could be expanded. Not regex cus that is clunky for a quick menu.
         }
 
         private int _fmgID = 0;

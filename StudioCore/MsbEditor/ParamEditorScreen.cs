@@ -71,24 +71,12 @@ namespace StudioCore.MsbEditor
 
         private string _activeParam = null;
         private PARAM.Row _activeRow = null;
-        private string currentMEditinput = "PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);";
+
+        //MassEdit Popup vars
+        private string currentMEditinput = "";
         private string lastMEditinput = "";
-        //eg "EquipParamWeapon: "
-        private static string paramfilterRx = $@"^(?<paramrx>[^\s:]+):\s+";
-        //eg "id (100|200)00"
-        private static string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
-        //eg "name \s+ Arrow"
-        private static string rowfilternameRx = $@"(name\s+(?<rownamerx>[^:]+))";
-        //eg "prop sellValue 100"
-        private static string rowfilterpropRx = $@"(prop\s+(?<rowpropfield>[^\s]+)\s+(?<rowpropvalexp>[^:]+))";
-        //eg "propref originalEquipWep0 Dagger\[.+\]"
-        private static string rowfilterproprefRx = $@"(propref\s+(?<rowpropreffield>[^\s]+)\s+(?<rowproprefnamerx>[^:]+))";
-        private static string rowfilterRx = $@"({rowfilteridRx}|{rowfilternameRx}|{rowfilterpropRx}|{rowfilterproprefRx}):\s+";
-                        //eg "correctFaith: "
-        private static string fieldRx = $@"(?<fieldrx>[^\:]+):\s+";
-                        //eg "* 2;
-        private static string operationRx = $@"(?<op>=|\+|-|\*|/|ref)\s+(?<opparam>[^;]+);";
-        private static Regex commandRx = new Regex($@"{paramfilterRx}{rowfilterRx}{fieldRx}{operationRx}");
+        private string mEditResult = "";
+        private bool isMEditOpen = false;
 
         private PropertyEditor _propEditor = null;
 
@@ -136,253 +124,73 @@ namespace StudioCore.MsbEditor
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
-                if(ImGui.MenuItem("Mass Edit", null, false, true)){
+                if(ImGui.MenuItem("Mass Edit", null, false, true))
+                {
                     openMEdit = true;
                 }
                 ImGui.EndMenu();
             }
             //Menu Popups
-            if(openMEdit){
+            if(openMEdit)
+            {
                 ImGui.OpenPopup("massEditMenu");
+                isMEditOpen = true;
             }
             MassEditPopup();
         }
-
         public void MassEditPopup(){
-            if(ImGui.BeginPopup("massEditMenu")){
+            if(ImGui.BeginPopup("massEditMenu"))
+            {
+                ImGui.Text("PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
                 ImGui.InputTextMultiline("MEditInput", ref currentMEditinput, 65536, new Vector2(1024, 256));
-                if(ImGui.Selectable("Submit")){
-
-                    string[] commands = currentMEditinput.Split('\n');
-                    MultiplePropertiesChangedAction action = new MultiplePropertiesChangedAction();
-                    foreach(string command in commands){
-                        Match comm = commandRx.Match(command);
-                        if(comm.Success){
-
-                            Regex paramRx = new Regex(comm.Groups["paramrx"].Value);
-                            Regex fieldRx = new Regex(comm.Groups["fieldrx"].Value);
-                            string op = comm.Groups["op"].Value;
-                            string opparam = comm.Groups["opparam"].Value;
-                            Group rowidexp = comm.Groups["rowidexp"];
-                            Group rownamerx = comm.Groups["rownamerx"];
-                            Group rowpropfield = comm.Groups["rowpropfield"];
-                            Group rowpropreffield = comm.Groups["rowpropreffield"];
-
-                            List<PARAM> affectedParams = getMatchingParams(paramRx);
-                            List<PARAM.Row> affectedRows = new List<PARAM.Row>();
-                            foreach(PARAM param in affectedParams){//not ideal to loop here as we rebuild regexes/recheck which method we use, but it's clean
-                                if(rowidexp.Success){
-                                    affectedRows = getMatchingParamRows(param, rowidexp.Value);
-                                }else if(rownamerx.Success){
-                                    affectedRows = getMatchingParamRows(param, new Regex(rownamerx.Value));
-                                }else if(rowpropfield.Success){
-                                    affectedRows = getMatchingParamRows(param, rowpropfield.Value, comm.Groups["rowpropvalexp"].Value);
-                                }else if(rowpropreffield.Success){
-                                    affectedRows = getMatchingParamRows(param, rowpropreffield.Value, new Regex(comm.Groups["rowproprefnamerx"].Value));
-                                }
-                                //somehow matched but also failed to identify a row address
-                            }
-                            List<PARAM.Cell> affectedCells = getMatchingCells(affectedRows, fieldRx);
-                            Console.WriteLine($@"{affectedCells.Count} cells changed");
-                            foreach(PARAM.Cell cell in affectedCells){
-                                object newval = performOperation(cell, op, opparam);
-                                if(newval == null){
-                                    //failed to perform op
-                                    Console.WriteLine("An operation failed");
-                                    return;
-                                }
-                                action.AddPropertyChange(cell, cell.GetType().GetProperty("Value"), newval);
-                            }
-                        }else{
-                            //invalid command. tell user at some point maybe.
-                            Console.WriteLine("Bad command");
-                        }
+                if(ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
+                {
+                    MassEditResult r = MassEdit.PerformMassEdit(currentMEditinput, EditorActionManager);
+                    if(r.type == MassEditResultType.SUCCESS){
+                        lastMEditinput = currentMEditinput;
+                        currentMEditinput = "";
                     }
-                    EditorActionManager.ExecuteAction(action);
-                    lastMEditinput = currentMEditinput;
-                    currentMEditinput = "";
+                    mEditResult = r.information;
                 }
-                ImGui.Text(lastMEditinput);//more of an output thing
+                ImGui.Text(mEditResult);
+                ImGui.InputTextMultiline("MEditOutput", ref lastMEditinput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
                 ImGui.EndPopup();
             }
-        }
-        public List<PARAM> getMatchingParams(Regex paramrx){
-            List<PARAM> plist = new List<PARAM>();
-            foreach(string name in ParamBank.Params.Keys){
-                if(paramrx.Match(name).Success){
-                    plist.Add(ParamBank.Params[name]);
-                }
+            else
+            {
+                isMEditOpen = false;//busy setting :/
             }
-            return plist;
-        }
-        public List<PARAM.Row> getMatchingParamRows(PARAM param, string rowvalexp){
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach(PARAM.Row row in param.Rows){
-                if(matchNumExp(row.ID, rowvalexp)){
-                    rlist.Add(row);
-                }
-            }
-            return rlist;
-        }
-        public List<PARAM.Row> getMatchingParamRows(PARAM param, Regex rownamerx){
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach(PARAM.Row row in param.Rows){
-                if(rownamerx.Match(row.Name==null?"":row.Name).Success){
-                    rlist.Add(row);
-                }
-            }
-            return rlist;
-        }
-        public List<PARAM.Row> getMatchingParamRows(PARAM param, string rowfield, string rowvalexp){
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach(PARAM.Row row in param.Rows){
-                PARAM.Cell c = row[rowfield];
-                if(c!=null){
-                    if(matchNumExp(c.Value, rowvalexp)){
-                        rlist.Add(row);
-                    }
-                }
-            }
-            return rlist;
-        }
-        public List<PARAM.Row> getMatchingParamRows(PARAM param, string rowfield, Regex rownamerx){
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach(PARAM.Row row in param.Rows){
-                PARAM.Cell c = row[rowfield];
-                if(c!=null){
-                    int val = (int)c.Value;//assume int value
-                    foreach(string rt in c.Def.RefTypes){
-                        if(!ParamBank.Params.ContainsKey(rt)){
-                            continue;
-                        }
-                        PARAM.Row r = ParamBank.Params[rt][val];
-                        if(r!=null && rownamerx.Match(r.Name==null?"":r.Name).Success){
-                            rlist.Add(row);//don't add the ref'd row lol
-                            break;//no need to check other refs
-                        }
-                    }
-                }
-            }
-            return rlist;
-        }
-        public List<PARAM.Cell> getMatchingCells(List<PARAM.Row> rows, Regex fieldrx){
-            List<PARAM.Cell> clist = new List<PARAM.Cell>();
-            foreach(PARAM.Row row in rows){//we love seeing loops on top of loops so brazenly
-                foreach(PARAM.Cell c in row.Cells){
-                    if(fieldrx.Match(c.Def.DisplayName).Success){//using displayname instead of internal. questionable?
-                        clist.Add(c);
-                        //intentionally not breaking - potential for changing multiple cells at once eg. originalweapon0-10
-                    }
-                }
-            }
-            return clist;
-        }
-        public bool matchNumExp(object val, string valexp){
-            try{
-                Regex rx = new Regex(valexp);//just use regex even though it's not great for numbers
-                return rx.Match(val.ToString()).Success;
-                //return val.Equals(long.Parse(valexp));//basic right now and assumes long type, to be extended with x<y/100<z syntax nonsense
-            }catch(FormatException f){
-                //format error
-                return false;
-            }
-        }
-        public object performOperation(PARAM.Cell cell, string op, string opparam){
-            try{
-                if(op.Equals("ref")){
-                    if(cell.Value.GetType()==typeof(int)){
-                        foreach(string reftype in cell.Def.RefTypes){
-                            PARAM p = ParamBank.Params[reftype];
-                            if(p==null){
-                                continue;
-                            }
-                            foreach(PARAM.Row r in p.Rows){
-                                if(r.Name==null){
-                                    continue;
-                                }
-                                if(r.Name.Equals(opparam)){
-                                    return (int)r.ID;
-                                }
-                            }
-                        }
-                    }
-                }
-                if(op.Equals("=")){
-                    if(cell.Value.GetType()==typeof(bool)){
-                        return bool.Parse(opparam);
-                    }else if(cell.Value.GetType()==typeof(string)){
-                        return opparam;
-                    }
-                }
-                if(cell.Value.GetType()==typeof(long)){
-                    return performBasicOperation<long>(cell, op, double.Parse(opparam));
-                }else if(cell.Value.GetType()==typeof(int)){
-                    return performBasicOperation<int>(cell, op, double.Parse(opparam));
-                }else if(cell.Value.GetType()==typeof(short)){
-                    return performBasicOperation<short>(cell, op, double.Parse(opparam));
-                }else if(cell.Value.GetType()==typeof(ushort)){
-                    return performBasicOperation<ushort>(cell, op, double.Parse(opparam));
-                }else if(cell.Value.GetType()==typeof(sbyte)){
-                    return performBasicOperation<sbyte>(cell, op, double.Parse(opparam));
-                }else if(cell.Value.GetType()==typeof(byte)){
-                    return performBasicOperation<byte>(cell, op, double.Parse(opparam));
-                }else if(cell.Value.GetType()==typeof(float)){
-                    return performBasicOperation<float>(cell, op, double.Parse(opparam));
-                }
-            }catch(FormatException f){
-                Console.WriteLine("Poorly formatted operation");
-            }
-            return null;
-        }
-        public T performBasicOperation<T>(PARAM.Cell c, string op, double opparam) where T : struct, IFormattable{
-            try{
-                dynamic val = c.Value;
-                dynamic opp = opparam;
-                //this is a hellish mess
-                //I feel like the cs grad meme
-                if(op.Equals("=")){
-                    return (T)(opp);
-                }else if(op.Equals("+")){
-                    return (T)(val+opp);
-                }else if(op.Equals("-")){
-                    return (T)(val-opp);
-                }else if(op.Equals("*")){
-                    return (T)(val*opp);
-                }else if(op.Equals("/")){
-                    return (T)(val/opp);
-                }
-            }catch(Exception e){
-                //Operation error
-            }
-            return default(T);
         }
 
         public void OnGUI(string[] initcmd)
         {
-            // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if(!isMEditOpen)//Are shortcuts active? Presently just checks for massEdit popup. Why is this even a thing? because accidentally pressing delete when editing
             {
-                EditorActionManager.UndoAction();
-            }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
-            {
-                EditorActionManager.RedoAction();
-            }
-            if (InputTracker.GetControlShortcut(Key.D))
-            {
-                if (_activeParam != null && _activeRow != null)
+                // Keyboard shortcuts
+                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
                 {
-                    var act = new CloneParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
-                    EditorActionManager.ExecuteAction(act);
+                    EditorActionManager.UndoAction();
                 }
-            }
-            if (InputTracker.GetKeyDown(Key.Delete))
-            {
-                if (_activeParam != null && _activeRow != null)
+                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
                 {
-                    var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
-                    EditorActionManager.ExecuteAction(act);
-                    _activeRow = null;
+                    EditorActionManager.RedoAction();
+                }
+                if (InputTracker.GetControlShortcut(Key.D))
+                {
+                    if (_activeParam != null && _activeRow != null)
+                    {
+                        var act = new CloneParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                        EditorActionManager.ExecuteAction(act);
+                    }
+                }
+                if (InputTracker.GetKeyDown(Key.Delete))
+                {
+                    if (_activeParam != null && _activeRow != null)
+                    {
+                        var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
+                        EditorActionManager.ExecuteAction(act);
+                        _activeRow = null;
+                    }
                 }
             }
 

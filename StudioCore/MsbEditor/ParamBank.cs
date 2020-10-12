@@ -52,9 +52,11 @@ namespace StudioCore.MsbEditor
             _paramdefs = new Dictionary<string, PARAMDEF>();
             var dir = AssetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
+            var mdir = AssetLocator.GetParammetaDir();
             foreach (var f in files)
             {
-                var pdef = PARAMDEF.XmlDeserialize(f);
+                var fName = f.Substring(f.LastIndexOf('\\')+1);
+                var pdef = PARAMDEF.XmlDeserialize(f, $@"{mdir}\{fName}");
                 _paramdefs.Add(pdef.ParamType, pdef);
             }
         }
