@@ -25,7 +25,7 @@ namespace StudioCore.MsbEditor
         }
     }
     //It's all static baby yeah
-    public class MassEdit
+    public class MassParamEdit
     {
         //eg "EquipParamWeapon: "
         private static string paramfilterRx = $@"(?<paramrx>[^\s:]+):\s+";
