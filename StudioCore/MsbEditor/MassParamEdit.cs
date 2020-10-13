@@ -75,7 +75,6 @@ namespace StudioCore.MsbEditor
             }
             catch(FormatException f)
             {
-                Console.WriteLine("Poorly formatted operation");
             }
             return null;
         }
@@ -289,7 +288,7 @@ namespace StudioCore.MsbEditor
                 PARAM p = ParamBank.Params[param];
                 if(p==null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
-                int csvLength = p.Rows.Count + 2;//Add ID and name
+                int csvLength = p.AppliedParamdef.Fields.Count + 2;//Add ID and name
                 string[] csvLines = csvString.Split('\n');
                 int changeCount = 0;
                 int addedCount = 0;
@@ -297,10 +296,14 @@ namespace StudioCore.MsbEditor
                 List<PARAM.Row> addedParams = new List<PARAM.Row>();
                 foreach(string csvLine in csvLines)
                 {
+                    if(csvLine.Trim().Equals(""))
+                        continue;
                     string[] csvs = csvLine.Split(',');
                     if(csvs.Length != csvLength || csvs.Length<2)
-                        new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
-                    
+                    {
+                        Console.WriteLine($@"oi oi {csvs.Length} {csvLength}");
+                        return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
+                    }
                     int id = int.Parse(csvs[0]);
                     string name = csvs[1];
                     PARAM.Row row = p[id];
@@ -314,20 +317,23 @@ namespace StudioCore.MsbEditor
                     int index = 2;
                     foreach(PARAM.Cell c in row.Cells)
                     {
+                        if(c.Value.GetType().IsArray)
+                            continue;//don't mess with array types lol
                         string v = csvs[index];
                         object newval = performOperation(c, "=", v);
                         if(newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.DisplayName}");
                         if(!c.Value.Equals(newval))
                             actions.Add(new PropertiesChangedAction(c.GetType().GetProperty("Value"), -1, c, newval));
-
+                        index++;
                     }
                 }
                 changeCount = actions.Count;
                 addedCount = addedParams.Count;
                 actions.Add(new CloneParamsAction(p, "legacystring", addedParams, false));
-                actionManager.ExecuteAction(new CompoundAction(actions));
-                return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} cells added");
+                if(changeCount!=0 || addedCount!=0)
+                    actionManager.ExecuteAction(new CompoundAction(actions));
+                return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} rows added");
             }
             catch(FormatException e)
             {

@@ -133,11 +133,11 @@ namespace StudioCore.MsbEditor
                 {
                     openMEditRegex = true;
                 }
-                if(ImGui.MenuItem("Export CSV (Slow!)", null, false, true))
+                if(ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
                 {
                     openMEditCSVExport = true;
                 }
-                if(ImGui.MenuItem("Import CSV", null, false, true))
+                if(ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
                 {
                     openMEditCSVImport = true;
                 }
