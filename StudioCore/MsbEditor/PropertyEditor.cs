@@ -424,6 +424,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     newval = (int)r.ID;
                                     currentAutoComplete = "";
+                                    ImGui.EndPopup();
                                     return true;
                                 }
                                 max--;
