@@ -73,10 +73,13 @@ namespace StudioCore.MsbEditor
         private PARAM.Row _activeRow = null;
 
         //MassEdit Popup vars
-        private string currentMEditinput = "";
-        private string lastMEditinput = "";
-        private string mEditResult = "";
-        private bool isMEditOpen = false;
+        private string currentMEditRegexInput = "";
+        private string lastMEditRegexInput = "";
+        private string mEditRegexResult = "";
+        private string currentMEditCSVInput = "";
+        private string currentMEditCSVOutput = "";//This is going to be a disgusting string
+        private string mEditCSVResult = "";
+        private bool isMEditOpen = false;//blanket for any being open - used to turn off keyboard shortcuts while popup is open
 
         private PropertyEditor _propEditor = null;
 
@@ -95,7 +98,9 @@ namespace StudioCore.MsbEditor
 
         public override void DrawEditorMenu()
         {
-            bool openMEdit = false;
+            bool openMEditRegex = false;
+            bool openMEditCSVExport = false;
+            bool openMEditCSVImport = false;
             //Menu Options
             if (ImGui.BeginMenu("Edit"))
             {
@@ -126,39 +131,80 @@ namespace StudioCore.MsbEditor
                 }
                 if(ImGui.MenuItem("Mass Edit", null, false, true))
                 {
-                    openMEdit = true;
+                    openMEditRegex = true;
+                }
+                if(ImGui.MenuItem("Export CSV (Slow!)", null, false, true))
+                {
+                    openMEditCSVExport = true;
+                }
+                if(ImGui.MenuItem("Import CSV", null, false, true))
+                {
+                    openMEditCSVImport = true;
                 }
                 ImGui.EndMenu();
             }
-            //Menu Popups
-            if(openMEdit)
+            //Menu Popups -- imgui scoping
+            if(openMEditRegex)
             {
-                ImGui.OpenPopup("massEditMenu");
+                ImGui.OpenPopup("massEditMenuRegex");
                 isMEditOpen = true;
             }
-            MassEditPopup();
+            if(openMEditCSVExport)
+            {
+                if(_activeParam!=null)
+                    currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(ParamBank.Params[_activeParam]);
+                ImGui.OpenPopup("massEditMenuCSVExport");
+                isMEditOpen = true;
+            }
+            if(openMEditCSVImport)
+            {
+                ImGui.OpenPopup("massEditMenuCSVImport");
+                isMEditOpen = true;
+            }
+            MassEditPopups();
         }
-        public void MassEditPopup(){
-            if(ImGui.BeginPopup("massEditMenu"))
+        public void MassEditPopups(){
+            if(ImGui.BeginPopup("massEditMenuRegex"))
             {
                 ImGui.Text("PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
-                ImGui.InputTextMultiline("MEditInput", ref currentMEditinput, 65536, new Vector2(1024, 256));
+                ImGui.InputTextMultiline("MEditRegexInput", ref currentMEditRegexInput, 65536, new Vector2(1024, 256));
                 if(ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassEdit.PerformMassEdit(currentMEditinput, EditorActionManager);
+                    MassEditResult r = MassParamEditRegex.PerformMassEdit(currentMEditRegexInput, EditorActionManager);
                     if(r.type == MassEditResultType.SUCCESS){
-                        lastMEditinput = currentMEditinput;
-                        currentMEditinput = "";
+                        lastMEditRegexInput = currentMEditRegexInput;
+                        currentMEditRegexInput = "";
                     }
-                    mEditResult = r.information;
+                    mEditRegexResult = r.information;
                 }
-                ImGui.Text(mEditResult);
-                ImGui.InputTextMultiline("MEditOutput", ref lastMEditinput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
+                ImGui.Text(mEditRegexResult);
+                ImGui.InputTextMultiline("MEditRegexOutput", ref lastMEditRegexInput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
+                ImGui.EndPopup();
+            }
+            else if(ImGui.BeginPopup("massEditMenuCSVExport"))
+            {
+                ImGui.InputTextMultiline("MEditOutput", ref currentMEditCSVOutput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);//size problems lol
+                ImGui.EndPopup();
+            }
+            else if(ImGui.BeginPopup("massEditMenuCSVImport"))
+            {
+                ImGui.InputTextMultiline("MEditRegexInput", ref currentMEditCSVInput, 256*65536, new Vector2(1024, 256));
+                if(ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
+                {
+                    MassEditResult r = MassParamEditCSV.PerformMassEdit(currentMEditCSVInput, EditorActionManager, _activeParam);
+                    if(r.type == MassEditResultType.SUCCESS){
+                        lastMEditRegexInput = currentMEditRegexInput;
+                        currentMEditRegexInput = "";
+                    }
+                    mEditCSVResult = r.information;
+                }
+                ImGui.Text(mEditCSVResult);
                 ImGui.EndPopup();
             }
             else
             {
                 isMEditOpen = false;//busy setting :/
+                currentMEditCSVOutput = "";
             }
         }
 

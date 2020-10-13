@@ -137,31 +137,6 @@ namespace StudioCore.MsbEditor
         }
     }
 
-    public class MultiplePropertiesChangedAction : Action
-    {
-        //Ended up with this because a single PropertiesChangedAction changes the properties of an individual object
-        private List<PropertiesChangedAction> Changes = new List<PropertiesChangedAction>();
-        public void AddPropertyChange(object changed, PropertyInfo prop, object newval, int index = -1)
-        {
-            Changes.Add(new PropertiesChangedAction(prop, index, changed, newval));
-        }
-        public override ActionEvent Execute()
-        {
-            foreach (var change in Changes)
-                change.Execute();
-            return ActionEvent.NoEvent;
-        }
-
-        public override ActionEvent Undo()
-        {
-            Changes.Reverse();//god I hope this is an access trick and not actually reversing
-            foreach (var change in Changes)
-                change.Undo();
-            Changes.Reverse();
-            return ActionEvent.NoEvent;
-        }
-    }
-
     public class CloneMapObjectsAction : Action
     {
         private Universe Universe;
@@ -323,8 +298,23 @@ namespace StudioCore.MsbEditor
             foreach (var row in Clonables)
             {
                 var newrow = new PARAM.Row(row);
-                newrow.Name = row.Name != null ? row.Name + "_1" : "";
-                Param.Rows.Insert(Param.Rows.IndexOf(row) + 1, newrow);
+                if(Param[(int)row.ID]==null)
+                {
+                    newrow.Name = row.Name != null ? row.Name : "";
+                    int index = 0;
+                    foreach(PARAM.Row r in Param.Rows)
+                    {
+                        if(r.ID>newrow.ID)
+                            break;
+                        index++;
+                    }
+                    Param.Rows.Insert(index, newrow);
+                }
+                else
+                {
+                    newrow.Name = row.Name != null ? row.Name + "_1" : "";
+                    Param.Rows.Insert(Param.Rows.IndexOf(row) + 1, newrow);
+                }
                 Clones.Add(newrow);
             }
             if (SetSelection)
