@@ -727,7 +727,6 @@ namespace SoulsFormats
                     if(VRef!=null)
                     {
                         VirtualRef = VRef.InnerText;
-                        Console.WriteLine("VRef found");
                     }
                 }
             }
