@@ -331,34 +331,36 @@ namespace StudioCore.MsbEditor
         }
         private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection)
         {
-            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Def.Meta.RefTypes, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
+            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Def.Meta, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
         }
-        private void PropEditorPropRow(object oldval, ref int id, string visualName, List<string> reftypes, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
+        private void PropEditorPropRow(object oldval, ref int id, string visualName, PARAMDEF.Field.MetaData cellMeta, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
         {
+            List<string> RefTypes = cellMeta==null?null:cellMeta.RefTypes;
+            string VirtualRef = cellMeta==null?null:cellMeta.VirtualRef;
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
             ImGui.Text(visualName);
-            if(reftypes!=null)
-            {
-                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', reftypes)+">");
-            }
+            if(RefTypes!=null)
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', RefTypes)+">");
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
-            if(reftypes!=null)
-            {
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
-            }
+
+            if(RefTypes!=null || VirtualRef!=null)
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if(reftypes!=null)
-            {
+            if(RefTypes!=null || VirtualRef!=null)
                 ImGui.PopStyleColor();
-                if(propType==typeof(int))
-                {
-                    changed |= PropertyRowRefs(reftypes, oldval, ref newval);
-                }
+            
+            if(RefTypes!=null && propType==typeof(int))
+            {
+                changed |= PropertyRowRefs(RefTypes, oldval, ref newval);
+            }
+            if(VirtualRef!=null)
+            {
+                PropertyRowVirtualRefContextMenu(visualName, VirtualRef, oldval);
             }
             UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed, false);
             ImGui.NextColumn();
@@ -382,10 +384,9 @@ namespace StudioCore.MsbEditor
                         ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), r.Name);
                     }
                 }
-                //Attach context menu
-                return PropertyRowRefsContextMenu(reftypes, oldval, ref newval);
             }
-            return false;
+            //Attach context menu
+            return PropertyRowRefsContextMenu(reftypes, oldval, ref newval);
         }
         private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval)
         {
@@ -440,6 +441,39 @@ namespace StudioCore.MsbEditor
         private bool RefContextSearchMatch(string name, string term)
         {
             return name.ToLower().Contains(term.ToLower());//simple, could be expanded. Not regex cus that is clunky for a quick menu.
+        }
+        private void PropertyRowVirtualRefContextMenu(string field, string vref, object searchValue)
+        {
+            if (ImGui.BeginPopupContextItem(vref))
+            {   
+                //Add Goto statements
+                foreach(var param in ParamBank.Params)
+                {
+                    PARAMDEF.Field foundfield = null;
+                    foreach(PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
+                    { 
+                        if(f.Meta.VirtualRef!=null)
+                        {
+                            foundfield = f;
+                            break;
+                        }
+                    }
+                    if(foundfield==null)
+                        continue;
+                    if (ImGui.Selectable($@"Go to first in {param.Key}"))
+                    {   
+                        foreach(PARAM.Row row in param.Value.Rows)
+                        {
+                            if(row[foundfield.InternalName].Value.Equals(searchValue))
+                            {
+                                EditorCommandQueue.AddCommand($@"param/select/{param.Key}/{row.ID}");
+                                break;
+                            }
+                        }
+                    }
+                }
+                ImGui.EndPopup();
+            }
         }
 
         private int _fmgID = 0;

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
+    <behaviorVariationId VRef="behaviourVariation" />
     <spEffectBehaviorId0 Refs="SpEffectParam" />
     <spEffectBehaviorId1 Refs="SpEffectParam" />
     <spEffectBehaviorId2 Refs="SpEffectParam" />

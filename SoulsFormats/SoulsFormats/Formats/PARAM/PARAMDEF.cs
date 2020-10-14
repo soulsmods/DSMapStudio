@@ -706,6 +706,10 @@ namespace SoulsFormats
                 /// Syntax in param def files is to include Refs="xx,yy,zz" in the Field xml node.
                 /// </summary>
                 public List<string> RefTypes { get; set; }
+                /// <summary>
+                /// Name linking fields from multiple params that may share values.
+                /// </summary>
+                public string VirtualRef {get; set;}
 
                 public MetaData(){
                     //blank metadata. Exists so that metadata container always exists
@@ -713,10 +717,17 @@ namespace SoulsFormats
                 public MetaData(XmlNode fieldMeta){
                     //Read stuff in here
                     RefTypes = null;
+                    VirtualRef = null;
                     XmlAttribute Ref = fieldMeta.Attributes["Refs"];
                     if(Ref!=null)
                     {
                         RefTypes = new List<string>(Ref.InnerText.Split(","));
+                    }
+                    XmlAttribute VRef = fieldMeta.Attributes["VRef"];
+                    if(VRef!=null)
+                    {
+                        VirtualRef = VRef.InnerText;
+                        Console.WriteLine("VRef found");
                     }
                 }
             }
