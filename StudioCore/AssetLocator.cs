@@ -396,11 +396,11 @@ namespace StudioCore
             {
                 path = $@"msg\ENGLISH\item.msgbnd";
             }
-            else if(Type == GameType.DarkSoulsRemastered)
+            else if (Type == GameType.DarkSoulsRemastered)
             {
                 path = $@"msg\ENGLISH\item.msgbnd.dcx";
             }
-            else if(Type == GameType.DarkSoulsIISOTFS)
+            else if (Type == GameType.DarkSoulsIISOTFS)
             {
                 // DS2 does not have an msgbnd but loose fmg files instead
                 path = $@"menu\text\english";
@@ -408,7 +408,7 @@ namespace StudioCore
                 ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
                 return ad2;
             }
-            else if(Type == GameType.DarkSoulsIII)
+            else if (Type == GameType.DarkSoulsIII)
             {
                 path = $@"msg\engus\item_dlc2.msgbnd.dcx";
             }

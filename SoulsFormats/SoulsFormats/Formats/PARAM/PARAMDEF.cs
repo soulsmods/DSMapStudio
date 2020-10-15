@@ -51,7 +51,7 @@ namespace SoulsFormats
         /// <summary>
         /// Container for metainformation about the paramdef not derived from core paramdef files
         /// </summary>
-        public METADATA Meta = new METADATA();
+        public MetaData Meta = new MetaData();
 
         /// <summary>
         /// Creates a new PARAMDEF formatted for DS1.
@@ -247,8 +247,9 @@ namespace SoulsFormats
             Unicode = root.ReadBoolean(nameof(Unicode));
             Version = root.ReadInt16(nameof(Version));
 
-            if(mxml!=null){
-                Meta = new METADATA(mxml);
+            if (mxml != null)
+            {
+                Meta = new MetaData(mxml);
             }
 
             Fields = new List<Field>();
@@ -257,13 +258,13 @@ namespace SoulsFormats
                 Fields.Add(new Field(node));
             }
 
-            if(mxml!=null)
+            if (mxml != null)
             {
                 XmlNode mroot = mxml.SelectSingleNode("PARAMMETA");
-                foreach(Field f in Fields)
+                foreach (Field f in Fields)
                 {
                     XmlNode pairedNode = mroot.SelectSingleNode($"Field/{f.InternalName}");
-                    if(pairedNode==null)
+                    if (pairedNode == null)
                         continue;
                     f.Meta = new Field.MetaData(pairedNode);
                 }
@@ -702,8 +703,7 @@ namespace SoulsFormats
             public class MetaData
             {
                 /// <summary>
-                /// Name of another Param that a Field may refer to. null for field that does not refer to params.
-                /// Syntax in param def files is to include Refs="xx,yy,zz" in the Field xml node.
+                /// Name of another Param that a Field may refer to.
                 /// </summary>
                 public List<string> RefTypes { get; set; }
                 /// <summary>
@@ -711,20 +711,21 @@ namespace SoulsFormats
                 /// </summary>
                 public string VirtualRef {get; set;}
 
-                public MetaData(){
-                    //blank metadata. Exists so that metadata container always exists
+                public MetaData()
+                {
+                    //Blank Metadata
                 }
-                public MetaData(XmlNode fieldMeta){
-                    //Read stuff in here
+                public MetaData(XmlNode fieldMeta)
+                {
                     RefTypes = null;
                     VirtualRef = null;
                     XmlAttribute Ref = fieldMeta.Attributes["Refs"];
-                    if(Ref!=null)
+                    if (Ref != null)
                     {
                         RefTypes = new List<string>(Ref.InnerText.Split(","));
                     }
                     XmlAttribute VRef = fieldMeta.Attributes["VRef"];
-                    if(VRef!=null)
+                    if (VRef != null)
                     {
                         VirtualRef = VRef.InnerText;
                     }
@@ -732,18 +733,18 @@ namespace SoulsFormats
             }
         }
 
-        public class METADATA
+        public class MetaData
         {
-            public METADATA(){
-                //blank metadata. Exists so that metadata container always exists
+            public MetaData()
+            {
+                //Blank Metadata
             }
-            public METADATA(XmlDocument xml)
+            public MetaData(XmlDocument xml)
             {
                 XmlNode root = xml.SelectSingleNode("PARAMMETA");
                 int xmlVersion = int.Parse(root.Attributes["XmlVersion"].InnerText);
                 if (xmlVersion != XML_VERSION)
                     throw new InvalidDataException($"Mismatched XML version; current version: {XML_VERSION}, file version: {xmlVersion}");
-                //Read stuff in here
             }
         }
     }

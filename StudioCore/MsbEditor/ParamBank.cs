@@ -55,7 +55,7 @@ namespace StudioCore.MsbEditor
             var mdir = AssetLocator.GetParammetaDir();
             foreach (var f in files)
             {
-                var fName = f.Substring(f.LastIndexOf('\\')+1);
+                var fName = f.Substring(f.LastIndexOf('\\') + 1);
                 var pdef = PARAMDEF.XmlDeserialize(f, $@"{mdir}\{fName}");
                 _paramdefs.Add(pdef.ParamType, pdef);
             }

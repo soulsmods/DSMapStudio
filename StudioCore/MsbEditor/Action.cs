@@ -298,13 +298,13 @@ namespace StudioCore.MsbEditor
             foreach (var row in Clonables)
             {
                 var newrow = new PARAM.Row(row);
-                if(Param[(int)row.ID]==null)
+                if (Param[(int) row.ID] == null)
                 {
                     newrow.Name = row.Name != null ? row.Name : "";
                     int index = 0;
-                    foreach(PARAM.Row r in Param.Rows)
+                    foreach (PARAM.Row r in Param.Rows)
                     {
-                        if(r.ID>newrow.ID)
+                        if (r.ID > newrow.ID)
                             break;
                         index++;
                     }

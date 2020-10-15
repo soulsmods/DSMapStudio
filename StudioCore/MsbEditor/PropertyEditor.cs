@@ -21,8 +21,7 @@ namespace StudioCore.MsbEditor
         private object ChangedValue = null;
         private Action LastUncommittedAction = null;
 
-        private string currentAutoComplete = "";
-        private int searchStartPos = 0;
+        private string refContextCurrentAutoComplete = "";
 
         public PropertyEditor(ActionManager manager)
         {
@@ -323,8 +322,8 @@ namespace StudioCore.MsbEditor
             }
             ImGui.Columns(1);
         }
-        //Absolute parameter spam because everything is some minor variation
-        //Should really determine which options are necessary and which can be safely removed
+        
+        //Many parameter options, which may be simplified.
         private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection)
         {
             PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, null, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
@@ -335,30 +334,30 @@ namespace StudioCore.MsbEditor
         }
         private void PropEditorPropRow(object oldval, ref int id, string visualName, PARAMDEF.Field.MetaData cellMeta, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
         {
-            List<string> RefTypes = cellMeta==null?null:cellMeta.RefTypes;
-            string VirtualRef = cellMeta==null?null:cellMeta.VirtualRef;
+            List<string> RefTypes = cellMeta == null ? null : cellMeta.RefTypes;
+            string VirtualRef = cellMeta == null ? null : cellMeta.VirtualRef;
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
             ImGui.Text(visualName);
-            if(RefTypes!=null)
-                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " <"+String.Join(',', RefTypes)+">");
+            if (RefTypes != null)
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{String.Join(',', RefTypes)}>");
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
 
-            if(RefTypes!=null || VirtualRef!=null)
+            if (RefTypes != null || VirtualRef != null)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if(RefTypes!=null || VirtualRef!=null)
+            if (RefTypes != null || VirtualRef != null)
                 ImGui.PopStyleColor();
             
-            if(RefTypes!=null && propType==typeof(int))
+            if (RefTypes != null && propType == typeof(int))
             {
                 changed |= PropertyRowRefs(RefTypes, oldval, ref newval);
             }
-            if(VirtualRef!=null)
+            if (VirtualRef != null)
             {
                 PropertyRowVirtualRefContextMenu(visualName, VirtualRef, oldval);
             }
@@ -370,15 +369,14 @@ namespace StudioCore.MsbEditor
         private bool PropertyRowRefs(List<string> reftypes, object oldval ,ref object newval)
         {
             //Add named row and context menu
-            //This should probably be moved to PropertyRow stuff, but the whole drawing system is all over the place anyway
-            //List located params
+            //Lists located params
             ImGui.NewLine();
-            foreach(string rt in reftypes)
+            foreach (string rt in reftypes)
             {
-                if(ParamBank.Params.ContainsKey(rt))
+                if (ParamBank.Params.ContainsKey(rt))
                 {
-                    PARAM.Row r = ParamBank.Params[rt][(int)oldval];
-                    if(r!=null && r.Name!=null)
+                    PARAM.Row r = ParamBank.Params[rt][(int) oldval];
+                    if (r != null && r.Name != null)
                     {
                         ImGui.SameLine();
                         ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), r.Name);
@@ -393,42 +391,42 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginPopupContextItem(String.Join(',', reftypes)))
             {   
                 //Add Goto statements
-                foreach(string rt in reftypes)
+                foreach (string rt in reftypes)
                 {
-                    if(!ParamBank.Params.ContainsKey(rt))
+                    if (!ParamBank.Params.ContainsKey(rt))
                     {
                         continue;
                     }
-                    if (ParamBank.Params[rt][(int)oldval]!=null && ImGui.Selectable($@"Go to {rt}"))
+                    if (ParamBank.Params[rt][(int) oldval] != null && ImGui.Selectable($@"Go to {rt}"))
                     {   
                         EditorCommandQueue.AddCommand($@"param/select/{rt}/{oldval}");
                     }
                 }
                 //Add searchbar for named editing
-                ImGui.InputText("##value", ref currentAutoComplete, 128);
+                ImGui.InputText("##value", ref refContextCurrentAutoComplete, 128);
                 //Unordered scanthrough search for matching param entries.
-                //This needs to be replaced by a proper search box with a scroll and everything
-                foreach(string rt in reftypes)
+                //This should be replaced by a proper search box with a scroll and everything
+                foreach (string rt in reftypes)
                 {
-                    if(currentAutoComplete!="")
+                    if (refContextCurrentAutoComplete != "")
                     {
-                        int max = 15/reftypes.Count;//Magic numbers
-                        foreach(PARAM.Row r in ParamBank.Params[rt].Rows)
+                        int maxResultsPerRefType = 15/reftypes.Count;
+                        foreach (PARAM.Row r in ParamBank.Params[rt].Rows)
                         {
-                            if(max<=0)
+                            if (maxResultsPerRefType <= 0)
                                 break;
-                            if(r.Name==null)
+                            if (r.Name == null)
                                 continue;
-                            if(RefContextSearchMatch(r.Name, currentAutoComplete))
+                            if (RefContextSearchMatch(r.Name, refContextCurrentAutoComplete))
                             {
-                                if(ImGui.Selectable(r.Name))
+                                if (ImGui.Selectable(r.Name))
                                 {
-                                    newval = (int)r.ID;
-                                    currentAutoComplete = "";
+                                    newval = (int) r.ID;
+                                    refContextCurrentAutoComplete = "";
                                     ImGui.EndPopup();
                                     return true;
                                 }
-                                max--;
+                                maxResultsPerRefType--;
                             }
                         }
                     }
@@ -437,34 +435,34 @@ namespace StudioCore.MsbEditor
             }
             return false;
         }
-        //Return true if a param name should be found by searching term. Ordering is not provided.
+        //Return true if a param name should be found by searching a term.
         private bool RefContextSearchMatch(string name, string term)
         {
-            return name.ToLower().Contains(term.ToLower());//simple, could be expanded. Not regex cus that is clunky for a quick menu.
+            return name.ToLower().Contains(term.ToLower());
         }
         private void PropertyRowVirtualRefContextMenu(string field, string vref, object searchValue)
         {
             if (ImGui.BeginPopupContextItem(vref))
             {   
                 //Add Goto statements
-                foreach(var param in ParamBank.Params)
+                foreach (var param in ParamBank.Params)
                 {
                     PARAMDEF.Field foundfield = null;
-                    foreach(PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
+                    foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                     { 
-                        if(f.Meta.VirtualRef!=null)
+                        if (f.Meta.VirtualRef != null)
                         {
                             foundfield = f;
                             break;
                         }
                     }
-                    if(foundfield==null)
+                    if (foundfield == null)
                         continue;
                     if (ImGui.Selectable($@"Go to first in {param.Key}"))
                     {   
-                        foreach(PARAM.Row row in param.Value.Rows)
+                        foreach (PARAM.Row row in param.Value.Rows)
                         {
-                            if(row[foundfield.InternalName].Value.Equals(searchValue))
+                            if (row[foundfield.InternalName].Value.Equals(searchValue))
                             {
                                 EditorCommandQueue.AddCommand($@"param/select/{param.Key}/{row.ID}");
                                 break;

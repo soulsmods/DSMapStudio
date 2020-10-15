@@ -72,7 +72,9 @@ namespace StudioCore.MsbEditor
         private string _activeParam = null;
         private PARAM.Row _activeRow = null;
         private List<PARAM.Row> _selectionRows = new List<PARAM.Row>();
-        private string _clipboardParam = null;//here for a safety check
+
+        //Clipboard vars
+        private string _clipboardParam = null;
         private List<PARAM.Row> _clipboardRows = new List<PARAM.Row>();
         private string currentCtrlVInput = "0";
 
@@ -81,11 +83,11 @@ namespace StudioCore.MsbEditor
         private string lastMEditRegexInput = "";
         private string mEditRegexResult = "";
         private string currentMEditCSVInput = "";
-        private string currentMEditCSVOutput = "";//This is going to be a disgusting string
+        private string currentMEditCSVOutput = "";
         private string mEditCSVResult = "";
 
-        private bool isMEditPopupOpen = false;//blanket for any being open - used to turn off keyboard shortcuts while popup is open
-        private bool isShortcutPopupOpen = false;//blanket for any being open - used to turn off keyboard shortcuts while popup is open
+        private bool isMEditPopupOpen = false;
+        private bool isShortcutPopupOpen = false;
 
         private PropertyEditor _propEditor = null;
 
@@ -135,50 +137,53 @@ namespace StudioCore.MsbEditor
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
-                if(ImGui.MenuItem("Mass Edit", null, false, true))
+                if (ImGui.MenuItem("Mass Edit", null, false, true))
                 {
                     openMEditRegex = true;
                 }
-                if(ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
+                if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
                 {
                     openMEditCSVExport = true;
                 }
-                if(ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
+                if (ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
                 {
                     openMEditCSVImport = true;
                 }
                 ImGui.EndMenu();
             }
             //Menu Popups -- imgui scoping
-            if(openMEditRegex)
+            if (openMEditRegex)
             {
                 ImGui.OpenPopup("massEditMenuRegex");
                 isMEditPopupOpen = true;
             }
-            if(openMEditCSVExport)
+            if (openMEditCSVExport)
             {
-                if(_activeParam!=null)
+                if (_activeParam != null)
                     currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(ParamBank.Params[_activeParam]);
                 ImGui.OpenPopup("massEditMenuCSVExport");
                 isMEditPopupOpen = true;
             }
-            if(openMEditCSVImport)
+            if (openMEditCSVImport)
             {
                 ImGui.OpenPopup("massEditMenuCSVImport");
                 isMEditPopupOpen = true;
             }
             MassEditPopups();
         }
-        public void MassEditPopups(){
-            if(ImGui.BeginPopup("massEditMenuRegex"))
+        public void MassEditPopups()
+        {
+            //Popup size relies on magic numbers. Multiline maxlength is also arbitrary.
+            if (ImGui.BeginPopup("massEditMenuRegex"))
             {
                 ImGui.Text("selection: FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
                 ImGui.Text("PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
                 ImGui.InputTextMultiline("MEditRegexInput", ref currentMEditRegexInput, 65536, new Vector2(1024, 256));
-                if(ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
+                if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     MassEditResult r = MassParamEditRegex.PerformMassEdit(currentMEditRegexInput, EditorActionManager, _activeParam, _selectionRows);
-                    if(r.type == MassEditResultType.SUCCESS){
+                    if (r.type == MassEditResultType.SUCCESS)
+                    {
                         lastMEditRegexInput = currentMEditRegexInput;
                         currentMEditRegexInput = "";
                     }
@@ -188,18 +193,19 @@ namespace StudioCore.MsbEditor
                 ImGui.InputTextMultiline("MEditRegexOutput", ref lastMEditRegexInput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
                 ImGui.EndPopup();
             }
-            else if(ImGui.BeginPopup("massEditMenuCSVExport"))
+            else if (ImGui.BeginPopup("massEditMenuCSVExport"))
             {
-                ImGui.InputTextMultiline("MEditOutput", ref currentMEditCSVOutput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);//size problems lol
+                ImGui.InputTextMultiline("MEditOutput", ref currentMEditCSVOutput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
                 ImGui.EndPopup();
             }
-            else if(ImGui.BeginPopup("massEditMenuCSVImport"))
+            else if (ImGui.BeginPopup("massEditMenuCSVImport"))
             {
-                ImGui.InputTextMultiline("MEditRegexInput", ref currentMEditCSVInput, 256*65536, new Vector2(1024, 256));
-                if(ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
+                ImGui.InputTextMultiline("MEditRegexInput", ref currentMEditCSVInput, 256 * 65536, new Vector2(1024, 256));
+                if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     MassEditResult r = MassParamEditCSV.PerformMassEdit(currentMEditCSVInput, EditorActionManager, _activeParam);
-                    if(r.type == MassEditResultType.SUCCESS){
+                    if (r.type == MassEditResultType.SUCCESS)
+                    {
                         lastMEditRegexInput = currentMEditRegexInput;
                         currentMEditRegexInput = "";
                     }
@@ -210,14 +216,14 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                isMEditPopupOpen = false;//busy setting :/
+                isMEditPopupOpen = false;
                 currentMEditCSVOutput = "";
             }
         }
 
         public void OnGUI(string[] initcmd)
         {
-            if(!isMEditPopupOpen && !isShortcutPopupOpen)//Are shortcuts active? Presently just checks for massEdit popup. Why is this even a thing? because accidentally pressing delete when editing
+            if (!isMEditPopupOpen && !isShortcutPopupOpen)//Are shortcuts active? Presently just checks for massEdit popup. Why is this even a thing? because accidentally pressing delete when editing
             {
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
@@ -232,10 +238,10 @@ namespace StudioCore.MsbEditor
                 {
                     _clipboardParam = _activeParam;
                     _clipboardRows.Clear();
-                    foreach(PARAM.Row r in _selectionRows)
+                    foreach (PARAM.Row r in _selectionRows)
                         _clipboardRows.Add(new PARAM.Row(r));//make a clone
                 }
-                if (_activeParam!=null && _clipboardParam == _activeParam && InputTracker.GetControlShortcut(Key.V))
+                if (_activeParam != null && _clipboardParam == _activeParam && InputTracker.GetControlShortcut(Key.V))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
@@ -327,9 +333,9 @@ namespace StudioCore.MsbEditor
                 {
                     if (ImGui.Selectable($@"{r.ID} {r.Name}", _selectionRows.Contains(r)))
                     {
-                        if(InputTracker.GetKey(Key.LControl))
+                        if (InputTracker.GetKey(Key.LControl))
                         {
-                            if(!_selectionRows.Contains(r))
+                            if (!_selectionRows.Contains(r))
                                 _selectionRows.Add(r);
                             else
                                 _selectionRows.Remove(r);
@@ -338,13 +344,13 @@ namespace StudioCore.MsbEditor
                         {
                             _selectionRows.Clear();
                             _selectionRows.Add(r);
-                            if(InputTracker.GetKey(Key.LShift))
+                            if (InputTracker.GetKey(Key.LShift))
                             {
                                 int start = p.Rows.IndexOf(_activeRow);
                                 int end = p.Rows.IndexOf(r);
-                                if(start!=end)
+                                if (start != end)
                                 {
-                                    foreach(var r2 in p.Rows.GetRange(start<end?start:end, start<end?end-start:start-end))
+                                    foreach (var r2 in p.Rows.GetRange(start < end ? start : end, Math.Abs(end - start)))
                                         _selectionRows.Add(r2);
                                 }
                             }
@@ -379,7 +385,7 @@ namespace StudioCore.MsbEditor
 
         public void ShortcutPopups()
         {
-            if(ImGui.BeginPopup("ctrlVPopup"))
+            if (ImGui.BeginPopup("ctrlVPopup"))
             {
                 ImGui.InputText("Offset", ref currentCtrlVInput, 20);
                 long offset = 0;
@@ -392,11 +398,12 @@ namespace StudioCore.MsbEditor
                     ImGui.EndPopup();
                     return;
                 }
-                if(ImGui.Selectable("Submit")){
+                if (ImGui.Selectable("Submit"))
+                {
                 List<PARAM.Row> rowsToInsert = new List<PARAM.Row>();
-                    if(_activeRow!=null)
+                    if (_activeRow != null)
                     {
-                        foreach(PARAM.Row r in _clipboardRows)
+                        foreach (PARAM.Row r in _clipboardRows)
                         {
                             PARAM.Row newrow = new PARAM.Row(r);//more cloning
                             newrow.ID = r.ID + offset;
