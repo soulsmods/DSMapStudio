@@ -60,8 +60,12 @@ namespace StudioCore.MsbEditor
                 //csgrad meme
                 if(cell.Value.GetType()==typeof(long))
                     return performBasicOperation<long>(cell, op, double.Parse(opparam));
+                if(cell.Value.GetType()==typeof(ulong))
+                    return performBasicOperation<ulong>(cell, op, double.Parse(opparam));
                 else if(cell.Value.GetType()==typeof(int))
                     return performBasicOperation<int>(cell, op, double.Parse(opparam));
+                else if(cell.Value.GetType()==typeof(uint))
+                    return performBasicOperation<uint>(cell, op, double.Parse(opparam));
                 else if(cell.Value.GetType()==typeof(short))
                     return performBasicOperation<short>(cell, op, double.Parse(opparam));
                 else if(cell.Value.GetType()==typeof(ushort))
@@ -72,6 +76,8 @@ namespace StudioCore.MsbEditor
                     return performBasicOperation<byte>(cell, op, double.Parse(opparam));
                 else if(cell.Value.GetType()==typeof(float))
                     return performBasicOperation<float>(cell, op, double.Parse(opparam));
+                else if(cell.Value.GetType()==typeof(double))
+                    return performBasicOperation<double>(cell, op, double.Parse(opparam));
             }
             catch(FormatException f)
             {
@@ -324,15 +330,15 @@ namespace StudioCore.MsbEditor
                     int index = 2;
                     foreach(PARAM.Cell c in row.Cells)
                     {
+                        string v = csvs[index];
+                        index++;
                         if(c.Value.GetType().IsArray)
                             continue;//don't mess with array types lol
-                        string v = csvs[index];
                         object newval = performOperation(c, "=", v);
                         if(newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.DisplayName}");
                         if(!c.Value.Equals(newval))
                             actions.Add(new PropertiesChangedAction(c.GetType().GetProperty("Value"), -1, c, newval));
-                        index++;
                     }
                 }
                 changeCount = actions.Count;
