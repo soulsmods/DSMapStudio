@@ -277,7 +277,7 @@ namespace StudioCore.MsbEditor
         }
     }
 
-    public class CloneParamsAction : Action
+    public class AddParamsAction : Action
     {
         private PARAM Param;
         private string ParamString;
@@ -285,7 +285,7 @@ namespace StudioCore.MsbEditor
         private List<PARAM.Row> Clones = new List<PARAM.Row>();
         private bool SetSelection = false;
 
-        public CloneParamsAction(PARAM param, string pstring, List<PARAM.Row> rows, bool setsel)
+        public AddParamsAction(PARAM param, string pstring, List<PARAM.Row> rows, bool setsel)
         {
             Param = param;
             Clonables.AddRange(rows);

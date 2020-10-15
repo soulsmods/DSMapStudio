@@ -106,8 +106,10 @@ namespace StudioCore.MsbEditor
 
     public class MassParamEditRegex : MassParamEdit
     {
+        //eg "selection"
+        private static string paramrowfilterselection = $@"(selection:\s+)";
         //eg "EquipParamWeapon: "
-        private static string paramfilterRx = $@"(?<paramrx>[^\s:]+):\s+";
+        private static string paramfilterRx = $@"(param\s+?<paramrx>[^\s:]+):\s+";
         //eg "id (100|200)00"
         private static string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
         //eg "name \s+ Arrow"
@@ -121,8 +123,8 @@ namespace StudioCore.MsbEditor
         private static string fieldRx = $@"(?<fieldrx>[^\:]+):\s+";
         //eg "* 2;
         private static string operationRx = $@"(?<op>=|\+|-|\*|/|ref)\s+(?<opparam>[^;]+);";
-        private static Regex commandRx = new Regex($@"^{paramfilterRx}{rowfilterRx}{fieldRx}{operationRx}$");
-        public static MassEditResult PerformMassEdit(string commandsString, ActionManager actionManager)
+        private static Regex commandRx = new Regex($@"^({paramrowfilterselection}|({paramfilterRx}{rowfilterRx})){fieldRx}{operationRx}$");
+        public static MassEditResult PerformMassEdit(string commandsString, ActionManager actionManager, string contextActiveParam, List<PARAM.Row> contextActiveRows)
         {
             string[] commands = commandsString.Split('\n');
             int changeCount = 0;
@@ -132,7 +134,7 @@ namespace StudioCore.MsbEditor
                 Match comm = commandRx.Match(command);
                 if(comm.Success)
                 {
-                    Regex paramRx = new Regex($@"^{comm.Groups["paramrx"].Value}$");
+                    Group paramrx = comm.Groups["paramrx"];
                     Regex fieldRx = new Regex($@"^{comm.Groups["fieldrx"].Value}$");
                     string op = comm.Groups["op"].Value;
                     string opparam = comm.Groups["opparam"].Value;
@@ -140,12 +142,18 @@ namespace StudioCore.MsbEditor
                     Group rownamerx = comm.Groups["rownamerx"];
                     Group rowpropfield = comm.Groups["rowpropfield"];
                     Group rowpropreffield = comm.Groups["rowpropreffield"];
-
-                    List<PARAM> affectedParams = getMatchingParams(paramRx);
+                    
+                    List<PARAM> affectedParams = new List<PARAM>();
+                    if(paramrx.Success)
+                        affectedParams = getMatchingParams(new Regex($@"^{paramrx.Value}$"));
+                    else
+                        affectedParams.Add(ParamBank.Params[contextActiveParam]);//presumptive
                     List<PARAM.Row> affectedRows = new List<PARAM.Row>();
                     foreach(PARAM param in affectedParams)
                     {//not ideal to loop here as we rebuild regexes/recheck which method we use, but it's clean
-                        if(rowidexp.Success)
+                        if(!paramrx.Success)
+                            affectedRows = contextActiveRows;
+                        else if(rowidexp.Success)
                             affectedRows = getMatchingParamRows(param, rowidexp.Value);
                         else if(rownamerx.Success)
                             affectedRows = getMatchingParamRows(param, new Regex($@"^{rownamerx.Value}$"));
@@ -301,7 +309,6 @@ namespace StudioCore.MsbEditor
                     string[] csvs = csvLine.Split(',');
                     if(csvs.Length != csvLength || csvs.Length<2)
                     {
-                        Console.WriteLine($@"oi oi {csvs.Length} {csvLength}");
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
                     }
                     int id = int.Parse(csvs[0]);
@@ -330,7 +337,7 @@ namespace StudioCore.MsbEditor
                 }
                 changeCount = actions.Count;
                 addedCount = addedParams.Count;
-                actions.Add(new CloneParamsAction(p, "legacystring", addedParams, false));
+                actions.Add(new AddParamsAction(p, "legacystring", addedParams, false));
                 if(changeCount!=0 || addedCount!=0)
                     actionManager.ExecuteAction(new CompoundAction(actions));
                 return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} rows added");
