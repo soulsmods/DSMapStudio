@@ -72,6 +72,9 @@ namespace StudioCore.MsbEditor
         private string _activeParam = null;
         private PARAM.Row _activeRow = null;
         private List<PARAM.Row> _selectionRows = new List<PARAM.Row>();
+        private string _clipboardParam = null;//here for a safety check
+        private List<PARAM.Row> _clipboardRows = new List<PARAM.Row>();
+        private string currentCtrlVInput = "0";
 
         //MassEdit Popup vars
         private string currentMEditRegexInput = "";
@@ -80,7 +83,9 @@ namespace StudioCore.MsbEditor
         private string currentMEditCSVInput = "";
         private string currentMEditCSVOutput = "";//This is going to be a disgusting string
         private string mEditCSVResult = "";
-        private bool isMEditOpen = false;//blanket for any being open - used to turn off keyboard shortcuts while popup is open
+
+        private bool isMEditPopupOpen = false;//blanket for any being open - used to turn off keyboard shortcuts while popup is open
+        private bool isShortcutPopupOpen = false;//blanket for any being open - used to turn off keyboard shortcuts while popup is open
 
         private PropertyEditor _propEditor = null;
 
@@ -148,19 +153,19 @@ namespace StudioCore.MsbEditor
             if(openMEditRegex)
             {
                 ImGui.OpenPopup("massEditMenuRegex");
-                isMEditOpen = true;
+                isMEditPopupOpen = true;
             }
             if(openMEditCSVExport)
             {
                 if(_activeParam!=null)
                     currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(ParamBank.Params[_activeParam]);
                 ImGui.OpenPopup("massEditMenuCSVExport");
-                isMEditOpen = true;
+                isMEditPopupOpen = true;
             }
             if(openMEditCSVImport)
             {
                 ImGui.OpenPopup("massEditMenuCSVImport");
-                isMEditOpen = true;
+                isMEditPopupOpen = true;
             }
             MassEditPopups();
         }
@@ -205,14 +210,14 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                isMEditOpen = false;//busy setting :/
+                isMEditPopupOpen = false;//busy setting :/
                 currentMEditCSVOutput = "";
             }
         }
 
         public void OnGUI(string[] initcmd)
         {
-            if(!isMEditOpen)//Are shortcuts active? Presently just checks for massEdit popup. Why is this even a thing? because accidentally pressing delete when editing
+            if(!isMEditPopupOpen && !isShortcutPopupOpen)//Are shortcuts active? Presently just checks for massEdit popup. Why is this even a thing? because accidentally pressing delete when editing
             {
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
@@ -222,6 +227,17 @@ namespace StudioCore.MsbEditor
                 if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
                 {
                     EditorActionManager.RedoAction();
+                }
+                if (InputTracker.GetControlShortcut(Key.C))
+                {
+                    _clipboardParam = _activeParam;
+                    _clipboardRows.Clear();
+                    foreach(PARAM.Row r in _selectionRows)
+                        _clipboardRows.Add(new PARAM.Row(r));//make a clone
+                }
+                if (_activeParam!=null && _clipboardParam == _activeParam && InputTracker.GetControlShortcut(Key.V))
+                {
+                    ImGui.OpenPopup("ctrlVPopup");
                 }
                 if (InputTracker.GetControlShortcut(Key.D))
                 {
@@ -242,6 +258,8 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
+
+            ShortcutPopups();
 
             if (ParamBank.Params == null)
             {
@@ -324,8 +342,11 @@ namespace StudioCore.MsbEditor
                             {
                                 int start = p.Rows.IndexOf(_activeRow);
                                 int end = p.Rows.IndexOf(r);
-                                foreach(var r2 in p.Rows.GetRange(start<end?start:end, start<end?end-start:start-end))
-                                    _selectionRows.Add(r2);
+                                if(start!=end)
+                                {
+                                    foreach(var r2 in p.Rows.GetRange(start<end?start:end, start<end?end-start:start-end))
+                                        _selectionRows.Add(r2);
+                                }
                             }
                             else
                                 _activeRow = r;
@@ -354,6 +375,39 @@ namespace StudioCore.MsbEditor
                 _propEditor.PropEditorParamRow(_activeRow);
             }
             ImGui.EndChild();
+        }
+
+        public void ShortcutPopups()
+        {
+            if(ImGui.BeginPopup("ctrlVPopup"))
+            {
+                ImGui.InputText("Offset", ref currentCtrlVInput, 20);
+                long offset = 0;
+                try
+                {
+                    offset = int.Parse(currentCtrlVInput);
+                }
+                catch
+                {
+                    ImGui.EndPopup();
+                    return;
+                }
+                if(ImGui.Selectable("Submit")){
+                List<PARAM.Row> rowsToInsert = new List<PARAM.Row>();
+                    if(_activeRow!=null)
+                    {
+                        foreach(PARAM.Row r in _clipboardRows)
+                        {
+                            PARAM.Row newrow = new PARAM.Row(r);//more cloning
+                            newrow.ID = r.ID + offset;
+                            rowsToInsert.Add(newrow);
+                        }
+                    }
+                    EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.Params[_clipboardParam], "legacystring", rowsToInsert, false));
+                }
+                ImGui.EndPopup();
+            }
+
         }
 
         public override void OnProjectChanged(ProjectSettings newSettings)
