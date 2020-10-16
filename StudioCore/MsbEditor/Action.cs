@@ -159,7 +159,7 @@ namespace StudioCore.MsbEditor
         public override ActionEvent Execute()
         {
             bool clonesCached = Clones.Count() > 0;
-            //foreach (var obj in Clonables)
+            // foreach (var obj in Clonables)
 
             var objectnames = new Dictionary<string, HashSet<string>>();
             for (int i = 0; i < Clonables.Count(); i++)
@@ -264,7 +264,7 @@ namespace StudioCore.MsbEditor
                     Clones[i].RenderSceneMesh.UnregisterWithScene();
                 }
             }
-            //Clones.Clear();
+            // Clones.Clear();
             if (SetSelection)
             {
                 Universe.Selection.ClearSelection();
@@ -319,7 +319,7 @@ namespace StudioCore.MsbEditor
             }
             if (SetSelection)
             {
-                //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
+                // EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
             }
             return ActionEvent.NoEvent;
         }
@@ -366,7 +366,7 @@ namespace StudioCore.MsbEditor
             }
             if (SetSelection)
             {
-                //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
+                // EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
             }
             return ActionEvent.NoEvent;
         }

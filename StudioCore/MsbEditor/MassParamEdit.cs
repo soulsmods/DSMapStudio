@@ -7,13 +7,13 @@ using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
-
     public enum MassEditResultType
     {
         SUCCESS,
         PARSEERROR,
         OPERATIONERROR
     }
+
     public class MassEditResult
     {
         public MassEditResultType type;
@@ -27,7 +27,7 @@ namespace StudioCore.MsbEditor
     
     public class MassParamEdit
     {
-        public static object performOperation(PARAM.Cell cell, string op, string opparam)
+        public static object PerformOperation(PARAM.Cell cell, string op, string opparam)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
                 {
                     if (cell.Value.GetType() == typeof(int))
                     {
-                        foreach (string reftype in cell.Def.Meta.RefTypes)
+                        foreach (string reftype in FieldMetaData.Get(cell.Def).RefTypes)
                         {
                             PARAM p = ParamBank.Params[reftype];
                             if (p == null)
@@ -59,32 +59,33 @@ namespace StudioCore.MsbEditor
                 }
                 
                 if (cell.Value.GetType() == typeof(long))
-                    return performBasicOperation<long>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<long>(cell, op, double.Parse(opparam));
                 if (cell.Value.GetType() == typeof(ulong))
-                    return performBasicOperation<ulong>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<ulong>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(int))
-                    return performBasicOperation<int>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<int>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(uint))
-                    return performBasicOperation<uint>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<uint>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(short))
-                    return performBasicOperation<short>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<short>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(ushort))
-                    return performBasicOperation<ushort>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<ushort>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(sbyte))
-                    return performBasicOperation<sbyte>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<sbyte>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(byte))
-                    return performBasicOperation<byte>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<byte>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(float))
-                    return performBasicOperation<float>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<float>(cell, op, double.Parse(opparam));
                 else if (cell.Value.GetType() == typeof(double))
-                    return performBasicOperation<double>(cell, op, double.Parse(opparam));
+                    return PerformBasicOperation<double>(cell, op, double.Parse(opparam));
             }
             catch(FormatException f)
             {
             }
             return null;
         }
-        public static T performBasicOperation<T>(PARAM.Cell c, string op, double opparam) where T : struct, IFormattable
+
+        public static T PerformBasicOperation<T>(PARAM.Cell c, string op, double opparam) where T : struct, IFormattable
         {
             try
             {
@@ -104,7 +105,7 @@ namespace StudioCore.MsbEditor
             }
             catch(Exception e)
             {
-                //Operation error
+                // Operation error
             }
             return default(T);
         }
@@ -112,22 +113,22 @@ namespace StudioCore.MsbEditor
 
     public class MassParamEditRegex : MassParamEdit
     {
-        //eg "selection"
+        // eg "selection"
         private static string paramrowfilterselection = $@"(selection:\s+)";
-        //eg "EquipParamWeapon: "
+        // eg "EquipParamWeapon: "
         private static string paramfilterRx = $@"(param\s+?<paramrx>[^\s:]+):\s+";
-        //eg "id (100|200)00"
+        // eg "id (100|200)00"
         private static string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
-        //eg "name \s+ Arrow"
+        // eg "name \s+ Arrow"
         private static string rowfilternameRx = $@"(name\s+(?<rownamerx>[^:]+))";
-        //eg "prop sellValue 100"
+        // eg "prop sellValue 100"
         private static string rowfilterpropRx = $@"(prop\s+(?<rowpropfield>[^\s]+)\s+(?<rowpropvalexp>[^:]+))";
-        //eg "propref originalEquipWep0 Dagger\[.+\]"
+        // eg "propref originalEquipWep0 Dagger\[.+\]"
         private static string rowfilterproprefRx = $@"(propref\s+(?<rowpropreffield>[^\s]+)\s+(?<rowproprefnamerx>[^:]+))";
         private static string rowfilterRx = $@"({rowfilteridRx}|{rowfilternameRx}|{rowfilterpropRx}|{rowfilterproprefRx}):\s+";
-        //eg "correctFaith: "
+        // eg "correctFaith: "
         private static string fieldRx = $@"(?<fieldrx>[^\:]+):\s+";
-        //eg "* 2;
+        // eg "* 2;
         private static string operationRx = $@"(?<op>=|\+|-|\*|/|ref)\s+(?<opparam>[^;]+);";
         private static Regex commandRx = new Regex($@"^({paramrowfilterselection}|({paramfilterRx}{rowfilterRx})){fieldRx}{operationRx}$");
         public static MassEditResult PerformMassEdit(string commandsString, ActionManager actionManager, string contextActiveParam, List<PARAM.Row> contextActiveRows)
@@ -151,7 +152,7 @@ namespace StudioCore.MsbEditor
                     
                     List<PARAM> affectedParams = new List<PARAM>();
                     if (paramrx.Success)
-                        affectedParams = getMatchingParams(new Regex($@"^{paramrx.Value}$"));
+                        affectedParams = GetMatchingParams(new Regex($@"^{paramrx.Value}$"));
                     else
                         affectedParams.Add(ParamBank.Params[contextActiveParam]);
 
@@ -161,19 +162,19 @@ namespace StudioCore.MsbEditor
                         if (!paramrx.Success)
                             affectedRows = contextActiveRows;
                         else if (rowidexp.Success)
-                            affectedRows = getMatchingParamRows(param, rowidexp.Value);
+                            affectedRows = GetMatchingParamRows(param, rowidexp.Value);
                         else if (rownamerx.Success)
-                            affectedRows = getMatchingParamRows(param, new Regex($@"^{rownamerx.Value}$"));
+                            affectedRows = GetMatchingParamRows(param, new Regex($@"^{rownamerx.Value}$"));
                         else if (rowpropfield.Success)
-                            affectedRows = getMatchingParamRows(param, rowpropfield.Value, comm.Groups["rowpropvalexp"].Value);
+                            affectedRows = GetMatchingParamRows(param, rowpropfield.Value, comm.Groups["rowpropvalexp"].Value);
                         else if (rowpropreffield.Success)
-                            affectedRows = getMatchingParamRows(param, rowpropreffield.Value, new Regex($@"^{comm.Groups["rowproprefnamerx"].Value}$"));
+                            affectedRows = GetMatchingParamRows(param, rowpropreffield.Value, new Regex($@"^{comm.Groups["rowproprefnamerx"].Value}$"));
                     }
-                    List<PARAM.Cell> affectedCells = getMatchingCells(affectedRows, fieldRx);
+                    List<PARAM.Cell> affectedCells = GetMatchingCells(affectedRows, fieldRx);
                     changeCount = affectedCells.Count;
                     foreach (PARAM.Cell cell in affectedCells)
                     {
-                        object newval = performOperation(cell, op, opparam);
+                        object newval = PerformOperation(cell, op, opparam);
                         if (newval == null)
                         {
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparam} on field {cell.Def.DisplayName}");
@@ -189,7 +190,8 @@ namespace StudioCore.MsbEditor
             actionManager.ExecuteAction(new CompoundAction(actions));
             return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected");
         }
-        public static List<PARAM> getMatchingParams(Regex paramrx)
+
+        public static List<PARAM> GetMatchingParams(Regex paramrx)
         {
             List<PARAM> plist = new List<PARAM>();
             foreach (string name in ParamBank.Params.Keys)
@@ -201,17 +203,19 @@ namespace StudioCore.MsbEditor
             }
             return plist;
         }
-        public static List<PARAM.Row> getMatchingParamRows(PARAM param, string rowvalexp)
+
+        public static List<PARAM.Row> GetMatchingParamRows(PARAM param, string rowvalexp)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             foreach (PARAM.Row row in param.Rows)
             {
-                if (matchNumExp(row.ID, rowvalexp))
+                if (MatchNumExp(row.ID, rowvalexp))
                     rlist.Add(row);
             }
             return rlist;
         }
-        public static List<PARAM.Row> getMatchingParamRows(PARAM param, Regex rownamerx)
+
+        public static List<PARAM.Row> GetMatchingParamRows(PARAM param, Regex rownamerx)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             foreach (PARAM.Row row in param.Rows)
@@ -221,18 +225,20 @@ namespace StudioCore.MsbEditor
             }
             return rlist;
         }
-        public static List<PARAM.Row> getMatchingParamRows(PARAM param, string rowfield, string rowvalexp)
+
+        public static List<PARAM.Row> GetMatchingParamRows(PARAM param, string rowfield, string rowvalexp)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             foreach (PARAM.Row row in param.Rows)
             {
                 PARAM.Cell c = row[rowfield];
-                if (c != null && matchNumExp(c.Value, rowvalexp))
+                if (c != null && MatchNumExp(c.Value, rowvalexp))
                     rlist.Add(row);
             }
             return rlist;
         }
-        public static List<PARAM.Row> getMatchingParamRows(PARAM param, string rowfield, Regex rownamerx)
+
+        public static List<PARAM.Row> GetMatchingParamRows(PARAM param, string rowfield, Regex rownamerx)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             foreach (PARAM.Row row in param.Rows)
@@ -241,7 +247,7 @@ namespace StudioCore.MsbEditor
                 if (c != null)
                 {
                     int val = (int) c.Value;
-                    foreach (string rt in c.Def.Meta.RefTypes)
+                    foreach (string rt in FieldMetaData.Get(c.Def).RefTypes)
                     {
                         if (!ParamBank.Params.ContainsKey(rt))
                             continue;
@@ -256,7 +262,8 @@ namespace StudioCore.MsbEditor
             }
             return rlist;
         }
-        public static List<PARAM.Cell> getMatchingCells(List<PARAM.Row> rows, Regex fieldrx)
+
+        public static List<PARAM.Cell> GetMatchingCells(List<PARAM.Row> rows, Regex fieldrx)
         {
             List<PARAM.Cell> clist = new List<PARAM.Cell>();
             foreach (PARAM.Row row in rows)
@@ -271,9 +278,10 @@ namespace StudioCore.MsbEditor
             }
             return clist;
         }
-        public static bool matchNumExp(object val, string valexp)
+        
+        public static bool MatchNumExp(object val, string valexp)
         {
-            //Regex may be replaced at a later time with a more relevant syntax
+            // Regex may be replaced at a later time with a more relevant syntax
             Regex rx = new Regex($@"^{valexp}$");
             return rx.Match(val.ToString()).Success;
         }
@@ -296,6 +304,7 @@ namespace StudioCore.MsbEditor
             }
             return gen;
         }
+        
         public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param)
         {
             try
@@ -303,7 +312,7 @@ namespace StudioCore.MsbEditor
                 PARAM p = ParamBank.Params[param];
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
-                int csvLength = p.AppliedParamdef.Fields.Count + 2;//Include ID and name
+                int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
                 string[] csvLines = csvString.Split('\n');
                 int changeCount = 0;
                 int addedCount = 0;
@@ -333,10 +342,10 @@ namespace StudioCore.MsbEditor
                     {
                         string v = csvs[index];
                         index++;
-                        //Array types are unhandled
+                        // Array types are unhandled
                         if (c.Value.GetType().IsArray)
                             continue;
-                        object newval = performOperation(c, "=", v);
+                        object newval = PerformOperation(c, "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.DisplayName}");
                         if (!c.Value.Equals(newval))

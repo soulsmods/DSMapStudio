@@ -140,7 +140,7 @@ namespace StudioCore.MsbEditor
                 {
                     newval = val;
                     return true;
-                    //shouldUpdateVisual = true;
+                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(string))
@@ -163,7 +163,7 @@ namespace StudioCore.MsbEditor
                 {
                     newval = val;
                     return true;
-                    //shouldUpdateVisual = true;
+                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(Vector3))
@@ -173,7 +173,7 @@ namespace StudioCore.MsbEditor
                 {
                     newval = val;
                     return true;
-                    //shouldUpdateVisual = true;
+                    // shouldUpdateVisual = true;
                 }
             }
             else
@@ -235,7 +235,7 @@ namespace StudioCore.MsbEditor
 
                 LastUncommittedAction = action;
                 ChangingPropery = prop;
-                //ChangingObject = selection.MsbObject;
+                // ChangingObject = selection.MsbObject;
                 ChangingObject = selection != null ? selection.WrappedObject : obj;
             }
         }
@@ -323,16 +323,16 @@ namespace StudioCore.MsbEditor
             ImGui.Columns(1);
         }
         
-        //Many parameter options, which may be simplified.
+        // Many parameter options, which may be simplified.
         private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection)
         {
             PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, null, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
         }
         private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection)
         {
-            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Def.Meta, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
+            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, FieldMetaData.Get(cell.Def), cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
         }
-        private void PropEditorPropRow(object oldval, ref int id, string visualName, PARAMDEF.Field.MetaData cellMeta, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
+        private void PropEditorPropRow(object oldval, ref int id, string visualName, FieldMetaData cellMeta, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
         {
             List<string> RefTypes = cellMeta == null ? null : cellMeta.RefTypes;
             string VirtualRef = cellMeta == null ? null : cellMeta.VirtualRef;
@@ -368,8 +368,8 @@ namespace StudioCore.MsbEditor
         }
         private bool PropertyRowRefs(List<string> reftypes, object oldval ,ref object newval)
         {
-            //Add named row and context menu
-            //Lists located params
+            // Add named row and context menu
+            // Lists located params
             ImGui.NewLine();
             foreach (string rt in reftypes)
             {
@@ -383,14 +383,14 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
-            //Attach context menu
+            // Attach context menu
             return PropertyRowRefsContextMenu(reftypes, oldval, ref newval);
         }
         private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval)
         {
             if (ImGui.BeginPopupContextItem(String.Join(',', reftypes)))
             {   
-                //Add Goto statements
+                // Add Goto statements
                 foreach (string rt in reftypes)
                 {
                     if (!ParamBank.Params.ContainsKey(rt))
@@ -402,10 +402,10 @@ namespace StudioCore.MsbEditor
                         EditorCommandQueue.AddCommand($@"param/select/{rt}/{oldval}");
                     }
                 }
-                //Add searchbar for named editing
+                // Add searchbar for named editing
                 ImGui.InputText("##value", ref refContextCurrentAutoComplete, 128);
-                //Unordered scanthrough search for matching param entries.
-                //This should be replaced by a proper search box with a scroll and everything
+                // Unordered scanthrough search for matching param entries.
+                // This should be replaced by a proper search box with a scroll and everything
                 foreach (string rt in reftypes)
                 {
                     if (refContextCurrentAutoComplete != "")
@@ -435,7 +435,7 @@ namespace StudioCore.MsbEditor
             }
             return false;
         }
-        //Return true if a param name should be found by searching a term.
+        // Return true if a param name should be found by searching a term.
         private bool RefContextSearchMatch(string name, string term)
         {
             return name.ToLower().Contains(term.ToLower());
@@ -444,13 +444,13 @@ namespace StudioCore.MsbEditor
         {
             if (ImGui.BeginPopupContextItem(vref))
             {   
-                //Add Goto statements
+                // Add Goto statements
                 foreach (var param in ParamBank.Params)
                 {
                     PARAMDEF.Field foundfield = null;
                     foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                     { 
-                        if (f.Meta.VirtualRef != null)
+                        if (FieldMetaData.Get(f).VirtualRef != null)
                         {
                             foundfield = f;
                             break;
@@ -489,7 +489,7 @@ namespace StudioCore.MsbEditor
             ImGui.Text(name);
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
-            //ImGui.AlignTextToFramePadding();
+            // ImGui.AlignTextToFramePadding();
             var typ = typeof(string);
             var oldval = entry.Text;
             bool shouldUpdateVisual = false;
@@ -604,7 +604,7 @@ namespace StudioCore.MsbEditor
 
                     ImGui.PushID(id);
                     ImGui.AlignTextToFramePadding();
-                    //ImGui.AlignTextToFramePadding();
+                    // ImGui.AlignTextToFramePadding();
                     var typ = prop.PropertyType;
 
                     if (typ.IsArray)
@@ -641,7 +641,7 @@ namespace StudioCore.MsbEditor
                                 object newval = null;
 
                                 changed = PropertyRow(typ.GetElementType(), oldval, out newval);
-                                //PropertyContextMenu(prop);
+                                // PropertyContextMenu(prop);
                                 if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                                 {
                                     ImGui.SetItemDefaultFocus();

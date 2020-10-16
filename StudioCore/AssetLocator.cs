@@ -465,6 +465,7 @@ namespace StudioCore
         {
             return $@"{GetParamAssetsDir()}\Defs";
         }
+
         public string GetParammetaDir()
         {
             return $@"{GetParamAssetsDir()}\Meta";
@@ -472,7 +473,9 @@ namespace StudioCore
 
         public PARAMDEF GetParamdefForParam(string paramType)
         {
-            return PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml", $@"{GetParammetaDir()}\{paramType}.xml");
+            PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");
+            MsbEditor.ParamMetaData meta = MsbEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
+            return pd;
         }
 
         public AssetDescription GetDS2GeneratorParam(string mapid, bool writemode=false)
@@ -606,7 +609,7 @@ namespace StudioCore
                     ad.AssetPath = f;
                     var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
                     ad.AssetName = name;
-                    //ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                    // ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
                     ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
                     ret.Add(ad);
                 }
@@ -729,7 +732,7 @@ namespace StudioCore
             }
             else if (Type == GameType.DarkSoulsPTDE)
             {
-                //TODO
+                // TODO
             }
             else if (Type == GameType.DemonsSouls)
             {

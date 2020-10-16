@@ -49,11 +49,6 @@ namespace SoulsFormats
         public List<Field> Fields { get; set; }
 
         /// <summary>
-        /// Container for metainformation about the paramdef not derived from core paramdef files
-        /// </summary>
-        public MetaData Meta = new MetaData();
-
-        /// <summary>
         /// Creates a new PARAMDEF formatted for DS1.
         /// </summary>
         public PARAMDEF()
@@ -218,23 +213,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads an XML-formatted PARAMDEF from a file.
         /// </summary>
-        public static PARAMDEF XmlDeserialize(string defpath, string metapath)
+        public static PARAMDEF XmlDeserialize(string path)
         {
             var xml = new XmlDocument();
-            xml.Load(defpath);
-            var mxml = new XmlDocument();
-            try
-            {
-                mxml.Load(metapath);
-            }
-            catch
-            {
-                mxml = null;
-            }
-            return new PARAMDEF(xml, mxml);
+            xml.Load(path);
+            return new PARAMDEF(xml);
         }
 
-        private PARAMDEF(XmlDocument xml, XmlDocument mxml)
+        private PARAMDEF(XmlDocument xml)
         {
             XmlNode root = xml.SelectSingleNode("PARAMDEF");
             int xmlVersion = int.Parse(root.Attributes["XmlVersion"].InnerText);
@@ -247,27 +233,10 @@ namespace SoulsFormats
             Unicode = root.ReadBoolean(nameof(Unicode));
             Version = root.ReadInt16(nameof(Version));
 
-            if (mxml != null)
-            {
-                Meta = new MetaData(mxml);
-            }
-
             Fields = new List<Field>();
             foreach (XmlNode node in root.SelectNodes($"{nameof(Fields)}/{nameof(Field)}"))
             {
                 Fields.Add(new Field(node));
-            }
-
-            if (mxml != null)
-            {
-                XmlNode mroot = mxml.SelectSingleNode("PARAMMETA");
-                foreach (Field f in Fields)
-                {
-                    XmlNode pairedNode = mroot.SelectSingleNode($"Field/{f.InternalName}");
-                    if (pairedNode == null)
-                        continue;
-                    f.Meta = new Field.MetaData(pairedNode);
-                }
             }
         }
 
@@ -458,12 +427,6 @@ namespace SoulsFormats
             /// Fields are ordered by this value in the editor; not present before version 104.
             /// </summary>
             public int SortID { get; set; }
-
-            
-            /// <summary>
-            /// Container for metainformation about the paramdef not derived from core paramdef files
-            /// </summary>
-            public MetaData Meta = new MetaData();
 
             private static readonly Regex arrayLengthRx = new Regex(@"^(?<name>.+?)\s*\[\s*(?<length>\d+)\s*\]\s*$");
             private static readonly Regex bitSizeRx = new Regex(@"^(?<name>.+?)\s*\:\s*(?<size>\d+)\s*$");
@@ -662,7 +625,6 @@ namespace SoulsFormats
                     internalName = arrayMatch.Groups["name"].Value;
                 }
                 InternalName = internalName;
-                
 
                 DisplayName = node.ReadStringOrDefault(nameof(DisplayName), InternalName);
                 InternalType = node.ReadStringOrDefault("Enum", DisplayType.ToString());
@@ -699,53 +661,6 @@ namespace SoulsFormats
                 xw.WriteDefaultElement(nameof(SortID), SortID, 0);
             }
             #endregion
-
-            public class MetaData
-            {
-                /// <summary>
-                /// Name of another Param that a Field may refer to.
-                /// </summary>
-                public List<string> RefTypes { get; set; }
-                /// <summary>
-                /// Name linking fields from multiple params that may share values.
-                /// </summary>
-                public string VirtualRef {get; set;}
-
-                public MetaData()
-                {
-                    //Blank Metadata
-                }
-                public MetaData(XmlNode fieldMeta)
-                {
-                    RefTypes = null;
-                    VirtualRef = null;
-                    XmlAttribute Ref = fieldMeta.Attributes["Refs"];
-                    if (Ref != null)
-                    {
-                        RefTypes = new List<string>(Ref.InnerText.Split(","));
-                    }
-                    XmlAttribute VRef = fieldMeta.Attributes["VRef"];
-                    if (VRef != null)
-                    {
-                        VirtualRef = VRef.InnerText;
-                    }
-                }
-            }
-        }
-
-        public class MetaData
-        {
-            public MetaData()
-            {
-                //Blank Metadata
-            }
-            public MetaData(XmlDocument xml)
-            {
-                XmlNode root = xml.SelectSingleNode("PARAMMETA");
-                int xmlVersion = int.Parse(root.Attributes["XmlVersion"].InnerText);
-                if (xmlVersion != XML_VERSION)
-                    throw new InvalidDataException($"Mismatched XML version; current version: {XML_VERSION}, file version: {xmlVersion}");
-            }
         }
     }
 }
