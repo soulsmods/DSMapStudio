@@ -182,12 +182,12 @@ namespace StudioCore.MsbEditor
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     MassEditResult r = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, EditorActionManager, _activeParam, _selectionRows);
-                    if (r.type == MassEditResultType.SUCCESS)
+                    if (r.Type == MassEditResultType.SUCCESS)
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
                     }
-                    _mEditRegexResult = r.information;
+                    _mEditRegexResult = r.Information;
                 }
                 ImGui.Text(_mEditRegexResult);
                 ImGui.InputTextMultiline("MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
@@ -204,12 +204,12 @@ namespace StudioCore.MsbEditor
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _activeParam);
-                    if (r.type == MassEditResultType.SUCCESS)
+                    if (r.Type == MassEditResultType.SUCCESS)
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
                     }
-                    _mEditCSVResult = r.information;
+                    _mEditCSVResult = r.Information;
                 }
                 ImGui.Text(_mEditCSVResult);
                 ImGui.EndPopup();
@@ -223,7 +223,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI(string[] initcmd)
         {
-            if (!_isMEditPopupOpen && !_isShortcutPopupOpen)// Are shortcuts active? Presently just checks for massEdit popup. Why is this even a thing? because accidentally pressing delete when editing
+            if (!_isMEditPopupOpen && !_isShortcutPopupOpen)// Are shortcuts active? Presently just checks for massEdit popup.
             {
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))

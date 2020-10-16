@@ -313,7 +313,7 @@ namespace StudioCore.MsbEditor
                 else
                 {
                     newrow.Name = row.Name != null ? row.Name + "_1" : "";
-                    Param.Rows.Insert(Param.Rows.IndexOf(Param[(int)row.ID]) + 1, newrow);
+                    Param.Rows.Insert(Param.Rows.IndexOf(Param[(int) row.ID]) + 1, newrow);
                 }
                 Clones.Add(newrow);
             }

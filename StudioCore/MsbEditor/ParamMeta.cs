@@ -13,7 +13,7 @@ namespace StudioCore.MsbEditor
     {
         private static Dictionary<PARAMDEF, ParamMetaData> _ParamMetas = new Dictionary<PARAMDEF, ParamMetaData>();
 
-        private static int XML_VERSION = 0;
+        private const int XML_VERSION = 0;
 
         public static ParamMetaData Get(PARAMDEF def)
         {

@@ -16,12 +16,12 @@ namespace StudioCore.MsbEditor
 
     public class MassEditResult
     {
-        public MassEditResultType type;
-        public string information;
+        public MassEditResultType Type;
+        public string Information;
         public MassEditResult(MassEditResultType result, string info)
         {
-            type = result;
-            information = info;
+            Type = result;
+            Information = info;
         }
     }
     
@@ -114,23 +114,25 @@ namespace StudioCore.MsbEditor
     public class MassParamEditRegex : MassParamEdit
     {
         // eg "selection"
-        private static string paramrowfilterselection = $@"(selection:\s+)";
+        private static readonly string paramrowfilterselection = $@"(selection:\s+)";
         // eg "EquipParamWeapon: "
-        private static string paramfilterRx = $@"(param\s+?<paramrx>[^\s:]+):\s+";
+        private static readonly string paramfilterRx = $@"(param\s+?<paramrx>[^\s:]+):\s+";
         // eg "id (100|200)00"
-        private static string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
+        private static readonly string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
         // eg "name \s+ Arrow"
-        private static string rowfilternameRx = $@"(name\s+(?<rownamerx>[^:]+))";
+        private static readonly string rowfilternameRx = $@"(name\s+(?<rownamerx>[^:]+))";
         // eg "prop sellValue 100"
-        private static string rowfilterpropRx = $@"(prop\s+(?<rowpropfield>[^\s]+)\s+(?<rowpropvalexp>[^:]+))";
+        private static readonly string rowfilterpropRx = $@"(prop\s+(?<rowpropfield>[^\s]+)\s+(?<rowpropvalexp>[^:]+))";
         // eg "propref originalEquipWep0 Dagger\[.+\]"
-        private static string rowfilterproprefRx = $@"(propref\s+(?<rowpropreffield>[^\s]+)\s+(?<rowproprefnamerx>[^:]+))";
-        private static string rowfilterRx = $@"({rowfilteridRx}|{rowfilternameRx}|{rowfilterpropRx}|{rowfilterproprefRx}):\s+";
+        private static readonly string rowfilterproprefRx = $@"(propref\s+(?<rowpropreffield>[^\s]+)\s+(?<rowproprefnamerx>[^:]+))";
+        private static readonly string rowfilterRx = $@"({rowfilteridRx}|{rowfilternameRx}|{rowfilterpropRx}|{rowfilterproprefRx}):\s+";
         // eg "correctFaith: "
-        private static string fieldRx = $@"(?<fieldrx>[^\:]+):\s+";
+        private static readonly string fieldRx = $@"(?<fieldrx>[^\:]+):\s+";
         // eg "* 2;
-        private static string operationRx = $@"(?<op>=|\+|-|\*|/|ref)\s+(?<opparam>[^;]+);";
-        private static Regex commandRx = new Regex($@"^({paramrowfilterselection}|({paramfilterRx}{rowfilterRx})){fieldRx}{operationRx}$");
+        private static readonly string operationRx = $@"(?<op>=|\+|-|\*|/|ref)\s+(?<opparam>[^;]+);";
+
+        private static readonly Regex commandRx = new Regex($@"^({paramrowfilterselection}|({paramfilterRx}{rowfilterRx})){fieldRx}{operationRx}$");
+
         public static MassEditResult PerformMassEdit(string commandsString, ActionManager actionManager, string contextActiveParam, List<PARAM.Row> contextActiveRows)
         {
             string[] commands = commandsString.Split('\n');
@@ -170,8 +172,9 @@ namespace StudioCore.MsbEditor
                         else if (rowpropreffield.Success)
                             affectedRows = GetMatchingParamRows(param, rowpropreffield.Value, new Regex($@"^{comm.Groups["rowproprefnamerx"].Value}$"));
                     }
+
                     List<PARAM.Cell> affectedCells = GetMatchingCells(affectedRows, fieldRx);
-                    changeCount = affectedCells.Count;
+                    changeCount += affectedCells.Count;
                     foreach (PARAM.Cell cell in affectedCells)
                     {
                         object newval = PerformOperation(cell, op, opparam);
@@ -323,7 +326,7 @@ namespace StudioCore.MsbEditor
                     if (csvLine.Trim().Equals(""))
                         continue;
                     string[] csvs = csvLine.Split(',');
-                    if (csvs.Length != csvLength || csvs.Length<2)
+                    if (csvs.Length != csvLength || csvs.Length < 2)
                     {
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
                     }

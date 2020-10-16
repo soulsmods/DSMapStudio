@@ -21,7 +21,7 @@ namespace StudioCore.MsbEditor
         private object ChangedValue = null;
         private Action LastUncommittedAction = null;
 
-        private string refContextCurrentAutoComplete = "";
+        private string _refContextCurrentAutoComplete = "";
 
         public PropertyEditor(ActionManager manager)
         {
@@ -403,12 +403,12 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 // Add searchbar for named editing
-                ImGui.InputText("##value", ref refContextCurrentAutoComplete, 128);
+                ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);
                 // Unordered scanthrough search for matching param entries.
                 // This should be replaced by a proper search box with a scroll and everything
                 foreach (string rt in reftypes)
                 {
-                    if (refContextCurrentAutoComplete != "")
+                    if (_refContextCurrentAutoComplete != "")
                     {
                         int maxResultsPerRefType = 15/reftypes.Count;
                         foreach (PARAM.Row r in ParamBank.Params[rt].Rows)
@@ -417,12 +417,12 @@ namespace StudioCore.MsbEditor
                                 break;
                             if (r.Name == null)
                                 continue;
-                            if (RefContextSearchMatch(r.Name, refContextCurrentAutoComplete))
+                            if (RefContextSearchMatch(r.Name, _refContextCurrentAutoComplete))
                             {
                                 if (ImGui.Selectable(r.Name))
                                 {
                                     newval = (int) r.ID;
-                                    refContextCurrentAutoComplete = "";
+                                    _refContextCurrentAutoComplete = "";
                                     ImGui.EndPopup();
                                     return true;
                                 }
