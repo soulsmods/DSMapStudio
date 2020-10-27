@@ -69,6 +69,7 @@ namespace StudioCore.MsbEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
 
+        private string _currentSearchString = "";
         private string _activeParam = null;
         private PARAM.Row _activeRow = null;
         private List<PARAM.Row> _selectionRows = new List<PARAM.Row>();
@@ -316,6 +317,7 @@ namespace StudioCore.MsbEditor
             }
             ImGui.EndChild();
             ImGui.NextColumn();
+            ImGui.InputText("SearchBar", ref _currentSearchString, 256);
             ImGui.BeginChild("rows");
             if (_activeParam == null)
             {
@@ -328,8 +330,16 @@ namespace StudioCore.MsbEditor
                 {
                     decorator = _decorators[_activeParam];
                 }
-                var p = ParamBank.Params[_activeParam];
-                foreach (var r in p.Rows)
+
+                PARAM para = ParamBank.Params[_activeParam];
+                List<PARAM.Row> p;
+                Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_currentSearchString);
+                if (!m.Success)
+                    p = para.Rows;
+                else
+                    p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
+
+                foreach (var r in p)
                 {
                     if (ImGui.Selectable($@"{r.ID} {r.Name}", _selectionRows.Contains(r)))
                     {
@@ -346,11 +356,11 @@ namespace StudioCore.MsbEditor
                             _selectionRows.Add(r);
                             if (InputTracker.GetKey(Key.LShift))
                             {
-                                int start = p.Rows.IndexOf(_activeRow);
-                                int end = p.Rows.IndexOf(r);
+                                int start = p.IndexOf(_activeRow);
+                                int end = p.IndexOf(r);
                                 if (start != end)
                                 {
-                                    foreach (var r2 in p.Rows.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                                    foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
                                         _selectionRows.Add(r2);
                                 }
                             }
