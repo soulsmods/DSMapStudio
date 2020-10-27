@@ -406,39 +406,30 @@ namespace StudioCore.MsbEditor
                 ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);
                 // Unordered scanthrough search for matching param entries.
                 // This should be replaced by a proper search box with a scroll and everything
-                foreach (string rt in reftypes)
+                if (_refContextCurrentAutoComplete != "")
                 {
-                    if (_refContextCurrentAutoComplete != "")
+                    foreach (string rt in reftypes)
                     {
                         int maxResultsPerRefType = 15/reftypes.Count;
-                        foreach (PARAM.Row r in ParamBank.Params[rt].Rows)
+                        List<PARAM.Row> rows = MassParamEditRegex.GetMatchingParamRowsByName(ParamBank.Params[rt], _refContextCurrentAutoComplete, true, false);
+                        foreach (PARAM.Row r in rows)
                         {
                             if (maxResultsPerRefType <= 0)
                                 break;
-                            if (r.Name == null)
-                                continue;
-                            if (RefContextSearchMatch(r.Name, _refContextCurrentAutoComplete))
+                            if (ImGui.Selectable(r.Name))
                             {
-                                if (ImGui.Selectable(r.Name))
-                                {
-                                    newval = (int) r.ID;
-                                    _refContextCurrentAutoComplete = "";
-                                    ImGui.EndPopup();
-                                    return true;
-                                }
-                                maxResultsPerRefType--;
+                                newval = (int) r.ID;
+                                _refContextCurrentAutoComplete = "";
+                                ImGui.EndPopup();
+                                return true;
                             }
+                            maxResultsPerRefType--;
                         }
                     }
                 }
                 ImGui.EndPopup();
             }
             return false;
-        }
-        // Return true if a param name should be found by searching a term.
-        private bool RefContextSearchMatch(string name, string term)
-        {
-            return name.ToLower().Contains(term.ToLower());
         }
         private void PropertyRowVirtualRefContextMenu(string field, string vref, object searchValue)
         {
