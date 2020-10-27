@@ -160,7 +160,7 @@ namespace StudioCore.MsbEditor
                         if (!paramrx.Success)
                             affectedRows = contextActiveRows;
                         else
-                            affectedRows = GetMatchingParamRows(param, comm, false, false);
+                            affectedRows.AddRange(GetMatchingParamRows(param, comm, false, false));
                     }
 
                     List<PARAM.Cell> affectedCells = GetMatchingCells(affectedRows, fieldRx);
