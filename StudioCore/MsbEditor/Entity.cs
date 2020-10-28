@@ -992,7 +992,10 @@ namespace StudioCore.MsbEditor
                 var model = GetPropertyValue<string>("ModelName");
                 if (model != null && model != CurrentModel)
                 {
-                    _renderSceneMesh.Dispose();
+                    if (_renderSceneMesh != null)
+                    {
+                        _renderSceneMesh.Dispose();
+                    }
                     CurrentModel = model;
                     _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
                     if (Universe.Selection.IsSelected(this))
