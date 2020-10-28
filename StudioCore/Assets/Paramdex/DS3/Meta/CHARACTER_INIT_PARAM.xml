@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <equip_Wep_Right Refs="EquipParamWeapon"/>
+    <equip_Subwep_Right Refs="EquipParamWeapon" />
+    <equip_Wep_Left Refs="EquipParamWeapon" />
+    <equip_Subwep_Left Refs="EquipParamWeapon" />
+    <equip_Helm Refs="EquipParamProtector" />
+    <equip_Armor Refs="EquipParamProtector" />
+    <equip_Gaunt Refs="EquipParamProtector" />
+    <equip_Leg Refs="EquipParamProtector" />
+    <equip_Arrow Refs="EquipParamWeapon" />
+    <equip_Bolt Refs="EquipParamWeapon" />
+    <equip_SubArrow Refs="EquipParamWeapon" />
+    <equip_SubBolt Refs="EquipParamWeapon" />
+    <equip_Accessory1 Refs="EquipParamAccessory" />
+    <equip_Accessory2 Refs="EquipParamAccessory" />
+    <equip_Accessory3 Refs="EquipParamAccessory" />
+    <equip_Accessory4 Refs="EquipParamAccessory" />
+    <equip_Accessory5 Refs="EquipParamAccessory" />
+    <equip_Spell_01 Refs="Magic" />
+    <equip_Spell_02 Refs="Magic" />
+    <equip_Spell_03 Refs="Magic" />
+    <equip_Spell_04 Refs="Magic" />
+    <equip_Spell_05 Refs="Magic" />
+    <equip_Spell_06 Refs="Magic" />
+    <equip_Spell_07 Refs="Magic" />
+    <Item_01 Refs="EquipParamGoods" />
+    <Item_02 Refs="EquipParamGoods" />
+    <Item_03 Refs="EquipParamGoods" />
+    <Item_04 Refs="EquipParamGoods" />
+    <Item_05 Refs="EquipParamGoods" />
+    <Item_06 Refs="EquipParamGoods" />
+    <Item_07 Refs="EquipParamGoods" />
+    <Item_08 Refs="EquipParamGoods" />
+    <Item_09 Refs="EquipParamGoods" />
+    <Item_10 Refs="EquipParamGoods" />
+    <npcPlayerFaceGenId Refs= "FaceParam" />
+  </Field>
+</PARAMMETA>

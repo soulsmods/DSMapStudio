@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <ItemLotId1 Refs="EquipParamGoods" />
+    <ItemLotId2 Refs="EquipParamGoods" />
+    <ItemLotId3 Refs="EquipParamGoods" />
+    <ItemLotId4 Refs="EquipParamGoods" />
+    <ItemLotId5 Refs="EquipParamGoods" />
+    <ItemLotId6 Refs="EquipParamGoods" />
+    <ItemLotId7 Refs="EquipParamGoods" />
+    <ItemLotId8 Refs="EquipParamGoods" />
+  </Field>
+</PARAMMETA>

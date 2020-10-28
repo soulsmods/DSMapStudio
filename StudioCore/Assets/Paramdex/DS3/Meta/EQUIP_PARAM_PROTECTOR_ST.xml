@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <residentSpEffectId1 Refs="SpEffectParam" />
+    <residentSpEffectId2 Refs="SpEffectParam" />
+    <residentSpEffectId3 Refs="SpEffectParam" />
+    <protectorCategoryId VRef="protectorCategory" />
+  </Field>
+</PARAMMETA>

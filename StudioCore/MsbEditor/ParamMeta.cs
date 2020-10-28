@@ -45,13 +45,20 @@ namespace StudioCore.MsbEditor
 
             foreach (PARAMDEF.Field f in def.Fields)
             {
-                XmlNode pairedNode = root.SelectSingleNode($"Field/{f.InternalName}");
-                if (pairedNode == null)
+                try
+                {
+                    XmlNode pairedNode = root.SelectSingleNode($"Field/{f.InternalName}");
+                    if (pairedNode == null)
+                    {
+                        new FieldMetaData(f);
+                        continue;
+                    }
+                    new FieldMetaData(pairedNode, f);
+                }
+                catch
                 {
                     new FieldMetaData(f);
-                    continue;
                 }
-                new FieldMetaData(pairedNode, f);
             }
         }
 

@@ -441,7 +441,7 @@ namespace StudioCore.MsbEditor
                     PARAMDEF.Field foundfield = null;
                     foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                     { 
-                        if (FieldMetaData.Get(f).VirtualRef != null)
+                        if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(vref))
                         {
                             foundfield = f;
                             break;

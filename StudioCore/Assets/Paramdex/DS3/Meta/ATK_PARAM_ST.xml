@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffect0 Refs="SpEffectParam" />
+    <spEffect1 Refs="SpEffectParam" />
+    <spEffect2 Refs="SpEffectParam" />
+    <spEffect3 Refs="SpEffectParam" />
+    <spEffect4 Refs="SpEffectParam" />
+    <atkElementCorrectId Refs="AttackElementCorrectParam"/>
+  </Field>
+</PARAMMETA>

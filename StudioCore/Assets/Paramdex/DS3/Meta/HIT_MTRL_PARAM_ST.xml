@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <spEffectId5 Refs="SpEffectParam" />
+    <spEffectId6 Refs="SpEffectParam" />
+    <spEffectId7 Refs="SpEffectParam" />
+    <spEffectId8 Refs="SpEffectParam" />
+    <spEffectId9 Refs="SpEffectParam" />
+    <spEffectId10 Refs="SpEffectParam" />
+    <spEffectId11 Refs="SpEffectParam" />
+    <spEffectId12 Refs="SpEffectParam" />
+    <spEffectId13 Refs="SpEffectParam" />
+    <spEffectId14 Refs="SpEffectParam" />
+    <spEffectId15 Refs="SpEffectParam" />
+    <spEffectId16 Refs="SpEffectParam" />
+  </Field>
+</PARAMMETA>

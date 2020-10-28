@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <variationId VRef="behaviourVariation" />
-	<refId Refs="Bullet,AtkParam_Pc" />
+    <refId1 Refs="SpEffectParam" />
   </Field>
 </PARAMMETA>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <atkBullet_Id Refs="Bullet" />
+    <spEffectIdForShooter Refs="SpEffectParam" />
+    <hitBulletId Refs="Bullet" />
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <bulletEmitter_bulletId Refs="Bullet" />
+  </Field>
+</PARAMMETA>
