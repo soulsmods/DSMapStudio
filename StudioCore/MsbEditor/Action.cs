@@ -159,7 +159,7 @@ namespace StudioCore.MsbEditor
         public override ActionEvent Execute()
         {
             bool clonesCached = Clones.Count() > 0;
-            //foreach (var obj in Clonables)
+            // foreach (var obj in Clonables)
 
             var objectnames = new Dictionary<string, HashSet<string>>();
             for (int i = 0; i < Clonables.Count(); i++)
@@ -264,7 +264,7 @@ namespace StudioCore.MsbEditor
                     Clones[i].RenderSceneMesh.UnregisterWithScene();
                 }
             }
-            //Clones.Clear();
+            // Clones.Clear();
             if (SetSelection)
             {
                 Universe.Selection.ClearSelection();
@@ -357,7 +357,7 @@ namespace StudioCore.MsbEditor
         }
     }
 
-    public class CloneParamsAction : Action
+    public class AddParamsAction : Action
     {
         private PARAM Param;
         private string ParamString;
@@ -365,7 +365,7 @@ namespace StudioCore.MsbEditor
         private List<PARAM.Row> Clones = new List<PARAM.Row>();
         private bool SetSelection = false;
 
-        public CloneParamsAction(PARAM param, string pstring, List<PARAM.Row> rows, bool setsel)
+        public AddParamsAction(PARAM param, string pstring, List<PARAM.Row> rows, bool setsel)
         {
             Param = param;
             Clonables.AddRange(rows);
@@ -378,13 +378,28 @@ namespace StudioCore.MsbEditor
             foreach (var row in Clonables)
             {
                 var newrow = new PARAM.Row(row);
-                newrow.Name = row.Name != null ? row.Name + "_1" : "";
-                Param.Rows.Insert(Param.Rows.IndexOf(row) + 1, newrow);
+                if (Param[(int) row.ID] == null)
+                {
+                    newrow.Name = row.Name != null ? row.Name : "";
+                    int index = 0;
+                    foreach (PARAM.Row r in Param.Rows)
+                    {
+                        if (r.ID > newrow.ID)
+                            break;
+                        index++;
+                    }
+                    Param.Rows.Insert(index, newrow);
+                }
+                else
+                {
+                    newrow.Name = row.Name != null ? row.Name + "_1" : "";
+                    Param.Rows.Insert(Param.Rows.IndexOf(Param[(int) row.ID]) + 1, newrow);
+                }
                 Clones.Add(newrow);
             }
             if (SetSelection)
             {
-                //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
+                // EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
             }
             return ActionEvent.NoEvent;
         }
@@ -431,7 +446,7 @@ namespace StudioCore.MsbEditor
             }
             if (SetSelection)
             {
-                //EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
+                // EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
             }
             return ActionEvent.NoEvent;
         }

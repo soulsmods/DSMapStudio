@@ -441,11 +441,11 @@ namespace StudioCore
             {
                 path = $@"msg\ENGLISH\item.msgbnd";
             }
-            else if(Type == GameType.DarkSoulsRemastered)
+            else if (Type == GameType.DarkSoulsRemastered)
             {
                 path = $@"msg\ENGLISH\item.msgbnd.dcx";
             }
-            else if(Type == GameType.DarkSoulsIISOTFS)
+            else if (Type == GameType.DarkSoulsIISOTFS)
             {
                 // DS2 does not have an msgbnd but loose fmg files instead
                 path = $@"menu\text\english";
@@ -453,7 +453,7 @@ namespace StudioCore
                 ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
                 return ad2;
             }
-            else if(Type == GameType.DarkSoulsIII)
+            else if (Type == GameType.DarkSoulsIII)
             {
                 path = $@"msg\engus\item_dlc2.msgbnd.dcx";
             }
@@ -474,7 +474,7 @@ namespace StudioCore
             return ad;
         }
 
-        public string GetParamdefDir()
+        public string GetParamAssetsDir()
         {
             string game;
             switch (Type)
@@ -503,40 +503,24 @@ namespace StudioCore
                 default:
                     throw new Exception("Game type not set");
             }
-            return $@"Assets\Paramdex\{game}\Defs";
+            return  $@"Assets\Paramdex\{game}";
+        }
+
+        public string GetParamdefDir()
+        {
+            return $@"{GetParamAssetsDir()}\Defs";
+        }
+
+        public string GetParammetaDir()
+        {
+            return $@"{GetParamAssetsDir()}\Meta";
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)
         {
-            string game;
-            switch (Type)
-            {
-                case GameType.DemonsSouls:
-                    game = "DES";
-                    break;
-                case GameType.DarkSoulsPTDE:
-                    game = "DS1";
-                    break;
-                case GameType.DarkSoulsRemastered:
-                    game = "DS1R";
-                    break;
-                case GameType.DarkSoulsIISOTFS:
-                    game = "DS2S";
-                    break;
-                case GameType.Bloodborne:
-                    game = "BB";
-                    break;
-                case GameType.DarkSoulsIII:
-                    game = "DS3";
-                    break;
-                case GameType.Sekiro:
-                    game = "SDT";
-                    break;
-                default:
-                    throw new Exception("Game type not set");
-            }
-
-            return PARAMDEF.XmlDeserialize($@"Assets\Paramdex\{game}\Defs\{paramType}.xml");
+            PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");
+            MsbEditor.ParamMetaData meta = MsbEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
+            return pd;
         }
 
         public AssetDescription GetDS2GeneratorParam(string mapid, bool writemode=false)
@@ -670,7 +654,7 @@ namespace StudioCore
                     ad.AssetPath = f;
                     var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
                     ad.AssetName = name;
-                    //ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                    // ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
                     ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
                     ret.Add(ad);
                 }
@@ -793,7 +777,7 @@ namespace StudioCore
             }
             else if (Type == GameType.DarkSoulsPTDE)
             {
-                //TODO
+                // TODO
             }
             else if (Type == GameType.DemonsSouls)
             {

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <behaviorVariationId VRef="behaviourVariation" />
+    <spEffectBehaviorId0 Refs="SpEffectParam" />
+    <spEffectBehaviorId1 Refs="SpEffectParam" />
+    <spEffectBehaviorId2 Refs="SpEffectParam" />
+    <residentSpEffectId0 Refs="SpEffectParam" />
+    <residentSpEffectId1 Refs="SpEffectParam" />
+    <residentSpEffectId2 Refs="SpEffectParam" />
+    <originEquipWep0 Refs="EquipParamWeapon" />
+    <originEquipWep1 Refs="EquipParamWeapon" />
+    <originEquipWep2 Refs="EquipParamWeapon" />
+    <originEquipWep3 Refs="EquipParamWeapon" />
+    <originEquipWep4 Refs="EquipParamWeapon" />
+    <originEquipWep5 Refs="EquipParamWeapon" />
+    <originEquipWep6 Refs="EquipParamWeapon" />
+    <originEquipWep7 Refs="EquipParamWeapon" />
+    <originEquipWep8 Refs="EquipParamWeapon" />
+    <originEquipWep9 Refs="EquipParamWeapon" />
+    <originEquipWep10 Refs="EquipParamWeapon" />
+    <originEquipWep11 Refs="EquipParamWeapon" />
+    <originEquipWep12 Refs="EquipParamWeapon" />
+    <originEquipWep13 Refs="EquipParamWeapon" />
+    <originEquipWep14 Refs="EquipParamWeapon" />
+    <originEquipWep15 Refs="EquipParamWeapon" />
+    <attackElementCorrectId Refs="AttackElementCorrectParam" />
+  </Field>
+</PARAMMETA>

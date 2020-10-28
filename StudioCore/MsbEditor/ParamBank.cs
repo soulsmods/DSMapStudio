@@ -52,9 +52,12 @@ namespace StudioCore.MsbEditor
             _paramdefs = new Dictionary<string, PARAMDEF>();
             var dir = AssetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
+            var mdir = AssetLocator.GetParammetaDir();
             foreach (var f in files)
             {
                 var pdef = PARAMDEF.XmlDeserialize(f);
+                var fName = f.Substring(f.LastIndexOf('\\') + 1);
+                ParamMetaData.XmlDeserialize($@"{mdir}\{fName}", pdef);
                 _paramdefs.Add(pdef.ParamType, pdef);
             }
         }
@@ -62,7 +65,7 @@ namespace StudioCore.MsbEditor
         private static void LoadParamFromBinder(IBinder parambnd)
         {
             // Load every param in the regulation
-            //_params = new Dictionary<string, PARAM>();
+            // _params = new Dictionary<string, PARAM>();
             foreach (var f in parambnd.Files)
             {
                 if (!f.Name.ToUpper().EndsWith(".PARAM") || Path.GetFileNameWithoutExtension(f.Name).StartsWith("default_"))

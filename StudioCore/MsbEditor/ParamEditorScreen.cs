@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Numerics;
 using System.Linq;
 using Veldrid;
@@ -68,8 +69,26 @@ namespace StudioCore.MsbEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
 
+        private string _currentSearchString = "";
         private string _activeParam = null;
         private PARAM.Row _activeRow = null;
+        private List<PARAM.Row> _selectionRows = new List<PARAM.Row>();
+
+        // Clipboard vars
+        private string _clipboardParam = null;
+        private List<PARAM.Row> _clipboardRows = new List<PARAM.Row>();
+        private string _currentCtrlVInput = "0";
+
+        // MassEdit Popup vars
+        private string _currentMEditRegexInput = "";
+        private string _lastMEditRegexInput = "";
+        private string _mEditRegexResult = "";
+        private string _currentMEditCSVInput = "";
+        private string _currentMEditCSVOutput = "";
+        private string _mEditCSVResult = "";
+
+        private bool _isMEditPopupOpen = false;
+        private bool _isShortcutPopupOpen = false;
 
         private PropertyEditor _propEditor = null;
 
@@ -88,6 +107,10 @@ namespace StudioCore.MsbEditor
 
         public override void DrawEditorMenu()
         {
+            bool openMEditRegex = false;
+            bool openMEditCSVExport = false;
+            bool openMEditCSVImport = false;
+            // Menu Options
             if (ImGui.BeginMenu("Edit"))
             {
                 if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
@@ -111,42 +134,139 @@ namespace StudioCore.MsbEditor
                 {
                     if (_activeParam != null && _activeRow != null)
                     {
-                        var act = new CloneParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                        var act = new AddParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
+                if (ImGui.MenuItem("Mass Edit", null, false, true))
+                {
+                    openMEditRegex = true;
+                }
+                if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
+                {
+                    openMEditCSVExport = true;
+                }
+                if (ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
+                {
+                    openMEditCSVImport = true;
+                }
                 ImGui.EndMenu();
+            }
+            // Menu Popups -- imgui scoping
+            if (openMEditRegex)
+            {
+                ImGui.OpenPopup("massEditMenuRegex");
+                _isMEditPopupOpen = true;
+            }
+            if (openMEditCSVExport)
+            {
+                if (_activeParam != null)
+                    _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(ParamBank.Params[_activeParam]);
+                ImGui.OpenPopup("massEditMenuCSVExport");
+                _isMEditPopupOpen = true;
+            }
+            if (openMEditCSVImport)
+            {
+                ImGui.OpenPopup("massEditMenuCSVImport");
+                _isMEditPopupOpen = true;
+            }
+            MassEditPopups();
+        }
+        public void MassEditPopups()
+        {
+            // Popup size relies on magic numbers. Multiline maxlength is also arbitrary.
+            if (ImGui.BeginPopup("massEditMenuRegex"))
+            {
+                ImGui.Text("selection: FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
+                ImGui.Text("PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
+                ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditRegexInput, 65536, new Vector2(1024, 256));
+                if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
+                {
+                    MassEditResult r = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, EditorActionManager, _activeParam, _selectionRows);
+                    if (r.Type == MassEditResultType.SUCCESS)
+                    {
+                        _lastMEditRegexInput = _currentMEditRegexInput;
+                        _currentMEditRegexInput = "";
+                    }
+                    _mEditRegexResult = r.Information;
+                }
+                ImGui.Text(_mEditRegexResult);
+                ImGui.InputTextMultiline("MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
+                ImGui.EndPopup();
+            }
+            else if (ImGui.BeginPopup("massEditMenuCSVExport"))
+            {
+                ImGui.InputTextMultiline("MEditOutput", ref _currentMEditCSVOutput, 65536, new Vector2(1024,256), ImGuiInputTextFlags.ReadOnly);
+                ImGui.EndPopup();
+            }
+            else if (ImGui.BeginPopup("massEditMenuCSVImport"))
+            {
+                ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, 256));
+                if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
+                {
+                    MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _activeParam);
+                    if (r.Type == MassEditResultType.SUCCESS)
+                    {
+                        _lastMEditRegexInput = _currentMEditRegexInput;
+                        _currentMEditRegexInput = "";
+                    }
+                    _mEditCSVResult = r.Information;
+                }
+                ImGui.Text(_mEditCSVResult);
+                ImGui.EndPopup();
+            }
+            else
+            {
+                _isMEditPopupOpen = false;
+                _currentMEditCSVOutput = "";
             }
         }
 
         public void OnGUI(string[] initcmd)
         {
-            // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if (!_isMEditPopupOpen && !_isShortcutPopupOpen)// Are shortcuts active? Presently just checks for massEdit popup.
             {
-                EditorActionManager.UndoAction();
-            }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
-            {
-                EditorActionManager.RedoAction();
-            }
-            if (InputTracker.GetControlShortcut(Key.D))
-            {
-                if (_activeParam != null && _activeRow != null)
+                // Keyboard shortcuts
+                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
                 {
-                    var act = new CloneParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
-                    EditorActionManager.ExecuteAction(act);
+                    EditorActionManager.UndoAction();
+                }
+                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+                {
+                    EditorActionManager.RedoAction();
+                }
+                if (InputTracker.GetControlShortcut(Key.C))
+                {
+                    _clipboardParam = _activeParam;
+                    _clipboardRows.Clear();
+                    foreach (PARAM.Row r in _selectionRows)
+                        _clipboardRows.Add(new PARAM.Row(r));// make a clone
+                }
+                if (_activeParam != null && _clipboardParam == _activeParam && InputTracker.GetControlShortcut(Key.V))
+                {
+                    ImGui.OpenPopup("ctrlVPopup");
+                }
+                if (InputTracker.GetControlShortcut(Key.D))
+                {
+                    if (_activeParam != null && _activeRow != null)
+                    {
+                        var act = new AddParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                        EditorActionManager.ExecuteAction(act);
+                    }
+                }
+                if (InputTracker.GetKeyDown(Key.Delete))
+                {
+                    if (_activeParam != null && _activeRow != null)
+                    {
+                        var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
+                        EditorActionManager.ExecuteAction(act);
+                        _activeRow = null;
+                        _selectionRows.Remove(_activeRow);
+                    }
                 }
             }
-            if (InputTracker.GetKeyDown(Key.Delete))
-            {
-                if (_activeParam != null && _activeRow != null)
-                {
-                    var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
-                    EditorActionManager.ExecuteAction(act);
-                    _activeRow = null;
-                }
-            }
+
+            ShortcutPopups();
 
             if (ParamBank.Params == null)
             {
@@ -163,6 +283,7 @@ namespace StudioCore.MsbEditor
                     _activeParam = initcmd[1];
                     if (initcmd.Length > 2)
                     {
+                        _selectionRows.Clear();
                         var p = ParamBank.Params[_activeParam];
                         int id;
                         var parsed = int.TryParse(initcmd[2], out id);
@@ -172,6 +293,7 @@ namespace StudioCore.MsbEditor
                             if (r != null)
                             {
                                 _activeRow = r;
+                                _selectionRows.Add(r);
                             }
                         }
                     }
@@ -185,6 +307,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.Selectable(param.Key, param.Key == _activeParam))
                 {
                     _activeParam = param.Key;
+                    _selectionRows.Clear();
                     _activeRow = null;
                 }
                 if (doFocus && param.Key == _activeParam)
@@ -194,6 +317,7 @@ namespace StudioCore.MsbEditor
             }
             ImGui.EndChild();
             ImGui.NextColumn();
+            ImGui.InputText("SearchBar", ref _currentSearchString, 256);
             ImGui.BeginChild("rows");
             if (_activeParam == null)
             {
@@ -206,12 +330,43 @@ namespace StudioCore.MsbEditor
                 {
                     decorator = _decorators[_activeParam];
                 }
-                var p = ParamBank.Params[_activeParam];
-                foreach (var r in p.Rows)
+
+                PARAM para = ParamBank.Params[_activeParam];
+                List<PARAM.Row> p;
+                Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_currentSearchString);
+                if (!m.Success)
+                    p = para.Rows;
+                else
+                    p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
+
+                foreach (var r in p)
                 {
-                    if (ImGui.Selectable($@"{r.ID} {r.Name}", _activeRow == r))
+                    if (ImGui.Selectable($@"{r.ID} {r.Name}", _selectionRows.Contains(r)))
                     {
-                        _activeRow = r;
+                        if (InputTracker.GetKey(Key.LControl))
+                        {
+                            if (!_selectionRows.Contains(r))
+                                _selectionRows.Add(r);
+                            else
+                                _selectionRows.Remove(r);
+                        }
+                        else
+                        {
+                            _selectionRows.Clear();
+                            _selectionRows.Add(r);
+                            if (InputTracker.GetKey(Key.LShift))
+                            {
+                                int start = p.IndexOf(_activeRow);
+                                int end = p.IndexOf(r);
+                                if (start != end)
+                                {
+                                    foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                                        _selectionRows.Add(r2);
+                                }
+                            }
+                            else
+                                _activeRow = r;
+                        }
                     }
                     if (decorator != null)
                     {
@@ -238,10 +393,45 @@ namespace StudioCore.MsbEditor
             ImGui.EndChild();
         }
 
+        public void ShortcutPopups()
+        {
+            if (ImGui.BeginPopup("ctrlVPopup"))
+            {
+                ImGui.InputText("Offset", ref _currentCtrlVInput, 20);
+                long offset = 0;
+                try
+                {
+                    offset = int.Parse(_currentCtrlVInput);
+                }
+                catch
+                {
+                    ImGui.EndPopup();
+                    return;
+                }
+                if (ImGui.Selectable("Submit"))
+                {
+                List<PARAM.Row> rowsToInsert = new List<PARAM.Row>();
+                    if (_activeRow != null)
+                    {
+                        foreach (PARAM.Row r in _clipboardRows)
+                        {
+                            PARAM.Row newrow = new PARAM.Row(r);// more cloning
+                            newrow.ID = r.ID + offset;
+                            rowsToInsert.Add(newrow);
+                        }
+                    }
+                    EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.Params[_clipboardParam], "legacystring", rowsToInsert, false));
+                }
+                ImGui.EndPopup();
+            }
+
+        }
+
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
             _activeParam = null;
+            _selectionRows.Clear();
             _activeRow = null;
         }
 
