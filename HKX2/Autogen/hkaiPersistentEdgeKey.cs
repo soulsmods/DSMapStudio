@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiPersistentEdgeKey : IHavokObject
+    public partial class hkaiPersistentEdgeKey : IHavokObject
     {
         public virtual uint Signature { get => 4098110266; }
         

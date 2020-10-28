@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMultipleVertexBufferLockedElement : IHavokObject
+    public partial class hkMultipleVertexBufferLockedElement : IHavokObject
     {
         public virtual uint Signature { get => 2699176700; }
         

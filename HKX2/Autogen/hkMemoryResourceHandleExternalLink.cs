@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMemoryResourceHandleExternalLink : IHavokObject
+    public partial class hkMemoryResourceHandleExternalLink : IHavokObject
     {
         public virtual uint Signature { get => 826593660; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiAabbTreeNavVolumeMediator : hkaiNavVolumeMediator
+    public partial class hkaiAabbTreeNavVolumeMediator : hkaiNavVolumeMediator
     {
         public override uint Signature { get => 2902232628; }
         

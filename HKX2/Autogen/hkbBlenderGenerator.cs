@@ -16,7 +16,7 @@ namespace HKX2
         FLAG_USE_VELOCITY_SYNCHRONIZATION = 256,
     }
     
-    public class hkbBlenderGenerator : hkbGenerator
+    public partial class hkbBlenderGenerator : hkbGenerator
     {
         public override uint Signature { get => 3460677768; }
         

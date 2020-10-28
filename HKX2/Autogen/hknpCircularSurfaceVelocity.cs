@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpCircularSurfaceVelocity : hknpSurfaceVelocity
+    public partial class hknpCircularSurfaceVelocity : hknpSurfaceVelocity
     {
         public override uint Signature { get => 3000298053; }
         

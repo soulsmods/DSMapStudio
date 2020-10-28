@@ -20,7 +20,7 @@ namespace HKX2
         MATERIAL_INDICES_MAX_ID = 3,
     }
     
-    public class hkpMeshShape : hkpShapeCollection
+    public partial class hkpMeshShape : hkpShapeCollection
     {
         public override uint Signature { get => 2563947787; }
         

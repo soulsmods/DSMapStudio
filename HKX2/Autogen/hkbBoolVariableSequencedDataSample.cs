@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbBoolVariableSequencedDataSample : IHavokObject
+    public partial class hkbBoolVariableSequencedDataSample : IHavokObject
     {
         public virtual uint Signature { get => 1363633116; }
         

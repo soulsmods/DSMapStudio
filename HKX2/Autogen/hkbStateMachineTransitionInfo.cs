@@ -29,7 +29,7 @@ namespace HKX2
         FLAG_INTERNAL_IN_INITIATE_INTERVAL = 2,
     }
     
-    public class hkbStateMachineTransitionInfo : IHavokObject
+    public partial class hkbStateMachineTransitionInfo : IHavokObject
     {
         public virtual uint Signature { get => 3454828581; }
         

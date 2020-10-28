@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbClipTriggerArray : hkReferencedObject
+    public partial class hkbClipTriggerArray : hkReferencedObject
     {
         public override uint Signature { get => 4149726566; }
         

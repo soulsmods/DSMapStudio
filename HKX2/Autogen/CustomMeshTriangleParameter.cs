@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class CustomMeshTriangleParameter : CustomMeshParameter
+    public partial class CustomMeshTriangleParameter : CustomMeshParameter
     {
         public override uint Signature { get => 1677422640; }
         

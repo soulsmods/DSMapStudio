@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbJigglerGroup : hkbBindable
+    public partial class hkbJigglerGroup : hkbBindable
     {
         public override uint Signature { get => 2578532705; }
         

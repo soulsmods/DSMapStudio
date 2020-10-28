@@ -10,7 +10,7 @@ namespace HKX2
         PROPORTIONAL_TO_VERTICES = 1,
     }
     
-    public class hkaiNavMeshSimplificationUtilsExtraVertexSettings : IHavokObject
+    public partial class hkaiNavMeshSimplificationUtilsExtraVertexSettings : IHavokObject
     {
         public virtual uint Signature { get => 3836726061; }
         

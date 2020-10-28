@@ -11,7 +11,7 @@ namespace HKX2
         MST_DIRECTIONAL = 2,
     }
     
-    public class hkbParametricMotionGenerator : hkbProceduralBlenderGenerator
+    public partial class hkbParametricMotionGenerator : hkbProceduralBlenderGenerator
     {
         public override uint Signature { get => 2366506881; }
         

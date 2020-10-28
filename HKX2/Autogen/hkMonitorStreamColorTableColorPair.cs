@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMonitorStreamColorTableColorPair : IHavokObject
+    public partial class hkMonitorStreamColorTableColorPair : IHavokObject
     {
         public virtual uint Signature { get => 361311283; }
         

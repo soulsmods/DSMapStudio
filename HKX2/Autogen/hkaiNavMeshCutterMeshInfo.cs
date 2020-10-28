@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiNavMeshCutterMeshInfo : IHavokObject
+    public partial class hkaiNavMeshCutterMeshInfo : IHavokObject
     {
         public virtual uint Signature { get => 3865013252; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkxNode : hkxAttributeHolder
+    public partial class hkxNode : hkxAttributeHolder
     {
         public override uint Signature { get => 451561904; }
         

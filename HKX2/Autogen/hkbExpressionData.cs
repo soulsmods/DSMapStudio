@@ -12,7 +12,7 @@ namespace HKX2
         EVENT_MODE_SEND_EVERY_FRAME_ONCE_TRUE = 3,
     }
     
-    public class hkbExpressionData : IHavokObject
+    public partial class hkbExpressionData : IHavokObject
     {
         public virtual uint Signature { get => 1732248618; }
         

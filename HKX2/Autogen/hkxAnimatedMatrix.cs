@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkxAnimatedMatrix : hkReferencedObject
+    public partial class hkxAnimatedMatrix : hkReferencedObject
     {
         public override uint Signature { get => 1537742490; }
         

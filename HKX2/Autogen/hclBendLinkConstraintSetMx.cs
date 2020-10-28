@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBendLinkConstraintSetMx : hclConstraintSet
+    public partial class hclBendLinkConstraintSetMx : hclConstraintSet
     {
         public override uint Signature { get => 587950772; }
         

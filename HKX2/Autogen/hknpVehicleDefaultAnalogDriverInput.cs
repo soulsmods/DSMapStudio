@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleDefaultAnalogDriverInput : hknpVehicleDriverInput
+    public partial class hknpVehicleDefaultAnalogDriverInput : hknpVehicleDriverInput
     {
         public override uint Signature { get => 2512154512; }
         

@@ -14,7 +14,7 @@ namespace HKX2
         NODE_TYPE_FREE = 15,
     }
     
-    public class hkcdPlanarSolid : hkcdPlanarEntity
+    public partial class hkcdPlanarSolid : hkcdPlanarEntity
     {
         public override uint Signature { get => 25332643; }
         

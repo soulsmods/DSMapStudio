@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpPairCollisionFilterMapPairFilterKeyOverrideType : IHavokObject
+    public partial class hknpPairCollisionFilterMapPairFilterKeyOverrideType : IHavokObject
     {
         public virtual uint Signature { get => 907630953; }
         

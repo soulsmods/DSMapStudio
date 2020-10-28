@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdSimdTreeNode : hkcdFourAabb
+    public partial class hkcdSimdTreeNode : hkcdFourAabb
     {
         public override uint Signature { get => 3303278279; }
         

@@ -10,7 +10,7 @@ namespace HKX2
         UPDATE_FORCE_ALL = 1,
     }
     
-    public class hkaiOverlapManager : hkReferencedObject
+    public partial class hkaiOverlapManager : hkReferencedObject
     {
         public override uint Signature { get => 845078721; }
         

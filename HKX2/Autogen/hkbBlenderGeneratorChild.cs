@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbBlenderGeneratorChild : hkbBindable
+    public partial class hkbBlenderGeneratorChild : hkbBindable
     {
         public override uint Signature { get => 3009134547; }
         

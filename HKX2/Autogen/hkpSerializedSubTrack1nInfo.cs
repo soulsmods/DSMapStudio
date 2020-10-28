@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpSerializedSubTrack1nInfo : hkpSerializedTrack1nInfo
+    public partial class hkpSerializedSubTrack1nInfo : hkpSerializedTrack1nInfo
     {
         public override uint Signature { get => 1054042; }
         

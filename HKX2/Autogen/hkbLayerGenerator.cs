@@ -9,7 +9,7 @@ namespace HKX2
         FLAG_SYNC = 1,
     }
     
-    public class hkbLayerGenerator : hkbGenerator
+    public partial class hkbLayerGenerator : hkbGenerator
     {
         public override uint Signature { get => 3034629423; }
         

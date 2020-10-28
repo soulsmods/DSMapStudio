@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiDefaultAstarCostModifier : hkaiAstarCostModifier
+    public partial class hkaiDefaultAstarCostModifier : hkaiAstarCostModifier
     {
         public override uint Signature { get => 1154498593; }
         

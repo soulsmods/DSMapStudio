@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiTraversalAnalysisInputSection : IHavokObject
+    public partial class hkaiTraversalAnalysisInputSection : IHavokObject
     {
         public virtual uint Signature { get => 2909360209; }
         

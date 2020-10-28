@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpDeformableFixedConstraintDataAtoms : IHavokObject
+    public partial class hkpDeformableFixedConstraintDataAtoms : IHavokObject
     {
         public virtual uint Signature { get => 3854492133; }
         

@@ -27,7 +27,7 @@ namespace HKX2
         HIERARCHY_SEARCH_STATE_SIZE_MULTI_THREADED = 9728,
     }
     
-    public class hkaiSearchParameters : IHavokObject
+    public partial class hkaiSearchParameters : IHavokObject
     {
         public virtual uint Signature { get => 1877815828; }
         

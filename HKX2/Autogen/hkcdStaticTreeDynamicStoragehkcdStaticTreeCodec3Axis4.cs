@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdStaticTreeDynamicStoragehkcdStaticTreeCodec3Axis4 : IHavokObject
+    public partial class hkcdStaticTreeDynamicStoragehkcdStaticTreeCodec3Axis4 : IHavokObject
     {
         public virtual uint Signature { get => 667684532; }
         

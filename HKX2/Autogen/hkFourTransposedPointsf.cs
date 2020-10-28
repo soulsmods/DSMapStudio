@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkFourTransposedPointsf : IHavokObject
+    public partial class hkFourTransposedPointsf : IHavokObject
     {
         public virtual uint Signature { get => 3466051647; }
         

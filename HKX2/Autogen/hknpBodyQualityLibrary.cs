@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpBodyQualityLibrary : hkReferencedObject
+    public partial class hknpBodyQualityLibrary : hkReferencedObject
     {
         public override uint Signature { get => 1598419033; }
         

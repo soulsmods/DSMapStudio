@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpConvexPolytopeShapeFace : IHavokObject
+    public partial class hknpConvexPolytopeShapeFace : IHavokObject
     {
         public virtual uint Signature { get => 4089468224; }
         

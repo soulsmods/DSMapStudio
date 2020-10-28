@@ -14,7 +14,7 @@ namespace HKX2
         DEPRECATED_ENUM_32 = 32,
     }
     
-    public class hkClassMember : IHavokObject
+    public partial class hkClassMember : IHavokObject
     {
         public virtual uint Signature { get => 2968495897; }
         

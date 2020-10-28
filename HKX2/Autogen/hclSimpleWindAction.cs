@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclSimpleWindAction : hclAction
+    public partial class hclSimpleWindAction : hclAction
     {
         public override uint Signature { get => 378250540; }
         

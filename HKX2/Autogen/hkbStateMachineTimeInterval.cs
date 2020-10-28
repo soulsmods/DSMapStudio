@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbStateMachineTimeInterval : IHavokObject
+    public partial class hkbStateMachineTimeInterval : IHavokObject
     {
         public virtual uint Signature { get => 1621656037; }
         

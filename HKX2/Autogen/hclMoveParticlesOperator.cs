@@ -9,7 +9,7 @@ namespace HKX2
         HCL_FORCE_UPGRADE610 = 0,
     }
     
-    public class hclMoveParticlesOperator : hclOperator
+    public partial class hclMoveParticlesOperator : hclOperator
     {
         public override uint Signature { get => 3864686620; }
         

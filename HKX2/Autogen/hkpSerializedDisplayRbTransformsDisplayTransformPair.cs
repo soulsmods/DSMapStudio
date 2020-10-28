@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpSerializedDisplayRbTransformsDisplayTransformPair : IHavokObject
+    public partial class hkpSerializedDisplayRbTransformsDisplayTransformPair : IHavokObject
     {
         public virtual uint Signature { get => 2494323692; }
         

@@ -24,7 +24,7 @@ namespace HKX2
         DONT_RESET_CLEARANCE_CACHE = 1,
     }
     
-    public class hkaiUserEdgeUtils : IHavokObject
+    public partial class hkaiUserEdgeUtils : IHavokObject
     {
         public virtual uint Signature { get => 454187807; }
         

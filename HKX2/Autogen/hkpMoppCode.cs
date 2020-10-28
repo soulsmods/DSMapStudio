@@ -11,7 +11,7 @@ namespace HKX2
         BUILD_NOT_SET = 2,
     }
     
-    public class hkpMoppCode : hkReferencedObject
+    public partial class hkpMoppCode : hkReferencedObject
     {
         public override uint Signature { get => 1359281533; }
         

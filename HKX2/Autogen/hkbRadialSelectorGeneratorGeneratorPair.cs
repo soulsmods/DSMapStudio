@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbRadialSelectorGeneratorGeneratorPair : IHavokObject
+    public partial class hkbRadialSelectorGeneratorGeneratorPair : IHavokObject
     {
         public virtual uint Signature { get => 2970612073; }
         

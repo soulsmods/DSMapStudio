@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiPhysics2012ShapeVolume : hkaiVolume
+    public partial class hkaiPhysics2012ShapeVolume : hkaiVolume
     {
         public override uint Signature { get => 1895575872; }
         

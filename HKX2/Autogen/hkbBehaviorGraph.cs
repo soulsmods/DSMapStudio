@@ -10,7 +10,7 @@ namespace HKX2
         VARIABLE_MODE_MAINTAIN_VALUES_WHEN_INACTIVE = 1,
     }
     
-    public class hkbBehaviorGraph : hkbGenerator
+    public partial class hkbBehaviorGraph : hkbGenerator
     {
         public override uint Signature { get => 4260214843; }
         

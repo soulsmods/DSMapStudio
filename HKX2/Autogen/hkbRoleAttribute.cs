@@ -30,7 +30,7 @@ namespace HKX2
         FLAG_CHAIN = 64,
     }
     
-    public class hkbRoleAttribute : IHavokObject
+    public partial class hkbRoleAttribute : IHavokObject
     {
         public virtual uint Signature { get => 4274976361; }
         

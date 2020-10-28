@@ -10,7 +10,7 @@ namespace HKX2
         DISABLE_SPU_CACHE_FOR_LIST_CHILD_INFO = 1,
     }
     
-    public class hkpListShape : hkpShapeCollection
+    public partial class hkpListShape : hkpShapeCollection
     {
         public override uint Signature { get => 4075568853; }
         

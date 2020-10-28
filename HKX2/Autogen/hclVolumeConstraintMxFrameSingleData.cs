@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclVolumeConstraintMxFrameSingleData : IHavokObject
+    public partial class hclVolumeConstraintMxFrameSingleData : IHavokObject
     {
         public virtual uint Signature { get => 2867475255; }
         

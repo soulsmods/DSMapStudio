@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiJumpAnalyzer : hkaiTraversalAnalyzer
+    public partial class hkaiJumpAnalyzer : hkaiTraversalAnalyzer
     {
         public override uint Signature { get => 2753075461; }
         

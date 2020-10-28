@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpCollidableCollidableFilter : IHavokObject
+    public partial class hkpCollidableCollidableFilter : IHavokObject
     {
         public virtual uint Signature { get => 3765471744; }
         

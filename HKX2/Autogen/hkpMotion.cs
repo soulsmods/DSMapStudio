@@ -17,7 +17,7 @@ namespace HKX2
         MOTION_MAX_ID = 8,
     }
     
-    public class hkpMotion : hkReferencedObject
+    public partial class hkpMotion : hkReferencedObject
     {
         public override uint Signature { get => 2255565999; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBonePlanesConstraintSetBonePlane : IHavokObject
+    public partial class hclBonePlanesConstraintSetBonePlane : IHavokObject
     {
         public virtual uint Signature { get => 1442969623; }
         

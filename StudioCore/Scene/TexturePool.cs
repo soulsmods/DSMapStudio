@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using SoulsFormats;
+using StudioCore.Memory;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Veldrid;
+using System.Collections.Concurrent;
 
 namespace StudioCore.Scene
 {
@@ -289,6 +291,8 @@ namespace StudioCore.Scene
             }
         }
 
+        private FreeListAllocator _allocator = null;
+
         public uint TextureCount { get; private set; } = 0;
         private List<TextureHandle> _handles = new List<TextureHandle>();
 
@@ -298,12 +302,21 @@ namespace StudioCore.Scene
 
         private object _allocationLock = new object();
 
+        private List<Texture> _disposalQueue = new List<Texture>();
+        private int _framesToDisposal = 0;
+        private object _disposalLock = new object();
+
         public bool DescriptorTableDirty { get; private set; } = false;
 
         public TexturePool(GraphicsDevice d, string name, uint poolsize)
         {
             _resourceName = name;
             TextureCount = poolsize;
+            _allocator = new FreeListAllocator(poolsize);
+            for (int i = 0; i < poolsize; i++)
+            {
+                _handles.Add(null);
+            }
 
             var layoutdesc = new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription(_resourceName, ResourceKind.TextureReadOnly, ShaderStages.Fragment, TextureCount));
@@ -315,8 +328,14 @@ namespace StudioCore.Scene
             TextureHandle handle;
             lock (_allocationLock)
             {
-                handle = new TextureHandle(this, (uint)_handles.Count);
-                _handles.Add(handle);
+                uint id;
+                bool alloc = _allocator.AlignedAlloc(1, 1, out id);
+                if (!alloc)
+                {
+                    return null;
+                }
+                handle = new TextureHandle(this, id);
+                _handles[(int)id] = handle;
                 //TextureCount++;
             }
             return handle;
@@ -346,17 +365,17 @@ namespace StudioCore.Scene
                     //_poolLayout = d.ResourceFactory.CreateResourceLayout(layoutdesc);
 
                     BindableResource[] resources = new BindableResource[TextureCount];
-                    for (int i = 0; i < TextureCount; i++)
+                    for (int i = 0; i < _handles.Count; i++)
                     {
-                        if (i >= _handles.Count)
+                        if (_handles[i] == null)
                         {
                             resources[i] = _handles[0]._texture;
                             continue;
                         }
-                        resources[i] = _handles[i]._texture;
+                        resources[_handles[i].TexHandle] = _handles[i]._texture;
                         if (_handles[i]._texture == null)
                         {
-                            resources[i] = _handles[0]._texture;
+                            resources[_handles[i].TexHandle] = _handles[0]._texture;
                         }
                     }
                     _poolResourceSet = d.ResourceFactory.CreateResourceSet(new ResourceSetDescription(_poolLayout, resources));
@@ -381,11 +400,30 @@ namespace StudioCore.Scene
 
         public void CleanTexturePool()
         {
+            lock (_disposalLock)
+            {
+                _framesToDisposal++;
+                if (_framesToDisposal == 5)
+                {
+                    foreach (var t in _disposalQueue)
+                    {
+                        t.Dispose();
+                    }
+                    _disposalQueue.Clear();
+                }
+                else
+                {
+                    DescriptorTableDirty = true;
+                }
+            }
             lock (_allocationLock)
             {
                 foreach (var t in _handles)
                 {
-                    t.Clean();
+                    if (t != null)
+                    {
+                        t.Clean();
+                    }
                 }
             }
         }
@@ -871,6 +909,13 @@ namespace StudioCore.Scene
                 _pool.DescriptorTableDirty = true;
             }
 
+            public void CreateRenderTarget(GraphicsDevice d, uint width, uint height, uint mips, uint layes, PixelFormat format, TextureUsage usage)
+            {
+                _texture = d.ResourceFactory.CreateTexture(TextureDescription.Texture2D(width, height, mips, layes, format, usage | TextureUsage.RenderTarget));
+                Resident = true;
+                _pool.DescriptorTableDirty = true;
+            }
+
             public void Clean()
             {
                 if (Resident && _staging != null)
@@ -894,10 +939,23 @@ namespace StudioCore.Scene
 
                     if (_texture != null)
                     {
-                        _texture.Dispose();
+                        //_texture.Dispose();
+                        lock (_pool._disposalLock)
+                        {
+                            _pool._disposalQueue.Add(_texture);
+                            _pool._framesToDisposal = 0;
+                            _pool.DescriptorTableDirty = true;
+                        }
                         _texture = null;
-                        _pool.DescriptorTableDirty = true;
                     }
+                    if (_staging != null)
+                    {
+                        _staging.Dispose();
+                        _staging = null;
+                    }
+                    _pool._allocator.Free(TexHandle);
+                    _pool._handles[(int)TexHandle] = null;
+                    _pool.DescriptorTableDirty = true;
 
                     disposedValue = true;
                 }

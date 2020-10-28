@@ -11,7 +11,7 @@ namespace HKX2
         USE_FACE_NORMAL = 2,
     }
     
-    public class hkaiReferenceFrameAndExtrusion : IHavokObject
+    public partial class hkaiReferenceFrameAndExtrusion : IHavokObject
     {
         public virtual uint Signature { get => 1490158809; }
         

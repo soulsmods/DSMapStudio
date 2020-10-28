@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="bvh">
+      <UniqueIdentifier>{ddee8d3c-6494-468b-aab5-9903de74c954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -29,6 +32,90 @@
     </ClInclude>
     <ClInclude Include="Recast\Include\RecastAssert.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\node_intersectors.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\node_layout_optimizer.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\parallel_reinsertion_optimizer.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\platform.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\prefix_sum.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\primitive_intersectors.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\radix_sort.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\ray.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\sah_based_algorithm.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\single_ray_traverser.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\spatial_split_bvh_builder.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\sphere.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\sweep_sah_builder.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\top_down_builder.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\triangle.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\utilities.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\vector.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\binned_sah_builder.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\bottom_up_algorithm.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\bounding_box.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\bvh.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\heuristic_primitive_splitter.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\hierarchy_refitter.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\leaf_collapser.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\linear_bvh_builder.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\locally_ordered_clustering_builder.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\morton.hpp">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh\morton_code_based_builder.hpp">
+      <Filter>bvh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +156,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Recast\Source\RecastRegion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bvhbuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

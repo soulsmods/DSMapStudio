@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiPhysicsBodySilhouetteGenerator : hkaiPhysicsBodySilhouetteGeneratorBase
+    public partial class hkaiPhysicsBodySilhouetteGenerator : hkaiPhysicsBodySilhouetteGeneratorBase
     {
         public override uint Signature { get => 997888657; }
         

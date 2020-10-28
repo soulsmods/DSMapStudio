@@ -16,7 +16,7 @@ namespace HKX2
         AxisY = 1,
     }
     
-    public class CustomLookAtTwistModifier : hkbModifier
+    public partial class CustomLookAtTwistModifier : hkbModifier
     {
         public override uint Signature { get => 4031613631; }
         

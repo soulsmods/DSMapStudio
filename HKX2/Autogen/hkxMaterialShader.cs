@@ -15,7 +15,7 @@ namespace HKX2
         EFFECT_TYPE_MAX_ID = 6,
     }
     
-    public class hkxMaterialShader : hkReferencedObject
+    public partial class hkxMaterialShader : hkReferencedObject
     {
         public override uint Signature { get => 1339165424; }
         

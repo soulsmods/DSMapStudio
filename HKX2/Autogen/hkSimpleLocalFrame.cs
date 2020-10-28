@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkSimpleLocalFrame : hkLocalFrame
+    public partial class hkSimpleLocalFrame : hkLocalFrame
     {
         public override uint Signature { get => 2039144338; }
         

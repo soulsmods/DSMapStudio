@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpRemoveTerminalsMoppModifier : hkReferencedObject
+    public partial class hkpRemoveTerminalsMoppModifier : hkReferencedObject
     {
         public override uint Signature { get => 1543443174; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaSkeletonPartition : IHavokObject
+    public partial class hkaSkeletonPartition : IHavokObject
     {
         public virtual uint Signature { get => 2089708117; }
         

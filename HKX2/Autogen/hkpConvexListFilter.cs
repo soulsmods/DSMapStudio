@@ -11,7 +11,7 @@ namespace HKX2
         TREAT_CONVEX_LIST_AS_CONVEX = 2,
     }
     
-    public class hkpConvexListFilter : hkReferencedObject
+    public partial class hkpConvexListFilter : hkReferencedObject
     {
         public override uint Signature { get => 15155222; }
         

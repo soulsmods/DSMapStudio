@@ -22,7 +22,7 @@ namespace HKX2
         PATH_TYPE_NAVVOLUME = 1,
     }
     
-    public class hkaiWorld : hkReferencedObject
+    public partial class hkaiWorld : hkReferencedObject
     {
         public override uint Signature { get => 2975180790; }
         

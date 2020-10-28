@@ -39,7 +39,7 @@ namespace HKX2
         NOTEXPORTED = 13,
     }
     
-    public class hkMeshTexture : hkReferencedObject
+    public partial class hkMeshTexture : hkReferencedObject
     {
         public override uint Signature { get => 1373966989; }
         

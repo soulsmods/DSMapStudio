@@ -10,7 +10,7 @@ namespace HKX2
         EVENT_MODE_SEND_WHEN_IN_RANGE = 1,
     }
     
-    public class hkbEventRangeData : IHavokObject
+    public partial class hkbEventRangeData : IHavokObject
     {
         public virtual uint Signature { get => 1824074870; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiPersistentFaceKey : IHavokObject
+    public partial class hkaiPersistentFaceKey : IHavokObject
     {
         public virtual uint Signature { get => 2464299111; }
         

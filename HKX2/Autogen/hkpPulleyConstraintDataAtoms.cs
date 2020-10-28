@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpPulleyConstraintDataAtoms : IHavokObject
+    public partial class hkpPulleyConstraintDataAtoms : IHavokObject
     {
         public virtual uint Signature { get => 4129650384; }
         

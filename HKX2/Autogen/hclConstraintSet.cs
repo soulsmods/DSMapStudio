@@ -9,7 +9,7 @@ namespace HKX2
         MAX_CONSTRAINT_SET_SIZE = 128,
     }
     
-    public class hclConstraintSet : hkReferencedObject
+    public partial class hclConstraintSet : hkReferencedObject
     {
         public override uint Signature { get => 789956651; }
         

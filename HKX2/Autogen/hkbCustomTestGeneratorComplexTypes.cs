@@ -20,7 +20,7 @@ namespace HKX2
         CUSTOM_FLAG_LOTS_O_BITS = 240,
     }
     
-    public class hkbCustomTestGeneratorComplexTypes : hkbCustomTestGeneratorSimpleTypes
+    public partial class hkbCustomTestGeneratorComplexTypes : hkbCustomTestGeneratorSimpleTypes
     {
         public override uint Signature { get => 1956015663; }
         

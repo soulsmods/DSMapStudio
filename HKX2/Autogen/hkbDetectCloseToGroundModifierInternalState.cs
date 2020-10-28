@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbDetectCloseToGroundModifierInternalState : hkReferencedObject
+    public partial class hkbDetectCloseToGroundModifierInternalState : hkReferencedObject
     {
         public override uint Signature { get => 3083838963; }
         

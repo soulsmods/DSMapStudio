@@ -9,7 +9,7 @@ namespace HKX2
         EDGE_EXTERNAL_OPPOSITE = 64,
     }
     
-    public class hkaiNavVolume : hkReferencedObject
+    public partial class hkaiNavVolume : hkReferencedObject
     {
         public override uint Signature { get => 2325863050; }
         

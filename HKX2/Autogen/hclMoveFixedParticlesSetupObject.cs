@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclMoveFixedParticlesSetupObject : hclOperatorSetupObject
+    public partial class hclMoveFixedParticlesSetupObject : hclOperatorSetupObject
     {
         public override uint Signature { get => 386333361; }
         

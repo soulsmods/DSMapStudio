@@ -20,7 +20,7 @@ namespace HKX2
         TOI_OP = 3,
     }
     
-    public class hkpTriggerVolume : hkReferencedObject
+    public partial class hkpTriggerVolume : hkReferencedObject
     {
         public override uint Signature { get => 3752019127; }
         

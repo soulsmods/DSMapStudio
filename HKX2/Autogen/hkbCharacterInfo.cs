@@ -13,7 +13,7 @@ namespace HKX2
         DEACTIVATED = 4,
     }
     
-    public class hkbCharacterInfo : hkReferencedObject
+    public partial class hkbCharacterInfo : hkReferencedObject
     {
         public override uint Signature { get => 3856911078; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiTraversalAnalysisSettings : hkReferencedObject
+    public partial class hkaiTraversalAnalysisSettings : hkReferencedObject
     {
         public override uint Signature { get => 1711199392; }
         

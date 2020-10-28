@@ -19,7 +19,7 @@ namespace HKX2
         STANDARD_CAPABILITIES = 127,
     }
     
-    public class hkbCharacter : hkReferencedObject
+    public partial class hkbCharacter : hkReferencedObject
     {
         public override uint Signature { get => 1830469514; }
         

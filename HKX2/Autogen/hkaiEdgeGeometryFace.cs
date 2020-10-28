@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiEdgeGeometryFace : IHavokObject
+    public partial class hkaiEdgeGeometryFace : IHavokObject
     {
         public virtual uint Signature { get => 1825267208; }
         

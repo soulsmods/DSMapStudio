@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpConvexVerticesShape : hkpConvexShape
+    public partial class hkpConvexVerticesShape : hkpConvexShape
     {
         public override uint Signature { get => 3256650586; }
         

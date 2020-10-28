@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiNavVolumeGenerationSettingsChunkSettings : IHavokObject
+    public partial class hkaiNavVolumeGenerationSettingsChunkSettings : IHavokObject
     {
         public virtual uint Signature { get => 4175032160; }
         

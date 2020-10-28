@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbCameraShakeEventPayload : hkbEventPayload
+    public partial class hkbCameraShakeEventPayload : hkbEventPayload
     {
         public override uint Signature { get => 3444458626; }
         

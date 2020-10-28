@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpRigidBody : hkpEntity
+    public partial class hkpRigidBody : hkpEntity
     {
         public override uint Signature { get => 3442371045; }
         

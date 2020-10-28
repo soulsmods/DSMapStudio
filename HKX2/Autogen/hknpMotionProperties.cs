@@ -20,7 +20,7 @@ namespace HKX2
         DEACTIVATION_STRATEGY_ACCURATE = 5,
     }
     
-    public class hknpMotionProperties : IHavokObject
+    public partial class hknpMotionProperties : IHavokObject
     {
         public virtual uint Signature { get => 1575913025; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbNamedRealEventPayload : hkbNamedEventPayload
+    public partial class hkbNamedRealEventPayload : hkbNamedEventPayload
     {
         public override uint Signature { get => 898628493; }
         

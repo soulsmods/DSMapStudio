@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbRigidBodyRagdollControlData : IHavokObject
+    public partial class hkbRigidBodyRagdollControlData : IHavokObject
     {
         public virtual uint Signature { get => 883256303; }
         

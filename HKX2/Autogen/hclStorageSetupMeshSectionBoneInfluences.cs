@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclStorageSetupMeshSectionBoneInfluences : hkReferencedObject
+    public partial class hclStorageSetupMeshSectionBoneInfluences : hkReferencedObject
     {
         public override uint Signature { get => 3703369081; }
         

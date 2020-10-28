@@ -11,7 +11,7 @@ namespace HKX2
         HIT_BODY = 2,
     }
     
-    public class hkpCapsuleShape : hkpConvexShape
+    public partial class hkpCapsuleShape : hkpConvexShape
     {
         public override uint Signature { get => 4255218163; }
         

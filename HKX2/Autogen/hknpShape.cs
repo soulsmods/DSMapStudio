@@ -17,7 +17,7 @@ namespace HKX2
         CONVEX_RADIUS_DISPLAY_ROUNDED = 2,
     }
     
-    public class hknpShape : hkReferencedObject
+    public partial class hknpShape : hkReferencedObject
     {
         public override uint Signature { get => 3679627963; }
         

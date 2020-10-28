@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleLinearCastWheelCollideWheelState : IHavokObject
+    public partial class hknpVehicleLinearCastWheelCollideWheelState : IHavokObject
     {
         public virtual uint Signature { get => 1069210085; }
         

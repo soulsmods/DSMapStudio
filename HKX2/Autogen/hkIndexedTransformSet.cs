@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkIndexedTransformSet : hkReferencedObject
+    public partial class hkIndexedTransformSet : hkReferencedObject
     {
         public override uint Signature { get => 735610660; }
         

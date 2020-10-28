@@ -10,7 +10,7 @@ namespace HKX2
         MODE_PLAY = 1,
     }
     
-    public class hkbPoseMatchingGenerator : hkbBlenderGenerator
+    public partial class hkbPoseMatchingGenerator : hkbBlenderGenerator
     {
         public override uint Signature { get => 2997496194; }
         

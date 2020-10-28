@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdDynamicTreeCentroidMetric : IHavokObject
+    public partial class hkcdDynamicTreeCentroidMetric : IHavokObject
     {
         public virtual uint Signature { get => 2077607535; }
         

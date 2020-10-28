@@ -15,7 +15,7 @@ namespace HKX2
         HCL_FORCE_UPGRADE6 = 0,
     }
     
-    public class hclLocalRangeConstraintSet : hclConstraintSet
+    public partial class hclLocalRangeConstraintSet : hclConstraintSet
     {
         public override uint Signature { get => 2186704901; }
         

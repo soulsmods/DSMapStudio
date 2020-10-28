@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbLeanRocketboxCharacterControllerInternalState : hkReferencedObject
+    public partial class hkbLeanRocketboxCharacterControllerInternalState : hkReferencedObject
     {
         public override uint Signature { get => 2006244339; }
         

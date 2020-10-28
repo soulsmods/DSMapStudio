@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpRagdollLimitsDataAtoms : IHavokObject
+    public partial class hkpRagdollLimitsDataAtoms : IHavokObject
     {
         public virtual uint Signature { get => 2854794965; }
         

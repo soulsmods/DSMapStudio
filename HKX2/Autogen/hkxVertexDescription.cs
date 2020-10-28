@@ -27,7 +27,7 @@ namespace HKX2
         HKX_DU_USERDATA = 256,
     }
     
-    public class hkxVertexDescription : IHavokObject
+    public partial class hkxVertexDescription : IHavokObject
     {
         public virtual uint Signature { get => 1197541056; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiDirectedGraphInstanceFreeBlockList : IHavokObject
+    public partial class hkaiDirectedGraphInstanceFreeBlockList : IHavokObject
     {
         public virtual uint Signature { get => 846755607; }
         

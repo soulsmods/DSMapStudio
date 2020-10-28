@@ -10,7 +10,7 @@ namespace HKX2
         COST_MODIFIER_USER = 1,
     }
     
-    public class hkaiAstarCostModifier : hkReferencedObject
+    public partial class hkaiAstarCostModifier : hkReferencedObject
     {
         public override uint Signature { get => 901727776; }
         

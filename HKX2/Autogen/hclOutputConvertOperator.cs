@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclOutputConvertOperator : hclOperator
+    public partial class hclOutputConvertOperator : hclOperator
     {
         public override uint Signature { get => 3981491103; }
         

@@ -14,7 +14,7 @@ namespace HKX2
         COMMAND_DO_NOT_ACCUMULATE_MOTION = 5,
     }
     
-    public class hkbSimulationControlCommand : hkReferencedObject
+    public partial class hkbSimulationControlCommand : hkReferencedObject
     {
         public override uint Signature { get => 3375019626; }
         

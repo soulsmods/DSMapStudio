@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpBallSocketChainData : hkpConstraintChainData
+    public partial class hkpBallSocketChainData : hkpConstraintChainData
     {
         public override uint Signature { get => 2114207309; }
         

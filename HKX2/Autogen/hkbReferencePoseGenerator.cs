@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbReferencePoseGenerator : hkbGenerator
+    public partial class hkbReferencePoseGenerator : hkbGenerator
     {
         public override uint Signature { get => 3155506926; }
         

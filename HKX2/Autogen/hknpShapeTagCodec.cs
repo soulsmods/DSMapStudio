@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpShapeTagCodec : hkReferencedObject
+    public partial class hknpShapeTagCodec : hkReferencedObject
     {
         public override uint Signature { get => 2243414066; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpMinMaxQuadTreeMinMaxLevel : IHavokObject
+    public partial class hknpMinMaxQuadTreeMinMaxLevel : IHavokObject
     {
         public virtual uint Signature { get => 2013793389; }
         

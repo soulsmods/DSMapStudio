@@ -12,7 +12,7 @@ namespace HKX2
         TRIANGLE_SELECTION_INVERSE_CHANNEL = 3,
     }
     
-    public class hclTriangleSelectionInput : IHavokObject
+    public partial class hclTriangleSelectionInput : IHavokObject
     {
         public virtual uint Signature { get => 2391482603; }
         

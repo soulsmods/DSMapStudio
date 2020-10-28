@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpVehicleFrictionStatusAxisStatus : IHavokObject
+    public partial class hkpVehicleFrictionStatusAxisStatus : IHavokObject
     {
         public virtual uint Signature { get => 3876465588; }
         

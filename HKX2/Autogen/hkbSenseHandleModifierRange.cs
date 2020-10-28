@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbSenseHandleModifierRange : IHavokObject
+    public partial class hkbSenseHandleModifierRange : IHavokObject
     {
         public virtual uint Signature { get => 4216764050; }
         

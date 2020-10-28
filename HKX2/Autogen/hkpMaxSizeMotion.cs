@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpMaxSizeMotion : hkpKeyframedRigidMotion
+    public partial class hkpMaxSizeMotion : hkpKeyframedRigidMotion
     {
         public override uint Signature { get => 2995123340; }
         

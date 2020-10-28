@@ -13,7 +13,7 @@ namespace HKX2
         MATERIAL_FOUR_BYTES_PER_TRIANGLE = 4,
     }
     
-    public class hkpCompressedMeshShape : hkpShapeCollection
+    public partial class hkpCompressedMeshShape : hkpShapeCollection
     {
         public override uint Signature { get => 3767719636; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbGeneratorSyncInfoActiveInterval : IHavokObject
+    public partial class hkbGeneratorSyncInfoActiveInterval : IHavokObject
     {
         public virtual uint Signature { get => 692550698; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbFootIkModifierLeg : IHavokObject
+    public partial class hkbFootIkModifierLeg : IHavokObject
     {
         public virtual uint Signature { get => 3921947741; }
         

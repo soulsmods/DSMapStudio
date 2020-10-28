@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiLocalSteeringInput : IHavokObject
+    public partial class hkaiLocalSteeringInput : IHavokObject
     {
         public virtual uint Signature { get => 4063352422; }
         

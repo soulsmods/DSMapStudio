@@ -25,7 +25,7 @@ namespace HKX2
         HCL_EDGE_CHANNEL_SELECTION = 1,
     }
     
-    public class hclSetupMesh : hkReferencedObject
+    public partial class hclSetupMesh : hkReferencedObject
     {
         public override uint Signature { get => 1262840578; }
         

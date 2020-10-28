@@ -10,7 +10,7 @@ namespace HKX2
         MODE_DIRECT_PATH = 1,
     }
     
-    public class hkaiLineOfSightUtilInputBase : IHavokObject
+    public partial class hkaiLineOfSightUtilInputBase : IHavokObject
     {
         public virtual uint Signature { get => 966407788; }
         

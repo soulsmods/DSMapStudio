@@ -26,7 +26,7 @@ namespace HKX2
         NUM_ANGLES = 31,
     }
     
-    public class hkpWeldingUtility : IHavokObject
+    public partial class hkpWeldingUtility : IHavokObject
     {
         public virtual uint Signature { get => 2998149099; }
         

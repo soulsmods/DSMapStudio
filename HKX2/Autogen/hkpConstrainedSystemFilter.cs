@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpConstrainedSystemFilter : hkpCollisionFilter
+    public partial class hkpConstrainedSystemFilter : hkpCollisionFilter
     {
         public override uint Signature { get => 3723550685; }
         

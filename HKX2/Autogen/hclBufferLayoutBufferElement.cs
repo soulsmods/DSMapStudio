@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBufferLayoutBufferElement : IHavokObject
+    public partial class hclBufferLayoutBufferElement : IHavokObject
     {
         public virtual uint Signature { get => 1040916212; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbAiControlControlDataBlendable : IHavokObject
+    public partial class hkbAiControlControlDataBlendable : IHavokObject
     {
         public virtual uint Signature { get => 3146587068; }
         

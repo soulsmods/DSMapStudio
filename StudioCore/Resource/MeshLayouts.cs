@@ -20,7 +20,8 @@ namespace StudioCore.Resource
         LayoutUV4,
         LayoutCollision,
         LayoutNavmesh,
-        LayoutPositionColorNormal
+        LayoutPositionColorNormal,
+        LayoutPositionColor,
     }
 
     public static class MeshLayoutUtils
@@ -74,6 +75,8 @@ namespace StudioCore.Resource
                     return (uint)sizeof(NavmeshLayout);
                 case MeshLayoutType.LayoutPositionColorNormal:
                     return (uint)sizeof(VertexPositionColorNormal);
+                case MeshLayoutType.LayoutPositionColor:
+                    return (uint)sizeof(PositionColor);
                 default:
                     throw new ArgumentException("Invalid layout type");
             }
@@ -224,6 +227,17 @@ namespace StudioCore.Resource
              new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
              new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
              new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct PositionColor
+    {
+        public Vector3 Position;
+        public fixed byte Color[4];
+
+        public static VertexLayoutDescription Layout = new VertexLayoutDescription(
+            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
+            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
     }
 
     //[StructLayout(LayoutKind.Sequential, Pack = 1)]

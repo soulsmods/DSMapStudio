@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclVolumeConstraintMxApplyBatchData : IHavokObject
+    public partial class hclVolumeConstraintMxApplyBatchData : IHavokObject
     {
         public virtual uint Signature { get => 2552784552; }
         

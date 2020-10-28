@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclTransformSetUsageTransformTracker : IHavokObject
+    public partial class hclTransformSetUsageTransformTracker : IHavokObject
     {
         public virtual uint Signature { get => 3653626507; }
         

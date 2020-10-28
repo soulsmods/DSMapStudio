@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbClipGenerator : hkbGenerator
+    public partial class hkbClipGenerator : hkbGenerator
     {
         public override uint Signature { get => 223136246; }
         

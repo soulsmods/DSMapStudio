@@ -10,7 +10,7 @@ namespace HKX2
         LOCATOR = 1,
     }
     
-    public class hkModelerNodeTypeAttribute : IHavokObject
+    public partial class hkModelerNodeTypeAttribute : IHavokObject
     {
         public virtual uint Signature { get => 864815407; }
         

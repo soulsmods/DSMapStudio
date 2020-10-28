@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiDefaultAstarEdgeFilter : hkaiAstarEdgeFilter
+    public partial class hkaiDefaultAstarEdgeFilter : hkaiAstarEdgeFilter
     {
         public override uint Signature { get => 1762874940; }
         

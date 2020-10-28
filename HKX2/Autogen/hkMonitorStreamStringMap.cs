@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMonitorStreamStringMap : IHavokObject
+    public partial class hkMonitorStreamStringMap : IHavokObject
     {
         public virtual uint Signature { get => 3302205620; }
         

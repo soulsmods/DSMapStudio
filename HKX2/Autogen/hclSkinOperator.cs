@@ -12,7 +12,7 @@ namespace HKX2
         GROUP_SIZE_16 = 16,
     }
     
-    public class hclSkinOperator : hclOperator
+    public partial class hclSkinOperator : hclOperator
     {
         public override uint Signature { get => 3522357854; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleSuspensionSuspensionWheelParameters : IHavokObject
+    public partial class hknpVehicleSuspensionSuspensionWheelParameters : IHavokObject
     {
         public virtual uint Signature { get => 898367132; }
         

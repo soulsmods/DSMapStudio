@@ -18,7 +18,7 @@ namespace HKX2
         SPLIT_ADAPTIVE = 1,
     }
     
-    public class hkaiSplitGenerationUtils : IHavokObject
+    public partial class hkaiSplitGenerationUtils : IHavokObject
     {
         public virtual uint Signature { get => 3498592564; }
         

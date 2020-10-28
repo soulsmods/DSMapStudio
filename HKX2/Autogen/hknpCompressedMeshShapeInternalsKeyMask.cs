@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpCompressedMeshShapeInternalsKeyMask : hknpShapeKeyMask
+    public partial class hknpCompressedMeshShapeInternalsKeyMask : hknpShapeKeyMask
     {
         public override uint Signature { get => 2313778874; }
         

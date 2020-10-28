@@ -11,7 +11,7 @@ namespace HKX2
         SPOT_LIGHT = 2,
     }
     
-    public class hkxLight : hkReferencedObject
+    public partial class hkxLight : hkReferencedObject
     {
         public override uint Signature { get => 2576768448; }
         

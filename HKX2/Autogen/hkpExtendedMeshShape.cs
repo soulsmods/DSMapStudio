@@ -37,7 +37,7 @@ namespace HKX2
         SUBPART_NUM_MATERIALS_SHIFT = 3,
     }
     
-    public class hkpExtendedMeshShape : hkpShapeCollection
+    public partial class hkpExtendedMeshShape : hkpShapeCollection
     {
         public override uint Signature { get => 3352241882; }
         

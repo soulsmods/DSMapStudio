@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class CustomTimeActGenerator : hkbGenerator
+    public partial class CustomTimeActGenerator : hkbGenerator
     {
         public override uint Signature { get => 1941718415; }
         

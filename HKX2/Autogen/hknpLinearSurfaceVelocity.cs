@@ -10,7 +10,7 @@ namespace HKX2
         VELOCITY_RESCALE = 1,
     }
     
-    public class hknpLinearSurfaceVelocity : hknpSurfaceVelocity
+    public partial class hknpLinearSurfaceVelocity : hknpSurfaceVelocity
     {
         public override uint Signature { get => 277252529; }
         

@@ -13,7 +13,7 @@ namespace HKX2
         UI_SCHEME_IS_DESTRUCTION_2012 = 8,
     }
     
-    public class hkUiAttribute : IHavokObject
+    public partial class hkUiAttribute : IHavokObject
     {
         public virtual uint Signature { get => 3310569153; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbPinBonesGenerator : hkbGenerator
+    public partial class hkbPinBonesGenerator : hkbGenerator
     {
         public override uint Signature { get => 839140489; }
         

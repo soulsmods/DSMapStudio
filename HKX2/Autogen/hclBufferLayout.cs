@@ -18,7 +18,7 @@ namespace HKX2
         TF_OTHER = 2,
     }
     
-    public class hclBufferLayout : IHavokObject
+    public partial class hclBufferLayout : IHavokObject
     {
         public virtual uint Signature { get => 3530040743; }
         

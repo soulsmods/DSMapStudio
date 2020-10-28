@@ -13,7 +13,7 @@ namespace HKX2
         SPARKS = 4,
     }
     
-    public class hkbParticleSystemEventPayload : hkbEventPayload
+    public partial class hkbParticleSystemEventPayload : hkbEventPayload
     {
         public override uint Signature { get => 3457352756; }
         

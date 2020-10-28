@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdDynamicTreeAnisotropicMetric : IHavokObject
+    public partial class hkcdDynamicTreeAnisotropicMetric : IHavokObject
     {
         public virtual uint Signature { get => 2077607535; }
         

@@ -10,7 +10,7 @@ namespace HKX2
         ALIGN_MODE_FORWARD = 1,
     }
     
-    public class hkbFootIkModifier : hkbModifier
+    public partial class hkbFootIkModifier : hkbModifier
     {
         public override uint Signature { get => 3330925452; }
         

@@ -15,7 +15,7 @@ namespace HKX2
 
         internal HKXClassNames _classnames;
 
-        internal HKX.HKXVariation _variation;
+        internal HKXVariation _variation;
 
         internal Dictionary<uint, IHavokObject> _deserializedObjects;
 
@@ -191,7 +191,23 @@ namespace HKX2
 
         public List<int> ReadInt32Array(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // Consume pointer
+            br.AssertUInt64(0);
+            uint size = br.ReadUInt32();
+            br.ReadUInt32(); // Capacity and flags
+            var res = new List<int>();
+            if (size > 0)
+            {
+                // Do a local fixup lookup
+                var f = _dataSection._localMap[(uint)br.Position - 16];
+                br.StepIn(f.Dst);
+                for (int i = 0; i < size; i++)
+                {
+                    res.Add(br.ReadInt32());
+                }
+                br.StepOut();
+            }
+            return res;
         }
 
         public List<ulong> ReadUInt64Array(BinaryReaderEx br)
@@ -294,7 +310,12 @@ namespace HKX2
 
         public Matrix4x4 ReadTransform(BinaryReaderEx br)
         {
-            throw new NotImplementedException();
+            // TODO do a proper implementation
+            return new Matrix4x4(
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle(),
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle(),
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle(),
+                br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
         }
 
         public List<Matrix4x4> ReadTransformArray(BinaryReaderEx br)
@@ -357,15 +378,15 @@ namespace HKX2
             _header.Version = br.AssertInt32(0x05, 0x08, 0x0B);
             if (_header.Version == 0x05)
             {
-                _variation = HKX.HKXVariation.HKXDeS;
+                _variation = HKXVariation.HKXDeS;
             }
             else if (_header.Version == 0x08)
             {
-                _variation = HKX.HKXVariation.HKXDS1;
+                _variation = HKXVariation.HKXDS1;
             }
             else
             {
-                _variation = HKX.HKXVariation.HKXDS3;
+                _variation = HKXVariation.HKXDS3;
             }
             _header.PointerSize = br.AssertByte(4, 8);
             _header.Endian = br.AssertByte(0, 1);
@@ -384,10 +405,13 @@ namespace HKX2
             {
                 _header.Unk3C = br.ReadInt16();
                 _header.SectionOffset = br.ReadInt16();
-                _header.Unk40 = br.ReadUInt32();
-                _header.Unk44 = br.ReadUInt32();
-                _header.Unk48 = br.ReadUInt32();
-                _header.Unk4C = br.ReadUInt32();
+                if (_header.SectionOffset > 0)
+                {
+                    _header.Unk40 = br.ReadUInt32();
+                    _header.Unk44 = br.ReadUInt32();
+                    _header.Unk48 = br.ReadUInt32();
+                    _header.Unk4C = br.ReadUInt32();
+                }
 
                 // Read the 3 sections in the file
                 br.Position = _header.SectionOffset + 0x40;

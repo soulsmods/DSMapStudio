@@ -18,7 +18,7 @@ namespace HKX2
         VARIABLE_TYPE_QUATERNION = 8,
     }
     
-    public class hkbVariableInfo : IHavokObject
+    public partial class hkbVariableInfo : IHavokObject
     {
         public virtual uint Signature { get => 2779671522; }
         

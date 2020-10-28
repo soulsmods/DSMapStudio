@@ -9,7 +9,7 @@ namespace HKX2
         SIGNATURE_LOCAL = 1,
     }
     
-    public class hkClass : IHavokObject
+    public partial class hkClass : IHavokObject
     {
         public virtual uint Signature { get => 869540739; }
         

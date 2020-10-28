@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMemoryResourceContainer : hkResourceContainer
+    public partial class hkMemoryResourceContainer : hkResourceContainer
     {
         public override uint Signature { get => 501299827; }
         

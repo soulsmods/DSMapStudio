@@ -16,7 +16,7 @@ namespace HKX2
         FLAG_OUTPUT = 1,
     }
     
-    public class hkbVariableBindingSetBinding : IHavokObject
+    public partial class hkbVariableBindingSetBinding : IHavokObject
     {
         public virtual uint Signature { get => 1297690482; }
         

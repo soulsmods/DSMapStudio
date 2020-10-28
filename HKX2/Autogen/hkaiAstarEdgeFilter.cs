@@ -10,7 +10,7 @@ namespace HKX2
         EDGE_FILTER_USER = 1,
     }
     
-    public class hkaiAstarEdgeFilter : hkReferencedObject
+    public partial class hkaiAstarEdgeFilter : hkReferencedObject
     {
         public override uint Signature { get => 2987426339; }
         

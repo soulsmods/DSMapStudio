@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaSkeletonMapperDataChainMapping : IHavokObject
+    public partial class hkaSkeletonMapperDataChainMapping : IHavokObject
     {
         public virtual uint Signature { get => 2770925519; }
         

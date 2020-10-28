@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiVolumePathfindingUtilFindPathInput : hkReferencedObject
+    public partial class hkaiVolumePathfindingUtilFindPathInput : hkReferencedObject
     {
         public override uint Signature { get => 926979924; }
         

@@ -11,7 +11,7 @@ namespace HKX2
         ANGLE = 2,
     }
     
-    public class hkxVertexFloatDataChannel : hkReferencedObject
+    public partial class hkxVertexFloatDataChannel : hkReferencedObject
     {
         public override uint Signature { get => 2320760901; }
         

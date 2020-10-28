@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclSimClothDataParticleData : IHavokObject
+    public partial class hclSimClothDataParticleData : IHavokObject
     {
         public virtual uint Signature { get => 588024872; }
         

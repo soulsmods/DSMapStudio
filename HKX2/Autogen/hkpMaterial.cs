@@ -13,7 +13,7 @@ namespace HKX2
         RESPONSE_MAX_ID = 4,
     }
     
-    public class hkpMaterial : IHavokObject
+    public partial class hkpMaterial : IHavokObject
     {
         public virtual uint Signature { get => 868115824; }
         

@@ -11,7 +11,7 @@ namespace HKX2
         FADING_STATE_OUT = 2,
     }
     
-    public class hkbLayerGeneratorLayerInternalState : IHavokObject
+    public partial class hkbLayerGeneratorLayerInternalState : IHavokObject
     {
         public virtual uint Signature { get => 3799866964; }
         

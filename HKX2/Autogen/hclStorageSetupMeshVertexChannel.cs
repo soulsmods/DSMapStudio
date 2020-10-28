@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclStorageSetupMeshVertexChannel : IHavokObject
+    public partial class hclStorageSetupMeshVertexChannel : IHavokObject
     {
         public virtual uint Signature { get => 2365380327; }
         

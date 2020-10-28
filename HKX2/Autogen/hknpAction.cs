@@ -10,7 +10,7 @@ namespace HKX2
         RESULT_REMOVE = 1,
     }
     
-    public class hknpAction : hkReferencedObject
+    public partial class hknpAction : hkReferencedObject
     {
         public override uint Signature { get => 707340578; }
         

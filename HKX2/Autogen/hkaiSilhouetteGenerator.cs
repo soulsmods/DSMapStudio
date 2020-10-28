@@ -32,7 +32,7 @@ namespace HKX2
         AABB_EXPAND_UNIFORM = 4,
     }
     
-    public class hkaiSilhouetteGenerator : hkReferencedObject
+    public partial class hkaiSilhouetteGenerator : hkReferencedObject
     {
         public override uint Signature { get => 191222524; }
         
