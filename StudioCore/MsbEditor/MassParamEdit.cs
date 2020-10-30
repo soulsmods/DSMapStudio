@@ -24,6 +24,124 @@ namespace StudioCore.MsbEditor
             Information = info;
         }
     }
+
+    public class Numex
+    {
+        List<NumexSegment> segments;
+        int length = 0;
+
+        public Numex(string expression)
+        {
+            segments = new List<NumexSegment>();
+            int lastDiv = 0;
+            int div = 0;
+            string currentSegmentA = "";
+            string currentSegmentB = "";
+            bool inRangeSegment = false;
+            bool useSegmentB = false;
+            for(int i = expression.Length - 1; i >= 0; i--)
+            {
+                char c = expression[i];
+                if(c.Equals(']') && !inRangeSegment)
+                {
+                    addSegment(ref currentSegmentA, ref currentSegmentB, ref div, ref lastDiv);
+                    inRangeSegment = true;
+                    useSegmentB = true;
+                }
+                else if(c.Equals('[') && inRangeSegment)
+                {
+                    addSegment(ref currentSegmentA, ref currentSegmentB, ref div, ref lastDiv);
+                    inRangeSegment = false;
+                }
+                else if(c.Equals('-') && inRangeSegment && useSegmentB)
+                    useSegmentB = false;
+                else
+                {
+                    if(useSegmentB)
+                        currentSegmentB = c + currentSegmentB;
+                    else
+                        currentSegmentA = c + currentSegmentA;
+                }
+            }
+            addSegment(ref currentSegmentA, ref currentSegmentB, ref div, ref lastDiv);
+            length = div;
+        }
+
+        private void addSegment(ref string segmentA, ref string segmentB, ref int div, ref int lastDiv)
+        {
+            if(segmentA.Equals(""))
+                return;
+            NumexSegment segment;
+            if(segmentB.Equals(""))
+                segment = NumexSegment.SingleNumexSegment(lastDiv, segmentA);
+            else
+                segment = NumexSegment.RangeNumexSegment(lastDiv, segmentA, segmentB);
+            segments.Add(segment);
+            segmentA = "";
+            segmentB = "";
+            div += segment.segmentLength;
+            lastDiv = div;
+        }
+
+        public bool match(int value, bool lenient)
+        {
+            if(!lenient && value.ToString().Length > length)
+                return false;
+            foreach(NumexSegment ns in segments)
+            {
+                if(!ns.check(value))
+                    return false;
+            }
+            return true;
+        }
+    }
+
+    public class NumexSegment
+    {
+        public int segmentLength;
+        int mod;
+        int div;
+        int lower;
+        int upper;
+
+        private NumexSegment(int d, int m, int l, int u)
+        {
+            segmentLength = m;
+            div = 1;
+            for(int i = 0; i < d; i++)
+                div *= 10;
+            mod = 1;
+            for(int i = 0; i < m; i++)
+                mod *= 10;
+            lower = l;
+            upper = u;
+        }
+
+        public static NumexSegment SingleNumexSegment(int div, string value)
+        {
+            int v = int.Parse(value);
+            int mod = v >= 0 ? value.Length : value.Length - 1;
+            return new NumexSegment(div, mod, v, v);
+        }
+
+        public static NumexSegment RangeNumexSegment(int div, string valueA, string valueB)
+        {
+            int vA = int.Parse(valueA);
+            int vB = int.Parse(valueB);
+            int modA = vA >= 0 ? valueA.Length : valueA.Length - 1;
+            int modB = vB >= 0 ? valueB.Length : valueB.Length - 1;
+            int m = modA > modB ? modA : modB;
+            int l = vA > vB ? vB : vA;
+            int u = vA > vB ? vA : vB;
+            return new NumexSegment(div, m, l, u);
+        }
+        
+        public bool check(int value)
+        {
+            int adjusted = (value / div) % mod;
+            return adjusted >= lower && adjusted <= upper;
+        }
+    }
     
     public class MassParamEdit
     {
@@ -116,7 +234,7 @@ namespace StudioCore.MsbEditor
         // eg "selection"
         private static readonly string paramrowfilterselection = $@"(selection:\s+)";
         // eg "EquipParamWeapon: "
-        private static readonly string paramfilterRx = $@"(param\s+?<paramrx>[^\s:]+):\s+";
+        private static readonly string paramfilterRx = $@"(param\s+(?<paramrx>[^\s:]+):\s+)";
         // eg "id (100|200)00"
         private static readonly string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
         // eg "name \s+ Arrow"
@@ -218,12 +336,20 @@ namespace StudioCore.MsbEditor
         public static List<PARAM.Row> GetMatchingParamRowsByID(PARAM param, string rowvalexp, bool lenient, bool failureAllOrNone)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach (PARAM.Row row in param.Rows)
+            try
             {
-                if (MatchNumExp(row.ID, rowvalexp, lenient, failureAllOrNone))
-                    rlist.Add(row);
+                Numex nx = new Numex(rowvalexp);
+                foreach (PARAM.Row row in param.Rows)
+                {
+                    if (nx.match((int)row.ID, lenient))
+                        rlist.Add(row);
+                }
+                return rlist;
             }
-            return rlist;
+            catch
+            {
+                return failureAllOrNone ? param.Rows : rlist;
+            }
         }
 
         public static List<PARAM.Row> GetMatchingParamRowsByName(PARAM param, string namerx, bool lenient, bool failureAllOrNone)
@@ -248,13 +374,21 @@ namespace StudioCore.MsbEditor
         public static List<PARAM.Row> GetMatchingParamRowsByPropVal(PARAM param, string rowfield, string rowvalexp, bool lenient, bool failureAllOrNone)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach (PARAM.Row row in param.Rows)
+            try
             {
-                PARAM.Cell c = row[rowfield];
-                if (c != null && MatchNumExp(c.Value, rowvalexp, lenient, failureAllOrNone))
-                    rlist.Add(row);
+                Numex nx = new Numex(rowvalexp);
+                foreach (PARAM.Row row in param.Rows)
+                {
+                    PARAM.Cell c = row[rowfield];
+                    if (c != null && nx.match((int) c.Value, lenient))
+                        rlist.Add(row);
+                }
+                return rlist;
             }
-            return rlist;
+            catch
+            {
+                return failureAllOrNone ? param.Rows : rlist;
+            }
         }
 
         public static List<PARAM.Row> GetMatchingParamRowsByPropRef(PARAM param, string rowfield, string namerx, bool lenient, bool failureAllOrNone)
@@ -305,21 +439,6 @@ namespace StudioCore.MsbEditor
             }
             return clist;
         }
-        
-        public static bool MatchNumExp(object val, string valexp, bool lenient, bool failureTrueOrFalse)
-        {
-            try
-            {
-                // Regex may be replaced at a later time with a more relevant syntax
-                Regex rx = new Regex($@"^{valexp}$");
-                return rx.Match(val.ToString()).Success;
-            }
-            catch
-            {
-                return failureTrueOrFalse ? true : false;
-            }
-        }
-        
     }
 
     public class MassParamEditCSV : MassParamEdit

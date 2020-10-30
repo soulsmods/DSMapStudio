@@ -178,7 +178,7 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginPopup("massEditMenuRegex"))
             {
                 ImGui.Text("selection: FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
-                ImGui.Text("PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
+                ImGui.Text("param PARAM: (id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW): FIELD: ((=|+|-|*|/) VALUE | ref ROW);");
                 ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditRegexInput, 65536, new Vector2(1024, 256));
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
