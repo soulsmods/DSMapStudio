@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <refId1 Refs="Bullet" />
+    <refId2 Refs="Bullet" />
+    <refId3 Refs="Bullet" />
+    <refId4 Refs="Bullet" />
+  </Field>
+</PARAMMETA>

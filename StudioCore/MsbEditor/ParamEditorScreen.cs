@@ -317,7 +317,8 @@ namespace StudioCore.MsbEditor
             }
             ImGui.EndChild();
             ImGui.NextColumn();
-            ImGui.InputText("SearchBar", ref _currentSearchString, 256);
+            ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
+            ImGui.InputText("Search rows...", ref _currentSearchString, 256);
             ImGui.BeginChild("rows");
             if (_activeParam == null)
             {

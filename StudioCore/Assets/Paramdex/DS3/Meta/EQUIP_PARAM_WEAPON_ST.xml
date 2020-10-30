@@ -8,6 +8,7 @@
     <residentSpEffectId0 Refs="SpEffectParam" />
     <residentSpEffectId1 Refs="SpEffectParam" />
     <residentSpEffectId2 Refs="SpEffectParam" />
+	<materialSetId Refs="EquipMtrlSetParam" />
     <originEquipWep0 Refs="EquipParamWeapon" />
     <originEquipWep1 Refs="EquipParamWeapon" />
     <originEquipWep2 Refs="EquipParamWeapon" />

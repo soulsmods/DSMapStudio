@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <EquipId Refs="EquipParamAccessory,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+  </Field>
+</PARAMMETA>

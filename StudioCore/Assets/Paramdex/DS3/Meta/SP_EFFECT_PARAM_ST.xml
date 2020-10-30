@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <replaceSpEffectId Refs="SpEffectParam" />
+    <cycleOccurenceSpEffectId Refs="SpEffectParam" />
+    <atkOccurenceSpEffectId Refs="SpEffectParam" />
+    <EffectVfx0 Refs="SpEffectVfxParam" />
+    <stateSpEffect0 Refs="SpEffectParam" />
+    <stateSpEffect1 Refs="SpEffectParam" />
+    <stateSpEffect2 Refs="SpEffectParam" />
+    <stateSpEffect3 Refs="SpEffectParam" />
+    <EffectVfx1 Refs="SpEffectVfxParam" />
+    <EffectVfx2 Refs="SpEffectVfxParam" />
+    <EffectVfx3 Refs="SpEffectVfxParam" />
+    <EffectVfx4 Refs="SpEffectVfxParam" />
+    <EffectVfx5 Refs="SpEffectVfxParam" />
+    <EffectVfx6 Refs="SpEffectVfxParam" />
+    <EffectVfx7 Refs="SpEffectVfxParam" />
+  </Field>
+</PARAMMETA>

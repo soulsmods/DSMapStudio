@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <ItemLotId1 Refs="ItemLotParam" />
+    <ItemLotId2 Refs="ItemLotParam" />
+    <ItemLotId3 Refs="ItemLotParam" />
+    <ItemLotId4 Refs="ItemLotParam" />
+    <ItemLotId5 Refs="ItemLotParam" />
+    <ItemLotId6 Refs="ItemLotParam" />
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <spEffectId5 Refs="SpEffectParam" />
+    <spEffectId6 Refs="SpEffectParam" />
+    <spEffectId7 Refs="SpEffectParam" />
+    <GameClearSpEffectID Refs="SpEffectParam" />
+    <spEffectId8 Refs="SpEffectParam" />
+    <spEffectId9 Refs="SpEffectParam" />
+    <spEffectId10 Refs="SpEffectParam" />
+    <spEffectId11 Refs="SpEffectParam" />
+    <spEffectId12 Refs="SpEffectParam" />
+    <spEffectId13 Refs="SpEffectParam" />
+    <spEffectId14 Refs="SpEffectParam" />
+    <spEffectId15 Refs="SpEffectParam" />
+	<MultiPlayCorrectionId Refs="MultiPlayCorrectionParam" />
+    <spEffectId16 Refs="SpEffectParam" />
+    <spEffectId17 Refs="SpEffectParam" />
+    <spEffectId18 Refs="SpEffectParam" />
+    <spEffectId19 Refs="SpEffectParam" />
+    <spEffectId20 Refs="SpEffectParam" />
+    <spEffectId21 Refs="SpEffectParam" />
+    <spEffectId22 Refs="SpEffectParam" />
+    <spEffectId23 Refs="SpEffectParam" />
+    <spEffectId24 Refs="SpEffectParam" />
+    <spEffectId25 Refs="SpEffectParam" />
+    <spEffectId26 Refs="SpEffectParam" />
+    <spEffectId27 Refs="SpEffectParam" />
+    <spEffectId28 Refs="SpEffectParam" />
+    <spEffectId29 Refs="SpEffectParam" />
+    <spEffectId30 Refs="SpEffectParam" />
+    <spEffectId31 Refs="SpEffectParam" />
+    <EstusFlaskParamId Refs="MPEstusFlaskRecoveryParam" />
+  </Field>
+</PARAMMETA>
