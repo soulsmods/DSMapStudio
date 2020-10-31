@@ -104,6 +104,11 @@ namespace StudioCore.MsbEditor
         /// </summary>
         public ParamEnum EnumType {get; set;}
 
+        /// <summary>
+        /// A big tooltip to explain the field to the user
+        /// </summary>
+        public string Wiki {get; set;}
+
         public static FieldMetaData Get(PARAMDEF.Field def)
         {
             return _FieldMetas[def];
@@ -139,6 +144,11 @@ namespace StudioCore.MsbEditor
             if (Enum != null)
             {
                 EnumType = parent.enums.GetValueOrDefault(Enum.InnerText, null);
+            }
+            XmlAttribute WikiText = fieldMeta.Attributes["Wiki"];
+            if (WikiText != null)
+            {
+                Wiki = WikiText.InnerText.Replace("\\n", "\n");
             }
         }
     }

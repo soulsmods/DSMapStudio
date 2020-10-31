@@ -337,10 +337,17 @@ namespace StudioCore.MsbEditor
             List<string> RefTypes = cellMeta == null ? null : cellMeta.RefTypes;
             string VirtualRef = cellMeta == null ? null : cellMeta.VirtualRef;
             ParamEnum Enum = cellMeta == null ? null : cellMeta.EnumType;
+            string Wiki = cellMeta == null ? null : cellMeta.Wiki;
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
-            ImGui.Text(visualName);
+            if (Wiki == null)
+                ImGui.Text(visualName);
+            else
+            {
+                ImGui.TextColored(new Vector4(0.75f, 0.75f, 1.0f, 1.0f), visualName);
+                PropertyRowWikiContextMenu(Wiki);
+            }
             if (RefTypes != null)
                 ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{String.Join(',', RefTypes)}>");
             if (Enum != null)
@@ -399,6 +406,14 @@ namespace StudioCore.MsbEditor
             ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), en.values.GetValueOrDefault(oldval.ToString(), "Not Enumerated"));
             // Attach context menu
             return PropertyRowEnumContextMenu(en, oldval, ref newval);
+        }
+        private void PropertyRowWikiContextMenu(string wiki)
+        {
+            if (ImGui.BeginPopupContextItem("Wiki"))
+            {
+                ImGui.Text(wiki);
+                ImGui.EndPopup();
+            }
         }
         private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval)
         {

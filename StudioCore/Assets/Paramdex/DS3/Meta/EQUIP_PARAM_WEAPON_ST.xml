@@ -25,6 +25,7 @@
     <originEquipWep13 Refs="EquipParamWeapon" />
     <originEquipWep14 Refs="EquipParamWeapon" />
     <originEquipWep15 Refs="EquipParamWeapon" />
+	<properStrength Wiki="Sets the strength attribute a character needs to wield this weapon.\nThis value is reduced by 1/3rd when 2-handed." />
     <attackElementCorrectId Refs="AttackElementCorrectParam" />
   </Field>
 </PARAMMETA>
