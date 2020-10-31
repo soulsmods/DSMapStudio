@@ -336,26 +336,33 @@ namespace StudioCore.MsbEditor
         {
             List<string> RefTypes = cellMeta == null ? null : cellMeta.RefTypes;
             string VirtualRef = cellMeta == null ? null : cellMeta.VirtualRef;
+            ParamEnum Enum = cellMeta == null ? null : cellMeta.EnumType;
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
             ImGui.Text(visualName);
             if (RefTypes != null)
                 ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{String.Join(',', RefTypes)}>");
+            if (Enum != null)
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), Enum.name);
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
 
-            if (RefTypes != null || VirtualRef != null)
+            if (RefTypes != null || VirtualRef != null || Enum != null)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if (RefTypes != null || VirtualRef != null)
+            if (RefTypes != null || VirtualRef != null || Enum != null)
                 ImGui.PopStyleColor();
             
             if (RefTypes != null && propType == typeof(int))
             {
                 changed |= PropertyRowRefs(RefTypes, oldval, ref newval);
+            }
+            if (Enum != null)
+            {
+                changed |= PropertyRowEnum(Enum, oldval, ref newval);
             }
             if (VirtualRef != null)
             {
@@ -366,7 +373,7 @@ namespace StudioCore.MsbEditor
             ImGui.PopID();
             id++;
         }
-        private bool PropertyRowRefs(List<string> reftypes, object oldval ,ref object newval)
+        private bool PropertyRowRefs(List<string> reftypes, object oldval, ref object newval)
         {
             // Add named row and context menu
             // Lists located params
@@ -385,6 +392,13 @@ namespace StudioCore.MsbEditor
             }
             // Attach context menu
             return PropertyRowRefsContextMenu(reftypes, oldval, ref newval);
+        }
+        private bool PropertyRowEnum(ParamEnum en, object oldval, ref object newval)
+        {
+            // Add named row and context menu
+            ImGui.TextColored(new Vector4(1.0f, 0.5f, 0.5f, 1.0f), en.values.GetValueOrDefault(oldval.ToString(), "Not Enumerated"));
+            // Attach context menu
+            return PropertyRowEnumContextMenu(en, oldval, ref newval);
         }
         private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval)
         {
@@ -463,6 +477,30 @@ namespace StudioCore.MsbEditor
                 }
                 ImGui.EndPopup();
             }
+        }
+        private bool PropertyRowEnumContextMenu(ParamEnum en, object oldval, ref object newval)
+        {
+            try
+            {
+                if (ImGui.BeginPopupContextItem(en.name))
+                {
+                    foreach (KeyValuePair<string, string> option in en.values)
+                    {
+                        if (ImGui.Selectable(option.Value))
+                        {
+                            newval = Convert.ChangeType(option.Key, oldval.GetType());
+                            ImGui.EndPopup();
+                            return true;
+                        }
+                    }
+                    ImGui.EndPopup();
+                }
+            }
+            catch
+            {
+
+            }
+            return false;
         }
 
         private int _fmgID = 0;

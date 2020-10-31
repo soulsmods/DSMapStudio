@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	 <Enum Name="AttackAttribute">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Slash" />
+		<Option Value="2" Name="Strike" />
+		<Option Value="3" Name="Thrust" />
+		<Option Value="4" Name="Standard" />
+     </Enum>
+  </Enums>
   <Field>
     <atkBullet_Id Refs="Bullet" />
     <spEffectIdForShooter Refs="SpEffectParam" />
@@ -9,6 +18,7 @@
     <spEffectId2 Refs="SpEffectParam" />
     <spEffectId3 Refs="SpEffectParam" />
     <spEffectId4 Refs="SpEffectParam" />
+	<atkAttribute Enum="AttackAttribute" />
     <bulletEmitter_bulletId Refs="Bullet" />
   </Field>
 </PARAMMETA>
