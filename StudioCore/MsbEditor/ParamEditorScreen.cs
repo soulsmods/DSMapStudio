@@ -270,6 +270,10 @@ namespace StudioCore.MsbEditor
 
             if (ParamBank.Params == null)
             {
+                if (ParamBank.IsLoading)
+                {
+                    ImGui.Text("Loading...");
+                }
                 return;
             }
 
