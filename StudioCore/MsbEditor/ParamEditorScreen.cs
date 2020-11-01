@@ -65,14 +65,137 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class ParamEditorSelectionState
+    {
+        private static string _globalSearchString = "";
+        private string _activeParam = null;
+        private Dictionary<string, ParamEditorParamSelectionState> _paramStates = new Dictionary<string, ParamEditorParamSelectionState>();
+
+        public bool paramSelectionExists()
+        {
+            return _activeParam != null;
+        }
+        public string getActiveParam()
+        {
+            return _activeParam;
+        }
+        public void setActiveParam(string param)
+        {
+            _activeParam = param;
+            if(!_paramStates.ContainsKey(_activeParam))
+                _paramStates.Add(_activeParam, new ParamEditorParamSelectionState());
+        }
+        public ref string getCurrentSearchString()
+        {
+            if(_activeParam == null)
+                return ref _globalSearchString;
+            return ref _paramStates[_activeParam].getCurrentSearchString();
+        }
+        public bool rowSelectionExists()
+        {
+            return _activeParam != null && _paramStates[_activeParam].rowSelectionExists();
+        }
+        public PARAM.Row getActiveRow()
+        {
+            if(_activeParam == null)
+                return null;
+            return _paramStates[_activeParam].getActiveRow();
+        }
+        public void SetActiveRow(PARAM.Row row)
+        {
+            if(_activeParam != null)
+                _paramStates[_activeParam].setActiveRow(row);
+        }
+        public void toggleRowInSelection(PARAM.Row row)
+        {
+            if(_activeParam != null)
+                _paramStates[_activeParam].toggleRowInSelection(row);
+        }
+        public void addRowToSelection(PARAM.Row row)
+        {
+            if(_activeParam != null)
+                _paramStates[_activeParam].addRowToSelection(row);
+        }
+        public void removeRowFromSelection(PARAM.Row row)
+        {
+            if(_activeParam != null)
+                _paramStates[_activeParam].removeRowFromSelection(row);
+        }
+        public List<PARAM.Row> getSelectedRows()
+        {
+            if(_activeParam == null)
+                return null;
+            return _paramStates[_activeParam].getSelectedRows();
+        }
+        public void cleanSelectedRows()
+        {
+            if(_activeParam != null)
+                _paramStates[_activeParam].cleanSelectedRows();
+        }
+        public void cleanAllSelectionState()
+        {
+            _activeParam = null;
+            _paramStates.Clear();
+        }
+    }
+
+    public class ParamEditorParamSelectionState
+    {
+        private string _currentSearchString = "";
+        private PARAM.Row _activeRow = null;
+        private List<PARAM.Row> _selectionRows = new List<PARAM.Row>();
+
+        public ref string getCurrentSearchString()
+        {
+            return ref _currentSearchString;
+        }
+        public bool rowSelectionExists()
+        {
+            return _activeRow != null;
+        }
+        public PARAM.Row getActiveRow()
+        {
+            return _activeRow;
+        }
+        public void setActiveRow(PARAM.Row row)
+        {
+            _activeRow = row;
+            _selectionRows.Clear();
+            _selectionRows.Add(row);
+        }
+        public void toggleRowInSelection(PARAM.Row row)
+        {
+            if(_selectionRows.Contains(row))
+                removeRowFromSelection(row);
+            else
+                addRowToSelection(row);
+        }
+        public void addRowToSelection(PARAM.Row row)
+        {
+            if(!_selectionRows.Contains(row))
+                _selectionRows.Add(row);
+        }
+        public void removeRowFromSelection(PARAM.Row row)
+        {
+            _selectionRows.Remove(row);
+        }
+        public List<PARAM.Row> getSelectedRows()
+        {
+            return _selectionRows;
+        }
+        public void cleanSelectedRows()
+        {
+            _selectionRows.Clear();
+            if(_activeRow != null)
+                _selectionRows.Add(_activeRow);
+        }
+    }
+
     public class ParamEditorScreen : EditorScreen
     {
         public ActionManager EditorActionManager = new ActionManager();
 
-        private string _currentSearchString = "";
-        private string _activeParam = null;
-        private PARAM.Row _activeRow = null;
-        private List<PARAM.Row> _selectionRows = new List<PARAM.Row>();
+        private ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
         // Clipboard vars
         private string _clipboardParam = null;
@@ -121,20 +244,20 @@ namespace StudioCore.MsbEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete", "Delete", false, _activeParam != null && _activeRow != null))
+                if (ImGui.MenuItem("Delete", "Delete", false, _selection.rowSelectionExists()))
                 {
-                    if (_activeParam != null && _activeRow != null)
+                    if (_selection.rowSelectionExists())
                     {
-                        var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
+                        var act = new DeleteParamsAction(ParamBank.Params[_selection.getActiveParam()], new List<PARAM.Row>() { _selection.getActiveRow() });
                         EditorActionManager.ExecuteAction(act);
-                        _activeRow = null;
+                        _selection.SetActiveRow(null);
                     }
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _activeParam != null && _activeRow != null))
+                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _selection.rowSelectionExists()))
                 {
-                    if (_activeParam != null && _activeRow != null)
+                    if (_selection.rowSelectionExists())
                     {
-                        var act = new AddParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                        var act = new AddParamsAction(ParamBank.Params[_selection.getActiveParam()], _selection.getActiveParam(), new List<PARAM.Row>() { _selection.getActiveRow() }, true);
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
@@ -142,11 +265,11 @@ namespace StudioCore.MsbEditor
                 {
                     openMEditRegex = true;
                 }
-                if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
+                if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _selection.paramSelectionExists()))
                 {
                     openMEditCSVExport = true;
                 }
-                if (ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
+                if (ImGui.MenuItem("Import CSV", null, false, _selection.paramSelectionExists()))
                 {
                     openMEditCSVImport = true;
                 }
@@ -160,8 +283,8 @@ namespace StudioCore.MsbEditor
             }
             if (openMEditCSVExport)
             {
-                if (_activeParam != null)
-                    _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(ParamBank.Params[_activeParam]);
+                if (_selection.paramSelectionExists())
+                    _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(ParamBank.Params[_selection.getActiveParam()]);
                 ImGui.OpenPopup("massEditMenuCSVExport");
                 _isMEditPopupOpen = true;
             }
@@ -182,7 +305,7 @@ namespace StudioCore.MsbEditor
                 ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditRegexInput, 65536, new Vector2(1024, 256));
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, EditorActionManager, _activeParam, _selectionRows);
+                    MassEditResult r = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, EditorActionManager, _selection.getActiveParam(), _selection.getSelectedRows());
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
@@ -204,7 +327,7 @@ namespace StudioCore.MsbEditor
                 ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, 256));
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _activeParam);
+                    MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _selection.getActiveParam());
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
@@ -237,31 +360,30 @@ namespace StudioCore.MsbEditor
                 }
                 if (InputTracker.GetControlShortcut(Key.C))
                 {
-                    _clipboardParam = _activeParam;
+                    _clipboardParam = _selection.getActiveParam();
                     _clipboardRows.Clear();
-                    foreach (PARAM.Row r in _selectionRows)
+                    foreach (PARAM.Row r in _selection.getSelectedRows())
                         _clipboardRows.Add(new PARAM.Row(r));// make a clone
                 }
-                if (_activeParam != null && _clipboardParam == _activeParam && InputTracker.GetControlShortcut(Key.V))
+                if (_selection.paramSelectionExists() && _clipboardParam == _selection.getActiveParam() && InputTracker.GetControlShortcut(Key.V))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
                 if (InputTracker.GetControlShortcut(Key.D))
                 {
-                    if (_activeParam != null && _activeRow != null)
+                    if (_selection.rowSelectionExists())
                     {
-                        var act = new AddParamsAction(ParamBank.Params[_activeParam], _activeParam, new List<PARAM.Row>() { _activeRow }, true);
+                        var act = new AddParamsAction(ParamBank.Params[_selection.getActiveParam()], _selection.getActiveParam(), new List<PARAM.Row>() { _selection.getActiveRow() }, true);
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
                 if (InputTracker.GetKeyDown(Key.Delete))
                 {
-                    if (_activeParam != null && _activeRow != null)
+                    if (_selection.rowSelectionExists())
                     {
-                        var act = new DeleteParamsAction(ParamBank.Params[_activeParam], new List<PARAM.Row>() { _activeRow });
+                        var act = new DeleteParamsAction(ParamBank.Params[_selection.getActiveParam()], new List<PARAM.Row>() { _selection.getActiveRow() });
                         EditorActionManager.ExecuteAction(act);
-                        _activeRow = null;
-                        _selectionRows.Remove(_activeRow);
+                        _selection.SetActiveRow(null);
                     }
                 }
             }
@@ -280,11 +402,11 @@ namespace StudioCore.MsbEditor
                 if (initcmd.Length > 1 && ParamBank.Params.ContainsKey(initcmd[1]))
                 {
                     doFocus = true;
-                    _activeParam = initcmd[1];
+                    _selection.setActiveParam(initcmd[1]);
                     if (initcmd.Length > 2)
                     {
-                        _selectionRows.Clear();
-                        var p = ParamBank.Params[_activeParam];
+                        _selection.SetActiveRow(null);
+                        var p = ParamBank.Params[_selection.getActiveParam()];
                         int id;
                         var parsed = int.TryParse(initcmd[2], out id);
                         if (parsed)
@@ -292,8 +414,7 @@ namespace StudioCore.MsbEditor
                             var r = p.Rows.FirstOrDefault(r => r.ID == id);
                             if (r != null)
                             {
-                                _activeRow = r;
-                                _selectionRows.Add(r);
+                                _selection.SetActiveRow(r);
                             }
                         }
                     }
@@ -304,37 +425,37 @@ namespace StudioCore.MsbEditor
             ImGui.BeginChild("params");
             foreach (var param in ParamBank.Params)
             {
-                if (ImGui.Selectable(param.Key, param.Key == _activeParam))
+                if (ImGui.Selectable(param.Key, param.Key == _selection.getActiveParam()))
                 {
-                    _activeParam = param.Key;
-                    _selectionRows.Clear();
-                    _activeRow = null;
+                    _selection.setActiveParam(param.Key);
+                    //_selection.SetActiveRow(null);
                 }
-                if (doFocus && param.Key == _activeParam)
+                if (doFocus && param.Key == _selection.getActiveParam())
                 {
                     ImGui.SetScrollHereY();
                 }
             }
             ImGui.EndChild();
             ImGui.NextColumn();
-            ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
-            ImGui.InputText("Search rows...", ref _currentSearchString, 256);
-            ImGui.BeginChild("rows");
-            if (_activeParam == null)
+            if (!_selection.paramSelectionExists())
             {
+                ImGui.BeginChild("rows");
                 ImGui.Text("Select a param to see rows");
             }
             else
             {
+                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
+                ImGui.InputText("Search rows...", ref _selection.getCurrentSearchString(), 256);
+                ImGui.BeginChild("rows");
                 IParamDecorator decorator = null;
-                if (_decorators.ContainsKey(_activeParam))
+                if (_decorators.ContainsKey(_selection.getActiveParam()))
                 {
-                    decorator = _decorators[_activeParam];
+                    decorator = _decorators[_selection.getActiveParam()];
                 }
 
-                PARAM para = ParamBank.Params[_activeParam];
+                PARAM para = ParamBank.Params[_selection.getActiveParam()];
                 List<PARAM.Row> p;
-                Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_currentSearchString);
+                Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_selection.getCurrentSearchString());
                 if (!m.Success)
                     p = para.Rows;
                 else
@@ -342,31 +463,28 @@ namespace StudioCore.MsbEditor
 
                 foreach (var r in p)
                 {
-                    if (ImGui.Selectable($@"{r.ID} {r.Name}", _selectionRows.Contains(r)))
+                    if (ImGui.Selectable($@"{r.ID} {r.Name}", _selection.getSelectedRows().Contains(r)))
                     {
                         if (InputTracker.GetKey(Key.LControl))
                         {
-                            if (!_selectionRows.Contains(r))
-                                _selectionRows.Add(r);
-                            else
-                                _selectionRows.Remove(r);
+                            _selection.toggleRowInSelection(r);
                         }
                         else
                         {
-                            _selectionRows.Clear();
-                            _selectionRows.Add(r);
                             if (InputTracker.GetKey(Key.LShift))
                             {
-                                int start = p.IndexOf(_activeRow);
+                                _selection.cleanSelectedRows();
+                                int start = p.IndexOf(_selection.getActiveRow());
                                 int end = p.IndexOf(r);
                                 if (start != end)
                                 {
                                     foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
-                                        _selectionRows.Add(r2);
+                                        _selection.addRowToSelection(r2);
                                 }
+                                _selection.addRowToSelection(r);
                             }
                             else
-                                _activeRow = r;
+                                _selection.SetActiveRow(r);
                         }
                     }
                     if (decorator != null)
@@ -374,7 +492,7 @@ namespace StudioCore.MsbEditor
                         decorator.DecorateContextMenu(r);
                         decorator.DecorateParam(r);
                     }
-                    if (doFocus && _activeRow == r)
+                    if (doFocus && _selection.getActiveRow() == r)
                     {
                         ImGui.SetScrollHereY();
                     }
@@ -383,13 +501,13 @@ namespace StudioCore.MsbEditor
             ImGui.EndChild();
             ImGui.NextColumn();
             ImGui.BeginChild("columns");
-            if (_activeRow == null)
+            if (!_selection.rowSelectionExists())
             {
                 ImGui.Text("Select a row to see properties");
             }
             else
             {
-                _propEditor.PropEditorParamRow(_activeRow);
+                _propEditor.PropEditorParamRow(_selection.getActiveRow());
             }
             ImGui.EndChild();
         }
@@ -412,7 +530,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.Selectable("Submit"))
                 {
                 List<PARAM.Row> rowsToInsert = new List<PARAM.Row>();
-                    if (_activeRow != null)
+                    if (!_selection.rowSelectionExists())
                     {
                         foreach (PARAM.Row r in _clipboardRows)
                         {
@@ -431,9 +549,7 @@ namespace StudioCore.MsbEditor
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
-            _activeParam = null;
-            _selectionRows.Clear();
-            _activeRow = null;
+            _selection.cleanAllSelectionState();
         }
 
         public override void Save()
