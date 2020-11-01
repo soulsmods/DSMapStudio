@@ -475,13 +475,14 @@ namespace StudioCore.MsbEditor
             }
             ImGui.EndChild();
             ImGui.NextColumn();
-            ImGui.BeginChild("columns");
             if (!_selection.rowSelectionExists())
             {
+                ImGui.BeginChild("columnsNONE");
                 ImGui.Text("Select a row to see properties");
             }
             else
             {
+                ImGui.BeginChild("columns"+_selection.getActiveParam());
                 _propEditor.PropEditorParamRow(_selection.getActiveRow());
             }
             ImGui.EndChild();
