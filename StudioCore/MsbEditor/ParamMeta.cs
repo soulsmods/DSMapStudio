@@ -55,7 +55,7 @@ namespace StudioCore.MsbEditor
             {
                 try
                 {
-                    XmlNode pairedNode = root.SelectSingleNode($"Field/{f.InternalName}");
+                    XmlNode pairedNode = root.SelectSingleNode($"Field/{Regex.Replace(f.InternalName, @"[^a-zA-Z0-9_]", "")}");
                     if (pairedNode == null)
                     {
                         new FieldMetaData(f);

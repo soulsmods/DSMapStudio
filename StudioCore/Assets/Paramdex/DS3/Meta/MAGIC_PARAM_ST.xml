@@ -1,6 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="MagicSchoolType">
+		<Option Value="0" Name="Sorcery" />
+		<Option Value="1" Name="Miracle" />
+		<Option Value="2" Name="Pyromancy" />
+	  </Enum>
+	  <Enum Name="MagicSchool">
+		<Option Value="3" Name="Sorcery" />
+		<Option Value="4" Name="Miracle" />
+		<Option Value="10" Name="Pyromancy" />
+	  </Enum>
+	  <Enum Name="CastAnimation">
+		<Option Value="0" Name="Quick Soul Arrow [0.5] (1.0)" />
+		<Option Value="1" Name="Magic Weapon [1.0]" />
+		<Option Value="2" Name="Hidden Body [1.0]" />
+		<Option Value="3" Name="Unused" />
+		<Option Value="4" Name="Unused" />
+		<Option Value="5" Name="Fireball [1.0]" />
+		<Option Value="6" Name="Iron Flesh [1.5]" />
+		<Option Value="7" Name="Unused" />
+		<Option Value="8" Name="Great Combustion [0.5]" />
+		<Option Value="9" Name="Poison Mist [1.33]" />
+		<Option Value="10" Name="Firestorm [1.67]" />
+		<Option Value="11" Name="Rapport [1.33]" />
+		<Option Value="12" Name="Force [0.33]" />
+		<Option Value="13" Name="Chameleon [1.0]" />
+		<Option Value="14" Name="Unused" />
+		<Option Value="15" Name="Unused" />
+		<Option Value="16" Name="Unused" />
+		<Option Value="17" Name="Magic Shield [1.17]" />
+		<Option Value="18" Name="Emit Force [1.33]" />
+		<Option Value="19" Name="Lightning Spear [0.43] (1.72)" />
+		<Option Value="20" Name="Cast Light [1.33]" />
+		<Option Value="21" Name="Unused" />
+		<Option Value="22" Name="Very Slow Soul Arrow [1.67] (3.34)" />
+		<Option Value="23" Name="Fire Surge [0.67]" />
+		<Option Value="24" Name="Fire Whip [0.67]" />
+		<Option Value="25" Name="Soul Greatsword [0.67]" />
+		<Option Value="26" Name="Heal [1.83] (3.66)" />
+		<Option Value="27" Name="Heal Aid [0.73]" />
+		<Option Value="28" Name="Sacred Oath [1.83]" />
+		<Option Value="29" Name="Farron Dart [0.4]" />
+		<Option Value="30" Name="Farron Flashsword [0.67]" />
+		<Option Value="31" Name="Soul Stream [2.83]" />
+		<Option Value="32" Name="Profaned Flame [1.0]" />
+		<Option Value="33" Name="Sacred Flame [1.83]" />
+		<Option Value="34" Name="Lightning Stake [1.0]" />
+		<Option Value="35" Name="Gnaw [1.67]" />
+		<Option Value="36" Name="Lightning Storm [1.67]" />
+		<Option Value="37" Name="Dark Edge [0.67]" />
+		<Option Value="38" Name="Warmth [1.33]" />
+		<Option Value="39" Name="Wrath of the Gods [1.63]" />
+		<Option Value="40" Name="Farron Hail [1.57]" />
+		<Option Value="41" Name="Slow Soul Arrow [1.67]" />
+		<Option Value="42" Name="Black Serpent [1.0]" />
+		<Option Value="43" Name="Chaos Bed Vestiges [0.97]" />
+		<Option Value="44" Name="Lifehunt Scythe [1.17]" />
+		<Option Value="45" Name="Divine Pillars of Light [1.67]" />
+		<Option Value="46" Name="Old Moonlight [0.67]" />
+		<Option Value="47" Name="Floating Chaos [1.33]" />
+		<Option Value="48" Name="Way of White Corona [0.43]" />
+		<Option Value="49" Name="Lightning Arrow [1.83]"/>
+		<Option Value="50" Name="Flame Fan [0.5]" />
+	  </Enum>
+	  <Enum Name="ReferenceType">
+		<Option Value="0" Name="Behavior" />
+		<Option Value="1" Name="Bullet" />
+		<Option Value="2" Name="SpEffect" />
+	  </Enum>
+	  <Enum Name="AttributeType">
+		<Option Value="0" Name="Strength" />
+		<Option Value="1" Name="Dexterity" />
+		<Option Value="2" Name="Faith" />
+		<Option Value="3" Name="Intelligence" />
+	  </Enum>
+  </Enums>
   <Field>
+    <ezStateBehaviorType Enum="MagicSchoolType" />
+	<refCategory1 Enum="ReferenceType" />
+	<spEffectCategory Enum="MagicSchool" />
+	<refType Enum="CastAnimation" />
+	<refCategory4 Enum="ReferenceType" />
+	<AttributeType Enum="AttributeType" />
+	<refCategory2 Enum="ReferenceType" />
+	<refCategory3 Enum="ReferenceType" />
     <refId1 Refs="Bullet" />
     <refId2 Refs="Bullet" />
     <refId3 Refs="Bullet" />

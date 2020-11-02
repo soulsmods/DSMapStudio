@@ -1,5 +1,134 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="WeaponMovesetCategory">
+		<Option Value="0" Name="None" />
+		<Option Value="20" Name="Dagger" />
+		<Option Value="23" Name="Straight Sword" />
+		<Option Value="25" Name="Greatsword" />
+		<Option Value="26" Name="Ultra Greatsword" />
+		<Option Value="27" Name="Thrusting Sword" />
+		<Option Value="28" Name="Curved Sword" />
+		<Option Value="29" Name="Katana" />
+		<Option Value="30" Name="Axe" />
+		<Option Value="32" Name="Greataxe" />
+		<Option Value="33" Name="Hammer" />
+		<Option Value="35" Name="Great Hammer" />
+		<Option Value="36" Name="Spear" />
+		<Option Value="38" Name="Halberd" />
+		<Option Value="41" Name="Spell Tool" />
+		<Option Value="42" Name="Fist" />
+		<Option Value="43" Name="Whip/Claw" />
+		<Option Value="44" Name="Bow" />
+		<Option Value="45" Name="Greatbow" />
+		<Option Value="46" Name="Crossbow" />
+		<Option Value="47" Name="Greatshield" />
+		<Option Value="48" Name="Shield" />
+		<Option Value="49" Name="Torch" />
+	  </Enum>
+	  <Enum Name="GuardMovesetCategory">
+		<Option Value="0" Name="Shield" />
+		<Option Value="1" Name="Greatshield" />
+		<Option Value="2" Name="Weapon" />
+	  </Enum>
+	  <Enum Name="MovesetAttribute">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Physical" />
+		<Option Value="2" Name="Fire" />
+		<Option Value="3" Name="Magic" />
+		<Option Value="4" Name="Poison/Bleed" />
+		<Option Value="6" Name="Lightning" />
+		<Option Value="7" Name="Petrify" />
+		<Option Value="8" Name="Crystallize" />
+		<Option Value="9" Name="Dark" />
+	  </Enum>
+	  <Enum Name="WeaponCategory">
+		<Option Value="0" Name="Dagger" />
+		<Option Value="1" Name="Straight Sword / Greatsword / Ultra Greatsword / Whip" />
+		<Option Value="2" Name="Thrusting Sword" />
+		<Option Value="3" Name="Curved Sword / Curved Greatsword" />
+		<Option Value="4" Name="Axe" />
+		<Option Value="5" Name="Hammer" />
+		<Option Value="6" Name="Spear" />
+		<Option Value="7" Name="Halberd / Reaper" />
+		<Option Value="8" Name="Spell Tool" />
+		<Option Value="9" Name="Fist" />
+		<Option Value="10" Name="Bow / Greatbow" />
+		<Option Value="11" Name="Crossbow" />
+		<Option Value="12" Name="Shield / Torch" />
+		<Option Value="13" Name="Arrow" />
+		<Option Value="14" Name="Bolt" />
+	  </Enum>
+	  <Enum Name="WeaponHoldPosition">
+		<Option Value="0" Name="One hand down by hip" />
+		<Option Value="2" Name="One hand on shoulder" />
+		<Option Value="3" Name="One hand down and behind hip" />
+		<Option Value="10" Name="Both hands in front" />
+		<Option Value="12" Name="Both hands on shoulder" />
+		<Option Value="13" Name="Both hands in spear position" />
+		<Option Value="14" Name="Both hands in bow position" />
+		<Option Value="15" Name="Both hands in shield position" />
+		<Option Value="16" Name="Both hands in crossbow position" />
+	  </Enum>
+	  <Enum Name="DisplayType">
+		<Option Value="1" Name="Dagger" />
+		<Option Value="3" Name="Straight Sword" />
+		<Option Value="5" Name="Greatsword" />
+		<Option Value="7" Name="Ultra Greatsword" />
+		<Option Value="15" Name="Thrusting Sword" />
+		<Option Value="9" Name="Curved Sword" />
+		<Option Value="13" Name="Katana" />
+		<Option Value="11" Name="Curved Greatsword" />
+		<Option Value="17" Name="Axe" />
+		<Option Value="19" Name="Greataxe" />
+		<Option Value="21" Name="Hammer" />
+		<Option Value="23" Name="Great Hammer" />
+		<Option Value="25" Name="Spear" />
+		<Option Value="27" Name="Lance" />
+		<Option Value="29" Name="Halberd" />
+		<Option Value="31" Name="Scythe" />
+		<Option Value="37" Name="Paired Fist" />
+		<Option Value="57" Name="Staff" />
+		<Option Value="61" Name="Talisman" />
+		<Option Value="63" Name="Chime" />
+		<Option Value="59" Name="Pyromancy Flame" />
+		<Option Value="39" Name="Whip" />
+		<Option Value="51" Name="Bow" />
+		<Option Value="53" Name="Greatbow" />
+		<Option Value="55" Name="Crossbow" />
+		<Option Value="33" Name="Fist" />
+		<Option Value="65" Name="Small Shield" />
+		<Option Value="67" Name="Medium Shield" />
+		<Option Value="69" Name="Greatshield" />
+		<Option Value="81" Name="Arrow" />
+		<Option Value="83" Name="Greatarrow" />
+		<Option Value="85" Name="Bolt" />
+		<Option Value="87" Name="Torch" />
+		<Option Value="101" Name="Paired Dagger" />
+		<Option Value="103" Name="Paired Straight Sword" />
+		<Option Value="107" Name="Paired Curved Sword" />
+		<Option Value="109" Name="Paired Katana" />
+		<Option Value="111" Name="Paired Axe" />
+		<Option Value="113" Name="Paired Hammer" />
+		<Option Value="115" Name="Paired Spear" />
+		<Option Value="116" Name="Paired Sword and Shield" />
+		<Option Value="119" Name="Paired Thrusting Sword" />
+		<Option Value="131" Name="Paired Greatshield" />
+		<Option Value="133" Name="Paired Ultra Greatsword" />
+	  </Enum>
+	  <Enum Name="EquipModelCategory">
+		<Option Value="1" Name="Hands" />
+		<Option Value="2" Name="Body" />
+		<Option Value="5" Name="Head" />
+		<Option Value="6" Name="Legs" />
+	  </Enum>
+	  <Enum Name="EquipModelGender">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="None" />
+		<Option Value="3" Name="Split by Gender" />
+		<Option Value="4" Name="Shared" />
+	  </Enum>
+  </Enums>
   <Field>
     <behaviorVariationId VRef="behaviourVariation" />
     <spEffectBehaviorId0 Refs="SpEffectParam" />
@@ -25,7 +154,16 @@
     <originEquipWep13 Refs="EquipParamWeapon" />
     <originEquipWep14 Refs="EquipParamWeapon" />
     <originEquipWep15 Refs="EquipParamWeapon" />
-	<properStrength Wiki="Sets the strength attribute a character needs to wield this weapon.\nThis value is reduced by 1/3rd when 2-handed." />
-    <attackElementCorrectId Refs="AttackElementCorrectParam" />
+	<equipModelCategory Enum="EquipModelCategory" />
+	<equipModelGender Enum="EquipModelGender" />
+	<weaponCategory Enum="WeaponCategory" />
+	<wepMotionCategory Enum="WeaponMovesetCategory" />
+	<guardmotionCategory Enum="GuardMovesetCategory" />
+	<spAttribute Enum="MovesetAttribute" />
+	<wepmotionOneHandId Enum="WeaponHoldPosition" />
+	<wepmotionBothHandId Enum="WeaponHoldPosition" />
+	<properStrength Wiki="Sets the strength attribute a character needs to wield this weapon.\nThis Value is reduced by 1/3rd when 2-handed." />
+    <displayTypeId Enum="DisplayType" />
+	<attackElementCorrectId Refs="AttackElementCorrectParam" />
   </Field>
 </PARAMMETA>

@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	<Enum Name="EquipType">
+      <Option Value="0" Name="Weapon" />
+	  <Option Value="1" Name="Armor" />
+	  <Option Value="2" Name="Accessory" />
+      <Option Value="3" Name="Good" />
+    </Enum>
+  </Enums>
   <Field>
     <EquipId Refs="EquipParamAccessory,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <equipType Enum="EquipType" />
   </Field>
 </PARAMMETA>

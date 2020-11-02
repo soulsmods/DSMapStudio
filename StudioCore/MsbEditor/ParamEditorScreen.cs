@@ -185,6 +185,7 @@ namespace StudioCore.MsbEditor
         private string _currentMEditCSVOutput = "";
         private string _mEditCSVResult = "";
 
+        private bool _isSearchBarActive = false;
         private bool _isMEditPopupOpen = false;
         private bool _isShortcutPopupOpen = false;
 
@@ -322,7 +323,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI(string[] initcmd)
         {
-            if (!_isMEditPopupOpen && !_isShortcutPopupOpen)// Are shortcuts active? Presently just checks for massEdit popup.
+            if (!_isMEditPopupOpen && !_isShortcutPopupOpen && !_isSearchBarActive)// Are shortcuts active? Presently just checks for massEdit popup.
             {
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
@@ -421,6 +422,10 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
                 ImGui.InputText("Search rows...", ref _selection.getCurrentSearchString(), 256);
+                if(ImGui.IsItemActive())
+                    _isSearchBarActive = true;
+                else
+                    _isSearchBarActive = false;
                 ImGui.BeginChild("rows"+_selection.getActiveParam());
                 IParamDecorator decorator = null;
                 if (_decorators.ContainsKey(_selection.getActiveParam()))

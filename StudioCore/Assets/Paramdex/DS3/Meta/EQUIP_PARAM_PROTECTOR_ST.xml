@@ -1,9 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="EquipModelCategory">
+		<Option Value="1" Name="Hands" />
+		<Option Value="2" Name="Body" />
+		<Option Value="5" Name="Head" />
+		<Option Value="6" Name="Legs" />
+	  </Enum>
+	  <Enum Name="EquipModelGender">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="None" />
+		<Option Value="3" Name="Split by Gender" />
+		<Option Value="4" Name="Shared" />
+	  </Enum>
+	  <Enum Name="ArmorCategory">
+		<Option Value="0" Name="Head" />
+		<Option Value="1" Name="Body" />
+		<Option Value="2" Name="Hands" />
+		<Option Value="3" Name="Legs" />
+	  </Enum>
+  </Enums>
   <Field>
     <residentSpEffectId1 Refs="SpEffectParam" />
     <residentSpEffectId2 Refs="SpEffectParam" />
     <residentSpEffectId3 Refs="SpEffectParam" />
+	<equipModelCategory Enum="EquipModelCategory" />
+	<equipModelGender Enum="EquipModelGender" />
+	<protectorCategory Enum="ArmorCategory" />
     <protectorCategoryId VRef="protectorCategory" />
   </Field>
 </PARAMMETA>

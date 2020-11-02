@@ -1,11 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="AttackAttribute">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Slash" />
+		<Option Value="2" Name="Strike" />
+		<Option Value="3" Name="Thrust" />
+		<Option Value="4" Name="Standard" />
+	  </Enum>
+	  <Enum Name="EffectAttribute">
+		<Option Value="-1" Name="None" />
+		<Option Value="1" Name="Physical" />
+		<Option Value="2" Name="Fire" />
+		<Option Value="3" Name="Magic" />
+		<Option Value="4" Name="Poison/Bleed" />
+		<Option Value="6" Name="Lightning" />
+		<Option Value="7" Name="Petrify" />
+		<Option Value="8" Name="Crystallize" />
+		<Option Value="9" Name="Dark" />
+	  </Enum>
+	  <Enum Name="DamageLevel">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="No Stagger" />
+		<Option Value="2" Name="Short Stagger" />
+		<Option Value="3" Name="Long Stagger" />
+		<Option Value="4" Name="Stagger to Floor" />
+		<Option Value="5" Name="Stagger Backwards" />
+		<Option Value="6" Name="Faceplant" />
+		<Option Value="7" Name="Stagger to Floor" />
+		<Option Value="8" Name="Faceplant" />
+		<Option Value="9" Name="Air Juggle Stagger" />
+		<Option Value="10" Name="Push" />
+		<Option Value="11" Name="Strong Stagger" />
+		<Option Value="12" Name="Stagger Backwards" />
+	  </Enum>
+	  <Enum Name="AttackType">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Block Parry" />
+		<Option Value="2" Name="Affect Guard / Block Parry" />
+	  </Enum>
+  </Enums>
   <Field>
     <spEffect0 Refs="SpEffectParam" />
     <spEffect1 Refs="SpEffectParam" />
     <spEffect2 Refs="SpEffectParam" />
     <spEffect3 Refs="SpEffectParam" />
     <spEffect4 Refs="SpEffectParam" />
+	<damageLevel Enum="DamageLevel" />
+	<atkAttribute Enum="AttackAttribute" />
+	<spAttribute Enum="EffectAttribute" />
+	<atkType Enum="AttackType" />
     <atkElementCorrectId Refs="AttackElementCorrectParam"/>
   </Field>
 </PARAMMETA>

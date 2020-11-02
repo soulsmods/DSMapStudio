@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="SoundType">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Default" />
+		<Option Value="2" Name="CollisionBased" />
+	  </Enum>
+  </Enums>
+  <Field>
+    <TypeAI_SOUND_RATE_TYPE Enum="SoundType" />
+  </Field>
+</PARAMMETA>
