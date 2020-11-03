@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleRayCastWheelCollide : hknpVehicleWheelCollide
+    public partial class hknpVehicleRayCastWheelCollide : hknpVehicleWheelCollide
     {
         public override uint Signature { get => 838969844; }
         

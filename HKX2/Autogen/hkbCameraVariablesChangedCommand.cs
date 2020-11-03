@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbCameraVariablesChangedCommand : hkReferencedObject
+    public partial class hkbCameraVariablesChangedCommand : hkReferencedObject
     {
         public override uint Signature { get => 855142481; }
         

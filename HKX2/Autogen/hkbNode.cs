@@ -24,7 +24,7 @@ namespace HKX2
         NODE_IS_CLONE = 1,
     }
     
-    public class hkbNode : hkbBindable
+    public partial class hkbNode : hkbBindable
     {
         public override uint Signature { get => 146023711; }
         

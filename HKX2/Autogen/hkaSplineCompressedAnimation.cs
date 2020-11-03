@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaSplineCompressedAnimation : hkaAnimation
+    public partial class hkaSplineCompressedAnimation : hkaAnimation
     {
         public override uint Signature { get => 2352701310; }
         

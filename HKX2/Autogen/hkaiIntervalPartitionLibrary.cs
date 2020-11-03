@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiIntervalPartitionLibrary : IHavokObject
+    public partial class hkaiIntervalPartitionLibrary : IHavokObject
     {
         public virtual uint Signature { get => 181298268; }
         

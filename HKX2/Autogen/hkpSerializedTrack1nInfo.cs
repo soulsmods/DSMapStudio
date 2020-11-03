@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpSerializedTrack1nInfo : IHavokObject
+    public partial class hkpSerializedTrack1nInfo : IHavokObject
     {
         public virtual uint Signature { get => 4046276825; }
         

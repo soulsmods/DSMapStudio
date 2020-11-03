@@ -17,7 +17,7 @@ namespace HKX2
         RECURSIVE = 1,
     }
     
-    public class hkMultiThreadCheck : IHavokObject
+    public partial class hkMultiThreadCheck : IHavokObject
     {
         public virtual uint Signature { get => 300171403; }
         

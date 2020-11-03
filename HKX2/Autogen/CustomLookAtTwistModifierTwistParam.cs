@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class CustomLookAtTwistModifierTwistParam : IHavokObject
+    public partial class CustomLookAtTwistModifierTwistParam : IHavokObject
     {
         public virtual uint Signature { get => 1192258791; }
         

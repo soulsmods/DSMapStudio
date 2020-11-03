@@ -10,7 +10,7 @@ namespace HKX2
         EDGE_EXTERNAL_OPPOSITE = 64,
     }
     
-    public class hkaiDirectedGraphExplicitCost : hkReferencedObject
+    public partial class hkaiDirectedGraphExplicitCost : hkReferencedObject
     {
         public override uint Signature { get => 788715820; }
         

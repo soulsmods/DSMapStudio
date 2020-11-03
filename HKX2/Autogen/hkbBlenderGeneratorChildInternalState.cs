@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbBlenderGeneratorChildInternalState : IHavokObject
+    public partial class hkbBlenderGeneratorChildInternalState : IHavokObject
     {
         public virtual uint Signature { get => 4285736896; }
         

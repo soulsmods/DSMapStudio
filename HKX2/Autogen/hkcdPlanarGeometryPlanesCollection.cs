@@ -15,7 +15,7 @@ namespace HKX2
         NUM_BOUNDS = 6,
     }
     
-    public class hkcdPlanarGeometryPlanesCollection : hkReferencedObject
+    public partial class hkcdPlanarGeometryPlanesCollection : hkReferencedObject
     {
         public override uint Signature { get => 850946192; }
         

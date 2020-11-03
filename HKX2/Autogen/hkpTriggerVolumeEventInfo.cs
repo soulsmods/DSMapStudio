@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpTriggerVolumeEventInfo : IHavokObject
+    public partial class hkpTriggerVolumeEventInfo : IHavokObject
     {
         public virtual uint Signature { get => 3948999729; }
         

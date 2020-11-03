@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkcdPlanarGeometryPolygonCollection : hkcdPlanarGeometryPrimitivesCollection28
+    public partial class hkcdPlanarGeometryPolygonCollection : hkcdPlanarGeometryPrimitivesCollection28
     {
         public override uint Signature { get => 3760868900; }
         

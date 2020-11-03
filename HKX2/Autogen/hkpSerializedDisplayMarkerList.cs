@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpSerializedDisplayMarkerList : hkReferencedObject
+    public partial class hkpSerializedDisplayMarkerList : hkReferencedObject
     {
         public override uint Signature { get => 3481255883; }
         

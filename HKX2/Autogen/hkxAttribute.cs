@@ -14,7 +14,7 @@ namespace HKX2
         HINT_FLIP = 8,
     }
     
-    public class hkxAttribute : IHavokObject
+    public partial class hkxAttribute : IHavokObject
     {
         public virtual uint Signature { get => 1937099491; }
         

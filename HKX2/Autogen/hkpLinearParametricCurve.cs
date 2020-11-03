@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpLinearParametricCurve : hkpParametricCurve
+    public partial class hkpLinearParametricCurve : hkpParametricCurve
     {
         public override uint Signature { get => 1791413813; }
         

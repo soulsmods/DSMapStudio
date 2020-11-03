@@ -11,7 +11,7 @@ namespace HKX2
         WELD_RESULT_ACCEPT_CONTACT_POINT_UNMODIFIED = 2,
     }
     
-    public class hkpConvexShape : hkpSphereRepShape
+    public partial class hkpConvexShape : hkpSphereRepShape
     {
         public override uint Signature { get => 4115545146; }
         

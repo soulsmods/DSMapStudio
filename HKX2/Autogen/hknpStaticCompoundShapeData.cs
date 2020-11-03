@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpStaticCompoundShapeData : hkReferencedObject
+    public partial class hknpStaticCompoundShapeData : hkReferencedObject
     {
         public override uint Signature { get => 1339588569; }
         

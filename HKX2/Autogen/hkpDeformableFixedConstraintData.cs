@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpDeformableFixedConstraintData : hkpConstraintData
+    public partial class hkpDeformableFixedConstraintData : hkpConstraintData
     {
         public override uint Signature { get => 1382660763; }
         

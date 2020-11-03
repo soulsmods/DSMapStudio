@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiDirectedGraphExplicitCostNode : IHavokObject
+    public partial class hkaiDirectedGraphExplicitCostNode : IHavokObject
     {
         public virtual uint Signature { get => 2093390254; }
         

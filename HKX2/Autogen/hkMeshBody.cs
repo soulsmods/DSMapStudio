@@ -10,7 +10,7 @@ namespace HKX2
         PICK_USER = 4096,
     }
     
-    public class hkMeshBody : hkReferencedObject
+    public partial class hkMeshBody : hkReferencedObject
     {
         public override uint Signature { get => 3058345484; }
         

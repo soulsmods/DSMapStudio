@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using SoulsFormats;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace StudioCore.MsbEditor
 {
@@ -19,10 +20,16 @@ namespace StudioCore.MsbEditor
         private static Dictionary<string, PARAM> _params = null;
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
 
+        public static bool IsLoading { get; private set; } = false;
+
         public static IReadOnlyDictionary<string, PARAM> Params
         {
             get
             {
+                if (IsLoading)
+                {
+                    return null;
+                }
                 return _params;
             }
         }
@@ -81,6 +88,10 @@ namespace StudioCore.MsbEditor
                     continue;
                 }
                 PARAM p = PARAM.Read(f.Bytes);
+                if (!_paramdefs.ContainsKey(p.ParamType))
+                {
+                    continue;
+                }
                 p.ApplyParamdef(_paramdefs[p.ParamType]);
                 _params.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
@@ -275,32 +286,40 @@ namespace StudioCore.MsbEditor
 
         public static void ReloadParams()
         {
-            if (AssetLocator.Type != GameType.Undefined)
-            {
-                LoadParamdefs();
-            }
-
+            _paramdefs = new Dictionary<string, PARAMDEF>();
             _params = new Dictionary<string, PARAM>();
-            if (AssetLocator.Type == GameType.DemonsSouls)
+            IsLoading = true;
+
+            Task.Run(() =>
             {
-                LoadParamsDES();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsPTDE)
-            {
-                LoadParamsDS1();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                LoadParamsDS2();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsIII)
-            {
-                LoadParamsDS3();
-            }
-            if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
-            {
-                LoadParamsBBSekrio();
-            }
+                if (AssetLocator.Type != GameType.Undefined)
+                {
+                    LoadParamdefs();
+                }
+
+                _params = new Dictionary<string, PARAM>();
+                if (AssetLocator.Type == GameType.DemonsSouls)
+                {
+                    LoadParamsDES();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+                {
+                    LoadParamsDS1();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    LoadParamsDS2();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsIII)
+                {
+                    LoadParamsDS3();
+                }
+                if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+                {
+                    LoadParamsBBSekrio();
+                }
+                IsLoading = false;
+            });
         }
 
         public static void LoadParams(AssetLocator l)

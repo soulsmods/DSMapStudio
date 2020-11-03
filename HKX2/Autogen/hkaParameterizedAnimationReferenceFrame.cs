@@ -12,7 +12,7 @@ namespace HKX2
         TURN_SPEED = 3,
     }
     
-    public class hkaParameterizedAnimationReferenceFrame : hkaDefaultAnimatedReferenceFrame
+    public partial class hkaParameterizedAnimationReferenceFrame : hkaDefaultAnimatedReferenceFrame
     {
         public override uint Signature { get => 1059887376; }
         

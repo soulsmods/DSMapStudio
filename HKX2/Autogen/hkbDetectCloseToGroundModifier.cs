@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbDetectCloseToGroundModifier : hkbModifier
+    public partial class hkbDetectCloseToGroundModifier : hkbModifier
     {
         public override uint Signature { get => 2271029442; }
         

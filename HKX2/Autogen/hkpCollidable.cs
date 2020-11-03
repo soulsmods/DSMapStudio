@@ -12,7 +12,7 @@ namespace HKX2
         FORCE_PPU_SHAPE_UNCHECKED = 8,
     }
     
-    public class hkpCollidable : hkpCdBody
+    public partial class hkpCollidable : hkpCdBody
     {
         public override uint Signature { get => 783215175; }
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace StudioCore.Memory
@@ -11,6 +12,8 @@ namespace StudioCore.Memory
     /// </summary>
     public class FreeListAllocator
     {
+        private object _lock = new object();
+
         private class Block
         {
             public uint _addr;
@@ -43,50 +46,53 @@ namespace StudioCore.Memory
 
         public bool AlignedAlloc(uint size, uint align, out uint addr)
         {
-            var curr = _freeBlocks.First;
-            while (curr != null)
+            lock (_lock)
             {
-                var n = curr.Value;
-                if (n._free && n._size >= size)
+                var curr = _freeBlocks.First;
+                while (curr != null)
                 {
-                    uint alignadj = 0;
-                    if ((n._addr % align) != 0)
+                    var n = curr.Value;
+                    if (n._free && n._size >= size)
                     {
-                        alignadj = (align - (n._addr % align));
-                        if (n._size < size + alignadj)
+                        uint alignadj = 0;
+                        if ((n._addr % align) != 0)
                         {
-                            curr = curr.Next;
-                            continue;
+                            alignadj = (align - (n._addr % align));
+                            if (n._size < size + alignadj)
+                            {
+                                curr = curr.Next;
+                                continue;
+                            }
+                            // Split the block such that it starts on the aligned boundary
+                            var alnblk = new Block();
+                            alnblk._free = true;
+                            alnblk._size = alignadj;
+                            alnblk._addr = n._addr;
+                            alnblk._node = _blocks.AddBefore(n._node, alnblk);
+                            n._size -= alignadj;
+                            n._addr += alignadj;
+                            _freeBlocks.AddLast(alnblk);
                         }
-                        // Split the block such that it starts on the aligned boundary
-                        var alnblk = new Block();
-                        alnblk._free = true;
-                        alnblk._size = alignadj;
-                        alnblk._addr = n._addr;
-                        alnblk._node = _blocks.AddBefore(n._node, alnblk);
-                        n._size -= alignadj;
-                        n._addr += alignadj;
-                        _freeBlocks.AddLast(alnblk);
-                    }
 
-                    // This block fits the allocation. Mark it used and add a new free block on top
-                    if (n._size > size)
-                    {
-                        var tfree = new Block();
-                        tfree._free = true;
-                        tfree._size = n._size - size;
-                        tfree._addr = n._addr + size;
-                        tfree._node = _blocks.AddAfter(n._node, tfree);
-                        n._size = size;
-                        _freeBlocks.AddLast(tfree);
+                        // This block fits the allocation. Mark it used and add a new free block on top
+                        if (n._size > size)
+                        {
+                            var tfree = new Block();
+                            tfree._free = true;
+                            tfree._size = n._size - size;
+                            tfree._addr = n._addr + size;
+                            tfree._node = _blocks.AddAfter(n._node, tfree);
+                            n._size = size;
+                            _freeBlocks.AddLast(tfree);
+                        }
+                        n._free = false;
+                        _freeBlocks.Remove(curr);
+                        _allocations.Add(n._addr, n._node);
+                        addr = n._addr;
+                        return true;
                     }
-                    n._free = false;
-                    _freeBlocks.Remove(curr);
-                    _allocations.Add(n._addr, n._node);
-                    addr = n._addr;
-                    return true;
+                    curr = curr.Next;
                 }
-                curr = curr.Next;
             }
 
             addr = 0;
@@ -95,44 +101,47 @@ namespace StudioCore.Memory
 
         public void Free(uint addr)
         {
-            // Just mark the node free and merge it with above and below nodes if they're free
-            var n = _allocations[addr];
-            var b = n.Value;
-            b._free = true;
-            var prev = n.Previous;
-            var next = n.Next;
-            bool addToFreeList = true;
-            Block maybeRemove = null;
-            if (prev != null && prev.Value._free)
+            lock (_lock)
             {
-                //b._addr = prev.Value._addr;
-                //b._size += prev.Value._size;
-                //_blocks.Remove(prev);
-                prev.Value._size += b._size;
-                _blocks.Remove(n);
-                n = prev;
-                b = n.Value;
-                maybeRemove = b;
-                addToFreeList = false;
-            }
-            if (next != null && next.Value._free)
-            {
-                //b._size += next.Value._size;
-                //_blocks.Remove(next);
-                next.Value._addr = b._addr;
-                next.Value._size += b._size;
-                _blocks.Remove(n);
-                addToFreeList = false;
-                if (maybeRemove != null)
+                // Just mark the node free and merge it with above and below nodes if they're free
+                var n = _allocations[addr];
+                var b = n.Value;
+                b._free = true;
+                var prev = n.Previous;
+                var next = n.Next;
+                bool addToFreeList = true;
+                Block maybeRemove = null;
+                if (prev != null && prev.Value._free)
                 {
-                    _freeBlocks.Remove(maybeRemove);
+                    //b._addr = prev.Value._addr;
+                    //b._size += prev.Value._size;
+                    //_blocks.Remove(prev);
+                    prev.Value._size += b._size;
+                    _blocks.Remove(n);
+                    n = prev;
+                    b = n.Value;
+                    maybeRemove = b;
+                    addToFreeList = false;
                 }
+                if (next != null && next.Value._free)
+                {
+                    //b._size += next.Value._size;
+                    //_blocks.Remove(next);
+                    next.Value._addr = b._addr;
+                    next.Value._size += b._size;
+                    _blocks.Remove(n);
+                    addToFreeList = false;
+                    if (maybeRemove != null)
+                    {
+                        _freeBlocks.Remove(maybeRemove);
+                    }
+                }
+                if (addToFreeList)
+                {
+                    _freeBlocks.AddLast(b);
+                }
+                _allocations.Remove(addr);
             }
-            if (addToFreeList)
-            {
-                _freeBlocks.AddLast(b);
-            }
-            _allocations.Remove(addr);
         }
 
         /// <summary>
@@ -141,12 +150,15 @@ namespace StudioCore.Memory
         /// <returns>The new size</returns>
         public uint CompactTop()
         {
-            var top = _blocks.Last;
-            if (top.Value._free)
+            lock (_lock)
             {
-                _capacity -= top.Value._size;
-                _blocks.RemoveLast();
-                return _capacity;
+                var top = _blocks.Last;
+                if (top.Value._free)
+                {
+                    _capacity -= top.Value._size;
+                    _blocks.RemoveLast();
+                    return _capacity;
+                }
             }
             return _capacity;
         }

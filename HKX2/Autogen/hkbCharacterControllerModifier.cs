@@ -16,7 +16,7 @@ namespace HKX2
         MOTION_MODE_DYNAMIC = 1,
     }
     
-    public class hkbCharacterControllerModifier : hkbModifier
+    public partial class hkbCharacterControllerModifier : hkbModifier
     {
         public override uint Signature { get => 1948489251; }
         

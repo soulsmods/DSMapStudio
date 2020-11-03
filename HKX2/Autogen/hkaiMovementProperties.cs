@@ -11,7 +11,7 @@ namespace HKX2
         CONSTRAINTS_LINEAR_ONLY = 2,
     }
     
-    public class hkaiMovementProperties : IHavokObject
+    public partial class hkaiMovementProperties : IHavokObject
     {
         public virtual uint Signature { get => 3491831670; }
         

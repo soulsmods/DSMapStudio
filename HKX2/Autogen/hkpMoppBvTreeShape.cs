@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpMoppBvTreeShape : hkMoppBvTreeShapeBase
+    public partial class hkpMoppBvTreeShape : hkMoppBvTreeShapeBase
     {
         public override uint Signature { get => 1945275374; }
         

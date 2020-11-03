@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpBreakableMultiMaterialInverseMapping : hkReferencedObject
+    public partial class hkpBreakableMultiMaterialInverseMapping : hkReferencedObject
     {
         public override uint Signature { get => 2179142267; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpEntitySpuCollisionCallback : IHavokObject
+    public partial class hkpEntitySpuCollisionCallback : IHavokObject
     {
         public virtual uint Signature { get => 2165604101; }
         

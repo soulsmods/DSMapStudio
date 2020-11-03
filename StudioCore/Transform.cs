@@ -66,9 +66,52 @@ namespace StudioCore
             return qy * qz * qx;
         }
 
-        public static Vector3 QuaternionToEuler(Quaternion q)
+        public static Quaternion EulerToQuaternionXZY(Vector3 euler)
         {
-            return EulerUtils.quaternion2Euler(q, EulerUtils.RotSeq.yzx);
+            /*var qy = Quaternion.CreateFromAxisAngle(new Vector3(0, 1, 0), euler.Y);
+            var qz = Quaternion.CreateFromAxisAngle(new Vector3(0, 0, 1), euler.Z);
+            var qx = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), euler.X);
+            var qd = qx * qz * qy;*/
+            var cx = MathF.Cos(euler.X / 2);
+            var cy = MathF.Cos(euler.Y / 2);
+            var cz = MathF.Cos(euler.Z / 2);
+            var sx = MathF.Sin(euler.X / 2);
+            var sy = MathF.Sin(euler.Y / 2);
+            var sz = MathF.Sin(euler.Z / 2);
+            var q = new Quaternion();
+            q.X = sx * cy * cz + cx * sy * sz;
+            q.Y = cx * sy * cz + sx * cy * sz;
+            q.Z = cx * cy * sz + sx * sy * cz;
+            q.W = cx * cy * cz + sx * sy * sz;
+            //return q;
+            Matrix4x4 m1 = Matrix4x4.CreateRotationX(euler.X) *
+                Matrix4x4.CreateRotationZ(euler.Z) * Matrix4x4.CreateRotationY(euler.Y);
+            var qs = Quaternion.CreateFromRotationMatrix(m1);
+            //return qs;
+
+             cx = MathF.Cos(euler.X);
+             cy = MathF.Cos(euler.Y);
+             cz = MathF.Cos(euler.Z);
+             sx = MathF.Sin(euler.X);
+             sy = MathF.Sin(euler.Y);
+             sz = MathF.Sin(euler.Z);
+            Matrix4x4 m = Matrix4x4.Identity;
+            m.M11 = cz * cy;
+            m.M12 = sz;//-sz;
+            m.M13 = -cz * sy;//cz * sy;
+            m.M21 = sx * sy - sz * cx * cy;//sx * sy + cx * sz * cy;
+            m.M22 = cx * cz;
+            m.M23 = cx * sz * sy + cy * sx;//cx * sz * sy - cy * sx;
+            m.M31 = cy * sx * sz + cx * sy;//cy * sx * sz - cx * sy;
+            m.M32 = -cz * sx;//cz * sx;
+            m.M33 = cx * cy - sx * sz * sy;//cx * cy + sx * sz * sy;
+            var qm = Quaternion.CreateFromRotationMatrix(m);
+            return qm;
+        }
+
+        public static Vector3 QuaternionToEuler(Quaternion q, EulerUtils.RotSeq r = EulerUtils.RotSeq.yzx)
+        {
+            return EulerUtils.quaternion2Euler(q, r);
         }
 
         [JsonProperty]
@@ -87,6 +130,19 @@ namespace StudioCore
             set
             {
                 Rotation = EulerToQuaternion(value);
+            }
+        }
+
+        public Vector3 EulerRotationXZY
+        {
+            get
+            {
+                //return QuaternionToEuler(Rotation, EulerUtils.RotSeq.xzy);
+                return EulerUtils.MatrixToEulerXZY(RotationMatrix);
+            }
+            set
+            {
+                Rotation = EulerToQuaternionXZY(value);
             }
         }
 

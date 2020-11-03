@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiEdgeGeometry : hkReferencedObject
+    public partial class hkaiEdgeGeometry : hkReferencedObject
     {
         public override uint Signature { get => 3789974824; }
         

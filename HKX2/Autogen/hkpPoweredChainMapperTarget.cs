@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpPoweredChainMapperTarget : IHavokObject
+    public partial class hkpPoweredChainMapperTarget : IHavokObject
     {
         public virtual uint Signature { get => 4132554573; }
         

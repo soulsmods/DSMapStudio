@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBoneSpaceMeshMeshDeformPOperator : hclBoneSpaceMeshMeshDeformOperator
+    public partial class hclBoneSpaceMeshMeshDeformPOperator : hclBoneSpaceMeshMeshDeformOperator
     {
         public override uint Signature { get => 3375439037; }
         

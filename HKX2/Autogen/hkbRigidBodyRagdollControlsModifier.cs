@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbRigidBodyRagdollControlsModifier : hkbModifier
+    public partial class hkbRigidBodyRagdollControlsModifier : hkbModifier
     {
         public override uint Signature { get => 3083075197; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiStaticTreeNavMeshQueryMediator : hkaiNavMeshQueryMediator
+    public partial class hkaiStaticTreeNavMeshQueryMediator : hkaiNavMeshQueryMediator
     {
         public override uint Signature { get => 1127882337; }
         

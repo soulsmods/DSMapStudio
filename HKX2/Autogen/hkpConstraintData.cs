@@ -35,7 +35,7 @@ namespace HKX2
         CONSTRAINT_TYPE_POWERED_CHAIN = 102,
     }
     
-    public class hkpConstraintData : hkReferencedObject
+    public partial class hkpConstraintData : hkReferencedObject
     {
         public override uint Signature { get => 1463000535; }
         

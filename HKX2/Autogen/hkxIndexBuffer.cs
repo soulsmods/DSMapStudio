@@ -13,7 +13,7 @@ namespace HKX2
         INDEX_TYPE_MAX_ID = 4,
     }
     
-    public class hkxIndexBuffer : hkReferencedObject
+    public partial class hkxIndexBuffer : hkReferencedObject
     {
         public override uint Signature { get => 2178010478; }
         

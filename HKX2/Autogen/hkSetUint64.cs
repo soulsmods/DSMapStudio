@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkSetUint64 : hkSetunsignedlonglonghkContainerHeapAllocatorhkMapOperationsunsignedlonglong
+    public partial class hkSetUint64 : hkSetunsignedlonglonghkContainerHeapAllocatorhkMapOperationsunsignedlonglong
     {
         public override uint Signature { get => 3613704676; }
         

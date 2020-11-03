@@ -13,7 +13,7 @@ namespace HKX2
         CONSTRAIN_ORIENTATION_MAX_ID = 4,
     }
     
-    public class hkpPointToPathConstraintData : hkpConstraintData
+    public partial class hkpPointToPathConstraintData : hkpConstraintData
     {
         public override uint Signature { get => 1813022583; }
         

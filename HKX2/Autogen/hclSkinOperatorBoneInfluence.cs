@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclSkinOperatorBoneInfluence : IHavokObject
+    public partial class hclSkinOperatorBoneInfluence : IHavokObject
     {
         public virtual uint Signature { get => 1963099810; }
         

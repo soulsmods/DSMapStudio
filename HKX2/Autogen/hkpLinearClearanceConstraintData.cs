@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpLinearClearanceConstraintData : hkpConstraintData
+    public partial class hkpLinearClearanceConstraintData : hkpConstraintData
     {
         public override uint Signature { get => 2670692797; }
         

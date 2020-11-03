@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiPathFollowingProperties : hkReferencedObject
+    public partial class hkaiPathFollowingProperties : hkReferencedObject
     {
         public override uint Signature { get => 3720691019; }
         

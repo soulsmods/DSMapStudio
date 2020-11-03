@@ -11,7 +11,7 @@ namespace HKX2
         ENTITIES = 2,
     }
     
-    public class hkArrayTypeAttribute : IHavokObject
+    public partial class hkArrayTypeAttribute : IHavokObject
     {
         public virtual uint Signature { get => 3557073818; }
         

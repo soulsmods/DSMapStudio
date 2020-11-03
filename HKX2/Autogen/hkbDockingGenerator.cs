@@ -17,7 +17,7 @@ namespace HKX2
         FLAG_OVERRIDE_MOTION = 2,
     }
     
-    public class hkbDockingGenerator : hkbGenerator
+    public partial class hkbDockingGenerator : hkbGenerator
     {
         public override uint Signature { get => 2140111424; }
         

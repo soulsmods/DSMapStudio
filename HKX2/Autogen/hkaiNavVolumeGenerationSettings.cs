@@ -17,7 +17,7 @@ namespace HKX2
         ROUND_TO_NEAREST = 1,
     }
     
-    public class hkaiNavVolumeGenerationSettings : hkReferencedObject
+    public partial class hkaiNavVolumeGenerationSettings : hkReferencedObject
     {
         public override uint Signature { get => 3417771885; }
         

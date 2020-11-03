@@ -10,7 +10,7 @@ namespace HKX2
         ACCESS_VERTEX_BUFFER = 2,
     }
     
-    public class hkMeshShape : hkReferencedObject
+    public partial class hkMeshShape : hkReferencedObject
     {
         public override uint Signature { get => 1766840960; }
         

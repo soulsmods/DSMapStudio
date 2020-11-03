@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiSilhouetteRecorderVolumeUnloadedEvent : hkaiSilhouetteRecorderReplayEvent
+    public partial class hkaiSilhouetteRecorderVolumeUnloadedEvent : hkaiSilhouetteRecorderReplayEvent
     {
         public override uint Signature { get => 2391714391; }
         

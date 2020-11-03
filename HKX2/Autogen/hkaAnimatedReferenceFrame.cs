@@ -11,7 +11,7 @@ namespace HKX2
         REFERENCE_FRAME_PARAMETRIC = 2,
     }
     
-    public class hkaAnimatedReferenceFrame : hkReferencedObject
+    public partial class hkaAnimatedReferenceFrame : hkReferencedObject
     {
         public override uint Signature { get => 2556314263; }
         

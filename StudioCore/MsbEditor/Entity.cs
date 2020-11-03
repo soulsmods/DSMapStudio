@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Xml.Serialization;
 using SoulsFormats;
 using StudioCore.Scene;
+using System.Diagnostics;
 
 namespace StudioCore.MsbEditor
 {
@@ -76,7 +77,14 @@ namespace StudioCore.MsbEditor
                 {
                     return CachedName;
                 }
-                CachedName = (string)WrappedObject.GetType().GetProperty("Name").GetValue(WrappedObject, null);
+                if (WrappedObject.GetType().GetProperty("Name") != null)
+                {
+                    CachedName = (string)WrappedObject.GetType().GetProperty("Name").GetValue(WrappedObject, null);
+                }
+                else
+                {
+                    CachedName = "null";
+                }
                 return CachedName;
             }
             set
@@ -344,6 +352,19 @@ namespace StudioCore.MsbEditor
             return WrappedObject.GetType().GetProperty(prop).GetCustomAttribute<RotationRadians>() != null;
         }
 
+        public bool IsRotationXZY(string prop)
+        {
+            if (WrappedObject == null)
+            {
+                return false;
+            }
+            if (WrappedObject is PARAM.Row row || WrappedObject is MergedParamRow mrow)
+            {
+                return false;
+            }
+            return WrappedObject.GetType().GetProperty(prop).GetCustomAttribute<RotationXZY>() != null;
+        }
+
         public T GetPropertyValue<T>(string prop)
         {
             if (WrappedObject == null)
@@ -542,11 +563,41 @@ namespace StudioCore.MsbEditor
                 var r = (Vector3)rot;
                 if (IsRotationPropertyRadians("Rotation"))
                 {
-                    t.EulerRotation = new Vector3(r.X, r.Y, r.Z);
+                    if (IsRotationXZY("Rotation"))
+                    {
+                        t.EulerRotationXZY = new Vector3(r.X, r.Y, r.Z);
+                        /*var test = t.EulerRotationXZY;
+                        if (MathF.Abs(r.X - test.X) > 0.01 ||
+                            MathF.Abs(r.Y - test.Y) > 0.01 ||
+                            MathF.Abs(r.Z - test.Z) > 0.01)
+                        {
+                            //Debug.Print("hi");
+                            var q2 = new Transform();
+                            q2.EulerRotationXZY = test;
+                            if (MathF.Abs(q2.Rotation.X - t.Rotation.X) > 0.01 ||
+                                MathF.Abs(q2.Rotation.Y - t.Rotation.Y) > 0.01 ||
+                                MathF.Abs(q2.Rotation.Z - t.Rotation.Z) > 0.01 ||
+                                MathF.Abs(q2.Rotation.W - t.Rotation.W) > 0.01)
+                            {
+                                Debug.Print("hi");
+                            }
+                        }*/
+                    }
+                    else
+                    {
+                        t.EulerRotation = new Vector3(r.X, r.Y, r.Z);
+                    }
                 }
                 else
                 {
-                    t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                    if (IsRotationXZY("Rotation"))
+                    {
+                        t.EulerRotationXZY = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                    }
+                    else
+                    {
+                        t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                    }
                 }
             }
             else
@@ -587,7 +638,7 @@ namespace StudioCore.MsbEditor
             {
                 if (p.HasTransform)
                 {
-                    t = t * (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetLocalTransform().WorldMatrix);
+                    t *= (p.UseTempTransform ? p.TempTransform.WorldMatrix : p.GetLocalTransform().WorldMatrix);
                 }
                 p = p.Parent;
             }
@@ -637,7 +688,28 @@ namespace StudioCore.MsbEditor
                 prop = WrappedObject.GetType().GetProperty("Rotation");
                 if (prop != null)
                 {
-                    act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
+                    if (IsRotationPropertyRadians("Rotation"))
+                    {
+                        if (IsRotationXZY("Rotation"))
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotationXZY);
+                        }
+                        else
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotation);
+                        }
+                    }
+                    else
+                    {
+                        if (IsRotationXZY("Rotation"))
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotationXZY * Utils.Rad2Deg);
+                        }
+                        else
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
+                        }
+                    }
                 }
                 act.SetPostExecutionAction((undo) =>
                 {
@@ -920,7 +992,10 @@ namespace StudioCore.MsbEditor
                 var model = GetPropertyValue<string>("ModelName");
                 if (model != null && model != CurrentModel)
                 {
-                    _renderSceneMesh.Dispose();
+                    if (_renderSceneMesh != null)
+                    {
+                        _renderSceneMesh.Dispose();
+                    }
                     CurrentModel = model;
                     _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
                     if (Universe.Selection.IsSelected(this))

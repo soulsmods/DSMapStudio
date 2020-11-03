@@ -19,7 +19,7 @@ namespace HKX2
         REFERENCE_FRAME_SECTION_FIXED = 2,
     }
     
-    public class hkaiPath : hkReferencedObject
+    public partial class hkaiPath : hkReferencedObject
     {
         public override uint Signature { get => 2336010493; }
         

@@ -50,6 +50,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r2 && r2.Shape is MSB.Shape.Sphere s)
@@ -57,6 +58,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetSphereRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r3 && r3.Shape is MSB.Shape.Point p)
@@ -64,6 +66,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             else if (obj.WrappedObject is IMsbRegion r4 && r4.Shape is MSB.Shape.Cylinder c)
@@ -71,6 +74,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
             return null;
@@ -115,10 +119,16 @@ namespace StudioCore.MsbEditor
             bool loadcol = false;
             bool loadnav = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
+            var amapid = map.Name.Substring(0, 6) + "_00_00";
+            // Special case for chalice dungeon assets
+            if (map.Name.StartsWith("m29"))
+            {
+                amapid = "m29_00_00_00";
+            }
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.StartsWith("m"))
             {
-                asset = _assetLocator.GetMapModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname));
+                asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname));
                 filt = Scene.RenderFilter.MapPiece;
             }
             else if (modelname.StartsWith("c"))
@@ -134,13 +144,13 @@ namespace StudioCore.MsbEditor
             else if (modelname.StartsWith("h"))
             {
                 loadcol = true;
-                asset = _assetLocator.GetMapCollisionModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname), false);
+                asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname), false);
                 filt = Scene.RenderFilter.Collision;
             }
             else if (modelname.StartsWith("n"))
             {
                 loadnav = true;
-                asset = _assetLocator.GetMapNVMModel(map.Name, _assetLocator.MapModelNameToAssetName(map.Name, modelname));
+                asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname));
                 filt = Scene.RenderFilter.Navmesh;
             }
             else
@@ -511,6 +521,31 @@ namespace StudioCore.MsbEditor
                 LoadDS2Generators(amapid, map);
             }
 
+            // Temporary DS3 navmesh loading
+            if (FeatureFlags.LoadDS3Navmeshes && _assetLocator.Type == GameType.DarkSoulsIII)
+            {
+                var nvaasset = _assetLocator.GetMapNVA(amapid);
+                if (nvaasset.AssetPath != null)
+                {
+                    NVA nva = NVA.Read(nvaasset.AssetPath);
+                    foreach (var nav in nva.Navmeshes)
+                    {
+                        var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
+                        map.AddObject(n);
+                        var navid = $@"n{nav.ModelID:D6}";
+                        var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
+                        var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
+
+                        var res = ResourceManager.GetResource<Resource.HavokNavmeshResource>(nasset.AssetVirtualPath);
+                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, res);
+                        mesh.World = n.GetWorldMatrix();
+                        mesh.SetSelectable(n);
+                        mesh.DrawFilter = RenderFilter.Navmesh;
+                        n.RenderSceneMesh = mesh;
+                    }
+                }
+            }
+
             var job = ResourceManager.CreateNewJob($@"Loading {amapid} geometry");
             foreach (var mappiece in mappiecesToLoad)
             {
@@ -590,19 +625,30 @@ namespace StudioCore.MsbEditor
             }
             job.StartJobAsync();
 
-            job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
-            foreach (var nav in navsToLoad)
+            if (FeatureFlags.LoadDS3Navmeshes)
             {
-                if (nav.AssetArchiveVirtualPath != null)
+                job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
+                if (_assetLocator.Type == GameType.DarkSoulsIII)
                 {
-                    job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                    var nav = _assetLocator.GetHavokNavmeshes(amapid);
+                    job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
                 }
-                else if (nav.AssetVirtualPath != null)
+                else
                 {
-                    job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    foreach (var nav in navsToLoad)
+                    {
+                        if (nav.AssetArchiveVirtualPath != null)
+                        {
+                            job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                        }
+                        else if (nav.AssetVirtualPath != null)
+                        {
+                            job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                        }
+                    }
                 }
+                job.StartJobAsync();
             }
-            job.StartJobAsync();
 
             // Real bad hack
             EnvMapTextures = _assetLocator.GetEnvMapTextureNames(amapid);

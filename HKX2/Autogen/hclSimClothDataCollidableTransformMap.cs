@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclSimClothDataCollidableTransformMap : IHavokObject
+    public partial class hclSimClothDataCollidableTransformMap : IHavokObject
     {
         public virtual uint Signature { get => 2329787323; }
         

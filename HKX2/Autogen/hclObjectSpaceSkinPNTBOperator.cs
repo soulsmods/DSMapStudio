@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclObjectSpaceSkinPNTBOperator : hclObjectSpaceSkinOperator
+    public partial class hclObjectSpaceSkinPNTBOperator : hclObjectSpaceSkinOperator
     {
         public override uint Signature { get => 1596377144; }
         

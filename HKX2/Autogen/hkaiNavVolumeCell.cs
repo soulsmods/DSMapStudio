@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiNavVolumeCell : IHavokObject
+    public partial class hkaiNavVolumeCell : IHavokObject
     {
         public virtual uint Signature { get => 2418669306; }
         

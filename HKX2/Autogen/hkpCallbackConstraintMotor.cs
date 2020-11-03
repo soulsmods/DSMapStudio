@@ -13,7 +13,7 @@ namespace HKX2
         CALLBACK_MOTOR_TYPE_USER_3 = 4,
     }
     
-    public class hkpCallbackConstraintMotor : hkpLimitedForceConstraintMotor
+    public partial class hkpCallbackConstraintMotor : hkpLimitedForceConstraintMotor
     {
         public override uint Signature { get => 1508332855; }
         

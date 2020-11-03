@@ -15,7 +15,7 @@ namespace HKX2
         HK_REFERENCE_POSE_ANIMATION = 6,
     }
     
-    public class hkaAnimation : hkReferencedObject
+    public partial class hkaAnimation : hkReferencedObject
     {
         public override uint Signature { get => 3041263128; }
         

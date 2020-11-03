@@ -27,7 +27,7 @@ namespace HKX2
         CHILD_NONE = 3,
     }
     
-    public class hkbGeneratorTransitionEffect : hkbTransitionEffect
+    public partial class hkbGeneratorTransitionEffect : hkbTransitionEffect
     {
         public override uint Signature { get => 1142984455; }
         

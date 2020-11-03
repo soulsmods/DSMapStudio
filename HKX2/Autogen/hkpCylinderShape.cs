@@ -13,7 +13,7 @@ namespace HKX2
         VERTEX_ID_ENCODING_VALUE_MASK = 15,
     }
     
-    public class hkpCylinderShape : hkpConvexShape
+    public partial class hkpCylinderShape : hkpConvexShape
     {
         public override uint Signature { get => 4205715208; }
         

@@ -26,7 +26,7 @@ namespace HKX2
         MASS_CHANGER_HEAVY = 2,
     }
     
-    public class hknpMaterial : IHavokObject
+    public partial class hknpMaterial : IHavokObject
     {
         public virtual uint Signature { get => 3083203150; }
         

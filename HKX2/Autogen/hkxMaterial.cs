@@ -61,7 +61,7 @@ namespace HKX2
         transp_subtractive = 9,
     }
     
-    public class hkxMaterial : hkxAttributeHolder
+    public partial class hkxMaterial : hkxAttributeHolder
     {
         public override uint Signature { get => 2019476322; }
         

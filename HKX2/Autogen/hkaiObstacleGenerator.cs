@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiObstacleGenerator : hkReferencedObject
+    public partial class hkaiObstacleGenerator : hkReferencedObject
     {
         public override uint Signature { get => 221806277; }
         

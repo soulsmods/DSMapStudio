@@ -10,7 +10,7 @@ namespace HKX2
         VEC_DIRECTION = 1,
     }
     
-    public class hclBlendSomeVerticesOperator : hclOperator
+    public partial class hclBlendSomeVerticesOperator : hclOperator
     {
         public override uint Signature { get => 726000696; }
         

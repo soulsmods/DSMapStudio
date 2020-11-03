@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpTyremarksWheel : hkReferencedObject
+    public partial class hknpTyremarksWheel : hkReferencedObject
     {
         public override uint Signature { get => 2405991805; }
         

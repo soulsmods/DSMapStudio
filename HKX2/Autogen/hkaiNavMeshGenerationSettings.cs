@@ -30,7 +30,7 @@ namespace HKX2
         ORDER_BY_DISTANCE = 2,
     }
     
-    public class hkaiNavMeshGenerationSettings : hkReferencedObject
+    public partial class hkaiNavMeshGenerationSettings : hkReferencedObject
     {
         public override uint Signature { get => 2373402388; }
         

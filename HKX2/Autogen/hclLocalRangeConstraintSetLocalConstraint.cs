@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclLocalRangeConstraintSetLocalConstraint : IHavokObject
+    public partial class hclLocalRangeConstraintSetLocalConstraint : IHavokObject
     {
         public virtual uint Signature { get => 1672211550; }
         

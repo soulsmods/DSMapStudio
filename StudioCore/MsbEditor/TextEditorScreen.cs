@@ -71,6 +71,10 @@ namespace StudioCore.MsbEditor
         {
             if (!FMGBank.IsLoaded)
             {
+                if (FMGBank.IsLoading)
+                {
+                    ImGui.Text("Loading...");
+                }
                 return;
             }
 

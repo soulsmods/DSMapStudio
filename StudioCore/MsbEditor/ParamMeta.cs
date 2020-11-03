@@ -72,6 +72,10 @@ namespace StudioCore.MsbEditor
 
         public static ParamMetaData XmlDeserialize(string path, PARAMDEF def)
         {
+            if (!File.Exists(path))
+            {
+                return new ParamMetaData(def);
+            }
             var mxml = new XmlDocument();
             try
             {

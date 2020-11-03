@@ -12,7 +12,7 @@ namespace HKX2
         VERTEX_SELECTION_INVERSE_CHANNEL = 3,
     }
     
-    public class hclVertexSelectionInput : IHavokObject
+    public partial class hclVertexSelectionInput : IHavokObject
     {
         public virtual uint Signature { get => 1167178747; }
         

@@ -12,7 +12,7 @@ namespace HKX2
         CLONE_DEFAULT = 0,
     }
     
-    public class hkpPhysicsSystem : hkReferencedObject
+    public partial class hkpPhysicsSystem : hkReferencedObject
     {
         public override uint Signature { get => 3016519268; }
         

@@ -74,7 +74,9 @@ namespace HKX2
                 if (!_pendingGlobals.ContainsKey(d))
                 {
                     _pendingGlobals.Add(d, new List<uint>());
-                    _serializationQueue.Enqueue(d);
+                    PushSerializationQueue();
+                    _serializationQueues[_currSerializationQueue].Enqueue(d);
+                    PopSerializationQueue(bw);
                     _pendingVirtuals.Add(d);
                 }
                 _pendingGlobals[d].Add((uint)bw.Position);
@@ -148,7 +150,10 @@ namespace HKX2
 
         public void WriteInt32Array(BinaryWriterEx bw, List<int> d)
         {
-            throw new NotImplementedException();
+            WriteArrayBase(bw, d, (e) =>
+            {
+                bw.WriteInt32(e);
+            });
         }
 
         public void WriteUInt64Array(BinaryWriterEx bw, List<ulong> d)
@@ -181,7 +186,10 @@ namespace HKX2
 
         public void WriteVector4Array(BinaryWriterEx bw, List<Vector4> d)
         {
-            throw new NotImplementedException();
+            WriteArrayBase(bw, d, (e) =>
+            {
+                bw.WriteVector4(e);
+            });
         }
 
         public void WriteMatrix3(BinaryWriterEx bw, Matrix4x4 d)
@@ -237,7 +245,10 @@ namespace HKX2
             throw new NotImplementedException();
         }
 
-        private Queue<IHavokObject> _serializationQueue = new Queue<IHavokObject>();
+        //private Queue<IHavokObject> _serializationQueue = new Queue<IHavokObject>();
+        private int _currSerializationQueue = 0;
+        private List<Queue<IHavokObject>> _serializationQueues = new List<Queue<IHavokObject>>();
+
         private HashSet<IHavokObject> _serializedObjects = new HashSet<IHavokObject>();
 
         private HashSet<IHavokObject> _pendingVirtuals = new HashSet<IHavokObject>();
@@ -272,6 +283,25 @@ namespace HKX2
             _currWriteQueue--;
         }
 
+        internal void PushSerializationQueue()
+        {
+            _currSerializationQueue++;
+            if (_currSerializationQueue == _serializationQueues.Count)
+            {
+                _serializationQueues.Add(new Queue<IHavokObject>());
+            }
+        }
+
+        internal void PopSerializationQueue(BinaryWriterEx bw)
+        {
+            // Enqueue a padding operation
+            /*_localWriteQueues[_currWriteQueue].Enqueue(() =>
+            {
+                bw.Pad(16);
+            });*/
+            _currSerializationQueue--;
+        }
+
         public void Serialize(IHavokObject rootObject, BinaryWriterEx bw)
         {
             // Hardcoded for DS3 for now
@@ -301,8 +331,11 @@ namespace HKX2
             bw.WriteInt32(0); // Unk
 
             // Initialize bookkeeping structures
-            _serializationQueue = new Queue<IHavokObject>();
-            _serializationQueue.Enqueue(rootObject);
+            //_serializationQueue = new Queue<IHavokObject>();
+            //_serializationQueue.Enqueue(rootObject);
+            _serializationQueues = new List<Queue<IHavokObject>>();
+            _serializationQueues.Add(new Queue<IHavokObject>());
+            _serializationQueues[0].Enqueue(rootObject);
             _serializedObjects = new HashSet<IHavokObject>();
             _pendingVirtuals = new HashSet<IHavokObject>();
             _pendingVirtuals.Add(rootObject);
@@ -335,9 +368,24 @@ namespace HKX2
             hkclass.Signature = 0xCe6F8A6C;
             hkclass.Write(classbw);
 
-            while (_serializationQueue.Count > 0)
+            while (_serializationQueues.Count > 1 || _serializationQueues[0].Count > 0)
             {
-                var obj = _serializationQueue.Dequeue();
+                var sq = _serializationQueues.Last();
+                while (sq != null && sq.Count() == 0 && _serializationQueues.Count > 1)
+                {
+                    if (_serializationQueues.Count > 1)
+                    {
+                        _serializationQueues.RemoveAt(_serializationQueues.Count - 1);
+                    }
+                    sq = _serializationQueues.Last();
+                }
+                if (sq.Count == 0)
+                {
+                    continue;
+                }
+                var obj = sq.Dequeue();
+                _currSerializationQueue = _serializationQueues.Count - 1;
+
                 if (_serializedObjects.Contains(obj))
                 {
                     continue;
@@ -406,6 +454,7 @@ namespace HKX2
                         continue;
                     }
                     var act = q.Dequeue();
+                    _currWriteQueue = _localWriteQueues.Count - 1;
                     act.Invoke();
                 }
                 databw.Pad(16);
@@ -428,7 +477,7 @@ namespace HKX2
             data.SectionTag = "__data__";
             data.SectionData = datams.ToArray();
             data.VirtualFixups = _virtualFixups;
-            data.GlobalFixups = _globalFixups;
+            data.GlobalFixups = _globalFixups.OrderBy((x) => x.Src).ToList();
             data.LocalFixups = _localFixups.OrderBy((x) => x.Dst).ToList();
             data.WriteHeader(bw, HKX.HKXVariation.HKXDS3);
 

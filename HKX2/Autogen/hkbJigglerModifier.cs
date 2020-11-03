@@ -10,7 +10,7 @@ namespace HKX2
         JIGGLE_IN_MODEL_COORDINATES = 1,
     }
     
-    public class hkbJigglerModifier : hkbModifier
+    public partial class hkbJigglerModifier : hkbModifier
     {
         public override uint Signature { get => 471212973; }
         

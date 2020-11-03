@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkMeshTextureRawBufferDescriptor : IHavokObject
+    public partial class hkMeshTextureRawBufferDescriptor : IHavokObject
     {
         public virtual uint Signature { get => 1617460748; }
         

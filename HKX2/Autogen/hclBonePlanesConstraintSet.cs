@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclBonePlanesConstraintSet : hclConstraintSet
+    public partial class hclBonePlanesConstraintSet : hclConstraintSet
     {
         public override uint Signature { get => 1522845641; }
         

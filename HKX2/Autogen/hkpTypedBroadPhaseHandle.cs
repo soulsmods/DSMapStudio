@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpTypedBroadPhaseHandle : hkpBroadPhaseHandle
+    public partial class hkpTypedBroadPhaseHandle : hkpBroadPhaseHandle
     {
         public override uint Signature { get => 4105238425; }
         

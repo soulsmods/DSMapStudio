@@ -14,7 +14,7 @@ namespace HKX2
         NUM_DISPATCH_TYPES = 5,
     }
     
-    public class hkcdShapeDispatchType : IHavokObject
+    public partial class hkcdShapeDispatchType : IHavokObject
     {
         public virtual uint Signature { get => 1053425678; }
         

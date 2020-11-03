@@ -277,6 +277,86 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class AddMapObjectsAction : Action
+    {
+        private Universe Universe;
+        private Map Map;
+        private Scene.RenderScene Scene;
+        private List<MapEntity> Added = new List<MapEntity>();
+        private List<ObjectContainer> AddedMaps = new List<ObjectContainer>();
+        private bool SetSelection;
+
+        private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
+
+        public AddMapObjectsAction(Universe univ, Map map, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
+        {
+            Universe = univ;
+            Map = map;
+            Scene = scene;
+            Added.AddRange(objects);
+            SetSelection = setSelection;
+        }
+
+        public override ActionEvent Execute()
+        {
+            for (int i = 0; i < Added.Count(); i++)
+            {
+                if (Map != null)
+                {
+                    Map.Objects.Add(Added[i]);
+                    Map.RootObject.AddChild(Added[i]);
+                    Added[i].UpdateRenderModel();
+                    if (Added[i].RenderSceneMesh != null)
+                    {
+                        Added[i].RenderSceneMesh.SetSelectable(Added[i]);
+                    }
+                    if (Added[i].RenderSceneMesh != null)
+                    {
+                        Added[i].RenderSceneMesh.AutoRegister = true;
+                        Added[i].RenderSceneMesh.Register();
+                    }
+                    AddedMaps.Add(Map);
+                }
+                else
+                {
+                    AddedMaps.Add(null);
+                }
+            }
+            if (SetSelection)
+            {
+                Universe.Selection.ClearSelection();
+                foreach (var c in Added)
+                {
+                    Universe.Selection.AddSelection(c);
+                }
+            }
+            return ActionEvent.ObjectAddedRemoved;
+        }
+
+        public override ActionEvent Undo()
+        {
+            for (int i = 0; i < Added.Count(); i++)
+            {
+                AddedMaps[i].Objects.Remove(Added[i]);
+                if (Added[i] != null)
+                {
+                    Added[i].Parent.RemoveChild(Added[i]);
+                }
+                if (Added[i].RenderSceneMesh != null)
+                {
+                    Added[i].RenderSceneMesh.AutoRegister = false;
+                    Added[i].RenderSceneMesh.UnregisterWithScene();
+                }
+            }
+            //Clones.Clear();
+            if (SetSelection)
+            {
+                Universe.Selection.ClearSelection();
+            }
+            return ActionEvent.ObjectAddedRemoved;
+        }
+    }
+
     public class AddParamsAction : Action
     {
         private PARAM Param;

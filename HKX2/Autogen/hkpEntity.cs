@@ -13,7 +13,7 @@ namespace HKX2
         SPU_SEND_CONTACT_POINT_ADDED_OR_PROCESS = 3,
     }
     
-    public class hkpEntity : hkpWorldObject
+    public partial class hkpEntity : hkpWorldObject
     {
         public override uint Signature { get => 2282002532; }
         

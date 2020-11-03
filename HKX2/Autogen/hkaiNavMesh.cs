@@ -21,7 +21,7 @@ namespace HKX2
         EDGE_EXTERNAL_OPPOSITE = 64,
     }
     
-    public class hkaiNavMesh : hkReferencedObject
+    public partial class hkaiNavMesh : hkReferencedObject
     {
         public override uint Signature { get => 1833515995; }
         

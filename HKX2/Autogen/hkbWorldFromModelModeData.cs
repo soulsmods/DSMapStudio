@@ -12,7 +12,7 @@ namespace HKX2
         WORLD_FROM_MODEL_MODE_NONE = 3,
     }
     
-    public class hkbWorldFromModelModeData : IHavokObject
+    public partial class hkbWorldFromModelModeData : IHavokObject
     {
         public virtual uint Signature { get => 840716296; }
         

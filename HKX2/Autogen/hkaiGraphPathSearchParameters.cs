@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiGraphPathSearchParameters : IHavokObject
+    public partial class hkaiGraphPathSearchParameters : IHavokObject
     {
         public virtual uint Signature { get => 2474849502; }
         

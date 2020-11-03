@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkRootLevelContainer : IHavokObject
+    public partial class hkRootLevelContainer : IHavokObject
     {
         public virtual uint Signature { get => 661831966; }
         

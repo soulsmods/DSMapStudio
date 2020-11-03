@@ -12,7 +12,7 @@ namespace HKX2
         REACH_MODE_BONE_POSITION = 3,
     }
     
-    public class hkbpReachModifier : hkbModifier
+    public partial class hkbpReachModifier : hkbModifier
     {
         public override uint Signature { get => 742004561; }
         

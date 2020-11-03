@@ -47,7 +47,7 @@ namespace HKX2
         ALL_SHAPE_TYPES = -1,
     }
     
-    public class hkcdShapeType : IHavokObject
+    public partial class hkcdShapeType : IHavokObject
     {
         public virtual uint Signature { get => 1947441453; }
         

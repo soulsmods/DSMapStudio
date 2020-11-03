@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbExtrapolatingTransitionEffect : hkbBlendingTransitionEffect
+    public partial class hkbExtrapolatingTransitionEffect : hkbBlendingTransitionEffect
     {
         public override uint Signature { get => 2737496906; }
         

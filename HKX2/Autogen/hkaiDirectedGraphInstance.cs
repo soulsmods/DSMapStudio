@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiDirectedGraphInstance : hkReferencedObject
+    public partial class hkaiDirectedGraphInstance : hkReferencedObject
     {
         public override uint Signature { get => 2771129964; }
         

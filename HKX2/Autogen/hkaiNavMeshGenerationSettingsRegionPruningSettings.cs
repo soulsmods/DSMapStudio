@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiNavMeshGenerationSettingsRegionPruningSettings : IHavokObject
+    public partial class hkaiNavMeshGenerationSettingsRegionPruningSettings : IHavokObject
     {
         public virtual uint Signature { get => 164984537; }
         

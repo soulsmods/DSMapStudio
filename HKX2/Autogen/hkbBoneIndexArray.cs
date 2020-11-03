@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbBoneIndexArray : hkbBindable
+    public partial class hkbBoneIndexArray : hkbBindable
     {
         public override uint Signature { get => 1025963045; }
         

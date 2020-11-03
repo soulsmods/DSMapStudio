@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpConstraintInstanceSmallArraySerializeOverrideType : IHavokObject
+    public partial class hkpConstraintInstanceSmallArraySerializeOverrideType : IHavokObject
     {
         public virtual uint Signature { get => 3996920556; }
         

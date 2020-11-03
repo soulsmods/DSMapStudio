@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiAgentTraversalInfo : IHavokObject
+    public partial class hkaiAgentTraversalInfo : IHavokObject
     {
         public virtual uint Signature { get => 3554359924; }
         

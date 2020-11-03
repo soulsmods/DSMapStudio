@@ -17,7 +17,7 @@ namespace HKX2
         BTCP_ALIGN_COM_AND_PIVOT = 1,
     }
     
-    public class hkbpConstrainRigidBodyModifier : hkbModifier
+    public partial class hkbpConstrainRigidBodyModifier : hkbModifier
     {
         public override uint Signature { get => 3685860762; }
         

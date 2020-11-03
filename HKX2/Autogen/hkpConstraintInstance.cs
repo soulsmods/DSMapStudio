@@ -42,7 +42,7 @@ namespace HKX2
         ON_DESTRUCTION_RESET_REMOVE = 2,
     }
     
-    public class hkpConstraintInstance : hkReferencedObject
+    public partial class hkpConstraintInstance : hkReferencedObject
     {
         public override uint Signature { get => 3662473502; }
         

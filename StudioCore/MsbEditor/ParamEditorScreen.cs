@@ -237,17 +237,20 @@ namespace StudioCore.MsbEditor
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
-                if (ImGui.MenuItem("Mass Edit", null, false, true))
+                if (FeatureFlags.EnableEnhancedParamEditor)
                 {
-                    openMEditRegex = true;
-                }
-                if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _selection.paramSelectionExists()))
-                {
-                    openMEditCSVExport = true;
-                }
-                if (ImGui.MenuItem("Import CSV", null, false, _selection.paramSelectionExists()))
-                {
-                    openMEditCSVImport = true;
+                    if (ImGui.MenuItem("Mass Edit", null, false, true))
+                    {
+                        openMEditRegex = true;
+                    }
+                    if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _selection.paramSelectionExists()))
+                    {
+                        openMEditCSVExport = true;
+                    }
+                    if (ImGui.MenuItem("Import CSV", null, false, _selection.paramSelectionExists()))
+                    {
+                        openMEditCSVImport = true;
+                    }
                 }
                 ImGui.EndMenu();
             }
@@ -368,6 +371,10 @@ namespace StudioCore.MsbEditor
 
             if (ParamBank.Params == null)
             {
+                if (ParamBank.IsLoading)
+                {
+                    ImGui.Text("Loading...");
+                }
                 return;
             }
 
@@ -412,7 +419,6 @@ namespace StudioCore.MsbEditor
                 }
             }
             ImGui.EndChild();
-            ImGui.NextColumn();
             if (!_selection.paramSelectionExists())
             {
                 ImGui.BeginChild("rowsNONE");
@@ -420,12 +426,15 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
-                ImGui.InputText("Search rows...", ref _selection.getCurrentSearchString(), 256);
-                if(ImGui.IsItemActive())
-                    _isSearchBarActive = true;
-                else
-                    _isSearchBarActive = false;
+                if (!_selection.paramSelectionExists())
+                {
+                    ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
+                    ImGui.InputText("Search rows...", ref _selection.getCurrentSearchString(), 256);
+                    if(ImGui.IsItemActive())
+                        _isSearchBarActive = true;
+                    else
+                        _isSearchBarActive = false;
+                }
                 ImGui.BeginChild("rows"+_selection.getActiveParam());
                 IParamDecorator decorator = null;
                 if (_decorators.ContainsKey(_selection.getActiveParam()))
@@ -435,11 +444,22 @@ namespace StudioCore.MsbEditor
 
                 PARAM para = ParamBank.Params[_selection.getActiveParam()];
                 List<PARAM.Row> p;
-                Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_selection.getCurrentSearchString());
-                if (!m.Success)
-                    p = para.Rows;
+                if (FeatureFlags.EnableEnhancedParamEditor)
+                {
+                    Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_selection.getCurrentSearchString());
+                    if (!m.Success)
+                    {
+                        p = para.Rows;
+                    }
+                    else
+                    {
+                        p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
+                    }
+                }
                 else
-                    p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
+                {
+                    p = para.Rows;
+                }
 
                 foreach (var r in p)
                 {

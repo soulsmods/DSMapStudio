@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hknpVehicleDefaultVelocityDamper : hknpVehicleVelocityDamper
+    public partial class hknpVehicleDefaultVelocityDamper : hknpVehicleVelocityDamper
     {
         public override uint Signature { get => 3109778670; }
         

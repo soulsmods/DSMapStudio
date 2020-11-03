@@ -63,7 +63,10 @@ namespace StudioCore.MsbEditor
             None,
             PosX,
             PosY,
-            PosZ
+            PosZ,
+            PosXY,
+            PosYZ,
+            PosXZ,
         }
 
         public static GizmosMode Mode = GizmosMode.Translate;
@@ -73,6 +76,9 @@ namespace StudioCore.MsbEditor
         private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoX;
         private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoY;
         private DebugPrimitives.DbgPrimGizmoTranslateArrow TranslateGizmoZ;
+        private DebugPrimitives.DbgPrimGizmoTranslateSquare TranslateSquareGizmoX;
+        private DebugPrimitives.DbgPrimGizmoTranslateSquare TranslateSquareGizmoY;
+        private DebugPrimitives.DbgPrimGizmoTranslateSquare TranslateSquareGizmoZ;
         private DebugPrimitives.DbgPrimGizmoRotateRing RotateGizmoX;
         private DebugPrimitives.DbgPrimGizmoRotateRing RotateGizmoY;
         private DebugPrimitives.DbgPrimGizmoRotateRing RotateGizmoZ;
@@ -80,6 +86,9 @@ namespace StudioCore.MsbEditor
         private DebugPrimitiveRenderableProxy TranslateGizmoXProxy;
         private DebugPrimitiveRenderableProxy TranslateGizmoYProxy;
         private DebugPrimitiveRenderableProxy TranslateGizmoZProxy;
+        private DebugPrimitiveRenderableProxy TranslateSquareGizmoXProxy;
+        private DebugPrimitiveRenderableProxy TranslateSquareGizmoYProxy;
+        private DebugPrimitiveRenderableProxy TranslateSquareGizmoZProxy;
         private DebugPrimitiveRenderableProxy RotateGizmoXProxy;
         private DebugPrimitiveRenderableProxy RotateGizmoYProxy;
         private DebugPrimitiveRenderableProxy RotateGizmoZProxy;
@@ -100,6 +109,9 @@ namespace StudioCore.MsbEditor
             TranslateGizmoX = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosX);
             TranslateGizmoY = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosY);
             TranslateGizmoZ = new DebugPrimitives.DbgPrimGizmoTranslateArrow(Axis.PosZ);
+            TranslateSquareGizmoX = new DebugPrimitives.DbgPrimGizmoTranslateSquare(Axis.PosX);
+            TranslateSquareGizmoY = new DebugPrimitives.DbgPrimGizmoTranslateSquare(Axis.PosY);
+            TranslateSquareGizmoZ = new DebugPrimitives.DbgPrimGizmoTranslateSquare(Axis.PosZ);
 
             TranslateGizmoXProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateGizmoX);
             TranslateGizmoXProxy.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
@@ -110,6 +122,15 @@ namespace StudioCore.MsbEditor
             TranslateGizmoZProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateGizmoZ);
             TranslateGizmoZProxy.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
             TranslateGizmoZProxy.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
+            TranslateSquareGizmoXProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateSquareGizmoX);
+            TranslateSquareGizmoXProxy.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
+            TranslateSquareGizmoXProxy.HighlightedColor = Color.FromArgb(0xFF, 0x66, 0x83);
+            TranslateSquareGizmoYProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateSquareGizmoY);
+            TranslateSquareGizmoYProxy.BaseColor = Color.FromArgb(0x86, 0xC8, 0x15);
+            TranslateSquareGizmoYProxy.HighlightedColor = Color.FromArgb(0xB6, 0xF8, 0x45);
+            TranslateSquareGizmoZProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateSquareGizmoZ);
+            TranslateSquareGizmoZProxy.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
+            TranslateSquareGizmoZProxy.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
 
             RotateGizmoX = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosX);
             RotateGizmoY = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosY);
@@ -149,6 +170,30 @@ namespace StudioCore.MsbEditor
             var normal = Vector3.Cross(Vector3.Cross(ray.Direction, axisvec), ray.Direction);
             float d = Vector3.Dot(ray.Origin - pos, normal) / Vector3.Dot(axisvec, normal);
             return pos + axisvec * d;
+        }
+
+        Vector3 GetDoubleAxisProjection(Ray ray, Transform t, Axis axis)
+        {
+            Vector3 planeNormal = Vector3.Zero;
+            switch (axis)
+            {
+                case Axis.PosXY:
+                    planeNormal = Vector3.Transform(new Vector3(0.0f, 0.0f, 1.0f), t.Rotation);
+                    break;
+                case Axis.PosYZ:
+                    planeNormal = Vector3.Transform(new Vector3(1.0f, 0.0f, 0.0f), t.Rotation);
+                    break;
+                case Axis.PosXZ:
+                    planeNormal = Vector3.Transform(new Vector3(0.0f, 1.0f, 0.0f), t.Rotation);
+                    break;
+            }
+            float dist;
+            Vector3 relorigin = (ray.Origin - t.Position);
+            if (Utils.RayPlaneIntersection(relorigin, ray.Direction, Vector3.Zero, planeNormal, out dist))
+            {
+                return ray.Origin + ray.Direction * dist;
+            }
+            return ray.Origin;
         }
 
         Vector3 GetAxisPlaneProjection(Ray ray, Transform t, Axis axis)
@@ -215,7 +260,15 @@ namespace StudioCore.MsbEditor
                 {
                     if (Mode == GizmosMode.Translate)
                     {
-                        var delta = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis) - OriginProjection;
+                        Vector3 delta;
+                        if (TransformAxis == Axis.PosXY || TransformAxis == Axis.PosXZ || TransformAxis == Axis.PosYZ)
+                        {
+                            delta = GetDoubleAxisProjection(ray, OriginalTransform, TransformAxis) - OriginProjection;
+                        }
+                        else
+                        {
+                            delta = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis) - OriginProjection;
+                        }
                         CurrentTransform.Position = OriginalTransform.Position + delta;
                     }
                     else if (Mode == GizmosMode.Rotate)
@@ -300,9 +353,26 @@ namespace StudioCore.MsbEditor
                             {
                                 hoveredAxis = Axis.PosZ;
                             }
+
+                            if (TranslateSquareGizmoX.GetRaycast(ray, TranslateSquareGizmoXProxy.World))
+                            {
+                                hoveredAxis = Axis.PosYZ;
+                            }
+                            else if (TranslateSquareGizmoY.GetRaycast(ray, TranslateSquareGizmoYProxy.World))
+                            {
+                                hoveredAxis = Axis.PosXZ;
+                            }
+                            else if (TranslateSquareGizmoZ.GetRaycast(ray, TranslateSquareGizmoZProxy.World))
+                            {
+                                hoveredAxis = Axis.PosXY;
+                            }
+
                             TranslateGizmoXProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosX);
                             TranslateGizmoYProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosY);
                             TranslateGizmoZProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosZ);
+                            TranslateSquareGizmoXProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosYZ);
+                            TranslateSquareGizmoYProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosXZ);
+                            TranslateSquareGizmoZProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosXY);
                             break;
                         case GizmosMode.Rotate:
                             if (RotateGizmoX.GetRaycast(ray, RotateGizmoXProxy.World))
@@ -337,7 +407,14 @@ namespace StudioCore.MsbEditor
                             }
                             else
                             {
-                                OriginProjection = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis);
+                                if (TransformAxis == Axis.PosXY || TransformAxis == Axis.PosXZ || TransformAxis == Axis.PosYZ)
+                                {
+                                    OriginProjection = GetDoubleAxisProjection(ray, OriginalTransform, TransformAxis);
+                                }
+                                else
+                                {
+                                    OriginProjection = GetSingleAxisProjection(ray, OriginalTransform, TransformAxis);
+                                }
                             }
                         }
                     }
@@ -367,6 +444,9 @@ namespace StudioCore.MsbEditor
                 TranslateGizmoXProxy.World = new Transform(center, rot, scale).WorldMatrix;
                 TranslateGizmoYProxy.World = new Transform(center, rot, scale).WorldMatrix;
                 TranslateGizmoZProxy.World = new Transform(center, rot, scale).WorldMatrix;
+                TranslateSquareGizmoXProxy.World = new Transform(center, rot, scale).WorldMatrix;
+                TranslateSquareGizmoYProxy.World = new Transform(center, rot, scale).WorldMatrix;
+                TranslateSquareGizmoZProxy.World = new Transform(center, rot, scale).WorldMatrix;
                 RotateGizmoXProxy.World = new Transform(center, rot, scale).WorldMatrix;
                 RotateGizmoYProxy.World = new Transform(center, rot, scale).WorldMatrix;
                 RotateGizmoZProxy.World = new Transform(center, rot, scale).WorldMatrix;
@@ -376,6 +456,9 @@ namespace StudioCore.MsbEditor
                     TranslateGizmoXProxy.Visible = true;
                     TranslateGizmoYProxy.Visible = true;
                     TranslateGizmoZProxy.Visible = true;
+                    TranslateSquareGizmoXProxy.Visible = true;
+                    TranslateSquareGizmoYProxy.Visible = true;
+                    TranslateSquareGizmoZProxy.Visible = true;
                     RotateGizmoXProxy.Visible = false;
                     RotateGizmoYProxy.Visible = false;
                     RotateGizmoZProxy.Visible = false;
@@ -385,6 +468,9 @@ namespace StudioCore.MsbEditor
                     TranslateGizmoXProxy.Visible = false;
                     TranslateGizmoYProxy.Visible = false;
                     TranslateGizmoZProxy.Visible = false;
+                    TranslateSquareGizmoXProxy.Visible = false;
+                    TranslateSquareGizmoYProxy.Visible = false;
+                    TranslateSquareGizmoZProxy.Visible = false;
                     RotateGizmoXProxy.Visible = true;
                     RotateGizmoYProxy.Visible = true;
                     RotateGizmoZProxy.Visible = true;
@@ -395,6 +481,9 @@ namespace StudioCore.MsbEditor
                 TranslateGizmoXProxy.Visible = false;
                 TranslateGizmoYProxy.Visible = false;
                 TranslateGizmoZProxy.Visible = false;
+                TranslateSquareGizmoXProxy.Visible = false;
+                TranslateSquareGizmoYProxy.Visible = false;
+                TranslateSquareGizmoZProxy.Visible = false;
                 RotateGizmoXProxy.Visible = false;
                 RotateGizmoYProxy.Visible = false;
                 RotateGizmoZProxy.Visible = false;

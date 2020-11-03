@@ -1958,7 +1958,7 @@ namespace StudioCore.Resource
             }
             else
             {
-                if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered)
+                if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered && type != GameType.DarkSoulsPTDE)
                 {
                     BinaryReaderEx br = new BinaryReaderEx(false, bytes);
                     DCX.Type ctype;
@@ -1986,7 +1986,7 @@ namespace StudioCore.Resource
             }
             else
             {
-                if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered)
+                if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered && type != GameType.DarkSoulsPTDE)
                 {
                     using (FileStream stream = File.OpenRead(file))
                     {

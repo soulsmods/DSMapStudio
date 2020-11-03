@@ -22,6 +22,10 @@ namespace StudioCore.MsbEditor
         public ActionManager EditorActionManager = new ActionManager();
         private ProjectSettings _projectSettings = null;
 
+        private List<(string, Type)> _partsClasses = new List<(string, Type)>();
+        private List<(string, Type)> _regionClasses = new List<(string, Type)>();
+        private List<(string, Type)> _eventClasses = new List<(string, Type)>();
+
         public SceneTree SceneTree;
         public PropertyEditor PropEditor;
         public SearchProperties PropSearch;
@@ -77,7 +81,7 @@ namespace StudioCore.MsbEditor
             PropEditor = new PropertyEditor(EditorActionManager);
             DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
             PropSearch = new SearchProperties(Universe);
-            NavMeshEditor = new NavmeshEditor(RenderScene, _selection);
+            NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
             EditorActionManager.AddEventHandler(SceneTree);
 
@@ -157,6 +161,17 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype)
+        {
+            var newent = typ.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
+
+            var map = Universe.LoadedObjectContainers.Values.First((x) => x != null);
+            var obj = new MapEntity(map, newent, etype);
+
+            var act = new AddMapObjectsAction(Universe, (Map)map, RenderScene, new List<MapEntity> { obj }, true);
+            EditorActionManager.ExecuteAction(act);
+        }
+
         public override void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit"))
@@ -186,6 +201,55 @@ namespace StudioCore.MsbEditor
                 if (ImGui.MenuItem("Frame", "Ctrl-F", false, _selection.IsSelection()))
                 {
                     FrameSelection();
+                }
+                ImGui.EndMenu();
+            }
+
+            if (ImGui.BeginMenu("Create"))
+            {
+                if (ImGui.BeginMenu("Parts"))
+                {
+                    foreach (var p in _partsClasses)
+                    {
+                        if (ImGui.MenuItem(p.Item1))
+                        {
+                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Part);
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
+                // Some games only have one single region class
+                if (_regionClasses.Count == 1)
+                {
+                    if (ImGui.MenuItem("Region"))
+                    {
+                        AddNewEntity(_regionClasses[0].Item2, MapEntity.MapEntityType.Region);
+                    }
+                }
+                else
+                {
+                    if (ImGui.BeginMenu("Regions"))
+                    {
+                        foreach (var p in _regionClasses)
+                        {
+                            if (ImGui.MenuItem(p.Item1))
+                            {
+                                AddNewEntity(p.Item2, MapEntity.MapEntityType.Region);
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
+                }
+                if (ImGui.BeginMenu("Events"))
+                {
+                    foreach (var p in _eventClasses)
+                    {
+                        if (ImGui.MenuItem(p.Item1))
+                        {
+                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Event);
+                        }
+                    }
+                    ImGui.EndMenu();
                 }
                 ImGui.EndMenu();
             }
@@ -440,7 +504,10 @@ namespace StudioCore.MsbEditor
             PropSearch.OnGui(propSearchKey);
 
             // Not usable yet
-            //NavMeshEditor.OnGui(AssetLocator.Type);
+            if (FeatureFlags.EnableNavmeshBuilder)
+            {
+                NavMeshEditor.OnGui(AssetLocator.Type);
+            }
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawResourceList();
@@ -464,6 +531,55 @@ namespace StudioCore.MsbEditor
             Viewport.Draw(device, cl);
         }
 
+        /// <summary>
+        /// Gets all the msb types using reflection to populate editor creation menus
+        /// </summary>
+        /// <param name="type">The game to collect msb types for</param>
+        private void PopulateClassNames(GameType type)
+        {
+            Type msbclass;
+            switch (type)
+            {
+                case GameType.DemonsSouls:
+                    msbclass = typeof(MSBD);
+                    break;
+                case GameType.DarkSoulsPTDE:
+                case GameType.DarkSoulsRemastered:
+                    msbclass = typeof(MSB1);
+                    break;
+                case GameType.DarkSoulsIISOTFS:
+                    msbclass = typeof(MSB2);
+                    break;
+                case GameType.DarkSoulsIII:
+                    msbclass = typeof(MSB3);
+                    break;
+                case GameType.Bloodborne:
+                    msbclass = typeof(MSBB);
+                    break;
+                case GameType.Sekiro:
+                    msbclass = typeof(MSBS);
+                    break;
+                default:
+                    throw new ArgumentException("type must be valid");
+            }
+
+            var partType = msbclass.GetNestedType("Part");
+            var partSubclasses = msbclass.Assembly.GetTypes().Where(type => type.IsSubclassOf(partType) && !type.IsAbstract).ToList();
+            _partsClasses = partSubclasses.Select(x => (x.Name, x)).ToList();
+
+            var regionType = msbclass.GetNestedType("Region");
+            var regionSubclasses = msbclass.Assembly.GetTypes().Where(type => type.IsSubclassOf(regionType) && !type.IsAbstract).ToList();
+            _regionClasses = regionSubclasses.Select(x => (x.Name, x)).ToList();
+            if (_regionClasses.Count == 0)
+            {
+                _regionClasses.Add(("Region", regionType));
+            }
+
+            var eventType = msbclass.GetNestedType("Event");
+            var eventSubclasses = msbclass.Assembly.GetTypes().Where(type => type.IsSubclassOf(eventType) && !type.IsAbstract).ToList();
+            _eventClasses = eventSubclasses.Select(x => (x.Name, x)).ToList();
+        }
+
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
@@ -472,6 +588,11 @@ namespace StudioCore.MsbEditor
             Universe.UnloadAllMaps();
             GC.Collect();
             Universe.PopulateMapList();
+
+            if (AssetLocator.Type != GameType.Undefined)
+            {
+                PopulateClassNames(AssetLocator.Type);
+            }
         }
 
         public override void Save()

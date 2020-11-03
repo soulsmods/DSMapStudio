@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpPointToPlaneConstraintData : hkpConstraintData
+    public partial class hkpPointToPlaneConstraintData : hkpConstraintData
     {
         public override uint Signature { get => 2588692905; }
         

@@ -23,7 +23,7 @@ namespace HKX2
         TERMINATED_BY_USER = 4,
     }
     
-    public class hkaiAstarOutputParameters : IHavokObject
+    public partial class hkaiAstarOutputParameters : IHavokObject
     {
         public virtual uint Signature { get => 370388487; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclObjectSpaceDeformerOneBlendEntryBlock : IHavokObject
+    public partial class hclObjectSpaceDeformerOneBlendEntryBlock : IHavokObject
     {
         public virtual uint Signature { get => 3250751405; }
         

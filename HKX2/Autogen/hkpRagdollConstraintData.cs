@@ -11,7 +11,7 @@ namespace HKX2
         MOTOR_CONE = 2,
     }
     
-    public class hkpRagdollConstraintData : hkpConstraintData
+    public partial class hkpRagdollConstraintData : hkpConstraintData
     {
         public override uint Signature { get => 3078430774; }
         

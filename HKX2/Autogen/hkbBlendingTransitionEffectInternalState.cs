@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbBlendingTransitionEffectInternalState : hkReferencedObject
+    public partial class hkbBlendingTransitionEffectInternalState : hkReferencedObject
     {
         public override uint Signature { get => 2067425219; }
         

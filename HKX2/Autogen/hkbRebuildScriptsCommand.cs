@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbRebuildScriptsCommand : hkReferencedObject
+    public partial class hkbRebuildScriptsCommand : hkReferencedObject
     {
         public override uint Signature { get => 3409694515; }
         

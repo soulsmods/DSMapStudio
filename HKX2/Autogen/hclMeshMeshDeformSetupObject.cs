@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclMeshMeshDeformSetupObject : hclOperatorSetupObject
+    public partial class hclMeshMeshDeformSetupObject : hclOperatorSetupObject
     {
         public override uint Signature { get => 79408206; }
         

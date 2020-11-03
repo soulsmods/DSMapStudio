@@ -40,7 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKXClassGen", "HKXClassGen\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2", "HKX2\HKX2.csproj", "{1CE3370D-8B5B-4782-B29C-606AE92E361F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HKX2ReadWrite", "HKX2ReadWrite\HKX2ReadWrite.csproj", "{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2ReadWrite", "HKX2ReadWrite\HKX2ReadWrite.csproj", "{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColBakeTest", "ColBakeTest\ColBakeTest.csproj", "{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddChr", "AddChr\AddChr.csproj", "{FDB935B7-8888-41B1-BC75-9F2C15080192}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +124,14 @@ Global
 		{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

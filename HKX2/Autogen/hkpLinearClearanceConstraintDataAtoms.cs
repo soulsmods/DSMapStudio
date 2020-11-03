@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpLinearClearanceConstraintDataAtoms : IHavokObject
+    public partial class hkpLinearClearanceConstraintDataAtoms : IHavokObject
     {
         public virtual uint Signature { get => 3497299283; }
         

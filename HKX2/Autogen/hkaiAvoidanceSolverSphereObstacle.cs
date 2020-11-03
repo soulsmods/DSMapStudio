@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiAvoidanceSolverSphereObstacle : IHavokObject
+    public partial class hkaiAvoidanceSolverSphereObstacle : IHavokObject
     {
         public virtual uint Signature { get => 4015293709; }
         

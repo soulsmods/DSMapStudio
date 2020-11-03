@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkbClipTrigger : IHavokObject
+    public partial class hkbClipTrigger : IHavokObject
     {
         public virtual uint Signature { get => 2125749482; }
         

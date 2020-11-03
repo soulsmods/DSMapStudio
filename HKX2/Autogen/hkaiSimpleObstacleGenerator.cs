@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiSimpleObstacleGenerator : hkaiObstacleGenerator
+    public partial class hkaiSimpleObstacleGenerator : hkaiObstacleGenerator
     {
         public override uint Signature { get => 530878806; }
         

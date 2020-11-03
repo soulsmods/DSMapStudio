@@ -15,7 +15,7 @@ namespace HKX2
         HK_FILTER_CONSTRAINT = 6,
     }
     
-    public class hkpCollisionFilter : hkReferencedObject
+    public partial class hkpCollisionFilter : hkReferencedObject
     {
         public override uint Signature { get => 603088937; }
         

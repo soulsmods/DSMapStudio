@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiLineOfSightUtilLineOfSightInput : hkaiLineOfSightUtilInputBase
+    public partial class hkaiLineOfSightUtilLineOfSightInput : hkaiLineOfSightUtilInputBase
     {
         public override uint Signature { get => 1732765811; }
         

@@ -19,7 +19,7 @@ namespace HKX2
         ALIGN_WITH_CHARACTER_FORWARD = 4,
     }
     
-    public class hkbpMoveBoneTowardTargetModifier : hkbModifier
+    public partial class hkbpMoveBoneTowardTargetModifier : hkbModifier
     {
         public override uint Signature { get => 4205169225; }
         

@@ -10,7 +10,7 @@ namespace HKX2
         MULTI_THREADING_CHECKS_IGNORE = 1,
     }
     
-    public class hkpWorldObject : hkReferencedObject
+    public partial class hkpWorldObject : hkReferencedObject
     {
         public override uint Signature { get => 4025491901; }
         

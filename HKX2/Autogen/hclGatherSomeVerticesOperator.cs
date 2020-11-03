@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclGatherSomeVerticesOperator : hclOperator
+    public partial class hclGatherSomeVerticesOperator : hclOperator
     {
         public override uint Signature { get => 2237234416; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpDefaultWorldMemoryWatchDog : hkWorldMemoryAvailableWatchDog
+    public partial class hkpDefaultWorldMemoryWatchDog : hkWorldMemoryAvailableWatchDog
     {
         public override uint Signature { get => 2141626725; }
         

@@ -32,7 +32,7 @@ namespace HKX2
         COMPUTE_DISTANCE_USING_TARGET_CONTACT_POINT = 1,
     }
     
-    public class hkbpTargetRigidBodyModifier : hkbModifier
+    public partial class hkbpTargetRigidBodyModifier : hkbModifier
     {
         public override uint Signature { get => 3805051629; }
         

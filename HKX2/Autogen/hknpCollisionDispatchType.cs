@@ -14,7 +14,7 @@ namespace HKX2
         NUM_TYPES = 5,
     }
     
-    public class hknpCollisionDispatchType : IHavokObject
+    public partial class hknpCollisionDispatchType : IHavokObject
     {
         public virtual uint Signature { get => 817970547; }
         

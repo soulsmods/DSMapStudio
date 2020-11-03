@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator : IHavokObject
+    public partial class hkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator : IHavokObject
     {
         public virtual uint Signature { get => 3661741467; }
         

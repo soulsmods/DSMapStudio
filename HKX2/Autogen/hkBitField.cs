@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkBitField : hkBitFieldBasehkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator
+    public partial class hkBitField : hkBitFieldBasehkBitFieldStoragehkArrayunsignedinthkContainerHeapAllocator
     {
         public override uint Signature { get => 3856382876; }
         

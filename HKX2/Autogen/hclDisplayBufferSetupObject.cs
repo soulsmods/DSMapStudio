@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hclDisplayBufferSetupObject : hclBufferSetupObject
+    public partial class hclDisplayBufferSetupObject : hclBufferSetupObject
     {
         public override uint Signature { get => 4232738643; }
         

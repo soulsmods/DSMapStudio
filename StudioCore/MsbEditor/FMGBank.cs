@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using SoulsFormats;
+using System.Threading.Tasks;
 
 namespace StudioCore.MsbEditor
 {
@@ -104,6 +105,7 @@ namespace StudioCore.MsbEditor
         private static Dictionary<string, FMG> _ds2fmgs = null;
 
         public static bool IsLoaded { get; private set; } = false;
+        public static bool IsLoading { get; private set; } = false;
 
         public static IReadOnlyDictionary<string, FMG> DS2Fmgs
         {
@@ -323,35 +325,43 @@ namespace StudioCore.MsbEditor
 
         public static void ReloadFMGs()
         {
-            if (AssetLocator.Type == GameType.Undefined)
-            {
-                return;
-            }
+            IsLoaded = false;
+            IsLoading = true;
 
-            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            Task.Run(() =>
             {
-                ReloadFMGsDS2();
+                if (AssetLocator.Type == GameType.Undefined)
+                {
+                    return;
+                }
+
+                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    ReloadFMGsDS2();
+                    IsLoading = false;
+                    IsLoaded = true;
+                    return;
+                }
+
+                IBinder fmgBinder;
+                var desc = AssetLocator.GetEnglishItemMsgbnd();
+                if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+                {
+                    fmgBinder = BND3.Read(desc.AssetPath);
+                }
+                else
+                {
+                    fmgBinder = BND4.Read(desc.AssetPath);
+                }
+
+                _fmgs = new Dictionary<ItemFMGTypes, FMG>();
+                foreach (var file in fmgBinder.Files)
+                {
+                    _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
+                }
                 IsLoaded = true;
-                return;
-            }
-
-            IBinder fmgBinder;
-            var desc = AssetLocator.GetEnglishItemMsgbnd();
-            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
-            {
-                fmgBinder = BND3.Read(desc.AssetPath);
-            }
-            else
-            {
-                fmgBinder = BND4.Read(desc.AssetPath);
-            }
-
-            _fmgs = new Dictionary<ItemFMGTypes, FMG>();
-            foreach (var file in fmgBinder.Files)
-            {
-                _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-            }
-            IsLoaded = true;
+                IsLoading = false;
+            });
         }
 
         public static void SaveFMGsDS2()

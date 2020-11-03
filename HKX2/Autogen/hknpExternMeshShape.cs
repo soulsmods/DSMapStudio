@@ -10,7 +10,7 @@ namespace HKX2
         REBUILD_REFIT_ONLY = 2,
     }
     
-    public class hknpExternMeshShape : hknpCompositeShape
+    public partial class hknpExternMeshShape : hknpCompositeShape
     {
         public override uint Signature { get => 1146675861; }
         

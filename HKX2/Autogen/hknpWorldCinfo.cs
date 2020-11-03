@@ -11,7 +11,7 @@ namespace HKX2
         ON_LEAVING_BROAD_PHASE_FREEZE_BODY = 2,
     }
     
-    public class hknpWorldCinfo : IHavokObject
+    public partial class hknpWorldCinfo : IHavokObject
     {
         public virtual uint Signature { get => 1660997442; }
         

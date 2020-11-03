@@ -14,7 +14,7 @@ namespace HKX2
         IMGSELECT = 5,
     }
     
-    public class hkLinkAttribute : IHavokObject
+    public partial class hkLinkAttribute : IHavokObject
     {
         public virtual uint Signature { get => 1657428672; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkaiUserEdgePairArray : hkReferencedObject
+    public partial class hkaiUserEdgePairArray : hkReferencedObject
     {
         public override uint Signature { get => 2084981375; }
         

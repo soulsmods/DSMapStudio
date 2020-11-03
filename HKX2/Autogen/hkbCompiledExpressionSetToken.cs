@@ -64,7 +64,7 @@ namespace HKX2
         OP_COND = 43,
     }
     
-    public class hkbCompiledExpressionSetToken : IHavokObject
+    public partial class hkbCompiledExpressionSetToken : IHavokObject
     {
         public virtual uint Signature { get => 3263667157; }
         

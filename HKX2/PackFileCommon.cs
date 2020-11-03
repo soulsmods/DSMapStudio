@@ -6,6 +6,15 @@ using System.Text;
 
 namespace HKX2
 {
+    public enum HKXVariation
+    {
+        HKXDeS,
+        HKXDS1,
+        HKXDS2,
+        HKXDS3,
+        HKXBloodBorne,
+        HKXBotwSwitch,
+    };
     internal class HKXHeader
     {
         public uint Magic0;
@@ -143,13 +152,17 @@ namespace HKX2
         {
             ClassNames = new List<HKXClassName>();
             OffsetClassNamesMap = new Dictionary<uint, HKXClassName>();
-            while (br.ReadUInt16() != 0xFFFF)
+            while (br.ReadByte() != 0xFF)
             {
-                br.Position -= 2;
+                br.Position -= 1;
                 uint stringStart = (uint)br.Position + 5;
                 var className = new HKXClassName(br);
                 ClassNames.Add(className);
                 OffsetClassNamesMap.Add(stringStart, className);
+                if (br.Position == br.Length)
+                {
+                    break;
+                }
             }
         }
 
@@ -193,7 +206,7 @@ namespace HKX2
 
         }
 
-        internal HKXSection(BinaryReaderEx br, HKX.HKXVariation variation)
+        internal HKXSection(BinaryReaderEx br, HKXVariation variation)
         {
             SectionTag = br.ReadFixStr(19);
             br.AssertByte(0xFF);
@@ -255,7 +268,7 @@ namespace HKX2
             }
             br.StepOut();
 
-            if (variation == HKX.HKXVariation.HKXBloodBorne || variation == HKX.HKXVariation.HKXDS3)
+            if (variation == HKXVariation.HKXBloodBorne || variation == HKXVariation.HKXDS3)
             {
                 br.AssertUInt32(0xFFFFFFFF);
                 br.AssertUInt32(0xFFFFFFFF);

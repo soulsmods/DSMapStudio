@@ -10,7 +10,7 @@ namespace HKX2
         COMMAND_SHOW = 1,
     }
     
-    public class hkbCharacterControlCommand : hkReferencedObject
+    public partial class hkbCharacterControlCommand : hkReferencedObject
     {
         public override uint Signature { get => 3263284257; }
         

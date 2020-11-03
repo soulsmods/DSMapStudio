@@ -10,7 +10,7 @@ namespace HKX2
         REFERENCE_COUNT_IGNORE = 1,
     }
     
-    public class hkRefCountedProperties : IHavokObject
+    public partial class hkRefCountedProperties : IHavokObject
     {
         public virtual uint Signature { get => 2086094951; }
         

@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace HKX2
 {
-    public class hkpCollidableBoundingVolumeData : IHavokObject
+    public partial class hkpCollidableBoundingVolumeData : IHavokObject
     {
         public virtual uint Signature { get => 1589796752; }
         
