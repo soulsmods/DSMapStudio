@@ -522,7 +522,7 @@ namespace StudioCore.MsbEditor
             }
 
             // Temporary DS3 navmesh loading
-            if (_assetLocator.Type == GameType.DarkSoulsIII)
+            if (FeatureFlags.LoadDS3Navmeshes && _assetLocator.Type == GameType.DarkSoulsIII)
             {
                 var nvaasset = _assetLocator.GetMapNVA(amapid);
                 if (nvaasset.AssetPath != null)
@@ -625,27 +625,30 @@ namespace StudioCore.MsbEditor
             }
             job.StartJobAsync();
 
-            job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
-            if (_assetLocator.Type == GameType.DarkSoulsIII)
+            if (FeatureFlags.LoadDS3Navmeshes)
             {
-                var nav = _assetLocator.GetHavokNavmeshes(amapid);
-                job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
-            }
-            else
-            {
-                foreach (var nav in navsToLoad)
+                job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
+                if (_assetLocator.Type == GameType.DarkSoulsIII)
                 {
-                    if (nav.AssetArchiveVirtualPath != null)
+                    var nav = _assetLocator.GetHavokNavmeshes(amapid);
+                    job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
+                }
+                else
+                {
+                    foreach (var nav in navsToLoad)
                     {
-                        job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
-                    }
-                    else if (nav.AssetVirtualPath != null)
-                    {
-                        job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                        if (nav.AssetArchiveVirtualPath != null)
+                        {
+                            job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                        }
+                        else if (nav.AssetVirtualPath != null)
+                        {
+                            job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                        }
                     }
                 }
+                job.StartJobAsync();
             }
-            job.StartJobAsync();
 
             // Real bad hack
             EnvMapTextures = _assetLocator.GetEnvMapTextureNames(amapid);

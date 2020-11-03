@@ -504,7 +504,10 @@ namespace StudioCore.MsbEditor
             PropSearch.OnGui(propSearchKey);
 
             // Not usable yet
-            NavMeshEditor.OnGui(AssetLocator.Type);
+            if (FeatureFlags.EnableNavmeshBuilder)
+            {
+                NavMeshEditor.OnGui(AssetLocator.Type);
+            }
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawResourceList();

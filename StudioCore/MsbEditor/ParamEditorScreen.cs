@@ -138,17 +138,20 @@ namespace StudioCore.MsbEditor
                         EditorActionManager.ExecuteAction(act);
                     }
                 }
-                if (ImGui.MenuItem("Mass Edit", null, false, true))
+                if (FeatureFlags.EnableEnhancedParamEditor)
                 {
-                    openMEditRegex = true;
-                }
-                if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
-                {
-                    openMEditCSVExport = true;
-                }
-                if (ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
-                {
-                    openMEditCSVImport = true;
+                    if (ImGui.MenuItem("Mass Edit", null, false, true))
+                    {
+                        openMEditRegex = true;
+                    }
+                    if (ImGui.MenuItem("Export CSV (Slow!)", null, false, _activeParam != null))
+                    {
+                        openMEditCSVExport = true;
+                    }
+                    if (ImGui.MenuItem("Import CSV", null, false, _activeParam != null))
+                    {
+                        openMEditCSVImport = true;
+                    }
                 }
                 ImGui.EndMenu();
             }
@@ -321,7 +324,10 @@ namespace StudioCore.MsbEditor
             }
             ImGui.EndChild();
             ImGui.NextColumn();
-            ImGui.InputText("SearchBar", ref _currentSearchString, 256);
+            if (FeatureFlags.EnableEnhancedParamEditor)
+            {
+                ImGui.InputText("SearchBar", ref _currentSearchString, 256);
+            }
             ImGui.BeginChild("rows");
             if (_activeParam == null)
             {
@@ -337,11 +343,22 @@ namespace StudioCore.MsbEditor
 
                 PARAM para = ParamBank.Params[_activeParam];
                 List<PARAM.Row> p;
-                Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_currentSearchString);
-                if (!m.Success)
-                    p = para.Rows;
+                if (FeatureFlags.EnableEnhancedParamEditor)
+                {
+                    Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_currentSearchString);
+                    if (!m.Success)
+                    {
+                        p = para.Rows;
+                    }
+                    else
+                    {
+                        p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
+                    }
+                }
                 else
-                    p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
+                {
+                    p = para.Rows;
+                }
 
                 foreach (var r in p)
                 {
