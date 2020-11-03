@@ -88,6 +88,10 @@ namespace StudioCore.MsbEditor
                     continue;
                 }
                 PARAM p = PARAM.Read(f.Bytes);
+                if (!_paramdefs.ContainsKey(p.ParamType))
+                {
+                    continue;
+                }
                 p.ApplyParamdef(_paramdefs[p.ParamType]);
                 _params.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
