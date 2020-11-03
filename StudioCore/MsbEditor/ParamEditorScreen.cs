@@ -419,6 +419,7 @@ namespace StudioCore.MsbEditor
                 }
             }
             ImGui.EndChild();
+            ImGui.NextColumn();
             if (!_selection.paramSelectionExists())
             {
                 ImGui.BeginChild("rowsNONE");
@@ -426,7 +427,7 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                if (!_selection.paramSelectionExists())
+                if (FeatureFlags.EnableEnhancedParamEditor)
                 {
                     ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
                     ImGui.InputText("Search rows...", ref _selection.getCurrentSearchString(), 256);
