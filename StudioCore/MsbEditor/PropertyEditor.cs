@@ -521,7 +521,7 @@ namespace StudioCore.MsbEditor
                 {
                     foreach (KeyValuePair<string, string> option in en.values)
                     {
-                        if (ImGui.Selectable(option.Value))
+                        if (ImGui.Selectable($"{option.Key}: {option.Value}"))
                         {
                             newval = Convert.ChangeType(option.Key, oldval.GetType());
                             ImGui.EndPopup();
