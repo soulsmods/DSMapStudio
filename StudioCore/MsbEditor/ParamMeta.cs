@@ -109,6 +109,11 @@ namespace StudioCore.MsbEditor
         public ParamEnum EnumType {get; set;}
 
         /// <summary>
+        /// Alternate name for a field not provided by source defs or paramfiles.
+        /// </summary>
+        public string AltName {get; set;}
+
+        /// <summary>
         /// A big tooltip to explain the field to the user
         /// </summary>
         public string Wiki {get; set;}
@@ -148,6 +153,11 @@ namespace StudioCore.MsbEditor
             if (Enum != null)
             {
                 EnumType = parent.enums.GetValueOrDefault(Enum.InnerText, null);
+            }
+            XmlAttribute AlternateName = fieldMeta.Attributes["AltName"];
+            if (AlternateName != null)
+            {
+                AltName = AlternateName.InnerText;
             }
             XmlAttribute WikiText = fieldMeta.Attributes["Wiki"];
             if (WikiText != null)

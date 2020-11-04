@@ -46,10 +46,16 @@
     <spEffect2 Refs="SpEffectParam" />
     <spEffect3 Refs="SpEffectParam" />
     <spEffect4 Refs="SpEffectParam" />
+	<AtkPhysCorrection Wiki="Coefficient for physical damage dealt before defences." />
+	<AtkMagCorrection Wiki="Coefficient for magic damage dealt before defences." />
+	<AtkFireCorrection Wiki="Coefficient for fire damage dealt before defences." />
+	<AtkThunCorrection Wiki="Coefficient for lightning damage dealt before defences." />
+	<AtkStamCorrection Wiki="Coefficient for stamina damage dealt to blocking enemies before stability." />
+	<AtkSuperArmorCorrection Wiki="Coefficient for hyperarmor if activated." />
 	<damageLevel Enum="DamageLevel" />
-	<atkAttribute Enum="AttackAttribute" />
+	<AtkAttribute Enum="AttackAttribute" />
 	<spAttribute Enum="EffectAttribute" />
 	<atkType Enum="AttackType" />
-    <atkElementCorrectId Refs="AttackElementCorrectParam"/>
+    <atkElementCorrectId Refs="AttackElementCorrectParam" Wiki="Override for stat scaling behaviour.\nIf -1, equipped weapon determines AttackElementCorrectParam instead." />
   </Field>
 </PARAMMETA>

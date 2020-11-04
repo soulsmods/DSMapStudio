@@ -355,15 +355,17 @@ namespace StudioCore.MsbEditor
             List<string> RefTypes = cellMeta == null ? null : cellMeta.RefTypes;
             string VirtualRef = cellMeta == null ? null : cellMeta.VirtualRef;
             ParamEnum Enum = cellMeta == null ? null : cellMeta.EnumType;
+            string AltName = cellMeta == null ? null : cellMeta.AltName;
             string Wiki = cellMeta == null ? null : cellMeta.Wiki;
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
+            string printedName = AltName != null ? $"{visualName} ({AltName})" : visualName; 
             if (Wiki == null)
-                ImGui.Text(visualName);
+                ImGui.Text(printedName);
             else
             {
-                ImGui.TextColored(new Vector4(0.75f, 0.75f, 1.0f, 1.0f), visualName);
+                ImGui.TextColored(new Vector4(0.75f, 0.75f, 1.0f, 1.0f), printedName);
                 PropertyRowWikiContextMenu(Wiki);
             }
             if (RefTypes != null)
