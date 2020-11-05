@@ -154,6 +154,7 @@
     <originEquipWep13 Refs="EquipParamWeapon" />
     <originEquipWep14 Refs="EquipParamWeapon" />
     <originEquipWep15 Refs="EquipParamWeapon" />
+	<reinforceTypeId Refs="ReinforceParamWeapon" />
 	<equipModelCategory Enum="EquipModelCategory" />
 	<equipModelGender Enum="EquipModelGender" />
 	<weaponCategory Enum="WeaponCategory" />

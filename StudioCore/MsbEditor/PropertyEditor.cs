@@ -383,7 +383,7 @@ namespace StudioCore.MsbEditor
             if (RefTypes != null || VirtualRef != null || Enum != null)
                 ImGui.PopStyleColor();
             
-            if (RefTypes != null && propType == typeof(int))
+            if (RefTypes != null)// && propType == typeof(int))
             {
                 changed |= PropertyRowRefs(RefTypes, oldval, ref newval);
             }
@@ -400,7 +400,7 @@ namespace StudioCore.MsbEditor
             ImGui.PopID();
             id++;
         }
-        private bool PropertyRowRefs(List<string> reftypes, object oldval, ref object newval)
+        private bool PropertyRowRefs(List<string> reftypes, dynamic oldval, ref object newval)
         {
             // Add named row and context menu
             // Lists located params
@@ -435,7 +435,7 @@ namespace StudioCore.MsbEditor
                 ImGui.EndPopup();
             }
         }
-        private bool PropertyRowRefsContextMenu(List<string> reftypes, object oldval, ref object newval)
+        private bool PropertyRowRefsContextMenu(List<string> reftypes, dynamic oldval, ref object newval)
         {
             if (ImGui.BeginPopupContextItem(String.Join(',', reftypes)))
             {   
