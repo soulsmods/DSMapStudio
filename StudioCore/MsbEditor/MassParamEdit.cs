@@ -240,10 +240,11 @@ namespace StudioCore.MsbEditor
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             try
             {
-                Regex rownamerx = lenient ? new Regex($@".*{namerx}.*") : new Regex(namerx);
+                Regex rownamerx = lenient ? new Regex($@".*{namerx.ToLower()}.*") : new Regex(namerx);
                 foreach (PARAM.Row row in param.Rows)
                 {
-                    if (rownamerx.Match(row.Name == null ? "" : row.Name).Success)
+                    string nameToMatch = row.Name == null ? "" : row.Name;
+                    if (rownamerx.Match(lenient ? nameToMatch.ToLower() : nameToMatch).Success)
                         rlist.Add(row);
                 }
                 return rlist;
@@ -280,7 +281,7 @@ namespace StudioCore.MsbEditor
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             try
             {
-                Regex rownamerx = lenient ? new Regex($@".*{namerx}.*") : new Regex(namerx);
+                Regex rownamerx = lenient ? new Regex($@".*{namerx.ToLower()}.*") : new Regex(namerx);
                 foreach (PARAM.Row row in param.Rows)
                 {
                     PARAM.Cell c = row[rowfield];
@@ -292,7 +293,8 @@ namespace StudioCore.MsbEditor
                             if (!ParamBank.Params.ContainsKey(rt))
                                 continue;
                             PARAM.Row r = ParamBank.Params[rt][val];
-                            if (r != null && rownamerx.Match(r.Name == null ? "" : r.Name).Success)
+                            string nameToMatch = r.Name == null ? "" : r.Name;
+                            if (r != null && rownamerx.Match(lenient ? nameToMatch.ToLower() : nameToMatch).Success)
                             {
                                 rlist.Add(row);
                                 break;
