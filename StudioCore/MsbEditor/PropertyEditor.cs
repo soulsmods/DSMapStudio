@@ -365,13 +365,13 @@ namespace StudioCore.MsbEditor
                 ImGui.Text(printedName);
             else
             {
-                ImGui.TextColored(new Vector4(0.75f, 0.75f, 1.0f, 1.0f), printedName);
+                ImGui.TextColored(new Vector4(0.85f, 0.85f, 1.0f, 1.0f), printedName);
                 PropertyRowWikiContextMenu(Wiki);
             }
             if (RefTypes != null)
-                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{String.Join(',', RefTypes)}>");
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"  <{String.Join(',', RefTypes)}>");
             if (Enum != null)
-                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), Enum.name);
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"  {Enum.name}");
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
