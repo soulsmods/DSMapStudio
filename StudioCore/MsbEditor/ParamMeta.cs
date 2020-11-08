@@ -12,6 +12,8 @@ namespace StudioCore.MsbEditor
     public class ParamMetaData
     {
         private static Dictionary<PARAMDEF, ParamMetaData> _ParamMetas = new Dictionary<PARAMDEF, ParamMetaData>();
+        
+        internal Dictionary<string, ParamEnum> enums = new Dictionary<string, ParamEnum>();
 
         private const int XML_VERSION = 0;
 
@@ -43,15 +45,28 @@ namespace StudioCore.MsbEditor
             }
             Add(def, this);
 
+            foreach (XmlNode node in root.SelectNodes("Enums/Enum"))
+            {
+                ParamEnum en = new ParamEnum(node);
+                enums.Add(en.name, en);
+            }
+ 
             foreach (PARAMDEF.Field f in def.Fields)
             {
-                XmlNode pairedNode = root.SelectSingleNode($"Field/{f.InternalName}");
-                if (pairedNode == null)
+                try
+                {
+                    XmlNode pairedNode = root.SelectSingleNode($"Field/{Regex.Replace(f.InternalName, @"[^a-zA-Z0-9_]", "")}");
+                    if (pairedNode == null)
+                    {
+                        new FieldMetaData(f);
+                        continue;
+                    }
+                    new FieldMetaData(this, pairedNode, f);
+                }
+                catch
                 {
                     new FieldMetaData(f);
-                    continue;
                 }
-                new FieldMetaData(pairedNode, f);
             }
         }
 
@@ -88,6 +103,21 @@ namespace StudioCore.MsbEditor
         /// </summary>
         public string VirtualRef {get; set;}
 
+        /// <summary>
+        /// Set of generally acceptable values, named
+        /// </summary>
+        public ParamEnum EnumType {get; set;}
+
+        /// <summary>
+        /// Alternate name for a field not provided by source defs or paramfiles.
+        /// </summary>
+        public string AltName {get; set;}
+
+        /// <summary>
+        /// A big tooltip to explain the field to the user
+        /// </summary>
+        public string Wiki {get; set;}
+
         public static FieldMetaData Get(PARAMDEF.Field def)
         {
             return _FieldMetas[def];
@@ -104,7 +134,7 @@ namespace StudioCore.MsbEditor
             // Blank Metadata
         }
 
-        public FieldMetaData(XmlNode fieldMeta, PARAMDEF.Field field)
+        public FieldMetaData(ParamMetaData parent, XmlNode fieldMeta, PARAMDEF.Field field)
         {
             Add(field, this);
             RefTypes = null;
@@ -118,6 +148,36 @@ namespace StudioCore.MsbEditor
             if (VRef != null)
             {
                 VirtualRef = VRef.InnerText;
+            }
+            XmlAttribute Enum = fieldMeta.Attributes["Enum"];
+            if (Enum != null)
+            {
+                EnumType = parent.enums.GetValueOrDefault(Enum.InnerText, null);
+            }
+            XmlAttribute AlternateName = fieldMeta.Attributes["AltName"];
+            if (AlternateName != null)
+            {
+                AltName = AlternateName.InnerText;
+            }
+            XmlAttribute WikiText = fieldMeta.Attributes["Wiki"];
+            if (WikiText != null)
+            {
+                Wiki = WikiText.InnerText.Replace("\\n", "\n");
+            }
+        }
+    }
+
+    public class ParamEnum
+    {
+        public string name;
+        public Dictionary<string, string> values = new Dictionary<string, string>(); // using string as an intermediate type. first string is value, second is name.
+        
+        public ParamEnum(XmlNode enumNode)
+        {
+            name = enumNode.Attributes["Name"].InnerText;
+            foreach (XmlNode option in enumNode.SelectNodes("Option"))
+            {
+                values.Add(option.Attributes["Value"].InnerText, option.Attributes["Name"].InnerText);
             }
         }
     }

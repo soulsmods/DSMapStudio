@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <MaterialId01 Refs="EquipParamGoods" />
+    <MaterialId02 Refs="EquipParamGoods" />
+    <MaterialId03 Refs="EquipParamGoods" />
+    <MaterialId04 Refs="EquipParamGoods" />
+    <MaterialId05 Refs="EquipParamGoods" />
+  </Field>
+</PARAMMETA>

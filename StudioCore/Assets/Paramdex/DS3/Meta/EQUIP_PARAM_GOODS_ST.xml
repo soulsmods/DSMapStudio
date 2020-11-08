@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="GoodsUseAnim">
+		<Option Value="0" Name="Consumable" />
+		<Option Value="1" Name="Apply to Weapon" />
+		<Option Value="2" Name="Quick Throw" />
+		<Option Value="3" Name="Slow Throw" />
+		<Option Value="4" Name="Binoculars" />
+		<Option Value="5" Name="Scatter" />
+		<Option Value="6" Name="Tool Kneel" />
+		<Option Value="7" Name="Prism Stone" />
+		<Option Value="8" Name="Apply to Ground" />
+		<Option Value="9" Name="Crush Consumable" />
+		<Option Value="10" Name="Estus Flask" />
+		<Option Value="11" Name="Dragon Head Stone" />
+		<Option Value="12" Name="Dragon Torso Stone" />
+		<Option Value="13" Name="Pray" />
+		<Option Value="14" Name="Cross Arms and Apply" />
+		<Option Value="16" Name="Quick Apply to Weapon" />
+		<Option Value="17" Name="Throwing Knife" />
+		<Option Value="18" Name="Quick Throw Bottle" />
+		<Option Value="19" Name="Ashen Estus Flask" />
+		<Option Value="20" Name="Throw Backwards" />
+		<Option Value="21" Name="Siegbräu" />
+		<Option Value="22" Name="Transform" />
+		<Option Value="23" Name="Twinkling Dragon Head Stone" />
+		<Option Value="24" Name="Twinkling Dragon Torso Stone" />
+		<Option Value="25" Name="Spear Fragment" />
+		<Option Value="26" Name="Church Guardian Shiv" />
+	  </Enum>
+	  <Enum Name="OpenMenuType">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Yes / No" />
+		<Option Value="4" Name="Yes / No (Session)" />
+		<Option Value="5" Name="Unknown" />
+		<Option Value="6" Name="Create Blood Message" />
+		<Option Value="7" Name="Roster Of Knights" />
+		<Option Value="8" Name="Unknown" />
+		<Option Value="9" Name="Ok / Cancel" />
+		<Option Value="10" Name="Invasion" />
+		<Option Value="11" Name="Coiled Sword Fragment" />
+		<Option Value="12" Name="Darksign" />
+	  </Enum>
+	  <Enum Name="SpEffectCategory">
+		<Option Value="0" Name="Default" />
+		<Option Value="5" Name="Weapon" />
+	  </Enum>
+	  <Enum Name="ReferenceType">
+		<Option Value="0" Name="Behavior / None" />
+		<Option Value="1" Name="Bullet" />
+		<Option Value="2" Name="SpEffect" />
+	  </Enum>
+	  <Enum Name="GoodsType">
+		<Option Value="0" Name="Consumable" />
+		<Option Value="1" Name="Key Option" />
+		<Option Value="2" Name="Material" />
+	  </Enum>
+  </Enums>
+  <Field>
+	<goodsType Enum="GoodsType" />
+	<refCategory Enum="ReferenceType" />
+	<spEffectCategory Enum="SpEffectCategory" />
+	<goodsUseAnim Enum="GoodsUseAnim" />
+	<opmeMenuType Enum="OpenMenuType" />
+    <refId1 Refs="SpEffectParam" />
+  </Field>
+</PARAMMETA>

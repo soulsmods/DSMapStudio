@@ -1,0 +1,412 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="StateInfo">
+		<Option Value="0" Name="None" />
+		<Option Value="2" Name="Poison" />
+		<Option Value="3" Name="Effect99101" />
+		<Option Value="4" Name="Durability Damage" />
+		<Option Value="5" Name="Toxic" />
+		<Option Value="6" Name="Bleed" />
+		<Option Value="7" Name="Ghost" />
+		<Option Value="8" Name="Enemy Sight Reduction" />
+		<Option Value="9" Name="Tranquil Walk of Peace" />
+		<Option Value="10" Name="Used to remove Poison buildup" />
+		<Option Value="11" Name="Used to remove Toxic buildup" />
+		<Option Value="12" Name="Used to remove Bleed buildup" />
+		<Option Value="13" Name="Used to remove all aux buildup" />
+		<Option Value="14" Name="Humanity Stolen" />
+		<Option Value="15" Name="Binoculars" />
+		<Option Value="16" Name="Warp_Lothric3002953" />
+		<Option Value="17" Name="OnSpEffectRevive" />
+		<Option Value="19" Name="Dispel Black Phantom" />
+		<Option Value="22" Name="Unknown" />
+		<Option Value="23" Name="OnReviveMagic" />
+		<Option Value="24" Name="Disables Spell Usage" />
+		<Option Value="28" Name="Right-hand Buff VFX" />
+		<Option Value="29" Name="Body Buff VFX" />
+		<Option Value="31" Name="Ghost Parameter Change" />
+		<Option Value="32" Name="Middle of Paralysis" />
+		<Option Value="34" Name="Giant Slime Freezing" />
+		<Option Value="35" Name="Effect99310" />
+		<Option Value="36" Name="Effect99311" />
+		<Option Value="37" Name="Effect99312" />
+		<Option Value="39" Name="Sound Feed" />
+		<Option Value="40" Name="Greater Body Buff VFX" />
+		<Option Value="41" Name="VFX - Flash Sweat" />
+		<Option Value="42" Name="Used in HP Recovery" />
+		<Option Value="43" Name="Unknown" />
+		<Option Value="44" Name="Unknown" />
+		<Option Value="45" Name="Unknown" />
+		<Option Value="46" Name="Modify Target Priority" />
+		<Option Value="47" Name="Disable Fall Damage" />
+		<Option Value="48" Name="Increase Damage" />
+		<Option Value="49" Name="Increase Defense" />
+		<Option Value="50" Name="Used in HP Recovery" />
+		<Option Value="52" Name="Pledge Effect Test" />
+		<Option Value="54" Name="Modify Enemy Listen Reduction" />
+		<Option Value="55" Name="HostDeath" />
+		<Option Value="58" Name="Point Light Source Equipped" />
+		<Option Value="59" Name="Your Message Was Rated" />
+		<Option Value="60" Name="Magic Buff VFX" />
+		<Option Value="61" Name="Crystal Magic Buff VFX" />
+		<Option Value="62" Name="Charcoal Pine Resin VFX" />
+		<Option Value="64" Name="Effect1040" />
+		<Option Value="65" Name="Effect12180" />
+		<Option Value="66" Name="Modify Item Discovery" />
+		<Option Value="69" Name="Tears of Denial VFX" />
+		<Option Value="70" Name="Is Dead Test Condition" />
+		<Option Value="71" Name="Spell Power Boost" />
+		<Option Value="75" Name="Green Blossom VFX" />
+		<Option Value="76" Name="Modify Soul Rate" />
+		<Option Value="78" Name="Effect93313" />
+		<Option Value="79" Name="Effect93314" />
+		<Option Value="91" Name="Effect99201" />
+		<Option Value="95" Name="Applies Chamelon effect" />
+		<Option Value="96" Name="Applies Dragon Form effect" />
+		<Option Value="98" Name="MP Detection" />
+		<Option Value="99" Name="MP Wait for Cooperation" />
+		<Option Value="100" Name="MP Cooperation" />
+		<Option Value="101" Name="MP Cooperation Sent" />
+		<Option Value="102" Name="Wax Slow Down" />
+		<Option Value="103" Name="Used for Evil Eye effect" />
+		<Option Value="104" Name="MP Wait for Cooperation" />
+		<Option Value="105" Name="MP Cooperation LV 1" />
+		<Option Value="106" Name="MP Cooperation LV 2" />
+		<Option Value="107" Name="MP Cooperation LV 3" />
+		<Option Value="108" Name="Used for Evil Eye effect (1)" />
+		<Option Value="109" Name="Used for Evil Eye effect (2)" />
+		<Option Value="110" Name="Counter Damage" />
+		<Option Value="112" Name="1409F7282_HKS" />
+		<Option Value="113" Name="Unknown" />
+		<Option Value="114" Name="Unknown" />
+		<Option Value="115" Name="Backstep Animation Change" />
+		<Option Value="116" Name="Curse" />
+		<Option Value="117" Name="Curse - Instant Death animation" />
+		<Option Value="118" Name="Curse - Extra" />
+		<Option Value="119" Name="Effect3231" />
+		<Option Value="120" Name="Damage Level Change before Poise Break" />
+		<Option Value="121" Name="Damage Level Change" />
+		<Option Value="122" Name="Unknown" />
+		<Option Value="123" Name="Apply Effect on Roll (Head)" />
+		<Option Value="124" Name="Apply Effect on Roll (Body)" />
+		<Option Value="125" Name="Apply Effect on Roll (Hands)" />
+		<Option Value="126" Name="Apply Effect on Roll (Legs)" />
+		<Option Value="127" Name="Mimic Sleep" />
+		<Option Value="128" Name="Mimic Sleep" />
+		<Option Value="130" Name="Mimic Sleep" />
+		<Option Value="131" Name="Mimic Sleep" />
+		<Option Value="132" Name="Change Team Type" />
+		<Option Value="133" Name="Enable Developer Messages" />
+		<Option Value="134" Name="Iron Flesh" />
+		<Option Value="135" Name="Mimic Sleep" />
+		<Option Value="136" Name="Curse" />
+		<Option Value="137" Name="ResonanceLvl 0" />
+		<Option Value="138" Name="ResonanceLvl 1" />
+		<Option Value="139" Name="ResonanceLvl 2" />
+		<Option Value="140" Name="ResonanceLvl 3" />
+		<Option Value="141" Name="ResonanceLvl 4" />
+		<Option Value="142" Name="NPC Behavior ID Change" />
+		<Option Value="143" Name="Character Respawn" />
+		<Option Value="144" Name="Unknown" />
+		<Option Value="146" Name="Restore Durability" />
+		<Option Value="147" Name="Cast Light" />
+		<Option Value="148" Name="Unknown" />
+		<Option Value="149" Name="White Relief Magic" />
+		<Option Value="150" Name="Black Relief Magic" />
+		<Option Value="151" Name="Gold Pine Resin VFX" />
+		<Option Value="152" Name="Enable AttackOccurance for Enemies" />
+		<Option Value="153" Name="Enable AttackOccurance for Players" />
+		<Option Value="154" Name="Block Estus usage" />
+		<Option Value="155" Name="Modify Poise" />
+		<Option Value="156" Name="Disable Durability" />
+		<Option Value="157" Name="Transient Curse" />
+		<Option Value="158" Name="Left-hand Buff VFX" />
+		<Option Value="159" Name="Ring of Sacrifice" />
+		<Option Value="160" Name="Rare Ring of Sacrifice [DS1]" />
+		<Option Value="161" Name="Warp1_Removed" />
+		<Option Value="162" Name="Warp2_Removed" />
+		<Option Value="163" Name="Warp3_Removed" />
+		<Option Value="164" Name="Warp_Firelink" />
+		<Option Value="165" Name="Warp4_Removed" />
+		<Option Value="166" Name="Pledge Discarded" />
+		<Option Value="167" Name="Dragon Change VFX" />
+		<Option Value="168" Name="Bow Distance Change" />
+		<Option Value="169" Name="Ring of the Sun Princess [DS1]" />
+		<Option Value="170" Name="Karmic Justice Counter" />
+		<Option Value="171" Name="Karmic Justice - Used for Behavior Change" />
+		<Option Value="173" Name="Ritual" />
+		<Option Value="174" Name="Power of Evil Spirits" />
+		<Option Value="175" Name="Revival Production" />
+		<Option Value="176" Name="Aural Decoy" />
+		<Option Value="177" Name="Unknown" />
+		<Option Value="179" Name="CurseEffectLv1" />
+		<Option Value="180" Name="CurseEffectLv2" />
+		<Option Value="181" Name="CurseEffectLv3" />
+		<Option Value="182" Name="CurseEffectLv4" />
+		<Option Value="183" Name="BlueSignVisualization" />
+		<Option Value="184" Name="Hide Weapon" />
+		<Option Value="185" Name="Gravelord Invasion" />
+		<Option Value="186" Name="Orange Charred Ring [DS1]" />
+		<Option Value="188" Name="Blade of the Darkmoon" />
+		<Option Value="189" Name="Spear of the Church" />
+		<Option Value="190" Name="Watchdog of Farron" />
+		<Option Value="192" Name="Unknown" />
+		<Option Value="193" Name="Modify Effect Duration" />
+		<Option Value="194" Name="CompareWith203" />
+		<Option Value="195" Name="Unknown" />
+		<Option Value="196" Name="IfWorldChrManNull" />
+		<Option Value="197" Name="Leo Ring" />
+		<Option Value="198" Name="Unknown" />
+		<Option Value="199" Name="Use DeathOccurance SpEffect" />
+		<Option Value="200" Name="Power Within VFX" />
+		<Option Value="201" Name="VowOfSilenceVisual" />
+		<Option Value="202" Name="Dragon Roar" />
+		<Option Value="203" Name="CompareWith194" />
+		<Option Value="204" Name="Great Magic Shield" />
+		<Option Value="206" Name="Effect12013" />
+		<Option Value="207" Name="Effect11897 (Jailer HP Drain)" />
+		<Option Value="213" Name="Hornet Ring - Checks for backstab on enemies" />
+		<Option Value="221" Name="Effect4085" />
+		<Option Value="222" Name="ItemBan" />
+		<Option Value="223" Name="Effect9132" />
+		<Option Value="224" Name="Effect4700" />
+		<Option Value="232" Name="DisableUseAtColiseum" />
+		<Option Value="237" Name="Calamity Ring" />
+		<Option Value="252" Name="Oil" />
+		<Option Value="253" Name="Fire" />
+		<Option Value="259" Name="Effect90" />
+		<Option Value="260" Name="Frost" />
+		<Option Value="261" Name="Remove Effect If Torch In Hand" />
+		<Option Value="262" Name="WormRecovery(Torch)" />
+		<Option Value="264" Name="SetCultBool" />
+		<Option Value="266" Name="FallDeathIsDisabled" />
+		<Option Value="267" Name="AiVisualDistanceChange" />
+		<Option Value="269" Name="Effect1906" />
+		<Option Value="275" Name="Player Behavior ID Change" />
+		<Option Value="276" Name="Unknown" />
+		<Option Value="277" Name="Effect3296" />
+		<Option Value="278" Name="DisableSpellEffect" />
+		<Option Value="280" Name="WatchdogTriggerForHost" />
+		<Option Value="281" Name="WetSystemTrigger" />
+		<Option Value="282" Name="Effect140001" />
+		<Option Value="283" Name="Unknown" />
+		<Option Value="284" Name="SpCategory" />
+		<Option Value="285" Name="Unknown" />
+		<Option Value="286" Name="Weak Movement Slow" />
+		<Option Value="287" Name="Strong Movement Slow" />
+		<Option Value="288" Name="Critical Hits (HP)" />
+		<Option Value="289" Name="Critical Hits (FP)" />
+		<Option Value="290" Name="Grants roll i-frames" />
+		<Option Value="291" Name="Grants roll invisibility" />
+		<Option Value="292" Name="Repair1" />
+		<Option Value="293" Name="Change Durability" />
+		<Option Value="294" Name="AldrichFaithful" />
+		<Option Value="295" Name="AldrichFaithfulForHost" />
+		<Option Value="296" Name="ChrFinder_DarkmoonInvasion" />
+		<Option Value="297" Name="Cant Be Used In Session" />
+		<Option Value="298" Name="Trigger on Backstab" />
+		<Option Value="299" Name="Enemies attack Invaders" />
+		<Option Value="300" Name="Enemies attack Invaders" />
+		<Option Value="301" Name="1410370B1" />
+		<Option Value="302" Name="Homeward Warp" />
+		<Option Value="303" Name="Condition Occurence 1" />
+		<Option Value="304" Name="Condition Occurence 2" />
+		<Option Value="305" Name="Condition Occurence 3" />
+		<Option Value="306" Name="Condition Occurence 4" />
+		<Option Value="307" Name="Condition Occurence 5" />
+		<Option Value="308" Name="Condition Occurence 6" />
+		<Option Value="309" Name="Condition Occurence 7" />
+		<Option Value="310" Name="Condition Occurence 8 (Jailer HP Drain)" />
+		<Option Value="311" Name="Condition Occurence 9" />
+		<Option Value="312" Name="Unknown" />
+		<Option Value="313" Name="Seek Guidance" />
+		<Option Value="314" Name="Add Stability" />
+		<Option Value="315" Name="Flynn's Ring - CalcCorrectGraph_32" />
+		<Option Value="316" Name="CalcCorrectGraph_33" />
+		<Option Value="317" Name="Revoke Online Penalty" />
+		<Option Value="318" Name="Dead Again" />
+		<Option Value="319" Name="Effect4901" />
+		<Option Value="320" Name="Effect4902" />
+		<Option Value="321" Name="Reverse Hollowing" />
+		<Option Value="322" Name="ChrAsmStyle_HKS_LEFTHAND" />
+		<Option Value="323" Name="ChrAsmStyle_HKS_RIGHTHAND" />
+		<Option Value="324" Name="Unknown" />
+		<Option Value="325" Name="Wet Aspect Param" />
+		<Option Value="326" Name="Gender Change" />
+		<Option Value="327" Name="Ember" />
+		<Option Value="328" Name="Change Durability" />
+		<Option Value="329" Name="GetEstusCharge" />
+		<Option Value="330" Name="Online Check, Reset Event Flag 2100" />
+		<Option Value="331" Name="AiParam1" />
+		<Option Value="332" Name="AiParam_effect16189" />
+		<Option Value="333" Name="Spell Enhance (+6 to ID)" />
+		<Option Value="334" Name="Bullet Behavior ID Change" />
+		<Option Value="335" Name="AiParam2" />
+		<Option Value="336" Name="Effect16413" />
+		<Option Value="1000" Name="SkipSpCategoryCheck1" />
+		<Option Value="1001" Name="SkipSpCategoryCheck2" />
+	  </Enum>
+	  <Enum Name="AttackAttribute">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Slash" />
+		<Option Value="2" Name="Strike" />
+		<Option Value="3" Name="Thrust" />
+		<Option Value="4" Name="Standard" />
+	  </Enum>
+	  <Enum Name="EffectAttribute">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Physical" />
+		<Option Value="2" Name="Fire" />
+		<Option Value="3" Name="Magic" />
+		<Option Value="4" Name="Poison/Bleed" />
+		<Option Value="6" Name="Lightning" />
+		<Option Value="7" Name="Petrify" />
+		<Option Value="8" Name="Crystallize" />
+		<Option Value="9" Name="Dark" />
+	  </Enum>
+	  <Enum Name="DamageLevel">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="No Stagger" />
+		<Option Value="2" Name="Short Stagger" />
+		<Option Value="3" Name="Long Stagger" />
+		<Option Value="4" Name="Stagger to Floor" />
+		<Option Value="5" Name="Stagger Backwards" />
+		<Option Value="6" Name="Faceplant" />
+		<Option Value="7" Name="Stagger to Floor" />
+		<Option Value="8" Name="Faceplant" />
+		<Option Value="9" Name="Air Juggle Stagger" />
+		<Option Value="10" Name="Push" />
+		<Option Value="11" Name="Strong Stagger" />
+		<Option Value="12" Name="Stagger Backwards" />
+	  </Enum>
+	  <Enum Name="ThrowTrigger">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Forbidden" />
+		<Option Value="2" Name="Parry" />
+		<Option Value="4" Name="Fall" />
+		<Option Value="5" Name="Hornet Ring" />
+		<Option Value="6" Name="Lifedrain" />
+	  </Enum>
+	  <Enum Name="MoveType">
+		<Option Value="0" Name="0" />
+		<Option Value="3" Name="3" />
+		<Option Value="4" Name="4" />
+		<Option Value="5" Name="5" />
+	  </Enum>
+	  <Enum Name="WeaponParamChange">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Right-hand" />
+		<Option Value="2" Name="Left-hand" />
+		<Option Value="3" Name="Self" />
+		<Option Value="4" Name="Kick" />
+	  </Enum>
+	  <Enum Name="EffectCategory">
+		<Option Value="0" Name="None" />
+		<Option Value="10" Name="Stacks with Self" />
+		<Option Value="20" Name="Expire on Resting" />
+		<Option Value="151" Name="Body Buff 1" />
+		<Option Value="152" Name="Body Buff 2" />
+		<Option Value="157" Name="Body Buff 3" />
+		<Option Value="160" Name="Body Buff 4)" />
+		<Option Value="161" Name="Body Buff 5" />
+		<Option Value="162" Name="Weapon Buff - Right-hand" />
+		<Option Value="163" Name="Weapon Buff - Left-hand" />
+		<Option Value="100" Name="Animation Change Offset" />
+		<Option Value="1001" Name="Super Armor Change" />
+		<Option Value="10001" Name="Damage Level Change" />
+		<Option Value="110" Name="Resonance" />
+		<Option Value="154" Name="Spook" />
+		<Option Value="156" Name="Stamina Recovery" />
+		<Option Value="1000" Name="Move Type" />
+		<Option Value="1002" Name="Lava Walk" />
+		<Option Value="10003" Name="Bleed" />
+		<Option Value="10004" Name="Poison" />
+		<Option Value="10005" Name="Toxic" />
+		<Option Value="10006" Name="Curse" />
+		<Option Value="10007" Name="Frostbite" />
+	  </Enum>
+	  <Enum Name="IconID">
+		<Option Value="-1" Name="None" />
+		<Option Value="10004" Name="Dried Finger" />
+		<Option Value="10005" Name="Shadowy Hollow" />
+		<Option Value="10006" Name="Open Red Eye" />
+		<Option Value="10007" Name="Closed Black Eye" />
+		<Option Value="10008" Name="Estus with Down Blue Arrow" />
+		<Option Value="10009" Name="Attack" />
+		<Option Value="10010" Name="Magic" />
+		<Option Value="10011" Name="Defence" />
+		<Option Value="10012" Name="Resistances" />
+		<Option Value="10013" Name="Stamina Regen" />
+		<Option Value="10014" Name="HP Regen" />
+		<Option Value="10015" Name="FP Regen" />
+		<Option Value="10016" Name="Estus" />
+		<Option Value="10017" Name="Ashen Estus" />
+		<Option Value="10018" Name="Absorb HP" />
+		<Option Value="10019" Name="Absorb FP" />
+		<Option Value="10020" Name="FP Cost" />
+		<Option Value="10021" Name="Weapon Skill" />
+		<Option Value="10022" Name="Durability" />
+		<Option Value="10023" Name="Carthus Milkring" />
+		<Option Value="10024" Name="Silvercat Ring" />
+		<Option Value="10025" Name="Slumbering Dragoncrest Ring" />
+		<Option Value="10026" Name="Ring of Sacrifice" />
+		<Option Value="10027" Name="Bow Distance" />
+		<Option Value="10028" Name="Leo Ring" />
+		<Option Value="10029" Name="Message Icon" />
+		<Option Value="10030" Name="Item Discovery" />
+		<Option Value="10031" Name="Souls" />
+		<Option Value="10032" Name="Skull Ring" />
+		<Option Value="10033" Name="Poise" />
+		<Option Value="10034" Name="Calamity Ring" />
+		<Option Value="10035" Name="Seed of a Giant Tree" />
+		<Option Value="10036" Name="Damaged Helm" />
+		<Option Value="10037" Name="Broken Helm" />
+		<Option Value="10038" Name="Damaged Armor" />
+		<Option Value="10039" Name="Broken Armor" />
+		<Option Value="10040" Name="Damaged Gauntlets" />
+		<Option Value="10041" Name="Broken Gauntlets" />
+		<Option Value="10042" Name="Damaged Leggings" />
+		<Option Value="10043" Name="Broken Leggings" />
+		<Option Value="10044" Name="Password Seal icon" />
+		<Option Value="10045" Name="Armor and Sword Blue Aura" />
+	  </Enum>
+  </Enums>
+  <Field>
+    <iconId Enum="IconID" />
+    <replaceSpEffectId Refs="SpEffectParam" />
+    <cycleOccurenceSpEffectId Refs="SpEffectParam" />
+    <atkOccurenceSpEffectId Refs="SpEffectParam" />
+	<spCategory Enum="EffectCategory" />
+    <dmgLv_None Enum="DamageLevel" />
+    <dmgLv_S Enum="DamageLevel" />
+    <dmgLv_M Enum="DamageLevel" />
+    <dmgLv_L Enum="DamageLevel" />
+    <dmgLv_BlowM Enum="DamageLevel" />
+    <dmgLv_Push Enum="DamageLevel" />
+    <dmgLv_Strike Enum="DamageLevel" />
+    <dmgLv_BlowS Enum="DamageLevel" />
+    <dmgLv_Min Enum="DamageLevel" />
+    <dmgLv_Uppercut Enum="DamageLevel" />
+    <dmgLv_BlowLL Enum="DamageLevel" />
+    <dmgLv_Breath Enum="DamageLevel" />
+	<atkAttribute Enum="AttackAttribute" />
+	<spAttribute Enum="EffectCategory" />
+	<stateInfo Enum="StateInfo" />
+	<wepParamChange Enum="WeaponParamChange" />
+	<moveType Enum="MoveType" />
+	<throwCondition Enum="ThrowTrigger" />
+    <EffectVfx0 Refs="SpEffectVfxParam" />
+    <stateSpEffect0 Refs="SpEffectParam" />
+    <stateSpEffect1 Refs="SpEffectParam" />
+    <stateSpEffect2 Refs="SpEffectParam" />
+    <stateSpEffect3 Refs="SpEffectParam" />
+    <EffectVfx1 Refs="SpEffectVfxParam" />
+    <EffectVfx2 Refs="SpEffectVfxParam" />
+    <EffectVfx3 Refs="SpEffectVfxParam" />
+    <EffectVfx4 Refs="SpEffectVfxParam" />
+    <EffectVfx5 Refs="SpEffectVfxParam" />
+    <EffectVfx6 Refs="SpEffectVfxParam" />
+    <EffectVfx7 Refs="SpEffectVfxParam" />
+  </Field>
+</PARAMMETA>

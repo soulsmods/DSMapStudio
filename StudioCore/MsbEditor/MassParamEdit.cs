@@ -116,7 +116,7 @@ namespace StudioCore.MsbEditor
         // eg "selection"
         private static readonly string paramrowfilterselection = $@"(selection:\s+)";
         // eg "EquipParamWeapon: "
-        private static readonly string paramfilterRx = $@"(param\s+?<paramrx>[^\s:]+):\s+";
+        private static readonly string paramfilterRx = $@"(param\s+(?<paramrx>[^\s:]+):\s+)";
         // eg "id (100|200)00"
         private static readonly string rowfilteridRx = $@"(id\s+(?<rowidexp>[^:]+))";
         // eg "name \s+ Arrow"
@@ -218,12 +218,21 @@ namespace StudioCore.MsbEditor
         public static List<PARAM.Row> GetMatchingParamRowsByID(PARAM param, string rowvalexp, bool lenient, bool failureAllOrNone)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach (PARAM.Row row in param.Rows)
+            try
             {
-                if (MatchNumExp(row.ID, rowvalexp, lenient, failureAllOrNone))
-                    rlist.Add(row);
+                Regex rx = new Regex(rowvalexp);
+                foreach (PARAM.Row row in param.Rows)
+                {
+                    string term = lenient ? $@".*{row.ID.ToString()}.*" : row.ID.ToString();
+                    if (rx.Match(term).Success)
+                        rlist.Add(row);
+                }
+                return rlist;
             }
-            return rlist;
+            catch
+            {
+                return failureAllOrNone ? param.Rows : rlist;
+            }
         }
 
         public static List<PARAM.Row> GetMatchingParamRowsByName(PARAM param, string namerx, bool lenient, bool failureAllOrNone)
@@ -231,10 +240,11 @@ namespace StudioCore.MsbEditor
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             try
             {
-                Regex rownamerx = lenient ? new Regex($@".*{namerx}.*") : new Regex(namerx);
+                Regex rownamerx = lenient ? new Regex($@".*{namerx.ToLower()}.*") : new Regex(namerx);
                 foreach (PARAM.Row row in param.Rows)
                 {
-                    if (rownamerx.Match(row.Name == null ? "" : row.Name).Success)
+                    string nameToMatch = row.Name == null ? "" : row.Name;
+                    if (rownamerx.Match(lenient ? nameToMatch.ToLower() : nameToMatch).Success)
                         rlist.Add(row);
                 }
                 return rlist;
@@ -248,13 +258,22 @@ namespace StudioCore.MsbEditor
         public static List<PARAM.Row> GetMatchingParamRowsByPropVal(PARAM param, string rowfield, string rowvalexp, bool lenient, bool failureAllOrNone)
         {
             List<PARAM.Row> rlist = new List<PARAM.Row>();
-            foreach (PARAM.Row row in param.Rows)
+            try
             {
-                PARAM.Cell c = row[rowfield];
-                if (c != null && MatchNumExp(c.Value, rowvalexp, lenient, failureAllOrNone))
-                    rlist.Add(row);
+                Regex rx = new Regex(rowvalexp);
+                foreach (PARAM.Row row in param.Rows)
+                {
+                    PARAM.Cell c = row[rowfield];
+                    string term = lenient ? $@".*{c.Value.ToString()}.*" : c.Value.ToString();
+                    if (c != null && rx.Match(term).Success)
+                        rlist.Add(row);
+                }
+                return rlist;
             }
-            return rlist;
+            catch
+            {
+                return failureAllOrNone ? param.Rows : rlist;
+            }
         }
 
         public static List<PARAM.Row> GetMatchingParamRowsByPropRef(PARAM param, string rowfield, string namerx, bool lenient, bool failureAllOrNone)
@@ -262,7 +281,7 @@ namespace StudioCore.MsbEditor
             List<PARAM.Row> rlist = new List<PARAM.Row>();
             try
             {
-                Regex rownamerx = lenient ? new Regex($@".*{namerx}.*") : new Regex(namerx);
+                Regex rownamerx = lenient ? new Regex($@".*{namerx.ToLower()}.*") : new Regex(namerx);
                 foreach (PARAM.Row row in param.Rows)
                 {
                     PARAM.Cell c = row[rowfield];
@@ -274,7 +293,8 @@ namespace StudioCore.MsbEditor
                             if (!ParamBank.Params.ContainsKey(rt))
                                 continue;
                             PARAM.Row r = ParamBank.Params[rt][val];
-                            if (r != null && rownamerx.Match(r.Name == null ? "" : r.Name).Success)
+                            string nameToMatch = r.Name == null ? "" : r.Name;
+                            if (r != null && rownamerx.Match(lenient ? nameToMatch.ToLower() : nameToMatch).Success)
                             {
                                 rlist.Add(row);
                                 break;
@@ -305,21 +325,6 @@ namespace StudioCore.MsbEditor
             }
             return clist;
         }
-        
-        public static bool MatchNumExp(object val, string valexp, bool lenient, bool failureTrueOrFalse)
-        {
-            try
-            {
-                // Regex may be replaced at a later time with a more relevant syntax
-                Regex rx = new Regex($@"^{valexp}$");
-                return rx.Match(val.ToString()).Success;
-            }
-            catch
-            {
-                return failureTrueOrFalse ? true : false;
-            }
-        }
-        
     }
 
     public class MassParamEditCSV : MassParamEdit

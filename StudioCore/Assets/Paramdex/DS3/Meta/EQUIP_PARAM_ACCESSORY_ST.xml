@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="SpEffectCategory">
+		<Option Value="0" Name="Default" />
+		<Option Value="5" Name="Weapon" />
+	  </Enum>
+	  <Enum Name="ReferenceType">
+		<Option Value="0" Name="Behavior / None" />
+		<Option Value="1" Name="Bullet" />
+		<Option Value="2" Name="SpEffect" />
+	  </Enum>
+	  <Enum Name="AccessoryType">
+		<Option Value="0" Name="Ring" />
+		<Option Value="1" Name="Covenant" />
+	  </Enum>
+	  <Enum Name="EquipModelCategory">
+	    <Option Value="0" Name="Accessory" />
+		<Option Value="1" Name="Arm" />
+		<Option Value="2" Name="Body" />
+		<Option Value="3" Name="Face" />
+		<Option Value="4" Name="Hair" />
+		<Option Value="5" Name="Head" />
+		<Option Value="6" Name="Leg" />
+		<Option Value="7" Name="Weapon" />
+	  </Enum>
+	  <Enum Name="EquipModelGender">
+	    <Option Value="0" Name="All" />
+		<Option Value="1" Name="Male/Female (1)" />
+		<Option Value="2" Name="Male/Female (2)" />
+		<Option Value="3" Name="Male/Female (3)" />
+		<Option Value="4" Name="Male" />
+	  </Enum>
+  </Enums>
+  <Field>
+	<equipModelCategory Enum="EquipModelCategory" />
+	<equipModelGender Enum="EquipModelGender" />
+	<accessoryCategory Enum="AccessoryType" />
+	<refCategory Enum="ReferenceType" />
+	<spEffectCategory Enum="SpEffectCategory" />
+    <refId0 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+    <RingCompatibilityId VRef="ringCompatibility" />
+  </Field>
+</PARAMMETA>
