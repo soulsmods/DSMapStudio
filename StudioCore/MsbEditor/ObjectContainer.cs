@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
+using SoulsFormats.XmlExtensions;
+using System.Xml;
 using SoulsFormats;
 using StudioCore.Scene;
+using System.Text.Json;
 
 namespace StudioCore.MsbEditor
 {
@@ -606,9 +611,37 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)
+        public void SerializeToXML(XmlWriter xw, GameType game)
         {
-            serializer.Serialize(writer, this);
+            xw.WriteStartElement("map");
+            xw.WriteElementString("version", "1200");
+            xw.WriteElementString("game", game.ToString());
+            xw.WriteStartElement("entities");
+            MemoryStream ms = new MemoryStream();
+            BinaryWriterEx bw = new BinaryWriterEx(false, ms);
+            JsonSerializerOptions opts = new JsonSerializerOptions();
+            opts.WriteIndented = true;
+            foreach (var o in Objects)
+            {
+                xw.WriteStartElement("entity");
+                xw.WriteAttributeString("name", o.Name);
+                if (o.WrappedObject != null)
+                {
+                    xw.WriteAttributeString("type", o.WrappedObject.GetType().FullName);
+                    if (o.WrappedObject is ISerializableObject so)
+                    {
+                        xw.WriteComment(JsonSerializer.Serialize(o.WrappedObject, opts));
+                        bw.Position = 0;
+                        so.Write(bw);
+                        var encstring = Convert.ToBase64String(ms.ToArray(), 0, (int)bw.Position, Base64FormattingOptions.InsertLineBreaks);
+                        xw.WriteElementString("data", encstring);
+                    }
+                }
+                xw.WriteEndElement();
+            }
+            xw.WriteEndElement();
+            xw.WriteEndElement();
+            ms.Dispose();
         }
 
         public bool SerializeDS2Generators(PARAM locations, PARAM generators)

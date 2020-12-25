@@ -163,6 +163,33 @@ namespace StudioCore.Memory
             return _capacity;
         }
 
+        public void Resize(uint newsize)
+        {
+            if (newsize <= _capacity)
+            {
+                throw new ArgumentException("Only support growing");
+            }
+            lock (_lock)
+            {
+                var top = _blocks.Last;
+                var delta = newsize - _capacity;
+                if (top.Value._free)
+                {
+                    top.Value._size += delta;
+                }
+                else
+                {
+                    Block n = new Block();
+                    n._free = true;
+                    n._size = delta;
+                    n._addr = _capacity;
+                    n._node = _blocks.AddLast(n);
+                    _freeBlocks.AddLast(n);
+                }
+                _capacity += delta;
+            }
+        }
+
         public bool HasAllocations()
         {
             return _allocations.Count > 0;

@@ -221,7 +221,7 @@ namespace StudioCore
                 }
                 else
                 {
-                    _desiredFrameLengthSeconds = 1.0 / 60.0f;
+                    _desiredFrameLengthSeconds = 1.0 / 144.0f;
                 }
                 long currentFrameTicks = sw.ElapsedTicks;
                 double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;

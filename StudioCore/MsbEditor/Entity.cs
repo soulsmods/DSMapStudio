@@ -12,6 +12,209 @@ using System.Diagnostics;
 
 namespace StudioCore.MsbEditor
 {
+    public class EntityTransform
+    {
+        public Transform Transform;
+        public EntityTransform Parent { get; private set; } = null;
+        public List<EntityTransform> Children { get; private set; } = new List<EntityTransform>();
+        public Entity Entity { get; private set; }
+
+        public EntityTransform(Entity ent)
+        {
+            Entity = ent;
+        }
+
+        public void AddChild(EntityTransform child)
+        {
+            if (child.Parent != null)
+            {
+                Parent.Children.Remove(child);
+            }
+            child.Parent = this;
+            Children.Add(child);
+            //child.UpdateRenderModel();
+        }
+
+        public void AddChild(EntityTransform child, int index)
+        {
+            if (child.Parent != null)
+            {
+                Parent.Children.Remove(child);
+            }
+            child.Parent = this;
+            Children.Insert(index, child);
+            //child.UpdateRenderModel();
+        }
+
+        public int ChildIndex(EntityTransform child)
+        {
+            for (int i = 0; i < Children.Count(); i++)
+            {
+                if (Children[i] == child)
+                {
+
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int RemoveChild(EntityTransform child)
+        {
+            for (int i = 0; i < Children.Count(); i++)
+            {
+                if (Children[i] == child)
+                {
+                    Children[i].Parent = null;
+                    Children.RemoveAt(i);
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public void SetFromObjectProperties()
+        {
+            var t = Transform.Default;
+            var pos = Entity.GetPropertyValue("Position");
+            if (pos != null)
+            {
+                t.Position = (Vector3)pos;
+            }
+            else
+            {
+                var px = Entity.GetPropertyValue("PositionX");
+                var py = Entity.GetPropertyValue("PositionY");
+                var pz = Entity.GetPropertyValue("PositionZ");
+                if (px != null)
+                {
+                    t.Position.X = (float)px;
+                }
+                if (py != null)
+                {
+                    t.Position.Y = (float)py;
+                }
+                if (pz != null)
+                {
+                    t.Position.Z = (float)pz;
+                }
+            }
+
+            var rot = Entity.GetPropertyValue("Rotation");
+            if (rot != null)
+            {
+                var r = (Vector3)rot;
+                if (Entity.IsRotationPropertyRadians("Rotation"))
+                {
+                    if (Entity.IsRotationXZY("Rotation"))
+                    {
+                        t.EulerRotationXZY = new Vector3(r.X, r.Y, r.Z);
+                    }
+                    else
+                    {
+                        t.EulerRotation = new Vector3(r.X, r.Y, r.Z);
+                    }
+                }
+                else
+                {
+                    if (Entity.IsRotationXZY("Rotation"))
+                    {
+                        t.EulerRotationXZY = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                    }
+                    else
+                    {
+                        t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+                    }
+                }
+            }
+            else
+            {
+                var rx = Entity.GetPropertyValue("RotationX");
+                var ry = Entity.GetPropertyValue("RotationY");
+                var rz = Entity.GetPropertyValue("RotationZ");
+                Vector3 r = Vector3.Zero;
+                if (rx != null)
+                {
+                    r.X = (float)rx;
+                }
+                if (ry != null)
+                {
+                    r.Y = (float)ry + 180.0f; // According to Vawser, DS2 enemies are flipped 180 relative to map rotations
+                }
+                if (rz != null)
+                {
+                    r.Z = (float)rz;
+                }
+                t.EulerRotation = new Vector3(Utils.DegToRadians(r.X), Utils.DegToRadians(r.Y), Utils.DegToRadians(r.Z));
+            }
+
+            var scale = Entity.GetPropertyValue("Scale");
+            if (scale != null)
+            {
+                t.Scale = (Vector3)scale;
+            }
+
+            Transform = t;
+        }
+
+        public void CommitToObjectProperties(object obj)
+        {
+            if (Entity.WrappedObject is PARAM.Row || Entity.WrappedObject is MergedParamRow)
+            {
+                var actions = new List<Action>();
+                float roty = Transform.EulerRotation.Y * Utils.Rad2Deg - 180.0f;
+                actions.Add(Entity.GetPropertyChangeAction("PositionX", Transform.Position.X));
+                actions.Add(Entity.GetPropertyChangeAction("PositionY", Transform.Position.Y));
+                actions.Add(Entity.GetPropertyChangeAction("PositionZ", Transform.Position.Z));
+                actions.Add(Entity.GetPropertyChangeAction("RotationX", Transform.EulerRotation.X * Utils.Rad2Deg));
+                actions.Add(Entity.GetPropertyChangeAction("RotationY", roty));
+                actions.Add(Entity.GetPropertyChangeAction("RotationZ", Transform.EulerRotation.Z * Utils.Rad2Deg));
+                var act = new CompoundAction(actions);
+                act.SetPostExecutionAction((undo) =>
+                {
+                    Entity.UpdateRenderModel();
+                });
+            }
+            else
+            {
+                var act = new PropertiesChangedAction(Entity.WrappedObject);
+                var prop = Entity.WrappedObject.GetType().GetProperty("Position");
+                act.AddPropertyChange(prop, Transform.Position);
+                prop = Entity.WrappedObject.GetType().GetProperty("Rotation");
+                if (prop != null)
+                {
+                    if (Entity.IsRotationPropertyRadians("Rotation"))
+                    {
+                        if (Entity.IsRotationXZY("Rotation"))
+                        {
+                            act.AddPropertyChange(prop, Transform.EulerRotationXZY);
+                        }
+                        else
+                        {
+                            act.AddPropertyChange(prop, Transform.EulerRotation);
+                        }
+                    }
+                    else
+                    {
+                        if (Entity.IsRotationXZY("Rotation"))
+                        {
+                            act.AddPropertyChange(prop, Transform.EulerRotationXZY * Utils.Rad2Deg);
+                        }
+                        else
+                        {
+                            act.AddPropertyChange(prop, Transform.EulerRotation * Utils.Rad2Deg);
+                        }
+                    }
+                }
+                act.SetPostExecutionAction((undo) =>
+                {
+                    Entity.UpdateRenderModel();
+                });
+            }
+        }
+    }
+
+
     /// <summary>
     /// A logical map object that can be either a part, a region, or an event. Uses
     /// reflection to access and update properties

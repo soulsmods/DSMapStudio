@@ -8,6 +8,7 @@ using StudioCore.Resource;
 using SoulsFormats;
 using Newtonsoft.Json;
 using StudioCore.Scene;
+using System.Xml;
 
 namespace StudioCore.MsbEditor
 {
@@ -956,6 +957,13 @@ namespace StudioCore.MsbEditor
             {
                 SaveDS2Generators(map);
             }
+
+            var xws = new XmlWriterSettings();
+            xws.Indent = true;
+            xws.Encoding = Encoding.UTF8;
+            XmlWriter xw = XmlWriter.Create(mapPath + ".xml", xws);
+            map.SerializeToXML(xw, _assetLocator.Type);
+            xw.Close();
 
             map.HasUnsavedChanges = false;
 

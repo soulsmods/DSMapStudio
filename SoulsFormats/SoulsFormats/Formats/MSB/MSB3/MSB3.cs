@@ -245,9 +245,14 @@ namespace SoulsFormats
         /// <summary>
         /// A generic entry in an MSB param.
         /// </summary>
-        public abstract class Entry
+        public abstract class Entry : ISerializableObject
         {
             internal abstract void Write(BinaryWriterEx bw, int index);
+
+            public void Write(BinaryWriterEx bw)
+            {
+                Write(bw, 0);
+            }
         }
 
         /// <summary>
