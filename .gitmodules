@@ -4,3 +4,6 @@
 [submodule "SoulsFormats"]
 	path = SoulsFormats
 	url = https://github.com/Meowmaritus/SoulsFormats
+[submodule "DSLuaDecompiler"]
+	path = DSLuaDecompiler
+	url = https://github.com/katalash/DSLuaDecompiler.git
