@@ -2,10 +2,14 @@
 using StudioCore.MsbEditor;
 using StudioCore.Scene;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Globalization;
+using System.Threading;
+using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -14,7 +18,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Preview 11";
+        private static string _version = "Jank ParamStudio Merge Test";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -61,6 +65,7 @@ namespace StudioCore
 
         private Editor.ProjectSettings _newProjectSettings;
         private string _newProjectDirectory = "";
+        private bool _newProjectLoadDefaultNames = false;
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
@@ -82,7 +87,7 @@ namespace StudioCore
                 WindowWidth = CFG.Current.GFX_Display_Width,
                 WindowHeight = CFG.Current.GFX_Display_Height,
                 WindowInitialState = WindowState.Maximized,
-                WindowTitle = "Dark Souls Map Studio " + _version + " by Katalash",
+                WindowTitle = "Dark Souls Map Studio " + _version,
             };
             GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 
@@ -190,6 +195,40 @@ namespace StudioCore
                     AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
                 }
             }
+        }
+
+        public void SetupCSharpDefaults()
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+        }
+
+        public void SetupParamStudioConfig()
+        {
+            string self = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+            Utils.setRegistry("executable", self);
+            string reg = Utils.readRegistry("showAltNamesPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.ShowAltNamesPreference = reg == "true";
+            reg = Utils.readRegistry("alwaysShowOriginalNamePreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.AlwaysShowOriginalNamePreference = reg == "true";
+            reg = Utils.readRegistry("hideReferenceRowsPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.HideReferenceRowsPreference = reg == "true";
+            reg = Utils.readRegistry("hideEnumsPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.HideEnumsPreference = reg == "true";
+            reg = Utils.readRegistry("allFieldReorderPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.AllowFieldReorderPreference = reg == "true";
+        }
+        public void SaveParamStudioConfig()
+        {
+            Utils.setRegistry("showAltNamesPreference", ParamEditor.ParamEditorScreen.ShowAltNamesPreference ? "true" : "false");
+            Utils.setRegistry("alwaysShowOriginalNamePreference", ParamEditor.ParamEditorScreen.AlwaysShowOriginalNamePreference ? "true" : "false");
+            Utils.setRegistry("hideReferenceRowsPreference", ParamEditor.ParamEditorScreen.HideReferenceRowsPreference ? "true" : "false");
+            Utils.setRegistry("hideEnumsPreference", ParamEditor.ParamEditorScreen.HideEnumsPreference ? "true" : "false");
+            Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
         }
 
         public void Run()
@@ -427,16 +466,28 @@ namespace StudioCore
             return success;
         }
 
+        //Unhappy with this being here
+        [DllImport("user32.dll", EntryPoint = "ShowWindow")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool _user32_ShowWindow(IntPtr hWnd, int nCmdShow);
+
         private void Update(float deltaseconds)
         {
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
-            //ImGui.
+            List<string> tasks = Editor.TaskManager.GetLiveThreads();
+            //_window.Title = tasks.Count == 0 ? "Dark Souls Param Studio " + _version : String.Join(", ", tasks);
 
             var command = EditorCommandQueue.GetNextCommand();
             string[] commandsplit = null;
             if (command != null)
             {
                 commandsplit = command.Split($@"/");
+            }
+            if (commandsplit != null && commandsplit[0] == "windowFocus")
+            {
+                //this is a hack, cannot grab focus except for when un-minimising
+                _user32_ShowWindow(_window.Handle, 6);
+                _user32_ShowWindow(_window.Handle, 9);
             }
 
             ImGui.BeginFrame(); // Imguizmo begin frame
@@ -480,11 +531,11 @@ namespace StudioCore
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
 
-                    if (ImGui.MenuItem("New Project", "CTRL+N") || InputTracker.GetControlShortcut(Key.I))
+                    if (ImGui.MenuItem("New Project", "CTRL+N", false, Editor.TaskManager.GetLiveThreads().Count == 0) || InputTracker.GetControlShortcut(Key.N))
                     {
                         newProject = true;
                     }
-                    if (ImGui.MenuItem("Open Project", ""))
+                    if (ImGui.MenuItem("Open Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
                         var browseDlg = new System.Windows.Forms.OpenFileDialog()
                         {
@@ -550,6 +601,7 @@ namespace StudioCore
                         _modelEditor.SaveAll();
                         _paramEditor.SaveAll();
                         _textEditor.SaveAll();
+                        SaveParamStudioConfig();
                     }
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
@@ -572,6 +624,20 @@ namespace StudioCore
                 else if (_textEditorFocused)
                 {
                     _textEditor.DrawEditorMenu();
+                }
+                if (ImGui.BeginMenu("Help"))
+                {
+                    if (ImGui.BeginMenu("About"))
+                    {
+                        ImGui.Text("DSParamStudio is forked from Katalash's DSMapStudio and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("Edits aren't sticking!"))
+                    {
+                        ImGui.Text("The mechanism that is used to detect if a field has been changed can stop existing before registering a change.\nThis occurs when switching param, row or using tab between fields.\nI hope to have this fixed soon, however it is a complicated issue.\nTo ensure a change sticks, simply click off the field you are editing.");
+                        ImGui.EndMenu();
+                    }
+                    ImGui.EndMenu();
                 }
                 ImGui.EndMainMenuBar();
             }
@@ -660,6 +726,14 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
+                if (_newProjectSettings.GameType == GameType.DarkSoulsPTDE || _newProjectSettings.GameType == GameType.DarkSoulsIISOTFS || _newProjectSettings.GameType == GameType.DarkSoulsIII || _newProjectSettings.GameType == GameType.Sekiro)
+                {
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text($@"Load default row names:  ");
+                    ImGui.SameLine();
+                    ImGui.Checkbox("##loadDefaultNames", ref _newProjectLoadDefaultNames);
+                    ImGui.NewLine();
+                }
 
                 if (ImGui.Button("Create", new Vector2(120, 0)))
                 {
@@ -729,6 +803,10 @@ namespace StudioCore
                         if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
                         {
                             CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
+                        }
+                        if (_newProjectLoadDefaultNames)
+                        {
+                            ParamEditor.ParamBank.LoadParamDefaultNames();
                         }
 
                         ImGui.CloseCurrentPopup();

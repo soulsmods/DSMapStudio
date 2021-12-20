@@ -379,7 +379,7 @@ namespace StudioCore.MsbEditor
                     if (ImGui.Selectable($@"Goto {att.ParamName}"))
                     {
                         var id = (int)propinfo.GetValue(obj);
-                        EditorCommandQueue.AddCommand($@"param/select/{att.ParamName}/{id}");
+                        EditorCommandQueue.AddCommand($@"param/select/-1/{att.ParamName}/{id}");
                     }
                 }
                 if (ImGui.Selectable($@"Search"))
