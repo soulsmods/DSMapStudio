@@ -7,6 +7,7 @@ using System.Numerics;
 using System.IO;
 using SoulsFormats;
 using System.Collections.Generic;
+using Microsoft.Win32;
 
 namespace StudioCore
 {
@@ -646,6 +647,24 @@ namespace StudioCore
             while (parentBone != null);
 
             return res;
+        }
+
+        public static void setRegistry(string name, string value)
+        {
+            RegistryKey rkey = Registry.CurrentUser.CreateSubKey($@"Software\DSMapStudio");
+            rkey.SetValue(name, value);
+        }
+
+        public static string readRegistry(string name)
+        {
+            RegistryKey rkey = Registry.CurrentUser.CreateSubKey($@"Software\DSMapStudio");
+            var v = rkey.GetValue(name);
+            return v == null ? null : v.ToString();
+        }
+
+        public static string ImGuiEscape(string str, string nullStr)
+        {
+            return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
         }
     }
 }

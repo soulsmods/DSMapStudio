@@ -519,7 +519,7 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginPopup("ctrlVPopup"))
             {
                 ImGui.InputText("Offset", ref _currentCtrlVInput, 20);
-                long offset = 0;
+                int offset = 0;
                 try
                 {
                     offset = int.Parse(_currentCtrlVInput);

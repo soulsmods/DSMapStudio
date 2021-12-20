@@ -516,6 +516,11 @@ namespace StudioCore
             return $@"{GetParamAssetsDir()}\Meta";
         }
 
+        public string GetParamNamesDir()
+        {
+            return $@"{GetParamAssetsDir()}\Names";
+        }
+
         public PARAMDEF GetParamdefForParam(string paramType)
         {
             PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");

@@ -10,6 +10,7 @@ namespace SoulsFormats
         /// <summary>
         /// The layout of cell data within each row in a param.
         /// </summary>
+        [Obsolete]
         public class Layout : List<Layout.Entry>
         {
             /// <summary>
@@ -134,7 +135,7 @@ namespace SoulsFormats
                 foreach (string enumName in Enums.Keys)
                     paramtdfs.Add(Enums[enumName].ToParamtdf(enumName));
 
-                var def = new PARAMDEF { ParamType = paramType, Unicode = true, Version = 201 };
+                var def = new PARAMDEF { ParamType = paramType, Unicode = true, FormatVersion = 201 };
                 foreach (Entry entry in this)
                 {
                     PARAMDEF.DefType fieldType;

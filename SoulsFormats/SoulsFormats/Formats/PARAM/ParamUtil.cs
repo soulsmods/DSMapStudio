@@ -34,7 +34,7 @@ namespace SoulsFormats
                 case DefType.u8: return byte.MinValue;
                 case DefType.s16: return short.MinValue;
                 case DefType.u16: return ushort.MinValue;
-                case DefType.s32: return int.MinValue;
+                case DefType.s32: return -2147483520; // Largest representable float greater than int.MinValue
                 case DefType.u32: return uint.MinValue;
                 case DefType.f32: return float.MinValue;
                 case DefType.dummy8: return 0;
@@ -54,8 +54,8 @@ namespace SoulsFormats
                 case DefType.u8: return byte.MaxValue;
                 case DefType.s16: return short.MaxValue;
                 case DefType.u16: return ushort.MaxValue;
-                case DefType.s32: return int.MaxValue;
-                case DefType.u32: return uint.MaxValue;
+                case DefType.s32: return 2147483520; // Largest representable float less than int.MaxValue
+                case DefType.u32: return 4294967040; // Largest representable float less than uint.MaxValue
                 case DefType.f32: return float.MaxValue;
                 case DefType.dummy8: return 0;
                 case DefType.fixstr: return 1000000000;
