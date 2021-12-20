@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Enums>
+	<Enum Name="Slot">
+		<Option Value="255" Name="Debug" />
+		<Option Value="1" Name="Head" />
+		<Option Value="2" Name="Body" />
+		<Option Value="3" Name="Arms" />
+		<Option Value="4" Name="Legs" />
+	</Enum>
+</Enums>
+<Self Row0Dummy="" />
+<Field>
+<ArmorID AltName="Armor ID" /> 
+<SlotCategory AltName="Slot Category" Enum="Slot" /> 
+<ArmorSetID AltName="Armor Set ID" Wiki="The ID for this armor set. Do not forget this when creating custom armor." /> 
+<EquipInterfereID AltName="Equip Interfere ID" Refs="EquipInterfereParam" /> 
+<ArmorReinforceID AltName="Armor Reinforce ID" Refs="ArmorReinforceParam" /> 
+<STRRequirement AltName="STR Requirement" /> 
+<DEXRequirement AltName="DEX Requirement" /> 
+<INTRequirement AltName="INT Requirement" /> 
+<FAIRequirement AltName="FAI Requirement" /> 
+<Weight AltName="Weight" /> 
+<Durability AltName="Durability" /> 
+<RepairCost AltName="Repair Cost" /> 
+<Poise AltName="Poise" /> 
+</Field>
+</PARAMMETA>

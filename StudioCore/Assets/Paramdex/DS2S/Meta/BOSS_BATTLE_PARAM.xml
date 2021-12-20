@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<Souls AltName="Souls" /> 
+<ItemlotID AltName="Itemlot ID" /> 
+<EnemyCommonID AltName="Enemy Common ID" /> 
+<BossDestructionFlagID AltName="Boss Destruction Flag ID" /> 
+<CameraFollowID AltName="Camera Follow ID" /> 
+<LockonID AltName="Lock-on ID" /> 
+<PrimalBonfireBoss AltName="Primal Bonfire Boss" /> 
+<NameTextID1 AltName="Name Text ID 1" /> 
+<NameTextID2 AltName="Name Text ID 2" /> 
+<NameTextID3 AltName="Name Text ID 3" /> 
+<MapObjectBonfireID AltName="Map Object Bonfire ID" /> 
+</Field>
+</PARAMMETA>

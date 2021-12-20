@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Self AlternativeOrder="
+    physicsAtkRate, magicAtkRate, fireAtkRate, thunderAtkRate, darkAtkRate,
+    staminaAtkRate, StabilityAtkRate, saWeaponAtkRate,
+    -,
+    physicsGuardCutRate, magicGuardCutRate, fireGuardCutRate, thunderGuardCutRate, darkCutRate,
+    staminaGuardResistRate, StabilityCutRate, saDurabilityRate,
+    -,
+    poisonGuardResistRate, toxicGuardResistRate, bleedGuardResistRate, curseGuardResistRate, frostGuardResistRate,
+    -,
+    correctStrengthRate, correctAgilityRate, correctMagicRate, correctFaithRate,
+    -,
+    spEffectId1, spEffectId2, spEffectId3,
+    ResidentSpEffectId1, ResidentSpEffectId2, ResidentSpEffectId3,
+    materialSetId" />
+  <Field>
+    <spEffectId1 AltName="spEffectId1 Offset" />
+    <spEffectId2 AltName="spEffectId2 Offset" />
+    <spEffectId3 AltName="spEffectId3 Offset" />
+    <ResidentSpEffectId1 AltName="ResidentSpEffectId1 Offset" />
+    <ResidentSpEffectId2 AltName="ResidentSpEffectId2 Offset" />
+    <ResidentSpEffectId3 AltName="ResidentSpEffectId3 Offset" />
+    <materialSetId AltName="materialSetId Offset" />
+  </Field>
+</PARAMMETA>

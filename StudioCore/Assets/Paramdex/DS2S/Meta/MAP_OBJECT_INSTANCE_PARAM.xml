@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<ParamID AltName="Param ID" /> 
+<MapObjectInstanceTypeID AltName="Map Object Instance Type ID" /> 
+<DefaultState AltName="Default State" /> 
+<ItemlotID AltName="Itemlot ID" /> 
+</Field>
+</PARAMMETA>

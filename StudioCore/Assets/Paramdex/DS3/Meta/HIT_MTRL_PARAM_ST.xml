@@ -3,6 +3,14 @@
   <Field>
     <spEffectId0 Refs="SpEffectParam" />
     <spEffectId1 Refs="SpEffectParam" />
+    <FootEffectHeightType0 IsBool="" />
+    <FootEffectHeightType1 IsBool="" />
+    <footEffectDirType0 IsBool="" />
+    <footEffectDirType1 IsBool="" />
+    <newSpType0 IsBool="" />
+    <newSpType1 IsBool="" />
+    <unkb1 IsBool="" />
+    <unkb2 IsBool="" />
     <spEffectId2 Refs="SpEffectParam" />
     <spEffectId3 Refs="SpEffectParam" />
     <spEffectId4 Refs="SpEffectParam" />

@@ -44,22 +44,22 @@ namespace StudioCore
         private ImGuiRenderer ImguiRenderer;
 
         private bool _msbEditorFocused = false;
-        private MsbEditor.MsbEditorScreen MSBEditor;
+        private MsbEditor.MsbEditorScreen _msbEditor;
         private bool _modelEditorFocused = false;
-        private MsbEditor.ModelEditorScreen ModelEditor;
+        private MsbEditor.ModelEditorScreen _modelEditor;
         private bool _paramEditorFocused = false;
-        private MsbEditor.ParamEditorScreen ParamEditor;
+        private ParamEditor.ParamEditorScreen _paramEditor;
         private bool _textEditorFocused = false;
-        private MsbEditor.TextEditorScreen TextEditor;
+        private TextEditor.TextEditorScreen _textEditor;
 
         public static RenderDoc RenderDocManager;
 
         private const bool UseRenderdoc = false;
 
         private AssetLocator _assetLocator;
-        private MsbEditor.ProjectSettings _projectSettings = null;
+        private Editor.ProjectSettings _projectSettings = null;
 
-        private MsbEditor.ProjectSettings _newProjectSettings;
+        private Editor.ProjectSettings _newProjectSettings;
         private string _newProjectDirectory = "";
 
         private static bool _firstframe = true;
@@ -121,13 +121,13 @@ namespace StudioCore
             GuiCommandList = factory.CreateCommandList();
 
             _assetLocator = new AssetLocator();
-            MSBEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
-            ModelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
-            ParamEditor = new MsbEditor.ParamEditorScreen(_window, _gd);
-            TextEditor = new MsbEditor.TextEditorScreen(_window, _gd);
+            _msbEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
+            _modelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
+            _paramEditor = new ParamEditor.ParamEditorScreen(_window, _gd);
+            _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
 
-            MsbEditor.ParamBank.LoadParams(_assetLocator);
-            MsbEditor.FMGBank.LoadFMGs(_assetLocator);
+            ParamEditor.ParamBank.SetAssetLocator(_assetLocator);
+            TextEditor.FMGBank.SetAssetLocator(_assetLocator);
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
@@ -186,7 +186,7 @@ namespace StudioCore
             {
                 if (File.Exists(CFG.Current.LastProjectFile))
                 {
-                    var project = MsbEditor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
+                    var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
                     AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
                 }
             }
@@ -264,17 +264,17 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
-        private void ChangeProjectSettings(MsbEditor.ProjectSettings newsettings, string moddir)
+        private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir)
         {
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
-            MsbEditor.ParamBank.ReloadParams();
-            MsbEditor.FMGBank.ReloadFMGs();
+            ParamEditor.ParamBank.ReloadParams();
+            TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
-            MSBEditor.OnProjectChanged(_projectSettings);
-            ModelEditor.OnProjectChanged(_projectSettings);
-            ParamEditor.OnProjectChanged(_projectSettings);
-            TextEditor.OnProjectChanged(_projectSettings);
+            _msbEditor.OnProjectChanged(_projectSettings);
+            _modelEditor.OnProjectChanged(_projectSettings);
+            _paramEditor.OnProjectChanged(_projectSettings);
+            _textEditor.OnProjectChanged(_projectSettings);
         }
 
         public void ApplyStyle()
@@ -347,7 +347,7 @@ namespace StudioCore
             }
         }
 
-        private bool AttemptLoadProject(ProjectSettings settings, string filename, bool updateRecents=true)
+        private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents=true)
         {
             bool success = true;
 
@@ -496,7 +496,7 @@ namespace StudioCore
 
                         if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
-                            var settings = MsbEditor.ProjectSettings.Deserialize(browseDlg.FileName);
+                            var settings = Editor.ProjectSettings.Deserialize(browseDlg.FileName);
                             AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
@@ -509,7 +509,7 @@ namespace StudioCore
                             {
                                 if (File.Exists(p.ProjectFile))
                                 {
-                                    var settings = MsbEditor.ProjectSettings.Deserialize(p.ProjectFile);
+                                    var settings = Editor.ProjectSettings.Deserialize(p.ProjectFile);
                                     if (AttemptLoadProject(settings, p.ProjectFile, false))
                                     {
                                         recent = p;
@@ -529,27 +529,27 @@ namespace StudioCore
                     {
                         if (_msbEditorFocused)
                         {
-                            MSBEditor.Save();
+                            _msbEditor.Save();
                         }
                         if (_modelEditorFocused)
                         {
-                            ModelEditor.Save();
+                            _modelEditor.Save();
                         }
                         if (_paramEditorFocused)
                         {
-                            ParamEditor.Save();
+                            _paramEditor.Save();
                         }
                         if (_textEditorFocused)
                         {
-                            TextEditor.Save();
+                            _textEditor.Save();
                         }
                     }
                     if (ImGui.MenuItem("Save All", ""))
                     {
-                        MSBEditor.SaveAll();
-                        ModelEditor.SaveAll();
-                        ParamEditor.SaveAll();
-                        TextEditor.SaveAll();
+                        _msbEditor.SaveAll();
+                        _modelEditor.SaveAll();
+                        _paramEditor.SaveAll();
+                        _textEditor.SaveAll();
                     }
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
@@ -559,19 +559,19 @@ namespace StudioCore
                 }
                 if (_msbEditorFocused)
                 {
-                    MSBEditor.DrawEditorMenu();
+                    _msbEditor.DrawEditorMenu();
                 }
                 else if (_modelEditorFocused)
                 {
-                    ModelEditor.DrawEditorMenu();
+                    _modelEditor.DrawEditorMenu();
                 }
                 else if (_paramEditorFocused)
                 {
-                    ParamEditor.DrawEditorMenu();
+                    _paramEditor.DrawEditorMenu();
                 }
                 else if (_textEditorFocused)
                 {
-                    TextEditor.DrawEditorMenu();
+                    _textEditor.DrawEditorMenu();
                 }
                 ImGui.EndMainMenuBar();
             }
@@ -580,7 +580,7 @@ namespace StudioCore
             // New project modal
             if (newProject)
             {
-                _newProjectSettings = new MsbEditor.ProjectSettings();
+                _newProjectSettings = new Editor.ProjectSettings();
                 _newProjectDirectory = "";
                 ImGui.OpenPopup("New Project");
             }
@@ -757,10 +757,10 @@ namespace StudioCore
             if (ImGui.Begin("Map Editor"))
             {
                 ImGui.PopStyleVar(1);
-                MSBEditor.OnGUI(mapcmds);
+                _msbEditor.OnGUI(mapcmds);
                 ImGui.End();
                 _msbEditorFocused = true;
-                MSBEditor.Update(deltaseconds);
+                _msbEditor.Update(deltaseconds);
             }
             else
             {
@@ -773,9 +773,9 @@ namespace StudioCore
             if (ImGui.Begin("Model Editor"))
             {
                 ImGui.PopStyleVar(1);
-                ModelEditor.OnGUI();
+                _modelEditor.OnGUI();
                 _modelEditorFocused = true;
-                ModelEditor.Update(deltaseconds);
+                _modelEditor.Update(deltaseconds);
             }
             else
             {
@@ -793,7 +793,7 @@ namespace StudioCore
             }
             if (ImGui.Begin("Param Editor"))
             {
-                ParamEditor.OnGUI(paramcmds);
+                _paramEditor.OnGUI(paramcmds);
                 _paramEditorFocused = true;
             }
             else
@@ -811,7 +811,7 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4));
             if (ImGui.Begin("Text Editor"))
             {
-                TextEditor.OnGUI(textcmds);
+                _textEditor.OnGUI(textcmds);
                 _textEditorFocused = true;
             }
             else
@@ -882,8 +882,8 @@ namespace StudioCore
                 //_sc.RecreateWindowSizedResources(_gd, cl);
                 RecreateWindowFramebuffers(cl);
                 ImguiRenderer.WindowResized(width, height);
-                MSBEditor.EditorResized(_window, _gd);
-                ModelEditor.EditorResized(_window, _gd);
+                _msbEditor.EditorResized(_window, _gd);
+                _modelEditor.EditorResized(_window, _gd);
                 cl.End();
                 _gd.SubmitCommands(cl);
                 cl.Dispose();
@@ -923,11 +923,11 @@ namespace StudioCore
             //_gd.WaitForIdle();
             if (_msbEditorFocused)
             {
-                MSBEditor.Draw(_gd, MainWindowCommandList);
+                _msbEditor.Draw(_gd, MainWindowCommandList);
             }
             if (_modelEditorFocused)
             {
-                ModelEditor.Draw(_gd, MainWindowCommandList);
+                _modelEditor.Draw(_gd, MainWindowCommandList);
             }
             var fence = Scene.Renderer.Frame(MainWindowCommandList, false);
             //GuiCommandList.Begin();

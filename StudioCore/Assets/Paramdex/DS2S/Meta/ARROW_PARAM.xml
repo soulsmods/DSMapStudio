@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<DamageDeadMotionID AltName="Damage Dead Motion ID" /> 
+<PhysicalDamage AltName="Physical Damage" /> 
+<MagicDamage AltName="Magic Damage" /> 
+<LightningDamage AltName="Lightning Damage" /> 
+<FireDamage AltName="Fire Damage" /> 
+<DarkDamage AltName="Dark Damage" /> 
+<PoisonInflict AltName="Poison Inflict" /> 
+<InflictsPoison1 AltName="Inflicts Poison:1" /> 
+<BleedInflict AltName="Bleed Inflict" /> 
+<InflictsBleed1 AltName="Inflicts Bleed:1" /> 
+<AmmunitionType AltName="Ammunition Type" /> 
+</Field>
+</PARAMMETA>

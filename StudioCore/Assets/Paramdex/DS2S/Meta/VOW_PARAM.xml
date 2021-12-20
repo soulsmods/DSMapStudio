@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<Rank1Requirement AltName="Rank 1 Requirement" /> 
+<Rank2Requirement AltName="Rank 2 Requirement" /> 
+<Rank3Requirement AltName="Rank 3 Requirement" /> 
+</Field>
+</PARAMMETA>

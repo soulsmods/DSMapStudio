@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<SlashDefence AltName="Slash Defence" /> 
+<ThrustDefence AltName="Thrust Defence" /> 
+<StrikeDefence AltName="Strike Defence" /> 
+<StandardDefence AltName="Standard Defence" /> 
+<MagicAbsorption AltName="Magic Absorption" /> 
+<LightningAbsorption AltName="Lightning Absorption" /> 
+<FireAbsorption AltName="Fire Absorption" /> 
+<DarkAbsorption AltName="Dark Absorption" /> 
+<PoisonResist AltName="Poison Resist" /> 
+<BleedResist AltName="Bleed Resist" /> 
+<PetrifyResist AltName="Petrify Resist" /> 
+<CurseResist AltName="Curse Resist" /> 
+<MaxSlashDefence AltName="Max Slash Defence" /> 
+<MaxThrustDefence AltName="Max Thrust Defence" /> 
+<MakeStrikeDefence AltName="Make Strike Defence" /> 
+<MaxStandardDefence AltName="Max Standard Defence" /> 
+<MaxMagicAbsorption AltName="Max Magic Absorption" /> 
+<MaxLightningAbsorption AltName="Max Lightning Absorption" /> 
+<MaxFireAbsorption AltName="Max Fire Absorption" /> 
+<MaxDarkAbsorption AltName="Max Dark Absorption" /> 
+<MaxPoisonResist AltName="Max Poison Resist" /> 
+<MaxBleedResist AltName="Max Bleed Resist" /> 
+<MaxPetrifyResist AltName="Max Petrify Resist" /> 
+<MaxCurseResist AltName="Max Curse Resist" /> 
+<MaxReinforceLevel10 AltName="Max Reinforce Level = 10" /> 
+<ReinforceCostID AltName="Reinforce Cost ID" /> 
+</Field>
+</PARAMMETA>

@@ -17,6 +17,7 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
+        private static PARAM EnemyParam = null;
         private static AssetLocator AssetLocator = null;
 
         private static Dictionary<string, PARAM> _params = null;
@@ -338,6 +339,14 @@ namespace StudioCore.ParamEditor
             {
                 paramBnd = BND4.Read(param);
             }
+
+            EnemyParam = GetParam(paramBnd, "EnemyParam.param");
+            if (EnemyParam != null)
+            {
+                PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
+                EnemyParam.ApplyParamdef(def);
+            }
+
             LoadParamFromBinder(paramBnd, ref _params);
             return dir;
         }
@@ -815,6 +824,18 @@ namespace StudioCore.ParamEditor
             {
                 SaveParamsBBSekiro();
             }
+        }
+
+        public static string GetChrIDForEnemy(long enemyID)
+        {
+            if (EnemyParam != null)
+            {
+                if (EnemyParam[(int)enemyID] != null)
+                {
+                    return $@"{EnemyParam[(int)enemyID]["Chr ID"].Value:D4}";
+                }
+            }
+            return null;
         }
     }
 }

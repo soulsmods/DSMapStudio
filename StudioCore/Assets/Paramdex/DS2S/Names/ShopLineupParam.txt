@@ -1,4 +1,3 @@
-0 UNKNOWN
 1 UNKNOWN
 30700000 [Head of Vengarl] Claymore
 30700001 [Head of Vengarl] Greatsword
@@ -18,7 +17,6 @@
 50600601 [Grave Warden Agdayne] Elizabeth Mushroom
 50600602 [Grave Warden Agdayne] Dark Arrow
 50600603 [Grave Warden Agdayne] Dark Bolt
-50600604 [Grave Warden Agdayne - Velstadt] Elizabeth Mushroom
 70400000 [Laddersmith Gilligan - 1] Reinforced Club
 70400001 [Laddersmith Gilligan - 1] Claws
 70400002 [Laddersmith Gilligan - 1] Whip
@@ -58,17 +56,10 @@
 72110103 [Chancellor Wellager - Looking Glass Knight] Homunculus Wooden Shield
 72110104 [Chancellor Wellager - Looking Glass Knight] Transgressor's Leather Shield
 72110105 [Chancellor Wellager - Looking Glass Knight] Longsword
-72110106 [Chancellor Wellager - Looking Glass Knight] Murakumo
-72110107 [Chancellor Wellager - Looking Glass Knight] Blacksteel Katana
-72110108 [Chancellor Wellager - Looking Glass Knight] Rapier
-72110109 [Chancellor Wellager - Looking Glass Knight] Greataxe
-72110110 [Chancellor Wellager - Looking Glass Knight] Great Club
-72110111 [Chancellor Wellager - Looking Glass Knight] Caestus
 72110300 [Chancellor Wellager - NG+2] Wrath of the Gods
 72110301 [Chancellor Wellager - NG+2] Bountiful Sunlight
 72110302 [Chancellor Wellager - NG+2] Great Chaos Fireball
 72110303 [Chancellor Wellager - NG+2] Spirit Tree Shield
-72110304 [Chancellor Wellager] Great Magic Barrier
 72110400 [Chancellor Wellager] Bracing Knuckle Ring+1
 72110600 [Chancellor Wellager] Old Radiant Lifegem
 72110601 [Chancellor Wellager] Wilted Dusk Herb
@@ -78,10 +69,6 @@
 72110605 [Chancellor Wellager] Lightning Arrow
 72110606 [Chancellor Wellager] Magic Bolt
 72110607 [Chancellor Wellager] Lightning Bolt
-72110608 [Chancellor Wellager] Lifegem
-72110609 [Chancellor Wellager] Radiant Lifegem
-72110610 [Chancellor Wellager - Velstadt] Lifegem
-72110611 [Chancellor Wellager - Velstadt] Radiant Lifegem
 72500300 [Darkdiver Grandahl] Cast Light
 72500301 [Darkdiver Grandahl] Dark Orb
 72500302 [Darkdiver Grandahl] Dark Hail
@@ -155,6 +142,7 @@
 75400301 [Merchant Hag Melentia] Heal
 75400500 [Merchant Hag Melentia] Lenigrast's Key
 75400600 [Merchant Hag Melentia] Lifegem
+75400601 【Yorozu Babaa】Shizukuishi
 75400602 [Merchant Hag Melentia] Radiant Lifegem
 75400603 [Merchant Hag Melentia] Amber Herb
 75400604 [Merchant Hag Melentia] Throwing Knife
@@ -169,39 +157,14 @@
 75400613 [Merchant Hag Melentia] Brightbug
 75400614 [Merchant Hag Melentia] Brightbug
 75400615 [Merchant Hag Melentia] Fragrant Branch of Yore
-75400616 [Merchant Hag Melentia] Claws
-75400617 [Merchant Hag Melentia] Twinblade
-75400618 [Merchant Hag Melentia] Whip
 75600600 [The Rat King] Common Fruit
 75600601 [The Rat King] Red Leech Troches
 75600602 [The Rat King] Triclops Snake Troches
 75600603 [The Rat King] Dung Pie
 75600604 [The Rat King] Corrosive Urn
-75600605 [The Rat King] Pharros' Lockstone
 76100000 [Maughlin the Armourer] Iron Parma
 76100001 [Maughlin the Armourer] Silver Eagle Kite Shield
 76100002 [Maughlin the Armourer] Twin Dragon Greatshield
-76100003 [Maughlin the Armourer] Cleric's Parma
-76100004 [Maughlin the Armourer] Hollow Soldier Shield
-76100005 [Maughlin the Armourer - The Last Giant] Foot Soldier Shield
-76100006 [Maughlin the Armourer - Flexile Sentry] Varangian Shield
-76100007 [Maughlin the Armourer - Old Dragonslayer] Old Knight's Shield
-76100008 [Maughlin the Armourer - Covetous Demon] Manikin Shield
-76100009 [Maughlin the Armourer - Scorpioness Najka] Lion Clan Shield
-76100010 [Maughlin the Armourer - Skeleton Lords] Bone Shield
-76100011 [Maughlin the Armourer - Skeleton Lords] Cursed Bone Shield
-76100012 [Maughlin the Armourer - Mytha] Silverblack Shield
-76100013 [Maughlin the Armourer - Looking Glass Knight] Mastadon Greatshield
-76100014 [Maughlin the Armourer - Looking Glass Knight] Stone Parma
-76100015 [Maughlin the Armourer - Looking Glass Knight] Llewellyn Shield
-76100016 [Maughlin the Armourer - Demon of Song] Slumbering Dragon Shield
-76100017 [Maughlin the Armourer - Velstadt] Magic Shield
-76100018 [Maughlin the Armourer - Velstadt] Orma's Greatshield
-76100019 [Maughlin the Armourer - Velstadt] Reeve's Greatshield
-76100020 [Maughlin the Armourer - Velstadt] Shield of the Insolent
-76100021 [Maughlin the Armourer - The Duke's Dear Freja] Gyrm Greatshield
-76100022 [Maughlin the Armourer - Ancient Dragon] Drakekeeper's Shield
-76100023 [Maughlin the Armourer - Ancient Dragon] Greatshield of Glory
 76100200 [Maughlin the Armourer] Standard Helm
 76100201 [Maughlin the Armourer] Hard Leather Armor
 76100202 [Maughlin the Armourer] Hard Leather Gauntlets
@@ -265,174 +228,6 @@
 76100264 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Armor
 76100265 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Gauntlets
 76100266 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Leggings
-76100267 [Maughlin the Armourer - Old Iron King] Alonne Captain Helm
-76100268 [Maughlin the Armourer - Old Iron King] Alonne Captain Armor
-76100269 [Maughlin the Armourer - Old Iron King] Alonne Knight Helm
-76100270 [Maughlin the Armourer - Old Iron King] Alonne Knight Armor
-76100271 [Maughlin the Armourer - Old Iron King] Alonne Knight Gauntlets
-76100272 [Maughlin the Armourer - Old Iron King] Alonne Knight Leggings
-76100273 [Maughlin the Armourer - Demon of Song] Archdrake Helm
-76100274 [Maughlin the Armourer - Demon of Song] Archdrake Robes
-76100275 [Maughlin the Armourer - Demon of Song] Archdrake Gloves
-76100276 [Maughlin the Armourer - Demon of Song] Archdrake Boots
-76100277 [Maughlin the Armourer - Skeleton Lords] Black Hollow Mage Hood
-76100278 [Maughlin the Armourer - Skeleton Lords] Black Hollow Mage Robe
-76100279 [Maughlin the Armourer - The Rotten] Black Witch Domino Mask
-76100280 [Maughlin the Armourer - Shrine of Winter] Catarina Helm
-76100281 [Maughlin the Armourer - Shrine of Winter] Catarina Armor
-76100282 [Maughlin the Armourer - Shrine of Winter] Catarina Gauntlets
-76100283 [Maughlin the Armourer - Shrine of Winter] Catarina Leggings
-76100284 [Maughlin the Armourer - Aava] Charred Loyce Helm
-76100285 [Maughlin the Armourer - Aava] Charred Loyce Armor
-76100286 [Maughlin the Armourer - Aava] Charred Loyce Gauntlets
-76100287 [Maughlin the Armourer - Aava] Charred Loyce Leggings
-76100288 [Maughlin the Armourer - Shrine of Winter] Dark Mask
-76100289 [Maughlin the Armourer - Shrine of Winter] Dark Armor
-76100290 [Maughlin the Armourer - Shrine of Winter] Dark Gauntlets
-76100291 [Maughlin the Armourer - Shrine of Winter] Dark Leggings
-76100292 [Maughlin the Armourer - Mytha] Desert Sorceress Hood
-76100293 [Maughlin the Armourer - Mytha] Desert Sorceress Top
-76100294 [Maughlin the Armourer - Mytha] Desert Sorceress Gloves
-76100295 [Maughlin the Armourer - Mytha] Desert Sorceress Skirt
-76100296 [Maughlin the Armourer - Flexile Sentry] Dingy Hood
-76100297 [Maughlin the Armourer - Flexile Sentry] Dingy Robe
-76100298 [Maughlin the Armourer - Flexile Sentry] Dingy Cuffs
-76100299 [Maughlin the Armourer - Flexile Sentry] Blood-Stained Skirt
-76100300 [Maughlin the Armourer - Guardian Dragon] Dragon Acolyte Mask
-76100301 [Maughlin the Armourer - Guardian Dragon] Dragon Acolyte Robe
-76100302 [Maughlin the Armourer - Guardian Dragon] Dragon Acolyte Gloves
-76100303 [Maughlin the Armourer - Guardian Dragon] Dragon Acolyte Boots
-76100304 [Maughlin the Armourer - Ancient Dragon] Drakekeeper Helm
-76100305 [Maughlin the Armourer - Ancient Dragon] Drakekeeper Armor
-76100306 [Maughlin the Armourer - Ancient Dragon] Drakekeeper Gauntlets
-76100307 [Maughlin the Armourer - Ancient Dragon] Drakekeeper Boots
-76100308 [Maughlin the Armourer - Fume Knight] Fume Sorcerer Mask
-76100309 [Maughlin the Armourer - Fume Knight] Fume Sorcerer Robes
-76100310 [Maughlin the Armourer - Fume Knight] Fume Sorcerer Gloves
-76100311 [Maughlin the Armourer - Fume Knight] Fume Sorcerer Boots
-76100312 [Maughlin the Armourer - Velstadt] Grave Warden Mask
-76100313 [Maughlin the Armourer - Velstadt] Grave Warden Top
-76100314 [Maughlin the Armourer - Velstadt] Grave Warden Cuffs
-76100315 [Maughlin the Armourer - Velstadt] Grave Warden Bottoms
-76100316 [Maughlin the Armourer - Royal Rat Authority] Gyrm Helm
-76100317 [Maughlin the Armourer - Royal Rat Authority] Gyrm Armor
-76100318 [Maughlin the Armourer - Royal Rat Authority] Gyrm Gloves
-76100319 [Maughlin the Armourer - Royal Rat Authority] Gyrm Boots
-76100320 [Maughlin the Armourer - Royal Rat Authority] Gyrm Warrior Helm
-76100321 [Maughlin the Armourer - Royal Rat Authority] Gyrm Warrior Armor
-76100322 [Maughlin the Armourer - Royal Rat Authority] Gyrm Warrior Gloves
-76100323 [Maughlin the Armourer - Royal Rat Authority] Gyrm Warrior Boots
-76100324 [Maughlin the Armourer - Royal Rat Authority] Gyrm Warrior Greathelm
-76100325 [Maughlin the Armourer - Dragonrider] Heide Knight Greathelm
-76100326 [Maughlin the Armourer - Dragonrider] Heide Knight Chainmail
-76100327 [Maughlin the Armourer - Dragonrider] Heide Knight Gauntlets
-76100328 [Maughlin the Armourer - Dragonrider] Heide Knight Leggings
-76100329 [Maughlin the Armourer - Dragonrider] Heide Knight Iron Mask
-76100330 [Maughlin the Armourer - The Last Giant] Hollow Infantry Helm
-76100331 [Maughlin the Armourer - The Last Giant] Hollow Infantry Armor
-76100332 [Maughlin the Armourer - The Last Giant] Hollow Infantry Gloves
-76100333 [Maughlin the Armourer - The Last Giant] Hollow Infantry Boots
-76100334 [Maughlin the Armourer - The Last Giant] Hollow Soldier Helm
-76100335 [Maughlin the Armourer - The Last Giant] Hollow Soldier Armor
-76100336 [Maughlin the Armourer - The Last Giant] Hollow Soldier Gauntlets
-76100337 [Maughlin the Armourer - The Last Giant] Hollow Soldier Leggings
-76100338 [Maughlin the Armourer - The Last Giant] Royal Swordsman Helm
-76100339 [Maughlin the Armourer - The Last Giant] Royal Swordsman Armor
-76100340 [Maughlin the Armourer - The Last Giant] Royal Swordsman Gloves
-76100341 [Maughlin the Armourer - The Last Giant] Royal Swordsman Leggings
-76100342 [Maughlin the Armourer - Skeleton Lords] Rogue Hood
-76100343 [Maughlin the Armourer - Skeleton Lords] Rogue Armor
-76100344 [Maughlin the Armourer - Skeleton Lords] Rogue Gauntlets
-76100345 [Maughlin the Armourer - Skeleton Lords] Rogue Leggings
-76100346 [Maughlin the Armourer - Velstadt] Imperious Helm
-76100347 [Maughlin the Armourer - Velstadt] Imperious Armor
-76100348 [Maughlin the Armourer - Velstadt] Imperious Gloves
-76100349 [Maughlin the Armourer - Velstadt] Imperious Leggings
-76100350 [Maughlin the Armourer - Pursuer] Imported Hood
-76100351 [Maughlin the Armourer - Pursuer] Imported Tunic
-76100352 [Maughlin the Armourer - Pursuer] Imported Manchettes
-76100353 [Maughlin the Armourer - Pursuer] Imported Trousers
-76100354 [Maughlin the Armourer - Old Iron King] Ironclad Helm
-76100355 [Maughlin the Armourer - Old Iron King] Ironclad Armor
-76100356 [Maughlin the Armourer - Old Iron King] Ironclad Gauntlets
-76100357 [Maughlin the Armourer - Old Iron King] Ironclad Leggings
-76100358 [Maughlin the Armourer - Old Iron King] Old Ironclad Helm
-76100359 [Maughlin the Armourer - Old Iron King] Old Ironclad Armor
-76100360 [Maughlin the Armourer - Old Iron King] Old Ironclad Gauntlets
-76100361 [Maughlin the Armourer - Old Iron King] Old Ironclad Leggings
-76100362 [Maughlin the Armourer - Velstadt] Leydia Black Hood
-76100363 [Maughlin the Armourer - Velstadt] Leydia Black Robe
-76100364 [Maughlin the Armourer - Velstadt] Leydia White Hood
-76100365 [Maughlin the Armourer - Velstadt] Leydia White Robe
-76100366 [Maughlin the Armourer - Scorpioness Najka] Lion Warrior Cape
-76100367 [Maughlin the Armourer - Scorpioness Najka] Lion Warrior Cuffs
-76100368 [Maughlin the Armourer - Scorpioness Najka] Lion Warrior Skirt
-76100369 [Maughlin the Armourer - Scorpioness Najka] Lion Warrior Helm
-76100370 [Maughlin the Armourer - Scorpioness Najka] Red Lion Warrior Cape
-76100371 [Maughlin the Armourer - Old Iron King] Mad Warrior Mask
-76100372 [Maughlin the Armourer - Old Iron King] Mad Warrior Armor
-76100373 [Maughlin the Armourer - Old Iron King] Mad Warrior Gauntlets
-76100374 [Maughlin the Armourer - Old Iron King] Mad Warrior Leggings
-76100375 [Maughlin the Armourer - Mytha] Manikin Mask
-76100376 [Maughlin the Armourer - Mytha] Manikin Top
-76100377 [Maughlin the Armourer - Mytha] Manikin Gloves
-76100378 [Maughlin the Armourer - Mytha] Manikin Boots
-76100379 [Maughlin the Armourer - Shrine of Winter] Mastodon Helm
-76100380 [Maughlin the Armourer - Shrine of Winter] Mastodon Armor
-76100381 [Maughlin the Armourer - Shrine of Winter] Mastodon Gauntlets
-76100382 [Maughlin the Armourer - Shrine of Winter] Mastodon Leggings
-76100383 [Maughlin the Armourer - Guardian Dragon] Monastery Headcloth
-76100384 [Maughlin the Armourer - Guardian Dragon] Monastery Longshirt
-76100385 [Maughlin the Armourer - Guardian Dragon] Monastery Long Gloves
-76100386 [Maughlin the Armourer - Guardian Dragon] Monastery Skirt
-76100387 [Maughlin the Armourer - Dragonrider] Old Knight Helm
-76100388 [Maughlin the Armourer - Dragonrider] Old Knight Armor
-76100389 [Maughlin the Armourer - Dragonrider] Old Knight Gauntlets
-76100390 [Maughlin the Armourer - Dragonrider] Old Knight Leggings
-76100391 [Maughlin the Armourer - The Duke's Dear Freja] Peasant Hat
-76100392 [Maughlin the Armourer - The Duke's Dear Freja] Peasant Attire
-76100393 [Maughlin the Armourer - The Duke's Dear Freja] Peasant Long Gloves
-76100394 [Maughlin the Armourer - The Duke's Dear Freja] Peasant Trousers
-76100395 [Maughlin the Armourer - The Duke's Dear Freja] Priestess Headpiece
-76100396 [Maughlin the Armourer - The Duke's Dear Freja] Priestess Robe
-76100397 [Maughlin the Armourer - The Duke's Dear Freja] Priestess Gloves
-76100398 [Maughlin the Armourer - The Duke's Dear Freja] Priestess Skirt
-76100399 [Maughlin the Armourer - The Lost Sinner] Prisoner's Hood
-76100400 [Maughlin the Armourer - The Lost Sinner] Prisoner's Tatters
-76100401 [Maughlin the Armourer - The Lost Sinner] Prisoner's Gloves
-76100402 [Maughlin the Armourer - The Lost Sinner] Prisoner's Waistcloth
-76100403 [Maughlin the Armourer - The Lost Sinner] Prisoner's Hood
-76100404 [Maughlin the Armourer - The Lost Sinner] Prisoner's Tatters
-76100405 [Maughlin the Armourer - Aava] Rampart Golem Helm
-76100406 [Maughlin the Armourer - Aava] Rampart Golem Armor
-76100407 [Maughlin the Armourer - Aava] Rampart Golem Gauntlets
-76100408 [Maughlin the Armourer - Aava] Rampart Golem Leggings
-76100409 [Maughlin the Armourer - Looking Glass Knight] Ruin Helm
-76100410 [Maughlin the Armourer - Looking Glass Knight] Ruin Armor
-76100411 [Maughlin the Armourer - Looking Glass Knight] Ruin Gauntlets
-76100412 [Maughlin the Armourer - Looking Glass Knight] Ruin Leggings
-76100413 [Maughlin the Armourer - Royal Rat Authority] Rusted Mastodon Helm
-76100414 [Maughlin the Armourer - Royal Rat Authority] Rusted Mastodon Armor
-76100415 [Maughlin the Armourer - Royal Rat Authority] Rusted Mastodon Gauntlets
-76100416 [Maughlin the Armourer - Royal Rat Authority] Rusted Mastodon Leggings
-76100417 [Maughlin the Armourer - Flexile Sentry] Shadow Mask
-76100418 [Maughlin the Armourer - Flexile Sentry] Shadow Top
-76100419 [Maughlin the Armourer - Flexile Sentry] Shadow Gauntlets
-76100420 [Maughlin the Armourer - Flexile Sentry] Shadow Leggings
-76100421 [Maughlin the Armourer - Looking Glass Knight] Syan's Helm
-76100422 [Maughlin the Armourer - Looking Glass Knight] Syan's Armor
-76100423 [Maughlin the Armourer - Looking Glass Knight] Syan's Gauntlets
-76100424 [Maughlin the Armourer - Looking Glass Knight] Syan's Leggings
-76100425 [Maughlin the Armourer - Flexile Sentry] Varangian Helm
-76100426 [Maughlin the Armourer - Flexile Sentry] Varangian Armor
-76100427 [Maughlin the Armourer - Flexile Sentry] Varangian Cuffs
-76100428 [Maughlin the Armourer - Flexile Sentry] Varangian Leggings
-76100429 [Maughlin the Armourer - The Duke's Dear Freja] White Hollow Mage Hood
-76100430 [Maughlin the Armourer - The Duke's Dear Freja] White Hollow Mage Robe
-76100431 [Maughlin the Armourer - Elana] Sanctum Knight Helm
-76100432 [Maughlin the Armourer - Elana] Sanctum Knight Armor
-76100433 [Maughlin the Armourer - Elana] Sanctum Knight Gauntlets
-76100434 [Maughlin the Armourer - Elana] Sanctum Knight Leggings
 76200300 [Stone Trader Chloanne] Soul Appease
 76200301 [Stone Trader Chloanne] Dead Again
 76200600 [Stone Trader Chloanne] Bonfire Ascetic
@@ -454,11 +249,6 @@
 76200616 [Stone Trader Chloanne - Shrine of Winter] Darknight Stone
 76200617 [Stone Trader Chloanne - Shrine of Winter] Poison Stone
 76200618 [Stone Trader Chloanne - Shrine of Winter] Bleed Stone
-76200619 [Stone Trader Chloanne - Shrine of Winter] Raw Stone
-76200620 [Stone Trader Chloanne - Shrine of Winter] Magic Stone
-76200621 [Stone Trader Chloanne - Shrine of Winter] Old Mundane Stone
-76200622 [Stone Trader Chloanne - Shrine of Winter] Palestone
-76200623 [Stone Trader Chloanne - Velstadt] Bonfire Ascetic
 76300300 [Rosabeth of Melfia] Fireball
 76300301 [Rosabeth of Melfia] Fire Orb
 76300302 [Rosabeth of Melfia] Combustion
@@ -472,7 +262,6 @@
 76300601 [Rosabeth of Melfia] Small Yellow Burr
 76300602 [Rosabeth of Melfia] Small Orange Burr
 76300603 [Rosabeth of Melfia] Fire Seed
-76300604 [Rosabeth of Melfia - Looking Glass Knight] Fire Seed
 76400000 [Blacksmith Lenigrast] Longsword
 76400001 [Blacksmith Lenigrast] Broadsword
 76400002 [Blacksmith Lenigrast] Estoc
@@ -481,73 +270,6 @@
 76400005 [Blacksmith Lenigrast] Battle Axe
 76400006 [Blacksmith Lenigrast] Mace
 76400007 [Blacksmith Lenigrast] Spear
-76400008 [Blacksmith Lenigrast] Infantry Axe
-76400009 [Blacksmith Lenigrast] Composite Bow
-76400010 [Blacksmith Lenigrast] Long Bow
-76400012 [Blacksmith Lenigrast] Light Crossbow
-76400015 [Blacksmith Lenigrast] Shotel
-76400016 [Blacksmith Lenigrast] Dagger
-76400017 [Blacksmith Lenigrast] Parrying Dagger
-76400018 [Blacksmith Lenigrast] Greataxe
-76400019 [Blacksmith Lenigrast] Pickaxe
-76400023 [Blacksmith Lenigrast] Lucerne
-76400024 [Blacksmith Lenigrast] Scythe
-76400025 [Blacksmith Lenigrast] Partizan
-76400026 [Blacksmith Lenigrast] Pike
-76400027 [Blacksmith Lenigrast] Winged Spear
-76400028 [Blacksmith Lenigrast] Shortsword
-76400030 [Blacksmith Lenigrast - Shrine of Winter] Blacksmith's Hammer
-76400031 [Blacksmith Lenigrast - The Last Giant] Foot Soldier Sword
-76400032 [Blacksmith Lenigrast - The Last Giant] Bastard Sword
-76400033 [Blacksmith Lenigrast - The Last Giant] Halberd
-76400034 [Blacksmith Lenigrast - The Last Giant] Short Bow
-76400035 [Blacksmith Lenigrast - The Last Giant] Claymore
-76400036 [Blacksmith Lenigrast - The Last Giant] Zweihander
-76400040 [Blacksmith Lenigrast - Old Dragonslayer] Heide Knight Sword
-76400041 [Blacksmith Lenigrast - Old Dragonslayer] Heide Spear
-76400042 [Blacksmith Lenigrast - Old Dragonslayer] Old Knight Greatsword
-76400043 [Blacksmith Lenigrast - Old Dragonslayer] Old Knight Ultra Greatsword
-76400044 [Blacksmith Lenigrast - Old Dragonslayer] Old Knight Hammer
-76400050 [Blacksmith Lenigrast - Flexile Sentry] Varangian Sword
-76400051 [Blacksmith Lenigrast - Flexile Sentry] Sea Bow
-76400052 [Blacksmith Lenigrast - Flexile Sentry] Shadow Dagger
-76400053 [Blacksmith Lenigrast - Flexile Sentry] Scimitar
-76400054 [Blacksmith Lenigrast - Flexile Sentry] Bandit's Knife
-76400055 [Blacksmith Lenigrast - Flexile Sentry] Uchigatana
-76400060 [Blacksmith Lenigrast - Ruin Sentinels] Great Machete
-76400070 [Blacksmith Lenigrast - Lost Sinner] Royal Greatsword
-76400071 [Blacksmith Lenigrast - Lost Sinner] Heavy Crossbow
-76400080 [Blacksmith Lenigrast - Skeleton Lords] Thief Dagger
-76400081 [Blacksmith Lenigrast - Skeleton Lords] Broken Thief Sword
-76400082 [Blacksmith Lenigrast - Skeleton Lords] Full Moon Sickle
-76400083 [Blacksmith Lenigrast - Skeleton Lords] Bloodied Whip
-76400084 [Blacksmith Lenigrast - Skeleton Lords] Great Scythe
-76400090 [Blacksmith Lenigrast - Covetous Demon] Manikin Claws
-76400091 [Blacksmith Lenigrast - Covetous Demon] Manikin Sabre
-76400092 [Blacksmith Lenigrast - Covetous Demon] Malformed Claws
-76400100 [Blacksmith Lenigrast - Mytha] Silverblack Spear
-76400110 [Blacksmith Lenigrast - Smelter Demon] Blacksteel Katana
-76400111 [Blacksmith Lenigrast - Smelter Demon] Alonne Greatbow
-76400120 [Blacksmith Lenigrast - Old Iron King] Berserker Blade
-76400121 [Blacksmith Lenigrast - Old Iron King] Greatsword
-76400130 [Blacksmith Lenigrast - Scorpioness Najka] Lion Greataxe
-76400140 [Blacksmith Lenigrast - The Duke's Dear Freja] Pickaxe
-76400141 [Blacksmith Lenigrast - The Duke's Dear Freja] Gyrm Great Hammer
-76400150 [Blacksmith Lenigrast - Looking Glass Knight] Stone Twinblade
-76400151 [Blacksmith Lenigrast - Looking Glass Knight] Syan's Halberd
-76400152 [Blacksmith Lenigrast - Looking Glass Knight] Stone Soldier Spear
-76400153 [Blacksmith Lenigrast - Looking Glass Knight] Mastodon Halberd
-76400160 [Blacksmith Lenigrast - Demon of Song] Archdrake Mace
-76400170 [Blacksmith Lenigrast - Velstadt] Mace of the Insolent
-76400171 [Blacksmith Lenigrast - Velstadt] Blue Flame
-76400180 [Blacksmith Lenigrast - Guardian Dragon] Aldia Hammer
-76400190 [Blacksmith Lenigrast - Ancient Dragon] Drakekeeper's Sword
-76400191 [Blacksmith Lenigrast - Ancient Dragon] Drakekeeper's Ultra Greatsword
-76400192 [Blacksmith Lenigrast - Ancient Dragon] Drakekeeper's Greataxe
-76400193 [Blacksmith Lenigrast - Ancient Dragon] Drakekeeper's Great Hammer
-76400194 [Blacksmith Lenigrast - Ancient Dragon] Drakekeeper's Warpick
-76400200 [Blacksmith Lenigrast - The Rotten] Great Club
-76400201 [Blacksmith Lenigrast - The Rotten] Large Club
 76400600 [Blacksmith Lenigrast] Wood Arrow
 76400601 [Blacksmith Lenigrast] Iron Arrow
 76400602 [Blacksmith Lenigrast] Wood Bolt
@@ -555,14 +277,28 @@
 76400604 [Blacksmith Lenigrast] Titanite Shard
 76400605 [Blacksmith Lenigrast] Repair Powder
 76430000 [Steady Hand McDuff] Royal Kite Shield
+76430001 [EX Blacksmith] Busted Sword
+76430002 [EX Blacksmith] Great Axe
+76430003 [EX Blacksmith] Winged Spear
+76430004 [EX blacksmith] size
+76430005 【BLACKSMITH】Longbow
+76430006 [BLACKSMITH] Light Crossbow
+76430007 [EX blacksmith] sword
+76430008 [EX Blacksmith] Busted Sword
+76430009 [EX Blacksmith] Great Axe
+76430010 [EX Blacksmith] Windspear
+76430011 [EX blacksmith] size
+76430012 【BLACKSMITH】Longbow
+76430013 [BLACKSMITH] Light Crossbow
+76430100 [EX Blacksmith] Cavalry Kite Shield
+76430102 [EX Blacksmith] Cavalry Kite Shield
 76430600 [Steady Hand McDuff] Wood Arrow
 76430601 [Steady Hand McDuff] Iron Arrow
 76430602 [Steady Hand McDuff] Wood Bolt
 76430603 [Steady Hand McDuff] Heavy Bolt
 76430604 [Steady Hand McDuff] Iron Greatarrow
 76430605 [Steady Hand McDuff] Repair Powder
-76430610 [Steady Hand McDuff] Titanite Shard
-76430611 [Steady Hand McDuff] Large Titanite Shard
+76430606 [EX blacksmith] light powder of repair
 76600000 [Carhillion of the Fold] Sorcerer's Staff
 76600300 [Carhillion of the Fold] Soul Arrow
 76600301 [Carhillion of the Fold] Great Soul Arrow
@@ -580,18 +316,11 @@
 76600313 [Carhillion of the Fold - Shrine of Winter] Soul Spear Barrage
 76600314 [Carhillion of the Fold - Shrine of Winter] Magic Weapon
 76600315 [Carhillion of the Fold - Shrine of Winter] Yearn
-76600316 [Carhillion of the Fold] Hidden Weapon
-76600317 [Carhillion of the Fold] Hush
-76600318 [Carhillion of the Fold - Shrine of Winter] Hidden Weapon
-76600319 [Carhillion of the Fold - Shrine of Winter] Hush
 76600400 [Carhillion of the Fold] Spell Quartz Ring
 76600401 [Carhillion of the Fold] Clear Bluestone Ring
 76600600 [Carhillion of the Fold] Amber Herb
 76600601 [Carhillion of the Fold] Twilight Herb
 76600602 [Carhillion of the Fold] Simpleton's Spice
-76600603 [Carhillion of the Fold - Velstadt] Amber Herb
-76600604 [Carhillion of the Fold - Velstadt] Twilight Herb
-76600605 [Carhillion of the Fold - Velstadt] Simpleton's Spice
 76800000 [Straid of Olaphis - 5 Forlorn] Greatsword of the Forlorn
 76800001 [Straid of Olaphis - 5 Forlorn] Scythe of the Forlorn
 76800200 [Straid of Olaphis - 1 Forlorn] Hood of the Forlorn
@@ -670,8 +399,6 @@
 76801305 [Straid of Olaphis - Giant Lord Soul] Repel
 76801306 [Straid of Olaphis - Darklurker Soul] Lifedrain Patch
 76900000 [Licia of Lindeldt] Cleric's Sacred Chime
-76900001 [Licia of Lindeldt] Skeptic's Spice
-76900002 [Licia of Lindeldt - Velstadt] Skeptic's Spice
 76900300 [Licia of Lindeldt] Heal
 76900301 [Licia of Lindeldt] Med Heal
 76900302 [Licia of Lindeldt] Great Heal Excerpt
@@ -723,7 +450,6 @@
 77100602 [Royal Sorcerer Navlaan] Lightning Greatarrow
 77100603 [Royal Sorcerer Navlaan] Fire Greatarrow
 77100604 [Royal Sorcerer Navlaan] Destructive Greatarrow
-77100605 [Royal Sorcerer Navlaan] Lacerating Arrow
 77200200 [Magerold of Lanafir] Spiked Bandit Helm
 77200201 [Magerold of Lanafir] Bandit Armor
 77200202 [Magerold of Lanafir] Bandit Gauntlets
@@ -768,9 +494,6 @@
 77600002 [Weaponsmith Ornifex] Manikin Knife
 77600003 [Weaponsmith Ornifex] Lion Greataxe
 77600004 [Weaponsmith Ornifex] Silverblack Sickle
-77600005 [Weaponsmith Ornifex] Channeler's Trident
-77600006 [Weaponsmith Ornifex] Stone Twinblade
-77600007 [Weaponsmith Ornifex] Bloodied Whip
 77600300 [Weaponsmith Ornifex] Homing Soul Arrow
 77600301 [Weaponsmith Ornifex] Homing Soulmass
 77600302 [Weaponsmith Ornifex] Fall Control
@@ -901,23 +624,20 @@
 77602119 [Weaponsmith Ornifex - Throne Defender Soul] Defender's Shield
 77602120 [Weaponsmith Ornifex - Throne Watcher Soul] Watcher Greatsword
 77602121 [Weaponsmith Ornifex - Throne Watcher Soul] Watcher's Shield
-77700100 [Sweet Shalquoir - Royal Rat Vanguard/Authority] Flying Feline Boots
-77700101 [Sweet Shalquoir] Silvercat Ring
-77700102 [Sweet Shalquoir] Redeye Ring
-77700103 [Sweet Shalquoir] Name-engraved Ring
-77700104 [Sweet Shalquoir] Ring of Whispers
-77700105 [Sweet Shalquoir] Ring of the Evil Eye
-77700106 [Sweet Shalquoir] Prism Stone
-77700107 [Sweet Shalquoir] Alluring Skull
-77700108 [Sweet Shalquoir] Lloyd's Talisman
-77700109 [Sweet Shalquoir] Homeward Bone
-77700110 [Sweet Shalquoir - Shrine of Winter] Prism Stone
-77700111 [Sweet Shalquoir - Shrine of Winter] Alluring Skull
-77700112 [Sweet Shalquoir - Shrine of Winter] Lloyd's Talisman
-77700113 [Sweet Shalquoir - Shrine of Winter] Homeward Bone
-77700114 [Sweet Shalquoir] Soul Vessel
-77700115 [Sweet Shalquoir - Shrine of Winter] Soul Vessel
-77700116 [Sweet Shalquoir] Agape Ring
+77700200 Cat Boots
+77700400 【Cat】Silver Cat Ring
+77700401 Cat: Red-eyed ring
+77700402 【Cat】Ring to engrave the name
+77700403 Cat: Whisper ring
+77700404 Cat: Ring of evil eyes
+77700600 【Cat】Seven Colored Stones
+77700601 【Cat】Invitation Skeleton
+77700602 【Cat】Lloyd's Amulet
+77700603 [Cat] bone fragment of return
+77700604 【Cat】Seven Colored Stones
+77700605 【Cat】Invitation Skeleton
+77700606 【Cat】Lloyd's Amulet
+77700607 [Cat] bone fragment of return
 78300000 [Titchy Gren] Great Scythe
 78300001 [Titchy Gren] Priest's Chime
 78300200 [Titchy Gren - Skeleton Lords] Bone Crown
@@ -931,7 +651,6 @@
 78300300 [Titchy Gren] Firestorm
 78300301 [Titchy Gren] Great Combustion
 78300302 [Titchy Gren] Fire Whip
-78300303 [Titchy Gren] Great Chaos Fireball
 78300400 [Titchy Gren] Delicate String
 78300600 [Titchy Gren] Red Sign Soapstone
 78300601 [Titchy Gren] Silver Talisman
@@ -961,9 +680,6 @@
 78400401 [Cromwell the Pardoner] Bloodbite Ring
 78400402 [Cromwell the Pardoner] Cursebite Ring
 78400600 [Cromwell the Pardoner] Dark Troches
-78400601 [Cromwell the Pardoner] Seed of a Tree of Giants
-78400602 [Cromwell the Pardoner] Wrath of the Gods
-78400603 [Cromwell the Pardoner] Bountiful Sunlight
 78500000 [Blue Sentinel Targray] Morning Star
 78500001 [Blue Sentinel Targray] Halberd
 78500300 [Blue Sentinel Targray] Emit Force

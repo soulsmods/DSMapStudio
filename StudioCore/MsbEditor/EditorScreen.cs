@@ -6,7 +6,7 @@ namespace StudioCore.MsbEditor
 {
     public abstract class EditorScreen
     {
-        public abstract void OnProjectChanged(ProjectSettings newSettings);
+        public abstract void OnProjectChanged(Editor.ProjectSettings newSettings);
 
         public abstract void DrawEditorMenu();
 

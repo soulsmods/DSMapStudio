@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<CoreMove AltName="Core Move" /> 
+<HitData AltName="Hit Data" /> 
+<SelfPushbackonHit AltName="Self Pushback on Hit" /> 
+<AttackTracking AltName="Attack Tracking" /> 
+<StartupSpeed AltName="Startup Speed" /> 
+<RecoverySpeed AltName="Recovery Speed" /> 
+<TrackingStart AltName="Tracking Start" /> 
+<TrackingMid AltName="Tracking Mid" /> 
+<TrackingEnd AltName="Tracking End" /> 
+<WeaponOrientationY AltName="Weapon Orientation - Y" /> 
+<DamageID AltName="Damage ID" Refs="DamageCtrlParam" /> 
+<HitData AltName="Hit Data" /> 
+<Swing1BulletonSwingEnd AltName="Swing 1 - Bullet on Swing End" Refs="BulletParam,SpellParam" /> 
+<Swing1BulletonSwingEnd AltName="Swing 1 - Bullet on Swing End" Refs="BulletParam,SpellParam" /> 
+<Swing2BulletonSwingEnd AltName="Swing 2 - Bullet on Swing End" Refs="BulletParam,SpellParam" /> 
+<Swing2BulletonSwingEnd AltName="Swing 2 - Bullet on Swing End" Refs="BulletParam,SpellParam" /> 
+<EffectonSelf AltName="Effect on Self" /> 
+<Bullet3 AltName="Bullet 3" /> 
+</Field>
+</PARAMMETA>

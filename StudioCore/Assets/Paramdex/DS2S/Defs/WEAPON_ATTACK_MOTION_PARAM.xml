@@ -8,9 +8,9 @@
   <Fields>
     <Field Def="s32 Core Move" />
     <Field Def="s32 Hit Data" />
-    <Field Def="f32 Self Pushback on Hit" />
-    <Field Def="f32 Attack Tracking" />
     <Field Def="f32 Startup Speed" />
+    <Field Def="f32 Attack Tracking" />
+    <Field Def="f32 Self Pushback on Hit" />
     <Field Def="f32 Recovery Speed" />
     <Field Def="f32 Tracking Start" />
     <Field Def="f32 Tracking Mid" />

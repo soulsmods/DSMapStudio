@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<CameraNoiseParamID AltName="Camera Noise Param ID" /> 
+<PadRumbleParamID AltName="Pad Rumble Param ID" /> 
+<DamageWindowCategoryID AltName="Damage Window Category ID" /> 
+</Field>
+</PARAMMETA>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<PositionX AltName="PositionX" /> 
+<PositionY AltName="PositionY" /> 
+<PositionZ AltName="PositionZ" /> 
+<RotationX AltName="RotationX" /> 
+<RotationY AltName="RotationY" /> 
+<RotationZ AltName="RotationZ" /> 
+<RegionTypeMaybe AltName="RegionTypeMaybe" /> 
+<ScaleX AltName="ScaleX" /> 
+<ScaleY AltName="ScaleY" /> 
+<ScaleZ AltName="ScaleZ" /> 
+</Field>
+</PARAMMETA>

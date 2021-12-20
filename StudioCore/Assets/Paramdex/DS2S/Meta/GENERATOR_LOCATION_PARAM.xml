@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<PositionX AltName="PositionX" /> 
+<PositionY AltName="PositionY" /> 
+<PositionZ AltName="PositionZ" /> 
+<RotationX AltName="RotationX" /> 
+<RotationY AltName="RotationY" /> 
+<RotationZ AltName="RotationZ" /> 
+<LocUnk18 AltName="LocUnk18" /> 
+<LocUnk1C AltName="LocUnk1C" /> 
+</Field>
+</PARAMMETA>

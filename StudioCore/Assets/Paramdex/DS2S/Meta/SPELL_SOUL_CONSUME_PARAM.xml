@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<DrainAllSouls AltName="Drain All Souls" /> 
+<MaxDamageScaleSouls AltName="Max Damage Scale (Souls)" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+<BulletID AltName="Bullet ID" /> 
+</Field>
+</PARAMMETA>

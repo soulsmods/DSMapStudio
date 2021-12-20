@@ -196,8 +196,8 @@
   </entry>
   <entry>
     <name>Is Permanent Buff</name>
-    <type>b8</type>
-    <default>False</default>
+    <type>u8</type>
+    <default>0</default>
   </entry>
   <entry>
     <name>Apply Type</name>

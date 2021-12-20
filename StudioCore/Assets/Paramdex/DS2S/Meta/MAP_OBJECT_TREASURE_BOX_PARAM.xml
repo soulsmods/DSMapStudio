@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<ChestType AltName="Chest Type" /> 
+<BulletID0 AltName="Bullet ID 0" /> 
+<BulletID1 AltName="Bullet ID 1" /> 
+<BulletID2 AltName="Bullet ID 2" /> 
+<BulletID3 AltName="Bullet ID 3" /> 
+</Field>
+</PARAMMETA>

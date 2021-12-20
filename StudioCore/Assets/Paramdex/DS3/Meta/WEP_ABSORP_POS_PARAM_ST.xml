@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="TAE e712 Override Type">
+		<Option Value="0" Name="Do Not Override" />
+		<Option Value="1" Name="Force Hide" />
+    <Option Value="2" Name="Force Visible" />
+		<Option Value="3" Name="Force Visible" />
+	  </Enum>
+  </Enums>
+  <Field>
+    <ShealthTime AltName="Hold ID for Swap Animations" />
+    <OneHandDamipolyId0 AltName="Model 1: R 1H Pos" />
+    <OneHandDamipolyId1 AltName="Model 1: L 1H Pos" />
+    <BothHandDamipolyId0 AltName="Model 1: R 2H Pos" />
+    <ShealthDamipolyId0 AltName="Model 1: R Sheath Pos" />
+    <ShealthDamipolyId1 AltName="Model 1: L Sheath Pos" />
+    <OneHandDamipolyId2 AltName="Model 2: R 1H Pos" />
+    <OneHandDamipolyId3 AltName="Model 2: L 1H Pos" />
+    <BothHandDamipolyId1 AltName="Model 2: R 2H Pos" />
+    <ShealthDamipolyId2 AltName="Model 2: R Sheath Pos" />
+    <ShealthDamipolyId3 AltName="Model 2: L Sheath Pos" />
+    <OneHandDamipolyId4 AltName="Model 3: R 1H Pos" />
+    <OneHandDamipolyId5 AltName="Model 3: L 1H Pos" />
+    <BothHandDamipolyId2 AltName="Model 3: R 2H Pos" />
+    <ShealthDamipolyId4 AltName="Model 3: R Sheath Pos" />
+    <ShealthDamipolyId5 AltName="Model 3: L Sheath Pos" />
+    <OneHandDamipolyId6 AltName="Model 4: R 1H Pos" />
+    <OneHandDamipolyId7 AltName="Model 4: L 1H Pos" />
+    <BothHandDamipolyId3 AltName="Model 4: R 2H Pos" />
+    <ShealthDamipolyId6 AltName="Model 4: R Sheath Pos" />
+    <ShealthDamipolyId7 AltName="Model 4: L Sheath Pos" />
+    <Unk22 AltName="[TAE e712] Model 1: TAE Condition" Enum="TAE e712 Override Type" />
+    <Unk23 AltName="[TAE e712] Model 2: TAE Condition" Enum="TAE e712 Override Type" />
+    <Unk24 AltName="[TAE e712] Model 3: TAE Condition" Enum="TAE e712 Override Type" />
+    <Unk25 AltName="[TAE e712] Model 4: TAE Condition" Enum="TAE e712 Override Type" />
+    <BothHandDamipolyId4 AltName="Model 1: L 2H Pos" />
+    <BothHandDamipolyId5 AltName="Model 2: L 2H Pos" />
+    <BothHandDamipolyId6 AltName="Model 3: L 2H Pos" />
+    <BothHandDamipolyId7 AltName="Model 4: L 2H Pos" />
+    <Unk30 AltName="[TAE e710] Model 1: R 1H Override" Enum="TAE e712 Override Type" />
+    <Unk31 AltName="[TAE e710] Model 1: L 1H Override" Enum="TAE e712 Override Type" />
+    <Unk32 AltName="[TAE e710] Model 1: R 2H Override" Enum="TAE e712 Override Type" />
+    <Unk33 AltName="[TAE e710] Model 1: L 2H Override" Enum="TAE e712 Override Type" />
+    <Unk34 AltName="[TAE e710] Model 1: R Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk35 AltName="[TAE e710] Model 1: L Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk36 AltName="[TAE e710] Model 2: R 1H Override" Enum="TAE e712 Override Type" />
+    <Unk37 AltName="[TAE e710] Model 2: L 1H Override" Enum="TAE e712 Override Type" />
+    <Unk38 AltName="[TAE e710] Model 2: R 2H Override" Enum="TAE e712 Override Type" />
+    <Unk39 AltName="[TAE e710] Model 2: L 2H Override" Enum="TAE e712 Override Type" />
+    <Unk40 AltName="[TAE e710] Model 2: R Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk41 AltName="[TAE e710] Model 2: L Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk42 AltName="[TAE e710] Model 3: R 1H Override" Enum="TAE e712 Override Type" />
+    <Unk43 AltName="[TAE e710] Model 3: L 1H Override" Enum="TAE e712 Override Type" />
+    <Unk44 AltName="[TAE e710] Model 3: R 2H Override" Enum="TAE e712 Override Type" />
+    <Unk45 AltName="[TAE e710] Model 3: L 2H Override" Enum="TAE e712 Override Type" />
+    <Unk46 AltName="[TAE e710] Model 3: R Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk47 AltName="[TAE e710] Model 3: L Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk48 AltName="[TAE e710] Model 4: R 1H Override" Enum="TAE e712 Override Type" />
+    <Unk49 AltName="[TAE e710] Model 4: L 1H Override" Enum="TAE e712 Override Type" />
+    <Unk50 AltName="[TAE e710] Model 4: R 2H Override" Enum="TAE e712 Override Type" />
+    <Unk51 AltName="[TAE e710] Model 4: L 2H Override" Enum="TAE e712 Override Type" />
+    <Unk52 AltName="[TAE e710] Model 4: R Sheathed Override" Enum="TAE e712 Override Type" />
+    <Unk53 AltName="[TAE e710] Model 4: L Sheathed Override" Enum="TAE e712 Override Type" />
+  </Field>
+</PARAMMETA>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<FullyBodySFXID1 AltName="Fully Body SFX ID 1" /> 
+<FullyBodySFXID2 AltName="Fully Body SFX ID 2" /> 
+<FullyBodySFXID3 AltName="Fully Body SFX ID 3" /> 
+<FullyBodySFXID4 AltName="Fully Body SFX ID 4" /> 
+<PhysicsTextureID AltName="Physics Texture ID" /> 
+<DeadTypeID AltName="Dead Type ID" /> 
+</Field>
+</PARAMMETA>

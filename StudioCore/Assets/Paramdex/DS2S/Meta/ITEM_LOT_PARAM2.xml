@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<AmountLot1 AltName="Amount - Lot 1" /> 
+<AmountLot2 AltName="Amount - Lot 2" /> 
+<AmountLot3 AltName="Amount - Lot 3" /> 
+<AmountLot4 AltName="Amount - Lot 4" /> 
+<AmountLot5 AltName="Amount - Lot 5" /> 
+<AmountLot6 AltName="Amount - Lot 6" /> 
+<AmountLot7 AltName="Amount - Lot 7" /> 
+<AmountLot8 AltName="Amount - Lot 8" /> 
+<AmountLot9 AltName="Amount - Lot 9" /> 
+<AmountLot10 AltName="Amount - Lot 10" /> 
+<ReinforcementLot1 AltName="Reinforcement - Lot 1" /> 
+<ReinforcementLot2 AltName="Reinforcement - Lot 2" /> 
+<ReinforcementLot3 AltName="Reinforcement - Lot 3" /> 
+<ReinforcementLot4 AltName="Reinforcement - Lot 4" /> 
+<ReinforcementLot5 AltName="Reinforcement - Lot 5" /> 
+<ReinforcementLot6 AltName="Reinforcement - Lot 6" /> 
+<ReinforcementLot7 AltName="Reinforcement - Lot 7" /> 
+<ReinforcementLot8 AltName="Reinforcement - Lot 8" /> 
+<ReinforcementLot9 AltName="Reinforcement - Lot 9" /> 
+<ReinforcementLot10 AltName="Reinforcement - Lot 10" /> 
+<InfusionLot1 AltName="Infusion - Lot 1" /> 
+<InfusionLot2 AltName="Infusion - Lot 2" /> 
+<InfusionLot3 AltName="Infusion - Lot 3" /> 
+<InfusionLot4 AltName="Infusion - Lot 4" /> 
+<InfusionLot5 AltName="Infusion - Lot 5" /> 
+<InfusionLot6 AltName="Infusion - Lot 6" /> 
+<InfusionLot7 AltName="Infusion - Lot 7" /> 
+<InfusionLot8 AltName="Infusion - Lot 8" /> 
+<InfusionLot9 AltName="Infusion - Lot 9" /> 
+<InfusionLot10 AltName="Infusion - Lot 10" /> 
+<Lot16051E07 AltName="Lot 1 = 6.051E+07" /> 
+<Lot26051E07 AltName="Lot 2 = 6.051E+07" /> 
+<Lot36051E07 AltName="Lot 3 = 6.051E+07" /> 
+<Lot46051E07 AltName="Lot 4 = 6.051E+07" /> 
+<Lot56051E07 AltName="Lot 5 = 6.051E+07" /> 
+<Lot66051E07 AltName="Lot 6 = 6.051E+07" /> 
+<Lot76051E07 AltName="Lot 7 = 6.051E+07" /> 
+<Lot86051E07 AltName="Lot 8 = 6.051E+07" /> 
+<Lot96051E07 AltName="Lot 9 = 6.051E+07" /> 
+<Lot106051E07 AltName="Lot 10 = 6.051E+07" /> 
+<ChanceLot1 AltName="Chance - Lot 1" /> 
+<ChanceLot2 AltName="Chance - Lot 2" /> 
+<ChanceLot3 AltName="Chance - Lot 3" /> 
+<ChanceLot4 AltName="Chance - Lot 4" /> 
+<ChanceLot5 AltName="Chance - Lot 5" /> 
+<ChanceLot6 AltName="Chance - Lot 6" /> 
+<ChanceLot7 AltName="Chance - Lot 7" /> 
+<ChanceLot8 AltName="Chance - Lot 8" /> 
+<ChanceLot9 AltName="Chance - Lot 9" /> 
+<ChanceLot10 AltName="Chance - Lot 10" /> 
+</Field>
+</PARAMMETA>

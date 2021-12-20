@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<Infusion1Cost AltName="Infusion 1 Cost" /> 
+<Infusion2Cost AltName="Infusion 2 Cost" /> 
+<Infusion3Cost AltName="Infusion 3 Cost" /> 
+<Infusion4Cost AltName="Infusion 4 Cost" /> 
+<Infusion5Cost AltName="Infusion 5 Cost" /> 
+<Infusion6Cost AltName="Infusion 6 Cost" /> 
+<Infusion7Cost AltName="Infusion 7 Cost" /> 
+<Infusion8Cost AltName="Infusion 8 Cost" /> 
+<Infusion9Cost AltName="Infusion 9 Cost" /> 
+<Infusion10Cost AltName="Infusion 10 Cost" /> 
+<Infusion1Item AltName="Infusion 1 Item" /> 
+<Infusion2Item AltName="Infusion 2 Item" /> 
+<Infusion3Item AltName="Infusion 3 Item" /> 
+<Infusion4Item AltName="Infusion 4 Item" /> 
+<Infusion5Item AltName="Infusion 5 Item" /> 
+<Infusion6Item AltName="Infusion 6 Item" /> 
+<Infusion7Item AltName="Infusion 7 Item" /> 
+<Infusion8Item AltName="Infusion 8 Item" /> 
+<Infusion9Item AltName="Infusion 9 Item" /> 
+<Infusion10Item AltName="Infusion 10 Item" /> 
+<Infusion1Amount AltName="Infusion 1 Amount" /> 
+<Infusion2Amount AltName="Infusion 2 Amount" /> 
+<Infusion3Amount AltName="Infusion 3 Amount" /> 
+<Infusion4Amount AltName="Infusion 4 Amount" /> 
+<Infusion5Amount AltName="Infusion 5 Amount" /> 
+<Infusion6Amount AltName="Infusion 6 Amount" /> 
+<Infusion7Amount AltName="Infusion 7 Amount" /> 
+<Infusion8Amount AltName="Infusion 8 Amount" /> 
+<Infusion9Amount AltName="Infusion 9 Amount" /> 
+<Infusion10Amount AltName="Infusion 10 Amount" /> 
+</Field>
+</PARAMMETA>

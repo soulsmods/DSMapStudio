@@ -131,11 +131,32 @@
 		<Option Value="920" Name="Unknown A" />
 		<Option Value="921" Name="Unknown B" />
 	  </Enum>
+	  <Enum Name="BehaviorCategory">
+		<Option Value="0" Name="No Category" />
+		<Option Value="1" Name="PC - Right-Hand" />
+		<Option Value="2" Name="PC - Left-hand" />
+		<Option Value="3" Name="Magic" />
+		<Option Value="4" Name="Magic" />
+		<Option Value="5" Name="Basic" />
+		<Option Value="6" Name="NPC - Right-hand" />
+		<Option Value="7" Name="NPC - Left-hand" />
+		<Option Value="9" Name="Kick" />
+		<Option Value="10" Name="PC - Both-hand" />
+		<Option Value="11" Name="PC - Both-hand" />
+		<Option Value="12" Name="PC - Right-hand #2" />
+	  </Enum>
   </Enums>
+  <Self Row0Dummy="" />
   <Field>
-    <variationId VRef="behaviourVariation" />
+    <variationId AltName="Behavior Variation ID" VRef="behaviourVariation" />
 	<behaviorJudgeId Enum="AttackType" />
+	<ezStateBehaviorType_old AltName="State Behavior Type" />
 	<refType Enum="ReferenceType" />
-	<refId Refs="Bullet,AtkParam_Pc,SpEffectParam" />
+	<refId Refs="AtkParam_Pc,Bullet,SpEffectParam" />
+	<sfxVariationId AltName="SFX Variation ID" />
+	<stamina AltName="Stamina Cost" />
+	<mp AltName="Durability Cost" />
+	<category Enum="BehaviorCategory" />
+	<heroPoint AltName="Humanity Cost" />
   </Field>
 </PARAMMETA>

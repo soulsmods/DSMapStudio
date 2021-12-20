@@ -77,17 +77,63 @@
 	  </Enum>
   </Enums>
   <Field>
-    <ezStateBehaviorType Enum="MagicSchoolType" />
-	<refCategory1 Enum="ReferenceType" />
+	<yesNoDialogMessageId AltName="Message ID" />
+	<refId Refs="Bullet,SpEffectParam" />
+	<refIdFpCost1 AltName="Ref 1 FP Cost" />
+	<refIdSpCost1 AltName="Ref 1 Stamina Cost" />
+	<maxQuantity AltName="Number of Uses" />
+	<slotLength AltName="Slot Usage" />
+	<analogDexterityMin AltName="DEX Casting Speed Min" />
+	<analogDexterityMax AltName="DEX Casting Speed Max" />
+	<ezStateBehaviorType Enum="MagicSchoolType" AltName="Magic School Type" />
+	<refCategory1 Enum="ReferenceType" AltName="Ref 1 Category" />
 	<spEffectCategory Enum="MagicSchool" />
-	<refType Enum="CastAnimation" />
-	<refCategory4 Enum="ReferenceType" />
+	<refType Enum="CastAnimation" AltName="Animation Category" />
+	<refCategory4 Enum="ReferenceType" AltName="Ref 4 Category" />
+	<VowType0 IsBool="" />
+	<VowType1 IsBool="" />
+	<VowType2 IsBool="" />
+	<VowType3 IsBool="" />
+	<VowType4 IsBool="" />
+	<VowType5 IsBool="" />
+	<VowType6 IsBool="" />
+	<VowType7 IsBool="" />
+	<enableMulti AltName="Enable Multiplayer" IsBool="" />
+	<enableMultOnly AltName="Enable Multiplayer Only" IsBool="" />
+	<isEnchant IsBool="" />
+	<isShieldEnchant IsBool="" />
+	<enable_live IsBool="" />
+	<enable_gray IsBool="" />
+	<enable_white IsBool="" />
+	<enable_black IsBool="" />
+	<disable_offline IsBool="" />
+	<castResonanceMagic IsBool="" />
+	<Unk1 IsBool="" />
+	<Unk2 IsBool="" />
+	<Unk3 IsBool="" />
+	<Unk4 IsBool="" />
+	<Unk5 IsBool="" />
+	<Unk6 IsBool="" />
+	<VowType8 IsBool="" />
+	<VowType9 IsBool="" />
+	<VowType10 IsBool="" />
+	<VowType11 IsBool="" />
+	<VowType12 IsBool="" />
+	<VowType13 IsBool="" />
+	<VowType14 IsBool="" />
+	<VowType15 IsBool="" />
 	<AttributeType Enum="AttributeType" />
-	<refCategory2 Enum="ReferenceType" />
-	<refCategory3 Enum="ReferenceType" />
-    <refId1 Refs="Bullet" />
-    <refId2 Refs="Bullet" />
-    <refId3 Refs="Bullet" />
-    <refId4 Refs="Bullet" />
+	<refCategory2 Enum="ReferenceType" AltName="Ref 2 Category" />
+	<refIdSpCost4 AltName="Ref 4 Stamina Cost" />
+	<refIdFpCost2 AltName="Ref 2 FP Cost" />
+	<refIdSpCost2 AltName="Ref 2 Stamina Cost" />
+	<refCategory3 Enum="ReferenceType" AltName="Ref 3 Category" />
+	<refIdFpCost4 AltName="Ref 4 FP Cost" />
+	<refIdFpCost3 AltName="Ref 3 FP Cost" />
+	<refIdSpCost3 AltName="Ref 3 Stamina Cost" />
+	<refId1 Refs="Bullet,SpEffectParam" />
+	<refId2 Refs="Bullet,SpEffectParam" />
+	<refId3 Refs="Bullet,SpEffectParam" />
+	<refId4 Refs="Bullet,SpEffectParam" />
   </Field>
 </PARAMMETA>

@@ -274,7 +274,7 @@ namespace StudioCore.MsbEditor
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
 
-        public override void OnProjectChanged(ProjectSettings newSettings)
+        public override void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
             _assetBrowser.RebuildCaches();
         }

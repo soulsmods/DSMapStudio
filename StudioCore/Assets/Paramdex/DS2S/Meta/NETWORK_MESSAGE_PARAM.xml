@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<MessageType AltName="Message Type" /> 
+<MessageID0 AltName="Message ID 0" /> 
+<MessageID1 AltName="Message ID 1" /> 
+<MessageID2 AltName="Message ID 2" /> 
+<MessageID3 AltName="Message ID 3" /> 
+<MessageID4 AltName="Message ID 4" /> 
+<MessageID5 AltName="Message ID 5" /> 
+<MessageID6 AltName="Message ID 6" /> 
+<MessageID7 AltName="Message ID 7" /> 
+<MessageID8 AltName="Message ID 8" /> 
+<MessageID9 AltName="Message ID 9" /> 
+<MessageID10 AltName="Message ID 10" /> 
+<MessageID11 AltName="Message ID 11" /> 
+<MessageID12 AltName="Message ID 12" /> 
+<MessageID13 AltName="Message ID 13" /> 
+<MessageID14 AltName="Message ID 14" /> 
+<MessageID15 AltName="Message ID 15" /> 
+<MessageID16 AltName="Message ID 16" /> 
+<MessageID17 AltName="Message ID 17" /> 
+<MessageID18 AltName="Message ID 18" /> 
+<MessageID19 AltName="Message ID 19" /> 
+<MessageID20 AltName="Message ID 20" /> 
+</Field>
+</PARAMMETA>

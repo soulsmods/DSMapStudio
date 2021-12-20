@@ -233,11 +233,11 @@
     <Field Def="f32 Unk20" />
     <Field Def="f32 dropRate" />
     <Field Def="f32 Unk21" />
-    <Field Def="f32 PoisonResistChange" />
-    <Field Def="f32 ToxicResistChange" />
-    <Field Def="f32 BleedResistChange" />
-    <Field Def="f32 CurseResistChange" />
-    <Field Def="f32 FrostResistChange" />
+    <Field Def="s32 PoisonResistChange" />
+    <Field Def="s32 ToxicResistChange" />
+    <Field Def="s32 BleedResistChange" />
+    <Field Def="s32 CurseResistChange" />
+    <Field Def="s32 FrostResistChange" />
     <Field Def="f32 UnkDamageRate0" />
     <Field Def="f32 UnkDamageRate1" />
     <Field Def="f32 UnkDamageRate2" />

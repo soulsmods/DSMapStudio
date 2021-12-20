@@ -61,7 +61,7 @@
     <Field Def="u8 Unk47" />
     <Field Def="s32 Self Effect" />
     <Field Def="u8 Unk4C" />
-    <Field Def="u8 Is Permanent Buff:1" />
+    <Field Def="u8 Is Permanent Buff" />
     <Field Def="u8 Apply Type" />
     <Field Def="u8 Unk4F" />
     <Field Def="s32 Unk50" />

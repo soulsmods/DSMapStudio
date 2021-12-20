@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<ChrID AltName="Chr ID" /> 
+<BehaviorParamID AltName="Behavior Param ID" /> 
+<CommonParamID AltName="Common Param ID" /> 
+<MoveParamID AltName="Move Param ID" /> 
+<BaseHPNG AltName="Base HP (NG)" /> 
+<BaseStaminaRegeneration10 AltName="Base Stamina Regeneration (*10)" /> 
+<LogicComID AltName="Logic Com ID" /> 
+<DeadTypeID AltName="Dead Type ID" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+<PhysicalDefence AltName="Physical Defence" /> 
+<MagicAbsorption AltName="Magic Absorption" /> 
+<LightningAbsorption AltName="Lightning Absorption" /> 
+<FireAbsorption AltName="Fire Absorption" /> 
+<DarkAbsorption AltName="Dark Absorption" /> 
+<PoisonResist AltName="Poison Resist" /> 
+<BleedResist AltName="Bleed Resist" /> 
+<CurseResist AltName="Curse Resist" /> 
+<PetrifyResist AltName="Petrify Resist" /> 
+<Souls AltName="Souls" /> 
+<DamageAuxMultiplier AltName="Damage / Aux Multiplier" /> 
+<FullBodySFXID AltName="Full Body SFX ID" /> 
+<ItemlotID AltName="Itemlot ID" /> 
+<ItemlotIDOverkilled AltName="Itemlot ID - Overkilled" /> 
+<NG1HP AltName="NG+1 HP" /> 
+<NG2HP AltName="NG+2 HP" /> 
+<NG3HP AltName="NG+3 HP" /> 
+<NG4HP AltName="NG+4 HP" /> 
+<NG5HP AltName="NG+5 HP" /> 
+<NG6HP AltName="NG+6 HP" /> 
+<NG7HP AltName="NG+7 HP" /> 
+</Field>
+</PARAMMETA>

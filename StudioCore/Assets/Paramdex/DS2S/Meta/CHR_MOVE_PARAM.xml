@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<WalkSpeed AltName="Walk Speed" /> 
+<RunSpeed AltName="Run Speed" /> 
+<LockedonWalkSpeed AltName="Locked-on Walk Speed" /> 
+<LockedonUnk70 AltName="Locked-on Unk70" /> 
+<LockedonUnk74 AltName="Locked-on Unk74" /> 
+<LockedonUnk78 AltName="Locked-on Unk78" /> 
+<LockedonUnk7C AltName="Locked-on Unk7C" /> 
+<LockedonUnk80 AltName="Locked-on Unk80" /> 
+<LockedonRunSpeed AltName="Locked-on Run Speed" /> 
+<LockedonUnk88 AltName="Locked-on Unk88" /> 
+<LockedonUnk8C AltName="Locked-on Unk8C" /> 
+<LockedonUnk90 AltName="Locked-on Unk90" /> 
+<LockedonUnk94 AltName="Locked-on Unk94" /> 
+<LockedonUnk98 AltName="Locked-on Unk98" /> 
+<LockedonUnk9C AltName="Locked-on Unk9C" /> 
+<LockedonUnkA0 AltName="Locked-on UnkA0" /> 
+<LockedonUnkA4 AltName="Locked-on UnkA4" /> 
+<LockedonUnkA8 AltName="Locked-on UnkA8" /> 
+<LockedonUnkAC AltName="Locked-on UnkAC" /> 
+<LockedonUnkB0 AltName="Locked-on UnkB0" /> 
+<BackstepSpeed AltName="Backstep Speed" /> 
+<BackstepDistance AltName="Backstep Distance" /> 
+<RollSpeed AltName="Roll Speed" /> 
+<JumpHeight AltName="Jump Height" /> 
+<JumpLength AltName="Jump Length" /> 
+<JumpLength2 AltName="Jump Length 2" /> 
+<JumpGravity AltName="Jump Gravity" /> 
+<JumpGravity2 AltName="Jump Gravity 2" /> 
+<FallDeathTimer AltName="Fall Death Timer" /> 
+<EscapeMinHeight AltName="Escape Min Height" /> 
+<FallDamageDamp AltName="Fall Damage Damp" /> 
+<FallDamageDamp2 AltName="Fall Damage Damp 2" /> 
+<FallDistanceMax AltName="Fall Distance Max" /> 
+</Field>
+</PARAMMETA>

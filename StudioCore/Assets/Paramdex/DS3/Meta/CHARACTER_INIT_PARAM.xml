@@ -1,18 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <equip_Wep_Right Refs="EquipParamWeapon"/>
-    <equip_Subwep_Right Refs="EquipParamWeapon" />
-    <equip_Wep_Left Refs="EquipParamWeapon" />
-    <equip_Subwep_Left Refs="EquipParamWeapon" />
+    <BaseRec_mp AltName="Base Rec FP" />
+    <BaseRec_sp AltName="Base Rec SP" />
+    <red_Falldam AltName="Red Fall Damage" />
+    <equip_Wep_Right Refs="EquipParamWeapon" AltName="Right Weapon 1" />
+    <equip_Subwep_Right Refs="EquipParamWeapon" AltName="Right Weapon 2" />
+    <equip_Wep_Left Refs="EquipParamWeapon" AltName="Left Weapon 1" />
+    <equip_Subwep_Left Refs="EquipParamWeapon" AltName="Left Weapon 2" />
     <equip_Helm Refs="EquipParamProtector" />
     <equip_Armor Refs="EquipParamProtector" />
     <equip_Gaunt Refs="EquipParamProtector" />
     <equip_Leg Refs="EquipParamProtector" />
-    <equip_Arrow Refs="EquipParamWeapon" />
-    <equip_Bolt Refs="EquipParamWeapon" />
-    <equip_SubArrow Refs="EquipParamWeapon" />
-    <equip_SubBolt Refs="EquipParamWeapon" />
+    <equip_Arrow Refs="EquipParamWeapon" AltName="Arrow Slot 1" />
+    <equip_Bolt Refs="EquipParamWeapon" AltName="Bolt Slot 1" />
+    <equip_SubArrow Refs="EquipParamWeapon" AltName="Arrow Slot 2" />
+    <equip_SubBolt Refs="EquipParamWeapon" AltName="Bolt Slot 2" />
     <equip_Accessory1 Refs="EquipParamAccessory" />
     <equip_Accessory2 Refs="EquipParamAccessory" />
     <equip_Accessory3 Refs="EquipParamAccessory" />
@@ -35,6 +38,59 @@
     <Item_08 Refs="EquipParamGoods" />
     <Item_09 Refs="EquipParamGoods" />
     <Item_10 Refs="EquipParamGoods" />
-    <npcPlayerFaceGenId Refs= "FaceParam" />
+    <npcPlayerFaceGenId Refs="FaceParam" />
+    <baseHp AltName="Base HP" />
+    <baseMp AltName="Base FP" />
+    <baseSp AltName="Base Stamina" />
+    <arrowNum AltName="Slot 1 Arrow Amount" />
+    <boltNum AltName="Slot 1 Bolt Amount" />
+    <subArrowNum AltName="Slot 2 Arrow Amount" />
+    <subBoltNum AltName="Slot 2 Bolt Amount" />
+    <soulLvl AltName="Soul Level" Wiki="Character's Starting Soul Level" />
+    <baseVit AltName="Vigor" Wiki="Character's Starting Vigor Level" />
+    <baseWil AltName="Attunement" Wiki="Character's Starting Attunement Level" />
+    <baseEnd AltName="Endurance" Wiki="Character's Starting Endurance Level" />
+    <baseStr AltName="Strength" Wiki="Character's Starting Strength Level" />
+    <baseDex AltName="Dexterity" Wiki="Character's Starting Dexterity Level" />
+    <baseMag AltName="Intelligence" Wiki="Character's Starting Intelligence Level" />
+    <baseFai AltName="Faith" Wiki="Character's Starting Faith Level" />
+    <baseLuc AltName="Luck" Wiki="Character's Starting Luck Level" />
+    <baseDurability AltName="Vitality" Wiki="Character's Starting Vitality Level" />
+    <itemNum_01 AltName="Item 1 Amount" />
+    <itemNum_02 AltName="Item 2 Amount" />
+    <itemNum_03 AltName="Item 3 Amount" />
+    <itemNum_04 AltName="Item 4 Amount" />
+    <itemNum_05 AltName="Item 5 Amount" />
+    <itemNum_06 AltName="Item 6 Amount" />
+    <itemNum_07 AltName="Item 7 Amount" />
+    <itemNum_08 AltName="Item 8 Amount" />
+    <itemNum_09 AltName="Item 9 Amount" />
+    <itemNum_10 AltName="Item 10 Amount" />
+    <bodyScaleHead AltName="Head Body Scale" />
+    <bodyScaleBreast AltName="Breast Body Scale" />
+    <BodyScaleAbdomen AltName="Abdomen Body Scale" />
+    <BodyScaleArm AltName="Arm Body Scale" />
+    <BodyScaleLeg AltName="Leg Body Scale" />
+    <vowType AltName="Covenant Type" />
+    <equip_Wep_Right_GenId AltName="Right Weapon 1 Gen ID" />
+    <equip_Subwep_Right_GenId AltName="Right Weapon 2 Gen ID" />
+    <equip_Wep_Left_GenId AltName="Left Weapon 1 Gen ID" />
+    <equip_Subwep_Left_GenId AltName="Left Weapon 2 Gen ID" />
+    <SecondaryItem_01 AltName="Inventory Item 1" />
+    <SecondaryItem_02 AltName="Inventory Item 2" />
+    <SecondaryItem_03 AltName="Inventory Item 3" />
+    <SecondaryItem_04 AltName="Inventory Item 4" />
+    <SecondaryItem_05 AltName="Inventory Item 5" />
+    <SecondaryItem_06 AltName="Inventory Item 6" />
+    <SecondaryItem_07 AltName="Inventory Item 7" />
+    <SecondaryItem_08 AltName="Inventory Item 8" />
+    <secondaryItemNum_01 AltName="Inventory Item 1 Amount" />
+    <secondaryItemNum_02 AltName="Inventory Item 2 Amount" />
+    <secondaryItemNum_03 AltName="Inventory Item 3 Amount" />
+    <secondaryItemNum_04 AltName="Inventory Item 4 Amount" />
+    <secondaryItemNum_05 AltName="Inventory Item 5 Amount" />
+    <secondaryItemNum_06 AltName="Inventory Item 6 Amount" />
+    <secondaryItemNum_07 AltName="Inventory Item 7 Amount" />
+    <secondaryItemNum_08 AltName="Inventory Item 8 Amount" />
   </Field>
 </PARAMMETA>

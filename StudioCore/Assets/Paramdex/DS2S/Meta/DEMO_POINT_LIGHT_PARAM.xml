@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<DiffuseR255 AltName="Diffuse R = 255" /> 
+<DiffuseG255 AltName="Diffuse G = 255" /> 
+<DiffuseB255 AltName="Diffuse B = 255" /> 
+<DiffuseA255 AltName="Diffuse A = 255" /> 
+<SpecularR255 AltName="Specular R = 255" /> 
+<SpecularG255 AltName="Specular G = 255" /> 
+<SpecularB255 AltName="Specular B = 255" /> 
+<SpecularA255 AltName="Specular A = 255" /> 
+</Field>
+</PARAMMETA>

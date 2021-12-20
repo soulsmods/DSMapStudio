@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<HP AltName="HP" /> 
+<Stamina AltName="Stamina" /> 
+<HumanHP AltName="Human HP" /> 
+<AttunementSlots AltName="Attunement Slots" /> 
+<CastSpeed AltName="Cast Speed" /> 
+<StrengthBonus AltName="Strength Bonus" /> 
+<DexterityBonus AltName="Dexterity Bonus" /> 
+<MagicBonus AltName="Magic Bonus" /> 
+<FireBonus AltName="Fire Bonus" /> 
+<LightningBonus AltName="Lightning Bonus" /> 
+<DarkBonus AltName="Dark Bonus" /> 
+<PoisonBonus AltName="Poison Bonus" /> 
+<BleedBonus AltName="Bleed Bonus" /> 
+<PhysicalDefense AltName="Physical Defense" /> 
+<MagicDefense AltName="Magic Defense" /> 
+<FireDefense AltName="Fire Defense" /> 
+<LightningDefense AltName="Lightning Defense" /> 
+<DarkDefense AltName="Dark Defense" /> 
+<PoisonResist AltName="Poison Resist" /> 
+<BleedResist AltName="Bleed Resist" /> 
+<PetrifyResist AltName="Petrify Resist" /> 
+<CurseResist AltName="Curse Resist" /> 
+<Agility AltName="Agility" /> 
+<MundaneBonus AltName="Mundane Bonus" /> 
+<MaxEquipLoad AltName="Max Equip Load" /> 
+</Field>
+</PARAMMETA>
