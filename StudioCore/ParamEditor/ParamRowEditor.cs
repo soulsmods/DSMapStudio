@@ -324,6 +324,7 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             if (isRef)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
+
             changed = PropertyRow(propType, oldval, out newval, IsBool);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
             if (isRef || matchDefault)
@@ -332,17 +333,17 @@ namespace StudioCore.ParamEditor
             PropertyRowValueContextMenu(internalName, VirtualRef, oldval);
 
             if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
-            {
-                ImGui.NewLine();
                 EditorDecorations.ParamRefsSelectables(RefTypes, oldval);
-            }
             if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)
                 EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
 
-            if ((ParamEditorScreen.HideReferenceRowsPreference == false || ParamEditorScreen.HideEnumsPreference == false) && PropertyRowMetaValueContextMenu(oldval, ref newval, RefTypes, Enum))
+            if (ParamEditorScreen.HideReferenceRowsPreference == false || ParamEditorScreen.HideEnumsPreference == false)
             {
-                changed = true;
-                committed = true;
+                if (PropertyRowMetaValueContextMenu(oldval, ref newval, RefTypes, Enum))
+                {
+                    changed = true;
+                    committed = true;
+                }
             }
 
             UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, newval, changed, committed);

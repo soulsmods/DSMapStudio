@@ -26,12 +26,77 @@ namespace StudioCore.Editor
 
         public static void ParamRefText(List<string> paramRefs)
         {
-            if (paramRefs != null && ParamEditor.ParamEditorScreen.HideReferenceRowsPreference == false) //Move preference
+            if (paramRefs == null)
+                return;
+            if (ParamEditor.ParamEditorScreen.HideReferenceRowsPreference == false) //Move preference
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
                 ImGui.TextUnformatted($@"  <{String.Join(',', paramRefs)}>");
                 ImGui.PopStyleColor();
             }
+        }
+        public static void ParamRefsSelectables(List<string> paramRefs, dynamic oldval)
+        {
+            if (paramRefs == null)
+                return;
+            // Add named row and context menu
+            // Lists located params
+            // May span lines
+            List<(PARAM.Row, string)> matches = resolveRefs(paramRefs, oldval);
+            bool entryFound = matches.Count > 0;
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
+            foreach ((PARAM.Row row, string hint) in matches)
+            {
+                if (row.Name == null || row.Name.Trim().Equals(""))
+                    ImGui.TextUnformatted("Unnamed Row");
+                else
+                    ImGui.TextUnformatted(row.Name + hint);
+                ImGui.NewLine();
+            }
+            ImGui.PopStyleColor();
+            if (!entryFound)
+            {
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+                ImGui.TextUnformatted("___");
+                ImGui.PopStyleColor();
+            }
+            ImGui.SameLine();
+        }
+        private static List<(PARAM.Row, string)> resolveRefs(List<string> paramRefs, dynamic oldval)
+        {
+            List<(PARAM.Row, string)> rows = new List<(PARAM.Row, string)>();
+            int originalValue = (int) oldval; //make sure to explicitly cast from dynamic or C# complains. Object or Convert.ToInt32 fail.
+            foreach (string rt in paramRefs)
+            {
+                string hint = "";
+                if (ParamEditor.ParamBank.Params.ContainsKey(rt))
+                {
+                    PARAM param = ParamEditor.ParamBank.Params[rt];
+                    ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.Get(ParamEditor.ParamBank.Params[rt].AppliedParamdef);
+                    if (meta != null && meta.Row0Dummy && originalValue == 0)
+                        continue;
+                    PARAM.Row r = param[originalValue];
+                    if (r == null && originalValue > 0 && meta != null)
+                    {
+                        int altval = originalValue;
+                        if (meta.FixedOffset != 0)
+                        {
+                            altval = originalValue + meta.FixedOffset;
+                            hint += meta.FixedOffset>0 ? "+"+meta.FixedOffset.ToString() : meta.FixedOffset.ToString();
+                        }
+                        if (meta.OffsetSize > 0)
+                        {
+                            altval = altval - altval % meta.OffsetSize;
+                            hint += "+"+(originalValue % meta.OffsetSize).ToString();
+                        }
+                        r = ParamEditor.ParamBank.Params[rt][altval];
+                    }
+                    if (r == null)
+                        continue;
+                    rows.Add((r, hint));
+                }
+            }
+            return rows;
         }
 
         public static void EnumNameText(string enumName)
@@ -43,8 +108,14 @@ namespace StudioCore.Editor
                 ImGui.PopStyleColor();
             }
         }
+        public static void EnumValueText(Dictionary<string, string> enumValues, string value)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
+            ImGui.TextUnformatted(enumValues.GetValueOrDefault(value, "Not Enumerated"));
+            ImGui.PopStyleColor();
+        }
 
-        public static void VirtualParamRefSelectables(string vref, object searchValue)
+        public static void VirtualParamRefSelectables(string virtualRefName, object searchValue)
         {
             // Add Goto statements
             foreach (var param in ParamEditor.ParamBank.Params)
@@ -53,7 +124,7 @@ namespace StudioCore.Editor
                 //get field
                 foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                 { 
-                    if (ParamEditor.FieldMetaData.Get(f).VirtualRef != null && ParamEditor.FieldMetaData.Get(f).VirtualRef.Equals(vref))
+                    if (ParamEditor.FieldMetaData.Get(f).VirtualRef != null && ParamEditor.FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
                     {
                         foundfield = f;
                         break;
@@ -76,71 +147,5 @@ namespace StudioCore.Editor
                 }
             }
         }
-
-        public static void ParamRefsSelectables(List<string> paramRefs, dynamic oldval)
-        {
-            // Add named row and context menu
-            // Lists located params
-            // May span lines
-            int originalValue = (int) oldval; //make sure to explicitly cast from dynamic or C# complains. Object or Convert.ToInt32 fail.
-            bool entryFound = false;
-            foreach (string rt in paramRefs)
-            {
-                string hint = "";
-                if (ParamEditor.ParamBank.Params.ContainsKey(rt))
-                {
-                    PARAM param = ParamEditor.ParamBank.Params[rt];
-                    ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.Get(ParamEditor.ParamBank.Params[rt].AppliedParamdef);
-                    if (meta != null && meta.Row0Dummy && originalValue == 0)
-                        continue;
-                    PARAM.Row r = param[originalValue];
-                    ImGui.SameLine();
-                    if (r == null && originalValue > 0 && meta != null)
-                    {
-                        int altval = originalValue;
-                        if (meta.FixedOffset != 0)
-                        {
-                            altval = originalValue + meta.FixedOffset;
-                            hint += meta.FixedOffset>0 ? "+"+meta.FixedOffset.ToString() : meta.FixedOffset.ToString();
-                        }
-                        if (meta.OffsetSize > 0)
-                        {
-                            altval = altval - altval % meta.OffsetSize;
-                            hint += "+"+(originalValue % meta.OffsetSize).ToString();
-                        }
-                        r = ParamEditor.ParamBank.Params[rt][altval];
-                    }
-                    if (r == null)
-                        continue;
-                    entryFound = true;
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
-                    if (r.Name == null || r.Name.Equals(""))
-                    {
-                        ImGui.TextUnformatted("Unnamed Row");
-                    }
-                    else
-                    {
-                        ImGui.TextUnformatted(r.Name + hint);
-                    }
-                    ImGui.PopStyleColor();
-                    ImGui.NewLine();
-                }
-            }
-            ImGui.SameLine();
-            if (!entryFound)
-            {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted("___");
-                ImGui.PopStyleColor();
-            }
-        }
-
-        public static void EnumValueText(Dictionary<string, string> enumValues, string value)
-        {
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
-            ImGui.TextUnformatted(enumValues.GetValueOrDefault(value, "Not Enumerated"));
-            ImGui.PopStyleColor();
-        }
-
     }
 }
