@@ -511,6 +511,7 @@ namespace StudioCore.MsbEditor
                     }
                     bool nodeopen = false;
                     string unsaved = (map != null && map.HasUnsavedChanges) ? "*" : "";
+                    ImGui.BeginGroup();
                     if (map != null)
                     {
                         nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags, $@"{ForkAwesome.Cube} {mapid}{unsaved}");
@@ -519,6 +520,12 @@ namespace StudioCore.MsbEditor
                     {
                         ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
                     }
+                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
+                    {
+                        ImGui.SameLine();
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
+                    }
+                    ImGui.EndGroup();
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
                     {
