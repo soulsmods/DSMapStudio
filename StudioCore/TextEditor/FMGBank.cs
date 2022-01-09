@@ -24,6 +24,13 @@ namespace StudioCore.TextEditor
             Spells,
             Characters,
             Locations,
+            DSRGoods,
+            DSRWeapons,
+            DSRArmor,
+            DSRRings,
+            DSRSpells,
+            DSRCharacters,
+            DSRLocations,
         }
 
         public enum ItemType
@@ -60,6 +67,29 @@ namespace StudioCore.TextEditor
             SummarySpells = 28,
             DescriptionSpells = 29,
             DescriptionSkills = 40,
+            // DSR unks?
+            DSRDescriptionGoods = 100,
+            DSRDescriptionSpells = 105,
+            DSRDescriptionWeapons = 106,
+            DSRDescriptionArmor = 108,
+            DSRDescriptionRings = 109,
+            DSRSummaryGoods = 110,
+            DSRTitleGoods = 111,
+            DSRSummaryRings = 112,
+            DSRTitleRings = 113,
+            DSRSummaryWeapons = 114,
+            DSRTitleWeapons = 115,
+            DSRSummaryArmor = 116,
+            DSRTitleArmor = 117,
+            DSRTitleSpells = 118,
+            DSRTitleCharacters = 119,
+            DSRTitleLocations = 120,
+            /* Missing the following DSR overrides:
+            15: TitleTest: 28
+            16: TitleTest2: 25
+            17: TitleTest3: 25
+            28: SummarySpells: 474
+            */
 
             // DS3 DLC1
             TitleGoodsDLC1 = 210,
@@ -135,6 +165,10 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleGoodsDLC1:
                 case ItemFMGTypes.TitleGoodsDLC2:
                     return ItemCategory.Goods;
+                case ItemFMGTypes.DSRDescriptionGoods:
+                case ItemFMGTypes.DSRSummaryGoods:
+                case ItemFMGTypes.DSRTitleGoods:
+                    return ItemCategory.DSRGoods;
                 case ItemFMGTypes.DescriptionWeapons:
                 case ItemFMGTypes.DescriptionWeaponsDLC1:
                 case ItemFMGTypes.DescriptionWeaponsDLC2:
@@ -143,6 +177,10 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleWeaponsDLC1:
                 case ItemFMGTypes.TitleWeaponsDLC2:
                     return ItemCategory.Weapons;
+                case ItemFMGTypes.DSRDescriptionWeapons:
+                case ItemFMGTypes.DSRSummaryWeapons:
+                case ItemFMGTypes.DSRTitleWeapons:
+                    return ItemCategory.DSRWeapons;
                 case ItemFMGTypes.DescriptionArmor:
                 case ItemFMGTypes.DescriptionArmorDLC1:
                 case ItemFMGTypes.DescriptionArmorDLC2:
@@ -151,6 +189,10 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleArmorDLC1:
                 case ItemFMGTypes.TitleArmorDLC2:
                     return ItemCategory.Armor;
+                case ItemFMGTypes.DSRDescriptionArmor:
+                case ItemFMGTypes.DSRSummaryArmor:
+                case ItemFMGTypes.DSRTitleArmor:
+                    return ItemCategory.DSRArmor;
                 case ItemFMGTypes.DescriptionRings:
                 case ItemFMGTypes.DescriptionRingsDLC1:
                 case ItemFMGTypes.DescriptionRingsDLC2:
@@ -161,6 +203,10 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleRingsDLC1:
                 case ItemFMGTypes.TitleRingsDLC2:
                     return ItemCategory.Rings;
+                case ItemFMGTypes.DSRDescriptionRings:
+                case ItemFMGTypes.DSRSummaryRings:
+                case ItemFMGTypes.DSRTitleRings:
+                    return ItemCategory.DSRRings;
                 case ItemFMGTypes.DescriptionSpells:
                 case ItemFMGTypes.DescriptionSpellsDLC1:
                 case ItemFMGTypes.DescriptionSpellsDLC2:
@@ -171,14 +217,21 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleSpellsDLC1:
                 case ItemFMGTypes.TitleSpellsDLC2:
                     return ItemCategory.Spells;
+                case ItemFMGTypes.DSRDescriptionSpells:
+                case ItemFMGTypes.DSRTitleSpells:
+                    return ItemCategory.DSRSpells;
                 case ItemFMGTypes.TitleCharacters:
                 case ItemFMGTypes.TitleCharactersDLC1:
                 case ItemFMGTypes.TitleCharactersDLC2:
                     return ItemCategory.Characters;
+                case ItemFMGTypes.DSRTitleCharacters:
+                    return ItemCategory.DSRCharacters;
                 case ItemFMGTypes.TitleLocations:
                 case ItemFMGTypes.TitleLocationsDLC1:
                 case ItemFMGTypes.TitleLocationsDLC2:
                     return ItemCategory.Locations;
+                case ItemFMGTypes.DSRTitleLocations:
+                    return ItemCategory.DSRLocations;
                 default:
                     throw new Exception("Unrecognized FMG type");
             }
@@ -204,6 +257,11 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DescriptionSpellsDLC1:
                 case ItemFMGTypes.DescriptionSpellsDLC2:
                 case ItemFMGTypes.DescriptionSkills:
+                case ItemFMGTypes.DSRDescriptionArmor:
+                case ItemFMGTypes.DSRDescriptionGoods:
+                case ItemFMGTypes.DSRDescriptionRings:
+                case ItemFMGTypes.DSRDescriptionSpells:
+                case ItemFMGTypes.DSRDescriptionWeapons:
                     return ItemType.Description;
                 case ItemFMGTypes.SummaryGoods:
                 case ItemFMGTypes.SummaryGoodsDLC1:
@@ -216,6 +274,10 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.SummarySpells:
                 case ItemFMGTypes.SummarySpellsDLC1:
                 case ItemFMGTypes.SummarySpellsDLC2:
+                case ItemFMGTypes.DSRSummaryArmor:
+                case ItemFMGTypes.DSRSummaryGoods:
+                case ItemFMGTypes.DSRSummaryRings:
+                case ItemFMGTypes.DSRSummaryWeapons:
                     return ItemType.Summary;
                 case ItemFMGTypes.TitleGoods:
                 case ItemFMGTypes.TitleGoodsDLC1:
@@ -241,6 +303,13 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleTest:
                 case ItemFMGTypes.TitleTest2:
                 case ItemFMGTypes.TitleTest3:
+                case ItemFMGTypes.DSRTitleArmor:
+                case ItemFMGTypes.DSRTitleCharacters:
+                case ItemFMGTypes.DSRTitleGoods:
+                case ItemFMGTypes.DSRTitleLocations:
+                case ItemFMGTypes.DSRTitleRings:
+                case ItemFMGTypes.DSRTitleSpells:
+                case ItemFMGTypes.DSRTitleWeapons:
                     return ItemType.Title;
                 default:
                     throw new Exception("Unrecognized FMG type");
