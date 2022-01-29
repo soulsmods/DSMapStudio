@@ -19,16 +19,43 @@ namespace StudioCore.TextEditor
         //private string _activeParam = null;
         //private PARAM.Row _activeRow = null;
 
-        private FMGBank.ItemCategory[] _displayCategories =
-        {
-            FMGBank.ItemCategory.Armor,
-            FMGBank.ItemCategory.Characters,
-            FMGBank.ItemCategory.Goods,
-            FMGBank.ItemCategory.Locations,
-            FMGBank.ItemCategory.Rings,
-            FMGBank.ItemCategory.Spells,
-            FMGBank.ItemCategory.Weapons
-        };
+        private FMGBank.ItemCategory[] _displayCategories {
+            get {
+                if (FMGBank.AssetLocator.Type != GameType.DarkSoulsRemastered)
+                {
+                    return new FMGBank.ItemCategory[]
+                    {
+                        FMGBank.ItemCategory.Armor,
+                        FMGBank.ItemCategory.Characters,
+                        FMGBank.ItemCategory.Goods,
+                        FMGBank.ItemCategory.Locations,
+                        FMGBank.ItemCategory.Rings,
+                        FMGBank.ItemCategory.Spells,
+                        FMGBank.ItemCategory.Weapons
+                    };
+                }
+                else
+                {
+                    return new FMGBank.ItemCategory[]
+                    {
+                        FMGBank.ItemCategory.Armor,
+                        FMGBank.ItemCategory.Characters,
+                        FMGBank.ItemCategory.Goods,
+                        FMGBank.ItemCategory.Locations,
+                        FMGBank.ItemCategory.Rings,
+                        FMGBank.ItemCategory.Spells,
+                        FMGBank.ItemCategory.Weapons,
+                        FMGBank.ItemCategory.DSRArmor,
+                        FMGBank.ItemCategory.DSRCharacters,
+                        FMGBank.ItemCategory.DSRGoods,
+                        FMGBank.ItemCategory.DSRLocations,
+                        FMGBank.ItemCategory.DSRRings,
+                        FMGBank.ItemCategory.DSRSpells,
+                        FMGBank.ItemCategory.DSRWeapons
+                    };
+                }
+            }
+        }
 
         private FMGBank.ItemCategory _activeCategory = FMGBank.ItemCategory.None;
         private string _activeCategoryDS2 = null;

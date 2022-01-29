@@ -221,6 +221,32 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd"), ref _vanillaParams);
         }
 
+        private static string LoadParamsDS1R()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
+            {
+                MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            // Load params
+            var param = $@"{mod}\param\GameParam\GameParam.parambnd";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
+            }
+            BND3 paramBnd = BND3.Read(param);
+
+            LoadParamFromBinder(paramBnd, ref _params);
+            return dir;
+        }
+        private static void LoadVParamsDS1R(string dir)
+        {
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd.dcx"), ref _vanillaParams);
+        }
+
         private static string LoadParamsBBSekrio()
         {
             var dir = AssetLocator.GameRootDirectory;
@@ -464,6 +490,10 @@ namespace StudioCore.ParamEditor
                 {
                     vparamDir = LoadParamsDS1();
                 }
+                if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+                {
+                    vparamDir = LoadParamsDS1R();
+                }
                 if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
                     vparamDir = LoadParamsDS2();
@@ -491,6 +521,10 @@ namespace StudioCore.ParamEditor
                         if (AssetLocator.Type == GameType.DarkSoulsPTDE)
                         {
                             LoadVParamsDS1(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+                        {
+                            LoadVParamsDS1R(vparamDir);
                         }
                         if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                         {
