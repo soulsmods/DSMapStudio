@@ -403,6 +403,7 @@
 
   <ItemGroup>
     <None Update="Assets\Paramdex\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\Aliases\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

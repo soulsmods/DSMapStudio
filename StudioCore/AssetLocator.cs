@@ -473,6 +473,37 @@ namespace StudioCore
             }
             return ad;
         }
+    	public string GetAliasAssetsDir()
+        {
+            string game;
+            switch (Type)
+            {
+                case GameType.DemonsSouls:
+                    game = "DES";
+                    break;
+                case GameType.DarkSoulsPTDE:
+                    game = "DS1";
+                    break;
+                case GameType.DarkSoulsRemastered:
+                    game = "DS1R";
+                    break;
+                case GameType.DarkSoulsIISOTFS:
+                    game = "DS2S";
+                    break;
+                case GameType.Bloodborne:
+                    game = "BB";
+                    break;
+                case GameType.DarkSoulsIII:
+                    game = "DS3";
+                    break;
+                case GameType.Sekiro:
+                    game = "SDT";
+                    break;
+                default:
+                    throw new Exception("Game type not set");
+            }
+            return  $@"Assets\Aliases\{game}";
+        }
 
         public string GetParamAssetsDir()
         {

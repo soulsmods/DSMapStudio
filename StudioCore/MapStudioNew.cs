@@ -131,6 +131,7 @@ namespace StudioCore
             _paramEditor = new ParamEditor.ParamEditorScreen(_window, _gd);
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
 
+            Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
@@ -307,6 +308,7 @@ namespace StudioCore
         {
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
+            Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams();
             TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
