@@ -33,7 +33,7 @@ namespace DSMapStudio
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message + "\n" + e.StackTrace, "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw e;
             }
         }

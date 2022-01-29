@@ -56,7 +56,7 @@ namespace StudioCore.Editor
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace, "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 (bool, Task) old;
                 _liveTasks.TryRemove(taskId, out old);
