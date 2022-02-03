@@ -768,16 +768,16 @@ namespace StudioCore
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
                     }
-                    if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
+                    if (validated && (Path.GetDirectoryName(_newProjectSettings.GameRoot)).Equals(_newProjectDirectory))
                     {
-                        System.Windows.Forms.MessageBox.Show("You must specify a project name.", "Error",
+                        System.Windows.Forms.MessageBox.Show("Project Directory cannot be the same as the base game files.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
                     }
-                    if (validated && (_newProjectSettings.GameRoot.Substring(0, _newProjectSettings.GameRoot.LastIndexOf(Path.DirectorySeparatorChar)).Equals(_newProjectDirectory)))
+                    if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
                     {
-                        System.Windows.Forms.MessageBox.Show("Project Directory cannot be the same as the base game files.\nThis should be the same folder as is written in your modengine.ini config.", "Error",
+                        System.Windows.Forms.MessageBox.Show("You must specify a project name.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
@@ -798,24 +798,13 @@ namespace StudioCore
 
                     if (validated)
                     {
-                        _projectSettings = _newProjectSettings;
-                        _projectSettings.GameRoot = gameroot;
-                        _projectSettings.Serialize($@"{_newProjectDirectory}\project.json");
-                        ChangeProjectSettings(_projectSettings, _newProjectDirectory);
-
-                        CFG.Current.LastProjectFile = $@"{_newProjectDirectory}\project.json";
-                        var recent = new CFG.RecentProject();
-                        recent.Name = _projectSettings.ProjectName;
-                        recent.GameType = _projectSettings.GameType;
-                        recent.ProjectFile = $@"{_newProjectDirectory}\project.json";
-                        CFG.Current.RecentProjects.Insert(0, recent);
-                        if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
-                        {
-                            CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
-                        }
+                        _newProjectSettings.GameRoot = gameroot;
+                        _newProjectSettings.Serialize($@"{_newProjectDirectory}\project.json");
+                        AttemptLoadProject(_newProjectSettings, $@"{_newProjectDirectory}\project.json", true);
                         if (_newProjectLoadDefaultNames)
                         {
                             ParamEditor.ParamBank.LoadParamDefaultNames();
+                            ParamEditor.ParamBank.SaveParams(_newProjectSettings.UseLooseParams);
                         }
 
                         ImGui.CloseCurrentPopup();
