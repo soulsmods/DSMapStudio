@@ -192,7 +192,11 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.MenuItem("Load Default Row Names"))
                 {
-                    ParamBank.LoadParamDefaultNames();
+                    try {
+                        ParamBank.LoadParamDefaultNames();
+                    } catch {
+
+                    }
                 }
                 ImGui.EndMenu();
             }
