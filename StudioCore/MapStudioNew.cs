@@ -18,7 +18,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Jank ParamStudio Merge Test";
+        private static string _version = "ParamStudio Merge ++";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -771,6 +771,13 @@ namespace StudioCore
                     if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
                     {
                         System.Windows.Forms.MessageBox.Show("You must specify a project name.", "Error",
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                        validated = false;
+                    }
+                    if (validated && (_newProjectSettings.GameRoot.Substring(0, _newProjectSettings.GameRoot.LastIndexOf(Path.DirectorySeparatorChar)).Equals(_newProjectDirectory)))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Project Directory cannot be the same as the base game files.\nThis should be the same folder as is written in your modengine.ini config.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
