@@ -449,6 +449,13 @@ namespace StudioCore
                         System.Windows.Forms.MessageBoxIcon.None);
                     return false;
                 }
+                if (settings.GameType == GameType.Sekiro && !Directory.Exists("oo2core_6_win64.dll"))
+                {
+                    //Technically we're not checking it exists, but the same can be said for many things we assume from CheckFilesExpanded
+                    Console.WriteLine(Path.GetFullPath("."));
+                    Console.WriteLine(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
+                    File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
+                }
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename));
                 CFG.Current.LastProjectFile = filename;
