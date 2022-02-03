@@ -15,6 +15,8 @@ A mass edit command is formed of a selector and an operation.
 
 The selector may be 'selection: FIELD' to indicate that you wish to edit all currently selected rows.
 It may also be 'param PARAM: ' to select by a specific param followed by any of the following row selectors:
+    'modified: ' to select modified rows,
+    'original: ' to select unmodified rows,
     'id VALUE: ' to select rows by their ids,
     'name NAME: ' to select rows with a matching name,
     'prop FIELD VALUE: ' to select rows that have a field that matches the given value. FIELD must be exact, but \s may be used instead of a space.
@@ -41,6 +43,8 @@ param EquipParamWeapon: prop weaponCategory 0: correctAgility: + field correctSt
 Searches are case-insensitive and the searched term may appear anywhere in the target rows.
 
 The following options determine how rows a filtered:
+    'modified' to select modified rows,
+    'original' to select unmodified rows,
     'id VALUE' to select rows by their ids,
     'name NAME' to select rows with a matching name,
     'prop FIELD VALUE' to select rows that have a field that matches the given value. FIELD must be exact, but \s may be used instead of a space.

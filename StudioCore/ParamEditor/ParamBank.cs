@@ -871,5 +871,15 @@ namespace StudioCore.ParamEditor
             }
             return null;
         }
+
+        public static string GetKeyForParam(PARAM param)
+        {
+            foreach (KeyValuePair<string, PARAM> pair in ParamBank.Params)
+            {
+                if (param == pair.Value)
+                    return pair.Key;
+            }
+            return null;
+        }
     }
 }

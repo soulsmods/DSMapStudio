@@ -846,7 +846,7 @@ namespace StudioCore.ParamEditor
             {
                 PARAM para = ParamBank.Params[activeParam];
                 HashSet<int> dirtyCache = ParamBank.DirtyParamCache[activeParam];
-                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW");
+                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW | original | modified");
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
                 ImGui.InputText("Search rows...", ref _selection.getCurrentRowSearchString(), 256);
                 if (ImGui.IsItemActive())

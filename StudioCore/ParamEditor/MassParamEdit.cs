@@ -135,13 +135,15 @@ namespace StudioCore.ParamEditor
         private static readonly string paramrowfilterselection = $@"(selection:\s+)";
         // eg "EquipParamWeapon: "
         private static readonly string paramfilterRx = $@"(param\s+(?<paramrx>[^:]+):\s+)";
+
+        private static readonly string rowfiltersingleRx = $@"(?<rowkey>modified|original)";
         // eg "id (100|200)00"
         private static readonly string rowfiltershortkeyRx = $@"((?<rowkey>id|name)\s+)";
         private static readonly string rowfiltershortRx = $@"({rowfiltershortkeyRx}(?<rowexp>[^:]+))";
         // eg "prop sellValue 100"
         private static readonly string rowfilterlongkeyRx = $@"((?<rowkey>prop|propref)\s+)";
         private static readonly string rowfilterlongRx = $@"({rowfilterlongkeyRx}(?<rowfield>[^:]+)\s+(?<rowexp>[^:]+))";
-        public static readonly string rowfilterRx = $@"({rowfiltershortRx}|{rowfilterlongRx})";
+        public static readonly string rowfilterRx = $@"({rowfiltersingleRx}|{rowfiltershortRx}|{rowfilterlongRx})";
         // eg "correctFaith: "
         private static readonly string fieldRx = $@"(?<fieldrx>[^:]+):\s+";
         // eg "* 2;
@@ -206,6 +208,8 @@ namespace StudioCore.ParamEditor
             }
             if (new Regex(paramfilterRx).IsMatch(text))
             {
+                options.Add("modified: ");
+                options.Add("original: ");
                 options.Add("id ");
                 options.Add("name ");
                 options.Add("prop ");
@@ -325,7 +329,11 @@ namespace StudioCore.ParamEditor
             string rowkeyexp = command.Groups["rowkey"].Value;
             string rowfield = command.Groups["rowfield"].Value;
             string rowexp = command.Groups["rowexp"].Value;
-            if (rowkeyexp == "id")
+            if (rowkeyexp == "modified")
+                return GetMatchingParamRowsByState(param, true, failureAllOrNone);
+            else if (rowkeyexp == "original")
+                return GetMatchingParamRowsByState(param, false, failureAllOrNone);
+            else if (rowkeyexp == "id")
                 return GetMatchingParamRowsByID(param, rowexp, lenient, failureAllOrNone);
             else if (rowkeyexp == "name")
                 return GetMatchingParamRowsByName(param, rowexp, lenient, failureAllOrNone);
@@ -335,6 +343,30 @@ namespace StudioCore.ParamEditor
                 return GetMatchingParamRowsByPropRef(param, rowfield, rowexp, lenient, failureAllOrNone);
             else
                 return failureAllOrNone ? param.Rows : new List<PARAM.Row>();
+        }
+        
+        public static List<PARAM.Row> GetMatchingParamRowsByState(PARAM param, bool modified, bool failureAllOrNone)
+        {
+            List<PARAM.Row> rlist = new List<PARAM.Row>();
+            string paramName = ParamBank.GetKeyForParam(param);
+            if (paramName == null)
+                return failureAllOrNone ? param.Rows : rlist;
+            HashSet<int> cache = ParamBank.DirtyParamCache[paramName];
+            if (cache == null)
+                return failureAllOrNone ? param.Rows : rlist;
+            try
+            {
+                foreach (PARAM.Row row in param.Rows)
+                {
+                    if (cache.Contains(row.ID) ^ !modified)
+                        rlist.Add(row);
+                }
+                return rlist;
+            }
+            catch
+            {
+                return failureAllOrNone ? param.Rows : rlist;
+            }
         }
 
         public static List<PARAM.Row> GetMatchingParamRowsByID(PARAM param, string rowvalexp, bool lenient, bool failureAllOrNone)
