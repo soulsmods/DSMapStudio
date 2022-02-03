@@ -190,6 +190,10 @@ namespace StudioCore.ParamEditor
                 {
                     MassParamEditOther.SortRows(_activeView._selection.getActiveParam(), EditorActionManager);
                 }
+                if (ImGui.MenuItem("Load Default Row Names"))
+                {
+                    ParamBank.LoadParamDefaultNames();
+                }
                 ImGui.EndMenu();
             }
             if (ImGui.BeginMenu("View"))
