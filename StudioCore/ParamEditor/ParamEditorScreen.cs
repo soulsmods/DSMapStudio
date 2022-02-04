@@ -105,6 +105,7 @@ namespace StudioCore.ParamEditor
         public static bool HideReferenceRowsPreference = false;
         public static bool HideEnumsPreference = false;
         public static bool AllowFieldReorderPreference = true;
+        public static bool AlphabeticalParamsPreference = true;
         public static bool EditorMode = false;
 
         internal bool _isSearchBarActive = false;
@@ -226,6 +227,8 @@ namespace StudioCore.ParamEditor
                     HideEnumsPreference = !HideEnumsPreference;
                 if (ImGui.MenuItem("Allow field reordering", null, AllowFieldReorderPreference))
                     AllowFieldReorderPreference = !AllowFieldReorderPreference;
+                if (ImGui.MenuItem("Sort Params Alphabetically", null, AlphabeticalParamsPreference))
+                    AlphabeticalParamsPreference = !AlphabeticalParamsPreference;
                 ImGui.Separator();
                 if (!EditorMode && ImGui.MenuItem("Editor Mode", null, EditorMode))
                     EditorMode = true;
@@ -830,14 +833,17 @@ namespace StudioCore.ParamEditor
             ImGui.Columns(3);
             ImGui.BeginChild("params");
             float scrollTo = 0f;
-            foreach (var param in ParamBank.Params)
+            List<string> paramKeyList = ParamBank.Params.Keys.ToList();
+            if (ParamEditorScreen.AlphabeticalParamsPreference)
+                paramKeyList.Sort();
+            foreach (var paramKey in paramKeyList)
             {
-                if (ImGui.Selectable(param.Key, param.Key == _selection.getActiveParam()))
+                if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
-                    EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{param.Key}");
+                    EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                 }
-                if (doFocus && param.Key == _selection.getActiveParam())
+                if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
             }
             if (doFocus)

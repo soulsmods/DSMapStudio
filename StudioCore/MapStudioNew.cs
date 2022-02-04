@@ -230,6 +230,7 @@ namespace StudioCore
             Utils.setRegistry("hideReferenceRowsPreference", ParamEditor.ParamEditorScreen.HideReferenceRowsPreference ? "true" : "false");
             Utils.setRegistry("hideEnumsPreference", ParamEditor.ParamEditorScreen.HideEnumsPreference ? "true" : "false");
             Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
+            Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
         }
 
         public void Run()
@@ -449,7 +450,7 @@ namespace StudioCore
                         System.Windows.Forms.MessageBoxIcon.None);
                     return false;
                 }
-                if (settings.GameType == GameType.Sekiro && !Directory.Exists("oo2core_6_win64.dll"))
+                if (settings.GameType == GameType.Sekiro && !File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
                 {
                     //Technically we're not checking it exists, but the same can be said for many things we assume from CheckFilesExpanded
                     Console.WriteLine(Path.GetFullPath("."));
