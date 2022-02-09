@@ -584,7 +584,7 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsDeS(msb);
             }
-            else if (game == GameType.DarkSoulsPTDE)
+            else if (game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsRemastered)
             {
                 AddModelsDS1(msb);
             }
