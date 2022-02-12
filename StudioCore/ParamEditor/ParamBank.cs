@@ -232,7 +232,7 @@ namespace StudioCore.ParamEditor
             }
 
             // Load params
-            var param = $@"{mod}\param\GameParam\GameParam.parambnd";
+            var param = $@"{mod}\param\GameParam\GameParam.parambnd.dcx";
             if (!File.Exists(param))
             {
                 param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
