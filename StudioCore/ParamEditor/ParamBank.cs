@@ -622,7 +622,7 @@ namespace StudioCore.ParamEditor
                 }
             }
             // Don't write to mod dir for now
-            Utils.WriteWithBackup(dir, null, @"param\GameParam\GameParam.parambnd", paramBnd);
+            Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd", paramBnd);
         }
         private static void SaveParamsDS1R()
         {
@@ -650,8 +650,7 @@ namespace StudioCore.ParamEditor
                     p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
             }
-            // Don't write to mod dir for now
-            Utils.WriteWithBackup(dir, null, @"param\GameParam\GameParam.parambnd.dcx", paramBnd);
+            Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd.dcx", paramBnd);
         }
 
         private static void SaveParamsDS2(bool loose)
