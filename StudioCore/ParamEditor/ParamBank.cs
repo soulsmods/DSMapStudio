@@ -624,6 +624,35 @@ namespace StudioCore.ParamEditor
             // Don't write to mod dir for now
             Utils.WriteWithBackup(dir, null, @"param\GameParam\GameParam.parambnd", paramBnd);
         }
+        private static void SaveParamsDS1R()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
+            {
+                MessageBox.Show("Could not find DS1R param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\param\GameParam\GameParam.parambnd.dcx";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
+            }
+            BND3 paramBnd = BND3.Read(param);
+
+            // Replace params with edited ones
+            foreach (var p in paramBnd.Files)
+            {
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                {
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                }
+            }
+            // Don't write to mod dir for now
+            Utils.WriteWithBackup(dir, null, @"param\GameParam\GameParam.parambnd.dcx", paramBnd);
+        }
 
         private static void SaveParamsDS2(bool loose)
         {
@@ -841,6 +870,10 @@ namespace StudioCore.ParamEditor
             if (AssetLocator.Type == GameType.DarkSoulsPTDE)
             {
                 SaveParamsDS1();
+            }
+            if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+            {
+                SaveParamsDS1R();
             }
             if (AssetLocator.Type == GameType.DemonsSouls)
             {
