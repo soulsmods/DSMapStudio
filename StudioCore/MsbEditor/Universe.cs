@@ -856,7 +856,7 @@ namespace StudioCore.MsbEditor
         public void SaveMap(Map map)
         {
             var ad = _assetLocator.GetMapMSB(map.Name);
-            var adw = _assetLocator.GetMapMSB(map.Name, _assetLocator.Type == GameType.DarkSoulsPTDE ? false : true);
+            var adw = _assetLocator.GetMapMSB(map.Name, true);// _assetLocator.Type == GameType.DarkSoulsPTDE ? false : true);
             IMsb msb;
             DCX.Type compressionType = DCX.Type.None;
             if (_assetLocator.Type == GameType.DarkSoulsIII)

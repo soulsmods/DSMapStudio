@@ -336,50 +336,46 @@ namespace StudioCore
             {
                 return ad;
             }
+            string preferredPath;
+            string backupPath;
             if (Type == GameType.DarkSoulsIISOTFS)
             {
-                var path = $@"map\{mapid}\{mapid}";
-                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb";
-                }
+                preferredPath = $@"map\{mapid}\{mapid}.msb.dcx";
+                backupPath = $@"map\{mapid}\{mapid}.msb";
             }
             // BB chalice maps
             else if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
             {
-                var path = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}";
-                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb.dcx";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb.dcx"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb.dcx";
-                }
+                preferredPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb";
+            }
+            // DeS,DS1,DSR1
+            else if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered || Type == GameType.DemonsSouls)
+            {
+                preferredPath = $@"\map\MapStudio\{mapid}.msb";
+                backupPath = $@"\map\MapStudio\{mapid}.msb.dcx";
             }
             else
             {
-                var path = $@"\map\MapStudio\{mapid}";
-                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb.dcx";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb.dcx"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb.dcx";
-                }
-                else if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb";
-                }
+                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid}.msb";
+            }
+
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{preferredPath}") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{preferredPath}";
+            }
+            else if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{backupPath}") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{backupPath}";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{preferredPath}"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{preferredPath}";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{backupPath}"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{backupPath}";
             }
             ad.AssetName = mapid;
             return ad;
