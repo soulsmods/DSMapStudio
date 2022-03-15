@@ -120,7 +120,12 @@ namespace StudioCore.ParamEditor
             _views = new List<ParamEditorView>();
             _views.Add(new ParamEditorView(this, 0));
             _activeView = _views[0];
+            ResetFMGDecorators();
+        }
 
+        public void ResetFMGDecorators()
+        {
+            _decorators.Clear();
             _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FMGBank.ItemCategory.Rings));
             _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.ItemCategory.Goods));
             _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.ItemCategory.Armor));
