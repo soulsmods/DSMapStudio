@@ -590,7 +590,7 @@ namespace StudioCore.MsbEditor
             GC.Collect();
             Universe.PopulateMapList();
 
-            if (AssetLocator.Type != GameType.Undefined)
+            if (AssetLocator.Type != GameType.Undefined && AssetLocator.Type != GameType.EldenRing) //TODO ER
             {
                 PopulateClassNames(AssetLocator.Type);
             }

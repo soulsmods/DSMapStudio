@@ -276,7 +276,10 @@ namespace StudioCore.MsbEditor
 
         public override void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
-            _assetBrowser.RebuildCaches();
+            if (AssetLocator.Type != GameType.Undefined && AssetLocator.Type != GameType.EldenRing) //TODO ER
+            {
+                _assetBrowser.RebuildCaches();
+            }
         }
 
         public override void Save()
