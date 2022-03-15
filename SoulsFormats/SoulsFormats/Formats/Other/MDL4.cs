@@ -184,6 +184,18 @@ namespace SoulsFormats.Other
                 br.AssertInt32(0);
                 UnkIndices = br.ReadInt16s(16);
             }
+
+            /// <summary>
+            /// Creates a transformation matrix from the scale, rotation, and translation of the bone.
+            /// </summary>
+            public Matrix4x4 ComputeLocalTransform()
+            {
+                return Matrix4x4.CreateScale(Scale)
+                    * Matrix4x4.CreateRotationX(Rotation.X)
+                    * Matrix4x4.CreateRotationZ(Rotation.Z)
+                    * Matrix4x4.CreateRotationY(Rotation.Y)
+                    * Matrix4x4.CreateTranslation(Translation);
+            }
         }
 
         public class Mesh
@@ -314,7 +326,8 @@ namespace SoulsFormats.Other
             public List<Vector2> UVs;
             public short[] BoneIndices;
             public float[] BoneWeights;
-            public int Unk3C;
+            public short Unk3C;
+            public short Unk3E;
 
             internal Vertex(BinaryReaderEx br, int version, byte format)
             {
@@ -332,7 +345,8 @@ namespace SoulsFormats.Other
                         UVs.Add(br.ReadVector2());
                         UVs.Add(br.ReadVector2());
                         UVs.Add(br.ReadVector2());
-                        Unk3C = br.ReadInt32();
+                        Unk3C = br.ReadInt16();
+                        Unk3E = br.AssertInt16(0);
                     }
                     else if (format == 1)
                     {

@@ -383,7 +383,7 @@ namespace SoulsFormats
         {
             return (byte[])ds2SaveKey.Clone();
         }
-        private static byte[] ds2SaveKey = ParseHexString("B7 FD 46 3E 4A 9C 11 02 DF 17 39 E5 F3 B2 A5 0F");
+        private static readonly byte[] ds2SaveKey = ParseHexString("B7 FD 46 3E 4A 9C 11 02 DF 17 39 E5 F3 B2 A5 0F");
 
         /// <summary>
         /// Returns a copy of the key used for encrypting DS2 SotFS save files on PC.
@@ -392,7 +392,7 @@ namespace SoulsFormats
         {
             return (byte[])scholarSaveKey.Clone();
         }
-        private static byte[] scholarSaveKey = ParseHexString("59 9F 9B 69 96 40 A5 52 36 EE 2D 70 83 5E C7 44");
+        private static readonly byte[] scholarSaveKey = ParseHexString("59 9F 9B 69 96 40 A5 52 36 EE 2D 70 83 5E C7 44");
 
         /// <summary>
         /// Returns a copy of the key used for encrypting DS3 save files on PC.
@@ -401,7 +401,7 @@ namespace SoulsFormats
         {
             return (byte[])ds3SaveKey.Clone();
         }
-        private static byte[] ds3SaveKey = ParseHexString("FD 46 4D 69 5E 69 A3 9A 10 E3 19 A7 AC E8 B7 FA");
+        private static readonly byte[] ds3SaveKey = ParseHexString("FD 46 4D 69 5E 69 A3 9A 10 E3 19 A7 AC E8 B7 FA");
 
         /// <summary>
         /// Decrypts a file from a DS2/DS3 SL2. Do not remove the hash and IV before calling.
@@ -467,8 +467,8 @@ namespace SoulsFormats
             }
         }
 
-        private static byte[] ds2RegulationKey = { 0x40, 0x17, 0x81, 0x30, 0xDF, 0x0A, 0x94, 0x54, 0x33, 0x09, 0xE1, 0x71, 0xEC, 0xBF, 0x25, 0x4C };
-        private static byte[] ds3RegulationKey = SFEncoding.ASCII.GetBytes("ds3#jn/8_7(rsY9pg55GFN7VFL#+3n/)");
+        private static readonly byte[] ds2RegulationKey = { 0x40, 0x17, 0x81, 0x30, 0xDF, 0x0A, 0x94, 0x54, 0x33, 0x09, 0xE1, 0x71, 0xEC, 0xBF, 0x25, 0x4C };
+        private static readonly byte[] ds3RegulationKey = SFEncoding.ASCII.GetBytes("ds3#jn/8_7(rsY9pg55GFN7VFL#+3n/)");
 
 
         /// <summary>
@@ -507,6 +507,29 @@ namespace SoulsFormats
         {
             byte[] bytes = bnd.Write();
             bytes = EncryptByteArray(ds3RegulationKey, bytes);
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllBytes(path, bytes);
+        }
+
+        private static readonly byte[] erRegulationKey = ParseHexString("99 BF FC 36 6A 6B C8 C6 F5 82 7D 09 36 02 D6 76 C4 28 92 A0 1C 20 7F B0 24 D3 AF 4E 49 3F EF 99");
+
+        /// <summary>
+        /// Decrypts and unpacks ER's regulation BND4 from the specified path.
+        /// </summary>
+        public static BND4 DecryptERRegulation(string path)
+        {
+            byte[] bytes = File.ReadAllBytes(path);
+            bytes = DecryptByteArray(erRegulationKey, bytes);
+            return BND4.Read(bytes);
+        }
+
+        /// <summary>
+        /// Repacks and encrypts ER's regulation BND4 to the specified path.
+        /// </summary>
+        public static void EncryptERRegulation(string path, BND4 bnd)
+        {
+            byte[] bytes = bnd.Write();
+            bytes = EncryptByteArray(erRegulationKey, bytes);
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             File.WriteAllBytes(path, bytes);
         }

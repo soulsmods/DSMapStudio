@@ -74,7 +74,7 @@ namespace SoulsFormats
             /// </summary>
             public List<VertexColor> Colors;
 
-            
+
 
             private Queue<Vector3> uvQueue;
             private Queue<Vector4> tangentQueue;
@@ -209,6 +209,10 @@ namespace SoulsFormats
                             Position = br.ReadVector3();
                             br.AssertSingle(0);
                         }
+                        else if (member.Type == LayoutType.EdgeCompressed)
+                        {
+                            // Sit in a corner and cry
+                        }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");
                     }
@@ -219,7 +223,7 @@ namespace SoulsFormats
                             for (int i = 0; i < 4; i++)
                                 BoneWeights[i] = br.ReadSByte() / 127f;
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             for (int i = 0; i < 4; i++)
                                 BoneWeights[i] = br.ReadByte() / 255f;
@@ -258,7 +262,7 @@ namespace SoulsFormats
                         }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");
-
+                            
                         UsesBoneIndices = true;
                     }
                     else if (member.Semantic == LayoutSemantic.Normal)
@@ -290,7 +294,7 @@ namespace SoulsFormats
                             NormalW = br.ReadByte();
                             Normal = ReadSByteNormZYX(br);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             Normal = ReadByteNormXYZ(br);
                             NormalW = br.ReadByte();
@@ -300,7 +304,7 @@ namespace SoulsFormats
                             Normal = ReadShortNormXYZ(br);
                             NormalW = br.ReadInt16();
                         }
-                        else if (member.Type == LayoutType.Float16_4)
+                        else if (member.Type == LayoutType.Short4toFloat4B)
                         {
                             //Normal = ReadUShortNormXYZ(br);
                             Normal = ReadFloat16NormXYZ(br);
@@ -341,7 +345,7 @@ namespace SoulsFormats
                         {
                             AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor);
                         }
@@ -354,7 +358,7 @@ namespace SoulsFormats
                             AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor);
                             AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor);
                         }
-                        else if (member.Type == LayoutType.Float16_4)
+                        else if (member.Type == LayoutType.Short4toFloat4B)
                         {
                             //AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), br.ReadInt16()) / uvFactor);
                             AddUV(ReadFloat16NormXYZ(br));
@@ -380,7 +384,7 @@ namespace SoulsFormats
                             //Tangents.Add(ReadByteNormXYZW(br));
                             AddTangent(ReadByteNormXYZW(br));
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             //Tangents.Add(ReadByteNormXYZW(br));
                             AddTangent(ReadByteNormXYZW(br));
@@ -397,7 +401,7 @@ namespace SoulsFormats
                         }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");
-                            
+
                     }
                     else if (member.Semantic == LayoutSemantic.Bitangent)
                     {
@@ -409,7 +413,7 @@ namespace SoulsFormats
                         {
                             Bitangent = ReadByteNormXYZW(br);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             Bitangent = ReadByteNormXYZW(br);
                         }
@@ -433,7 +437,7 @@ namespace SoulsFormats
                             //Colors.Add(VertexColor.ReadByteRGBA(br));
                             VertexColor.ReadByteRGBA(br);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             // Definitely RGBA in DS1
                             //Colors.Add(VertexColor.ReadByteRGBA(br));
@@ -441,7 +445,7 @@ namespace SoulsFormats
                         }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");
-                            
+
                     }
                     else
                         throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");
@@ -526,7 +530,7 @@ namespace SoulsFormats
                             for (int i = 0; i < 4; i++)
                                 bw.WriteSByte((sbyte)Math.Round(BoneWeights[i] * 127));
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             for (int i = 0; i < 4; i++)
                                 bw.WriteByte((byte)Math.Round(BoneWeights[i] * 255));
@@ -590,7 +594,7 @@ namespace SoulsFormats
                             bw.WriteByte((byte)NormalW);
                             WriteSByteNormZYX(bw, Normal);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             WriteByteNormXYZ(bw, Normal);
                             bw.WriteByte((byte)NormalW);
@@ -600,7 +604,7 @@ namespace SoulsFormats
                             WriteShortNormXYZ(bw, Normal);
                             bw.WriteInt16((short)NormalW);
                         }
-                        else if (member.Type == LayoutType.Float16_4)
+                        else if (member.Type == LayoutType.Short4toFloat4B)
                         {
                             WriteUShortNormXYZ(bw, Normal);
                             bw.WriteInt16((short)NormalW);
@@ -649,7 +653,7 @@ namespace SoulsFormats
                             bw.WriteInt16((short)Math.Round(uv.X));
                             bw.WriteInt16((short)Math.Round(uv.Y));
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             bw.WriteInt16((short)Math.Round(uv.X));
                             bw.WriteInt16((short)Math.Round(uv.Y));
@@ -668,7 +672,7 @@ namespace SoulsFormats
                             bw.WriteInt16((short)Math.Round(uv.X));
                             bw.WriteInt16((short)Math.Round(uv.Y));
                         }
-                        else if (member.Type == LayoutType.Float16_4)
+                        else if (member.Type == LayoutType.Short4toFloat4B)
                         {
                             bw.WriteInt16((short)Math.Round(uv.X));
                             bw.WriteInt16((short)Math.Round(uv.Y));
@@ -693,7 +697,7 @@ namespace SoulsFormats
                         {
                             WriteByteNormXYZW(bw, tangent);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             WriteByteNormXYZW(bw, tangent);
                         }
@@ -718,7 +722,7 @@ namespace SoulsFormats
                         {
                             WriteByteNormXYZW(bw, Bitangent);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             WriteByteNormXYZW(bw, Bitangent);
                         }
@@ -740,7 +744,7 @@ namespace SoulsFormats
                         {
                             color.WriteByteRGBA(bw);
                         }
-                        else if (member.Type == LayoutType.UNorm8_4)
+                        else if (member.Type == LayoutType.Byte4C)
                         {
                             color.WriteByteRGBA(bw);
                         }

@@ -217,7 +217,7 @@ namespace SoulsFormats
             /// <summary>
             /// The text of this entry.
             /// </summary>
-            public string Text { get; set; }
+            public string Text;
 
             /// <summary>
             /// Creates a new entry with the specified ID and text.

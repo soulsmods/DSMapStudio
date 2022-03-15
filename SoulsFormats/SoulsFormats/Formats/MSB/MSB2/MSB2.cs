@@ -5,7 +5,7 @@ using System.IO;
 namespace SoulsFormats
 {
     /// <summary>
-    /// A map layout file used in DS2: SotFS. Extension: .msb
+    /// A map layout file used in DS2, both original and SotFS. Extension: .msb
     /// </summary>
     public partial class MSB2 : SoulsFile<MSB2>, IMsb
     {

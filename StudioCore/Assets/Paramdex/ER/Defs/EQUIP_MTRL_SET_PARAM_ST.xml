@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="1">
+  <ParamType>EQUIP_MTRL_SET_PARAM_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>201</FormatVersion>
+  <Fields>
+    <Field Def="s32 MaterialId01 = -1" />
+    <Field Def="s32 MaterialId02 = -1" />
+    <Field Def="s32 MaterialId03 = -1" />
+    <Field Def="s32 MaterialId04 = -1" />
+    <Field Def="s32 MaterialId05 = -1" />
+    <Field Def="s32 MaterialId06 = -1" />
+    <Field Def="dummy8 pad1[8]" />
+    <Field Def="s8 ItemNum01 = -1" />
+    <Field Def="s8 ItemNum02 = -1" />
+    <Field Def="s8 ItemNum03 = -1" />
+    <Field Def="s8 ItemNum04 = -1" />
+    <Field Def="s8 ItemNum05 = -1" />
+    <Field Def="s8 ItemNum06 = -1" />
+    <Field Def="dummy8 pad2[2]" />
+    <Field Def="u8 ItemType01">
+      <Enum>ItemType</Enum>
+    </Field>
+    <Field Def="u8 ItemType02">
+      <Enum>ItemType</Enum>
+    </Field>
+    <Field Def="u8 ItemType03">
+      <Enum>ItemType</Enum>
+    </Field>
+    <Field Def="u8 ItemType04">
+      <Enum>ItemType</Enum>
+    </Field>
+    <Field Def="u8 ItemType05">
+      <Enum>ItemType</Enum>
+    </Field>
+    <Field Def="u8 ItemType06">
+      <Enum>ItemType</Enum>
+    </Field>
+    <Field Def="dummy8 pad3[6]" />
+  </Fields>
+</PARAMDEF>

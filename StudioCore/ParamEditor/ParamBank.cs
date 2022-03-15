@@ -458,6 +458,32 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(vParamBnd, ref _vanillaParams);
         }
 
+        private static string LoadParamsER()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\regulation.bin"))
+            {
+                MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            // Load params
+            var param = $@"{mod}\regulation.bin";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\regulation.bin";
+            }
+            BND4 paramBnd = SFUtil.DecryptERRegulation(param);
+
+            LoadParamFromBinder(paramBnd, ref _params);
+            return dir;
+        }
+        private static void LoadVParamsER(string dir)
+        {
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
+        }
+
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
         public static void ReloadParams()
         {
@@ -506,7 +532,10 @@ namespace StudioCore.ParamEditor
                 {
                     vparamDir = LoadParamsBBSekrio();
                 }
-                //TODO: ER
+                if (AssetLocator.Type == GameType.EldenRing)
+                {
+                    vparamDir = LoadParamsER();
+                }
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
@@ -539,7 +568,10 @@ namespace StudioCore.ParamEditor
                         {
                             LoadVParamsBBSekrio(vparamDir);
                         }
-                        //TODO: ER
+                        if (AssetLocator.Type == GameType.EldenRing)
+                        {
+                            LoadVParamsER(vparamDir);
+                        }
                         IsLoadingVParams = false;
                         TaskManager.Run("PB:RefreshDirtyCache", false, true, () => refreshParamDirtyCache());
                     });
@@ -860,6 +892,34 @@ namespace StudioCore.ParamEditor
                 }
             }
             Utils.WriteWithBackup(dir, mod, $@"param\gameparam\{paramBinderName}", paramBnd);
+        }
+        private static void SaveParamsER()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\regulation.bin"))
+            {
+                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\regulation.bin";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\regulation.bin";
+            }
+            BND4 paramBnd = BND4.Read(param);
+
+            // Replace params with edited ones
+            foreach (var p in paramBnd.Files)
+            {
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                {
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                }
+            }
+            Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd);
         }
 
         public static void SaveParams(bool loose = false)

@@ -123,7 +123,8 @@ namespace SoulsFormats
                 + (HasLongOffsets(format) ? 8 : 4)
                 + (HasCompression(format) ? 8 : 0)
                 + (HasIDs(format) ? 4 : 0)
-                + (HasNames(format) ? 4 : 0);
+                + (HasNames(format) ? 4 : 0)
+                + (format == Format.Names1 ? 8 : 0);
         }
 
         /// <summary>
@@ -181,9 +182,9 @@ namespace SoulsFormats
         /// <summary>
         /// Reads a file flags byte, reversed according to the big-endian setting.
         /// </summary>
-        public static FileFlags ReadFileFlags(BinaryReaderEx br, bool bitBigEndian, Format format)
+        public static FileFlags ReadFileFlags(BinaryReaderEx br, bool bitBigEndian)
         {
-            bool reverse = bitBigEndian || ForceBigEndian(format);
+            bool reverse = bitBigEndian;
             byte rawFlags = br.ReadByte();
             return (FileFlags)(reverse ? rawFlags : SFUtil.ReverseBits(rawFlags));
         }
@@ -191,9 +192,9 @@ namespace SoulsFormats
         /// <summary>
         /// Writes a file flags byte, reversed according to the big-endian setting.
         /// </summary>
-        public static void WriteFileFlags(BinaryWriterEx bw, bool bitBigEndian, Format format, FileFlags flags)
+        public static void WriteFileFlags(BinaryWriterEx bw, bool bitBigEndian, FileFlags flags)
         {
-            bool reverse = bitBigEndian || ForceBigEndian(format);
+            bool reverse = bitBigEndian;
             byte rawFlags = reverse ? (byte)flags : SFUtil.ReverseBits((byte)flags);
             bw.WriteByte(rawFlags);
         }

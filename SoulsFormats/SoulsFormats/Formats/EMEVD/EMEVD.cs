@@ -75,6 +75,9 @@ namespace SoulsFormats
             return eld;
         }
 
+        /// <summary>
+        /// Checks whether the data appears to be a file of this format.
+        /// </summary>
         protected override bool Is(BinaryReaderEx br)
         {
             if (br.Length < 4)
@@ -84,6 +87,9 @@ namespace SoulsFormats
             return magic == "EVD\0";
         }
 
+        /// <summary>
+        /// Deserializes file data from a stream.
+        /// </summary>
         protected override void Read(BinaryReaderEx br)
         {
             br.AssertASCII("EVD\0");
@@ -142,6 +148,9 @@ namespace SoulsFormats
             StringData = br.ReadBytes((int)stringsLength);
         }
 
+        /// <summary>
+        /// Serializes file data to a stream.
+        /// </summary>
         protected override void Write(BinaryWriterEx bw)
         {
             bool bigEndian = Format == Game.DarkSouls1BE;

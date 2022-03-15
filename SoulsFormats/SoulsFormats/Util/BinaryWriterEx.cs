@@ -34,7 +34,7 @@ namespace SoulsFormats
         /// <summary>
         /// The underlying stream.
         /// </summary>
-        public Stream Stream { get; private set; }
+        public Stream Stream { get; }
 
         /// <summary>
         /// The current position of the stream.
@@ -143,6 +143,15 @@ namespace SoulsFormats
         public void Pad(int align)
         {
             while (Stream.Position % align > 0)
+                WriteByte(0);
+        }
+
+        /// <summary>
+        /// Writes 0x00 bytes until the stream position meets the specified alignment relative to the given starting position.
+        /// </summary>
+        public void PadRelative(long start, int align)
+        {
+            while ((Stream.Position - start) % align > 0)
                 WriteByte(0);
         }
 

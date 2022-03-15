@@ -25,7 +25,7 @@ namespace SoulsFormats
             public Vector2 Scale { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Unknown; observed values 0, 1, 2.
             /// </summary>
             public byte Unk10 { get; set; }
 
@@ -62,7 +62,7 @@ namespace SoulsFormats
             /// <summary>
             /// Creates a new Texture with the specified values.
             /// </summary>
-            public Texture(string type, string path, Vector2 scale, byte unk10, bool unk11, int unk14, int unk18, float unk1C)
+            public Texture(string type, string path, Vector2 scale, byte unk10, bool unk11, float unk14, float unk18, float unk1C)
             {
                 Type = type;
                 Path = path;

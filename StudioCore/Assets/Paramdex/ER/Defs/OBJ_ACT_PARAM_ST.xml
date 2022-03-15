@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="1">
+  <ParamType>OBJ_ACT_PARAM_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>201</FormatVersion>
+  <Fields>
+    <Field Def="u32 Unk00" />
+    <Field Def="u32 Unk04" />
+    <Field Def="u32 Unk08" />
+    <Field Def="u32 Unk0C" />
+    <Field Def="u32 Unk10" />
+    <Field Def="u32 Unk14" />
+    <Field Def="u32 Unk18" />
+    <Field Def="u32 Unk1C" />
+    <Field Def="u32 Unk20" />
+    <Field Def="u32 Unk24" />
+    <Field Def="u32 Unk28" />
+    <Field Def="u32 Unk2C" />
+    <Field Def="u32 Unk30" />
+    <Field Def="u32 Unk34" />
+    <Field Def="u32 Unk38" />
+    <Field Def="u32 Unk3C" />
+    <Field Def="u32 Unk40" />
+    <Field Def="u32 Unk44" />
+    <Field Def="u32 Unk48" />
+    <Field Def="u32 Unk4C" />
+    <Field Def="u32 Unk50" />
+    <Field Def="u32 Unk54" />
+    <Field Def="u32 Unk58" />
+    <Field Def="u32 Unk5C" />
+  </Fields>
+</PARAMDEF>

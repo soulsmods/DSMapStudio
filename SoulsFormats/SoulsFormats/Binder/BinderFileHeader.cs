@@ -27,9 +27,20 @@ namespace SoulsFormats
         /// </summary>
         public DCX.Type CompressionType { get; set; }
 
-        internal long CompressedSize;
-        internal long UncompressedSize;
-        internal long DataOffset;
+        /// <summary>
+        /// Size of the file after compression (or just the size of the file, if not compressed). Do not modify unless you know what you're doing.
+        /// </summary>
+        public long CompressedSize { get; set; }
+
+        /// <summary>
+        /// Size of the file without compression. Do not modify unless you know what you're doing.
+        /// </summary>
+        public long UncompressedSize { get; set; }
+
+        /// <summary>
+        /// Location of file data in the BND or BXF. Do not modify unless you know what you're doing.
+        /// </summary>
+        public long DataOffset { get; set; }
 
         /// <summary>
         /// Creates a BinderFileHeader with the given ID and name.
@@ -57,9 +68,17 @@ namespace SoulsFormats
             DataOffset = dataOffset;
         }
 
+        /// <summary>
+        /// Returns a string representation of the object.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{ID} {Name}";
+        }
+
         internal static BinderFileHeader ReadBinder3FileHeader(BinaryReaderEx br, Format format, bool bitBigEndian)
         {
-            FileFlags flags = ReadFileFlags(br, bitBigEndian, format);
+            FileFlags flags = ReadFileFlags(br, bitBigEndian);
             br.AssertByte(0);
             br.AssertByte(0);
             br.AssertByte(0);
@@ -92,7 +111,7 @@ namespace SoulsFormats
 
         internal static BinderFileHeader ReadBinder4FileHeader(BinaryReaderEx br, Format format, bool bitBigEndian, bool unicode)
         {
-            FileFlags flags = ReadFileFlags(br, bitBigEndian, format);
+            FileFlags flags = ReadFileFlags(br, bitBigEndian);
             br.AssertByte(0);
             br.AssertByte(0);
             br.AssertByte(0);
@@ -124,6 +143,15 @@ namespace SoulsFormats
                     name = br.GetShiftJIS(nameOffset);
             }
 
+            // This is a very strange case that (as far as I know) only appears in PC save files.
+            // I do not know how to handle it elegantly and this is definitely not actually an ID,
+            // but it is non-zero in some cases.
+            if (format == Format.Names1)
+            {
+                id = br.ReadInt32();
+                br.AssertInt32(0);
+            }
+
             return new BinderFileHeader(flags, id, name, compressedSize, uncompressedSize, dataOffset);
         }
 
@@ -149,7 +177,7 @@ namespace SoulsFormats
 
         internal void WriteBinder3FileHeader(BinaryWriterEx bw, Format format, bool bitBigEndian, int index)
         {
-            WriteFileFlags(bw, bitBigEndian, format, Flags);
+            WriteFileFlags(bw, bitBigEndian, Flags);
             bw.WriteByte(0);
             bw.WriteByte(0);
             bw.WriteByte(0);
@@ -173,7 +201,7 @@ namespace SoulsFormats
 
         internal void WriteBinder4FileHeader(BinaryWriterEx bw, Format format, bool bitBigEndian, int index)
         {
-            WriteFileFlags(bw, bitBigEndian, format, Flags);
+            WriteFileFlags(bw, bitBigEndian, Flags);
             bw.WriteByte(0);
             bw.WriteByte(0);
             bw.WriteByte(0);
@@ -194,6 +222,12 @@ namespace SoulsFormats
 
             if (HasNames(format))
                 bw.ReserveInt32($"FileNameOffset{index}");
+
+            if (format == Format.Names1)
+            {
+                bw.WriteInt32(ID);
+                bw.WriteInt32(0);
+            }
         }
 
         private void WriteFileData(BinaryWriterEx bw, byte[] bytes)

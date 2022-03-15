@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="1">
+  <ParamType>BONFIRE_WARP_SUB_CATEGORY_PARAM_ST</ParamType>
+  <DataVersion>1</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>201</FormatVersion>
+  <Fields>
+    <Field Def="s32 Unk00" />
+    <Field Def="s32 NameId" />
+    <Field Def="u16 TabId" />
+    <Field Def="s16 Unk0A" />
+    <Field Def="s32 Unk0C = 0" />
+  </Fields>
+</PARAMDEF>

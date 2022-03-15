@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="1">
+  <ParamType>NETWORK_AREA_PARAM_ST</ParamType>
+  <DataVersion>4</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>201</FormatVersion>
+  <Fields>
+    <Field Def="u32 Unk00" />
+    <Field Def="u32 Unk04" />
+    <Field Def="u32 Unk08" />
+    <Field Def="u32 Unk0C" />
+    <Field Def="u32 Unk10" />
+    <Field Def="u32 Unk14" />
+    <Field Def="u32 Unk18" />
+  </Fields>
+</PARAMDEF>

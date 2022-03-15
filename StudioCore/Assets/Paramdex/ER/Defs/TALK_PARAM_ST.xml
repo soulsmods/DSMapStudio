@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="1">
+  <ParamType>TALK_PARAM_ST</ParamType>
+  <DataVersion>4</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>201</FormatVersion>
+  <Fields>
+    <Field Def="u32 Unk00" />
+    <Field Def="s32 TalkParamId1" />
+    <Field Def="s32 TalkParamId2" />
+    <Field Def="s32 Unk0C = -1" />
+    <Field Def="s32 Unk10 = -1" />
+    <Field Def="s32 Unk14 = -1" />
+    <Field Def="s32 Unk18 = -1" />
+    <Field Def="s32 Unk1C" />
+    <Field Def="s32 Unk20 = -1" />
+    <Field Def="s32 Unk24 = -1" />
+    <Field Def="s32 TalkParamId3" />
+    <Field Def="s32 TalkParamId4" />
+    <Field Def="s16 Unk30" />
+    <Field Def="s16 Unk32" />
+    <Field Def="s32 Unk34 = 0" />
+    <Field Def="f32 Unk38" />
+    <Field Def="s32 Unk3C" />
+    <Field Def="s32 Unk40" />
+    <Field Def="s32 Unk44 = 0" />
+    <Field Def="s32 Unk48 = 0" />
+    <Field Def="s32 Unk4C = 0" />
+    <Field Def="s32 Unk50 = 0" />
+    <Field Def="s32 Unk54 = 0" />
+    <Field Def="s32 Unk58 = 0" />
+    <Field Def="s32 Unk5C = 0" />
+  </Fields>
+</PARAMDEF>

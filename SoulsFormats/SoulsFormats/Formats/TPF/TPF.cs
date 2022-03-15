@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SoulsFormats
 {
@@ -144,26 +145,6 @@ namespace SoulsFormats
             public byte Flags1 { get; set; }
 
             /// <summary>
-            /// Unknown.
-            /// </summary>
-            public int Flags2 { get; set; }
-
-            /// <summary>
-            /// Unknown, optionally present in PS3 textures.
-            /// </summary>
-            public int Unk20 { get; set; }
-
-            /// <summary>
-            /// Unknown, optionally present in PS3 textures.
-            /// </summary>
-            public int Unk24;
-
-            /// <summary>
-            /// Unknown, optionally present in PS3 textures.
-            /// </summary>
-            public float Unk28 { get; set; }
-
-            /// <summary>
             /// The raw data of the texture.
             /// </summary>
             public byte[] Bytes { get; set; }
@@ -174,18 +155,30 @@ namespace SoulsFormats
             public TexHeader Header { get; set; }
 
             /// <summary>
+            /// Unknown optional data; null if not present.
+            /// </summary>
+            public FloatStruct FloatStruct { get; set; }
+
+            /// <summary>
+            /// Creates an empty Texture.
+            /// </summary>
+            public Texture()
+            {
+                Name = "Unnamed";
+                Bytes = new byte[0];
+            }
+
+            /// <summary>
             /// Create a new PC Texture with the specified information; Cubemap and Mipmaps are determined based on bytes.
             /// </summary>
-            public Texture(string name, byte format, byte flags1, int flags2, byte[] bytes)
+            public Texture(string name, byte format, byte flags1, byte[] bytes)
             {
                 Name = name;
                 Format = format;
                 Flags1 = flags1;
-                Flags2 = flags2;
                 Bytes = bytes;
-                Header = null;
 
-                DDS dds = new DDS(bytes);
+                var dds = new DDS(bytes);
                 if (dds.dwCaps2.HasFlag(DDS.DDSCAPS2.CUBEMAP))
                     Type = TexType.Cubemap;
                 else if (dds.dwCaps2.HasFlag(DDS.DDSCAPS2.VOLUME))
@@ -205,14 +198,7 @@ namespace SoulsFormats
                 Mipmaps = br.ReadByte();
                 Flags1 = br.AssertByte(0, 1, 2, 3);
 
-                uint nameOffset = uint.MaxValue;
-                if (platform == TPFPlatform.PC)
-                {
-                    Header = null;
-                    nameOffset = br.ReadUInt32();
-                    Flags2 = br.AssertInt32(0, 1);
-                }
-                else
+                if (platform != TPFPlatform.PC)
                 {
                     Header = new TexHeader();
                     Header.Width = br.ReadInt16();
@@ -221,32 +207,28 @@ namespace SoulsFormats
                     if (platform == TPFPlatform.Xbox360)
                     {
                         br.AssertInt32(0);
-                        nameOffset = br.ReadUInt32();
-                        br.AssertInt32(0);
                     }
                     else if (platform == TPFPlatform.PS3)
                     {
                         Header.Unk1 = br.ReadInt32();
                         if (flag2 != 0)
-                            Header.Unk2 = br.AssertInt32(0, 0xAAE4);
-                        nameOffset = br.ReadUInt32();
-                        Flags2 = br.AssertInt32(0, 1);
-                        if (Flags2 == 1)
-                        {
-                            Unk20 = br.ReadInt32();
-                            Unk24 = br.ReadInt32();
-                            Unk28 = br.ReadSingle();
-                        }
+                            Header.Unk2 = br.AssertInt32(0, 0x69E0, 0xAAE4);
                     }
                     else if (platform == TPFPlatform.PS4 || platform == TPFPlatform.Xbone)
                     {
                         Header.TextureCount = br.AssertInt32(1, 6);
                         Header.Unk2 = br.AssertInt32(0xD);
-                        nameOffset = br.ReadUInt32();
-                        Flags2 = br.AssertInt32(0, 1);
-                        Header.DXGIFormat = br.ReadInt32();
                     }
                 }
+
+                uint nameOffset = br.ReadUInt32();
+                bool hasFloatStruct = br.AssertInt32(0, 1) == 1;
+
+                if (platform == TPFPlatform.PS4 || platform == TPFPlatform.Xbone)
+                    Header.DXGIFormat = br.ReadInt32();
+
+                if (hasFloatStruct)
+                    FloatStruct = new FloatStruct(br);
 
                 Bytes = br.GetBytes(fileOffset, fileSize);
                 if (Flags1 == 2 || Flags1 == 3)
@@ -284,12 +266,7 @@ namespace SoulsFormats
                 bw.WriteByte(Mipmaps);
                 bw.WriteByte(Flags1);
 
-                if (platform == TPFPlatform.PC)
-                {
-                    bw.ReserveUInt32($"FileName{index}");
-                    bw.WriteInt32(Flags2);
-                }
-                else
+                if (platform != TPFPlatform.PC)
                 {
                     bw.WriteInt16(Header.Width);
                     bw.WriteInt16(Header.Height);
@@ -297,32 +274,28 @@ namespace SoulsFormats
                     if (platform == TPFPlatform.Xbox360)
                     {
                         bw.WriteInt32(0);
-                        bw.ReserveUInt32($"FileName{index}");
-                        bw.WriteInt32(0);
                     }
                     else if (platform == TPFPlatform.PS3)
                     {
                         bw.WriteInt32(Header.Unk1);
                         if (flag2 != 0)
                             bw.WriteInt32(Header.Unk2);
-                        bw.ReserveUInt32($"FileName{index}");
-                        bw.WriteInt32(Flags2);
-                        if (Flags2 == 1)
-                        {
-                            bw.WriteInt32(Unk20);
-                            bw.WriteInt32(Unk24);
-                            bw.WriteSingle(Unk28);
-                        }
                     }
                     else if (platform == TPFPlatform.PS4 || platform == TPFPlatform.Xbone)
                     {
                         bw.WriteInt32(Header.TextureCount);
                         bw.WriteInt32(Header.Unk2);
-                        bw.ReserveUInt32($"FileName{index}");
-                        bw.WriteInt32(Flags2);
-                        bw.WriteInt32(Header.DXGIFormat);
                     }
                 }
+
+                bw.ReserveUInt32($"FileName{index}");
+                bw.WriteInt32(FloatStruct == null ? 0 : 1);
+
+                if (platform == TPFPlatform.PS4 || platform == TPFPlatform.Xbone)
+                    bw.WriteInt32(Header.DXGIFormat);
+
+                if (FloatStruct != null)
+                    FloatStruct.Write(bw);
             }
 
             internal void WriteName(BinaryWriterEx bw, int index, byte encoding)
@@ -339,7 +312,7 @@ namespace SoulsFormats
                 bw.FillUInt32($"FileData{index}", (uint)bw.Position);
 
                 byte[] bytes = Bytes;
-                if (Flags1 == 2 || Flags2 == 3)
+                if (Flags1 == 2 || Flags1 == 3)
                     bytes = DCX.Compress(bytes, DCX.Type.DCP_EDGE);
 
                 bw.FillInt32($"FileSize{index}", bytes.Length);
@@ -449,6 +422,47 @@ namespace SoulsFormats
             /// Microsoft DXGI_FORMAT.
             /// </summary>
             public int DXGIFormat { get; set; }
+        }
+
+        /// <summary>
+        /// Unknown optional data for textures.
+        /// </summary>
+        public class FloatStruct
+        {
+            /// <summary>
+            /// Unknown; probably some kind of ID.
+            /// </summary>
+            public int Unk00 { get; set; }
+
+            /// <summary>
+            /// Unknown; not confirmed to always be floats.
+            /// </summary>
+            public List<float> Values { get; set; }
+
+            /// <summary>
+            /// Creates an empty FloatStruct.
+            /// </summary>
+            public FloatStruct()
+            {
+                Values = new List<float>();
+            }
+
+            internal FloatStruct(BinaryReaderEx br)
+            {
+                Unk00 = br.ReadInt32();
+                int length = br.ReadInt32();
+                if (length < 0 || length % 4 != 0)
+                    throw new InvalidDataException($"Unexpected FloatStruct length: {length}");
+
+                Values = new List<float>(br.ReadSingles(length / 4));
+            }
+
+            internal void Write(BinaryWriterEx bw)
+            {
+                bw.WriteInt32(Unk00);
+                bw.WriteInt32(Values.Count * 4);
+                bw.WriteSingles(Values);
+            }
         }
     }
 }

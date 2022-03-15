@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace SoulsFormats
 {
@@ -22,7 +23,7 @@ namespace SoulsFormats
 
         public FXR3()
         {
-            Version = FXRVersion.Sekiro;
+            Version = FXRVersion.DarkSouls3;
             Section1Tree = new Section1();
             Section4Tree = new Section4();
             Section12s = new List<int>();
@@ -341,10 +342,7 @@ namespace SoulsFormats
 
             public int Section11Data2 { get; set; }
 
-            public Section3()
-            {
-
-            }
+            public Section3() { }
 
             internal Section3(BinaryReaderEx br)
             {
@@ -423,6 +421,7 @@ namespace SoulsFormats
 
         public class Section4
         {
+            [XmlAttribute]
             public short Unk00 { get; set; }
 
             public List<Section4> Section4s { get; set; }
@@ -547,6 +546,7 @@ namespace SoulsFormats
 
         public class Section5
         {
+            [XmlAttribute]
             public short Unk00 { get; set; }
 
             public List<FFXDrawEntityHost> Section6s { get; set; }
@@ -602,6 +602,7 @@ namespace SoulsFormats
 
         public class FFXDrawEntityHost
         {
+            [XmlAttribute]
             public short Unk00 { get; set; }
 
             public bool Unk02 { get; set; }
@@ -736,6 +737,7 @@ namespace SoulsFormats
 
         public class FFXProperty
         {
+            [XmlAttribute]
             public short Unk00 { get; set; }
 
             public int Unk04 { get; set; }
@@ -818,6 +820,7 @@ namespace SoulsFormats
 
         public class Section8
         {
+            [XmlAttribute]
             public short Unk00 { get; set; }
 
             public int Unk04 { get; set; }

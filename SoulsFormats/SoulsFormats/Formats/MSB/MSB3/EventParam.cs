@@ -181,14 +181,12 @@ namespace SoulsFormats
             /// <summary>
             /// The name of a part the event is attached to.
             /// </summary>
-            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// The name of a region the event is attached to.
             /// </summary>
-            [MSBReference(ReferenceType = typeof(Region))]
             public string PointName { get; set; }
             private int PointIndex;
 
@@ -309,26 +307,27 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part the treasure is attached to.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string TreasurePartName { get; set; }
                 private int TreasurePartIndex;
 
                 /// <summary>
                 /// First item lot given by this treasure.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot1 { get; set; }
 
                 /// <summary>
                 /// Second item lot given by this treasure; rarely used.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot2 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT18 { get; set; }
 
                 /// <summary>
                 /// If not -1, uses an entry from ActionButtonParam for the pickup prompt.
                 /// </summary>
-                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonParamID { get; set; }
 
                 /// <summary>
@@ -353,6 +352,7 @@ namespace SoulsFormats
                 {
                     ItemLot1 = -1;
                     ItemLot2 = -1;
+                    UnkT18 = -1;
                     ActionButtonParamID = -1;
                     PickupAnimID = 60070;
                 }
@@ -367,7 +367,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     ItemLot1 = br.ReadInt32();
                     ItemLot2 = br.ReadInt32();
-                    br.AssertInt32(-1);
+                    UnkT18 = br.ReadInt32();
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
@@ -396,7 +396,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(ItemLot1);
                     bw.WriteInt32(ItemLot2);
-                    bw.WriteInt32(-1);
+                    bw.WriteInt32(UnkT18);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
@@ -475,14 +475,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions that enemies can be spawned at.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnPointNames { get; private set; }
                 private int[] SpawnPointIndices;
 
                 /// <summary>
                 /// Enemies spawned by this generator.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -630,20 +628,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBEntityReference]
                 public int ObjActEntityID { get; set; }
 
                 /// <summary>
                 /// The object which is being interacted with.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
                 /// <summary>
                 /// ID in ObjActParam that configures this ObjAct.
                 /// </summary>
-                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActParamID { get; set; }
 
                 /// <summary>
@@ -761,7 +756,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// The NPC whose world you're entering.
                 /// </summary>
-                [MSBEntityReference]
                 public int HostEntityID { get; set; }
 
                 /// <summary>
@@ -795,7 +789,7 @@ namespace SoulsFormats
                 public int UnkT18 { get; set; }
 
                 /// <summary>
-                /// Creates a new Invasion with the given name.
+                /// Creates a new PseudoMultiplayer with the given name.
                 /// </summary>
                 public PseudoMultiplayer() : base($"{nameof(Event)}: {nameof(PseudoMultiplayer)}")
                 {
@@ -848,12 +842,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// List of points in the route.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkPointNames { get; private set; }
                 private short[] WalkPointIndices;
 
                 /// <summary>
-                /// Creates a WalkRoute with default values.
+                /// Creates a PatrolInfo with default values.
                 /// </summary>
                 public PatrolInfo() : base($"{nameof(Event)}: {nameof(PatrolInfo)}")
                 {
@@ -923,12 +916,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartsNames { get; private set; }
                 private int[] GroupPartsIndices;
 
                 /// <summary>
-                /// Creates a GroupTour with default values.
+                /// Creates a PlatoonInfo with default values.
                 /// </summary>
                 public PlatoonInfo() : base($"{nameof(Event)}: {nameof(PlatoonInfo)}")
                 {

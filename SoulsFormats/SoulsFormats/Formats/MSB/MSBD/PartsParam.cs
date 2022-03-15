@@ -640,14 +640,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Collision that controls loading of the enemy.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
                 /// <summary>
                 /// Regions for the enemy to patrol.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] MovePointNames { get; private set; }
                 private short[] MovePointIndices;
 
@@ -1101,7 +1099,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// The collision which will load another map.
                 /// </summary>
-                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 

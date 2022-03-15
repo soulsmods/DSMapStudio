@@ -553,7 +553,7 @@ namespace StudioCore.Resource
                 nw = br.ReadByte();
                 n = FLVER.Vertex.ReadSByteNormZYX(br);
             }
-            else if (type == FLVER.LayoutType.UNorm8_4)
+            else if (type == FLVER.LayoutType.Byte4C)
             {
                 n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
@@ -563,7 +563,7 @@ namespace StudioCore.Resource
                 n = FLVER.Vertex.ReadShortNormXYZ(br);
                 nw = br.ReadInt16();
             }
-            else if (type == FLVER.LayoutType.Float16_4)
+            else if (type == FLVER.LayoutType.Short4toFloat4B)
             {
                 //Normal = ReadUShortNormXYZ(br);
                 n = FLVER.Vertex.ReadFloat16NormXYZ(br);
@@ -622,7 +622,7 @@ namespace StudioCore.Resource
             {
                 v = new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor;
             }
-            else if (type == FLVER.LayoutType.UNorm8_4)
+            else if (type == FLVER.LayoutType.Byte4C)
             {
                 v = new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor;
             }
@@ -636,7 +636,7 @@ namespace StudioCore.Resource
                 v2 = new Vector3(br.ReadInt16(), br.ReadInt16(), 0) / uvFactor;
                 hasv2 = allowv2;
             }
-            else if (type == FLVER.LayoutType.Float16_4)
+            else if (type == FLVER.LayoutType.Short4toFloat4B)
             {
                 //AddUV(new Vector3(br.ReadInt16(), br.ReadInt16(), br.ReadInt16()) / uvFactor);
                 v = FLVER.Vertex.ReadFloat16NormXYZ(br);
@@ -703,7 +703,7 @@ namespace StudioCore.Resource
             {
                 tan = FLVER.Vertex.ReadByteNormXYZW(br);
             }
-            else if (type == FLVER.LayoutType.UNorm8_4)
+            else if (type == FLVER.LayoutType.Byte4C)
             {
                 tan = FLVER.Vertex.ReadByteNormXYZW(br);
             }
@@ -759,7 +759,7 @@ namespace StudioCore.Resource
                 case FLVER.LayoutType.Byte4A:
                 case FLVER.LayoutType.Byte4B:
                 case FLVER.LayoutType.Short2toFloat2:
-                case FLVER.LayoutType.UNorm8_4:
+                case FLVER.LayoutType.Byte4C:
                 case FLVER.LayoutType.UV:
                 case FLVER.LayoutType.Byte4E:
                     br.ReadUInt32();
@@ -769,7 +769,7 @@ namespace StudioCore.Resource
                 case FLVER.LayoutType.UVPair:
                 case FLVER.LayoutType.ShortBoneIndices:
                 case FLVER.LayoutType.Short4toFloat4A:
-                case FLVER.LayoutType.Float16_4:
+                case FLVER.LayoutType.Short4toFloat4B:
                     br.ReadUInt64();
                     break;
 
