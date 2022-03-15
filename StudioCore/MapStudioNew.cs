@@ -450,11 +450,9 @@ namespace StudioCore
                         System.Windows.Forms.MessageBoxIcon.None);
                     return false;
                 }
-                if (settings.GameType == GameType.Sekiro && !File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
+                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
                 {
                     //Technically we're not checking it exists, but the same can be said for many things we assume from CheckFilesExpanded
-                    Console.WriteLine(Path.GetFullPath("."));
-                    Console.WriteLine(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
                     File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
                 }
                 _projectSettings = settings;
@@ -743,6 +741,7 @@ namespace StudioCore
                     ImGui.SameLine();
                     ImGui.Checkbox("##loadDefaultNames", ref _newProjectLoadDefaultNames);
                     ImGui.NewLine();
+                    //TODO: ER
                 }
 
                 if (ImGui.Button("Create", new Vector2(120, 0)))

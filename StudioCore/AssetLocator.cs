@@ -148,6 +148,10 @@ namespace StudioCore
             {
                 type = GameType.Sekiro;
             }
+            else if (exePath.ToLower().Contains("eldenring.exe"))
+            {
+                type = GameType.EldenRing;
+            }
             return type;
         }
 
@@ -217,6 +221,10 @@ namespace StudioCore
             else if (exePath.ToLower().Contains("sekiro.exe"))
             {
                 Type = GameType.Sekiro;
+            }
+            else if (exePath.ToLower().Contains("eldenring.exe"))
+            {
+                Type = GameType.EldenRing;
             }
             else
             {
@@ -495,6 +503,9 @@ namespace StudioCore
                 case GameType.Sekiro:
                     game = "SDT";
                     break;
+                case GameType.EldenRing:
+                    game = "ER";
+                    break;
                 default:
                     throw new Exception("Game type not set");
             }
@@ -526,6 +537,9 @@ namespace StudioCore
                     break;
                 case GameType.Sekiro:
                     game = "SDT";
+                    break;
+                case GameType.EldenRing:
+                    game = "ER";
                     break;
                 default:
                     throw new Exception("Game type not set");
@@ -691,6 +705,7 @@ namespace StudioCore
                     ret.Add(ad);
                 }
             }
+            //TODO: ER
             return ret;
         }
 
@@ -811,6 +826,10 @@ namespace StudioCore
             {
                 // TODO
             }
+            else if (Type == GameType.EldenRing)
+            {
+                // TODO ER
+            }
             else if (Type == GameType.DemonsSouls)
             {
                 var mid = mapid.Substring(0, 3);
@@ -826,6 +845,7 @@ namespace StudioCore
             }
             else
             {
+                //clean this up? even if it's common code having something like "!=Sekiro" can lead to future issues
                 var mid = mapid.Substring(0, 3);
 
                 var t0000 = new AssetDescription();
@@ -855,12 +875,16 @@ namespace StudioCore
                     env.AssetArchiveVirtualPath = $@"map/tex/{mid}/env";
                     ads.Add(env);
                 }
-                else if (Type != GameType.Sekiro)
+                else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII)
                 {
                     var env = new AssetDescription();
                     env.AssetPath = GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
                     env.AssetVirtualPath = $@"map/tex/{mid}/env";
                     ads.Add(env);
+                }
+                else if (Type == GameType.Sekiro)
+                {
+                    //TODO SDT
                 }
             }
 
@@ -882,6 +906,7 @@ namespace StudioCore
                     }
                 }
             }
+            //TODO: DES,PTDE,DSR,DS2,BB,SDT,ER
             return l;
         }
 
@@ -908,7 +933,7 @@ namespace StudioCore
                     ad.AssetVirtualPath = $@"chr/{chrid}/tex";
                 }
             }
-
+            //TODO: DES,PTDE,DSR,DS2,ER
             return ad;
         }
 
@@ -927,6 +952,7 @@ namespace StudioCore
                 return GetNullAsset();
             }
             return ret;
+            //TODO: DS2,BB,DS3,SDT,ER
         }
 
         public AssetDescription GetHavokNavmeshes(string mapid)
@@ -1142,6 +1168,7 @@ namespace StudioCore
                         }
                         return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpfbhd");
                     }
+                    //TODO: PTDE,BB,DS3,SDT,ER ?
                 }
                 else if (mapRegex.IsMatch(pathElements[i]))
                 {
@@ -1168,6 +1195,7 @@ namespace StudioCore
                             return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver.dcx");
                         }
                         return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
+                        //TODO: DS3,SDT,ER ?
                     }
                     else if (pathElements[i].Equals("hit"))
                     {
@@ -1195,6 +1223,7 @@ namespace StudioCore
                         }
                         bndpath = "";
                         return null;
+                        //TODO: DSR,SDT,ER
                     }
                     else if (pathElements[i].Equals("nav"))
                     {
@@ -1222,6 +1251,7 @@ namespace StudioCore
                         }
                         bndpath = "";
                         return null;
+                        //TODO: DS2,BB,SDT,ER
                     }
                 }
             }
@@ -1259,6 +1289,7 @@ namespace StudioCore
                         return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
                     }
                 }
+                //TODO: DSR,BB,ER
             }
             else if (pathElements[i].Equals("obj"))
             {
@@ -1278,6 +1309,7 @@ namespace StudioCore
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
+                //TODO: DES,DSR,BB,DS3,SDT,ER
             }
 
             bndpath = virtualPath;

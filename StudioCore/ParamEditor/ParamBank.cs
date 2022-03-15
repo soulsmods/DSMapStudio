@@ -506,6 +506,7 @@ namespace StudioCore.ParamEditor
                 {
                     vparamDir = LoadParamsBBSekrio();
                 }
+                //TODO: ER
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
@@ -538,6 +539,7 @@ namespace StudioCore.ParamEditor
                         {
                             LoadVParamsBBSekrio(vparamDir);
                         }
+                        //TODO: ER
                         IsLoadingVParams = false;
                         TaskManager.Run("PB:RefreshDirtyCache", false, true, () => refreshParamDirtyCache());
                     });
@@ -890,6 +892,7 @@ namespace StudioCore.ParamEditor
             {
                 SaveParamsBBSekiro();
             }
+            //TODO: ER
         }
 
         public static string GetChrIDForEnemy(long enemyID)

@@ -561,6 +561,7 @@ namespace StudioCore.MsbEditor
                     break;
                 default:
                     throw new ArgumentException("type must be valid");
+                //TODO: ER
             }
 
             var partType = msbclass.GetNestedType("Part");

@@ -448,6 +448,7 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSB1.Read(ad.AssetPath);
             }
+            //TODO: ER
             map.LoadMSB(msb);
 
             var amapid = mapid.Substring(0, 6) + "_00_00";
@@ -904,6 +905,7 @@ namespace StudioCore.MsbEditor
                 //var t = MSB1.Read(ad.AssetPath);
                 //((MSB1)msb).Models = t.Models;
             }
+            //TODO: ER
 
             map.SerializeToMSB(msb, _assetLocator.Type);
 

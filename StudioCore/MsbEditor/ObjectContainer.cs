@@ -604,6 +604,7 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsSekiro(msb);
             }
+            //TODO: ER
         }
 
         public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)
