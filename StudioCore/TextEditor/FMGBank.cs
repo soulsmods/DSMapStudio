@@ -397,6 +397,8 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs()
         {
+            if (AssetLocator.Type == GameType.EldenRing)
+                return;
             IsLoaded = false;
             IsLoading = true;
 

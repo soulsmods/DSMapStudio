@@ -734,15 +734,11 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
-                if (_newProjectSettings.GameType == GameType.DarkSoulsPTDE || _newProjectSettings.GameType == GameType.DarkSoulsIISOTFS || _newProjectSettings.GameType == GameType.DarkSoulsIII || _newProjectSettings.GameType == GameType.Sekiro)
-                {
-                    ImGui.AlignTextToFramePadding();
-                    ImGui.Text($@"Load default row names:  ");
-                    ImGui.SameLine();
-                    ImGui.Checkbox("##loadDefaultNames", ref _newProjectLoadDefaultNames);
-                    ImGui.NewLine();
-                    //TODO: ER
-                }
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text($@"Load default row names:  ");
+                ImGui.SameLine();
+                ImGui.Checkbox("##loadDefaultNames", ref _newProjectLoadDefaultNames);
+                ImGui.NewLine();
 
                 if (ImGui.Button("Create", new Vector2(120, 0)))
                 {
