@@ -1,4 +1,51 @@
 110000 Unarmed
+170000 Throwing Dagger
+171000 Bone Dart
+172000 Poisonbone Dart
+173000 Kukri
+174000 Crystal Dart
+175000 Fan Daggers
+176000 Ruin Fragment
+183000 Explosive Stone
+183100 Explosive Stone Clump
+184000 Poisoned Stone
+184100 Poisoned Stone Clump
+300000 Ancestral Infant's Head
+301000 Omen Bairn
+301100 Regal Omen Bairn
+302000 Miranda's Prayer
+303000 Cuckoo Glintstone
+305000 Glintstone Scrap
+305100 Large Glintstone Scrap
+306000 Gravity Stone Fan
+307000 Gravity Stone Chunk
+308000 Wraith Calling Bell
+351000 Spark Aromatic
+358000 Poison Spraymist
+361000 Acid Spraymist
+830000 Fire Pot
+830100 Redmane Fire Pot
+830200 Giantsflame Fire Pot
+832000 Lightning Pot
+832100 Ancient Dragonbolt Pot
+833000 Fetid Pot
+834000 Swarm Pot
+835000 Holy Water Pot
+835100 Sacred Order Pot
+837000 Poison Pot
+840000 Roped Fire Pot
+842000 Roped Lightning Pot
+843000 Roped Fetid Pot
+844000 Roped Poison Pot
+846000 Roped Magic Pot
+847000 Roped Fly Pot
+849000 Roped Volcano Pot
+851000 Roped Holy Water Pot
+860000 Volcano Pot
+864000 Sleep Pot
+865000 Rancor Pot
+866000 Magic Pot
+866100 Academy Magic Pot
 1000000 Dagger
 1000100 Heavy Dagger
 1000200 Keen Dagger
@@ -26,19 +73,19 @@
 1021000 Poison Parrying Dagger
 1021100 Blood Parrying Dagger
 1021200 Occult Parrying Dagger
-1030000 Miséricorde
-1030100 Heavy Miséricorde
-1030200 Keen Miséricorde
-1030300 Quality Miséricorde
-1030400 Fire Miséricorde
-1030500 Flame Art Miséricorde
-1030600 Lightning Miséricorde
-1030700 Sacred Miséricorde
-1030800 Magic Miséricorde
-1030900 Cold Miséricorde
-1031000 Poison Miséricorde
-1031100 Blood Miséricorde
-1031200 Occult Miséricorde
+1030000 Misericorde
+1030100 Heavy Misericorde
+1030200 Keen Misericorde
+1030300 Quality Misericorde
+1030400 Fire Misericorde
+1030500 Flame Art Misericorde
+1030600 Lightning Misericorde
+1030700 Sacred Misericorde
+1030800 Magic Misericorde
+1030900 Cold Misericorde
+1031000 Poison Misericorde
+1031100 Blood Misericorde
+1031200 Occult Misericorde
 1040000 Reduvia
 1050000 Crystal Knife
 1060000 Celebrant's Sickle
@@ -508,19 +555,19 @@
 6011000 Poison Godskin Stitcher
 6011100 Blood Godskin Stitcher
 6011200 Occult Godskin Stitcher
-6020000 Great Épée
-6020100 Heavy Great Épée
-6020200 Keen Great Épée
-6020300 Quality Great Épée
-6020400 Fire Great Épée
-6020500 Flame Art Great Épée
-6020600 Lightning Great Épée
-6020700 Sacred Great Épée
-6020800 Magic Great Épée
-6020900 Cold Great Épée
-6021000 Poison Great Épée
-6021100 Blood Great Épée
-6021200 Occult Great Épée
+6020000 Great epee
+6020100 Heavy Great epee
+6020200 Keen Great epee
+6020300 Quality Great epee
+6020400 Fire Great epee
+6020500 Flame Art Great epee
+6020600 Lightning Great epee
+6020700 Sacred Great epee
+6020800 Magic Great epee
+6020900 Cold Great epee
+6021000 Poison Great epee
+6021100 Blood Great epee
+6021200 Occult Great epee
 6040000 Dragon King's Cragblade
 7000000 Falchion
 7000100 Heavy Falchion
@@ -888,7 +935,7 @@
 11051000 Poison Morning Star
 11051100 Blood Morning Star
 11051200 Occult Morning Star
-11060000 Varré's Bouquet
+11060000 Varre's Bouquet
 11070000 Spiked Club
 11070100 Heavy Spiked Club
 11070200 Keen Spiked Club

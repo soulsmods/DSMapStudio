@@ -1,0 +1,132 @@
+30000 Furlcalling Finger Remedy
+30100 Fire Pot
+30101 Redmane Fire Pot
+30102 Giantsflame Fire Pot
+30103 Lightning Pot
+30104 Ancient Dragonbolt Pot
+30105 Fetid Pot
+30106 Swarm Pot
+30107 Holy Water Pot
+30108 Sacred Order Pot
+30109 Freezing Pot
+30110 Poison Pot
+30111 Oil Pot
+30112 Alluring Pot
+30113 Beastlure Pot
+30114 Roped Fire Pot
+30115 Roped Lightning Pot
+30116 Roped Fetid Pot
+30117 Roped Poison Pot
+30118 Roped Oil Pot
+30119 Roped Magic Pot
+30120 Roped Fly Pot
+30122 Roped Volcano Pot
+30123 Roped Holy Water Pot
+30124 Volcano Pot
+30125 Albinauric Pot
+30126 Cursed-Blood Pot
+30127 Sleep Pot
+30128 Rancor Pot
+30129 Magic Pot
+30130 Academy Magic Pot
+30131 Rot Pot
+30200 Rowa Raisin
+30201 Sweet Raisin
+30202 Frozen Raisin
+30300 Neutralizing Boluses
+30301 Stanching Boluses
+30302 Thawfrost Boluses
+30303 Stimulating Boluses
+30304 Preserving Boluses
+30305 Rejuvenating Boluses
+30306 Clarifying Boluses
+30400 Pickled Turtle Neck
+30401 Immunizing Cured Meat
+30402 Invigorating Cured Meat
+30403 Clarifying Cured Meat
+30404 Dappled Cured Meat
+30405 Spellproof Dried Liver
+30406 Fireproof Dried Liver
+30407 Lightningproof Dried Liver
+30408 Holyproof Dried Liver
+30409 Silver-Pickled Fowl Foot
+30410 Gold-Pickled Fowl Foot
+30411 Exalted Flesh
+30413 Immunizing White Cured Meat
+30414 Invigorating White Cured Meat
+30415 Clarifying White Cured Meat
+30416 Dappled White Cured Meat
+30500 Fire Grease
+30501 Lightning Grease
+30502 Magic Grease
+30503 Holy Grease
+30504 Blood Grease
+30505 Soporific Grease
+30506 Poison Grease
+30507 Freezing Grease
+30508 Dragonwound Grease
+30509 Rot Grease
+30510 Drawstring Fire Grease
+30511 Drawstring Lightning Grease
+30512 Drawstring Magic Grease
+30513 Drawstring Holy Grease
+30514 Drawstring Blood Grease
+30515 Drawstring Soporific Grease
+30516 Drawstring Poison Grease
+30518 Drawstring Rot Grease
+30519 Shield Grease
+30600 Bone Dart
+30601 Poisonbone Dart
+30602 Crystal Dart
+30700 Rainbow Stone
+30701 Glowstone
+30702 Grace Mimic
+30703 Soft Cotton
+30704 Soap
+30800 Cuckoo Glintstone
+30801 Warming Stone
+30802 Frenzyflame Stone
+30803 Scriptstone
+30804 Bewitching Branch
+30900 Uplifting Aromatic
+30901 Spark Aromatic
+30902 Ironjar Aromatic
+30903 Bloodboil Aromatic
+30904 Poison Spraymist
+30905 Acid Spraymist
+32000 Bone Arrow (Fletched)
+32001 Bone Arrow
+32002 Firebone Arrow (Fletched)
+32003 Firebone Arrow
+32004 Poisonbone Arrow (Fletched)
+32005 Poisonbone Arrow
+32006 Sleepbone Arrow (Fletched)
+32007 Sleepbone Arrow
+32008 Stormwing Bone Arrow
+32009 Lightningbone Arrow (Fletched)
+32010 Lightningbone Arrow
+32011 Rainbow Stone Arrow
+32012 Shattershard Arrow
+32013 Magicbone Arrow (Fletched)
+32014 Magicbone Arrow
+32015 Haligbone Arrow (Fletched)
+32016 Haligbone Arrow
+32017 Bloodbone Arrow (Fletched)
+32018 Bloodbone Arrow
+32019 Coldbone Arrow (Fletched)
+32020 Coldbone Arrow
+32021 Rotbone Arrow (Fletched)
+32022 Rotbone Arrow
+32100 Bone Great Arrow (Fletched)
+32101 Bone Great Arrow
+32200 Bone Bolt
+32201 Firebone Bolt
+32202 Lightningbone Bolt
+32203 Magicbone Bolt
+32204 Haligbone Bolt
+32205 Poisonbone Bolt
+32206 Bloodbone Bolt
+32207 Coldbone Bolt
+32208 Rotbone Bolt
+32209 Sleepbone Bolt
+32300 Bone Ballista Bolt

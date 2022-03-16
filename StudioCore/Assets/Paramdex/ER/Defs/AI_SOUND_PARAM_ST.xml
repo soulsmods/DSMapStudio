@@ -6,10 +6,16 @@
   <Unicode>True</Unicode>
   <FormatVersion>201</FormatVersion>
   <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
+    <Field Def="f32 radius" />
+    <Field Def="f32 lifeFrame" />
+    <Field Def="u8 isSpEffectEnabled" />
+    <Field Def="u8 rateType" />
+    <Field Def="u8 fakeTargetType1" />
+    <Field Def="u8 fakeTargetType2" />
+    <Field Def="u8 fakeTargetType3" />
+    <Field Def="u8 interestCategory" />
+    <Field Def="u8 isHitDamageTeam" />
+    <Field Def="s8 Unk0C" />
     <Field Def="u32 Unk10" />
     <Field Def="u32 Unk14" />
     <Field Def="u32 Unk18" />

@@ -1,0 +1,26 @@
+2400 Gift - None
+2401 Gift - Crimson Amber Medallion
+2402 Gift - Lands Between Rune
+2403 Gift - Golden Seed
+2404 Gift - Fanged Imp Ashes
+2405 Gift - Cracked Pot
+2406 Gift - Stonesword Key
+2407 Gift - Bewitching Branch
+2408 Gift - Boiled Prawn
+2409 Gift - Shabriri's Woe
+3000 Class - Vagabond
+3001 Class - Warrior
+3002 Class - Hero
+3003 Class - Bandit
+3004 Class - Astrologer
+3005 Class - Prophet
+3006 Class - Samurai
+3007 Class - Prisoner
+3008 Class - Confessor
+3009 Class - Wretch
+23232 Dung Eater Puppet
+23342 Nepheli Loux Puppet
+23631 Finger Maiden Therolina Puppet
+23640 Dolores the Sleeping Arrow
+23650 Jarwight Puppet
+26050 Mimic Tear

@@ -1,6 +1,129 @@
 10 test gem 1
 20 test gem 2
 30 test gem 3
+40 Ash of War: Lion's Claw
+41 Ash of War: Lion's Claw
+80 Ash of War: Lion's Claw
+81 Ash of War: Lion's Claw
+82 Ash of War: Lion's Claw
+83 Ash of War: Lion's Claw
+84 Ash of War: Lion's Claw
+85 Ash of War: Lion's Claw
+86 Ash of War: Lion's Claw
+87 Ash of War: Lion's Claw
+88 Ash of War: Lion's Claw
+89 Ash of War: Lion's Claw
+90 Ash of War: Lion's Claw
+100 Ash of War: Lion's Claw
+101 Ash of War: Impaling Thrust
+102 Ash of War: Piercing Fang
+103 Ash of War: Spinning Slash
+104 Ash of War:
+105 Ash of War: Charge Forth
+106 Ash of War: Stamp (Upward Cut)
+107 Ash of War: Stamp (Sweep)
+108 Ash of War: Blood Tax
+109 Ash of War: Repeating Thrust
+110 Ash of War: Wild Strikes
+111 Ash of War: Spinning Strikes
+112 Ash of War: Double Slash
+113 Ash of War: Prelate's Charge
+114 Ash of War: Unsheathe
+115 Ash of War: Square Off
+116 Ash of War: Giant Hunt
+117 Ash of War: Torch Attack
+118 Ash of War: Loretta's Slash
+119 Ash of War: Poison Moth Flight
+120 Ash of War: Spinning Weapon
+121 Ash of War:
+122 Ash of War: Storm Assault
+123 Ash of War: Stormcaller
+124 Ash of War: Sword Dance
+125 Ash of War: Sacred Blade
+126 Ash of War: Ice Spear
+127 Ash of War: Glintstone Pebble
+128 Ash of War: Bloody Slash
+129 Ash of War: Lifesteal Fist
+130 Ash of War: Eruption
+131 Ash of War: Prayerful Strike
+132 Ash of War: Gravitas
+133 Ash of War: Storm Blade
+134 Ash of War: Phantom Slash
+135 Ash of War: Earthshaker
+136 Ash of War: Golden Land
+137 Ash of War: Flaming Strike
+138 Ash of War: Thunderbolt
+139 Ash of War: Lightning Slash
+140 Ash of War: Carian Grandeur
+141 Ash of War: Carian Greatsword
+142 Ash of War: Vacuum Slice
+143 Ash of War: Black Flame Tornado
+144 Ash of War: Sacred Ring of Light
+146 Ash of War: Shield Bash
+147 Ash of War: Barricade Shield
+148 Ash of War: Parry
+149 Ash of War: Buckler Parry
+151 Ash of War: Carian Retaliation
+152 Ash of War: Storm Wall
+153 Ash of War: Golden Parry
+154 Ash of War: Shield Crash
+155 Ash of War: Through and Through
+156 Ash of War: Barrage
+157 Ash of War: Mighty Shot
+158 Ash of War: Enchanted Shot
+159 Ash of War: Sky Shot
+160 Ash of War: Rain of Arrows
+161 Ash of War:
+163 Ash of War:
+164 Ash of War: Hoarfrost Stomp
+165 Ash of War: Storm Stomp
+166 Ash of War: Kick
+167 Ash of War: Lightning Ram
+168 Ash of War: Flame of the Redmanes
+169 Ash of War: Ground Slam
+170 Ash of War: Golden Slam
+171 Ash of War: Waves of Darkness
+173 Ash of War: Determination
+174 Ash of War: Assassin's Gambit
+175 Ash of War: Golden Vow
+176 Ash of War: Sacred Order
+177 Ash of War: Seppuku
+178 Ash of War: Cragblade
+179 Ash of War: Shared Order
+180 Ash of War: Barbaric Roar
+181 Ash of War: Beast's Roar
+182 Ash of War:
+183 Ash of War: Braggart's Roar
+184 Ash of War: Troll's Roar
+185 Ash of War: Endure
+186 Ash of War: Vow of the Indomitable
+187 Ash of War: Holy Ground
+190 Ash of War: Quickstep
+191 Ash of War: Bloodhound's Step
+192 Ash of War: Raptor of the Mists
+194 Ash of War: White Shadow's Lure
+195 Ash of War: Sword Dance
+196 Ash of War: Firebreather
+197 Ash of War: Blood Blade
+198 Ash of War: Thops's Barrier
+1000 Ash of War: Lion's Claw
+1001 Ash of War: Impaling Thrust
+1002 Ash of War: Spinning Slash
+1003 Ash of War:
+1004 Ash of War: Glintblade Phalanx
+1005 Ash of War:
+1006 Ash of War: Eruption
+1007 Ash of War: Gravitas
+1008 Ash of War: Storm Blade
+1009 Ash of War: Earthshaker
+1010 Ash of War: Flaming Strike
+1011 Ash of War: Thunderbolt
+1012 Ash of War: Carian Greatsword
+1013 Ash of War: Storm Stomp
+1014 Ash of War: Determination
+1015 Ash of War: Holy Ground
+1016 Ash of War: Quickstep
+1017 Ash of War: Raptor of the Mists
 10000 Ash of War: Lion's Claw
 10100 Ash of War: Impaling Thrust
 10200 Ash of War: Piercing Fang

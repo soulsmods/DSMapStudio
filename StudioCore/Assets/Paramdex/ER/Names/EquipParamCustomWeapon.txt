@@ -1,0 +1,1360 @@
+10 [test gem 1] - Straight Sword
+20 [Lion's Claw] - Blank
+21 [Lion's Claw] - Blank
+22 [Lion's Claw] - Blank
+23 [Lion's Claw] - Blank
+80 [Lion's Claw] - Straight Sword
+81 [Lion's Claw] - Straight Sword
+82 [Lion's Claw] - Straight Sword
+83 [Lion's Claw] - Straight Sword
+84 [Lion's Claw] - Straight Sword
+85 [Lion's Claw] - Straight Sword
+86 [Lion's Claw] - Straight Sword
+87 [Lion's Claw] - Straight Sword
+88 [Lion's Claw] - Straight Sword
+89 [Lion's Claw] - Straight Sword
+90 [Lion's Claw] - Straight Sword
+100 [Lion's Claw] - Greatsword
+101 [Impaling Thrust] - Straight Sword
+102 [Piercing Fang] - Katana
+103 [Spinning Slash] - Straight Sword
+104 [Spinning Slash] - Greatsword
+105 [Charge Forth] - Great Spear
+106 [Stamp (Upward Cut)] - Greatsword
+107 [Stamp (Sweep)] - Colossal Sword
+108 [Blood Tax] - Straight Sword
+109 [Repeating Thrust] - Straight Sword
+110 [Wild Strikes] - Axe
+111 [Spinning Strikes] - Halberd
+112 [Double Slash] - Katana
+113 [Prelate's Charge] - Colossal Weapon
+114 [Unsheathe] - Katana
+115 [Square Off] - Straight Sword
+116 [Giant Hunt] - Great Spear
+117 [Torch Attack] - Torch
+118 [Loretta's Slash] - Twinblade
+119 [Poison Moth Flight] - Straight Sword
+120 [Spinning Weapon] - Straight Sword
+121 [] - Straight Sword
+122 [Storm Assault] - Halberd
+123 [Stormcaller] - Halberd
+124 [Glintblade Phalanx] - Straight Sword
+125 [Sacred Blade] - Straight Sword
+126 [Ice Spear] - Spear
+127 [Glintstone Pebble] - Straight Sword
+128 [Bloody Slash] - Straight Sword
+129 [Lifesteal Fist] - Fist
+130 [Eruption] - Great Hammer
+131 [Prayerful Strike] - Great Hammer
+132 [Gravitas] - Blank
+133 [Storm Blade] - Straight Sword
+134 [Phantom Slash] - Halberd
+135 [Earthshaker] - Great Hammer
+136 [Golden Land] - Great Hammer
+137 [Flaming Strike] - Straight Sword
+138 [Thunderbolt] - Spear
+139 [Lightning Slash] - Katana
+140 [Carian Grandeur] - Straight Sword
+141 [Carian Colossal Sword] - Straight Sword
+142 [Vacuum Slice] - Straight Sword
+143 [Black Flame Tornado] - Twinblade
+144 [Sacred Ring of Light] - Spear
+145 [Spectral Great Spear] - Spear
+146 [Shield Bash] - Medium Shield
+147 [Barricade Shield] - Medium Shield
+148 [Parry] - Medium Shield
+149 [Small Shield Parry] - Small Shield
+151 [Carian Retaliation] - Medium Shield
+152 [Storm Wall] - Medium Shield
+153 [Golden Parry] - Medium Shield
+154 [Shield Crash] - Medium Shield
+155 [Through and Through] - Lion Greatbow
+156 [Barrage] - Bow
+157 [Mighty Shot] - Bow
+158 [Enchanted Shot] - Bow
+159 [Sky Shot] - Bow
+160 [Rain of Arrows] - Lion Greatbow
+161 [] - Bow
+163 [] - Straight Sword
+164 [Hoarfrost Stomp] - Straight Sword
+165 [Storm Stomp] - Straight Sword
+166 [Kick] - Straight Sword
+167 [Lightning Ram] - Straight Sword
+168 [Flame of the Redmanes] - Straight Sword
+169 [Ground Slam] - Straight Sword
+170 [Golden Slam] - Straight Sword
+171 [Waves of Darkness] - Great Hammer
+172 [Hoarah Loux's Earthshaker] - Fist
+173 [Determination] - Straight Sword
+174 [Assassin's Gambit] - Straight Sword
+175 [Golden Vow] - Straight Sword
+176 [Sacred Order] - Straight Sword
+177 [Seppuku] - Straight Sword
+178 [Cragblade] - Colossal Sword
+179 [Shared Order] - Straight Sword
+180 [Barbaric Roar] - Straight Sword
+181 [Beast's Roar] - Straight Sword
+182 [] - Straight Sword
+183 [Braggart's Roar] - Straight Sword
+184 [Troll's Roar] - Straight Sword
+185 [Endure] - Hammer
+186 [Vow of the Indomitable] - Medium Shield
+187 [Holy Ground] - Medium Shield
+188 [Endure] - Warhammer
+189 [Endure] - Fist
+190 [Quickstep] - Straight Sword
+191 [Bloodhound's Step] - Straight Sword
+192 [Raptor of the Mists] - Straight Sword
+193 [Royal Knight's Resolve] - Straight Sword
+194 [White Shadow's Lure] - Straight Sword
+197 [Spinning Slash] - Twinblade
+198 [Spinning Slash] - Spear
+199 [Loretta's Slash] - Spear
+200 [Storm Assault] - Spear
+201 [Stormcaller] - Spear
+202 [Sword Dance] - Straight Sword
+203 [Sword Dance] - Greatsword
+204 [Sword Dance] - Spear
+205 [Firebreather] - Torch
+206 [Blood Blade] - Straight Sword
+207 [Shield Bash] - Greatshield
+208 [Shield Bash] - Small Shield
+209 [Barricade Shield] - Greatshield
+210 [Barricade Shield] - Small Shield
+211 [Parry] - Small Shield
+212 [Parry] - Dagger
+213 [Parry] - Curved Sword
+214 [Shield Crash] - Greatshield
+215 [Shield Crash] - Small Shield
+216 [Thops's Barrier] - Medium Shield
+217 [Determination] - Spear
+218 [Black Flame Tornado] - Spear
+219 [Black Flame Tornado] - Great Spear
+220 [Black Flame Tornado] - Halberd
+221 [Black Flame Tornado] - Reaper
+300 [Barbaric Roar] - Claw
+301 [Barbaric Roar] - Straight Sword
+302 [Barbaric Roar] - Twinblade
+303 [Barbaric Roar] - Greatsword
+304 [Barbaric Roar] - Colossal Sword
+305 [Barbaric Roar] - Curved Sword
+306 [Barbaric Roar] - Katana
+307 [Barbaric Roar] - Axe
+308 [Barbaric Roar] - Colossal Weapon
+309 [Barbaric Roar] - Colossal Weapon
+310 [Barbaric Roar] - Greataxe
+311 [Barbaric Roar] - Hammer
+312 [Barbaric Roar] - Flail
+313 [Barbaric Roar] - Great Hammer
+314 [Barbaric Roar] - Spear
+315 [Barbaric Roar] - Great Spear
+316 [Barbaric Roar] - Halberd
+317 [Barbaric Roar] - Blank
+318 [Barbaric Roar] - Fist
+319 [Barbaric Roar] - Reaper
+320 [War Cry] - Claw
+321 [War Cry] - Straight Sword
+322 [War Cry] - Twinblade
+323 [War Cry] - Greatsword
+324 [War Cry] - Colossal Sword
+325 [War Cry] - Curved Sword
+326 [War Cry] - Katana
+327 [War Cry] - Axe
+328 [War Cry] - Colossal Weapon
+329 [War Cry] - Colossal Weapon
+330 [War Cry] - Greataxe
+331 [War Cry] - Hammer
+332 [War Cry] - Flail
+333 [War Cry] - Great Hammer
+334 [War Cry] - Spear
+335 [War Cry] - Great Spear
+336 [War Cry] - Halberd
+337 [War Cry] - Blank
+338 [War Cry] - Fist
+339 [War Cry] - Reaper
+340 [Double Slash] - Greatsword
+341 [Double Slash] - Halberd
+345 [Bloody Slash] - Greatsword
+346 [Bloody Slash] - Twinblade
+350 [Chilling Mist] - Straight Sword
+355 [Poisonous Mist] - Straight Sword
+360 [Ice Spear] - Twinblade
+365 [Thunderbolt] - Fist
+370 [Lightning Slash] - Halberd
+500 [Storm Blade] - Scimitar
+501 [Determination] - Spear
+502 [Blank] - Club
+503 [Holy Ground] - Rickety Shield
+504 [Thunderbolt] - Greatsword
+1000 [Lion's Claw] - Greatsword
+1001 [Impaling Thrust] - Straight Sword
+1002 [Spinning Slash] - Straight Sword
+1003 [] - Spear
+1004 [Glintblade Phalanx] - Flame Art Straight Sword
+1005 [] - Poison Straight Sword
+1006 [Eruption] - Sacred Greatsword
+1007 [Gravitas] - Quality Greatsword
+1008 [Storm Blade] - Quality Straight Sword
+1009 [Earthshaker] - Heavy Greatsword
+1010 [Flaming Strike] - Magic Straight Sword
+1011 [Thunderbolt] - Cold Spear
+1012 [Carian Colossal Sword] - Flame Art Straight Sword
+1013 [Storm Stomp] - Heavy Straight Sword
+1014 [Determination] - Quality Straight Sword
+1015 [Holy Ground] - Fire Straight Sword
+1016 [Quickstep] - Keen Straight Sword
+1017 [Raptor of the Mists] - Keen Straight Sword
+3010 [No Skill] - Blank
+3040 [Storm Assault] - Blank
+3041 [No Skill] - Blank
+3042 [No Skill] - Blank
+3090 [Kick] - Spear
+3091 [No Skill] - Blank
+3092 [Kick] - Spear
+3093 [No Skill] - Blank
+3110 [Spinning Strikes] - Halberd
+3111 [No Skill] - Blank
+3120 [Flaming Strike] - Flamberge
+3121 [No Skill] - Blank
+3122 [Flaming Strike] - Blank
+3123 [No Skill] - Blank
+3140 [Kick] - Hoslow's Petal Whip
+3141 [No Skill] - Blank
+3160 [No Skill] - Blank
+3180 [Impaling Thrust] - Nagakiba
+3181 [No Skill] - Blank
+3182 [Impaling Thrust] - Katana
+3183 [Impaling Thrust] - Blank
+3190 [Sacred Order] - Inseparable Sword
+3191 [No Skill] - Blank
+3192 [Sacred Order] - Blank
+3193 [No Skill] - Blank
+3210 [Sacred Order] - Erdsteel Dagger
+3211 [No Skill] - Blank
+3230 [Blank] - Sword of Milos
+3240 [No Skill] - Blank
+3241 [No Skill] - Blank
+3250 [Glintblade Phalanx] - Rogier's Thrusting Sword
+3251 [No Skill] - Blank
+3260 [Vacuum Slice] - Blank
+3261 [No Skill] - Blank
+3262 [Blank] - Devourer's Scepter
+3270 [Blank] - Eleonora's Poleblade
+3271 [No Skill] - Blank
+3290 [Repeating Thrust] - Heavy Thrusting Sword
+3291 [No Skill] - Blank
+3292 [Blank] - Blank
+3293 [No Skill] - Blank
+3310 [Braggart's Roar] - Iron Ball
+3330 [No Skill] - Blank
+3340 [Blank] - Stormhawk Axe
+3350 [Beast's Roar] - Scavenger's Curved Sword
+3351 [No Skill] - Blank
+3390 [Blank] - Clinging Bone
+3391 [No Skill] - Blank
+3400 [Raptor of the Mists] - Raptor Talons
+3430 [Blank] - Reduvia
+3440 [Ground Slam] - Blank
+3441 [No Skill] - Blank
+3442 [Ground Slam] - Blank
+3443 [No Skill] - Blank
+3450 [Gravitas] - Blank
+3460 [Quickstep] - Scorpion's Stinger
+3461 [No Skill] - Crepus's Black-Key Crossbow
+3470 [Bloodhound's Step] - Hoslow's Petal Whip
+3510 [Blank] - Flail
+3511 [No Skill] - Blank
+3520 [No Skill] - Blank
+3530 [Wild Strikes] - Blank
+3531 [Wild Strikes] - Sacred Butchering Knife
+3550 [Blank] - Rivers of Blood
+3551 [Quickstep] - Wakizashi
+3552 [Blank] - Rivers of Blood
+3553 [Quickstep] - Wakizashi
+3560 [Wild Strikes] - Flail
+3561 [No Skill] - Blank
+3590 [Glintblade Phalanx] - Carian Knight's Sword
+3591 [Carian Retaliation] - Carian Knight's Shield
+3592 [No Skill] - Blank
+3600 [Blank] - Godslayer's Colossal Sword
+3610 [Spinning Slash] - Quality Twinblade
+3611 [No Skill] - Iron Roundshield
+3612 [Spinning Slash] - Quality Twinblade
+3613 [No Skill] - Iron Roundshield
+3670 [Seppuku] - Blank
+3671 [No Skill] - Wakizashi
+3680 [Kick] - Light Crossbow
+3681 [Kick] - Hammer
+3682 [Kick] - Blank
+3683 [Kick] - Spear
+3684 [No Skill] - Inverted Hawk Towershield
+3690 [Eruption] - Blank
+3700 [Endure] - Blank
+3701 [No Skill] - Blank
+3702 [Endure] - Blank
+3703 [No Skill] - Blank
+3710 [Quickstep] - Blank
+3711 [No Skill] - Heater Shield
+3712 [Quickstep] - Blank
+3713 [No Skill] - Heater Shield
+3720 [Impaling Thrust] - Antspur Thrusting Sword
+3721 [No Skill] - Blank
+3730 [Poison Moth Flight] - Keen Misericorde
+3731 [Parry] - Small Shield
+3740 [Prayerful Strike] - Heavy Great Hammer
+3741 [No Skill] - Banished Knight's Shield
+3750 [Parry] - Magic Estoc
+3751 [No Skill] - Albinauric Staff
+3760 [Blank] - Black Knife
+3761 [No Skill] - Blank
+3770 [Blood Tax] - Blood Misericorde
+3771 [No Skill] - Blank
+3800 [No Skill] - Blank
+3820 [No Skill] - Blank
+3821 [Blank] - One-Eyed Shield
+3830 [Kick] - Torchpole
+3831 [No Skill] - Blank
+3840 [Blank] - Ghiza's Wheel
+3850 [Sword Dance] - Cold Reaper
+3851 [No Skill] - Staff of the Guilty
+3860 [Blank] - Reduvia
+3861 [No Skill] - Blank
+3870 [Blank] - Halo Reaper
+3880 [Charge Forth] - Blank
+3890 [Sword Dance] - Flowing Curved Sword
+3900 [Blank] - Blank
+3901 [No Skill] - Blank
+5000 [Spinning Strikes] - Halberd
+5010 [Glintblade Phalanx] - Rogier's Thrusting Sword
+5020 [Charge Forth] - Spear
+5030 [Piercing Fang] - Nagakiba
+5040 [Braggart's Roar] - Iron Ball
+10001 [Lion's Claw] - Straight Sword
+10002 [Lion's Claw] - Greatsword
+10003 [Lion's Claw] - Colossal Sword
+10004 [Lion's Claw] - Curved Sword
+10005 [Lion's Claw] - Curved Greatsword
+10006 [Lion's Claw] - Katana
+10007 [Lion's Claw] - Twinblade
+10010 [Lion's Claw] - Axe
+10011 [Lion's Claw] - Greataxe
+10012 [Lion's Claw] - Hammer
+10013 [Lion's Claw] - Warhammer
+10014 [Lion's Claw] - Flail
+10022 [Lion's Claw] - Colossal Weapon
+10050 [Impaling Thrust] - Dagger
+10051 [Impaling Thrust] - Straight Sword
+10052 [Impaling Thrust] - Greatsword
+10056 [Impaling Thrust] - Katana
+10057 [Impaling Thrust] - Twinblade
+10058 [Impaling Thrust] - Thrusting Sword
+10059 [Impaling Thrust] - Heavy Thrusting Sword
+10065 [Impaling Thrust] - Spear
+10066 [Impaling Thrust] - Great Spear
+10067 [Impaling Thrust] - Halberd
+10101 [Piercing Fang] - Straight Sword
+10102 [Piercing Fang] - Greatsword
+10106 [Piercing Fang] - Katana
+10107 [Piercing Fang] - Twinblade
+10108 [Piercing Fang] - Thrusting Sword
+10109 [Piercing Fang] - Heavy Thrusting Sword
+10115 [Piercing Fang] - Spear
+10116 [Piercing Fang] - Great Spear
+10117 [Piercing Fang] - Halberd
+10150 [Spinning Slash] - Dagger
+10151 [Spinning Slash] - Straight Sword
+10152 [Spinning Slash] - Greatsword
+10154 [Spinning Slash] - Curved Sword
+10155 [Spinning Slash] - Curved Greatsword
+10156 [Spinning Slash] - Katana
+10157 [Spinning Slash] - Twinblade
+10160 [Spinning Slash] - Axe
+10161 [Spinning Slash] - Greataxe
+10165 [Spinning Slash] - Spear
+10166 [Spinning Slash] - Great Spear
+10167 [Spinning Slash] - Halberd
+10168 [Spinning Slash] - Reaper
+10207 [Charge Forth] - Twinblade
+10209 [Charge Forth] - Heavy Thrusting Sword
+10215 [Charge Forth] - Spear
+10216 [Charge Forth] - Great Spear
+10217 [Charge Forth] - Halberd
+10252 [Stamp (Upward Cut)] - Greatsword
+10253 [Stamp (Upward Cut)] - Colossal Sword
+10255 [Stamp (Upward Cut)] - Curved Greatsword
+10260 [Stamp (Upward Cut)] - Axe
+10261 [Stamp (Upward Cut)] - Greataxe
+10262 [Stamp (Upward Cut)] - Hammer
+10263 [Stamp (Upward Cut)] - Warhammer
+10264 [Stamp (Upward Cut)] - Flail
+10272 [Stamp (Upward Cut)] - Colossal Weapon
+10302 [Stamp (Sweep)] - Greatsword
+10303 [Stamp (Sweep)] - Colossal Sword
+10305 [Stamp (Sweep)] - Curved Greatsword
+10310 [Stamp (Sweep)] - Axe
+10311 [Stamp (Sweep)] - Greataxe
+10312 [Stamp (Sweep)] - Hammer
+10313 [Stamp (Sweep)] - Warhammer
+10314 [Stamp (Sweep)] - Flail
+10322 [Stamp (Sweep)] - Colossal Weapon
+10350 [Blood Tax] - Dagger
+10351 [Blood Tax] - Straight Sword
+10352 [Blood Tax] - Greatsword
+10356 [Blood Tax] - Katana
+10357 [Blood Tax] - Twinblade
+10358 [Blood Tax] - Thrusting Sword
+10359 [Blood Tax] - Heavy Thrusting Sword
+10365 [Blood Tax] - Spear
+10366 [Blood Tax] - Great Spear
+10367 [Blood Tax] - Halberd
+10400 [Repeating Thrust] - Dagger
+10401 [Repeating Thrust] - Straight Sword
+10402 [Repeating Thrust] - Greatsword
+10406 [Repeating Thrust] - Katana
+10407 [Repeating Thrust] - Twinblade
+10408 [Repeating Thrust] - Thrusting Sword
+10409 [Repeating Thrust] - Heavy Thrusting Sword
+10415 [Repeating Thrust] - Spear
+10416 [Repeating Thrust] - Great Spear
+10417 [Repeating Thrust] - Halberd
+10452 [Wild Strikes] - Greatsword
+10454 [Wild Strikes] - Curved Sword
+10455 [Wild Strikes] - Curved Greatsword
+10460 [Wild Strikes] - Axe
+10461 [Wild Strikes] - Greataxe
+10462 [Wild Strikes] - Hammer
+10463 [Wild Strikes] - Warhammer
+10464 [Wild Strikes] - Flail
+10468 [Wild Strikes] - Reaper
+10515 [Spinning Strikes] - Spear
+10517 [Spinning Strikes] - Halberd
+10518 [Spinning Strikes] - Reaper
+10550 [Double Slash] - Dagger
+10551 [Double Slash] - Straight Sword
+10552 [Double Slash] - Greatsword
+10554 [Double Slash] - Curved Sword
+10555 [Double Slash] - Curved Greatsword
+10556 [Double Slash] - Katana
+10557 [Double Slash] - Twinblade
+10567 [Double Slash] - Halberd
+10568 [Double Slash] - Reaper
+10611 [Prelate's Charge] - Greataxe
+10613 [Prelate's Charge] - Warhammer
+10622 [Prelate's Charge] - Colossal Weapon
+10656 [Unsheathe] - Katana
+10701 [Square Off] - Straight Sword
+10752 [Giant Hunt] - Greatsword
+10753 [Giant Hunt] - Colossal Sword
+10757 [Giant Hunt] - Twinblade
+10759 [Giant Hunt] - Heavy Thrusting Sword
+10765 [Giant Hunt] - Spear
+10766 [Giant Hunt] - Great Spear
+10767 [Giant Hunt] - Halberd
+10807 [Loretta's Slash] - Twinblade
+10815 [Loretta's Slash] - Spear
+10816 [Loretta's Slash] - Great Spear
+10817 [Loretta's Slash] - Halberd
+10818 [Loretta's Slash] - Reaper
+10850 [Poison Moth Flight] - Dagger
+10851 [Poison Moth Flight] - Straight Sword
+10854 [Poison Moth Flight] - Curved Sword
+10856 [Poison Moth Flight] - Katana
+10858 [Poison Moth Flight] - Thrusting Sword
+10900 [Spinning Weapon] - Dagger
+10901 [Spinning Weapon] - Straight Sword
+10904 [Spinning Weapon] - Curved Sword
+10906 [Spinning Weapon] - Katana
+10907 [Spinning Weapon] - Twinblade
+10908 [Spinning Weapon] - Thrusting Sword
+10910 [Spinning Weapon] - Axe
+10912 [Spinning Weapon] - Hammer
+10914 [Spinning Weapon] - Flail
+10915 [Spinning Weapon] - Spear
+10917 [Spinning Weapon] - Halberd
+10918 [Spinning Weapon] - Reaper
+10957 [Storm Assault] - Twinblade
+10959 [Storm Assault] - Heavy Thrusting Sword
+10965 [Storm Assault] - Spear
+10966 [Storm Assault] - Great Spear
+10967 [Storm Assault] - Halberd
+11001 [Stormcaller] - Straight Sword
+11002 [Stormcaller] - Greatsword
+11004 [Stormcaller] - Curved Sword
+11005 [Stormcaller] - Curved Greatsword
+11006 [Stormcaller] - Katana
+11007 [Stormcaller] - Twinblade
+11010 [Stormcaller] - Axe
+11011 [Stormcaller] - Greataxe
+11012 [Stormcaller] - Hammer
+11013 [Stormcaller] - Warhammer
+11014 [Stormcaller] - Flail
+11015 [Stormcaller] - Spear
+11016 [Stormcaller] - Great Spear
+11017 [Stormcaller] - Halberd
+11018 [Stormcaller] - Reaper
+11050 [Sword Dance] - Dagger
+11051 [Sword Dance] - Straight Sword
+11052 [Sword Dance] - Greatsword
+11054 [Sword Dance] - Curved Sword
+11055 [Sword Dance] - Curved Greatsword
+11056 [Sword Dance] - Katana
+11057 [Sword Dance] - Twinblade
+11060 [Sword Dance] - Axe
+11061 [Sword Dance] - Greataxe
+11067 [Sword Dance] - Halberd
+11068 [Sword Dance] - Reaper
+11100 [Glintblade Phalanx] - Dagger
+11101 [Glintblade Phalanx] - Straight Sword
+11102 [Glintblade Phalanx] - Greatsword
+11104 [Glintblade Phalanx] - Curved Sword
+11105 [Glintblade Phalanx] - Curved Greatsword
+11106 [Glintblade Phalanx] - Katana
+11107 [Glintblade Phalanx] - Twinblade
+11108 [Glintblade Phalanx] - Thrusting Sword
+11109 [Glintblade Phalanx] - Heavy Thrusting Sword
+11115 [Glintblade Phalanx] - Spear
+11116 [Glintblade Phalanx] - Great Spear
+11117 [Glintblade Phalanx] - Halberd
+11150 [Sacred Blade] - Dagger
+11151 [Sacred Blade] - Straight Sword
+11152 [Sacred Blade] - Greatsword
+11153 [Sacred Blade] - Colossal Sword
+11154 [Sacred Blade] - Curved Sword
+11155 [Sacred Blade] - Curved Greatsword
+11156 [Sacred Blade] - Katana
+11157 [Sacred Blade] - Twinblade
+11158 [Sacred Blade] - Thrusting Sword
+11159 [Sacred Blade] - Heavy Thrusting Sword
+11160 [Sacred Blade] - Axe
+11161 [Sacred Blade] - Greataxe
+11162 [Sacred Blade] - Hammer
+11163 [Sacred Blade] - Warhammer
+11164 [Sacred Blade] - Flail
+11165 [Sacred Blade] - Spear
+11166 [Sacred Blade] - Great Spear
+11167 [Sacred Blade] - Halberd
+11168 [Sacred Blade] - Reaper
+11169 [Sacred Blade] - Fist
+11170 [Sacred Blade] - Claw
+11172 [Sacred Blade] - Colossal Weapon
+11207 [Ice Spear] - Twinblade
+11215 [Ice Spear] - Spear
+11216 [Ice Spear] - Great Spear
+11217 [Ice Spear] - Halberd
+11250 [Glintstone Pebble] - Dagger
+11251 [Glintstone Pebble] - Straight Sword
+11252 [Glintstone Pebble] - Greatsword
+11254 [Glintstone Pebble] - Curved Sword
+11255 [Glintstone Pebble] - Curved Greatsword
+11256 [Glintstone Pebble] - Katana
+11257 [Glintstone Pebble] - Twinblade
+11258 [Glintstone Pebble] - Thrusting Sword
+11259 [Glintstone Pebble] - Heavy Thrusting Sword
+11265 [Glintstone Pebble] - Spear
+11266 [Glintstone Pebble] - Great Spear
+11267 [Glintstone Pebble] - Halberd
+11300 [Bloody Slash] - Dagger
+11301 [Bloody Slash] - Straight Sword
+11302 [Bloody Slash] - Greatsword
+11304 [Bloody Slash] - Curved Sword
+11305 [Bloody Slash] - Curved Greatsword
+11306 [Bloody Slash] - Katana
+11307 [Bloody Slash] - Twinblade
+11308 [Bloody Slash] - Thrusting Sword
+11309 [Bloody Slash] - Heavy Thrusting Sword
+11369 [Lifesteal Fist] - Fist
+11370 [Lifesteal Fist] - Claw
+11402 [Eruption] - Greatsword
+11403 [Eruption] - Colossal Sword
+11405 [Eruption] - Curved Greatsword
+11411 [Eruption] - Greataxe
+11413 [Eruption] - Warhammer
+11422 [Eruption] - Colossal Weapon
+11460 [Prayerful Strike] - Axe
+11461 [Prayerful Strike] - Greataxe
+11462 [Prayerful Strike] - Hammer
+11463 [Prayerful Strike] - Warhammer
+11464 [Prayerful Strike] - Flail
+11472 [Prayerful Strike] - Colossal Weapon
+11501 [Gravitas] - Straight Sword
+11502 [Gravitas] - Greatsword
+11503 [Gravitas] - Colossal Sword
+11504 [Gravitas] - Curved Sword
+11505 [Gravitas] - Curved Greatsword
+11506 [Gravitas] - Katana
+11507 [Gravitas] - Twinblade
+11508 [Gravitas] - Thrusting Sword
+11509 [Gravitas] - Heavy Thrusting Sword
+11510 [Gravitas] - Axe
+11511 [Gravitas] - Greataxe
+11512 [Gravitas] - Hammer
+11513 [Gravitas] - Warhammer
+11514 [Gravitas] - Flail
+11515 [Gravitas] - Spear
+11516 [Gravitas] - Great Spear
+11517 [Gravitas] - Halberd
+11518 [Gravitas] - Reaper
+11522 [Gravitas] - Colossal Weapon
+11550 [Storm Blade] - Dagger
+11551 [Storm Blade] - Straight Sword
+11552 [Storm Blade] - Greatsword
+11554 [Storm Blade] - Curved Sword
+11555 [Storm Blade] - Curved Greatsword
+11556 [Storm Blade] - Katana
+11558 [Storm Blade] - Thrusting Sword
+11603 [Earthshaker] - Colossal Sword
+11611 [Earthshaker] - Greataxe
+11613 [Earthshaker] - Warhammer
+11616 [Earthshaker] - Great Spear
+11622 [Earthshaker] - Colossal Weapon
+11653 [Golden Land] - Colossal Sword
+11661 [Golden Land] - Greataxe
+11663 [Golden Land] - Warhammer
+11666 [Golden Land] - Great Spear
+11672 [Golden Land] - Colossal Weapon
+11700 [Flaming Strike] - Dagger
+11701 [Flaming Strike] - Straight Sword
+11702 [Flaming Strike] - Greatsword
+11703 [Flaming Strike] - Colossal Sword
+11704 [Flaming Strike] - Curved Sword
+11705 [Flaming Strike] - Curved Greatsword
+11706 [Flaming Strike] - Katana
+11707 [Flaming Strike] - Twinblade
+11708 [Flaming Strike] - Thrusting Sword
+11709 [Flaming Strike] - Heavy Thrusting Sword
+11710 [Flaming Strike] - Axe
+11711 [Flaming Strike] - Greataxe
+11712 [Flaming Strike] - Hammer
+11713 [Flaming Strike] - Warhammer
+11714 [Flaming Strike] - Flail
+11715 [Flaming Strike] - Spear
+11716 [Flaming Strike] - Great Spear
+11717 [Flaming Strike] - Halberd
+11718 [Flaming Strike] - Reaper
+11719 [Flaming Strike] - Fist
+11720 [Flaming Strike] - Claw
+11722 [Flaming Strike] - Colossal Weapon
+11750 [Thunderbolt] - Dagger
+11751 [Thunderbolt] - Straight Sword
+11752 [Thunderbolt] - Greatsword
+11753 [Thunderbolt] - Colossal Sword
+11754 [Thunderbolt] - Curved Sword
+11755 [Thunderbolt] - Curved Greatsword
+11756 [Thunderbolt] - Katana
+11757 [Thunderbolt] - Twinblade
+11758 [Thunderbolt] - Thrusting Sword
+11759 [Thunderbolt] - Heavy Thrusting Sword
+11760 [Thunderbolt] - Axe
+11761 [Thunderbolt] - Greataxe
+11762 [Thunderbolt] - Hammer
+11763 [Thunderbolt] - Warhammer
+11764 [Thunderbolt] - Flail
+11765 [Thunderbolt] - Spear
+11766 [Thunderbolt] - Great Spear
+11767 [Thunderbolt] - Halberd
+11768 [Thunderbolt] - Reaper
+11769 [Thunderbolt] - Fist
+11770 [Thunderbolt] - Claw
+11771 [Thunderbolt] - Whip
+11772 [Thunderbolt] - Colossal Weapon
+11800 [Lightning Slash] - Dagger
+11801 [Lightning Slash] - Straight Sword
+11802 [Lightning Slash] - Greatsword
+11803 [Lightning Slash] - Colossal Sword
+11804 [Lightning Slash] - Curved Sword
+11805 [Lightning Slash] - Curved Greatsword
+11806 [Lightning Slash] - Katana
+11807 [Lightning Slash] - Twinblade
+11808 [Lightning Slash] - Thrusting Sword
+11809 [Lightning Slash] - Heavy Thrusting Sword
+11810 [Lightning Slash] - Axe
+11811 [Lightning Slash] - Greataxe
+11812 [Lightning Slash] - Hammer
+11813 [Lightning Slash] - Warhammer
+11814 [Lightning Slash] - Flail
+11822 [Lightning Slash] - Colossal Weapon
+11850 [Carian Grandeur] - Dagger
+11851 [Carian Grandeur] - Straight Sword
+11852 [Carian Grandeur] - Greatsword
+11854 [Carian Grandeur] - Curved Sword
+11855 [Carian Grandeur] - Curved Greatsword
+11856 [Carian Grandeur] - Katana
+11857 [Carian Grandeur] - Twinblade
+11858 [Carian Grandeur] - Thrusting Sword
+11859 [Carian Grandeur] - Heavy Thrusting Sword
+11900 [Carian Colossal Sword] - Dagger
+11901 [Carian Colossal Sword] - Straight Sword
+11902 [Carian Colossal Sword] - Greatsword
+11904 [Carian Colossal Sword] - Curved Sword
+11905 [Carian Colossal Sword] - Curved Greatsword
+11906 [Carian Colossal Sword] - Katana
+11907 [Carian Colossal Sword] - Twinblade
+11908 [Carian Colossal Sword] - Thrusting Sword
+11909 [Carian Colossal Sword] - Heavy Thrusting Sword
+11950 [Vacuum Slice] - Dagger
+11951 [Vacuum Slice] - Straight Sword
+11952 [Vacuum Slice] - Greatsword
+11953 [Vacuum Slice] - Colossal Sword
+11954 [Vacuum Slice] - Curved Sword
+11955 [Vacuum Slice] - Curved Greatsword
+11956 [Vacuum Slice] - Katana
+11957 [Vacuum Slice] - Twinblade
+11958 [Vacuum Slice] - Thrusting Sword
+11959 [Vacuum Slice] - Heavy Thrusting Sword
+11960 [Vacuum Slice] - Axe
+11961 [Vacuum Slice] - Greataxe
+12007 [Black Flame Tornado] - Twinblade
+12015 [Black Flame Tornado] - Spear
+12016 [Black Flame Tornado] - Great Spear
+12017 [Black Flame Tornado] - Halberd
+12018 [Black Flame Tornado] - Reaper
+12065 [Sacred Ring of Light] - Spear
+12067 [Sacred Ring of Light] - Halberd
+12068 [Sacred Ring of Light] - Reaper
+12100 [Blood Blade] - Dagger
+12101 [Blood Blade] - Straight Sword
+12104 [Blood Blade] - Curved Sword
+12106 [Blood Blade] - Katana
+12107 [Blood Blade] - Twinblade
+12108 [Blood Blade] - Thrusting Sword
+12157 [Phantom Slash] - Twinblade
+12165 [Phantom Slash] - Spear
+12167 [Phantom Slash] - Halberd
+12168 [Phantom Slash] - Reaper
+12215 [Spectral Great Spear] - Spear
+12216 [Spectral Great Spear] - Great Spear
+12217 [Spectral Great Spear] - Halberd
+12250 [Chilling Mist] - Dagger
+12251 [Chilling Mist] - Straight Sword
+12252 [Chilling Mist] - Greatsword
+12253 [Chilling Mist] - Colossal Sword
+12254 [Chilling Mist] - Curved Sword
+12255 [Chilling Mist] - Curved Greatsword
+12256 [Chilling Mist] - Katana
+12257 [Chilling Mist] - Twinblade
+12258 [Chilling Mist] - Thrusting Sword
+12259 [Chilling Mist] - Heavy Thrusting Sword
+12260 [Chilling Mist] - Axe
+12261 [Chilling Mist] - Greataxe
+12262 [Chilling Mist] - Hammer
+12263 [Chilling Mist] - Warhammer
+12264 [Chilling Mist] - Flail
+12265 [Chilling Mist] - Spear
+12266 [Chilling Mist] - Great Spear
+12267 [Chilling Mist] - Halberd
+12268 [Chilling Mist] - Reaper
+12269 [Chilling Mist] - Fist
+12270 [Chilling Mist] - Claw
+12272 [Chilling Mist] - Colossal Weapon
+12300 [Poisonous Mist] - Dagger
+12301 [Poisonous Mist] - Straight Sword
+12302 [Poisonous Mist] - Greatsword
+12303 [Poisonous Mist] - Colossal Sword
+12304 [Poisonous Mist] - Curved Sword
+12305 [Poisonous Mist] - Curved Greatsword
+12306 [Poisonous Mist] - Katana
+12307 [Poisonous Mist] - Twinblade
+12308 [Poisonous Mist] - Thrusting Sword
+12309 [Poisonous Mist] - Heavy Thrusting Sword
+12310 [Poisonous Mist] - Axe
+12311 [Poisonous Mist] - Greataxe
+12312 [Poisonous Mist] - Hammer
+12313 [Poisonous Mist] - Warhammer
+12314 [Poisonous Mist] - Flail
+12315 [Poisonous Mist] - Spear
+12316 [Poisonous Mist] - Great Spear
+12317 [Poisonous Mist] - Halberd
+12318 [Poisonous Mist] - Reaper
+12319 [Poisonous Mist] - Fist
+12320 [Poisonous Mist] - Claw
+12322 [Poisonous Mist] - Colossal Weapon
+12378 [Shield Bash] - Small Shield
+12379 [Shield Bash] - Medium Shield
+12380 [Shield Bash] - Greatshield
+12428 [Barricade Shield] - Small Shield
+12429 [Barricade Shield] - Medium Shield
+12430 [Barricade Shield] - Greatshield
+12450 [Parry] - Dagger
+12454 [Parry] - Curved Sword
+12458 [Parry] - Thrusting Sword
+12469 [Poisonous Mist] - Fist
+12470 [Poisonous Mist] - Claw
+12478 [Parry] - Small Shield
+12479 [Parry] - Medium Shield
+12528 [Carian Retaliation] - Small Shield
+12529 [Carian Retaliation] - Medium Shield
+12578 [Storm Wall] - Small Shield
+12579 [Storm Wall] - Medium Shield
+12628 [Golden Parry] - Small Shield
+12629 [Golden Parry] - Medium Shield
+12678 [Shield Crash] - Small Shield
+12679 [Shield Crash] - Medium Shield
+12680 [Shield Crash] - Greatshield
+12728 [No Skill] - Small Shield
+12729 [No Skill] - Medium Shield
+12730 [No Skill] - Greatshield
+12731 [No Skill] - Torch
+12778 [Thops's Barrier] - Small Shield
+12779 [Thops's Barrier] - Medium Shield
+12825 [Through and Through] - Greatbow
+12873 [Barrage] - Light Bow
+12874 [Barrage] - Bow
+12923 [Mighty Shot] - Light Bow
+12924 [Mighty Shot] - Bow
+12973 [Enchanted Shot] - Light Bow
+12974 [Enchanted Shot] - Bow
+13023 [Sky Shot] - Light Bow
+13024 [Sky Shot] - Bow
+13073 [Rain of Arrows] - Light Bow
+13074 [Rain of Arrows] - Bow
+13075 [Rain of Arrows] - Greatbow
+13100 [Hoarfrost Stomp] - Dagger
+13101 [Hoarfrost Stomp] - Straight Sword
+13102 [Hoarfrost Stomp] - Greatsword
+13103 [Hoarfrost Stomp] - Colossal Sword
+13104 [Hoarfrost Stomp] - Curved Sword
+13105 [Hoarfrost Stomp] - Curved Greatsword
+13106 [Hoarfrost Stomp] - Katana
+13107 [Hoarfrost Stomp] - Twinblade
+13108 [Hoarfrost Stomp] - Thrusting Sword
+13109 [Hoarfrost Stomp] - Heavy Thrusting Sword
+13110 [Hoarfrost Stomp] - Axe
+13111 [Hoarfrost Stomp] - Greataxe
+13112 [Hoarfrost Stomp] - Hammer
+13113 [Hoarfrost Stomp] - Warhammer
+13114 [Hoarfrost Stomp] - Flail
+13115 [Hoarfrost Stomp] - Spear
+13116 [Hoarfrost Stomp] - Great Spear
+13117 [Hoarfrost Stomp] - Halberd
+13118 [Hoarfrost Stomp] - Reaper
+13119 [Hoarfrost Stomp] - Fist
+13120 [Hoarfrost Stomp] - Claw
+13121 [Hoarfrost Stomp] - Whip
+13122 [Hoarfrost Stomp] - Colossal Weapon
+13150 [Storm Stomp] - Dagger
+13151 [Storm Stomp] - Straight Sword
+13152 [Storm Stomp] - Greatsword
+13153 [Storm Stomp] - Colossal Sword
+13154 [Storm Stomp] - Curved Sword
+13155 [Storm Stomp] - Curved Greatsword
+13156 [Storm Stomp] - Katana
+13157 [Storm Stomp] - Twinblade
+13158 [Storm Stomp] - Thrusting Sword
+13159 [Storm Stomp] - Heavy Thrusting Sword
+13160 [Storm Stomp] - Axe
+13161 [Storm Stomp] - Greataxe
+13162 [Storm Stomp] - Hammer
+13163 [Storm Stomp] - Warhammer
+13164 [Storm Stomp] - Flail
+13165 [Storm Stomp] - Spear
+13166 [Storm Stomp] - Great Spear
+13167 [Storm Stomp] - Halberd
+13168 [Storm Stomp] - Reaper
+13169 [Storm Stomp] - Fist
+13170 [Storm Stomp] - Claw
+13171 [Storm Stomp] - Whip
+13172 [Storm Stomp] - Colossal Weapon
+13200 [Kick] - Dagger
+13201 [Kick] - Straight Sword
+13202 [Kick] - Greatsword
+13203 [Kick] - Colossal Sword
+13204 [Kick] - Curved Sword
+13205 [Kick] - Curved Greatsword
+13206 [Kick] - Katana
+13207 [Kick] - Twinblade
+13208 [Kick] - Thrusting Sword
+13209 [Kick] - Heavy Thrusting Sword
+13210 [Kick] - Axe
+13211 [Kick] - Greataxe
+13212 [Kick] - Hammer
+13213 [Kick] - Warhammer
+13214 [Kick] - Flail
+13215 [Kick] - Spear
+13216 [Kick] - Great Spear
+13217 [Kick] - Halberd
+13218 [Kick] - Reaper
+13219 [Kick] - Fist
+13220 [Kick] - Claw
+13221 [Kick] - Whip
+13222 [Kick] - Colossal Weapon
+13250 [Lightning Ram] - Dagger
+13251 [Lightning Ram] - Straight Sword
+13252 [Lightning Ram] - Greatsword
+13253 [Lightning Ram] - Colossal Sword
+13254 [Lightning Ram] - Curved Sword
+13255 [Lightning Ram] - Curved Greatsword
+13256 [Lightning Ram] - Katana
+13257 [Lightning Ram] - Twinblade
+13258 [Lightning Ram] - Thrusting Sword
+13259 [Lightning Ram] - Heavy Thrusting Sword
+13260 [Lightning Ram] - Axe
+13261 [Lightning Ram] - Greataxe
+13262 [Lightning Ram] - Hammer
+13263 [Lightning Ram] - Warhammer
+13264 [Lightning Ram] - Flail
+13265 [Lightning Ram] - Spear
+13266 [Lightning Ram] - Great Spear
+13267 [Lightning Ram] - Halberd
+13268 [Lightning Ram] - Reaper
+13269 [Lightning Ram] - Fist
+13270 [Lightning Ram] - Claw
+13271 [Lightning Ram] - Whip
+13272 [Lightning Ram] - Colossal Weapon
+13300 [Flame of the Redmanes] - Dagger
+13301 [Flame of the Redmanes] - Straight Sword
+13302 [Flame of the Redmanes] - Greatsword
+13303 [Flame of the Redmanes] - Colossal Sword
+13304 [Flame of the Redmanes] - Curved Sword
+13305 [Flame of the Redmanes] - Curved Greatsword
+13306 [Flame of the Redmanes] - Katana
+13307 [Flame of the Redmanes] - Twinblade
+13308 [Flame of the Redmanes] - Thrusting Sword
+13309 [Flame of the Redmanes] - Heavy Thrusting Sword
+13310 [Flame of the Redmanes] - Axe
+13311 [Flame of the Redmanes] - Greataxe
+13312 [Flame of the Redmanes] - Hammer
+13313 [Flame of the Redmanes] - Warhammer
+13314 [Flame of the Redmanes] - Flail
+13315 [Flame of the Redmanes] - Spear
+13316 [Flame of the Redmanes] - Great Spear
+13317 [Flame of the Redmanes] - Halberd
+13318 [Flame of the Redmanes] - Reaper
+13319 [Flame of the Redmanes] - Fist
+13320 [Flame of the Redmanes] - Claw
+13321 [Flame of the Redmanes] - Whip
+13322 [Flame of the Redmanes] - Colossal Weapon
+13350 [Ground Slam] - Dagger
+13351 [Ground Slam] - Straight Sword
+13352 [Ground Slam] - Greatsword
+13353 [Ground Slam] - Colossal Sword
+13354 [Ground Slam] - Curved Sword
+13355 [Ground Slam] - Curved Greatsword
+13356 [Ground Slam] - Katana
+13357 [Ground Slam] - Twinblade
+13358 [Ground Slam] - Thrusting Sword
+13359 [Ground Slam] - Heavy Thrusting Sword
+13360 [Ground Slam] - Axe
+13361 [Ground Slam] - Greataxe
+13362 [Ground Slam] - Hammer
+13363 [Ground Slam] - Warhammer
+13364 [Ground Slam] - Flail
+13365 [Ground Slam] - Spear
+13366 [Ground Slam] - Great Spear
+13367 [Ground Slam] - Halberd
+13368 [Ground Slam] - Reaper
+13369 [Ground Slam] - Fist
+13370 [Ground Slam] - Claw
+13371 [Ground Slam] - Whip
+13372 [Ground Slam] - Colossal Weapon
+13400 [Golden Slam] - Dagger
+13401 [Golden Slam] - Straight Sword
+13402 [Golden Slam] - Greatsword
+13403 [Golden Slam] - Colossal Sword
+13404 [Golden Slam] - Curved Sword
+13405 [Golden Slam] - Curved Greatsword
+13406 [Golden Slam] - Katana
+13407 [Golden Slam] - Twinblade
+13408 [Golden Slam] - Thrusting Sword
+13409 [Golden Slam] - Heavy Thrusting Sword
+13410 [Golden Slam] - Axe
+13411 [Golden Slam] - Greataxe
+13412 [Golden Slam] - Hammer
+13413 [Golden Slam] - Warhammer
+13414 [Golden Slam] - Flail
+13415 [Golden Slam] - Spear
+13416 [Golden Slam] - Great Spear
+13417 [Golden Slam] - Halberd
+13418 [Golden Slam] - Reaper
+13419 [Golden Slam] - Fist
+13420 [Golden Slam] - Claw
+13421 [Golden Slam] - Whip
+13422 [Golden Slam] - Colossal Weapon
+13453 [Waves of Darkness] - Colossal Sword
+13461 [Waves of Darkness] - Greataxe
+13463 [Waves of Darkness] - Warhammer
+13466 [Waves of Darkness] - Great Spear
+13472 [Waves of Darkness] - Colossal Weapon
+13500 [Hoarah Loux's Earthshaker] - Dagger
+13501 [Hoarah Loux's Earthshaker] - Straight Sword
+13502 [Hoarah Loux's Earthshaker] - Greatsword
+13503 [Hoarah Loux's Earthshaker] - Colossal Sword
+13504 [Hoarah Loux's Earthshaker] - Curved Sword
+13505 [Hoarah Loux's Earthshaker] - Curved Greatsword
+13506 [Hoarah Loux's Earthshaker] - Katana
+13507 [Hoarah Loux's Earthshaker] - Twinblade
+13508 [Hoarah Loux's Earthshaker] - Thrusting Sword
+13509 [Hoarah Loux's Earthshaker] - Heavy Thrusting Sword
+13510 [Hoarah Loux's Earthshaker] - Axe
+13511 [Hoarah Loux's Earthshaker] - Greataxe
+13512 [Hoarah Loux's Earthshaker] - Hammer
+13513 [Hoarah Loux's Earthshaker] - Warhammer
+13514 [Hoarah Loux's Earthshaker] - Flail
+13515 [Hoarah Loux's Earthshaker] - Spear
+13516 [Hoarah Loux's Earthshaker] - Great Spear
+13517 [Hoarah Loux's Earthshaker] - Halberd
+13518 [Hoarah Loux's Earthshaker] - Reaper
+13519 [Hoarah Loux's Earthshaker] - Fist
+13520 [Hoarah Loux's Earthshaker] - Claw
+13521 [Hoarah Loux's Earthshaker] - Whip
+13522 [Hoarah Loux's Earthshaker] - Colossal Weapon
+13550 [Determination] - Dagger
+13551 [Determination] - Straight Sword
+13552 [Determination] - Greatsword
+13553 [Determination] - Colossal Sword
+13554 [Determination] - Curved Sword
+13555 [Determination] - Curved Greatsword
+13556 [Determination] - Katana
+13557 [Determination] - Twinblade
+13558 [Determination] - Thrusting Sword
+13559 [Determination] - Heavy Thrusting Sword
+13560 [Determination] - Axe
+13561 [Determination] - Greataxe
+13562 [Determination] - Hammer
+13563 [Determination] - Warhammer
+13564 [Determination] - Flail
+13565 [Determination] - Spear
+13566 [Determination] - Great Spear
+13567 [Determination] - Halberd
+13568 [Determination] - Reaper
+13569 [Determination] - Fist
+13570 [Determination] - Claw
+13571 [Determination] - Whip
+13572 [Determination] - Colossal Weapon
+13600 [Royal Knight's Resolve] - Dagger
+13601 [Royal Knight's Resolve] - Straight Sword
+13602 [Royal Knight's Resolve] - Greatsword
+13603 [Royal Knight's Resolve] - Colossal Sword
+13604 [Royal Knight's Resolve] - Curved Sword
+13605 [Royal Knight's Resolve] - Curved Greatsword
+13606 [Royal Knight's Resolve] - Katana
+13607 [Royal Knight's Resolve] - Twinblade
+13608 [Royal Knight's Resolve] - Thrusting Sword
+13609 [Royal Knight's Resolve] - Heavy Thrusting Sword
+13610 [Royal Knight's Resolve] - Axe
+13611 [Royal Knight's Resolve] - Greataxe
+13612 [Royal Knight's Resolve] - Hammer
+13613 [Royal Knight's Resolve] - Warhammer
+13614 [Royal Knight's Resolve] - Flail
+13615 [Royal Knight's Resolve] - Spear
+13616 [Royal Knight's Resolve] - Great Spear
+13617 [Royal Knight's Resolve] - Halberd
+13618 [Royal Knight's Resolve] - Reaper
+13619 [Royal Knight's Resolve] - Fist
+13620 [Royal Knight's Resolve] - Claw
+13621 [Royal Knight's Resolve] - Whip
+13622 [Royal Knight's Resolve] - Colossal Weapon
+13650 [Assassin's Gambit] - Dagger
+13651 [Assassin's Gambit] - Straight Sword
+13656 [Assassin's Gambit] - Katana
+13657 [Assassin's Gambit] - Twinblade
+13658 [Assassin's Gambit] - Thrusting Sword
+13700 [Golden Vow] - Dagger
+13701 [Golden Vow] - Straight Sword
+13702 [Golden Vow] - Greatsword
+13703 [Golden Vow] - Colossal Sword
+13704 [Golden Vow] - Curved Sword
+13705 [Golden Vow] - Curved Greatsword
+13706 [Golden Vow] - Katana
+13707 [Golden Vow] - Twinblade
+13708 [Golden Vow] - Thrusting Sword
+13709 [Golden Vow] - Heavy Thrusting Sword
+13710 [Golden Vow] - Axe
+13711 [Golden Vow] - Greataxe
+13712 [Golden Vow] - Hammer
+13713 [Golden Vow] - Warhammer
+13714 [Golden Vow] - Flail
+13715 [Golden Vow] - Spear
+13716 [Golden Vow] - Great Spear
+13717 [Golden Vow] - Halberd
+13718 [Golden Vow] - Reaper
+13719 [Golden Vow] - Fist
+13720 [Golden Vow] - Claw
+13721 [Golden Vow] - Whip
+13722 [Golden Vow] - Colossal Weapon
+13750 [Sacred Order] - Dagger
+13751 [Sacred Order] - Straight Sword
+13752 [Sacred Order] - Greatsword
+13753 [Sacred Order] - Colossal Sword
+13754 [Sacred Order] - Curved Sword
+13755 [Sacred Order] - Curved Greatsword
+13756 [Sacred Order] - Katana
+13757 [Sacred Order] - Twinblade
+13758 [Sacred Order] - Thrusting Sword
+13759 [Sacred Order] - Heavy Thrusting Sword
+13760 [Sacred Order] - Axe
+13761 [Sacred Order] - Greataxe
+13762 [Sacred Order] - Hammer
+13763 [Sacred Order] - Warhammer
+13764 [Sacred Order] - Flail
+13765 [Sacred Order] - Spear
+13766 [Sacred Order] - Great Spear
+13767 [Sacred Order] - Halberd
+13768 [Sacred Order] - Reaper
+13769 [Sacred Order] - Fist
+13770 [Sacred Order] - Claw
+13771 [Sacred Order] - Whip
+13772 [Sacred Order] - Colossal Weapon
+13800 [Shared Order] - Dagger
+13801 [Shared Order] - Straight Sword
+13802 [Shared Order] - Greatsword
+13803 [Shared Order] - Colossal Sword
+13804 [Shared Order] - Curved Sword
+13805 [Shared Order] - Curved Greatsword
+13806 [Shared Order] - Katana
+13807 [Shared Order] - Twinblade
+13808 [Shared Order] - Thrusting Sword
+13809 [Shared Order] - Heavy Thrusting Sword
+13810 [Shared Order] - Axe
+13811 [Shared Order] - Greataxe
+13812 [Shared Order] - Hammer
+13813 [Shared Order] - Warhammer
+13814 [Shared Order] - Flail
+13815 [Shared Order] - Spear
+13816 [Shared Order] - Great Spear
+13817 [Shared Order] - Halberd
+13818 [Shared Order] - Reaper
+13819 [Shared Order] - Fist
+13820 [Shared Order] - Claw
+13821 [Shared Order] - Whip
+13822 [Shared Order] - Colossal Weapon
+13850 [Seppuku] - Dagger
+13851 [Seppuku] - Straight Sword
+13852 [Seppuku] - Greatsword
+13854 [Seppuku] - Curved Sword
+13855 [Seppuku] - Curved Greatsword
+13856 [Seppuku] - Katana
+13857 [Seppuku] - Twinblade
+13858 [Seppuku] - Thrusting Sword
+13859 [Seppuku] - Heavy Thrusting Sword
+13865 [Seppuku] - Spear
+13866 [Seppuku] - Great Spear
+13867 [Seppuku] - Halberd
+13900 [Cragblade] - Dagger
+13901 [Cragblade] - Straight Sword
+13902 [Cragblade] - Greatsword
+13903 [Cragblade] - Colossal Sword
+13904 [Cragblade] - Curved Sword
+13905 [Cragblade] - Curved Greatsword
+13906 [Cragblade] - Katana
+13907 [Cragblade] - Twinblade
+13908 [Cragblade] - Thrusting Sword
+13909 [Cragblade] - Heavy Thrusting Sword
+13910 [Cragblade] - Axe
+13911 [Cragblade] - Greataxe
+13912 [Cragblade] - Hammer
+13913 [Cragblade] - Warhammer
+13914 [Cragblade] - Flail
+13915 [Cragblade] - Spear
+13916 [Cragblade] - Great Spear
+13917 [Cragblade] - Halberd
+13918 [Cragblade] - Reaper
+13919 [Cragblade] - Fist
+13920 [Cragblade] - Claw
+13922 [Cragblade] - Colossal Weapon
+13951 [Barbaric Roar] - Straight Sword
+13952 [Barbaric Roar] - Greatsword
+13953 [Barbaric Roar] - Colossal Sword
+13954 [Barbaric Roar] - Curved Sword
+13955 [Barbaric Roar] - Curved Greatsword
+13956 [Barbaric Roar] - Katana
+13957 [Barbaric Roar] - Twinblade
+13960 [Barbaric Roar] - Axe
+13961 [Barbaric Roar] - Greataxe
+13962 [Barbaric Roar] - Hammer
+13963 [Barbaric Roar] - Warhammer
+13964 [Barbaric Roar] - Flail
+13965 [Barbaric Roar] - Spear
+13966 [Barbaric Roar] - Great Spear
+13967 [Barbaric Roar] - Halberd
+13968 [Barbaric Roar] - Reaper
+13969 [Barbaric Roar] - Fist
+13970 [Barbaric Roar] - Claw
+13972 [Barbaric Roar] - Colossal Weapon
+14001 [War Cry] - Straight Sword
+14002 [War Cry] - Greatsword
+14003 [War Cry] - Colossal Sword
+14004 [War Cry] - Curved Sword
+14005 [War Cry] - Curved Greatsword
+14006 [War Cry] - Katana
+14007 [War Cry] - Twinblade
+14010 [War Cry] - Axe
+14011 [War Cry] - Greataxe
+14012 [War Cry] - Hammer
+14013 [War Cry] - Warhammer
+14014 [War Cry] - Flail
+14015 [War Cry] - Spear
+14016 [War Cry] - Great Spear
+14017 [War Cry] - Halberd
+14018 [War Cry] - Reaper
+14019 [War Cry] - Fist
+14020 [War Cry] - Claw
+14022 [War Cry] - Colossal Weapon
+14050 [Beast's Roar] - Dagger
+14051 [Beast's Roar] - Straight Sword
+14052 [Beast's Roar] - Greatsword
+14053 [Beast's Roar] - Colossal Sword
+14054 [Beast's Roar] - Curved Sword
+14055 [Beast's Roar] - Curved Greatsword
+14056 [Beast's Roar] - Katana
+14057 [Beast's Roar] - Twinblade
+14058 [Beast's Roar] - Thrusting Sword
+14059 [Beast's Roar] - Heavy Thrusting Sword
+14060 [Beast's Roar] - Axe
+14061 [Beast's Roar] - Greataxe
+14062 [Beast's Roar] - Hammer
+14063 [Beast's Roar] - Warhammer
+14064 [Beast's Roar] - Flail
+14065 [Beast's Roar] - Spear
+14066 [Beast's Roar] - Great Spear
+14067 [Beast's Roar] - Halberd
+14068 [Beast's Roar] - Reaper
+14069 [Beast's Roar] - Fist
+14070 [Beast's Roar] - Claw
+14071 [Beast's Roar] - Whip
+14072 [Beast's Roar] - Colossal Weapon
+14102 [Troll's Roar] - Greatsword
+14103 [Troll's Roar] - Colossal Sword
+14105 [Troll's Roar] - Curved Greatsword
+14111 [Troll's Roar] - Greataxe
+14113 [Troll's Roar] - Warhammer
+14122 [Troll's Roar] - Colossal Weapon
+14151 [Braggart's Roar] - Straight Sword
+14152 [Braggart's Roar] - Greatsword
+14153 [Braggart's Roar] - Colossal Sword
+14154 [Braggart's Roar] - Curved Sword
+14155 [Braggart's Roar] - Curved Greatsword
+14156 [Braggart's Roar] - Katana
+14157 [Braggart's Roar] - Twinblade
+14160 [Braggart's Roar] - Axe
+14161 [Braggart's Roar] - Greataxe
+14162 [Braggart's Roar] - Hammer
+14163 [Braggart's Roar] - Warhammer
+14164 [Braggart's Roar] - Flail
+14165 [Braggart's Roar] - Spear
+14166 [Braggart's Roar] - Great Spear
+14167 [Braggart's Roar] - Halberd
+14168 [Braggart's Roar] - Reaper
+14169 [Braggart's Roar] - Fist
+14170 [Braggart's Roar] - Claw
+14172 [Braggart's Roar] - Colossal Weapon
+14200 [Endure] - Dagger
+14201 [Endure] - Straight Sword
+14202 [Endure] - Greatsword
+14203 [Endure] - Colossal Sword
+14204 [Endure] - Curved Sword
+14205 [Endure] - Curved Greatsword
+14206 [Endure] - Katana
+14207 [Endure] - Twinblade
+14208 [Endure] - Thrusting Sword
+14209 [Endure] - Heavy Thrusting Sword
+14210 [Endure] - Axe
+14211 [Endure] - Greataxe
+14212 [Endure] - Hammer
+14213 [Endure] - Warhammer
+14214 [Endure] - Flail
+14215 [Endure] - Spear
+14216 [Endure] - Great Spear
+14217 [Endure] - Halberd
+14218 [Endure] - Reaper
+14219 [Endure] - Fist
+14220 [Endure] - Claw
+14221 [Endure] - Whip
+14222 [Endure] - Colossal Weapon
+14278 [Vow of the Indomitable] - Small Shield
+14279 [Vow of the Indomitable] - Medium Shield
+14280 [Vow of the Indomitable] - Greatshield
+14328 [Holy Ground] - Small Shield
+14329 [Holy Ground] - Medium Shield
+14330 [Holy Ground] - Greatshield
+14350 [Quickstep] - Dagger
+14351 [Quickstep] - Straight Sword
+14352 [Quickstep] - Greatsword
+14353 [Quickstep] - Colossal Sword
+14354 [Quickstep] - Curved Sword
+14355 [Quickstep] - Curved Greatsword
+14356 [Quickstep] - Katana
+14357 [Quickstep] - Twinblade
+14358 [Quickstep] - Thrusting Sword
+14359 [Quickstep] - Heavy Thrusting Sword
+14360 [Quickstep] - Axe
+14361 [Quickstep] - Greataxe
+14362 [Quickstep] - Hammer
+14363 [Quickstep] - Warhammer
+14364 [Quickstep] - Flail
+14365 [Quickstep] - Spear
+14366 [Quickstep] - Great Spear
+14367 [Quickstep] - Halberd
+14368 [Quickstep] - Reaper
+14369 [Quickstep] - Fist
+14370 [Quickstep] - Claw
+14371 [Quickstep] - Whip
+14372 [Quickstep] - Colossal Weapon
+14400 [Bloodhound's Step] - Dagger
+14401 [Bloodhound's Step] - Straight Sword
+14402 [Bloodhound's Step] - Greatsword
+14403 [Bloodhound's Step] - Colossal Sword
+14404 [Bloodhound's Step] - Curved Sword
+14405 [Bloodhound's Step] - Curved Greatsword
+14406 [Bloodhound's Step] - Katana
+14407 [Bloodhound's Step] - Twinblade
+14408 [Bloodhound's Step] - Thrusting Sword
+14409 [Bloodhound's Step] - Heavy Thrusting Sword
+14410 [Bloodhound's Step] - Axe
+14411 [Bloodhound's Step] - Greataxe
+14412 [Bloodhound's Step] - Hammer
+14413 [Bloodhound's Step] - Warhammer
+14414 [Bloodhound's Step] - Flail
+14415 [Bloodhound's Step] - Spear
+14416 [Bloodhound's Step] - Great Spear
+14417 [Bloodhound's Step] - Halberd
+14418 [Bloodhound's Step] - Reaper
+14419 [Bloodhound's Step] - Fist
+14420 [Bloodhound's Step] - Claw
+14421 [Bloodhound's Step] - Whip
+14422 [Bloodhound's Step] - Colossal Weapon
+14450 [Raptor of the Mists] - Dagger
+14451 [Raptor of the Mists] - Straight Sword
+14452 [Raptor of the Mists] - Greatsword
+14453 [Raptor of the Mists] - Colossal Sword
+14454 [Raptor of the Mists] - Curved Sword
+14455 [Raptor of the Mists] - Curved Greatsword
+14456 [Raptor of the Mists] - Katana
+14457 [Raptor of the Mists] - Twinblade
+14458 [Raptor of the Mists] - Thrusting Sword
+14459 [Raptor of the Mists] - Heavy Thrusting Sword
+14460 [Raptor of the Mists] - Axe
+14461 [Raptor of the Mists] - Greataxe
+14462 [Raptor of the Mists] - Hammer
+14463 [Raptor of the Mists] - Warhammer
+14464 [Raptor of the Mists] - Flail
+14465 [Raptor of the Mists] - Spear
+14466 [Raptor of the Mists] - Great Spear
+14467 [Raptor of the Mists] - Halberd
+14468 [Raptor of the Mists] - Reaper
+14469 [Raptor of the Mists] - Fist
+14470 [Raptor of the Mists] - Claw
+14471 [Raptor of the Mists] - Whip
+14472 [Raptor of the Mists] - Colossal Weapon
+14500 [White Shadow's Lure] - Dagger
+14501 [White Shadow's Lure] - Straight Sword
+14502 [White Shadow's Lure] - Greatsword
+14503 [White Shadow's Lure] - Colossal Sword
+14504 [White Shadow's Lure] - Curved Sword
+14505 [White Shadow's Lure] - Curved Greatsword
+14506 [White Shadow's Lure] - Katana
+14507 [White Shadow's Lure] - Twinblade
+14508 [White Shadow's Lure] - Thrusting Sword
+14509 [White Shadow's Lure] - Heavy Thrusting Sword
+14510 [White Shadow's Lure] - Axe
+14511 [White Shadow's Lure] - Greataxe
+14512 [White Shadow's Lure] - Hammer
+14513 [White Shadow's Lure] - Warhammer
+14514 [White Shadow's Lure] - Flail
+14515 [White Shadow's Lure] - Spear
+14516 [White Shadow's Lure] - Great Spear
+14517 [White Shadow's Lure] - Halberd
+14518 [White Shadow's Lure] - Reaper
+14519 [White Shadow's Lure] - Fist
+14520 [White Shadow's Lure] - Claw
+14521 [White Shadow's Lure] - Whip
+14522 [White Shadow's Lure] - Colossal Weapon

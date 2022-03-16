@@ -49,12 +49,35 @@ namespace StudioCore.ParamEditor
             _ParamMetas.Add(key, meta);
         }
 
-        private ParamMetaData(PARAMDEF def)
+        private ParamMetaData(PARAMDEF def, string path)
         {
             Add(def, this);
             foreach (PARAMDEF.Field f in def.Fields)
                 new FieldMetaData(this, f);
             // Blank Metadata
+            try
+            {
+                XmlDocument xml = new XmlDocument();
+
+                XmlNode root = xml.CreateElement("PARAMMETA");
+
+                XmlAttribute xmlV = xml.CreateAttribute("XmlVersion");
+                root.Attributes.Append(xmlV);
+                xmlV.Value = ""+XML_VERSION;
+
+                XmlNode self = xml.CreateElement("Self");
+                root.AppendChild(self);
+
+                XmlNode field = xml.CreateElement("Field");
+                root.AppendChild(field);
+
+                _xml = xml;
+                _path = path;
+            }
+            catch
+            {
+
+            }
         }
 
         private ParamMetaData(XmlDocument xml, string path, PARAMDEF def)
@@ -227,7 +250,7 @@ namespace StudioCore.ParamEditor
         {
             if (!File.Exists(path))
             {
-                return new ParamMetaData(def);
+                return new ParamMetaData(def, path);
             }
             var mxml = new XmlDocument();
             try
@@ -237,7 +260,7 @@ namespace StudioCore.ParamEditor
             }
             catch
             {
-                return new ParamMetaData(def);
+                return new ParamMetaData(def, path);
             }
         }
 

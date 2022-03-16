@@ -235,14 +235,14 @@
 510100 Queen's Robe
 510200 Queen's Bracelets
 510300 Queen's Leggings
-520000 Godskin Apostle Hood
-520100 Godskin Apostle Robe
-520200 Godskin Apostle Bracelets
-520300 Godskin Apostle Trousers
-530000 Godskin Noble Hood
-530100 Godskin Noble Robe
-530200 Godskin Noble Bracelets
-530300 Godskin Noble Trousers
+520000 Sanguine Noble Hood
+520100 Sanguine Noble Robe
+520200 Sanguine Noble Bracelets
+520300 Sanguine Noble Trousers
+530000 Godskin Apostle Hood
+530100 Godskin Apostle Robe
+530200 Godskin Apostle Bracelets
+530300 Godskin Apostle Trousers
 540000 Depraved Perfumer Headscarf
 540100 Depraved Perfumer Robe
 540200 Depraved Perfumer Gloves

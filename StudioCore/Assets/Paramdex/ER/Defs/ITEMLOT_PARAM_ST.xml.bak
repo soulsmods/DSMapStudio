@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="1">
+  <ParamType>ITEMLOT_PARAM_ST</ParamType>
+  <DataVersion>4</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>201</FormatVersion>
+  <Fields>
+    <Field Def="s32 ItemLotId1" />
+    <Field Def="s32 ItemLotId2" />
+    <Field Def="s32 ItemLotId3" />
+    <Field Def="s32 ItemLotId4" />
+    <Field Def="s32 ItemLotId5" />
+    <Field Def="s32 ItemLotId6" />
+    <Field Def="s32 ItemLotId7" />
+    <Field Def="s32 ItemLotId8" />
+    <Field Def="s32 LotItemCategory01">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory02">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory03">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory04">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory05">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory06">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory07">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s32 LotItemCategory08">
+      <Enum>LotItemCategory</Enum>
+    </Field>
+    <Field Def="s16 LotItemBasePoint01" />
+    <Field Def="s16 LotItemBasePoint02" />
+    <Field Def="s16 LotItemBasePoint03" />
+    <Field Def="s16 LotItemBasePoint04" />
+    <Field Def="s16 LotItemBasePoint05" />
+    <Field Def="s16 LotItemBasePoint06" />
+    <Field Def="s16 LotItemBasePoint07" />
+    <Field Def="s16 LotItemBasePoint08" />
+    
+    <!-- All zeroes in params. Correspond to s16 cumulateLotPoint1-8 and s32 GetItemFlatId1-8 in previous games -->
+    <Field Def="u32 Unk50" />
+    <Field Def="u32 Unk54" />
+    <Field Def="u32 Unk58" />
+    <Field Def="u32 Unk5C" />
+    <Field Def="u32 Unk60" />
+    <Field Def="u32 Unk64" />
+    <Field Def="u32 Unk68" />
+    <Field Def="u32 Unk6C" />
+    <Field Def="u32 Unk70" />
+    <Field Def="u32 Unk74" />
+    <Field Def="u32 Unk78" />
+    <Field Def="u32 Unk7C" />
+    
+    <Field Def="u32 getItemFlagId = 0" />
+    <Field Def="s32 Unk84" />
+    <Field Def="s8 Unk88" />
+    <Field Def="s8 Unk89" />
+    <Field Def="s8 LotItemNum1" />
+    <Field Def="s8 LotItemNum2" />
+    <Field Def="s8 LotItemNum3" />
+    <Field Def="s8 LotItemNum4" />
+    <Field Def="s8 LotItemNum5" />
+    <Field Def="s8 LotItemNum6" />
+    <Field Def="s8 LotItemNum7" />
+    <Field Def="s8 LotItemNum8" />
+    <Field Def="s8 Unk92" /> <!-- This is -64 in one instance so possibly a bitfield or something -->
+    <Field Def="s8 Unk93" />
+    <Field Def="s8 Unk94" />
+    <Field Def="s8 Unk95" />
+    <Field Def="s8 Unk96" />
+    <Field Def="s8 Unk97" />
+  </Fields>
+</PARAMDEF>

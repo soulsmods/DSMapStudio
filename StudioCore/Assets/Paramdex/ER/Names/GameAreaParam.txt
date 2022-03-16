@@ -1,0 +1,95 @@
+10000800 [Stormveil Castle] Godrick the Grafted
+10000850 [Stormveil Castle]
+10010800 [Chapel of Anticipation] Grafted Scion
+11000800 [Leyndell, Royal Capital] Morgott, the Omen King
+11000850 [Leyndell, Royal Capital] Godfrey, First Elden Lord
+11050800 [Leyndell, Ashen Capital]
+11050850 [Leyndell, Ashen Capital]
+12010800 [Ainsel River]
+12010850 [Ainsel River]
+12020800 [Siofra River]
+12020830 [Siofra River] Dragonkin Soldier
+12020850 [Siofra River]
+12030390 [Deeproot Depths]
+12030800 [Deeproot Depths]
+12030850 [Deeproot Depths]
+12040800 [Ainsel River - Boss] Astel, Naturalborn of the Void
+12050800 [Mohgwyn Palace]
+12080800 [Siofra River - Boss]
+12090800 [Nokron, Eternal City - Boss]
+13000800 [Crumbling Farum Azula] Maliketh, the Black Blade
+13000830 [Crumbling Farum Azula] Dragonlord Placidusax
+13000850 [Crumbling Farum Azula] Godskin Duo
+14000800 [Academy of Raya Lucaria]
+14000850 [Academy of Raya Lucaria]
+15000800 [Miquella's Haligtree]
+15000850 [Miquella's Haligtree]
+16000800 [Volcano Manor]
+16000850 [Volcano Manor]
+16000860 [Volcano Manor]
+18000800 [Stranded Graveyard]
+18000850 [Stranded Graveyard]
+19000800 [Stone Platform] Elden Beast
+30000800 [Tombsward Catacombs] Cemetery Shade
+30010800 [Impaler's Catacombs] Erdtree Burial Watchdog
+30020800 [Stormfoot Catacombs] Erdtree Burial Watchdog
+30030800 [Road's End Catacombs] Spirit-Caller Snail
+30040800 [Murkwater Catacombs] Godskin Noble
+30050800 [Black Knife Catacombs] Cemetery Shade
+30050850 [Black Knife Catacombs] Black Knife Assassin
+30060800 [Cliffbottom Catacombs] Erdtree Burial Watchdog
+30070800 [Wyndham Catacombs] Erdtree Burial Watchdog
+30080800 [Sainted Hero's Grave]
+30090800 [Gelmir Hero's Grave] Red Wolf of the Champion
+30100800 [Auriza Hero's Grave] Crucible Knight Ordovis
+30100801 [Auriza Hero's Grave] Crucible Knight
+30110800 [Deathtouched Catacombs] Black Knife Assassin
+30120800 [Unsightly Catacombs] Perfumer Tricia
+30120801 [Unsightly Catacombs] Misbegotten Warrior
+30130800 [Auriza Side Tomb] Godskin Noble
+30140800 [Minor Erdtree Catacombs] Erdtree Burial Watchdog
+30150800 [Caelid Catacombs] Cemetery Shade
+30160800 [War-Dead Catacombs] Putrid Tree Spirit
+30170800 [Giant-Conquering Hero's Grave] Ancient Hero of Zamor
+30180800 [Giants' Mountaintop Catacombs] Ulcerated Tree Sprit
+30190800 [Consecrated Snowfield Catacombs] Putrid Godskin Noble
+30200800 [Hidden Path to the Haligtree]
+31000800 [Murkwater Cave] Patches
+31010800 [Earthbore Cave] Runebear
+31020800 [Tombsward Cave] Miranda the Blighted Bloom
+31030800 [Groveside Cave] Beastman of Farum Azula
+31040800 [Stillwater Cave] Cleanrot Knight
+31050800 [Lakeside Crystal Cave] Bloodhound Knight
+31060800 [Academy Crystal Cave] Crystalians
+31070800 [Seethewater Cave] Kindred of Rot
+31090800 [Volcano Cave] Demi-Human Queen Margot
+31100800 [Dragonbarrow Cave] Beastman of Farum Azula
+31110800 [Sellia Hideaway] Crystalians
+31120800 [Cave of the Forlorn] Misbegotten Crusader
+31150800 [Coastal Cave] Demi-Human Chief
+31170800 [Highroad Cave] Guardian Golem
+31180800 [Perfumer's Grotto] Omenkiller
+31190800 [Sage's Cave] Necromancer Garris
+31200800 [Abandoned Cave] Cleanrot Knight
+31210800 [Gaol Cave] Frenzied Duelist
+31220800 [Spiritcaller's Cave] Spirit-Caller Snail
+32000800 [Morne Tunnel] Scaly Misbegotten
+32010800 [Limgrave Tunnels] Stonedigger Troll
+32020800 [Raya Lucaria Crystal Tunnel] Crystalian (Ringblade)
+32040800 [Old Altus Tunnel] Stonedigger Troll
+32050800 [Altus Tunnel] Stonedigger Troll
+32050801 [Altus Tunnel]
+32070800 [Gael Tunnel] Magma Wyrm
+32080800 [Sellia Crystal Tunnel] Fallingstar Beast
+32110800 [Yelough Anix Tunnel] Astel, Stars of Darkness
+34120800 [Divine Tower of West Altus] Onyx Lord
+34130800 [Divine Tower of Caelid] Sanguine Noble
+34140850 [Divine Tower of East Altus]
+35000800 [Subterranean Shunning-Grounds]
+35000850 [Subterranean Shunning-Grounds]
+39200800 [Ruin-Strewn Precipice]
+1033420800 [Moonlight Altar] Alecto, Black Knife Ringleader
+1033430800 [Liurnia of the Lakes] Erdtree Avatar
+1033450800 [Liurnia of the Lakes] Bols, Carian Knight
+1034420800 [Liurnia of the Lakes] Omenkiller
+1034450800 [Liurnia of the Lakes]
