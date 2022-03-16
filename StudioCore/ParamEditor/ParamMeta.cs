@@ -59,11 +59,8 @@ namespace StudioCore.ParamEditor
             {
                 XmlDocument xml = new XmlDocument();
 
-                XmlNode root = xml.CreateElement("PARAMMETA");
-
-                XmlAttribute xmlV = xml.CreateAttribute("XmlVersion");
-                root.Attributes.Append(xmlV);
-                xmlV.Value = ""+XML_VERSION;
+                XmlElement root = xml.CreateElement("PARAMMETA");
+                ParamMetaData.SetStringXmlProperty("XmlVersion", ""+XML_VERSION, false, xml, "PARAMMETA");
 
                 XmlNode self = xml.CreateElement("Self");
                 root.AppendChild(self);
@@ -366,6 +363,10 @@ namespace StudioCore.ParamEditor
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Wiki", Wiki, true, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetBoolXmlProperty("IsBool", IsBool, _parent._xml, "PARAMMETA", "Field", field);
+            
+            XmlNode thisNode = ParamMetaData.GetXmlNode(_parent._xml, "PARAMMETA", "Field", field);
+            if (thisNode.Attributes.Count == 0 && thisNode.ChildNodes.Count == 0)
+                ParamMetaData.GetXmlNode(_parent._xml, "PARAMMETA", "Field").RemoveChild(thisNode);
         }
     }
 
