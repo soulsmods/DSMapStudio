@@ -793,7 +793,7 @@ namespace StudioCore.ParamEditor
             // If not loose write out the new regulation
             if (!loose)
             {
-                Utils.WriteWithBackup(dir, mod, @"Data0.bdt", paramBnd, true);
+                Utils.WriteWithBackup(dir, mod, @"Data0.bdt", paramBnd, GameType.DarkSoulsIII);
             }
             else
             {
@@ -909,7 +909,7 @@ namespace StudioCore.ParamEditor
             {
                 param = $@"{dir}\regulation.bin";
             }
-            BND4 paramBnd = BND4.Read(param);
+            BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
@@ -919,7 +919,7 @@ namespace StudioCore.ParamEditor
                     p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
             }
-            Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd);
+            Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.EldenRing);
         }
 
         public static void SaveParams(bool loose = false)
@@ -952,7 +952,10 @@ namespace StudioCore.ParamEditor
             {
                 SaveParamsBBSekiro();
             }
-            //TODO: ER
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                SaveParamsER();
+            }
         }
 
         public static string GetChrIDForEnemy(long enemyID)

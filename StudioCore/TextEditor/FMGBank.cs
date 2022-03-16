@@ -448,7 +448,7 @@ namespace StudioCore.TextEditor
 
         public static void SaveFMGs()
         {
-            if (AssetLocator.Type == GameType.Undefined)
+            if (AssetLocator.Type == GameType.Undefined || AssetLocator.Type == GameType.EldenRing)
             {
                 return;
             }
