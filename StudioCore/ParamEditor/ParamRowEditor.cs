@@ -359,20 +359,12 @@ namespace StudioCore.ParamEditor
             string AltName = cellMeta == null ? null : cellMeta.AltName;
             if (cellMeta != null && ParamEditorScreen.EditorMode)
             {
-                if (AltName != null)
-                {
-                    ImGui.InputText("", ref AltName, 128);
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                        cellMeta.AltName = AltName;
-                }
-                else
-                {
-                    ImGui.InputText("", ref internalName, 128);
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                        cellMeta.AltName = internalName;
-                }
-                if (cellMeta.AltName != null && (cellMeta.AltName.Equals(internalName) || cellMeta.AltName.Equals("")))
+                string EditName = AltName == null ? internalName : AltName;
+                ImGui.InputText("", ref EditName, 128);
+                if (EditName.Equals(internalName) || EditName.Equals(""))
                     cellMeta.AltName = null;
+                else
+                    cellMeta.AltName = EditName;
             }
             else
             {
