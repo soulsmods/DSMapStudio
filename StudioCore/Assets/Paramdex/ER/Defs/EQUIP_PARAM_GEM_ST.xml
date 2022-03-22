@@ -1,34 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>EQUIP_PARAM_GEM_ST</ParamType>
-  <DataVersion>3</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>EQUIP_PARAM_GEM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unk0 = 0" />
+		<Field Def="s16 SortID = 0" />
+		<Field Def="u8 Unk1 = 0" />
+		<Field Def="u8 DisplayCategoryID = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s32 Unk5 = 0" />
+		<Field Def="s32 Unk6 = 0" />
+		<Field Def="s32 SwordArtsID = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 BaseAffinitySet = 0" />
+		<Field Def="s32 AdditionalAffinity = 0" />
+		<Field Def="u32 AvailableDagger:1" />
+		<Field Def="u32 AvailableStraightSword:1" />
+		<Field Def="u32 AvailableGreatsword:1" />
+		<Field Def="u32 AvailableColossalSword:1" />
+		<Field Def="u32 AvailableCurvedSword:1" />
+		<Field Def="u32 AvailableCurvedGreatsword:1" />
+		<Field Def="u32 AvailableKatana:1" />
+		<Field Def="u32 AvailableTwinblade:1" />
+		<Field Def="u32 AvailableThrustingSword:1" />
+		<Field Def="u32 AvailableHeavyThrustingSword:1" />
+		<Field Def="u32 AvailableHammer:1" />
+		<Field Def="u32 AvailableGreatHammer:1" />
+		<Field Def="u32 AvailableAxe:1" />
+		<Field Def="u32 AvailableGreataxe:1" />
+		<Field Def="u32 AvailableFlail:1" />
+		<Field Def="u32 AvailableSpear:1" />
+		<Field Def="u32 AvailableUnknown1:1" />
+		<Field Def="u32 AvailableGreatSpear:1" />
+		<Field Def="u32 AvailableHalberd:1" />
+		<Field Def="u32 AvailableReaper:1" />
+		<Field Def="u32 AvailableFist:1" />
+		<Field Def="u32 AvailableClaw:1" />
+		<Field Def="u32 AvailableWhip:1" />
+		<Field Def="u32 AvailableColossalWeapon:1" />
+		<Field Def="u32 AvailableLightBow:1" />
+		<Field Def="u32 AvailableBow:1" />
+		<Field Def="u32 AvailableGreatbow:1" />
+		<Field Def="u32 AvailableCrossbow:1" />
+		<Field Def="u32 AvailableBallista:1" />
+		<Field Def="u32 AvailableStaff:1" />
+		<Field Def="u32 AvailableSeal:1" />
+		<Field Def="u32 AvailableUnknown4:1" />
+		<Field Def="u32 AvailableSmallShield:1" />
+		<Field Def="u32 AvailableMediumShield:1" />
+		<Field Def="u32 AvailableGreatshield:1" />
+		<Field Def="u32 AvailableTorch:1" />
+		<Field Def="u32 Unk94:1" />
+		<Field Def="u32 Unk95:1" />
+		<Field Def="u32 Unk96:1" />
+		<Field Def="u32 Unk97:1" />
+		<Field Def="s32 Unk16 = 0" />
+		<Field Def="s32 Unk17 = 0" />
+		<Field Def="s32 Unk18 = 0" />
+		<Field Def="s32 Unk19 = 0" />
+		<Field Def="s32 Unk20 = 0" />
+		<Field Def="s32 Compatibility-TextID = 0" />
+		<Field Def="s32 Unk22 = 0" />
+		<Field Def="s32 Unk23 = 0" />
+	</Fields>
 </PARAMDEF>

@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>WORLD_MAP_PIECE_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="s32 Unk18" />
-    <Field Def="f32 Unk1C" />
-    <Field Def="s32 Unk20 = 0" />
-    <Field Def="s32 Unk24 = 0" />
-    <Field Def="f32 Unk28" />
-    <Field Def="s32 Unk2C = 0" />
-    <Field Def="s32 Unk30 = 0" />
-    <Field Def="s32 Unk34 = 0" />
-    <Field Def="s32 Unk38 = 0" />
-    <Field Def="s32 Unk3C = 0" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>WORLD_MAP_PIECE_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unk0 = 0" />
+		<Field Def="s32 Unk1 = 0" />
+		<Field Def="s32 Unk2 = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s32 Unk5 = 0" />
+		<Field Def="s32 Unk6 = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 Unk12 = 0" />
+		<Field Def="s32 Unk13 = 0" />
+		<Field Def="s32 Unk14 = 0" />
+		<Field Def="s32 Unk15 = 0" />
+	</Fields>
 </PARAMDEF>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+	<ParamType>WIND_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s16 Wind-StartDummyID = 0" />
+		<Field Def="s16 Wind-EndDummyID = 0" />
+		<Field Def="f32 Wind-Raidus = 1" />
+		<Field Def="dummy8 pad1[120]" />
+		<Field Def="u8 VFX-EnableWind:1" />
+		<Field Def="u8 VFX-IgnorePlayerVFX:1" />
+		<Field Def="u8 VFX-IsCollision:1" />
+		<Field Def="dummy8 pad2[3]" />
+		<Field Def="f32 VFX-Direction-PitchMin = -15" />
+		<Field Def="f32 VFX-Direction-PitchMax = 15" />
+		<Field Def="f32 VFX-Direction-YawMin = -15" />
+		<Field Def="f32 VFX-Direction-YawMax = 15" />
+		<Field Def="f32 VFX-CycleMin = 0.5" />
+		<Field Def="f32 VFX-CycleMax = 1" />
+		<Field Def="f32 VFX-SpeedMin = 0.1" />
+		<Field Def="f32 VFX-SpeedMax = 2.5" />
+		<Field Def="f32 VFX-MaxDrag = 1" />
+		<Field Def="dummy8 pad3[88]" />
+		<Field Def="u8 Wind-AffectClothPhysics:1" />
+		<Field Def="u8 Wind-AffectClothPhysics-Vertex:1" />
+		<Field Def="dummy8 pad4[3]" />
+		<Field Def="f32 Cloth-Direction-PitchMin = -15" />
+		<Field Def="f32 Cloth-Direction-PitchMax = 15" />
+		<Field Def="f32 Cloth-Direction-YawMin = -15" />
+		<Field Def="f32 Cloth-Direction-YawMax = 15" />
+		<Field Def="f32 Cloth-CycleMin = 0.5" />
+		<Field Def="f32 Cloth-CycleMax = 1" />
+		<Field Def="f32 Cloth-SpeedMin = 40" />
+		<Field Def="f32 Cloth-SpeedMax = 10" />
+		<Field Def="f32 Cloth-MaxDrag = 10" />
+		<Field Def="dummy8 pad5[88]" />
+	</Fields>
+</PARAMDEF>

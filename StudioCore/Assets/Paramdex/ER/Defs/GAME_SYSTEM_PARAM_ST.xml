@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+	<ParamType>GAME_SYSTEM_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="f32 BasicToughnessEndurance = 0.5" />
+		<Field Def="s32 CharacterTurn90DegreesAnimationId1 = 26001" />
+		<Field Def="s32 CharacterTurn90DegreesAnimationId2 = 26011" />
+		<Field Def="s32 CharacterTurn180DegreesAnimationId1 = 26021" />
+		<Field Def="s32 CharacterTurn180DegreesAnimationId2 = 26031" />
+		<Field Def="u16 CharacterTurnSpeedLimitation90Degrees = 180" />
+		<Field Def="u16 CharacterTurnSpeedLimitation180Degrees = 180" />
+		<Field Def="s32 DebtItem = 490" />
+		<Field Def="f32 WeaponRepel%GlobalValue = 1" />
+		<Field Def="f32 TalkRange1 = 180" />
+		<Field Def="f32 TalkRange2 = 180" />
+		<Field Def="s32 Cult.SpEffectId1 = 0" />
+		<Field Def="s32 Unk1 = 0" />
+		<Field Def="s32 Cult.SpEffectId2 = 0" />
+		<Field Def="s32 Cult.SpEffectId3 = 0" />
+		<Field Def="s32 Cult.SpEffectId4 = 0" />
+		<Field Def="s32 Cult.SpEffectId5 = 0" />
+		<Field Def="s32 Cult.SpEffectId6 = 0" />
+		<Field Def="s32 Cult.SpEffectId7 = 0" />
+		<Field Def="s32 Cult.LvLUpCeremonySwordState = 0" />
+		<Field Def="s32 Cult.ReallocateAttributesState = 0" />
+		<Field Def="s32 Cult.SwordOfDeceaseState = 0" />
+		<Field Def="s32 Cult.RageCeremonySwordState = 0" />
+		<Field Def="s32 Cult.CeremonyDaySwordState = 0" />
+		<Field Def="s32 Cult.ShiomuCeremonySwordState = 0" />
+		<Field Def="s32 Cult.InvasionBannedCeremonyState = 0" />
+		<Field Def="s32 Cult.TextId1 = 0" />
+		<Field Def="s32 Unk2 = 0" />
+		<Field Def="s32 Cult.TextId2 = 0" />
+		<Field Def="s32 Cult.TextId3 = 0" />
+		<Field Def="s32 Cult.TextId4 = 0" />
+		<Field Def="s32 Cult.TextId5 = 0" />
+		<Field Def="s32 Cult.TextId6 = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 Cult.TextId7 = 0" />
+		<Field Def="s32 Cult.TextId3.EventFlagId = 0" />
+		<Field Def="s32 Cult.EventFlagId = 0" />
+		<Field Def="s32 ChrFinder.UnkSpEffectId = 0" />
+		<Field Def="s32 ChrEstusEatSlot = 0" />
+		<Field Def="s32 ChrSoulEatSlot = 0" />
+		<Field Def="s32 TearsOfDenialTriggerEffect = 0" />
+		<Field Def="f32 Unk4 = 0" />
+		<Field Def="f32 Unk5 = 0" />
+		<Field Def="f32 MultModeBossValue1 = 0" />
+		<Field Def="f32 SoloModeBossValue1 = 0" />
+		<Field Def="f32 MultModeBossValue2 = 0" />
+		<Field Def="f32 SoloModeBossValue2 = 0" />
+		<Field Def="u16 TeamTypeNamePositionAdjustment = 0" />
+		<Field Def="u16 Unk6 = 0" />
+		<Field Def="u16 ChrFinder.ShootDmyPolyId = 0" />
+		<Field Def="u16 ChrFinder.TargetsNum = 0" />
+		<Field Def="f32 ChrFinder.DetectTargetsRange = 0" />
+		<Field Def="s32 ChrFinder.InvadeType17_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType25_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType23_BulletId1 = 0" />
+		<Field Def="s32 ChrFinder.InvadeType22_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType21_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType7/21_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType0-17_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType23_BulletId2 = 0" />
+		<Field Def="s32 ChrFinder.InvadeType21_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType20_BulletId2 = 0" />
+		<Field Def="s32 ChrFinder.InvadeType25_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType23_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType22_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType4/21_BulletId = 0" />
+		<Field Def="s32 ChrFinder.Unused_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType5_BulletId = 0" />
+		<Field Def="s32 ChrFinder.InvadeType6_BulletId = 0" />
+		<Field Def="s32 DeadChrFinder.BulletId = 0" />
+		<Field Def="s32 ChrFinder.Unk = 0" />
+		<Field Def="f32 Ghost[Transparency]GlobalValue = 0" />
+		<Field Def="f32 ThrowEscapeValue = 0" />
+		<Field Def="u16 Unk7 = 0" />
+		<Field Def="u16 Unk8 = 0" />
+		<Field Def="u16 NetPenaltyCondition1 = 0" />
+		<Field Def="u16 Unk9 = 0" />
+		<Field Def="f32 NetPenaltyTimer[sec] = 0" />
+		<Field Def="u16 NetPenaltyCondition2 = 0" />
+		<Field Def="u16 InvasionAFKTimer[sec] = 0" />
+		<Field Def="s32 ChrFinder.Entity_BulletId = 0" />
+		<Field Def="s32 DeadChrFinder.SpEffectId = 0" />
+		<Field Def="f32 DeadChrFinder.Timer[sec] = 0" />
+		<Field Def="f32 FrameRateValue1 = 0" />
+		<Field Def="f32 FrameRateValue2 = 0" />
+		<Field Def="s32 AddSoloBreakInPointMax = 0" />
+		<Field Def="f32 TalkRangeGlobalValue = 0" />
+		<Field Def="f32 ServerRequestTimer[sec] = 0" />
+		<Field Def="u8 BulletEmitterMaxNum = 0" />
+		<Field Def="u8 Unk10 = 0" />
+		<Field Def="u16 HostWeaknessCompensation = 0" />
+		<Field Def="u16 HostWeaknessCompensation = 0" />
+		<Field Def="u16 Client/HostWeaknessCompensation = 0" />
+		<Field Def="s32 SummonSignValue = 0" />
+		<Field Def="s32 MoundMakerSpEffectId = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 Unk12 = 0" />
+		<Field Def="s32 Unk13 = 0" />
+		<Field Def="s32 Unk14 = 0" />
+		<Field Def="s32 Unk15 = 0" />
+		<Field Def="s32 Unk16 = 0" />
+		<Field Def="s32 Unk17 = 0" />
+		<Field Def="f32 ServerTimer2[sec] = 0" />
+		<Field Def="s32 Unk18 = 0" />
+		<Field Def="s32 Unk19 = 0" />
+		<Field Def="s32 Unk20 = 0" />
+		<Field Def="f32 CalcCorrectGlobalAdjustment = 0" />
+	</Fields>
+</PARAMDEF>

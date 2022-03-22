@@ -1,44 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>ACTIONBUTTON_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u8 Unk00" />
-    <Field Def="s8 regionType" />
-    <Field Def="s8 unk02" />
-    <Field Def="s8 unk03" />
-    <Field Def="s32 dummyPoly1" />
-    <Field Def="s32 dummyPoly2" />
-    <Field Def="f32 radius" />
-    <Field Def="f32 angle" />
-    <Field Def="f32 depth" />
-    <Field Def="f32 width" />
-    <Field Def="f32 height" />
-    <Field Def="f32 baseHeightOffset" />
-    <Field Def="u8 angleCheckType" />
-    <Field Def="u8 Unk25" />
-    <Field Def="u8 Unk26" />
-    <Field Def="u8 Unk27" />
-    <Field Def="s32 allowAngle" />
-    <Field Def="u8 textboxType" />
-    <Field Def="u8 Unk2D" />
-    <Field Def="u8 Unk2E" />
-    <Field Def="u8 Unk2F" />
-    <Field Def="u32 Unk30" />
-    <Field Def="s32 textID" />
-    <Field Def="s32 invalidFlag" />
-    <Field Def="s32 greyoutFlag" />
-    <Field Def="s32 priority" />
-    <Field Def="f32 executionInvalidTime" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>ACTIONBUTTON_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="u8 Unk1 = 0" />
+		<Field Def="s8 RegionType = 0" />
+		<Field Def="s8 Unk3 = 0" />
+		<Field Def="s8 Unk4 = 0" />
+		<Field Def="s32 DummyPoly1 = -1" />
+		<Field Def="s32 DummyPoly2 = -1" />
+		<Field Def="f32 Radius = 1.5" />
+		<Field Def="s32 Angle = 180" />
+		<Field Def="f32 Depth = 0" />
+		<Field Def="f32 Width = 0" />
+		<Field Def="f32 Height = 1" />
+		<Field Def="f32 BaseHeightOffset = -0.25" />
+		<Field Def="u8 AngleCheckType = 0" />
+		<Field Def="s8 Unk4 = 0" />
+		<Field Def="s8 Unk5 = 0" />
+		<Field Def="s8 Unk6 = 0" />
+		<Field Def="s32 AllowAngle = 90" />
+		<Field Def="u8 TextboxType = 255" />
+		<Field Def="s8 Unk7 = -1" />
+		<Field Def="s8 Unk8 = -1" />
+		<Field Def="s8 Unk9 = -1" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 TextID = 7000" />
+		<Field Def="s32 InvalidFlag = 0" />
+		<Field Def="s32 GrayoutFlag = 0" />
+		<Field Def="s32 Priority = -1" />
+		<Field Def="f32 ExecutionInvalidTime = 3" />
+		<Field Def="dummy8 padding[28]" />
+	</Fields>
 </PARAMDEF>

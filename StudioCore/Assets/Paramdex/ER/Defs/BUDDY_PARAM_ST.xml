@@ -1,34 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>BUDDY_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>BUDDY_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unk0 = 0" />
+		<Field Def="s32 AssociatedGoodID = 0" />
+		<Field Def="s32 NPCID = 0" />
+		<Field Def="s32 NPCThinkID = 0" />
+		<Field Def="dummy8 padding[8]" />
+		<Field Def="f32 SpawnOffsetX = 0" />
+		<Field Def="f32 SpawnOffsetY = 0" />
+		<Field Def="f32 SpawnOffsetZ = 0" />
+		<Field Def="s8 Unk9 = 0" />
+		<Field Def="s8 Unk10 = 0" />
+		<Field Def="s8 Unk11 = 0" />
+		<Field Def="dummy8 padding[1]" />
+		<Field Def="s32 ReinforcementSpEffect+0 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+1 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+2 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+3 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+4 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+5 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+6 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+7 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+8 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+9 = 0" />
+		<Field Def="s32 ReinforcementSpEffect+10 = 0" />
+		<Field Def="s32 CharacterInitID = -1" />
+		<Field Def="s32 Unk22 = 0" />
+		<Field Def="dummy8 padding[4]" />
+	</Fields>
 </PARAMDEF>

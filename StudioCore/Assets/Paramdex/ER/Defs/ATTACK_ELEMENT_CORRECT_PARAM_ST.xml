@@ -1,42 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>ATTACK_ELEMENT_CORRECT_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>ATTACK_ELEMENT_CORRECT_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="u32 PhysicalScalingSTR:1" />
+		<Field Def="u32 PhysicalScalingDEX:1" />
+		<Field Def="u32 PhysicalScalingINT:1" />
+		<Field Def="u32 PhysicalScalingFTH:1" />
+		<Field Def="u32 PhysicalScalingARC:1" />
+		<Field Def="u32 MagicScalingSTR:1" />
+		<Field Def="u32 MagicScalingDEX:1" />
+		<Field Def="u32 MagicScalingINT:1" />
+		<Field Def="u32 MagicScalingFTH:1" />
+		<Field Def="u32 MagicScalingARC:1" />
+		<Field Def="u32 FireScalingSTR:1" />
+		<Field Def="u32 FireScalingDEX:1" />
+		<Field Def="u32 FireScalingINT:1" />
+		<Field Def="u32 FireScalingFTH:1" />
+		<Field Def="u32 FireScalingARC:1" />
+		<Field Def="u32 LightningScalingSTR:1" />
+		<Field Def="u32 LightningScalingDEX:1" />
+		<Field Def="u32 LightningScalingINT:1" />
+		<Field Def="u32 LightningScalingFTH:1" />
+		<Field Def="u32 LightningScalingARC:1" />
+		<Field Def="u32 HolyScalingSTR:1" />
+		<Field Def="u32 HolyScalingDEX:1" />
+		<Field Def="u32 HolyScalingINT:1" />
+		<Field Def="u32 HolyScalingFTH:1" />
+		<Field Def="u32 HolyScalingARC:1" />
+		<Field Def="u32 Unk21:1" />
+		<Field Def="u32 Unk22:1" />
+		<Field Def="u32 Unk23:1" />
+		<Field Def="u32 Unk24:1" />
+		<Field Def="u32 Unk25:1" />
+		<Field Def="u32 Unk26:1" />
+		<Field Def="u32 Unk27:1" />
+		<Field Def="s16 PhysicalAddRateSTR = -1" />
+		<Field Def="s16 PhysicalAddRateDEX = -1" />
+		<Field Def="s16 PhysicalAddRateINT = -1" />
+		<Field Def="s16 PhysicalAddRateFTH = -1" />
+		<Field Def="s16 PhysicalAddRateARC = -1" />
+		<Field Def="s16 MagicAddRateSTR = -1" />
+		<Field Def="s16 MagicAddRateDEX = -1" />
+		<Field Def="s16 MagicAddRateINT = -1" />
+		<Field Def="s16 MagicAddRateFTH = -1" />
+		<Field Def="s16 MagicAddRateARC = -1" />
+		<Field Def="s16 FireAddRateSTR = -1" />
+		<Field Def="s16 FireAddRateDEX = -1" />
+		<Field Def="s16 FireAddRateINT = -1" />
+		<Field Def="s16 FireAddRateFTH = -1" />
+		<Field Def="s16 FireAddRateARC = -1" />
+		<Field Def="s16 LightningAddRateSTR = -1" />
+		<Field Def="s16 LightningAddRateDEX = -1" />
+		<Field Def="s16 LightningAddRateINT = -1" />
+		<Field Def="s16 LightningAddRateFTH = -1" />
+		<Field Def="s16 LightningAddRateARC = -1" />
+		<Field Def="s16 HolyAddRateSTR = -1" />
+		<Field Def="s16 HolyAddRateDEX = -1" />
+		<Field Def="s16 HolyAddRateINT = -1" />
+		<Field Def="s16 HolyAddRateFTH = -1" />
+		<Field Def="s16 HolyAddRateARC = -1" />
+		<Field Def="s16 PhysicalCorrectionSTR = 100" />
+		<Field Def="s16 PhysicalCorrectionDEX = 100" />
+		<Field Def="s16 PhysicalCorrectionINT = 100" />
+		<Field Def="s16 PhysicalCorrectionFTH = 100" />
+		<Field Def="s16 PhysicalCorrectionARC = 100" />
+		<Field Def="s16 MagicCorrectionSTR = 100" />
+		<Field Def="s16 MagicCorrectionDEX = 100" />
+		<Field Def="s16 MagicCorrectionINT = 100" />
+		<Field Def="s16 MagicCorrectionFTH = 100" />
+		<Field Def="s16 MagicCorrectionARC = 100" />
+		<Field Def="s16 FireCorrectionSTR = 100" />
+		<Field Def="s16 FireCorrectionDEX = 100" />
+		<Field Def="s16 FireCorrectionINT = 100" />
+		<Field Def="s16 FireCorrectionFTH = 100" />
+		<Field Def="s16 FireCorrectionARC = 100" />
+		<Field Def="s16 LightningCorrectionSTR = 100" />
+		<Field Def="s16 LightningCorrectionDEX = 100" />
+		<Field Def="s16 LightningCorrectionINT = 100" />
+		<Field Def="s16 LightningCorrectionFTH = 100" />
+		<Field Def="s16 LightningCorrectionARC = 100" />
+		<Field Def="s16 HolyCorrectionSTR = 100" />
+		<Field Def="s16 HolyCorrectionDEX = 100" />
+		<Field Def="s16 HolyCorrectionINT = 100" />
+		<Field Def="s16 HolyCorrectionFTH = 100" />
+		<Field Def="s16 HolyCorrectionARC = 100" />
+		<Field Def="dummy8 padding[24]" />
+	</Fields>
 </PARAMDEF>

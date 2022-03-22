@@ -1,28 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>WORLD_MAP_LEGACY_CONV_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="u8 MapId1" />
-    <Field Def="u8 MapId2" />
-    <Field Def="u8 MapId3" />
-    <Field Def="u8 MapId4" />
-    <Field Def="f32 MapX" />
-    <Field Def="f32 MapY" />
-    <Field Def="f32 MapZ" />
-    <Field Def="u8 OtherMapId1" />
-    <Field Def="u8 OtherMapId2" />
-    <Field Def="u8 OtherMapId3" />
-    <Field Def="u8 OtherMapId4" />
-    <Field Def="f32 OtherMapX" />
-    <Field Def="f32 OtherMapY" />
-    <Field Def="f32 OtherMapZ" />
-    <Field Def="s32 Unk24" />
-    <Field Def="s32 Unk28 = 0" />
-    <Field Def="s32 Unk2C = 0" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>WORLD_MAP_LEGACY_CONV_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unk0 = 0" />
+		<Field Def="u8 MapAArea = 0" />
+		<Field Def="u8 MapABlock = 0" />
+		<Field Def="u8 MapARegion = 0" />
+		<Field Def="u8 MapAIndex = 0" />
+		<Field Def="f32 MapACoordinateX = 0" />
+		<Field Def="f32 MapACoordinateY = 0" />
+		<Field Def="f32 MapACoordinateZ = 0" />
+		<Field Def="u8 MapBArea = 0" />
+		<Field Def="u8 MapBBlock = 0" />
+		<Field Def="u8 MapBRegion = 0" />
+		<Field Def="u8 MapBIndex = 0" />
+		<Field Def="f32 MapBCoordinateX = 0" />
+		<Field Def="f32 MapBCoordinateY = 0" />
+		<Field Def="f32 MapBCoordinateZ = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="dummy8 padding[8]" />
+	</Fields>
 </PARAMDEF>

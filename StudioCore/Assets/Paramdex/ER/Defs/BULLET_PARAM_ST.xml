@@ -1,78 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>BULLET_PARAM_ST</ParamType>
-  <DataVersion>4</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-    <Field Def="u32 Unk80" />
-    <Field Def="u32 Unk84" />
-    <Field Def="u32 Unk88" />
-    <Field Def="u32 Unk8C" />
-    <Field Def="u32 Unk90" />
-    <Field Def="u32 Unk94" />
-    <Field Def="u32 Unk98" />
-    <Field Def="u32 Unk9C" />
-    <Field Def="u32 UnkA0" />
-    <Field Def="u32 UnkA4" />
-    <Field Def="u32 UnkA8" />
-    <Field Def="u32 UnkAC" />
-    <Field Def="u32 UnkB0" />
-    <Field Def="u32 UnkB4" />
-    <Field Def="u32 UnkB8" />
-    <Field Def="u32 UnkBC" />
-    <Field Def="u32 UnkC0" />
-    <Field Def="u32 UnkC4" />
-    <Field Def="u32 UnkC8" />
-    <Field Def="u32 UnkCC" />
-    <Field Def="u32 UnkD0" />
-    <Field Def="u32 UnkD4" />
-    <Field Def="u32 UnkD8" />
-    <Field Def="u32 UnkDC" />
-    <Field Def="u32 UnkE0" />
-    <Field Def="u32 UnkE4" />
-    <Field Def="u32 UnkE8" />
-    <Field Def="u32 UnkEC" />
-    <Field Def="u32 UnkF0" />
-    <Field Def="u32 UnkF4" />
-    <Field Def="u32 UnkF8" />
-    <Field Def="u32 UnkFC" />
-    <Field Def="u32 Unk100" />
-    <Field Def="u32 Unk104" />
-    <Field Def="u32 Unk108" />
-    <Field Def="u32 Unk10C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>BULLET_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 AtkParamID = 3" />
+		<Field Def="s32 ProjectileFXID = -1" />
+		<Field Def="s32 ImpactFXID = -1" />
+		<Field Def="s32 FlickFXID = -1" />
+		<Field Def="f32 Duration = 1" />
+		<Field Def="f32 AttenuationRange = 0" />
+		<Field Def="f32 ShootInterval = 0" />
+		<Field Def="f32 GravityInRange = 0" />
+		<Field Def="f32 GravityOutofRange = 0" />
+		<Field Def="f32 HomingStopRange = 0" />
+		<Field Def="f32 InitialVelocity = 0" />
+		<Field Def="f32 AccelerationInRange = 0" />
+		<Field Def="f32 AccelerationOutofRange = 0" />
+		<Field Def="f32 MaxVelocity = 0" />
+		<Field Def="f32 MinVelocity = 0" />
+		<Field Def="f32 AccelerationDuration = 0" />
+		<Field Def="f32 HomingStartDistance = 0" />
+		<Field Def="f32 InitialHitRadius = 0.1" />
+		<Field Def="f32 FinalHitRadius = -1" />
+		<Field Def="f32 RadiusSpreadTime = 0" />
+		<Field Def="f32 ExplosionDelay = 0" />
+		<Field Def="f32 HomingOffsetRange = 0" />
+		<Field Def="f32 HitboxDuration = 0" />
+		<Field Def="f32 ExternalForce = 0" />
+		<Field Def="s32 OwnerSpEffectID = 0" />
+		<Field Def="s32 BulletAI = 0" />
+		<Field Def="s32 HitBulletID = -1" />
+		<Field Def="s32 TargetSpEffectID0 = 0" />
+		<Field Def="s32 TargetSpEffectID1 = 0" />
+		<Field Def="s32 TargetSpEffectID2 = 0" />
+		<Field Def="s32 TargetSpEffectID3 = 0" />
+		<Field Def="s32 TargetSpEffectID4 = 0" />
+		<Field Def="s16 BulletCount = 1" />
+		<Field Def="s16 HomingAngle = 0" />
+		<Field Def="s16 HorizontalShootAngle = 0" />
+		<Field Def="s16 ShootAngle-HorizontalInterval = 0" />
+		<Field Def="s16 ShootAngle-VerticalInterval = 0" />
+		<Field Def="u8 DamageFalloffPhysical = 0" />
+		<Field Def="u8 DamageFalloffMagic = 0" />
+		<Field Def="u8 DamageFalloffFire = 0" />
+		<Field Def="u8 DamageFalloffLightning = 0" />
+		<Field Def="u8 DamageFalloffStamina = 0" />
+		<Field Def="u8 DamageFalloffKnockback = 0" />
+		<Field Def="u8 VerticalShootAngle = 0" />
+		<Field Def="u8 LockShootLimitAngle = 0" />
+		<Field Def="u8 IsObjectPenetration = 1" />
+		<Field Def="u8 PreviousVelocityDirectionRate = 0" />
+		<Field Def="u8 AttackAttribute = 4" />
+		<Field Def="u8 EffectAttribute = 1" />
+		<Field Def="u8 MaterialAttackType = 0" />
+		<Field Def="u8 MaterialAttackMaterial = 6" />
+		<Field Def="u8 MaterialSize = 0" />
+		<Field Def="u8 LaunchConditionType = 0" />
+		<Field Def="u8 FollowTypeSoulmass:1" />
+		<Field Def="u8 FollowTypeCatalyst:1" />
+		<Field Def="u8 FollowTypeFollowFloor:1" />
+		<Field Def="u8 EmitterTypePlayerFeet:1" />
+		<Field Def="u8 EmitterTypeParentBullet:1" />
+		<Field Def="u8 EmitterTypeNearestEnemyFeet:1" />
+		<Field Def="u8 PersistentAttackFX:1" />
+		<Field Def="u8 ContinuousHitbox:1" />
+		<Field Def="u8 PenetrateMap:1" />
+		<Field Def="u8 HitBothTeams:1" />
+		<Field Def="u8 UseSharedHitList:1" />
+		<Field Def="u8 UseMultipleModelPoints:1" />
+		<Field Def="u8 AttachEffectType0:1" />
+		<Field Def="u8 AttachEffectType1:1" />
+		<Field Def="u8 CanbeDeflectedbyMagic:1" />
+		<Field Def="u8 IgnoreFXOnWaterHit:1" />
+		<Field Def="u8 IgnoreStateTransitionOnWaterHit:1" />
+		<Field Def="u8 CanBeDeflectedByBulletDeflection:1" />
+		<Field Def="u8 TransferEffecttoChildBullet:1" />
+		<Field Def="u8 TransferSpeedtoChildBullet:1" />
+		<Field Def="u8 IsLockModule:1" />
+		<Field Def="u8 IsSearchForTarget:1" />
+		<Field Def="u8 IsEmittedBullet:1" />
+		<Field Def="u8 TransferDurationtoChildBullet:1" />
+		<Field Def="u8 DamageFalloffDarkDamage = 0" />
+		<Field Def="u8 BulletHitType0 = 0" />
+		<Field Def="u8 BulletHitType1 = 0" />
+		<Field Def="f32 SpHomingYAngle = 0" />
+		<Field Def="f32 EmittedBullet-RandomAngleXZ = 0" />
+		<Field Def="f32 EmittedBullet-RandomAngleY = 0" />
+		<Field Def="s32 BulletEmitterBulletID = -1" />
+		<Field Def="f32 BulletEmitterShootInterval1 = 0" />
+		<Field Def="f32 BulletEmitterInitialShootInterval = 0" />
+		<Field Def="f32 SpHomingYAngleForEnemy = 0" />
+		<Field Def="f32 BulletEmitterShootInterval2 = 0" />
+		<Field Def="u8 LaunchType = 0" />
+		<Field Def="u8 LimitBulletParamID = 0" />
+		<Field Def="u8 CounterHitType = 1" />
+		<Field Def="u8 IsPositionHitBullet:1" />
+		<Field Def="u8 IsAttachAttackSFX:1" />
+		<Field Def="u8 IsSpCorrection0:1" />
+		<Field Def="u8 IsSpCorrection1:1" />
+		<Field Def="u8 IsPenetrateTarget:1" />
+		<Field Def="u8 IsSpCorrection2:1" />
+		<Field Def="u8 IsDisableIntScale:1" />
+		<Field Def="u8 Unk1:1" />
+		<Field Def="f32 EmitterPositionRadius = 0" />
+		<Field Def="s32 HitObjectID = -1" />
+		<Field Def="s32 Unk2 = 0" />
+		<Field Def="f32 Unk3 = -1" />
+		<Field Def="s8 Unk4 = 0" />
+		<Field Def="s8 Unk5 = 0" />
+		<Field Def="s8 Unk6 = 0" />
+		<Field Def="s8 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s16 Unk12a = 0" />
+		<Field Def="s16 Unk12b = 0" />
+		<Field Def="f32 Unk13 = 0" />
+		<Field Def="f32 Unk14 = 0" />
+		<Field Def="s32 Unk15 = 0" />
+		<Field Def="s16 Unk16a = 0" />
+		<Field Def="s16 Unk16b = 0" />
+		<Field Def="s32 Unk17 = 0" />
+		<Field Def="f32 Unk18 = 0" />
+		<Field Def="f32 Unk19 = 0" />
+		<Field Def="s32 Unk20 = 0" />
+		<Field Def="s32 Unk21 = 0" />
+	</Fields>
 </PARAMDEF>

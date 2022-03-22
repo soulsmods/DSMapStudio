@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+	<ParamType>MODEL_SFX_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 VFX1-ID = 800022" />
+		<Field Def="s32 VFX1-DummyPoint = 200" />
+		<Field Def="s32 Unk1 = 0" />
+		<Field Def="s32 Unk2 = 0" />
+		<Field Def="s32 VFX2-ID = 0" />
+		<Field Def="s32 VFX2-DummyPoint = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s32 VFX3-ID = 0" />
+		<Field Def="s32 VFX3-DummyPoint = 0" />
+		<Field Def="s32 VFX4-ID = 0" />
+		<Field Def="s32 VFX4-DummyPoint = 0" />
+		<Field Def="s32 VFX5-ID = 0" />
+		<Field Def="s32 VFX5-DummyPoint = 0" />
+		<Field Def="s32 VFX6-ID = 0" />
+		<Field Def="s32 VFX6-DummyPoint = 0" />
+		<Field Def="s32 VFX7-ID = 0" />
+		<Field Def="s32 VFX7-DummyPoint = 0" />
+		<Field Def="s32 Unk6 = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 VFX8-ID = 0" />
+		<Field Def="s32 VFX8-DummyPoint = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 VFX9-ID = 0" />
+		<Field Def="s32 VFX9-DummyPoint = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 VFX10-ID = 0" />
+		<Field Def="s32 VFX10-DummyPoint = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 Unk12 = 0" />
+	</Fields>
+</PARAMDEF>

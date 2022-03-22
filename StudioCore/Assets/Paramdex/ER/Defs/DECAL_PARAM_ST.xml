@@ -1,72 +1,149 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>DECAL_PARAM_ST</ParamType>
-  <DataVersion>1</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-    <Field Def="u32 Unk80" />
-    <Field Def="u32 Unk84" />
-    <Field Def="u32 Unk88" />
-    <Field Def="u32 Unk8C" />
-    <Field Def="u32 Unk90" />
-    <Field Def="u32 Unk94" />
-    <Field Def="u32 Unk98" />
-    <Field Def="u32 Unk9C" />
-    <Field Def="u32 UnkA0" />
-    <Field Def="u32 UnkA4" />
-    <Field Def="u32 UnkA8" />
-    <Field Def="u32 UnkAC" />
-    <Field Def="u32 UnkB0" />
-    <Field Def="u32 UnkB4" />
-    <Field Def="u32 UnkB8" />
-    <Field Def="u32 UnkBC" />
-    <Field Def="u32 UnkC0" />
-    <Field Def="u32 UnkC4" />
-    <Field Def="u32 UnkC8" />
-    <Field Def="u32 UnkCC" />
-    <Field Def="u32 UnkD0" />
-    <Field Def="u32 UnkD4" />
-    <Field Def="u32 UnkD8" />
-    <Field Def="u32 UnkDC" />
-    <Field Def="u32 UnkE0" />
-    <Field Def="u32 UnkE4" />
-    <Field Def="u32 UnkE8" />
-    <Field Def="u32 UnkEC" />
-    <Field Def="u32 UnkF0" />
-    <Field Def="u32 UnkF4" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>DECAL_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 TextureID0 = 100000" />
+		<Field Def="s32 DummyPolyID = -1" />
+		<Field Def="f32 AnglePitch = 0" />
+		<Field Def="f32 AngleYaw = 0" />
+		<Field Def="f32 DistanceNear = -0.5" />
+		<Field Def="f32 DistanceFar = 5" />
+		<Field Def="f32 SizeNear = 1" />
+		<Field Def="f32 SizeFar = 3" />
+		<Field Def="s32 MaskEffectID = -1" />
+		<Field Def="u32 RandomVariationNumber0:1" />
+		<Field Def="u32 RandomVariationNumber1:1" />
+		<Field Def="u32 RandomVariationNumber2:1" />
+		<Field Def="u32 RandomVariationNumber3:1" />
+		<Field Def="u32 ReplaceTextID-ByMaterial:1" />
+		<Field Def="u32 DummyPolyCategory0:1" />
+		<Field Def="u32 DummyPolyCategory1:1" />
+		<Field Def="u32 DecalShapeType0:1" />
+		<Field Def="u32 DecalShapeType1:1" />
+		<Field Def="u32 DecalShapeType2:1" />
+		<Field Def="u32 DecalShapeType3:1" />
+		<Field Def="u32 UseDeferredDecal:1" />
+		<Field Def="u32 UsePaintDecal:1" />
+		<Field Def="u32 TargetAttackerChr:1" />
+		<Field Def="u32 TargetDamagedChr:1" />
+		<Field Def="u32 TargetOtherChr:1" />
+		<Field Def="u32 TargetMapObject:1" />
+		<Field Def="u32 UsePOM:1" />
+		<Field Def="u32 Unk1:1" />
+		<Field Def="u32 Unk2:1" />
+		<Field Def="u32 Unk3:1" />
+		<Field Def="u32 Unk4:1" />
+		<Field Def="u32 Unk5:1" />
+		<Field Def="u32 Unk6:1" />
+		<Field Def="u32 Unk7:1" />
+		<Field Def="u32 Unk8:1" />
+		<Field Def="u32 Unk9:1" />
+		<Field Def="u32 Unk10:1" />
+		<Field Def="u32 Unk11:1" />
+		<Field Def="u32 Unk12:1" />
+		<Field Def="u32 Unk13:1" />
+		<Field Def="u32 Unk14:1" />
+		<Field Def="s16 RandomSizeMinimum = 80" />
+		<Field Def="s16 RandomSizeMaximum = 160" />
+		<Field Def="f32 RandomRollMinimum = -20" />
+		<Field Def="f32 RandomRollMaximum = 0" />
+		<Field Def="f32 RandomPitchMinimum = -10" />
+		<Field Def="f32 RandomPitchMaximum = 10" />
+		<Field Def="f32 RandomYawMinimum = -10" />
+		<Field Def="f32 RandomYawMaximum = 10" />
+		<Field Def="f32 POMHeightScale = 1" />
+		<Field Def="u8 POMSampleMinimum = 8" />
+		<Field Def="u8 POMSampleMaximum = 64" />
+		<Field Def="u8 Contrast1 = 1" />
+		<Field Def="u8 TextureLengthType = 0" />
+		<Field Def="f32 TextureWidthX = 40" />
+		<Field Def="f32 TextureWidthZ = 0" />
+		<Field Def="f32 TextureLifetime = 0" />
+		<Field Def="s32 Unk15 = 0" />
+		<Field Def="f32 Unk16 = 0.05" />
+		<Field Def="s32 Unk17 = -1" />
+		<Field Def="s32 Unk18 = -1" />
+		<Field Def="s32 Unk19 = -1" />
+		<Field Def="s32 Unk20 = 0" />
+		<Field Def="s32 TextureID1 = -1" />
+		<Field Def="s32 TextureID2 = 100000" />
+		<Field Def="s32 TextureID3 = 100000" />
+		<Field Def="f32 Brightness = 1" />
+		<Field Def="s32 TextureID4 = 100000" />
+		<Field Def="s32 TextureID5 = -1" />
+		<Field Def="s32 TextureID6 = -1" />
+		<Field Def="u8 DiffuseR = 6" />
+		<Field Def="u8 DiffuseG = 2" />
+		<Field Def="u8 DiffuseB = 2" />
+		<Field Def="s8 Unk22 = 0" />
+		<Field Def="u8 SpecularR = 0" />
+		<Field Def="u8 SpecularG = 0" />
+		<Field Def="u8 SpecularB = 0" />
+		<Field Def="s8 DelayedSpawnState = 0" />
+		<Field Def="f32 Contrast2 = 1" />
+		<Field Def="f32 Unk23 = 60" />
+		<Field Def="f32 Unk24 = 10" />
+		<Field Def="u8 Unk25 = 0" />
+		<Field Def="u8 Unk26 = 0" />
+		<Field Def="u8 Unk27 = 1" />
+		<Field Def="u8 Unk28 = 0" />
+		<Field Def="f32 MinimumValue = 1" />
+		<Field Def="f32 MaximumValue = 10" />
+		<Field Def="u8 Unk29 = 2" />
+		<Field Def="u8 Unk30 = 5" />
+		<Field Def="u16 DecalSpawnDelay = 0" />
+		<Field Def="u32 Unk31:1" />
+		<Field Def="u32 Unk32:1" />
+		<Field Def="u32 Unk33:1" />
+		<Field Def="u32 Unk34:1" />
+		<Field Def="u32 Unk35:1" />
+		<Field Def="u32 IsContactPlayer:1" />
+		<Field Def="u32 IsFormCube:1" />
+		<Field Def="u32 Unk36:1" />
+		<Field Def="u32 Unk37:1" />
+		<Field Def="u32 Unk38:1" />
+		<Field Def="u32 Unk39:1" />
+		<Field Def="u32 Unk40:1" />
+		<Field Def="u32 Unk41:1" />
+		<Field Def="u32 Unk42:1" />
+		<Field Def="u32 Unk43:1" />
+		<Field Def="u32 Unk44:1" />
+		<Field Def="u32 Unk45:1" />
+		<Field Def="u32 Unk46:1" />
+		<Field Def="u32 Unk47:1" />
+		<Field Def="u32 Unk48:1" />
+		<Field Def="u32 Unk49:1" />
+		<Field Def="u32 Unk50:1" />
+		<Field Def="u32 Unk51:1" />
+		<Field Def="u32 Unk52:1" />
+		<Field Def="u32 Unk53:1" />
+		<Field Def="u32 Unk54:1" />
+		<Field Def="u32 Unk55:1" />
+		<Field Def="u32 Unk56:1" />
+		<Field Def="u32 Unk57:1" />
+		<Field Def="u32 Unk58:1" />
+		<Field Def="u32 Unk59:1" />
+		<Field Def="u32 Unk60:1" />
+		<Field Def="f32 TextureSpawnDelay = 0" />
+		<Field Def="f32 Unk61 = 0" />
+		<Field Def="f32 Unk62 = 0" />
+		<Field Def="s32 Unk63 = 0" />
+		<Field Def="s32 Unk64 = 0" />
+		<Field Def="s32 Unk65 = 0" />
+		<Field Def="f32 Unk66 = 0" />
+		<Field Def="s32 Unk67 = 0" />
+		<Field Def="s32 Unk68 = 0" />
+		<Field Def="s32 Unk69 = 0" />
+		<Field Def="s32 Unk70 = 0" />
+		<Field Def="s32 Unk71 = 0" />
+		<Field Def="s32 Unk72 = 0" />
+		<Field Def="s32 Unk73 = 0" />
+		<Field Def="s32 Unk74 = 0" />
+		<Field Def="s32 Unk75 = 0" />
+		<Field Def="s32 Unk76 = 0" />
+	</Fields>
 </PARAMDEF>

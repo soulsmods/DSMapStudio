@@ -1,34 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>OBJ_ACT_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>OBJ_ACT_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 ActionEnabledMessageID = 10010400" />
+		<Field Def="s32 ActionFailedMessageID = -1" />
+		<Field Def="s32 QualifiedEventID = -1" />
+		<Field Def="s32 PlayerAnimationID = 60000" />
+		<Field Def="s32 CharacterAnimationID = 7120" />
+		<Field Def="s16 ValidDistance = 70" />
+		<Field Def="s16 QualifiedItemID = 0" />
+		<Field Def="s16 QualifiedItemID = 0" />
+		<Field Def="u8 ObjectDummyID = 120" />
+		<Field Def="u8 Unk0 = 0" />
+		<Field Def="s32 ObjectAnimationID = 1" />
+		<Field Def="u8 ValidPlayerAngle = 60" />
+		<Field Def="u8 QualifiedID1Type = 0" />
+		<Field Def="u8 QualifiedID2Type = 0" />
+		<Field Def="u8 ValidObjectAngle = 60" />
+		<Field Def="u8 CharacterAbsorbType = 0" />
+		<Field Def="u8 EventKickTiming = 1" />
+		<Field Def="u8 Unk1 = 0" />
+		<Field Def="u8 Unk2 = 0" />
+		<Field Def="s32 ActionButtonParamID = 7200" />
+		<Field Def="s32 ActionSuccessMessageID = 0" />
+		<Field Def="s32 Unk1 = 0" />
+		<Field Def="s32 Unk2 = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s32 Unk5 = 0" />
+		<Field Def="s32 Unk6 = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 Unk12 = 0" />
+	</Fields>
 </PARAMDEF>

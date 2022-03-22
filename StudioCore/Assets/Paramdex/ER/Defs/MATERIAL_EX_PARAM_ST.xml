@@ -1,34 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>MATERIAL_EX_PARAM_ST</ParamType>
-  <DataVersion>4</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>MATERIAL_EX_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="u8 Unk0a = 0" />
+		<Field Def="u8 Unk0b = 0" />
+		<Field Def="u8 Unk0c = 0" />
+		<Field Def="u8 Unk0d = 0" />
+		<Field Def="u8 Unk1a = 0" />
+		<Field Def="u8 Unk1b = 0" />
+		<Field Def="u8 Unk1c = 0" />
+		<Field Def="u8 Unk1d = 0" />
+		<Field Def="u8 Unk2a = 0" />
+		<Field Def="u8 Unk2b = 0" />
+		<Field Def="u8 Unk2c = 0" />
+		<Field Def="u8 Unk2d = 0" />
+		<Field Def="u8 Unk3a = 0" />
+		<Field Def="u8 Unk3b = 0" />
+		<Field Def="u8 Unk3c = 0" />
+		<Field Def="u8 Unk3d = 0" />
+		<Field Def="u8 Unk4a = 0" />
+		<Field Def="u8 Unk4b = 0" />
+		<Field Def="u8 Unk4c = 0" />
+		<Field Def="u8 Unk4d = 0" />
+		<Field Def="u8 Unk5a = 0" />
+		<Field Def="u8 Unk5b = 0" />
+		<Field Def="u8 Unk5c = 0" />
+		<Field Def="u8 Unk5d = 0" />
+		<Field Def="u8 Unk6a = 0" />
+		<Field Def="u8 Unk6b = 0" />
+		<Field Def="u8 Unk6c = 0" />
+		<Field Def="u8 Unk6d = 0" />
+		<Field Def="u8 Unk7a = 0" />
+		<Field Def="u8 Unk7b = 0" />
+		<Field Def="u8 Unk7c = 0" />
+		<Field Def="u8 Unk7d = 0" />
+		<Field Def="u8 Unk8a = 0" />
+		<Field Def="u8 Unk8b = 0" />
+		<Field Def="u8 Unk8c = 0" />
+		<Field Def="u8 Unk8d = 0" />
+		<Field Def="u8 Unk9a = 0" />
+		<Field Def="u8 Unk9b = 0" />
+		<Field Def="u8 Unk9c = 0" />
+		<Field Def="u8 Unk9d = 0" />
+		<Field Def="u8 Unk10a = 0" />
+		<Field Def="u8 Unk10b = 0" />
+		<Field Def="u8 Unk10c = 0" />
+		<Field Def="u8 Unk10d = 0" />
+		<Field Def="u8 Unk11a = 0" />
+		<Field Def="u8 Unk11b = 0" />
+		<Field Def="u8 Unk11c = 0" />
+		<Field Def="u8 Unk11d = 0" />
+		<Field Def="u8 Unk12a = 0" />
+		<Field Def="u8 Unk12b = 0" />
+		<Field Def="u8 Unk12c = 0" />
+		<Field Def="u8 Unk12d = 0" />
+		<Field Def="s32 Unk13 = 0" />
+		<Field Def="s32 Unk14 = 0" />
+		<Field Def="s32 Unk15 = 0" />
+		<Field Def="s32 Unk16 = 0" />
+		<Field Def="u8 Unk17a = 0" />
+		<Field Def="u8 Unk17b = 0" />
+		<Field Def="u8 Unk17c = 0" />
+		<Field Def="u8 Unk17d = 0" />
+		<Field Def="u8 Unk18a = 0" />
+		<Field Def="u8 Unk18b = 0" />
+		<Field Def="u8 Unk18c = 0" />
+		<Field Def="u8 Unk18d = 0" />
+		<Field Def="u8 Unk19a = 0" />
+		<Field Def="u8 Unk19b = 0" />
+		<Field Def="u8 Unk19c = 0" />
+		<Field Def="u8 Unk19d = 0" />
+		<Field Def="u8 Unk20a = 0" />
+		<Field Def="u8 Unk20b = 0" />
+		<Field Def="u8 Unk20c = 0" />
+		<Field Def="u8 Unk20d = 0" />
+		<Field Def="f32 Unk21 = 0" />
+		<Field Def="s32 Unk22 = 0" />
+		<Field Def="s32 Unk23 = 0" />
+	</Fields>
 </PARAMDEF>

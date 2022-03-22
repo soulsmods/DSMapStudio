@@ -1,34 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>EQUIP_PARAM_ACCESSORY_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>EQUIP_PARAM_ACCESSORY_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unk1 = -1" />
+		<Field Def="s32 SpEffectID1 = -1" />
+		<Field Def="dummy8 VFXVariationID[4]" />
+		<Field Def="f32 Weight = 1" />
+		<Field Def="dummy8 BehaviorID[4]" />
+		<Field Def="dummy8 BasePrice[4]" />
+		<Field Def="s32 SellValue = 150" />
+		<Field Def="s32 SortID = 80000" />
+		<Field Def="dummy8 QWCID[4]" />
+		<Field Def="dummy8 EquipModelID[2]" />
+		<Field Def="s16 IconID = 5000" />
+		<Field Def="dummy8 ShopLevel[2]" />
+		<Field Def="dummy8 Undetermined[2]" />
+		<Field Def="dummy8 Undetermined[2]" />
+		<Field Def="dummy8 EquipModelCategory[1]" />
+		<Field Def="dummy8 EquipModelGender[1]" />
+		<Field Def="dummy8 AccessoryType[1]" />
+		<Field Def="u8 ReferenceType = 2" />
+		<Field Def="u8 SpEffectCategory = 0" />
+		<Field Def="u8 Unk2 = 0" />
+		<Field Def="dummy8 VagrantItemLotID[4]" />
+		<Field Def="dummy8 VagrantBonusItemLotID[4]" />
+		<Field Def="dummy8 VagrantEnemyItemLotID[4]" />
+		<Field Def="u8 IsDepositable:1" />
+		<Field Def="u8 IsBreakuponUnequip:1" />
+		<Field Def="u8 IsDroppingDisabledinMultiplayer:1" />
+		<Field Def="u8 IsDiscardable:1" />
+		<Field Def="u8 IsDroppable:1" />
+		<Field Def="u8 Unk3:1" />
+		<Field Def="u8 Unk4:1" />
+		<Field Def="u8 Unk5:1" />
+		<Field Def="u8 Rarity = 0" />
+		<Field Def="dummy8 Unk5[1]" />
+		<Field Def="dummy8 Unk6[1]" />
+		<Field Def="dummy8 ShopPrice[4]" />
+		<Field Def="s16 RingCompatibilityID = -1" />
+		<Field Def="dummy8 Unk4[1]" />
+		<Field Def="s8 AchievementID = 0" />
+		<Field Def="s32 SpEffectID2 = 0" />
+		<Field Def="s32 SpEffectID2 = 0" />
+		<Field Def="s32 SpEffectID3 = 0" />
+		<Field Def="s32 SpEffectID4 = 0" />
+		<Field Def="dummy8 Unk7[1]" />
+		<Field Def="dummy8 Unk8[1]" />
+		<Field Def="dummy8 Unk9[1]" />
+		<Field Def="dummy8 Unk10[1]" />
+	</Fields>
 </PARAMDEF>

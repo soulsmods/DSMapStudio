@@ -1,18 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>BEHAVIOR_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>BEHAVIOR_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 BehaviorVariationID = 0" />
+		<Field Def="s32 BehaviorJudgeID = 0" />
+		<Field Def="u8 StateBehaviorType = 0" />
+		<Field Def="u8 ReferenceType = 0" />
+		<Field Def="dummy8 padding[2]" />
+		<Field Def="s32 ReferenceID = 0" />
+		<Field Def="s32 SFXVariationID = 0" />
+		<Field Def="s32 StaminaCost = 0" />
+		<Field Def="s32 DurabilityCost = 0" />
+		<Field Def="u8 Category = 0" />
+		<Field Def="u8 HumanityCost = 0" />
+		<Field Def="dummy8 padding[2]" />
+	</Fields>
 </PARAMDEF>

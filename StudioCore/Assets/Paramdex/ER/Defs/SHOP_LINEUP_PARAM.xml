@@ -1,29 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>SHOP_LINEUP_PARAM</ParamType>
-  <DataVersion>3</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="s32 EquipId" />
-    <Field Def="s32 value = 0" />
-    <Field Def="s32 mtrlId = -1" />
-    <Field Def="u32 EventFlag = 0" />
-    <Field Def="u32 qwcID = 0" />
-    <Field Def="s16 sellQuantity = -1" />
-    <Field Def="u8 shopType = 0" />  <!-- Unknown -->
-    <Field Def="u8 equipType">
-      <Enum>ItemType</Enum>
-    </Field>
-    <Field Def="s16 Unk18" /> <!-- Usually 0, rarely 1-4 -->
-    <Field Def="s16 Unk1A = 1" />
-    <Field Def="s32 Unk1C = 0" />
-    <Field Def="f32 PriceRate = 1.0" />
-    <Field Def="s32 Unk24 = -1" />
-    <Field Def="s32 Unk28 = -1" /> <!-- Usually -1, appears once as 8750-8765 -->
-    <Field Def="s32 Unk2C = -1" /> <!-- Usually -1, appears once as 231010 231020 231030 -->
-    <Field Def="s16 Unk30 = -1" /> <!-- Usually -1, appears once as 17 18 19 -->
-    <Field Def="s16 Unk32 = 0" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>SHOP_LINEUP_PARAM</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 EquipID = 500" />
+		<Field Def="s32 Value = -1" />
+		<Field Def="s32 MaterialID = -1" />
+		<Field Def="s32 EventFlag = -1" />
+		<Field Def="s32 QWCID = -1" />
+		<Field Def="s16 QuantityAvailable = 1" />
+		<Field Def="dummy8 padding[1]" />
+		<Field Def="u8 EquipType = 0" />
+		<Field Def="s16 CurrencyType = 0" />
+		<Field Def="s16 QuantityProduced = -1" />
+		<Field Def="dummy8 padding[4]" />
+		<Field Def="f32 PriceRate = 1" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s32 ShopDisplayID = 0" />
+		<Field Def="s32 SpellInstruction-TextID = 0" />
+		<Field Def="s8 Unk6 = 0" />
+		<Field Def="s8 Unk7 = 0" />
+		<Field Def="dummy8 padding[2]" />
+	</Fields>
 </PARAMDEF>

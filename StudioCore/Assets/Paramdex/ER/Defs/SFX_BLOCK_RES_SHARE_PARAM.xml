@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>SFX_BLOCK_RES_SHARE_PARAM</ParamType>
-  <DataVersion>1</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>SFX_BLOCK_RES_SHARE_PARAM</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="f32 Unk0 = 0" />
+	</Fields>
 </PARAMDEF>

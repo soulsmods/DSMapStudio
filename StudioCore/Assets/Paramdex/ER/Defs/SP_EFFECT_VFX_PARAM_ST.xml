@@ -1,51 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>SP_EFFECT_VFX_PARAM_ST</ParamType>
-  <DataVersion>1</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-    <Field Def="u32 Unk80" />
-    <Field Def="u32 Unk84" />
-    <Field Def="u32 Unk88" />
-    <Field Def="u32 Unk8C" />
-    <Field Def="u32 Unk90" />
-    <Field Def="u32 Unk94" />
-    <Field Def="u32 Unk98" />
-    <Field Def="u32 Unk9C" />
-    <Field Def="u32 UnkA0" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>SP_EFFECT_VFX_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 OngoingVisualFXID = -1" />
+		<Field Def="s32 OngoingSoundFXID = -1" />
+		<Field Def="s32 InitialVisualFXID = -1" />
+		<Field Def="s32 InitialSoundFXID = -1" />
+		<Field Def="s32 FinishVisualFXID = -1" />
+		<Field Def="s32 FinishSoundFXID = -1" />
+		<Field Def="f32 HideStartDistance = -1" />
+		<Field Def="f32 HideEndDistance = -1" />
+		<Field Def="s32 Transform-ProtectorID = -1" />
+		<Field Def="s16 OngoingModelPointID = -1" />
+		<Field Def="s16 InitialModelPointID = -1" />
+		<Field Def="s16 FinishModelPointID = -1" />
+		<Field Def="u8 EffectType = 0" />
+		<Field Def="u8 WeaponEnchantID0 = 0" />
+		<Field Def="u8 PlayCategory = 0" />
+		<Field Def="u8 PlayPriority = 0" />
+		<Field Def="u8 LargeEffectExists:1" />
+		<Field Def="u8 SoulEffectExists:1" />
+		<Field Def="u8 InvisibleWhilstHidden:1" />
+		<Field Def="u8 EnableHideFields:1" />
+		<Field Def="u8 InvisibleinCamouflageforFriend:1" />
+		<Field Def="u8 AddMapAreaBlockOffset:1" />
+		<Field Def="u8 EnableHalfHidden:1" />
+		<Field Def="u8 IsFullBodyProtectorID:1" />
+		<Field Def="u8 IsInvisibleWeapon:1" />
+		<Field Def="u8 IsSilent:1" />
+		<Field Def="u8 IsHandProtectorID:1" />
+		<Field Def="u8 Unk1:1" />
+		<Field Def="u8 Unk2:1" />
+		<Field Def="u8 Unk3:1" />
+		<Field Def="u8 Unk4:1" />
+		<Field Def="u8 Unk5:1" />
+		<Field Def="s32 DecalID0 = -1" />
+		<Field Def="s32 DecalID1 = -1" />
+		<Field Def="u8 WeaponEnchantID1 = 0" />
+		<Field Def="u8 EffectVFXType0 = 0" />
+		<Field Def="u8 EffectVFXType1 = 0" />
+		<Field Def="u8 BodyProtectorType = 0" />
+		<Field Def="s32 EffectVFX-DummyID0 = -1" />
+		<Field Def="s32 EffectVFX-DummyID1 = -1" />
+		<Field Def="s32 EffectVFX-DummyID2 = -1" />
+		<Field Def="s32 EffectVFX-DummyID3 = -1" />
+		<Field Def="s32 EffectVFX-DummyID4 = -1" />
+		<Field Def="s32 EffectVFX-DummyID5 = -1" />
+		<Field Def="s32 EffectVFX-DummyID6 = -1" />
+		<Field Def="s32 EffectVFX-DummyID7 = -1" />
+		<Field Def="s32 EffectVFX-DummyID8 = -1" />
+		<Field Def="s32 EffectVFX-DummyID9 = -1" />
+		<Field Def="s32 EffectVFX-DummyID10 = -1" />
+		<Field Def="s32 EffectVFX-DummyID11 = -1" />
+		<Field Def="s32 EffectVFX-DummyID12 = -1" />
+		<Field Def="s32 EffectVFX-DummyID13 = -1" />
+		<Field Def="s32 EffectVFX-DummyID14 = -1" />
+		<Field Def="s32 EffectVFX-DummyID15 = -1" />
+		<Field Def="u8 Unk6 = 0" />
+		<Field Def="u8 PhantomType = 0" />
+		<Field Def="u8 CamouflageGhost = 0" />
+		<Field Def="u8 Unk7 = 0" />
+		<Field Def="s32 PhantomParamID = 0" />
+		<Field Def="s32 EmissiveIntensityScale = -1" />
+		<Field Def="f32 Unk8 = 0" />
+		<Field Def="s16 BodyProtectorVal = -1" />
+		<Field Def="s16 Unk9 = 0" />
+		<Field Def="f32 EmberIntensityScale = -1" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 Unk12 = 0" />
+		<Field Def="s32 Unk13 = 0" />
+	</Fields>
 </PARAMDEF>

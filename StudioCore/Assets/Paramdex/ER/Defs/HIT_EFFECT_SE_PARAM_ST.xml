@@ -1,170 +1,650 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>HIT_EFFECT_SE_PARAM_ST</ParamType>
-  <DataVersion>1</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-    <Field Def="u32 Unk80" />
-    <Field Def="u32 Unk84" />
-    <Field Def="u32 Unk88" />
-    <Field Def="u32 Unk8C" />
-    <Field Def="u32 Unk90" />
-    <Field Def="u32 Unk94" />
-    <Field Def="u32 Unk98" />
-    <Field Def="u32 Unk9C" />
-    <Field Def="u32 UnkA0" />
-    <Field Def="u32 UnkA4" />
-    <Field Def="u32 UnkA8" />
-    <Field Def="u32 UnkAC" />
-    <Field Def="u32 UnkB0" />
-    <Field Def="u32 UnkB4" />
-    <Field Def="u32 UnkB8" />
-    <Field Def="u32 UnkBC" />
-    <Field Def="u32 UnkC0" />
-    <Field Def="u32 UnkC4" />
-    <Field Def="u32 UnkC8" />
-    <Field Def="u32 UnkCC" />
-    <Field Def="u32 UnkD0" />
-    <Field Def="u32 UnkD4" />
-    <Field Def="u32 UnkD8" />
-    <Field Def="u32 UnkDC" />
-    <Field Def="u32 UnkE0" />
-    <Field Def="u32 UnkE4" />
-    <Field Def="u32 UnkE8" />
-    <Field Def="u32 UnkEC" />
-    <Field Def="u32 UnkF0" />
-    <Field Def="u32 UnkF4" />
-    <Field Def="u32 UnkF8" />
-    <Field Def="u32 UnkFC" />
-    <Field Def="u32 Unk100" />
-    <Field Def="u32 Unk104" />
-    <Field Def="u32 Unk108" />
-    <Field Def="u32 Unk10C" />
-    <Field Def="u32 Unk110" />
-    <Field Def="u32 Unk114" />
-    <Field Def="u32 Unk118" />
-    <Field Def="u32 Unk11C" />
-    <Field Def="u32 Unk120" />
-    <Field Def="u32 Unk124" />
-    <Field Def="u32 Unk128" />
-    <Field Def="u32 Unk12C" />
-    <Field Def="u32 Unk130" />
-    <Field Def="u32 Unk134" />
-    <Field Def="u32 Unk138" />
-    <Field Def="u32 Unk13C" />
-    <Field Def="u32 Unk140" />
-    <Field Def="u32 Unk144" />
-    <Field Def="u32 Unk148" />
-    <Field Def="u32 Unk14C" />
-    <Field Def="u32 Unk150" />
-    <Field Def="u32 Unk154" />
-    <Field Def="u32 Unk158" />
-    <Field Def="u32 Unk15C" />
-    <Field Def="u32 Unk160" />
-    <Field Def="u32 Unk164" />
-    <Field Def="u32 Unk168" />
-    <Field Def="u32 Unk16C" />
-    <Field Def="u32 Unk170" />
-    <Field Def="u32 Unk174" />
-    <Field Def="u32 Unk178" />
-    <Field Def="u32 Unk17C" />
-    <Field Def="u32 Unk180" />
-    <Field Def="u32 Unk184" />
-    <Field Def="u32 Unk188" />
-    <Field Def="u32 Unk18C" />
-    <Field Def="u32 Unk190" />
-    <Field Def="u32 Unk194" />
-    <Field Def="u32 Unk198" />
-    <Field Def="u32 Unk19C" />
-    <Field Def="u32 Unk1A0" />
-    <Field Def="u32 Unk1A4" />
-    <Field Def="u32 Unk1A8" />
-    <Field Def="u32 Unk1AC" />
-    <Field Def="u32 Unk1B0" />
-    <Field Def="u32 Unk1B4" />
-    <Field Def="u32 Unk1B8" />
-    <Field Def="u32 Unk1BC" />
-    <Field Def="u32 Unk1C0" />
-    <Field Def="u32 Unk1C4" />
-    <Field Def="u32 Unk1C8" />
-    <Field Def="u32 Unk1CC" />
-    <Field Def="u32 Unk1D0" />
-    <Field Def="u32 Unk1D4" />
-    <Field Def="u32 Unk1D8" />
-    <Field Def="u32 Unk1DC" />
-    <Field Def="u32 Unk1E0" />
-    <Field Def="u32 Unk1E4" />
-    <Field Def="u32 Unk1E8" />
-    <Field Def="u32 Unk1EC" />
-    <Field Def="u32 Unk1F0" />
-    <Field Def="u32 Unk1F4" />
-    <Field Def="u32 Unk1F8" />
-    <Field Def="u32 Unk1FC" />
-    <Field Def="u32 Unk200" />
-    <Field Def="u32 Unk204" />
-    <Field Def="u32 Unk208" />
-    <Field Def="u32 Unk20C" />
-    <Field Def="u32 Unk210" />
-    <Field Def="u32 Unk214" />
-    <Field Def="u32 Unk218" />
-    <Field Def="u32 Unk21C" />
-    <Field Def="u32 Unk220" />
-    <Field Def="u32 Unk224" />
-    <Field Def="u32 Unk228" />
-    <Field Def="u32 Unk22C" />
-    <Field Def="u32 Unk230" />
-    <Field Def="u32 Unk234" />
-    <Field Def="u32 Unk238" />
-    <Field Def="u32 Unk23C" />
-    <Field Def="u32 Unk240" />
-    <Field Def="u32 Unk244" />
-    <Field Def="u32 Unk248" />
-    <Field Def="u32 Unk24C" />
-    <Field Def="u32 Unk250" />
-    <Field Def="u32 Unk254" />
-    <Field Def="u32 Unk258" />
-    <Field Def="u32 Unk25C" />
-    <Field Def="u32 Unk260" />
-    <Field Def="u32 Unk264" />
-    <Field Def="u32 Unk268" />
-    <Field Def="u32 Unk26C" />
-    <Field Def="u32 Unk270" />
-    <Field Def="u32 Unk274" />
-    <Field Def="u32 Unk278" />
-    <Field Def="u32 Unk27C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>HIT_EFFECT_SE_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+		<Field Def="u8 Unk = 0" />
+	</Fields>
 </PARAMDEF>

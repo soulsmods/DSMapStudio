@@ -1,37 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>GAME_AREA_PARAM_ST</ParamType>
-  <DataVersion>3</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u8 MapId1" />
-    <Field Def="u8 MapId2" />
-    <Field Def="u8 MapId3" />
-    <Field Def="u8 MapId4" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>GAME_AREA_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unk1 = 0" />
+		<Field Def="s32 BonusSouls-Singleplayer = 60000" />
+		<Field Def="s32 BonusSouls-Multiplayer = -1" />
+		<Field Def="s16 HumanityDropPoint1 = -1" />
+		<Field Def="s16 HumanityDropPoint2 = -1" />
+		<Field Def="s16 HumanityDropPoint3 = -1" />
+		<Field Def="s16 HumanityDropPoint4 = -1" />
+		<Field Def="s16 HumanityDropPoint5 = -1" />
+		<Field Def="s16 HumanityDropPoint6 = -1" />
+		<Field Def="s16 HumanityDropPoint7 = -1" />
+		<Field Def="s16 HumanityDropPoint8 = -1" />
+		<Field Def="s16 HumanityDropPoint9 = -1" />
+		<Field Def="s16 HumanityDropPoint10 = -1" />
+		<Field Def="s32 Sub-BonusSouls-Singleplayer = 0" />
+		<Field Def="s32 Sub-BonusSouls-Multiplayer = 10000" />
+		<Field Def="s32 Unk2 = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s32 Unk5 = 0" />
+		<Field Def="s32 Unk6 = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="f32 CoordinateX = 0" />
+		<Field Def="f32 CoordinateY = 0" />
+		<Field Def="f32 CoordinateZ = 0" />
+		<Field Def="u8 MapArea = 0" />
+		<Field Def="u8 MapBlock = 0" />
+		<Field Def="u8 MapRegion = 0" />
+		<Field Def="u8 MapIndex = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+	</Fields>
 </PARAMDEF>

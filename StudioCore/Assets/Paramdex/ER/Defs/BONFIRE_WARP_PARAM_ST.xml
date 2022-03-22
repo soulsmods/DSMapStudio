@@ -1,57 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>BONFIRE_WARP_PARAM_ST</ParamType>
-  <DataVersion>6</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk04" />
-    <Field Def="s32 LocationEventId" />
-    <Field Def="s16 Unk0C" />
-    <Field Def="s16 Unk0E" />
-    <Field Def="s32 Unk10" />
-    <Field Def="s32 SubCategoryId" />
-    <Field Def="s32 Unk18 = 0" />
-    <Field Def="s16 Unk1C" />
-    <Field Def="s16 Unk1E" />
-    <Field Def="u8 MapId1" />
-    <Field Def="u8 MapId2" />
-    <Field Def="u8 MapId3" />
-    <Field Def="u8 MapId4" />
-    <Field Def="f32 MapX" />
-    <Field Def="f32 MapY" />
-    <Field Def="f32 MapZ" />
-    <Field Def="s32 BonfireNameId" />
-    <Field Def="s32 Unk34 = 0" />
-    <Field Def="s32 Unk38 = 0" />
-    <Field Def="s32 Unk3C = -1" />
-    <Field Def="s32 Unk40 = 0" />
-    <Field Def="s32 Unk44 = 0" />
-    <Field Def="s32 Unk48 = -1" />
-    <Field Def="s32 Unk4C = 0" />
-    <Field Def="s32 Unk50 = 0" />
-    <Field Def="s32 Unk54 = -1" />
-    <Field Def="s32 Unk58 = 0" />
-    <Field Def="s32 Unk5C = 0" />
-    <Field Def="s32 Unk60 = -1" />
-    <Field Def="s32 Unk64 = 0" />
-    <Field Def="s32 Unk68 = 0" />
-    <Field Def="s32 Unk6C = -1" />
-    <Field Def="s32 Unk70 = 0" />
-    <Field Def="s32 Unk74 = 0" />
-    <Field Def="s32 Unk78 = -1" />
-    <Field Def="s32 Unk7C = 0" />
-    <Field Def="s32 Unk80 = 0" />
-    <Field Def="s32 Unk84 = -1" />
-    <Field Def="s32 Unk88 = 0" />
-    <Field Def="s32 Unk8C = 0" />
-    <Field Def="s32 Unk90 = 0" />
-    <Field Def="s32 Unk94 = 0" />
-    <Field Def="s32 Unk98" />
-    <Field Def="s32 Unk9C" />
-    <Field Def="s32 UnkA0 = -1" />
-    <Field Def="s32 UnkA4 = -1" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>BONFIRE_WARP_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 Unknown = 0" />
+		<Field Def="s32 Unknown = 0" />
+		<Field Def="s32 LocationEventID = 0" />
+		<Field Def="s16 Unk1 = 0" />
+		<Field Def="s16 Unk2 = 0" />
+		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 BonfireSub-CategoryID = 10011" />
+		<Field Def="s32 Unk4 = 0" />
+		<Field Def="s16 Unk5 = 0" />
+		<Field Def="s16 Unk6 = 0" />
+		<Field Def="s8 MapArea = 0" />
+		<Field Def="s8 MapBlock = 0" />
+		<Field Def="s8 MapRegion = 0" />
+		<Field Def="s8 MapIndex = 0" />
+		<Field Def="f32 CoordinateX = 0" />
+		<Field Def="f32 CoordinateY = 0" />
+		<Field Def="f32 CoordinateZ = 0" />
+		<Field Def="s32 Grace-TextID = 0" />
+		<Field Def="s32 Unk5 = 0" />
+		<Field Def="s32 Unk6 = 0" />
+		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s32 Unk9 = 0" />
+		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 Unk11 = 0" />
+		<Field Def="s32 Unk12 = 0" />
+		<Field Def="s32 Unk13 = 0" />
+		<Field Def="s32 Unk14 = 0" />
+		<Field Def="s32 Unk15 = 0" />
+		<Field Def="s32 Unk16 = 0" />
+		<Field Def="s32 Unk17 = 0" />
+		<Field Def="s32 Unk18 = 0" />
+		<Field Def="s32 Unk19 = 0" />
+		<Field Def="s32 Unk20 = 0" />
+		<Field Def="s32 Unk21 = 0" />
+		<Field Def="s32 Unk22 = 0" />
+		<Field Def="s32 Unk23 = 0" />
+		<Field Def="s32 Unk24 = 0" />
+		<Field Def="s32 Unk25 = 0" />
+		<Field Def="s32 Unk26 = 0" />
+		<Field Def="s32 Unk27 = 0" />
+		<Field Def="s32 Unk28 = 0" />
+		<Field Def="s32 Unk29 = 0" />
+		<Field Def="s32 Unk30 = 0" />
+		<Field Def="s32 Unk31 = 0" />
+		<Field Def="s32 Unk32 = 0" />
+		<Field Def="s32 Unk33 = 0" />
+		<Field Def="s32 Unk34 = 0" />
+		<Field Def="s32 Unk35 = 0" />
+		<Field Def="s32 Unk36 = 0" />
+		<Field Def="s32 Unk37 = 0" />
+		<Field Def="s32 Unk38 = 0" />
+		<Field Def="s32 Unk39 = 0" />
+		<Field Def="s32 Unk40 = 0" />
+		<Field Def="s32 Unk41 = 0" />
+		<Field Def="s32 Unk42 = 0" />
+		<Field Def="s32 Unk43 = 0" />
+		<Field Def="s32 Unk44 = 0" />
+		<Field Def="s32 Unk45 = 0" />
+		<Field Def="s32 Unk46 = 0" />
+		<Field Def="s32 Unk47 = 0" />
+		<Field Def="s32 Unk48 = 0" />
+		<Field Def="s32 Unk49 = 0" />
+		<Field Def="s32 Unk50 = 0" />
+	</Fields>
 </PARAMDEF>

@@ -1,46 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>MOVE_PARAM_ST</ParamType>
-  <DataVersion>1</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-    <Field Def="u32 Unk80" />
-    <Field Def="u32 Unk84" />
-    <Field Def="u32 Unk88" />
-    <Field Def="u32 Unk8C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>MOVE_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s32 stayId = 0" />
+		<Field Def="s32 walkF = 310" />
+		<Field Def="s32 walkB = 201" />
+		<Field Def="s32 walkL = 202" />
+		<Field Def="s32 walkR = 203" />
+		<Field Def="s32 dashF = -1" />
+		<Field Def="s32 dashB = -1" />
+		<Field Def="s32 dashL = -1" />
+		<Field Def="s32 dashR = -1" />
+		<Field Def="s32 superDash = -1" />
+		<Field Def="s32 escapeF = -1" />
+		<Field Def="s32 escapeB = -1" />
+		<Field Def="s32 escapeL = -1" />
+		<Field Def="s32 escapeR = -1" />
+		<Field Def="s32 turnL = 602" />
+		<Field Def="s32 turnR = 603" />
+		<Field Def="s32 largeTurnL = 604" />
+		<Field Def="s32 largeTurnR = 605" />
+		<Field Def="s32 stepMove = -1" />
+		<Field Def="s32 flyStay = -1" />
+		<Field Def="s32 flyWalkF = -1" />
+		<Field Def="s32 flyWalkFL = -1" />
+		<Field Def="s32 flyWalkFR = -1" />
+		<Field Def="s32 flyWalkFL2 = -1" />
+		<Field Def="s32 flyWalkFR2 = -1" />
+		<Field Def="s32 flyDashF = -1" />
+		<Field Def="s32 flyDashFL = -1" />
+		<Field Def="s32 flyDashFR = -1" />
+		<Field Def="s32 flyDashFL2 = -1" />
+		<Field Def="s32 flyDashFR2 = -1" />
+		<Field Def="s32 dashEscapeF = -1" />
+		<Field Def="s32 dashEscapeB = -1" />
+		<Field Def="s32 dashEscapeL = -1" />
+		<Field Def="s32 dashEscapeR = -1" />
+		<Field Def="s32 analogMoveParamId = -1" />
+		<Field Def="u8 turnNoAnimAngle = 0" />
+		<Field Def="u8 turn45Angle = 0" />
+		<Field Def="u8 turn90Angle = 0" />
+		<Field Def="u8 turnWaitNoAnimAngle = 0" />
+	</Fields>
 </PARAMDEF>

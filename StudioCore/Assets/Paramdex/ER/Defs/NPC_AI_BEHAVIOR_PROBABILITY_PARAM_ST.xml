@@ -1,110 +1,210 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="1">
-  <ParamType>NPC_AI_BEHAVIOR_PROBABILITY_PARAM_ST</ParamType>
-  <DataVersion>2</DataVersion>
-  <BigEndian>False</BigEndian>
-  <Unicode>True</Unicode>
-  <FormatVersion>201</FormatVersion>
-  <Fields>
-    <Field Def="u32 Unk00" />
-    <Field Def="u32 Unk04" />
-    <Field Def="u32 Unk08" />
-    <Field Def="u32 Unk0C" />
-    <Field Def="u32 Unk10" />
-    <Field Def="u32 Unk14" />
-    <Field Def="u32 Unk18" />
-    <Field Def="u32 Unk1C" />
-    <Field Def="u32 Unk20" />
-    <Field Def="u32 Unk24" />
-    <Field Def="u32 Unk28" />
-    <Field Def="u32 Unk2C" />
-    <Field Def="u32 Unk30" />
-    <Field Def="u32 Unk34" />
-    <Field Def="u32 Unk38" />
-    <Field Def="u32 Unk3C" />
-    <Field Def="u32 Unk40" />
-    <Field Def="u32 Unk44" />
-    <Field Def="u32 Unk48" />
-    <Field Def="u32 Unk4C" />
-    <Field Def="u32 Unk50" />
-    <Field Def="u32 Unk54" />
-    <Field Def="u32 Unk58" />
-    <Field Def="u32 Unk5C" />
-    <Field Def="u32 Unk60" />
-    <Field Def="u32 Unk64" />
-    <Field Def="u32 Unk68" />
-    <Field Def="u32 Unk6C" />
-    <Field Def="u32 Unk70" />
-    <Field Def="u32 Unk74" />
-    <Field Def="u32 Unk78" />
-    <Field Def="u32 Unk7C" />
-    <Field Def="u32 Unk80" />
-    <Field Def="u32 Unk84" />
-    <Field Def="u32 Unk88" />
-    <Field Def="u32 Unk8C" />
-    <Field Def="u32 Unk90" />
-    <Field Def="u32 Unk94" />
-    <Field Def="u32 Unk98" />
-    <Field Def="u32 Unk9C" />
-    <Field Def="u32 UnkA0" />
-    <Field Def="u32 UnkA4" />
-    <Field Def="u32 UnkA8" />
-    <Field Def="u32 UnkAC" />
-    <Field Def="u32 UnkB0" />
-    <Field Def="u32 UnkB4" />
-    <Field Def="u32 UnkB8" />
-    <Field Def="u32 UnkBC" />
-    <Field Def="u32 UnkC0" />
-    <Field Def="u32 UnkC4" />
-    <Field Def="u32 UnkC8" />
-    <Field Def="u32 UnkCC" />
-    <Field Def="u32 UnkD0" />
-    <Field Def="u32 UnkD4" />
-    <Field Def="u32 UnkD8" />
-    <Field Def="u32 UnkDC" />
-    <Field Def="u32 UnkE0" />
-    <Field Def="u32 UnkE4" />
-    <Field Def="u32 UnkE8" />
-    <Field Def="u32 UnkEC" />
-    <Field Def="u32 UnkF0" />
-    <Field Def="u32 UnkF4" />
-    <Field Def="u32 UnkF8" />
-    <Field Def="u32 UnkFC" />
-    <Field Def="u32 Unk100" />
-    <Field Def="u32 Unk104" />
-    <Field Def="u32 Unk108" />
-    <Field Def="u32 Unk10C" />
-    <Field Def="u32 Unk110" />
-    <Field Def="u32 Unk114" />
-    <Field Def="u32 Unk118" />
-    <Field Def="u32 Unk11C" />
-    <Field Def="u32 Unk120" />
-    <Field Def="u32 Unk124" />
-    <Field Def="u32 Unk128" />
-    <Field Def="u32 Unk12C" />
-    <Field Def="u32 Unk130" />
-    <Field Def="u32 Unk134" />
-    <Field Def="u32 Unk138" />
-    <Field Def="u32 Unk13C" />
-    <Field Def="u32 Unk140" />
-    <Field Def="u32 Unk144" />
-    <Field Def="u32 Unk148" />
-    <Field Def="u32 Unk14C" />
-    <Field Def="u32 Unk150" />
-    <Field Def="u32 Unk154" />
-    <Field Def="u32 Unk158" />
-    <Field Def="u32 Unk15C" />
-    <Field Def="u32 Unk160" />
-    <Field Def="u32 Unk164" />
-    <Field Def="u32 Unk168" />
-    <Field Def="u32 Unk16C" />
-    <Field Def="u32 Unk170" />
-    <Field Def="u32 Unk174" />
-    <Field Def="u32 Unk178" />
-    <Field Def="u32 Unk17C" />
-    <Field Def="u32 Unk180" />
-    <Field Def="u32 Unk184" />
-    <Field Def="u32 Unk188" />
-    <Field Def="u32 Unk18C" />
-  </Fields>
+<PARAMDEF XmlVersion="0">
+	<ParamType>NPC_AI_BEHAVIOR_PROBABILITY_PARAM_ST</ParamType>
+	<Unk06>0</Unk06>
+	<BigEndian>False</BigEndian>
+	<Unicode>True</Unicode>
+	<Version>201</Version>
+	<Fields>
+		<Field Def="s16 Unk0 = 0" />
+		<Field Def="s16 Unk1 = 0" />
+		<Field Def="s16 Unk2 = 0" />
+		<Field Def="s16 Unk3 = 0" />
+		<Field Def="s16 Unk4 = 0" />
+		<Field Def="s16 Unk5 = 0" />
+		<Field Def="s16 Unk6 = 0" />
+		<Field Def="s16 Unk7 = 0" />
+		<Field Def="s16 Unk8 = 0" />
+		<Field Def="s16 Unk9 = 0" />
+		<Field Def="s16 Unk10 = 0" />
+		<Field Def="s16 Unk11 = 0" />
+		<Field Def="s16 Unk12 = 0" />
+		<Field Def="s16 Unk13 = 0" />
+		<Field Def="s16 Unk14 = 0" />
+		<Field Def="s16 Unk15 = 0" />
+		<Field Def="s16 Unk16 = 0" />
+		<Field Def="s16 Unk17 = 0" />
+		<Field Def="s16 Unk18 = 0" />
+		<Field Def="s16 Unk19 = 0" />
+		<Field Def="s16 Unk20 = 0" />
+		<Field Def="s16 Unk21 = 0" />
+		<Field Def="s16 Unk22 = 0" />
+		<Field Def="s16 Unk23 = 0" />
+		<Field Def="s16 Unk24 = 0" />
+		<Field Def="s16 Unk25 = 0" />
+		<Field Def="s16 Unk26 = 0" />
+		<Field Def="s16 Unk27 = 0" />
+		<Field Def="s16 Unk28 = 0" />
+		<Field Def="s16 Unk29 = 0" />
+		<Field Def="s16 Unk30 = 0" />
+		<Field Def="s16 Unk31 = 0" />
+		<Field Def="s16 Unk32 = 0" />
+		<Field Def="s16 Unk33 = 0" />
+		<Field Def="s16 Unk34 = 0" />
+		<Field Def="s16 Unk35 = 0" />
+		<Field Def="s16 Unk36 = 0" />
+		<Field Def="s16 Unk37 = 0" />
+		<Field Def="s16 Unk38 = 0" />
+		<Field Def="s16 Unk39 = 0" />
+		<Field Def="s16 Unk40 = 0" />
+		<Field Def="s16 Unk41 = 0" />
+		<Field Def="s16 Unk42 = 0" />
+		<Field Def="s16 Unk43 = 0" />
+		<Field Def="s16 Unk44 = 0" />
+		<Field Def="s16 Unk45 = 0" />
+		<Field Def="s16 Unk46 = 0" />
+		<Field Def="s16 Unk47 = 0" />
+		<Field Def="s16 Unk48 = 0" />
+		<Field Def="s16 Unk49 = 0" />
+		<Field Def="s16 Unk50 = 0" />
+		<Field Def="s16 Unk51 = 0" />
+		<Field Def="s16 Unk52 = 0" />
+		<Field Def="s16 Unk53 = 0" />
+		<Field Def="s16 Unk54 = 0" />
+		<Field Def="s16 Unk55 = 0" />
+		<Field Def="s16 Unk56 = 0" />
+		<Field Def="s16 Unk57 = 0" />
+		<Field Def="s16 Unk58 = 0" />
+		<Field Def="s16 Unk59 = 0" />
+		<Field Def="s16 Unk60 = 0" />
+		<Field Def="s16 Unk61 = 0" />
+		<Field Def="s16 Unk62 = 0" />
+		<Field Def="s16 Unk63 = 0" />
+		<Field Def="s16 Unk64 = 0" />
+		<Field Def="s16 Unk65 = 0" />
+		<Field Def="s16 Unk66 = 0" />
+		<Field Def="s16 Unk67 = 0" />
+		<Field Def="s16 Unk68 = 0" />
+		<Field Def="s16 Unk69 = 0" />
+		<Field Def="s16 Unk70 = 0" />
+		<Field Def="s16 Unk71 = 0" />
+		<Field Def="s16 Unk72 = 0" />
+		<Field Def="s16 Unk73 = 0" />
+		<Field Def="s16 Unk74 = 0" />
+		<Field Def="s16 Unk75 = 0" />
+		<Field Def="s16 Unk76 = 0" />
+		<Field Def="s16 Unk77 = 0" />
+		<Field Def="s16 Unk78 = 0" />
+		<Field Def="s16 Unk79 = 0" />
+		<Field Def="s16 Unk80 = 0" />
+		<Field Def="s16 Unk81 = 0" />
+		<Field Def="s16 Unk82 = 0" />
+		<Field Def="s16 Unk83 = 0" />
+		<Field Def="s16 Unk84 = 0" />
+		<Field Def="s16 Unk85 = 0" />
+		<Field Def="s16 Unk86 = 0" />
+		<Field Def="s16 Unk87 = 0" />
+		<Field Def="s16 Unk88 = 0" />
+		<Field Def="s16 Unk89 = 0" />
+		<Field Def="s16 Unk90 = 0" />
+		<Field Def="s16 Unk91 = 0" />
+		<Field Def="s16 Unk92 = 0" />
+		<Field Def="s16 Unk93 = 0" />
+		<Field Def="s16 Unk94 = 0" />
+		<Field Def="s16 Unk95 = 0" />
+		<Field Def="s16 Unk96 = 0" />
+		<Field Def="s16 Unk97 = 0" />
+		<Field Def="s16 Unk98 = 0" />
+		<Field Def="s16 Unk99 = 0" />
+		<Field Def="s16 Unk100 = 0" />
+		<Field Def="s16 Unk101 = 0" />
+		<Field Def="s16 Unk102 = 0" />
+		<Field Def="s16 Unk103 = 0" />
+		<Field Def="s16 Unk104 = 0" />
+		<Field Def="s16 Unk105 = 0" />
+		<Field Def="s16 Unk106 = 0" />
+		<Field Def="s16 Unk107 = 0" />
+		<Field Def="s16 Unk108 = 0" />
+		<Field Def="s16 Unk109 = 0" />
+		<Field Def="s16 Unk110 = 0" />
+		<Field Def="s16 Unk111 = 0" />
+		<Field Def="s16 Unk112 = 0" />
+		<Field Def="s16 Unk113 = 0" />
+		<Field Def="s16 Unk114 = 0" />
+		<Field Def="s16 Unk115 = 0" />
+		<Field Def="s16 Unk116 = 0" />
+		<Field Def="s16 Unk117 = 0" />
+		<Field Def="s16 Unk118 = 0" />
+		<Field Def="s16 Unk119 = 0" />
+		<Field Def="s16 Unk120 = 0" />
+		<Field Def="s16 Unk121 = 0" />
+		<Field Def="s16 Unk122 = 0" />
+		<Field Def="s16 Unk123 = 0" />
+		<Field Def="s16 Unk124 = 0" />
+		<Field Def="s16 Unk125 = 0" />
+		<Field Def="s16 Unk126 = 0" />
+		<Field Def="s16 Unk127 = 0" />
+		<Field Def="s16 Unk128 = 0" />
+		<Field Def="s16 Unk129 = 0" />
+		<Field Def="s16 Unk130 = 0" />
+		<Field Def="s16 Unk131 = 0" />
+		<Field Def="s16 Unk132 = 0" />
+		<Field Def="s16 Unk133 = 0" />
+		<Field Def="s16 Unk134 = 0" />
+		<Field Def="s16 Unk135 = 0" />
+		<Field Def="s16 Unk136 = 0" />
+		<Field Def="s16 Unk137 = 0" />
+		<Field Def="s16 Unk138 = 0" />
+		<Field Def="s16 Unk139 = 0" />
+		<Field Def="s16 Unk140 = 0" />
+		<Field Def="s16 Unk141 = 0" />
+		<Field Def="s16 Unk142 = 0" />
+		<Field Def="s16 Unk143 = 0" />
+		<Field Def="s16 Unk144 = 0" />
+		<Field Def="s16 Unk145 = 0" />
+		<Field Def="s16 Unk146 = 0" />
+		<Field Def="s16 Unk147 = 0" />
+		<Field Def="s16 Unk148 = 0" />
+		<Field Def="s16 Unk149 = 0" />
+		<Field Def="s16 Unk150 = 0" />
+		<Field Def="s16 Unk151 = 0" />
+		<Field Def="s16 Unk152 = 0" />
+		<Field Def="s16 Unk153 = 0" />
+		<Field Def="s16 Unk154 = 0" />
+		<Field Def="s16 Unk155 = 0" />
+		<Field Def="s16 Unk156 = 0" />
+		<Field Def="s16 Unk157 = 0" />
+		<Field Def="s16 Unk158 = 0" />
+		<Field Def="s16 Unk159 = 0" />
+		<Field Def="s16 Unk160 = 0" />
+		<Field Def="s16 Unk161 = 0" />
+		<Field Def="s16 Unk162 = 0" />
+		<Field Def="s16 Unk163 = 0" />
+		<Field Def="s16 Unk164 = 0" />
+		<Field Def="s16 Unk165 = 0" />
+		<Field Def="s16 Unk166 = 0" />
+		<Field Def="s16 Unk167 = 0" />
+		<Field Def="s16 Unk168 = 0" />
+		<Field Def="s16 Unk169 = 0" />
+		<Field Def="s16 Unk170 = 0" />
+		<Field Def="s16 Unk171 = 0" />
+		<Field Def="s16 Unk172 = 0" />
+		<Field Def="s16 Unk173 = 0" />
+		<Field Def="s16 Unk174 = 0" />
+		<Field Def="s16 Unk175 = 0" />
+		<Field Def="s16 Unk176 = 0" />
+		<Field Def="s16 Unk177 = 0" />
+		<Field Def="s16 Unk178 = 0" />
+		<Field Def="s16 Unk179 = 0" />
+		<Field Def="s16 Unk180 = 0" />
+		<Field Def="s16 Unk181 = 0" />
+		<Field Def="s16 Unk182 = 0" />
+		<Field Def="s16 Unk183 = 0" />
+		<Field Def="s16 Unk184 = 0" />
+		<Field Def="s16 Unk185 = 0" />
+		<Field Def="s16 Unk186 = 0" />
+		<Field Def="s16 Unk187 = 0" />
+		<Field Def="s16 Unk188 = 0" />
+		<Field Def="s16 Unk189 = 0" />
+		<Field Def="s16 Unk190 = 0" />
+		<Field Def="s16 Unk191 = 0" />
+		<Field Def="s16 Unk192 = 0" />
+		<Field Def="s16 Unk193 = 0" />
+		<Field Def="s16 Unk194 = 0" />
+		<Field Def="s16 Unk195 = 0" />
+		<Field Def="s16 Unk196 = 0" />
+		<Field Def="s16 Unk197 = 0" />
+		<Field Def="s16 Unk198 = 0" />
+		<Field Def="s16 Unk199 = 0" />
+	</Fields>
 </PARAMDEF>
