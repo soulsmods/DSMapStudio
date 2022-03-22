@@ -55,14 +55,14 @@ id 10000
 name Dagger
 propref originEquipWep0 Dagger";
 
-        public static bool AddImGuiHintButton(string id, ref string hint)
+        public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false)
         {
             bool ret = false;
             ImGui.SameLine();
             ImGui.TextColored(new Vector4(0.3f, 0.3f, 1.0f, 1.0f), "(?)");
             if (ImGui.BeginPopupContextItem(id))
             {
-                if (ParamEditor.ParamEditorScreen.EditorMode) //remove this, editor mode should be called earlier
+                if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
                 {
                     ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
                     if (ImGui.IsItemDeactivatedAfterEdit())

@@ -17,11 +17,11 @@ namespace StudioCore.Editor
 {
     public class EditorDecorations
     {
-        public static void HelpIcon(string id, string hint)
+        public static bool HelpIcon(string id, ref string hint, bool canEdit)
         {
             if (hint == null)
-                return;
-            UIHints.AddImGuiHintButton(id, ref hint); //presently a hack, move code here
+                return false;
+            return UIHints.AddImGuiHintButton(id, ref hint, canEdit); //presently a hack, move code here
         }
 
         public static void ParamRefText(List<string> paramRefs)

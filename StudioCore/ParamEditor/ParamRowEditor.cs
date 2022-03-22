@@ -304,7 +304,8 @@ namespace StudioCore.ParamEditor
             PropertyRowNameContextMenu(internalName, cellMeta);
             if (Wiki != null)
             {
-                EditorDecorations.HelpIcon(internalName, Wiki);
+                if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
+                    cellMeta.Wiki = Wiki;
             }
 
             EditorDecorations.ParamRefText(RefTypes);
