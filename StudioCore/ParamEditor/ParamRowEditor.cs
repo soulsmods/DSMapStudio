@@ -223,7 +223,7 @@ namespace StudioCore.ParamEditor
         public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
-            ImGui.Columns(2);
+            ImGui.Columns(ParamEditorScreen.ShowVanillaParamsPreference?3:2);
             ImGui.Separator();
             int id = 0;
 
@@ -239,6 +239,8 @@ namespace StudioCore.ParamEditor
             }
             ImGui.NextColumn();
             ImGui.NextColumn();
+            if (ParamEditorScreen.ShowVanillaParamsPreference)
+                ImGui.NextColumn();
 
             // This should be rewritten somehow it's super ugly
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
@@ -325,7 +327,6 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             if (isRef)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
-
             changed = PropertyRow(propType, oldval, out newval, IsBool);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
             if (isRef || matchDefault)
@@ -344,6 +345,20 @@ namespace StudioCore.ParamEditor
                 {
                     changed = true;
                     committed = true;
+                }
+            }
+            if (ParamEditorScreen.ShowVanillaParamsPreference)
+            {
+                ImGui.NextColumn();
+                if (vanillaval==null)
+                    ImGui.TextUnformatted("");
+                else
+                {
+                    ImGui.TextUnformatted(vanillaval.ToString());
+                    if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
+                        EditorDecorations.ParamRefsSelectables(RefTypes, vanillaval);
+                    if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)
+                        EditorDecorations.EnumValueText(Enum.values, vanillaval.ToString());
                 }
             }
 

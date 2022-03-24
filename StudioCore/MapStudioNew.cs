@@ -222,6 +222,9 @@ namespace StudioCore
             reg = Utils.readRegistry("allFieldReorderPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.AllowFieldReorderPreference = reg == "true";
+            reg = Utils.readRegistry("showVanillaParamsPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference = reg == "true";
         }
         public void SaveParamStudioConfig()
         {
@@ -231,6 +234,7 @@ namespace StudioCore
             Utils.setRegistry("hideEnumsPreference", ParamEditor.ParamEditorScreen.HideEnumsPreference ? "true" : "false");
             Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
             Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
+            Utils.setRegistry("showVanillaParamsPreference", ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference ? "true" : "false");
         }
 
         public void Run()

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <ReinforcementSpEffect0 Refs="SpEffectParam" />
+    <ReinforcementSpEffect1 Refs="SpEffectParam" />
+    <ReinforcementSpEffect2 Refs="SpEffectParam" />
+    <ReinforcementSpEffect3 Refs="SpEffectParam" />
+    <ReinforcementSpEffect4 Refs="SpEffectParam" />
+    <ReinforcementSpEffect5 Refs="SpEffectParam" />
+    <ReinforcementSpEffect6 Refs="SpEffectParam" />
+    <ReinforcementSpEffect7 Refs="SpEffectParam" />
+    <ReinforcementSpEffect8 Refs="SpEffectParam" />
+    <ReinforcementSpEffect9 Refs="SpEffectParam" />
+    <ReinforcementSpEffect10 Refs="SpEffectParam" />
+    <CharacterInitID Refs="CharaInitParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

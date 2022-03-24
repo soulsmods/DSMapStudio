@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <SpEffectID3 Refs="SpEffectParam" />
+    <SpEffectID4 Refs="SpEffectParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

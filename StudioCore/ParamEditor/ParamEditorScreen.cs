@@ -106,6 +106,7 @@ namespace StudioCore.ParamEditor
         public static bool HideEnumsPreference = false;
         public static bool AllowFieldReorderPreference = true;
         public static bool AlphabeticalParamsPreference = true;
+        public static bool ShowVanillaParamsPreference = false;
         public static bool EditorMode = false;
 
         internal bool _isSearchBarActive = false;
@@ -234,6 +235,8 @@ namespace StudioCore.ParamEditor
                     AllowFieldReorderPreference = !AllowFieldReorderPreference;
                 if (ImGui.MenuItem("Sort Params Alphabetically", null, AlphabeticalParamsPreference))
                     AlphabeticalParamsPreference = !AlphabeticalParamsPreference;
+                if (ImGui.MenuItem("Show Vanilla Params", null, ShowVanillaParamsPreference))
+                    ShowVanillaParamsPreference = !ShowVanillaParamsPreference;
                 ImGui.Separator();
                 if (!EditorMode && ImGui.MenuItem("Editor Mode", null, EditorMode))
                     EditorMode = true;

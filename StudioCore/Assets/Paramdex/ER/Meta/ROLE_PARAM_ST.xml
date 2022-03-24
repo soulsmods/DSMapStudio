@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <SpEffectID0 Refs="SpEffectParam" />
+    <SpEffectID1 Refs="SpEffectParam" />
+    <SpEffectID2 Refs="SpEffectParam" />
+    <SpEffectID3 Refs="SpEffectParam" />
+    <SpEffectID4 Refs="SpEffectParam" />
+    <SpEffectID5 Refs="SpEffectParam" />
+    <SpEffectID6 Refs="SpEffectParam" />
+    <SpEffectID7 Refs="SpEffectParam" />
+    <SpEffectID8 Refs="SpEffectParam" />
+    <SpEffectID9 Refs="SpEffectParam" />
+  </Field>
+  <Self />
+</PARAMMETA>
