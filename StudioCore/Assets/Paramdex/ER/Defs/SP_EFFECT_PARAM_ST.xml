@@ -85,8 +85,8 @@
 		<Field Def="f32 GuardDefenseWeaponRepelPower% = 1" />
 		<Field Def="f32 GuardStability% = 1" />
 		<Field Def="s16 RaycastPassedTime = -1" />
-		<Field Def="s8 WeaponEffect1 = 0" />
-		<Field Def="s8 WeaponEffect2 = 0" />
+		<Field Def="s8 ConditionalWeaponEffect1 = 0" />
+		<Field Def="s8 ConditionalWeaponEffect2 = 0" />
 		<Field Def="s16 BowEffectiveRange = 0" />
 		<Field Def="s16 EffectCategory = 0" />
 		<Field Def="u8 CategoryPriority = 0" />
@@ -326,7 +326,7 @@
 		<Field Def="s8 Faith = 0" />
 		<Field Def="s8 Arcane = 0" />
 		<Field Def="s8 Unk63 = 0" />
-		<Field Def="s8 WeaponEffect3(unverified) = 0" />
+		<Field Def="s8 ConditionalWeaponEffect3 = 0" />
 		<Field Def="s8 Unk64 = 0" />
 		<Field Def="s8 Unk65 = 0" />
 		<Field Def="s8 Unk66 = 0" />

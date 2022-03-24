@@ -7,20 +7,16 @@
 	<Version>201</Version>
 	<Fields>
 		<Field Def="s32 Unk0 = 0" />
-		<Field Def="s32 Unk1 = 0" />
-		<Field Def="s32 Unk2 = 0" />
-		<Field Def="s32 Unk3 = 0" />
+		<Field Def="s32 UnknownFlag = 0" />
+		<Field Def="s32 UnknownFlag = 0" />
+		<Field Def="s32 UnknownFlag = 0" />
 		<Field Def="s32 Unk4 = 0" />
 		<Field Def="s32 Unk5 = 0" />
 		<Field Def="s32 Unk6 = 0" />
-		<Field Def="s32 Unk7 = 0" />
-		<Field Def="s32 Unk8 = 0" />
-		<Field Def="s32 Unk9 = 0" />
-		<Field Def="s32 Unk10 = 0" />
-		<Field Def="s32 Unk11 = 0" />
-		<Field Def="s32 Unk12 = 0" />
-		<Field Def="s32 Unk13 = 0" />
-		<Field Def="s32 Unk14 = 0" />
-		<Field Def="s32 Unk15 = 0" />
+		<Field Def="s16 Unk20 = 0" />
+		<Field Def="s16 Unk21 = 0" />
+		<Field Def="s32 UnknownFlag = 0" />
+		<Field Def="s32 UnknownFlag = 0" />
+		<Field Def="dummy8 padding[24]" />
 	</Fields>
 </PARAMDEF>

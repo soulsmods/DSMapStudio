@@ -12,7 +12,7 @@
 103 Grace - Remove Poison
 104 Grace - Remove Scarlet Rot
 105 Grace - Remove Frostbite
-106 Grace -
+106 Grace - Reload
 107 Grace - Remove Madness
 108 Grace - Remove Sleep
 109 Grace - Remove Blight
@@ -254,6 +254,56 @@
 3970 Silver-Pickled Fowl Foot
 3971 Gold-Pickled Fowl Foot
 4101 Sanguine Noble
+5300 NPC: Damage Level Override
+5301 NPC: Damage Level Override
+5302 NPC: Damage Level Override
+5303 NPC: Damage Level Override
+5304 NPC: Damage Level Override
+5305 NPC: Damage Level Override
+5306 NPC: Damage Level Override
+5307 NPC: Damage Level Override
+5308 NPC: Damage Level Override
+5309 NPC: Damage Level Override
+5310 NPC: Damage Level Override
+5311 NPC: Damage Level Override
+5320 NPC: Damage Level Override
+5321 NPC: Damage Level Override
+5322 NPC: Damage Level Override
+5323 NPC: Damage Level Override
+5324 NPC: Damage Level Override
+5325 NPC: Damage Level Override
+5326 NPC: Damage Level Override
+5327 NPC: Damage Level Override
+5328 NPC: Damage Level Override
+5329 NPC: Damage Level Override
+5330 NPC: Damage Level Override
+5331 NPC: Damage Level Override
+5332 NPC: Damage Level Override
+5333 NPC: Damage Level Override
+5334 NPC: Damage Level Override
+5335 NPC: Damage Level Override
+5350 NPC: Damage Level Override
+5351 NPC: Damage Level Override
+5352 NPC: Damage Level Override
+5353 NPC: Damage Level Override
+5354 NPC: Damage Level Override
+5360 NPC: Damage Level before Poise Break
+5361 NPC: Damage Level before Poise Break
+5362 NPC: Damage Level before Poise Break
+5363 NPC: Damage Level before Poise Break
+5364 NPC: Damage Level before Poise Break
+5365 NPC: Damage Level before Poise Break
+5366 NPC: Damage Level before Poise Break
+5367 NPC: Damage Level before Poise Break
+5368 NPC: Damage Level before Poise Break
+5369 NPC: Damage Level before Poise Break
+5370 NPC: Damage Level before Poise Break
+5371 NPC: Damage Level before Poise Break
+5372 NPC: Damage Level before Poise Break
+5373 NPC: Damage Level before Poise Break
+5374 NPC: Damage Level before Poise Break
+5600 NPC: Infinite FP
+5601 NPC: Faster Stamina Recovery
 5836 Undead Enemy
 5837 Undead Enemy
 6350 Toughness 1
@@ -401,8 +451,8 @@
 11691 Nox Swordstress/Silver Tear - Bullet
 11954 Writhing Mass - Bullet
 11971 Vulgar Militia - Bullet
-12000 Large Enchanted Hand - Bullet
-12018 Giant Enchanted Hand
+12000 Large Fingercreeper - Bullet
+12018 Giant Fingercreeper
 13020 Wolf - Bullet
 13025 Wolf
 13067 Castle Soldier
@@ -442,6 +492,7 @@
 15452 Godskin Apostle - Bullet
 15467 Godskin Apostle
 15511 Godskin Noble
+16316 Spirit Summon - Fade In
 16414 Elemer of the Briar
 16482 Fallingstar Beast - Bullet
 16488 Fallingstar Beast
@@ -463,7 +514,12 @@
 18417 NPC: HP Recovery on Hit
 18418 NPC: HP Recovery on Hit
 18419 NPC: HP Recovery on Hit
+18430 Malenia - Scarlet Rot
+18431 Malenia - Scarlet Rot
+18432 Malenia - Scarlet Rot
+18433 Malenia - Scarlet Rot
 18454 Malenia - Bullet
+18699 Spirit Summon - Phantom Color
 18731 Melina - HP Recovery
 20000 NPC: Poison
 20001 NPC: Poison
@@ -708,10 +764,23 @@
 30050 NPC: Disable Sleep
 30060 NPC: Disable Madness
 30100 NPC: Disable All Status
+90000 NPC: Disable Poison - Boolean
+90010 NPC: Disable Scarlet Rot - Boolean
+90020 NPC: Disable Hemorrhage - Boolean
+90030 NPC: Disable Blight - Boolean
+90040 NPC: Disable Frostbite
 90100 NPC: Ignore Fake Targets - All
 90110 NPC: Ignore Fake Targets - Normal
 90120 NPC: Ignore Fake Targets - Undead
 90130 NPC: Ignore Fake Targets - Animal
+90140 Unk71 - 2
+90150 Unk71 - 4
+90160 NPC: Ignore Fake Targets - Normal and Undead
+90161 NPC: Ignore Fake Targets - Animal
+90162 NPC: Ignore Fake Targets - Undead and Animal
+90200 NPC: Enable Charm
+100620 Hand Style - Right Hand
+100621 Hand Style - Left Hand
 105000 Hemorrhage - Low - Addition +0
 105001 Hemorrhage - Low - Addition +1
 105002 Hemorrhage - Low - Addition +2
@@ -2396,6 +2465,39 @@
 290158 Spirit Summon Adjustment - Jarwright Puppet +8
 290159 Spirit Summon Adjustment - Jarwright Puppet +9
 290160 Spirit Summon Adjustment - Jarwright Puppet +10
+290200 Spirit Summon Adjustment - Mimic Tear +0
+290201 Spirit Summon Adjustment - Mimic Tear +1
+290202 Spirit Summon Adjustment - Mimic Tear +2
+290203 Spirit Summon Adjustment - Mimic Tear +3
+290204 Spirit Summon Adjustment - Mimic Tear +4
+290205 Spirit Summon Adjustment - Mimic Tear +5
+290206 Spirit Summon Adjustment - Mimic Tear +6
+290207 Spirit Summon Adjustment - Mimic Tear +7
+290208 Spirit Summon Adjustment - Mimic Tear +8
+290209 Spirit Summon Adjustment - Mimic Tear +9
+290210 Spirit Summon Adjustment - Mimic Tear +10
+295900 Spirit Summon -
+295901 Spirit Summon -
+295902 Spirit Summon -
+295910 Spirit Summon -
+296000 Spirit Summon - Damage/Absorption Setup
+296010 Spirit Summon - Damage/Absorption Setup
+296011 Spirit Summon - Damage/Absorption Setup
+296106 Spirit Summon - Damage/Absorption Setup
+296110 Spirit Summon - Damage/Absorption Setup
+296117 Spirit Summon - Damage/Absorption Setup
+296122 Spirit Summon - Damage/Absorption Setup
+296156 Spirit Summon - Damage/Absorption Setup
+296159 Spirit Summon - Damage/Absorption Setup
+297000 Spirit Summon -
+297100 Spirit Summon -
+297101 Spirit Summon -
+297102 Spirit Summon -
+297103 Spirit Summon -
+297200 Spirit Summon -
+297800 Spirit Summon -
+297810 Spirit Summon -
+297811 Spirit Summon -
 310000 Crimson Amber Medallion
 310010 Crimson Amber Medallion +1
 310020 Crimson Amber Medallion +2
@@ -2748,7 +2850,7 @@
 1624010 [Incantation] Noble Presence
 1625000 [Incantation] Black Flame Ritual
 1626000 [Incantation] Black Flame Blade
-1626001 [Incantation] Black Flame Blade
+1626001 [Incantation] Black Flame Blade [Attack]
 1627000 [Incantation] Black Flame's Protection
 1627001 [Incantation] Black Flame's Protection
 1630000 [Incantation] Bloodflame Talons

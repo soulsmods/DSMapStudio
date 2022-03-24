@@ -239,8 +239,8 @@
 37030000 Noble's Page
 37040000 Battlemage
 37040020 Battlemage
-37100000 Crystallized Battlemage
-37200000 Orbhead Sorcerer
+37100000 Master Azur
+37200000 Master Lusat
 37300000 Orb of Many Faces
 37500000 Clayman
 37501000 Clayman
@@ -346,11 +346,11 @@
 42100200 Warhawk
 42200000 Giant Land Octopus
 42300000 Small Land Octopus
-42400000 Giant Enchanted Hand
-42400020 Giant Enchanted Hand
-42400100 Giant Enchanted Hand
-42410000 Giant Enchanted Hand
-42500000 Small Enchanted Hand
+42400000 Giant Fingercreeper
+42400020 Giant Fingercreeper
+42400100 Giant Fingercreeper
+42410000 Giant Fingercreeper
+42500000 Small Fingercreeper
 42600000 Burial Watchdog
 42601000 Burial Watchdog
 42601100 Burial Watchdog

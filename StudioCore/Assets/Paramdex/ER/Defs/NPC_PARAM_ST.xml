@@ -90,17 +90,15 @@
 		<Field Def="s16 GuardAbsorption%Slash = 0" />
 		<Field Def="s16 GuardAbsorption%Strike = 0" />
 		<Field Def="s16 GuardAbsorption%Thrust = 0" />
-		<Field Def="s16 Poise(Obsolete) = 0" />
+		<Field Def="s16 Unk101 = 0" />
 		<Field Def="s16 OverrideTextureChrID = -1" />
 		<Field Def="s16 DropType = 0" />
 		<Field Def="u8 ReceivedKnockback% = 0" />
 		<Field Def="u8 KnockbackParamID = 0" />
 		<Field Def="u8 FallDamageReduction% = 75" />
 		<Field Def="u8 GuardStamina = 0" />
-		<Field Def="u8 PCAttributeB = 0" />
-		<Field Def="u8 PCAttributeW = 0" />
-		<Field Def="u8 PCAttributeL = 0" />
-		<Field Def="u8 PCAttributeR = 0" />
+		<Field Def="u16 ResistSleep = 0" />
+		<Field Def="u16 ResistMadness = 0" />
 		<Field Def="u8 AreaAttributeB = 0" />
 		<Field Def="u8 AreaAttributeW = 0" />
 		<Field Def="u8 AreaAttributeL = 0" />

@@ -86,7 +86,7 @@
 3702 Raya Lucaria Scholar
 3703 Noble's Page
 3704 Battlemage
-3710 Crystallized Battlemage
+3710 Master Azur
 3720 Sorcerer with Orbhead
 3730 Stone Wizard Orb
 3750 Clayman
@@ -134,9 +134,9 @@
 4210 Warhawk
 4220 Land Octopus (Large)
 4230 Land Octopus (Small)
-4240 Enchanted Hand (Large)
-4241 Enchanted Hand (Large)
-4250 Enchanted Hand (Small)
+4240 Fingercreeper (Large)
+4241 Fingercreeper (Large)
+4250 Fingercreeper (Small)
 4260 Burial Watchdog
 4270 Lion Guardian
 4280 Giant Ant Queen

@@ -11,8 +11,8 @@
 		<Field Def="s32 LimitCancelSpEffectID = -1" />
 		<Field Def="s16 SortID = -1" />
 		<Field Def="s16 RequirementARC = 0" />
-		<Field Def="s16 Ref1FPCost = 20" />
-		<Field Def="s16 Ref1StaminaCost = 30" />
+		<Field Def="s16 FPCost = 20" />
+		<Field Def="s16 StaminaCost = 30" />
 		<Field Def="s16 IconID = 4130" />
 		<Field Def="s16 BehaviorID = 0" />
 		<Field Def="s16 MaterialItemID = -1" />
@@ -27,11 +27,11 @@
 		<Field Def="u8 DEXCastingSpeedMin = 10" />
 		<Field Def="u8 DEXCastingSpeedMax = 50" />
 		<Field Def="u8 MagicSchoolType = 1" />
-		<Field Def="u8 Ref1Category = 1" />
+		<Field Def="u8 BulletCategory1 = 1" />
 		<Field Def="u8 SpEffectCategory = 4" />
 		<Field Def="u8 AnimationCategory = 26" />
 		<Field Def="u8 MenuType = 0" />
-		<Field Def="u8 Ref4Category = 0" />
+		<Field Def="u8 BulletCategory2 = 1" />
 		<Field Def="s16 HasEffectType = 0" />
 		<Field Def="u8 Unk1:1" />
 		<Field Def="u8 EnableSpellEnhance:1" />
@@ -76,23 +76,24 @@
 		<Field Def="s8 AttributeValue1 = -1" />
 		<Field Def="s8 AttributeValue2 = -1" />
 		<Field Def="s8 AttributeValue3 = -1" />
-		<Field Def="u8 Ref2Category = 0" />
-		<Field Def="s16 Ref4StaminaCost = 0" />
+		<Field Def="u8 BulletCategory3 = 1" />
+		<Field Def="s16 Unk10 = 0" />
 		<Field Def="s32 MagicID0 = -1" />
 		<Field Def="s32 MagicID1 = -1" />
 		<Field Def="s32 MagicID2 = -1" />
 		<Field Def="s32 MagicID3 = -1" />
-		<Field Def="s16 Ref2FPCost = 0" />
-		<Field Def="s16 Ref2StaminaCost = 0" />
-		<Field Def="u8 Unk10 = 0" />
-		<Field Def="u8 Ref3Category = 0" />
-		<Field Def="s16 Ref4FPCost = 0" />
-		<Field Def="s16 Ref3FPCost = 0" />
-		<Field Def="s16 Ref3StaminaCost = 0" />
+		<Field Def="s16 Unk11 = 0" />
+		<Field Def="s16 Unk12 = 0" />
+		<Field Def="u8 Unk13 = 0" />
+		<Field Def="u8 BulletCategory4 = 1" />
+		<Field Def="s8 ConditionalWeaponEffect1 = 0" />
+		<Field Def="s8 ConditionalWeaponEffect2 = 0" />
+		<Field Def="s16 Unk14 = 0" />
+		<Field Def="s16 Unk15 = 0" />
 		<Field Def="s32 ReferenceID1 = -1" />
 		<Field Def="s32 ReferenceID2 = -1" />
 		<Field Def="s32 ReferenceID3 = -1" />
-		<Field Def="s32 CategoryID(unverified) = -1" />
+		<Field Def="s32 CategoryID = -1" />
 		<Field Def="s32 ReferenceID4 = 0" />
 		<Field Def="s32 ReferenceID5 = 0" />
 		<Field Def="s32 ReferenceID6 = 0" />
@@ -100,19 +101,19 @@
 		<Field Def="s32 ReferenceID8 = 0" />
 		<Field Def="s32 ReferenceID9 = 0" />
 		<Field Def="s32 ReferenceID10 = 0" />
-		<Field Def="s8 Unk10 = 0" />
-		<Field Def="s8 Unk11 = 0" />
-		<Field Def="s8 Unk12 = 0" />
-		<Field Def="s8 Unk13 = 0" />
-		<Field Def="s8 Unk14 = 0" />
-		<Field Def="s8 Unk15 = 0" />
-		<Field Def="s8 Unk16 = 0" />
-		<Field Def="s8 Unk17 = 0" />
-		<Field Def="s8 Unk18 = 0" />
-		<Field Def="s8 Unk19 = 0" />
 		<Field Def="s8 Unk20 = 0" />
 		<Field Def="s8 Unk21 = 0" />
-		<Field Def="s32 Unk7 = 0" />
-		<Field Def="s32 Unk8 = 0" />
+		<Field Def="s8 Unk22 = 0" />
+		<Field Def="s8 Unk23 = 0" />
+		<Field Def="s8 Unk24 = 0" />
+		<Field Def="s8 Unk25 = 0" />
+		<Field Def="s8 Unk26 = 0" />
+		<Field Def="s8 Unk27 = 0" />
+		<Field Def="s8 Unk28 = 0" />
+		<Field Def="s8 Unk29 = 0" />
+		<Field Def="s8 Unk30 = 0" />
+		<Field Def="s8 Unk31 = 0" />
+		<Field Def="s32 Unk32 = 0" />
+		<Field Def="s32 Unk33 = 0" />
 	</Fields>
 </PARAMDEF>

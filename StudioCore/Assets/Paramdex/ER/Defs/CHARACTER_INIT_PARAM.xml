@@ -67,7 +67,7 @@
 		<Field Def="s8 Dexterity = 99" />
 		<Field Def="s8 Intelligence = 99" />
 		<Field Def="s8 Faith = 99" />
-		<Field Def="s8 Luck = 99" />
+		<Field Def="s8 Arcane = 99" />
 		<Field Def="s8 HeroPoint = 0" />
 		<Field Def="s8 Vitality = 99" />
 		<Field Def="u8 Item1Amount = 10" />

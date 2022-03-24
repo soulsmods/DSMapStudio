@@ -83,7 +83,7 @@
 21203000 Malenia, Blade of Miquella
 21203056 Malenia, Blade of Miquella
 21209000 Malenia, Blade of Miquella
-21300000 Malenia, Blade of Miquella
+21300000 Morgott
 21300014 Morgott
 21300033 Morgott
 21300500 Morgott
@@ -730,7 +730,7 @@
 33610000 Undead Ancestral Follower
 33610062 Undead Ancestral Follower
 33610200 Undead Ancestral Follower
-33610300 Ancestral Follower
+33610300 Undead Ancestral Follower
 33610500 Undead Ancestral Follower
 33610562 Undead Ancestral Follower
 33610700 Undead Ancestral Follower
@@ -1325,12 +1325,12 @@
 37040800 Battlemage
 37040830 Battlemage
 37040940 Battlemage
-37100000 Azur Corpse
-37100024 Azur Corpse
-37100032 Azur Corpse
-37200000 Orbhead Sorcerer
-37200040 Orbhead Sorcerer
-37200042 Orbhead Sorcerer
+37100000 Master Azur
+37100024 Master Azur
+37100032 Master Azur
+37200000 Master Lusat
+37200040 Master Lusat
+37200042 Master Lusat
 37300000 Orb of Many Faces
 37300020 Orb of Many Faces
 37300040 Orb of Many Faces
@@ -2316,93 +2316,93 @@
 42300064 Small Land Octopus
 42300830 Small Land Octopus
 42300852 Small Land Octopus
-42400000 Large Enchanted Hand
-42400020 Large Enchanted Hand
-42400021 Large Enchanted Hand
-42400032 Large Enchanted Hand
-42400034 Large Enchanted Hand
-42400035 Large Enchanted Hand
-42400100 Large Enchanted Hand
-42400150 Large Enchanted Hand
-42400200 Large Enchanted Hand
-42400221 Large Enchanted Hand
-42405000 Large Enchanted Hand
-42405050 Large Enchanted Hand
-42405100 Large Enchanted Hand
-42405150 Large Enchanted Hand
-42405200 Large Enchanted Hand
-42405250 Large Enchanted Hand
-42405300 Large Enchanted Hand
-42405350 Large Enchanted Hand
-42405400 Large Enchanted Hand
-42405450 Large Enchanted Hand
-42405500 Large Enchanted Hand
-42405550 Large Enchanted Hand
-42405600 Large Enchanted Hand
-42405650 Large Enchanted Hand
-42405700 Large Enchanted Hand
-42405750 Large Enchanted Hand
-42405800 Large Enchanted Hand
-42405850 Large Enchanted Hand
-42406000 Large Enchanted Hand
-42406050 Large Enchanted Hand
-42406100 Large Enchanted Hand
-42406150 Large Enchanted Hand
-42406200 Large Enchanted Hand
-42406250 Large Enchanted Hand
-42406300 Large Enchanted Hand
-42406350 Large Enchanted Hand
-42406400 Large Enchanted Hand
-42406450 Large Enchanted Hand
-42407000 Large Enchanted Hand
-42407020 Large Enchanted Hand
-42407021 Large Enchanted Hand
-42407032 Large Enchanted Hand
-42407034 Large Enchanted Hand
-42407035 Large Enchanted Hand
-42407100 Large Enchanted Hand
-42407121 Large Enchanted Hand
-42407132 Large Enchanted Hand
-42407200 Large Enchanted Hand
-42407221 Large Enchanted Hand
-42407300 Large Enchanted Hand
-42407321 Large Enchanted Hand
-42407400 Large Enchanted Hand
-42407421 Large Enchanted Hand
-42407500 Large Enchanted Hand
-42407521 Large Enchanted Hand
-42407600 Large Enchanted Hand
-42407621 Large Enchanted Hand
-42407700 Large Enchanted Hand
-42407721 Large Enchanted Hand
-42407800 Large Enchanted Hand
-42407821 Large Enchanted Hand
-42408000 Large Enchanted Hand
-42408021 Large Enchanted Hand
-42408100 Large Enchanted Hand
-42408121 Large Enchanted Hand
-42408200 Large Enchanted Hand
-42408221 Large Enchanted Hand
-42408300 Large Enchanted Hand
-42408321 Large Enchanted Hand
-42408400 Large Enchanted Hand
-42408421 Large Enchanted Hand
-42408500 Large Enchanted Hand
-42408521 Large Enchanted Hand
-42408800 Large Enchanted Hand
-42408821 Large Enchanted Hand
-42410000 Giant Enchanted Hand
-42410100 Giant Enchanted Hand
-42410150 Giant Enchanted Hand
-42500000 Small Enchanted Hand
-42500020 Small Enchanted Hand
-42500021 Small Enchanted Hand
-42500028 Small Enchanted Hand
-42500032 Small Enchanted Hand
-42500034 Small Enchanted Hand
-42500035 Small Enchanted Hand
-42500100 Small Enchanted Hand
-42500150 Small Enchanted Hand
+42400000 Large Fingercreeper
+42400020 Large Fingercreeper
+42400021 Large Fingercreeper
+42400032 Large Fingercreeper
+42400034 Large Fingercreeper
+42400035 Large Fingercreeper
+42400100 Large Fingercreeper
+42400150 Large Fingercreeper
+42400200 Large Fingercreeper
+42400221 Large Fingercreeper
+42405000 Large Fingercreeper
+42405050 Large Fingercreeper
+42405100 Large Fingercreeper
+42405150 Large Fingercreeper
+42405200 Large Fingercreeper
+42405250 Large Fingercreeper
+42405300 Large Fingercreeper
+42405350 Large Fingercreeper
+42405400 Large Fingercreeper
+42405450 Large Fingercreeper
+42405500 Large Fingercreeper
+42405550 Large Fingercreeper
+42405600 Large Fingercreeper
+42405650 Large Fingercreeper
+42405700 Large Fingercreeper
+42405750 Large Fingercreeper
+42405800 Large Fingercreeper
+42405850 Large Fingercreeper
+42406000 Large Fingercreeper
+42406050 Large Fingercreeper
+42406100 Large Fingercreeper
+42406150 Large Fingercreeper
+42406200 Large Fingercreeper
+42406250 Large Fingercreeper
+42406300 Large Fingercreeper
+42406350 Large Fingercreeper
+42406400 Large Fingercreeper
+42406450 Large Fingercreeper
+42407000 Large Fingercreeper
+42407020 Large Fingercreeper
+42407021 Large Fingercreeper
+42407032 Large Fingercreeper
+42407034 Large Fingercreeper
+42407035 Large Fingercreeper
+42407100 Large Fingercreeper
+42407121 Large Fingercreeper
+42407132 Large Fingercreeper
+42407200 Large Fingercreeper
+42407221 Large Fingercreeper
+42407300 Large Fingercreeper
+42407321 Large Fingercreeper
+42407400 Large Fingercreeper
+42407421 Large Fingercreeper
+42407500 Large Fingercreeper
+42407521 Large Fingercreeper
+42407600 Large Fingercreeper
+42407621 Large Fingercreeper
+42407700 Large Fingercreeper
+42407721 Large Fingercreeper
+42407800 Large Fingercreeper
+42407821 Large Fingercreeper
+42408000 Large Fingercreeper
+42408021 Large Fingercreeper
+42408100 Large Fingercreeper
+42408121 Large Fingercreeper
+42408200 Large Fingercreeper
+42408221 Large Fingercreeper
+42408300 Large Fingercreeper
+42408321 Large Fingercreeper
+42408400 Large Fingercreeper
+42408421 Large Fingercreeper
+42408500 Large Fingercreeper
+42408521 Large Fingercreeper
+42408800 Large Fingercreeper
+42408821 Large Fingercreeper
+42410000 Giant Fingercreeper
+42410100 Giant Fingercreeper
+42410150 Giant Fingercreeper
+42500000 Small Fingercreeper
+42500020 Small Fingercreeper
+42500021 Small Fingercreeper
+42500028 Small Fingercreeper
+42500032 Small Fingercreeper
+42500034 Small Fingercreeper
+42500035 Small Fingercreeper
+42500100 Small Fingercreeper
+42500150 Small Fingercreeper
 42600000 Burial Watchdog
 42600100 Burial Watchdog
 42600110 Burial Watchdog
@@ -3887,7 +3887,6 @@
 46705000 Ancestor Spirit
 46800000 Fallingstar Beast
 46800032 Fallingstar Beast
-46800940 Fallingstar Beast
 46801000 Fallingstar Beast
 46801930 Fallingstar Beast
 46900000 Grafted Scion

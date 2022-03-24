@@ -23,28 +23,28 @@
 		<Field Def="f32 CoordinateX = 0" />
 		<Field Def="f32 CoordinateY = 0" />
 		<Field Def="f32 CoordinateZ = 0" />
-		<Field Def="s32 Grace-TextID = 0" />
+		<Field Def="s32 NameID-1 = 0" />
 		<Field Def="s32 Unk5 = 0" />
 		<Field Def="s32 Unk6 = 0" />
-		<Field Def="s32 Unk7 = 0" />
+		<Field Def="s32 NameID-2 = 0" />
 		<Field Def="s32 Unk8 = 0" />
 		<Field Def="s32 Unk9 = 0" />
-		<Field Def="s32 Unk10 = 0" />
+		<Field Def="s32 NameID-3 = 0" />
 		<Field Def="s32 Unk11 = 0" />
 		<Field Def="s32 Unk12 = 0" />
-		<Field Def="s32 Unk13 = 0" />
+		<Field Def="s32 NameID-4 = 0" />
 		<Field Def="s32 Unk14 = 0" />
 		<Field Def="s32 Unk15 = 0" />
-		<Field Def="s32 Unk16 = 0" />
+		<Field Def="s32 NameID-5 = 0" />
 		<Field Def="s32 Unk17 = 0" />
 		<Field Def="s32 Unk18 = 0" />
-		<Field Def="s32 Unk19 = 0" />
+		<Field Def="s32 NameID-6 = 0" />
 		<Field Def="s32 Unk20 = 0" />
 		<Field Def="s32 Unk21 = 0" />
-		<Field Def="s32 Unk22 = 0" />
+		<Field Def="s32 NameID-7 = 0" />
 		<Field Def="s32 Unk23 = 0" />
 		<Field Def="s32 Unk24 = 0" />
-		<Field Def="s32 Unk25 = 0" />
+		<Field Def="s32 NameID-8 = 0" />
 		<Field Def="s32 Unk26 = 0" />
 		<Field Def="s32 Unk27 = 0" />
 		<Field Def="s32 Unk28 = 0" />
@@ -53,14 +53,14 @@
 		<Field Def="s32 Unk31 = 0" />
 		<Field Def="s32 Unk32 = 0" />
 		<Field Def="s32 Unk33 = 0" />
-		<Field Def="s32 Unk34 = 0" />
-		<Field Def="s32 Unk35 = 0" />
-		<Field Def="s32 Unk36 = 0" />
-		<Field Def="s32 Unk37 = 0" />
-		<Field Def="s32 Unk38 = 0" />
-		<Field Def="s32 Unk39 = 0" />
-		<Field Def="s32 Unk40 = 0" />
-		<Field Def="s32 Unk41 = 0" />
+		<Field Def="s32 ShowName1-Flag = 0" />
+		<Field Def="s32 ShowName2-Flag = 0" />
+		<Field Def="s32 ShowName3-Flag = 0" />
+		<Field Def="s32 ShowName4-Flag = 0" />
+		<Field Def="s32 ShowName5-Flag = 0" />
+		<Field Def="s32 ShowName6-Flag = 0" />
+		<Field Def="s32 ShowName7-Flag = 0" />
+		<Field Def="s32 ShowName8-Flag = 0" />
 		<Field Def="s32 Unk42 = 0" />
 		<Field Def="s32 Unk43 = 0" />
 		<Field Def="s32 Unk44 = 0" />

@@ -363,7 +363,7 @@
 10004500 In Marika's own words.
 10004501 The Erdtree governs all. The choice is thine.
 10004502 Become one with the Order. Or divest thyself of it.
-10004503 To wallow at the fringes; a powerless upstart.
+10004503 To wallow at the fringes, a powerless upstart.
 10010100 In Marika's own words.
 10010101 Hear me, Demigods. My children beloved.
 10010102 Make of thyselves that which ye desire. Be it a Lord. Be it a God.
@@ -377,7 +377,7 @@
 10010301 I declare mine intent, to search the depths of the Golden Order.
 10010302 Through understanding of the proper way, our faith, our grace, is increased.
 10010303 Those blissful early days of blind belief are long past.
-10010304 My comrades; why must ye falter?
+10010304 My comrades, why must ye falter?
 10010400 In Marika's own words.
 10010401 Hark, brave warriors. Hark, my lord Godfrey. We commend your deeds.
 10010402 Guidance hath delivered ye through each ordeal, to the place ye stand.
@@ -453,7 +453,7 @@
 10014002 You were unable to enter the Erdtree, no?
 10014003 Prevented by the mantle of barbs.
 10014004 The thorns are impenetrable.
-10014005 A husk of the Erdtree's being; that spurns all that exists without.
+10014005 A husk of the Erdtree's being, that spurns all that exists without.
 10014006 The only way to stand before the Elden Ring...
 10014007 and become the Elden Lord...is to pass the thorns.
 10014008 My purpose serves to aid in that very act.
@@ -565,7 +565,7 @@
 10105000 Oh, bless you.
 10105001 Oh..ohh!
 10105002 Head to the foundation of gold, Tarnished...
-10105003 Traverse Raya Lucaria; "Glintstone Eventide"�
+10105003 Traverse Raya Lucaria, "Glintstone Eventide"�
 10105004 �and reunite the half crescents, at the Grand Lift.
 10105005 Oh, but the bridge is collapsed, and cannot be crossed.
 10105006 Only, why should that matter!
@@ -668,7 +668,7 @@
 10200114 "Seek another of its kind."
 10200115 "To become Elden Lord, and restore the Golden Order."
 10200116 Let the words of the Fingers guide you.
-10200200 Ahh, Great Runes are the stuff of demigods;
+10200200 Ahh, Great Runes are the stuff of demigods,
 10200201 the children of the goddess, Queen Marika. She who is vessel of the Elden Ring.
 10200202 Tainted by the strength of their runes, her children warred, but none could become Elden Lord.
 10200203 And so grace was extended, to your kind, the Tarnished.
@@ -727,7 +727,7 @@
 10203000 Heavens forbid...
 10203001 That is not the domain of mere men.
 10203002 The burning of the Erdtree is the first cardinal sin. And you say you seek the power of the Rune of Death, too?
-10203003 The Rune of Death goes by two names; the other is Destined Death.
+10203003 The Rune of Death goes by two names, the other is Destined Death.
 10203004 The forbidden shadow, plucked from the Golden Order upon its creation�
 10203005 Unleashing the rune now would be unthinkable...
 10203006 The Fingers would never permit it. Nor would the Greater Will.
@@ -865,7 +865,7 @@
 10613002 I would have thee join him in searching for the hidden treasure of Nokron, the Eternal City.
 10613003 I have called for Blaidd to greet thee below. Take from him the particulars.
 10613004 Ah, and there wilt thou find Iji, my war counselor, and Seluvis, preceptor in the sorcerous arts, also.
-10613005 Heed not their peculiarities; feel secure in gaining from them what advantage thou canst.
+10613005 Heed not their peculiarities, feel secure in gaining from them what advantage thou canst.
 10613006 I am sure the others will be doing just the same.
 10613010 Good, then I ask we proceed with haste.
 10613011 There is, in my service, a half-wolven warrior by the name of Blaidd.
@@ -879,7 +879,7 @@
 10613503 Go there to find the city's hidden treasure.
 10613600 Ah, yes. Iji, my war counselor, and Seluvis, preceptor in the sorcerous arts, can be found below.
 10613601 Like thee, they are in my service.
-10613602 Heed not their peculiarities; feel secure in gaining from them what advantage thou canst.
+10613602 Heed not their peculiarities, feel secure in gaining from them what advantage thou canst.
 10613603 I am sure the others will be doing just the same.
 10613700 Speak with the three who await thee below.
 10613701 Thou needst not indulge them unduly, but they too wish to appraise thy worth.
@@ -1043,7 +1043,7 @@
 20000791 Weave thy night into being...
 20000900 Where did ye flee, my sweetings?
 20000901 Come out, from whence ye hide. There are books and light aplenty.
-20000902 Dither not; come out say I!
+20000902 Dither not, come out say I!
 20000903 Or will ye be gravestones? To be better born anew?
 20001000 Ah...thou...
 20001001 Is it thy wish to be born anew?
@@ -1479,7 +1479,7 @@
 21606500 Mm... As a fellow combatant, allow me to introduce myself.
 21606501 Blaidd, warrior.
 21606502 Now, we find ourselves pitted against Radahn, once the strongest of the demigods.
-21606503 The way ahead is pleasingly simple; a path forged by sword and fang.
+21606503 The way ahead is pleasingly simple, a path forged by sword and fang.
 21606600 Hm. Nothing to do but wait. Until the festival begins.
 21608000 Ah, good. I was waiting for you.
 21608001 What a sick way to fight, eh.
@@ -2490,15 +2490,12 @@
 22680200 Is this who you are, coz?
 22680201 You've cracked my heart.
 22680202 Please, don't crack the others...
-22680203 ...
 22680300 You were a poacher, all along.
 22680301 You've cracked my heart.
 22680302 Please, don't crack the others...
-22680303 ...
 22680400 So, you were a poacher, too.
 22680401 But the tale of house Hoslow is told in blood.
 22680402 I'll find you, one day, coz...
-22680403 ...
 22700100 Sister... Where did you go?
 22700102 You promised me. When we turned 14, we'd go to see the stars...
 22700104 I've been waiting ever so long. Forever and ever, it seems.
@@ -2707,10 +2704,10 @@
 30005001 Allow me some time.
 30005002 Our Lord's carcass is vast, and not easily consumed.
 30005003 Dear Rykard, please find purchase within me,
-30005004 I wish to be your serpent; your family.
+30005004 I wish to be your serpent, your family.
 30005005 One day, let us devour the gods together.
 30005100 Dear Rykard, please find purchase within me,
-30005101 I wish to be your serpent; your family.
+30005101 I wish to be your serpent, your family.
 30005102 One day, let us devour the gods together.
 30007600 Now, time for you to leave, I should think.
 30007601 Let this intersection of our paths be the last.
@@ -2846,7 +2843,7 @@
 30103101 My doubts had been piling up, you see.
 30103102 ...The words of the Two Fingers cannot be trusted.
 30103103 Truly, naught but rambling, senile delusions.
-30103104 I believe, that when the Elden Ring was shattered, the Two Fingers were corrupted, their guidance; skewed.
+30103104 I believe, that when the Elden Ring was shattered, the Two Fingers were corrupted, their guidance, skewed.
 30103105 Even worse, the Fingers harbor no love for our kind.
 30103106 That's the part that irks the most.
 30103200 Oh, I have a gift for you, something fit only for the wise.
@@ -3531,7 +3528,6 @@
 30916004 No matter. I know I-I can trust you.
 30916005 Gullible, yes, but a good soul.
 30916006 Make certain that Tanith gets this.
-30916007 Oh, it's nothing, it's just... Makes me sick to see her all bent out of shape.
 30916008 C'mon, Tanith, back on your high horse, where you belong.
 30916100 You're able, then?
 30916101 Then I can rest easy, my friend...
@@ -3551,7 +3547,6 @@
 30917303 Don't go thinking I'm a soft touch!
 30917400 Well, glad to see we're on the same page.
 30917401 I'd never cross you, not even close.
-30917402 He he he...
 30917500 Ahhh...
 30917501 It's been ages since I've seen you.
 30917502 I didn't even realise it was you.
@@ -3607,7 +3602,7 @@
 31000101 Might I bend your ear for a moment, please.
 31000102 My name is Irina. I've escaped from Castle Morne, to the south.
 31000103 The servants there...have rebelled.
-31000104 I-I can't be sure what it is; my eyesight's been weak since birth you see...
+31000104 I-I can't be sure what it is, my eyesight's been weak since birth you see...
 31000105 But I swear I heard frightful howling from all over.
 31000106 My good father secreted me out the castle,
 31000107 but decided himself to stay. He says it's his duty, as commander.
@@ -4979,12 +4974,12 @@
 32005401 The howling and wailing of spirits in fear of the curse. I can even hear the repulsive, twisted malison itself...
 32005402 You should keep your distance.
 32005403 I know you're strong, but please...
-32005500 I can't hear them any more; the voices of the spirits cowering from the curse...
+32005500 I can't hear them any more, the voices of the spirits cowering from the curse...
 32005501 I suppose the Dung Eater must have left the Roundtable.
 32005502 I just pray nothing ill comes of this.
 32005600 Be on your guard, I beg you.
 32005601 He's back. The Dung Eater. Again.
-32005602 I can hear them; the spirits as they howl and lament in fear of the curse.
+32005602 I can hear them, the spirits as they howl and lament in fear of the curse.
 32005603 And worse than ever, the reverberations of the twisted malison itself.
 32005604 But after all this time, I've started to grasp it now.
 32005605 I can hear, in the malison, another fearsome Order.
@@ -5005,7 +5000,7 @@
 32007001 So Master Hewg won't listen to you, either.
 32007002 You have my thanks, regardless.
 32007003 I'll try and talk him round next time.
-32007004 I know he was given this great entreaty;
+32007004 I know he was given this great entreaty,
 32007005 To craft a weapon which could slay a god. Though I can't help but think of it as a curse.
 32007006 A fearsome curse, put on him by Queen Marika.
 32007007 And if that's the case, I'm not sure there's anything we can do...
@@ -5408,7 +5403,7 @@
 32402005 You now belong to a select group of fellows. As such, I ask that you remain constant.
 32402100 You'll be after more Great Runes, now eh?
 32402101 Then as your fellow, allow me to divulge a little knowledge.
-32402102 The inheritors of the Great Runes; the shardbearers.
+32402102 The inheritors of the Great Runes, the shardbearers.
 32402103 We of the Roundtable know the location of five of them, including the one you defeated.
 32402104 Godrick the Grafted, Lord of Stormveil.
 32402105 General Radahn, who fought Malenia and her rot to a standstill in the Caelid Wilds.
@@ -5428,7 +5423,7 @@
 32402305 Though I doubt he much resembles his former self anymore...
 32402400 Praetor Rykard is the Lord of the Volcano Manor on Mt. Gelmir.
 32402401 He is a ruthless justiciar who commands a company of inquisitors, reviled for his serpentine demeanour.
-32402402 The volcano, Mt. Gelmir, lies in the west of the Altus Plateau; the realm of the Erdtree.
+32402402 The volcano, Mt. Gelmir, lies in the west of the Altus Plateau, the realm of the Erdtree.
 32402403 It was the stage of the most appalling battle in the entirety of the Shattering.
 32402404 Rykard has committed the grave sin of blasphemy. Marking himself as an enemy, never to be forgiven.
 32402500 Morgott the Grace-Given is Lord of Leyndell, the capital city.
@@ -5787,7 +5782,7 @@
 32580100 This is rather unfortunate.
 32580101 I don't normally find myself cornered like a rat.
 32580102 But I have my ways...
-32580200 No need to grandstand; you're not even on stage.
+32580200 No need to grandstand, you're not even on stage.
 32580300 Well, this is unfortunate.
 32580301 Couldn't change a thing...
 32581000 Agh!
@@ -5991,13 +5986,13 @@
 33005203 Sadly, her heart was broken when Lord Radagon left her.
 33005204 And then, when the academy rebelled against the royals, she was locked away in the grand library.
 33005300 In the end, Lady Rennala was left alone, cradling the amber egg Lord Radagon bequeathed her.
-33005301 Now she devotes herself to it through forbidden rite;
+33005301 Now she devotes herself to it through forbidden rite,
 33005302 the grim art of reincarnation.
 33005303 You would do well to remember...
 33005304 Severing a vow, strongest of bonds, has consequences ever more dire.
 33010000 Oh, what have we here?
 33010001 Very well, let us both learn together.
-33010002 Heresy is not native to the world; it is but a contrivance.
+33010002 Heresy is not native to the world, it is but a contrivance.
 33010003 All things can be conjoined.
 33080000 Mngh!
 33080100 Stop it, please.
@@ -6291,7 +6286,6 @@
 33403002 Well, what do you make of it? What's happened to this village?
 33403003 I witnessed a sight much the same, in my infancy.
 33403004 The oppression of the weak. Murder and pillage unchecked.
-33403005 A waking nightmare, made by men.
 33403100 But this time, I'm a woman grown.
 33403101 And though the suffering cannot be undone, I can still mete out justice.
 33403102 Justice to the oppressors.
@@ -6343,8 +6337,6 @@
 33407101 Some call me by the title of Lady, but I remain the same woman underneath.
 33407102 Though I have now abandoned my former guidance.
 33407103 I cannot express how much you've helped me.
-33407104 Should you become Elden Lord.
-33407105 I would gladly lighten your burden.
 33407200 Farewell, fellow warrior.
 33407201 I will remain, to summon the storm.
 33407202 But your guidance, and your fight...
@@ -6356,7 +6348,7 @@
 33480100 What do you intend?
 33480101 Such conduct ill befits a warrior.
 33480200 I see. You are but a simple villain.
-33480201 Let the scars remind you; this lesson comes from Nepheli Loux!
+33480201 Let the scars remind you, this lesson comes from Nepheli Loux!
 33480300 You wouldn't even register as a threat to father.
 33480301 Hurry up and die.
 33480400 Father... I am slain.
@@ -6382,7 +6374,7 @@
 33500300 Go ahead and bring me some slumber fog, my compeer.
 33500301 About two should do it, by my reckoning...
 33500302 And then I'll have enough dreambrew to share.
-33500303 Drink is a wonderful teacher. Imbibe and you will understand; this world's delights, and its futility.
+33500303 Drink is a wonderful teacher. Imbibe and you will understand, this world's delights, and its futility.
 33500400 You what? You hardly know what you're missing out on.
 33500401 Well, suit yourself. But I'm sure you'll be after a drink before long.
 33500402 Perhaps you'll tire of this crumbling world...
@@ -6835,7 +6827,7 @@
 34907210 Which is why...
 34907211 If you happen to be present for the girl's fight with her sisters,
 34907212 I ask that you side with the sisters and kill Millicent.
-34907213 It must be done by your hand; no other.
+34907213 It must be done by your hand, no other.
 34907214 Millicent trusts you, rather deeply in fact.
 34907215 Sever that trust. Nurtured by betrayal, her bud will flower most vividly.
 34907216 When Malenia ascends to godhood, Millicent too shall be reborn.
@@ -6954,7 +6946,7 @@
 35104201 Well then. Would you like to learn an incantation?
 35104300 May the Golden Order shine through you.
 35104500 The master is always deep in contemplation.
-35104501 While I frantically attempt to record his wisdom; the movement of his finger.
+35104501 While I frantically attempt to record his wisdom, the movement of his finger.
 35104502 And though I am yet to comprehend even the daintiest morsel of his wisdom...
 35104503 I know that this, this is my life's calling.
 35104504 The Golden Order has bestowed me, talentless as I am, the great duty of documentarian.
@@ -6984,7 +6976,7 @@
 35105010 The master only has me, and here I fail him...
 35105100 What on earth did you do to the master?
 35105101 Well, not that I'm complaining.
-35105102 Master's finger moves again, resuming his cogitation; more than good enough for me.
+35105102 Master's finger moves again, resuming his cogitation, more than good enough for me.
 35105103 I haven't the words to thank you.
 35105104 So I'd like to pass this on to you instead.
 35105105 A glimpse into the heart of the Golden Order, documented by yours truly.
@@ -7081,7 +7073,6 @@
 70000101 A proper death means returning to the Erdtree.
 70000102 Have patience. Until the time comes...and the roots call to you.
 70001000 ...
-70001001 O Marika, Queen Eternal. He is your unwanted child.
 70001001 O Marika, Queen Eternal. He is your unwanted child.
 70002000 ...
 70002001 O Sapling! Sweet sapling of glorious gold.

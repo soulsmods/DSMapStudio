@@ -34,7 +34,8 @@
 		<Field Def="s16 AttackCorrectionGuardAttackRate = 0" />
 		<Field Def="s16 AttackCorrectionGuardBreak = 100" />
 		<Field Def="s16 AttackCorrectionThrowEscape = 100" />
-		<Field Def="s16 AttackCorrectionPoise = 0" />
+		<Field Def="s8 ConditionalWeaponEffect1 = 0" />
+		<Field Def="s8 ConditionalWeaponEffect2 = 0" />
 		<Field Def="s16 DamagePhysical = 0" />
 		<Field Def="s16 DamageMagic = 0" />
 		<Field Def="s16 DamageFire = 0" />

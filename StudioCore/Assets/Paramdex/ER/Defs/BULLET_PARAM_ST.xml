@@ -106,28 +106,26 @@
 		<Field Def="u8 IsDisableIntScale:1" />
 		<Field Def="u8 Unk1:1" />
 		<Field Def="f32 EmitterPositionRadius = 0" />
-		<Field Def="s32 HitObjectID = -1" />
-		<Field Def="s32 Unk2 = 0" />
+		<Field Def="f32 Unk24 = -1" />
+		<Field Def="s32 RuntimeBoneControlID = 0" />
 		<Field Def="f32 Unk3 = -1" />
-		<Field Def="s8 Unk4 = 0" />
-		<Field Def="s8 Unk5 = 0" />
-		<Field Def="s8 Unk6 = 0" />
-		<Field Def="s8 Unk7 = 0" />
+		<Field Def="s16 Unk4 = 0" />
+		<Field Def="s16 Unk5 = 0" />
 		<Field Def="s32 Unk8 = 0" />
 		<Field Def="s32 Unk9 = 0" />
 		<Field Def="s32 Unk10 = 0" />
 		<Field Def="s32 Unk11 = 0" />
-		<Field Def="s16 Unk12a = 0" />
-		<Field Def="s16 Unk12b = 0" />
-		<Field Def="f32 Unk13 = 0" />
+		<Field Def="s16 Unk12 = 0" />
+		<Field Def="s16 Unk13 = 0" />
 		<Field Def="f32 Unk14 = 0" />
-		<Field Def="s32 Unk15 = 0" />
-		<Field Def="s16 Unk16a = 0" />
-		<Field Def="s16 Unk16b = 0" />
-		<Field Def="s32 Unk17 = 0" />
-		<Field Def="f32 Unk18 = 0" />
+		<Field Def="f32 Unk15 = 0" />
+		<Field Def="s32 Unk16 = 0" />
+		<Field Def="s16 Unk17 = 0" />
+		<Field Def="s16 Unk18 = 0" />
 		<Field Def="f32 Unk19 = 0" />
-		<Field Def="s32 Unk20 = 0" />
-		<Field Def="s32 Unk21 = 0" />
+		<Field Def="f32 Unk20 = 0" />
+		<Field Def="f32 Unk21 = 0" />
+		<Field Def="s32 Unk22 = 0" />
+		<Field Def="s32 Unk23 = 0" />
 	</Fields>
 </PARAMDEF>

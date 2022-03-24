@@ -13,7 +13,7 @@
 100 Neutralizing Boluses
 110 Neutralizing Boluses
 204100000 [Rennala Student (Bug)] None
-204100100 [Rennala Student (Bug)] Aeonian Butterfly
+204100100 [Rennala Student - Bug Form] Aeonian Butterfly
 210000000 [Black Knife Assassin] None
 213000000 [Morgott] None
 214000000 [Omen Monstrosity] Omen Cleaver
@@ -81,7 +81,7 @@
 300000504 [Castle Exile] Stormhawk Feather
 300000505 [Castle Exile] Smoldering Butterfly
 300000506 [Castle Exile] Mushroom
-300000510 [Castle Exile]
+300000510 [Castle Exile] None
 300000600 [Castle Exile] Spear
 300000601 [Castle Exile] Exile Hood
 300000602 [Castle Exile] Exile Armor
@@ -104,6 +104,162 @@
 300000805 [Castle Exile] Stormhawk Feather
 300000806 [Castle Exile] Smoldering Butterfly
 300000807 [Castle Exile] Mushroom
+300014000 [Castle Exile] Soldier's Crossbow
+300014001 [Castle Exile] Exile Hood
+300014002 [Castle Exile] Exile Armor
+300014003 [Castle Exile] Exile Gauntlets
+300014004 [Castle Exile] Exile Greaves
+300014005 [Castle Exile] Stormhawk Feather
+300014006 [Castle Exile] Bolt
+300014007 [Castle Exile] Lordsworn's Bolt
+300014008 [Castle Exile] Smoldering Butterfly
+300014009 [Castle Exile] Mushroom
+300014010 [Castle Exile] Smithing Stone [1]
+300014011 [Castle Exile] Smithing Stone [2]
+300014100 [Castle Exile] Exile Hood
+300014101 [Castle Exile] Exile Armor
+300014102 [Castle Exile] Exile Gauntlets
+300014103 [Castle Exile] Exile Greaves
+300014104 [Castle Exile] Stormhawk Feather
+300014105 [Castle Exile] Bolt
+300014106 [Castle Exile] Lordsworn's Bolt
+300014107 [Castle Exile] Smoldering Butterfly
+300014108 [Castle Exile] Mushroom
+300014109 [Castle Exile] Smithing Stone [1]
+300014110 [Castle Exile] Smithing Stone [2]
+300014200 [Castle Exile] Exile Hood
+300014201 [Castle Exile] Exile Armor
+300014202 [Castle Exile] Exile Gauntlets
+300014203 [Castle Exile] Exile Greaves
+300014204 [Castle Exile] Stormhawk Feather
+300014205 [Castle Exile] Smoldering Butterfly
+300014206 [Castle Exile] Mushroom
+300014207 [Castle Exile] Smithing Stone [1]
+300014208 [Castle Exile] Smithing Stone [2]
+300014300 [Castle Exile] Exile Hood
+300014301 [Castle Exile] Exile Armor
+300014302 [Castle Exile] Exile Gauntlets
+300014303 [Castle Exile] Exile Greaves
+300014304 [Castle Exile] Stormhawk Feather
+300014305 [Castle Exile] Smoldering Butterfly
+300014306 [Castle Exile] Mushroom
+300014307 [Castle Exile] Smithing Stone [1]
+300014308 [Castle Exile] Smithing Stone [2]
+300014400 [Castle Exile] Exile Hood
+300014401 [Castle Exile] Exile Armor
+300014402 [Castle Exile] Exile Gauntlets
+300014403 [Castle Exile] Exile Greaves
+300014404 [Castle Exile] Stormhawk Feather
+300014405 [Castle Exile] Smoldering Butterfly
+300014406 [Castle Exile] Mushroom
+300014407 [Castle Exile] Smithing Stone [1]
+300014407 [Castle Exile] Smithing Stone [1]
+300014408 [Castle Exile] Smithing Stone [2]
+300014408 [Castle Exile] Smithing Stone [2]
+300014500 [Castle Exile] Exile Hood
+300014501 [Castle Exile] Exile Armor
+300014502 [Castle Exile] Exile Gauntlets
+300014503 [Castle Exile] Exile Greaves
+300014504 [Castle Exile] Stormhawk Feather
+300014505 [Castle Exile] Smoldering Butterfly
+300014506 [Castle Exile] Mushroom
+300014600 [Castle Exile] Spear
+300014601 [Castle Exile] Exile Hood
+300014602 [Castle Exile] Exile Armor
+300014603 [Castle Exile] Exile Gauntlets
+300014604 [Castle Exile] Exile Greaves
+300014605 [Castle Exile] Stormhawk Feather
+300014606 [Castle Exile] Smithing Stone [1]
+300014607 [Castle Exile] Smithing Stone [2]
+300014700 [Castle Exile] Torchpole
+300014701 [Castle Exile] Exile Hood
+300014702 [Castle Exile] Exile Armor
+300014703 [Castle Exile] Exile Gauntlets
+300014704 [Castle Exile] Exile Greaves
+300014705 [Castle Exile] Stormhawk Feather
+300014706 [Castle Exile] Smoldering Butterfly
+300014707 [Castle Exile] Mushroom
+300014708 [Castle Exile] Smithing Stone [1]
+300014709 [Castle Exile] Smithing Stone [2]
+300014800 [Castle Exile] Torchpole
+300014801 [Castle Exile] Exile Hood
+300014802 [Castle Exile] Exile Armor
+300014803 [Castle Exile] Exile Gauntlets
+300014804 [Castle Exile] Exile Greaves
+300014805 [Castle Exile] Stormhawk Feather
+300014806 [Castle Exile] Smoldering Butterfly
+300014807 [Castle Exile] Mushroom
+300014808 [Castle Exile] Smithing Stone [1]
+300014809 [Castle Exile] Smithing Stone [2]
+300051000 [Castle Exile] Soldier's Crossbow
+300051001 [Castle Exile] Exile Hood
+300051002 [Castle Exile] Exile Armor
+300051003 [Castle Exile] Exile Gauntlets
+300051004 [Castle Exile] Exile Greaves
+300051005 [Castle Exile] Stormhawk Feather
+300051006 [Castle Exile] Bolt
+300051007 [Castle Exile] Lordsworn's Bolt
+300051008 [Castle Exile] Smoldering Butterfly
+300051009 [Castle Exile] Mushroom
+300051100 [Castle Exile] Exile Hood
+300051101 [Castle Exile] Exile Armor
+300051102 [Castle Exile] Exile Gauntlets
+300051103 [Castle Exile] Exile Greaves
+300051104 [Castle Exile] Stormhawk Feather
+300051105 [Castle Exile] Bolt
+300051106 [Castle Exile] Lordsworn's Bolt
+300051107 [Castle Exile] Smoldering Butterfly
+300051108 [Castle Exile] Mushroom
+300051200 [Castle Exile] Exile Hood
+300051201 [Castle Exile] Exile Armor
+300051202 [Castle Exile] Exile Gauntlets
+300051203 [Castle Exile] Exile Greaves
+300051204 [Castle Exile] Stormhawk Feather
+300051205 [Castle Exile] Smoldering Butterfly
+300051206 [Castle Exile] Mushroom
+300051300 [Castle Exile] Exile Hood
+300051301 [Castle Exile] Exile Armor
+300051302 [Castle Exile] Exile Gauntlets
+300051303 [Castle Exile] Exile Greaves
+300051304 [Castle Exile] Stormhawk Feather
+300051305 [Castle Exile] Smoldering Butterfly
+300051306 [Castle Exile] Mushroom
+300051400 [Castle Exile] Exile Hood
+300051401 [Castle Exile] Exile Armor
+300051402 [Castle Exile] Exile Gauntlets
+300051403 [Castle Exile] Exile Greaves
+300051404 [Castle Exile] Stormhawk Feather
+300051405 [Castle Exile] Smoldering Butterfly
+300051406 [Castle Exile] Mushroom
+300051500 [Castle Exile] Exile Hood
+300051501 [Castle Exile] Exile Armor
+300051502 [Castle Exile] Exile Gauntlets
+300051503 [Castle Exile] Exile Greaves
+300051504 [Castle Exile] Stormhawk Feather
+300051505 [Castle Exile] Smoldering Butterfly
+300051506 [Castle Exile] Mushroom
+300051600 [Castle Exile] Spear
+300051601 [Castle Exile] Exile Hood
+300051602 [Castle Exile] Exile Armor
+300051603 [Castle Exile] Exile Gauntlets
+300051604 [Castle Exile] Exile Greaves
+300051605 [Castle Exile] Stormhawk Feather
+300051700 [Castle Exile] Torchpole
+300051701 [Castle Exile] Exile Hood
+300051702 [Castle Exile] Exile Armor
+300051703 [Castle Exile] Exile Gauntlets
+300051704 [Castle Exile] Exile Greaves
+300051705 [Castle Exile] Stormhawk Feather
+300051706 [Castle Exile] Smoldering Butterfly
+300051707 [Castle Exile] Mushroom
+300051800 [Castle Exile] Torchpole
+300051801 [Castle Exile] Exile Hood
+300051802 [Castle Exile] Exile Armor
+300051803 [Castle Exile] Exile Gauntlets
+300051804 [Castle Exile] Exile Greaves
+300051805 [Castle Exile] Stormhawk Feather
+300051806 [Castle Exile] Smoldering Butterfly
+300051807 [Castle Exile] Mushroom
 301000000 [Banished Knight] Banished Knight's Greatsword
 301000001 [Banished Knight] Banished Knight's Shield
 301000002 [Banished Knight] Banished Knight Helm (Altered)
@@ -157,8 +313,14 @@
 301000802 [Banished Knight] Banished Knight Armor
 301000803 [Banished Knight] Banished Knight Gauntlets
 301000804 [Banished Knight] Banished Knight Greaves
-302000000 [Castle Exile (Large)] Crescent Moon Axe
-302000001 [Castle Exile (Large)] Stormhawk Feather
+302000000 [Large Castle Exile] Crescent Moon Axe
+302000001 [Large Castle Exile] Stormhawk Feather
+302014000 [Large Castle Exile] Crescent Moon Axe
+302014001 [Large Castle Exile] Stormhawk Feather
+302014002 [Large Castle Exile] Smithing Stone [1]
+302014003 [Large Castle Exile] Smithing Stone [2]
+302051000 [Large Castle Exile] Crescent Moon Axe
+302051001 [Large Castle Exile] Stormhawk Feather
 305000000 [Commander] None
 306000000 [Undead Mariner] Executioner's Greataxe
 306000001 [Undead Mariner] Human Bone Shard
@@ -374,14 +536,14 @@
 325000000 [Draconic Tree Sentinel] None
 325100000 [Tree Sentinel] None
 325200000 [Fallen Tree Sentinel] None
-325200100 [Nox Swordstress] Nox Swordstress Crown
-325200101 [Nox Swordstress] Nox Swordstress Armor
-325200102 [Nox Swordstress] Nox Monk Bracelets
-325200103 [Nox Swordstress] Nox Monk Greaves
-325200200 [Nox Swordstress] Night Maiden Twin Crown
-325200201 [Nox Swordstress] Night Maiden Armor
-325200202 [Nox Swordstress] Nox Monk Bracelets
-325200203 [Nox Swordstress] Nox Monk Greaves
+325200100 [Fallen Tree Sentinel] Nox Swordstress Crown
+325200101 [Fallen Tree Sentinel] Nox Swordstress Armor
+325200102 [Fallen Tree Sentinel] Nox Monk Bracelets
+325200103 [Fallen Tree Sentinel] Nox Monk Greaves
+325200200 [Fallen Tree Sentinel] Night Maiden Twin Crown
+325200201 [Fallen Tree Sentinel] Night Maiden Armor
+325200202 [Fallen Tree Sentinel] Nox Monk Bracelets
+325200203 [Fallen Tree Sentinel] Nox Monk Greaves
 330000000 [Nox Swordstress] Nox Monk Hood
 330000001 [Nox Swordstress] Nox Monk Armor
 330000002 [Nox Swordstress] Nox Monk Bracelets
@@ -495,48 +657,48 @@
 347000702 [Albinauric] Albinauric Bloodclot
 347000800 [Albinauric] Ripple Crescent Halberd
 347000801 [Albinauric] Albinauric Bloodclot
-347100000 [Albinauric] Curved Great Club
-347100001 [Albinauric] Albinauric Bloodclot
-350000000 [Skeleton] Human Bone Shard
-350000100 [Skeleton] Human Bone Shard
-350000101 [Skeleton] Bolt
-350000200 [Skeleton] Grave Scythe
-350000201 [Skeleton] Human Bone Shard
-350000300 [Skeleton] Sun Realm Shield
-350000301 [Skeleton] Human Bone Shard
-350000400 [Skeleton] Bandit's Curved Sword
-350000401 [Skeleton] Human Bone Shard
-350000402 [Skeleton] Bandit's Curved Sword
-351000000 [Skeleton] Scimitar
-351000001 [Skeleton] Scripture Wooden Shield
-351000002 [Skeleton] Human Bone Shard
-351000003 [Skeleton] Smoldering Butterfly
-351000004 [Skeleton] Mushroom
-351000100 [Skeleton] Scimitar
-351000101 [Skeleton] Human Bone Shard
-351000200 [Skeleton] Scimitar
-351000201 [Skeleton] Human Bone Shard
-351000300 [Skeleton] Grossmesser
-351000301 [Skeleton] Human Bone Shard
-351000400 [Skeleton] Grossmesser
-351000401 [Skeleton] Human Bone Shard
-351000500 [Skeleton] Longbow
-351000501 [Skeleton] Human Bone Shard
-351000502 [Skeleton] Arrow
-351000600 [Skeleton] Human Bone Shard
-351000601 [Skeleton] Smoldering Butterfly
-351000602 [Skeleton] Mushroom
-351000700 [Skeleton] Human Bone Shard
-351000701 [Skeleton] Smoldering Butterfly
-351000702 [Skeleton] Mushroom
-351000800 [Skeleton] Human Bone Shard
-351000801 [Skeleton] Grave Violet
-351000900 [Skeleton] Human Bone Shard
-351000901 [Skeleton] Grave Violet
+347100000 [Albinauric (Variant)] Curved Great Club
+347100001 [Albinauric (Variant)] Albinauric Bloodclot
+350000000 [Skeleton (Curved Sword)] Human Bone Shard
+350000100 [Skeleton (Curved Sword)] Human Bone Shard
+350000101 [Skeleton (Curved Sword)] Bolt
+350000200 [Skeleton (Curved Sword)] Grave Scythe
+350000201 [Skeleton (Curved Sword)] Human Bone Shard
+350000300 [Skeleton (Curved Sword)] Sun Realm Shield
+350000301 [Skeleton (Curved Sword)] Human Bone Shard
+350000400 [Skeleton (Curved Sword)] Bandit's Curved Sword
+350000401 [Skeleton (Curved Sword)] Human Bone Shard
+350000402 [Skeleton (Curved Sword)] Bandit's Curved Sword
+351000000 [Skeleton (Scimitar)] Scimitar
+351000001 [Skeleton (Scimitar)] Scripture Wooden Shield
+351000002 [Skeleton (Scimitar)] Human Bone Shard
+351000003 [Skeleton (Scimitar)] Smoldering Butterfly
+351000004 [Skeleton (Scimitar)] Mushroom
+351000100 [Skeleton (Scimitar)] Scimitar
+351000101 [Skeleton (Scimitar)] Human Bone Shard
+351000200 [Skeleton (Scimitar)] Scimitar
+351000201 [Skeleton (Scimitar)] Human Bone Shard
+351000300 [Skeleton (Scimitar)] Grossmesser
+351000301 [Skeleton (Scimitar)] Human Bone Shard
+351000400 [Skeleton (Scimitar)] Grossmesser
+351000401 [Skeleton (Scimitar)] Human Bone Shard
+351000500 [Skeleton (Scimitar)] Longbow
+351000501 [Skeleton (Scimitar)] Human Bone Shard
+351000502 [Skeleton (Scimitar)] Arrow
+351000600 [Skeleton (Scimitar)] Human Bone Shard
+351000601 [Skeleton (Scimitar)] Smoldering Butterfly
+351000602 [Skeleton (Scimitar)] Mushroom
+351000700 [Skeleton (Scimitar)] Human Bone Shard
+351000701 [Skeleton (Scimitar)] Smoldering Butterfly
+351000702 [Skeleton (Scimitar)] Mushroom
+351000800 [Skeleton (Scimitar)] Human Bone Shard
+351000801 [Skeleton (Scimitar)] Grave Violet
+351000900 [Skeleton (Scimitar)] Human Bone Shard
+351000901 [Skeleton (Scimitar)] Grave Violet
 355000000 [Sanguine Noble] Bloodrose
-356000000 [Godskin Apostle]
+356000000 [Godskin Apostle] None
 357000000 [Godskin Noble] None
-360000010 [Alabaster Lord] Gravity Well
+360000010 [Alabaster Lord] [Sorcery] Gravity Well
 360000020 [Alabaster Lord] Alabaster Lord's Sword
 360010000 [Alabaster Lord] Ash of War: Gravitas
 360052100 [Alabaster Lord] None
@@ -614,15 +776,15 @@
 366100400 [Putrid Corpse] Mushroom
 366100500 [Putrid Corpse] Mushroom
 366100501 [Putrid Corpse] Bloodrose
-366200000 [Putrid Corpse] Mushroom
-366200100 [Putrid Corpse] Toxic Mushroom
-366200200 [Putrid Corpse] Melted Mushroom
-366200300 [Putrid Corpse] Mushroom
-366200301 [Putrid Corpse] Melted Mushroom
-366200302 [Putrid Corpse] Toxic Mushroom
-366200400 [Putrid Corpse] Mushroom
-366200500 [Putrid Corpse] Mushroom
-366200501 [Putrid Corpse] Bloodrose
+366200000 [Scarlet Putrid Corpse] Mushroom
+366200100 [Scarlet Putrid Corpse] Toxic Mushroom
+366200200 [Scarlet Putrid Corpse] Melted Mushroom
+366200300 [Scarlet Putrid Corpse] Mushroom
+366200301 [Scarlet Putrid Corpse] Melted Mushroom
+366200302 [Scarlet Putrid Corpse] Toxic Mushroom
+366200400 [Scarlet Putrid Corpse] Mushroom
+366200500 [Scarlet Putrid Corpse] Mushroom
+366200501 [Scarlet Putrid Corpse] Bloodrose
 366400000 [Cemetery Shade] None
 366400700 [Cemetery Shade] Mantis Blade
 367000000 [Albinauric Lookout] Albinauric Bloodclot
@@ -648,21 +810,21 @@
 370000105 [Depraved Perfumer] Perfumer's Shield
 370000106 [Depraved Perfumer] Altus Bloom
 370000107 [Depraved Perfumer] Miranda Powder
-370100100 [Depraved Perfumer] Perfumer Hood
-370100101 [Depraved Perfumer] Perfumer Robe
-370100102 [Depraved Perfumer] Perfumer Gloves
-370100103 [Depraved Perfumer] Perfumer Sarong
-370100104 [Depraved Perfumer] Budding Cave Moss
-370100105 [Depraved Perfumer] Altus Bloom
-370100106 [Depraved Perfumer] Miranda Powder
-370100200 [Depraved Perfumer] Perfumer Hood
-370100201 [Depraved Perfumer] Perfumer Robe
-370100202 [Depraved Perfumer] Perfumer Gloves
-370100203 [Depraved Perfumer] Perfumer Sarong
-370100204 [Depraved Perfumer] Perfumer's Shield
-370100205 [Depraved Perfumer] Budding Cave Moss
-370100206 [Depraved Perfumer] Altus Bloom
-370100207 [Depraved Perfumer] Miranda Powder
+370100100 [White Veil Perfumer] Perfumer Hood
+370100101 [White Veil Perfumer] Perfumer Robe
+370100102 [White Veil Perfumer] Perfumer Gloves
+370100103 [White Veil Perfumer] Perfumer Sarong
+370100104 [White Veil Perfumer] Budding Cave Moss
+370100105 [White Veil Perfumer] Altus Bloom
+370100106 [White Veil Perfumer] Miranda Powder
+370100200 [White Veil Perfumer] Perfumer Hood
+370100201 [White Veil Perfumer] Perfumer Robe
+370100202 [White Veil Perfumer] Perfumer Gloves
+370100203 [White Veil Perfumer] Perfumer Sarong
+370100204 [White Veil Perfumer] Perfumer's Shield
+370100205 [White Veil Perfumer] Budding Cave Moss
+370100206 [White Veil Perfumer] Altus Bloom
+370100207 [White Veil Perfumer] Miranda Powder
 370130100 [Depraved Perfumer] None
 370200000 [Raya Lucaria Scholar] Academy Glintstone Staff
 370200001 [Raya Lucaria Scholar] Raya Lucarian Robe
@@ -917,10 +1079,10 @@
 405000007 [Kaiden Sellsword] Frozen Raisin
 406000000 [Horse] Sliver of Meat
 406000001 [Horse] Beast Liver
-407000000 [Wolf] Thin Beast Bones
-407000001 [Wolf] Lump of Flesh
-407100000 [Wolf] Thin Beast Bones
-407100001 [Wolf] Lump of Flesh
+407000000 [Grey Wolf] Thin Beast Bones
+407000001 [Grey Wolf] Lump of Flesh
+407100000 [White Wolf] Thin Beast Bones
+407100001 [White Wolf] Lump of Flesh
 408000000 [Rat] Golden Rune [1]
 408000001 [Rat] Rune Arc
 408000100 [Rat] Golden Rune [1]
@@ -979,18 +1141,18 @@
 410000213 [Demi-Human] Ruin Fragment
 410000214 [Demi-Human] Glowstone
 410000215 [Demi-Human] Volcanic Stone
-410100000 [Demi-Human (Large)] Spiked Club
-410100001 [Demi-Human (Large)] String
-410100002 [Demi-Human (Large)] Glass Shard
-410100003 [Demi-Human (Large)] Ruin Fragment
-410100004 [Demi-Human (Large)] Rainbow Stone
-410100005 [Demi-Human (Large)] Glowstone
-410100010 [Demi-Human (Large)] Spiked Club
-410100011 [Demi-Human (Large)] String
-410100012 [Demi-Human (Large)] Glass Shard
-410100013 [Demi-Human (Large)] Ruin Fragment
-410100014 [Demi-Human (Large)] Glowstone
-410100015 [Demi-Human (Large)] Volcanic Stone
+410100000 [Large Demi-Human] Spiked Club
+410100001 [Large Demi-Human] String
+410100002 [Large Demi-Human] Glass Shard
+410100003 [Large Demi-Human] Ruin Fragment
+410100004 [Large Demi-Human] Rainbow Stone
+410100005 [Large Demi-Human] Glowstone
+410100010 [Large Demi-Human] Spiked Club
+410100011 [Large Demi-Human] String
+410100012 [Large Demi-Human] Glass Shard
+410100013 [Large Demi-Human] Ruin Fragment
+410100014 [Large Demi-Human] Glowstone
+410100015 [Large Demi-Human] Volcanic Stone
 411000000 [Demi-Human Shaman] Great Knife
 411000001 [Demi-Human Shaman] String
 411000002 [Demi-Human Shaman] Glass Shard
@@ -1016,43 +1178,43 @@
 415000000 [Basilisk] None
 415062000 [Basilisk] Aeonian Butterfly
 415066000 [Basilisk] None
-416000000 [Dog] Thin Beast Bones
-416000001 [Dog] Beast Blood
-416000010 [Dog] Thin Beast Bones
-416000011 [Dog] Ruin Fragment
-416000012 [Dog] Sanctuary Stone
-416030100 [Dog] Sacramental Bud
-416030101 [Dog] Ruin Fragment
-416030102 [Dog] Beast Blood
-416100000 [Dog] Thin Beast Bones
-416100001 [Dog] Beast Blood
-416100010 [Dog] Thin Beast Bones
-416100011 [Dog] Beast Blood
-416100012 [Dog] Sanctuary Stone
-416100130 [Dog] Sacramental Bud
-416100131 [Dog] Thin Beast Bones
-416100132 [Dog] Beast Blood
-417000000 [Living Mass] Smithing Stone [1]
-417000001 [Living Mass] Smithing Stone [2]
-417000002 [Living Mass] Glass Shard
-417000100 [Living Mass] Glass Shard
-417000101 [Living Mass] Thin Beast Bones
-417000102 [Living Mass] Hefty Beast Bone
-417000200 [Living Mass] Glass Shard
-417000201 [Living Mass] Smithing Stone [1]
-417000202 [Living Mass] Smithing Stone [2]
-417100000 [Living Mass] Sacramental Bud
-417100001 [Living Mass] Beast Blood
-417100002 [Living Mass] Thin Beast Bones
-417100003 [Living Mass] Hefty Beast Bone
-417100100 [Living Mass] Glass Shard
-417100101 [Living Mass] Thin Beast Bones
-417100102 [Living Mass] Hefty Beast Bone
-417100103 [Living Mass] Smithing Stone [1]
-417100104 [Living Mass] Smithing Stone [2]
-417100200 [Living Mass] Beast Blood
-417100201 [Living Mass] Thin Beast Bones
-417100202 [Living Mass] Hefty Beast Bone
+416000000 [Large Starved Dog] Thin Beast Bones
+416000001 [Large Starved Dog] Beast Blood
+416000010 [Large Starved Dog] Thin Beast Bones
+416000011 [Large Starved Dog] Ruin Fragment
+416000012 [Large Starved Dog] Sanctuary Stone
+416030100 [Large Starved Dog] Sacramental Bud
+416030101 [Large Starved Dog] Ruin Fragment
+416030102 [Large Starved Dog] Beast Blood
+416100000 [Starved Dog] Thin Beast Bones
+416100001 [Starved Dog] Beast Blood
+416100010 [Starved Dog] Thin Beast Bones
+416100011 [Starved Dog] Beast Blood
+416100012 [Starved Dog] Sanctuary Stone
+416100130 [Starved Dog] Sacramental Bud
+416100131 [Starved Dog] Thin Beast Bones
+416100132 [Starved Dog] Beast Blood
+417000000 [Small Living Mass] Smithing Stone [1]
+417000001 [Small Living Mass] Smithing Stone [2]
+417000002 [Small Living Mass] Glass Shard
+417000100 [Small Living Mass] Glass Shard
+417000101 [Small Living Mass] Thin Beast Bones
+417000102 [Small Living Mass] Hefty Beast Bone
+417000200 [Small Living Mass] Glass Shard
+417000201 [Small Living Mass] Smithing Stone [1]
+417000202 [Small Living Mass] Smithing Stone [2]
+417100000 [Giant Living Mass] Sacramental Bud
+417100001 [Giant Living Mass] Beast Blood
+417100002 [Giant Living Mass] Thin Beast Bones
+417100003 [Giant Living Mass] Hefty Beast Bone
+417100100 [Giant Living Mass] Glass Shard
+417100101 [Giant Living Mass] Thin Beast Bones
+417100102 [Giant Living Mass] Hefty Beast Bone
+417100103 [Giant Living Mass] Smithing Stone [1]
+417100104 [Giant Living Mass] Smithing Stone [2]
+417100200 [Giant Living Mass] Beast Blood
+417100201 [Giant Living Mass] Thin Beast Bones
+417100202 [Giant Living Mass] Hefty Beast Bone
 418000000 [Jellyfish] Golden Rune [1]
 418000010 [Jellyfish] Grave Glovewort [1]
 418000020 [Jellyfish] Grave Glovewort [2]
@@ -1114,56 +1276,56 @@
 421000002 [Warhawk] Flight Pinion
 421000100 [Warhawk] Stormhawk Feather
 421000101 [Warhawk] Flight Pinion
-422000000 [Land Octopus (Large)] Land Octopus Ovary
-422000001 [Land Octopus (Large)] Strip of White Flesh
-423000000 [Land Octopus (Small)] Octopus Head
-423000001 [Land Octopus (Small)] Land Octopus Ovary
-423000002 [Land Octopus (Small)] Strip of White Flesh
-423030000 [Land Octopus (Small)] Sacramental Bud
-423030001 [Land Octopus (Small)] Octopus Head
-423030002 [Land Octopus (Small)] Land Octopus Ovary
-423030003 [Land Octopus (Small)] Strip of White Flesh
+422000000 [Giant Land Octopus] Land Octopus Ovary
+422000001 [Giant Land Octopus] Strip of White Flesh
+423000000 [Small Land Octopus] Octopus Head
+423000001 [Small Land Octopus] Land Octopus Ovary
+423000002 [Small Land Octopus] Strip of White Flesh
+423030000 [Small Land Octopus] Sacramental Bud
+423030001 [Small Land Octopus] Octopus Head
+423030002 [Small Land Octopus] Land Octopus Ovary
+423030003 [Small Land Octopus] Strip of White Flesh
 423052000 [Land Octopus (Small)] None
-424020000 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021010 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021020 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021030 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021040 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021050 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021060 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021070 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021080 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021090 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021100 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021110 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021120 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021130 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021140 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021150 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424021160 [Enchanted Hand (Large)] Somber Smithing Stone [2]
-424032000 [Enchanted Hand (Large)] Somber Smithing Stone [4]
-424032010 [Enchanted Hand (Large)] Somber Smithing Stone [4]
-424034000 [Enchanted Hand (Large)] Somber Smithing Stone [4]
-424035000 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050000 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050010 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050020 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050030 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050040 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050050 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050060 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050070 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050080 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050090 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050100 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050110 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-424050120 [Enchanted Hand (Large)] Somber Smithing Stone [7]
-425000000 [Enchanted Hand (Small)] None
-425000010 [Enchanted Hand (Small)] Somber Smithing Stone [2]
-425000020 [Enchanted Hand (Small)] Somber Smithing Stone [4]
-425000030 [Enchanted Hand (Small)] Somber Smithing Stone [4]
-425000040 [Enchanted Hand (Small)] Somber Smithing Stone [7]
-425000050 [Enchanted Hand (Small)] Somber Smithing Stone [7]
+424020000 [Large Fingercreeper] Somber Smithing Stone [2]
+424021010 [Large Fingercreeper] Somber Smithing Stone [2]
+424021020 [Large Fingercreeper] Somber Smithing Stone [2]
+424021030 [Large Fingercreeper] Somber Smithing Stone [2]
+424021040 [Large Fingercreeper] Somber Smithing Stone [2]
+424021050 [Large Fingercreeper] Somber Smithing Stone [2]
+424021060 [Large Fingercreeper] Somber Smithing Stone [2]
+424021070 [Large Fingercreeper] Somber Smithing Stone [2]
+424021080 [Large Fingercreeper] Somber Smithing Stone [2]
+424021090 [Large Fingercreeper] Somber Smithing Stone [2]
+424021100 [Large Fingercreeper] Somber Smithing Stone [2]
+424021110 [Large Fingercreeper] Somber Smithing Stone [2]
+424021120 [Large Fingercreeper] Somber Smithing Stone [2]
+424021130 [Large Fingercreeper] Somber Smithing Stone [2]
+424021140 [Large Fingercreeper] Somber Smithing Stone [2]
+424021150 [Large Fingercreeper] Somber Smithing Stone [2]
+424021160 [Large Fingercreeper] Somber Smithing Stone [2]
+424032000 [Large Fingercreeper] Somber Smithing Stone [4]
+424032010 [Large Fingercreeper] Somber Smithing Stone [4]
+424034000 [Large Fingercreeper] Somber Smithing Stone [4]
+424035000 [Large Fingercreeper] Somber Smithing Stone [7]
+424050000 [Large Fingercreeper] Somber Smithing Stone [7]
+424050010 [Large Fingercreeper] Somber Smithing Stone [7]
+424050020 [Large Fingercreeper] Somber Smithing Stone [7]
+424050030 [Large Fingercreeper] Somber Smithing Stone [7]
+424050040 [Large Fingercreeper] Somber Smithing Stone [7]
+424050050 [Large Fingercreeper] Somber Smithing Stone [7]
+424050060 [Large Fingercreeper] Somber Smithing Stone [7]
+424050070 [Large Fingercreeper] Somber Smithing Stone [7]
+424050080 [Large Fingercreeper] Somber Smithing Stone [7]
+424050090 [Large Fingercreeper] Somber Smithing Stone [7]
+424050100 [Large Fingercreeper] Somber Smithing Stone [7]
+424050110 [Large Fingercreeper] Somber Smithing Stone [7]
+424050120 [Large Fingercreeper] Somber Smithing Stone [7]
+425000000 [Fingercreeper (Small)] None
+425000010 [Small Fingercreeper] Somber Smithing Stone [2]
+425000020 [Small Fingercreeper] Somber Smithing Stone [4]
+425000030 [Small Fingercreeper] Somber Smithing Stone [4]
+425000040 [Small Fingercreeper] Somber Smithing Stone [7]
+425000050 [Small Fingercreeper] Somber Smithing Stone [7]
 426050000 [Burial Watchdog] Watchdog's Greatsword
 426050100 [Burial Watchdog] Watchdog's Greatsword
 426050200 [Burial Watchdog] None
@@ -1224,10 +1386,10 @@
 430000251 [Wandering Noble] Aristocrat Garb
 430000252 [Wandering Noble] Aristocrat Boots
 430000253 [Wandering Noble] Ruin Fragment
-430000254 [Wandering Noble] Glintstone Staff
-430000254 [Wandering Noble] Glintstone Staff
+430000254 [Wandering Noble] Rowa Fruit
 430000255 [Wandering Noble] Herba
 430000256 [Wandering Noble] Erdleaf Flower
+430000257 [Wandering Noble] Glintstone Staff
 430000300 [Wandering Noble] Old Aristocrat Cowl
 430000301 [Wandering Noble] Old Aristocrat Gown
 430000302 [Wandering Noble] Old Aristocrat Shoes
@@ -1410,99 +1572,101 @@
 431100201 [Godrick Soldier] Tree-and-Beast Surcoat
 431100202 [Godrick Soldier] Godrick Soldier Gauntlets
 431100203 [Godrick Soldier] Godrick Soldier Greaves
+431100204 [Godrick Soldier] Smithing Stone [1]
 431100300 [Godrick Soldier] Lordsworn's Shield
 431100301 [Godrick Soldier] Godrick Soldier Helm
 431100302 [Godrick Soldier] Tree-and-Beast Surcoat
 431100303 [Godrick Soldier] Godrick Soldier Gauntlets
 431100304 [Godrick Soldier] Godrick Soldier Greaves
-431200000 [Raya Lucarian Soldier] Lordsworn's Straight Sword
-431200001 [Raya Lucarian Soldier] Brass Shield
-431200002 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200003 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200004 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200005 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200006 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200007 [Raya Lucarian Soldier] Bolt
-431200008 [Raya Lucarian Soldier] Lordsworn's Bolt
-431200009 [Raya Lucarian Soldier] Smithing Stone [1]
-431200010 [Raya Lucarian Soldier] Smithing Stone [2]
-431200011 [Raya Lucarian Soldier] Smithing Stone [3]
-431200020 [Raya Lucarian Soldier] Lordsworn's Straight Sword
-431200021 [Raya Lucarian Soldier] Brass Shield
-431200022 [Raya Lucarian Soldier] Heavy Crossbow
-431200023 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200024 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200025 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200026 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200027 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200028 [Raya Lucarian Soldier] Bolt
-431200029 [Raya Lucarian Soldier] Lordsworn's Bolt
-431200030 [Raya Lucarian Soldier] Smithing Stone [1]
-431200031 [Raya Lucarian Soldier] Smithing Stone [2]
-431200032 [Raya Lucarian Soldier] Smithing Stone [3]
-431200040 [Raya Lucarian Soldier] Warpick
-431200041 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200042 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200043 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200044 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200045 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200046 [Raya Lucarian Soldier] Bolt
-431200047 [Raya Lucarian Soldier] Lordsworn's Bolt
-431200048 [Raya Lucarian Soldier] Smithing Stone [1]
-431200049 [Raya Lucarian Soldier] Smithing Stone [2]
-431200050 [Raya Lucarian Soldier] Smithing Stone [3]
-431200100 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200101 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200102 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200103 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200104 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200105 [Raya Lucarian Soldier] Smithing Stone [1]
-431200106 [Raya Lucarian Soldier] Smithing Stone [2]
-431200107 [Raya Lucarian Soldier] Smithing Stone [3]
-431200200 [Raya Lucarian Soldier] Lordsworn's Shield
-431200201 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200202 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200203 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200204 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200205 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200206 [Raya Lucarian Soldier] Smithing Stone [1]
-431200207 [Raya Lucarian Soldier] Smithing Stone [2]
-431200208 [Raya Lucarian Soldier] Smithing Stone [3]
-431200510 [Raya Lucarian Soldier] Lordsworn's Straight Sword
-431200511 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200512 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200513 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200514 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200515 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200516 [Raya Lucarian Soldier] Bolt
-431200517 [Raya Lucarian Soldier] Lordsworn's Bolt
-431200518 [Raya Lucarian Soldier] Smithing Stone [1]
-431200519 [Raya Lucarian Soldier] Smithing Stone [2]
-431200520 [Raya Lucarian Soldier] Smithing Stone [3]
-431200530 [Raya Lucarian Soldier] Warpick
-431200531 [Raya Lucarian Soldier] Brass Shield
-431200532 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200533 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200534 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200535 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200536 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200537 [Raya Lucarian Soldier] Bolt
-431200538 [Raya Lucarian Soldier] Lordsworn's Bolt
-431200539 [Raya Lucarian Soldier] Smithing Stone [1]
-431200540 [Raya Lucarian Soldier] Smithing Stone [2]
-431200541 [Raya Lucarian Soldier] Smithing Stone [3]
-431200550 [Raya Lucarian Soldier] Warpick
-431200551 [Raya Lucarian Soldier] Heavy Crossbow
-431200552 [Raya Lucarian Soldier] Raya Lucarian Helm
-431200553 [Raya Lucarian Soldier] Cuckoo Surcoat
-431200554 [Raya Lucarian Soldier] Raya Lucarian Gauntlets
-431200555 [Raya Lucarian Soldier] Raya Lucarian Greaves
-431200556 [Raya Lucarian Soldier] Cuckoo Glintstone
-431200557 [Raya Lucarian Soldier] Bolt
-431200558 [Raya Lucarian Soldier] Lordsworn's Bolt
-431200559 [Raya Lucarian Soldier] Smithing Stone [1]
-431200560 [Raya Lucarian Soldier] Smithing Stone [2]
-431200561 [Raya Lucarian Soldier] Smithing Stone [3]
+431100305 [Godrick Soldier] Smithing Stone [1]
+431200000 [Raya Lucaria Soldier] Lordsworn's Straight Sword
+431200001 [Raya Lucaria Soldier] Brass Shield
+431200002 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200003 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200004 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200005 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200006 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200007 [Raya Lucaria Soldier] Bolt
+431200008 [Raya Lucaria Soldier] Lordsworn's Bolt
+431200009 [Raya Lucaria Soldier] Smithing Stone [1]
+431200010 [Raya Lucaria Soldier] Smithing Stone [2]
+431200011 [Raya Lucaria Soldier] Smithing Stone [3]
+431200020 [Raya Lucaria Soldier] Lordsworn's Straight Sword
+431200021 [Raya Lucaria Soldier] Brass Shield
+431200022 [Raya Lucaria Soldier] Heavy Crossbow
+431200023 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200024 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200025 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200026 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200027 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200028 [Raya Lucaria Soldier] Bolt
+431200029 [Raya Lucaria Soldier] Lordsworn's Bolt
+431200030 [Raya Lucaria Soldier] Smithing Stone [1]
+431200031 [Raya Lucaria Soldier] Smithing Stone [2]
+431200032 [Raya Lucaria Soldier] Smithing Stone [3]
+431200040 [Raya Lucaria Soldier] Warpick
+431200041 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200042 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200043 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200044 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200045 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200046 [Raya Lucaria Soldier] Bolt
+431200047 [Raya Lucaria Soldier] Lordsworn's Bolt
+431200048 [Raya Lucaria Soldier] Smithing Stone [1]
+431200049 [Raya Lucaria Soldier] Smithing Stone [2]
+431200050 [Raya Lucaria Soldier] Smithing Stone [3]
+431200100 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200101 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200102 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200103 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200104 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200105 [Raya Lucaria Soldier] Smithing Stone [1]
+431200106 [Raya Lucaria Soldier] Smithing Stone [2]
+431200107 [Raya Lucaria Soldier] Smithing Stone [3]
+431200200 [Raya Lucaria Soldier] Lordsworn's Shield
+431200201 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200202 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200203 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200204 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200205 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200206 [Raya Lucaria Soldier] Smithing Stone [1]
+431200207 [Raya Lucaria Soldier] Smithing Stone [2]
+431200208 [Raya Lucaria Soldier] Smithing Stone [3]
+431200510 [Raya Lucaria Soldier] Lordsworn's Straight Sword
+431200511 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200512 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200513 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200514 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200515 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200516 [Raya Lucaria Soldier] Bolt
+431200517 [Raya Lucaria Soldier] Lordsworn's Bolt
+431200518 [Raya Lucaria Soldier] Smithing Stone [1]
+431200519 [Raya Lucaria Soldier] Smithing Stone [2]
+431200520 [Raya Lucaria Soldier] Smithing Stone [3]
+431200530 [Raya Lucaria Soldier] Warpick
+431200531 [Raya Lucaria Soldier] Brass Shield
+431200532 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200533 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200534 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200535 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200536 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200537 [Raya Lucaria Soldier] Bolt
+431200538 [Raya Lucaria Soldier] Lordsworn's Bolt
+431200539 [Raya Lucaria Soldier] Smithing Stone [1]
+431200540 [Raya Lucaria Soldier] Smithing Stone [2]
+431200541 [Raya Lucaria Soldier] Smithing Stone [3]
+431200550 [Raya Lucaria Soldier] Warpick
+431200551 [Raya Lucaria Soldier] Heavy Crossbow
+431200552 [Raya Lucaria Soldier] Raya Lucarian Helm
+431200553 [Raya Lucaria Soldier] Cuckoo Surcoat
+431200554 [Raya Lucaria Soldier] Raya Lucarian Gauntlets
+431200555 [Raya Lucaria Soldier] Raya Lucarian Greaves
+431200556 [Raya Lucaria Soldier] Cuckoo Glintstone
+431200557 [Raya Lucaria Soldier] Bolt
+431200558 [Raya Lucaria Soldier] Lordsworn's Bolt
+431200559 [Raya Lucaria Soldier] Smithing Stone [1]
+431200560 [Raya Lucaria Soldier] Smithing Stone [2]
+431200561 [Raya Lucaria Soldier] Smithing Stone [3]
 431300000 [Leyndell Soldier] Lordsworn's Straight Sword
 431300001 [Leyndell Soldier] Brass Shield
 431300002 [Leyndell Soldier] Leyndell Soldier Helm
@@ -1511,7 +1675,7 @@
 431300005 [Leyndell Soldier] Leyndell Soldier Greaves
 431300006 [Leyndell Soldier] Bolt
 431300007 [Leyndell Soldier] Lordsworn's Bolt
-431300008 [Leyndell Soldier] Smithing Stone [1]
+431300008 [Leyndell Soldier] Smithing Stone [3]
 431300009 [Leyndell Soldier] Smithing Stone [4]
 431300010 [Leyndell Soldier] Smithing Stone [5]
 431300020 [Leyndell Soldier] Lordsworn's Straight Sword
@@ -1522,7 +1686,7 @@
 431300025 [Leyndell Soldier] Leyndell Soldier Greaves
 431300026 [Leyndell Soldier] Bolt
 431300027 [Leyndell Soldier] Lordsworn's Bolt
-431300028 [Leyndell Soldier] Smithing Stone [1]
+431300028 [Leyndell Soldier] Smithing Stone [3]
 431300029 [Leyndell Soldier] Smithing Stone [4]
 431300030 [Leyndell Soldier] Smithing Stone [5]
 431300100 [Leyndell Soldier] Warpick
@@ -1533,7 +1697,7 @@
 431300105 [Leyndell Soldier] Leyndell Soldier Greaves
 431300106 [Leyndell Soldier] Bolt
 431300107 [Leyndell Soldier] Lordsworn's Bolt
-431300108 [Leyndell Soldier] Smithing Stone [1]
+431300108 [Leyndell Soldier] Smithing Stone [3]
 431300109 [Leyndell Soldier] Smithing Stone [4]
 431300110 [Leyndell Soldier] Smithing Stone [5]
 431300120 [Leyndell Soldier] Warpick
@@ -1544,14 +1708,14 @@
 431300125 [Leyndell Soldier] Leyndell Soldier Greaves
 431300126 [Leyndell Soldier] Bolt
 431300127 [Leyndell Soldier] Lordsworn's Bolt
-431300128 [Leyndell Soldier] Smithing Stone [1]
+431300128 [Leyndell Soldier] Smithing Stone [3]
 431300129 [Leyndell Soldier] Smithing Stone [4]
 431300130 [Leyndell Soldier] Smithing Stone [5]
 431300200 [Leyndell Soldier] Leyndell Soldier Helm
 431300201 [Leyndell Soldier] Erdtree Surcoat
 431300202 [Leyndell Soldier] Leyndell Soldier Gauntlets
 431300203 [Leyndell Soldier] Leyndell Soldier Greaves
-431300204 [Leyndell Soldier] Smithing Stone [1]
+431300204 [Leyndell Soldier] Smithing Stone [3]
 431300205 [Leyndell Soldier] Smithing Stone [4]
 431300206 [Leyndell Soldier] Smithing Stone [5]
 431300300 [Leyndell Soldier] Lordsworn's Shield
@@ -1559,7 +1723,7 @@
 431300302 [Leyndell Soldier] Erdtree Surcoat
 431300303 [Leyndell Soldier] Leyndell Soldier Gauntlets
 431300304 [Leyndell Soldier] Leyndell Soldier Greaves
-431300305 [Leyndell Soldier] Smithing Stone [1]
+431300305 [Leyndell Soldier] Smithing Stone [3]
 431300306 [Leyndell Soldier] Smithing Stone [4]
 431300307 [Leyndell Soldier] Smithing Stone [5]
 431300510 [Leyndell Soldier] Lordsworn's Straight Sword
@@ -1569,7 +1733,7 @@
 431300514 [Leyndell Soldier] Leyndell Soldier Greaves
 431300515 [Leyndell Soldier] Bolt
 431300516 [Leyndell Soldier] Lordsworn's Bolt
-431300517 [Leyndell Soldier] Smithing Stone [1]
+431300517 [Leyndell Soldier] Smithing Stone [3]
 431300518 [Leyndell Soldier] Smithing Stone [4]
 431300519 [Leyndell Soldier] Smithing Stone [5]
 431300530 [Leyndell Soldier] Lordsworn's Straight Sword
@@ -1581,7 +1745,7 @@
 431300536 [Leyndell Soldier] Leyndell Soldier Greaves
 431300537 [Leyndell Soldier] Bolt
 431300538 [Leyndell Soldier] Lordsworn's Bolt
-431300539 [Leyndell Soldier] Smithing Stone [1]
+431300539 [Leyndell Soldier] Smithing Stone [3]
 431300540 [Leyndell Soldier] Smithing Stone [4]
 431300541 [Leyndell Soldier] Smithing Stone [5]
 431300610 [Leyndell Soldier] Warpick
@@ -1591,15 +1755,100 @@
 431300614 [Leyndell Soldier] Leyndell Soldier Greaves
 431300615 [Leyndell Soldier] Bolt
 431300616 [Leyndell Soldier] Lordsworn's Bolt
-431300617 [Leyndell Soldier] Smithing Stone [1]
+431300617 [Leyndell Soldier] Smithing Stone [3]
 431300618 [Leyndell Soldier] Smithing Stone [4]
 431300619 [Leyndell Soldier] Smithing Stone [5]
-431300700 [Leyndell Soldier] Lordsworn's Shield
-431300701 [Leyndell Soldier] Leyndell Soldier Helm
-431300702 [Leyndell Soldier] Erdtree Surcoat
-431300703 [Leyndell Soldier] Leyndell Soldier Gauntlets
-431300704 [Leyndell Soldier] Leyndell Soldier Greaves
-431300705 [Leyndell Soldier] Gravel Stone Seal
+431334000 [Leyndell Soldier] Lordsworn's Straight Sword
+431334001 [Leyndell Soldier] Brass Shield
+431334002 [Leyndell Soldier] Leyndell Soldier Helm
+431334003 [Leyndell Soldier] Erdtree Surcoat
+431334004 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334005 [Leyndell Soldier] Leyndell Soldier Greaves
+431334006 [Leyndell Soldier] Bolt
+431334007 [Leyndell Soldier] Lordsworn's Bolt
+431334008 [Leyndell Soldier] Smithing Stone [4]
+431334009 [Leyndell Soldier] Smithing Stone [5]
+431334010 [Leyndell Soldier] Smithing Stone [6]
+431334020 [Leyndell Soldier] Lordsworn's Straight Sword
+431334021 [Leyndell Soldier] Brass Shield
+431334022 [Leyndell Soldier] Leyndell Soldier Helm
+431334023 [Leyndell Soldier] Erdtree Surcoat
+431334024 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334025 [Leyndell Soldier] Leyndell Soldier Greaves
+431334026 [Leyndell Soldier] Bolt
+431334027 [Leyndell Soldier] Lordsworn's Bolt
+431334028 [Leyndell Soldier] Smithing Stone [4]
+431334029 [Leyndell Soldier] Smithing Stone [5]
+431334030 [Leyndell Soldier] Smithing Stone [6]
+431334100 [Leyndell Soldier] Warpick
+431334101 [Leyndell Soldier] Brass Shield
+431334102 [Leyndell Soldier] Leyndell Soldier Helm
+431334103 [Leyndell Soldier] Erdtree Surcoat
+431334104 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334105 [Leyndell Soldier] Leyndell Soldier Greaves
+431334106 [Leyndell Soldier] Bolt
+431334107 [Leyndell Soldier] Lordsworn's Bolt
+431334108 [Leyndell Soldier] Smithing Stone [4]
+431334109 [Leyndell Soldier] Smithing Stone [5]
+431334110 [Leyndell Soldier] Smithing Stone [6]
+431334120 [Leyndell Soldier] Warpick
+431334121 [Leyndell Soldier] Heavy Crossbow
+431334122 [Leyndell Soldier] Leyndell Soldier Helm
+431334123 [Leyndell Soldier] Erdtree Surcoat
+431334124 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334125 [Leyndell Soldier] Leyndell Soldier Greaves
+431334126 [Leyndell Soldier] Bolt
+431334127 [Leyndell Soldier] Lordsworn's Bolt
+431334128 [Leyndell Soldier] Smithing Stone [4]
+431334129 [Leyndell Soldier] Smithing Stone [5]
+431334130 [Leyndell Soldier] Smithing Stone [6]
+431334200 [Leyndell Soldier] Leyndell Soldier Helm
+431334201 [Leyndell Soldier] Erdtree Surcoat
+431334202 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334203 [Leyndell Soldier] Leyndell Soldier Greaves
+431334204 [Leyndell Soldier] Smithing Stone [4]
+431334205 [Leyndell Soldier] Smithing Stone [5]
+431334206 [Leyndell Soldier] Smithing Stone [6]
+431334300 [Leyndell Soldier] Lordsworn's Shield
+431334301 [Leyndell Soldier] Leyndell Soldier Helm
+431334302 [Leyndell Soldier] Erdtree Surcoat
+431334303 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334304 [Leyndell Soldier] Leyndell Soldier Greaves
+431334305 [Leyndell Soldier] Smithing Stone [4]
+431334306 [Leyndell Soldier] Smithing Stone [5]
+431334307 [Leyndell Soldier] Smithing Stone [6]
+431334510 [Leyndell Soldier] Lordsworn's Straight Sword
+431334511 [Leyndell Soldier] Leyndell Soldier Helm
+431334512 [Leyndell Soldier] Erdtree Surcoat
+431334513 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334514 [Leyndell Soldier] Leyndell Soldier Greaves
+431334515 [Leyndell Soldier] Bolt
+431334516 [Leyndell Soldier] Lordsworn's Bolt
+431334517 [Leyndell Soldier] Smithing Stone [4]
+431334518 [Leyndell Soldier] Smithing Stone [5]
+431334519 [Leyndell Soldier] Smithing Stone [6]
+431334530 [Leyndell Soldier] Lordsworn's Straight Sword
+431334531 [Leyndell Soldier] Brass Shield
+431334532 [Leyndell Soldier] Heavy Crossbow
+431334533 [Leyndell Soldier] Leyndell Soldier Helm
+431334534 [Leyndell Soldier] Erdtree Surcoat
+431334535 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334536 [Leyndell Soldier] Leyndell Soldier Greaves
+431334537 [Leyndell Soldier] Bolt
+431334538 [Leyndell Soldier] Lordsworn's Bolt
+431334539 [Leyndell Soldier] Smithing Stone [4]
+431334540 [Leyndell Soldier] Smithing Stone [5]
+431334541 [Leyndell Soldier] Smithing Stone [6]
+431334610 [Leyndell Soldier] Warpick
+431334611 [Leyndell Soldier] Leyndell Soldier Helm
+431334612 [Leyndell Soldier] Erdtree Surcoat
+431334613 [Leyndell Soldier] Leyndell Soldier Gauntlets
+431334614 [Leyndell Soldier] Leyndell Soldier Greaves
+431334615 [Leyndell Soldier] Bolt
+431334616 [Leyndell Soldier] Lordsworn's Bolt
+431334617 [Leyndell Soldier] Smithing Stone [4]
+431334618 [Leyndell Soldier] Smithing Stone [5]
+431334619 [Leyndell Soldier] Smithing Stone [6]
 431400000 [Radahn Soldier] Lordsworn's Straight Sword
 431400001 [Radahn Soldier] Brass Shield
 431400002 [Radahn Soldier] Radahn Soldier Helm
@@ -1608,9 +1857,11 @@
 431400005 [Radahn Soldier] Radahn Soldier Greaves
 431400006 [Radahn Soldier] Bolt
 431400007 [Radahn Soldier] Lordsworn's Bolt
-431400008 [Radahn Soldier] Smithing Stone [1]
-431400009 [Radahn Soldier] Smoldering Butterfly
-431400010 [Radahn Soldier] Mushroom
+431400008 [Radahn Soldier] Smoldering Butterfly
+431400009 [Radahn Soldier] Mushroom
+431400010 [Radahn Soldier] Smithing Stone [2]
+431400011 [Radahn Soldier] Smithing Stone [3]
+431400012 [Radahn Soldier] Smithing Stone [4]
 431400020 [Radahn Soldier] Lordsworn's Straight Sword
 431400021 [Radahn Soldier] Brass Shield
 431400022 [Radahn Soldier] Radahn Soldier Helm
@@ -1619,9 +1870,11 @@
 431400025 [Radahn Soldier] Radahn Soldier Greaves
 431400026 [Radahn Soldier] Bolt
 431400027 [Radahn Soldier] Lordsworn's Bolt
-431400028 [Radahn Soldier] Smithing Stone [1]
-431400029 [Radahn Soldier] Smoldering Butterfly
-431400030 [Radahn Soldier] Mushroom
+431400028 [Radahn Soldier] Smoldering Butterfly
+431400029 [Radahn Soldier] Mushroom
+431400030 [Radahn Soldier] Smithing Stone [2]
+431400031 [Radahn Soldier] Smithing Stone [3]
+431400032 [Radahn Soldier] Smithing Stone [4]
 431400100 [Radahn Soldier] Warpick
 431400101 [Radahn Soldier] Brass Shield
 431400102 [Radahn Soldier] Radahn Soldier Helm
@@ -1630,9 +1883,11 @@
 431400105 [Radahn Soldier] Radahn Soldier Greaves
 431400106 [Radahn Soldier] Bolt
 431400107 [Radahn Soldier] Lordsworn's Bolt
-431400108 [Radahn Soldier] Smithing Stone [1]
-431400109 [Radahn Soldier] Smoldering Butterfly
-431400110 [Radahn Soldier] Mushroom
+431400108 [Radahn Soldier] Smoldering Butterfly
+431400109 [Radahn Soldier] Mushroom
+431400110 [Radahn Soldier] Smithing Stone [2]
+431400111 [Radahn Soldier] Smithing Stone [3]
+431400112 [Radahn Soldier] Smithing Stone [4]
 431400120 [Radahn Soldier] Warpick
 431400121 [Radahn Soldier] Heavy Crossbow
 431400122 [Radahn Soldier] Radahn Soldier Helm
@@ -1641,18 +1896,26 @@
 431400125 [Radahn Soldier] Radahn Soldier Greaves
 431400126 [Radahn Soldier] Bolt
 431400127 [Radahn Soldier] Lordsworn's Bolt
-431400128 [Radahn Soldier] Smithing Stone [1]
-431400129 [Radahn Soldier] Smoldering Butterfly
-431400130 [Radahn Soldier] Mushroom
+431400128 [Radahn Soldier] Smoldering Butterfly
+431400129 [Radahn Soldier] Mushroom
+431400130 [Radahn Soldier] Smithing Stone [2]
+431400131 [Radahn Soldier] Smithing Stone [3]
+431400132 [Radahn Soldier] Smithing Stone [4]
 431400200 [Radahn Soldier] Radahn Soldier Helm
 431400201 [Radahn Soldier] Redmane Surcoat
 431400202 [Radahn Soldier] Radahn Soldier Gauntlets
 431400203 [Radahn Soldier] Radahn Soldier Greaves
+431400204 [Radahn Soldier] Smithing Stone [2]
+431400205 [Radahn Soldier] Smithing Stone [3]
+431400206 [Radahn Soldier] Smithing Stone [4]
 431400300 [Radahn Soldier] Lordsworn's Shield
 431400301 [Radahn Soldier] Radahn Soldier Helm
 431400302 [Radahn Soldier] Redmane Surcoat
 431400303 [Radahn Soldier] Radahn Soldier Gauntlets
 431400304 [Radahn Soldier] Radahn Soldier Greaves
+431400305 [Radahn Soldier] Smithing Stone [2]
+431400306 [Radahn Soldier] Smithing Stone [3]
+431400307 [Radahn Soldier] Smithing Stone [4]
 431400510 [Radahn Soldier] Lordsworn's Straight Sword
 431400511 [Radahn Soldier] Radahn Soldier Helm
 431400512 [Radahn Soldier] Redmane Surcoat
@@ -1660,9 +1923,11 @@
 431400514 [Radahn Soldier] Radahn Soldier Greaves
 431400515 [Radahn Soldier] Bolt
 431400516 [Radahn Soldier] Lordsworn's Bolt
-431400517 [Radahn Soldier] Smithing Stone [1]
-431400518 [Radahn Soldier] Smoldering Butterfly
-431400519 [Radahn Soldier] Mushroom
+431400517 [Radahn Soldier] Smoldering Butterfly
+431400518 [Radahn Soldier] Mushroom
+431400519 [Radahn Soldier] Smithing Stone [2]
+431400520 [Radahn Soldier] Smithing Stone [3]
+431400521 [Radahn Soldier] Smithing Stone [4]
 431400530 [Radahn Soldier] Lordsworn's Straight Sword
 431400531 [Radahn Soldier] Brass Shield
 431400532 [Radahn Soldier] Heavy Crossbow
@@ -1672,9 +1937,11 @@
 431400536 [Radahn Soldier] Radahn Soldier Greaves
 431400537 [Radahn Soldier] Bolt
 431400538 [Radahn Soldier] Lordsworn's Bolt
-431400539 [Radahn Soldier] Smithing Stone [1]
-431400540 [Radahn Soldier] Smoldering Butterfly
-431400541 [Radahn Soldier] Mushroom
+431400539 [Radahn Soldier] Smoldering Butterfly
+431400540 [Radahn Soldier] Mushroom
+431400541 [Radahn Soldier] Smithing Stone [2]
+431400542 [Radahn Soldier] Smithing Stone [3]
+431400543 [Radahn Soldier] Smithing Stone [4]
 431400610 [Radahn Soldier] Warpick
 431400611 [Radahn Soldier] Radahn Soldier Helm
 431400612 [Radahn Soldier] Redmane Surcoat
@@ -1682,9 +1949,11 @@
 431400614 [Radahn Soldier] Radahn Soldier Greaves
 431400615 [Radahn Soldier] Bolt
 431400616 [Radahn Soldier] Lordsworn's Bolt
-431400617 [Radahn Soldier] Smithing Stone [1]
-431400618 [Radahn Soldier] Smoldering Butterfly
-431400619 [Radahn Soldier] Mushroom
+431400617 [Radahn Soldier] Smoldering Butterfly
+431400618 [Radahn Soldier] Mushroom
+431400619 [Radahn Soldier] Smithing Stone [2]
+431400620 [Radahn Soldier] Smithing Stone [3]
+431400621 [Radahn Soldier] Smithing Stone [4]
 431500000 [Mausoleum Soldier] Lordsworn's Straight Sword
 431500001 [Mausoleum Soldier] Brass Shield
 431500002 [Mausoleum Soldier] Mausoleum Surcoat
@@ -1717,6 +1986,172 @@
 431500301 [Mausoleum Soldier] Mausoleum Surcoat
 431500302 [Mausoleum Soldier] Mausoleum Gauntlets
 431500303 [Mausoleum Soldier] Mausoleum Greaves
+431512000 [Mausoleum Soldier] Lordsworn's Straight Sword
+431512001 [Mausoleum Soldier] Brass Shield
+431512002 [Mausoleum Soldier] Mausoleum Surcoat
+431512003 [Mausoleum Soldier] Mausoleum Gauntlets
+431512004 [Mausoleum Soldier] Mausoleum Greaves
+431512005 [Mausoleum Soldier] Bolt
+431512006 [Mausoleum Soldier] Lordsworn's Bolt
+431512007 [Mausoleum Soldier] Smithing Stone [1]
+431512015 [Mausoleum Soldier] Lordsworn's Straight Sword
+431512016 [Mausoleum Soldier] Brass Shield
+431512017 [Mausoleum Soldier] Heavy Crossbow
+431512018 [Mausoleum Soldier] Mausoleum Surcoat
+431512019 [Mausoleum Soldier] Mausoleum Gauntlets
+431512020 [Mausoleum Soldier] Mausoleum Greaves
+431512021 [Mausoleum Soldier] Bolt
+431512022 [Mausoleum Soldier] Lordsworn's Bolt
+431512023 [Mausoleum Soldier] Smithing Stone [1]
+431512100 [Mausoleum Soldier] Warpick
+431512101 [Mausoleum Soldier] Brass Shield
+431512102 [Mausoleum Soldier] Mausoleum Surcoat
+431512103 [Mausoleum Soldier] Mausoleum Gauntlets
+431512104 [Mausoleum Soldier] Mausoleum Greaves
+431512105 [Mausoleum Soldier] Bolt
+431512106 [Mausoleum Soldier] Lordsworn's Bolt
+431512107 [Mausoleum Soldier] Smithing Stone [1]
+431512200 [Mausoleum Soldier] Mausoleum Surcoat
+431512201 [Mausoleum Soldier] Mausoleum Gauntlets
+431512202 [Mausoleum Soldier] Mausoleum Greaves
+431512203 [Mausoleum Soldier] Smithing Stone [1]
+431512300 [Mausoleum Soldier] Lordsworn's Shield
+431512301 [Mausoleum Soldier] Mausoleum Surcoat
+431512302 [Mausoleum Soldier] Mausoleum Gauntlets
+431512303 [Mausoleum Soldier] Mausoleum Greaves
+431512304 [Mausoleum Soldier] Smithing Stone [1]
+431520000 [Mausoleum Soldier] Lordsworn's Straight Sword
+431520001 [Mausoleum Soldier] Brass Shield
+431520002 [Mausoleum Soldier] Mausoleum Surcoat
+431520003 [Mausoleum Soldier] Mausoleum Gauntlets
+431520004 [Mausoleum Soldier] Mausoleum Greaves
+431520005 [Mausoleum Soldier] Bolt
+431520006 [Mausoleum Soldier] Lordsworn's Bolt
+431520007 [Mausoleum Soldier] Smithing Stone [1]
+431520008 [Mausoleum Soldier] Smithing Stone [2]
+431520009 [Mausoleum Soldier] Smithing Stone [3]
+431520015 [Mausoleum Soldier] Lordsworn's Straight Sword
+431520016 [Mausoleum Soldier] Brass Shield
+431520017 [Mausoleum Soldier] Heavy Crossbow
+431520018 [Mausoleum Soldier] Mausoleum Surcoat
+431520019 [Mausoleum Soldier] Mausoleum Gauntlets
+431520020 [Mausoleum Soldier] Mausoleum Greaves
+431520021 [Mausoleum Soldier] Bolt
+431520022 [Mausoleum Soldier] Lordsworn's Bolt
+431520023 [Mausoleum Soldier] Smithing Stone [1]
+431520024 [Mausoleum Soldier] Smithing Stone [2]
+431520025 [Mausoleum Soldier] Smithing Stone [3]
+431520100 [Mausoleum Soldier] Warpick
+431520101 [Mausoleum Soldier] Brass Shield
+431520102 [Mausoleum Soldier] Mausoleum Surcoat
+431520103 [Mausoleum Soldier] Mausoleum Gauntlets
+431520104 [Mausoleum Soldier] Mausoleum Greaves
+431520105 [Mausoleum Soldier] Bolt
+431520106 [Mausoleum Soldier] Lordsworn's Bolt
+431520107 [Mausoleum Soldier] Smithing Stone [1]
+431520108 [Mausoleum Soldier] Smithing Stone [2]
+431520109 [Mausoleum Soldier] Smithing Stone [3]
+431520200 [Mausoleum Soldier] Mausoleum Surcoat
+431520201 [Mausoleum Soldier] Mausoleum Gauntlets
+431520202 [Mausoleum Soldier] Mausoleum Greaves
+431520203 [Mausoleum Soldier] Smithing Stone [1]
+431520204 [Mausoleum Soldier] Smithing Stone [2]
+431520205 [Mausoleum Soldier] Smithing Stone [3]
+431520300 [Mausoleum Soldier] Lordsworn's Shield
+431520301 [Mausoleum Soldier] Mausoleum Surcoat
+431520302 [Mausoleum Soldier] Mausoleum Gauntlets
+431520303 [Mausoleum Soldier] Mausoleum Greaves
+431520304 [Mausoleum Soldier] Smithing Stone [1]
+431520305 [Mausoleum Soldier] Smithing Stone [2]
+431520306 [Mausoleum Soldier] Smithing Stone [3]
+431552000 [Mausoleum Soldier] Lordsworn's Straight Sword
+431552001 [Mausoleum Soldier] Brass Shield
+431552002 [Mausoleum Soldier] Mausoleum Surcoat
+431552003 [Mausoleum Soldier] Mausoleum Gauntlets
+431552004 [Mausoleum Soldier] Mausoleum Greaves
+431552005 [Mausoleum Soldier] Bolt
+431552006 [Mausoleum Soldier] Lordsworn's Bolt
+431552007 [Mausoleum Soldier] Smithing Stone [6]
+431552008 [Mausoleum Soldier] Smithing Stone [7]
+431552009 [Mausoleum Soldier] Smithing Stone [8]
+431552015 [Mausoleum Soldier] Lordsworn's Straight Sword
+431552016 [Mausoleum Soldier] Brass Shield
+431552017 [Mausoleum Soldier] Heavy Crossbow
+431552018 [Mausoleum Soldier] Mausoleum Surcoat
+431552019 [Mausoleum Soldier] Mausoleum Gauntlets
+431552020 [Mausoleum Soldier] Mausoleum Greaves
+431552021 [Mausoleum Soldier] Bolt
+431552022 [Mausoleum Soldier] Lordsworn's Bolt
+431552023 [Mausoleum Soldier] Smithing Stone [6]
+431552024 [Mausoleum Soldier] Smithing Stone [7]
+431552025 [Mausoleum Soldier] Smithing Stone [8]
+431552100 [Mausoleum Soldier] Warpick
+431552101 [Mausoleum Soldier] Brass Shield
+431552102 [Mausoleum Soldier] Mausoleum Surcoat
+431552103 [Mausoleum Soldier] Mausoleum Gauntlets
+431552104 [Mausoleum Soldier] Mausoleum Greaves
+431552105 [Mausoleum Soldier] Bolt
+431552106 [Mausoleum Soldier] Lordsworn's Bolt
+431552107 [Mausoleum Soldier] Smithing Stone [6]
+431552108 [Mausoleum Soldier] Smithing Stone [7]
+431552109 [Mausoleum Soldier] Smithing Stone [8]
+431552200 [Mausoleum Soldier] Mausoleum Surcoat
+431552201 [Mausoleum Soldier] Mausoleum Gauntlets
+431552202 [Mausoleum Soldier] Mausoleum Greaves
+431552203 [Mausoleum Soldier] Smithing Stone [6]
+431552204 [Mausoleum Soldier] Smithing Stone [7]
+431552205 [Mausoleum Soldier] Smithing Stone [8]
+431552300 [Mausoleum Soldier] Lordsworn's Shield
+431552301 [Mausoleum Soldier] Mausoleum Surcoat
+431552302 [Mausoleum Soldier] Mausoleum Gauntlets
+431552303 [Mausoleum Soldier] Mausoleum Greaves
+431552304 [Mausoleum Soldier] Smithing Stone [6]
+431552305 [Mausoleum Soldier] Smithing Stone [7]
+431552306 [Mausoleum Soldier] Smithing Stone [8]
+431566000 [Mausoleum Soldier] Lordsworn's Straight Sword
+431566001 [Mausoleum Soldier] Brass Shield
+431566002 [Mausoleum Soldier] Mausoleum Surcoat
+431566003 [Mausoleum Soldier] Mausoleum Gauntlets
+431566004 [Mausoleum Soldier] Mausoleum Greaves
+431566005 [Mausoleum Soldier] Bolt
+431566006 [Mausoleum Soldier] Lordsworn's Bolt
+431566007 [Mausoleum Soldier] Smithing Stone [4]
+431566008 [Mausoleum Soldier] Smithing Stone [5]
+431566009 [Mausoleum Soldier] Smithing Stone [6]
+431566015 [Mausoleum Soldier] Lordsworn's Straight Sword
+431566016 [Mausoleum Soldier] Brass Shield
+431566017 [Mausoleum Soldier] Heavy Crossbow
+431566018 [Mausoleum Soldier] Mausoleum Surcoat
+431566019 [Mausoleum Soldier] Mausoleum Gauntlets
+431566020 [Mausoleum Soldier] Mausoleum Greaves
+431566021 [Mausoleum Soldier] Bolt
+431566022 [Mausoleum Soldier] Lordsworn's Bolt
+431566023 [Mausoleum Soldier] Smithing Stone [4]
+431566024 [Mausoleum Soldier] Smithing Stone [5]
+431566025 [Mausoleum Soldier] Smithing Stone [6]
+431566100 [Mausoleum Soldier] Warpick
+431566101 [Mausoleum Soldier] Brass Shield
+431566102 [Mausoleum Soldier] Mausoleum Surcoat
+431566103 [Mausoleum Soldier] Mausoleum Gauntlets
+431566104 [Mausoleum Soldier] Mausoleum Greaves
+431566105 [Mausoleum Soldier] Bolt
+431566106 [Mausoleum Soldier] Lordsworn's Bolt
+431566107 [Mausoleum Soldier] Smithing Stone [4]
+431566108 [Mausoleum Soldier] Smithing Stone [5]
+431566109 [Mausoleum Soldier] Smithing Stone [6]
+431566200 [Mausoleum Soldier] Mausoleum Surcoat
+431566201 [Mausoleum Soldier] Mausoleum Gauntlets
+431566202 [Mausoleum Soldier] Mausoleum Greaves
+431566203 [Mausoleum Soldier] Smithing Stone [4]
+431566204 [Mausoleum Soldier] Smithing Stone [5]
+431566205 [Mausoleum Soldier] Smithing Stone [6]
+431566300 [Mausoleum Soldier] Lordsworn's Shield
+431566301 [Mausoleum Soldier] Mausoleum Surcoat
+431566302 [Mausoleum Soldier] Mausoleum Gauntlets
+431566303 [Mausoleum Soldier] Mausoleum Greaves
+431566304 [Mausoleum Soldier] Smithing Stone [4]
+431566305 [Mausoleum Soldier] Smithing Stone [5]
+431566306 [Mausoleum Soldier] Smithing Stone [6]
 431600000 [Haligtree Soldier] Lordsworn's Straight Sword
 431600001 [Haligtree Soldier] Brass Shield
 431600002 [Haligtree Soldier] Haligtree Helm
@@ -1725,34 +2160,42 @@
 431600005 [Haligtree Soldier] Haligtree Greaves
 431600006 [Haligtree Soldier] Bolt
 431600007 [Haligtree Soldier] Lordsworn's Bolt
-431600008 [Haligtree Soldier] Smithing Stone [1]
-431600010 [Haligtree Soldier] Lordsworn's Straight Sword
-431600011 [Haligtree Soldier] Haligtree Helm
-431600012 [Haligtree Soldier] Haligtree Crest Surcoat
-431600013 [Haligtree Soldier] Haligtree Gauntlets
-431600014 [Haligtree Soldier] Haligtree Greaves
-431600015 [Haligtree Soldier] Bolt
-431600016 [Haligtree Soldier] Lordsworn's Bolt
-431600017 [Haligtree Soldier] Smithing Stone [1]
-431600020 [Haligtree Soldier] Lordsworn's Straight Sword
-431600021 [Haligtree Soldier] Brass Shield
-431600022 [Haligtree Soldier] Haligtree Helm
-431600023 [Haligtree Soldier] Haligtree Crest Surcoat
-431600024 [Haligtree Soldier] Haligtree Gauntlets
-431600025 [Haligtree Soldier] Haligtree Greaves
-431600026 [Haligtree Soldier] Bolt
-431600027 [Haligtree Soldier] Lordsworn's Bolt
-431600028 [Haligtree Soldier] Smithing Stone [1]
+431600008 [Haligtree Soldier] Smithing Stone [6]
+431600009 [Haligtree Soldier] Smithing Stone [7]
+431600010 [Haligtree Soldier] Smithing Stone [8]
+431600015 [Haligtree Soldier] Lordsworn's Straight Sword
+431600016 [Haligtree Soldier] Haligtree Helm
+431600017 [Haligtree Soldier] Haligtree Crest Surcoat
+431600018 [Haligtree Soldier] Haligtree Gauntlets
+431600019 [Haligtree Soldier] Haligtree Greaves
+431600020 [Haligtree Soldier] Bolt
+431600021 [Haligtree Soldier] Lordsworn's Bolt
+431600022 [Haligtree Soldier] Smithing Stone [6]
+431600023 [Haligtree Soldier] Smithing Stone [7]
+431600024 [Haligtree Soldier] Smithing Stone [8]
 431600030 [Haligtree Soldier] Lordsworn's Straight Sword
 431600031 [Haligtree Soldier] Brass Shield
-431600032 [Haligtree Soldier] Heavy Crossbow
-431600033 [Haligtree Soldier] Haligtree Helm
-431600034 [Haligtree Soldier] Haligtree Crest Surcoat
-431600035 [Haligtree Soldier] Haligtree Gauntlets
-431600036 [Haligtree Soldier] Haligtree Greaves
-431600037 [Haligtree Soldier] Bolt
-431600038 [Haligtree Soldier] Lordsworn's Bolt
-431600039 [Haligtree Soldier] Smithing Stone [1]
+431600032 [Haligtree Soldier] Haligtree Helm
+431600033 [Haligtree Soldier] Haligtree Crest Surcoat
+431600034 [Haligtree Soldier] Haligtree Gauntlets
+431600035 [Haligtree Soldier] Haligtree Greaves
+431600036 [Haligtree Soldier] Bolt
+431600037 [Haligtree Soldier] Lordsworn's Bolt
+431600038 [Haligtree Soldier] Smithing Stone [6]
+431600039 [Haligtree Soldier] Smithing Stone [7]
+431600040 [Haligtree Soldier] Smithing Stone [8]
+431600045 [Haligtree Soldier] Lordsworn's Straight Sword
+431600046 [Haligtree Soldier] Brass Shield
+431600047 [Haligtree Soldier] Heavy Crossbow
+431600048 [Haligtree Soldier] Haligtree Helm
+431600049 [Haligtree Soldier] Haligtree Crest Surcoat
+431600050 [Haligtree Soldier] Haligtree Gauntlets
+431600051 [Haligtree Soldier] Haligtree Greaves
+431600052 [Haligtree Soldier] Bolt
+431600053 [Haligtree Soldier] Lordsworn's Bolt
+431600054 [Haligtree Soldier] Smithing Stone [6]
+431600055 [Haligtree Soldier] Smithing Stone [7]
+431600056 [Haligtree Soldier] Smithing Stone [8]
 431600100 [Haligtree Soldier] Warpick
 431600101 [Haligtree Soldier] Brass Shield
 431600102 [Haligtree Soldier] Haligtree Helm
@@ -1761,41 +2204,55 @@
 431600105 [Haligtree Soldier] Haligtree Greaves
 431600106 [Haligtree Soldier] Bolt
 431600107 [Haligtree Soldier] Lordsworn's Bolt
-431600108 [Haligtree Soldier] Smithing Stone [1]
-431600110 [Haligtree Soldier] Warpick
-431600111 [Haligtree Soldier] Haligtree Helm
-431600112 [Haligtree Soldier] Haligtree Crest Surcoat
-431600113 [Haligtree Soldier] Haligtree Gauntlets
-431600114 [Haligtree Soldier] Haligtree Greaves
-431600115 [Haligtree Soldier] Bolt
-431600116 [Haligtree Soldier] Lordsworn's Bolt
-431600117 [Haligtree Soldier] Smithing Stone [1]
-431600120 [Haligtree Soldier] Warpick
-431600121 [Haligtree Soldier] Haligtree Helm
-431600122 [Haligtree Soldier] Haligtree Crest Surcoat
-431600123 [Haligtree Soldier] Haligtree Gauntlets
-431600124 [Haligtree Soldier] Haligtree Greaves
-431600125 [Haligtree Soldier] Bolt
-431600126 [Haligtree Soldier] Lordsworn's Bolt
-431600127 [Haligtree Soldier] Smithing Stone [1]
+431600108 [Haligtree Soldier] Smithing Stone [6]
+431600109 [Haligtree Soldier] Smithing Stone [7]
+431600110 [Haligtree Soldier] Smithing Stone [8]
+431600115 [Haligtree Soldier] Warpick
+431600116 [Haligtree Soldier] Haligtree Helm
+431600117 [Haligtree Soldier] Haligtree Crest Surcoat
+431600118 [Haligtree Soldier] Haligtree Gauntlets
+431600119 [Haligtree Soldier] Haligtree Greaves
+431600120 [Haligtree Soldier] Bolt
+431600121 [Haligtree Soldier] Lordsworn's Bolt
+431600122 [Haligtree Soldier] Smithing Stone [6]
+431600123 [Haligtree Soldier] Smithing Stone [7]
+431600124 [Haligtree Soldier] Smithing Stone [8]
 431600130 [Haligtree Soldier] Warpick
-431600131 [Haligtree Soldier] Heavy Crossbow
-431600132 [Haligtree Soldier] Haligtree Helm
-431600133 [Haligtree Soldier] Haligtree Crest Surcoat
-431600134 [Haligtree Soldier] Haligtree Gauntlets
-431600135 [Haligtree Soldier] Haligtree Greaves
-431600136 [Haligtree Soldier] Bolt
-431600137 [Haligtree Soldier] Lordsworn's Bolt
-431600138 [Haligtree Soldier] Smithing Stone [1]
+431600131 [Haligtree Soldier] Haligtree Helm
+431600132 [Haligtree Soldier] Haligtree Crest Surcoat
+431600133 [Haligtree Soldier] Haligtree Gauntlets
+431600134 [Haligtree Soldier] Haligtree Greaves
+431600135 [Haligtree Soldier] Bolt
+431600136 [Haligtree Soldier] Lordsworn's Bolt
+431600137 [Haligtree Soldier] Smithing Stone [6]
+431600138 [Haligtree Soldier] Smithing Stone [7]
+431600139 [Haligtree Soldier] Smithing Stone [8]
+431600145 [Haligtree Soldier] Warpick
+431600146 [Haligtree Soldier] Heavy Crossbow
+431600147 [Haligtree Soldier] Haligtree Helm
+431600148 [Haligtree Soldier] Haligtree Crest Surcoat
+431600149 [Haligtree Soldier] Haligtree Gauntlets
+431600150 [Haligtree Soldier] Haligtree Greaves
+431600151 [Haligtree Soldier] Bolt
+431600152 [Haligtree Soldier] Lordsworn's Bolt
+431600153 [Haligtree Soldier] Smithing Stone [6]
+431600154 [Haligtree Soldier] Smithing Stone [7]
+431600155 [Haligtree Soldier] Smithing Stone [8]
 431600200 [Haligtree Soldier] Haligtree Helm
 431600201 [Haligtree Soldier] Haligtree Crest Surcoat
 431600202 [Haligtree Soldier] Haligtree Gauntlets
 431600203 [Haligtree Soldier] Haligtree Greaves
+431600204 [Haligtree Soldier] Smithing Stone [6]
+431600205 [Haligtree Soldier] Smithing Stone [7]
+431600206 [Haligtree Soldier] Smithing Stone [8]
 431600300 [Haligtree Soldier] Lordsworn's Shield
 431600301 [Haligtree Soldier] Haligtree Helm
 431600302 [Haligtree Soldier] Haligtree Crest Surcoat
 431600303 [Haligtree Soldier] Haligtree Gauntlets
 431600304 [Haligtree Soldier] Haligtree Greaves
+431600305 [Haligtree Soldier] Smithing Stone [6]
+431600306 [Haligtree Soldier] Smithing Stone [7]
+431600307 [Haligtree Soldier] Smithing Stone [8]
 431656000 [Haligtree Soldier] Miquella's Lily
 431656001 [Haligtree Soldier] Lordsworn's Straight Sword
 431656002 [Haligtree Soldier] Brass Shield
@@ -1805,17 +2262,45 @@
 431656006 [Haligtree Soldier] Haligtree Greaves
 431656007 [Haligtree Soldier] Bolt
 431656008 [Haligtree Soldier] Lordsworn's Bolt
-431656009 [Haligtree Soldier] Smithing Stone [1]
-431656020 [Haligtree Soldier] Miquella's Lily
-431656021 [Haligtree Soldier] Lordsworn's Straight Sword
-431656022 [Haligtree Soldier] Brass Shield
-431656023 [Haligtree Soldier] Haligtree Helm
-431656024 [Haligtree Soldier] Haligtree Crest Surcoat
-431656025 [Haligtree Soldier] Haligtree Gauntlets
-431656026 [Haligtree Soldier] Haligtree Greaves
-431656027 [Haligtree Soldier] Bolt
-431656028 [Haligtree Soldier] Lordsworn's Bolt
-431656029 [Haligtree Soldier] Smithing Stone [1]
+431656009 [Haligtree Soldier] Smithing Stone [6]
+431656010 [Haligtree Soldier] Smithing Stone [7]
+431656011 [Haligtree Soldier] Smithing Stone [8]
+431656015 [Haligtree Soldier] Miquella's Lily
+431656016 [Haligtree Soldier] Lordsworn's Straight Sword
+431656017 [Haligtree Soldier] Haligtree Helm
+431656018 [Haligtree Soldier] Haligtree Crest Surcoat
+431656019 [Haligtree Soldier] Haligtree Gauntlets
+431656020 [Haligtree Soldier] Haligtree Greaves
+431656021 [Haligtree Soldier] Bolt
+431656022 [Haligtree Soldier] Lordsworn's Bolt
+431656023 [Haligtree Soldier] Smithing Stone [6]
+431656024 [Haligtree Soldier] Smithing Stone [7]
+431656025 [Haligtree Soldier] Smithing Stone [8]
+431656030 [Haligtree Soldier] Miquella's Lily
+431656031 [Haligtree Soldier] Lordsworn's Straight Sword
+431656032 [Haligtree Soldier] Brass Shield
+431656033 [Haligtree Soldier] Haligtree Helm
+431656034 [Haligtree Soldier] Haligtree Crest Surcoat
+431656035 [Haligtree Soldier] Haligtree Gauntlets
+431656036 [Haligtree Soldier] Haligtree Greaves
+431656037 [Haligtree Soldier] Bolt
+431656038 [Haligtree Soldier] Lordsworn's Bolt
+431656039 [Haligtree Soldier] Smithing Stone [6]
+431656040 [Haligtree Soldier] Smithing Stone [7]
+431656041 [Haligtree Soldier] Smithing Stone [8]
+431656045 [Haligtree Soldier] Lordsworn's Straight Sword
+431656045 [Haligtree Soldier] Lordsworn's Straight Sword
+431656046 [Haligtree Soldier] Brass Shield
+431656047 [Haligtree Soldier] Heavy Crossbow
+431656048 [Haligtree Soldier] Haligtree Helm
+431656049 [Haligtree Soldier] Haligtree Crest Surcoat
+431656050 [Haligtree Soldier] Haligtree Gauntlets
+431656051 [Haligtree Soldier] Haligtree Greaves
+431656052 [Haligtree Soldier] Bolt
+431656053 [Haligtree Soldier] Lordsworn's Bolt
+431656054 [Haligtree Soldier] Smithing Stone [6]
+431656055 [Haligtree Soldier] Smithing Stone [7]
+431656056 [Haligtree Soldier] Smithing Stone [8]
 431656100 [Haligtree Soldier] Miquella's Lily
 431656101 [Haligtree Soldier] Warpick
 431656102 [Haligtree Soldier] Brass Shield
@@ -1825,66 +2310,60 @@
 431656106 [Haligtree Soldier] Haligtree Greaves
 431656107 [Haligtree Soldier] Bolt
 431656108 [Haligtree Soldier] Lordsworn's Bolt
-431656109 [Haligtree Soldier] Smithing Stone [1]
-431656120 [Haligtree Soldier] Miquella's Lily
-431656121 [Haligtree Soldier] Warpick
-431656122 [Haligtree Soldier] Haligtree Helm
-431656123 [Haligtree Soldier] Haligtree Crest Surcoat
-431656124 [Haligtree Soldier] Haligtree Gauntlets
-431656125 [Haligtree Soldier] Haligtree Greaves
-431656126 [Haligtree Soldier] Bolt
-431656127 [Haligtree Soldier] Lordsworn's Bolt
-431656128 [Haligtree Soldier] Smithing Stone [1]
+431656109 [Haligtree Soldier] Smithing Stone [6]
+431656110 [Haligtree Soldier] Smithing Stone [7]
+431656111 [Haligtree Soldier] Smithing Stone [8]
+431656115 [Haligtree Soldier] Miquella's Lily
+431656116 [Haligtree Soldier] Warpick
+431656117 [Haligtree Soldier] Haligtree Helm
+431656118 [Haligtree Soldier] Haligtree Crest Surcoat
+431656119 [Haligtree Soldier] Haligtree Gauntlets
+431656120 [Haligtree Soldier] Haligtree Greaves
+431656121 [Haligtree Soldier] Bolt
+431656122 [Haligtree Soldier] Lordsworn's Bolt
+431656123 [Haligtree Soldier] Smithing Stone [6]
+431656124 [Haligtree Soldier] Smithing Stone [7]
+431656125 [Haligtree Soldier] Smithing Stone [8]
 431656130 [Haligtree Soldier] Miquella's Lily
 431656131 [Haligtree Soldier] Warpick
-431656132 [Haligtree Soldier] Heavy Crossbow
-431656133 [Haligtree Soldier] Haligtree Helm
-431656134 [Haligtree Soldier] Haligtree Crest Surcoat
-431656135 [Haligtree Soldier] Haligtree Gauntlets
-431656136 [Haligtree Soldier] Haligtree Greaves
-431656137 [Haligtree Soldier] Bolt
-431656138 [Haligtree Soldier] Lordsworn's Bolt
-431656139 [Haligtree Soldier] Smithing Stone [1]
+431656132 [Haligtree Soldier] Haligtree Helm
+431656133 [Haligtree Soldier] Haligtree Crest Surcoat
+431656134 [Haligtree Soldier] Haligtree Gauntlets
+431656135 [Haligtree Soldier] Haligtree Greaves
+431656136 [Haligtree Soldier] Bolt
+431656137 [Haligtree Soldier] Lordsworn's Bolt
+431656138 [Haligtree Soldier] Smithing Stone [6]
+431656139 [Haligtree Soldier] Smithing Stone [7]
+431656140 [Haligtree Soldier] Smithing Stone [8]
+431656145 [Haligtree Soldier] Miquella's Lily
+431656146 [Haligtree Soldier] Warpick
+431656147 [Haligtree Soldier] Heavy Crossbow
+431656148 [Haligtree Soldier] Haligtree Helm
+431656149 [Haligtree Soldier] Haligtree Crest Surcoat
+431656150 [Haligtree Soldier] Haligtree Gauntlets
+431656151 [Haligtree Soldier] Haligtree Greaves
+431656152 [Haligtree Soldier] Bolt
+431656153 [Haligtree Soldier] Lordsworn's Bolt
+431656154 [Haligtree Soldier] Smithing Stone [6]
+431656155 [Haligtree Soldier] Smithing Stone [7]
+431656156 [Haligtree Soldier] Smithing Stone [8]
 431656200 [Haligtree Soldier] Miquella's Lily
 431656201 [Haligtree Soldier] Haligtree Helm
 431656202 [Haligtree Soldier] Haligtree Crest Surcoat
 431656203 [Haligtree Soldier] Haligtree Gauntlets
 431656204 [Haligtree Soldier] Haligtree Greaves
+431656205 [Haligtree Soldier] Smithing Stone [6]
+431656206 [Haligtree Soldier] Smithing Stone [7]
+431656207 [Haligtree Soldier] Smithing Stone [8]
 431656300 [Haligtree Soldier] Miquella's Lily
 431656301 [Haligtree Soldier] Lordsworn's Shield
 431656302 [Haligtree Soldier] Haligtree Helm
 431656303 [Haligtree Soldier] Haligtree Crest Surcoat
 431656304 [Haligtree Soldier] Haligtree Gauntlets
 431656305 [Haligtree Soldier] Haligtree Greaves
-431656510 [Haligtree Soldier] Miquella's Lily
-431656511 [Haligtree Soldier] Lordsworn's Straight Sword
-431656512 [Haligtree Soldier] Haligtree Helm
-431656513 [Haligtree Soldier] Haligtree Crest Surcoat
-431656514 [Haligtree Soldier] Haligtree Gauntlets
-431656515 [Haligtree Soldier] Haligtree Greaves
-431656516 [Haligtree Soldier] Bolt
-431656517 [Haligtree Soldier] Lordsworn's Bolt
-431656518 [Haligtree Soldier] Smithing Stone [1]
-431656530 [Haligtree Soldier] Miquella's Lily
-431656531 [Haligtree Soldier] Lordsworn's Straight Sword
-431656532 [Haligtree Soldier] Brass Shield
-431656533 [Haligtree Soldier] Heavy Crossbow
-431656534 [Haligtree Soldier] Haligtree Helm
-431656535 [Haligtree Soldier] Haligtree Crest Surcoat
-431656536 [Haligtree Soldier] Haligtree Gauntlets
-431656537 [Haligtree Soldier] Haligtree Greaves
-431656538 [Haligtree Soldier] Bolt
-431656539 [Haligtree Soldier] Lordsworn's Bolt
-431656540 [Haligtree Soldier] Smithing Stone [1]
-431656610 [Haligtree Soldier] Miquella's Lily
-431656611 [Haligtree Soldier] Warpick
-431656612 [Haligtree Soldier] Haligtree Helm
-431656613 [Haligtree Soldier] Haligtree Crest Surcoat
-431656614 [Haligtree Soldier] Haligtree Gauntlets
-431656615 [Haligtree Soldier] Haligtree Greaves
-431656616 [Haligtree Soldier] Bolt
-431656617 [Haligtree Soldier] Lordsworn's Bolt
-431656618 [Haligtree Soldier] Smithing Stone [1]
+431656306 [Haligtree Soldier] Smithing Stone [6]
+431656307 [Haligtree Soldier] Smithing Stone [7]
+431656308 [Haligtree Soldier] Smithing Stone [8]
 432100000 [Vulgar Militia] Vulgar Militia Saw
 432100001 [Vulgar Militia] Vulgar Militia Helm
 432100002 [Vulgar Militia] Vulgar Militia Armor
@@ -2008,6 +2487,13 @@
 435300304 [Leyndell Knight] Leyndell Knight Gauntlets
 435300305 [Leyndell Knight] Leyndell Knight Greaves
 435300306 [Leyndell Knight] Great Arrow
+435300700 [Leyndell Knight] Partisan
+435300701 [Leyndell Knight] Golden Greatshield
+435300702 [Leyndell Knight] Leyndell Knight Helm
+435300703 [Leyndell Knight] Leyndell Knight Armor
+435300704 [Leyndell Knight] Leyndell Knight Gauntlets
+435300705 [Leyndell Knight] Leyndell Knight Greaves
+435300706 [Leyndell Knight] Gravel Stone Seal
 435320000 [Leyndell Knight] Knight's Greatsword
 435320001 [Leyndell Knight] Golden Greatshield
 435320002 [Leyndell Knight] Leyndell Knight Helm
@@ -2015,51 +2501,51 @@
 435320004 [Leyndell Knight] Leyndell Knight Gauntlets
 435320005 [Leyndell Knight] Leyndell Knight Greaves
 435320006 [Leyndell Knight] Dragon Cult Prayerbook
-435400000 [Redmane Kngiht] Knight's Greatsword
-435400001 [Redmane Kngiht] Redmane Greatshield
-435400002 [Redmane Kngiht] Redmane Knight Helm
-435400003 [Redmane Kngiht] Redmane Knight Armor
-435400004 [Redmane Kngiht] Redmane Knight Gauntlets
-435400005 [Redmane Kngiht] Redmane Knight Greaves
-435400100 [Redmane Kngiht] Partisan
-435400101 [Redmane Kngiht] Redmane Greatshield
-435400102 [Redmane Kngiht] Redmane Knight Helm
-435400103 [Redmane Kngiht] Redmane Knight Armor
-435400104 [Redmane Kngiht] Redmane Knight Gauntlets
-435400105 [Redmane Kngiht] Redmane Knight Greaves
-435400200 [Redmane Kngiht] Partisan
-435400201 [Redmane Kngiht] Redmane Greatshield
-435400202 [Redmane Kngiht] Redmane Knight Helm
-435400203 [Redmane Kngiht] Redmane Knight Armor
-435400204 [Redmane Kngiht] Redmane Knight Gauntlets
-435400205 [Redmane Kngiht] Redmane Knight Greaves
-435400300 [Redmane Kngiht] Knight's Greatsword
-435400301 [Redmane Kngiht] Greatbow
-435400302 [Redmane Kngiht] Redmane Knight Helm
-435400303 [Redmane Kngiht] Redmane Knight Armor
-435400304 [Redmane Kngiht] Redmane Knight Gauntlets
-435400305 [Redmane Kngiht] Redmane Knight Greaves
-435400306 [Redmane Kngiht] Great Arrow
-435500000 [Mausoleum Kngiht] Knight's Greatsword
-435500001 [Mausoleum Kngiht] Eclipse Crest Greatshield
-435500002 [Mausoleum Kngiht] Mausoleum Knight Armor
-435500003 [Mausoleum Kngiht] Mausoleum Knight Gauntlets
-435500004 [Mausoleum Kngiht] Mausoleum Knight Greaves
-435500100 [Mausoleum Kngiht] Partisan
-435500101 [Mausoleum Kngiht] Eclipse Crest Greatshield
-435500102 [Mausoleum Kngiht] Mausoleum Knight Armor
-435500103 [Mausoleum Kngiht] Mausoleum Knight Gauntlets
-435500104 [Mausoleum Kngiht] Mausoleum Knight Greaves
-435500200 [Mausoleum Kngiht] Partisan
-435500201 [Mausoleum Kngiht] Mausoleum Knight Armor
-435500202 [Mausoleum Kngiht] Mausoleum Knight Gauntlets
-435500203 [Mausoleum Kngiht] Mausoleum Knight Greaves
-435500300 [Mausoleum Kngiht] Knight's Greatsword
-435500301 [Mausoleum Kngiht] Greatbow
-435500302 [Mausoleum Kngiht] Mausoleum Knight Armor
-435500303 [Mausoleum Kngiht] Mausoleum Knight Gauntlets
-435500304 [Mausoleum Kngiht] Mausoleum Knight Greaves
-435500305 [Mausoleum Kngiht] Great Arrow
+435400000 [Redmane Knight] Knight's Greatsword
+435400001 [Redmane Knight] Redmane Greatshield
+435400002 [Redmane Knight] Redmane Knight Helm
+435400003 [Redmane Knight] Redmane Knight Armor
+435400004 [Redmane Knight] Redmane Knight Gauntlets
+435400005 [Redmane Knight] Redmane Knight Greaves
+435400100 [Redmane Knight] Partisan
+435400101 [Redmane Knight] Redmane Greatshield
+435400102 [Redmane Knight] Redmane Knight Helm
+435400103 [Redmane Knight] Redmane Knight Armor
+435400104 [Redmane Knight] Redmane Knight Gauntlets
+435400105 [Redmane Knight] Redmane Knight Greaves
+435400200 [Redmane Knight] Partisan
+435400201 [Redmane Knight] Redmane Greatshield
+435400202 [Redmane Knight] Redmane Knight Helm
+435400203 [Redmane Knight] Redmane Knight Armor
+435400204 [Redmane Knight] Redmane Knight Gauntlets
+435400205 [Redmane Knight] Redmane Knight Greaves
+435400300 [Redmane Knight] Knight's Greatsword
+435400301 [Redmane Knight] Greatbow
+435400302 [Redmane Knight] Redmane Knight Helm
+435400303 [Redmane Knight] Redmane Knight Armor
+435400304 [Redmane Knight] Redmane Knight Gauntlets
+435400305 [Redmane Knight] Redmane Knight Greaves
+435400306 [Redmane Knight] Great Arrow
+435500000 [Mausoleum Knight] Knight's Greatsword
+435500001 [Mausoleum Knight] Eclipse Crest Greatshield
+435500002 [Mausoleum Knight] Mausoleum Knight Armor
+435500003 [Mausoleum Knight] Mausoleum Knight Gauntlets
+435500004 [Mausoleum Knight] Mausoleum Knight Greaves
+435500100 [Mausoleum Knight] Partisan
+435500101 [Mausoleum Knight] Eclipse Crest Greatshield
+435500102 [Mausoleum Knight] Mausoleum Knight Armor
+435500103 [Mausoleum Knight] Mausoleum Knight Gauntlets
+435500104 [Mausoleum Knight] Mausoleum Knight Greaves
+435500200 [Mausoleum Knight] Partisan
+435500201 [Mausoleum Knight] Mausoleum Knight Armor
+435500202 [Mausoleum Knight] Mausoleum Knight Gauntlets
+435500203 [Mausoleum Knight] Mausoleum Knight Greaves
+435500300 [Mausoleum Knight] Knight's Greatsword
+435500301 [Mausoleum Knight] Greatbow
+435500302 [Mausoleum Knight] Mausoleum Knight Armor
+435500303 [Mausoleum Knight] Mausoleum Knight Gauntlets
+435500304 [Mausoleum Knight] Mausoleum Knight Greaves
+435500305 [Mausoleum Knight] Great Arrow
 435600000 [Haligtree Knight] Knight's Greatsword
 435600001 [Haligtree Knight] Haligtree Crest Greatshield
 435600002 [Haligtree Knight] Haligtree Knight Armor
@@ -2093,8 +2579,8 @@
 435656204 [Haligtree Knight] Haligtree Knight Gauntlets
 435656205 [Haligtree Knight] Haligtree Knight Greaves
 435656206 [Haligtree Knight] Great Arrow
-436100000 [Knight's Horse] Sliver of Meat
-436100001 [Knight's Horse] Beast Liver
+436100000 [Godrick Knight's Horse] Sliver of Meat
+436100001 [Godrick Knight's Horse] Beast Liver
 436552000 [Knight's Horse] None
 437100000 [Godrick Foot Soldier] Dagger
 437100001 [Godrick Foot Soldier] Foot Soldier Cap
@@ -2321,7 +2807,7 @@
 438100001 [Bloodthorn Exile] Smoldering Butterfly
 438100010 [Bloodthorn Exile] Staff of the Guilty
 438100011 [Bloodthorn Exile] Smoldering Butterfly
-438100012 [Bloodthorn Exile] Briars of Sin
+438100012 [Bloodthorn Exile] [Sorcery] Briars of Sin
 438100100 [Bloodthorn Exile] Smoldering Butterfly
 438210000 [Tunnel Miner] Pickaxe
 438210001 [Tunnel Miner] Smithing Stone [1]
@@ -2440,16 +2926,16 @@
 438340104 [Glintstone Miner] Somber Smithing Stone [4]
 438340105 [Glintstone Miner] Glintstone Scrap
 438340106 [Glintstone Miner] Large Glintstone Scrap
-438420000 [Glintstone Miner - Small Sack] Digger's Staff
-438420001 [Glintstone Miner - Small Sack] Somber Smithing Stone [2]
-438420002 [Glintstone Miner - Small Sack] Somber Smithing Stone [3]
-438420003 [Glintstone Miner - Small Sack] Glintstone Scrap
-438420004 [Glintstone Miner - Small Sack] Large Glintstone Scrap
-438440000 [Glintstone Miner - Small Sack] Digger's Staff
-438440001 [Glintstone Miner - Small Sack] Somber Smithing Stone [3]
-438440002 [Glintstone Miner - Small Sack] Somber Smithing Stone [4]
-438440003 [Glintstone Miner - Small Sack] Glintstone Scrap
-438440004 [Glintstone Miner - Small Sack] Large Glintstone Scrap
+438420000 [Glintstone Miner] Digger's Staff
+438420001 [Glintstone Miner] Somber Smithing Stone [2]
+438420002 [Glintstone Miner] Somber Smithing Stone [3]
+438420003 [Glintstone Miner] Glintstone Scrap
+438420004 [Glintstone Miner] Large Glintstone Scrap
+438440000 [Glintstone Miner] Digger's Staff
+438440001 [Glintstone Miner] Somber Smithing Stone [3]
+438440002 [Glintstone Miner] Somber Smithing Stone [4]
+438440003 [Glintstone Miner] Glintstone Scrap
+438440004 [Glintstone Miner] Large Glintstone Scrap
 438500000 [Fungal Sorcerer] Toxic Mushroom
 438500100 [Fungal Sorcerer] Toxic Mushroom
 438500200 [Fungal Sorcerer] Toxic Mushroom
@@ -2491,7 +2977,7 @@
 444040002 [Fungal Pod] Strip of White Flesh
 444050000 [Fungal Pod] Golden Rune [9]
 444050001 [Fungal Pod] Poisonbloom
-444050002 Strip of White Flesh
+444050002 [Fungal Pod] Strip of White Flesh
 444120000 [Giant Fungal Pod] Golden Rune [5]
 444120001 [Giant Fungal Pod] Poisonbloom
 444120002 [Giant Fungal Pod] Strip of White Flesh
@@ -2568,10 +3054,10 @@
 448130600 [Miranda Sprout] Miquella's Lily
 448130601 [Miranda Sprout] Miranda Powder
 448130602 [Miranda Sprout] Poisonbloom
-448200000 [Giant Miranda Sprout] Poisonbloom
-448200001 [Giant Miranda Sprout] Miranda Powder
-448300000 [Miranda Sprout] Poisonbloom
-448300001 [Miranda Sprout] Miranda Powder
+448200000 [Fading Giant Miranda Sprout] Poisonbloom
+448200001 [Fading Giant Miranda Sprout] Miranda Powder
+448300000 [Fading Miranda Sprout] Poisonbloom
+448300001 [Fading Miranda Sprout] Miranda Powder
 449000000 [Living Pot - Large] Living Jar Shard
 449000010 [Living Pot - Large] Living Jar Shard
 449000100 [Living Pot - Large] Living Jar Shard
@@ -2638,7 +3124,7 @@
 450222000 [Dragon] None
 450442000 [Lesser Elder Dragon] None
 450542000 [Elder Dragon Greyoll] None
-451072000 [Ancient Dragon ] Gravel Stone
+451072000 [Ancient Dragon] Gravel Stone
 455000000 [Monstrous Dog] Hefty Beast Bone
 455000001 [Monstrous Dog] Beast Blood
 455000100 [Monstrous Dog] Hefty Beast Bone
@@ -2646,18 +3132,18 @@
 456000000 [Monstrous Crow] Hefty Beast Bone
 456000001 [Monstrous Crow] Beast Blood
 456000002 [Monstrous Crow] Golden Rune [5]
-456100000 [Monstrous Crow] Hefty Beast Bone
-456100001 [Monstrous Crow] Beast Blood
-456100002 [Monstrous Crow] Golden Rune [5]
-456100003 [Monstrous Crow] Blood-Tainted Excrement
-457000000 [Wormface] Gold-Tinged Excrement
-457000001 [Wormface] Sacrificial Twig
-457000010 [Wormface] Gold-Tinged Excrement
-457000011 [Wormface] Sacrificial Twig
-457000100 [Wormface] Gold-Tinged Excrement
-457000101 [Wormface] Sacrificial Twig
-458000000 [Wormface] Gold-Tinged Excrement
-458000001 [Wormface] Sacrificial Twig
+456100000 [Monstrous Rotten Crow] Hefty Beast Bone
+456100001 [Monstrous Rotten Crow] Beast Blood
+456100002 [Monstrous Rotten Crow] Golden Rune [5]
+456100003 [Monstrous Rotten Crow] Blood-Tainted Excrement
+457000000 [Large Wormface] Gold-Tinged Excrement
+457000001 [Large Wormface] Sacrificial Twig
+457000010 [Large Wormface] Gold-Tinged Excrement
+457000011 [Large Wormface] Sacrificial Twig
+457000100 [Large Wormface] Gold-Tinged Excrement
+457000101 [Large Wormface] Sacrificial Twig
+458000000 [Giant Wormface] Gold-Tinged Excrement
+458000001 [Giant Wormface] Sacrificial Twig
 460000000 [Troll Knight] None
 460000100 [Troll Knight] Arteria Leaf
 460000200 [Troll Knight] None
@@ -2686,8 +3172,8 @@
 466000040 [Golem] Golem's Halberd
 466000041 [Golem] Smithing Stone [5]
 466000050 [Golem] Golem's Halberd
-466000051 [Golem] Smithing Stone [7]
-466000051 [Golem] Smithing Stone [7]
+466000051 [Golem] Smithing Stone [6]
+466000051 [Golem] Smithing Stone [6]
 466000100 [Golem] Golem Greatbow
 466000101 [Golem] Great Arrow
 466000102 [Golem] Golem's Great Arrow
@@ -2764,9 +3250,7 @@
 469000001 [Grafted Scion] None
 475000000 [Godrick the Grafted] None
 477000000 [Gargoyle] Gargoyle's Twinblade
-477000001 [Gargoyle] Gargoyle's Great Axe
 477000100 [Gargoyle] Gargoyle's Greatsword
-477000101 [Gargoyle] Gargoyle's Halberd
 477000200 [Gargoyle] None
 480000000 [Mohg, The Omen] None
 481000000 [Erdtree Avatar] Rotten Staff
@@ -2820,7 +3304,7 @@
 606000114 [Goat] Fulgurbloom
 606000200 [Goat] Sliver of Meat
 606000201 [Goat] Beast Liver
-606000202 [Goat]  Budding Horn
+606000202 [Goat] Budding Horn
 606000203 [Goat] Thin Beast Bones, Thin Beast Bones, Thin Beast Bones
 606000210 [Goat] Sliver of Meat
 606000211 [Goat] Beast Liver

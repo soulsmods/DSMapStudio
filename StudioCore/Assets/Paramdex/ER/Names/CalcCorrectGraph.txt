@@ -42,6 +42,7 @@
 172 Weapon Arts Point Max - Intelligence
 173 Weapon Arts Point Max - Faith
 200 Soul Level - Souls Required
+210 Fall Damage - Distance
 211 Fall Damage - Equip Load
 212 Fall Damage - Strength
 213 Fall Damage - Dexterity

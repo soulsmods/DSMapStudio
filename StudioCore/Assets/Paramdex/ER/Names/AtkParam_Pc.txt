@@ -426,16 +426,16 @@
 79984 Thops's Barrier
 79990 Ancient Dragons' Lightning Strike
 79991 Noble Presence
-100000 Default - Dagger
-100010 Default - Dagger
-100020 Default - Dagger
-100030 Default - Dagger
-100040 Default - Dagger
-100050 Default - Dagger
-100100 Default - Dagger
-100105 Default - Dagger
-100110 Default - Dagger
-100115 Default - Dagger
+100000 Default - Dagger - 1H Light #1
+100010 Default - Dagger - 1H Light #2
+100020 Default - Dagger - 1H Light #3
+100030 Default - Dagger - 1H Light #4
+100040 Default - Dagger - 1H Light #5
+100050 Default - Dagger - 1H Light #6
+100100 Default - Dagger - 1H Heavy #1
+100105 Default - Dagger - 1H Heavy #1 Max
+100110 Default - Dagger - 1H Heavy #2
+100115 Default - Dagger - 1H Heavy #2 Max
 100120 Default - Dagger
 100125 Default - Dagger
 100130 Default - Dagger
@@ -445,16 +445,16 @@
 100160 Default - Dagger
 100165 Default - Dagger
 100180 Default - Dagger
-100200 Default - Dagger
-100210 Default - Dagger
-100220 Default - Dagger
-100230 Default - Dagger
-100240 Default - Dagger
-100250 Default - Dagger
-100300 Default - Dagger
-100305 Default - Dagger
-100310 Default - Dagger
-100315 Default - Dagger
+100200 Default - Dagger - 2H Light #1
+100210 Default - Dagger - 2H Light #2
+100220 Default - Dagger - 2H Light #3
+100230 Default - Dagger - 2H Light #4
+100240 Default - Dagger - 2H Light #5
+100250 Default - Dagger - 2H Fall Landing
+100300 Default - Dagger - 2H Heavy #1
+100305 Default - Dagger - 2H Heavy #1 Max
+100310 Default - Dagger - 2H Heavy #2
+100315 Default - Dagger - 2H Heavy #2 Max
 100320 Default - Dagger
 100325 Default - Dagger
 100330 Default - Dagger
@@ -464,21 +464,21 @@
 100360 Default - Dagger
 100365 Default - Dagger
 100380 Default - Dagger
-100400 Default - Dagger
-100410 Default - Dagger
-100420 Default - Dagger
-100430 Default - Dagger
-100440 Default - Dagger
-100450 Default - Dagger
+100400 Default - Dagger - Left 1H Light #1
+100410 Default - Dagger - Left 1H Light #2
+100420 Default - Dagger - Left 1H Light #3
+100430 Default - Dagger - Left 1H Light #4
+100440 Default - Dagger - Left 1H Light #5
+100450 Default - Dagger - Left 1H Light #6
 100460 Default - Dagger
 100470 Default - Dagger
 100480 Default - Dagger
-100500 Default - Dagger
-100505 Default - Dagger
-100509 Default - Dagger
-100510 Default - Dagger
-100515 Default - Dagger
-100516 Default - Dagger
+100500 Default - Dagger - Backstab
+100505 Default - Dagger - Backstab (Special)
+100509 Default - Dagger - Backstab (Special)
+100510 Default - Dagger - Riposte
+100515 Default - Dagger - Riposte (Special)
+100516 Default - Dagger - Riposte (Special)
 100520 Default - Dagger
 100530 Default - Dagger
 100540 Default - Dagger

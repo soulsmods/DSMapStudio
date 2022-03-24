@@ -45,13 +45,13 @@ namespace StudioCore.Editor
             List<(PARAM.Row, string)> matches = resolveRefs(paramRefs, oldval);
             bool entryFound = matches.Count > 0;
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
+            ImGui.BeginGroup();
             foreach ((PARAM.Row row, string hint) in matches)
             {
                 if (row.Name == null || row.Name.Trim().Equals(""))
                     ImGui.TextUnformatted("Unnamed Row");
                 else
                     ImGui.TextUnformatted(row.Name + hint);
-                ImGui.NewLine();
             }
             ImGui.PopStyleColor();
             if (!entryFound)
@@ -60,7 +60,7 @@ namespace StudioCore.Editor
                 ImGui.TextUnformatted("___");
                 ImGui.PopStyleColor();
             }
-            ImGui.SameLine();
+            ImGui.EndGroup();
         }
         private static List<(PARAM.Row, string)> resolveRefs(List<string> paramRefs, dynamic oldval)
         {

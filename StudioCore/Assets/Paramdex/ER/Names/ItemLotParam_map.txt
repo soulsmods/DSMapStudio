@@ -24,6 +24,7 @@
 5451 Furlcalling Finger Remedy
 5500 Furlcalling Finger Remedy
 5510 Furlcalling Finger Remedy
+5510 Furlcalling Finger Remedy
 5530 Furlcalling Finger Remedy
 5540 Furlcalling Finger Remedy
 5550 Furlcalling Finger Remedy
@@ -34,316 +35,319 @@
 5670 Furlcalling Finger Remedy
 5680 Furlcalling Finger Remedy
 9030 Fetid Pot
-10000 Talisman Pouch
-10010 Godrick's Great Rune
-10011 Remembrance of the Grafted
-10030 Ornamental Straight Sword
-10031 Golden Beast Crest Shield
-10040 Remembrance of the Omen King
-10041 Morgott's Great Rune
-10050 Talisman Pouch
-10060 Scepter of the All-Knowing
-10061 All-Knowing Helm
-10062 All-Knowing Armor
-10063 All-Knowing Gauntlets
-10064 All-Knowing Greaves
-10070 Remembrance of Hoarah Loux
-10080 Remembrance of the Naturalborn
-10090 [Incantation] Frozen Lightning Spear
-10100 Gargoyle's Greatsword
-10101 Gargoyle's Twinblade
-10110 Remembrance of the Lichdragon
-10120 Remembrance of the Blood Lord
-10121 Mohg's Great Rune
-10140 Smithing-Stone Miner's Bell Bearing [4]
-10141 Ash of War: Black Flame Tornado
-10150 Remembrance of the Dragonlord
-10160 Remembrance of the Black Blade
-10170 Memory Stone
-10180 Remembrance of the Full Moon Queen
-10181 Great Rune of the Unborn
-10190 [Sorcery] Loretta's Mastery
-10191 Loretta's War Sickle
-10200 Remembrance of the Rot Goddess
-10201 Malenia's Great Rune
-10210 Godskin Stitcher
-10211 [Incantation] Noble Presence
-10220 Remembrance of the Blasphemous
-10221 Rykard's Great Rune
-10230 Elden Remembrance
-10250 [Incantation] Bloodflame Talons
-10260 Magma Wyrm's Scalesword
-10261 Dragon Heart
-10280 Golden Seed
-10281 Banished Knight Oleg
-10290 Inquisitor's Girandole
-10300 Remembrance of the Starscourge
-10301 Radahn's Great Rune
-10310 Remembrance of the Fire Giant
-10320 Ancestral Follower Ashes
-10330 Remembrance of the Regal Ancestor
-10340 Larval Tear
-10341 Silver Tear Mask
-10350 [Sorcery] Fia's Mist
-10730 Sanguine Noble Hood
-10731 Sanguine Noble Robe
-10732 Sanguine Noble Bracelets
-10733 Sanguine Noble Trousers
-10740 Omenkiller Rollo
-10800 Grafted Blade Greatsword
-10810 [Sorcery] Loretta's Greatbow
-10811 Ash of War: Loretta's Slash
-10820 Marais Executioner's Sword
-10821 Briar Greatshield
-10830 Ruins Greatsword
-10840 Veteran's Prosthesis
-20000 Lhutel the Headless
-20010 Demi-Human Ashes
-20020 Noble Sorcerer Ashes
-20030 Assassin's Crimson Dagger
-20040 Battle Hammer
-20050 Twinsage Sorcerer Ashes
-20060 Glintstone Sorcerer Ashes
-20070 Kaiden Sellsword Ashes
-20080 Ancient Dragon Knight Kristoff
-20090 Bloodhound Knight Floh
-20100 Ordovis's Greatsword
-20101 Crucible Axe Helm
-20102 Crucible Axe Armor
-20103 Crucible Gauntlets
-20104 Crucible Greaves
-20110 Perfumer Tricia
-20120 Glovewort Picker's Bell Bearing [1]
-20130 Soldjars of Fortune Ashes
-20140 Mad Pumpkin Head Ashes
-20150 Kindred of Rot Ashes
-20160 Redmane Knight Ogha
-20161 Golden Seed
-20170 Zamor Curved Sword
-20171 Zamor Mask
-20172 Zamor Armor
-20173 Zamor Bracelets
-20174 Zamor Legwraps
-20180 Golden Seed
-20181 Glovewort Picker's Bell Bearing [2]
-20190 Great Grave Glovewort
-20191 Rotten Gravekeeper Cloak
-20200 Blackflame Monk Amon
-20210 Assassin's Cerulean Dagger
-20211 Black Knifeprint
-20220 Lord of Blood's Exultation
-20300 Viridian Amber Medallion
-20310 Spelldrake Talisman
-20330 Flamedrake Talisman
-20340 Sewing Needle
-20341 Tailoring Tools
-20350 Blue Dancer Charm
-20360 Winged Sword Insignia
-20370 Cerulean Amber Medallion
-20380 [Sorcery] Crystal Release
-20390 Kindred of Rot's Exultation
-20400 Jar Cannon
-20410 Great Omenkiller Cleaver
-20420 Concealing Veil
-20430 Putrid Corpse Ashes
-20440 Flamedrake Talisman +2
-20450 Gold Scarab
-20460 [Sorcery] Crystal Torrent
-20470 Golden Order Greatsword
-20480 Godskin Swaddling Cloth
-20481 [Incantation] Black Flame Ritual
-20490 Family Heads
-20600 Rusted Anchor
-20610 Roar Medallion
-20620 Smithing-Stone Miner's Bell Bearing [1]
-20630 Great Club
-20640 Onyx Lord's Greatsword
-20650 Somberstone Miner's Bell Bearing [2]
-20660 Dragon Heart
-20661 Moonveil
-20670 Somber Smithing Stone [6]
-20671 Smithing Stone [7]
-20672 Gravity Stone Chunk
-20673 Somberstone Miner's Bell Bearing [1]
-20680 [Sorcery] Meteorite of Astel
-30100 Golden Halberd
-30110 Dragon Heart
-30120 [Incantation] Aspects of the Crucible: Tail
-30130 Bloodhound's Fang
-30170 Deathroot
-30171 Skeletal Militiaman Ashes
-30185 Crimsonburst Crystal Tear
-30186 Opaline Bubbletear
-30200 Magic-Shrouding Cracked Tear
-30201 Lightning-Shrouding Cracked Tear
-30202 Holy-Shrouding Cracked Tear
-30205 Cerulean Crystal Tear
-30206 Ruptured Crystal Tear
-30210 Dragon Heart
-30225 Crucible Knot Talisman
-30240 Deathroot
-30241 Skeletal Bandit Ashes
-30245 [Incantation] Flame of the Fell God
-30250 [Sorcery] Greatblade Phalanx
-30255 [Sorcery] Meteorite
-30260 Dragon Heart
-30261 [Sorcery] Adula's Moonblade
-30265 Black Knife Tiche
-30300 [Incantation] Lansseax's Glaive
-30310 Somber Smithing Stone [5]
-30311 Smithing Stone [6]
-30312 Gravity Stone Fan
-30313 Gravity Stone Chunk
-30315 Dragon Greatclaw
-30316 Dragonclaw Shield
-30320 Speckled Hardtear
-30321 Crimsonspill Crystal Tear
-30325 Godskin Peeler
-30326 [Incantation] Scouring Black Flame
-30335 Erdtree Greatshield
-30336 Hero's Rune [1]
-30350 Black Knife
-30375 Somber Smithing Stone [6]
-30376 Smithing Stone [6]
-30377 Fallingstar Beast Jaw
-30380 Leaden Hardtear
-30381 Cerulean Hidden Tear
-30385 Deathroot
-30386 [Sorcery] Tibia's Summons
-30390 Dragon Heart
-30395 Memory Stone
-30400 Dragon Heart
-30405 Commander's Standard
-30406 Unalloyed Gold Needle
-30410 Greenburst Crystal Tear
-30411 Flame-Shrouding Cracked Tear
-30415 Opaline Hardtear
-30416 Stonebarb Cracked Tear
-30420 Dragon Heart
-30425 Gargoyle's Blackblade
-30426 Gargoyle's Black Halberd
-30505 Gargoyle's Black Blades
-30506 Gargoyle's Black Axe
-30510 Dragon Heart
-30515 [Incantation] Vyke's Dragonbolt
-30516 Fingerprint Helm
-30517 Fingerprint Armor
-30518 Fingerprint Gauntlets
-30519 Fingerprint Greaves
-30525 Cerulean Crystal Tear
-30526 Crimson Bubbletear
-30530 Death Ritual Spear
-30550 Dragon Heart
-30555 Thorny Cracked Tear
-30556 Ruptured Crystal Tear
-30600 Dragonscale Blade
-30620 Dragon Halberd
-40100 Ash of War: Storm Wall
-40104 Ash of War: Wild Strikes
-40108 Ash of War: Determination
-40112 Ash of War: Unsheathe
-40116 Ash of War: Ground Slam
-40118 Ash of War: Sacred Blade
-40120 Ash of War: Stamp (Sweep)
-40132 [Incantation] Divine Fortification
-40136 [Incantation] Lightning Strike
-40138 [Incantation] Poison Mist
-40140 Ash of War: Mighty Shot
-40142 Somber Smithing Stone [1]
-40144 Somber Smithing Stone [1]
-40146 Somber Smithing Stone [1]
-40170 Ash of War: Storm Assault
-40172 Ash of War: Stormcaller
-40174 [Sorcery] Rancorcall
-40200 Ash of War: Chilling Mist
-40202 Ash of War: Charge Forth
-40204 Ash of War: Hoarfrost Stomp
-40206 Ash of War: Thops's Barrier
-40208 Ash of War: Vow of the Indomitable
-40210 Ash of War: Shield Bash
-40218 [Incantation] Bloodflame Blade
-40220 [Sorcery] Carian Piercer
-40224 Ash of War: Barbaric Roar
-40236 [Incantation] Frenzied Burst
-40238 Ash of War: Sword Dance
-40250 [Sorcery] Frozen Armament
-40252 Somber Smithing Stone [2]
-40254 Somber Smithing Stone [2]
-40256 Somber Smithing Stone [3]
-40258 Somber Smithing Stone [3]
-40260 Somber Smithing Stone [2]
-40262 Somber Smithing Stone [2]
-40272 Ash of War: Spectral Lance
-40290 Somber Smithing Stone [4]
-40300 Ash of War: Sacred Order
-40302 Ash of War: Shield Crash
-40304 Ash of War: Earthshaker
-40306 Ash of War: Blood Blade
-40308 Ash of War: Golden Slam
-40310 Ash of War: Lightning Ram
-40312 [Incantation] Protection of the Erdtree
-40314 Ash of War: Prayerful Strike
-40316 Ash of War: Golden Parry
-40318 Ash of War: Lightning Slash
-40332 Ash of War: Barrage
-40334 Ash of War: Through and Through
-40370 [Incantation] Barrier of Gold
-40372 Ash of War: Thunderbolt
-40400 [Incantation] Whirl
-40402 Ash of War: Lifesteal Fist
-40404 Ash of War: Sacred Ring of Light
-40406 Ash of War: Poisonous Mist
-40408 Ash of War: Flaming Strike
-40410 Ash of War: Flame of the Redmanes
-40412 Ash of War: Sky Shot
-40414 Ash of War: Cragblade
-40416 [Incantation] Poison Armament
-40418 Ash of War: Double Slash
-40420 [Incantation] Bestial Constitution
-40422 Somber Smithing Stone [4]
-40424 Somber Smithing Stone [4]
-40426 Somber Smithing Stone [8]
-40428 Somber Smithing Stone [9]
+10000 [Stormveil - Margit] Talisman Pouch
+10010 [Stormveil - Godrick] Godrick's Great Rune
+10011 [Stormveil - Godrick] Remembrance of the Grafted
+10030 [Chapel of Anticipation - Grafed Scion] Ornamental Straight Sword
+10031 [Chapel of Anticipation - Grafed Scion] Golden Beast Crest Shield
+10040 [Leyndell - Morgott] Remembrance of the Omen King
+10041 [Leyndell - Morgott] Morgott's Great Rune
+10050 [Enia - 2 Great Runes] Talisman Pouch
+10060 [Ashen Leyndell - Gideon] Scepter of the All-Knowing
+10061 [Ashen Leyndell - Gideon] All-Knowing Helm
+10062 [Ashen Leyndell - Gideon] All-Knowing Armor
+10063 [Ashen Leyndell - Gideon] All-Knowing Gauntlets
+10064 [Ashen Leyndell - Gideon] All-Knowing Greaves
+10070 [Ashen Leyndell - Hoarah Loux] Remembrance of Hoarah Loux
+10080 [Lake or Rot - Astel] Remembrance of the Naturalborn
+10090 [Ainsel - Dragonkin Soldier] Frozen Lightning Spear
+10100 [Siofra - Valiant Gargoyle] Gargoyle's Greatsword
+10101 [Siofra - Valiant Gargoyle] Gargoyle's Twinblade
+10110 [Deeproot Depths - Fortissax] Remembrance of the Lichdragon
+10120 [Mohgwyn Palace - Mohg] Remembrance of the Blood Lord
+10121 [Mohgwyn Palace - Mohg] Mohg's Great Rune
+10140 [Farum Azula - Godskin Duo] Smithing-Stone Miner's Bell Bearing [4]
+10141 [Farum Azula - Godskin Duo] Ash of War: Black Flame Tornado
+10150 [Farum Azula - Dragonlord Placidusax] Remembrance of the Dragonlord
+10160 [Farum Azula - Maliketh] Remembrance of the Black Blade
+10170 [Raya Lucaria - Red Wolf of Radagon] Memory Stone
+10180 [Raya Lucaria - Rennala] Remembrance of the Full Moon Queen
+10181 [Raya Lucaria - Rennala] Great Rune of the Unborn
+10182 [Raya Lucaria - Rennala] None
+10190 [Haligtree - Loretta] Loretta's Mastery
+10191 [Haligtree - Loretta] Loretta's War Sickle
+10200 [Haligtree - Malenia] Remembrance of the Rot Goddess
+10201 [Haligtree - Malenia] Malenia's Great Rune
+10210 [Volcano Manor - Godskin Noble] Godskin Stitcher
+10211 [Volcano Manor - Godskin Noble] Noble Presence
+10220 [Mt. Gelmir - Rykard] Remembrance of the Blasphemous
+10221 [Mt. Gelmir - Rykard] Rykard's Great Rune
+10230 [Erdtree - Elden Beast] Elden Remembrance
+10250 [Mohgwyn Palace - Mohg] Bloodflame Talons
+10260 [Ruin-Strewn Precipice - Magma Wyrm Makar] Magma Wyrm's Scalesword
+10261 [Ruin-Strewn Precipice - Magma Wyrm Makar] Dragon Heart
+10280 [Fringefolk Hero's Grave - Ulcerated Tree Spirit] Golden Seed
+10281 [Fringefolk Hero's Grave - Ulcerated Tree Spirit] Banished Knight Oleg
+10290 [Volcano Manor - Abducator Virgins] Inquisitor's Girandole
+10300 [Caelid - Radahn] Remembrance of the Starscourge
+10301 [Caelid - Radahn] Radahn's Great Rune
+10310 [Mountaintops - Fire Giant] Remembrance of the Fire Giant
+10320 [Siofra - Ancestor Spirit] Ancestral Follower Ashes
+10330 [Nokron - Regal Ancestor Spirit] Remembrance of the Regal Ancestor
+10340 [Nokron - Mimic Tear] Larval Tear
+10341 [Nokron - Mimic Tear] Silver Tear Mask
+10350 [Deeproot Depths - Fia's Champions] Fia's Mist
+10730 [Mountaintops - Sanguine Noble] Sanguine Noble Hood
+10731 [Mountaintops - Sanguine Noble] Sanguine Noble Robe
+10732 [Mountaintops - Sanguine Noble] Sanguine Noble Bracelets
+10733 [Mountaintops - Sanguine Noble] Sanguine Noble Trousers
+10740 [Capital Outskirts - Fell Twins] Omenkiller Rollo
+10800 [Weeping Penisula - Leonine Misbegotten] Blade Greatsword
+10810 [Caria Manor - Loretta] Loretta's Greatbow
+10811 [Caria Manor - Loretta] Ash of War: Loretta's Slash
+10820 [Shaded Castle - Elemer of the Briar] Marais Executioner's Sword
+10821 [Shaded Castle - Elemer of the Briar] Briar Greatshield
+10830 [Redmane Castle - Misbegotten Warrior/Crucible Knight] Ruins Greatsword
+10840 [Castle Sol - Commander Niall] Veteran's Prosthesis
+20000 [Tombsward Catacombs - Cemetery Shade] Lhutel the Headless
+20010 [Impaler's Catacombs - Erdtree Burial Watchdog] Demi-Human Ashes
+20020 [Stormfoot Catacombs - Erdtree Burial Watchdog] Noble Sorcerer Ashes
+20030 [Deathtouched Catacombs - Black Knife Assassin] Assassin's Crimson Dagger
+20040 [Murkwater Catacombs - Grave Warden Duelist] Battle Hammer
+20050 [Black Knife Catacombs - Cemetery Shade] Twinsage Sorcerer Ashes
+20060 [Road's End Catacombs - Spirit-caller Snail] Glintstone Sorcerer Ashes
+20070 [Cliffbottom Catacombs - Erdtree Burial Watchdog] Kaiden Sellsword Ashes
+20080 [Sainted Hero's Grave - Leyndell] Ancient Dragon Knight Kristoff
+20090 [Gelmir's Heo's Grave - Mt. Gelmir] Bloodhound Knight Floh
+20100 [Auriza Hero's Grave - Crucible Knigh Ordovis] Ordovis's Greatsword
+20101 [Auriza Hero's Grave - Crucible Knigh Ordovis] Crucible Axe Helm
+20102 [Auriza Hero's Grave - Crucible Knigh Ordovis] Crucible Axe Armor
+20103 [Auriza Hero's Grave - Crucible Knigh Ordovis] Crucible Gauntlets
+20104 [Auriza Hero's Grave - Crucible Knigh Ordovis] Crucible Greaves
+20110 [Unslightly Catacombs - Perfumer Tricia] Perfumer Tricia
+20120 [Wyndham Catacombs - Erdtree Burial Watchdog] Glovewort Picker's Bell Bearing [1]
+20130 [Auriza Side Tomb - Grave Warden Duelist] Soldjars of Fortune Ashes
+20140 [Minor Erdtree Catacombs - Erdtree Burial Watchdog] Mad Pumpkin Head Ashes
+20150 [Caelid Catacombs - Cemetery Shade] Kindred of Rot Ashes
+20160 [War-Dead Catacombs - Putrid Tree Spirit] Redmane Knight Ogha
+20161 [War-Dead Catacombs - Putrid Tree Spirit] Golden Seed
+20170 [Giant-Conquering Hero's Grave - Ancient Hero of Zamor] Zamor Curved Sword
+20171 [Giant-Conquering Hero's Grave - Ancient Hero of Zamor] Zamor Mask
+20172 [Giant-Conquering Hero's Grave - Ancient Hero of Zamor] Zamor Armor
+20173 [Giant-Conquering Hero's Grave - Ancient Hero of Zamor] Zamor Bracelets
+20174 [Giant-Conquering Hero's Grave - Ancient Hero of Zamor] Zamor Legwraps
+20180 [Giants' Mountaintop Catacombs - Ulcerated Tree Spirit] Golden Seed
+20181 [Giants' Mountaintop Catacombs - Ulcerated Tree Spirit] Glovewort Picker's Bell Bearing [2]
+20190 [Consecrated Snowfiled Catacombs - Putrid Grave Warden Duelist] Great Grave Glovewort
+20191 [Consecrated Snowfiled Catacombs - Putrid Grave Warden Duelist] Rotten Gravekeeper Cloak
+20200 [Hidden Path ot the Haligtree - Stray Mimic Tear] Blackflame Monk Amon
+20210 [Black Knife Catacombs - Black Knife Assassin] Assassin's Cerulean Dagger
+20211 [Black Knife Catacombs - Black Knife Assassin] Black Knifeprint
+20220 [Leyndell Catacombs - Esgar, Priest of Blood] Lord of Blood's Exultation
+20300 [Tombsward Cave - Miranda the Blighted Bloom] Viridian Amber Medallion
+20310 [Earthbore Cave - Runebear] Spelldrake Talisman
+20330 [Groveside Cave - Beastman of Farum Azula] Flamedrake Talisman
+20340 [Coastal Cave - Demi-Human Chief] Sewing Needle
+20341 [Coastal Cave - Demi-Human Chief] Tailoring Tools
+20350 [Highroad Cave - Guardian Golem] Blue Dancer Charm
+20360 [Stillwater Cave - Cleanrot Knight] Winged Sword Insignia
+20370 [Lakeside Crystal Cave - Bloodhound Knight] Cerulean Amber Medallion
+20380 [Academy Crystal Cave - Crystalians] Crystal Release
+20390 [Seethewater Cave - Kindred of Rot] Kindred of Rot's Exultation
+20400 [Volcano Cave - Demi-human Queen Margot] Jar Cannon
+20410 [Omenkiller - Perfumer's Grotto] Great Omenkiller Cleaver
+20420 [Sage's Cave - Black Knife Assassin] Concealing Veil
+20430 [Goal Cave - Frenzied Duelist] Putrid Corpse Ashes
+20440 [Dragonbarrow Cave - Beastman of Farum Azula] Flamedrake Talisman +2
+20450 [Abandoned Cave - Cleanrot Knight Duo] Gold Scarab
+20460 [Sellia Hideaway - Putrid Crystalians] Crystal Torrent
+20470 [Cave of the Forlorn - Misbegotten Crusader] Golden Order Greatsword
+20480 [Spiritcaller's Cave - Godskin Apostle/Noble] Godskin Swaddling Cloth
+20481 [Spiritcaller's Cave - Godskin Apostle/Noble] Black Flame Ritual
+20490 [Sage's Cave - Necromancer Garris] Family Heads
+20600 [Morne Tunnel - Scaly Misbegotten] Rusted Anchor
+20610 [Limgrave Tunnels - Stonedigger Troll] Roar Medallion
+20620 [Raya Lucaria Crystal Tunnel - Crystalian] Smithing-Stone Miner's Bell Bearing [1]
+20630 [Old Altus Tunnel - Stonedigger Troll] Great Club
+20640 [Sealed Tunnel - Onyx Lord] Onyx Lord's Greatsword
+20650 [Altus Tunnel - Crystalians] Somberstone Miner's Bell Bearing [2]
+20660 [Gael Tunnel - Magma Wyrm] Dragon Heart
+20661 [Gael Tunnel - Magma Wyrm] Moonveil
+20670 [Sellia Crystal Tunnel - Fallingstar Beast] Somber Smithing Stone [6]
+20671 [Sellia Crystal Tunnel - Fallingstar Beast] Smithing Stone [7]
+20672 [Sellia Crystal Tunnel - Fallingstar Beast] Gravity Stone Chunk
+20673 [Sellia Crystal Tunnel - Fallingstar Beast] Somberstone Miner's Bell Bearing [1]
+20680 [Yelough Anix Tunnel - Astel] Meteorite of Astel
+30100 [Limgrave - Field - Tree Sentinel] Golden Halberd
+30110 [Limgrave - Field - Flying Dragon Agheel] Dragon Heart
+30120 [Limgrave - Evergaol - Crucible Knight] Aspects of the Crucible: Tail
+30130 [Limgrave - Evergaol - Bloodhound Knight Darriwil] Bloodhound's Fang
+30170 [Limgrave - Field - Tibia Mariner] Deathroot
+30171 [Limgrave - Field - Tibia Mariner] Skeletal Militiaman Ashes
+30185 [Weeping Penisula - Field - Erdtree Avatar] Crimsonburst Crystal Tear
+30186 [Weeping Penisula - Field - Erdtree Avatar] Opaline Bubbletear
+30200 [Liurnia - Field - Erdtree Avatar] Magic-Shrouding Cracked Tear
+30201 [Liurnia - Field - Erdtree Avatar] Lightning-Shrouding Cracked Tear
+30202 [Liurnia - Field - Erdtree Avatar] Holy-Shrouding Cracked Tear
+30205 [Liurnia - Field - Erdtree Avatar] Cerulean Crystal Tear
+30206 [Liurnia - Field - Erdtree Avatar] Ruptured Crystal Tear
+30210 [Liurnia - Field - Glintstone Dragon Smarag] Dragon Heart
+30225 [Liurnia - Field - Omenkiller] Crucible Knot Talisman
+30240 [Liurnia - Field - Tibia Mariner] Deathroot
+30241 [Liurnia - Field - Tibia Mariner] Skeletal Bandit Ashes
+30245 [Liurnia - Evergaol - Adan, Thief of Fire] Flame of the Fell God
+30250 [Liurnia - Evergaol - Bols, Carian Knight] Greatblade Phalanx
+30255 [Liurnia - Evergaol - Onyx Lord] Meteorite
+30260 [Liurnia - Field - Glintstone Dragon Adula] Dragon Heart
+30261 [Liurnia - Field - Glintstone Dragon Adula] Adula's Moonblade
+30265 [Liurnia - Evergaol - Alecto, Black Knife Ringleader] Black Knife Tiche
+30300 [Altus Plateau - Field - Ancient Dragon Lansseax] Lansseax's Glaive
+30310 [Altus Plateau - Field - Fallingstar Beast] Somber Smithing Stone [5]
+30311 [Altus Plateau - Field - Fallingstar Beast] Smithing Stone [6]
+30312 [Altus Plateau - Field - Fallingstar Beast] Gravity Stone Fan
+30313 [Altus Plateau - Field - Fallingstar Beast] Gravity Stone Chunk
+30315 [Capital Outskirts - Field - Draconic Tree Sentinel] Dragon Greatclaw
+30316 [Capital Outskirts - Field - Draconic Tree Sentinel] Dragonclaw Shield
+30320 [Altus Plateau - Field - Wormface] Speckled Hardtear
+30321 [Altus Plateau - Field - Wormface] Crimsonspill Crystal Tear
+30325 [Altus Plateau - Field - Godskin Apostle] Godskin Peeler
+30326 [Altus Plateau - Field - Godskin Apostle] Scouring Black Flame
+30335 [Capital Outskirts - Field - Tree Sentinel Duo] Erdtree Greatshield
+30336 [Capital Outskirts - Field - Tree Sentinel Duo] Hero's Rune [1]
+30350 [Altus Plateau - Field - Black Knife Assassin] Black Knife
+30375 [Mt. Gelmir - Field - Full-grown Fallingstar Beast] Somber Smithing Stone [6]
+30376 [Mt. Gelmir - Field - Full-grown Fallingstar Beast] Smithing Stone [6]
+30377 [Mt. Gelmir - Field - Full-grown Fallingstar Beast] Fallingstar Beast Jaw
+30380 [Mt. Gelmir - Field - Ulcerated Tree Spirit] Leaden Hardtear
+30381 [Mt. Gelmir - Field - Ulcerated Tree Spirit] Cerulean Hidden Tear
+30385 [Altus Plateau - Field - Tibia Mariner] Deathroot
+30386 [Altus Plateau - Field - Tibia Mariner] Tibia's Summons
+30390 [Mt. Gelmir - Field - Magma Wyrm] Dragon Heart
+30395 [Mt. Gelmir - Field - Demi-Human Queen Maggie] Memory Stone
+30400 [Mt. Gelmir - Field - Magma Wyrm] Dragon Heart
+30405 [Caelid - Field - Commander O'Neil] Commander's Standard
+30406 [Caelid - Field - Commander O'Neil] Unalloyed Gold Needle
+30410 [Caelid - Field - Erdtree Avatar] Greenburst Crystal Tear
+30411 [Caelid - Field - Erdtree Avatar] Flame-Shrouding Cracked Tear
+30415 [Caelid - Field - Putrid Avatar] Opaline Hardtear
+30416 [Caelid - Field - Putrid Avatar] Stonebarb Cracked Tear
+30420 [Caelid - Field - Flying Dragon Greyll] Dragon Heart
+30425 [Caelid - Field - Blade Blade Kindred] Gargoyle's Blackblade
+30426 [Caelid - Field - Blade Blade Kindred] Gargoyle's Black Halberd
+30505 [Forbidden Lands - Field - Black Blade Kindred] Gargoyle's Black Blades
+30506 [Forbidden Lands - Field - Black Blade Kindred] Gargoyle's Black Axe
+30510 [Mountaintops of the Giants - Field - Borealis, the Freezing Fog] Dragon Heart
+30515 [Mountaintops of the Giants - Evergaol - Roundtable Knight Vyke] Vyke's Dragonbolt
+30516 [Mountaintops of the Giants - Evergaol - Roundtable Knight Vyke] Fingerprint Helm
+30517 [Mountaintops of the Giants - Evergaol - Roundtable Knight Vyke] Fingerprint Armor
+30518 [Mountaintops of the Giants - Evergaol - Roundtable Knight Vyke] Fingerprint Gauntlets
+30519 [Mountaintops of the Giants - Evergaol - Roundtable Knight Vyke] Fingerprint Greaves
+30525 [Mountaintops of the Giants - Field - Erdtree Avatar] Cerulean Crystal Tear
+30526 [Mountaintops of the Giants - Field - Erdtree Avatar] Crimson Bubbletear
+30530 [Mountaintops of the Giants - Field - Death Rite Bird] Death Ritual Spear
+30550 [Mountaintops of the Giants - Field - Great Wyrm Theodorix] Dragon Heart
+30555 [Consecrated Snowfield - Field - Putrid Avatar] Thorny Cracked Tear
+30556 [Consecrated Snowfield - Field - Putrid Avatar] Ruptured Crystal Tear
+30600 [Lake of Rot - Dragonkin Soldier] Dragonscale Blade
+30620 [Siofra River - Dragonkin Soldier] Dragon Halberd
+40100 [Teardrop Scarab - Stormhill] Ash of War: Storm Wall
+40104 [Teardrop Scarab - Stormhill] Ash of War: Wild Strikes
+40108 [Teardrop Scarab - Agheel Lake] Ash of War: Determination
+40112 [Teardrop Scarab - Agheel Lake] Ash of War: Unsheathe
+40116 [Teardrop Scarab - Mistwood] Ash of War: Ground Slam
+40118 [Teardrop Scarab - Third Chuch of Marika] Ash of War: Sacred Blade
+40120 [Teardrop Scarab - Limgrave Coast] Ash of War: Stamp (Sweep)
+40132 [Teardrop Scarab - Weeping Peninsula] Divine Fortification
+40136 [Teardrop Scarab - Weeping Peninsula] Lightning Strike
+40138 [Teardrop Scarab - Weeping Peninsula] Poison Mist
+40140 [Teardrop Scarab - Weeping Peninsula] Ash of War: Mighty Shot
+40142 [Teardrop Scarab - Limgrave] Somber Smithing Stone [1]
+40144 [Teardrop Scarab - Limgrave] Somber Smithing Stone [1]
+40146 [Teardrop Scarab - Limgrave] Somber Smithing Stone [1]
+40170 [Teardrop Scarab - Stormveil Castle] Ash of War: Storm Assault
+40172 [Teardrop Scarab - Stormveil Castle] Ash of War: Stormcaller
+40174 [Teardrop Scarab - Stormveil Castle] Rancorcall
+40200 [Teardrop Scarab - Three Sisters] Ash of War: Chilling Mist
+40202 [Teardrop Scarab - Liurnia] Ash of War: Charge Forth
+40204 [Teardrop Scarab - Liurnia] Ash of War: Hoarfrost Stomp
+40206 [Teardrop Scarab - Liurnia] Ash of War: Thops's Barrier
+40208 [Teardrop Scarab - Liurnia] Ash of War: Vow of the Indomitable
+40210 [Teardrop Scarab - Liurnia] Ash of War: Shield Bash
+40218 [Teardrop Scarab - Liurnia] Bloodflame Blade
+40220 [Teardrop Scarab - Caria Manor] Carian Piercer
+40224 [Teardrop Scarab - Liurnia] Ash of War: Barbaric Roar
+40236 [Teardrop Scarab - Liurnia] Frenzied Burst
+40238 [Teardrop Scarab - Liurnia] Ash of War: Sword Dance
+40250 [Teardrop Scarab - Caria Manor] Frozen Armament
+40252 [Teardrop Scarab - Liurnia] Somber Smithing Stone [2]
+40254 [Teardrop Scarab - Liurnia] Somber Smithing Stone [2]
+40256 [Teardrop Scarab - Liurnia] Somber Smithing Stone [3]
+40258 [Teardrop Scarab - Liurnia] Somber Smithing Stone [3]
+40260 [Teardrop Scarab - Liurnia] Somber Smithing Stone [2]
+40262 [Teardrop Scarab - Liurnia] Somber Smithing Stone [2]
+40264 [Teardrop Scarab - Liurnia] Somber Smithing Stone [2]
+40272 [Teardrop Scarab - Raya Lucaria Academy] Ash of War: Spectral Lance
+40290 [Teardrop Scarab - Raya Lucaria Academy] Somber Smithing Stone [4]
+40300 [Teardrop Scarab - Altus Plateau] Ash of War: Sacred Order
+40302 [Teardrop Scarab - Altus Plateau] Ash of War: Shield Crash
+40304 [Teardrop Scarab - Altus Plateau] Ash of War: Earthshaker
+40306 [Teardrop Scarab - Altus Plateau] Ash of War: Blood Blade
+40308 [Teardrop Scarab - Altus Plateau] Ash of War: Golden Slam
+40310 [Teardrop Scarab - Altus Plateau] Ash of War: Lightning Ram
+40312 [Teardrop Scarab - Altus Plateau] Protection of the Erdtree
+40314 [Teardrop Scarab - Capital Outskirts] Ash of War: Prayerful Strike
+40316 [Teardrop Scarab - Capital Outskirts] Ash of War: Golden Parry
+40318 [Teardrop Scarab - Capital Outskirts] Ash of War: Lightning Slash
+40320 [Teardrop Scarab - Capital Outskirts] Somber Smithing Stone [5]
+40332 [Teardrop Scarab - Mt. Gelmir] Ash of War: Barrage
+40334 [Teardrop Scarab - Mt. Gelmir] Ash of War: Through and Through
+40370 [Teardrop Scarab - Leyndell] Barrier of Gold
+40372 [Teardrop Scarab - Leyndell] Ash of War: Thunderbolt
+40400 [Teardrop Scarab - Caelid] Whirl, O Flame!
+40402 [Teardrop Scarab - Caelid] Ash of War: Lifesteal Fist
+40404 [Teardrop Scarab - Caelid] Ash of War: Sacred Ring of Light
+40406 [Teardrop Scarab - Caelid] Ash of War: Poisonous Mist
+40408 [Teardrop Scarab - Redmane Castle] Ash of War: Flaming Strike
+40410 [Teardrop Scarab - Caelid] Ash of War: Flame of the Redmanes
+40412 [Teardrop Scarab - Dragonbarrow] Ash of War: Sky Shot
+40414 [Teardrop Scarab - Dragonbarrow] Ash of War: Cragblade
+40416 [Teardrop Scarab - Caelid] Poison Armament
+40418 [Teardrop Scarab - Caelid] Ash of War: Double Slash
+40420 [Teardrop Scarab - Caelid] Bestial Constitution
+40422 [Teardrop Scarab - Caelid] Somber Smithing Stone [4]
+40424 [Teardrop Scarab - Caelid] Somber Smithing Stone [4]
+40426 [Teardrop Scarab - Caelid] Somber Smithing Stone [8]
+40428 [Teardrop Scarab - Caelid] Somber Smithing Stone [9]
 40500 Smithing Stone [1]
 40502 Smithing Stone [1]
 40504 Smithing Stone [1]
 40506 Smithing Stone [1]
 40508 Smithing Stone [1]
-40510 Ash of War: Seppuku
-40512 Ash of War: Troll's Roar
-40514 [Incantation] Flame
-40516 Ash of War: Prelate's Charge
+40510 [Teardrop Scarab - Mountaintops of the Giants] Ash of War: Seppuku
+40512 [Teardrop Scarab - Mountaintops of the Giants] Ash of War: Troll's Roar
+40514 [Teardrop Scarab - Giant-Conquering Hero's Grave] Flame, Protect Me
+40516 [Teardrop Scarab - Forbidden Lands] Ash of War: Prelate's Charge
 40520 Smithing Stone [1]
 40522 Smithing Stone [1]
-40524 Ash of War: White Shadow's Lure
+40524 [Teardrop Scarab - Consecrated Snowfield] Ash of War: White Shadow's Lure
 40526 Smithing Stone [1]
 40528 Smithing Stone [1]
 40570 Golden Rune [1]
 40572 Golden Rune [1]
 40574 Golden Rune [1]
 40578 Golden Rune [1]
-40590 Somber Smithing Stone [5]
-40592 Somber Smithing Stone [5]
-40600 Somber Smithing Stone [6]
-40602 Somber Smithing Stone [6]
-40610 [Sorcery] Great Oracular Bubble
+40590 [Teardrop Scarab - Siofra River] Somber Smithing Stone [5]
+40592 [Teardrop Scarab - Siofra River] Somber Smithing Stone [5]
+40600 [Teardrop Scarab - Siofra River] Somber Smithing Stone [6]
+40602 [Teardrop Scarab - Siofra River] Somber Smithing Stone [6]
+40610 [Teardrop Scarab - Siofra River] Great Oracular Bubble
 40612 Golden Rune [1]
 40614 Golden Rune [1]
 40616 Golden Rune [1]
 40618 Golden Rune [1]
-40630 Ash of War: Square Off
+40630 [Teardrop Scarab - Siofra River] Ash of War: Square Off
 40632 Golden Rune [1]
 40634 Golden Rune [1]
 40636 Golden Rune [1]
 40638 Golden Rune [1]
 40640 Golden Rune [1]
-40642 Somber Smithing Stone [5]
+40642 [Teardrop Scarab - Nokron] Somber Smithing Stone [5]
 40644 Golden Rune [1]
-40646 Ash of War: Enchanted Shot
-40648 [Incantation] Order Healing
+40646 [Teardrop Scarab - Nokron] Ash of War: Enchanted Shot
+40648 [Teardrop Scarab - Nokron] Order Healing
 40650 Golden Rune [1]
-40652 [Sorcery] Oracle Bubbles
-40660 Ash of War: Golden Land
+40652 [Teardrop Scarab - Siofra River] Oracle Bubbles
+40660 [Teardrop Scarab - Deeproot Depths] Ash of War: Golden Land
 40662 Golden Rune [1]
 40664 Golden Rune [1]
 40666 Golden Rune [1]
@@ -352,478 +356,535 @@
 40680 Golden Rune [1]
 40682 Golden Rune [1]
 40684 Golden Rune [1]
-40686 Ash of War: Blood Tax
-40772 [Incantation] Golden Lightning Fortification
-50000 About Sites of Grace
-50010 About Sorceries and Incantations
-50020 About Bows
-50030 About Crouching
-50040 About Stance-Breaking
-50050 About Stakes of Marika
-50060 About Guard Counters
-50070 About the Map
-50080 About Guidance of Grace
-50090 About Horseback Riding
-50100 About Death
-50110 About Summoning Spirits
-50120 About Guarding
-50130 About Item Crafting
-50150 About Flask of Wondrous Physick
-50160 About Adding Skills
-50170 About Birdseye Telescopes
-50180 About Spiritspring Jumping
-50190 About Vanquishing Enemy Groups
-50200 About Teardrop Scarabs
-50210 About Summoning Other Players
-50220 About Cooperative Multiplayer
-50230 About Competitive Multiplayer
-50240 About Invasion Multiplayer
-50250 About Hunter Multiplayer
-50260 About Summoning Pools
-50270 About Monument Icon
-50280 About Requesting Help from Hunters
-50290 About Skills
-80000 "Homing Instinct" Painting
-80010 "Resurrection" Painting
-80020 "Champion's Song" Painting
-80030 "Sorcerer" Painting
-80040 "Prophecy" Painting
-80050 "Flightless Bird" Painting
-80060 "Redmane" Painting
-80300 Incantation Scarab
-80310 Juvenile Scholar Cap
-80311 Juvenile Scholar Robe
-80312 Larval Tear
-80320 Harp Bow
-80330 Greathood
-80340 Warhawk Ashes
-80350 [Incantation] Fire's Deadly Sin
-80360 Ash of War: Rain of Arrows
-100000 Spectral Steed Whistle
-100010 Rold Medallion
-100200 Neutralizing Boluses
-100300 Festering Bloody Finger
-100310 Lord of Blood's Favor
-100320 Pureblood Knight's Medal
-100330 Lord of Blood's Favor
-100340 Bloody Finger
-100360 Varre's Bouquet
-100361 Festering Bloody Finger
-100410 Perfume Bottle
-100420 Glowstone
-100500 Grace Mimic
-100510 Gostoc's Bell Bearing
-100520 Glass Shard
-100530 Silver-Pickled Fowl Foot
-100600 Sacrificial Twig
-100610 Shabriri Grape
-100612 Raw Meat Dumpling
-100700 Tonic of Forgetfulness
-100710 Consort's Mask
-100711 Consort's Robe
-100712 Consort's Trousers
-100720 Drawing-Room Key
-100730 Letter from Volcano Manor
-100740 Letter from Volcano Manor
-100750 Red Letter
-100760 [Sorcery] Magma Shot
-100770 Serpentbone Blade
-100780 Taker's Cameo
-100790 [Incantation] Aspects of the Crucible: Breath
-100800 Irina's Letter
-100810 Rya's Necklace
-100890 Frenzied Flame Seal
-100891 Frenzyflame Stone
-100900 Volcano Manor Invitation
-100910 Zorayas's Letter
-100911 Daedicar's Woe
-101000 Sellen's Primal Glintstone
-101010 Glintstone Kris
-101020 Sellian Sealbreaker
-101030 Starlight Shards
-101040 [Sorcery] Comet Azur
-101050 [Sorcery] Stars of Ruin
-101060 Sellen's Bell Bearing
-101061 Witch's Glintstone Crown
-101070 Witch's Glintstone Crown
-101100 Talisman Pouch
-101200 Glowstone
-101201 Glowstone
-101210 Glowstone
-101300 Haligtree Secret Medallion (Right)
-101400 Seluvis's Potion
-101410 Magic Scorpion Charm
-101430 Seluvis's Introduction
-101440 Glowstone
-101450 Amber Draught
-101480 Seluvis's Bell Bearing
-101481 Preceptor's Big Hat
-101482 Preceptor's Long Gown
-101483 Preceptor's Gloves
-101484 Preceptor's Trousers
-101490 Pidia's Bell Bearing
-101491 Dolores the Sleeping Arrow Puppet
-101495 Pidia's Bell Bearing
-101496 Nepheli Loux Puppet
-101500 Somber Smithing Stone [2]
-101580 Royal Greatsword
-101581 Blaidd's Armor
-101582 Blaidd's Gauntlets
-101583 Blaidd's Greaves
-101590 Discarded Palace Key
-101600 White Cipher Ring
-101610 Smithing Stone [5]
-101620 Purifying Crystal Tear
-101621 Eleonora's Poleblade
-101640 Iron Kasa
-101641 Ronin's Armor
-101642 Ronin's Gauntlets
-101643 Ronin's Greaves
-101700 Exalted Flesh
-101710 Exalted Flesh
-101720 Jar
-101730 Warrior Jar Shard
-101740 Shard of Alexander
-101741 Alexander's Innards
-101800 Letter to Patches
-101810 Dancer's Castanets
-101820 Magma Whip Candlestick
-101830 Golden Rune [1]
-101841 Leather Armor
-101842 Leather Gloves
-101843 Leather Boots
-101900 Spirit Jellyfish Ashes
-101910 Golden Seed
-102100 Whetstone Knife
-102200 Erdsteel Dagger
-102300 Ash of War: Beast's Roar
-102301 [Incantation] Bestial Vitality
-102302 [Incantation] Bestial Sling
-102303 Clawmark Seal
-102304 Beast Eye
-102310 Ancient Dragon Smithing Stone
-102311 [Incantation] Gurranq's Beast Claw
-102312 Beastclaw Greathammer
-102313 [Incantation] Stone of Gurranq
-102314 [Incantation] Beast Claw
-102400 Iji's Bell Bearing
-102401 Iji's Mirrorhelm
-102600 Glowstone
-102700 Tailoring Tools
-102710 Mushroom
-102800 Haligtree Secret Medallion (Left)
-102820 [Incantation] Black Flame's Protection
-102830 [Incantation] Lord's Divine Fortification
-102840 Fevor's Cookbook [3]
-102850 [Incantation] Law of Causality
-102860 Scepter of the All-Knowing
-102861 All-Knowing Helm
-102862 All-Knowing Armor
-102863 All-Knowing Gauntlets
-102864 All-Knowing Greaves
-102900 Letter to Bernahl
-102910 [Sorcery] Gelmir's Fury
-102920 Blasphemous Claw
-102921 Devourer's Scepter
-102922 Beast Champion Helm
-102923 Beast Champion Armor (Altered)
-102924 Beast Champion Gauntlets
-102925 Beast Champion Greaves
-102930 Beast Champion Helm
-102931 Beast Champion Armor (Altered)
-102932 Beast Champion Gauntlets
-102933 Beast Champion Greaves
-103000 Rya's Necklace
-103011 Blackguard's Iron Mask
-103020 Seedbed Curse
-103021 Blackguard's Bell Bearing
-103023 Blackguard's Iron Mask
-103100 Unalloyed Gold Needle
-103110 Sellia's Secret
-103120 Flock's Canvas Talisman
-103121 Gowry's Bell Bearing
-103200 Prosthesis-Wearer Heirloom
-103210 Unalloyed Gold Needle
-103220 Millicent's Prosthesis
-103240 Miquella's Needle
-103241 Somber Ancient Dragon Smithing Stone
-103300 Baldachin's Blessing
-103310 Weathered Dagger
-103320 Sacrificial Twig
-103330 Radiant Baldachin's Blessing
-103340 Knifeprint Clue
-103350 Mending Rune of the Death-Prince
-103400 D's Bell Bearing
-103401 Twinned Helm
-103402 Twinned Armor
-103403 Twinned Gauntlets
-103404 Twinned Greaves
-103410 Inseparable Sword
-103411 Twinned Helm
-103412 Twinned Armor
-103413 Twinned Gauntlets
-103414 Twinned Greaves
-103510 Black Knifeprint
-103581 Black Knifeprint
-103582 Rogier's Letter
-103590 Rogier's Bell Bearing
-103591 Spellblade's Pointed Hat
-103592 Spellblade's Traveling Attire
-103593 Spellblade's Gloves
-103594 Spellblade's Trousers
-103600 Thops's Bell Bearing
-103601 Academy Glintstone Staff
-103602 [Sorcery] Thops's Barrier
-103700 Corhyn's Bell Bearing
-103710 Flail
-103720 Corhyn's Robe
-103800 Sewer-Gaol Key
-103820 Omen Helm
-103821 Omen Armor
-103822 Omen Gauntlets
-103823 Omen Greaves
-103900 Spirit Calling Bell
-103901 Lone Wolf Ashes
-103910 Carian Inverted Statue
-103920 Cursemark of Death
-103930 Dark Moon Greatsword
-103940 Miniature Ranni
-103950 Fingerslayer Blade
-104000 Ancient Dragon Smithing Stone
-104010 Eccentric's Hood
-104011 Eccentric's Armor
-104012 Eccentric's Manchettes
-104013 Eccentric's Breeches
-104100 Latenna the Albinauric
-104110 Somber Ancient Dragon Smithing Stone
-104120 Blue Silver Mail Hood
-104121 Blue Silver Mail Armor
-104122 Blue Silver Bracelets
-104123 Blue Silver Mail Skirt
-104200 Arsenal Charm
-104300 [Sorcery] Stars of Ruin
-104400 [Sorcery] Comet Azur
-104500 Hoslow's Petal Whip
-104501 Diallos's Mask
-104502 Companion Jar
-104700 Great-Jar's Arsenal
-104800 Rotten Winged Sword Insignia
-104900 Royal Remains Helm
-104901 Royal Remains Armor
-104902 Royal Remains Gauntlets
-104903 Royal Remains Greaves
-105000 Goldmask's Rags
-105001 Gold Bracelets
-105002 Gold Waistwrap
-110300 Varre's Bouquet
-110301 Festering Bloody Finger
-110401 Perfume Bottle
-110410 Kal�'s Bell Bearing
-110500 Gostoc's Bell Bearing
-110501 Glass Shard
-110502 Silver-Pickled Fowl Foot
-110620 Shabriri Grape
-110800 Irina's Letter
-110810 Frenzyflame Stone
-110811 Irina's Letter
-110910 Daedicar's Woe
-111000 Sellen's Bell Bearing
-111001 Witch's Glintstone Crown
-111080 Glowstone
-111090 Glowstone
-111300 Haligtree Secret Medallion (Right)
-111500 Royal Greatsword
-111501 Blaidd's Armor
-111502 Blaidd's Gauntlets
-111503 Blaidd's Greaves
-111610 Iron Kasa
-111611 Ronin's Armor
-111612 Ronin's Gauntlets
-111613 Ronin's Greaves
-111700 Warrior Jar Shard
-111710 Shard of Alexander
-111800 Patches' Bell Bearing
-111802 Leather Armor
-111803 Leather Gloves
-111804 Leather Boots
-111900 Glowstone
-112000 Miriel's Bell Bearing
-112001 Turtle Neck Meat
-112200 Golden Seed
-112300 Beast Eye
-112301 Ancient Dragon Smithing Stone
-112900 Bernahl's Bell Bearing
-112901 Devourer's Scepter
-112902 Beast Champion Helm
-112903 Beast Champion Armor (Altered)
-112904 Beast Champion Gauntlets
-112905 Beast Champion Greaves
-113000 Rya's Necklace
-113001 Blackguard's Bell Bearing
-113003 Blackguard's Iron Mask
-113010 Seedbed Curse
-113011 Blackguard's Bell Bearing
-113013 Blackguard's Iron Mask
-113120 Flock's Canvas Talisman
-113121 Gowry's Bell Bearing
-113200 Millicent's Prosthesis
-113300 Fia's Hood
-113301 Fia's Robe
-113400 D's Bell Bearing
-113401 Twinned Helm
-113402 Twinned Armor
-113403 Twinned Gauntlets
-113404 Twinned Greaves
-113410 Inseparable Sword
-113411 Twinned Helm
-113412 Twinned Armor
-113413 Twinned Gauntlets
-113414 Twinned Greaves
-113420 Inseparable Sword
-113421 Twinned Helm
-113422 Twinned Armor
-113423 Twinned Gauntlets
-113424 Twinned Greaves
-113600 Thops's Bell Bearing
-113601 Academy Glintstone Staff
-113700 Corhyn's Bell Bearing
-113701 Flail
-113702 Corhyn's Robe
-113800 Sword of Milos
-113820 Sword of Milos
-113821 Omen Helm
-113822 Omen Armor
-113823 Omen Gauntlets
-113824 Omen Greaves
-114000 Eccentric's Hood
-114001 Eccentric's Armor
-114002 Eccentric's Manchettes
-114003 Eccentric's Breeches
-114100 Blue Silver Mail Hood
-114101 Blue Silver Mail Armor
-114102 Blue Silver Bracelets
-114103 Blue Silver Mail Skirt
-114210 Stormhawk Axe
-114211 Stormhawk Axe
-114310 Lusat's Glintstone Crown
-114311 Lusat's Robe
-114312 Lusat's Manchettes
-114313 Old Sorcerer's Legwraps
-114410 Azur's Glintstone Crown
-114411 Azur's Glintstone Robe
-114412 Azur's Manchettes
-114500 Hoslow's Petal Whip
-114501 Diallos's Mask
-114600 Living Jar Shard
-119000 Nomadic Merchant's Bell Bearing [1]
-119005 Nomadic Merchant's Bell Bearing [2]
-119010 Nomadic Merchant's Bell Bearing [3]
-119015 Nomadic Merchant's Bell Bearing [4]
-119020 Nomadic Merchant's Bell Bearing [5]
-119025 Isolated Merchant's Bell Bearing [1]
-119030 Isolated Merchant's Bell Bearing [2]
-119035 Nomadic Merchant's Bell Bearing [6]
-119040 Hermit Merchant's Bell Bearing [1]
-119045 Nomadic Merchant's Bell Bearing [7]
-119050 Nomadic Merchant's Bell Bearing [8]
-119055 Nomadic Merchant's Bell Bearing [9]
-119060 Nomadic Merchant's Bell Bearing [10]
-119065 Nomadic Merchant's Bell Bearing [11]
-119070 Isolated Merchant's Bell Bearing [3]
-119075 Hermit Merchant's Bell Bearing [2]
-119080 Abandoned Merchant's Bell Bearing
-119085 Hermit Merchant's Bell Bearing [3]
-119090 Imprisoned Merchant's Bell Bearing
-996500 Poisonbloom
-996510 Trina's Lily
-996530 Miquella's Lily
-996540 Grave Violet
-996560 Trina's Lily
-996570 Miquella's Lily
-996600 Faded Erdleaf Flower
-996800 Erdleaf Flower
-996810 Altus Bloom
-996820 Fire Blossom
-996830 Golden Sunflower
-996840 Fulgurbloom, Fulgurbloom, Fulgurbloom
-996850 Tarnished Golden Sunflower
-996870 Fulgurbloom, Fulgurbloom, Fulgurbloom
-996900 Herba, Herba, Herba
-996910 Arteria Leaf
-996960 Arteria Leaf
-997100 Dewkissed Herba, Dewkissed Herba, Dewkissed Herba
-997200 Rowa Fruit, Rowa Fruit, Rowa Fruit, Rowa Fruit
-997210 Golden Rowa, Golden Rowa, Golden Rowa, Golden Rowa
-997220 Rimed Rowa, Rimed Rowa, Rimed Rowa, Rimed Rowa
-997230 Bloodrose, Bloodrose
-997300 Rowa Fruit, Rowa Fruit, Rowa Fruit, Rowa Fruit
-997400 Eye of Yelough
-997500 Crystal Bud, Crystal Bud, Crystal Bud
-997510 Rimed Crystal Bud, Rimed Crystal Bud, Rimed Crystal Bud
-997530 Sacramental Bud
-997600 Mushroom, Mushroom, Mushroom
-997610 Melted Mushroom, Melted Mushroom, Melted Mushroom
-997700 Toxic Mushroom, Toxic Mushroom, Toxic Mushroom
-997750 Root Resin, Root Resin, Root Resin
-997800 Cracked Crystal, Cracked Crystal, Cracked Crystal
-997950 Sanctuary Stone
-997960 Ruin Fragment
-998000 Nascent Butterfly
-998010 Aeonian Butterfly
-998020 Smoldering Butterfly, Smoldering Butterfly, Smoldering Butterfly
-998100 Silver Firefly
-998110 Gold Firefly
-998120 Glintstone Firefly
-998200 Golden Centipede
-998250 Silver Tear Husk
-998300 Gold-Tinged Excrement, Gold-Tinged Excrement, Gold-Tinged Excrement
-998310 Blood-Tainted Excrement, Blood-Tainted Excrement, Blood-Tainted Excrement
-998400 Cave Moss, Cave Moss, Cave Moss
-998410 Budding Cave Moss, Budding Cave Moss, Budding Cave Moss
-998420 Crystal Cave Moss, Crystal Cave Moss, Crystal Cave Moss
-998450 Yellow Ember
-998500 Volcanic Stone, Volcanic Stone, Volcanic Stone
-998520 Formic Rock
-998550 Gravel Stone
-998600 Smithing Stone [1]
-998610 Smithing Stone [2]
-998620 Smithing Stone [3]
-998630 Smithing Stone [4]
-998640 Smithing Stone [5]
-998650 Smithing Stone [6]
-998660 Smithing Stone [7]
-998670 Smithing Stone [8]
-998680 Ancient Dragon Smithing Stone
-998700 Somber Smithing Stone [1]
-998710 Somber Smithing Stone [2]
-998720 Somber Smithing Stone [3]
-998730 Somber Smithing Stone [4]
-998740 Somber Smithing Stone [5]
-998750 Somber Smithing Stone [6]
-998760 Somber Smithing Stone [7]
-998770 Somber Smithing Stone [8]
-998780 Somber Ancient Dragon Smithing Stone
-998790 Somber Smithing Stone [9]
-999200 Grave Glovewort [1]
-999210 Grave Glovewort [2]
-999220 Grave Glovewort [3]
-999230 Grave Glovewort [4]
-999240 Grave Glovewort [5]
-999250 Grave Glovewort [6]
-999260 Grave Glovewort [7]
-999270 Grave Glovewort [8]
-999280 Grave Glovewort [9]
-999290 Great Grave Glovewort
-999300 Ghost Glovewort [1]
-999310 Ghost Glovewort [2]
-999320 Ghost Glovewort [3]
-999330 Ghost Glovewort [4]
-999340 Ghost Glovewort [5]
-999350 Ghost Glovewort [6]
-999360 Ghost Glovewort [7]
-999370 Ghost Glovewort [8]
-999380 Ghost Glovewort [9]
-999390 Great Ghost Glovewort
+40686 [Teardrop Scarab - Mohgwyn Dynasty] Ash of War: Blood Tax
+40772 [Teardrop Scarab - Crumbling Farum Azula] Golden Lightning Fortification
+50000 [Info Item] About Sites of Grace
+50010 [Info Item] About Sorceries and Incantations
+50020 [Info Item] About Bows
+50030 [Info Item] About Crouching
+50040 [Info Item] About Stance-Breaking
+50050 [Info Item] About Stakes of Marika
+50060 [Info Item] About Guard Counters
+50070 [Info Item] About the Map
+50080 [Info Item] About Guidance of Grace
+50090 [Info Item] About Horseback Riding
+50100 [Info Item] About Death
+50110 [Info Item] About Summoning Spirits
+50120 [Info Item] About Guarding
+50130 [Info Item] About Item Crafting
+50150 [Info Item] About Flask of Wondrous Physick
+50160 [Info Item] About Adding Skills
+50170 [Info Item] About Birdseye Telescopes
+50180 [Info Item] About Spiritspring Jumping
+50190 [Info Item] About Vanquishing Enemy Groups
+50200 [Info Item] About Teardrop Scarabs
+50210 [Info Item] About Summoning Other Players
+50220 [Info Item] About Cooperative Multiplayer
+50230 [Info Item] About Competitive Multiplayer
+50240 [Info Item] About Invasion Multiplayer
+50250 [Info Item] About Hunter Multiplayer
+50260 [Info Item] About Summoning Pools
+50270 [Info Item] About Monument Icon
+50280 [Info Item] About Requesting Help from Hunters
+50290 [Info Item] About Skills
+80000 [Limgrave - Artist's Shack] "Homing Instinct" Painting
+80010 [Liurnia - Artist's Shack] "Resurrection" Painting
+80020 [Altus Plateau - Shaded Castle] "Champion's Song" Painting
+80030 [Consecrated Snowfield - Castle Sol] "Sorcerer" Painting
+80040 [Stormveil Castle] "Prophecy" Painting
+80050 [Leyndell - Fortifed Manor] "Flightless Bird" Painting
+80060 [Caelid - Sellia] "Redmane" Painting
+80300 [Reward - "Homing Instinct" Painting] Incantation Scarab
+80310 [Reward - "Resurrection" Painting] Juvenile Scholar Cap
+80311 [Reward - "Resurrection" Painting] Juvenile Scholar Robe
+80312 [Reward - "Resurrection" Painting] Larval Tear
+80320 [Reward - "Champion's Song" Painting] Harp Bow
+80330 [Reward - "Sorcerer" Painting] Greathood
+80340 [Reward - "Prophecy" Painting] Warhawk Ashes
+80350 [Reward - "Flightless Bird" Painting] Fire's Deadly Sin
+80360 [Reward - "Redmane" Painting] Ash of War: Rain of Arrows
+100000 [Melina - Third Grace Found] Spectral Steed Whistle
+100010 [Melina - Morgott Killed] Rold Medallion
+100100 [Unknown]
+100200 [Unknown] Neutralizing Boluses
+100210 [Unknown]
+100300 [White-Faced Varre - ?] Festering Bloody Finger
+100310 [White-Faced Varre - Maiden Kill] Lord of Blood's Favor
+100320 [White-Faced Varre - 3 Invasions] Pureblood Knight's Medal
+100330 [White-Faced Varre - Maiden Kill] Lord of Blood's Favor
+100340 [White-Faced Varre - Returned Oath-Cloth] Bloody Finger
+100350 [White-Faced Varre]
+100360 [White-Faced Varre - Invasion] Varre's Bouquet
+100361 [White-Faced Varre - Invasion] Festering Bloody Finger
+100400 [Unknown]
+100410 [Unknown] Perfume Bottle
+100420 [Unknown] Glowstone
+100500 [Gatekeeper Gostoc - First Meeting] Grace Mimic
+100510 [Gatekeeper Gostoc - Gostoc Killed] Gostoc's Bell Bearing
+100520 [Gatekeeper Gostoc] Glass Shard
+100530 [Gatekeeper Gostoc] Silver-Pickled Fowl Foot
+100600 [Edgar] Sacrificial Twig
+100610 [Edgar] Shabriri Grape
+100611 [Edgar] Banished Knight's Halberd +8 - Spinning Strikes
+100612 [Edgar] Raw Meat Dumpling
+100700 [Tanith] Tonic of Forgetfulness
+100710 [Tanith] Consort's Mask
+100711 [Tanith] Consort's Robe
+100712 [Tanith] Consort's Trousers
+100720 [Tanith] Drawing-Room Key
+100730 [Tanith] Letter from Volcano Manor
+100740 [Tanith] Letter from Volcano Manor
+100750 [Tanith] Red Letter
+100760 [Tanith] Magma Shot
+100770 [Tanith] Serpentbone Blade
+100780 [Tanith] Taker's Cameo
+100790 [Tanith] Aspects of the Crucible: Breath
+100800 [Irina] Irina's Letter
+100810 [Rya] Rya's Necklace
+100890 [Hyetta] Frenzied Flame Seal
+100891 [Hyetta] Frenzyflame Stone
+100900 [Rya] Volcano Manor Invitation
+100910 [Rya] Zorayas's Letter
+100911 [Rya] Daedicar's Woe
+101000 [Sorceress Sellen] Sellen's Primal Glintstone
+101010 [Sorceress Sellen] Glintstone Kris
+101020 [Sorceress Sellen] Sellian Sealbreaker
+101030 [Sorceress Sellen] Starlight Shards
+101040 [Sorceress Sellen] Comet Azur
+101050 [Sorceress Sellen] Stars of Ruin
+101060 [Sorceress Sellen] Sellen's Bell Bearing
+101061 [Sorceress Sellen] Witch's Glintstone Crown
+101070 [Sorceress Sellen] Witch's Glintstone Crown
+101100 [Finger Reader Enia - Godfrey] Talisman Pouch
+101200 [Unknown] Glowstone
+101201 [Unknown] Glowstone
+101210 [Unknown] Glowstone
+101300 [Albus] Haligtree Secret Medallion (Right)
+101400 [Seluvis] Seluvis's Potion
+101410 [Seluvis] Magic Scorpion Charm
+101420 [Seluvis]
+101430 [Seluvis] Seluvis's Introduction
+101440 [Seluvis] Glowstone
+101450 [Seluvis] Amber Draught
+101460 [Seluvis]
+101480 [Seluvis] Seluvis's Bell Bearing
+101481 [Seluvis] Preceptor's Big Hat
+101482 [Seluvis] Preceptor's Long Gown
+101483 [Seluvis] Preceptor's Gloves
+101484 [Seluvis] Preceptor's Trousers
+101490 [Pidia, Carian Servant] Pidia's Bell Bearing
+101491 [Pidia, Carian Servant] Dolores the Sleeping Arrow Puppet
+101495 [Pidia, Carian Servant] Pidia's Bell Bearing
+101496 [Pidia, Carian Servant] Nepheli Loux Puppet
+101500 [Blaidd is the Half-Wolf] Somber Smithing Stone [2]
+101580 [Blaidd is the Half-Wolf] Royal Greatsword
+101581 [Blaidd is the Half-Wolf] Blaidd's Armor
+101582 [Blaidd is the Half-Wolf] Blaidd's Gauntlets
+101583 [Blaidd is the Half-Wolf] Blaidd's Greaves
+101590 [Blaidd is the Half-Wolf] Discarded Palace Key
+101600 [Unknown] White Cipher Ring
+101610 [Unknown] Smithing Stone [5]
+101620 [Eleonora, Violet Bloody Finger] Purifying Crystal Tear
+101621 [Eleonora, Violet Bloody Finger] Eleonora's Poleblade
+101630 [Bloody Finger Hunter Yura] Nagakiba +0 - Piercing Fang
+101640 [Bloody Finger Hunter Yura] Iron Kasa
+101641 [Bloody Finger Hunter Yura] Ronin's Armor
+101642 [Bloody Finger Hunter Yura] Ronin's Gauntlets
+101643 [Bloody Finger Hunter Yura] Ronin's Greaves
+101700 [Iron Fist Alexander] Exalted Flesh
+101710 [Iron Fist Alexander] Exalted Flesh
+101720 [Iron Fist Alexander] Jar
+101730 [Iron Fist Alexander] Warrior Jar Shard
+101740 [Iron Fist Alexander] Shard of Alexander
+101741 [Iron Fist Alexander] Alexander's Innards
+101790 [Unknown]
+101800 [Patches] Letter to Patches
+101810 [Patches] Dancer's Castanets
+101820 [Patches] Magma Whip Candlestick
+101830 [Patches] Golden Rune [1]
+101840 [Patches] Spear+7
+101841 [Patches] Leather Armor
+101842 [Patches] Leather Gloves
+101843 [Patches] Leather Boots
+101900 [Roderika] Spirit Jellyfish Ashes
+101910 [Roderika] Golden Seed
+102100 [Chest - Gatefront Ruins] Whetstone Knife
+102200 [Kenneth Haight] Erdsteel Dagger
+102300 [Gurranq - 4th Deathroot] Ash of War: Beast's Roar
+102301 [Gurranq - 3rd Deathroot] Bestial Vitality
+102302 [Gurranq - 2nd Deathroot] Bestial Sling
+102303 [Gurranq - 1st Deathroot] Clawmark Seal
+102304 [Gurranq - 1st Deathroot] Beast Eye
+102310 [Gurranq - 9th Deathroot] Dragon Smithing Stone
+102311 [Gurranq - 8th Deathroot] Gurranq's Beast Claw
+102312 [Gurranq - 7th Deathroot] Beastclaw Greathammer
+102313 [Gurranq - 6th Deathroot] Stone of Gurranq
+102314 [Gurranq - 5th Deathroot] Beast Claw
+102400 [War Counselor Iji] Iji's Bell Bearing
+102401 [War Counselor Iji] Iji's Mirrorhelm
+102600 [Unknown] Glowstone
+102700 [Unknown] Tailoring Tools
+102710 [Unknown] Mushroom
+102800 [Castle Sol] Haligtree Secret Medallion (Left)
+102810 [Unknown]
+102820 [Gideon Ofnir - Secret Medallion] Black Flame's Protection
+102830 [Gideon Ofnir - Haligtree] Lord's Divine Fortification
+102840 [Gideon Ofnir - Mohgwyn Dynasty Mausoleum] Fevor's Cookbook [3]
+102850 [Gideon Ofnir - Mohg Killed] Law of Causality
+102860 [Gideon Ofnir - Boss Drop] Scepter of the All-Knowing
+102861 [Gideon Ofnir - Boss Drop] All-Knowing Helm
+102862 [Gideon Ofnir - Boss Drop] All-Knowing Armor
+102863 [Gideon Ofnir - Boss Drop] All-Knowing Gauntlets
+102864 [Gideon Ofnir - Boss Drop] All-Knowing Greaves
+102900 [Knight Bernahl] Letter to Bernahl
+102910 [Knight Bernahl] Gelmir's Fury
+102920 [Knight Bernahl] Blasphemous Claw
+102921 [Knight Bernahl] Devourer's Scepter
+102922 [Knight Bernahl] Beast Champion Helm
+102923 [Knight Bernahl] Beast Champion Armor (Altered)
+102924 [Knight Bernahl] Beast Champion Gauntlets
+102925 [Knight Bernahl] Beast Champion Greaves
+102926 [Knight Bernahl] Gelmir's Fury
+102930 [Knight Bernahl] Beast Champion Helm
+102931 [Knight Bernahl] Beast Champion Armor (Altered)
+102932 [Knight Bernahl] Beast Champion Gauntlets
+102933 [Knight Bernahl] Beast Champion Greaves
+103000 [Big Boggart] Rya's Necklace
+103010 [Big Boggart] Iron Ball +0 - Braggart's Roar
+103011 [Big Boggart] Blackguard's Iron Mask
+103020 [Big Boggart] Seedbed Curse
+103021 [Big Boggart] Blackguard's Bell Bearing
+103022 [Big Boggart] Iron Ball +0 - Braggart's Roar
+103023 [Big Boggart] Blackguard's Iron Mask
+103100 [Gowry] Unalloyed Gold Needle
+103110 [Gowry] Sellia's Secret
+103120 [Gowry] Flock's Canvas Talisman
+103121 [Gowry] Gowry's Bell Bearing
+103200 [Millicent] Prosthesis-Wearer Heirloom
+103210 [Millicent] Unalloyed Gold Needle
+103220 [Millicent] Millicent's Prosthesis
+103240 [Millicent] Miquella's Needle
+103241 [Millicent] Somber Ancient Dragon Smithing Stone
+103300 [Fia] Baldachin's Blessing
+103310 [Fia] Weathered Dagger
+103320 [Fia] Sacrificial Twig
+103330 [Fia] Radiant Baldachin's Blessing
+103340 [Fia] Knifeprint Clue
+103350 [Fia] Mending Rune of the Death-Prince
+103400 [D, Hunter of the Dead] D's Bell Bearing
+103401 [D, Hunter of the Dead] Twinned Helm
+103402 [D, Hunter of the Dead] Twinned Armor
+103403 [D, Hunter of the Dead] Twinned Gauntlets
+103404 [D, Hunter of the Dead] Twinned Greaves
+103410 [Prince of Death's Throne] Inseparable Sword
+103411 [Prince of Death's Throne] Twinned Helm
+103412 [Prince of Death's Throne] Twinned Armor
+103413 [Prince of Death's Throne] Twinned Gauntlets
+103414 [Prince of Death's Throne] Twinned Greaves
+103500 [Sorcerer Rogier] Rogier's Rapier +8 - Glintblade Phalanx
+103510 [Sorcerer Rogier] Black Knifeprint
+103580 [Sorcerer Rogier] Rogier's Rapier +8 - Glintblade Phalanx
+103581 [Sorcerer Rogier] Black Knifeprint
+103582 [Sorcerer Rogier] Rogier's Letter
+103590 [Sorcerer Rogier] Rogier's Bell Bearing
+103591 [Sorcerer Rogier] Spellblade's Pointed Hat
+103592 [Sorcerer Rogier] Spellblade's Traveling Attire
+103593 [Sorcerer Rogier] Spellblade's Gloves
+103594 [Sorcerer Rogier] Spellblade's Trousers
+103600 [Thops] Thops's Bell Bearing
+103601 [Thops] Academy Glintstone Staff
+103602 [Thops] Thops's Barrier
+103700 [Brother Corhyn] Corhyn's Bell Bearing
+103710 [Brother Corhyn] Flail
+103720 [Brother Corhyn] Corhyn's Robe
+103800 [Dung Eater] Sewer-Gaol Key
+103820 [Dung Eater] Omen Helm
+103821 [Dung Eater] Omen Armor
+103822 [Dung Eater] Omen Gauntlets
+103823 [Dung Eater] Omen Greaves
+103900 [Ranni the Witch] Spirit Calling Bell
+103901 [Ranni the Witch] Lone Wolf Ashes
+103910 [Ranni the Witch] Carian Inverted Statue
+103920 [Ranni the Witch] Cursemark of Death
+103930 [Ranni the Witch] Dark Moon Greatsword
+103940 [Ranni the Witch] Miniature Ranni
+103950 [Ranni the Witch] Fingerslayer Blade
+104000 [Witch-Hunter Jerren] Ancient Dragon Smithing Stone
+104010 [Witch-Hunter Jerren] Eccentric's Hood
+104011 [Witch-Hunter Jerren] Eccentric's Armor
+104012 [Witch-Hunter Jerren] Eccentric's Manchettes
+104013 [Witch-Hunter Jerren] Eccentric's Breeches
+104100 [Latenna] Latenna the Albinauric
+104110 [Latenna] Somber Ancient Dragon Smithing Stone
+104120 [Latenna] Blue Silver Mail Hood
+104121 [Latenna] Blue Silver Mail Armor
+104122 [Latenna] Blue Silver Bracelets
+104123 [Latenna] Blue Silver Mail Skirt
+104200 [Nepheli Loux] Arsenal Charm
+104220 [Nepheli Loux] Ancient Dragon Smithing Stone
+104300 [Master Lusat] Stars of Ruin
+104400 [Master Azur] Comet Azur
+104500 [Juno Hoslow] Hoslow's Petal Whip
+104501 [Juno Hoslow] Diallos's Mask
+104502 [Juno Hoslow] Companion Jar
+104510 [Juno Hoslow] Hoslow's Petal Whip
+104511 [Juno Hoslow] Diallos's Mask
+104512 [Juno Hoslow] Numen's Rune
+104600 [Jar Bairn] Companion Jar
+104700 [The Great-Jar] Great-Jar's Arsenal
+104800 [Millicent - Killed Sisters] Rotten Winged Sword Insignia
+104900 [Ensha of the Royal Remains] Royal Remains Helm
+104901 [Ensha of the Royal Remains] Royal Remains Armor
+104902 [Ensha of the Royal Remains] Royal Remains Gauntlets
+104903 [Ensha of the Royal Remains] Royal Remains Greaves
+105000 [Goldmask] Goldmask's Rags
+105001 [Goldmask] Gold Bracelets
+105002 [Goldmask] Gold Waistwrap
+110300 [Corpse - White-Faced Varre - Invasion] Varre's Bouquet
+110301 [Corpse - White-Faced Varre - Invasion] Festering Bloody Finger
+110400 [Corpse - Unknown]
+110401 [Corpse - Unknown] Perfume Bottle
+110410 [Merchant Kale] Kale's Bell Bearing
+110500 [Corpse - Gatekeeper Gostoc] Gostoc's Bell Bearing
+110501 [Corpse - Gatekeeper Gostoc] Glass Shard
+110502 [Corpse - Gatekeeper Gostoc] Silver-Pickled Fowl Foot
+110600 [Corpse - Edgar] Banished Knight's Halberd +8 - Spinning Strikes
+110610 [Corpse - Edgar] Banished Knight's Halberd +8 - Spinning Strikes
+110620 [Corpse - Edgar] Shabriri Grape
+110621 [Corpse - Edgar] Banished Knight's Halberd +8 - Spinning Strikes
+110799 [Corpse - Unknown]
+110800 [Corpse - Hyetta] Irina's Letter
+110810 [Corpse - Hyetta] Frenzyflame Stone
+110811 [Corpse - Hyetta] Irina's Letter
+110910 [Corpse - Rya] Daedicar's Woe
+111000 [Corpse - Sorceress Sellen] Sellen's Bell Bearing
+111001 [Corpse - Sorceress Sellen] Witch's Glintstone Crown
+111080 [Corpse - Unknown] Glowstone
+111090 [Corpse - Unknown] Glowstone
+111099 [Corpse - Unknown]
+111199 [Corpse - Unknown]
+111299 [Corpse - Unknown]
+111300 [Corpse - Albus] Haligtree Secret Medallion (Right)
+111499 [Corpse - Unknown]
+111500 [Corpse - Blaidd is the Half-Wolf] Royal Greatsword
+111501 [Corpse - Blaidd is the Half-Wolf] Blaidd's Armor
+111502 [Corpse - Blaidd is the Half-Wolf] Blaidd's Gauntlets
+111503 [Corpse - Blaidd is the Half-Wolf] Blaidd's Greaves
+111600 [Corpse - Bloody Finger Hunter Yura] Nagakiba +0 - Piercing Fang
+111610 [Corpse - Bloody Finger Hunter Yura] Iron Kasa
+111611 [Corpse - Bloody Finger Hunter Yura] Ronin's Armor
+111612 [Corpse - Bloody Finger Hunter Yura] Ronin's Gauntlets
+111613 [Corpse - [Bloody Finger Hunter Yura] Ronin's Greaves
+111699 [Corpse - Unknown]
+111700 [Corpse - Iron Fist Alexander] Warrior Jar Shard
+111710 [Corpse - Iron Fist Alexander] Shard of Alexander
+111800 [Corpse - Patches] Patches' Bell Bearing
+111801 [Corpse - Patches] Spear +7
+111802 [Corpse - Patches] Leather Armor
+111803 [Corpse - Patches] Leather Gloves
+111804 [Corpse - Patches] Leather Boots
+111810 [Corpse - Patches] Patches' Bell Bearing
+111811 [Corpse - Patches] Spear +7
+111812 [Corpse - Patches] Leather Armor
+111813 [Corpse - Patches] Leather Gloves
+111814 [Corpse - Patches] Leather Boots
+111815 [Corpse - Patches] Dancer's Castanets
+111899 [Corpse - Unknown]
+111900 [Corpse - Unknown] Glowstone
+111999 [Corpse - Unknown]
+112000 [Corpse - Miriel, Pastor of Vows] Miriel's Bell Bearing
+112001 [Corpse - Miriel, Pastor of Vows] Turtle Neck Meat
+112199 [Corpse - Unknown]
+112200 [Corpse - Unknown] Golden Seed
+112299 [Corpse - Unknown]
+112300 [Corpse - Gurranq] Beast Eye
+112301 [Corpse - Gurranq] Ancient Dragon Smithing Stone
+112499 [Corpse - Unknown]
+112699 [Corpse - Unknown]
+112799 [Corpse - Unknown]
+112899 [Corpse - Unknown]
+112900 [Corpse - Knight Bernahl] Bernahl's Bell Bearing
+112901 [Corpse - Knight Bernahl] Devourer's Scepter
+112902 [Corpse - Knight Bernahl] Beast Champion Helm
+112903 [Corpse - Knight Bernahl] Beast Champion Armor (Altered)
+112904 [Corpse - Knight Bernahl] Beast Champion Gauntlets
+112905 [Corpse - Knight Bernahl] Beast Champion Greaves
+113000 [Corpse - Big Boggart] Rya's Necklace
+113001 [Corpse - Big Boggart] Blackguard's Bell Bearing
+113002 [Corpse - Big Boggart] Iron Ball +0 - Braggart's Roar
+113003 [Corpse - Big Boggart] Blackguard's Iron Mask
+113010 [Corpse - Big Boggart] Seedbed Curse
+113011 [Corpse - Big Boggart] Blackguard's Bell Bearing
+113012 [Corpse - Big Boggart] Iron Ball +0 - Braggart's Roar
+113013 [Corpse - Big Boggart] Blackguard's Iron Mask
+113120 [Corpse - Gowry] Flock's Canvas Talisman
+113121 [Corpse - Gowry] Gowry's Bell Bearing
+113200 [Corpse - Millicent] Millicent's Prosthesis
+113210 [Corpse - Millicent] Unalloyed Gold Needle
+113300 [Corpse - Fia] Fia's Hood
+113301 [Corpse - Fia] Fia's Robe
+113400 [Corpse - D, Hunter of the Dead] D's Bell Bearing
+113401 [Corpse - D, Hunter of the Dead] Twinned Helm
+113402 [Corpse - D, Hunter of the Dead] Twinned Armor
+113403 [Corpse - D, Hunter of the Dead] Twinned Gauntlets
+113404 [Corpse - D, Hunter of the Dead] Twinned Greaves
+113410 [Corpse - Prince of Death's Throne] Inseparable Sword
+113411 [Corpse - Prince of Death's Throne] Twinned Helm
+113412 [Corpse - Prince of Death's Throne] Twinned Armor
+113413 [Corpse - Prince of Death's Throne] Twinned Gauntlets
+113414 [Corpse - Prince of Death's Throne] Twinned Greaves
+113420 [Corpse - Prince of Death's Throne] Inseparable Sword
+113421 [Corpse - Prince of Death's Throne] Twinned Helm
+113422 [Corpse - Prince of Death's Throne] Twinned Armor
+113423 [Corpse - Prince of Death's Throne] Twinned Gauntlets
+113424 [Corpse - Prince of Death's Throne] Twinned Greaves
+113599 [Corpse - Unknown]
+113600 [Corpse - Thops] Thops's Bell Bearing
+113601 [Corpse - Thops] Academy Glintstone Staff
+113699 [Corpse - Unknown]
+113700 [Corpse - Brother Corhyn] Corhyn's Bell Bearing
+113701 [Corpse - Brother Corhyn] Flail
+113702 [Corpse - Brother Corhyn] Corhyn's Robe
+113799 [Corpse - Unknown]
+113800 [Corpse - Dung Eater] Sword of Milos
+113820 [Corpse - Dung Eater] Sword of Milos
+113821 [Corpse - Dung Eater] Omen Helm
+113822 [Corpse - Dung Eater] Omen Armor
+113823 [Corpse - Dung Eater] Omen Gauntlets
+113824 [Corpse - Dung Eater] Omen Greaves
+113899 [Corpse - Unknown]
+113999 [Corpse - Unknown]
+114000 [Corpse - Witch-Hunter Jerren] Eccentric's Hood
+114001 [Corpse - Witch-Hunter Jerren] Eccentric's Armor
+114002 [Corpse - Witch-Hunter Jerren] Eccentric's Manchettes
+114003 [Corpse - Witch-Hunter Jerren] Eccentric's Breeches
+114099 [Corpse - Unknown]
+114100 [Corpse - Unknown] Blue Silver Mail Hood
+114101 [Corpse - Unknown] Blue Silver Mail Armor
+114102 [Corpse - Unknown] Blue Silver Bracelets
+114103 [Corpse - Unknown] Blue Silver Mail Skirt
+114210 [Corpse - Nepheli Loux] Stormhawk Axe
+114211 [Corpse - Nepheli Loux] Stormhawk Axe
+114310 [Corpse - Master Lusat] Lusat's Glintstone Crown
+114311 [Corpse - Master Lusat] Lusat's Robe
+114312 [Corpse - Master Lusat] Lusat's Manchettes
+114313 [Corpse - Master Lusat] Old Sorcerer's Legwraps
+114410 [Corpse - Master Azur] Azur's Glintstone Crown
+114411 [Corpse - Master Azur] Azur's Glintstone Robe
+114412 [Corpse - Master Azur] Azur's Manchettes
+114500 [Corpse - Juno Hoslow] Hoslow's Petal Whip
+114501 [Corpse - Juno Hoslow] Diallos's Mask
+114600 [Corpse - Jar Bairn] Living Jar Shard
+114799 [Corpse - Unknown]
+119000 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [1]
+119005 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [2]
+119010 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [3]
+119015 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [4]
+119020 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [5]
+119025 [Corpse - Merchant] Isolated Merchant's Bell Bearing [1]
+119030 [Corpse - Merchant] Isolated Merchant's Bell Bearing [2]
+119035 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [6]
+119040 [Corpse - Merchant] Hermit Merchant's Bell Bearing [1]
+119045 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [7]
+119050 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [8]
+119055 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [9]
+119060 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [10]
+119065 [Corpse - Merchant] Nomadic Merchant's Bell Bearing [11]
+119070 [Corpse - Merchant] Isolated Merchant's Bell Bearing [3]
+119075 [Corpse - Merchant] Hermit Merchant's Bell Bearing [2]
+119080 [Corpse - Merchant] Abandoned Merchant's Bell Bearing
+119085 [Corpse - Merchant] Hermit Merchant's Bell Bearing [3]
+119090 [Corpse - Merchant] Imprisoned Merchant's Bell Bearing
+996500 [Material] Poisonbloom
+996510 [Material] Trina's Lily
+996530 [Material] Miquella's Lily
+996540 [Material] Grave Violet
+996560 [Material] Trina's Lily
+996570 [Material] Miquella's Lily
+996600 [Material] Faded Erdleaf Flower
+996800 [Material] Erdleaf Flower
+996810 [Material] Altus Bloom
+996820 [Material] Fire Blossom
+996830 [Material] Golden Sunflower
+996840 [Material] Fulgurbloom, Fulgurbloom, Fulgurbloom
+996850 [Material] Tarnished Golden Sunflower
+996870 [Material] Fulgurbloom, Fulgurbloom, Fulgurbloom
+996900 [Material] Herba, Herba, Herba
+996910 [Material] Arteria Leaf
+996960 [Material] Arteria Leaf
+997100 [Material] Dewkissed Herba, Dewkissed Herba, Dewkissed Herba
+997200 [Material] Rowa Fruit, Rowa Fruit, Rowa Fruit, Rowa Fruit
+997210 [Material] Golden Rowa, Golden Rowa, Golden Rowa, Golden Rowa
+997220 [Material] Rimed Rowa, Rimed Rowa, Rimed Rowa, Rimed Rowa
+997230 [Material] Bloodrose, Bloodrose
+997300 [Material] Rowa Fruit, Rowa Fruit, Rowa Fruit, Rowa Fruit
+997400 [Material] Eye of Yelough
+997500 [Material] Crystal Bud, Crystal Bud, Crystal Bud
+997510 [Material] Rimed Crystal Bud, Rimed Crystal Bud, Rimed Crystal Bud
+997530 [Material] Sacramental Bud
+997600 [Material] Mushroom, Mushroom, Mushroom
+997610 [Material] Melted Mushroom, Melted Mushroom, Melted Mushroom
+997700 [Material] Toxic Mushroom, Toxic Mushroom, Toxic Mushroom
+997750 [Material] Root Resin, Root Resin, Root Resin
+997800 [Material] Cracked Crystal, Cracked Crystal, Cracked Crystal
+997950 [Material] Sanctuary Stone
+997960 [Material] Ruin Fragment
+998000 [Material] Nascent Butterfly
+998010 [Material] Aeonian Butterfly
+998020 [Material] Smoldering Butterfly, Smoldering Butterfly, Smoldering Butterfly
+998100 [Material] Silver Firefly
+998110 [Material] Gold Firefly
+998120 [Material] Glintstone Firefly
+998200 [Material] Golden Centipede
+998250 [Material] Silver Tear Husk
+998300 [Material] Gold-Tinged Excrement, Gold-Tinged Excrement, Gold-Tinged Excrement
+998310 [Material] Blood-Tainted Excrement, Blood-Tainted Excrement, Blood-Tainted Excrement
+998400 [Material] Cave Moss, Cave Moss, Cave Moss
+998410 [Material] Budding Cave Moss, Budding Cave Moss, Budding Cave Moss
+998420 [Material] Crystal Cave Moss, Crystal Cave Moss, Crystal Cave Moss
+998450 [Material] Yellow Ember
+998500 [Material] Volcanic Stone, Volcanic Stone, Volcanic Stone
+998520 [Material] Formic Rock
+998550 [Material] Gravel Stone
+998600 [Material Node] Smithing Stone [1]
+998610 [Material Node] Smithing Stone [2]
+998620 [Material Node] Smithing Stone [3]
+998630 [Material Node] Smithing Stone [4]
+998640 [Material Node] Smithing Stone [5]
+998650 [Material Node] Smithing Stone [6]
+998660 [Material Node] Smithing Stone [7]
+998670 [Material Node] Smithing Stone [8]
+998680 [Material Node] Ancient Dragon Smithing Stone
+998700 [Material Node] Somber Smithing Stone [1]
+998710 [Material Node] Somber Smithing Stone [2]
+998720 [Material Node] Somber Smithing Stone [3]
+998730 [Material Node] Somber Smithing Stone [4]
+998740 [Material Node] Somber Smithing Stone [5]
+998750 [Material Node] Somber Smithing Stone [6]
+998760 [Material Node] Somber Smithing Stone [7]
+998770 [Material Node] Somber Smithing Stone [8]
+998780 [Material Node] Somber Ancient Dragon Smithing Stone
+998790 [Material Node] Somber Smithing Stone [9]
+999200 [Material] Grave Glovewort [1]
+999210 [Material] Grave Glovewort [2]
+999220 [Material] Grave Glovewort [3]
+999230 [Material] Grave Glovewort [4]
+999240 [Material] Grave Glovewort [5]
+999250 [Material] Grave Glovewort [6]
+999260 [Material] Grave Glovewort [7]
+999270 [Material] Grave Glovewort [8]
+999280 [Material] Grave Glovewort [9]
+999290 [Material] Great Grave Glovewort
+999300 [Material] Ghost Glovewort [1]
+999310 [Material] Ghost Glovewort [2]
+999320 [Material] Ghost Glovewort [3]
+999330 [Material] Ghost Glovewort [4]
+999340 [Material] Ghost Glovewort [5]
+999350 [Material] Ghost Glovewort [6]
+999360 [Material] Ghost Glovewort [7]
+999370 [Material] Ghost Glovewort [8]
+999380 [Material] Ghost Glovewort [9]
+999390 [Material] Great Ghost Glovewort
 9930000 Veteran's Helm
 9931000 Soft Cotton
 9990120 Cracked Pot
@@ -990,7 +1051,7 @@
 11000135 [LD - Leyndell] Gravel Stone
 11000140 [LD - Leyndell] Fan Daggers
 11000145 [LD - Leyndell] Somber Smithing Stone [6]
-11000150 [LD - Leyndell] Gold Firefly
+11000150 [LD - Leyndell] Marika's Golden Siigl
 11000155 [LD - Leyndell] Hero's Rune [5]
 11000160 [LD - Leyndell] Holy Grease
 11000165 [LD - Leyndell] Golden Rune [11]
@@ -1102,15 +1163,15 @@
 11001986 [LD - Leyndell] Raging Wolf Armor
 11001987 [LD - Leyndell] Raging Wolf Gauntlets
 11001988 [LD - Leyndell] Raging Wolf Greaves
-11050000 [Incantation] Erdtree Heal
-11050001 [Incantation] Blessing of the Erdtree
-11050010 Somber Ancient Dragon Smithing Stone
-11050020 Tarnished Golden Sunflower
-11050030 Rune Arc
-11050040 Golden Sunflower
-11050050 Hero's Rune [4]
-11050100 Erdtree's Favor +2
-11050850 Seedbed Curse
+11050000 [LD - Ashen Leyndell] Erdtree Heal
+11050001 [LD - Ashen Leyndell] Blessing of the Erdtree
+11050010 [LD - Ashen Leyndell] Somber Ancient Dragon Smithing Stone
+11050020 [LD - Ashen Leyndell] Tarnished Golden Sunflower
+11050030 [LD - Ashen Leyndell] Rune Arc
+11050040 [LD - Ashen Leyndell] Golden Sunflower
+11050050 [LD - Ashen Leyndell] Hero's Rune [4]
+11050100 [LD - Ashen Leyndell] Erdtree's Favor +2
+11050850 [LD - Ashen Leyndell] Seedbed Curse
 11100000 [LD - Roundtable Hold] Cipher Pata
 11100700 [LD - Roundtable Hold] Assassin's Prayerbook
 11100710 [LD - Roundtable Hold] Crepus's Black-Key Crossbow
@@ -1309,7 +1370,7 @@
 12020820 [LD - Nokron / Siofra] Rune Arc
 12020830 [LD - Nokron / Siofra] Smithing Stone [4]
 12020840 [LD - Nokron / Siofra] Golden Rune [1]
-12020850 [LD - Nokron / Siofra] Rejuvenating Boluses
+12020850 [LD - Nokron / Siofra] Voidbane Talisman
 12020860 [LD - Nokron / Siofra] Rune Arc
 12020870 [LD - Nokron / Siofra] Celestial Dew
 12020880 [LD - Nokron / Siofra] Mimic Tear Ashes
@@ -1585,7 +1646,7 @@
 13000400 [LD - Crumbling Farum Azula]
 13000410 [LD - Crumbling Farum Azula]
 13000420 [LD - Crumbling Farum Azula] Golden Rune [11]
-13000430 [LD - Crumbling Farum Azula] Old Fang
+13000430 [LD - Crumbling Farum Azula] Godskin Ward
 13000440 [LD - Crumbling Farum Azula] Hero's Rune [5]
 13000450 [LD - Crumbling Farum Azula] Smithing Stone [7]
 13000460 [LD - Crumbling Farum Azula] Lightning Grease
@@ -1714,7 +1775,7 @@
 14000890 [LD - Academy of Raya Lucaria] Graven-School Talisman
 14000900 [LD - Academy of Raya Lucaria] Ritual Pot
 14000910 [LD - Academy of Raya Lucaria] Glintstone Scarab
-14000920 [LD - Academy of Raya Lucaria] [Sorcery] Terra Magicus
+14000920 [LD - Academy of Raya Lucaria] Terra Magicus
 14000930 [LD - Academy of Raya Lucaria] Academy Glintstone Key
 14000940 [LD - Academy of Raya Lucaria] Radagon Icon
 14000950 [LD - Academy of Raya Lucaria] Glintstone Craftsman's Cookbook [5]
@@ -2215,7 +2276,7 @@
 32070000 [Caelid - Gael Tunnel] Somber Smithing Stone [2]
 32070010 [Caelid - Gael Tunnel] Golden Rune [5]
 32070020 [Caelid - Gael Tunnel] Cross-Naginata
-32070030 [Caelid - Gael Tunnel] Gold-Pickled Fowl Foot
+32070030 [Caelid - Gael Tunnel] Dragonbane Talisman
 32070060 [Caelid - Gael Tunnel] Large Glintstone Scrap
 32070070 [Caelid - Gael Tunnel] Grace Mimic
 32080000 [Caelid - Sellia Crystal Tunnel] Rot Grease
@@ -2399,13 +2460,13 @@
 99010000 Golden Rune [1]
 99010010 Golden Rune [1]
 900003000 Golden Rune [1]
-942370060 Flail
-942370070 Lordsworn's Greatsword
-944350050 [Incantation] Flame Sling
-944360200 Greataxe
-1033400100 [Sorcery] Ranni's Dark Moon
-1033410000 Smithing Stone [7]
-1033410010 Smithing Stone [8]
+942370060 [Troll Carriage - Gatefront Ruins] Flail
+942370070 [Troll Carriage - Gatefront Ruins] Lordsworn's Greatsword
+944350050 Flame Sling
+944360200 [Troll Carriage - Waypoint Ruins] Greataxe
+1033400100 [Moonlight Altar] Ranni's Dark Moon
+1033410000 [Moonlight Altar] Smithing Stone [7]
+1033410010 [Moonlight Altar] Smithing Stone [8]
 1033410020 Smithing Stone [7]
 1033410400 Dragon Heart
 1033410410 Dragon Heart
@@ -2465,7 +2526,7 @@
 1034480000 Rimed Crystal Bud
 1034480010 Glintstone Firefly
 1034480100 Frozen Needle
-1034480200 Map: Liurnia
+1034480200 Map: Liurnia, West
 1034481300 Golden Rune [6]
 1034481310 Golden Rune [6]
 1034500010 Golden Rune [3]
@@ -2642,7 +2703,7 @@
 1037430010 Smithing Stone [3]
 1037440000 Golden Rune [4]
 1037440010 Magic Grease
-1037440210 Map: Liurnia
+1037440210 Map: Liurnia, North
 1037450100 Smithing Stone [3]
 1037460000 Gold Sewing Needle
 1037460001 Golden Tailoring Tools
@@ -2717,7 +2778,7 @@
 1038400010 Glintstone Craftsman's Cookbook [1]
 1038410000 Glintstone Craftsman's Cookbook [2]
 1038410010 Sacrificial Twig
-1038410200 Map: Liurnia
+1038410200 Map: Liurnia, East
 1038420000 Smithing Stone [2]
 1038420010 Golden Rune [4]
 1038420020 Carian Glintblade Staff
@@ -2989,7 +3050,7 @@
 1042370000 Ruin Fragment
 1042370010 Kukri
 1042370100 Assassin's Crimson Dagger
-1042370200 Map: Limgrave
+1042370200 Map: Limgrave, West
 1042370700 Reduvia
 1042371010 Whetstone Knife
 1042371011 Ash of War: Storm Stomp
@@ -3029,7 +3090,7 @@
 1042510000 Holy Grease
 1042510400 Golden Seed
 1042510410 Golden Seed
-1042510500 Map: Leyndell
+1042510500 Map: Leyndell, Royal Capital
 1042510900 Gargoyle's Great Axe
 1042520000 Old Fang
 1042520010 Golden Rune [4]
@@ -3201,7 +3262,7 @@
 1045350090 Golden Rune [1]
 1045370000 Golden Rune [2]
 1045370010 Smithing Stone [2]
-1045370020 Map: Limgrave
+1045370020 Map: Limgrave, East
 1045370030 Nomadic Warrior's Cookbook [4]
 1045370050 Golden Rune [1]
 1045370060 Thin Beast Bones
@@ -3428,7 +3489,7 @@
 1049530020 Golden Rune [10]
 1049530030 [Sorcery] Zamor Ice Storm
 1049530300 Beast Blood
-1049530700 Map: Mountaintops of the Giants
+1049530700 Map: Mountaintops of the Giants, West
 1049530900 Smithing-Stone Miner's Bell Bearing [3]
 1049540300 Golden Rune [13]
 1049540310 Golden Rune [11]
@@ -3604,7 +3665,7 @@
 1052540000 Grace Mimic
 1052540010 Golden Rune [10]
 1052540020 Golden Rune [10]
-1052540700 Map: Mountaintops of the Giants
+1052540700 Map: Mountaintops of the Giants, East
 1052540790 Crimsonwhorl Bubbletear
 1052540800 Starlight Shards
 1052550000 Smoldering Butterfly

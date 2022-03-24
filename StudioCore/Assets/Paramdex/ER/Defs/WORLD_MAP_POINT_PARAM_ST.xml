@@ -28,9 +28,9 @@
 		<Field Def="s32 Unk15 = 0" />
 		<Field Def="s32 Unk16 = 0" />
 		<Field Def="s32 Unk17 = 0" />
-		<Field Def="s32 Flag(unverified) = 0" />
-		<Field Def="s32 Flag(unverified) = 0" />
-		<Field Def="s32 Flag(unverified) = 0" />
+		<Field Def="s32 Flag1 = 0" />
+		<Field Def="s32 Flag2 = 0" />
+		<Field Def="s32 Flag3 = 0" />
 		<Field Def="s32 Unk21 = 0" />
 		<Field Def="s32 Unk22 = 0" />
 		<Field Def="s32 Unk23 = 0" />

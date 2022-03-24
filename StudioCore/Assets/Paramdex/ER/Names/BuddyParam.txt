@@ -51,6 +51,15 @@
 23300000 Giant Rat
 23300001 Giant Rat
 23300002 Giant Rat
+23310000 Giant Rat - Additional Set 1
+23310001 Giant Rat - Additional Set 1
+23310002 Giant Rat - Additional Set 1
+23310003 Giant Rat - Additional Set 1
+23320000 Giant Rat - Additional Set 2
+23320001 Giant Rat - Additional Set 2
+23320002 Giant Rat - Additional Set 2
+23320003 Giant Rat - Additional Set 2
+23320004 Giant Rat - Additional Set 2
 23400000 Demi-Human
 23400001 Demi-Human
 23400002 Demi-Human

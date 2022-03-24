@@ -46,6 +46,8 @@
 4620 [Sorcery] Night Comet
 4630 [Sorcery] Thops's Barrier
 4640 [Sorcery] Carian Retaliation
+4641 [Sorcery] Carian Retaliation - 1
+4642 [Sorcery] Carian Retaliation - 2
 4650 [Sorcery] Eternal Darkness
 4660 [Sorcery] Unseen Blade
 4670 [Sorcery] Unseen Form
