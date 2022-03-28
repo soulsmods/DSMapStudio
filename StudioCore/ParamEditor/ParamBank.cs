@@ -605,22 +605,37 @@ namespace StudioCore.ParamEditor
         public static void refreshParamRowDirtyCache(PARAM.Row row, PARAM vanillaParam, HashSet<int> cache)
         {
             PARAM.Row vrow = vanillaParam[row.ID];
-            if (vrow == null)
-            {
+            if (IsChanged(row, vanillaParam))
                 cache.Add(row.ID);
-                return;
+            else
+                cache.Remove(row.ID);
+        }
+        private static bool IsChanged(PARAM.Row row, PARAM vanilla)
+        {
+            List<PARAM.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
+            if (vanils.Count == 0)
+            {
+                return true;
             }
+            foreach (PARAM.Row vrow in vanils)
+            {
+                if (!RowChanged(row, vrow))
+                    return false;//if we find a matching vanilla row
+            }
+            return true;
+        }
+        private static bool RowChanged(PARAM.Row row, PARAM.Row vrow)
+        {
             foreach (PARAMDEF.Field field in row.Def.Fields)
             {
                 if (field.InternalType == "dummy8")
                     continue;
                 if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
                 {
-                    cache.Add(row.ID);
-                    return;
+                    return true;
                 }
             }
-            cache.Remove(row.ID);
+            return false;
         }
 
         public static void SetAssetLocator(AssetLocator l)
