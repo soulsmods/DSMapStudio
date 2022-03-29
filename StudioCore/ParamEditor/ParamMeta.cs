@@ -20,6 +20,16 @@ namespace StudioCore.ParamEditor
         private string _path;
 
         /// <summary>
+        /// Range of grouped rows (eg weapon infusions, itemlot groups)
+        /// </summary>
+        public int BlockSize {get; set;}
+        
+        /// <summary>
+        /// ID at which grouping begins in a param
+        /// </summary>
+        public int BlockStart {get; set;}
+
+        /// <summary>
         /// Max value of trailing digits used for offset, +1
         /// </summary>
         public int OffsetSize {get; set;}
@@ -92,6 +102,16 @@ namespace StudioCore.ParamEditor
             XmlNode self = root.SelectSingleNode("Self");
             if (self != null)
             {
+                XmlAttribute GroupSize = self.Attributes["BlockSize"];
+                if (GroupSize != null)
+                {
+                    BlockSize = int.Parse(GroupSize.InnerText);
+                }
+                XmlAttribute GroupStart = self.Attributes["BlockStart"];
+                if (GroupStart != null)
+                {
+                    BlockStart = int.Parse(GroupStart.InnerText);
+                }
                 XmlAttribute Off = self.Attributes["OffsetSize"];
                 if (Off != null)
                 {

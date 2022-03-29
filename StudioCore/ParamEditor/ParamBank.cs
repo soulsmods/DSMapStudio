@@ -628,7 +628,7 @@ namespace StudioCore.ParamEditor
         {
             foreach (PARAMDEF.Field field in row.Def.Fields)
             {
-                if (field.InternalType == "dummy8")
+                if (field.InternalType == "dummy8" || field.InternalType == "")
                     continue;
                 if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
                 {
