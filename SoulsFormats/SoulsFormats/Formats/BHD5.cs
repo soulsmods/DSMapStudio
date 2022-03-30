@@ -141,14 +141,14 @@ namespace SoulsFormats
             DarkSouls2,
 
             /// <summary>
-            /// Dark Souls 3 on PC.
+            /// Dark Souls 3 and Sekiro on PC.
             /// </summary>
             DarkSouls3,
 
             /// <summary>
-            /// Sekiro on PC.
+            /// Elden Ring on PC.
             /// </summary>
-            Sekiro,
+            EldenRing,
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace SoulsFormats
             /// <summary>
             /// Hash of the full file path using From's algorithm found in SFUtil.FromPathHash.
             /// </summary>
-            public uint FileNameHash { get; set; }
+            public ulong FileNameHash { get; set; }
 
             /// <summary>
             /// Full size of the file data in the BDT.
@@ -231,56 +231,83 @@ namespace SoulsFormats
 
             internal FileHeader(BinaryReaderEx br, Game game)
             {
-                FileNameHash = br.ReadUInt32();
-                PaddedFileSize = br.ReadInt32();
-                FileOffset = br.ReadInt64();
+                long shaHashOffset = 0;
+                long aesKeyOffset = 0;
+                UnpaddedFileSize = -1;
 
-                if (game >= Game.DarkSouls2)
+                if (game >= Game.EldenRing)
                 {
-                    long shaHashOffset = br.ReadInt64();
-                    long aesKeyOffset = br.ReadInt64();
+                    FileNameHash = br.ReadUInt64();
+                    PaddedFileSize = br.ReadInt32();
+                    UnpaddedFileSize = br.ReadInt32();
+                    FileOffset = br.ReadInt64();
+                    shaHashOffset = br.ReadInt64();
+                    aesKeyOffset = br.ReadInt64();
+                }
+                else
+                {
+                    FileNameHash = br.ReadUInt32();
+                    PaddedFileSize = br.ReadInt32();
+                    FileOffset = br.ReadInt64();
 
-                    if (shaHashOffset != 0)
+                    if (game >= Game.DarkSouls2)
                     {
-                        br.StepIn(shaHashOffset);
-                        {
-                            SHAHash = new SHAHash(br);
-                        }
-                        br.StepOut();
+                        shaHashOffset = br.ReadInt64();
+                        aesKeyOffset = br.ReadInt64();
                     }
 
-                    if (aesKeyOffset != 0)
+                    if (game >= Game.DarkSouls3)
                     {
-                        br.StepIn(aesKeyOffset);
-                        {
-                            AESKey = new AESKey(br);
-                        }
-                        br.StepOut();
+                        UnpaddedFileSize = br.ReadInt64();
                     }
                 }
 
-                UnpaddedFileSize = -1;
-                if (game >= Game.DarkSouls3)
+                if (shaHashOffset != 0)
                 {
-                    UnpaddedFileSize = br.ReadInt64();
+                    br.StepIn(shaHashOffset);
+                    {
+                        SHAHash = new SHAHash(br);
+                    }
+                    br.StepOut();
+                }
+
+                if (aesKeyOffset != 0)
+                {
+                    br.StepIn(aesKeyOffset);
+                    {
+                        AESKey = new AESKey(br);
+                    }
+                    br.StepOut();
                 }
             }
 
             internal void Write(BinaryWriterEx bw, Game game, int bucketIndex, int fileIndex)
             {
-                bw.WriteUInt32(FileNameHash);
-                bw.WriteInt32(PaddedFileSize);
-                bw.WriteInt64(FileOffset);
-
-                if (game >= Game.DarkSouls2)
+                if (game >= Game.EldenRing)
                 {
-                    bw.ReserveInt64($"SHAHashOffset{bucketIndex}:{fileIndex}");
+                    bw.WriteUInt64(FileNameHash);
+                    bw.WriteInt32(PaddedFileSize);
+                    bw.WriteInt32((int)UnpaddedFileSize);
+                    bw.WriteInt64(FileOffset);
                     bw.ReserveInt64($"AESKeyOffset{bucketIndex}:{fileIndex}");
+                    bw.ReserveInt64($"SHAHashOffset{bucketIndex}:{fileIndex}");
                 }
-
-                if (game >= Game.DarkSouls3)
+                else
                 {
-                    bw.WriteInt64(UnpaddedFileSize);
+                    bw.WriteUInt32((uint)FileNameHash);
+                    bw.WriteInt32(PaddedFileSize);
+                    bw.WriteInt64(FileOffset);
+
+                    if (game >= Game.DarkSouls2)
+                    {
+                        bw.ReserveInt64($"SHAHashOffset{bucketIndex}:{fileIndex}");
+                        bw.ReserveInt64($"AESKeyOffset{bucketIndex}:{fileIndex}");
+                    }
+
+                    if (game >= Game.DarkSouls3)
+                    {
+                        bw.WriteInt64(UnpaddedFileSize);
+                    }
                 }
             }
 

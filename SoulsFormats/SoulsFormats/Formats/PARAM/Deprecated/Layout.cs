@@ -162,7 +162,7 @@ namespace SoulsFormats
                             throw new NotImplementedException($"DefType not specified for CellType {entry.Type}.");
                     }
 
-                    var field = new PARAMDEF.Field(fieldType, entry.Name);
+                    var field = new PARAMDEF.Field(def, fieldType, entry.Name);
                     field.Description = entry.Description;
                     if (entry.Enum != null)
                         field.InternalType = entry.Enum;
@@ -407,6 +407,7 @@ namespace SoulsFormats
         /// <summary>
         /// Possible types for values in a param.
         /// </summary>
+        [Obsolete]
         public enum CellType
         {
             /// <summary>

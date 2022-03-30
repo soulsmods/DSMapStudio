@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DefType = SoulsFormats.PARAMDEF.DefType;
 using EditFlags = SoulsFormats.PARAMDEF.EditFlags;
 
@@ -26,64 +27,148 @@ namespace SoulsFormats
             }
         }
 
-        public static float GetDefaultMinimum(DefType type)
+        private static readonly Dictionary<DefType, float> fixedDefaults = new Dictionary<DefType, float>
         {
-            switch (type)
-            {
-                case DefType.s8: return sbyte.MinValue;
-                case DefType.u8: return byte.MinValue;
-                case DefType.s16: return short.MinValue;
-                case DefType.u16: return ushort.MinValue;
-                case DefType.s32: return -2147483520; // Largest representable float greater than int.MinValue
-                case DefType.u32: return uint.MinValue;
-                case DefType.f32: return float.MinValue;
-                case DefType.dummy8: return 0;
-                case DefType.fixstr: return -1;
-                case DefType.fixstrW: return -1;
+            [DefType.s8] = 0,
+            [DefType.u8] = 0,
+            [DefType.s16] = 0,
+            [DefType.u16] = 0,
+            [DefType.s32] = 0,
+            [DefType.u32] = 0,
+            [DefType.f32] = 0,
+            [DefType.dummy8] = 0,
+            [DefType.fixstr] = 0,
+            [DefType.fixstrW] = 0,
+        };
 
-                default:
-                    throw new NotImplementedException($"No default minimum specified for {nameof(DefType)}.{type}");
-            }
+        private static readonly Dictionary<DefType, object> variableDefaults = new Dictionary<DefType, object>
+        {
+            [DefType.s8] = 0,
+            [DefType.u8] = 0,
+            [DefType.s16] = 0,
+            [DefType.u16] = 0,
+            [DefType.s32] = 0,
+            [DefType.u32] = 0,
+            [DefType.f32] = 0f,
+            [DefType.dummy8] = null,
+            [DefType.fixstr] = null,
+            [DefType.fixstrW] = null,
+        };
+
+        public static object GetDefaultDefault(PARAMDEF def, DefType type)
+        {
+            if (def?.VariableEditorValueTypes ?? false)
+                return variableDefaults[type];
+            else
+                return fixedDefaults[type];
         }
 
-        public static float GetDefaultMaximum(DefType type)
+        private static readonly Dictionary<DefType, float> fixedMinimums = new Dictionary<DefType, float>
         {
-            switch (type)
-            {
-                case DefType.s8: return sbyte.MaxValue;
-                case DefType.u8: return byte.MaxValue;
-                case DefType.s16: return short.MaxValue;
-                case DefType.u16: return ushort.MaxValue;
-                case DefType.s32: return 2147483520; // Largest representable float less than int.MaxValue
-                case DefType.u32: return 4294967040; // Largest representable float less than uint.MaxValue
-                case DefType.f32: return float.MaxValue;
-                case DefType.dummy8: return 0;
-                case DefType.fixstr: return 1000000000;
-                case DefType.fixstrW: return 1000000000;
+            [DefType.s8] = sbyte.MinValue,
+            [DefType.u8] = byte.MinValue,
+            [DefType.s16] = short.MinValue,
+            [DefType.u16] = ushort.MinValue,
+            [DefType.s32] = -2147483520, // Smallest representable float greater than int.MinValue
+            [DefType.u32] = uint.MinValue,
+            [DefType.f32] = float.MinValue,
+            [DefType.dummy8] = 0,
+            [DefType.fixstr] = -1,
+            [DefType.fixstrW] = -1,
+        };
 
-                default:
-                    throw new NotImplementedException($"No default maximum specified for {nameof(DefType)}.{type}");
-            }
+        private static readonly Dictionary<DefType, object> variableMinimums = new Dictionary<DefType, object>
+        {
+            [DefType.s8] = (int)sbyte.MinValue,
+            [DefType.u8] = (int)byte.MinValue,
+            [DefType.s16] = (int)short.MinValue,
+            [DefType.u16] = (int)ushort.MinValue,
+            [DefType.s32] = int.MinValue,
+            [DefType.u32] = (int)uint.MinValue,
+            [DefType.f32] = float.MinValue,
+            [DefType.dummy8] = null,
+            [DefType.fixstr] = null,
+            [DefType.fixstrW] = null,
+        };
+
+        public static object GetDefaultMinimum(PARAMDEF def, DefType type)
+        {
+            if (def?.VariableEditorValueTypes ?? false)
+                return variableMinimums[type];
+            else
+                return fixedMinimums[type];
         }
 
-        public static float GetDefaultIncrement(DefType type)
+        private static readonly Dictionary<DefType, float> fixedMaximums = new Dictionary<DefType, float>
         {
-            switch (type)
-            {
-                case DefType.s8: return 1;
-                case DefType.u8: return 1;
-                case DefType.s16: return 1;
-                case DefType.u16: return 1;
-                case DefType.s32: return 1;
-                case DefType.u32: return 1;
-                case DefType.f32: return 0.01f;
-                case DefType.dummy8: return 0;
-                case DefType.fixstr: return 1;
-                case DefType.fixstrW: return 1;
+            [DefType.s8] = sbyte.MaxValue,
+            [DefType.u8] = byte.MaxValue,
+            [DefType.s16] = short.MaxValue,
+            [DefType.u16] = ushort.MaxValue,
+            [DefType.s32] = 2147483520, // Largest representable float less than int.MaxValue
+            [DefType.u32] = 4294967040, // Largest representable float less than uint.MaxValue
+            [DefType.f32] = float.MinValue,
+            [DefType.dummy8] = 0,
+            [DefType.fixstr] = 1000000000,
+            [DefType.fixstrW] = 1000000000,
+        };
 
-                default:
-                    throw new NotImplementedException($"No default increment specified for {nameof(DefType)}.{type}");
-            }
+        private static readonly Dictionary<DefType, object> variableMaximums = new Dictionary<DefType, object>
+        {
+            [DefType.s8] = (int)sbyte.MaxValue,
+            [DefType.u8] = (int)byte.MaxValue,
+            [DefType.s16] = (int)short.MaxValue,
+            [DefType.u16] = (int)ushort.MaxValue,
+            [DefType.s32] = int.MaxValue,
+            [DefType.u32] = int.MaxValue, // Yes, u32 uses signed int too (usually)
+            [DefType.f32] = float.MinValue,
+            [DefType.dummy8] = null,
+            [DefType.fixstr] = null,
+            [DefType.fixstrW] = null,
+        };
+
+        public static object GetDefaultMaximum(PARAMDEF def, DefType type)
+        {
+            if (def?.VariableEditorValueTypes ?? false)
+                return variableMaximums[type];
+            else
+                return fixedMaximums[type];
+        }
+
+        private static readonly Dictionary<DefType, float> fixedIncrements = new Dictionary<DefType, float>
+        {
+            [DefType.s8] = 1,
+            [DefType.u8] = 1,
+            [DefType.s16] = 1,
+            [DefType.u16] = 1,
+            [DefType.s32] = 1,
+            [DefType.u32] = 1,
+            [DefType.f32] = 0.01f,
+            [DefType.dummy8] = 0,
+            [DefType.fixstr] = 1,
+            [DefType.fixstrW] = 1,
+        };
+
+        private static readonly Dictionary<DefType, object> variableIncrements = new Dictionary<DefType, object>
+        {
+            [DefType.s8] = 1,
+            [DefType.u8] = 1,
+            [DefType.s16] = 1,
+            [DefType.u16] = 1,
+            [DefType.s32] = 1,
+            [DefType.u32] = 1,
+            [DefType.f32] = 0.01f,
+            [DefType.dummy8] = null,
+            [DefType.fixstr] = null,
+            [DefType.fixstrW] = null,
+        };
+
+        public static object GetDefaultIncrement(PARAMDEF def, DefType type)
+        {
+            if (def?.VariableEditorValueTypes ?? false)
+                return variableIncrements[type];
+            else
+                return fixedIncrements[type];
         }
 
         public static EditFlags GetDefaultEditFlags(DefType type)
@@ -155,24 +240,24 @@ namespace SoulsFormats
             }
         }
 
-        public static object CastDefaultValue(PARAMDEF.Field field)
+        public static object ConvertDefaultValue(PARAMDEF.Field field)
         {
             switch (field.DisplayType)
             {
-                case DefType.s8: return (sbyte)field.Default;
-                case DefType.u8: return (byte)field.Default;
-                case DefType.s16: return (short)field.Default;
-                case DefType.u16: return (ushort)field.Default;
-                case DefType.s32: return (int)field.Default;
-                case DefType.u32: return (uint)field.Default;
-                case DefType.f32: return field.Default;
+                case DefType.s8: return Convert.ToSByte(field.Default);
+                case DefType.u8: return Convert.ToByte(field.Default);
+                case DefType.s16: return Convert.ToInt16(field.Default);
+                case DefType.u16: return Convert.ToUInt16(field.Default);
+                case DefType.s32: return Convert.ToInt32(field.Default);
+                case DefType.u32: return Convert.ToUInt32(field.Default);
+                case DefType.f32: return Convert.ToSingle(field.Default);
                 case DefType.fixstr: return "";
                 case DefType.fixstrW: return "";
                 case DefType.dummy8:
                     if (field.BitSize == -1)
                         return new byte[field.ArrayLength];
                     else
-                        return (byte)field.Default;
+                        return (byte)0;
 
                 default:
                     throw new NotImplementedException($"Default not implemented for type {field.DisplayType}");

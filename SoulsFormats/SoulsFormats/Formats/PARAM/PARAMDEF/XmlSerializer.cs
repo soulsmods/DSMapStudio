@@ -11,7 +11,7 @@ namespace SoulsFormats
     {
         private static class XmlSerializer
         {
-            public const int CURRENT_XML_VERSION = 1;
+            public const int CURRENT_XML_VERSION = 2;
 
             public static PARAMDEF Deserialize(XmlDocument xml)
             {
@@ -29,7 +29,7 @@ namespace SoulsFormats
                 def.Fields = new List<Field>();
                 foreach (XmlNode node in root.SelectNodes("Fields/Field"))
                 {
-                    def.Fields.Add(DeserializeField(node));
+                    def.Fields.Add(DeserializeField(def, node));
                 }
 
                 return def;
@@ -53,7 +53,7 @@ namespace SoulsFormats
                 foreach (Field field in def.Fields)
                 {
                     xw.WriteStartElement("Field");
-                    SerializeField(field, xw);
+                    SerializeField(def, field, xw);
                     xw.WriteEndElement();
                 }
                 xw.WriteEndElement();
@@ -66,14 +66,16 @@ namespace SoulsFormats
             private static readonly Regex defBitRx = new Regex($@"^(?<name>.+?)\s*:\s*(?<size>\d+)$");
             private static readonly Regex defArrayRx = new Regex($@"^(?<name>.+?)\s*\[\s*(?<length>\d+)\]$");
 
-            private static Field DeserializeField(XmlNode node)
+            private static Field DeserializeField(PARAMDEF def, XmlNode node)
             {
                 var field = new Field();
-                string def = node.Attributes["Def"].InnerText;
-                Match outerMatch = defOuterRx.Match(def);
+                string fieldDef = node.Attributes["Def"].InnerText;
+                Match outerMatch = defOuterRx.Match(fieldDef);
                 field.DisplayType = (DefType)Enum.Parse(typeof(DefType), outerMatch.Groups["type"].Value.Trim());
                 if (outerMatch.Groups["default"].Success)
                     field.Default = float.Parse(outerMatch.Groups["default"].Value, CultureInfo.InvariantCulture);
+                else
+                    field.Default = ParamUtil.GetDefaultDefault(def, field.DisplayType);
 
                 string internalName = outerMatch.Groups["name"].Value.Trim();
                 Match bitMatch = defBitRx.Match(internalName);
@@ -98,9 +100,9 @@ namespace SoulsFormats
                 field.DisplayFormat = node.ReadStringOrDefault("DisplayFormat", ParamUtil.GetDefaultFormat(field.DisplayType));
                 field.EditFlags = (EditFlags)Enum.Parse(typeof(EditFlags),
                     node.ReadStringOrDefault("EditFlags", ParamUtil.GetDefaultEditFlags(field.DisplayType).ToString()));
-                field.Minimum = node.ReadSingleOrDefault("Minimum", ParamUtil.GetDefaultMinimum(field.DisplayType), CultureInfo.InvariantCulture);
-                field.Maximum = node.ReadSingleOrDefault("Maximum", ParamUtil.GetDefaultMaximum(field.DisplayType), CultureInfo.InvariantCulture);
-                field.Increment = node.ReadSingleOrDefault("Increment", ParamUtil.GetDefaultIncrement(field.DisplayType), CultureInfo.InvariantCulture);
+                field.Minimum = ReadVariableValueOrDefault(def, node, field.DisplayType, "Minimum", ParamUtil.GetDefaultMinimum(def, field.DisplayType));
+                field.Maximum = ReadVariableValueOrDefault(def, node, field.DisplayType, "Maximum", ParamUtil.GetDefaultMaximum(def, field.DisplayType));
+                field.Increment = ReadVariableValueOrDefault(def, node, field.DisplayType, "Increment", ParamUtil.GetDefaultIncrement(def, field.DisplayType));
                 field.SortID = node.ReadInt32OrDefault("SortID", 0);
 
                 field.UnkB8 = node.ReadStringIfExist("UnkB8");
@@ -109,31 +111,146 @@ namespace SoulsFormats
                 return field;
             }
 
-            private static void SerializeField(Field field, XmlWriter xw)
+            private static object ParseVariableValue(PARAMDEF def, DefType type, string text)
             {
-                string def = $"{field.DisplayType} {field.InternalName}";
+                if (def.VariableEditorValueTypes)
+                {
+                    switch (type)
+                    {
+                        case DefType.s8:
+                        case DefType.u8:
+                        case DefType.s16:
+                        case DefType.u16:
+                        case DefType.s32:
+                        case DefType.u32: return int.Parse(text);
+                        case DefType.f32: return float.Parse(text, CultureInfo.InvariantCulture);
+                        case DefType.dummy8:
+                        case DefType.fixstr:
+                        case DefType.fixstrW: return null;
+
+                        default:
+                            throw new NotImplementedException($"Missing variable parse for type: {type}");
+                    }
+                }
+                else
+                {
+                    return float.Parse(text, CultureInfo.InvariantCulture);
+                }
+            }
+
+            private static object ReadVariableValueOrDefault(PARAMDEF def, XmlNode node, DefType type, string xpath, object defaultValue)
+            {
+                if (def.VariableEditorValueTypes)
+                {
+                    switch (type)
+                    {
+                        case DefType.s8:
+                        case DefType.u8:
+                        case DefType.s16:
+                        case DefType.u16:
+                        case DefType.s32:
+                        case DefType.u32: return node.ReadInt32OrDefault(xpath, (int)defaultValue);
+                        case DefType.f32: return node.ReadSingleOrDefault(xpath, (float)defaultValue, CultureInfo.InvariantCulture);
+                        case DefType.dummy8:
+                        case DefType.fixstr:
+                        case DefType.fixstrW: return null;
+
+                        default:
+                            throw new NotImplementedException($"Missing variable read for type: {type}");
+                    }
+                }
+                else
+                {
+                    return node.ReadSingleOrDefault(xpath, (float)defaultValue, CultureInfo.InvariantCulture);
+                }
+            }
+
+            private static void SerializeField(PARAMDEF def, Field field, XmlWriter xw)
+            {
+                string fieldDef = $"{field.DisplayType} {field.InternalName}";
                 if (ParamUtil.IsBitType(field.DisplayType) && field.BitSize != -1)
-                    def += $":{field.BitSize}";
+                    fieldDef += $":{field.BitSize}";
                 else if (ParamUtil.IsArrayType(field.DisplayType))
-                    def += $"[{field.ArrayLength}]";
+                    fieldDef += $"[{field.ArrayLength}]";
 
-                if (field.Default != 0)
-                    def += $" = {field.Default.ToString("R", CultureInfo.InvariantCulture)}";
+                if (!Equals(field.Default, ParamUtil.GetDefaultDefault(def, field.DisplayType)))
+                    fieldDef += $" = {VariableValueToString(def, field.DisplayType, field.Default)}";
 
-                xw.WriteAttributeString("Def", def);
+                xw.WriteAttributeString("Def", fieldDef);
                 xw.WriteDefaultElement("DisplayName", field.DisplayName, field.InternalName);
                 xw.WriteDefaultElement("Enum", field.InternalType, field.DisplayType.ToString());
                 xw.WriteDefaultElement("Description", field.Description, null);
                 xw.WriteDefaultElement("DisplayFormat", field.DisplayFormat, ParamUtil.GetDefaultFormat(field.DisplayType));
                 xw.WriteDefaultElement("EditFlags", field.EditFlags.ToString(), ParamUtil.GetDefaultEditFlags(field.DisplayType).ToString());
-                xw.WriteDefaultElement("Minimum", field.Minimum, ParamUtil.GetDefaultMinimum(field.DisplayType), "R", CultureInfo.InvariantCulture);
-                xw.WriteDefaultElement("Maximum", field.Maximum, ParamUtil.GetDefaultMaximum(field.DisplayType), "R", CultureInfo.InvariantCulture);
-                xw.WriteDefaultElement("Increment", field.Increment, ParamUtil.GetDefaultIncrement(field.DisplayType), "R", CultureInfo.InvariantCulture);
+                WriteVariableValue(def, xw, field.DisplayType, "Minimum", field.Minimum, ParamUtil.GetDefaultMinimum(def, field.DisplayType));
+                WriteVariableValue(def, xw, field.DisplayType, "Maximum", field.Maximum, ParamUtil.GetDefaultMaximum(def, field.DisplayType));
+                WriteVariableValue(def, xw, field.DisplayType, "Increment", field.Increment, ParamUtil.GetDefaultIncrement(def, field.DisplayType));
                 xw.WriteDefaultElement("SortID", field.SortID, 0);
 
                 xw.WriteDefaultElement("UnkB8", field.UnkB8, null);
                 xw.WriteDefaultElement("UnkC0", field.UnkC0, null);
                 xw.WriteDefaultElement("UnkC8", field.UnkC8, null);
+            }
+
+            private static string VariableValueToString(PARAMDEF def, DefType type, object value)
+            {
+                if (def.VariableEditorValueTypes)
+                {
+                    switch (type)
+                    {
+                        case DefType.s8:
+                        case DefType.u8:
+                        case DefType.s16:
+                        case DefType.u16:
+                        case DefType.s32:
+                        case DefType.u32: return Convert.ToInt32(value).ToString();
+                        case DefType.f32: return Convert.ToSingle(value).ToString();
+                        case DefType.dummy8:
+                        case DefType.fixstr:
+                        case DefType.fixstrW: return "null";
+
+                        default:
+                            throw new NotImplementedException($"Missing variable tostring for type: {type}");
+                    }
+                }
+                else
+                {
+                    return Convert.ToSingle(value).ToString("R", CultureInfo.InvariantCulture);
+                }
+            }
+
+            private static void WriteVariableValue(PARAMDEF def, XmlWriter xw, DefType type, string localName, object value, object defaultValue)
+            {
+                if (def.VariableEditorValueTypes)
+                {
+                    switch (type)
+                    {
+                        case DefType.s8:
+                        case DefType.u8:
+                        case DefType.s16:
+                        case DefType.u16:
+                        case DefType.s32:
+                        case DefType.u32:
+                            xw.WriteDefaultElement(localName, Convert.ToInt32(value), (int)defaultValue);
+                            break;
+
+                        case DefType.f32:
+                            xw.WriteDefaultElement(localName, Convert.ToSingle(value), (float)defaultValue);
+                            break;
+
+                        case DefType.dummy8:
+                        case DefType.fixstr:
+                        case DefType.fixstrW:
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    xw.WriteDefaultElement(localName, Convert.ToSingle(value), Convert.ToSingle(defaultValue), "R", CultureInfo.InvariantCulture);
+                }
             }
         }
     }

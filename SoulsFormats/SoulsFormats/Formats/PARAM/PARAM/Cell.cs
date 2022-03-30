@@ -56,7 +56,7 @@ namespace SoulsFormats
                 Value = value;
             }
 
-            internal Cell(Cell clone)
+            public Cell(Cell clone)
             {
                 Def = clone.Def;
                 Value = clone.Value;
