@@ -319,7 +319,7 @@ namespace StudioCore.ParamEditor
             bool changed = false;
 
             bool matchVanilla = vanillaval != null && !oldval.Equals(vanillaval);
-            bool matchDefault = nullableCell != null && nullableCell.Def.Default.Equals(oldval);
+            bool matchDefault = nullableCell != null && nullableCell.Def.Default!=null && nullableCell.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
             if (matchVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
