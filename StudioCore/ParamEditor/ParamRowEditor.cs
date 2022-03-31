@@ -321,12 +321,12 @@ namespace StudioCore.ParamEditor
             bool matchVanilla = vanillaval != null && !oldval.Equals(vanillaval);
             bool matchDefault = nullableCell != null && nullableCell.Def.Default!=null && nullableCell.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
-            if (matchVanilla)
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
-            if (matchDefault)
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             if (isRef)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
+            else if (matchDefault)
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
+            else if (matchVanilla)
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
             changed = PropertyRow(propType, oldval, out newval, IsBool);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
             if (isRef || matchDefault)
