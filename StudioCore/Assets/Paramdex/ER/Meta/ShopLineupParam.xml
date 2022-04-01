@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <equipId Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <mtrlId Refs="EquipMtrlSetParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

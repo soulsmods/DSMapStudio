@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffectIdOnHit0 Refs="SpEffectParam" />
+    <spEffectIdOnHit1 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_2 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_3 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_4 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_5 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_6 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_7 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_8 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_2 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_3 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_4 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_5 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_6 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_7 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_8 Refs="SpEffectParam" />
+    <replaceMateiralId_Rain Refs="HitMtrlParam" />
+    <spEffectId_forWet00 Refs="SpEffectParam" />
+    <spEffectId_forWet01 Refs="SpEffectParam" />
+    <spEffectId_forWet02 Refs="SpEffectParam" />
+    <spEffectId_forWet03 Refs="SpEffectParam" />
+    <spEffectId_forWet04 Refs="SpEffectParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <bKeyHold1 IsBool="" />
+    <bKeyHold2 IsBool="" />
+    <bKeyHold3 IsBool="" />
+    <bLifeEndSuccess IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParam_Debug IsBool="" />
+    <disableParamReserve1 IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

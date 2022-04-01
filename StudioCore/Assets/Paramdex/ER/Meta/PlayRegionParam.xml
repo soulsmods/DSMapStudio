@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <enableBloodstain IsBool="" />
+    <enableBloodMessage IsBool="" />
+    <enableGhost IsBool="" />
+    <dispMask00 IsBool="" />
+    <dispMask01 IsBool="" />
+    <isAutoIntrudePoint IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

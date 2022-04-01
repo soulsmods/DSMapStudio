@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <equip_Wep_Right Refs="EquipParamWeapon" />
+    <equip_Subwep_Right Refs="EquipParamWeapon" />
+    <equip_Wep_Left Refs="EquipParamWeapon" />
+    <equip_Subwep_Left Refs="EquipParamWeapon" />
+    <equip_Helm Refs="EquipParamProtector" />
+    <equip_Armer Refs="EquipParamProtector" />
+    <equip_Gaunt Refs="EquipParamProtector" />
+    <equip_Leg Refs="EquipParamProtector" />
+    <equip_Arrow Refs="EquipParamWeapon" />
+    <equip_Bolt Refs="EquipParamWeapon" />
+    <equip_SubArrow Refs="EquipParamWeapon" />
+    <equip_SubBolt Refs="EquipParamWeapon" />
+    <equip_Accessory01 Refs="EquipParamAccessory" />
+    <equip_Accessory02 Refs="EquipParamAccessory" />
+    <equip_Accessory03 Refs="EquipParamAccessory" />
+    <equip_Accessory04 Refs="EquipParamAccessory" />
+    <equip_Spell_01 Refs="Magic" />
+    <equip_Spell_02 Refs="Magic" />
+    <equip_Spell_03 Refs="Magic" />
+    <equip_Spell_04 Refs="Magic" />
+    <equip_Spell_05 Refs="Magic" />
+    <equip_Spell_06 Refs="Magic" />
+    <equip_Spell_07 Refs="Magic" />
+    <item_01 Refs="EquipParamGoods" />
+    <item_02 Refs="EquipParamGoods" />
+    <item_03 Refs="EquipParamGoods" />
+    <item_04 Refs="EquipParamGoods" />
+    <item_05 Refs="EquipParamGoods" />
+    <item_06 Refs="EquipParamGoods" />
+    <item_07 Refs="EquipParamGoods" />
+    <item_08 Refs="EquipParamGoods" />
+    <item_09 Refs="EquipParamGoods" />
+    <item_10 Refs="EquipParamGoods" />
+    <npcPlayerFaceGenId Refs="FaceParam" />
+    <npcPlayerThinkId Refs="NpcThinkParam" />
+    <isSyncTarget IsBool="" />
+    <equip_Subwep_Right3 Refs="EquipParamWeapon" />
+    <equip_Subwep_Left3 Refs="EquipParamWeapon" />
+    <secondaryItem_01 Refs="EquipParamGoods" />
+    <secondaryItem_02 Refs="EquipParamGoods" />
+    <secondaryItem_03 Refs="EquipParamGoods" />
+    <secondaryItem_04 Refs="EquipParamGoods" />
+    <secondaryItem_05 Refs="EquipParamGoods" />
+    <secondaryItem_06 Refs="EquipParamGoods" />
+  </Field>
+  <Self />
+</PARAMMETA>

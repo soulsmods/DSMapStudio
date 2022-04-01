@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <isTurnAtker IsBool="" />
+    <isSkipWepCate IsBool="" />
+    <isSkipSphereCast IsBool="" />
+    <isEnableCorrectPos_forThrowAdjust IsBool="" />
+    <isEnableThrowFollowingFallAssist IsBool="" />
+    <isEnableThrowFollowingFeedback IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

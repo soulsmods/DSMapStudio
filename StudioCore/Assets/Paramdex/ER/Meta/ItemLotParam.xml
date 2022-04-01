@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <lotItemId01 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId02 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId03 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId04 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId05 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId06 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId07 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId08 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <enableLuck01 IsBool="" />
+    <enableLuck02 IsBool="" />
+    <enableLuck03 IsBool="" />
+    <enableLuck04 IsBool="" />
+    <enableLuck05 IsBool="" />
+    <enableLuck06 IsBool="" />
+    <enableLuck07 IsBool="" />
+    <enableLuck08 IsBool="" />
+    <cumulateReset01 IsBool="" />
+    <cumulateReset02 IsBool="" />
+    <cumulateReset03 IsBool="" />
+    <cumulateReset04 IsBool="" />
+    <cumulateReset05 IsBool="" />
+    <cumulateReset06 IsBool="" />
+    <cumulateReset07 IsBool="" />
+    <cumulateReset08 IsBool="" />
+    <canExecByFriendlyGhost IsBool="" />
+    <canExecByHostileGhost IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

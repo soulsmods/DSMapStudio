@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <WetSpEffectId00 Refs="SpEffectParam" />
+    <WetSpEffectId01 Refs="SpEffectParam" />
+    <WetSpEffectId02 Refs="SpEffectParam" />
+    <WetSpEffectId03 Refs="SpEffectParam" />
+    <WetSpEffectId04 Refs="SpEffectParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

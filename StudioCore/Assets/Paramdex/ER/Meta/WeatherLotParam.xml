@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <weatherType0 Refs="WeatherParam" />
+    <weatherType1 Refs="WeatherParam" />
+    <weatherType2 Refs="WeatherParam" />
+    <weatherType3 Refs="WeatherParam" />
+    <weatherType4 Refs="WeatherParam" />
+    <weatherType5 Refs="WeatherParam" />
+    <weatherType6 Refs="WeatherParam" />
+    <weatherType7 Refs="WeatherParam" />
+    <weatherType8 Refs="WeatherParam" />
+    <weatherType9 Refs="WeatherParam" />
+    <weatherType10 Refs="WeatherParam" />
+    <weatherType11 Refs="WeatherParam" />
+    <weatherType12 Refs="WeatherParam" />
+    <weatherType13 Refs="WeatherParam" />
+    <weatherType14 Refs="WeatherParam" />
+    <weatherType15 Refs="WeatherParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

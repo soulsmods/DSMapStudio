@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <residentSpEffectId1 Wiki="This is not an spEffect ID, it is an offset" />
+    <residentSpEffectId2 Wiki="This is not an spEffect ID, it is an offset" />
+    <residentSpEffectId3 Wiki="This is not an spEffect ID, it is an offset" />
+    <materialSetId Refs="EquipMtrlSetParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

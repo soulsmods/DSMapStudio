@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <refId_default Refs="AtkParam_Pc,Bullet,SpEffectParam" />
+    <useEnableSpEffectType IsBool="" />
+    <enable_live IsBool="" />
+    <enable_gray IsBool="" />
+    <enable_white IsBool="" />
+    <enable_black IsBool="" />
+    <enable_multi IsBool="" />
+    <disable_offline IsBool="" />
+    <isEquip IsBool="" />
+    <isConsume IsBool="" />
+    <isAutoEquip IsBool="" />
+    <isEstablishment IsBool="" />
+    <isOnlyOne IsBool="" />
+    <isDiscard IsBool="" />
+    <isDeposit IsBool="" />
+    <isDisableHand IsBool="" />
+    <isRemoveItem_forGameClear IsBool="" />
+    <isSuppleItem IsBool="" />
+    <isFullSuppleItem IsBool="" />
+    <isEnhance IsBool="" />
+    <isFixItem IsBool="" />
+    <disableMultiDropShare IsBool="" />
+    <disableUseAtColiseum IsBool="" />
+    <disableUseAtOutOfColiseum IsBool="" />
+    <isEnableFastUseItem IsBool="" />
+    <isApplySpecialEffect IsBool="" />
+    <refId_1 Refs="AtkParam_Pc,Bullet,SpEffectParam" />
+    <refVirtualWepId Refs="EquipParamWeapon" />
+    <enable_ActiveBigRune IsBool="" />
+    <isBonfireWarpItem IsBool="" />
+    <enable_Ladder IsBool="" />
+    <isUseMultiPlayPreparation IsBool="" />
+    <canMultiUse IsBool="" />
+    <isShieldEnchant IsBool="" />
+    <isWarpProhibited IsBool="" />
+    <isUseMultiPenaltyOnly IsBool="" />
+    <suppleType IsBool="" />
+    <autoReplenishType IsBool="" />
+    <isDrop IsBool="" />
+    <showLogCondType IsBool="" />
+    <isSummonHorse IsBool="" />
+    <showDialogCondType IsBool="" />
+    <isSleepCollectionItem IsBool="" />
+    <enableRiding IsBool="" />
+    <disableRiding IsBool="" />
+    <isUseNoAttackRegion IsBool="" />
+    <useLimitSummonBuddy IsBool="" />
+    <useLimitSpEffectType IsBool="" />
+    <reinforceGoodsId Refs="EquipParamGoods" />
+    <reinforceMaterialId Refs="EquipMtrlSetParam" />
+  </Field>
+  <Self />
+</PARAMMETA>
