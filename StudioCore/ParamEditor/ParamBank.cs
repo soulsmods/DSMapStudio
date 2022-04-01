@@ -138,10 +138,6 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                if (f.Name.EndsWith("LoadBalancerParam.param"))
-                {
-                    continue;
-                }
                 if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
                 {
                     continue;
@@ -458,7 +454,7 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(vParamBnd, ref _vanillaParams);
         }
 
-        private static string LoadParamsER()
+        private static string LoadParamsER(bool partial)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -470,13 +466,42 @@ namespace StudioCore.ParamEditor
 
             // Load params
             var param = $@"{mod}\regulation.bin";
-            if (!File.Exists(param))
+            if (!File.Exists(param) || partial)
             {
                 param = $@"{dir}\regulation.bin";
             }
             BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
             LoadParamFromBinder(paramBnd, ref _params);
+
+            param = $@"{mod}\regulation.bin";
+            if (partial && File.Exists(param))
+            {
+                BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
+                Dictionary<string, PARAM> cParamBank = new Dictionary<string, PARAM>();
+                LoadParamFromBinder(pParamBnd, ref cParamBank);
+                foreach (var pair in cParamBank)
+                {
+                    PARAM baseParam = _params[pair.Key];
+                    foreach (var row in pair.Value.Rows)
+                    {
+                        PARAM.Row bRow = baseParam[row.ID];
+                        if (bRow == null)
+                        {
+                            baseParam.Rows.Add(row);
+                        }
+                        else
+                        {
+                            bRow.Name = row.Name;
+                            foreach (PARAMDEF.Field field in bRow.Def.Fields)
+                            {
+                                bRow[field.InternalName].Value = row[field.InternalName].Value;
+                            }
+                        }
+                    }
+                }
+            }
+
             return dir;
         }
         private static void LoadVParamsER(string dir)
@@ -485,7 +510,7 @@ namespace StudioCore.ParamEditor
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
-        public static void ReloadParams()
+        public static void ReloadParams(ProjectSettings settings)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _params = new Dictionary<string, PARAM>();
@@ -534,7 +559,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (AssetLocator.Type == GameType.EldenRing)
                 {
-                    vparamDir = LoadParamsER();
+                    vparamDir = LoadParamsER(settings.PartialParams);
                 }
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
@@ -908,7 +933,7 @@ namespace StudioCore.ParamEditor
             }
             Utils.WriteWithBackup(dir, mod, $@"param\gameparam\{paramBinderName}", paramBnd);
         }
-        private static void SaveParamsER()
+        private static void SaveParamsER(bool partial)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -931,13 +956,28 @@ namespace StudioCore.ParamEditor
             {
                 if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
-                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                    PARAM paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
+                    List<PARAM.Row> backup = paramFile.Rows;
+                    List<PARAM.Row> changed = new List<PARAM.Row>();
+                    if (partial)
+                    {
+                        TaskManager.WaitAll();//wait on dirtycache update
+                        HashSet<int> dirtyCache = _paramDirtyCache[Path.GetFileNameWithoutExtension(p.Name)];
+                        foreach (PARAM.Row row in paramFile.Rows)
+                        {
+                            if (dirtyCache.Contains(row.ID))
+                                changed.Add(row);
+                        }
+                        paramFile.Rows = changed;
+                    }
+                    p.Bytes = paramFile.Write();
+                    paramFile.Rows = backup;
                 }
             }
             Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.EldenRing);
         }
 
-        public static void SaveParams(bool loose = false)
+        public static void SaveParams(bool loose = false, bool partialParams = false)
         {
             if (_params == null)
             {
@@ -969,7 +1009,7 @@ namespace StudioCore.ParamEditor
             }
             if (AssetLocator.Type == GameType.EldenRing)
             {
-                SaveParamsER();
+                SaveParamsER(partialParams);
             }
         }
 

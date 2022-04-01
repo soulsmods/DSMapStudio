@@ -22,6 +22,7 @@ namespace StudioCore.Editor
         /// the regulation file.
         /// </summary>
         public bool UseLooseParams { get; set; } = false;
+        public bool PartialParams { get; set; } = false;
 
         public void Serialize(string path)
         {

@@ -685,7 +685,7 @@ namespace StudioCore.ParamEditor
         {
             if (_projectSettings != null)
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams);
+                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
             }
         }
 
@@ -693,7 +693,7 @@ namespace StudioCore.ParamEditor
         {
             if (_projectSettings != null)
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams);
+                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
             }
         }
     }

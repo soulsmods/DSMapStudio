@@ -314,7 +314,7 @@ namespace StudioCore
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
             Editor.AliasBank.ReloadAliases();
-            ParamEditor.ParamBank.ReloadParams();
+            ParamEditor.ParamBank.ReloadParams(newsettings);
             TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.OnProjectChanged(_projectSettings);
@@ -535,7 +535,20 @@ namespace StudioCore
                     }
                     else
                     {
-                        ImGui.MenuItem($@"Settings: {_projectSettings.ProjectName}");
+                        if (ImGui.BeginMenu($@"Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            bool useLoose = _projectSettings.UseLooseParams;
+                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            {
+                                _projectSettings.UseLooseParams = useLoose;
+                            }
+                            bool usepartial = _projectSettings.PartialParams;
+                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            {
+                                _projectSettings.PartialParams = usepartial;
+                            }
+                            ImGui.EndMenu();
+                        }
                     }
 
                     if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
@@ -563,7 +576,7 @@ namespace StudioCore
                             AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
-                    if (ImGui.BeginMenu("Recent Projects"))
+                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
                         CFG.RecentProject recent = null;
                         foreach (var p in CFG.Current.RecentProjects)
@@ -590,6 +603,7 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Save", "Ctrl-S"))
                     {
+                        _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
                         if (_msbEditorFocused)
                         {
                             _msbEditor.Save();
@@ -736,6 +750,19 @@ namespace StudioCore
                     {
                         _newProjectSettings.UseLooseParams = looseparams;
                     }
+                    ImGui.NewLine();
+                }
+                if (_newProjectSettings.GameType == GameType.EldenRing)
+                {
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text($@"Save partial regulation:  ");
+                    ImGui.SameLine();
+                    var partialReg = _newProjectSettings.PartialParams;
+                    if (ImGui.Checkbox("##partialparams", ref partialReg))
+                    {
+                        _newProjectSettings.PartialParams = partialReg;
+                    }
+                    ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
                     ImGui.NewLine();
                 }
                 ImGui.AlignTextToFramePadding();
