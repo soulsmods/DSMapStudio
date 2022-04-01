@@ -114,6 +114,7 @@ namespace SoulsFormats
                 int bitOffset = -1;
                 PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
                 ulong bitValue = 0; // This is ulong so checkOrphanedBits doesn't fail on offsets of 32
+                const int BIT_VALUE_SIZE = 64;
 
                 void checkOrphanedBits()
                 {
@@ -186,7 +187,7 @@ namespace SoulsFormats
                                 bitValue = br.ReadUInt32();
                         }
 
-                        ulong shifted = bitValue << (32 - field.BitSize - bitOffset) >> (32 - field.BitSize);
+                        ulong shifted = bitValue << (BIT_VALUE_SIZE - field.BitSize - bitOffset) >> (BIT_VALUE_SIZE - field.BitSize);
                         bitOffset += field.BitSize;
                         if (bitType == PARAMDEF.DefType.u8)
                             value = (byte)shifted;
@@ -229,7 +230,8 @@ namespace SoulsFormats
 
                 int bitOffset = -1;
                 PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
-                uint bitValue = 0;
+                ulong bitValue = 0;
+                const int BIT_VALUE_SIZE = 64;
 
                 for (int i = 0; i < Cells.Count; i++)
                 {
@@ -280,7 +282,7 @@ namespace SoulsFormats
                             else if (bitType == PARAMDEF.DefType.u32)
                                 shifted = (uint)value;
                             // Shift left first to clear any out-of-range bits
-                            shifted = shifted << (32 - field.BitSize) >> (32 - field.BitSize - bitOffset);
+                            shifted = shifted << (BIT_VALUE_SIZE - field.BitSize) >> (BIT_VALUE_SIZE - field.BitSize - bitOffset);
                             bitValue |= shifted;
                             bitOffset += field.BitSize;
 
@@ -309,7 +311,7 @@ namespace SoulsFormats
                                 else if (bitType == PARAMDEF.DefType.u16)
                                     bw.WriteUInt16((ushort)bitValue);
                                 else if (bitType == PARAMDEF.DefType.u32)
-                                    bw.WriteUInt32(bitValue);
+                                    bw.WriteUInt32((uint)bitValue);
                             }
                         }
                     }
