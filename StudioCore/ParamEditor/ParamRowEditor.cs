@@ -318,18 +318,18 @@ namespace StudioCore.ParamEditor
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
 
-            bool matchVanilla = vanillaval != null && !oldval.Equals(vanillaval);
+            bool diffVanilla = vanillaval != null && !oldval.Equals(vanillaval);
             bool matchDefault = nullableCell != null && nullableCell.Def.Default!=null && nullableCell.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
             if (isRef)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             else if (matchDefault)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
-            else if (matchVanilla)
+            else if (diffVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
             changed = PropertyRow(propType, oldval, out newval, IsBool);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if (isRef || matchDefault)
+            if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
             PropertyRowValueContextMenu(internalName, VirtualRef, oldval);
@@ -363,7 +363,7 @@ namespace StudioCore.ParamEditor
             }
 
             UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, newval, changed, committed);
-            if (matchVanilla)
+            if (diffVanilla && !(isRef || matchDefault)) //and not already removed
                 ImGui.PopStyleColor();
             ImGui.NextColumn();
             ImGui.PopID();
