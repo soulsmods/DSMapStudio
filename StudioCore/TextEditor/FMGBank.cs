@@ -31,6 +31,11 @@ namespace StudioCore.TextEditor
             DSRSpells,
             DSRCharacters,
             DSRLocations,
+            Gem,
+            Message,
+            Skill,
+            Effect,
+            Misc,
         }
 
         public enum ItemType
@@ -124,6 +129,17 @@ namespace StudioCore.TextEditor
             DescriptionRingsDLC2 = 264,
             SummarySpellsDLC2 = 265,
             DescriptionSpellsDLC2 = 266,
+
+            // ER - out of order
+            TitleGem = 35,
+            SummaryGem = 36,
+            DescriptionGem = 37,
+            TitleMessage = 41,
+            TitleSkill = 42,
+            SummarySkill = 43,
+            SummaryEffect = 44,
+            ERUnk45 = 45,
+            SummaryMiscER = 46,
         }
 
         public static AssetLocator AssetLocator = null;
@@ -154,7 +170,9 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleTest2:
                 case ItemFMGTypes.TitleTest3:
                 case ItemFMGTypes.DescriptionSkills:
+                case ItemFMGTypes.ERUnk45:
                     return ItemCategory.None;
+                
                 case ItemFMGTypes.DescriptionGoods:
                 case ItemFMGTypes.DescriptionGoodsDLC1:
                 case ItemFMGTypes.DescriptionGoodsDLC2:
@@ -169,6 +187,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRSummaryGoods:
                 case ItemFMGTypes.DSRTitleGoods:
                     return ItemCategory.DSRGoods;
+
                 case ItemFMGTypes.DescriptionWeapons:
                 case ItemFMGTypes.DescriptionWeaponsDLC1:
                 case ItemFMGTypes.DescriptionWeaponsDLC2:
@@ -181,6 +200,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRSummaryWeapons:
                 case ItemFMGTypes.DSRTitleWeapons:
                     return ItemCategory.DSRWeapons;
+
                 case ItemFMGTypes.DescriptionArmor:
                 case ItemFMGTypes.DescriptionArmorDLC1:
                 case ItemFMGTypes.DescriptionArmorDLC2:
@@ -193,6 +213,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRSummaryArmor:
                 case ItemFMGTypes.DSRTitleArmor:
                     return ItemCategory.DSRArmor;
+
                 case ItemFMGTypes.DescriptionRings:
                 case ItemFMGTypes.DescriptionRingsDLC1:
                 case ItemFMGTypes.DescriptionRingsDLC2:
@@ -207,6 +228,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRSummaryRings:
                 case ItemFMGTypes.DSRTitleRings:
                     return ItemCategory.DSRRings;
+
                 case ItemFMGTypes.DescriptionSpells:
                 case ItemFMGTypes.DescriptionSpellsDLC1:
                 case ItemFMGTypes.DescriptionSpellsDLC2:
@@ -220,18 +242,38 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRDescriptionSpells:
                 case ItemFMGTypes.DSRTitleSpells:
                     return ItemCategory.DSRSpells;
+
                 case ItemFMGTypes.TitleCharacters:
                 case ItemFMGTypes.TitleCharactersDLC1:
                 case ItemFMGTypes.TitleCharactersDLC2:
                     return ItemCategory.Characters;
                 case ItemFMGTypes.DSRTitleCharacters:
                     return ItemCategory.DSRCharacters;
+
                 case ItemFMGTypes.TitleLocations:
                 case ItemFMGTypes.TitleLocationsDLC1:
                 case ItemFMGTypes.TitleLocationsDLC2:
                     return ItemCategory.Locations;
                 case ItemFMGTypes.DSRTitleLocations:
                     return ItemCategory.DSRLocations;
+
+                case ItemFMGTypes.TitleGem:
+                case ItemFMGTypes.SummaryGem:
+                case ItemFMGTypes.DescriptionGem:
+                    return ItemCategory.Gem;
+
+                case ItemFMGTypes.TitleSkill:
+                case ItemFMGTypes.SummarySkill:
+                    return ItemCategory.Skill;
+
+                case ItemFMGTypes.TitleMessage:
+                    return ItemCategory.Message;
+
+                case ItemFMGTypes.SummaryEffect:
+                    return ItemCategory.Effect;
+
+                case ItemFMGTypes.SummaryMiscER:
+                    return ItemCategory.Misc;
                 default:
                     throw new Exception("Unrecognized FMG type");
             }
@@ -262,6 +304,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRDescriptionRings:
                 case ItemFMGTypes.DSRDescriptionSpells:
                 case ItemFMGTypes.DSRDescriptionWeapons:
+                case ItemFMGTypes.DescriptionGem:
                     return ItemType.Description;
                 case ItemFMGTypes.SummaryGoods:
                 case ItemFMGTypes.SummaryGoodsDLC1:
@@ -278,6 +321,8 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRSummaryGoods:
                 case ItemFMGTypes.DSRSummaryRings:
                 case ItemFMGTypes.DSRSummaryWeapons:
+                case ItemFMGTypes.SummaryGem:
+                case ItemFMGTypes.SummarySkill:
                     return ItemType.Summary;
                 case ItemFMGTypes.TitleGoods:
                 case ItemFMGTypes.TitleGoodsDLC1:
@@ -310,7 +355,15 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRTitleRings:
                 case ItemFMGTypes.DSRTitleSpells:
                 case ItemFMGTypes.DSRTitleWeapons:
+                case ItemFMGTypes.TitleGem:
+                case ItemFMGTypes.TitleMessage:
+                case ItemFMGTypes.TitleSkill:
+                //Summaries without titles
+                case ItemFMGTypes.SummaryEffect:
+                case ItemFMGTypes.SummaryMiscER:
                     return ItemType.Title;
+                case ItemFMGTypes.ERUnk45:
+                    return ItemType.None;
                 default:
                     throw new Exception("Unrecognized FMG type");
             }
@@ -397,8 +450,6 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs()
         {
-            if (AssetLocator.Type == GameType.EldenRing)
-                return;
             IsLoaded = false;
             IsLoading = true;
 
@@ -431,6 +482,7 @@ namespace StudioCore.TextEditor
                 _fmgs = new Dictionary<ItemFMGTypes, FMG>();
                 foreach (var file in fmgBinder.Files)
                 {
+                    Console.WriteLine("FMG TYPE "+(ItemFMGTypes)file.ID);
                     _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
                 }
                 IsLoaded = true;
@@ -448,7 +500,7 @@ namespace StudioCore.TextEditor
 
         public static void SaveFMGs()
         {
-            if (AssetLocator.Type == GameType.Undefined || AssetLocator.Type == GameType.EldenRing)
+            if (AssetLocator.Type == GameType.Undefined)
             {
                 return;
             }

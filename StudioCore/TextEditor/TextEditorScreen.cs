@@ -21,20 +21,7 @@ namespace StudioCore.TextEditor
 
         private FMGBank.ItemCategory[] _displayCategories {
             get {
-                if (FMGBank.AssetLocator.Type != GameType.DarkSoulsRemastered)
-                {
-                    return new FMGBank.ItemCategory[]
-                    {
-                        FMGBank.ItemCategory.Armor,
-                        FMGBank.ItemCategory.Characters,
-                        FMGBank.ItemCategory.Goods,
-                        FMGBank.ItemCategory.Locations,
-                        FMGBank.ItemCategory.Rings,
-                        FMGBank.ItemCategory.Spells,
-                        FMGBank.ItemCategory.Weapons
-                    };
-                }
-                else
+                if (FMGBank.AssetLocator.Type == GameType.DarkSoulsRemastered)
                 {
                     return new FMGBank.ItemCategory[]
                     {
@@ -52,6 +39,38 @@ namespace StudioCore.TextEditor
                         FMGBank.ItemCategory.DSRRings,
                         FMGBank.ItemCategory.DSRSpells,
                         FMGBank.ItemCategory.DSRWeapons
+                    };
+                }
+                else if (FMGBank.AssetLocator.Type == GameType.EldenRing)
+                {
+                    return new FMGBank.ItemCategory[]
+                    {
+                        FMGBank.ItemCategory.Armor,
+                        FMGBank.ItemCategory.Characters,
+                        FMGBank.ItemCategory.Goods,
+                        FMGBank.ItemCategory.Locations,
+                        FMGBank.ItemCategory.Rings,
+                        FMGBank.ItemCategory.Spells,
+                        FMGBank.ItemCategory.Weapons,
+                        FMGBank.ItemCategory.Gem,
+                        FMGBank.ItemCategory.Skill,
+                        FMGBank.ItemCategory.Effect,
+                        FMGBank.ItemCategory.Message,
+                        FMGBank.ItemCategory.Misc,
+                        
+                    };
+                }
+                else
+                {
+                    return new FMGBank.ItemCategory[]
+                    {
+                        FMGBank.ItemCategory.Armor,
+                        FMGBank.ItemCategory.Characters,
+                        FMGBank.ItemCategory.Goods,
+                        FMGBank.ItemCategory.Locations,
+                        FMGBank.ItemCategory.Rings,
+                        FMGBank.ItemCategory.Spells,
+                        FMGBank.ItemCategory.Weapons
                     };
                 }
             }
