@@ -142,6 +142,10 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
+                if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
+                {
+                    continue;
+                }
                 PARAM p = PARAM.Read(f.Bytes);
                 if (!_paramdefs.ContainsKey(p.ParamType))
                 {

@@ -33,7 +33,7 @@ namespace StudioCore.TextEditor
             DSRLocations,
             Gem,
             Message,
-            Skill,
+            SwordArts,
             Effect,
             Misc,
         }
@@ -135,8 +135,8 @@ namespace StudioCore.TextEditor
             SummaryGem = 36,
             DescriptionGem = 37,
             TitleMessage = 41,
-            TitleSkill = 42,
-            SummarySkill = 43,
+            TitleSwordArts = 42,
+            SummarySwordArts = 43,
             SummaryEffect = 44,
             ERUnk45 = 45,
             SummaryMiscER = 46,
@@ -262,9 +262,9 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DescriptionGem:
                     return ItemCategory.Gem;
 
-                case ItemFMGTypes.TitleSkill:
-                case ItemFMGTypes.SummarySkill:
-                    return ItemCategory.Skill;
+                case ItemFMGTypes.TitleSwordArts:
+                case ItemFMGTypes.SummarySwordArts:
+                    return ItemCategory.SwordArts;
 
                 case ItemFMGTypes.TitleMessage:
                     return ItemCategory.Message;
@@ -322,7 +322,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRSummaryRings:
                 case ItemFMGTypes.DSRSummaryWeapons:
                 case ItemFMGTypes.SummaryGem:
-                case ItemFMGTypes.SummarySkill:
+                case ItemFMGTypes.SummarySwordArts:
                     return ItemType.Summary;
                 case ItemFMGTypes.TitleGoods:
                 case ItemFMGTypes.TitleGoodsDLC1:
@@ -357,7 +357,7 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DSRTitleWeapons:
                 case ItemFMGTypes.TitleGem:
                 case ItemFMGTypes.TitleMessage:
-                case ItemFMGTypes.TitleSkill:
+                case ItemFMGTypes.TitleSwordArts:
                 //Summaries without titles
                 case ItemFMGTypes.SummaryEffect:
                 case ItemFMGTypes.SummaryMiscER:
@@ -482,7 +482,6 @@ namespace StudioCore.TextEditor
                 _fmgs = new Dictionary<ItemFMGTypes, FMG>();
                 foreach (var file in fmgBinder.Files)
                 {
-                    Console.WriteLine("FMG TYPE "+(ItemFMGTypes)file.ID);
                     _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
                 }
                 IsLoaded = true;

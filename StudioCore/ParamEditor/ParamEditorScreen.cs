@@ -131,6 +131,8 @@ namespace StudioCore.ParamEditor
             _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.ItemCategory.Goods));
             _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.ItemCategory.Armor));
             _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.ItemCategory.Weapons));
+            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.ItemCategory.Gem));
+            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.ItemCategory.SwordArts));
         }
 
         public override void DrawEditorMenu()

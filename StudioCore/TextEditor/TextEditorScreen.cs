@@ -53,7 +53,7 @@ namespace StudioCore.TextEditor
                         FMGBank.ItemCategory.Spells,
                         FMGBank.ItemCategory.Weapons,
                         FMGBank.ItemCategory.Gem,
-                        FMGBank.ItemCategory.Skill,
+                        FMGBank.ItemCategory.SwordArts,
                         FMGBank.ItemCategory.Effect,
                         FMGBank.ItemCategory.Message,
                         FMGBank.ItemCategory.Misc,
