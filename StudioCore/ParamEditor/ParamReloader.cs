@@ -21,6 +21,7 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadMemoryParamsDS3()
         {
+            GameOffsets offsets = GameOffsets.OffsetsDS3;
             var processArray = Process.GetProcessesByName("DarkSoulsIII");
             if (processArray.Any())
             {
@@ -29,9 +30,9 @@ namespace StudioCore.ParamEditor
 
                 foreach (var (paramFileName, param) in ParamBank.Params)
                 {
-                    if (SoulsMemoryHandler.paramOffsetsDS3.ContainsKey(paramFileName))
+                    if (offsets.paramOffsets.ContainsKey(paramFileName))
                     {
-                        threads.Add(new Thread(() => WriteMemoryPARAM(param, SoulsMemoryHandler.paramOffsetsDS3[paramFileName], memoryHandler)));
+                        threads.Add(new Thread(() => WriteMemoryPARAM(offsets, param, offsets.paramOffsets[paramFileName], memoryHandler)));
                     }
                 }
 
@@ -48,7 +49,9 @@ namespace StudioCore.ParamEditor
         }
         public static void GiveItemMenu(List<PARAM.Row> rowsToGib, string param)
         {
-            if (!SoulsMemoryHandler.ItemGibOffsetsDS3.ContainsKey(param))
+            GameOffsets offsets = GameOffsets.OffsetsDS3;
+
+            if (!offsets.itemGibOffsets.ContainsKey(param))
                 return;
             if (ImGui.MenuItem("Spawn Selected Items In Game"))
             {
@@ -98,11 +101,11 @@ namespace StudioCore.ParamEditor
                 }
             }
         }
-        private static void WriteMemoryPARAM(PARAM param, int paramOffset, SoulsMemoryHandler memoryHandler)
+        private static void WriteMemoryPARAM(GameOffsets offsets, PARAM param, int paramOffset, SoulsMemoryHandler memoryHandler)
         {
-            var BasePtr = memoryHandler.GetParamPtrDS3(paramOffset);
-            var BaseDataPtr = memoryHandler.GetToRowPtrDS3(paramOffset);
-            var RowCount = memoryHandler.GetRowCountDS3(paramOffset);
+            var BasePtr = memoryHandler.GetParamPtr(offsets, paramOffset);
+            var BaseDataPtr = memoryHandler.GetToRowPtr(offsets, paramOffset);
+            var RowCount = memoryHandler.GetRowCount(offsets, paramOffset);
 
             IntPtr DataSectionPtr;
 
@@ -112,11 +115,11 @@ namespace StudioCore.ParamEditor
             for (int i = 0; i < RowCount; i++)
             {
                 memoryHandler.ReadProcessMemory(BaseDataPtr, ref RowId);
-                memoryHandler.ReadProcessMemory(BaseDataPtr + 0x8, ref rowPtr);
+                memoryHandler.ReadProcessMemory(BaseDataPtr + offsets.rowPointerOffset, ref rowPtr);
 
                 DataSectionPtr = IntPtr.Add(BasePtr, rowPtr);
 
-                BaseDataPtr += 0x18;
+                BaseDataPtr += offsets.rowHeaderSize;
 
                 PARAM.Row row = param[RowId];
                 if (row != null)
@@ -312,22 +315,38 @@ namespace StudioCore.ParamEditor
             }
         }
     }
-    public class SoulsMemoryHandler
+
+    internal class GameOffsets
     {
-        public IntPtr memoryHandle;
-        private readonly Process gameProcess;
-        public SoulsMemoryHandler(Process gameProcess)
-        {
-            this.gameProcess = gameProcess;
-            this.memoryHandle = NativeWrapper.OpenProcess(ProcessAccessFlags.CreateThread|ProcessAccessFlags.ReadWrite, gameProcess.Id);
+        internal int paramBase;
+        internal int[] paramInnerPath;
+        internal int paramCountOffset;
+        internal int paramDataOffset;
+        internal int rowPointerOffset;
+        internal int rowHeaderSize;
+        internal Dictionary<string, int> paramOffsets;
+        internal Dictionary<string, int> itemGibOffsets;
+
+        internal GameOffsets(int pbase, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff, int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs){
+            paramBase = pbase;
+            paramInnerPath = path;
+            paramCountOffset = paramCountOff;
+            paramDataOffset = paramDataOff;
+            rowPointerOffset = rowPointerOff;
+            rowHeaderSize = rowHeadSize;
+            paramOffsets = pOffs;
+            itemGibOffsets = eOffs;
         }
-        public void Terminate()
-        {
-            NativeWrapper.CloseHandle(memoryHandle);
-            memoryHandle = (IntPtr)0;
-        }
-        public static Dictionary<string, int> paramOffsetsDS3 = new Dictionary<string, int>()
-        {
+
+        internal static GameOffsets OffsetsDS3 = new GameOffsets(
+            0x4782838, //paramBase
+            new int[]{0x68, 0x68}, //paramInnerPath
+            0xA, //paramCountOffset
+            0x40, //paramDataOffset
+            0x8, //rowPointerOffset
+            0x18, //rowHeaderSize
+            new Dictionary<string, int>() //paramOffsets
+            {
                 {"ActionButtonParam", 0xAD8},
                 {"AiSoundParam", 0xD60},
                 {"AtkParam_Npc", 0x268},
@@ -418,15 +437,32 @@ namespace StudioCore.ParamEditor
                 {"WepAbsorpPosParam", 0x12B8},
                 {"WetAspectParam", 0x1420},
                 {"Wind", 0xA48},
-        };
-        public static Dictionary<string, int> ItemGibOffsetsDS3 = new Dictionary<string, int>()
-        {
+            },
+            new Dictionary<string, int>() //itemGibOffsets
+            {
             {"EquipParamWeapon", 0x0},
             {"EquipParamProtector", 0x10000000},
             {"EquipParamAccessory", 0x20000000},
             {"EquipParamGoods", 0x40000000},
             {"Magic", 0x40000000}
-        };
+            }
+        );
+    }
+
+    public class SoulsMemoryHandler
+    {
+        public IntPtr memoryHandle;
+        private readonly Process gameProcess;
+        public SoulsMemoryHandler(Process gameProcess)
+        {
+            this.gameProcess = gameProcess;
+            this.memoryHandle = NativeWrapper.OpenProcess(ProcessAccessFlags.CreateThread|ProcessAccessFlags.ReadWrite, gameProcess.Id);
+        }
+        public void Terminate()
+        {
+            NativeWrapper.CloseHandle(memoryHandle);
+            memoryHandle = (IntPtr)0;
+        }
         public bool ReadProcessMemory<T>(IntPtr baseAddress, ref T buffer) where T : unmanaged
         {
             return NativeWrapper.ReadProcessMemory(memoryHandle, baseAddress, ref buffer);
@@ -441,6 +477,40 @@ namespace StudioCore.ParamEditor
         {
             return NativeWrapper.WriteProcessMemoryArray(memoryHandle, baseAddress, buffer);
         }
+
+        internal IntPtr GetParamPtr(GameOffsets offsets, int pOffset)
+        {
+            IntPtr ParamPtr = IntPtr.Add(gameProcess.MainModule.BaseAddress, offsets.paramBase);
+            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
+            ParamPtr = IntPtr.Add(ParamPtr, pOffset);
+            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
+            foreach (int innerPathPart in offsets.paramInnerPath)
+            {
+                ParamPtr = IntPtr.Add(ParamPtr, innerPathPart);
+                NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
+            }
+
+            return ParamPtr;
+        }
+
+        internal short GetRowCount(GameOffsets gOffsets, int pOffset)
+        {
+            IntPtr ParamPtr = GetParamPtr(gOffsets, pOffset);
+
+            Int16 buffer = 0;
+            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + gOffsets.paramCountOffset, ref buffer);
+
+            return buffer;
+        }
+
+        internal IntPtr GetToRowPtr(GameOffsets gOffsets, int pOffset)
+        {
+            var ParamPtr = GetParamPtr(gOffsets, pOffset);
+            ParamPtr = IntPtr.Add(ParamPtr, gOffsets.paramDataOffset);
+
+            return ParamPtr;
+        }
+
 
         public void ExecuteFunction(byte[] array)
         {
@@ -461,7 +531,6 @@ namespace StudioCore.ParamEditor
                 NativeWrapper.VirtualFreeEx(memoryHandle, address, buffer, FreeType.PreservePlaceholder);
             }
         }
-
         public void ExecuteBufferFunction(byte[] array, byte[] argument)
         {
             var Size1 = 0x100;
@@ -519,9 +588,10 @@ namespace StudioCore.ParamEditor
         public void PlayerItemGiveDS3(List<PARAM.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
         {//Thanks Church Guard for providing the foundation of this.
 
-            if (ItemGibOffsetsDS3.ContainsKey(paramDefParamType) && rows.Any())
+            GameOffsets offsets = GameOffsets.OffsetsDS3;
+            if (offsets.itemGibOffsets.ContainsKey(paramDefParamType) && rows.Any())
             {
-                int paramOffset = ItemGibOffsetsDS3[paramDefParamType];
+                int paramOffset = offsets.itemGibOffsets[paramDefParamType];
 
                 List<int> intListProcessing = new List<int>();
 
@@ -541,7 +611,7 @@ namespace StudioCore.ParamEditor
                 }
 
                 //ItemGib ASM in byte format
-                var itemGibByteFunction = new byte[] { 0x48, 0x83, 0xEC, 0x48, 0x4C, 0x8D, 0x01, 0x48, 0x8D, 0x51, 0x10, 0x48, 0xA1, 0x00, 0x23, 0x75, 0x44, 0x01, 0x00, 0x00, 0x00, 0x48, 0x8B, 0xC8, 0xFF, 0x15, 0x02, 0x00, 0x00, 0x00, 0xEB, 0x08, 0x70, 0xBA, 0x7B, 0x40, 0x01, 0x00, 0x00, 0x00, 0x48, 0x83, 0xC4, 0x48, 0xC3 };
+                var itemGibByteFunctionDS3 = new byte[] { 0x48, 0x83, 0xEC, 0x48, 0x4C, 0x8D, 0x01, 0x48, 0x8D, 0x51, 0x10, 0x48, 0xA1, 0x00, 0x23, 0x75, 0x44, 0x01, 0x00, 0x00, 0x00, 0x48, 0x8B, 0xC8, 0xFF, 0x15, 0x02, 0x00, 0x00, 0x00, 0xEB, 0x08, 0x70, 0xBA, 0x7B, 0x40, 0x01, 0x00, 0x00, 0x00, 0x48, 0x83, 0xC4, 0x48, 0xC3 };
 
                 //ItemGib Arguments Int Array
                 int[] itemGibArgumentsIntArray = new int[intListProcessing.Count()];
@@ -552,11 +622,11 @@ namespace StudioCore.ParamEditor
                 Buffer.BlockCopy(itemGibArgumentsIntArray, 0, itemGibArgumentsByteArray, 0, itemGibArgumentsByteArray.Length);
 
                 //Allocate Memory for ItemGib and Arguments
-                IntPtr itemGibByteFunctionPtr = NativeWrapper.VirtualAllocEx(memoryHandle, (IntPtr)0, (IntPtr)Buffer.ByteLength(itemGibByteFunction), AllocationType.Commit | AllocationType.Reserve, MemoryProtectionFlags.ExecuteReadWrite);
+                IntPtr itemGibByteFunctionPtr = NativeWrapper.VirtualAllocEx(memoryHandle, (IntPtr)0, (IntPtr)Buffer.ByteLength(itemGibByteFunctionDS3), AllocationType.Commit | AllocationType.Reserve, MemoryProtectionFlags.ExecuteReadWrite);
                 IntPtr itemGibArgumentsPtr = NativeWrapper.VirtualAllocEx(memoryHandle, (IntPtr)0, (IntPtr)Buffer.ByteLength(itemGibArgumentsIntArray), AllocationType.Commit | AllocationType.Reserve, MemoryProtectionFlags.ExecuteReadWrite);
 
                 //Write ItemGib Function and Arguments into the previously allocated memory
-                NativeWrapper.WriteProcessMemoryArray(memoryHandle, itemGibByteFunctionPtr, itemGibByteFunction);
+                NativeWrapper.WriteProcessMemoryArray(memoryHandle, itemGibByteFunctionPtr, itemGibByteFunctionDS3);
                 NativeWrapper.WriteProcessMemoryArray(memoryHandle, itemGibArgumentsPtr, itemGibArgumentsByteArray);
 
                 //Create a new thread at the copied ItemGib function in memory
@@ -565,41 +635,9 @@ namespace StudioCore.ParamEditor
 
 
                 //Frees memory used by the ItemGib function and it's arguments
-                NativeWrapper.VirtualFreeEx(memoryHandle, itemGibByteFunctionPtr, (IntPtr)Buffer.ByteLength(itemGibByteFunction), FreeType.PreservePlaceholder);
+                NativeWrapper.VirtualFreeEx(memoryHandle, itemGibByteFunctionPtr, (IntPtr)Buffer.ByteLength(itemGibByteFunctionDS3), FreeType.PreservePlaceholder);
                 NativeWrapper.VirtualFreeEx(memoryHandle, itemGibArgumentsPtr, (IntPtr)Buffer.ByteLength(itemGibArgumentsIntArray), FreeType.PreservePlaceholder);
             }
-        }
-
-        public IntPtr GetParamPtrDS3(int Offset)
-        {
-            IntPtr ParamPtr = IntPtr.Add(gameProcess.MainModule.BaseAddress, 0x4782838);
-            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
-            ParamPtr = IntPtr.Add(ParamPtr, Offset);
-            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
-            ParamPtr = IntPtr.Add(ParamPtr, 0x68);
-            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
-            ParamPtr = IntPtr.Add(ParamPtr, 0x68);
-            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
-
-            return ParamPtr;
-        }
-
-        public short GetRowCountDS3(int Offset)
-        {
-            IntPtr ParamPtr = GetParamPtrDS3(Offset);
-
-            Int16 buffer = 0;
-            NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + 0xA, ref buffer);
-
-            return buffer;
-        }
-
-        public IntPtr GetToRowPtrDS3(int Offset)
-        {
-            var ParamPtr = GetParamPtrDS3(Offset);
-            ParamPtr = IntPtr.Add(ParamPtr, 0x40);
-
-            return ParamPtr;
         }
     }
 }
