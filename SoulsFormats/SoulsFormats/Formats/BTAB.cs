@@ -1,47 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace SoulsFormats
 {
     /// <summary>
-    /// A DS3 and BB file that seems to modify material parameters to light certain static objects. Used to darken objects in shadows for example.
+    /// A lightmap atlasing config file introduced in DS2. Extension: .btab
     /// </summary>
     public class BTAB : SoulsFile<BTAB>
     {
         /// <summary>
-        /// Entries in this BTAB.
+        /// Whether the file is big-endian; true for PS3/X360, false otherwise.
         /// </summary>
-        public List<Entry> Entries;
+        public bool BigEndian { get; set; }
+
+        /// <summary>
+        /// Whether the file uses the 64-bit format; true for DS3/BB, false for DS2.
+        /// </summary>
+        public bool LongFormat { get; set; }
+
+        /// <summary>
+        /// Material configs in this file.
+        /// </summary>
+        public List<Entry> Entries { get; set; }
 
         /// <summary>
         /// Deserializes file data from a stream.
         /// </summary>
         protected override void Read(BinaryReaderEx br)
         {
-            br.BigEndian = false;
+            br.BigEndian = br.GetBoolean(0x10);
 
             br.AssertInt32(1);
             br.AssertInt32(0);
             int entryCount = br.ReadInt32();
-            int nameSize = br.ReadInt32();
-            br.AssertInt32(0);
-            // Entry size
-            br.AssertInt32(0x28);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
+            int stringsLength = br.ReadInt32();
+            BigEndian = br.ReadBoolean();
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.VarintLong = LongFormat = br.AssertInt32(0x1C, 0x28) == 0x28; // Entry size
+            br.AssertPattern(0x24, 0x00);
 
-            long nameStart = br.Position;
-            br.Position = nameStart + nameSize;
+            long stringsStart = br.Position;
+            br.Skip(stringsLength);
             Entries = new List<Entry>(entryCount);
             for (int i = 0; i < entryCount; i++)
-                Entries.Add(new Entry(br, nameStart));
+                Entries.Add(new Entry(br, stringsStart));
         }
 
         /// <summary>
@@ -49,109 +53,103 @@ namespace SoulsFormats
         /// </summary>
         protected override void Write(BinaryWriterEx bw)
         {
-            bw.BigEndian = false;
+            bw.BigEndian = BigEndian;
+            bw.VarintLong = LongFormat;
 
             bw.WriteInt32(1);
             bw.WriteInt32(0);
             bw.WriteInt32(Entries.Count);
-            bw.ReserveInt32("NameSize");
-            bw.WriteInt32(0);
-            bw.WriteInt32(0x28);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
+            bw.ReserveInt32("StringsLength");
+            bw.WriteBoolean(BigEndian);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
+            bw.WriteInt32(LongFormat ? 0x28 : 0x1C);
+            bw.WritePattern(0x24, 0x00);
 
-            long nameStart = bw.Position;
-            var nameOffsets = new List<int>(Entries.Count * 2);
+            long stringsStart = bw.Position;
+            var stringOffsets = new List<long>(Entries.Count * 2);
             foreach (Entry entry in Entries)
             {
-                int nameOffset = (int)(bw.Position - nameStart);
-                nameOffsets.Add(nameOffset);
-                bw.WriteUTF16(entry.MSBPartName, true);
-                if (nameOffset % 0x10 != 0)
-                {
-                    for (int i = 0; i < 0x10 - (nameOffset % 0x10); i++)
-                        bw.WriteByte(0);
-                }
+                long partNameOffset = bw.Position - stringsStart;
+                stringOffsets.Add(partNameOffset);
+                bw.WriteUTF16(entry.PartName, true);
+                bw.PadRelative(stringsStart, 8); // This padding is not consistent, but it's the best I can do
 
-                int nameOffset2 = (int)(bw.Position - nameStart);
-                nameOffsets.Add(nameOffset2);
-                bw.WriteUTF16(entry.FLVERMaterialName, true);
-                if (nameOffset2 % 0x10 != 0)
-                {
-                    for (int i = 0; i < 0x10 - (nameOffset2 % 0x10); i++)
-                        bw.WriteByte(0);
-                }
+                long materialNameOffset = bw.Position - stringsStart;
+                stringOffsets.Add(materialNameOffset);
+                bw.WriteUTF16(entry.MaterialName, true);
+                bw.PadRelative(stringsStart, 8);
             }
 
-            bw.FillInt32("NameSize", (int)(bw.Position - nameStart));
+            bw.FillInt32("StringsLength", (int)(bw.Position - stringsStart));
             for (int i = 0; i < Entries.Count; i++)
-                Entries[i].Write(bw, nameOffsets[i * 2], nameOffsets[i * 2 + 1]);
+                Entries[i].Write(bw, stringOffsets[i * 2], stringOffsets[i * 2 + 1]);
         }
 
         /// <summary>
-        /// A BTAB entry.
+        /// Configures lightmap atlasing for a certain part and material.
         /// </summary>
         public class Entry
         {
             /// <summary>
-            /// The name of the target part defined in the MSB file
+            /// The name of the target part defined in an MSB file.
             /// </summary>
-            public string MSBPartName;
+            public string PartName { get; set; }
 
             /// <summary>
-            /// The name of a material in the FLVER; not the name of the MTD file itself.
+            /// The name of the target material in the part's FLVER model.
             /// </summary>
-            public string FLVERMaterialName;
+            public string MaterialName { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// The ID of the atlas texture to use.
             /// </summary>
-            public int Unk1C;
+            public int AtlasID { get; set; }
 
-            // These floats are used to control the lighting/material parameters in some way.
-            // Seem to be between 0.0-1.0 and sum up to 1.0 in some cases
             /// <summary>
-            /// Unknown.
+            /// Offsets the lightmap UVs.
             /// </summary>
-            public float Unk20, Unk24, Unk28, Unk2C;
+            public Vector2 UVOffset { get; set; }
+
+            /// <summary>
+            /// Scales the lightmap UVs.
+            /// </summary>
+            public Vector2 UVScale { get; set; }
+
+            /// <summary>
+            /// Creates an Entry with default values.
+            /// </summary>
+            public Entry()
+            {
+                PartName = "";
+                MaterialName = "";
+                UVScale = Vector2.One;
+            }
 
             internal Entry(BinaryReaderEx br, long nameStart)
             {
-                int nameOffset = br.ReadInt32();
-                MSBPartName = br.GetUTF16(nameStart + nameOffset);
-                br.AssertInt32(0);
+                long msbNameOffset = br.ReadVarint();
+                long flverNameOffset = br.ReadVarint();
+                AtlasID = br.ReadInt32();
+                UVOffset = br.ReadVector2();
+                UVScale = br.ReadVector2();
+                if (br.VarintLong)
+                    br.AssertInt32(0);
 
-                int nameOffset2 = br.ReadInt32();
-                FLVERMaterialName = br.GetUTF16(nameStart + nameOffset2);
-                br.AssertInt32(0);
-
-                Unk1C = br.ReadInt32();
-                Unk20 = br.ReadSingle();
-                Unk24 = br.ReadSingle();
-                Unk28 = br.ReadSingle();
-                Unk2C = br.ReadSingle();
-                br.AssertInt32(0);
+                PartName = br.GetUTF16(nameStart + msbNameOffset);
+                MaterialName = br.GetUTF16(nameStart + flverNameOffset);
             }
 
-            internal void Write(BinaryWriterEx bw, int nameOffset, int nameOffset2)
+            internal void Write(BinaryWriterEx bw, long partNameOffset, long materialNameOffset)
             {
-                bw.WriteInt32(nameOffset);
-                bw.WriteInt32(0);
-                bw.WriteInt32(nameOffset2);
-                bw.WriteInt32(0);
-                bw.WriteInt32(Unk1C);
-                bw.WriteSingle(Unk20);
-                bw.WriteSingle(Unk24);
-                bw.WriteSingle(Unk28);
-                bw.WriteSingle(Unk2C);
-                bw.WriteInt32(0);
+                bw.WriteVarint(partNameOffset);
+                bw.WriteVarint(materialNameOffset);
+                bw.WriteInt32(AtlasID);
+                bw.WriteVector2(UVOffset);
+                bw.WriteVector2(UVScale);
+                if (bw.VarintLong)
+                    bw.WriteInt32(0);
             }
 
             /// <summary>
@@ -159,7 +157,7 @@ namespace SoulsFormats
             /// </summary>
             public override string ToString()
             {
-                return $"{MSBPartName} : {FLVERMaterialName}";
+                return $"{PartName} : {MaterialName}";
             }
         }
     }

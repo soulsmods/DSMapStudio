@@ -10,6 +10,8 @@
   </Enums>
   <Field>
     <EquipId Refs="EquipParamAccessory,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <mtrlId AltName="Material ID" Refs="EquipMtrlSetParam"/>
+    <sellQuantity AltName="Quantity" />
     <equipType Enum="EquipType" />
   </Field>
 </PARAMMETA>

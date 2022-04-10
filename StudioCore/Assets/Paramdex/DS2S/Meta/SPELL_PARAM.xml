@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<SpellClass1 AltName="Spell Class = -1" /> 
+<SpellFunction1 AltName="Spell Function = -1" /> 
+<INTRequirement AltName="INT Requirement" /> 
+<FTHRequirement AltName="FTH Requirement" /> 
+<SlotsUsed1 AltName="Slots Used = 1" /> 
+<BaseCasts1 AltName="Base Casts = 1" /> 
+<Casts15ATN1 AltName="Casts (15 ATN) = 1" /> 
+<Casts26ATN1 AltName="Casts (26 ATN) = 1" /> 
+<Casts32ATN1 AltName="Casts (32 ATN) = 1" /> 
+<Casts38ATN1 AltName="Casts (38 ATN) = 1" /> 
+<Casts43ATN1 AltName="Casts (43 ATN) = 1" /> 
+<Casts49ATN1 AltName="Casts (49 ATN) = 1" /> 
+<Casts58ATN1 AltName="Casts (58 ATN) = 1" /> 
+<Casts79ATN1 AltName="Casts (79 ATN) = 1" /> 
+<Casts94ATN1 AltName="Casts (94 ATN) = 1" /> 
+<SpellSoulConsumeID AltName="Spell Soul Consume ID" /> 
+<BulletID1 AltName="Bullet ID = -1" /> 
+<DamageID1 AltName="Damage ID = -1" /> 
+</Field>
+</PARAMMETA>

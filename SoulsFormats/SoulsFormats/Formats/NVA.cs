@@ -241,7 +241,6 @@ namespace SoulsFormats
             /// <summary>
             /// Rotation of the mesh, in radians.
             /// </summary>
-            [RotationRadians]
             public Vector3 Rotation { get; set; }
 
             /// <summary>

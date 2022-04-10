@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Enums>
+	<Enum Name="School">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Gesture" />
+		<Option Value="2" Name="Sorcery" />
+		<Option Value="3" Name="Miracle" />
+		<Option Value="4" Name="Pyromancy" />
+		<Option Value="5" Name="Hex" />
+	</Enum>
+</Enums>	
+<Self Row0Dummy="" />
+<Field>
+<IconID AltName="Icon ID" Wiki="Typically found in menu\tex\icon." /> 
+<EffectID AltName="Effect ID" Wiki="The effect ID- can be called from EMEVD." /> 
+<WeaponID AltName="Weapon ID" Refs="WeaponParam" /> 
+<ArmorID AltName="Armor ID" Refs="ArmorParam" /> 
+<AmmunitionID AltName="Ammunition ID" Refs="ArrowParam" /> 
+<RingID AltName="Ring ID" Refs="RingParam" /> 
+<SpellID AltName="Spell ID" Refs="SpellParam" /> 
+<GestureID AltName="Gesture ID" /> 
+<SortID AltName="Sort ID" /> 
+<BaseBuyPrice AltName="Base Buy Price" Wiki="Per-merchant pricing can be altered with ShopLineupParam." /> 
+<SellPrice AltName="Sell Price" /> 
+<AnimationSpeed AltName="Animation Speed" /> 
+<ItemUseAnimation AltName="Item Use Animation" /> 
+<ItemUsageID AltName="Item Usage ID" Refs="ItemUsageParam" /> 
+<MaxHeld AltName="Max Held" /> 
+<ItemType AltName="Item Type" /> 
+<SpellSchool AltName="Spell School" Enum="School" /> 
+<ItemState AltName="Item State" /> 
+</Field>
+</PARAMMETA>

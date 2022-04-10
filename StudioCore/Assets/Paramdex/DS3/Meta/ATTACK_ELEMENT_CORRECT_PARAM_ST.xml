@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <_0x00 AltName="Physical Scaling: STR" IsBool="" />
+    <_0x00 AltName="Physical Scaling: DEX" IsBool="" />
+    <_0x00 AltName="Physical Scaling: INT" IsBool="" />
+    <_0x00 AltName="Physical Scaling: FTH" IsBool="" />
+    <_0x00 AltName="Physical Scaling: LCK" IsBool="" />
+    <_0x00 AltName="Magic Scaling: STR" IsBool="" />
+    <_0x00 AltName="Magic Scaling: DEX" IsBool="" />
+    <_0x00 AltName="Magic Scaling: INT" IsBool="" />
+    <_0x00 AltName="Magic Scaling: FTH" IsBool="" />
+    <_0x00 AltName="Magic Scaling: LCK" IsBool="" />
+    <_0x00 AltName="Fire Scaling: STR" IsBool="" />
+    <_0x00 AltName="Fire Scaling: DEX" IsBool="" />
+    <_0x00 AltName="Fire Scaling: INT" IsBool="" />
+    <_0x00 AltName="Fire Scaling: FTH" IsBool="" />
+    <_0x00 AltName="Fire Scaling: LCK" IsBool="" />
+    <_0x00 AltName="Lightning Scaling: STR" IsBool="" />
+    <_0x00 AltName="Lightning Scaling: DEX" IsBool="" />
+    <_0x00 AltName="Lightning Scaling: INT" IsBool="" />
+    <_0x00 AltName="Lightning Scaling: FTH" IsBool="" />
+    <_0x00 AltName="Lightning Scaling: LCK" IsBool="" />
+    <_0x00 AltName="Dark Scaling: STR" IsBool="" />
+    <_0x00 AltName="Dark Scaling: DEX" IsBool="" />
+    <_0x00 AltName="Dark Scaling: INT" IsBool="" />
+    <_0x00 AltName="Dark Scaling: FTH" IsBool="" />
+    <_0x00 AltName="Dark Scaling: LCK" IsBool="" />
+	<addRate0 AltName="Physical AddRate: STR" />
+	<addRate1 AltName="Physical AddRate: DEX" />
+	<addRate2 AltName="Physical AddRate: INT" />
+	<addRate3 AltName="Physical AddRate: FTH" />
+	<addRate4 AltName="Physical AddRate: LCK" />
+	<addRate5 AltName="Magic AddRate: STR" />
+	<addRate6 AltName="Magic AddRate: DEX" />
+	<addRate7 AltName="Magic AddRate: INT" />
+	<addRate8 AltName="Magic AddRate: FTH" />
+	<addRate9 AltName="Magic AddRate: LCK" />
+	<addRate10 AltName="Fire AddRate: STR" />
+	<addRate11 AltName="Fire AddRate: DEX" />
+	<addRate12 AltName="Fire AddRate: INT" />
+	<addRate13 AltName="Fire AddRate: FTH" />
+	<addRate14 AltName="Fire AddRate: LCK" />
+	<addRate15 AltName="Lightning AddRate: STR" />
+	<addRate16 AltName="Lightning AddRate: DEX" />
+	<addRate17 AltName="Lightning AddRate: INT" />
+	<addRate18 AltName="Lightning AddRate: FTH" />
+	<addRate19 AltName="Lightning AddRate: LCK" />
+	<addRate20 AltName="Dark AddRate: STR" />
+	<addRate21 AltName="Dark AddRate: DEX" />
+	<addRate22 AltName="Dark AddRate: INT" />
+	<addRate23 AltName="Dark AddRate: FTH" />
+	<addRate24 AltName="Dark AddRate: LCK" />
+	<corrRate0 AltName="Physical Correction: STR" />
+	<corrRate1 AltName="Physical Correction: DEX" />
+	<corrRate2 AltName="Physical Correction: INT" />
+	<corrRate3 AltName="Physical Correction: FTH" />
+	<corrRate4 AltName="Physical Correction: LCK" />
+	<corrRate5 AltName="Magic Correction: STR" />
+	<corrRate6 AltName="Magic Correction: DEX" />
+	<corrRate7 AltName="Magic Correction: INT" />
+	<corrRate8 AltName="Magic Correction: FTH" />
+	<corrRate9 AltName="Magic Correction: LCK" />
+	<corrRate10 AltName="Fire Correction: STR" />
+	<corrRate11 AltName="Fire Correction: DEX" />
+	<corrRate12 AltName="Fire Correction: INT" />
+	<corrRate13 AltName="Fire Correction: FTH" />
+	<corrRate14 AltName="Fire Correction: LCK" />
+	<corrRate15 AltName="Lightning Correction: STR" />
+	<corrRate16 AltName="Lightning Correction: DEX" />
+	<corrRate17 AltName="Lightning Correction: INT" />
+	<corrRate18 AltName="Lightning Correction: FTH" />
+	<corrRate19 AltName="Lightning Correction: LCK" />
+	<corrRate20 AltName="Dark Correction: STR" />
+	<corrRate21 AltName="Dark Correction: DEX" />
+	<corrRate22 AltName="Dark Correction: INT" />
+	<corrRate23 AltName="Dark Correction: FTH" />
+	<corrRate24 AltName="Dark Correction: LCK" />
+  </Field>
+</PARAMMETA>

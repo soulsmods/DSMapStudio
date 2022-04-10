@@ -16,5 +16,6 @@ namespace StudioCore
         DarkSoulsIII = 5,
         Bloodborne = 6,
         Sekiro = 7,
+        EldenRing = 8,
     }
 }

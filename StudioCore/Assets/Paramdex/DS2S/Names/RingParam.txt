@@ -124,8 +124,3 @@
 41120000 Ring of the Living
 41130000 Yorgh's Ring
 42000000 Agape Ring
-42010000 Ring of Fortune
-42030000 Greatwood Band
-42040000 Witch's Ring
-42050000 Dragonscale Ring
-42060000 Ring of Lords

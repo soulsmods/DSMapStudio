@@ -9,6 +9,11 @@ namespace SoulsFormats
     public class ACB : SoulsFile<ACB>
     {
         /// <summary>
+        /// True for PS3/X360, false otherwise.
+        /// </summary>
+        public bool BigEndian { get; set; }
+
+        /// <summary>
         /// Assets configured by this ACB.
         /// </summary>
         public List<Asset> Assets { get; set; }
@@ -29,9 +34,14 @@ namespace SoulsFormats
         /// </summary>
         protected override void Read(BinaryReaderEx br)
         {
-            br.BigEndian = false;
+            BigEndian = br.GetUInt32(0xC) > br.Length;
+            br.BigEndian = BigEndian;
+
             br.AssertASCII("ACB\0");
-            br.AssertInt32(0x00000102);
+            br.AssertByte(2);
+            br.AssertByte(1);
+            br.AssertByte(0);
+            br.AssertByte(0);
             int assetCount = br.ReadInt32();
             br.ReadInt32(); // Offset index offset
 
@@ -40,7 +50,9 @@ namespace SoulsFormats
             {
                 br.Position = assetOffset;
                 AssetType type = br.GetEnum16<AssetType>(br.Position + 8);
-                if (type == AssetType.General)
+                if (type == AssetType.PWV)
+                    Assets.Add(new Asset.PWV(br));
+                else if (type == AssetType.General)
                     Assets.Add(new Asset.General(br));
                 else if (type == AssetType.Model)
                     Assets.Add(new Asset.Model(br));
@@ -63,9 +75,12 @@ namespace SoulsFormats
             var offsetIndex = new List<int>();
             var memberOffsetsIndex = new SortedDictionary<int, List<int>>();
 
-            bw.BigEndian = false;
+            bw.BigEndian = BigEndian;
             bw.WriteASCII("ACB\0");
-            bw.WriteInt32(0x00000102);
+            bw.WriteByte(2);
+            bw.WriteByte(1);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
             bw.WriteInt32(Assets.Count);
             bw.ReserveInt32("OffsetIndexOffset");
 
@@ -118,6 +133,7 @@ namespace SoulsFormats
         public enum AssetType : ushort
         {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            PWV = 0,
             General = 1,
             Model = 2,
             Texture = 3,
@@ -189,6 +205,35 @@ namespace SoulsFormats
             }
 
             /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class PWV : Asset
+            {
+                /// <summary>
+                /// AssetType.PWV
+                /// </summary>
+                public override AssetType Type => AssetType.PWV;
+
+                /// <summary>
+                /// Creates a PWV with default values.
+                /// </summary>
+                public PWV() : base() { }
+
+                internal PWV(BinaryReaderEx br) : base(br)
+                {
+                    br.AssertInt16(0);
+                    br.AssertInt32(0);
+                }
+
+                internal override void Write(BinaryWriterEx bw, int index, List<int> offsetIndex, SortedDictionary<int, List<int>> membersOffsetIndex)
+                {
+                    base.Write(bw, index, offsetIndex, membersOffsetIndex);
+                    bw.WriteInt16(0);
+                    bw.WriteInt32(0);
+                }
+            }
+
+            /// <summary>
             /// Miscellaneous assets including collisions and lighting configs.
             /// </summary>
             public class General : Asset
@@ -228,24 +273,24 @@ namespace SoulsFormats
                 public override AssetType Type => AssetType.Model;
 
                 /// <summary>
-                /// Unknown.
+                /// 0 for objects and characters, 1 for map pieces.
                 /// </summary>
                 public short Unk0A { get; set; }
 
                 /// <summary>
                 /// Unknown; may be null.
                 /// </summary>
-                public List<Member> Members { get; set; }
+                public MemberList Members { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Distance at which the model becomes invisible.
                 /// </summary>
-                public int Unk10 { get; set; }
+                public int DrawDistance { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Indirectly determines when lod facesets are used; observed values 0-3.
                 /// </summary>
-                public short Unk1C { get; set; }
+                public short MeshLodRate { get; set; }
 
                 /// <summary>
                 /// Whether the model appears in reflective surfaces like water.
@@ -253,9 +298,9 @@ namespace SoulsFormats
                 public bool Reflectible { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Enables interaction normals for water.
                 /// </summary>
-                public bool Unk1F { get; set; }
+                public bool NormalInteraction { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -263,9 +308,9 @@ namespace SoulsFormats
                 public int Unk20 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; alters rendering mode somehow.
                 /// </summary>
-                public byte Unk24 { get; set; }
+                public byte RenderType { get; set; }
 
                 /// <summary>
                 /// If true, the model does not cast shadows.
@@ -303,14 +348,14 @@ namespace SoulsFormats
                 public bool Unk2E { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Distance at which low textures are used.
                 /// </summary>
-                public short Unk30 { get; set; }
+                public short LowTextureDistance { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Distance at which the model uses simplified rendering.
                 /// </summary>
-                public short Unk32 { get; set; }
+                public short CheapRenderDistance { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -318,7 +363,7 @@ namespace SoulsFormats
                 public byte Unk34 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; disables lighting on water/transparencies.
                 /// </summary>
                 public bool Unk35 { get; set; }
 
@@ -344,14 +389,14 @@ namespace SoulsFormats
                 {
                     Unk0A = br.ReadInt16();
                     int membersOffset = br.ReadInt32();
-                    Unk10 = br.ReadInt32();
+                    DrawDistance = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
-                    Unk1C = br.ReadInt16();
+                    MeshLodRate = br.ReadInt16();
                     Reflectible = br.ReadBoolean();
-                    Unk1F = br.ReadBoolean();
+                    NormalInteraction = br.ReadBoolean();
                     Unk20 = br.ReadInt32();
-                    Unk24 = br.ReadByte();
+                    RenderType = br.ReadByte();
                     DisableShadowSource = br.ReadBoolean();
                     DisableShadowTarget = br.ReadBoolean();
                     Unk27 = br.ReadBoolean();
@@ -360,8 +405,8 @@ namespace SoulsFormats
                     FixToCamera = br.ReadBoolean();
                     Unk2E = br.ReadBoolean();
                     br.AssertByte(0);
-                    Unk30 = br.ReadInt16();
-                    Unk32 = br.ReadInt16();
+                    LowTextureDistance = br.ReadInt16();
+                    CheapRenderDistance = br.ReadInt16();
                     Unk34 = br.ReadByte();
                     Unk35 = br.ReadBoolean();
                     Unk36 = br.ReadBoolean();
@@ -371,17 +416,7 @@ namespace SoulsFormats
                     if (membersOffset != 0)
                     {
                         br.Position = membersOffset;
-                        br.AssertInt16(-1);
-                        short memberCount = br.ReadInt16();
-                        int memberOffsetsOffset = br.ReadInt32();
-
-                        br.Position = memberOffsetsOffset;
-                        Members = new List<Member>(memberCount);
-                        foreach (int memberOffset in br.ReadInt32s(memberCount))
-                        {
-                            br.Position = memberOffset;
-                            Members.Add(new Member(br));
-                        }
+                        Members = new MemberList(br);
                     }
                 }
 
@@ -393,14 +428,14 @@ namespace SoulsFormats
                     if (Members != null)
                         membersOffsetIndex[index].Add((int)bw.Position);
                     bw.ReserveInt32($"MembersOffset{index}");
-                    bw.WriteInt32(Unk10);
+                    bw.WriteInt32(DrawDistance);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
-                    bw.WriteInt16(Unk1C);
+                    bw.WriteInt16(MeshLodRate);
                     bw.WriteBoolean(Reflectible);
-                    bw.WriteBoolean(Unk1F);
+                    bw.WriteBoolean(NormalInteraction);
                     bw.WriteInt32(Unk20);
-                    bw.WriteByte(Unk24);
+                    bw.WriteByte(RenderType);
                     bw.WriteBoolean(DisableShadowSource);
                     bw.WriteBoolean(DisableShadowTarget);
                     bw.WriteBoolean(Unk27);
@@ -409,8 +444,8 @@ namespace SoulsFormats
                     bw.WriteBoolean(FixToCamera);
                     bw.WriteBoolean(Unk2E);
                     bw.WriteByte(0);
-                    bw.WriteInt16(Unk30);
-                    bw.WriteInt16(Unk32);
+                    bw.WriteInt16(LowTextureDistance);
+                    bw.WriteInt16(CheapRenderDistance);
                     bw.WriteByte(Unk34);
                     bw.WriteBoolean(Unk35);
                     bw.WriteBoolean(Unk36);
@@ -427,23 +462,73 @@ namespace SoulsFormats
                     else
                     {
                         bw.FillInt32($"MembersOffset{index}", (int)bw.Position);
-                        bw.WriteInt16(-1);
-                        bw.WriteInt16((short)Members.Count);
+                        Members.Write(bw, index, offsetIndex, membersOffsetIndex);
+                    }
+                }
+
+                /// <summary>
+                /// Unknown collection of unknown items.
+                /// </summary>
+                public class MemberList : List<Member>
+                {
+                    /// <summary>
+                    /// Unknown; usually -1.
+                    /// </summary>
+                    public short Unk00 { get; set; }
+
+                    /// <summary>
+                    /// Creates an empty MemberList.
+                    /// </summary>
+                    public MemberList() : base() { }
+
+                    /// <summary>
+                    /// Creates an empty MemberList with the specified capacity.
+                    /// </summary>
+                    public MemberList(int capacity) : base(capacity) { }
+
+                    /// <summary>
+                    /// Creates a MemberList with elements copied from the specified collection.
+                    /// </summary>
+                    public MemberList(IEnumerable<Member> collection) : base(collection) { }
+
+                    internal MemberList(BinaryReaderEx br)
+                    {
+                        Unk00 = br.ReadInt16();
+                        short memberCount = br.ReadInt16();
+                        int memberOffsetsOffset = br.ReadInt32();
+
+                        br.StepIn(memberOffsetsOffset);
+                        {
+                            Capacity = memberCount;
+                            int[] memberOffsets = br.ReadInt32s(memberCount);
+                            for (int i = 0; i < memberCount; i++)
+                            {
+                                br.Position = memberOffsets[i];
+                                Add(new Member(br));
+                            }
+                        }
+                        br.StepOut();
+                    }
+
+                    internal void Write(BinaryWriterEx bw, int index, List<int> offsetIndex, SortedDictionary<int, List<int>> membersOffsetIndex)
+                    {
+                        bw.WriteInt16(Unk00);
+                        bw.WriteInt16((short)Count);
                         membersOffsetIndex[index].Add((int)bw.Position);
                         bw.ReserveInt32($"MemberOffsetsOffset{index}");
 
                         // :^)
                         bw.FillInt32($"MemberOffsetsOffset{index}", (int)bw.Position);
-                        for (int i = 0; i < Members.Count; i++)
+                        for (int i = 0; i < Count; i++)
                         {
                             membersOffsetIndex[index].Add((int)bw.Position);
                             bw.ReserveInt32($"MemberOffset{index}:{i}");
                         }
 
-                        for (int i = 0; i < Members.Count; i++)
+                        for (int i = 0; i < Count; i++)
                         {
                             bw.FillInt32($"MemberOffset{index}:{i}", (int)bw.Position);
-                            Members[i].Write(bw, index, i, offsetIndex);
+                            this[i].Write(bw, index, i, offsetIndex);
                         }
                     }
                 }
@@ -553,7 +638,6 @@ namespace SoulsFormats
                     br.AssertInt16(0);
                     br.AssertInt32(0);
                     Unk10 = br.ReadInt32();
-                    Unk14 = br.ReadInt32();
                 }
 
                 internal override void Write(BinaryWriterEx bw, int index, List<int> offsetIndex, SortedDictionary<int, List<int>> membersOffsetIndex)
@@ -562,7 +646,6 @@ namespace SoulsFormats
                     bw.WriteInt16(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(Unk10);
-                    bw.WriteInt32(Unk14);
                 }
             }
 

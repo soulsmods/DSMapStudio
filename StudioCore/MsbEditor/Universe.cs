@@ -311,7 +311,7 @@ namespace StudioCore.MsbEditor
                 if (registParams.ContainsKey(registid))
                 {
                     var regist = registParams[registid];
-                    var chrid = ParamBank.GetChrIDForEnemy((uint)regist["EnemyParamID"].Value);
+                    var chrid = ParamEditor.ParamBank.GetChrIDForEnemy((uint)regist["EnemyParamID"].Value);
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
@@ -448,6 +448,7 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSB1.Read(ad.AssetPath);
             }
+            //TODO: ER
             map.LoadMSB(msb);
 
             var amapid = mapid.Substring(0, 6) + "_00_00";
@@ -856,7 +857,7 @@ namespace StudioCore.MsbEditor
         public void SaveMap(Map map)
         {
             var ad = _assetLocator.GetMapMSB(map.Name);
-            var adw = _assetLocator.GetMapMSB(map.Name, _assetLocator.Type == GameType.DarkSoulsPTDE ? false : true);
+            var adw = _assetLocator.GetMapMSB(map.Name, true);// _assetLocator.Type == GameType.DarkSoulsPTDE ? false : true);
             IMsb msb;
             DCX.Type compressionType = DCX.Type.None;
             if (_assetLocator.Type == GameType.DarkSoulsIII)
@@ -904,6 +905,7 @@ namespace StudioCore.MsbEditor
                 //var t = MSB1.Read(ad.AssetPath);
                 //((MSB1)msb).Models = t.Models;
             }
+            //TODO: ER
 
             map.SerializeToMSB(msb, _assetLocator.Type);
 

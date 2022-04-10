@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<SinPointsSinner AltName="Sin Points (Sinner)" /> 
+<SinPointsWretch AltName="Sin Points (Wretch)" /> 
+<HollowingIncreaseonDeath AltName="Hollowing Increase on Death" /> 
+<HollowingLevelforUnknown AltName="Hollowing Level for Unknown" /> 
+<HollowingLevelforAppearanceDegradation AltName="Hollowing Level for Appearance Degradation" /> 
+<HPMinimumPercentage AltName="HP Minimum Percentage" /> 
+<HPMinimumPercentageWretch AltName="HP Minimum Percentage (Wretch)" /> 
+</Field>
+</PARAMMETA>

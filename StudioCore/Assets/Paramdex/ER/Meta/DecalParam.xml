@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <maskSpeffectId Refs="SpEffectParam" />
+    <useDeferredDecal IsBool="" />
+    <usePaintDecal IsBool="" />
+    <bloodTypeEnable IsBool="" />
+    <bUseNormal IsBool="" />
+    <usePom IsBool="" />
+    <useEmissive IsBool="" />
+    <putVertical IsBool="" />
+    <bIntpEnable IsBool="" />
+    <bAlignedTexRandomVariationEnable IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

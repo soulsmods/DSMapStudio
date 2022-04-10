@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<AggroGroup AltName="AggroGroup" Wiki="Used to group entities together so they become aggressive at the same trigger and sometimes used with aggro boundaries." /> 
+<DeathEventID AltName="DeathEventID" /> 
+<GeneratorRegistParam AltName="GeneratorRegistParam" Wiki="ParamStudio can't deep link because of the way the generatorregistparam files are named to include the map designation at the end." /> 
+<ApperanceEventID AltName="ApperanceEventID" /> 
+<PreviousHostileEventID1 AltName="PreviousHostileEventID1" /> 
+<PreviousHostileEventID2 AltName="PreviousHostileEventID2" /> 
+<LocationEventID1 AltName="LocationEventID1" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<LocationEventID2 AltName="LocationEventID2" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<LocationEventID3 AltName="LocationEventID3" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<LocationEventID4 AltName="LocationEventID4" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<LocationEventID5 AltName="LocationEventID5" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<MapObjectBonfireID AltName="Map Object Bonfire ID" Wiki="The ID of the bonfire this entity is linked to. Used with ascetics, effigies, and multi-player." /> 
+<LocationEventID AltName="LocationEventID" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<LocationEventID AltName="LocationEventID" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<AIThinkID AltName="AIThinkID" Wiki="The AI for this entity. A boss AI will need to be damaged, changed, or ESD wizardry if you move it elsewhere." /> 
+<ActivationEventID1 AltName="ActivationEventID1" /> 
+<ActivationEventID2 AltName="ActivationEventID2" /> 
+<HostileEventID1 AltName="HostileEventID1" Wiki="Flag to be set when the entity becomes hostile towards the player character." /> 
+<HostileEventID2 AltName="HostileEventID2" /> 
+<LocationEventID1 AltName="LocationEventID1" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<LocationEventID2 AltName="LocationEventID2" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." /> 
+<ItemLotID1 AltName="ItemLotID1" Wiki="Typically the itemlot entry that acts as a drop table for this entity." /> 
+<ItemLotID2 AltName="ItemLotID2" /> 
+<GraveEventID AltName="GraveEventID" Wiki="Flag to be set when the entity is dead and requires a gravestone for the player character to interact with." /> 
+</Field>
+</PARAMMETA>

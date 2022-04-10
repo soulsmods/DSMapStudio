@@ -148,6 +148,10 @@ namespace StudioCore
             {
                 type = GameType.Sekiro;
             }
+            else if (exePath.ToLower().Contains("eldenring.exe"))
+            {
+                type = GameType.EldenRing;
+            }
             return type;
         }
 
@@ -218,6 +222,10 @@ namespace StudioCore
             {
                 Type = GameType.Sekiro;
             }
+            else if (exePath.ToLower().Contains("eldenring.exe"))
+            {
+                Type = GameType.EldenRing;
+            }
             else
             {
                 GameRootDirectory = null;
@@ -235,7 +243,7 @@ namespace StudioCore
             GameModDirectory = dir;
         }
 
-        public void SetFromProjectSettings(MsbEditor.ProjectSettings settings, string moddir)
+        public void SetFromProjectSettings(Editor.ProjectSettings settings, string moddir)
         {
             Type = settings.GameType;
             GameRootDirectory = settings.GameRoot;
@@ -336,50 +344,46 @@ namespace StudioCore
             {
                 return ad;
             }
+            string preferredPath;
+            string backupPath;
             if (Type == GameType.DarkSoulsIISOTFS)
             {
-                var path = $@"map\{mapid}\{mapid}";
-                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb";
-                }
+                preferredPath = $@"map\{mapid}\{mapid}.msb.dcx";
+                backupPath = $@"map\{mapid}\{mapid}.msb";
             }
             // BB chalice maps
             else if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
             {
-                var path = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}";
-                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb.dcx";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb.dcx"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb.dcx";
-                }
+                preferredPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb";
+            }
+            // DeS,DS1,DSR1
+            else if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered || Type == GameType.DemonsSouls)
+            {
+                preferredPath = $@"\map\MapStudio\{mapid}.msb";
+                backupPath = $@"\map\MapStudio\{mapid}.msb.dcx";
             }
             else
             {
-                var path = $@"\map\MapStudio\{mapid}";
-                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb.dcx") || (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb.dcx";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb.dcx"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb.dcx";
-                }
-                else if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.msb") || (writemode && GameModDirectory != null))
-                {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}.msb";
-                }
-                else if (File.Exists($@"{GameRootDirectory}\{path}.msb"))
-                {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}.msb";
-                }
+                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid}.msb";
+            }
+
+            if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{preferredPath}") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{preferredPath}";
+            }
+            else if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{backupPath}") || (writemode && GameModDirectory != null))
+            {
+                ad.AssetPath = $@"{GameModDirectory}\{backupPath}";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{preferredPath}"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{preferredPath}";
+            }
+            else if (File.Exists($@"{GameRootDirectory}\{backupPath}"))
+            {
+                ad.AssetPath = $@"{GameRootDirectory}\{backupPath}";
             }
             ad.AssetName = mapid;
             return ad;
@@ -473,6 +477,40 @@ namespace StudioCore
             }
             return ad;
         }
+    	public string GetAliasAssetsDir()
+        {
+            string game;
+            switch (Type)
+            {
+                case GameType.DemonsSouls:
+                    game = "DES";
+                    break;
+                case GameType.DarkSoulsPTDE:
+                    game = "DS1";
+                    break;
+                case GameType.DarkSoulsRemastered:
+                    game = "DS1R";
+                    break;
+                case GameType.DarkSoulsIISOTFS:
+                    game = "DS2S";
+                    break;
+                case GameType.Bloodborne:
+                    game = "BB";
+                    break;
+                case GameType.DarkSoulsIII:
+                    game = "DS3";
+                    break;
+                case GameType.Sekiro:
+                    game = "SDT";
+                    break;
+                case GameType.EldenRing:
+                    game = "ER";
+                    break;
+                default:
+                    throw new Exception("Game type not set");
+            }
+            return  $@"Assets\Aliases\{game}";
+        }
 
         public string GetParamAssetsDir()
         {
@@ -500,6 +538,9 @@ namespace StudioCore
                 case GameType.Sekiro:
                     game = "SDT";
                     break;
+                case GameType.EldenRing:
+                    game = "ER";
+                    break;
                 default:
                     throw new Exception("Game type not set");
             }
@@ -516,10 +557,15 @@ namespace StudioCore
             return $@"{GetParamAssetsDir()}\Meta";
         }
 
+        public string GetParamNamesDir()
+        {
+            return $@"{GetParamAssetsDir()}\Names";
+        }
+
         public PARAMDEF GetParamdefForParam(string paramType)
         {
             PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");
-            MsbEditor.ParamMetaData meta = MsbEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
+            ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
             return pd;
         }
 
@@ -659,6 +705,7 @@ namespace StudioCore
                     ret.Add(ad);
                 }
             }
+            //TODO: ER
             return ret;
         }
 
@@ -779,6 +826,10 @@ namespace StudioCore
             {
                 // TODO
             }
+            else if (Type == GameType.EldenRing)
+            {
+                // TODO ER
+            }
             else if (Type == GameType.DemonsSouls)
             {
                 var mid = mapid.Substring(0, 3);
@@ -794,6 +845,7 @@ namespace StudioCore
             }
             else
             {
+                //clean this up? even if it's common code having something like "!=Sekiro" can lead to future issues
                 var mid = mapid.Substring(0, 3);
 
                 var t0000 = new AssetDescription();
@@ -823,12 +875,16 @@ namespace StudioCore
                     env.AssetArchiveVirtualPath = $@"map/tex/{mid}/env";
                     ads.Add(env);
                 }
-                else if (Type != GameType.Sekiro)
+                else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII)
                 {
                     var env = new AssetDescription();
                     env.AssetPath = GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
                     env.AssetVirtualPath = $@"map/tex/{mid}/env";
                     ads.Add(env);
+                }
+                else if (Type == GameType.Sekiro)
+                {
+                    //TODO SDT
                 }
             }
 
@@ -850,6 +906,7 @@ namespace StudioCore
                     }
                 }
             }
+            //TODO: DES,PTDE,DSR,DS2,BB,SDT,ER
             return l;
         }
 
@@ -876,7 +933,7 @@ namespace StudioCore
                     ad.AssetVirtualPath = $@"chr/{chrid}/tex";
                 }
             }
-
+            //TODO: DES,PTDE,DSR,DS2,ER
             return ad;
         }
 
@@ -895,6 +952,7 @@ namespace StudioCore
                 return GetNullAsset();
             }
             return ret;
+            //TODO: DS2,BB,DS3,SDT,ER
         }
 
         public AssetDescription GetHavokNavmeshes(string mapid)
@@ -1110,6 +1168,7 @@ namespace StudioCore
                         }
                         return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpfbhd");
                     }
+                    //TODO: PTDE,BB,DS3,SDT,ER ?
                 }
                 else if (mapRegex.IsMatch(pathElements[i]))
                 {
@@ -1136,6 +1195,7 @@ namespace StudioCore
                             return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver.dcx");
                         }
                         return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
+                        //TODO: DS3,SDT,ER ?
                     }
                     else if (pathElements[i].Equals("hit"))
                     {
@@ -1163,6 +1223,7 @@ namespace StudioCore
                         }
                         bndpath = "";
                         return null;
+                        //TODO: DSR,SDT,ER
                     }
                     else if (pathElements[i].Equals("nav"))
                     {
@@ -1190,6 +1251,7 @@ namespace StudioCore
                         }
                         bndpath = "";
                         return null;
+                        //TODO: DS2,BB,SDT,ER
                     }
                 }
             }
@@ -1227,6 +1289,7 @@ namespace StudioCore
                         return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
                     }
                 }
+                //TODO: DSR,BB,ER
             }
             else if (pathElements[i].Equals("obj"))
             {
@@ -1246,6 +1309,7 @@ namespace StudioCore
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
+                //TODO: DES,DSR,BB,DS3,SDT,ER
             }
 
             bndpath = virtualPath;

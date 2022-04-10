@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -9,6 +10,7 @@ namespace SoulsFormats
         /// <summary>
         /// A collection of named values.
         /// </summary>
+        [Obsolete]
         public class Enum : List<Enum.Item>
         {
             /// <summary>

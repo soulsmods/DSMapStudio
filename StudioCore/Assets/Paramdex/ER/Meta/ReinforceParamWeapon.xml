@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffectId1 Wiki="This is not an spEffect ID, it is an offset" />
+    <spEffectId2 Wiki="This is not an spEffect ID, it is an offset" />
+    <spEffectId3 Wiki="This is not an spEffect ID, it is an offset" />
+    <residentSpEffectId1 Wiki="This is not an spEffect ID, it is an offset" />
+    <residentSpEffectId2 Wiki="This is not an spEffect ID, it is an offset" />
+    <residentSpEffectId3 Wiki="This is not an spEffect ID, it is an offset" />
+    <materialSetId Refs="EquipMtrlSetParam" />
+    <enableGemRank IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

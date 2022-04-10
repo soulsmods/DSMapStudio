@@ -10,6 +10,7 @@ namespace SoulsFormats
         /// <summary>
         /// The layout of cell data within each row in a param.
         /// </summary>
+        [Obsolete]
         public class Layout : List<Layout.Entry>
         {
             /// <summary>
@@ -134,7 +135,7 @@ namespace SoulsFormats
                 foreach (string enumName in Enums.Keys)
                     paramtdfs.Add(Enums[enumName].ToParamtdf(enumName));
 
-                var def = new PARAMDEF { ParamType = paramType, Unicode = true, Version = 201 };
+                var def = new PARAMDEF { ParamType = paramType, Unicode = true, FormatVersion = 201 };
                 foreach (Entry entry in this)
                 {
                     PARAMDEF.DefType fieldType;
@@ -161,7 +162,7 @@ namespace SoulsFormats
                             throw new NotImplementedException($"DefType not specified for CellType {entry.Type}.");
                     }
 
-                    var field = new PARAMDEF.Field(fieldType, entry.Name);
+                    var field = new PARAMDEF.Field(def, fieldType, entry.Name);
                     field.Description = entry.Description;
                     if (entry.Enum != null)
                         field.InternalType = entry.Enum;
@@ -406,6 +407,7 @@ namespace SoulsFormats
         /// <summary>
         /// Possible types for values in a param.
         /// </summary>
+        [Obsolete]
         public enum CellType
         {
             /// <summary>

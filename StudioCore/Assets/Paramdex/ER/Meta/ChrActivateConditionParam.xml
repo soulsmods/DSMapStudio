@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <weatherSunny IsBool="" />
+    <weatherClearSky IsBool="" />
+    <weatherWeakCloudy IsBool="" />
+    <weatherCloudy IsBool="" />
+    <weatherRain IsBool="" />
+    <weatherHeavyRain IsBool="" />
+    <weatherStorm IsBool="" />
+    <weatherStormForBattle IsBool="" />
+    <weatherSnow IsBool="" />
+    <weatherHeavySnow IsBool="" />
+    <weatherFog IsBool="" />
+    <weatherHeavyFog IsBool="" />
+    <weatherHeavyFogRain IsBool="" />
+    <weatherSandStorm IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -7,6 +7,7 @@ using System.Numerics;
 using System.IO;
 using SoulsFormats;
 using System.Collections.Generic;
+using Microsoft.Win32;
 
 namespace StudioCore
 {
@@ -196,7 +197,7 @@ namespace StudioCore
             return fileName;
         }
 
-        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item, bool ds3reg=false) where T : SoulsFile<T>, new()
+        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item, GameType gameType = GameType.Undefined) where T : SoulsFile<T>, new()
         {
             var assetgamepath = $@"{gamedir}\{assetpath}";
             var assetmodpath = $@"{moddir}\{assetpath}";
@@ -221,9 +222,13 @@ namespace StudioCore
             {
                 File.Delete(writepath + ".temp");
             }
-            if (ds3reg && item is BND4 bnd)
+            if (gameType == GameType.DarkSoulsIII && item is BND4 bndDS3)
             {
-                SFUtil.EncryptDS3Regulation(writepath + ".temp", bnd);
+                SFUtil.EncryptDS3Regulation(writepath + ".temp", bndDS3);
+            }
+            else if (gameType == GameType.EldenRing && item is BND4 bndER)
+            {
+                SFUtil.EncryptERRegulation(writepath + ".temp", bndER);
             }
             else
             {
@@ -646,6 +651,24 @@ namespace StudioCore
             while (parentBone != null);
 
             return res;
+        }
+
+        public static void setRegistry(string name, string value)
+        {
+            RegistryKey rkey = Registry.CurrentUser.CreateSubKey($@"Software\DSMapStudio");
+            rkey.SetValue(name, value);
+        }
+
+        public static string readRegistry(string name)
+        {
+            RegistryKey rkey = Registry.CurrentUser.CreateSubKey($@"Software\DSMapStudio");
+            var v = rkey.GetValue(name);
+            return v == null ? null : v.ToString();
+        }
+
+        public static string ImGuiEscape(string str, string nullStr)
+        {
+            return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
         }
     }
 }

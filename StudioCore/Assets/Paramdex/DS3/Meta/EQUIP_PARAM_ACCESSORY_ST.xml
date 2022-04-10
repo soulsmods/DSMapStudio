@@ -32,13 +32,51 @@
 		<Option Value="4" Name="Male" />
 	  </Enum>
   </Enums>
+  <Self AlternativeOrder="
+ sortId,
+ iconId,
+ sellValue50, Costvalue, basicPrice,
+ -,
+ accessoryCategory,
+ RingCompatibilityId,
+ weight,
+ -,
+ refCategory,
+ refId0, refId1, refId2, refId3, refId4
+ -,
+ qwcId,
+ shopLv,
+ equipModelId,
+ equipModelCategory, equipModelGender,
+ sfxVariationId,
+ spEffectCategory,
+ vagrantItemLotId, vagrantBonusEneDropItemLotId, vagrantItemEneDropItemLotId,
+ IsBool, IsDeposit, IsDiscard, disableMultiDropShare,
+ IsEquipOutBrake,
+ VowId,
+ trophySeqId, trophySGradeId, AchievementID3,
+ behaviorId" />
   <Field>
+	<refId0 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+	<sfxVariationId AltName="VFX Variation Id" />
+	<shopLv AltName="Shop Level" />
 	<equipModelCategory Enum="EquipModelCategory" />
 	<equipModelGender Enum="EquipModelGender" />
 	<accessoryCategory Enum="AccessoryType" />
 	<refCategory Enum="ReferenceType" />
 	<spEffectCategory Enum="SpEffectCategory" />
-    <refId0 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
-    <RingCompatibilityId VRef="ringCompatibility" />
+	<vagrantBonusEneDropItemLotId AltName="Vagrant Bonus Item Lot ID" Wiki="" />
+	<vagrantItemEneDropItemLotId AltName="Vagrant Enemy Item Lot ID" Wiki="" />
+	<IsDeposit IsBool="" />
+	<IsEquipOutBrake AltName="Is Break on Unequip" IsBool="" />
+	<disableMultiDropShare IsBool="" />
+	<IsDiscard IsBool="" />
+	<IsBool AltName="Is Drop" IsBool="" />
+	<Costvalue AltName="Shop Price" />
+	<RingCompatibilityId VRef="ringCompatibility" />
+	<refId1 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+	<refId2 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+	<refId3 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+	<refId4 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
   </Field>
 </PARAMMETA>

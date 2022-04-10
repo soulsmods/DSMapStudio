@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<NG0Souls AltName="NG+0 % Souls" /> 
+<NG1Souls AltName="NG+1 % Souls" /> 
+<NG2Souls AltName="NG+2 % Souls" /> 
+<NG3Souls AltName="NG+3 % Souls" /> 
+<NG4Souls AltName="NG+4 % Souls" /> 
+<NG5Souls AltName="NG+5 % Souls" /> 
+<NG6Souls AltName="NG+6 % Souls" /> 
+<NG7Souls AltName="NG+7 % Souls" /> 
+</Field>
+</PARAMMETA>

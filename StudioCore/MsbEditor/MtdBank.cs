@@ -27,6 +27,7 @@ namespace StudioCore.MsbEditor
             {
                 mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
             }
+            //TODO: ER
 
             if (mtdBinder == null)
             {

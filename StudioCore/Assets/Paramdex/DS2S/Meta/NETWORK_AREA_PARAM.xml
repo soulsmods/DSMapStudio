@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<LimitationTime1 AltName="Limitation Time 1" /> 
+<LimitationTime2 AltName="Limitation Time 2" /> 
+<LimitationTime3 AltName="Limitation Time 3" /> 
+</Field>
+</PARAMMETA>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <isStrengthCorrect_byPhysics IsBool="" />
+    <isDexterityCorrect_byPhysics IsBool="" />
+    <isMagicCorrect_byPhysics IsBool="" />
+    <isFaithCorrect_byPhysics IsBool="" />
+    <isLuckCorrect_byPhysics IsBool="" />
+    <isStrengthCorrect_byMagic IsBool="" />
+    <isDexterityCorrect_byMagic IsBool="" />
+    <isMagicCorrect_byMagic IsBool="" />
+    <isFaithCorrect_byMagic IsBool="" />
+    <isLuckCorrect_byMagic IsBool="" />
+    <isStrengthCorrect_byFire IsBool="" />
+    <isDexterityCorrect_byFire IsBool="" />
+    <isMagicCorrect_byFire IsBool="" />
+    <isFaithCorrect_byFire IsBool="" />
+    <isLuckCorrect_byFire IsBool="" />
+    <isStrengthCorrect_byThunder IsBool="" />
+    <isDexterityCorrect_byThunder IsBool="" />
+    <isMagicCorrect_byThunder IsBool="" />
+    <isFaithCorrect_byThunder IsBool="" />
+    <isLuckCorrect_byThunder IsBool="" />
+    <isStrengthCorrect_byDark IsBool="" />
+    <isDexterityCorrect_byDark IsBool="" />
+    <isMagicCorrect_byDark IsBool="" />
+    <isFaithCorrect_byDark IsBool="" />
+    <isLuckCorrect_byDark IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

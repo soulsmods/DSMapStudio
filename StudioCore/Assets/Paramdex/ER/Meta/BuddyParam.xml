@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <dopingSpEffect_lv0 Refs="SpEffectParam" />
+    <dopingSpEffect_lv1 Refs="SpEffectParam" />
+    <dopingSpEffect_lv2 Refs="SpEffectParam" />
+    <dopingSpEffect_lv3 Refs="SpEffectParam" />
+    <dopingSpEffect_lv4 Refs="SpEffectParam" />
+    <dopingSpEffect_lv5 Refs="SpEffectParam" />
+    <dopingSpEffect_lv6 Refs="SpEffectParam" />
+    <dopingSpEffect_lv7 Refs="SpEffectParam" />
+    <dopingSpEffect_lv8 Refs="SpEffectParam" />
+    <dopingSpEffect_lv9 Refs="SpEffectParam" />
+    <dopingSpEffect_lv10 Refs="SpEffectParam" />
+    <npcPlayerInitParamId Refs="CharaInitParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace SoulsFormats
 {
@@ -12,6 +11,11 @@ namespace SoulsFormats
         public class GXList : List<GXItem>
         {
             /// <summary>
+            /// Value indicating the terminating item; typically int.MaxValue, sometimes -1.
+            /// </summary>
+            public int TerminatorID { get; set; }
+
+            /// <summary>
             /// The length in bytes of the terminator data block; most likely not important, but varies in original files.
             /// </summary>
             public int TerminatorLength { get; set; }
@@ -19,28 +23,46 @@ namespace SoulsFormats
             /// <summary>
             /// Creates an empty GXList.
             /// </summary>
-            public GXList() : base() { }
+            public GXList() : base()
+            {
+                TerminatorID = int.MaxValue;
+            }
 
             internal GXList(BinaryReaderEx br, FLVERHeader header) : base()
             {
-                while (br.GetInt32(br.Position) != int.MaxValue)
+                if (header.Version < 0x20010)
+                {
                     Add(new GXItem(br, header));
+                }
+                else
+                {
+                    int id;
+                    while ((id = br.GetInt32(br.Position)) != int.MaxValue && id != -1)
+                        Add(new GXItem(br, header));
 
-                br.AssertInt32(int.MaxValue);
-                br.AssertInt32(100);
-                TerminatorLength = br.ReadInt32() - 0xC;
-                br.AssertPattern(TerminatorLength, 0x00);
+                    TerminatorID = br.AssertInt32(id);
+                    br.AssertInt32(100);
+                    TerminatorLength = br.ReadInt32() - 0xC;
+                    br.AssertPattern(TerminatorLength, 0x00);
+                }
             }
 
             internal void Write(BinaryWriterEx bw, FLVERHeader header)
             {
-                foreach (GXItem item in this)
-                    item.Write(bw, header);
+                if (header.Version < 0x20010)
+                {
+                    this[0].Write(bw, header);
+                }
+                else
+                {
+                    foreach (GXItem item in this)
+                        item.Write(bw, header);
 
-                bw.WriteInt32(int.MaxValue);
-                bw.WriteInt32(100);
-                bw.WriteInt32(TerminatorLength + 0xC);
-                bw.WritePattern(TerminatorLength, 0x00);
+                    bw.WriteInt32(TerminatorID);
+                    bw.WriteInt32(100);
+                    bw.WriteInt32(TerminatorLength + 0xC);
+                    bw.WritePattern(TerminatorLength, 0x00);
+                }
             }
         }
 

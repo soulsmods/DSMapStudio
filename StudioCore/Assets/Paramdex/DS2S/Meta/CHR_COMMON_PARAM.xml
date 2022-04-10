@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<BaseActionStaminaConsumption10 AltName="Base Action Stamina Consumption (*10)" /> 
+<BackstepStaminaConsumptionMultiplier AltName="Backstep Stamina Consumption Multiplier" /> 
+<RollStaminaConsumptionMultiplier AltName="Roll Stamina Consumption Multiplier" /> 
+<JumpStaminaConsumptionMultiplier AltName="Jump Stamina Consumption Multiplier" /> 
+<MultipleRollStaminaConsumptionMultiplier AltName="Multiple Roll Stamina Consumption Multiplier" /> 
+<LockonCameraOffsetID AltName="Lock-on Camera Offset ID" /> 
+<RelatedtoBossStatus AltName="Related to Boss Status" /> 
+<SlashAbsorption AltName="Slash Absorption" /> 
+<ThrustAbsorption AltName="Thrust Absorption" /> 
+<StrikeAbsorption AltName="Strike Absorption" /> 
+<EquipWeaponID AltName="Equip Weapon ID" /> 
+</Field>
+</PARAMMETA>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<_1SoulCost AltName="+1 - Soul Cost" /> 
+<_2SoulCost AltName="+2 - Soul Cost" /> 
+<_3SoulCost AltName="+3 - Soul Cost" /> 
+<_4SoulCost AltName="+4 - Soul Cost" /> 
+<_5SoulCost AltName="+5 - Soul Cost" /> 
+<_6SoulCost AltName="+6 - Soul Cost" /> 
+<_7SoulCost AltName="+7 - Soul Cost" /> 
+<_8SoulCost AltName="+8 - Soul Cost" /> 
+<_9SoulCost AltName="+9 - Soul Cost" /> 
+<_10SoulCost AltName="+10 - Soul Cost" /> 
+<_1Material AltName="+1 - Material" /> 
+<_2Material AltName="+2 - Material" /> 
+<_3Material AltName="+3 - Material" /> 
+<_4Material AltName="+4 - Material" /> 
+<_5Material AltName="+5 - Material" /> 
+<_6Material AltName="+6 - Material" /> 
+<_7Material AltName="+7 - Material" /> 
+<_8Material AltName="+8 - Material" /> 
+<_9Material AltName="+9 - Material" /> 
+<_10Material AltName="+10 - Material" /> 
+<_1MaterialAmount AltName="+1 - Material Amount" /> 
+<_2MaterialAmount AltName="+2 - Material Amount" /> 
+<_3MaterialAmount AltName="+3 - Material Amount" /> 
+<_4MaterialAmount AltName="+4 - Material Amount" /> 
+<_5MaterialAmount AltName="+5 - Material Amount" /> 
+<_6MaterialAmount AltName="+6 - Material Amount" /> 
+<_7MaterialAmount AltName="+7 - Material Amount" /> 
+<_8MaterialAmount AltName="+8 - Material Amount" /> 
+<_9MaterialAmount AltName="+9 - Material Amount" /> 
+<_10MaterialAmount AltName="+10 - Material Amount" /> 
+</Field>
+</PARAMMETA>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <isRefRightArts IsBool="" />
+    <isGrayoutLeftHand IsBool="" />
+    <isGrayoutRightHand IsBool="" />
+    <isGrayoutBothHand IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <materialId01 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId02 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId03 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId04 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId05 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId06 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <isDisableDispNum01 IsBool="" />
+    <isDisableDispNum02 IsBool="" />
+    <isDisableDispNum03 IsBool="" />
+    <isDisableDispNum04 IsBool="" />
+    <isDisableDispNum05 IsBool="" />
+    <isDisableDispNum06 IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

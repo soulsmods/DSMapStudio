@@ -50,6 +50,9 @@
     <SpEffectId7 Refs="SpEffectParam" />
     <SpEffectId8 Refs="SpEffectParam" />
     <SpEffectId9 Refs="SpEffectParam" />
+	<SfxId0 AltName="VFX ID 0" />
+	<SfxId1 AltName="VFX ID 0" />
+	<ItemLotId Refs="ItemLotParam" />>
     <SpEffectId10 Refs="SpEffectParam" />
     <SpEffectId11 Refs="SpEffectParam" />
     <SpEffectId12 Refs="SpEffectParam" />

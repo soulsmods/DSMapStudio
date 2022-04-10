@@ -153,7 +153,8 @@ namespace SoulsFormats
                 for (int i = 0; i < VertexBuffers.Count; i++)
                 {
                     VertexBuffer buffer = VertexBuffers[i];
-                    if (buffer.BufferIndex != i)
+                    // This appears to be some kind of flag on edge-compressed vertex buffers
+                    if ((buffer.BufferIndex & ~0x60000000) != i)
                         throw new FormatException("Unexpected vertex buffer index.");
                 }
             }

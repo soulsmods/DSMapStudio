@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <refId Refs="SpEffectParam,Bullet,AtkParam_Pc" />
+    <isDeposit IsBool="" />
+    <isEquipOutBrake IsBool="" />
+    <disableMultiDropShare IsBool="" />
+    <isDiscard IsBool="" />
+    <isDrop IsBool="" />
+    <residentSpEffectId1 Refs="SpEffectParam" />
+    <residentSpEffectId2 Refs="SpEffectParam" />
+    <residentSpEffectId3 Refs="SpEffectParam" />
+    <residentSpEffectId4 Refs="SpEffectParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -20,7 +20,7 @@ namespace StudioCore.MsbEditor
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
         private Selection _selection = new Selection();
         public ActionManager EditorActionManager = new ActionManager();
-        private ProjectSettings _projectSettings = null;
+        private Editor.ProjectSettings _projectSettings = null;
 
         private List<(string, Type)> _partsClasses = new List<(string, Type)>();
         private List<(string, Type)> _regionClasses = new List<(string, Type)>();
@@ -561,6 +561,7 @@ namespace StudioCore.MsbEditor
                     break;
                 default:
                     throw new ArgumentException("type must be valid");
+                //TODO: ER
             }
 
             var partType = msbclass.GetNestedType("Part");
@@ -580,7 +581,7 @@ namespace StudioCore.MsbEditor
             _eventClasses = eventSubclasses.Select(x => (x.Name, x)).ToList();
         }
 
-        public override void OnProjectChanged(ProjectSettings newSettings)
+        public override void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
             _selection.ClearSelection();
@@ -589,7 +590,7 @@ namespace StudioCore.MsbEditor
             GC.Collect();
             Universe.PopulateMapList();
 
-            if (AssetLocator.Type != GameType.Undefined)
+            if (AssetLocator.Type != GameType.Undefined && AssetLocator.Type != GameType.EldenRing) //TODO ER
             {
                 PopulateClassNames(AssetLocator.Type);
             }

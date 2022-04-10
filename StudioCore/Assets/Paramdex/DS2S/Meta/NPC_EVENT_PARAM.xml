@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<ConversationID AltName="Conversation ID" /> 
+<ConversationExitID AltName="Conversation Exit ID" /> 
+<ItemID AltName="Item ID" Refs="ItemParam" /> 
+<ItemlotID AltName="Itemlot ID" VRef="ItemLotParam2" /> 
+<NPCInfoID AltName="NPC Info ID" Refs="NpcInfoParam,NpcNameSwapParam,NpcPlayerSkinParam,NpcPlayerStatusParam" /> 
+</Field>
+</PARAMMETA>

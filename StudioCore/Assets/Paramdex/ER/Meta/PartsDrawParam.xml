@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <enableCrossFade IsBool="" />
+    <isPointLightShadowSrc IsBool="" />
+    <isDirLightShadowSrc IsBool="" />
+    <isShadowDst IsBool="" />
+    <isShadowOnly IsBool="" />
+    <isNoFarClipDraw IsBool="" />
+    <isTraceCameraXZ IsBool="" />
+    <isSkydomeDrawPhase IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

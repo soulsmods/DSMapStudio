@@ -38,10 +38,13 @@ namespace SoulsFormats
                 {
                     switch (Type)
                     {
+                        case LayoutType.EdgeCompressed:
+                            return 1;
+
                         case LayoutType.Byte4A:
                         case LayoutType.Byte4B:
                         case LayoutType.Short2toFloat2:
-                        case LayoutType.UNorm8_4:
+                        case LayoutType.Byte4C:
                         case LayoutType.UV:
                         case LayoutType.Byte4E:
                             return 4;
@@ -50,7 +53,7 @@ namespace SoulsFormats
                         case LayoutType.UVPair:
                         case LayoutType.ShortBoneIndices:
                         case LayoutType.Short4toFloat4A:
-                        case LayoutType.Float16_4:
+                        case LayoutType.Short4toFloat4B:
                             return 8;
 
                         case LayoutType.Float3:
@@ -139,9 +142,9 @@ namespace SoulsFormats
             Short2toFloat2 = 0x12,
 
             /// <summary>
-            /// Four component unorm-8 vector. Convert to float by dividing by 255.
+            /// Four bytes.
             /// </summary>
-            UNorm8_4 = 0x13,
+            Byte4C = 0x13,
 
             /// <summary>
             /// Two shorts.
@@ -164,14 +167,19 @@ namespace SoulsFormats
             Short4toFloat4A = 0x1A,
 
             /// <summary>
-            /// 16-bit 4 component vector
+            /// Unknown.
             /// </summary>
-            Float16_4 = 0x2E,
+            Short4toFloat4B = 0x2E,
 
             /// <summary>
             /// Unknown.
             /// </summary>
             Byte4E = 0x2F,
+
+            /// <summary>
+            /// Unknown but appears to be another form of edge compression; not actually supported.
+            /// </summary>
+            EdgeCompressed = 0xF0,
         }
 
         /// <summary>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<Right1HLight1 AltName="Right - 1H Light #1" Refs="WeaponAttackMotionParam" /> 
+<Right1HLight2 AltName="Right - 1H Light #2" Refs="WeaponAttackMotionParam" /> 
+<Right1HHeavy1 AltName="Right - 1H Heavy #1" Refs="WeaponAttackMotionParam" /> 
+<Right1HHeavy2 AltName="Right - 1H Heavy #2" Refs="WeaponAttackMotionParam" /> 
+<Right1HRunning AltName="Right - 1H Running" Refs="WeaponAttackMotionParam" /> 
+<Right1HRolling AltName="Right - 1H Rolling" Refs="WeaponAttackMotionParam" /> 
+<Right1HBackstep AltName="Right - 1H Backstep" Refs="WeaponAttackMotionParam" /> 
+<Right1HFalling AltName="Right - 1H Falling" Refs="WeaponAttackMotionParam" /> 
+<Right1HLanding AltName="Right - 1H Landing" Refs="WeaponAttackMotionParam" /> 
+<Right1HJumping AltName="Right - 1H Jumping" Refs="WeaponAttackMotionParam" /> 
+<Right2HLight1 AltName="Right - 2H Light #1" Refs="WeaponAttackMotionParam" /> 
+<Right2HLight2 AltName="Right - 2H Light #2" Refs="WeaponAttackMotionParam" /> 
+<Right2HHeavy1 AltName="Right - 2H Heavy #1" Refs="WeaponAttackMotionParam" /> 
+<Right2HHeavy2 AltName="Right - 2H Heavy #2" Refs="WeaponAttackMotionParam" /> 
+<Right2HRunning AltName="Right - 2H Running" Refs="WeaponAttackMotionParam" /> 
+<Right2HRolling AltName="Right - 2H Rolling" Refs="WeaponAttackMotionParam" /> 
+<Right2HBackstep AltName="Right - 2H Backstep" Refs="WeaponAttackMotionParam" /> 
+<Right2HFalling AltName="Right - 2H Falling" Refs="WeaponAttackMotionParam" /> 
+<Right2HLanding AltName="Right - 2H Landing" Refs="WeaponAttackMotionParam" /> 
+<Right2HJumping AltName="Right - 2H Jumping" Refs="WeaponAttackMotionParam" /> 
+<Chain11 AltName="Chain 1 #1" Refs="WeaponAttackMotionParam" /> 
+<Chain12 AltName="Chain 1 #2" Refs="WeaponAttackMotionParam" /> 
+<Chain21 AltName="Chain 2 #1" Refs="WeaponAttackMotionParam" /> 
+<Chain22 AltName="Chain 2 #2" Refs="WeaponAttackMotionParam" /> 
+<ChainRunning AltName="Chain Running" Refs="WeaponAttackMotionParam" /> 
+<ChainRolling AltName="Chain Rolling" Refs="WeaponAttackMotionParam" /> 
+<ChainBackstep AltName="Chain Backstep" Refs="WeaponAttackMotionParam" /> 
+<ChainFalling AltName="Chain Falling" Refs="WeaponAttackMotionParam" /> 
+<ChainLanding AltName="Chain Landing" Refs="WeaponAttackMotionParam" /> 
+<ChainJumping AltName="Chain Jumping" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceLight1 AltName="Right - Powerstance - Light #1" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceLight2 AltName="Right - Powerstance - Light #2" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceHeavy1 AltName="Right - Powerstance - Heavy #1" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceHeavy2 AltName="Right - Powerstance - Heavy #2" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceRunning AltName="Right - Powerstance - Running" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceRolling AltName="Right - Powerstance - Rolling" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceBackstep AltName="Right - Powerstance - Backstep" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceFalling AltName="Right - Powerstance - Falling" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceLanding AltName="Right - Powerstance - Landing" Refs="WeaponAttackMotionParam" /> 
+<RightPowerstanceJumping AltName="Right - Powerstance - Jumping" Refs="WeaponAttackMotionParam" /> 
+<Left1HLight1 AltName="Left - 1H Light #1" Refs="WeaponAttackMotionParam" /> 
+<Left1HLight2 AltName="Left - 1H Light #2" Refs="WeaponAttackMotionParam" /> 
+<Left1HHeavy1 AltName="Left - 1H Heavy #1" Refs="WeaponAttackMotionParam" /> 
+<Left1HHeavy2 AltName="Left - 1H Heavy #2" Refs="WeaponAttackMotionParam" /> 
+<Left1HRunning AltName="Left - 1H Running" Refs="WeaponAttackMotionParam" /> 
+<Left1HRolling AltName="Left - 1H Rolling" Refs="WeaponAttackMotionParam" /> 
+<Left1HBackstep AltName="Left - 1H Backstep" Refs="WeaponAttackMotionParam" /> 
+<Left1HFalling AltName="Left - 1H Falling" Refs="WeaponAttackMotionParam" /> 
+<Left1HLanding AltName="Left - 1H Landing" Refs="WeaponAttackMotionParam" /> 
+<Left1HJumping AltName="Left - 1H Jumping" Refs="WeaponAttackMotionParam" /> 
+<Left2HLight AltName="Left - 2H Light" Refs="WeaponAttackMotionParam" /> 
+<Left2HHeavy AltName="Left - 2H Heavy" Refs="WeaponAttackMotionParam" /> 
+<LeftPowerstanceLight1 AltName="Left - Powerstance - Light #1" Refs="WeaponAttackMotionParam" /> 
+<LeftPowerstanceLight2 AltName="Left - Powerstance - Light #2" Refs="WeaponAttackMotionParam" /> 
+<LeftPowerstanceHeavy AltName="Left - Powerstance - Heavy" Refs="WeaponAttackMotionParam" /> 
+<GuardBreak1 AltName="Guard Break #1" Refs="WeaponAttackMotionParam" /> 
+<GuardBreak2 AltName="Guard Break #2" Refs="WeaponAttackMotionParam" /> 
+<ShieldPoke11 AltName="Shield Poke 1 #1" Refs="WeaponAttackMotionParam" /> 
+<ShieldPoke12 AltName="Shield Poke 1 #2" Refs="WeaponAttackMotionParam" /> 
+<ShieldPoke21 AltName="Shield Poke 2 #1" Refs="WeaponAttackMotionParam" /> 
+<ShieldPoke22 AltName="Shield Poke 2 #2" Refs="WeaponAttackMotionParam" /> 
+<Riposte AltName="Riposte" Refs="WeaponAttackMotionParam" /> 
+<GuardBreakStab AltName="Guard Break Stab" Refs="WeaponAttackMotionParam" /> 
+<Backstab AltName="Backstab" Refs="WeaponAttackMotionParam" /> 
+</Field>
+</PARAMMETA>

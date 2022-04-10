@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <resistCurseItemId Refs="EquipParamGoods" />
+    <resistCurseItemSpEffectBaseId Refs="SpEffectParam" />
+    <resistCurseItemLotParamId_map Refs="ItemLotParam_map" />
+  </Field>
+  <Self />
+</PARAMMETA>

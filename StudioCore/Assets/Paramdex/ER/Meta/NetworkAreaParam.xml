@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <enableBloodstain IsBool="" />
+    <enableBloodMessage IsBool="" />
+    <enableGhost IsBool="" />
+    <enableMultiPlay IsBool="" />
+    <enableRingSearch IsBool="" />
+    <enableBreakInSearch IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

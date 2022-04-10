@@ -12,7 +12,7 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public class MergedParamRow
     {
-        public long ID
+        public int ID
         {
             get
             {

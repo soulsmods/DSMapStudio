@@ -1,7 +1,6 @@
 10 UNKNOWN
 100000 Forest Grotesque
 101000 Kobold
-101001 Kobold
 102000 Hollow Soldier
 102100 Royal Soldier
 103000 Hollow Infantry

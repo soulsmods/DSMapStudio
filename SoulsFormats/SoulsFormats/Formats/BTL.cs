@@ -43,20 +43,13 @@ namespace SoulsFormats
             br.BigEndian = false;
 
             br.AssertInt32(2);
-            Version = br.AssertInt32(1, 2, 5, 6, 16);
+            Version = br.AssertInt32(1, 2, 5, 6, 16, 18);
             int lightCount = br.ReadInt32();
             int namesLength = br.ReadInt32();
             br.AssertInt32(0);
-            LongOffsets = br.AssertInt32(0xC0, 0xC8, 0xE8) != 0xC0; // Light size
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
-            br.AssertInt32(0);
+            int lightSize = br.AssertInt32(0xC0, 0xC8, 0xE8);
+            br.AssertPattern(0x24, 0x00);
+            LongOffsets = br.VarintLong = lightSize != 0xC0;
 
             long namesStart = br.Position;
             br.Skip(namesLength);
@@ -71,22 +64,15 @@ namespace SoulsFormats
         protected override void Write(BinaryWriterEx bw)
         {
             bw.BigEndian = false;
+            bw.VarintLong = LongOffsets;
 
             bw.WriteInt32(2);
             bw.WriteInt32(Version);
             bw.WriteInt32(Lights.Count);
             bw.ReserveInt32("NamesLength");
             bw.WriteInt32(0);
-            bw.WriteInt32(Version == 16 ? 0xE8 : (LongOffsets ? 0xC8 : 0xC0));
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
-            bw.WriteInt32(0);
+            bw.WriteInt32(Version >= 16 ? 0xE8 : (LongOffsets ? 0xC8 : 0xC0));
+            bw.WritePattern(0x24, 0x00);
 
             long namesStart = bw.Position;
             var nameOffsets = new List<long>(Lights.Count);
@@ -133,22 +119,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public uint Unk00 { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public uint Unk04 { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public uint Unk08 { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public uint Unk0C { get; set; }
+            public byte[] Unk00 { get; private set; }
 
             /// <summary>
             /// Name of this light.
@@ -339,45 +310,51 @@ namespace SoulsFormats
             public float UnkC4 { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public float UnkC8 { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public float UnkCC { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public float UnkD0 { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public float UnkD4 { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public float UnkD8 { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public int UnkDC { get; set; }
 
             /// <summary>
-            /// Unknown; only in Sekiro.
+            /// Unknown; not present before Sekiro.
             /// </summary>
             public float UnkE0 { get; set; }
+
+            /// <summary>
+            /// Unknown; not present before Sekiro.
+            /// </summary>
+            public int UnkE4 { get; set; }
 
             /// <summary>
             /// Creates a Light with default values.
             /// </summary>
             public Light()
             {
+                Unk00 = new byte[16];
                 Name = "";
                 Unk1C = true;
                 DiffuseColor = Color.White;
@@ -405,6 +382,7 @@ namespace SoulsFormats
             public Light Clone()
             {
                 var clone = (Light)MemberwiseClone();
+                clone.Unk00 = (byte[])Unk00.Clone();
                 clone.Unk64 = (byte[])Unk64.Clone();
                 clone.Unk84 = (byte[])Unk84.Clone();
                 clone.UnkA0 = (byte[])UnkA0.Clone();
@@ -414,25 +392,13 @@ namespace SoulsFormats
 
             internal Light(BinaryReaderEx br, long namesStart, int version, bool longOffsets)
             {
-                Unk00 = br.ReadUInt32();
-                Unk04 = br.ReadUInt32();
-                Unk08 = br.ReadUInt32();
-                Unk0C = br.ReadUInt32();
-
-                long nameOffset;
-                if (longOffsets)
-                    nameOffset = br.ReadInt64();
-                else
-                    nameOffset = br.ReadInt32();
-                Name = br.GetUTF16(namesStart + nameOffset);
-
+                Unk00 = br.ReadBytes(16);
+                Name = br.GetUTF16(namesStart + br.ReadVarint());
                 Type = br.ReadEnum32<LightType>();
                 Unk1C = br.ReadBoolean();
-                byte[] color = br.ReadBytes(3);
-                DiffuseColor = Color.FromArgb(255, color[0], color[1], color[2]);
+                DiffuseColor = ReadRGB(br);
                 DiffusePower = br.ReadSingle();
-                color = br.ReadBytes(3);
-                SpecularColor = Color.FromArgb(255, color[0], color[1], color[2]);
+                SpecularColor = ReadRGB(br);
                 CastShadows = br.ReadBoolean();
                 SpecularPower = br.ReadSingle();
                 ConeAngle = br.ReadSingle();
@@ -447,8 +413,7 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 Unk64 = br.ReadBytes(4);
                 Unk68 = br.ReadSingle();
-                color = br.ReadBytes(4);
-                ShadowColor = Color.FromArgb(color[3], color[0], color[1], color[2]);
+                ShadowColor = br.ReadRGBA();
                 Unk70 = br.ReadSingle();
                 FlickerIntervalMin = br.ReadSingle();
                 FlickerIntervalMax = br.ReadSingle();
@@ -461,25 +426,15 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 Unk98 = br.ReadSingle();
                 NearClip = br.ReadSingle();
-
-                if (version == 2 && !longOffsets)
-                {
-                    br.AssertPattern(0x24, 0x00);
-                    UnkA0 = new byte[4];
-                    UnkC0 = new byte[4];
-                }
-                else
-                {
-                    UnkA0 = br.ReadBytes(4);
-                    Sharpness = br.ReadSingle();
-                    br.AssertInt32(0);
-                    UnkAC = br.ReadSingle();
-                    br.AssertInt64(0);
-                    Width = br.ReadSingle();
-                    UnkBC = br.ReadSingle();
-                    UnkC0 = br.ReadBytes(4);
-                    UnkC4 = br.ReadSingle();
-                }
+                UnkA0 = br.ReadBytes(4);
+                Sharpness = br.ReadSingle();
+                br.AssertInt32(0);
+                UnkAC = br.ReadSingle();
+                br.AssertVarint(0);
+                Width = br.ReadSingle();
+                UnkBC = br.ReadSingle();
+                UnkC0 = br.ReadBytes(4);
+                UnkC4 = br.ReadSingle();
 
                 if (version >= 16)
                 {
@@ -490,31 +445,19 @@ namespace SoulsFormats
                     UnkD8 = br.ReadSingle();
                     UnkDC = br.ReadInt32();
                     UnkE0 = br.ReadSingle();
-                    br.AssertInt32(0);
+                    UnkE4 = br.ReadInt32();
                 }
             }
 
             internal void Write(BinaryWriterEx bw, long nameOffset, int version, bool longOffsets)
             {
-                bw.WriteUInt32(Unk00);
-                bw.WriteUInt32(Unk04);
-                bw.WriteUInt32(Unk08);
-                bw.WriteUInt32(Unk0C);
-
-                if (longOffsets)
-                    bw.WriteInt64(nameOffset);
-                else
-                    bw.WriteInt32((int)nameOffset);
-
+                bw.WriteBytes(Unk00);
+                bw.WriteVarint(nameOffset);
                 bw.WriteUInt32((uint)Type);
                 bw.WriteBoolean(Unk1C);
-                bw.WriteByte(DiffuseColor.R);
-                bw.WriteByte(DiffuseColor.G);
-                bw.WriteByte(DiffuseColor.B);
+                WriteRGB(bw, DiffuseColor);
                 bw.WriteSingle(DiffusePower);
-                bw.WriteByte(SpecularColor.R);
-                bw.WriteByte(SpecularColor.G);
-                bw.WriteByte(SpecularColor.B);
+                WriteRGB(bw, SpecularColor);
                 bw.WriteBoolean(CastShadows);
                 bw.WriteSingle(SpecularPower);
                 bw.WriteSingle(ConeAngle);
@@ -529,10 +472,7 @@ namespace SoulsFormats
                 bw.WriteInt32(0);
                 bw.WriteBytes(Unk64);
                 bw.WriteSingle(Unk68);
-                bw.WriteByte(ShadowColor.R);
-                bw.WriteByte(ShadowColor.G);
-                bw.WriteByte(ShadowColor.B);
-                bw.WriteByte(ShadowColor.A);
+                bw.WriteRGBA(ShadowColor);
                 bw.WriteSingle(Unk70);
                 bw.WriteSingle(FlickerIntervalMin);
                 bw.WriteSingle(FlickerIntervalMax);
@@ -549,12 +489,7 @@ namespace SoulsFormats
                 bw.WriteSingle(Sharpness);
                 bw.WriteInt32(0);
                 bw.WriteSingle(UnkAC);
-
-                if (longOffsets)
-                    bw.WriteInt64(0);
-                else
-                    bw.WriteInt32(0);
-
+                bw.WriteVarint(0);
                 bw.WriteSingle(Width);
                 bw.WriteSingle(UnkBC);
                 bw.WriteBytes(UnkC0);
@@ -569,7 +504,7 @@ namespace SoulsFormats
                     bw.WriteSingle(UnkD8);
                     bw.WriteInt32(UnkDC);
                     bw.WriteSingle(UnkE0);
-                    bw.WriteInt32(0);
+                    bw.WriteInt32(UnkE4);
                 }
             }
 
@@ -579,6 +514,19 @@ namespace SoulsFormats
             public override string ToString()
             {
                 return Name;
+            }
+
+            private static Color ReadRGB(BinaryReaderEx br)
+            {
+                byte[] rgb = br.ReadBytes(3);
+                return Color.FromArgb(255, rgb[0], rgb[1], rgb[2]);
+            }
+
+            private static void WriteRGB(BinaryWriterEx bw, Color color)
+            {
+                bw.WriteByte(color.R);
+                bw.WriteByte(color.G);
+                bw.WriteByte(color.B);
             }
         }
     }

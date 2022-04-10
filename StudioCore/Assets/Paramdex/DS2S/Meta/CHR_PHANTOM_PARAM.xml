@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<R1 AltName="R1" /> 
+<G1 AltName="G1" /> 
+<B1 AltName="B1" /> 
+<A1 AltName="A1" /> 
+<R2 AltName="R2" /> 
+<G2 AltName="G2" /> 
+<B2 AltName="B2" /> 
+<A2 AltName="A2" /> 
+<R3 AltName="R3" /> 
+<G3 AltName="G3" /> 
+<B3 AltName="B3" /> 
+<A3 AltName="A3" /> 
+<R4 AltName="R4" /> 
+<G4 AltName="G4" /> 
+<B4 AltName="B4" /> 
+<A4 AltName="A4" /> 
+<R5 AltName="R5" /> 
+<G5 AltName="G5" /> 
+<B5 AltName="B5" /> 
+<A5 AltName="A5" /> 
+<GhostA1 AltName="Ghost A1" /> 
+<GhostA2 AltName="Ghost A2" /> 
+</Field>
+</PARAMMETA>

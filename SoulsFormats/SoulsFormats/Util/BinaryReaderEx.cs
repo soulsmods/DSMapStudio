@@ -34,7 +34,7 @@ namespace SoulsFormats
         /// <summary>
         /// The underlying stream.
         /// </summary>
-        public Stream Stream { get; private set; }
+        public Stream Stream { get; }
 
         /// <summary>
         /// The current position of the stream.
@@ -139,6 +139,16 @@ namespace SoulsFormats
         {
             if (Stream.Position % align > 0)
                 Stream.Position += align - (Stream.Position % align);
+        }
+
+        /// <summary>
+        /// Advances the stream position until it meets the specified alignment relative to the given starting position.
+        /// </summary>
+        public void PadRelative(long start, int align)
+        {
+            long relPos = Stream.Position - start;
+            if (relPos % align > 0)
+                Stream.Position += align - (relPos % align);
         }
 
         /// <summary>

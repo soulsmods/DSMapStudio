@@ -8,6 +8,8 @@
 	  </Enum>
   </Enums>
   <Field>
-    <TypeAI_SOUND_RATE_TYPE Enum="SoundType" />
+    <bSpEffectEnableON_OFF AltName="Is SpEffect Enabled" />
+    <TypeAI_SOUND_RATE_TYPE Enum="SoundType" AltName="Rate Type" />
+    <UseHitDamageTeamON_OFF AltName="Is Hit Damage Team" />
   </Field>
 </PARAMMETA>

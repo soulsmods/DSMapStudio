@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<EffectID AltName="Effect ID" Wiki="The SFX Id of this particular bullet. Sometimes unlisted here and sometimes provided by the EMEVD."/> 
+<SpawnLocation AltName="Spawn Location" Wiki="Where the effect/bullet will spawn in relation to the parent." /> 
+<SpawnFlag AltName="Spawn Flag" /> 
+<IsVisibleOnline AltName="Is Visible Online" /> 
+<SpawnFlag AltName="Spawn Flag" /> 
+<ForwardSpawnDistance AltName="Forward Spawn Distance" /> 
+<ShooterHorizontalAngle AltName="Shooter Horizontal Angle" /> 
+<ShooterUnkAngle AltName="Shooter Unk Angle" /> 
+<ShooterVerticalAngle AltName="Shooter Vertical Angle" /> 
+<ShooterUnkAngle AltName="Shooter Unk Angle" /> 
+<VerticalAngleRandomizer AltName="Vertical Angle Randomizer" /> 
+<HorizontalAngleRandomizer AltName="Horizontal Angle Randomizer" /> 
+<NumbertoShootatOnce AltName="Number to Shoot at Once" /> 
+<NumbertoShootsequentially AltName="Number to Shoot sequentially" /> 
+<ShootInterval AltName="Shoot Interval" /> 
+<VerticalSpread AltName="Vertical Spread" /> 
+<HorizontalSpread AltName="Horizontal Spread" /> 
+<MaxLife AltName="Max Life" /> 
+<InitialHorizontalVelocity AltName="Initial Horizontal Velocity" /> 
+<HorizontalAccelerationStartDelay AltName="Horizontal Acceleration Start Delay" /> 
+<HorizontalTargetVelocity AltName="Horizontal Target Velocity" /> 
+<HorizontalMaxVelocity AltName="Horizontal Max Velocity" /> 
+<InitialVerticalVelocity AltName="Initial Vertical Velocity" /> 
+<VerticalAccelerationStartDelay AltName="Vertical Acceleration Start Delay" /> 
+<VerticalTargetVelocity AltName="Vertical Target Velocity" /> 
+<VerticalMaxVelocity AltName="Vertical Max Velocity" /> 
+<InitialTangentialVerticalVelocity AltName="Initial Tangential Vertical Velocity" /> 
+<TangentialVerticalAccelerationStartDelay AltName="Tangential Vertical Acceleration Start Delay" /> 
+<TangentialVerticalTargetVelocity AltName="Tangential Vertical Target Velocity" /> 
+<TangentialVerticalMaxVelocity AltName="Tangential Vertical Max Velocity" /> 
+<InitialTangentialHorizontalVelocity AltName="Initial Tangential Horizontal Velocity" /> 
+<TangentialHorizontalAccelerationStartDelay AltName="Tangential Horizontal Acceleration Start Delay" /> 
+<TangentialHorizontalTargetVelocity AltName="Tangential Horizontal Target Velocity" /> 
+<TangentialHorizontalMaxVelocity AltName="Tangential Horizontal Max Velocity" /> 
+<MaxAngleChange AltName="Max Angle Change" /> 
+<TrackingMaxAngleChange AltName="Tracking Max Angle Change" /> 
+<TrackingTime AltName="Tracking Time" /> 
+<CollisionCharacter AltName="Collision - Character" /> 
+<CollisionWall AltName="Collision - Wall" /> 
+<CollisionFloorCeiling AltName="Collision - Floor / Ceiling" /> 
+<CollisionWater AltName="Collision - Water" /> 
+<EffectonFire AltName="Effect on Fire" /> 
+<EffectonCollision AltName="Effect on Collision" /> 
+<EffectonDeath AltName="Effect on Death" /> 
+<EffectonDeathDuration AltName="Effect on Death Duration" /> 
+<BehavioronCollision AltName="Behavior on Collision" /> 
+<ChildBullet1ID1 AltName="Child Bullet 1 - ID 1 (Bullet)" Refs="BulletParam" /> 
+<ChildBullet1ID2 AltName="Child Bullet 1 - ID 2 (Damage)"  Refs="BulletParam" /> 
+<ChildBullet2ID1 AltName="Child Bullet 2 - ID 1 (Bullet)"  Refs="BulletParam" /> 
+<ChildBullet2ID2 AltName="Child Bullet 2 - ID 2 (Damage)"  Refs="BulletParam" /> 
+<ChildBullet3ID1 AltName="Child Bullet 3 - ID 1 (Bullet)"  Refs="BulletParam" /> 
+<ChildBullet3ID2 AltName="Child Bullet 3 - ID 2 (Damage)"  Refs="BulletParam" /> 
+<SpawnChildBulletsonCollision AltName="Spawn Child Bullets on Collision" /> 
+<SpawnChildBulletsonTimeout AltName="Spawn Child Bullets on Timeout" /> 
+<SpawnChildBulletson AltName="Spawn Child Bullets on ?" /> 
+<SpawnChildBulletsonAlive AltName="Spawn Child Bullets on Alive" /> 
+<ChildBulletSpawnDelay AltName="Child Bullet Spawn Delay" /> 
+</Field>
+</PARAMMETA>

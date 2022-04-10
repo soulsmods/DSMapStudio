@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<WeaponMotionID AltName="Weapon Motion ID" /> 
+<WeaponModelID AltName="Weapon Model ID" /> 
+<WeaponReinforceID AltName="Weapon Reinforce ID" /> 
+<ActionCategoryID AltName="Action Category ID" /> 
+<WeaponTypeID1 AltName="Weapon Type ID = -1" /> 
+<STRRequirement1 AltName="STR Requirement = -1" /> 
+<DEXRequirement1 AltName="DEX Requirement = -1" /> 
+<INTRequirement1 AltName="INT Requirement = -1" /> 
+<FTHRequirement1 AltName="FTH Requirement = -1" /> 
+<Weight AltName="Weight" /> 
+<RecoveryAnimationWeight AltName="Recovery Animation Weight" /> 
+<MaxDurability AltName="Max Durability" /> 
+<BaseRepairCost1 AltName="Base Repair Cost = -1" /> 
+<StaminaConsumption10 AltName="Stamina Consumption (*10)" /> 
+<StaminaDamage10 AltName="Stamina Damage (*10)" /> 
+<WeaponStaminaCostID1 AltName="Weapon Stamina Cost ID = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<PlayerDamageIDCritical1 AltName="Player Damage ID: Critical = -1" /> 
+<DamageMultiplier AltName="Damage Multiplier" /> 
+<EquipmentDamageMultiplier AltName="Equipment Damage Multiplier" /> 
+<GuardBreakRelated AltName="Guard Break Related" /> 
+<GuardBreakRelated AltName="Guard Break Related" /> 
+<StatusEffectAmount AltName="Status Effect Amount" /> 
+<HitboxSize AltName="Hitbox Size" /> 
+<HitboxSize2 AltName="Hitbox Size 2" /> 
+<HitboxWallCancel AltName="Hitbox Wall Cancel" /> 
+<HitboxWallCancel AltName="Hitbox Wall Cancel" /> 
+<DamageType1 AltName="Damage Type = -1" /> 
+<PoiseDamage1 AltName="Poise Damage = -1" /> 
+<CounterDamage1 AltName="Counter Damage = -1" /> 
+<CastingSpeed1 AltName="Casting Speed = -1" /> 
+<PoiseDamageFloat10 AltName="Poise Damage (Float / 10)" /> 
+</Field>
+</PARAMMETA>

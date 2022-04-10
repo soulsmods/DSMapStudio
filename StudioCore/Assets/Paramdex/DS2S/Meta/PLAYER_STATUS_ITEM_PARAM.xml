@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<ItemID0 AltName="Item ID 0" /> 
+<ItemID1 AltName="Item ID 1" /> 
+<ItemID2 AltName="Item ID 2" /> 
+<ItemID3 AltName="Item ID 3" /> 
+<ItemID4 AltName="Item ID 4" /> 
+<ItemID5 AltName="Item ID 5" /> 
+<ItemID6 AltName="Item ID 6" /> 
+<ItemID7 AltName="Item ID 7" /> 
+<ItemID8 AltName="Item ID 8" /> 
+<ItemID9 AltName="Item ID 9" /> 
+<ItemID10 AltName="Item ID 10" /> 
+<ItemID11 AltName="Item ID 11" /> 
+<ItemID12 AltName="Item ID 12" /> 
+<ItemID13 AltName="Item ID 13" /> 
+<ItemID14 AltName="Item ID 14" /> 
+<ItemID15 AltName="Item ID 15" /> 
+<ItemID16 AltName="Item ID 16" /> 
+<ItemID17 AltName="Item ID 17" /> 
+<ItemID18 AltName="Item ID 18" /> 
+<ItemID19 AltName="Item ID 19" /> 
+<ItemAmount0 AltName="Item Amount 0" /> 
+<ItemAmount1 AltName="Item Amount 1" /> 
+<ItemAmount2 AltName="Item Amount 2" /> 
+<ItemAmount3 AltName="Item Amount 3" /> 
+<ItemAmount4 AltName="Item Amount 4" /> 
+<ItemAmount5 AltName="Item Amount 5" /> 
+<ItemAmount6 AltName="Item Amount 6" /> 
+<ItemAmount7 AltName="Item Amount 7" /> 
+<ItemAmount8 AltName="Item Amount 8" /> 
+<ItemAmount9 AltName="Item Amount 9" /> 
+<ItemAmount10 AltName="Item Amount 10" /> 
+<ItemAmount11 AltName="Item Amount 11" /> 
+<ItemAmount12 AltName="Item Amount 12" /> 
+<ItemAmount13 AltName="Item Amount 13" /> 
+<ItemAmount14 AltName="Item Amount 14" /> 
+<ItemAmount15 AltName="Item Amount 15" /> 
+<ItemAmount16 AltName="Item Amount 16" /> 
+<ItemAmount17 AltName="Item Amount 17" /> 
+<ItemAmount18 AltName="Item Amount 18" /> 
+<ItemAmount19 AltName="Item Amount 19" /> 
+</Field>
+</PARAMMETA>

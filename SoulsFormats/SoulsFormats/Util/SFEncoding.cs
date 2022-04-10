@@ -14,9 +14,9 @@ namespace SoulsFormats
 
         static SFEncoding()
         {
-#if NETSTANDARD
+//#if NETSTANDARD
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-#endif
+//#endif
             ASCII = Encoding.ASCII;
             ShiftJIS = Encoding.GetEncoding("shift-jis");
             UTF16 = Encoding.Unicode;

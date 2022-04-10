@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<EquipID1 AltName="Equip ID = -1" Refs="ItemParam" /> 
+<EnableFlag1 AltName="Enable Flag = -1" /> 
+<DisableFlag1 AltName="Disable Flag = -1" /> 
+<MaterialID AltName="Material ID" /> 
+<DuplicateItemID AltName="Duplicate Item ID" /> 
+<PriceRate AltName="Price Rate"  /> 
+<Quantity255 AltName="Quantity = 255" /> 
+</Field>
+</PARAMMETA>

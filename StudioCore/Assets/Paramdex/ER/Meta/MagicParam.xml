@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <enable_multi IsBool="" />
+    <enable_multi_only IsBool="" />
+    <isEnchant IsBool="" />
+    <isShieldEnchant IsBool="" />
+    <enable_live IsBool="" />
+    <enable_gray IsBool="" />
+    <enable_white IsBool="" />
+    <enable_black IsBool="" />
+    <disableOffline IsBool="" />
+    <castResonanceMagic IsBool="" />
+    <isValidTough_ProtSADmg IsBool="" />
+    <isWarpMagic IsBool="" />
+    <enableRiding IsBool="" />
+    <disableRiding IsBool="" />
+    <isUseNoAttackRegion IsBool="" />
+    <ReplacementMagic1 Refs="Magic" />
+    <ReplacementMagic2 Refs="Magic" />
+    <ReplacementMagic3 Refs="Magic" />
+    <ReplacementMagic4 Refs="Magic" />
+    <refId1 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId2 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId3 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId4 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId5 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId6 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId7 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId8 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId9 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+    <refId10 Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

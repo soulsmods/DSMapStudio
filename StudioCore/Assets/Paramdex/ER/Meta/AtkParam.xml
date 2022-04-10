@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <disableGuard IsBool="" />
+    <disableStaminaAttack IsBool="" />
+    <disableHitSpEffect IsBool="" />
+    <IgnoreNotifyMissSwingForAI IsBool="" />
+    <repeatHitSfx IsBool="" />
+    <isArrowAtk IsBool="" />
+    <isGhostAtk IsBool="" />
+    <isDisableNoDamage IsBool="" />
+    <opposeTarget IsBool="" />
+    <friendlyTarget IsBool="" />
+    <selfTarget IsBool="" />
+    <isCheckDoorPenetration IsBool="" />
+    <isVsRideAtk IsBool="" />
+    <isAddBaseAtk IsBool="" />
+    <isDisableParry IsBool="" />
+    <isDisableBothHandsAtkBonus IsBool="" />
+    <isInvalidatedByNoDamageInAir IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

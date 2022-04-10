@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <disableParam_NT IsBool="" />
+    <disableParamReserve1 IsBool="" />
+    <client1SpEffectId Refs="SpEffectParam" />
+    <client2SpEffectId Refs="SpEffectParam" />
+    <client3SpEffectId Refs="SpEffectParam" />
+    <bOverrideSpEffect IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

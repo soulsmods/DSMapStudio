@@ -1,0 +1,173 @@
+4000 [Sorcery] Glintstone Pebble
+4001 [Sorcery] Great Glintstone Shard
+4010 [Sorcery] Swift Glintstone Shard
+4020 [Sorcery] Glintstone Cometshard
+4021 [Sorcery] Comet
+4030 [Sorcery] Shard Spiral
+4040 [Sorcery] Glintstone Stars
+4050 [Sorcery] Star Shower
+4060 [Sorcery] Crystal Barrage
+4070 [Sorcery] Glintstone Arc
+4080 [Sorcery] Cannon of Haima
+4090 [Sorcery] Crystal Burst
+4100 [Sorcery] Shatter Earth
+4110 [Sorcery] Rock Blaster
+4120 [Sorcery] Gavel of Haima
+4130 [Sorcery] Terra Magicus
+4140 [Sorcery] Starlight
+4200 [Sorcery] Comet Azur
+4210 [Sorcery] Founding Rain of Stars
+4220 [Sorcery] Stars of Ruin
+4300 [Sorcery] Glintblade Phalanx
+4301 [Sorcery] Carian Phalanx
+4302 [Sorcery] Greatblade Phalanx
+4360 [Sorcery] Rennala's Full Moon
+4361 [Sorcery] Ranni's Dark Moon
+4370 [Sorcery] Magic Downpour
+4380 [Sorcery] Loretta's Greatbow
+4381 [Sorcery] Loretta's Mastery
+4390 [Sorcery] Magic Glintblade
+4400 [Sorcery] Glintstone Icecrag
+4410 [Sorcery] Zamor Ice Storm
+4420 [Sorcery] Freezing Mist
+4430 [Sorcery] Carian Greatsword
+4431 [Sorcery] Adula's Moonblade
+4440 [Sorcery] Carian Slicer
+4450 [Sorcery] Carian Piercer
+4460 [Sorcery] Scholar's Armament
+4470 [Sorcery] Scholar's Shield
+4480 [Sorcery] Lucidity
+4490 [Sorcery] Frozen Armament
+4500 [Sorcery] Shattering Crystal
+4510 [Sorcery] Crystal Release
+4520 [Sorcery] Crystal Torrent
+4600 [Sorcery] Ambush Shard
+4610 [Sorcery] Night Shard
+4620 [Sorcery] Night Comet
+4630 [Sorcery] Thops's Barrier
+4640 [Sorcery] Carian Retaliation
+4641 [Sorcery] Carian Retaliation - 1
+4642 [Sorcery] Carian Retaliation - 2
+4650 [Sorcery] Eternal Darkness
+4660 [Sorcery] Unseen Blade
+4670 [Sorcery] Unseen Form
+4700 [Sorcery] Meteorite
+4701 [Sorcery] Meteorite of Astel
+4710 [Sorcery] Rock Sling
+4720 [Sorcery] Gravity Well
+4721 [Sorcery] Collapsing Stars
+4800 [Sorcery] Magma Shot
+4810 [Sorcery] Gelmir's Fury
+4820 [Sorcery] Roiling Magma
+4830 [Sorcery] Rykard's Rancor
+4900 [Sorcery] Briars of Sin
+4910 [Sorcery] Briars of Punishment
+5000 [Sorcery] Rancorcall
+5001 [Sorcery] Ancient Death Rancor
+5010 [Sorcery] Explosive Ghostflame
+5020 [Sorcery] Fia's Mist
+5030 [Sorcery] Tibia's Summons
+5040 [Sorcery] Death Lightning
+5100 [Sorcery] Oracle Bubbles
+5110 [Sorcery] Great Oracular Bubble
+6000 [Incantation] Catch Flame
+6001 [Incantation] O, Flame!
+6010 [Incantation] Flame Sling
+6020 [Incantation] Flame, Fall Upon Them
+6030 [Incantation] Whirl, O Flame!
+6040 [Incantation] Flame, Cleanse Me
+6050 [Incantation] Flame, Grant Me Strength
+6060 [Incantation] Flame, Protect Me
+6100 [Incantation] Giantsflame Take Thee
+6110 [Incantation] Flame of the Fell God
+6120 [Incantation] Burn, O Flame!
+6210 [Incantation] Black Flame
+6220 [Incantation] Surge, O Flame!
+6230 [Incantation] Scouring Black Flame
+6240 [Incantation] Black Flame Ritual
+6250 [Incantation] Black Flame Blade
+6260 [Incantation] Black Flame's Protection
+6270 [Incantation] Noble Presence
+6300 [Incantation] Bloodflame Talons
+6310 [Incantation] Bloodboon
+6320 [Incantation] Bloodflame Blade
+6330 [Incantation] Barrier of Gold
+6340 [Incantation] Protection of the Erdtree
+6400 [Incantation] Rejection
+6410 [Incantation] Wrath of Gold
+6420 [Incantation] Urgent Heal
+6421 [Incantation] Heal
+6422 [Incantation] Great Heal
+6423 [Incantation] Lord's Heal
+6424 [Incantation] Erdtree Heal
+6430 [Incantation] Blessing's Boon
+6431 [Incantation] Blessing of the Erdtree
+6440 [Incantation] Cure Poison
+6441 [Incantation] Lord's Aid
+6450 [Incantation] Flame Fortification
+6460 [Incantation] Magic Fortification
+6470 [Incantation] Lightning Fortification
+6480 [Incantation] Divine Fortification
+6490 [Incantation] Lord's Divine Fortification
+6500 [Incantation] Night Maiden's Mist
+6510 [Incantation] Assassin's Approach
+6520 [Incantation] Shadow Bait
+6530 [Incantation] Darkness
+6600 [Incantation] Golden Vow
+6700 [Incantation] Discus of Light
+6701 [Incantation] Triple Rings of Light
+6710 [Incantation] Radagon's Rings of Light
+6720 [Incantation] Elden Stars
+6730 [Incantation] Law of Regression
+6740 [Incantation] Immutable Shield
+6750 [Incantation] Litany of Proper Death
+6760 [Incantation] Law of Causality
+6770 [Incantation] Order's Blade
+6780 [Incantation] Order Healing
+6800 [Incantation] Bestial Sling
+6810 [Incantation] Stone of Gurranq
+6820 [Incantation] Beast Claw
+6830 [Incantation] Gurranq's Beast Claw
+6840 [Incantation] Bestial Vitality
+6850 [Incantation] Bestial Constitution
+6900 [Incantation] Lightning Spear
+6910 [Incantation] Ancient Dragons' Lightning Strike
+6920 [Incantation] Lightning Strike
+6921 [Incantation] Frozen Lightning Spear
+6930 [Incantation] Honed Bolt
+6940 [Incantation] Ancient Dragons' Lightning Spear
+6941 [Incantation] Fortissax's Lightning Spear
+6950 [Incantation] Lansseax's Glaive
+6960 [Incantation] Electrify Armament
+6970 [Incantation] Vyke's Dragonbolt
+6971 [Incantation] Dragonbolt Blessing
+7000 [Incantation] Dragonfire
+7001 [Incantation] Agheel's Flame
+7010 [Incantation] Magma Breath
+7011 [Incantation] Theodorix's Magma
+7020 [Incantation] Dragonice
+7021 [Incantation] Borealis's Mist
+7030 [Incantation] Rotten Breath
+7031 [Incantation] Ekzykes's Decay
+7040 [Incantation] Glintstone Breath
+7041 [Incantation] Smarag's Glintstone Breath
+7050 [Incantation] Placidusax's Ruin
+7060 [Incantation] Dragonclaw
+7080 [Incantation] Dragonmaw
+7090 [Incantation] Greyoll's Roar
+7200 [Incantation] Pest Threads
+7210 [Incantation] Swarm of Flies
+7220 [Incantation] Poison Mist
+7230 [Incantation] Poison Armament
+7240 [Incantation] Scarlet Aeonia
+7300 [Incantation] Inescapable Frenzy
+7310 [Incantation] The Flame of Frenzy
+7311 [Incantation] Unendurable Frenzy
+7320 [Incantation] Frenzied Burst
+7330 [Incantation] Howl of Shabriri
+7500 [Incantation] Aspects of the Crucible: Tail
+7510 [Incantation] Aspects of the Crucible: Horns
+7520 [Incantation] Aspects of the Crucible: Breath
+7530 [Incantation] Black Blade
+7900 [Incantation] Fire's Deadly Sin
+7903 [Incantation] Golden Lightning Fortification

@@ -10,14 +10,14 @@
 	  </Enum>
   </Enums>
   <Field>
-    <ItemLotId1 Refs="EquipParamGoods" />
-    <ItemLotId2 Refs="EquipParamGoods" />
-    <ItemLotId3 Refs="EquipParamGoods" />
-    <ItemLotId4 Refs="EquipParamGoods" />
-    <ItemLotId5 Refs="EquipParamGoods" />
-    <ItemLotId6 Refs="EquipParamGoods" />
-    <ItemLotId7 Refs="EquipParamGoods" />
-    <ItemLotId8 Refs="EquipParamGoods" />
+    <ItemLotId1 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 1" />
+	<ItemLotId2 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 2" />
+	<ItemLotId3 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 3" />
+	<ItemLotId4 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 4" />
+	<ItemLotId5 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 5" />
+	<ItemLotId6 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 6" />
+	<ItemLotId7 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 7" />
+	<ItemLotId8 Refs="EquipParamGoods,EquipParamProtector,EquipParamWeapon,EquipParamAccessory" AltName="Item ID 8" />
 	<LotItemCategory01 Enum="ItemCategory" />
 	<LotItemCategory02 Enum="ItemCategory" />
 	<LotItemCategory03 Enum="ItemCategory" />
@@ -26,5 +26,45 @@
 	<LotItemCategory06 Enum="ItemCategory" />
 	<LotItemCategory07 Enum="ItemCategory" />
 	<LotItemCategory08 Enum="ItemCategory" />
+	<LotItemBasePoint01 AltName="Item 1 Chance" />
+	<LotItemBasePoint02 AltName="Item 2 Chance" />
+	<LotItemBasePoint03 AltName="Item 3 Chance" />
+	<LotItemBasePoint04 AltName="Item 4 Chance" />
+	<LotItemBasePoint05 AltName="Item 5 Chance" />
+	<LotItemBasePoint06 AltName="Item 6 Chance" />
+	<LotItemBasePoint07 AltName="Item 7 Chance" />
+	<LotItemBasePoint08 AltName="Item 8 Chance" />
+	<cumulateLotPoint01 AltName="Item 1 Cumulative Chance" />
+	<cumulateLotPoint02 AltName="Item 2 Cumulative Chance" />
+	<cumulateLotPoint03 AltName="Item 3 Cumulative Chance" />
+	<cumulateLotPoint04 AltName="Item 4 Cumulative Chance" />
+	<cumulateLotPoint05 AltName="Item 5 Cumulative Chance" />
+	<cumulateLotPoint06 AltName="Item 6 Cumulative Chance" />
+	<cumulateLotPoint07 AltName="Item 7 Cumulative Chance" />
+	<cumulateLotPoint08 AltName="Item 8 Cumulative Chance" />
+	<LotItemNum1 AltName="Item 1 Amount" />
+	<LotItemNum2 AltName="Item 2 Amount" />
+	<LotItemNum3 AltName="Item 3 Amount" />
+	<LotItemNum4 AltName="Item 4 Amount" />
+	<LotItemNum5 AltName="Item 5 Amount" />
+	<LotItemNum6 AltName="Item 6 Amount" />
+	<LotItemNum7 AltName="Item 7 Amount" />
+	<LotItemNum8 AltName="Item 8 Amount" />
+	<EnableLuck01 IsBool="" />
+	<EnableLuck02 IsBool="" />
+	<EnableLuck03 IsBool="" />
+	<EnableLuck04 IsBool="" />
+	<EnableLuck05 IsBool="" />
+	<EnableLuck06 IsBool="" />
+	<EnableLuck07 IsBool="" />
+	<EnableLuck08 IsBool="" />
+	<cumulateReset01 AltName="Item 1 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset02 AltName="Item 2 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset03 AltName="Item 3 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset04 AltName="Item 4 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset05 AltName="Item 5 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset06 AltName="Item 6 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset07 AltName="Item 7 Cumulative Chance Reset" IsBool="" />
+	<cumulateReset08 AltName="Item 8 Cumulative Chance Reset" IsBool="" />
   </Field>
 </PARAMMETA>

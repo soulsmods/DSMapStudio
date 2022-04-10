@@ -134,14 +134,15 @@ namespace SoulsFormats
             br.BigEndian = Header.BigEndian;
 
             // Gundam Unicorn: 0x20005, 0x2000E
-            // DS1: 2000C, 2000D
+            // ACVD: 
+            // DS1: 2000B (PS3 o0700/1), 2000C, 2000D
             // DS2 NT: 2000F, 20010
             // DS2: 20010, 20009 (armor 9320)
             // SFS: 20010
             // BB:  20013, 20014
             // DS3: 20013, 20014
             // SDT: 2001A, 20016 (test chr)
-            Header.Version = br.AssertInt32(0x20005, 0x20009, 0x2000C, 0x2000D, 0x2000E, 0x2000F, 0x20010, 0x20013, 0x20014, 0x20016, 0x2001A);
+            Header.Version = br.AssertInt32(0x20005, 0x20007, 0x20009, 0x2000B, 0x2000C, 0x2000D, 0x2000E, 0x2000F, 0x20010, 0x20013, 0x20014, 0x20016, 0x2001A);
 
             int dataOffset = br.ReadInt32();
             br.ReadInt32(); // Data length
@@ -157,7 +158,7 @@ namespace SoulsFormats
             br.ReadInt32(); // Face count not including motion blur meshes or degenerate faces
             br.ReadInt32(); // Total face count
 
-            int vertexIndicesSize = br.AssertByte(0, 16, 32);
+            int vertexIndicesSize = br.AssertByte(0, 8, 16, 32);
             Header.Unicode = br.ReadBoolean();
             Header.Unk4A = br.ReadBoolean();
             br.AssertByte(0);

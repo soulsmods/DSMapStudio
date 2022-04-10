@@ -394,7 +394,6 @@ namespace SoulsFormats
                     /// <summary>
                     /// The name of the child region.
                     /// </summary>
-                    [MSBReference(ReferenceType = typeof(IMsbRegion))]
                     public string RegionName { get; set; }
                     private int RegionIndex;
 

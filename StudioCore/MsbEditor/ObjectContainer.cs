@@ -584,7 +584,7 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsDeS(msb);
             }
-            else if (game == GameType.DarkSoulsPTDE)
+            else if (game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsRemastered)
             {
                 AddModelsDS1(msb);
             }
@@ -604,6 +604,7 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsSekiro(msb);
             }
+            //TODO: ER
         }
 
         public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)

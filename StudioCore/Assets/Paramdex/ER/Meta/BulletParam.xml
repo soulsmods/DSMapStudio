@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <atkId_Bullet Refs="AtkParam_Pc,AtkParam_Npc" />
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <isPenetrateChr IsBool="" />
+    <isPenetrateObj IsBool="" />
+    <isAttackSFX IsBool="" />
+    <isEndlessHit IsBool="" />
+    <isPenetrateMap IsBool="" />
+    <isHitBothTeam IsBool="" />
+    <isUseSharedHitList IsBool="" />
+    <isUseMultiDmyPolyIfPlace IsBool="" />
+    <isHitOtherBulletForceEraseA IsBool="" />
+    <isHitOtherBulletForceEraseB IsBool="" />
+    <isHitForceMagic IsBool="" />
+    <isIgnoreSfxIfHitWater IsBool="" />
+    <isIgnoreMoveStateIfHitWater IsBool="" />
+    <isHitDarkForceMagic IsBool="" />
+    <dmgCalcSide IsBool="" />
+    <isEnableAutoHoming IsBool="" />
+    <isSyncBulletCulcDumypolyPos IsBool="" />
+    <isOwnerOverrideInitAngle IsBool="" />
+    <isInheritSfxToChild IsBool="" />
+    <createLimitGroupId Refs="BulletCreateLimitParam" />
+    <isInheritSpeedToChild IsBool="" />
+    <isDisableHitSfx_byChrAndObj IsBool="" />
+    <isCheckWall_byCenterRay IsBool="" />
+    <isHitFlare IsBool="" />
+    <isUseBulletWallFilter IsBool="" />
+    <isNonDependenceMagicForFunnleNum IsBool="" />
+    <isAiInterruptShootNoDamageBullet IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SoulsFormats
 {
@@ -88,6 +89,23 @@ namespace SoulsFormats
                 else
                     Entries.Add(new Entry(elements[0].Trim('"'), value));
             }
+        }
+
+        /// <summary>
+        /// Writes the TDF in From's plaintext format.
+        /// </summary>
+        public string Write()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"\"{Name}\"");
+            sb.AppendLine($"\"{Type}\"");
+            foreach (Entry entry in Entries)
+            {
+                if (entry.Name != null)
+                    sb.Append($"\"{entry.Name}\"");
+                sb.AppendLine($",\"{entry.Value}\"");
+            }
+            return sb.ToString();
         }
 
         /// <summary>

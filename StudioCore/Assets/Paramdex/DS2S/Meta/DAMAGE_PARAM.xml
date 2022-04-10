@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<DamageControlID AltName="Damage Control ID" /> 
+<DamageID AltName="Damage ID" /> 
+<BaseDamageID AltName="Base Damage ID" /> 
+<DamageMultiplier AltName="Damage Multiplier" /> 
+<GuardBreakRelated AltName="Guard Break Related" /> 
+<HitboxSize AltName="Hitbox Size" /> 
+<HitboxSize AltName="Hitbox Size" /> 
+<SelfEffect AltName="Self Effect" /> 
+<IsPermanentBuff AltName="Is Permanent Buff" /> 
+<ApplyType AltName="Apply Type" /> 
+<GrabParamID AltName="Grab Param ID" /> 
+</Field>
+</PARAMMETA>

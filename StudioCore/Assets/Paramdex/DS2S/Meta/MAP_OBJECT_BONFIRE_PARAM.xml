@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<AreaID AltName="Area ID" /> 
+<FogDoorID AltName="Fog Door ID" /> 
+<BonfireLitFlagID AltName="Bonfire Lit Flag ID" /> 
+</Field>
+</PARAMMETA>

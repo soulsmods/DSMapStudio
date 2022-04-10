@@ -37,13 +37,11 @@ namespace SoulsFormats
             /// <summary>
             /// Translation of this bone.
             /// </summary>
-            public Vector3 Position { get; set; }
+            public Vector3 Translation { get; set; }
 
             /// <summary>
             /// Rotation of this bone; euler radians in XZY order.
             /// </summary>
-            [RotationRadians]
-            [RotationXZY]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
@@ -88,7 +86,7 @@ namespace SoulsFormats
                     * Matrix4x4.CreateRotationX(Rotation.X)
                     * Matrix4x4.CreateRotationZ(Rotation.Z)
                     * Matrix4x4.CreateRotationY(Rotation.Y)
-                    * Matrix4x4.CreateTranslation(Position);
+                    * Matrix4x4.CreateTranslation(Translation);
             }
 
             /// <summary>
@@ -101,7 +99,7 @@ namespace SoulsFormats
 
             internal Bone(BinaryReaderEx br, bool unicode)
             {
-                Position = br.ReadVector3();
+                Translation = br.ReadVector3();
                 int nameOffset = br.ReadInt32();
                 Rotation = br.ReadVector3();
                 ParentIndex = br.ReadInt16();
@@ -122,7 +120,7 @@ namespace SoulsFormats
 
             internal void Write(BinaryWriterEx bw, int index)
             {
-                bw.WriteVector3(Position);
+                bw.WriteVector3(Translation);
                 bw.ReserveInt32($"BoneNameOffset{index}");
                 bw.WriteVector3(Rotation);
                 bw.WriteInt16(ParentIndex);

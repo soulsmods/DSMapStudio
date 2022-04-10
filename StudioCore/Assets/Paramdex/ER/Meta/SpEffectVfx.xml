@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <existEffectForLarge IsBool="" />
+    <existEffectForSoul IsBool="" />
+    <effectInvisibleAtCamouflage IsBool="" />
+    <useCamouflage IsBool="" />
+    <invisibleAtFriendCamouflage IsBool="" />
+    <isHideFootEffect_forCamouflage IsBool="" />
+    <halfCamouflage IsBool="" />
+    <isFullBodyTransformProtectorId IsBool="" />
+    <isInvisibleWeapon IsBool="" />
+    <isSilence IsBool="" />
+    <isMidstFullbody IsBool="" />
+    <isInitFullbody IsBool="" />
+    <isFinishFullbody IsBool="" />
+    <isVisibleDeadChr IsBool="" />
+    <isUseOffsetEnchantSfxSize IsBool="" />
+    <decalId1 Refs="DecalParam" />
+    <decalId2 Refs="DecalParam" />
+    <phantomParamOverwriteId Refs="PhantomParam" />
+    <materialParamId Refs="MaterialExParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

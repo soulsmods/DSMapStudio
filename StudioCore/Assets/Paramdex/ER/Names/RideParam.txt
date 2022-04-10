@@ -1,0 +1,79 @@
+80000 Player <> Torrent
+300081001 Castle Exile <> Ballista
+300081011 Castle Exile <> Giant Ballista
+300081101 Castle Exile <> Dragon-faced Flamethrower
+300090090 Castle Exile <>
+300090091 Castle Exile <>
+300090092 Castle Exile <>
+300090093 Castle Exile <>
+315031600 Night's Cavalry <> Night's Cavalry Horse
+315031601 Night's Cavalry <> Night's Cavalry Horse
+315031602 Night's Cavalry <> Night's Cavalry Horse
+315031603 Night's Cavalry <> Night's Cavalry Horse
+317031802 Albinauric Archer <> Dog
+317031803 Albinauric Archer <> Dog
+320032102 Nomad Trader <> Mule
+320032103 Nomad Trader <> Mule
+330042800 Nox Swordstress <> Giant Ant
+330042801 Nox Swordstress <> Giant Ant
+330042802 Nox Swordstress <> Giant Ant
+330042803 Nox Swordstress <> Giant Ant
+350081001 Skeleton (Curved Sword) <> Ballista
+350081011 Skeleton (Curved Sword) <> Giant Ballista
+350081101 Skeleton (Curved Sword) <> Dragon-faced Flamethrower
+405040601 Kaiden Sellsword <> Horse (Thick Mane)
+405040602 Kaiden Sellsword <> Horse (Thick Mane)
+405040603 Kaiden Sellsword <> Horse (Thick Mane)
+435043601 Castle Knight <> Knight's Horse
+435043602 Castle Knight <> Knight's Horse
+435043603 Castle Knight <> Knight's Horse
+435143611 Godrick Knight <> Godrick Knight's Horse
+435143612 Godrick Knight <> Godrick Knight's Horse
+435143613 Godrick Knight <> Godrick Knight's Horse
+435243621 Cuckoo Knight <> Godrick Knight's Horse
+435243622 Cuckoo Knight <> Godrick Knight's Horse
+435243623 Cuckoo Knight <> Godrick Knight's Horse
+435343631 Leyndell Knight <> Leyndell Knight's Horse
+435343632 Leyndell Knight <> Leyndell Knight's Horse
+435343633 Leyndell Knight <> Leyndell Knight's Horse
+435443641 Redmane Knight <> Redmane Knight's Horse
+435443642 Redmane Knight <> Redmane Knight's Horse
+435443643 Redmane Knight <> Redmane Knight's Horse
+435543651 Mausoleum Knight <> Mausoleum Knight's Horse
+435543652 Mausoleum Knight <> Mausoleum Knight's Horse
+435543653 Mausoleum Knight <> Mausoleum Knight's Horse
+435643661 Haligtree Knight <> Haligtree Knight's Horse
+435643662 Haligtree Knight <> Haligtree Knight's Horse
+435643663 Haligtree Knight <> Haligtree Knight's Horse
+437081001 Foot Soldier <> Ballista
+437081011 Foot Soldier <> Giant Ballista
+437081101 Foot Soldier <> Dragon-faced Flamethrower
+437181001 Godrick Foot Soldier <> Ballista
+437181011 Godrick Foot Soldier <> Giant Ballista
+437181101 Godrick Foot Soldier <> Dragon-faced Flamethrower
+437281001 Raya Lucaria Foot Soldier <> Ballista
+437281011 Raya Lucaria Foot Soldier <> Giant Ballista
+437281101 Raya Lucaria Foot Soldier <> Dragon-faced Flamethrower
+437381001 Leyndell Foot Soldier <> Ballista
+437381011 Leyndell Foot Soldier <> Giant Ballista
+437381101 Leyndell Foot Soldier <> Dragon-faced Flamethrower
+437481001 Radahn Foot Soldier <> Ballista
+437481011 Radahn Foot Soldier <> Giant Ballista
+437481101 Radahn Foot Soldier <> Dragon-faced Flamethrower
+437581001 Mausoleum Foot Soldier <> Ballista
+437581011 Mausoleum Foot Soldier <> Giant Ballista
+437581101 Mausoleum Foot Soldier <> Dragon-faced Flamethrower
+437681001 Haligtree Foot Soldier <> Ballista
+437681011 Haligtree Foot Soldier <> Giant Ballista
+437681101 Haligtree Foot Soldier <> Dragon-faced Flamethrower
+437781001 Highwayman <> Ballista
+437781011 Highwayman <> Giant Ballista
+437781101 Highwayman <> Dragon-faced Flamethrower
+473047400 Starscourge Radahn <> Leonard
+473047401 Starscourge Radahn <> Leonard
+473047402 Starscourge Radahn <> Leonard
+473047403 Starscourge Radahn <> Leonard
+495149500 Godrick Torso <> Godrick the Grafted
+495149501 Godrick Torso <> Godrick the Grafted
+495149502 Godrick Torso <> Godrick the Grafted
+495149503 Godrick Torso <> Godrick the Grafted

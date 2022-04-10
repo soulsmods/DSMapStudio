@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <enableUnassign IsBool="" />
+    <enablePadConfig IsBool="" />
+    <enableMouseConfig IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

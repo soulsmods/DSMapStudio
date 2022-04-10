@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+<Self Row0Dummy="" />
+<Field>
+<Level AltName="Level" /> 
+<HumanHP AltName="Human HP" /> 
+<BaseHP AltName="Base HP" /> 
+<BaseStamina10 AltName="Base Stamina (*10)" /> 
+<MaxEquipLoad AltName="Max Equip Load" /> 
+<StrengthBonus AltName="Strength Bonus" /> 
+<DexterityBonus AltName="Dexterity Bonus" /> 
+<MagicBonus AltName="Magic Bonus" /> 
+<FireBonus AltName="Fire Bonus" /> 
+<LightningBonus AltName="Lightning Bonus" /> 
+<DarkBonus AltName="Dark Bonus" /> 
+<PoisonBonus AltName="Poison Bonus" /> 
+<BleedBonus AltName="Bleed Bonus" /> 
+<StrikeDefence AltName="Strike Defence" /> 
+<SlashDefence AltName="Slash Defence" /> 
+<ThrustDefence AltName="Thrust Defence" /> 
+<MundaneScaling AltName="Mundane Scaling" /> 
+<Poise AltName="Poise" /> 
+</Field>
+</PARAMMETA>
