@@ -257,14 +257,14 @@ namespace StudioCore.ParamEditor
             }
             if (ImGui.BeginMenu("Game"))
             {
-                if (ImGui.MenuItem("Hot Reload Params", "F5", false, _projectSettings != null && _projectSettings.GameType == GameType.DarkSoulsIII && ParamBank.IsLoadingParams == false))
+                if (ImGui.MenuItem("Hot Reload Params", "F5", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
                 {
-                    ParamReloader.ReloadMemoryParamsDS3();
+                    ParamReloader.ReloadMemoryParams(_projectSettings.GameType);
                 }
                 string activeParam = _activeView._selection.getActiveParam();
                 if (activeParam != null && _projectSettings.GameType == GameType.DarkSoulsIII)
                 {
-                    ParamReloader.GiveItemMenu(_activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
+                    ParamReloader.GiveItemMenu(_projectSettings.GameType, _activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
                 }
                 ImGui.EndMenu();
             }
@@ -427,9 +427,9 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            if (InputTracker.GetKey(Key.F5) && _projectSettings != null && _projectSettings.GameType == GameType.DarkSoulsIII && ParamBank.IsLoadingParams == false)
+            if (InputTracker.GetKey(Key.F5) && _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false)
             {
-                ParamReloader.ReloadMemoryParamsDS3();
+                ParamReloader.ReloadMemoryParams(_projectSettings.GameType);
             }
 
             if (ParamBank.Params == null)

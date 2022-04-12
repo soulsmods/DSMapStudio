@@ -19,10 +19,14 @@ namespace StudioCore.ParamEditor
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
-        public static void ReloadMemoryParamsDS3()
+        public static void ReloadMemoryParams(GameType game)
         {
-            GameOffsets offsets = GameOffsets.OffsetsDS3;
-            var processArray = Process.GetProcessesByName("DarkSoulsIII");
+            GameOffsets offsets = null;
+            if (game == GameType.DarkSoulsIII)
+                offsets = GameOffsets.OffsetsDS3;
+            else if (game == GameType.EldenRing)
+                offsets = GameOffsets.OffsetsER;
+            var processArray = Process.GetProcessesByName(offsets.exeName);
             if (processArray.Any())
             {
                 SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
@@ -47,15 +51,17 @@ namespace StudioCore.ParamEditor
                 memoryHandler.Terminate();
             }
         }
-        public static void GiveItemMenu(List<PARAM.Row> rowsToGib, string param)
+        public static void GiveItemMenu(GameType game, List<PARAM.Row> rowsToGib, string param)
         {
-            GameOffsets offsets = GameOffsets.OffsetsDS3;
+            GameOffsets offsets = null;
+            if (game == GameType.DarkSoulsIII)
+                offsets = GameOffsets.OffsetsDS3;
 
             if (!offsets.itemGibOffsets.ContainsKey(param))
                 return;
             if (ImGui.MenuItem("Spawn Selected Items In Game"))
             {
-                GiveItemDS3(rowsToGib, param, param == "EquipParamGoods" ? (int)numberOfItemsToGive : 1, param == "EquipParamWeapon" ? (int)upgradeLevelItemToGive : 0);
+                GiveItem(offsets, rowsToGib, param, param == "EquipParamGoods" ? (int)numberOfItemsToGive : 1, param == "EquipParamWeapon" ? (int)upgradeLevelItemToGive : 0);
             }
             if (param == "EquipParamGoods")
             {
@@ -86,7 +92,7 @@ namespace StudioCore.ParamEditor
             }
             ImGui.Unindent();
         }
-        public static void GiveItemDS3(List<PARAM.Row> rowsToGib, string studioParamType, int itemQuantityReceived, int upgradeLevelItemToGive = 0)
+        private static void GiveItem(GameOffsets offsets, List<PARAM.Row> rowsToGib, string studioParamType, int itemQuantityReceived, int upgradeLevelItemToGive = 0)
         {
             if (rowsToGib.Any())
             {
@@ -95,7 +101,7 @@ namespace StudioCore.ParamEditor
                 {
                     SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
 
-                    memoryHandler.PlayerItemGiveDS3(rowsToGib, studioParamType, itemQuantityReceived, -1,upgradeLevelItemToGive);
+                    memoryHandler.PlayerItemGive(offsets, rowsToGib, studioParamType, itemQuantityReceived, -1,upgradeLevelItemToGive);
 
                     memoryHandler.Terminate();
                 }
@@ -116,6 +122,7 @@ namespace StudioCore.ParamEditor
             {
                 memoryHandler.ReadProcessMemory(BaseDataPtr, ref RowId);
                 memoryHandler.ReadProcessMemory(BaseDataPtr + offsets.rowPointerOffset, ref rowPtr);
+                if (RowId < 0 || rowPtr < 0){BaseDataPtr += offsets.rowHeaderSize; continue;}
 
                 DataSectionPtr = IntPtr.Add(BasePtr, rowPtr);
 
@@ -318,6 +325,7 @@ namespace StudioCore.ParamEditor
 
     internal class GameOffsets
     {
+        internal string exeName;
         internal int paramBase;
         internal int[] paramInnerPath;
         internal int paramCountOffset;
@@ -327,7 +335,8 @@ namespace StudioCore.ParamEditor
         internal Dictionary<string, int> paramOffsets;
         internal Dictionary<string, int> itemGibOffsets;
 
-        internal GameOffsets(int pbase, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff, int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs){
+        internal GameOffsets(string exe, int pbase, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff, int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs){
+            exeName = exe;
             paramBase = pbase;
             paramInnerPath = path;
             paramCountOffset = paramCountOff;
@@ -339,6 +348,7 @@ namespace StudioCore.ParamEditor
         }
 
         internal static GameOffsets OffsetsDS3 = new GameOffsets(
+            "DarkSoulsIII",
             0x4782838, //paramBase
             new int[]{0x68, 0x68}, //paramInnerPath
             0xA, //paramCountOffset
@@ -448,12 +458,13 @@ namespace StudioCore.ParamEditor
             }
         );
         internal static GameOffsets OffsetsER = new GameOffsets(
-            0x0, //paramBase TODO
+            "eldenring",
+            0x3C80158, //paramBase
             new int[]{0x80, 0x80}, //paramInnerPath
-            0xA, //paramCountOffset //TODO
-            0x40, //paramDataOffset //TODO
-            0x8, //rowPointerOffset //TODO
-            0x18, //rowHeaderSize //TODO
+            0xA, //paramCountOffset
+            0x40, //paramDataOffset
+            0x8, //rowPointerOffset
+            0x18, //rowHeaderSize
             new Dictionary<string, int>() //paramOffsets
             {
                 {"EquipParamWeapon", 0x88},
@@ -655,7 +666,7 @@ namespace StudioCore.ParamEditor
         public SoulsMemoryHandler(Process gameProcess)
         {
             this.gameProcess = gameProcess;
-            this.memoryHandle = NativeWrapper.OpenProcess(ProcessAccessFlags.CreateThread|ProcessAccessFlags.ReadWrite, gameProcess.Id);
+            this.memoryHandle = NativeWrapper.OpenProcess(ProcessAccessFlags.CreateThread|ProcessAccessFlags.ReadWrite|ProcessAccessFlags.Execute|ProcessAccessFlags.VirtualMemoryOperation, gameProcess.Id);
         }
         public void Terminate()
         {
@@ -692,11 +703,11 @@ namespace StudioCore.ParamEditor
             return ParamPtr;
         }
 
-        internal short GetRowCount(GameOffsets gOffsets, int pOffset)
+        internal int GetRowCount(GameOffsets gOffsets, int pOffset)
         {
             IntPtr ParamPtr = GetParamPtr(gOffsets, pOffset);
 
-            Int16 buffer = 0;
+            Int32 buffer = 0;
             NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + gOffsets.paramCountOffset, ref buffer);
 
             return buffer;
@@ -784,10 +795,8 @@ namespace StudioCore.ParamEditor
 
             ExecuteBufferFunction(buffer, chrNameBytes);
         }
-        public void PlayerItemGiveDS3(List<PARAM.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
+        internal void PlayerItemGive(GameOffsets offsets, List<PARAM.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
         {//Thanks Church Guard for providing the foundation of this.
-
-            GameOffsets offsets = GameOffsets.OffsetsDS3;
             if (offsets.itemGibOffsets.ContainsKey(paramDefParamType) && rows.Any())
             {
                 int paramOffset = offsets.itemGibOffsets[paramDefParamType];
