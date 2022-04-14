@@ -607,7 +607,7 @@ namespace StudioCore.ParamEditor
                 {"SoundAutoEnvSoundGroupParam", 0x2710},
                 {"SoundAutoReverbEvaluationDistParam", 0x2758},
                 {"SoundAutoReverbSelectParam", 0x27A0},
-                {"EnemyCommonParam", 0x26C8},
+                {"EnemyCommonParam", 0x27E8},
                 {"GameSystemCommonParam", 0x2830},
                 {"GraphicsCommonParam", 0x2878},
                 {"MenuCommonParam", 0x28C0},
