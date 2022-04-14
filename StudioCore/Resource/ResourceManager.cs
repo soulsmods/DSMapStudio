@@ -85,8 +85,10 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                var ctx = Tracy.TracyCZoneN(1, "LoadResourceFromBytesTask::Run");
                 handle._LoadResource(bytes, AccessLevel, Game);
                 bytes = null;
+                Tracy.TracyCZoneEnd(ctx);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -121,7 +123,9 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                var ctx = Tracy.TracyCZoneN(1, $@"LoadResourceFromFileTask::Run {file}");
                 handle._LoadResource(file, AccessLevel, Game);
+                Tracy.TracyCZoneEnd(ctx);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -158,6 +162,7 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                var ctx = Tracy.TracyCZoneN(1, $@"LoadTPFResourcesTask::Run {_virtpathbase}");
                 if (!CFG.Current.EnableTexturing)
                 {
                     _pendingResources.Clear();
@@ -178,6 +183,7 @@ namespace StudioCore.Resource
                 }
                 _pendingResources.Clear();
                 _tpf = null;
+                Tracy.TracyCZoneEnd(ctx);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -346,6 +352,7 @@ namespace StudioCore.Resource
             {
                 return BinderTaskFactory.StartNew(() =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"LoadBinderResourcesTask::RunAsync {BinderVirtualPath}");
                     ProcessBinder();
                     if (!PopulateResourcesOnly)
                     {
@@ -428,6 +435,7 @@ namespace StudioCore.Resource
                         LoadingTasks.RemoveAt(idx);
                     }
                     Binder = null;
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
 
@@ -512,6 +520,7 @@ namespace StudioCore.Resource
             {
                 return JobTaskFactory.StartNew(() =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"ResourceJob::RunAsync {Name}");
                     TotalSize = 0;
                     int i = 0;
                     foreach (var t in TaskList)
@@ -547,6 +556,7 @@ namespace StudioCore.Resource
                         TaskList.Clear();
                     }
                     Finished = true;
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
         }
