@@ -9,6 +9,8 @@ namespace StudioCore
 {
     unsafe class Tracy
     {
+        public const bool EnableTracy = false;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         private struct ___tracy_source_location_data
         {
@@ -24,6 +26,12 @@ namespace StudioCore
         {
             public uint id;
             public int active;
+
+            public ___tracy_c_zone_context()
+            {
+                id = 0;
+                active = 0;
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
@@ -86,12 +94,14 @@ namespace StudioCore
 
         public static void Startup()
         {
-            ___tracy_startup_profiler();
+            if (EnableTracy)
+                ___tracy_startup_profiler();
         }
 
         public static void Shutdown()
         {
-            ___tracy_shutdown_profiler();
+            if (EnableTracy)
+                ___tracy_shutdown_profiler();
         }
 
         [DllImport("tracy.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -132,14 +142,12 @@ namespace StudioCore
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            ___tracy_c_zone_context result;
-            //var m = Marshal.StringToHGlobalAnsi(memberName);
-            //var f = Marshal.StringToHGlobalAnsi(sourceFilePath);
-            var id = ___tracy_alloc_srcloc((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length);
-            result = ___tracy_emit_zone_begin_alloc(id, active);
-
-            //Marshal.FreeHGlobal(m);
-            //Marshal.FreeHGlobal(f);
+            ___tracy_c_zone_context result = new();
+            if (EnableTracy)
+            {
+                var id = ___tracy_alloc_srcloc((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length);
+                result = ___tracy_emit_zone_begin_alloc(id, active);
+            }
             return result;
         }
 
@@ -149,9 +157,12 @@ namespace StudioCore
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            ___tracy_c_zone_context result;
-            var id = ___tracy_alloc_srcloc_name((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length, name, (ulong)name.Length);
-            result = ___tracy_emit_zone_begin_alloc(id, active);
+            ___tracy_c_zone_context result = new();
+            if (EnableTracy)
+            {
+                var id = ___tracy_alloc_srcloc_name((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length, name, (ulong)name.Length);
+                result = ___tracy_emit_zone_begin_alloc(id, active);
+            }
             return result;
         }
 
@@ -161,9 +172,12 @@ namespace StudioCore
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            ___tracy_c_zone_context result;
-            var id = ___tracy_alloc_srcloc((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length);
-            result = ___tracy_emit_zone_begin_alloc(id, active);
+            ___tracy_c_zone_context result = new();
+            if (EnableTracy)
+            {
+                var id = ___tracy_alloc_srcloc((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length);
+                result = ___tracy_emit_zone_begin_alloc(id, active);
+            }
             ___tracy_emit_zone_color(result, color);
             return result;
         }
@@ -175,16 +189,20 @@ namespace StudioCore
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            ___tracy_c_zone_context result;
-            var id = ___tracy_alloc_srcloc_name((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length, name, (ulong)name.Length);
-            result = ___tracy_emit_zone_begin_alloc(id, active);
-            ___tracy_emit_zone_color(result, color);
+            ___tracy_c_zone_context result = new();
+            if (EnableTracy)
+            {
+                var id = ___tracy_alloc_srcloc_name((uint)sourceLineNumber, sourceFilePath, (ulong)sourceFilePath.Length, memberName, (ulong)memberName.Length, name, (ulong)name.Length);
+                result = ___tracy_emit_zone_begin_alloc(id, active);
+                ___tracy_emit_zone_color(result, color);
+            }
             return result;
         }
 
         public static void TracyCZoneEnd(___tracy_c_zone_context ctx)
         {
-            ___tracy_emit_zone_end(ctx);
+            if (EnableTracy)
+                ___tracy_emit_zone_end(ctx);
         }
 
         [DllImport("tracy.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -198,22 +216,26 @@ namespace StudioCore
 
         public static void TracyCFrameMark()
         {
-            ___tracy_emit_frame_mark(null);
+            if (EnableTracy)
+                ___tracy_emit_frame_mark(null);
         }
 
         public static void TracyCFrameMarkNamed(string name)
         {
-            ___tracy_emit_frame_mark(name);
+            if (EnableTracy)
+                ___tracy_emit_frame_mark(name);
         }
 
         public static void TracyCFrameMarkStart(string name)
         {
-            ___tracy_emit_frame_mark_start(name);
+            if (EnableTracy)
+                ___tracy_emit_frame_mark_start(name);
         }
 
         public static void TracyCFrameMarkEnd(string name)
         {
-            ___tracy_emit_frame_mark_end(name);
+            if (EnableTracy)
+                ___tracy_emit_frame_mark_end(name);
         }
     }
 }
