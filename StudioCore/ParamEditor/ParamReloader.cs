@@ -158,24 +158,7 @@ namespace StudioCore.ParamEditor
                     {
                         bits = new BitArray(8);
                     }
-                    bits.Set(bitFieldPos, Convert.ToBoolean(cell.Value));
-                    bitFieldPos++;
-                    if (bitFieldPos == 8)
-                    {
-                        byte valueRead = 0;
-                        memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
-
-                        byte[] bitField = new byte[1];
-                        bits.CopyTo(bitField, 0);
-                        bitFieldPos = 0;
-                        byte bitbuffer = bitField[0];
-                        if (valueRead != bitbuffer)
-                        {
-                            memoryHandler.WriteProcessMemory(CellDataPtr, ref bitbuffer);
-                        }
-                        return sizeof(byte);
-                    }
-                    return 0;
+                    return WriteBitArray(cell, CellDataPtr, ref bitFieldPos, ref bits, memoryHandler, false);
                 }
                 else if (displayType == SoulsFormats.PARAMDEF.DefType.u16)
                 {
@@ -183,24 +166,7 @@ namespace StudioCore.ParamEditor
                     {
                         bits = new BitArray(16);
                     }
-                    bits.Set(bitFieldPos, Convert.ToBoolean(cell.Value));
-                    bitFieldPos++;
-                    if (bitFieldPos == 16)
-                    {
-                        ushort valueRead = 0;
-                        memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
-
-                        ushort[] bitField = new ushort[1];
-                        bits.CopyTo(bitField, 0);
-                        bitFieldPos = 0;
-                        ushort bitbuffer = bitField[0];
-                        if (valueRead != bitbuffer)
-                        {
-                            memoryHandler.WriteProcessMemory(CellDataPtr, ref bitbuffer);
-                        }
-                        return sizeof(UInt16);
-                    }
-                    return 0;
+                    return WriteBitArray(cell, CellDataPtr, ref bitFieldPos, ref bits, memoryHandler, false);
                 }
                 else if (displayType == SoulsFormats.PARAMDEF.DefType.u32)
                 {
@@ -208,25 +174,13 @@ namespace StudioCore.ParamEditor
                     {
                         bits = new BitArray(32);
                     }
-                    bits.Set(bitFieldPos, Convert.ToBoolean(cell.Value));
-                    bitFieldPos++;
-                    if (bitFieldPos == 32)
-                    {
-                        uint valueRead = 0;
-                        memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
-
-                        uint[] bitField = new uint[1];
-                        bits.CopyTo(bitField, 0);
-                        bitFieldPos = 0;
-                        uint bitbuffer = bitField[0];
-                        if (valueRead != bitbuffer)
-                        {
-                            memoryHandler.WriteProcessMemory(CellDataPtr, ref bitbuffer);
-                        }
-                        return sizeof(UInt32);
-                    }
-                    return 0;
+                    return WriteBitArray(cell, CellDataPtr, ref bitFieldPos, ref bits, memoryHandler, false);
                 }
+            }
+            else if (bits != null && bitFieldPos != 0)
+            {
+                int offset = WriteBitArray(null, CellDataPtr, ref bitFieldPos, ref bits, memoryHandler, true);
+                return offset + WriteMemoryCell(cell, CellDataPtr + offset, ref bitFieldPos, ref bits, memoryHandler); //should recomplete current cell
             }
             if (displayType == SoulsFormats.PARAMDEF.DefType.f32)
             {
@@ -320,6 +274,75 @@ namespace StudioCore.ParamEditor
             {
                 throw new Exception("Unexpected Field Type");
             }
+        }
+        private static int WriteBitArray(PARAM.Cell cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler, bool flushBits)
+        {
+            if (!flushBits)
+            {
+                BitArray cellValueBitArray = null;
+                if (bits.Count == 8)
+                {
+                    cellValueBitArray = new BitArray(BitConverter.GetBytes((byte)cell.Value << bitFieldPos));
+                }
+                else if (bits.Count == 16)
+                {
+                    cellValueBitArray = new BitArray(BitConverter.GetBytes((ushort)cell.Value << bitFieldPos));
+                }
+                else if (bits.Count == 32)
+                {
+                    cellValueBitArray = new BitArray(BitConverter.GetBytes((uint)cell.Value << bitFieldPos));
+                }
+                else
+                {
+                    throw new Exception("Unknown bitfield length");
+                }
+
+                for (int i = 0; i < cell.Def.BitSize; i++)
+                {
+                    bits.Set(bitFieldPos, cellValueBitArray[bitFieldPos]);
+                    bitFieldPos++;
+                }
+            }
+            if (bitFieldPos == bits.Count || flushBits)
+            {
+                byte valueRead = 0;
+                memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
+                byte[] bitField = new byte[bits.Count/8];
+                bits.CopyTo(bitField, 0);
+                if (bits.Count == 8)
+                {
+                    byte bitbuffer = bitField[0];
+                    if (valueRead != bitbuffer)
+                    {
+                        memoryHandler.WriteProcessMemory(CellDataPtr, ref bitbuffer);
+                    }
+                }
+                else if (bits.Count == 16)
+                {
+                    ushort bitbuffer = BitConverter.ToUInt16(bitField, 0);
+                    if (valueRead != bitbuffer)
+                    {
+                        memoryHandler.WriteProcessMemory(CellDataPtr, ref bitbuffer);
+                    }
+                }
+                else if (bits.Count == 32)
+                {
+                    uint bitbuffer = BitConverter.ToUInt32(bitField, 0);
+                    if (valueRead != bitbuffer)
+                    {
+                        memoryHandler.WriteProcessMemory(CellDataPtr, ref bitbuffer);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Unknown bitfield length");
+                }
+                int advance = bits.Count/8;
+                bitFieldPos = 0;
+                bits = null;
+                return advance;
+            }
+            return 0;
         }
     }
 
