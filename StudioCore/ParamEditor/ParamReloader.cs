@@ -19,43 +19,35 @@ namespace StudioCore.ParamEditor
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
-        public static void ReloadMemoryParams(GameType game)
+        public static void ReloadMemoryParams(GameType game, string[] paramNames)
         {
-            GameOffsets offsets = null;
-            if (game == GameType.DarkSoulsIII)
-                offsets = GameOffsets.OffsetsDS3;
-            else if (game == GameType.EldenRing)
-                offsets = GameOffsets.OffsetsER;
+            GameOffsets offsets = GetGameOffsets(game);
             var processArray = Process.GetProcessesByName(offsets.exeName);
             if (processArray.Any())
             {
                 SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
-                List<Thread> threads = new List<Thread>();
-
-                foreach (var (paramFileName, param) in ParamBank.Params)
-                {
-                    if (offsets.paramOffsets.ContainsKey(paramFileName))
-                    {
-                        threads.Add(new Thread(() => WriteMemoryPARAM(offsets, param, offsets.paramOffsets[paramFileName], memoryHandler)));
-                    }
-                }
-
-                foreach (var thread in threads)
-                {
-                    thread.Start();
-                }
-                foreach (var thread in threads)
-                {
-                    thread.Join();
-                }
+                ReloadMemoryParamsThreads(offsets, paramNames, memoryHandler);
                 memoryHandler.Terminate();
             }
         }
+        private static void ReloadMemoryParamsThreads(GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
+        {
+            List<Thread> threads = new List<Thread>();
+            foreach (string param in paramNames)
+            {
+                if (param != null && offsets.paramOffsets.ContainsKey(param))
+                {
+                    threads.Add(new Thread(() => WriteMemoryPARAM(offsets, ParamBank.Params[param], offsets.paramOffsets[param], handler)));
+                }
+            }
+            foreach (var thread in threads)
+                thread.Start();
+            foreach (var thread in threads)
+                thread.Join();
+        }
         public static void GiveItemMenu(GameType game, List<PARAM.Row> rowsToGib, string param)
         {
-            GameOffsets offsets = null;
-            if (game == GameType.DarkSoulsIII)
-                offsets = GameOffsets.OffsetsDS3;
+            GameOffsets offsets = GetGameOffsets(game);
 
             if (!offsets.itemGibOffsets.ContainsKey(param))
                 return;
@@ -152,7 +144,7 @@ namespace StudioCore.ParamEditor
             // If this can be simplified, that would be ideal. Currently we have to reconcile DefType, a numerical size in bits, and the Type used for the bitField array
             if (cell.Def.BitSize != -1)
             {
-                if (displayType == SoulsFormats.PARAMDEF.DefType.u8)
+                if (displayType == SoulsFormats.PARAMDEF.DefType.u8 || displayType == SoulsFormats.PARAMDEF.DefType.dummy8)
                 {
                     if (bitFieldPos == 0)
                     {
@@ -268,7 +260,7 @@ namespace StudioCore.ParamEditor
             }
             else if (displayType == SoulsFormats.PARAMDEF.DefType.dummy8 || displayType == SoulsFormats.PARAMDEF.DefType.fixstr || displayType == SoulsFormats.PARAMDEF.DefType.fixstrW)
             {
-                return cell.Def.ArrayLength;
+                return cell.Def.ArrayLength * (displayType == SoulsFormats.PARAMDEF.DefType.fixstrW ? 2 : 1);
             }
             else
             {
@@ -343,6 +335,23 @@ namespace StudioCore.ParamEditor
                 return advance;
             }
             return 0;
+        }
+
+        private static GameOffsets GetGameOffsets(GameType game)
+        {
+            if (game == GameType.DarkSoulsIII)
+                return GameOffsets.OffsetsDS3;
+            if (game == GameType.EldenRing)
+                return GameOffsets.OffsetsER;
+            return null;
+        }
+
+        public static string[] GetReloadableParams(GameType game)
+        {
+            GameOffsets offs = GetGameOffsets(game);
+            if (offs == null)
+                return new string[0];
+            return offs.paramOffsets.Keys.ToArray();
         }
     }
 
