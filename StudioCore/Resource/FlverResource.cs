@@ -286,14 +286,29 @@ namespace StudioCore.Resource
             if (mpath == "")
             {
                 var mtdstring = Path.GetFileNameWithoutExtension(mtd);
-                if (MtdBank.Mtds.ContainsKey(mtdstring))
+                if (MtdBank.IsMatbin)
                 {
-                    var tex = MtdBank.Mtds[mtdstring].Textures.Find(x => (x.Type == type));
-                    if (tex == null || !tex.Extended || tex.Path == "")
+                    if (MtdBank.Matbins.ContainsKey(mtdstring))
                     {
-                        return;
+                        var tex = MtdBank.Matbins[mtdstring].Samplers.Find(x => (x.Type == type));
+                        if (tex == null || tex.Path == "")
+                        {
+                            return;
+                        }
+                        path = tex.Path;
                     }
-                    path = tex.Path;
+                }
+                else
+                {
+                    if (MtdBank.Mtds.ContainsKey(mtdstring))
+                    {
+                        var tex = MtdBank.Mtds[mtdstring].Textures.Find(x => (x.Type == type));
+                        if (tex == null || !tex.Extended || tex.Path == "")
+                        {
+                            return;
+                        }
+                        path = tex.Path;
+                    }
                 }
             }
             handle = ResourceManager.GetTextureResource(TexturePathToVirtual(path.ToLower()));

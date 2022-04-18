@@ -915,6 +915,16 @@ namespace StudioCore
             AssetDescription ad = new AssetDescription();
             ad.AssetArchiveVirtualPath = null;
             ad.AssetPath = null;
+            if (Type == GameType.EldenRing)
+            {
+                // Maybe add an option down the line to load lower quality
+                string path = GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
             if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
             {
                 string path = GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
@@ -1063,25 +1073,45 @@ namespace StudioCore
                 modelDir = $@"\model\obj";
                 modelExt = ".bnd";
             }
-
-            var objfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
-            foreach (var f in objfiles)
+            else if (Type == GameType.EldenRing)
             {
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                ret.Add(name);
-                objs.Add(name);
+                // AEGs are objs in my heart :(
+                modelDir = @"\asset\aeg";
+                modelExt = ".geombnd.dcx";
             }
 
-            if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
+            // Directories to search for obj models
+            List<string> searchDirs = new List<string>();
+            if (Type == GameType.EldenRing)
             {
-                objfiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
+                searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"aeg*").ToList();
+            }
+            else
+            {
+                searchDirs.Add(GameRootDirectory + modelDir);
+            }
+
+            foreach (var searchDir in searchDirs)
+            {
+                var objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
                 foreach (var f in objfiles)
                 {
                     var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                    if (!objs.Contains(name))
+                    ret.Add(name);
+                    objs.Add(name);
+                }
+
+                if (GameModDirectory != null && Directory.Exists(searchDir))
+                {
+                    objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
+                    foreach (var f in objfiles)
                     {
-                        ret.Add(name);
-                        objs.Add(name);
+                        var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                        if (!objs.Contains(name))
+                        {
+                            ret.Add(name);
+                            objs.Add(name);
+                        }
                     }
                 }
             }
@@ -1280,6 +1310,10 @@ namespace StudioCore
                 else if (pathElements[i].Equals("tex"))
                 {
                     bndpath = "";
+                    if (Type == GameType.EldenRing)
+                    {
+                        return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
+                    }
                     if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
@@ -1306,6 +1340,10 @@ namespace StudioCore
                     else if (Type == GameType.DarkSoulsIISOTFS)
                     {
                         return GetOverridenFilePath($@"model\obj\{objid}.bnd");
+                    }
+                    else if (Type == GameType.EldenRing)
+                    {
+                        return GetOverridenFilePath($@"model\asset\aeg\{objid.Substring(0, 6)}\{objid}");
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
