@@ -680,6 +680,14 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
+                if (ImGui.BeginMenu("Tests"))
+                {
+                    if (ImGui.MenuItem("MSBE read/write test"))
+                    {
+                        Tests.MSBReadWrite.Run(_assetLocator);
+                    }
+                    ImGui.EndMenu();
+                }
                 ImGui.EndMainMenuBar();
             }
             ImGui.PopStyleVar();
