@@ -1438,8 +1438,6 @@ namespace SoulsFormats
                 private protected override RegionType Type => RegionType.BuddySummonPoint;
                 private protected override bool HasTypeData => true;
 
-                //public int UnkT10 { get; set; }
-
                 /// <summary>
                 /// Creates a BuddySummonPoint with default values.
                 /// </summary>
@@ -1453,7 +1451,6 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
-                    //UnkT10 = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
@@ -1462,7 +1459,6 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
-                    //bw.WriteInt32(UnkT10);
                 }
             }
 
