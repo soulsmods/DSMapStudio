@@ -491,7 +491,7 @@ namespace StudioCore.ParamEditor
         );
         internal static GameOffsets OffsetsER = new GameOffsets(
             "eldenring",
-            0x3C80158, //paramBase
+            0x3C232E8, //paramBase
             new int[]{0x80, 0x80}, //paramInnerPath
             0xA, //paramCountOffset
             0x40, //paramDataOffset
