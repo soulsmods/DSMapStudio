@@ -19,9 +19,9 @@ namespace StudioCore.ParamEditor
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
-        public static void ReloadMemoryParams(GameType game, string[] paramNames)
+        public static void ReloadMemoryParams(AssetLocator loc, string[] paramNames)
         {
-            GameOffsets offsets = GetGameOffsets(game);
+            GameOffsets offsets = GetGameOffsets(loc);
             var processArray = Process.GetProcessesByName(offsets.exeName);
             if (processArray.Any())
             {
@@ -45,9 +45,9 @@ namespace StudioCore.ParamEditor
             foreach (var thread in threads)
                 thread.Join();
         }
-        public static void GiveItemMenu(GameType game, List<PARAM.Row> rowsToGib, string param)
+        public static void GiveItemMenu(AssetLocator loc, List<PARAM.Row> rowsToGib, string param)
         {
-            GameOffsets offsets = GetGameOffsets(game);
+            GameOffsets offsets = GetGameOffsets(loc);
 
             if (!offsets.itemGibOffsets.ContainsKey(param))
                 return;
@@ -337,18 +337,26 @@ namespace StudioCore.ParamEditor
             return 0;
         }
 
-        private static GameOffsets GetGameOffsets(GameType game)
+        private static GameOffsets GetGameOffsets(AssetLocator loc)
         {
-            if (game == GameType.DarkSoulsIII)
-                return GameOffsets.OffsetsDS3;
-            if (game == GameType.EldenRing)
-                return GameOffsets.OffsetsER;
-            return null;
+            GameType game = loc.Type;
+            if (!GameOffsets.offsetBank.ContainsKey(game))
+            {
+                try
+                {
+                    GameOffsets.offsetBank.Add(game, new GameOffsets(game, loc));
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+            return GameOffsets.offsetBank[game];
         }
 
-        public static string[] GetReloadableParams(GameType game)
+        public static string[] GetReloadableParams(AssetLocator loc)
         {
-            GameOffsets offs = GetGameOffsets(game);
+            GameOffsets offs = GetGameOffsets(loc);
             if (offs == null)
                 return new string[0];
             return offs.paramOffsets.Keys.ToArray();
@@ -357,6 +365,7 @@ namespace StudioCore.ParamEditor
 
     internal class GameOffsets
     {
+        internal static Dictionary<GameType, GameOffsets> offsetBank = new Dictionary<GameType, GameOffsets>();
         internal string exeName;
         internal int paramBase;
         internal int[] paramInnerPath;
@@ -366,6 +375,49 @@ namespace StudioCore.ParamEditor
         internal int rowHeaderSize;
         internal Dictionary<string, int> paramOffsets;
         internal Dictionary<string, int> itemGibOffsets;
+
+        internal GameOffsets(GameType type, AssetLocator loc){
+            string dir = loc.GetGameOffsetsAssetsDir();
+            Dictionary<string, string> basicData = getOffsetFile(dir+"/CoreOffsets.txt");
+            exeName = basicData["exeName"];
+            paramBase = int.Parse(basicData["paramBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            string[] innerpath = basicData["paramInnerPath"].Split("/");
+            paramInnerPath = new int[innerpath.Length];
+            for (int i=0; i<innerpath.Length; i++)
+            {
+                paramInnerPath[i] = int.Parse(innerpath[i].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            }
+            paramCountOffset = int.Parse(basicData["paramCountOffset"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            paramDataOffset = int.Parse(basicData["paramDataOffset"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            rowPointerOffset = int.Parse(basicData["rowPointerOffset"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            rowHeaderSize = int.Parse(basicData["rowHeaderSize"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            paramOffsets = getOffsetsIntFile(dir+"/ParamOffsets.txt");
+            itemGibOffsets = getOffsetsIntFile(dir+"/ItemGibOffsets.txt");
+            
+        }
+
+        private static Dictionary<string, int> getOffsetsIntFile(string dir)
+        {
+            Dictionary<string, string> paramData = getOffsetFile(dir);
+            Dictionary<string, int> offsets = new Dictionary<string, int>();
+            foreach (var entry in paramData)
+            {
+                offsets.Add(entry.Key, int.Parse(entry.Value.Substring(2), System.Globalization.NumberStyles.HexNumber));
+            }
+            return offsets;
+        }
+
+        private static Dictionary<string, string> getOffsetFile(string dir)
+        {
+            string[] data = File.ReadAllLines(dir);
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            foreach (string line in data)
+            {
+                string[] split = line.Split(":");
+                values.Add(split[0], split[1]);
+            }
+            return values;
+        }
 
         internal GameOffsets(string exe, int pbase, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff, int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs){
             exeName = exe;
@@ -378,317 +430,6 @@ namespace StudioCore.ParamEditor
             paramOffsets = pOffs;
             itemGibOffsets = eOffs;
         }
-
-        internal static GameOffsets OffsetsDS3 = new GameOffsets(
-            "DarkSoulsIII",
-            0x4782838, //paramBase
-            new int[]{0x68, 0x68}, //paramInnerPath
-            0xA, //paramCountOffset
-            0x40, //paramDataOffset
-            0x8, //rowPointerOffset
-            0x18, //rowHeaderSize
-            new Dictionary<string, int>() //paramOffsets
-            {
-                {"ActionButtonParam", 0xAD8},
-                {"AiSoundParam", 0xD60},
-                {"AtkParam_Npc", 0x268},
-                {"AtkParam_Pc", 0x2B0},
-                {"AttackElementCorrectParam", 0x1660},
-                {"BehaviorParam", 0x3D0},
-                {"BehaviorParam_PC", 0x418},
-                {"BonfireWarpParam", 0xF10},
-                {"BudgetParam", 0xEC8},
-                {"Bullet", 0x388},
-                {"BulletCreateLimitParam", 0x1780},
-                {"CalcCorrectGraph", 0x8E0},
-                {"Ceremony", 0x1078},
-                {"CharaInitParam", 0x658},
-                {"CharMakeMenuListItemParam", 0x1150},
-                {"CharMakeMenuTopParam", 0x1108},
-                {"ClearCountCorrectParam", 0x17C8},
-                {"CoolTimeParam", 0x1A98},
-                {"CultSettingParam", 0x1468},
-                {"DecalParam", 0xA90},
-                {"DirectionCameraParam", 0x1390},
-                {"EquipMtrlSetParam", 0x6A0},
-                {"EquipParamAccessory", 0x100},
-                {"EquipParamGoods", 0x148},
-                {"EquipParamProtector", 0xB8},
-                {"EquipParamWeapon", 0x70},
-                {"FaceGenParam", 0x6E8},
-                {"FaceParam", 0x730},
-                {"FaceRangeParam", 0x778},
-                {"FootSfxParam", 0x16F0},
-                {"GameAreaParam", 0x850},
-                {"GameProgressParam", 0x1810},
-                {"GemCategoryParam", 0xC40},
-                {"GemDropDopingParam", 0xC88},
-                {"GemDropModifyParam", 0xCD0},
-                {"GemeffectParam", 0xBF8},
-                {"GemGenParam", 0xBB0},
-                {"HitEffectSeParam", 0x1270},
-                {"HitEffectSfxConceptParam", 0x11E0},
-                {"HitEffectSfxParam", 0x1228},
-                {"HPEstusFlaskRecoveryParam", 0x14F8},
-                {"ItemLotParam", 0x5C8},
-                {"KnockBackParam", 0xA00},
-                {"KnowledgeLoadScreenItemParam", 0x18E8},
-                {"LoadBalancerDrawDistScaleParam", 0x1A50},
-                {"LoadBalancerParam", 0x1858},
-                {"LockCamParam", 0x928},
-                {"Magic", 0x460},
-                {"MapMimicryEstablishmentParam", 0x15D0},
-                {"MenuOffscrRendParam", 0x1930},
-                {"MenuPropertyLayoutParam", 0xFA0},
-                {"MenuPropertySpecParam", 0xF58},
-                {"MenuValueTableParam", 0xFE8},
-                {"ModelSfxParam", 0xD18},
-                {"MoveParam", 0x610},
-                {"MPEstusFlaskRecoveryParam", 0x1540},
-                {"MultiHPEstusFlaskBonusParam", 0x1978},
-                {"MultiMPEstusFlaskBonusParam", 0x19C0},
-                {"MultiPlayCorrectionParam", 0x1588},
-                {"NetWorkAreaParam", 0xDF0},
-                {"NetworkMsgParam", 0xE80},
-                {"NetworkParam", 0xE38},
-                {"NewMenuColorTableParam", 0x1198},
-                {"NpcAiActionParam", 0x1738},
-                {"NpcParam", 0x220},
-                {"NpcThinkParam", 0x2F8},
-                {"ObjActParam", 0x970},
-                {"ObjectMaterialSfxParam", 0x18A0},
-                {"ObjectParam", 0x340},
-                {"PhantomParam", 0x10C0},
-                {"PlayRegionParam", 0xDA8},
-                {"ProtectorGenParam", 0xB68},
-                {"RagdollParam", 0x7C0},
-                {"ReinforceParamProtector", 0x1D8},
-                {"ReinforceParamWeapon", 0x190},
-                {"RoleParam", 0x13D8},
-                {"SeMaterialConvertParam", 0x1348},
-                {"ShopLineupParam", 0x808},
-                {"SkeletonParam", 0x898},
-                {"SpEffectParam", 0x4A8},
-                {"SpEffectVfxParam", 0x4F0},
-                {"SwordArtsParam", 0x14B0},
-                {"TalkParam", 0x538},
-                {"ThrowDirectionSfxParam", 0x16A8},
-                {"ToughnessParam", 0x1300},
-                {"UpperArmParam", 0x1618},
-                {"WeaponGenParam", 0xB20},
-                {"WepAbsorpPosParam", 0x12B8},
-                {"WetAspectParam", 0x1420},
-                {"Wind", 0xA48},
-            },
-            new Dictionary<string, int>() //itemGibOffsets
-            {
-            {"EquipParamWeapon", 0x0},
-            {"EquipParamProtector", 0x10000000},
-            {"EquipParamAccessory", 0x20000000},
-            {"EquipParamGoods", 0x40000000},
-            {"Magic", 0x40000000}
-            }
-        );
-        internal static GameOffsets OffsetsER = new GameOffsets(
-            "eldenring",
-            0x3C232E8, //paramBase
-            new int[]{0x80, 0x80}, //paramInnerPath
-            0xA, //paramCountOffset
-            0x40, //paramDataOffset
-            0x8, //rowPointerOffset
-            0x18, //rowHeaderSize
-            new Dictionary<string, int>() //paramOffsets
-            {
-                {"EquipParamWeapon", 0x88},
-                {"EquipParamProtector", 0xD0},
-                {"EquipParamAccessory", 0x118},
-                {"EquipParamGoods", 0x160},
-                {"ReinforceParamWeapon", 0x1A8},
-                {"ReinforceParamProtector", 0x1F0},
-                {"NpcParam", 0x238},
-                {"AtkParam_Npc", 0x280},
-                {"AtkParam_Pc", 0x2C8},
-                {"NpcThinkParam", 0x310},
-                {"Bullet", 0x358},
-                {"BulletCreateLimitParam", 0x3A0},
-                {"BehaviorParam", 0x3E8},
-                {"BehaviorParam_PC", 0x430},
-                {"Magic", 0x478},
-                {"SpEffectParam", 0x4C0},
-                {"SpEffectVfxParam", 0x508},
-                {"SpEffectSetParam", 0x550},
-                {"TalkParam", 0x598},
-                {"MenuColorTableParam", 0x5E0},
-                {"ItemLotParam_enemy", 0x628},
-                {"ItemLotParam_map", 0x670},
-                {"MoveParam", 0x6B8},
-                {"CharaInitParam", 0x700},
-                {"EquipMtrlSetParam", 0x748},
-                {"FaceParam", 0x790},
-                {"FaceRangeParam", 0x7D8},
-                {"ShopLineupParam", 0x820},
-                {"ShopLineupParam_Recipe", 0x868},
-                {"GameAreaParam", 0x8B0},
-                {"CalcCorrectGraph", 0x8F8},
-                {"LockCamParam", 0x940},
-                {"ObjActParam", 0x988},
-                {"HitMtrlParam", 0x9D0},
-                {"KnockBackParam", 0xA18},
-                {"DecalParam", 0xA60},
-                {"ActionButtonParam", 0xAA8},
-                {"AiSoundParam", 0xAF0},
-                {"PlayRegionParam", 0xB38},
-                {"NetworkAreaParam", 0xB80},
-                {"NetworkParam", 0xBC8},
-                {"NetworkMsgParam", 0xC10},
-                {"BudgetParam", 0xC58},
-                {"BonfireWarpParam", 0xCA0},
-                {"BonfireWarpTabParam", 0xCE8},
-                {"BonfireWarpSubCategoryParam", 0xD30},
-                {"MenuPropertySpecParam", 0xD78},
-                {"MenuPropertyLayoutParam", 0xDC0},
-                {"MenuValueTableParam", 0xE08},
-                {"Ceremony", 0xE50},
-                {"PhantomParam", 0xE98},
-                {"CharMakeMenuTopParam", 0xEE0},
-                {"CharMakeMenuListItemParam", 0xF28},
-                {"HitEffectSfxConceptParam", 0xF70},
-                {"HitEffectSfxParam", 0xFB8},
-                {"WepAbsorpPosParam", 0x1000},
-                {"ToughnessParam", 0x1048},
-                {"SeMaterialConvertParam", 0x1090},
-                {"ThrowDirectionSfxParam", 0x10D8},
-                {"DirectionCameraParam", 0x1120},
-                {"RoleParam", 0x1168},
-                {"WaypointParam", 0x11B0},
-                {"ThrowParam", 0x11F8},
-                {"GrassTypeParam", 0x1240},
-                {"GrassTypeParam_Lv1", 0x1288},
-                {"GrassTypeParam_Lv2", 0x12D0},
-                {"GrassLodRangeParam", 0x1318},
-                {"NpcAiActionParam", 0x1360},
-                {"PartsDrawParam", 0x13A8},
-                {"AssetEnvironmentGeometryParam", 0x13F0},
-                {"AssetModelSfxParam", 0x1438},
-                {"AssetMaterialSfxParam", 0x1480},
-                {"AttackElementCorrectParam", 0x14C8},
-                {"FootSfxParam", 0x1510},
-                {"MaterialExParam", 0x1558},
-                {"HPEstusFlaskRecoveryParam", 0x15A0},
-                {"MPEstusFlaskRecoveryParam", 0x15E8},
-                {"MultiPlayCorrectionParam", 0x1630},
-                {"MenuOffscrRendParam", 0x1678},
-                {"ClearCountCorrectParam", 0x16C0},
-                {"MapMimicryEstablishmentParam", 0x1708},
-                {"WetAspectParam", 0x1750},
-                {"SwordArtsParam", 0x1798},
-                {"KnowledgeLoadScreenItemParam", 0x17E0},
-                {"MultiHPEstusFlaskBonusParam", 0x1828},
-                {"MultiMPEstusFlaskBonusParam", 0x1870},
-                {"MultiSoulBonusRateParam", 0x18B8},
-                {"WorldMapPointParam", 0x1900},
-                {"WorldMapPieceParam", 0x1948},
-                {"WorldMapLegacyConvParam", 0x1990},
-                {"WorldMapPlaceNameParam", 0x19D8},
-                {"ChrModelParam", 0x1A20},
-                {"LoadBalancerParam", 0x1A68},
-                {"LoadBalancerDrawDistScaleParam", 0x1AB0},
-                {"LoadBalancerDrawDistScaleParam_ps4", 0x1AF8},
-                {"LoadBalancerDrawDistScaleParam_ps5", 0x1B40},
-                {"LoadBalancerDrawDistScaleParam_xb1", 0x1B88},
-                {"LoadBalancerDrawDistScaleParam_xb1x", 0x1BD0},
-                {"LoadBalancerDrawDistScaleParam_xss", 0x1C18},
-                {"LoadBalancerDrawDistScaleParam_xsx", 0x1C60},
-                {"LoadBalancerNewDrawDistScaleParam_win64", 0x1CA8},
-                {"LoadBalancerNewDrawDistScaleParam_ps4", 0x1CF0},
-                {"LoadBalancerNewDrawDistScaleParam_ps5", 0x1D38},
-                {"LoadBalancerNewDrawDistScaleParam_xb1", 0x1D80},
-                {"LoadBalancerNewDrawDistScaleParam_xb1x", 0x1DC8},
-                {"LoadBalancerNewDrawDistScaleParam_xss", 0x1E10},
-                {"LoadBalancerNewDrawDistScaleParam_xsx", 0x1E58},
-                {"WwiseValueToStrParam_Switch_AttackType", 0x1EA0},
-                {"WwiseValueToStrParam_Switch_DamageAmount", 0x1EE8},
-                {"WwiseValueToStrParam_Switch_DeffensiveMaterial", 0x1F30},
-                {"WwiseValueToStrParam_Switch_HitStop", 0x1F78},
-                {"WwiseValueToStrParam_Switch_OffensiveMaterial", 0x1FC0},
-                {"WwiseValueToStrParam_Switch_GrassHitType", 0x2008},
-                {"WwiseValueToStrParam_Switch_PlayerShoes", 0x2050},
-                {"WwiseValueToStrParam_Switch_PlayerEquipmentTops", 0x2098},
-                {"WwiseValueToStrParam_Switch_PlayerEquipmentBottoms", 0x20E0},
-                {"WwiseValueToStrParam_Switch_PlayerVoiceType", 0x2128},
-                {"WwiseValueToStrParam_Switch_AttackStrength", 0x2170},
-                {"WwiseValueToStrParam_EnvPlaceType", 0x21B8},
-                {"WeatherParam", 0x2200},
-                {"WeatherLotParam", 0x2248},
-                {"WeatherAssetCreateParam", 0x2290},
-                {"WeatherAssetReplaceParam", 0x22D8},
-                {"SpeedtreeParam", 0x2320},
-                {"RideParam", 0x2368},
-                {"SeActivationRangeParam", 0x23B0},
-                {"RollingObjLotParam", 0x23F8},
-                {"NpcAiBehaviorProbability", 0x2440},
-                {"BuddyParam", 0x2488},
-                {"GparamRefSettings", 0x24D0},
-                {"RandomAppearParam", 0x2518},
-                {"MapGridCreateHeightLimitInfoParam", 0x2560},
-                {"EnvObjLotParam", 0x25A8},
-                {"MapDefaultInfoParam", 0x25F0},
-                {"BuddyStoneParam", 0x2638},
-                {"LegacyDistantViewPartsReplaceParam", 0x2680},
-                {"SoundCommonIngameParam", 0x26C8},
-                {"SoundAutoEnvSoundGroupParam", 0x2710},
-                {"SoundAutoReverbEvaluationDistParam", 0x2758},
-                {"SoundAutoReverbSelectParam", 0x27A0},
-                {"EnemyCommonParam", 0x27E8},
-                {"GameSystemCommonParam", 0x2830},
-                {"GraphicsCommonParam", 0x2878},
-                {"MenuCommonParam", 0x28C0},
-                {"PlayerCommonParam", 0x2908},
-                {"CutsceneGparamWeatherParam", 0x2950},
-                {"CutsceneGparamTimeParam", 0x2998},
-                {"CutsceneTimezoneConvertParam", 0x29E0},
-                {"CutsceneWeatherOverrideGparamConvertParam", 0x2A28},
-                {"SoundCutsceneParam", 0x2A70},
-                {"ChrActivateConditionParam", 0x2AB8},
-                {"CutsceneMapIdParam", 0x2B00},
-                {"CutSceneTextureLoadParam", 0x2B48},
-                {"GestureParam", 0x2B90},
-                {"EquipParamGem", 0x2BD8},
-                {"EquipParamCustomWeapon", 0x2C20},
-                {"GraphicsConfig", 0x2C68},
-                {"SoundChrPhysicsSeParam", 0x2CB0},
-                {"FeTextEffectParam", 0x2CF8},
-                {"CoolTimeParam", 0x2D40},
-                {"WhiteSignCoolTimeParam", 0x2D88},
-                {"MapPieceTexParam", 0x2DD0},
-                {"MapNameTexParam", 0x2E18},
-                {"WeatherLotTexParam", 0x2E60},
-                {"KeyAssignParam_TypeA", 0x2EA8},
-                {"KeyAssignParam_TypeB", 0x2EF0},
-                {"KeyAssignParam_TypeC", 0x2F38},
-                {"MapGdRegionInfoParam", 0x2F80},
-                {"MapGdRegionDrawParam", 0x2FC8},
-                {"KeyAssignMenuItemParam", 0x3010},
-                {"SoundAssetSoundObjEnableDistParam", 0x3058},
-                {"SignPuddleParam", 0x30A0},
-                {"AutoCreateEnvSoundParam", 0x30E8},
-                {"WwiseValueToStrParam_BgmBossChrIdConv", 0x3130},
-                {"ResistCorrectParam", 0x3178},
-                {"PostureControlParam_WepRight", 0x31C0},
-                {"PostureControlParam_WepLeft", 0x3208},
-                {"PostureControlParam_Gender", 0x3250},
-                {"PostureControlParam_Pro", 0x3298},
-                {"RuntimeBoneControlParam", 0x32E0},
-                {"TutorialParam", 0x3328},
-                {"BaseChrSelectMenuParam", 0x3370},
-                {"MimicryEstablishmentTexParam", 0x33B8},
-                {"SfxBlockResShareParam", 0x3400},
-                {"HitEffectSeParam", 0x3448},
-            },
-            new Dictionary<string, int>() //itemGibOffsets
-            {
-            }
-        );
     }
 
     public class SoulsMemoryHandler
@@ -829,6 +570,7 @@ namespace StudioCore.ParamEditor
         }
         internal void PlayerItemGive(GameOffsets offsets, List<PARAM.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
         {//Thanks Church Guard for providing the foundation of this.
+        //Only supports ds3 as of now
             if (offsets.itemGibOffsets.ContainsKey(paramDefParamType) && rows.Any())
             {
                 int paramOffset = offsets.itemGibOffsets[paramDefParamType];

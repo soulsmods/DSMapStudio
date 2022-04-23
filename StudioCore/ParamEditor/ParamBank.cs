@@ -18,7 +18,7 @@ namespace StudioCore.ParamEditor
     public class ParamBank
     {
         private static PARAM EnemyParam = null;
-        private static AssetLocator AssetLocator = null;
+        internal static AssetLocator AssetLocator = null;
 
         private static Dictionary<string, PARAM> _params = null;
         private static Dictionary<string, PARAM> _vanillaParams = null;
