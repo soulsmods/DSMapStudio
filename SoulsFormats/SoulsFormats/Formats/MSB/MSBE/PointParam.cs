@@ -297,6 +297,7 @@ namespace SoulsFormats
                     case Region.BuddySummonPoint r: BuddySummonPoints.Add(r); break;
                     case Region.MufflingBox r: MufflingBoxes.Add(r); break;
                     case Region.MufflingPortal r: MufflingPortals.Add(r); break;
+                    case Region.SoundRegion r: SoundRegions.Add(r); break;
                     case Region.MufflingPlane r: MufflingPlanes.Add(r); break;
                     case Region.PatrolRoute r: PatrolRoutes.Add(r); break;
                     case Region.MapPoint r: MapPoints.Add(r); break;

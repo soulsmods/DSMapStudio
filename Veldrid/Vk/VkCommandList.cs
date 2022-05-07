@@ -800,6 +800,20 @@ namespace Veldrid.Vk
                     1, ref bbarrier,
                     0, null);
             }
+            else if (destination.Usage.HasFlag(BufferUsage.VertexBuffer))
+            {
+                barrier.sType = VkStructureType.MemoryBarrier;
+                barrier.srcAccessMask = VkAccessFlags.TransferWrite;
+                barrier.dstAccessMask = VkAccessFlags.VertexAttributeRead;
+                barrier.pNext = null;
+                vkCmdPipelineBarrier(
+                    _cb,
+                    VkPipelineStageFlags.Transfer, VkPipelineStageFlags.VertexInput,
+                    VkDependencyFlags.None,
+                    1, ref barrier,
+                    0, null,
+                    0, null);
+            }
             else
             {
                 barrier.sType = VkStructureType.MemoryBarrier;

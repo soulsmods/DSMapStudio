@@ -30,6 +30,9 @@ namespace StudioCore.Scene
                     return PixelFormat.BC4_UNorm; // Monogame workaround :fatcat:
                 case "ATI2":
                     return PixelFormat.BC5_UNorm;
+                // From wtf
+                case "q\0\0\0":
+                    return PixelFormat.R16_G16_B16_A16_Float;
                 default:
                     throw new Exception($"Unknown DDS Type: {str}");
             }
@@ -282,8 +285,8 @@ namespace StudioCore.Scene
                 case PixelFormat.B8_G8_R8_A8_UNorm:
                 case PixelFormat.B8_G8_R8_A8_UNorm_SRgb:
                     return 4;
-                //case PixelFormat.R16_G16_B16_A16_Float:
-                //    return 8;
+                case PixelFormat.R16_G16_B16_A16_Float:
+                    return 8;
                 //case SurfaceFormat.Vector4:
                 //    return 16;
                 default:

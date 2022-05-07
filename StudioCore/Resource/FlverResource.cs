@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,9 +79,9 @@ namespace StudioCore.Resource
         {
             FlverCaches.Clear();
             //VerticesPool = ArrayPool<FlverLayout>.Create();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+            //GC.Collect();
+            //GC.WaitForPendingFinalizers();
+            //GC.Collect();
         }
 
         public class FlverMaterial : IResourceEventListener, IDisposable
@@ -271,6 +272,13 @@ namespace StudioCore.Resource
                 var objid = splits[splits.Length - 3];
                 return $@"obj/{objid}/tex/{Path.GetFileNameWithoutExtension(texpath)}";
             }
+            // Asset (aet) texture references
+            else if (texpath.Contains(@"\aet") || texpath.StartsWith("aet"))
+            {
+                var splits = texpath.Split('\\');
+                var aetid = splits[splits.Length - 1].Substring(0, 6);
+                return $@"aet/{aetid}/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
             // Parts texture reference
             /*else if (texpath.Contains(@"\parts\"))
             {
@@ -450,8 +458,10 @@ namespace StudioCore.Resource
 
             if (!CFG.Current.EnableTexturing)
             {
-                dest.ShaderName = @"SimpleFlver";
-                dest.LayoutType = MeshLayoutType.LayoutSky;
+                //dest.ShaderName = @"SimpleFlver";
+                //dest.LayoutType = MeshLayoutType.LayoutSky;
+                dest.ShaderName = @"FlverShader\FlverShader";
+                dest.LayoutType = MeshLayoutType.LayoutStandard;
                 dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
                 dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
                 dest.SpecializationConstants = new SpecializationConstant[0];
@@ -526,6 +536,12 @@ namespace StudioCore.Resource
             {
                 throw new NotImplementedException($"Read not implemented for {type} vertex.");
             }
+
+            // Sanity check position to find bugs
+            //if (dest.X > 10000.0f || dest.Y > 10000.0f || dest.Z > 10000.0f)
+            //{
+            //    Debugger.Break();
+            //}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -777,6 +793,7 @@ namespace StudioCore.Resource
                 case FLVER.LayoutType.Byte4C:
                 case FLVER.LayoutType.UV:
                 case FLVER.LayoutType.Byte4E:
+                case FLVER.LayoutType.Unknown:
                     br.ReadUInt32();
                     break;
 
@@ -814,6 +831,9 @@ namespace StudioCore.Resource
                 {
                     foreach (var l in layouts)
                     {
+                        // ER meme
+                        if (l.unk00 == -2147483647)
+                            continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
                             FillVertex(ref (*v).Position, br, l.type);
@@ -878,11 +898,16 @@ namespace StudioCore.Resource
                     Vector3 n = Vector3.UnitX;
                     FillUVShortZero((*v).Uv1);
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                    bool posfilled = false;
                     foreach (var l in layouts)
                     {
+                        // ER meme
+                        if (l.unk00 == -2147483647)
+                            continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
                             FillVertex(ref (*v).Position, br, l.type);
+                            posfilled = true;
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Normal)
                         {
@@ -901,6 +926,10 @@ namespace StudioCore.Resource
                         {
                             EatVertex(br, l.type);
                         }
+                    }
+                    if (!posfilled)
+                    {
+                        (*v).Position = new Vector3(0, 0, 0);
                     }
                     pickingVerts[i] = (*v).Position;
                 }
@@ -987,6 +1016,9 @@ namespace StudioCore.Resource
                     int uvsfilled = 0;
                     foreach (var l in layouts)
                     {
+                        // ER meme
+                        if (l.unk00 == -2147483647)
+                            continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
                             FillVertex(ref (*v).Position, br, l.type);
@@ -1400,7 +1432,7 @@ namespace StudioCore.Resource
                 vertexBufferIndices[i] = br.ReadInt32();
             }
             br.StepOut();
-            int vertexCount = buffers[vertexBufferIndices[0]].vertexCount;
+            int vertexCount = mesh.vertexBufferCount > 0 ? buffers[vertexBufferIndices[0]].vertexCount : 0;
 
             var vSize = dest.Material.VertexSize;
             var meshVertices = Marshal.AllocHGlobal(vertexCount * (int)vSize);
@@ -1727,7 +1759,7 @@ namespace StudioCore.Resource
                 br.ReadInt32(); // bone offset
                 facesetCount = br.ReadInt32();
                 facesetIndicesOffset = br.ReadUInt32();
-                vertexBufferCount = br.AssertInt32(1, 2, 3);
+                vertexBufferCount = br.AssertInt32(0, 1, 2, 3);
                 vertexBufferIndicesOffset = br.ReadUInt32();
             }
         }
@@ -1788,13 +1820,14 @@ namespace StudioCore.Resource
 
         private struct FlverBufferLayoutMember
         {
+            public int unk00;
             public FLVER.LayoutType type;
             public FLVER.LayoutSemantic semantic;
             public int index;
 
             public FlverBufferLayoutMember(BinaryReaderEx br)
             {
-                br.ReadInt32(); // unk
+                unk00 = br.ReadInt32(); // unk
                 br.ReadInt32(); // struct offset
                 type = br.ReadEnum32<FLVER.LayoutType>();
                 semantic = br.ReadEnum32<FLVER.LayoutSemantic>();
@@ -1875,7 +1908,8 @@ namespace StudioCore.Resource
             br.AssertByte(0);
             br.AssertInt32(0);
             br.AssertInt32(0);
-            br.AssertInt32(0, 1, 2, 3, 4);  // unknown
+            //br.AssertInt32(0, 1, 2, 3, 4);  // unknown
+            br.ReadInt32(); // unknown
             br.AssertInt32(0);
             br.AssertInt32(0);
             br.AssertInt32(0);

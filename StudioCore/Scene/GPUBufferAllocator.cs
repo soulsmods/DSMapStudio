@@ -445,6 +445,7 @@ namespace StudioCore.Scene
                     AllocStatus = Status.Uploading;
                     Renderer.AddBackgroundUploadTask((d, cl) =>
                     {
+                        var ctx = Tracy.TracyCZoneN(1, $@"Buffer flush {BufferIndex}, v: {_stagingVertsSize}, i: {_stagingIndicesSize}");
                         _bufferSizeVert = _stagingVertsSize;
                         _bufferSizeIndex = _stagingIndicesSize;
                         var vd = new BufferDescription((uint)_stagingVertsSize, BufferUsage.VertexBuffer);
@@ -455,17 +456,22 @@ namespace StudioCore.Scene
                         //cl.CopyBuffer(_stagingBufferIndices, 0, _backingIndexBuffer, 0, (uint)_stagingIndicesSize);
                         Renderer.AddAsyncTransfer(_backingVertBuffer, _stagingBufferVerts, (d) =>
                         {
+                            var ctx2 = Tracy.TracyCZoneN(1, $@"Buffer {BufferIndex} V transfer done");
                             _stagingBufferVerts.Dispose();
                             _stagingBufferVerts = null;
+                            Tracy.TracyCZoneEnd(ctx2);
                         });
                         Renderer.AddAsyncTransfer(_backingIndexBuffer, _stagingBufferIndices, (d) =>
                         {
+                            var ctx2 = Tracy.TracyCZoneN(1, $@"Buffer {BufferIndex} I transfer done");
                             _stagingVertsSize = 0;
                             _stagingIndicesSize = 0;
                             AllocStatus = Status.Resident;
                             _stagingBufferIndices.Dispose();
                             _stagingBufferIndices = null;
+                            Tracy.TracyCZoneEnd(ctx2);
                         });
+                        Tracy.TracyCZoneEnd(ctx);
                     });
                 }
             }

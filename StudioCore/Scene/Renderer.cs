@@ -346,7 +346,7 @@ namespace StudioCore.Scene
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    _drawEncoders.Add(new IndirectDrawEncoder(40000));
+                    _drawEncoders.Add(new IndirectDrawEncoder(50000));
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;

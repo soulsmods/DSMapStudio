@@ -1128,6 +1128,10 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flv";
             }
+            else if (Type == GameType.EldenRing)
+            {
+                ret.AssetVirtualPath = $@"obj/{obj}/model/{obj.ToUpper()}.flver";
+            }
             else
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flver";
@@ -1223,6 +1227,10 @@ namespace StudioCore
                         else if (Type == GameType.Bloodborne || Type == GameType.DemonsSouls)
                         {
                             return GetAssetPath($@"map\{mapid}\{pathElements[i]}.flver.dcx");
+                        }
+                        else if (Type == GameType.EldenRing)
+                        {
+                            return GetAssetPath($@"map\{mapid.Substring(0, 3)}\{mapid}\{pathElements[i]}.mapbnd.dcx");
                         }
                         return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
                         //TODO: DS3,SDT,ER ?
@@ -1343,7 +1351,7 @@ namespace StudioCore
                     }
                     else if (Type == GameType.EldenRing)
                     {
-                        return GetOverridenFilePath($@"model\asset\aeg\{objid.Substring(0, 6)}\{objid}");
+                        return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
