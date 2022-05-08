@@ -58,7 +58,7 @@ namespace StudioCore
 
         public static RenderDoc RenderDocManager;
 
-        private const bool UseRenderdoc = false;
+        private const bool UseRenderdoc = true;
 
         private AssetLocator _assetLocator;
         private Editor.ProjectSettings _projectSettings = null;
@@ -336,7 +336,7 @@ namespace StudioCore
         public void ApplyStyle()
         {
             // Colors
-            //ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
             //ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.PopupBg, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
@@ -374,7 +374,7 @@ namespace StudioCore
 
         public void UnapplyStyle()
         {
-            ImGui.PopStyleColor(26);
+            ImGui.PopStyleColor(27);
             ImGui.PopStyleVar(4);
         }
 
@@ -515,7 +515,7 @@ namespace StudioCore
             }
 
             ctx = Tracy.TracyCZoneN(1, "Style");
-            ImGui.BeginFrame(); // Imguizmo begin frame
+            //ImGui.BeginFrame(); // Imguizmo begin frame
             ApplyStyle();
             var vp = ImGui.GetMainViewport();
             ImGui.SetNextWindowPos(vp.Pos);
@@ -527,6 +527,7 @@ namespace StudioCore
             flags |= ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.MenuBar;
             flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
             flags |= ImGuiWindowFlags.NoBackground;
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
             if (ImGui.Begin("DockSpace_W", flags))
             {
                 //Console.WriteLine("hi");
@@ -535,6 +536,7 @@ namespace StudioCore
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
             ImGui.PopStyleVar(1);
             ImGui.End();
+            ImGui.PopStyleColor(1);
             Tracy.TracyCZoneEnd(ctx);
 
             ctx = Tracy.TracyCZoneN(1, "Menu");
@@ -889,8 +891,10 @@ namespace StudioCore
                 ImGui.SetNextWindowFocus();
             }
             ctx = Tracy.TracyCZoneN(1, "Editor");
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
             if (ImGui.Begin("Map Editor"))
             {
+                ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
                 _msbEditor.OnGUI(mapcmds);
                 ImGui.End();
@@ -899,14 +903,17 @@ namespace StudioCore
             }
             else
             {
+                ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
                 _msbEditorFocused = false;
                 ImGui.End();
             }
 
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
             if (ImGui.Begin("Model Editor"))
             {
+                ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
                 _modelEditor.OnGUI();
                 _modelEditorFocused = true;
@@ -914,11 +921,11 @@ namespace StudioCore
             }
             else
             {
+                ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
                 _modelEditorFocused = false;
             }
             ImGui.End();
-
 
             string[] paramcmds = null;
             if (commandsplit != null && commandsplit[0] == "param")

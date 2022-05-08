@@ -185,7 +185,7 @@ namespace StudioCore.Gui
                 var proj = Matrix4x4.Transpose(_projectionMat);
                 var view = Matrix4x4.Transpose(_worldView.CameraTransform.CameraViewMatrixLH);
                 var identity = Matrix4x4.Identity;
-                ImGui.DrawGrid(ref view.M11, ref proj.M11, ref identity.M11, 100.0f);
+                //ImGui.DrawGrid(ref view.M11, ref proj.M11, ref identity.M11, 100.0f);
             }
             ImGui.End();
 

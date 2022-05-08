@@ -312,7 +312,7 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.SetItemAllowOverlap();
                 bool visible = e.EditorVisible;
-                ImGui.SameLine(ImGui.GetWindowContentRegionWidth() - 18.0f);
+                ImGui.SameLine(ImGui.GetContentRegionAvail().X - 18.0f);
                 ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                     : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                 ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
