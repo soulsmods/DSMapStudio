@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioCore", "StudioCore\StudioCore.csproj", "{593D78AF-7DE5-449D-93F5-43E83D0D171B}"
 EndProject
@@ -12,10 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.ImGui", "Veldrid.ImGui\Veldrid.ImGui.csproj", "{0E86A67F-64EE-47D2-AB29-50289C9A8F59}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid", "Veldrid\Veldrid.csproj", "{E22C07F4-D305-4093-B44B-2A9914DF06A4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.MetalBindings", "Veldrid.MetalBindings\Veldrid.MetalBindings.csproj", "{5D902173-E6DF-4C24-B7B2-BAB82C0FE554}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.OpenGLBindings", "Veldrid.OpenGLBindings\Veldrid.OpenGLBindings.csproj", "{9C41352C-774E-42A2-9379-F8A140115657}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.RenderDoc", "Veldrid.RenderDoc\Veldrid.RenderDoc.csproj", "{6E8C5B37-C0EA-4BDB-8E33-D4A1F86139C4}"
 EndProject
@@ -44,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2ReadWrite", "HKX2ReadWr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColBakeTest", "ColBakeTest\ColBakeTest.csproj", "{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddChr", "AddChr\AddChr.csproj", "{FDB935B7-8888-41B1-BC75-9F2C15080192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddChr", "AddChr\AddChr.csproj", "{FDB935B7-8888-41B1-BC75-9F2C15080192}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,14 +68,6 @@ Global
 		{E22C07F4-D305-4093-B44B-2A9914DF06A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E22C07F4-D305-4093-B44B-2A9914DF06A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E22C07F4-D305-4093-B44B-2A9914DF06A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D902173-E6DF-4C24-B7B2-BAB82C0FE554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D902173-E6DF-4C24-B7B2-BAB82C0FE554}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D902173-E6DF-4C24-B7B2-BAB82C0FE554}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D902173-E6DF-4C24-B7B2-BAB82C0FE554}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C41352C-774E-42A2-9379-F8A140115657}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C41352C-774E-42A2-9379-F8A140115657}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C41352C-774E-42A2-9379-F8A140115657}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C41352C-774E-42A2-9379-F8A140115657}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E8C5B37-C0EA-4BDB-8E33-D4A1F86139C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E8C5B37-C0EA-4BDB-8E33-D4A1F86139C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E8C5B37-C0EA-4BDB-8E33-D4A1F86139C4}.Release|Any CPU.ActiveCfg = Release|Any CPU

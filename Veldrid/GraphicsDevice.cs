@@ -750,31 +750,6 @@ namespace Veldrid
             PlatformDispose();
         }
 
-#if !EXCLUDE_D3D11_BACKEND
-        /// <summary>
-        /// Tries to get a <see cref="BackendInfoD3D11"/> for this instance. This method will only succeed if this is a D3D11
-        /// GraphicsDevice.
-        /// </summary>
-        /// <param name="info">If successful, this will contain the <see cref="BackendInfoD3D11"/> for this instance.</param>
-        /// <returns>True if this is a D3D11 GraphicsDevice and the operation was successful. False otherwise.</returns>
-        public virtual bool GetD3D11Info(out BackendInfoD3D11 info) { info = null; return false; }
-
-        /// <summary>
-        /// Gets a <see cref="BackendInfoD3D11"/> for this instance. This method will only succeed if this is a D3D11
-        /// GraphicsDevice. Otherwise, this method will throw an exception.
-        /// </summary>
-        /// <returns>The <see cref="BackendInfoD3D11"/> for this instance.</returns>
-        public BackendInfoD3D11 GetD3D11Info()
-        {
-            if (!GetD3D11Info(out BackendInfoD3D11 info))
-            {
-                throw new VeldridException($"{nameof(GetD3D11Info)} can only be used on a D3D11 GraphicsDevice.");
-            }
-
-            return info;
-        }
-#endif
-
 #if !EXCLUDE_VULKAN_BACKEND
         /// <summary>
         /// Tries to get a <see cref="BackendInfoVulkan"/> for this instance. This method will only succeed if this is a Vulkan
@@ -800,31 +775,6 @@ namespace Veldrid
         }
 #endif
 
-#if !EXCLUDE_OPENGL_BACKEND
-        /// <summary>
-        /// Tries to get a <see cref="BackendInfoOpenGL"/> for this instance. This method will only succeed if this is an OpenGL
-        /// GraphicsDevice.
-        /// </summary>
-        /// <param name="info">If successful, this will contain the <see cref="BackendInfoOpenGL"/> for this instance.</param>
-        /// <returns>True if this is an OpenGL GraphicsDevice and the operation was successful. False otherwise.</returns>
-        public virtual bool GetOpenGLInfo(out BackendInfoOpenGL info) { info = null; return false; }
-
-        /// <summary>
-        /// Gets a <see cref="BackendInfoOpenGL"/> for this instance. This method will only succeed if this is an OpenGL
-        /// GraphicsDevice. Otherwise, this method will throw an exception.
-        /// </summary>
-        /// <returns>The <see cref="BackendInfoOpenGL"/> for this instance.</returns>
-        public BackendInfoOpenGL GetOpenGLInfo()
-        {
-            if (!GetOpenGLInfo(out BackendInfoOpenGL info))
-            {
-                throw new VeldridException($"{nameof(GetOpenGLInfo)} can only be used on an OpenGL GraphicsDevice.");
-            }
-
-            return info;
-        }
-#endif
-
         /// <summary>
         /// Checks whether the given <see cref="GraphicsBackend"/> is supported on this system.
         /// </summary>
@@ -835,11 +785,7 @@ namespace Veldrid
             switch (backend)
             {
                 case GraphicsBackend.Direct3D11:
-#if !EXCLUDE_D3D11_BACKEND
-                    return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#else
                     return false;
-#endif
                 case GraphicsBackend.Vulkan:
 #if !EXCLUDE_VULKAN_BACKEND
                     return Vk.VkGraphicsDevice.IsSupported();
@@ -847,99 +793,17 @@ namespace Veldrid
                     return false;
 #endif
                 case GraphicsBackend.OpenGL:
-#if !EXCLUDE_OPENGL_BACKEND
-                    return true;
-#else
                     return false;
-#endif
+
                 case GraphicsBackend.Metal:
-#if !EXCLUDE_METAL_BACKEND
-                    return MTL.MTLGraphicsDevice.IsSupported();
-#else
                     return false;
-#endif
                 case GraphicsBackend.OpenGLES:
-#if !EXCLUDE_OPENGL_BACKEND
-                    return !RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-#else
                     return false;
-#endif
+
                 default:
                     throw Illegal.Value<GraphicsBackend>();
             }
         }
-
-#if !EXCLUDE_D3D11_BACKEND
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Direct3D 11.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the Direct3D 11 API.</returns>
-        public static GraphicsDevice CreateD3D11(GraphicsDeviceOptions options)
-        {
-            return new D3D11.D3D11GraphicsDevice(options, null);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Direct3D 11, with a main Swapchain.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="swapchainDescription">A description of the main Swapchain to create.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the Direct3D 11 API.</returns>
-        public static GraphicsDevice CreateD3D11(GraphicsDeviceOptions options, SwapchainDescription swapchainDescription)
-        {
-            return new D3D11.D3D11GraphicsDevice(options, swapchainDescription);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Direct3D 11, with a main Swapchain.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="hwnd">The Win32 window handle to render into.</param>
-        /// <param name="width">The initial width of the window.</param>
-        /// <param name="height">The initial height of the window.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the Direct3D 11 API.</returns>
-        public static GraphicsDevice CreateD3D11(GraphicsDeviceOptions options, IntPtr hwnd, uint width, uint height)
-        {
-            SwapchainDescription swapchainDescription = new SwapchainDescription(
-                SwapchainSource.CreateWin32(hwnd, IntPtr.Zero),
-                width, height,
-                options.SwapchainDepthFormat,
-                options.SyncToVerticalBlank,
-                options.SwapchainSrgbFormat);
-
-            return new D3D11.D3D11GraphicsDevice(options, swapchainDescription);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Direct3D 11, with a main Swapchain.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="swapChainPanel">A COM object which must implement the <see cref="SharpDX.DXGI.ISwapChainPanelNative"/>
-        /// or <see cref="SharpDX.DXGI.ISwapChainBackgroundPanelNative"/> interface. Generally, this should be a SwapChainPanel
-        /// or SwapChainBackgroundPanel contained in your application window.</param>
-        /// <param name="renderWidth">The renderable width of the swapchain panel.</param>
-        /// <param name="renderHeight">The renderable height of the swapchain panel.</param>
-        /// <param name="logicalDpi">The logical DPI of the swapchain panel.</param>
-        /// <returns></returns>
-        public static GraphicsDevice CreateD3D11(
-            GraphicsDeviceOptions options,
-            object swapChainPanel,
-            double renderWidth,
-            double renderHeight,
-            float logicalDpi)
-        {
-            SwapchainDescription swapchainDescription = new SwapchainDescription(
-                SwapchainSource.CreateUwp(swapChainPanel, logicalDpi),
-                (uint)renderWidth,
-                (uint)renderHeight,
-                options.SwapchainDepthFormat,
-                options.SyncToVerticalBlank,
-                options.SwapchainSrgbFormat);
-
-            return new D3D11.D3D11GraphicsDevice(options, swapchainDescription);
-        }
-#endif
 
 #if !EXCLUDE_VULKAN_BACKEND
         /// <summary>
@@ -1007,83 +871,6 @@ namespace Veldrid
                 options.SwapchainSrgbFormat);
 
             return new Vk.VkGraphicsDevice(options, scDesc);
-        }
-#endif
-
-#if !EXCLUDE_OPENGL_BACKEND
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using OpenGL or OpenGL ES, with a main Swapchain.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="platformInfo">An <see cref="OpenGL.OpenGLPlatformInfo"/> object encapsulating necessary OpenGL context
-        /// information.</param>
-        /// <param name="width">The initial width of the window.</param>
-        /// <param name="height">The initial height of the window.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the OpenGL or OpenGL ES API.</returns>
-        public static GraphicsDevice CreateOpenGL(
-            GraphicsDeviceOptions options,
-            OpenGL.OpenGLPlatformInfo platformInfo,
-            uint width,
-            uint height)
-        {
-            return new OpenGL.OpenGLGraphicsDevice(options, platformInfo, width, height);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using OpenGL ES, with a main Swapchain.
-        /// This overload can only be used on iOS or Android to create a GraphicsDevice for an Android Surface or an iOS UIView.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="swapchainDescription">A description of the main Swapchain to create.
-        /// The SwapchainSource must have been created from an Android Surface or an iOS UIView.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the OpenGL or OpenGL ES API.</returns>
-        public static GraphicsDevice CreateOpenGLES(
-            GraphicsDeviceOptions options,
-            SwapchainDescription swapchainDescription)
-        {
-            return new OpenGL.OpenGLGraphicsDevice(options, swapchainDescription);
-        }
-#endif
-
-#if !EXCLUDE_METAL_BACKEND
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Metal.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the Metal API.</returns>
-        public static GraphicsDevice CreateMetal(GraphicsDeviceOptions options)
-        {
-            return new MTL.MTLGraphicsDevice(options, null);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Metal, with a main Swapchain.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="swapchainDescription">A description of the main Swapchain to create.</param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the Metal API.</returns>
-        public static GraphicsDevice CreateMetal(GraphicsDeviceOptions options, SwapchainDescription swapchainDescription)
-        {
-            return new MTL.MTLGraphicsDevice(options, swapchainDescription);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="GraphicsDevice"/> using Metal, with a main Swapchain.
-        /// </summary>
-        /// <param name="options">Describes several common properties of the GraphicsDevice.</param>
-        /// <param name="nsWindow">A pointer to an NSWindow object, which will be used to create the Metal device's swapchain.
-        /// </param>
-        /// <returns>A new <see cref="GraphicsDevice"/> using the Metal API.</returns>
-        public static GraphicsDevice CreateMetal(GraphicsDeviceOptions options, IntPtr nsWindow)
-        {
-            SwapchainDescription swapchainDesc = new SwapchainDescription(
-                new NSWindowSwapchainSource(nsWindow),
-                0, 0,
-                options.SwapchainDepthFormat,
-                options.SyncToVerticalBlank,
-                options.SwapchainSrgbFormat);
-
-            return new MTL.MTLGraphicsDevice(options, swapchainDesc);
         }
 #endif
     }

@@ -23,10 +23,6 @@
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.0.1" Condition="'$(ExcludeD3D11)' != 'true'" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.0.1" Condition="'$(ExcludeD3D11)' != 'true'" />
     <PackageReference Include="SharpDX.DXGI" Version="4.0.1" Condition="'$(ExcludeD3D11)' != 'true'" />
-
-    <ProjectReference Include="..\Veldrid.MetalBindings\Veldrid.MetalBindings.csproj" Condition="'$(ExcludeMetal)' != 'true'" />
-
-    <ProjectReference Include="..\Veldrid.OpenGLBindings\Veldrid.OpenGLBindings.csproj" Condition="'$(ExcludeOpenGL)' != 'true'" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,15 +30,6 @@
     <Compile Remove="Vk/**/*" Condition="'$(ExcludeVulkan)' == 'true'" />
     <Compile Remove="MTL/**/*" Condition="'$(ExcludeMetal)' == 'true'" />
     <Compile Remove="OpenGL/**/*" Condition="'$(ExcludeOpenGL)' == 'true'" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(ExcludeMetal)' != 'true'">
-    <EmbeddedResource Include="MTL/EmbeddedShaders/MTL_UnalignedBufferCopy_macOS.metallib">
-      <LogicalName>MTL_UnalignedBufferCopy_macOS</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MTL/EmbeddedShaders/MTL_UnalignedBufferCopy_iOS.metallib">
-      <LogicalName>MTL_UnalignedBufferCopy_iOS</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

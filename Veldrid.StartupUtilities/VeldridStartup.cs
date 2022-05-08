@@ -35,10 +35,6 @@ namespace Veldrid.StartupUtilities
             out GraphicsDevice gd)
         {
             Sdl2Native.SDL_Init(SDLInitFlags.Video);
-            if (preferredBackend == GraphicsBackend.OpenGL || preferredBackend == GraphicsBackend.OpenGLES)
-            {
-                SetSDLGLContextAttributes(deviceOptions, preferredBackend);
-            }
 
             window = CreateWindow(ref windowCI);
             gd = CreateGraphicsDevice(window, deviceOptions, preferredBackend);
@@ -102,11 +98,8 @@ namespace Veldrid.StartupUtilities
             switch (preferredBackend)
             {
                 case GraphicsBackend.Direct3D11:
-#if !EXCLUDE_D3D11_BACKEND
-                    return CreateDefaultD3D11GraphicsDevice(options, window);
-#else
                     throw new VeldridException("D3D11 support has not been included in this configuration of Veldrid");
-#endif
+
                 case GraphicsBackend.Vulkan:
 #if !EXCLUDE_VULKAN_BACKEND
                     return CreateVulkanGraphicsDevice(options, window);
@@ -114,23 +107,14 @@ namespace Veldrid.StartupUtilities
                     throw new VeldridException("Vulkan support has not been included in this configuration of Veldrid");
 #endif
                 case GraphicsBackend.OpenGL:
-#if !EXCLUDE_OPENGL_BACKEND
-                    return CreateDefaultOpenGLGraphicsDevice(options, window, preferredBackend);
-#else
                     throw new VeldridException("OpenGL support has not been included in this configuration of Veldrid");
-#endif
+
                 case GraphicsBackend.Metal:
-#if !EXCLUDE_METAL_BACKEND
-                    return CreateMetalGraphicsDevice(options, window);
-#else
                     throw new VeldridException("Metal support has not been included in this configuration of Veldrid");
-#endif
+
                 case GraphicsBackend.OpenGLES:
-#if !EXCLUDE_OPENGL_BACKEND
-                    return CreateDefaultOpenGLGraphicsDevice(options, window, preferredBackend);
-#else
                     throw new VeldridException("OpenGL support has not been included in this configuration of Veldrid");
-#endif
+
                 default:
                     throw new VeldridException("Invalid GraphicsBackend: " + preferredBackend);
             }
@@ -163,26 +147,6 @@ namespace Veldrid.StartupUtilities
                     throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
             }
         }
-
-#if !EXCLUDE_METAL_BACKEND
-        private static unsafe GraphicsDevice CreateMetalGraphicsDevice(GraphicsDeviceOptions options, Sdl2Window window)
-            => CreateMetalGraphicsDevice(options, window, false);
-        private static unsafe GraphicsDevice CreateMetalGraphicsDevice(
-            GraphicsDeviceOptions options,
-            Sdl2Window window,
-            bool colorSrgb)
-        {
-            SwapchainSource source = GetSwapchainSource(window);
-            SwapchainDescription swapchainDesc = new SwapchainDescription(
-                source,
-                (uint)window.Width, (uint)window.Height,
-                options.SwapchainDepthFormat,
-                options.SyncToVerticalBlank,
-                colorSrgb);
-
-            return GraphicsDevice.CreateMetal(options, swapchainDesc);
-        }
-#endif
 
         public static GraphicsBackend GetPlatformDefaultBackend()
         {
@@ -237,231 +201,6 @@ namespace Veldrid.StartupUtilities
                 default:
                     throw new PlatformNotSupportedException("Cannot create a Vulkan surface for " + sysWmInfo.subsystem + ".");
             }
-        }
-#endif
-
-#if !EXCLUDE_OPENGL_BACKEND
-        public static unsafe GraphicsDevice CreateDefaultOpenGLGraphicsDevice(
-            GraphicsDeviceOptions options,
-            Sdl2Window window,
-            GraphicsBackend backend)
-        {
-            Sdl2Native.SDL_ClearError();
-            IntPtr sdlHandle = window.SdlWindowHandle;
-
-            SDL_SysWMinfo sysWmInfo;
-            Sdl2Native.SDL_GetVersion(&sysWmInfo.version);
-            Sdl2Native.SDL_GetWMWindowInfo(sdlHandle, &sysWmInfo);
-
-            SetSDLGLContextAttributes(options, backend);
-
-            IntPtr contextHandle = Sdl2Native.SDL_GL_CreateContext(sdlHandle);
-            byte* error = Sdl2Native.SDL_GetError();
-            if (error != null)
-            {
-                string errorString = GetString(error);
-                if (!string.IsNullOrEmpty(errorString))
-                {
-                    throw new VeldridException(
-                        $"Unable to create OpenGL Context: \"{errorString}\". This may indicate that the system does not support the requested OpenGL profile, version, or Swapchain format.");
-                }
-            }
-
-            int actualDepthSize;
-            int result = Sdl2Native.SDL_GL_GetAttribute(SDL_GLAttribute.DepthSize, &actualDepthSize);
-            int actualStencilSize;
-            result = Sdl2Native.SDL_GL_GetAttribute(SDL_GLAttribute.StencilSize, &actualStencilSize);
-
-            result = Sdl2Native.SDL_GL_SetSwapInterval(options.SyncToVerticalBlank ? 1 : 0);
-
-            OpenGL.OpenGLPlatformInfo platformInfo = new OpenGL.OpenGLPlatformInfo(
-                contextHandle,
-                Sdl2Native.SDL_GL_GetProcAddress,
-                context => Sdl2Native.SDL_GL_MakeCurrent(sdlHandle, context),
-                () => Sdl2Native.SDL_GL_GetCurrentContext(),
-                () => Sdl2Native.SDL_GL_MakeCurrent(new SDL_Window(IntPtr.Zero), IntPtr.Zero),
-                Sdl2Native.SDL_GL_DeleteContext,
-                () => Sdl2Native.SDL_GL_SwapWindow(sdlHandle),
-                sync => Sdl2Native.SDL_GL_SetSwapInterval(sync ? 1 : 0));
-
-            return GraphicsDevice.CreateOpenGL(
-                options,
-                platformInfo,
-                (uint)window.Width,
-                (uint)window.Height);
-        }
-
-        public static unsafe void SetSDLGLContextAttributes(GraphicsDeviceOptions options, GraphicsBackend backend)
-        {
-            if (backend != GraphicsBackend.OpenGL && backend != GraphicsBackend.OpenGLES)
-            {
-                throw new VeldridException(
-                    $"{nameof(backend)} must be {nameof(GraphicsBackend.OpenGL)} or {nameof(GraphicsBackend.OpenGLES)}.");
-            }
-
-            SDL_GLContextFlag contextFlags = options.Debug
-                ? SDL_GLContextFlag.Debug | SDL_GLContextFlag.ForwardCompatible
-                : SDL_GLContextFlag.ForwardCompatible;
-
-            Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextFlags, (int)contextFlags);
-
-            (int major, int minor) = GetMaxGLVersion(backend == GraphicsBackend.OpenGLES);
-
-            if (backend == GraphicsBackend.OpenGL)
-            {
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextProfileMask, (int)SDL_GLProfile.Core);
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextMajorVersion, major);
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextMinorVersion, minor);
-            }
-            else
-            {
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextProfileMask, (int)SDL_GLProfile.ES);
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextMajorVersion, major);
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextMinorVersion, minor);
-            }
-
-            int depthBits = 0;
-            int stencilBits = 0;
-            if (options.SwapchainDepthFormat.HasValue)
-            {
-                switch (options.SwapchainDepthFormat)
-                {
-                    case PixelFormat.R16_UNorm:
-                        depthBits = 16;
-                        break;
-                    case PixelFormat.D24_UNorm_S8_UInt:
-                        depthBits = 24;
-                        stencilBits = 8;
-                        break;
-                    case PixelFormat.R32_Float:
-                        depthBits = 32;
-                        break;
-                    case PixelFormat.D32_Float_S8_UInt:
-                        depthBits = 32;
-                        stencilBits = 8;
-                        break;
-                    default:
-                        throw new VeldridException("Invalid depth format: " + options.SwapchainDepthFormat.Value);
-                }
-            }
-
-            int result = Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.DepthSize, depthBits);
-            result = Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.StencilSize, stencilBits);
-
-            if (options.SwapchainSrgbFormat)
-            {
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.FramebufferSrgbCapable, 1);
-            }
-            else
-            {
-                Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.FramebufferSrgbCapable, 0);
-            }
-        }
-#endif
-
-#if !EXCLUDE_D3D11_BACKEND
-        public static GraphicsDevice CreateDefaultD3D11GraphicsDevice(
-            GraphicsDeviceOptions options,
-            Sdl2Window window)
-        {
-            SwapchainSource source = GetSwapchainSource(window);
-            SwapchainDescription swapchainDesc = new SwapchainDescription(
-                source,
-                (uint)window.Width, (uint)window.Height,
-                options.SwapchainDepthFormat,
-                options.SyncToVerticalBlank,
-                options.SwapchainSrgbFormat);
-
-            return GraphicsDevice.CreateD3D11(options, swapchainDesc);
-        }
-#endif
-
-        private static unsafe string GetString(byte* stringStart)
-        {
-            int characters = 0;
-            while (stringStart[characters] != 0)
-            {
-                characters++;
-            }
-
-            return Encoding.UTF8.GetString(stringStart, characters);
-        }
-
-#if !EXCLUDE_OPENGL_BACKEND
-        private static readonly object s_glVersionLock = new object();
-        private static (int Major, int Minor)? s_maxSupportedGLVersion;
-        private static (int Major, int Minor)? s_maxSupportedGLESVersion;
-
-        private static (int Major, int Minor) GetMaxGLVersion(bool gles)
-        {
-            lock (s_glVersionLock)
-            {
-                (int Major, int Minor)? maxVer = gles ? s_maxSupportedGLESVersion : s_maxSupportedGLVersion;
-                if (maxVer == null)
-                {
-                    maxVer = TestMaxVersion(gles);
-                    if (gles) { s_maxSupportedGLESVersion = maxVer; }
-                    else { s_maxSupportedGLVersion = maxVer; }
-                }
-
-                return maxVer.Value;
-            }
-        }
-
-        private static (int Major, int Minor) TestMaxVersion(bool gles)
-        {
-            (int, int)[] testVersions = gles
-                ? new[] { (3, 2), (3, 0) }
-                : new[] { (4, 6), (4, 3), (4, 0), (3, 3), (3, 0) };
-
-            foreach ((int major, int minor) in testVersions)
-            {
-                if (TestIndividualGLVersion(gles, major, minor)) { return (major, minor); }
-            }
-
-            return (0, 0);
-        }
-
-        private static unsafe bool TestIndividualGLVersion(bool gles, int major, int minor)
-        {
-            SDL_GLProfile profileMask = gles ? SDL_GLProfile.ES : SDL_GLProfile.Core;
-
-            Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextProfileMask, (int)profileMask);
-            Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextMajorVersion, major);
-            Sdl2Native.SDL_GL_SetAttribute(SDL_GLAttribute.ContextMinorVersion, minor);
-
-            SDL_Window window = Sdl2Native.SDL_CreateWindow(
-                string.Empty,
-                0, 0,
-                1, 1,
-                SDL_WindowFlags.Hidden | SDL_WindowFlags.OpenGL);
-            byte* error = Sdl2Native.SDL_GetError();
-            string errorString = GetString(error);
-
-            if (window.NativePointer == IntPtr.Zero || !string.IsNullOrEmpty(errorString))
-            {
-                Sdl2Native.SDL_ClearError();
-                Debug.WriteLine($"Unable to create version {major}.{minor} {profileMask} context.");
-                return false;
-            }
-
-            IntPtr context = Sdl2Native.SDL_GL_CreateContext(window);
-            error = Sdl2Native.SDL_GetError();
-            if (error != null)
-            {
-                errorString = GetString(error);
-                if (!string.IsNullOrEmpty(errorString))
-                {
-                    Sdl2Native.SDL_ClearError();
-                    Debug.WriteLine($"Unable to create version {major}.{minor} {profileMask} context.");
-                    Sdl2Native.SDL_DestroyWindow(window);
-                    return false;
-                }
-            }
-
-            Sdl2Native.SDL_GL_DeleteContext(context);
-            Sdl2Native.SDL_DestroyWindow(window);
-            return true;
         }
 #endif
     }
