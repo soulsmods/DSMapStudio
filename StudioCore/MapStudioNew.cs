@@ -601,7 +601,7 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Save", "Ctrl-S"))
+                    if (ImGui.MenuItem("Save", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
                     {
                         _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
                         if (_msbEditorFocused)
@@ -621,7 +621,7 @@ namespace StudioCore
                             _textEditor.Save();
                         }
                     }
-                    if (ImGui.MenuItem("Save All", ""))
+                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft)||InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
