@@ -1,16 +1,16 @@
-﻿using Vulkan;
-using static Vulkan.VulkanNative;
+﻿using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 
 namespace Veldrid.Vk
 {
     internal unsafe class VkSampler : Sampler
     {
         private readonly VkGraphicsDevice _gd;
-        private readonly Vulkan.VkSampler _sampler;
+        private readonly Vortice.Vulkan.VkSampler _sampler;
         private bool _disposed;
         private string _name;
 
-        public Vulkan.VkSampler DeviceSampler => _sampler;
+        public Vortice.Vulkan.VkSampler DeviceSampler => _sampler;
 
         public ResourceRefCount RefCount { get; }
 
@@ -40,7 +40,7 @@ namespace Veldrid.Vk
                 borderColor = VkFormats.VdToVkSamplerBorderColor(description.BorderColor)
             };
 
-            vkCreateSampler(_gd.Device, ref samplerCI, null, out _sampler);
+            vkCreateSampler(_gd.Device, &samplerCI, null, out _sampler);
             RefCount = new ResourceRefCount(DisposeCore);
         }
 

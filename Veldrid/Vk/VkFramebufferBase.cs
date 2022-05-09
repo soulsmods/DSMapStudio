@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Vulkan;
+using Vortice.Vulkan;
 
 namespace Veldrid.Vk
 {
@@ -30,7 +30,7 @@ namespace Veldrid.Vk
 
         protected abstract void DisposeCore();
 
-        public abstract Vulkan.VkFramebuffer CurrentFramebuffer { get; }
+        public abstract Vortice.Vulkan.VkFramebuffer CurrentFramebuffer { get; }
         public abstract VkRenderPass RenderPassNoClear_Init { get; }
         public abstract VkRenderPass RenderPassNoClear_Load { get; }
         public abstract VkRenderPass RenderPassClear { get; }

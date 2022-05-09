@@ -1,23 +1,23 @@
-﻿using Vulkan;
-using static Vulkan.VulkanNative;
+﻿using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 
 namespace Veldrid.Vk
 {
     internal unsafe class VkFence : Fence
     {
         private readonly VkGraphicsDevice _gd;
-        private Vulkan.VkFence _fence;
+        private Vortice.Vulkan.VkFence _fence;
         private string _name;
         private bool _destroyed;
 
-        public Vulkan.VkFence DeviceFence => _fence;
+        public Vortice.Vulkan.VkFence DeviceFence => _fence;
 
         public VkFence(VkGraphicsDevice gd, bool signaled)
         {
             _gd = gd;
-            VkFenceCreateInfo fenceCI = VkFenceCreateInfo.New();
+            VkFenceCreateInfo fenceCI = new VkFenceCreateInfo();
             fenceCI.flags = signaled ? VkFenceCreateFlags.Signaled : VkFenceCreateFlags.None;
-            VkResult result = vkCreateFence(_gd.Device, ref fenceCI, null, out _fence);
+            VkResult result = vkCreateFence(_gd.Device, &fenceCI, null, out _fence);
             VulkanUtil.CheckResult(result);
         }
 

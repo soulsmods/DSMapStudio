@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Vulkan;
-using static Vulkan.VulkanNative;
+using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 
 namespace Veldrid.Vk
 {
@@ -35,8 +35,8 @@ namespace Veldrid.Vk
 
         public static string[] EnumerateInstanceLayers()
         {
-            uint propCount = 0;
-            VkResult result = vkEnumerateInstanceLayerProperties(ref propCount, null);
+            int propCount = 0;
+            VkResult result = vkEnumerateInstanceLayerProperties(&propCount, null);
             CheckResult(result);
             if (propCount == 0)
             {
@@ -44,7 +44,8 @@ namespace Veldrid.Vk
             }
 
             VkLayerProperties[] props = new VkLayerProperties[propCount];
-            vkEnumerateInstanceLayerProperties(ref propCount, ref props[0]);
+            fixed (VkLayerProperties* ptr = props)
+                vkEnumerateInstanceLayerProperties(&propCount, ptr);
 
             string[] ret = new string[propCount];
             for (int i = 0; i < propCount; i++)
@@ -67,8 +68,8 @@ namespace Veldrid.Vk
                 return Array.Empty<string>();
             }
 
-            uint propCount = 0;
-            VkResult result = vkEnumerateInstanceExtensionProperties((byte*)null, ref propCount, null);
+            int propCount = 0;
+            VkResult result = vkEnumerateInstanceExtensionProperties((byte*)null, &propCount, null);
             if (result != VkResult.Success)
             {
                 return Array.Empty<string>();
@@ -80,7 +81,9 @@ namespace Veldrid.Vk
             }
 
             VkExtensionProperties[] props = new VkExtensionProperties[propCount];
-            vkEnumerateInstanceExtensionProperties((byte*)null, ref propCount, ref props[0]);
+
+            fixed (VkExtensionProperties* ptr = props)
+                vkEnumerateInstanceExtensionProperties((byte*)null, &propCount, ptr);
 
             string[] ret = new string[propCount];
             for (int i = 0; i < propCount; i++)
@@ -99,7 +102,7 @@ namespace Veldrid.Vk
         {
             try
             {
-                uint propCount;
+                int propCount;
                 vkEnumerateInstanceExtensionProperties((byte*)null, &propCount, null);
                 return true;
             }
@@ -118,12 +121,14 @@ namespace Veldrid.Vk
             VkImageLayout newLayout)
         {
             Debug.Assert(oldLayout != newLayout);
-            VkImageMemoryBarrier barrier = VkImageMemoryBarrier.New();
-            barrier.oldLayout = oldLayout;
-            barrier.newLayout = newLayout;
-            barrier.srcQueueFamilyIndex = QueueFamilyIgnored;
-            barrier.dstQueueFamilyIndex = QueueFamilyIgnored;
-            barrier.image = image;
+            VkImageMemoryBarrier barrier = new VkImageMemoryBarrier
+            {
+                oldLayout = oldLayout,
+                newLayout = newLayout,
+                srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                image = image
+            };
             barrier.subresourceRange.aspectMask = aspectMask;
             barrier.subresourceRange.baseMipLevel = baseMipLevel;
             barrier.subresourceRange.levelCount = levelCount;

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Vulkan;
-using static Vulkan.VulkanNative;
+using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 using static Veldrid.Vk.VulkanUtil;
 using System;
 using System.Runtime.InteropServices;
@@ -13,7 +13,7 @@ namespace Veldrid.Vk
         private readonly VkSurfaceKHR _surface;
         private VkSwapchainKHR _deviceSwapchain;
         private readonly VkSwapchainFramebuffer _framebuffer;
-        private Vulkan.VkFence _imageAvailableFence;
+        private Vortice.Vulkan.VkFence _imageAvailableFence;
         private readonly uint _presentQueueIndex;
         private readonly VkQueue _presentQueue;
         private bool _syncToVBlank;
@@ -39,7 +39,7 @@ namespace Veldrid.Vk
 
         public VkSwapchainKHR DeviceSwapchain => _deviceSwapchain;
         public uint ImageIndex => _currentImageIndex;
-        public Vulkan.VkFence ImageAvailableFence => _imageAvailableFence;
+        public Vortice.Vulkan.VkFence ImageAvailableFence => _imageAvailableFence;
         public VkSurfaceKHR Surface => _surface;
         public VkQueue PresentQueue => _presentQueue;
         public uint PresentQueueIndex => _presentQueueIndex;
@@ -73,13 +73,16 @@ namespace Veldrid.Vk
 
             CreateSwapchain(description.Width, description.Height);
 
-            VkFenceCreateInfo fenceCI = VkFenceCreateInfo.New();
+            VkFenceCreateInfo fenceCI = new VkFenceCreateInfo();
             fenceCI.flags = VkFenceCreateFlags.None;
-            vkCreateFence(_gd.Device, ref fenceCI, null, out _imageAvailableFence);
+            vkCreateFence(_gd.Device, &fenceCI, null, out _imageAvailableFence);
 
             AcquireNextImage(_gd.Device, VkSemaphore.Null, _imageAvailableFence);
-            vkWaitForFences(_gd.Device, 1, ref _imageAvailableFence, true, ulong.MaxValue);
-            vkResetFences(_gd.Device, 1, ref _imageAvailableFence);
+            fixed (Vortice.Vulkan.VkFence* p = &_imageAvailableFence)
+            {
+                vkWaitForFences(_gd.Device, 1, p, true, ulong.MaxValue);
+                vkResetFences(_gd.Device, 1, p);
+            }
 
             RefCount = new ResourceRefCount(DisposeCore);
         }
@@ -89,7 +92,7 @@ namespace Veldrid.Vk
             RecreateAndReacquire(width, height);
         }
 
-        public bool AcquireNextImage(VkDevice device, VkSemaphore semaphore, Vulkan.VkFence fence)
+        public bool AcquireNextImage(VkDevice device, VkSemaphore semaphore, Vortice.Vulkan.VkFence fence)
         {
             if (_newSyncToVBlank != null)
             {
@@ -105,7 +108,7 @@ namespace Veldrid.Vk
                 ulong.MaxValue,
                 semaphore,
                 fence,
-                ref _currentImageIndex);
+                out _currentImageIndex);
             _framebuffer.SetImageIndex(_currentImageIndex);
             if (result == VkResult.ErrorOutOfDateKHR || result == VkResult.SuboptimalKHR)
             {
@@ -126,8 +129,11 @@ namespace Veldrid.Vk
             {
                 if (AcquireNextImage(_gd.Device, VkSemaphore.Null, _imageAvailableFence))
                 {
-                    vkWaitForFences(_gd.Device, 1, ref _imageAvailableFence, true, ulong.MaxValue);
-                    vkResetFences(_gd.Device, 1, ref _imageAvailableFence);
+                    fixed (Vortice.Vulkan.VkFence* p = &_imageAvailableFence)
+                    {
+                        vkWaitForFences(_gd.Device, 1, p, true, ulong.MaxValue);
+                        vkResetFences(_gd.Device, 1, p);
+                    }
                 }
             }
         }
@@ -153,27 +159,28 @@ namespace Veldrid.Vk
             }
 
             _currentImageIndex = 0;
-            uint surfaceFormatCount = 0;
-            result = vkGetPhysicalDeviceSurfaceFormatsKHR(_gd.PhysicalDevice, _surface, ref surfaceFormatCount, null);
+            int surfaceFormatCount = 0;
+            result = vkGetPhysicalDeviceSurfaceFormatsKHR(_gd.PhysicalDevice, _surface, &surfaceFormatCount, null);
             CheckResult(result);
             VkSurfaceFormatKHR[] formats = new VkSurfaceFormatKHR[surfaceFormatCount];
-            result = vkGetPhysicalDeviceSurfaceFormatsKHR(_gd.PhysicalDevice, _surface, ref surfaceFormatCount, out formats[0]);
+            fixed (VkSurfaceFormatKHR* pFormats = formats)
+                result = vkGetPhysicalDeviceSurfaceFormatsKHR(_gd.PhysicalDevice, _surface, &surfaceFormatCount, pFormats);
             CheckResult(result);
 
             VkFormat desiredFormat = _colorSrgb
-                ? VkFormat.B8g8r8a8Srgb
-                : VkFormat.B8g8r8a8Unorm;
+                ? VkFormat.B8G8R8A8SRgb
+                : VkFormat.B8G8R8A8UNorm;
 
             VkSurfaceFormatKHR surfaceFormat = new VkSurfaceFormatKHR();
             if (formats.Length == 1 && formats[0].format == VkFormat.Undefined)
             {
-                surfaceFormat = new VkSurfaceFormatKHR { colorSpace = VkColorSpaceKHR.SrgbNonlinearKHR, format = desiredFormat };
+                surfaceFormat = new VkSurfaceFormatKHR { colorSpace = VkColorSpaceKHR.SrgbNonLinear, format = desiredFormat };
             }
             else
             {
                 foreach (VkSurfaceFormatKHR format in formats)
                 {
-                    if (format.colorSpace == VkColorSpaceKHR.SrgbNonlinearKHR && format.format == desiredFormat)
+                    if (format.colorSpace == VkColorSpaceKHR.SrgbNonLinear && format.format == desiredFormat)
                     {
                         surfaceFormat = format;
                         break;
@@ -181,7 +188,7 @@ namespace Veldrid.Vk
                 }
                 if (surfaceFormat.format == VkFormat.Undefined)
                 {
-                    if (_colorSrgb && surfaceFormat.format != VkFormat.R8g8b8a8Srgb)
+                    if (_colorSrgb && surfaceFormat.format != VkFormat.R8G8B8A8SRgb)
                     {
                         throw new VeldridException($"Unable to create an sRGB Swapchain for this surface.");
                     }
@@ -190,38 +197,39 @@ namespace Veldrid.Vk
                 }
             }
 
-            uint presentModeCount = 0;
-            result = vkGetPhysicalDeviceSurfacePresentModesKHR(_gd.PhysicalDevice, _surface, ref presentModeCount, null);
+            int presentModeCount = 0;
+            result = vkGetPhysicalDeviceSurfacePresentModesKHR(_gd.PhysicalDevice, _surface, &presentModeCount, null);
             CheckResult(result);
             VkPresentModeKHR[] presentModes = new VkPresentModeKHR[presentModeCount];
-            result = vkGetPhysicalDeviceSurfacePresentModesKHR(_gd.PhysicalDevice, _surface, ref presentModeCount, out presentModes[0]);
+            fixed (VkPresentModeKHR *pPresentModes = presentModes)
+                result = vkGetPhysicalDeviceSurfacePresentModesKHR(_gd.PhysicalDevice, _surface, &presentModeCount, pPresentModes);
             CheckResult(result);
 
-            VkPresentModeKHR presentMode = VkPresentModeKHR.FifoKHR;
+            VkPresentModeKHR presentMode = VkPresentModeKHR.Fifo;
 
             if (_syncToVBlank)
             {
-                if (presentModes.Contains(VkPresentModeKHR.FifoRelaxedKHR))
+                if (presentModes.Contains(VkPresentModeKHR.FifoRelaxed))
                 {
-                    presentMode = VkPresentModeKHR.FifoRelaxedKHR;
+                    presentMode = VkPresentModeKHR.FifoRelaxed;
                 }
             }
             else
             {
-                if (presentModes.Contains(VkPresentModeKHR.MailboxKHR))
+                if (presentModes.Contains(VkPresentModeKHR.Mailbox))
                 {
-                    presentMode = VkPresentModeKHR.MailboxKHR;
+                    presentMode = VkPresentModeKHR.Mailbox;
                 }
-                else if (presentModes.Contains(VkPresentModeKHR.ImmediateKHR))
+                else if (presentModes.Contains(VkPresentModeKHR.Immediate))
                 {
-                    presentMode = VkPresentModeKHR.ImmediateKHR;
+                    presentMode = VkPresentModeKHR.Immediate;
                 }
             }
 
             uint maxImageCount = surfaceCapabilities.maxImageCount == 0 ? uint.MaxValue : surfaceCapabilities.maxImageCount;
             uint imageCount = Math.Min(maxImageCount, surfaceCapabilities.minImageCount + 1);
 
-            VkSwapchainCreateInfoKHR swapchainCI = VkSwapchainCreateInfoKHR.New();
+            VkSwapchainCreateInfoKHR swapchainCI = new VkSwapchainCreateInfoKHR();
             swapchainCI.surface = _surface;
             swapchainCI.presentMode = presentMode;
             swapchainCI.imageFormat = surfaceFormat.format;
@@ -247,14 +255,14 @@ namespace Veldrid.Vk
                 swapchainCI.queueFamilyIndexCount = 0;
             }
 
-            swapchainCI.preTransform = VkSurfaceTransformFlagsKHR.IdentityKHR;
-            swapchainCI.compositeAlpha = VkCompositeAlphaFlagsKHR.OpaqueKHR;
+            swapchainCI.preTransform = VkSurfaceTransformFlagsKHR.Identity;
+            swapchainCI.compositeAlpha = VkCompositeAlphaFlagsKHR.Opaque;
             swapchainCI.clipped = true;
 
             VkSwapchainKHR oldSwapchain = _deviceSwapchain;
             swapchainCI.oldSwapchain = oldSwapchain;
 
-            result = vkCreateSwapchainKHR(_gd.Device, ref swapchainCI, null, out _deviceSwapchain);
+            result = vkCreateSwapchainKHR(_gd.Device, &swapchainCI, null, out _deviceSwapchain);
             CheckResult(result);
             if (oldSwapchain != VkSwapchainKHR.Null)
             {

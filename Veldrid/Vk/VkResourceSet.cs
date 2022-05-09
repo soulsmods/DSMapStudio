@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Vulkan;
-using static Vulkan.VulkanNative;
+using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 using static Veldrid.Vk.VulkanUtil;
 
 namespace Veldrid.Vk
@@ -36,7 +36,7 @@ namespace Veldrid.Vk
             _descriptorAllocationToken = _gd.DescriptorPoolManager.Allocate(_descriptorCounts, dsl);
 
             BindableResource[] boundResources = description.BoundResources;
-            uint descriptorWriteCount = (uint)vkLayout.Description.Elements.Length;
+            int descriptorWriteCount = vkLayout.Description.Elements.Length;
 
             uint desccount = 0;
             foreach (var e in vkLayout.Description.Elements)

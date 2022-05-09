@@ -1,6 +1,6 @@
-﻿using Vulkan;
+﻿using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 using static Veldrid.Vk.VulkanUtil;
-using static Vulkan.VulkanNative;
 
 namespace Veldrid.Vk
 {
@@ -21,7 +21,7 @@ namespace Veldrid.Vk
             : base(ref description)
         {
             _gd = gd;
-            VkImageViewCreateInfo imageViewCI = VkImageViewCreateInfo.New();
+            VkImageViewCreateInfo imageViewCI = new VkImageViewCreateInfo();
             VkTexture tex = Util.AssertSubtype<Texture, VkTexture>(description.Target);
             imageViewCI.image = tex.OptimalDeviceImage;
             imageViewCI.format = VkFormats.VdToVkPixelFormat(Format, (Target.Usage & TextureUsage.DepthStencil) != 0);
@@ -68,7 +68,7 @@ namespace Veldrid.Vk
                 }
             }
 
-            vkCreateImageView(_gd.Device, ref imageViewCI, null, out _imageView);
+            vkCreateImageView(_gd.Device, &imageViewCI, null, out _imageView);
             RefCount = new ResourceRefCount(DisposeCore);
         }
 

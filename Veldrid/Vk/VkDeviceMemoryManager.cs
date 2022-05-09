@@ -1,5 +1,5 @@
-﻿using Vulkan;
-using static Vulkan.VulkanNative;
+﻿using Vortice.Vulkan;
+using static Vortice.Vulkan.Vulkan;
 using static Veldrid.Vk.VulkanUtil;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -53,7 +53,7 @@ namespace Veldrid.Vk
                 alignment,
                 false,
                 VkImage.Null,
-                Vulkan.VkBuffer.Null);
+                Vortice.Vulkan.VkBuffer.Null);
         }
 
         public VkMemoryBlock Allocate(
@@ -65,7 +65,7 @@ namespace Veldrid.Vk
             ulong alignment,
             bool dedicated,
             VkImage dedicatedImage,
-            Vulkan.VkBuffer dedicatedBuffer)
+            Vortice.Vulkan.VkBuffer dedicatedBuffer)
         {
             // Round up to the nearest multiple of bufferImageGranularity.
             size = ((size / _bufferImageGranularity) + 1) * _bufferImageGranularity;
@@ -81,20 +81,20 @@ namespace Veldrid.Vk
 
                 if (dedicated || size >= minDedicatedAllocationSize)
                 {
-                    VkMemoryAllocateInfo allocateInfo = VkMemoryAllocateInfo.New();
+                    VkMemoryAllocateInfo allocateInfo = new VkMemoryAllocateInfo();
                     allocateInfo.allocationSize = size;
                     allocateInfo.memoryTypeIndex = memoryTypeIndex;
 
-                    VkMemoryDedicatedAllocateInfoKHR dedicatedAI;
+                    VkMemoryDedicatedAllocateInfo dedicatedAI;
                     if (dedicated)
                     {
-                        dedicatedAI = VkMemoryDedicatedAllocateInfoKHR.New();
+                        dedicatedAI = new VkMemoryDedicatedAllocateInfo();
                         dedicatedAI.buffer = dedicatedBuffer;
                         dedicatedAI.image = dedicatedImage;
                         allocateInfo.pNext = &dedicatedAI;
                     }
 
-                    VkResult allocationResult = vkAllocateMemory(_device, ref allocateInfo, null, out VkDeviceMemory memory);
+                    VkResult allocationResult = vkAllocateMemory(_device, &allocateInfo, null, out VkDeviceMemory memory);
                     if (allocationResult != VkResult.Success)
                     {
                         throw new VeldridException("Unable to allocate sufficient Vulkan memory.");
@@ -237,10 +237,10 @@ namespace Veldrid.Vk
                 _persistentMapped = persistentMapped;
                 _totalMemorySize = persistentMapped ? PersistentMappedChunkSize : UnmappedChunkSize;
 
-                VkMemoryAllocateInfo memoryAI = VkMemoryAllocateInfo.New();
+                VkMemoryAllocateInfo memoryAI = new VkMemoryAllocateInfo();
                 memoryAI.allocationSize = _totalMemorySize;
                 memoryAI.memoryTypeIndex = _memoryTypeIndex;
-                VkResult result = vkAllocateMemory(_device, ref memoryAI, null, out _memory);
+                VkResult result = vkAllocateMemory(_device, &memoryAI, null, out _memory);
                 CheckResult(result);
 
                 void* mappedPtr = null;
