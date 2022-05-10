@@ -443,6 +443,8 @@ namespace StudioCore.Scene
 
         private static List<RenderQueue> RenderQueues;
         private static Queue<Action<GraphicsDevice, CommandList>> BackgroundUploadQueue;
+        private static Queue<Action<GraphicsDevice, CommandList>> LowPriorityBackgroundUploadQueue;
+        private static Queue<Action<GraphicsDevice, CommandList>> LowPriorityBackgroundUploadQueueBackfill;
 
         private static Fence _readbackFence;
         private static CommandList _readbackCommandList;
@@ -492,6 +494,8 @@ namespace StudioCore.Scene
             Device = device;
             MainCommandList = device.ResourceFactory.CreateCommandList();
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
+            LowPriorityBackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>(100000);
+            LowPriorityBackgroundUploadQueueBackfill = new Queue<Action<GraphicsDevice, CommandList>>(100000);
             _readbackCommandList = device.ResourceFactory.CreateCommandList();
             _readbackFence = device.ResourceFactory.CreateFence(false);
             _readbackQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
@@ -551,6 +555,14 @@ namespace StudioCore.Scene
             }
         }
 
+        public static void AddLowPriorityBackgroundUploadTask(Action<GraphicsDevice, CommandList> action)
+        {
+            lock (LowPriorityBackgroundUploadQueueBackfill)
+            {
+                LowPriorityBackgroundUploadQueueBackfill.Enqueue(action);
+            }
+        }
+
         public static void AddAsyncReadback(DeviceBuffer dest, DeviceBuffer source, Action<GraphicsDevice> onFinished)
         {
             lock(_readbackQueue)
@@ -566,6 +578,7 @@ namespace StudioCore.Scene
 
         public static Fence Frame(CommandList drawCommandList, bool backgroundOnly)
         {
+            Stopwatch sw = Stopwatch.StartNew();
             var ctx = Tracy.TracyCZoneN(1, "RenderQueue::Frame");
             MainCommandList.Begin();
 
@@ -599,6 +612,28 @@ namespace StudioCore.Scene
                 work.Dequeue().Invoke(Device, MainCommandList);
                 //work.Dequeue().Invoke(Device, drawCommandList);
             }
+            Tracy.TracyCZoneEnd(ctx4);
+
+            // If there's no work swap to the backfill queue to try and find work
+            if (LowPriorityBackgroundUploadQueue.Count == 0 || LowPriorityBackgroundUploadQueueBackfill.Count > LowPriorityBackgroundUploadQueue.Count)
+            {
+                lock (LowPriorityBackgroundUploadQueueBackfill)
+                {
+                    var temp = LowPriorityBackgroundUploadQueue;
+                    LowPriorityBackgroundUploadQueue = LowPriorityBackgroundUploadQueueBackfill;
+                    LowPriorityBackgroundUploadQueueBackfill = temp;
+                }
+            }
+            ctx4 = Tracy.TracyCZoneN(1, $@"Perform {Math.Min(1000, LowPriorityBackgroundUploadQueue.Count)} low priority background work items");
+            int workdone = 0;
+            // We will aim to complete the background work in 12 miliseconds to try and maintain at least 30-60 FPS when loading,
+            // but we will process a minimum of 500 items per frame to ensure forward progress when loading.
+            while ((LowPriorityBackgroundUploadQueue.Count() > 0 && (workdone < 500 || sw.ElapsedMilliseconds <= 12)))
+            {
+                LowPriorityBackgroundUploadQueue.Dequeue()?.Invoke(Device, MainCommandList);
+                workdone++;
+            }
+            sw.Stop();
             Tracy.TracyCZoneEnd(ctx4);
 
             ctx4 = Tracy.TracyCZoneN(1, $@"Submit background work items");

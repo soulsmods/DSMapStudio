@@ -43,7 +43,7 @@ namespace StudioCore.Resource
             }
             if (Texture.Platform == TPF.TPFPlatform.PC || Texture.Platform == TPF.TPFPlatform.PS3)
             {
-                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                Scene.Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
                 {
                     GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
                     Texture = null;
@@ -51,7 +51,7 @@ namespace StudioCore.Resource
             }
             else if (Texture.Platform == TPF.TPFPlatform.PS4)
             {
-                Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
+                Scene.Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
                 {
                     GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
                     Texture = null;

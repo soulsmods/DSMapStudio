@@ -9,7 +9,7 @@ namespace StudioCore
 {
     unsafe class Tracy
     {
-        public const bool EnableTracy = false;
+        public const bool EnableTracy = true;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         private struct ___tracy_source_location_data

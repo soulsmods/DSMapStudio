@@ -163,7 +163,9 @@ namespace StudioCore.Resource
 
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"Material upload");
                     MaterialBuffer.FillBuffer(d, cl, ref MaterialData);
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
 
@@ -458,10 +460,8 @@ namespace StudioCore.Resource
 
             if (!CFG.Current.EnableTexturing)
             {
-                //dest.ShaderName = @"SimpleFlver";
-                //dest.LayoutType = MeshLayoutType.LayoutSky;
-                dest.ShaderName = @"FlverShader\FlverShader";
-                dest.LayoutType = MeshLayoutType.LayoutStandard;
+                dest.ShaderName = @"SimpleFlver";
+                dest.LayoutType = MeshLayoutType.LayoutSky;
                 dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
                 dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
                 dest.SpecializationConstants = new SpecializationConstant[0];
@@ -829,6 +829,7 @@ namespace StudioCore.Resource
                 Vector3 n = Vector3.Zero;
                 fixed (FlverLayoutSky* v = &verts[i])
                 {
+                    bool posfilled = false;
                     foreach (var l in layouts)
                     {
                         // ER meme
@@ -837,6 +838,7 @@ namespace StudioCore.Resource
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
                             FillVertex(ref (*v).Position, br, l.type);
+                            posfilled = true;
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Normal)
                         {
@@ -846,6 +848,10 @@ namespace StudioCore.Resource
                         {
                             EatVertex(br, l.type);
                         }
+                    }
+                    if (!posfilled)
+                    {
+                        (*v).Position = new Vector3(0, 0, 0);
                     }
                     pickingVerts[i] = (*v).Position;
                 }

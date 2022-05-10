@@ -352,18 +352,21 @@ namespace StudioCore.Scene
 
         public void FlushStaging(bool full = false)
         {
-            _currentStaging._allocationsFull = true;
-            _currentStaging.FlushIfNeeded();
+            lock (_allocationLock)
+            {
+                _currentStaging._allocationsFull = true;
+                _currentStaging.FlushIfNeeded();
 
-            _currentStaging = new VertexIndexBuffer();
-            _currentStaging.BufferIndex = _buffers.Count;
-            _buffers.Add(_currentStaging);
-            BufferDescription desc = new BufferDescription(
-                _maxVertsSize, BufferUsage.Staging);
-            _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
-            desc = new BufferDescription(
-                _maxIndicesSize, BufferUsage.Staging);
-            _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
+                _currentStaging = new VertexIndexBuffer();
+                _currentStaging.BufferIndex = _buffers.Count;
+                _buffers.Add(_currentStaging);
+                BufferDescription desc = new BufferDescription(
+                    _maxVertsSize, BufferUsage.Staging);
+                _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
+                desc = new BufferDescription(
+                    _maxIndicesSize, BufferUsage.Staging);
+                _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
+            }
         }
 
         public bool BindAsVertexBuffer(CommandList cl, int index)
@@ -440,6 +443,10 @@ namespace StudioCore.Scene
 
             internal void FlushIfNeeded()
             {
+                if (AllocStatus != Status.Staging)
+                {
+                    throw new Exception("Error: FlushIfNeeded called on non-staging buffer");
+                }
                 if (_allocationsFull && _handleCount == _vfillCount && _handleCount == _ifillCount)
                 {
                     AllocStatus = Status.Uploading;
@@ -531,8 +538,9 @@ namespace StudioCore.Scene
 
             public void FillVBuffer<T>(T[] vdata, Action completionHandler = null) where T : struct
             {
-                Renderer.AddBackgroundUploadTask((device, cl) =>
+                Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"FillVBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
                         cl.UpdateBuffer(_buffer._stagingBufferVerts, VAllocationStart, vdata);
@@ -550,6 +558,7 @@ namespace StudioCore.Scene
                         completionHandler.Invoke();
                     }
                     SetVFilled();
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
 
@@ -581,8 +590,9 @@ namespace StudioCore.Scene
 
             unsafe public void FillVBuffer(IntPtr vdata, uint size, Action completionHandler = null)
             {
-                Renderer.AddBackgroundUploadTask((device, cl) =>
+                Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"FillVBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
                         cl.UpdateBuffer(_buffer._stagingBufferVerts, VAllocationStart, vdata, size);
@@ -600,6 +610,7 @@ namespace StudioCore.Scene
                         completionHandler.Invoke();
                     }
                     SetVFilled();
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
 
@@ -627,8 +638,9 @@ namespace StudioCore.Scene
 
             public void FillIBuffer<T>(T[] idata, Action completionHandler = null) where T : struct
             {
-                Renderer.AddBackgroundUploadTask((device, cl) =>
+                Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"FillIBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
                         cl.UpdateBuffer(_buffer._stagingBufferIndices, IAllocationStart, idata);
@@ -646,6 +658,7 @@ namespace StudioCore.Scene
                         completionHandler.Invoke();
                     }
                     SetIFilled();
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
 

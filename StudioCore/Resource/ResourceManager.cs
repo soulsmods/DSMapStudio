@@ -891,9 +891,12 @@ namespace StudioCore.Resource
                 }
                 if (_scheduleUnloadedTexturesLoad)
                 {
-                    var job = CreateNewJob($@"Loading other textures");
-                    job.AddLoadUnloadedTextures();
-                    job.StartJobAsync();
+                    Task.Run(() =>
+                    {
+                        var job = CreateNewJob($@"Loading other textures");
+                        job.AddLoadUnloadedTextures();
+                        job.StartJobAsync();
+                    });
                     _scheduleUnloadedTexturesLoad = false;
                 }
             }
@@ -925,7 +928,7 @@ namespace StudioCore.Resource
                         }
                         else
                         {
-                            ImGui.ProgressBar((float)job.Value / (float)size);
+                            ImGui.ProgressBar((float)job.Value / (float)size, new Vector2(386.0f, 20.0f));
                         }
                     }
                 }

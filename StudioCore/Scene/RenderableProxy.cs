@@ -49,17 +49,21 @@ namespace StudioCore.Scene
 
         internal void ScheduleRenderableConstruction()
         {
-            Renderer.AddBackgroundUploadTask((gd, cl) =>
+            Renderer.AddLowPriorityBackgroundUploadTask((gd, cl) =>
             {
+                var ctx = Tracy.TracyCZoneN(1, $@"Renderable construction");
                 ConstructRenderables(gd, cl, null);
+                Tracy.TracyCZoneEnd(ctx);
             });
         }
 
         internal void ScheduleRenderableUpdate()
         {
-            Renderer.AddBackgroundUploadTask((gd, cl) =>
+            Renderer.AddLowPriorityBackgroundUploadTask((gd, cl) =>
             {
+                var ctx = Tracy.TracyCZoneN(1, $@"Renderable update");
                 UpdateRenderables(gd, cl, null);
+                Tracy.TracyCZoneEnd(ctx);
             });
         }
 
