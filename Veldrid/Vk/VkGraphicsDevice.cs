@@ -21,6 +21,8 @@ namespace Veldrid.Vk
         private VkDeviceMemoryManager _memoryManager;
         private VkPhysicalDeviceProperties _physicalDeviceProperties;
         private VkPhysicalDeviceFeatures _physicalDeviceFeatures;
+        private VkPhysicalDeviceVulkan11Features _physicalDeviceFeatures11;
+        private VkPhysicalDeviceVulkan12Features _physicalDeviceFeatures12;
         private VkPhysicalDeviceMemoryProperties _physicalDeviceMemProperties;
         private VkDevice _device;
         private uint _graphicsQueueIndex;
@@ -695,6 +697,16 @@ namespace Veldrid.Vk
             deviceFeatures.shaderInt64 = VkBool32.True;
             deviceFeatures.fragmentStoresAndAtomics = VkBool32.True;
 
+            VkPhysicalDeviceVulkan11Features deviceFeatures11 = new VkPhysicalDeviceVulkan11Features();
+            deviceFeatures11.storageBuffer16BitAccess = VkBool32.True;
+
+            VkPhysicalDeviceVulkan12Features deviceFeatures12 = new VkPhysicalDeviceVulkan12Features();
+            deviceFeatures12.descriptorIndexing = VkBool32.True;
+            deviceFeatures12.descriptorBindingVariableDescriptorCount = VkBool32.True;
+            deviceFeatures12.runtimeDescriptorArray = VkBool32.True;
+            deviceFeatures12.shaderSampledImageArrayNonUniformIndexing = VkBool32.True;
+            deviceFeatures11.pNext = &deviceFeatures12;
+
             int propertyCount = 0;
             VkResult result = vkEnumerateDeviceExtensionProperties(_physicalDevice, (byte*)null, &propertyCount, null);
             CheckResult(result);
@@ -769,18 +781,12 @@ namespace Veldrid.Vk
             deviceCreateInfo.enabledExtensionCount = extensionNames.Count;
             deviceCreateInfo.ppEnabledExtensionNames = (byte**)extensionNames.Data;
 
-            // TODO descriptor indexing stuff
-            VkPhysicalDeviceDescriptorIndexingFeatures descriptorIndexingFeatures = new VkPhysicalDeviceDescriptorIndexingFeatures();
-            descriptorIndexingFeatures.shaderSampledImageArrayNonUniformIndexing = VkBool32.True;
-            descriptorIndexingFeatures.runtimeDescriptorArray = VkBool32.True;
-            descriptorIndexingFeatures.descriptorBindingVariableDescriptorCount = VkBool32.True;
-
-            VkPhysicalDeviceFeatures2 physicalDeviceFeatures2KHR = new VkPhysicalDeviceFeatures2();
-            physicalDeviceFeatures2KHR.sType = VkStructureType.PhysicalDeviceFeatures2KHR;
-            physicalDeviceFeatures2KHR.features = deviceFeatures;
+            VkPhysicalDeviceFeatures2 physicalDeviceFeatures2 = new VkPhysicalDeviceFeatures2();
+            physicalDeviceFeatures2.sType = VkStructureType.PhysicalDeviceFeatures2;
+            physicalDeviceFeatures2.features = deviceFeatures;
             deviceCreateInfo.pEnabledFeatures = null;
-            physicalDeviceFeatures2KHR.pNext = &descriptorIndexingFeatures;
-            deviceCreateInfo.pNext = &physicalDeviceFeatures2KHR;
+            physicalDeviceFeatures2.pNext = &deviceFeatures11;
+            deviceCreateInfo.pNext = &physicalDeviceFeatures2;
             
 
             result = vkCreateDevice(_physicalDevice, &deviceCreateInfo, null, out _device);

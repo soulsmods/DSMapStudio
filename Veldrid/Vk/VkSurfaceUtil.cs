@@ -33,6 +33,7 @@ namespace Veldrid.Vk
         {
             VkWin32SurfaceCreateInfoKHR surfaceCI = new VkWin32SurfaceCreateInfoKHR
             {
+                sType = VkStructureType.Win32SurfaceCreateInfoKHR,
                 hwnd = win32Source.Hwnd,
                 hinstance = win32Source.Hinstance
             };

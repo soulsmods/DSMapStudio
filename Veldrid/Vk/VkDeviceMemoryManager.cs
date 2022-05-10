@@ -68,6 +68,7 @@ namespace Veldrid.Vk
             Vortice.Vulkan.VkBuffer dedicatedBuffer)
         {
             // Round up to the nearest multiple of bufferImageGranularity.
+            ulong originalSize = size;
             size = ((size / _bufferImageGranularity) + 1) * _bufferImageGranularity;
             _totalAllocatedBytes += size;
 
@@ -82,7 +83,7 @@ namespace Veldrid.Vk
                 if (dedicated || size >= minDedicatedAllocationSize)
                 {
                     VkMemoryAllocateInfo allocateInfo = new VkMemoryAllocateInfo();
-                    allocateInfo.allocationSize = size;
+                    allocateInfo.allocationSize = originalSize;
                     allocateInfo.memoryTypeIndex = memoryTypeIndex;
 
                     VkMemoryDedicatedAllocateInfo dedicatedAI;
@@ -103,7 +104,7 @@ namespace Veldrid.Vk
                     void* mappedPtr = null;
                     if (persistentMapped)
                     {
-                        VkResult mapResult = vkMapMemory(_device, memory, 0, size, 0, &mappedPtr);
+                        VkResult mapResult = vkMapMemory(_device, memory, 0, originalSize, 0, &mappedPtr);
                         if (mapResult != VkResult.Success)
                         {
                             throw new VeldridException("Unable to map newly-allocated Vulkan memory.");

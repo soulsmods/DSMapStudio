@@ -58,7 +58,7 @@ namespace StudioCore
 
         public static RenderDoc RenderDocManager;
 
-        private const bool UseRenderdoc = true;
+        private const bool UseRenderdoc = false;
 
         private AssetLocator _assetLocator;
         private Editor.ProjectSettings _projectSettings = null;
