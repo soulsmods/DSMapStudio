@@ -837,7 +837,7 @@ namespace StudioCore
                         AttemptLoadProject(_newProjectSettings, $@"{_newProjectDirectory}\project.json", true);
                         if (_newProjectLoadDefaultNames)
                         {
-                            ParamEditor.ParamBank.LoadParamDefaultNames();
+                            new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
                             ParamEditor.ParamBank.SaveParams(_newProjectSettings.UseLooseParams);
                         }
 

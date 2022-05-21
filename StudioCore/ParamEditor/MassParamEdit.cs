@@ -236,7 +236,7 @@ namespace StudioCore.ParamEditor
             return options;
         }
 
-        public static MassEditResult PerformMassEdit(string commandsString, ActionManager actionManager, string contextActiveParam, List<PARAM.Row> contextActiveRows)
+        public static (MassEditResult, ActionManager child) PerformMassEdit(string commandsString, string contextActiveParam, List<PARAM.Row> contextActiveRows)
         {
             string[] commands = commandsString.Split('\n');
             int changeCount = 0;
@@ -284,7 +284,7 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                             if (opparamcontext.Equals(opparam))
-                                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not look up field {opparam} in row {row.Name}");
+                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not look up field {opparam} in row {row.Name}"), null);
                         }
                         
                         changeCount += affectedCells.Count;
@@ -293,7 +293,7 @@ namespace StudioCore.ParamEditor
                             object newval = PerformOperation(cell, op, opparamcontext);
                             if (newval == null)
                             {
-                                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparamcontext} on field {cell.Def.InternalName}");
+                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparamcontext} on field {cell.Def.InternalName}"), null);
                             }
                             partialActions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
                         }
@@ -302,7 +302,7 @@ namespace StudioCore.ParamEditor
                             string newval = PerformNameOperation(row.Name, op, opparamcontext);
                             if (newval == null)
                             {
-                                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparamcontext} on name");
+                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparamcontext} on name"), null);
                             }
                             partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, newval));
                         
@@ -311,12 +311,11 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    return new MassEditResult(MassEditResultType.PARSEERROR, $@"Unrecognised command {command}");
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unrecognised command {command}"), null);
                 }
                 childManager.ExecuteAction(new CompoundAction(partialActions));
             }
-            actionManager.PushSubManager(childManager);
-            return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected");
+            return (new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected"), childManager);
         }
 
         public static List<PARAM> GetMatchingParams(Regex paramrx)
@@ -581,13 +580,13 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             }
         }
-        public static MassEditResult PerformSingleMassEdit(string csvString, ActionManager actionManager, string param, string field, bool useSpace)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, bool useSpace)
         {
             try
             {
                 PARAM p = ParamBank.Params[param];
                 if (p == null)
-                    return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split('\n');
                 int changeCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
@@ -597,12 +596,12 @@ namespace StudioCore.ParamEditor
                         continue;
                     string[] csvs = csvLine.Split(useSpace ? ' ' : ',', 2, StringSplitOptions.RemoveEmptyEntries);
                     if (csvs.Length != 2)
-                        return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
+                        return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
                     int id = int.Parse(csvs[0]);
                     string value = csvs[1];
                     PARAM.Row row = p[id];
                     if (row == null)
-                        return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}");
+                        return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}"), null);
                     if (field.Equals("Name"))
                     {
                         if (row.Name == null || !row.Name.Equals(value))
@@ -613,38 +612,36 @@ namespace StudioCore.ParamEditor
                         PARAM.Cell cell = row[field];
                         if (cell == null)
                         {
-                            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}");
+                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
                         // Array types are unhandled
                         if (cell.Value.GetType().IsArray)
                             continue;
                         object newval = PerformOperation(cell, "=", value);
                         if (newval == null)
-                            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {cell.Def.InternalName}");
+                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {cell.Def.InternalName}"), null);
                         if (!cell.Value.Equals(newval))
                             actions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
                     }
                 }
                 changeCount = actions.Count;
-                if (changeCount != 0)
-                    actionManager.ExecuteAction(new CompoundAction(actions));
-                return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} rows affected");
+                return (new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} rows affected"), new CompoundAction(actions));
             }
             catch
             {
-                return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
+                return (new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types"), null);
             }
         }
     }
 
     public class MassParamEditOther
     {
-        public static void SortRows(string paramName, ActionManager manager)
+        public static AddParamsAction SortRows(string paramName)
         {
             PARAM param = ParamBank.Params[paramName];
             List<PARAM.Row> newRows = new List<PARAM.Row>(param.Rows.ToArray());
             newRows.Sort((PARAM.Row a, PARAM.Row b)=>{return a.ID - b.ID;});
-            manager.ExecuteAction(new AddParamsAction(param, paramName, newRows, true, true, false)); //appending same params and allowing overwrite
+            return new AddParamsAction(param, paramName, newRows, true, true, false); //appending same params and allowing overwrite
         }
     }
 }
