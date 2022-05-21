@@ -1,0 +1,7 @@
+exeName:DarkSoulsIII
+paramBase:0x4782838
+paramInnerPath:0x68/0x68
+paramCountOffset:0xA
+paramDataOffset:0x40
+rowPointerOffset:0x8
+rowHeaderSize:0x18

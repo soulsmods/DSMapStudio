@@ -477,74 +477,43 @@ namespace StudioCore
             }
             return ad;
         }
-    	public string GetAliasAssetsDir()
+        private string GetGameIDForDir()
         {
-            string game;
             switch (Type)
             {
                 case GameType.DemonsSouls:
-                    game = "DES";
-                    break;
+                    return "DES";
                 case GameType.DarkSoulsPTDE:
-                    game = "DS1";
-                    break;
+                    return "DS1";
                 case GameType.DarkSoulsRemastered:
-                    game = "DS1R";
-                    break;
+                    return "DS1R";
                 case GameType.DarkSoulsIISOTFS:
-                    game = "DS2S";
-                    break;
+                    return "DS2S";
                 case GameType.Bloodborne:
-                    game = "BB";
-                    break;
+                    return "BB";
                 case GameType.DarkSoulsIII:
-                    game = "DS3";
-                    break;
+                    return "DS3";
                 case GameType.Sekiro:
-                    game = "SDT";
-                    break;
+                    return "SDT";
                 case GameType.EldenRing:
-                    game = "ER";
-                    break;
+                    return "ER";
                 default:
                     throw new Exception("Game type not set");
             }
-            return  $@"Assets\Aliases\{game}";
+        }
+    	public string GetAliasAssetsDir()
+        {
+            return  $@"Assets\Aliases\{GetGameIDForDir()}";
+        }
+
+        public string GetGameOffsetsAssetsDir()
+        {
+            return  $@"Assets\GameOffsets\{GetGameIDForDir()}";
         }
 
         public string GetParamAssetsDir()
         {
-            string game;
-            switch (Type)
-            {
-                case GameType.DemonsSouls:
-                    game = "DES";
-                    break;
-                case GameType.DarkSoulsPTDE:
-                    game = "DS1";
-                    break;
-                case GameType.DarkSoulsRemastered:
-                    game = "DS1R";
-                    break;
-                case GameType.DarkSoulsIISOTFS:
-                    game = "DS2S";
-                    break;
-                case GameType.Bloodborne:
-                    game = "BB";
-                    break;
-                case GameType.DarkSoulsIII:
-                    game = "DS3";
-                    break;
-                case GameType.Sekiro:
-                    game = "SDT";
-                    break;
-                case GameType.EldenRing:
-                    game = "ER";
-                    break;
-                default:
-                    throw new Exception("Game type not set");
-            }
-            return  $@"Assets\Paramdex\{game}";
+            return  $@"Assets\Paramdex\{GetGameIDForDir()}";
         }
 
         public string GetParamdefDir()
