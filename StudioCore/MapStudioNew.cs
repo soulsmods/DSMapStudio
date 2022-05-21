@@ -239,6 +239,8 @@ namespace StudioCore
 
         public void Run()
         {
+            SetupCSharpDefaults();
+            SetupParamStudioConfig();
             /*Task.Run(() =>
             {
                 while (true)
