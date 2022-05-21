@@ -522,7 +522,7 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
-                string[] csvLines = csvString.Split('\n');
+                string[] csvLines = csvString.Split("\n");
                 int changeCount = 0;
                 int addedCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
@@ -531,7 +531,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (csvLine.Trim().Equals(""))
                         continue;
-                    string[] csvs = csvLine.Split(',');
+                    string[] csvs = csvLine.Trim().Split(',');
                     if (csvs.Length != csvLength || csvs.Length < 2)
                     {
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
@@ -580,14 +580,14 @@ namespace StudioCore.ParamEditor
                 PARAM p = ParamBank.Params[param];
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
-                string[] csvLines = csvString.Split('\n');
+                string[] csvLines = csvString.Split("\n");
                 int changeCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
                 foreach (string csvLine in csvLines)
                 {
                     if (csvLine.Trim().Equals(""))
                         continue;
-                    string[] csvs = csvLine.Split(useSpace ? ' ' : ',', 2, StringSplitOptions.RemoveEmptyEntries);
+                    string[] csvs = csvLine.Trim().Split(useSpace ? ' ' : ',', 2, StringSplitOptions.RemoveEmptyEntries);
                     if (csvs.Length != 2)
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
                     int id = int.Parse(csvs[0]);
