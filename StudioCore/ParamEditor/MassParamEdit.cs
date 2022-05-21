@@ -97,6 +97,13 @@ namespace StudioCore.ParamEditor
                 {
                     return name + opparam;
                 }
+                if (op.Equals("replace"))
+                {
+                    string[] split = opparam.Split(":");
+                    if (split.Length!=2)
+                        return null;
+                    return name.Replace(split[0], split[1]);
+                }
             }
             catch
             {
@@ -147,7 +154,7 @@ namespace StudioCore.ParamEditor
         // eg "correctFaith: "
         private static readonly string fieldRx = $@"(?<fieldrx>[^:]+):\s+";
         // eg "* 2;
-        private static readonly string opRx = $@"(?<op>=|\+|-|\*|/|ref)\s+";
+        private static readonly string opRx = $@"(?<op>=|\+|-|\*|/|ref|replace)\s+";
         private static readonly string opFieldRx = $@"{opRx}(?<fieldtype>field\s+)?";
         private static readonly string operationRx = $@"{opFieldRx}(?<opparam>[^;]+);";
 
@@ -184,6 +191,7 @@ namespace StudioCore.ParamEditor
                 options.Add("* ");
                 options.Add("/ ");
                 options.Add("ref ");
+                options.Add("replace ");
                 return options;
             }
             if (new Regex($@"({paramrowfilterselection}|({paramfilterRx}{rowfilterRx}:\s+))").IsMatch(text))

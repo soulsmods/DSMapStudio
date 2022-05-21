@@ -32,6 +32,7 @@ The valid values of OP are:
     '+' adds the given value to the value of the field
     '-' subtracts the given value from the value of the field
     'ref' searches for a row with a given name in a field supporting references and assigns it to that field
+    'replace' works for names only, and requires an argument in the form stringA:stringB, where stringA is replaced by stringB.
 
 A complete command may look like the following DS3 examples:
 selection: throwAtkRate: = 30;
