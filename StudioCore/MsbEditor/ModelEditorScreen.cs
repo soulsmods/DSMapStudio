@@ -119,7 +119,7 @@ namespace StudioCore.MsbEditor
                 asset = AssetLocator.GetChrModel(modelid);
                 assettex = AssetLocator.GetChrTextures(modelid);
             }
-            else if (modelid.StartsWith("o"))
+            else if (modelid.StartsWith("o") || modelid.StartsWith("aeg"))
             {
                 asset = AssetLocator.GetObjModel(modelid);
                 assettex = AssetLocator.GetNullAsset();
@@ -276,7 +276,7 @@ namespace StudioCore.MsbEditor
 
         public override void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
-            if (AssetLocator.Type != GameType.Undefined && AssetLocator.Type != GameType.EldenRing) //TODO ER
+            if (AssetLocator.Type != GameType.Undefined)
             {
                 _assetBrowser.RebuildCaches();
             }

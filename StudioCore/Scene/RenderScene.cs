@@ -113,23 +113,23 @@ namespace StudioCore.Scene
             }
             watch2.Stop();
             CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);*/
-            var watch = Stopwatch.StartNew();
+            var ctx = Tracy.TracyCZoneNC(1, "Cull", 0xFF00FF00);
             OpaqueRenderables.CullRenderables(frustum);
             OpaqueRenderables.ProcessSceneVisibility(DrawFilter, DisplayGroup);
-            watch.Stop();
-            OctreeCullTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
+            Tracy.TracyCZoneEnd(ctx);
 
-            var watch2 = Stopwatch.StartNew();
+            ctx = Tracy.TracyCZoneN(1, "Submit");
             OpaqueRenderables.SubmitRenderables(queue);
-            watch2.Stop();
-            CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
+            Tracy.TracyCZoneEnd(ctx);
 
             queue.SetDrawParameters(OpaqueRenderables.cDrawParameters, _pickingEnabled ? OpaqueRenderables.cSelectionPipelines : OpaqueRenderables.cPipelines);
 
+            ctx = Tracy.TracyCZoneN(1, "Overlays");
             OverlayRenderables.CullRenderables(frustum);
             OverlayRenderables.ProcessSceneVisibility(DrawFilter, DisplayGroup);
             OverlayRenderables.SubmitRenderables(overlayQueue);
             overlayQueue.SetDrawParameters(OverlayRenderables.cDrawParameters, _pickingEnabled ? OverlayRenderables.cSelectionPipelines : OverlayRenderables.cPipelines);
+            Tracy.TracyCZoneEnd(ctx);
 
             _pickingEnabled = false;
         }

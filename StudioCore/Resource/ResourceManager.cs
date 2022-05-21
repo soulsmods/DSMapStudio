@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,8 +86,10 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                var ctx = Tracy.TracyCZoneN(1, "LoadResourceFromBytesTask::Run");
                 handle._LoadResource(bytes, AccessLevel, Game);
                 bytes = null;
+                Tracy.TracyCZoneEnd(ctx);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -121,7 +124,9 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                var ctx = Tracy.TracyCZoneN(1, $@"LoadResourceFromFileTask::Run {file}");
                 handle._LoadResource(file, AccessLevel, Game);
+                Tracy.TracyCZoneEnd(ctx);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -158,10 +163,12 @@ namespace StudioCore.Resource
 
             public void Run()
             {
+                var ctx = Tracy.TracyCZoneN(1, $@"LoadTPFResourcesTask::Run {_virtpathbase}");
                 if (!CFG.Current.EnableTexturing)
                 {
                     _pendingResources.Clear();
                     _tpf = null;
+                    Tracy.TracyCZoneEnd(ctx);
                     return;
                 }
 
@@ -178,6 +185,7 @@ namespace StudioCore.Resource
                 }
                 _pendingResources.Clear();
                 _tpf = null;
+                Tracy.TracyCZoneEnd(ctx);
             }
 
             public Task RunAsync(IProgress<int> progress)
@@ -346,6 +354,7 @@ namespace StudioCore.Resource
             {
                 return BinderTaskFactory.StartNew(() =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"LoadBinderResourcesTask::RunAsync {BinderVirtualPath}");
                     ProcessBinder();
                     if (!PopulateResourcesOnly)
                     {
@@ -428,6 +437,7 @@ namespace StudioCore.Resource
                         LoadingTasks.RemoveAt(idx);
                     }
                     Binder = null;
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
 
@@ -512,6 +522,7 @@ namespace StudioCore.Resource
             {
                 return JobTaskFactory.StartNew(() =>
                 {
+                    var ctx = Tracy.TracyCZoneN(1, $@"ResourceJob::RunAsync {Name}");
                     TotalSize = 0;
                     int i = 0;
                     foreach (var t in TaskList)
@@ -547,6 +558,7 @@ namespace StudioCore.Resource
                         TaskList.Clear();
                     }
                     Finished = true;
+                    Tracy.TracyCZoneEnd(ctx);
                 });
             }
         }
@@ -664,6 +676,39 @@ namespace StudioCore.Resource
                 }
             }
 
+            /// <summary>
+            /// Looks for unloaded textures and queues them up for loading. References to parts and Elden Ring AETs depend on this
+            /// </summary>
+            public void AddLoadUnloadedTextures()
+            {
+                var assetTpfs = new HashSet<string>();
+                foreach (var r in ResourceDatabase)
+                {
+                    if (r.Value is TextureResourceHande t && t.AccessLevel == AccessLevel.AccessUnloaded &&
+                        t.GetReferenceCounts() > 0)
+                    {
+                        var texpath = r.Key;
+                        string path = null;
+                        if (texpath.StartsWith("aet/"))
+                        {
+                            var splits = texpath.Split('/');
+                            var aetid = splits[1];
+                            var aetname = splits[2];
+                            var fullaetid = aetname.Substring(0, 10);
+                            path = $@"{Locator.GameRootDirectory}\asset\aet\{aetid.Substring(0, 6)}\{fullaetid}.tpf.dcx";
+                            if (assetTpfs.Contains(fullaetid))
+                                continue;
+                            assetTpfs.Add(fullaetid);
+                        }
+                        if (path != null && File.Exists(path))
+                        {
+                            var task = new LoadTPFResourcesTask(Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
+                            Tasks.Add(task);
+                        }
+                    }
+                }
+            }
+
             public Task StartJobAsync()
             {
                 // Build the job, register it with the task manager, and start it
@@ -704,6 +749,7 @@ namespace StudioCore.Resource
         private static bool AddingResource = false;
 
         private static bool _scheduleUDSFMLoad = false;
+        private static bool _scheduleUnloadedTexturesLoad = false;
 
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)
         {
@@ -800,6 +846,11 @@ namespace StudioCore.Resource
             _scheduleUDSFMLoad = true;
         }
 
+        public static void ScheduleUnloadedTexturesRefresh()
+        {
+            _scheduleUnloadedTexturesLoad = true;
+        }
+
         public static void UpdateTasks()
         {
             int count = ActiveJobProgress.Count();
@@ -823,7 +874,9 @@ namespace StudioCore.Resource
             {
                 if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
                 {
+                    var ctx = Tracy.TracyCZoneN(1, "Flush Staging buffer");
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
+                    Tracy.TracyCZoneEnd(ctx);
                 }
                 if (_prevCount > 0)
                 {
@@ -835,6 +888,13 @@ namespace StudioCore.Resource
                     job.AddLoadUDSFMTexturesTask();
                     job.StartJobAsync();
                     _scheduleUDSFMLoad = false;
+                }
+                if (_scheduleUnloadedTexturesLoad)
+                {
+                    var job = CreateNewJob($@"Loading other textures");
+                    job.AddLoadUnloadedTextures();
+                    job.StartJobAsync();
+                    _scheduleUnloadedTexturesLoad = false;
                 }
             }
             _prevCount = count;

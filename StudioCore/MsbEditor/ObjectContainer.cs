@@ -395,6 +395,37 @@ namespace StudioCore.MsbEditor
             m.Models.Add(model);
         }
 
+        private void AddModelER(IMsb m, MSBE.Model model, string name)
+        {
+            if (LoadedModels[name] != null)
+            {
+                m.Models.Add(LoadedModels[name]);
+                return;
+            }
+            model.Name = name;
+            if (model is MSBE.Model.MapPiece)
+            {
+                model.SibPath = $@"N:\GR\data\Model\map\{Name}\sib\{name}.sib";
+            }
+            else if (model is MSBE.Model.Asset)
+            {
+                model.SibPath = $@"N:\GR\data\Asset\Environment\geometry\{name.Substring(0, 6)}\{name}\sib\{name}.sib";
+            }
+            else if (model is MSBE.Model.Enemy)
+            {
+                model.SibPath = $@"N:\GR\data\Model\chr\{name}\sib\{name}.sib";
+            }
+            else if (model is MSBE.Model.Collision)
+            {
+                model.SibPath = $@"N:\GR\data\Model\map\{Name}\hkt\{name}.hkt";
+            }
+            else if (model is MSBE.Model.Player)
+            {
+                model.SibPath = $@"N:\GR\data\Model\chr\{name}\sib\{name}.sib";
+            }
+            m.Models.Add(model);
+        }
+
         private void AddModel<T>(IMsb m, string name) where T : IMsbModel, new()
         {
             var model = new T();
@@ -558,6 +589,30 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void AddModelsER(IMsb msb)
+        {
+            foreach (var mk in LoadedModels.OrderBy(q => q.Key))
+            {
+                var m = mk.Key;
+                if (m.StartsWith("m"))
+                {
+                    AddModelER(msb, new MSBE.Model.MapPiece() { Name = m }, m);
+                }
+                if (m.StartsWith("h"))
+                {
+                    AddModelER(msb, new MSBE.Model.Collision() { Name = m }, m);
+                }
+                if (m.StartsWith("AEG"))
+                {
+                    AddModelER(msb, new MSBE.Model.Asset() { Name = m }, m);
+                }
+                if (m.StartsWith("c"))
+                {
+                    AddModelER(msb, new MSBE.Model.Enemy() { Name = m }, m);
+                }
+            }
+        }
+
         public void SerializeToMSB(IMsb msb, GameType game)
         {
             foreach (var m in Objects)
@@ -604,7 +659,10 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsSekiro(msb);
             }
-            //TODO: ER
+            else if (game == GameType.EldenRing)
+            {
+                AddModelsER(msb);
+            }
         }
 
         public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)

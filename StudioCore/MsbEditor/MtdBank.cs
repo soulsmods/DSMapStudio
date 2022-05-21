@@ -11,12 +11,23 @@ namespace StudioCore.MsbEditor
         private static AssetLocator AssetLocator = null;
 
         private static Dictionary<string, MTD> _mtds = null;
+        private static Dictionary<string, MATBIN> _matbins = null;
+
+        public static bool IsMatbin { get; private set; }
 
         public static IReadOnlyDictionary<string, MTD> Mtds
         {
             get
             {
                 return _mtds;
+            }
+        }
+
+        public static IReadOnlyDictionary<string, MATBIN> Matbins
+        {
+            get
+            {
+                return _matbins;
             }
         }
 
@@ -27,23 +38,44 @@ namespace StudioCore.MsbEditor
             {
                 mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
             }
-            //TODO: ER
+            else if (AssetLocator.Type == GameType.EldenRing)
+            {
+                mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
+                IsMatbin = true;
+            }
 
             if (mtdBinder == null)
             {
                 return;
             }
 
-            _mtds = new Dictionary<string, MTD>();
-            foreach (var f in mtdBinder.Files)
+            if (IsMatbin)
             {
-                var mtdname = Path.GetFileNameWithoutExtension(f.Name);
-                // Because *certain* mods contain duplicate entries for the same material
-                if (!_mtds.ContainsKey(mtdname))
+                _matbins = new Dictionary<string, MATBIN>();
+                foreach (var f in mtdBinder.Files)
                 {
-                    _mtds.Add(mtdname, MTD.Read(f.Bytes));
+                    var matname = Path.GetFileNameWithoutExtension(f.Name);
+                    // Because *certain* mods contain duplicate entries for the same material
+                    if (!_matbins.ContainsKey(matname))
+                    {
+                        _matbins.Add(matname, MATBIN.Read(f.Bytes));
+                    }
                 }
             }
+            else
+            {
+            _mtds = new Dictionary<string, MTD>();
+                foreach (var f in mtdBinder.Files)
+                {
+                    var mtdname = Path.GetFileNameWithoutExtension(f.Name);
+                    // Because *certain* mods contain duplicate entries for the same material
+                    if (!_mtds.ContainsKey(mtdname))
+                    {
+                        _mtds.Add(mtdname, MTD.Read(f.Bytes));
+                    }
+                }
+            }
+
         }
 
         public static void LoadMtds(AssetLocator l)

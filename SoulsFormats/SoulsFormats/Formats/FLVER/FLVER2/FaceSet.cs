@@ -131,6 +131,17 @@ namespace SoulsFormats
                 {
                     IndicesCount = indexCount;
                     Indices = br.GetInt32s(dataOffset + indicesOffset, indexCount);
+                } else if(indexSize == 16)
+                {
+                    IndicesCount = indexCount;
+                    br.StepIn(dataOffset + indicesOffset);
+                    Indices = new int[indexCount];
+                    for (int i = 0; i < indexCount; i++)
+                    {
+                        Indices[i] = br.ReadInt16();
+                    }
+                    br.StepOut();
+
                 }
                 else
                 {

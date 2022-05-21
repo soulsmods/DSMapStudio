@@ -18,7 +18,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "ParamStudio Merge ++";
+        private static string _version = "Elden Ring Test";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -259,9 +259,12 @@ namespace StudioCore
             long previousFrameTicks = 0;
             Stopwatch sw = new Stopwatch();
             sw.Start();
+            Tracy.Startup();
             while (_window.Exists)
             {
-                bool focused = _window.Focused;
+                Tracy.TracyCFrameMark();
+
+                bool focused = true;// _window.Focused;
                 if (!focused)
                 {
                     _desiredFrameLengthSeconds = 1.0 / 20.0f;
@@ -273,28 +276,34 @@ namespace StudioCore
                 long currentFrameTicks = sw.ElapsedTicks;
                 double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
 
+                var ctx = Tracy.TracyCZoneNC(1, "Sleep", 0xFF0000FF);
                 while (_limitFrameRate && deltaSeconds < _desiredFrameLengthSeconds)
                 {
                     currentFrameTicks = sw.ElapsedTicks;
                     deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
                     System.Threading.Thread.Sleep(focused ? 0 : 1);
                 }
+                Tracy.TracyCZoneEnd(ctx);
 
                 previousFrameTicks = currentFrameTicks;
 
+                ctx = Tracy.TracyCZoneNC(1, "Update", 0xFF00FF00);
                 InputSnapshot snapshot = null;
                 Sdl2Events.ProcessEvents();
                 snapshot = _window.PumpEvents();
                 InputTracker.UpdateFrameInput(snapshot, _window);
                 Update((float)deltaSeconds);
+                Tracy.TracyCZoneEnd(ctx);
                 if (!_window.Exists)
                 {
                     break;
                 }
 
-                if (_window.Focused)
+                if (true)//_window.Focused)
                 {
+                    ctx = Tracy.TracyCZoneNC(1, "Draw", 0xFFFF0000);
                     Draw();
+                    Tracy.TracyCZoneEnd(ctx);
                 }
                 else
                 {
@@ -304,6 +313,7 @@ namespace StudioCore
             }
 
             //DestroyAllObjects();
+            Tracy.Shutdown();
             Resource.ResourceManager.Shutdown();
             _gd.Dispose();
             CFG.Save();
@@ -487,7 +497,9 @@ namespace StudioCore
 
         private void Update(float deltaseconds)
         {
+            var ctx = Tracy.TracyCZoneN(1, "Imgui");
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
+            Tracy.TracyCZoneEnd(ctx);
             List<string> tasks = Editor.TaskManager.GetLiveThreads();
             //_window.Title = tasks.Count == 0 ? "Dark Souls Param Studio " + _version : String.Join(", ", tasks);
 
@@ -504,6 +516,7 @@ namespace StudioCore
                 _user32_ShowWindow(_window.Handle, 9);
             }
 
+            ctx = Tracy.TracyCZoneN(1, "Style");
             ImGui.BeginFrame(); // Imguizmo begin frame
             ApplyStyle();
             var vp = ImGui.GetMainViewport();
@@ -524,7 +537,9 @@ namespace StudioCore
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
             ImGui.PopStyleVar(1);
             ImGui.End();
+            Tracy.TracyCZoneEnd(ctx);
 
+            ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
             if (ImGui.BeginMainMenuBar())
@@ -667,9 +682,18 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
+                if (ImGui.BeginMenu("Tests"))
+                {
+                    if (ImGui.MenuItem("MSBE read/write test"))
+                    {
+                        Tests.MSBReadWrite.Run(_assetLocator);
+                    }
+                    ImGui.EndMenu();
+                }
                 ImGui.EndMainMenuBar();
             }
             ImGui.PopStyleVar();
+            Tracy.TracyCZoneEnd(ctx);
 
             // New project modal
             if (newProject)
@@ -866,6 +890,7 @@ namespace StudioCore
                 mapcmds = commandsplit.Skip(1).ToArray();
                 ImGui.SetNextWindowFocus();
             }
+            ctx = Tracy.TracyCZoneN(1, "Editor");
             if (ImGui.Begin("Map Editor"))
             {
                 ImGui.PopStyleVar(1);
@@ -935,8 +960,11 @@ namespace StudioCore
 
             ImGui.PopStyleVar(2);
             UnapplyStyle();
+            Tracy.TracyCZoneEnd(ctx);
 
+            ctx = Tracy.TracyCZoneN(1, "Resource");
             Resource.ResourceManager.UpdateTasks();
+            Tracy.TracyCZoneEnd(ctx);
 
             if (!_firstframe)
             {

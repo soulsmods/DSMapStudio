@@ -120,6 +120,10 @@ namespace StudioCore.MsbEditor
             bool loadnav = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
             var amapid = map.Name.Substring(0, 6) + "_00_00";
+            if (_assetLocator.Type == GameType.EldenRing)
+            {
+                amapid = map.Name;
+            }
             // Special case for chalice dungeon assets
             if (map.Name.StartsWith("m29"))
             {
@@ -136,7 +140,7 @@ namespace StudioCore.MsbEditor
                 asset = _assetLocator.GetChrModel(modelname);
                 filt = Scene.RenderFilter.Character;
             }
-            else if (modelname.StartsWith("o"))
+            else if (modelname.StartsWith("o") || modelname.StartsWith("AEG"))
             {
                 asset = _assetLocator.GetObjModel(modelname);
                 filt = Scene.RenderFilter.Object;
@@ -432,6 +436,10 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSBS.Read(ad.AssetPath);
             }
+            else if (_assetLocator.Type == GameType.EldenRing)
+            {
+                msb = MSBE.Read(ad.AssetPath);
+            }
             else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 msb = MSB2.Read(ad.AssetPath);
@@ -448,10 +456,14 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSB1.Read(ad.AssetPath);
             }
-            //TODO: ER
             map.LoadMSB(msb);
 
             var amapid = mapid.Substring(0, 6) + "_00_00";
+            if (_assetLocator.Type == GameType.EldenRing)
+            {
+                // Elden Ring all maps have their own assets
+                amapid = mapid;
+            }
             // Special case for chalice dungeon assets
             if (mapid.StartsWith("m29"))
             {
@@ -476,7 +488,7 @@ namespace StudioCore.MsbEditor
                         chrsToLoad.Add(tasset);
                     }
                 }
-                else if (model.Name.StartsWith("o"))
+                else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
                 {
                     asset = _assetLocator.GetObjModel(model.Name);
                     objsToLoad.Add(asset);
@@ -658,6 +670,7 @@ namespace StudioCore.MsbEditor
             {
                 ResourceManager.ScheduleUDSMFRefresh();
             }
+            ResourceManager.ScheduleUnloadedTexturesRefresh();
 
             return true;
         }
@@ -870,6 +883,15 @@ namespace StudioCore.MsbEditor
                 msb = n;
                 compressionType = DCX.Type.DCX_DFLT_10000_44_9;
             }
+            if (_assetLocator.Type == GameType.EldenRing)
+            {
+                MSBE prev = MSBE.Read(ad.AssetPath);
+                MSBE n = new MSBE();
+                n.Layers = prev.Layers;
+                n.Routes = prev.Routes;
+                msb = n;
+                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
+            }
             else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 MSB2 prev = MSB2.Read(ad.AssetPath);
@@ -905,7 +927,6 @@ namespace StudioCore.MsbEditor
                 //var t = MSB1.Read(ad.AssetPath);
                 //((MSB1)msb).Models = t.Models;
             }
-            //TODO: ER
 
             map.SerializeToMSB(msb, _assetLocator.Type);
 

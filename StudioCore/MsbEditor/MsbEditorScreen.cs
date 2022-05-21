@@ -559,9 +559,14 @@ namespace StudioCore.MsbEditor
                 case GameType.Sekiro:
                     msbclass = typeof(MSBS);
                     break;
+                case GameType.EldenRing:
+                    // TODO
+                    _partsClasses = new List<(string, Type)>();
+                    _regionClasses = new List<(string, Type)>();
+                    _eventClasses = new List<(string, Type)>();
+                    return;
                 default:
                     throw new ArgumentException("type must be valid");
-                //TODO: ER
             }
 
             var partType = msbclass.GetNestedType("Part");
@@ -590,7 +595,7 @@ namespace StudioCore.MsbEditor
             GC.Collect();
             Universe.PopulateMapList();
 
-            if (AssetLocator.Type != GameType.Undefined && AssetLocator.Type != GameType.EldenRing) //TODO ER
+            if (AssetLocator.Type != GameType.Undefined)
             {
                 PopulateClassNames(AssetLocator.Type);
             }

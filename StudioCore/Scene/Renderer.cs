@@ -346,7 +346,7 @@ namespace StudioCore.Scene
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    _drawEncoders.Add(new IndirectDrawEncoder(40000));
+                    _drawEncoders.Add(new IndirectDrawEncoder(50000));
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;
@@ -395,31 +395,44 @@ namespace StudioCore.Scene
                 var watch = Stopwatch.StartNew();
 
                 // Build draws for current frame and kick off a buffer update
+                var ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute Sort");
                 Sort();
+                Tracy.TracyCZoneEnd(ctx);
 
+                ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute pre-draw");
                 ResourceUpdateCommandList.Begin();
                 ResourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
                 PreDrawSetup.Invoke(Device, drawCommandList);
                 ResourceUpdateCommandList.PopDebugGroup();
+                Tracy.TracyCZoneEnd(ctx);
 
+                ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute encode draws");
                 foreach (var obj in Indices)
                 {
                     var o = Renderables[obj.ItemIndex];
                     _drawEncoders[_nextBuffer].AddDraw(ref _drawParameters[o], _pipelines[o]);
                 }
+                Tracy.TracyCZoneEnd(ctx);
 
+                ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute waiting for fence (stall)");
                 Device.WaitForFence(lastOutstandingDrawFence);
+                Tracy.TracyCZoneEnd(ctx);
+
+                ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute update indirect buffer");
                 ResourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
                 _drawEncoders[_currentBuffer].UpdateBuffer(ResourceUpdateCommandList);
                 ResourceUpdateCommandList.PopDebugGroup();
                 ResourceUpdateCommandList.End();
                 Device.SubmitCommands(ResourceUpdateCommandList, _resourcesUpdatedFence[_currentBuffer]);
+                Tracy.TracyCZoneEnd(ctx);
 
                 // Wait on the last outstanding frame in flight and submit the draws
                 //Device.WaitForFence(_resourcesUpdatedFence[_nextBuffer], ulong.MaxValue - 1);
+                ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute submit draw");
                 drawCommandList.InsertDebugMarker($@"{Name}: Draw");
                 _drawEncoders[_currentBuffer].SubmitBatches(drawCommandList, Pipeline);
                 drawCommandList.PopDebugGroup();
+                Tracy.TracyCZoneEnd(ctx);
                 watch.Stop();
                 CPURenderTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
             }
@@ -553,13 +566,16 @@ namespace StudioCore.Scene
 
         public static Fence Frame(CommandList drawCommandList, bool backgroundOnly)
         {
+            var ctx = Tracy.TracyCZoneN(1, "RenderQueue::Frame");
             MainCommandList.Begin();
 
+            var ctx2 = Tracy.TracyCZoneN(1, "RenderQueue::Frame Background work");
             Queue<Action<GraphicsDevice, CommandList>> work;
             bool cleanTexPool = false;
             bool cleanCubeTexPool = false;
             lock (BackgroundUploadQueue)
             {
+                var ctx3 = Tracy.TracyCZoneN(1, "Regenerate descriptor tables");
                 if (GlobalTexturePool.DescriptorTableDirty)
                 {
                     GlobalTexturePool.RegenerateDescriptorTables();
@@ -571,20 +587,27 @@ namespace StudioCore.Scene
                     GlobalCubeTexturePool.RegenerateDescriptorTables();
                     cleanCubeTexPool = true;
                 }
+                Tracy.TracyCZoneEnd(ctx3);
 
                 work = new Queue<Action<GraphicsDevice, CommandList>>(BackgroundUploadQueue);
                 BackgroundUploadQueue.Clear();
             }
             int workitems = work.Count();
+            var ctx4 = Tracy.TracyCZoneN(1, $@"Perform {workitems} background work items");
             while (work.Count() > 0)
             {
                 work.Dequeue().Invoke(Device, MainCommandList);
                 //work.Dequeue().Invoke(Device, drawCommandList);
             }
+            Tracy.TracyCZoneEnd(ctx4);
 
+            ctx4 = Tracy.TracyCZoneN(1, $@"Submit background work items");
             MainCommandList.End();
             Device.SubmitCommands(MainCommandList);
+            Tracy.TracyCZoneEnd(ctx4);
+            Tracy.TracyCZoneEnd(ctx2);
 
+            ctx2 = Tracy.TracyCZoneN(1, "RenderQueue::Frame Transfer work");
             // Notify finished transfers
             if (_asyncTransfers.Count > 0)
             {
@@ -630,6 +653,8 @@ namespace StudioCore.Scene
                 TransferCommandList.End();
                 Device.SubmitCommands(TransferCommandList, fence);
             }
+            Tracy.TracyCZoneEnd(ctx2);
+
 
             if (cleanTexPool)
             {
@@ -653,6 +678,7 @@ namespace StudioCore.Scene
             }
 
             // Handle readbacks
+            ctx2 = Tracy.TracyCZoneN(1, "RenderQueue::Frame Readback work");
             if (_readbackFence.Signaled)
             {
                 foreach (var entry in _readbackPendingQueue)
@@ -691,10 +717,14 @@ namespace StudioCore.Scene
                 _readyForReadback = false;
                 _readbackPendingFence = -1;
             }
+            Tracy.TracyCZoneEnd(ctx2);
 
+            ctx2 = Tracy.TracyCZoneN(1, "RenderQueue::Frame Stall waiting for fence");
             _currentBuffer = _nextBuffer;
             Device.WaitForFence(_drawFences[_prevBuffer]);
             _drawFences[_prevBuffer].Reset();
+            Tracy.TracyCZoneEnd(ctx2);
+            Tracy.TracyCZoneEnd(ctx);
             return _drawFences[_prevBuffer];
         }
 

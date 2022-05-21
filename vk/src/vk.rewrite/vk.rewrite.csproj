@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="Build;Publish">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Exe</OutputType>
     <AssemblyName>vk.rewrite</AssemblyName>
     <RootNamespace>Vk.Generator.Rewrite</RootNamespace>
