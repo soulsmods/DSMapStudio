@@ -239,6 +239,8 @@ namespace StudioCore
 
         public void Run()
         {
+            SetupCSharpDefaults();
+            SetupParamStudioConfig();
             /*Task.Run(() =>
             {
                 while (true)
@@ -464,7 +466,7 @@ namespace StudioCore
                         System.Windows.Forms.MessageBoxIcon.None);
                     return false;
                 }
-                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
+                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
                 {
                     //Technically we're not checking it exists, but the same can be said for many things we assume from CheckFilesExpanded
                     File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
@@ -616,7 +618,7 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Save", "Ctrl-S"))
+                    if (ImGui.MenuItem("Save", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
                     {
                         _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
                         if (_msbEditorFocused)
@@ -636,7 +638,7 @@ namespace StudioCore
                             _textEditor.Save();
                         }
                     }
-                    if (ImGui.MenuItem("Save All", ""))
+                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft)||InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -861,7 +863,7 @@ namespace StudioCore
                         AttemptLoadProject(_newProjectSettings, $@"{_newProjectDirectory}\project.json", true);
                         if (_newProjectLoadDefaultNames)
                         {
-                            ParamEditor.ParamBank.LoadParamDefaultNames();
+                            new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
                             ParamEditor.ParamBank.SaveParams(_newProjectSettings.UseLooseParams);
                         }
 

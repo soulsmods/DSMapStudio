@@ -197,14 +197,20 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.MenuItem("Sort rows by ID", _activeView._selection.paramSelectionExists()))
                 {
-                    MassParamEditOther.SortRows(_activeView._selection.getActiveParam(), EditorActionManager);
+                    EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(_activeView._selection.getActiveParam()));
                 }
                 if (ImGui.MenuItem("Load Default Row Names"))
                 {
                     try {
-                        ParamBank.LoadParamDefaultNames();
+                        EditorActionManager.ExecuteAction(ParamBank.LoadParamDefaultNames());
                     } catch {
-
+                    }
+                }
+                if (ImGui.MenuItem("Trim hidden newlines in names"))
+                {
+                    try {
+                        EditorActionManager.PushSubManager(ParamBank.TrimNewlineChrsFromNames());
+                    } catch {
                     }
                 }
                 ImGui.EndMenu();
@@ -257,14 +263,29 @@ namespace StudioCore.ParamEditor
             }
             if (ImGui.BeginMenu("Game"))
             {
-                if (ImGui.MenuItem("Hot Reload Params", "F5", false, _projectSettings != null && _projectSettings.GameType == GameType.DarkSoulsIII && ParamBank.IsLoadingParams == false))
+                if (ImGui.BeginMenu("Hot Reload Params"))
                 {
-                    ParamReloader.ReloadMemoryParamsDS3();
+                    if (ImGui.MenuItem("Current Param", "F5", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
+                    {
+                        ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
+                    }
+                    if (ImGui.MenuItem("All Params", "Shift-F5", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
+                    {
+                        ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, ParamBank.Params.Keys.ToArray());
+                    }
+                    foreach (string param in ParamReloader.GetReloadableParams(ParamBank.AssetLocator))
+                    {
+                        if (ImGui.MenuItem(param, "", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
+                        {
+                            ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[]{param});
+                        }
+                    }
+                    ImGui.EndMenu();
                 }
                 string activeParam = _activeView._selection.getActiveParam();
                 if (activeParam != null && _projectSettings.GameType == GameType.DarkSoulsIII)
                 {
-                    ParamReloader.GiveItemMenu(_activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
+                    ParamReloader.GiveItemMenu(ParamBank.AssetLocator, _activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
                 }
                 ImGui.EndMenu();
             }
@@ -316,7 +337,9 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     _activeView._selection.sortSelection();
-                    MassEditResult r = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, EditorActionManager, _activeView._selection.getActiveParam(), _activeView._selection.getSelectedRows());
+                    (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, _activeView._selection.getActiveParam(), _activeView._selection.getSelectedRows());
+                    if (child != null)
+                        EditorActionManager.PushSubManager(child);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
@@ -365,7 +388,9 @@ namespace StudioCore.ParamEditor
                 ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, _currentMEditSingleCSVSpaces);
+                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, _currentMEditSingleCSVSpaces);
+                    if (a != null)
+                        EditorActionManager.ExecuteAction(a);
                     _mEditCSVResult = r.Information;
                 }
                 ImGui.Text(_mEditCSVResult);
@@ -427,9 +452,12 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            if (InputTracker.GetKey(Key.F5) && _projectSettings != null && _projectSettings.GameType == GameType.DarkSoulsIII && ParamBank.IsLoadingParams == false)
+            if (InputTracker.GetKey(Key.F5) && _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false)
             {
-                ParamReloader.ReloadMemoryParamsDS3();
+                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, ParamBank.Params.Keys.ToArray());
+                else
+                    ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
             }
 
             if (ParamBank.Params == null)

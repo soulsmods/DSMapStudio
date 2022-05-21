@@ -18,7 +18,7 @@ namespace StudioCore.ParamEditor
     public class ParamBank
     {
         private static PARAM EnemyParam = null;
-        private static AssetLocator AssetLocator = null;
+        internal static AssetLocator AssetLocator = null;
 
         private static Dictionary<string, PARAM> _params = null;
         private static Dictionary<string, PARAM> _vanillaParams = null;
@@ -110,10 +110,11 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public static void LoadParamDefaultNames()
+        public static CompoundAction LoadParamDefaultNames()
         {
             var dir = AssetLocator.GetParamNamesDir();
             var files = Directory.GetFiles(dir, "*.txt");
+            List<EditorAction> actions = new List<EditorAction>();
             while (IsLoadingParams); //super hack
                 Thread.Sleep(100);
             foreach (var f in files)
@@ -124,8 +125,15 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(param))
                     continue;
                 string names = File.ReadAllText(f);
-                MassEditResult r = MassParamEditCSV.PerformSingleMassEdit(names, new ActionManager(), param, "Name", true);
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", true);
+                actions.Add(a);
             }
+            return new CompoundAction(actions);
+        }
+        public static ActionManager TrimNewlineChrsFromNames()
+        {
+            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null, null);
+            return child;
         }
 
         private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, PARAM> paramBank)
