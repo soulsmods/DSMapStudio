@@ -535,6 +535,7 @@ namespace SoulsFormats
             /// <summary>
             /// If specified, the region is only active when the part is loaded.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string ActivationPartName { get; set; }
             private int ActivationPartIndex;
 
@@ -839,7 +840,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int MapID { get; set; }
+                public int MapID2 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -884,7 +885,7 @@ namespace SoulsFormats
                     UnkT0F = br.ReadBoolean();
                     UnkT10 = br.ReadSingle();
                     UnkT14 = br.ReadSingle();
-                    MapID = br.ReadInt32();
+                    MapID2 = br.ReadInt32();
                     br.AssertInt32(0);
                     UnkT20 = br.ReadInt32();
                     UnkT24 = br.ReadInt32();
@@ -905,7 +906,7 @@ namespace SoulsFormats
                     bw.WriteBoolean(UnkT0F);
                     bw.WriteSingle(UnkT10);
                     bw.WriteSingle(UnkT14);
-                    bw.WriteInt32(MapID);
+                    bw.WriteInt32(MapID2);
                     bw.WriteInt32(0);
                     bw.WriteInt32(UnkT20);
                     bw.WriteInt32(UnkT24);
@@ -937,6 +938,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// References to other regions used to build a composite shape.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] ChildRegionNames { get; private set; }
                 private int[] ChildRegionIndices;
 
@@ -1050,6 +1052,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Reference to a WindArea region.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string WindAreaName { get; set; }
                 private int WindAreaIndex;
 
@@ -1376,7 +1379,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public uint MapID { get; set; }
+                public uint MapID2 { get; set; }
 
                 /// <summary>
                 /// Creates a Connection with default values.
@@ -1387,7 +1390,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    MapID = br.ReadUInt32();
+                    MapID2 = br.ReadUInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1395,7 +1398,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteUInt32(MapID);
+                    bw.WriteUInt32(MapID2);
                     bw.WriteUInt32(0);
                     bw.WriteUInt32(0);
                     bw.WriteUInt32(0);

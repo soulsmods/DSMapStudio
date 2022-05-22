@@ -1034,6 +1034,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Reference to a map piece or collision; believed to determine when the object is loaded.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjPartName1 { get; set; }
                 private int ObjPartIndex1;
 
@@ -1075,12 +1076,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Reference to a collision; believed to be involved with loading when grappling to the object.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string ObjPartName2 { get; set; }
                 private int ObjPartIndex2;
 
                 /// <summary>
                 /// Reference to a collision; believed to be involved with loading when grappling to the object.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string ObjPartName3 { get; set; }
                 private int ObjPartIndex3;
 
@@ -1234,6 +1237,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Should reference the collision the enemy starts on.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionPartName { get; set; }
                 private int CollisionPartIndex;
 
@@ -1761,6 +1765,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The collision part to attach to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 

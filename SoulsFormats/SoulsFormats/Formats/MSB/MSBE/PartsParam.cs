@@ -1475,11 +1475,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// An ID in NPCThinkParam that determines the enemy's AI characteristics.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// An ID in NPCParam that determines a variety of enemy properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -1500,11 +1502,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// An ID in CharaInitParam that determines a human's inventory and stats.
                 /// </summary>
+                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
                 /// Should reference the collision the enemy starts on.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionPartName { get; set; }
                 private int CollisionPartIndex;
 
@@ -2214,6 +2218,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The collision part to attach to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -2424,6 +2429,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] UnkPartNames { get; private set; }
                 private int[] UnkPartIndices;
 

@@ -672,6 +672,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// References to other regions used to build a composite shape.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] ChildRegionNames { get; private set; }
                 private int[] ChildRegionIndices;
 
@@ -792,6 +793,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Reference to a WindArea region.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string WindAreaName { get; set; }
                 private int WindAreaIndex;
 

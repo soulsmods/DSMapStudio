@@ -209,7 +209,7 @@ namespace StudioCore
                         result *= Matrix4x4.CreateRotationX(parentBone.Rotation.X);
                         result *= Matrix4x4.CreateRotationZ(parentBone.Rotation.Z);
                         result *= Matrix4x4.CreateRotationY(parentBone.Rotation.Y);
-                        result *= Matrix4x4.CreateTranslation(parentBone.Translation.X, parentBone.Translation.Y, parentBone.Translation.Z);
+                        result *= Matrix4x4.CreateTranslation(parentBone.Position.X, parentBone.Position.Y, parentBone.Position.Z);
 
                         if (parentBone.ParentIndex >= 0)
                             parentBone = boneList[parentBone.ParentIndex];

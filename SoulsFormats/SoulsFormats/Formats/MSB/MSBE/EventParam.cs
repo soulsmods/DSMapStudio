@@ -202,12 +202,14 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Region))]
             public string RegionName { get; set; }
             private int RegionIndex;
 
@@ -410,17 +412,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part that the treasure is attached to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string TreasurePartName { get; set; }
                 private int TreasurePartIndex;
 
                 /// <summary>
                 /// The item lot to be given.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLotID { get; set; }
 
                 /// <summary>
                 /// If not -1, uses an entry from ActionButtonParam for the pickup prompt.
                 /// </summary>
+                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonID { get; set; }
 
                 /// <summary>
@@ -560,12 +565,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions where parts will spawn from.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnRegionNames { get; private set; }
                 private int[] SpawnRegionIndices;
 
                 /// <summary>
                 /// Parts that will be respawned.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -657,17 +664,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown why objacts need an extra entity ID.
                 /// </summary>
+                [MSBEntityReference]
                 public int ObjActEntityID { get; set; }
 
                 /// <summary>
                 /// The part to be interacted with.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
                 /// <summary>
                 /// A row in ObjActParam.
                 /// </summary>
+                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActID { get; set; }
 
                 /// <summary>
@@ -744,6 +754,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string NavmeshRegionName { get; set; }
                 private int NavmeshRegionIndex;
 
@@ -794,6 +805,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The NPC whose world you're entering.
                 /// </summary>
+                [MSBEntityReference]
                 public int HostEntityID { get; set; }
 
                 /// <summary>
@@ -894,6 +906,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartsNames { get; private set; }
                 private int[] GroupPartsIndices;
 
@@ -960,6 +973,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkRegionNames { get; private set; }
                 private short[] WalkRegionIndices;
 
@@ -1031,12 +1045,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string RiderPartName { get; set; }
                 private int RiderPartIndex;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string MountPartName { get; set; }
                 private int MountPartIndex;
 
@@ -1089,7 +1105,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public string SignPartName;
+                [MSBReference(ReferenceType = typeof(Part))]
+                public string SignPartName { get; set; }
                 private int SignPartIndex;
 
                 /// <summary>
@@ -1147,6 +1164,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string RetryPartName { get; set; }
                 private int RetryPartIndex;
 
@@ -1163,6 +1181,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string RetryRegionName { get; set; }
                 private short RetryRegionIndex;
 
