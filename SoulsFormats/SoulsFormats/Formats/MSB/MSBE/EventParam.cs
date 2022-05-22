@@ -1031,30 +1031,50 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public string RiderPartName { get; set; }
+                private int RiderPartIndex;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT04 { get; set; }
+                public string MountPartName { get; set; }
+                private int MountPartIndex;
 
                 /// <summary>
                 /// Creates a Mount with default values.
                 /// </summary>
-                public Mount() : base($"{nameof(Event)}: {nameof(Mount)}") { }
+                public Mount() : base($"{nameof(Event)}: {nameof(Mount)}")
+                {
+                    RiderPartIndex = -1;
+                    MountPartIndex = -1;
+                }
 
                 internal Mount(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
+                    RiderPartIndex = br.ReadInt32();
+                    MountPartIndex = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
-                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(RiderPartIndex);
+                    bw.WriteInt32(MountPartIndex);
+                }
+
+                internal override void GetNames(MSBE msb, Entries entries)
+                {
+                    base.GetNames(msb, entries);
+                    RiderPartName = MSB.FindName(entries.Parts, RiderPartIndex);
+                    MountPartName = MSB.FindName(entries.Parts, MountPartIndex);
+                }
+
+                internal override void GetIndices(MSBE msb, Entries entries)
+                {
+                    base.GetIndices(msb, entries);
+                    RiderPartIndex = MSB.FindIndex(entries.Parts, RiderPartName);
+                    MountPartIndex = MSB.FindIndex(entries.Parts, MountPartName);
                 }
             }
 
@@ -1069,7 +1089,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public string SignPartName;
+                private int SignPartIndex;
 
                 /// <summary>
                 /// Unknown.
@@ -1079,13 +1100,16 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a SignPool with default values.
                 /// </summary>
-                public SignPool() : base($"{nameof(Event)}: {nameof(SignPool)}") { }
+                public SignPool() : base($"{nameof(Event)}: {nameof(SignPool)}")
+                {
+                    SignPartIndex = -1;
+                }
 
                 internal SignPool(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    SignPartIndex = br.ReadInt32();
                     UnkT04 = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1093,10 +1117,22 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(SignPartIndex);
                     bw.WriteInt32(UnkT04);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
+                }
+
+                internal override void GetNames(MSBE msb, Entries entries)
+                {
+                    base.GetNames(msb, entries);
+                    SignPartName = MSB.FindName(entries.Parts, SignPartIndex);
+                }
+
+                internal override void GetIndices(MSBE msb, Entries entries)
+                {
+                    base.GetIndices(msb, entries);
+                    SignPartIndex = MSB.FindIndex(entries.Parts, SignPartName);
                 }
             }
 
@@ -1111,7 +1147,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public string RetryPartName { get; set; }
+                private int RetryPartIndex;
 
                 /// <summary>
                 /// Unknown.
@@ -1126,7 +1163,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT0C { get; set; }
+                public string RetryRegionName { get; set; }
+                private short RetryRegionIndex;
 
                 /// <summary>
                 /// Creates a SignPool with default values.
@@ -1137,18 +1175,34 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    RetryPartIndex = br.ReadInt32();
                     UnkT04 = br.ReadInt32();
                     UnkT08 = br.ReadSingle();
-                    UnkT0C = br.ReadInt32();
+                    RetryRegionIndex = br.ReadInt16();
+                    br.AssertInt16(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(RetryPartIndex);
                     bw.WriteInt32(UnkT04);
                     bw.WriteSingle(UnkT08);
-                    bw.WriteInt32(UnkT0C);
+                    bw.WriteInt16(RetryRegionIndex);
+                    bw.WriteInt16(0);
+                }
+
+                internal override void GetNames(MSBE msb, Entries entries)
+                {
+                    base.GetNames(msb, entries);
+                    RetryPartName = MSB.FindName(entries.Parts, RetryPartIndex);
+                    RetryRegionName = MSB.FindName(entries.Regions, RetryRegionIndex);
+                }
+
+                internal override void GetIndices(MSBE msb, Entries entries)
+                {
+                    base.GetIndices(msb, entries);
+                    RetryPartIndex = MSB.FindIndex(entries.Parts, RetryPartName);
+                    RetryRegionIndex = (short)MSB.FindIndex(entries.Regions, RetryRegionName);
                 }
             }
 

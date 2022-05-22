@@ -743,6 +743,16 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                public uint[] DisplayGroups { get; private set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public uint[] DrawGroups { get; private set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public uint[] CollisionMask { get; private set; }
 
                 /// <summary>
@@ -780,7 +790,9 @@ namespace SoulsFormats
                 /// </summary>
                 public UnkStruct1()
                 {
-                    CollisionMask = new uint[48];
+                    DisplayGroups = new uint[8];
+                    DrawGroups = new uint[8];
+                    CollisionMask = new uint[32];
                     Condition1 = 0;
                     Condition2 = 0;
                     UnkC2 = 0;
@@ -801,7 +813,9 @@ namespace SoulsFormats
 
                 internal UnkStruct1(BinaryReaderEx br)
                 {
-                    CollisionMask = br.ReadUInt32s(48);
+                    DisplayGroups = br.ReadUInt32s(8);
+                    DrawGroups = br.ReadUInt32s(8);
+                    CollisionMask = br.ReadUInt32s(32);
                     Condition1 = br.ReadByte();
                     Condition2 = br.ReadByte();
                     UnkC2 = br.ReadByte();
@@ -813,6 +827,8 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
+                    bw.WriteUInt32s(DisplayGroups);
+                    bw.WriteUInt32s(DrawGroups);
                     bw.WriteUInt32s(CollisionMask);
                     bw.WriteByte(Condition1);
                     bw.WriteByte(Condition2);
@@ -2408,32 +2424,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT38 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT3C { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT40 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT44 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT48 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT4C { get; set; }
+                public string[] UnkPartNames { get; private set; }
+                private int[] UnkPartIndices;
 
                 /// <summary>
                 /// Unknown.
@@ -2941,6 +2933,8 @@ namespace SoulsFormats
                     AssetUnk2 = new AssetUnkStruct2();
                     AssetUnk3 = new AssetUnkStruct3();
                     AssetUnk4 = new AssetUnkStruct4();
+
+                    UnkPartNames = new string[6];
                 }
 
                 private protected override void DeepCopyTo(Part part)
@@ -2959,6 +2953,8 @@ namespace SoulsFormats
                     asset.AssetUnk2 = AssetUnk2.DeepCopy();
                     asset.AssetUnk3 = AssetUnk3.DeepCopy();
                     asset.AssetUnk4 = AssetUnk4.DeepCopy();
+
+                    UnkPartNames = (string[])UnkPartNames.Clone();
                 }
 
                 internal Asset(BinaryReaderEx br) : base(br) { }
@@ -2984,12 +2980,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     UnkT30 = br.ReadInt32();
                     UnkT34 = br.ReadInt32();
-                    UnkT38 = br.ReadInt32();
-                    UnkT3C = br.ReadInt32();
-                    UnkT40 = br.ReadInt32();
-                    UnkT44 = br.ReadInt32();
-                    UnkT48 = br.ReadInt32();
-                    UnkT4C = br.ReadInt32();
+                    UnkPartIndices = br.ReadInt32s(6);
                     UnkT50 = br.ReadBoolean();
                     UnkT51 = br.ReadByte();
                     br.AssertByte(0);
@@ -3042,12 +3033,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(UnkT30);
                     bw.WriteInt32(UnkT34);
-                    bw.WriteInt32(UnkT38);
-                    bw.WriteInt32(UnkT3C);
-                    bw.WriteInt32(UnkT40);
-                    bw.WriteInt32(UnkT44);
-                    bw.WriteInt32(UnkT48);
-                    bw.WriteInt32(UnkT4C);
+                    bw.WriteInt32s(UnkPartIndices);
                     bw.WriteBoolean(UnkT50);                
                     bw.WriteByte(UnkT51);
                     bw.WriteByte(0);
@@ -3081,11 +3067,13 @@ namespace SoulsFormats
                 internal override void GetNames(MSBE msb, Entries entries)
                 {
                     base.GetNames(msb, entries);
+                    UnkPartNames = MSB.FindNames(entries.Parts, UnkPartIndices);
                 }
 
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
+                    UnkPartIndices = MSB.FindIndices(entries.Parts, UnkPartNames);
                 }
             }
         }
