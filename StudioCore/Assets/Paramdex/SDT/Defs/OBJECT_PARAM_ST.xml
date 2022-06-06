@@ -87,6 +87,7 @@
     <Field Def="dummy8 pad1[12]" />
     <Field Def="u8 NULL_BOOLEAN:1" />
     <Field Def="u8 UseHavokFunction:1" />
+    <Field Def="u8 pad2:6" />
     <Field Def="u8 Unk42" />
     <Field Def="u16 Unk43" />
     <Field Def="s32 Unk44" />
@@ -99,6 +100,6 @@
     <Field Def="f32 Unk51" />
     <Field Def="f32 Unk52" />
     <Field Def="f32 UnkParam" />
-    <Field Def="dummy8 pad2[16]" />
+    <Field Def="dummy8 pad3[16]" />
   </Fields>
 </PARAMDEF>
