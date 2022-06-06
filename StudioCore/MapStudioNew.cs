@@ -18,7 +18,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Elden Ring Test";
+        private static string _version = "Param Build";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -670,9 +670,14 @@ namespace StudioCore
                 }
                 if (ImGui.BeginMenu("Help"))
                 {
+                    if (ImGui.BeginMenu("How to use"))
+                    {
+                        ImGui.Text("Usage of many features is assisted through the symbol (?).\nIn many cases, right clicking items will provide further information and options.");
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("About"))
                     {
-                        ImGui.Text("DSParamStudio is forked from Katalash's DSMapStudio and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
+                        ImGui.Text("DSParamStudio was forked and merged back into Katalash's DSMapStudio, and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
                         ImGui.EndMenu();
                     }
                     if (ImGui.BeginMenu("Edits aren't sticking!"))
