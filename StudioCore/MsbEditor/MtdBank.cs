@@ -37,6 +37,7 @@ namespace StudioCore.MsbEditor
             if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
             {
                 mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
+                IsMatbin = false;
             }
             else if (AssetLocator.Type == GameType.EldenRing)
             {
