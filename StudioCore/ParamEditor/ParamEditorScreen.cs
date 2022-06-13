@@ -344,7 +344,7 @@ namespace StudioCore.ParamEditor
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
-                        TaskManager.Run("PB:RefreshDirtyCache", false, true, () => ParamBank.refreshParamDirtyCache());
+                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
                     }
                     _mEditRegexResult = r.Information;
                 }
@@ -374,7 +374,7 @@ namespace StudioCore.ParamEditor
                     MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
-                        TaskManager.Run("PB:RefreshDirtyCache", false, true, () => ParamBank.refreshParamDirtyCache());
+                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
                     }
                     _mEditCSVResult = r.Information;
                 }
@@ -411,12 +411,12 @@ namespace StudioCore.ParamEditor
                 if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
                 {
                     EditorActionManager.UndoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, () => ParamBank.refreshParamDirtyCache());
+                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
                 }
                 if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
                 {
                     EditorActionManager.RedoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, () => ParamBank.refreshParamDirtyCache());
+                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {

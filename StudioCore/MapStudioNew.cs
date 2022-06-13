@@ -1,5 +1,5 @@
 ﻿using ImGuiNET;
-using StudioCore.MsbEditor;
+using StudioCore.Editor;
 using StudioCore.Scene;
 using System;
 using System.Collections.Generic;
@@ -325,14 +325,40 @@ namespace StudioCore
         {
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
-            Editor.AliasBank.ReloadAliases();
-            ParamEditor.ParamBank.ReloadParams(newsettings);
-            TextEditor.FMGBank.ReloadFMGs();
-            MsbEditor.MtdBank.ReloadMtds();
-            _msbEditor.OnProjectChanged(_projectSettings);
-            _modelEditor.OnProjectChanged(_projectSettings);
-            _paramEditor.OnProjectChanged(_projectSettings);
-            _textEditor.OnProjectChanged(_projectSettings);
+
+            TaskManager.Run("AB:LoadAliases", true, false, true, () =>
+            {
+                Editor.AliasBank.ReloadAliases();
+            });
+            TaskManager.Run("PB:LoadParams", true, false, true, () =>
+            {
+                ParamEditor.ParamBank.ReloadParams(newsettings);
+            });
+            TaskManager.Run("FB:Reload", true, false, true, () =>
+            {
+                TextEditor.FMGBank.ReloadFMGs();
+            });
+            TaskManager.Run("MB:LoadMtds", true, false, true, ()=>{
+                MsbEditor.MtdBank.ReloadMtds();
+            });
+            
+            //Resources loaded here should be moved to databanks
+            TaskManager.Run("MSBE:ProjectChanged", true, false, true, ()=>
+            {
+                _msbEditor.OnProjectChanged(_projectSettings);
+            });
+            TaskManager.Run("MODELE:ProjectChanged", true, false, true, ()=>
+            {
+                _modelEditor.OnProjectChanged(_projectSettings);
+            });
+            TaskManager.Run("PARAME:ProjectChanged", true, false, true, ()=>
+            {
+                _paramEditor.OnProjectChanged(_projectSettings);
+            });
+            TaskManager.Run("TEXTE:ProjectChanged", true, false, true, ()=>
+            {
+                _textEditor.OnProjectChanged(_projectSettings);
+            });
         }
 
         public void ApplyStyle()
@@ -694,6 +720,23 @@ namespace StudioCore
                     if (ImGui.MenuItem("MSBE read/write test"))
                     {
                         Tests.MSBReadWrite.Run(_assetLocator);
+                    }
+                    ImGui.EndMenu();
+                }
+                if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
+                {
+                    foreach (String task in TaskManager.GetLiveThreads()) {
+                        ImGui.Text(task);
+                    }
+                    ImGui.EndMenu();
+                }
+                if (TaskManager.warningList.Count > 0 && ImGui.BeginMenu("Warnings"))
+                {
+                    foreach (var task in TaskManager.warningList) {
+                        if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
+                        {
+                            TaskManager.warningList.TryRemove(task);
+                        }
                     }
                     ImGui.EndMenu();
                 }

@@ -505,6 +505,8 @@ namespace StudioCore.MsbEditor
                 {
                     var map = lm.Value;
                     var mapid = lm.Key;
+                    if (mapid == null)
+                        continue;
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
                     if (map != null && _selection.GetSelection().Contains(map.RootObject))
                     {
