@@ -18,7 +18,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Elden Ring Test 2";
+        private static string _version = "Elden Ring Test 3";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -466,7 +466,7 @@ namespace StudioCore
                         System.Windows.Forms.MessageBoxIcon.None);
                     return false;
                 }
-                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
+                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
                 {
                     //Technically we're not checking it exists, but the same can be said for many things we assume from CheckFilesExpanded
                     File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
@@ -672,9 +672,14 @@ namespace StudioCore
                 }
                 if (ImGui.BeginMenu("Help"))
                 {
+                    if (ImGui.BeginMenu("How to use"))
+                    {
+                        ImGui.Text("Usage of many features is assisted through the symbol (?).\nIn many cases, right clicking items will provide further information and options.");
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("About"))
                     {
-                        ImGui.Text("DSParamStudio is forked from Katalash's DSMapStudio and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
+                        ImGui.Text("DSParamStudio was forked and merged back into Katalash's DSMapStudio, and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
                         ImGui.EndMenu();
                     }
                     if (ImGui.BeginMenu("Edits aren't sticking!"))
@@ -865,7 +870,7 @@ namespace StudioCore
                         AttemptLoadProject(_newProjectSettings, $@"{_newProjectDirectory}\project.json", true);
                         if (_newProjectLoadDefaultNames)
                         {
-                            ParamEditor.ParamBank.LoadParamDefaultNames();
+                            new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
                             ParamEditor.ParamBank.SaveParams(_newProjectSettings.UseLooseParams);
                         }
 
