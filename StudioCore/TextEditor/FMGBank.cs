@@ -495,6 +495,8 @@ namespace StudioCore.TextEditor
 
         public static void SaveFMGs()
         {
+            if (!IsLoaded)
+                return;
             if (AssetLocator.Type == GameType.Undefined)
             {
                 return;

@@ -341,24 +341,19 @@ namespace StudioCore
             TaskManager.Run("MB:LoadMtds", true, false, true, ()=>{
                 MsbEditor.MtdBank.ReloadMtds();
             });
+
+            TaskManager.Run("U:LoadUniverse", true, false, true, ()=>{
+                _msbEditor.ReloadUniverse();
+            });
+            TaskManager.Run("Model:LoadAssetBrowser", true, false, true, ()=>{
+                _modelEditor.ReloadAssetBrowser();
+            });
             
             //Resources loaded here should be moved to databanks
-            TaskManager.Run("MSBE:ProjectChanged", true, false, true, ()=>
-            {
-                _msbEditor.OnProjectChanged(_projectSettings);
-            });
-            TaskManager.Run("MODELE:ProjectChanged", true, false, true, ()=>
-            {
-                _modelEditor.OnProjectChanged(_projectSettings);
-            });
-            TaskManager.Run("PARAME:ProjectChanged", true, false, true, ()=>
-            {
-                _paramEditor.OnProjectChanged(_projectSettings);
-            });
-            TaskManager.Run("TEXTE:ProjectChanged", true, false, true, ()=>
-            {
-                _textEditor.OnProjectChanged(_projectSettings);
-            });
+            _msbEditor.OnProjectChanged(_projectSettings);
+            _modelEditor.OnProjectChanged(_projectSettings);
+            _paramEditor.OnProjectChanged(_projectSettings);
+            _textEditor.OnProjectChanged(_projectSettings);
         }
 
         public void ApplyStyle()

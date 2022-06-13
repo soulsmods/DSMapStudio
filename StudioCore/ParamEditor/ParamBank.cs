@@ -178,8 +178,9 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists($@"{dir}\\param\gameparam\{paramBinderName}"))
             {
-                MessageBox.Show("Could not find DES regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DES regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DES regulation file. Functionality will be limited.");
             }
 
             // Load params
@@ -209,8 +210,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS1 regulation file. Functionality will be limited.");
             }
 
             // Load params
@@ -235,8 +237,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS1 regulation file. Functionality will be limited.");
             }
 
             // Load params
@@ -261,8 +264,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
             }
 
             // Load params
@@ -305,8 +309,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS2 regulation file. Functionality will be limited.");
             }
             if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
             {
@@ -433,8 +438,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS3 regulation file. Functionality will be limited.");
             }
 
             var vparam = $@"{dir}\Data0.bdt";
@@ -472,8 +478,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
             }
 
             // Load params

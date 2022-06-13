@@ -591,6 +591,9 @@ namespace StudioCore.MsbEditor
             _projectSettings = newSettings;
             _selection.ClearSelection();
             EditorActionManager.Clear();
+        }
+        public void ReloadUniverse()
+        {
             Universe.UnloadAllMaps();
             GC.Collect();
             Universe.PopulateMapList();
