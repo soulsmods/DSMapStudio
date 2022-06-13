@@ -9,7 +9,7 @@ DS Map Studio is a standalone map editor for all the souls games. It is intended
 * **Dark Souls 3 and Sekiro**: Use UXM to extract the game files.
 * **Demon's Souls**: I test against the US version, but any valid full game dump of Demon's Souls will probably work out of the box. Make sure to disable the RPCS3 file cache to test changes if using the emulator.
 * **Bloodborne**: Any valid full game dump should work out of the box. Note that some dumps will have the base game (1.0) and the patch as separate, so the patch should be merged on top of the base game before use with map studio. You're on your own for installing mods to console at the moment.
-* **Elden Ring**: Use UXM to extract the game files.
+* **Elden Ring**: Use UXM QuickHack to extract the game files.
 
 ### Mod projects
 Map studio operates on top of something I call mod projects. These are typically stored in a separate directory from the base game, and all modifies files will be saved there instead of overwriting the base game files. The intended workflow is to install mod engine for your respective game and set the modoverridedirectory in modengine.ini to your mod project directory. This way you don't have to modify base game files (and work on multiple mod projects at a time) and you can easily distribute a mod by zipping up the project directory and uploading it.
