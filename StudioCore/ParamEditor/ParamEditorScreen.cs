@@ -926,6 +926,12 @@ namespace StudioCore.ParamEditor
                 List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
                 foreach (int rowID in pinnedRowList)
                 {
+                    PARAM.Row row = para[rowID];
+                    if (row == null)
+                    {
+                        _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
+                        continue;
+                    }
                     RowColumnEntry(activeParam, null, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
                 }
 
