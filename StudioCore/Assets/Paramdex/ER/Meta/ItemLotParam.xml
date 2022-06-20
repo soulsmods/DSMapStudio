@@ -1,6 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="ItemCategory" type="x32">
+		<Option Value="-1" Name="None" />
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Good" />
+		<Option Value="2" Name="Weapon" />
+		<Option Value="3" Name="Armor" />
+		<Option Value="4" Name="Accessory" />
+		<Option Value="5" Name="Ash of War" />
+		<Option Value="6" Name="Custom Weapon" />
+	  </Enum>
+  </Enums>
   <Field>
+	<lotItemCategory01 Enum="ItemCategory" />
+	<lotItemCategory02 Enum="ItemCategory" />
+	<lotItemCategory03 Enum="ItemCategory" />
+	<lotItemCategory04 Enum="ItemCategory" />
+	<lotItemCategory05 Enum="ItemCategory" />
+	<lotItemCategory06 Enum="ItemCategory" />
+	<lotItemCategory07 Enum="ItemCategory" />
+	<lotItemCategory08 Enum="ItemCategory" />
     <lotItemId01 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
     <lotItemId02 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
     <lotItemId03 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />

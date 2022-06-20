@@ -1,6 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="MovesetAttribute" type="u8">
+		<Option Value="0" Name="Physical" />
+		<Option Value="10" Name="Magic" />
+		<Option Value="11" Name="Fire" />
+		<Option Value="12" Name="Lightning" />
+		<Option Value="13" Name="Holy" />
+		<Option Value="20" Name="Poison" />
+		<Option Value="21" Name="Scarlet Rot" />
+		<Option Value="22" Name="Hemorrhage" />
+		<Option Value="23" Name="Frostbite" />
+		<Option Value="24" Name="Sleep" />
+		<Option Value="25" Name="Madness" />
+		<Option Value="26" Name="Blight" />
+	  </Enum>
+	  <Enum Name="ReinforcementMenuType" type="u8">
+		<Option Value="0" Name="No Reinforcement" />
+		<Option Value="1" Name="Weapon" />
+		<Option Value="2" Name="Sorcery Catalyst" />
+		<Option Value="3" Name="Incantation Catalyst" />
+	  </Enum>
+	  <Enum Name="AshOfWarType" type="s8">
+		<Option Value="0" Name="Prevent Change" />
+		<Option Value="2" Name="Allow Change" />
+	  </Enum>
+  </Enums>
   <Field>
+    <spAttribute Enum="MovesetAttribute" />
+	<reinforceShopCategory Enum="ReinforcementMenuType" />
+	<gemMountType Enum="AshOfWarType" />
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
     <spEffectBehaviorId0 Refs="SpEffectParam" />

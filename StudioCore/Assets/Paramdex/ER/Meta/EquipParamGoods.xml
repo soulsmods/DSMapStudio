@@ -1,6 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="ReferenceType" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Bullet" />
+		<Option Value="2" Name="SpEffect" />
+	  </Enum>
+	  <Enum Name="RegenerativeItemType" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Crimson Tear" />
+		<Option Value="2" Name="Cerulean Tear" />
+	  </Enum>
+	  <Enum Name="ItemDisplayType" type="u8">
+		<Option Value="0" Name="Consumable" />
+		<Option Value="1" Name="Material" />
+		<Option Value="2" Name="Key Item" />
+	  </Enum>
+	  <Enum Name="InteractionMenuType" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Common Interaction" />
+		<Option Value="4" Name="Leave World" />
+		<Option Value="5" Name="Write Message" />
+		<Option Value="10" Name="Invade World (Bloody Finger)" />
+		<Option Value="13" Name="Beckon Spirit Summon" />
+		<Option Value="14" Name="Reveal Summon Signs" />
+		<Option Value="15" Name="Request Aid" />
+		<Option Value="16" Name="Answer Aid Request" />
+		<Option Value="17" Name="Encourage Invasion" />
+		<Option Value="18" Name="Add Summon Sign to Pool" />
+		<Option Value="19" Name="Add Duel Sign to Pool" />
+		<Option Value="20" Name="Place Summon Sign" />
+		<Option Value="21" Name="Invade World (Recusant Finger)" />
+		<Option Value="22" Name="Invade World (Festering Bloody Finger)" />
+	  </Enum>
+	  <Enum Name="GoodsType" type="u8">
+		<Option Value="0" Name="Normal Item" />
+		<Option Value="1" Name="Key Item" />
+		<Option Value="2" Name="Crafting Material" />
+		<Option Value="3" Name="Remembrance" />
+		<Option Value="4" Name="None" />
+		<Option Value="5" Name="Sorcery" />
+		<Option Value="6" Name="None" />
+		<Option Value="7" Name="Spirit Summon - Lesser" />
+		<Option Value="8" Name="Spirit Summon - Greater" />
+		<Option Value="9" Name="Wondrous Physick" />
+		<Option Value="10" Name="Wondrous Physick Tear" />
+		<Option Value="11" Name="Regenerative Material" />
+		<Option Value="12" Name="Info Item" />
+		<Option Value="13" Name="None" />
+		<Option Value="14" Name="Reinforcement Material" />
+		<Option Value="15" Name="Great Rune" />
+		<Option Value="16" Name="Incantation" />
+		<Option Value="17" Name="Self Buff - Sorcery" />
+		<Option Value="18" Name="Self Buff - Incantation" />
+	  </Enum>
+	  <Enum Name="EffectCategory" type="u8">
+		<Option Value="0" Name="SpEffect" />
+		<Option Value="5" Name="Bullet" />
+	  </Enum>
+  </Enums>
   <Field>
+	<goodsType Enum="GoodsType" />
+	<refCategory Enum="ReferenceType" />
+	<spEffectCategory Enum="EffectCategory" />
+	<opmeMenuType Enum="InteractionMenuType" />
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
     <refId_default Refs="AtkParam_Pc,Bullet,SpEffectParam" />

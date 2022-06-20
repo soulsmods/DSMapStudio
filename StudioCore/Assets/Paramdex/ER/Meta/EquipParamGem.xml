@@ -1,6 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="DisplayCategoryID" type="u8">
+		<Option Value="10" Name="Heavy" />
+		<Option Value="20" Name="Keen" />
+		<Option Value="30" Name="Quality" />
+		<Option Value="40" Name="Magic" />
+		<Option Value="50" Name="Fire" />
+		<Option Value="80" Name="Sacred" />
+		<Option Value="90" Name="Aux" />
+		<Option Value="120" Name="Occult" />
+		<Option Value="130" Name="Bow" />
+		<Option Value="140" Name="Shield" />
+		<Option Value="255" Name="None" />
+	  </Enum>
+  </Enums>
   <Field>
+    <sortGroupId Enum="DisplayCategoryID" />
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
     <spEffectId0 Refs="SpEffectParam" />
