@@ -883,7 +883,7 @@ namespace StudioCore.MsbEditor
                 msb = n;
                 compressionType = DCX.Type.DCX_DFLT_10000_44_9;
             }
-            if (_assetLocator.Type == GameType.EldenRing)
+            else if (_assetLocator.Type == GameType.EldenRing)
             {
                 MSBE prev = MSBE.Read(ad.AssetPath);
                 MSBE n = new MSBE();
