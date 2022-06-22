@@ -16,6 +16,10 @@ namespace StudioCore.Editor
         public string GameRoot { get; set; } = "";
         public GameType GameType { get; set; } = GameType.Undefined;
 
+        public List<string> PinnedParams { get; set; } = new List<string>();
+        public Dictionary<string, List<int>> PinnedRows { get; set; } = new Dictionary<string, List<int>>();
+        public Dictionary<string, List<string>> PinnedFields { get; set; } = new Dictionary<string, List<string>>();
+
         /// <summary>
         /// Has different meanings depending on the game, but for supported games
         /// (DS2 and DS3) this means that params are written as "loose" i.e. outside
