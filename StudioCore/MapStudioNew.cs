@@ -313,6 +313,7 @@ namespace StudioCore
             }
 
             //DestroyAllObjects();
+            SaveParamStudioConfig();
             Tracy.Shutdown();
             Resource.ResourceManager.Shutdown();
             _gd.Dispose();
@@ -644,6 +645,7 @@ namespace StudioCore
                     if (ImGui.MenuItem("Save", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
                     {
                         _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
+                        SaveParamStudioConfig();
                         if (_msbEditorFocused)
                         {
                             _msbEditor.Save();
