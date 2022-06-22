@@ -700,6 +700,11 @@ namespace StudioCore
                         ImGui.Text("Usage of many features is assisted through the symbol (?).\nIn many cases, right clicking items will provide further information and options.");
                         ImGui.EndMenu();
                     }
+                    if (ImGui.BeginMenu("Camera Controls"))
+                    {
+                        ImGui.Text("Holding click on the viewport will enable camera controls.\nUse WASD to navigate.\nUse right click to rotate the camera.\nHold Shift to temporarily speed up and Ctrl to temporarily slow down.\nScroll the mouse wheel to adjust overall speed.");
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("About"))
                     {
                         ImGui.Text("DSParamStudio was forked and merged back into Katalash's DSMapStudio, and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");

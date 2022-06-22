@@ -338,7 +338,6 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            ImGui.PopID();
 
             // Invisible item to be a drag drop target between nodes
             if (_pendingDragDrop)
@@ -388,6 +387,7 @@ namespace StudioCore.MsbEditor
                 HierarchyView(e);
                 ImGui.TreePop();
             }
+            ImGui.PopID();
         }
 
         private void HierarchyView(Entity entity)
@@ -531,6 +531,8 @@ namespace StudioCore.MsbEditor
                         ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
                     }
                     ImGui.EndGroup();
+                    if (nodeopen)
+                        ImGui.Indent(); //TreeNodeEx fails to indent as it is inside a group / indentation is reset
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
                     {
