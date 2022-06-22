@@ -118,6 +118,7 @@ namespace StudioCore.MsbEditor
             AssetDescription asset;
             bool loadcol = false;
             bool loadnav = false;
+            bool loadflver = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
             var amapid = map.Name.Substring(0, 6) + "_00_00";
             if (_assetLocator.Type == GameType.EldenRing)
@@ -130,28 +131,31 @@ namespace StudioCore.MsbEditor
                 amapid = "m29_00_00_00";
             }
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
-            if (modelname.StartsWith("m"))
+            if (modelname.ToLower().StartsWith("m"))
             {
+                loadflver = true;
                 asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname));
                 filt = Scene.RenderFilter.MapPiece;
             }
-            else if (modelname.StartsWith("c"))
+            else if (modelname.ToLower().StartsWith("c"))
             {
+                loadflver = true;
                 asset = _assetLocator.GetChrModel(modelname);
                 filt = Scene.RenderFilter.Character;
             }
-            else if (modelname.StartsWith("o") || modelname.StartsWith("AEG"))
+            else if (modelname.ToLower().StartsWith("o") || modelname.StartsWith("AEG"))
             {
+                loadflver = true;
                 asset = _assetLocator.GetObjModel(modelname);
                 filt = Scene.RenderFilter.Object;
             }
-            else if (modelname.StartsWith("h"))
+            else if (modelname.ToLower().StartsWith("h"))
             {
                 loadcol = true;
                 asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname), false);
                 filt = Scene.RenderFilter.Collision;
             }
-            else if (modelname.StartsWith("n"))
+            else if (modelname.ToLower().StartsWith("n"))
             {
                 loadnav = true;
                 asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, modelname));
@@ -210,7 +214,7 @@ namespace StudioCore.MsbEditor
             {
 
             }
-            else
+            else if (loadflver)
             {
                 var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
                 var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
