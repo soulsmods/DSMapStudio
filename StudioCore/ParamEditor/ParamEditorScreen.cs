@@ -197,14 +197,20 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.MenuItem("Sort rows by ID", _activeView._selection.paramSelectionExists()))
                 {
-                    MassParamEditOther.SortRows(_activeView._selection.getActiveParam(), EditorActionManager);
+                    EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(_activeView._selection.getActiveParam()));
                 }
                 if (ImGui.MenuItem("Load Default Row Names"))
                 {
                     try {
-                        ParamBank.LoadParamDefaultNames();
+                        EditorActionManager.ExecuteAction(ParamBank.LoadParamDefaultNames());
                     } catch {
-
+                    }
+                }
+                if (ImGui.MenuItem("Trim hidden newlines in names"))
+                {
+                    try {
+                        EditorActionManager.PushSubManager(ParamBank.TrimNewlineChrsFromNames());
+                    } catch {
                     }
                 }
                 ImGui.EndMenu();
@@ -331,7 +337,9 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     _activeView._selection.sortSelection();
-                    MassEditResult r = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, EditorActionManager, _activeView._selection.getActiveParam(), _activeView._selection.getSelectedRows());
+                    (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, _activeView._selection.getActiveParam(), _activeView._selection.getSelectedRows());
+                    if (child != null)
+                        EditorActionManager.PushSubManager(child);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
@@ -380,7 +388,9 @@ namespace StudioCore.ParamEditor
                 ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, _currentMEditSingleCSVSpaces);
+                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, _currentMEditSingleCSVSpaces);
+                    if (a != null)
+                        EditorActionManager.ExecuteAction(a);
                     _mEditCSVResult = r.Information;
                 }
                 ImGui.Text(_mEditCSVResult);
@@ -888,7 +898,7 @@ namespace StudioCore.ParamEditor
             {
                 PARAM para = ParamBank.Params[activeParam];
                 HashSet<int> dirtyCache = ParamBank.DirtyParamCache[activeParam];
-                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW | original | modified");
+                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW\n | original | modified");
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
                 ImGui.InputText("Search rows...", ref _selection.getCurrentRowSearchString(), 256);
                 if (ImGui.IsItemActive())

@@ -1,0 +1,26 @@
+0 Default
+1 Weapon
+2 Weapon
+3 Weapon
+4 Weapon
+5 Weapon
+6 Weapon
+7 Weapon
+8 Weapon
+9 Weapon
+10 Weapon
+11 Weapon
+12 Weapon
+13 Weapon
+14 Weapon
+15 Weapon
+16 Weapon
+100 VIG - HP Scaling
+101 ATN - MP Scaling [Unused]
+102 Soul Level - Defence
+110 Soul Level - Poison Resistance
+111 Soul Level - Toxic Resistance
+112 Soul Level - Bleed Resistance
+113 Soul Level - Curse Resistance
+150 Estus at Bonfire
+200 Leveling
