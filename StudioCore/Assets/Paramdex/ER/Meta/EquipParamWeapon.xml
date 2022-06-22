@@ -1,51 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="MovesetAttribute" type="u8">
+		<Option Value="0" Name="Physical" />
+		<Option Value="10" Name="Magic" />
+		<Option Value="11" Name="Fire" />
+		<Option Value="12" Name="Lightning" />
+		<Option Value="13" Name="Holy" />
+		<Option Value="20" Name="Poison" />
+		<Option Value="21" Name="Scarlet Rot" />
+		<Option Value="22" Name="Hemorrhage" />
+		<Option Value="23" Name="Frostbite" />
+		<Option Value="24" Name="Sleep" />
+		<Option Value="25" Name="Madness" />
+		<Option Value="26" Name="Blight" />
+	  </Enum>
+	  <Enum Name="ReinforcementMenuType" type="u8">
+		<Option Value="0" Name="No Reinforcement" />
+		<Option Value="1" Name="Weapon" />
+		<Option Value="2" Name="Sorcery Catalyst" />
+		<Option Value="3" Name="Incantation Catalyst" />
+	  </Enum>
+	  <Enum Name="AshOfWarType" type="s8">
+		<Option Value="0" Name="Prevent Change" />
+		<Option Value="2" Name="Allow Change" />
+	  </Enum>
+  </Enums>
   <Field>
+    <behaviorVariationId VRef="behaviourVariation" Wiki="Behavior Variation ID determines base offset for BehaviorParam_PCs to use while holding this weapon" />
+    <sortId Wiki="This controls the position of the weapon in your menu.\nNote that reinforcement will add the current level of reinforcement to this ID,\nso infusion entries should be spaced appropriately." />
+	  <weight Wiki="The weight value shown in the game menu, affects equip load" />
+    <equipModelId AltName="Weapon Model ID" Wiki="The part model ID. Determines the part model used by the weapon." />
+	  <iconId Wiki="The icon index ID. Determines the icon used by the weapon." />
+    <spAttribute Enum="MovesetAttribute" />
+    <reinforceShopCategory Enum="ReinforcementMenuType" />
+    <reinforcePrice AltName="Base reinforce cost" Wiki="The base rune cost it will take to reinforce this item.\nScales with each consecutive upgrade." />
+    <gemMountType Enum="AshOfWarType" />
+    <correctStrength AltName="Strength Scaling" Wiki="The base scaling value used for Strength.\nNote that this is multiplied by reinforcement (via ReinforceParamWeapon) and correctType (via CalcCorrectGraph)." />
+    <correctAgility AltName="Dexterity Scaling" Wiki=" 	The base scaling value used for Dexterity.\nNote that this is multiplied by reinforcement (via ReinforceParamWeapon) and correctType (via CalcCorrectGraph)." />
+    <correctMagic AltName="Intelligence Scaling" Wiki="The base scaling value used for Intelligence.\nNote that this is multiplied by reinforcement (via ReinforceParamWeapon) and correctType (via CalcCorrectGraph)." />
+    <correctFaith AltName="Faith Scaling" Wiki="The base scaling value used for Faith.\nNote that this is multiplied by reinforcement (via ReinforceParamWeapon) and correctType (via CalcCorrectGraph)." />
+    <correctLuck AltName="Arcane Scaling" Wiki="The base scaling value used for Arcane.\nNote that this is multiplied by reinforcement (via ReinforceParamWeapon) and correctType (via CalcCorrectGraph)." />
+    <physGuardCutRate AltName="Guard - Physical Defense" Wiki="The Physical absorption to use when guarding." />
+    <magGuardCutRate AltName="Guard - Magic Defense" Wiki="The Magic absorption to use when guarding." />
+    <fireGuardCutRate AltName="Guard - Fire Defense" Wiki="The Fire absorption to use when guarding." />
+    <thunGuardCutRate AltName="Guard - Lightning Defense" Wiki="The Lightning absorption to use when guarding." />
+    <darkGuardCutRate AltName="Guard - Holy Defense" Wiki="The Holy absorption to use when guarding." />
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
-    <spEffectBehaviorId0 Refs="SpEffectParam" />
-    <spEffectBehaviorId1 Refs="SpEffectParam" />
-    <spEffectBehaviorId2 Refs="SpEffectParam" />
-    <residentSpEffectId Refs="SpEffectParam" />
-    <residentSpEffectId1 Refs="SpEffectParam" />
-    <residentSpEffectId2 Refs="SpEffectParam" />
-    <materialSetId Refs="EquipMtrlSetParam" />
-    <originEquipWep Refs="EquipParamWeapon" />
-    <originEquipWep1 Refs="EquipParamWeapon" />
-    <originEquipWep2 Refs="EquipParamWeapon" />
-    <originEquipWep3 Refs="EquipParamWeapon" />
-    <originEquipWep4 Refs="EquipParamWeapon" />
-    <originEquipWep5 Refs="EquipParamWeapon" />
-    <originEquipWep6 Refs="EquipParamWeapon" />
-    <originEquipWep7 Refs="EquipParamWeapon" />
-    <originEquipWep8 Refs="EquipParamWeapon" />
-    <originEquipWep9 Refs="EquipParamWeapon" />
-    <originEquipWep10 Refs="EquipParamWeapon" />
-    <originEquipWep11 Refs="EquipParamWeapon" />
-    <originEquipWep12 Refs="EquipParamWeapon" />
-    <originEquipWep13 Refs="EquipParamWeapon" />
-    <originEquipWep14 Refs="EquipParamWeapon" />
-    <originEquipWep15 Refs="EquipParamWeapon" />
+    <spEffectBehaviorId0 Refs="SpEffectParam" Wiki="The SpEffect to apply to the enemy on hit." />
+    <spEffectBehaviorId1 Refs="SpEffectParam" Wiki="The SpEffect to apply to the enemy on hit." />
+    <spEffectBehaviorId2 Refs="SpEffectParam" Wiki="The SpEffect to apply to the enemy on hit." />
+    <residentSpEffectId Refs="SpEffectParam" Wiki="The SpEffect to apply passively to the player while holding the item in an active hand." />
+    <residentSpEffectId1 Refs="SpEffectParam" Wiki="The SpEffect to apply passively to the player while holding the item in an active hand." />
+    <residentSpEffectId2 Refs="SpEffectParam" Wiki="The SpEffect to apply passively to the player while holding the item in an active hand." />
+    <materialSetId Refs="EquipMtrlSetParam" AltName="Upgrade Material ID" Wiki="Determines the EquipMtrlSetParam row range used for reinforcement." />
+    <originEquipWep Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep1 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep2 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep3 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep4 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep5 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep6 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep7 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep8 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep9 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep10 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep11 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep12 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep13 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep14 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep15 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
     <reinforceTypeId Refs="ReinforceParamWeapon" />
-    <correctType_Physics Refs="CalcCorrectGraph" />
+    <properStrength AltName="Required Strength" Wiki="Determines the level of Strength required to wield this weapon." />
+    <properAgility AltName="Required Dexterity" Wiki="Determines the level of Dexterity required to wield this weapon" />
+	  <properMagic AltName="Required Intelligence" Wiki="Determines the level of Intelligence required to wield this weapon." />
+	  <properFaith AltName="Required Faith" Wiki="Determines the level of Faith required to wield this weapon." />
+	  <properLuck AltName="Required Arcane" Wiki="Determines the level of Arcane required to wield this weapon." />
+  	<correctType_Physics Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Physical damage (i.e. how effective a stat is)." />
     <rightHandEquipable IsBool="" />
     <leftHandEquipable IsBool="" />
     <bothHandEquipable IsBool="" />
     <arrowSlotEquipable IsBool="" />
     <boltSlotEquipable IsBool="" />
-    <enableGuard IsBool="" />
-    <enableParry IsBool="" />
-    <enableMagic IsBool="" />
-    <enableSorcery IsBool="" />
-    <enableMiracle IsBool="" />
-    <enableVowMagic IsBool="" />
-    <isNormalAttackType IsBool="" />
-    <isBlowAttackType IsBool="" />
-    <isSlashAttackType IsBool="" />
-    <isThrustAttackType IsBool="" />
-    <isEnhance IsBool="" />
+    <enableGuard IsBool="" Wiki="Determines whether this weapon can guard (requires TAE support for actual effect)." />
+    <enableParry IsBool="" Wiki="Determines whether this weapon can parry (requires TAE support for actual effect)." />
+    <enableMagic IsBool="" AltName="Enable Sorceries" Wiki="Determines whether this weapon can cast Sorceries\nRequires HKS or TAE support for actual effect." />
+    <enableMiracle IsBool="" AltName="Enable Incantations" Wiki="Determines whether this weapon can cast Incantations\nRequires HKS or TAE support for actual effect." />
+	  <enableSorcery IsBool="" AltName="Enable Type 3 Spells" Wiki="Determines whether this weapon can cast type 3 spells.\nRequires HKS or TAE support for actual effect." />
+    <enableVowMagic IsBool="" AltName="Enable Type 4 Spells" Wiki="Determines whether this weapon can cast type 4 spells.\nRequires HKS or TAE support for actual effect." />
+    <isNormalAttackType IsBool="" AltName="Type Display - Normal" Wiki="Display Standard as the damage type in the weapon menu.\nActual type is defined in BehaviorParam_PC." />
+    <isBlowAttackType IsBool="" AltName="Type Display - Strike" Wiki="Display Strike as the damage type in the weapon menu.\nActual type is defined in BehaviorParam_PC." />
+    <isSlashAttackType IsBool="" AltName="Type Display - Slash" Wiki="Display Slash as the damage type in the weapon menu.\nActual type is defined in BehaviorParam_PC." />
+    <isThrustAttackType IsBool="" AltName="Type Display - Pierce" Wiki="Display Pierce as the damage type in the weapon menu.\nActual type is defined in BehaviorParam_PC." />
+    <isEnhance IsBool="" AltName="Is Buffable" Wiki="Determines whether this weapon can be buffed via SpEffects." />
     <isHeroPointCorrect IsBool="" />
-    <isCustom IsBool="" />
+	  <isCustom IsBool="" AltName="Is Reinforceable" Wiki="Determines whether this weapon can be reinforced." />
     <disableBaseChangeReset IsBool="" />
     <disableRepair IsBool="" />
     <isDarkHand IsBool="" />
@@ -60,27 +110,170 @@
     <isDrop IsBool="" />
     <isValidTough_ProtSADmg IsBool="" />
     <isDualBlade IsBool="" />
-    <isAutoEquip IsBool="" />
+    <isAutoEquip IsBool="" Wiki="Automatically equips the item when picked up, if slots are empty." />
     <isEnableEmergencyStep IsBool="" />
     <invisibleOnRemo IsBool="" />
-    <correctType_Magic Refs="CalcCorrectGraph" />
-    <correctType_Fire Refs="CalcCorrectGraph" />
-    <correctType_Thunder Refs="CalcCorrectGraph" />
-    <correctType_Dark Refs="CalcCorrectGraph" />
-    <correctType_Poison Refs="CalcCorrectGraph" />
-    <correctType_Blood Refs="CalcCorrectGraph" />
+    <correctType_Magic Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Magic damage (i.e. how effective a stat is)." />
+    <correctType_Fire Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Fire damage (i.e. how effective a stat is)." />
+    <correctType_Thunder Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Lightning damage (i.e. how effective a stat is)." />
+    <correctType_Dark Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Holy damage (i.e. how effective a stat is)." />
+    <correctType_Poison Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Poison buildup (i.e. how effective a stat is)." />
+    <correctType_Blood Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Blood buildup (i.e. how effective a stat is)." />
+    <correctType_Sleep Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Sleep buildup (i.e. how effective a stat is)." />
+    <correctType_Madness Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Madness buildup (i.e. how effective a stat is)." />
     <swordArtsParamId Refs="SwordArtsParam" />
     <attackElementCorrectId Refs="AttackElementCorrectParam" />
-    <originEquipWep16 Refs="EquipParamWeapon" />
-    <originEquipWep17 Refs="EquipParamWeapon" />
-    <originEquipWep18 Refs="EquipParamWeapon" />
-    <originEquipWep19 Refs="EquipParamWeapon" />
-    <originEquipWep20 Refs="EquipParamWeapon" />
-    <originEquipWep21 Refs="EquipParamWeapon" />
-    <originEquipWep22 Refs="EquipParamWeapon" />
-    <originEquipWep23 Refs="EquipParamWeapon" />
-    <originEquipWep24 Refs="EquipParamWeapon" />
-    <originEquipWep25 Refs="EquipParamWeapon" />
-  </Field>
-  <Self />
+    <originEquipWep16 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep17 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep18 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep19 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep20 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep21 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep22 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep23 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep24 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <originEquipWep25 Refs="EquipParamWeapon" Wiki="Contains the base weapon ID.\nDetermines the max reinforcement level and what an infused weapon returns to when uninfused." />
+    <absorpParamId Refs="WepAbsorpPosParam" AltName="Sheath Position ID" Wiki="This determines what Sheath Position ID to use." />
+	</Field>
+  <Self OffsetSize="100" AlternativeOrder="
+  sortId,
+  trophySGradeId,
+  -,
+  behaviorVariationId,
+  swordArtsParamId,
+  wepmotionCategory,guardmotionCategory,
+  wepmotionOneHandId,wepmotionBothHandId,
+  -,
+  equipModelId,iconId,
+  equipModelCategory,equipModelGender,
+  wepType,
+  weaponCategory,
+  isNormalAttackType,isBlowAttackType,isSlashAttackType,isThrustAttackType,
+  -,
+  weight,weaponWeightRate,
+  -,
+  fixPrice,sellValue,saleValue,baseChangePrice,
+  -,
+  isCustom,
+  reinforcePrice,
+  materialSetId,
+  reinforceTypeId,
+  reinforceShopCategory,
+  gemMountType,
+  -,
+  properStrength,properAgility,properMagic,properFaith,properLuck,
+  -,
+  attackBasePhysics,attackBaseMagic,attackBaseFire,attackBaseThunder,attackBaseDark,attackBaseStamina,
+  correctStrength,correctAgility,correctMagic,correctFaith,correctLuck,
+  -,
+  correctType_Physics,correctType_Magic,correctType_Fire,correctType_Thunder,correctType_Dark,
+  correctType_Poison,correctType_Blood,correctType_Sleep,correctType_Madness,
+  -,
+  spEffectBehaviorId0,spEffectBehaviorId1,spEffectBehaviorId2,
+  residentSpEffectId,residentSpEffectId1,residentSpEffectId2,
+  spEffectMsgId0,spEffectMsgId1,spEffectMsgId2,
+  -,
+  weakA_DamageRate,weakB_DamageRate,weakC_DamageRate,weakD_DamageRate,weakE_DamageRate,weakF_DamageRate,
+  stealthAtkRate,
+  -,
+  physGuardCutRate,
+  magGuardCutRate,fireGuardCutRate,thunGuardCutRate,darkGuardCutRate,
+  poisonGuardResist,diseaseGuardResist,bloodGuardResist,curseGuardResist,freezeGuardResist,sleepGuardResist,madnessGuardResist,
+  staminaGuardDef,
+  -,
+  physGuardCutRate_MaxCorrect, magGuardCutRate_MaxCorrect,fireGuardCutRate_MaxCorrect,thunGuardCutRate_MaxCorrect,darkGuardCutRate_MaxCorrect,
+  poisonGuardResist_MaxCorrect,diseaseGuardResist_MaxCorrect,bloodGuardResist_MaxCorrect,curseGuardResist_MaxCorrect,freezeGuardResist_MaxCorrect,sleepGuardResist_MaxCorrect,madnessGuardResist_MaxCorrect,
+  staminaGuardDef_MaxCorrect,
+  -,
+  originEquipWep,originEquipWep1,originEquipWep2,originEquipWep3,originEquipWep4,originEquipWep5,originEquipWep6,originEquipWep7,originEquipWep8,originEquipWep9,originEquipWep10,originEquipWep11,originEquipWep12,originEquipWep13,originEquipWep14,originEquipWep15,originEquipWep16,originEquipWep17,originEquipWep18,originEquipWep19,originEquipWep20,originEquipWep21,originEquipWep22,originEquipWep23,originEquipWep24,originEquipWep25,
+  -,
+  saWeaponDamage,
+  -,
+  attackThrowEscape,
+  parryDamageLife,
+  -,
+  guardAngle,
+  throwAtkRate,
+  bowDistRate,
+  -,
+  atkMaterial,defSeMaterial1,
+  -,
+  atkAttribute,spAttribute,spAtkcategory,
+  -,
+  overStrength,
+  -,
+  guardBaseRepel,attackBaseRepel,
+  guardCutCancelRate,guardLevel,
+  -,
+  rightHandEquipable,leftHandEquipable,bothHandEquipable,arrowSlotEquipable,boltSlotEquipable,
+  -,
+  enableGuard,enableParry,enableMagic,enableMiracle,enableSorcery,enableVowMagic,
+  -,
+  isDualBlade,
+  isEnhance,
+  -,
+  disableBaseChangeReset,
+  disableRepair,
+  isDarkHand,
+  simpleModelForDlc,
+  lanternWep,
+  isVersusGhostWep,
+  baseChangeCategory,
+  isDragonSlayer,
+  -,
+  isDeposit,disableMultiDropShare,isDiscard,isDrop,isAutoEquip,
+  -,
+  showLogCondType,
+  enableThrow,
+  showDialogCondType,
+  disableGemAttr,
+  defSfxMaterial1,
+  wepCollidableType0,wepCollidableType1,
+  postureControlId_Right,postureControlId_Left,
+  -,
+  traceSfxId0,traceDmyIdHead0,traceDmyIdTail0,traceSfxId1,traceDmyIdHead1,traceDmyIdTail1,traceSfxId2,traceDmyIdHead2,traceDmyIdTail2,traceSfxId3,traceDmyIdHead3,traceDmyIdTail3,traceSfxId4,traceDmyIdHead4,traceDmyIdTail4,traceSfxId5,traceDmyIdHead5,traceDmyIdTail5,traceSfxId6,traceDmyIdHead6,traceDmyIdTail6,traceSfxId7,traceDmyIdHead7,traceDmyIdTail7,
+  -,
+  defSfxMaterial2,defSeMaterial2,
+  absorpParamId,
+  toughnessCorrectRate,
+  isValidTough_ProtSADmg,
+  isEnableEmergencyStep,
+  invisibleOnRemo,
+  pad2,
+  sortGroupId,
+  atkAttribute2,
+  autoReplenishType,
+  arrowBoltEquipId,
+  DerivationLevelType,
+  enchantSfxSize,
+  -,
+  residentSfxId_1,residentSfxId_2,residentSfxId_3,residentSfxId_4,
+  residentSfx_DmyId_1,residentSfx_DmyId_2,residentSfx_DmyId_3,residentSfx_DmyId_4,
+  -,
+  staminaConsumptionRate,
+  -,
+  vsPlayerDmgCorrectRate_Physics,vsPlayerDmgCorrectRate_Magic,vsPlayerDmgCorrectRate_Fire,vsPlayerDmgCorrectRate_Thunder,vsPlayerDmgCorrectRate_Dark,
+  vsPlayerDmgCorrectRate_Poison,vsPlayerDmgCorrectRate_Blood,vsPlayerDmgCorrectRate_Disease,vsPlayerDmgCorrectRate_Curse,vsPlayerDmgCorrectRate_Freeze,vsPlayerDmgCorrectRate_Sleep,vsPlayerDmgCorrectRate_Madness,
+  ,
+  attainmentWepStatusStr,attainmentWepStatusDex,attainmentWepStatusMag,attainmentWepStatusFai,attainmentWepStatusLuc,
+  attackElementCorrectId,
+  maxArrowQuantity,
+  -,
+  residentSfx_1_IsVisibleForHang,residentSfx_2_IsVisibleForHang,residentSfx_3_IsVisibleForHang,residentSfx_4_IsVisibleForHang,
+  -,
+  isSoulParamIdChange_model0,isSoulParamIdChange_model1,isSoulParamIdChange_model2,isSoulParamIdChange_model3,
+  wepSeIdOffset,
+  levelSyncCorrectId,
+  rarity,
+  wepRegainHp,
+  saGuardCutRate,
+  defMaterialVariationValue,spAttributeVariationValue,
+  -,-,
+  disableParam_NT,disableParamReserve1,disableParamReserve2,
+  wanderingEquipId,trophySeqId,
+  durability,durabilityMax,
+  saDurability,
+  attackBaseParry,defenseBaseParry,
+  slashGuardCutRate,blowGuardCutRate,thrustGuardCutRate,
+  isHeroPointCorrect" />
 </PARAMMETA>

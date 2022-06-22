@@ -1,7 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+  <Enum Name="ReferenceType" type="u8">
+    <Option Value="0" Name="Attack" />
+	<Option Value="1" Name="Bullet" />
+	<Option Value="2" Name="SpEffect" />
+  </Enum>
+  <Enum Name="BehaviorCategory" type="u8">
+    <Option Value="0" Name="No Category" />
+	<Option Value="1" Name="PCRight-Hand" />
+	<Option Value="2" Name="PCLeft-hand" />
+	<Option Value="3" Name="Magic" />
+    <Option Value="4" Name="Magic" />
+	<Option Value="5" Name="Basic" />
+	<Option Value="6" Name="NPCRight-hand" />
+	<Option Value="7" Name="NPCLeft-hand" />
+	<Option Value="9" Name="Kick" />
+    <Option Value="10" Name="PCBoth-hand" />
+    <Option Value="11" Name="PCBoth-hand" />
+    <Option Value="12" Name="PCRight-hand #2" />
+  </Enum>
+  <Enum Name="StateBehaviorType" type="u8">
+    <Option Value="0" Name="None" />
+	<Option Value="1" Name="Player" />
+	<Option Value="2" Name="NPC" />
+  </Enum>
+  </Enums>
   <Field>
+    <ezStateBehaviorType_old Enum="StateBehaviorType" />
+	<refType Enum="ReferenceType" />
     <refId Refs="AtkParam_Pc,AtkParam_Npc,Bullet,SpEffectParam" />
+	<category Enum="BehaviorCategory" />
   </Field>
   <Self />
 </PARAMMETA>
