@@ -501,10 +501,14 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;
+                if (_universe.LoadedObjectContainers.Count==0)
+                    ImGui.Text("This Editor requires game to be unpacked");
                 foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
                 {
                     var map = lm.Value;
                     var mapid = lm.Key;
+                    if (mapid == null)
+                        continue;
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
                     if (map != null && _selection.GetSelection().Contains(map.RootObject))
                     {

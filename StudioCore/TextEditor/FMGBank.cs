@@ -452,41 +452,37 @@ namespace StudioCore.TextEditor
         {
             IsLoaded = false;
             IsLoading = true;
-
-            TaskManager.Run("FB:Reload", true, false, () =>
+            if (AssetLocator.Type == GameType.Undefined)
             {
-                if (AssetLocator.Type == GameType.Undefined)
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    ReloadFMGsDS2();
-                    IsLoading = false;
-                    IsLoaded = true;
-                    return;
-                }
-
-                IBinder fmgBinder;
-                var desc = AssetLocator.GetEnglishItemMsgbnd();
-                if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
-                {
-                    fmgBinder = BND3.Read(desc.AssetPath);
-                }
-                else
-                {
-                    fmgBinder = BND4.Read(desc.AssetPath);
-                }
-
-                _fmgs = new Dictionary<ItemFMGTypes, FMG>();
-                foreach (var file in fmgBinder.Files)
-                {
-                    _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                }
-                IsLoaded = true;
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                ReloadFMGsDS2();
                 IsLoading = false;
-            });
+                IsLoaded = true;
+                return;
+            }
+
+            IBinder fmgBinder;
+            var desc = AssetLocator.GetEnglishItemMsgbnd();
+            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+            {
+                fmgBinder = BND3.Read(desc.AssetPath);
+            }
+            else
+            {
+                fmgBinder = BND4.Read(desc.AssetPath);
+            }
+
+            _fmgs = new Dictionary<ItemFMGTypes, FMG>();
+            foreach (var file in fmgBinder.Files)
+            {
+                _fmgs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
+            }
+            IsLoaded = true;
+            IsLoading = false;
         }
 
         public static void SaveFMGsDS2()
@@ -499,6 +495,8 @@ namespace StudioCore.TextEditor
 
         public static void SaveFMGs()
         {
+            if (!IsLoaded)
+                return;
             if (AssetLocator.Type == GameType.Undefined)
             {
                 return;

@@ -33,6 +33,8 @@ namespace StudioCore.MsbEditor
 
         public void RebuildCaches()
         {
+            _chrCache = new List<string>();
+            _objCache = new List<string>();
             _chrCache = _locator.GetChrModels();
             _objCache = _locator.GetObjModels();
         }

@@ -1,5 +1,5 @@
 ﻿using ImGuiNET;
-using StudioCore.MsbEditor;
+using StudioCore.Editor;
 using StudioCore.Scene;
 using System;
 using System.Collections.Generic;
@@ -325,10 +325,31 @@ namespace StudioCore
         {
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
-            Editor.AliasBank.ReloadAliases();
-            ParamEditor.ParamBank.ReloadParams(newsettings);
-            TextEditor.FMGBank.ReloadFMGs();
-            MsbEditor.MtdBank.ReloadMtds();
+
+            TaskManager.Run("AB:LoadAliases", true, false, true, () =>
+            {
+                Editor.AliasBank.ReloadAliases();
+            });
+            TaskManager.Run("PB:LoadParams", true, false, true, () =>
+            {
+                ParamEditor.ParamBank.ReloadParams(newsettings);
+            });
+            TaskManager.Run("FB:Reload", true, false, true, () =>
+            {
+                TextEditor.FMGBank.ReloadFMGs();
+            });
+            TaskManager.Run("MB:LoadMtds", true, false, true, ()=>{
+                MsbEditor.MtdBank.ReloadMtds();
+            });
+
+            TaskManager.Run("U:LoadUniverse", true, false, true, ()=>{
+                _msbEditor.ReloadUniverse();
+            });
+            TaskManager.Run("Model:LoadAssetBrowser", true, false, true, ()=>{
+                _modelEditor.ReloadAssetBrowser();
+            });
+            
+            //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
             _modelEditor.OnProjectChanged(_projectSettings);
             _paramEditor.OnProjectChanged(_projectSettings);
@@ -694,6 +715,23 @@ namespace StudioCore
                     if (ImGui.MenuItem("MSBE read/write test"))
                     {
                         Tests.MSBReadWrite.Run(_assetLocator);
+                    }
+                    ImGui.EndMenu();
+                }
+                if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
+                {
+                    foreach (String task in TaskManager.GetLiveThreads()) {
+                        ImGui.Text(task);
+                    }
+                    ImGui.EndMenu();
+                }
+                if (TaskManager.warningList.Count > 0 && ImGui.BeginMenu("Warnings"))
+                {
+                    foreach (var task in TaskManager.warningList) {
+                        if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
+                        {
+                            TaskManager.warningList.TryRemove(task);
+                        }
                     }
                     ImGui.EndMenu();
                 }
