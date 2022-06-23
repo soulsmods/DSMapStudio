@@ -42,5 +42,33 @@ namespace StudioCore.ParamEditor
             }
             return nval;
         }
+        public static bool RowMatches(PARAM.Row row, PARAM.Row vrow)
+        {
+            foreach (PARAMDEF.Field field in row.Def.Fields)
+            {
+                if (field.InternalType == "")
+                    continue;
+                if (field.InternalType == "dummy8")
+                {
+                    if (!ByteArrayEquals((byte[])(row[field.InternalName].Value), (byte[])(vrow[field.InternalName].Value)))
+                        return false;
+                }
+                if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public static bool ByteArrayEquals(byte[] v1, byte[] v2) {
+            if (v1.Length!=v2.Length)
+                return false;
+            for (int i=0; i<v1.Length; i++)
+            {
+                if (v1[i]!=v2[i])
+                    return false;
+            }
+            return true;
+        }
     }
 }
