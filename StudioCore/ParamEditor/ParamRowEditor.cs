@@ -30,7 +30,7 @@ namespace StudioCore.ParamEditor
             _paramEditor = paramEditorScreen;
         }
 
-        private bool PropertyRow(Type typ, object oldval, out object newval, bool isBool)
+        private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, bool isBool)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace StudioCore.ParamEditor
                     if (ImGui.Checkbox("##valueBool", ref checkVal))
                     {
                         newval = Convert.ChangeType(checkVal ? 1 : 0, oldval.GetType());
-                        return true;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
                     }
                     ImGui.SameLine();
                 }
@@ -61,7 +61,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
                     }
                 }
             }
@@ -71,7 +71,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                 }
             }
             else if (typ == typeof(uint))
@@ -84,7 +84,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
                     }
                 }
             }
@@ -94,7 +94,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (short)val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                 }
             }
             else if (typ == typeof(ushort))
@@ -107,7 +107,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
                     }
                 }
             }
@@ -117,7 +117,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (sbyte)val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                 }
             }
             else if (typ == typeof(byte))
@@ -130,7 +130,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
                     }
                 }
             }
@@ -140,7 +140,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Checkbox("##value", ref val))
                 {
                     newval = val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                 }
             }
             else if (typ == typeof(float))
@@ -149,7 +149,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                     // shouldUpdateVisual = true;
                 }
             }
@@ -163,7 +163,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputText("##value", ref val, 128))
                 {
                     newval = val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                 }
             }
             else if (typ == typeof(Vector2))
@@ -172,7 +172,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat2("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                     // shouldUpdateVisual = true;
                 }
             }
@@ -182,8 +182,23 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat3("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return true;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                     // shouldUpdateVisual = true;
+                }
+            }
+            else if (typ == typeof(Byte[]))
+            {
+                
+                Byte[] bval = (Byte[])oldval;
+                string val = ParamUtils.Dummy8Write(bval);
+                if (ImGui.InputText("##value", ref val, 128))
+                {
+                    Byte[] nval = ParamUtils.Dummy8Read(val, bval.Length);
+                    if (nval!=null)
+                    {
+                        newval = nval;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    }
                 }
             }
             else
@@ -192,7 +207,7 @@ namespace StudioCore.ParamEditor
             }
 
             newval = null;
-            return false;
+            return (false, false);
         }
 
         private void UpdateProperty(object prop, object obj, object newval,
@@ -330,6 +345,7 @@ namespace StudioCore.ParamEditor
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
+            bool committed = false;
 
             bool diffVanilla = vanillaval != null && !oldval.Equals(vanillaval);
             bool matchDefault = nullableCell != null && nullableCell.Def.Default!=null && nullableCell.Def.Default.Equals(oldval);
@@ -340,8 +356,7 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             else if (diffVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
-            changed = PropertyRow(propType, oldval, out newval, IsBool);
-            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            (changed, committed) = PropertyRow(propType, oldval, out newval, IsBool);
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
