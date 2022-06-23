@@ -57,6 +57,8 @@ namespace StudioCore.ParamEditor
                         return bool.Parse(opparam);
                     else if (cell.Value.GetType() == typeof(string))
                         return opparam;
+                    else if (cell.Value.GetType() == typeof(byte[]))
+                        return ParamUtils.Dummy8Read(opparam, ((byte[])cell.Value).Length);
                 }
                 
                 if (cell.Value.GetType() == typeof(long))
@@ -498,7 +500,10 @@ namespace StudioCore.ParamEditor
                 string rowgen = $@"{row.ID},{row.Name}";
                 foreach (PARAM.Cell cell in row.Cells)
                 {
-                    rowgen += $@",{cell.Value}";
+                    if (cell.Value.GetType() == typeof(byte[]))
+                        rowgen += $@",{ParamUtils.Dummy8Write((byte[])cell.Value)}";
+                    else
+                        rowgen += $@",{cell.Value}";
                 }
                 gen += rowgen + "\n";
             }
@@ -558,13 +563,10 @@ namespace StudioCore.ParamEditor
                     {
                         string v = csvs[index];
                         index++;
-                        // Array types are unhandled
-                        if (c.Value.GetType().IsArray)
-                            continue;
                         object newval = PerformOperation(c, "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.InternalName}");
-                        if (!c.Value.Equals(newval))
+                        if (!(c.Value.Equals(newval) || (c.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])c.Value, (byte[])newval))))
                             actions.Add(new PropertiesChangedAction(c.GetType().GetProperty("Value"), -1, c, newval));
                     }
                 }
@@ -614,13 +616,10 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        // Array types are unhandled
-                        if (cell.Value.GetType().IsArray)
-                            continue;
                         object newval = PerformOperation(cell, "=", value);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {cell.Def.InternalName}"), null);
-                        if (!cell.Value.Equals(newval))
+                        if (!(cell.Value.Equals(newval) || (cell.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])cell.Value, (byte[])newval))))
                             actions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
                     }
                 }
