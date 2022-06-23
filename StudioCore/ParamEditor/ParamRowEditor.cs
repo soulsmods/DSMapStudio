@@ -347,7 +347,7 @@ namespace StudioCore.ParamEditor
             bool changed = false;
             bool committed = false;
 
-            bool diffVanilla = vanillaval != null && !oldval.Equals(vanillaval);
+            bool diffVanilla = vanillaval != null && !(oldval.Equals(vanillaval) || (propType == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])oldval, (byte[])vanillaval)));
             bool matchDefault = nullableCell != null && nullableCell.Def.Default!=null && nullableCell.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
             if (isRef)
@@ -382,7 +382,10 @@ namespace StudioCore.ParamEditor
                     ImGui.TextUnformatted("");
                 else
                 {
-                    ImGui.TextUnformatted(vanillaval.ToString());
+                    if (propType == typeof(byte[]))
+                        ImGui.TextUnformatted(ParamUtils.Dummy8Write((byte[])vanillaval));
+                    else
+                        ImGui.TextUnformatted(vanillaval.ToString());
                     if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
                         EditorDecorations.ParamRefsSelectables(RefTypes, vanillaval);
                     if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)
