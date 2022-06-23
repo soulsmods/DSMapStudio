@@ -46,15 +46,12 @@ namespace StudioCore.ParamEditor
         {
             foreach (PARAMDEF.Field field in row.Def.Fields)
             {
-                if (field.InternalType == "")
-                    continue;
                 if (field.InternalType == "dummy8" && row[field.InternalName].Value.GetType()==typeof(byte[]))//second check because someone made a dummy8 bit?
                 {
-                    if (ByteArrayEquals((byte[])(row[field.InternalName].Value), (byte[])(vrow[field.InternalName].Value)))
-                        return true;
-                    return false;
+                    if (!ByteArrayEquals((byte[])(row[field.InternalName].Value), (byte[])(vrow[field.InternalName].Value)))
+                        return false;
                 }
-                if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
+                else if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
                 {
                     return false;
                 }
