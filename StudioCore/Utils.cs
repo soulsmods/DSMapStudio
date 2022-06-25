@@ -700,5 +700,22 @@ namespace StudioCore
             segs.Add(new T[SEGMENT_SIZE]);
             return (segs.Count-1) * SEGMENT_SIZE + 0; //Returns first new index
         }
+        public int IndexOf(Func<T, bool> matcher, bool expand)
+        {
+            for (int segment=0; segment<segs.Count; segment++)
+            {
+                T[] items = segs[segment];
+                for (int i = 0; i < SEGMENT_SIZE; i++)
+                {
+                        if (matcher(items[i]))
+                    {
+                            return segment*SEGMENT_SIZE+i;
+                    }
+                }
+            }
+            if (expand)
+                return Expand();
+            return -1;
+        }
     }
 }

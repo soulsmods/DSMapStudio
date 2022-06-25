@@ -52,20 +52,9 @@ namespace StudioCore.Scene
         public SegmentedArrayList<VisibleValidComponent> cVisible = new SegmentedArrayList<VisibleValidComponent>();
         public SegmentedArrayList<SceneVisibilityComponent> cSceneVis = new SegmentedArrayList<SceneVisibilityComponent>();
         public SegmentedArrayList<RenderKey> cRenderKeys = new SegmentedArrayList<RenderKey>();
-        protected int GetNextInvalidIndex()//TODO: indexOf(criteria)
+        protected int GetNextInvalidIndex()
         {
-            for (int segment=0; segment<cVisible.Segments; segment++)
-            {
-                VisibleValidComponent[] cVis = cVisible.GetSegment(segment);
-                for (int i = 0; i < SegmentedArrayList<VisibleValidComponent>.SEGMENT_SIZE; i++)
-                {
-                        if (!cVis[i]._valid)
-                    {
-                            return segment*SegmentedArrayList<VisibleValidComponent>.SEGMENT_SIZE+i;
-                    }
-                }
-            }
-            return cVisible.Expand();
+            return cVisible.IndexOf((vvc)=>!vvc._valid, true);
         }
 
         protected int AllocateValidAndVisibleRenderable()

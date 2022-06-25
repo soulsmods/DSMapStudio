@@ -279,6 +279,8 @@ namespace StudioCore.Scene
 
         public class RenderQueue
         {
+            private const int DRAWENCODERSIZE = 50000;
+
             private struct KeyIndex : IComparable<KeyIndex>, IComparable
             {
                 public RenderKey Key { get; }
@@ -346,7 +348,7 @@ namespace StudioCore.Scene
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    _drawEncoders.Add(new IndirectDrawEncoder(50000));
+                    _drawEncoders.Add(new IndirectDrawEncoder(DRAWENCODERSIZE));
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;
