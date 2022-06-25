@@ -522,7 +522,8 @@ namespace StudioCore.Scene
 
             SamplerSet.Initialize(device);
 
-            ulong memorySize = 4096-512;
+            ulong reservedVRAM = 1024;
+            uint memorySize = (uint)(4096-reservedVRAM);
             BackendInfoVulkan biv;
             if (device.GetVulkanInfo(out biv))
             {
@@ -532,15 +533,15 @@ namespace StudioCore.Scene
                 {
                     VkMemoryHeap vkmh = (VkMemoryHeap)pdmp.GetType().GetField("memoryHeaps_"+h).GetValue(pdmp);
                     if (vkmh.flags.HasFlag(VkMemoryHeapFlags.DeviceLocal)) {
-                        memorySize = vkmh.size/1024/1024 - 512;
+                        memorySize = (uint)(vkmh.size/1024/1024 - reservedVRAM);
                     }
                 }
             }
 
-            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(50 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(memorySize*256/3072 * 1024 * 1024, memorySize*128/3072 * 1024 * 1024);
+            UniformBufferAllocator = new GPUBufferAllocator(memorySize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
-            MaterialBufferAllocator = new GPUBufferAllocator("materials", 50 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", memorySize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 50000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 5000);
 
