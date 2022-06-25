@@ -11,6 +11,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using System.Security.Policy;
 using System.Security.Cryptography;
+using Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -62,7 +63,7 @@ namespace StudioCore.Scene
                 public int _bufferIndex;
             }
 
-            private BatchInfo[] _batches = null;
+            private SegmentedArrayList<BatchInfo>[] _batches = null;
 
             unsafe public IndirectDrawEncoder(uint initialCallCount)
             {
@@ -71,7 +72,7 @@ namespace StudioCore.Scene
                 _indirectBuffer = Factory.CreateBuffer(desc);
                 _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
                 _directBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
-                _batches = new BatchInfo[2 * MAX_BATCH];
+                _batches = new SegmentedArrayList<BatchInfo>[]{new SegmentedArrayList<BatchInfo>(MAX_BATCH), new SegmentedArrayList<BatchInfo>(MAX_BATCH)};
 
                 _indirectDrawCount = new uint[2];
                 _batchCount = new uint[2];
@@ -124,10 +125,10 @@ namespace StudioCore.Scene
 
                 // Determine if we need a new batch
                 if (_batchCount[_stagingSet] == 0 ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != p ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != instanceData ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != indexf ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != buffer)
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._pipeline != p ||
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._objectRS != instanceData ||
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._indexFormat != indexf ||
+                    _batches[_stagingSet][ _batchCount[_stagingSet] - 1]._bufferIndex != buffer)
                 {
                     if (_batchCount[_stagingSet] >= MAX_BATCH)
                     {
@@ -135,11 +136,11 @@ namespace StudioCore.Scene
                         return; // Drop the batch for now
                     }
                     // Add a new batch
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = buffer;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = p;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._objectRS = instanceData;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._indexFormat = indexf;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._bufferIndex = buffer;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._pipeline = p;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._objectRS = instanceData;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._indexFormat = indexf;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
                     _batchCount[_stagingSet]++;
                 }
             }
@@ -165,10 +166,10 @@ namespace StudioCore.Scene
 
                 // Determine if we need a new batch
                 if (_batchCount[_stagingSet] == 0 ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._pipeline != pipeline ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._objectRS != drawparams._objectResourceSet ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._indexFormat != drawparams._indexFormat ||
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet] - 1]._bufferIndex != drawparams._bufferIndex)
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._pipeline != pipeline ||
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._objectRS != drawparams._objectResourceSet ||
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._indexFormat != drawparams._indexFormat ||
+                    _batches[_stagingSet][_batchCount[_stagingSet] - 1]._bufferIndex != drawparams._bufferIndex)
                 {
                     if (_batchCount[_stagingSet] >= MAX_BATCH)
                     {
@@ -176,11 +177,11 @@ namespace StudioCore.Scene
                         return; // Drop the batch for now
                     }
                     // Add a new batch
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._bufferIndex = drawparams._bufferIndex;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._pipeline = pipeline;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._objectRS = drawparams._objectResourceSet;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._indexFormat = drawparams._indexFormat;
-                    _batches[MAX_BATCH * _stagingSet + _batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._bufferIndex = drawparams._bufferIndex;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._pipeline = pipeline;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._objectRS = drawparams._objectResourceSet;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._indexFormat = drawparams._indexFormat;
+                    _batches[_stagingSet][_batchCount[_stagingSet]]._batchStart = _indirectDrawCount[_stagingSet] - 1;
                     _batchCount[_stagingSet]++;
                 }
             }
@@ -214,31 +215,31 @@ namespace StudioCore.Scene
                 uint c = _batchCount[_renderSet] > 0 ? _batchCount[_renderSet] - 1 : 0;
                 for (int i = 0; i < _batchCount[_renderSet]; i++)
                 {
-                    cl.SetPipeline(_batches[MAX_BATCH * _renderSet + i]._pipeline);
+                    cl.SetPipeline(_batches[_renderSet][i]._pipeline);
                     pipeline.BindResources(cl);
-                    cl.SetGraphicsResourceSet(1, _batches[MAX_BATCH * _renderSet + i]._objectRS);
+                    cl.SetGraphicsResourceSet(1, _batches[_renderSet][i]._objectRS);
                     GlobalTexturePool.BindTexturePool(cl, 2);
                     GlobalCubeTexturePool.BindTexturePool(cl, 3);
                     MaterialBufferAllocator.BindAsResourceSet(cl, 4);
                     cl.SetGraphicsResourceSet(5, SamplerSet.SamplersSet);
                     
-                    if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
+                    if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[_renderSet][i]._bufferIndex))
                     {
                         continue;
                     }
-                    if (!GeometryBufferAllocator.BindAsIndexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex, _batches[MAX_BATCH * _renderSet + i]._indexFormat))
+                    if (!GeometryBufferAllocator.BindAsIndexBuffer(cl, _batches[_renderSet][i]._bufferIndex, _batches[_renderSet][i]._indexFormat))
                     {
                         continue;
                     }
-                    uint count = _indirectDrawCount[_renderSet] - _batches[MAX_BATCH * _renderSet + i]._batchStart;
+                    uint count = _indirectDrawCount[_renderSet] - _batches[_renderSet][i]._batchStart;
                     if (i < _batchCount[_renderSet] - 1)
                     {
-                        count = _batches[MAX_BATCH * _renderSet + i + 1]._batchStart - _batches[MAX_BATCH * _renderSet + i]._batchStart;
+                        count = _batches[_renderSet][i + 1]._batchStart - _batches[_renderSet][i]._batchStart;
                     }
 
                     if (UseDirect)
                     {
-                        uint start = _batches[MAX_BATCH * _renderSet + i]._batchStart;
+                        uint start = _batches[_renderSet][i]._batchStart;
                         for (uint d = start; d < start + count; d++)
                         {
                             cl.DrawIndexed(_directBuffer[d].IndexCount, _directBuffer[d].InstanceCount, _directBuffer[d].FirstIndex,
@@ -247,7 +248,7 @@ namespace StudioCore.Scene
                     }
                     else
                     {
-                        cl.DrawIndexedIndirect(_indirectBuffer, _batches[MAX_BATCH * _renderSet + i]._batchStart * 20, count, 20);
+                        cl.DrawIndexedIndirect(_indirectBuffer, _batches[_renderSet][i]._batchStart * 20, count, 20);
                     }
                 }
             }
@@ -279,7 +280,7 @@ namespace StudioCore.Scene
 
         public class RenderQueue
         {
-            private const int DRAWENCODERSIZE = 50000;
+            private const int DRAWENCODERSIZE = 500000;
 
             private struct KeyIndex : IComparable<KeyIndex>, IComparable
             {
@@ -322,7 +323,7 @@ namespace StudioCore.Scene
             private List<Fence> _drawFence = new List<Fence>();
 
             //private IndirectDrawEncoder DrawEncoder;
-            private List<IndirectDrawEncoder> _drawEncoders = new List<IndirectDrawEncoder>();
+            private IndirectDrawEncoder[] _drawEncoders = null;
 
             private readonly List<KeyIndex> Indices = new List<KeyIndex>(1000);
             private readonly List<int> Renderables = new List<int>(1000);
@@ -344,11 +345,12 @@ namespace StudioCore.Scene
                 Pipeline = pipeline;
                 ResourceUpdateCommandList = device.ResourceFactory.CreateCommandList();
                 _bufferCount = BUFFER_COUNT;
+                _drawEncoders = new IndirectDrawEncoder[_bufferCount];
                 //DrawCommandList = device.ResourceFactory.CreateCommandList();
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    _drawEncoders.Add(new IndirectDrawEncoder(DRAWENCODERSIZE));
+                    _drawEncoders[i] = new IndirectDrawEncoder(DRAWENCODERSIZE);
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;
@@ -520,12 +522,27 @@ namespace StudioCore.Scene
 
             SamplerSet.Initialize(device);
 
-            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
+            ulong memorySize = 4096-512;
+            BackendInfoVulkan biv;
+            if (device.GetVulkanInfo(out biv))
+            {
+                VkPhysicalDeviceMemoryProperties pdmp;
+                VulkanNative.vkGetPhysicalDeviceMemoryProperties(biv.PhysicalDevice, out pdmp);
+                for (int h=0; h<pdmp.memoryHeapCount; h++)
+                {
+                    VkMemoryHeap vkmh = (VkMemoryHeap)pdmp.GetType().GetField("memoryHeaps_"+h).GetValue(pdmp);
+                    if (vkmh.flags.HasFlag(VkMemoryHeapFlags.DeviceLocal)) {
+                        memorySize = vkmh.size/1024/1024 - 512;
+                    }
+                }
+            }
 
-            MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
-            GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
-            GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
+            UniformBufferAllocator = new GPUBufferAllocator(50 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
+
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", 50 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
+            GlobalTexturePool = new TexturePool(device, "globalTextures", 50000);
+            GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 5000);
 
             // Initialize default 2D texture at 0
             var handle = GlobalTexturePool.AllocateTextureDescriptor();

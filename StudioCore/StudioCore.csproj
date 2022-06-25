@@ -428,6 +428,7 @@
     <ProjectReference Include="..\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj" />
     <ProjectReference Include="..\Veldrid.Utilities\Veldrid.Utilities.csproj" />
     <ProjectReference Include="..\Veldrid\Veldrid.csproj" />
+    <ProjectReference Include="..\vk\src\vk\vk.csproj" />
   </ItemGroup>
 
   <ItemGroup>

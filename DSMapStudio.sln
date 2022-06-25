@@ -35,6 +35,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColBakeTest", "ColBakeTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddChr", "AddChr\AddChr.csproj", "{FDB935B7-8888-41B1-BC75-9F2C15080192}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vk", "vk", "{6EC896AF-CC2F-46D6-9909-78E7F72FBD4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BBDBFA12-A7C2-4F91-B820-757426137EA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vk", "vk\src\vk\vk.csproj", "{B464C09D-7FA4-498D-826C-1F06CA55773A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,11 +111,19 @@ Global
 		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDB935B7-8888-41B1-BC75-9F2C15080192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B464C09D-7FA4-498D-826C-1F06CA55773A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B464C09D-7FA4-498D-826C-1F06CA55773A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B464C09D-7FA4-498D-826C-1F06CA55773A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B464C09D-7FA4-498D-826C-1F06CA55773A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D45896A8-32E9-4517-BD34-9E84D8DD9540}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BBDBFA12-A7C2-4F91-B820-757426137EA5} = {6EC896AF-CC2F-46D6-9909-78E7F72FBD4F}
+		{B464C09D-7FA4-498D-826C-1F06CA55773A} = {BBDBFA12-A7C2-4F91-B820-757426137EA5}
 	EndGlobalSection
 EndGlobal
