@@ -673,23 +673,28 @@ namespace StudioCore
     }
     public class SegmentedArrayList<T>
     {
-        public const int SEGMENT_SIZE = 10000;
         public List<T[]> segs = new List<T[]>();
-        public int Segments
-        {
-            get => segs.Count;
-        }
+        public int SegmentSize {get; private set;} = 10000;
         public int Size
         {
-            get => segs.Count * SEGMENT_SIZE;
+            get => segs.Count * SegmentSize;
         }
+        public SegmentedArrayList(int segmentSize)
+        {
+            SegmentSize = segmentSize;
+        }
+
         public ref T this[int index]
         {
             get {
                 while (index >= Size)
                     Expand();//This can blow up but that's kinda the point
-                return ref segs[index/SEGMENT_SIZE][index%SEGMENT_SIZE];
+                return ref segs[index/SegmentSize][index%SegmentSize];
             }
+        }
+        public ref T this[uint index]
+        {
+            get => ref this[(int)index];
         }
         public T[] GetSegment(int index)
         {
@@ -697,19 +702,19 @@ namespace StudioCore
         }
         public int Expand()
         {
-            segs.Add(new T[SEGMENT_SIZE]);
-            return (segs.Count-1) * SEGMENT_SIZE + 0; //Returns first new index
+            segs.Add(new T[SegmentSize]);
+            return (segs.Count-1) * SegmentSize + 0; //Returns first new index
         }
         public int IndexOf(Func<T, bool> matcher, bool expand)
         {
             for (int segment=0; segment<segs.Count; segment++)
             {
                 T[] items = segs[segment];
-                for (int i = 0; i < SEGMENT_SIZE; i++)
+                for (int i = 0; i < SegmentSize; i++)
                 {
                         if (matcher(items[i]))
                     {
-                            return segment*SEGMENT_SIZE+i;
+                            return segment*SegmentSize+i;
                     }
                 }
             }

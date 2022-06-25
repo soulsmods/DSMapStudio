@@ -41,7 +41,7 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-
+        public const int RENDERABLES_SEGMENT_SIZE = 10000;
         private int _topIndex = 0;
 
         public int RenderableSystemIndex { get; protected set; }
@@ -49,9 +49,9 @@ namespace StudioCore.Scene
         /// <summary>
         /// Component for if the renderable is visible or active
         /// </summary>
-        public SegmentedArrayList<VisibleValidComponent> cVisible = new SegmentedArrayList<VisibleValidComponent>();
-        public SegmentedArrayList<SceneVisibilityComponent> cSceneVis = new SegmentedArrayList<SceneVisibilityComponent>();
-        public SegmentedArrayList<RenderKey> cRenderKeys = new SegmentedArrayList<RenderKey>();
+        public SegmentedArrayList<VisibleValidComponent> cVisible = new SegmentedArrayList<VisibleValidComponent>(RENDERABLES_SEGMENT_SIZE);
+        public SegmentedArrayList<SceneVisibilityComponent> cSceneVis = new SegmentedArrayList<SceneVisibilityComponent>(RENDERABLES_SEGMENT_SIZE);
+        public SegmentedArrayList<RenderKey> cRenderKeys = new SegmentedArrayList<RenderKey>(RENDERABLES_SEGMENT_SIZE);
         protected int GetNextInvalidIndex()
         {
             return cVisible.IndexOf((vvc)=>!vvc._valid, true);
@@ -79,13 +79,13 @@ namespace StudioCore.Scene
     /// </summary>
     public class MeshRenderables : Renderables
     {
-        public SegmentedArrayList<BoundingBox> cBounds = new SegmentedArrayList<BoundingBox>();
-        public SegmentedArrayList<MeshDrawParametersComponent> cDrawParameters = new SegmentedArrayList<MeshDrawParametersComponent>();
-        public SegmentedArrayList<bool> cCulled = new SegmentedArrayList<bool>();
-        public SegmentedArrayList<Pipeline> cPipelines = new SegmentedArrayList<Pipeline>();
+        public SegmentedArrayList<BoundingBox> cBounds = new SegmentedArrayList<BoundingBox>(RENDERABLES_SEGMENT_SIZE);
+        public SegmentedArrayList<MeshDrawParametersComponent> cDrawParameters = new SegmentedArrayList<MeshDrawParametersComponent>(RENDERABLES_SEGMENT_SIZE);
+        public SegmentedArrayList<bool> cCulled = new SegmentedArrayList<bool>(RENDERABLES_SEGMENT_SIZE);
+        public SegmentedArrayList<Pipeline> cPipelines = new SegmentedArrayList<Pipeline>(RENDERABLES_SEGMENT_SIZE);
 
-        public SegmentedArrayList<Pipeline> cSelectionPipelines = new SegmentedArrayList<Pipeline>();
-        public SegmentedArrayList<WeakReference<ISelectable>> cSelectables = new SegmentedArrayList<WeakReference<ISelectable>>();
+        public SegmentedArrayList<Pipeline> cSelectionPipelines = new SegmentedArrayList<Pipeline>(RENDERABLES_SEGMENT_SIZE);
+        public SegmentedArrayList<WeakReference<ISelectable>> cSelectables = new SegmentedArrayList<WeakReference<ISelectable>>(RENDERABLES_SEGMENT_SIZE);
 
         public MeshRenderables(int id)
         {
