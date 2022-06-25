@@ -325,8 +325,8 @@ namespace StudioCore.Scene
             private readonly List<KeyIndex> Indices = new List<KeyIndex>(1000);
             private readonly List<int> Renderables = new List<int>(1000);
 
-            private MeshDrawParametersComponent[] _drawParameters = null;
-            private Pipeline[] _pipelines = null;
+            private SegmentedArrayList<MeshDrawParametersComponent> _drawParameters = null;
+            private SegmentedArrayList<Pipeline> _pipelines = null;
 
             private Action<GraphicsDevice, CommandList> PreDrawSetup = null;
 
@@ -375,7 +375,7 @@ namespace StudioCore.Scene
                 Renderables.Add(item);
             }
 
-            public void SetDrawParameters(MeshDrawParametersComponent[] parameters, Pipeline[] pipelines)
+            public void SetDrawParameters(SegmentedArrayList<MeshDrawParametersComponent> parameters, SegmentedArrayList<Pipeline> pipelines)
             {
                 _drawParameters = parameters;
                 _pipelines = pipelines;

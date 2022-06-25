@@ -41,7 +41,6 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 50000;
 
         private int _topIndex = 0;
 
@@ -50,20 +49,23 @@ namespace StudioCore.Scene
         /// <summary>
         /// Component for if the renderable is visible or active
         /// </summary>
-        public VisibleValidComponent[] cVisible = new VisibleValidComponent[SYSTEM_SIZE];
-        public SceneVisibilityComponent[] cSceneVis = new SceneVisibilityComponent[SYSTEM_SIZE];
-        public RenderKey[] cRenderKeys = new RenderKey[SYSTEM_SIZE];
-
-        protected int GetNextInvalidIndex()
+        public SegmentedArrayList<VisibleValidComponent> cVisible = new SegmentedArrayList<VisibleValidComponent>();
+        public SegmentedArrayList<SceneVisibilityComponent> cSceneVis = new SegmentedArrayList<SceneVisibilityComponent>();
+        public SegmentedArrayList<RenderKey> cRenderKeys = new SegmentedArrayList<RenderKey>();
+        protected int GetNextInvalidIndex()//TODO: indexOf(criteria)
         {
-            for (int i = 0; i < SYSTEM_SIZE; i++)
+            for (int segment=0; segment<cVisible.Segments; segment++)
             {
-                if (!cVisible[i]._valid)
+                VisibleValidComponent[] cVis = cVisible.GetSegment(segment);
+                for (int i = 0; i < SegmentedArrayList<VisibleValidComponent>.SEGMENT_SIZE; i++)
                 {
-                    return i;
+                        if (!cVis[i]._valid)
+                    {
+                            return segment*SegmentedArrayList<VisibleValidComponent>.SEGMENT_SIZE+i;
+                    }
                 }
             }
-            throw new Exception("Renderable system full");
+            return cVisible.Expand();
         }
 
         protected int AllocateValidAndVisibleRenderable()
@@ -88,13 +90,13 @@ namespace StudioCore.Scene
     /// </summary>
     public class MeshRenderables : Renderables
     {
-        public BoundingBox[] cBounds = new BoundingBox[SYSTEM_SIZE];
-        public MeshDrawParametersComponent[] cDrawParameters = new MeshDrawParametersComponent[SYSTEM_SIZE];
-        public bool[] cCulled = new bool[SYSTEM_SIZE];
-        public Pipeline[] cPipelines = new Pipeline[SYSTEM_SIZE];
+        public SegmentedArrayList<BoundingBox> cBounds = new SegmentedArrayList<BoundingBox>();
+        public SegmentedArrayList<MeshDrawParametersComponent> cDrawParameters = new SegmentedArrayList<MeshDrawParametersComponent>();
+        public SegmentedArrayList<bool> cCulled = new SegmentedArrayList<bool>();
+        public SegmentedArrayList<Pipeline> cPipelines = new SegmentedArrayList<Pipeline>();
 
-        public Pipeline[] cSelectionPipelines = new Pipeline[SYSTEM_SIZE];
-        public WeakReference<ISelectable>[] cSelectables = new WeakReference<ISelectable>[SYSTEM_SIZE];
+        public SegmentedArrayList<Pipeline> cSelectionPipelines = new SegmentedArrayList<Pipeline>();
+        public SegmentedArrayList<WeakReference<ISelectable>> cSelectables = new SegmentedArrayList<WeakReference<ISelectable>>();
 
         public MeshRenderables(int id)
         {
@@ -111,7 +113,7 @@ namespace StudioCore.Scene
 
         public void CullRenderables(BoundingFrustum frustum)
         {
-            for (int i = 0; i < SYSTEM_SIZE; i++)
+            for (int i = 0; i < cVisible.Size; i++)
             {
                 if (!cVisible[i]._valid)
                 {
@@ -132,7 +134,7 @@ namespace StudioCore.Scene
         public void ProcessSceneVisibility(RenderFilter filter, DrawGroup dispGroup)
         {
             bool alwaysVis = dispGroup != null ? dispGroup.AlwaysVisible : true;
-            for (int i = 0; i < SYSTEM_SIZE; i++)
+            for (int i = 0; i < cVisible.Size; i++)
             {
                 if (cCulled[i])
                 {
@@ -154,7 +156,7 @@ namespace StudioCore.Scene
 
         public void SubmitRenderables(Renderer.RenderQueue queue)
         {
-            for (int i = 0; i < SYSTEM_SIZE; i++)
+            for (int i = 0; i < cVisible.Size; i++)
             {
                 if (cVisible[i]._valid && !cCulled[i])
                 {

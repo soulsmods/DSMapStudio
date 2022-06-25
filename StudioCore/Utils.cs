@@ -671,4 +671,34 @@ namespace StudioCore
             return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
         }
     }
+    public class SegmentedArrayList<T>
+    {
+        public const int SEGMENT_SIZE = 10000;
+        public List<T[]> segs = new List<T[]>();
+        public int Segments
+        {
+            get => segs.Count;
+        }
+        public int Size
+        {
+            get => segs.Count * SEGMENT_SIZE;
+        }
+        public ref T this[int index]
+        {
+            get {
+                while (index >= Size)
+                    Expand();//This can blow up but that's kinda the point
+                return ref segs[index/SEGMENT_SIZE][index%SEGMENT_SIZE];
+            }
+        }
+        public T[] GetSegment(int index)
+        {
+            return segs[index];
+        }
+        public int Expand()
+        {
+            segs.Add(new T[SEGMENT_SIZE]);
+            return (segs.Count-1) * SEGMENT_SIZE + 0; //Returns first new index
+        }
+    }
 }
