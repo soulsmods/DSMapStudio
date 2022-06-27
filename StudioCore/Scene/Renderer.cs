@@ -522,28 +522,30 @@ namespace StudioCore.Scene
 
             SamplerSet.Initialize(device);
 
-            ulong reservedVRAM = 1024;
-            uint memorySize = (uint)(4096-reservedVRAM);
+            ulong reservedVRAM = 1024+512;
+            uint heapSize = (uint)(4096-reservedVRAM);
             BackendInfoVulkan biv;
             if (device.GetVulkanInfo(out biv))
             {
+                VkPhysicalDeviceProperties pdp;
+                VulkanNative.vkGetPhysicalDeviceProperties(biv.PhysicalDevice, out pdp);
                 VkPhysicalDeviceMemoryProperties pdmp;
                 VulkanNative.vkGetPhysicalDeviceMemoryProperties(biv.PhysicalDevice, out pdmp);
                 for (int h=0; h<pdmp.memoryHeapCount; h++)
                 {
                     VkMemoryHeap vkmh = (VkMemoryHeap)pdmp.GetType().GetField("memoryHeaps_"+h).GetValue(pdmp);
                     if (vkmh.flags.HasFlag(VkMemoryHeapFlags.DeviceLocal)) {
-                        memorySize = (uint)(vkmh.size/1024/1024 - reservedVRAM);
+                        heapSize = (uint)(vkmh.size/1024/1024 - reservedVRAM);
                     }
                 }
             }
 
-            GeometryBufferAllocator = new VertexIndexBufferAllocator(memorySize*256/3072 * 1024 * 1024, memorySize*128/3072 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(memorySize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(heapSize*256/3072 * 1024 * 1024, heapSize*128/3072 * 1024 * 1024);
+            UniformBufferAllocator = new GPUBufferAllocator(heapSize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
-            MaterialBufferAllocator = new GPUBufferAllocator("materials", memorySize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
-            GlobalTexturePool = new TexturePool(device, "globalTextures", 50000);
-            GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 5000);
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", heapSize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
+            GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
+            GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 
             // Initialize default 2D texture at 0
             var handle = GlobalTexturePool.AllocateTextureDescriptor();
