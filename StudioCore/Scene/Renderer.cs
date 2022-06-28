@@ -522,28 +522,10 @@ namespace StudioCore.Scene
 
             SamplerSet.Initialize(device);
 
-            ulong reservedVRAM = 1024+512;
-            uint heapSize = (uint)(4096-reservedVRAM);
-            BackendInfoVulkan biv;
-            if (device.GetVulkanInfo(out biv))
-            {
-                VkPhysicalDeviceProperties pdp;
-                VulkanNative.vkGetPhysicalDeviceProperties(biv.PhysicalDevice, out pdp);
-                VkPhysicalDeviceMemoryProperties pdmp;
-                VulkanNative.vkGetPhysicalDeviceMemoryProperties(biv.PhysicalDevice, out pdmp);
-                for (int h=0; h<pdmp.memoryHeapCount; h++)
-                {
-                    VkMemoryHeap vkmh = (VkMemoryHeap)pdmp.GetType().GetField("memoryHeaps_"+h).GetValue(pdmp);
-                    if (vkmh.flags.HasFlag(VkMemoryHeapFlags.DeviceLocal)) {
-                        heapSize = (uint)(vkmh.size/1024/1024 - reservedVRAM);
-                    }
-                }
-            }
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
+            UniformBufferAllocator = new GPUBufferAllocator(50 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
-            GeometryBufferAllocator = new VertexIndexBufferAllocator(heapSize*256/3072 * 1024 * 1024, heapSize*128/3072 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(heapSize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
-
-            MaterialBufferAllocator = new GPUBufferAllocator("materials", heapSize*50/3072 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", 50 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 
