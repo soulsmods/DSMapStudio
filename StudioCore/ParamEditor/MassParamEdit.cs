@@ -490,9 +490,23 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditCSV : MassParamEdit
     {
-        public static string GenerateCSV(List<PARAM.Row> rows)
+        public static string GenerateColumnLabels(PARAM param)
+        {
+            string str = "";
+            str += "ID,Name,";
+            foreach (var f in param.AppliedParamdef.Fields)
+            {
+                string rowgen = $@"{f.InternalName}";
+                str += rowgen + ",";
+            }
+            return str+"\n";
+        }
+        
+        public static string GenerateCSV(List<PARAM.Row> rows, PARAM param)
         {
             string gen = "";
+            gen += GenerateColumnLabels(param);
+
             foreach (PARAM.Row row in rows)
             {
                 string rowgen = $@"{row.ID},{row.Name}";
@@ -504,9 +518,10 @@ namespace StudioCore.ParamEditor
             }
             return gen;
         }
-        public static string GenerateSingleCSV(List<PARAM.Row> rows, string field)
+        public static string GenerateSingleCSV(List<PARAM.Row> rows, PARAM param, string field)
         {
             string gen = "";
+            gen += GenerateColumnLabels(param);
             foreach (PARAM.Row row in rows)
             {
                 string rowgen;
@@ -530,6 +545,8 @@ namespace StudioCore.ParamEditor
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
                 string[] csvLines = csvString.Split("\n");
+                if (csvLines[0].Contains("ID,Name"))
+                    csvLines[0] = ""; //skip column label row
                 int changeCount = 0;
                 int addedCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
@@ -588,6 +605,8 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
+                if (csvLines[0].Contains("ID,Name"))
+                    csvLines[0] = ""; //skip column label row
                 int changeCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
                 foreach (string csvLine in csvLines)
