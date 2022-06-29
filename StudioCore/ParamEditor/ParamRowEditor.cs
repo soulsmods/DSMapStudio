@@ -328,7 +328,8 @@ namespace StudioCore.ParamEditor
             else if (diffVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
             changed = PropertyRow(propType, oldval, out newval, IsBool);
-            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            //bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            bool committed = true;
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
