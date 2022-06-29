@@ -436,18 +436,26 @@ namespace StudioCore
 
         public AssetDescription GetEnglishItemMsgbnd(bool writemode = false)
         {
-            string path = $@"msg\engus\item.msgbnd.dcx";
+            return GetEnglishMsgbnd("item", writemode);
+        }
+        public AssetDescription GetEnglishMenuMsgbnd(bool writemode = false)
+        {
+            return GetEnglishMsgbnd("menu", writemode);
+        }
+        public AssetDescription GetEnglishMsgbnd(string msgBndType, bool writemode = false)
+        {
+            string path = $@"msg\engus\{msgBndType}.msgbnd.dcx";
             if (Type == GameType.DemonsSouls)
             {
-                path = $@"msg\na_english\item.msgbnd.dcx";
+                path = $@"msg\na_english\{msgBndType}.msgbnd.dcx";
             }
             else if (Type == GameType.DarkSoulsPTDE)
             {
-                path = $@"msg\ENGLISH\item.msgbnd";
+                path = $@"msg\ENGLISH\{msgBndType}.msgbnd";
             }
             else if (Type == GameType.DarkSoulsRemastered)
             {
-                path = $@"msg\ENGLISH\item.msgbnd.dcx";
+                path = $@"msg\ENGLISH\{msgBndType}.msgbnd.dcx";
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
@@ -459,7 +467,7 @@ namespace StudioCore
             }
             else if (Type == GameType.DarkSoulsIII)
             {
-                path = $@"msg\engus\item_dlc2.msgbnd.dcx";
+                path = $@"msg\engus\{msgBndType}_dlc2.msgbnd.dcx";
             }
             AssetDescription ad = new AssetDescription();
             if (writemode)
