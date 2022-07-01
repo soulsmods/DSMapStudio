@@ -434,41 +434,81 @@ namespace StudioCore
             return ad;
         }
 
-        public AssetDescription GetEnglishItemMsgbnd(bool writemode = false)
+        //msgbnd
+        public List<string> GetMsgLanguages()
         {
-            return GetEnglishMsgbnd("item", writemode);
+            List<string> maps = new();
+
+            if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                maps = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
+            }
+            else
+            {
+                maps = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
+            }
+
+            return maps;
         }
-        public AssetDescription GetEnglishMenuMsgbnd(bool writemode = false)
+
+        /// <summary>
+        /// Get path of item.msgbnd (english by default)
+        /// </summary>
+        public AssetDescription GetItemMsgbnd(string langFolder = "", bool writemode = false)
         {
-            return GetEnglishMsgbnd("menu", writemode);
+            return GetMsgbnd("item", langFolder, writemode);
         }
-        public AssetDescription GetEnglishMsgbnd(string msgBndType, bool writemode = false)
+        /// <summary>
+        /// Get path of menu.msgbnd (english by default)
+        /// </summary>
+        public AssetDescription GetMenuMsgbnd(string langFolder = "", bool writemode = false)
         {
-            string path = $@"msg\engus\{msgBndType}.msgbnd.dcx";
+            return GetMsgbnd("menu", langFolder, writemode);
+        }
+        public AssetDescription GetMsgbnd(string msgBndType, string langFolder, bool writemode = false)
+        {
+            if (langFolder == "")
+            {
+                //pick default (english) path
+                foreach (var langStr in GetMsgLanguages())
+                {
+                    string folder = langStr.Split("\\").Last();
+                    if (folder.Contains("eng")) //I believe this is good enough.
+                    {
+                        langFolder = folder;
+                        break;
+                    }
+                }
+                if (langFolder == "")
+                    throw new Exception("Could not find english text msgbnd");
+            }
+
+            string path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
             if (Type == GameType.DemonsSouls)
             {
-                path = $@"msg\na_english\{msgBndType}.msgbnd.dcx";
+                path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
             }
             else if (Type == GameType.DarkSoulsPTDE)
             {
-                path = $@"msg\ENGLISH\{msgBndType}.msgbnd";
+                path = $@"msg\{langFolder}\{msgBndType}.msgbnd";
             }
             else if (Type == GameType.DarkSoulsRemastered)
             {
-                path = $@"msg\ENGLISH\{msgBndType}.msgbnd.dcx";
+                path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
                 // DS2 does not have an msgbnd but loose fmg files instead
-                path = $@"menu\text\english";
+                path = $@"menu\text\{langFolder}";
                 AssetDescription ad2 = new AssetDescription();
-                ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
+                ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}"; //TODO: doesn't support project files
                 return ad2;
             }
             else if (Type == GameType.DarkSoulsIII)
             {
-                path = $@"msg\engus\{msgBndType}_dlc2.msgbnd.dcx";
+                path = $@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx";
             }
+
             AssetDescription ad = new AssetDescription();
             if (writemode)
             {

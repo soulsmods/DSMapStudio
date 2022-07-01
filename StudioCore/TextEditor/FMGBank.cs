@@ -6,10 +6,18 @@ using System.Linq;
 using SoulsFormats;
 using System.Threading.Tasks;
 using StudioCore.Editor;
-//TODO2: list of changes: FMGs entires are now ordered by ID. Fixed patch FMGs in general. Added FMG search bar
+//TODO2: list of changes: FMGs entires are now ordered by ID. Fixed patch FMGs in general. Added FMG search bar. "Committed" fix (in progress), support FMGs for other languages, support menu.msgbnd
+//TODO2: hide useless FMGs option
+    // add UI option and public var
+    // add enums for useless game type + fmg IDs
+    // category checks, but also include checks in title/desc/summary along with category
+//TODO2: dupe FMG row, change ID if thats not in there. delete row too i guess.
 //TODO2: v2 "committed" fix, undo/redo gets a bit messed up atm
 //TODO2: make sure DSR only cares about patch FMGs
 //TODO2: move fmgType enums to soulsformat git, add some funcs
+//TODO2: MSB: add button & shortcut to dummy/undummy enemies & objects
+//TODO2: MSB: fix drwagroup menu
+//TODO2: MSB: render a thing for c0000, c1000
 namespace StudioCore.TextEditor
 {
     /// <summary>
@@ -42,11 +50,19 @@ namespace StudioCore.TextEditor
             Description,
         }
 
+        public enum FMGTypes
+        {
+            Item = 0,
+            Menu = 1
+        }
+
         /// <summary>
         /// BND IDs for menu fmg files usually in menu.msgbnd
         /// </summary>
         public enum MenuFMGTypes
         {
+            None = -1,
+
             NpcDialog = 1,
             BloodMessage = 2,
             MovieSubtitle = 3,
@@ -226,7 +242,7 @@ namespace StudioCore.TextEditor
 
         public static ItemCategory ItemCategoryOf(ItemFMGTypes ftype)
         {
-            switch(ftype)
+            switch (ftype)
             {
                 case ItemFMGTypes.TitleTest:
                 case ItemFMGTypes.TitleTest2:
@@ -433,7 +449,7 @@ namespace StudioCore.TextEditor
             }
         }
 
-        public static List<FMG.Entry> GetEntriesOfCategoryAndType(ItemCategory cat, ItemType type)
+        public static List<FMG.Entry> GetItemFMGEntriesByType(ItemCategory cat, ItemType type)
         {
             var list = new List<FMG.Entry>();
             foreach (var fmg in _itemFMGs)
@@ -463,13 +479,42 @@ namespace StudioCore.TextEditor
             return list;
         }
 
+        public static Dictionary<MenuFMGTypes,FMG> GetMenuFMGs()
+        {
+            return _menuFMGs;
+        }
+        public static List<FMG.Entry> GetMenuFMGEntries(FMG fmg)
+        {
+            var list = new List<FMG.Entry>();
+            foreach (var entry in fmg.Entries)
+            {
+                var oldEntry = list.Find(e => e.ID == entry.ID);
+                if (oldEntry != null)
+                {
+                    //List already has this ID, so this is probably a patch entry. Replace the old one if the new one isn't null
+                    if (entry.Text != null)
+                    {
+                        list.Remove(oldEntry);
+                        list.Add(entry);
+                    }
+                }
+                else
+                {
+                    list.Add(entry);
+                }
+            }
+            list = list.OrderBy(e => e.ID).ToList();
+            return list;
+        }
+
+
         public static void LookupItemID(int id, ItemCategory cat, out FMG.Entry title, out FMG.Entry summary, out FMG.Entry description)
         {
             title = null;
             summary = null;
             description = null;
 
-            foreach (var item in GetEntriesOfCategoryAndType(cat, ItemType.Title))
+            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Title))
             {
                 if (item.ID == id)
                 {
@@ -477,7 +522,7 @@ namespace StudioCore.TextEditor
                 }
             }
 
-            foreach (var item in GetEntriesOfCategoryAndType(cat, ItemType.Summary))
+            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Summary))
             {
                 if (item.ID == id)
                 {
@@ -485,7 +530,7 @@ namespace StudioCore.TextEditor
                 }
             }
 
-            foreach (var item in GetEntriesOfCategoryAndType(cat, ItemType.Description))
+            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Description))
             {
                 if (item.ID == id)
                 {
@@ -498,7 +543,7 @@ namespace StudioCore.TextEditor
         {
             if (!IsLoaded || IsLoading)
                 return null;
-            foreach (var item in GetEntriesOfCategoryAndType(cat, ItemType.Title))
+            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Title))
             {
                 if (item.ID == id)
                 {
@@ -510,7 +555,7 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGsDS2()
         {
-            var desc = AssetLocator.GetEnglishItemMsgbnd(true);
+            var desc = AssetLocator.GetItemMsgbnd(null, true);
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
             _ds2fmgs = new Dictionary<string, FMG>();
             foreach (var file in files)
@@ -529,7 +574,7 @@ namespace StudioCore.TextEditor
             }
         }
 
-        public static void ReloadFMGs()
+        public static void ReloadFMGs(string languageFolder = "")
         {
             IsLoaded = false;
             IsLoading = true;
@@ -551,8 +596,8 @@ namespace StudioCore.TextEditor
 
                 IBinder fmgBinderItem;
                 IBinder fmgBinderMenu;
-                var itemMsgPath = AssetLocator.GetEnglishItemMsgbnd();
-                var menuMsgPath = AssetLocator.GetEnglishMenuMsgbnd();
+                var itemMsgPath = AssetLocator.GetItemMsgbnd(languageFolder);
+                var menuMsgPath = AssetLocator.GetMenuMsgbnd(languageFolder);
                 if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
                 {
                     fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
@@ -608,8 +653,8 @@ namespace StudioCore.TextEditor
             // Load the fmg bnd, replace fmgs, and save
             IBinder fmgBinderItem;
             IBinder fmgBinderMenu;
-            var itemMsgPath = AssetLocator.GetEnglishItemMsgbnd();
-            var menuMsgPath = AssetLocator.GetEnglishMenuMsgbnd();
+            var itemMsgPath = AssetLocator.GetItemMsgbnd();
+            var menuMsgPath = AssetLocator.GetMenuMsgbnd();
             if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
@@ -637,8 +682,8 @@ namespace StudioCore.TextEditor
                     file.Bytes = _itemFMGs[(ItemFMGTypes)file.ID].Write();
             }
 
-            var itemMsgPathDest = AssetLocator.GetEnglishItemMsgbnd(true);
-            var menuMsgPathDest = AssetLocator.GetEnglishMenuMsgbnd(true);
+            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(null, true);
+            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(null, true);
             if (fmgBinderItem is BND3 bnd3)
             {
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
