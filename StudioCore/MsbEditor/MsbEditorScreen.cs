@@ -202,6 +202,24 @@ namespace StudioCore.MsbEditor
                 {
                     FrameSelection();
                 }
+
+                var selectedEntities = _selection.GetFilteredSelection<Entity>();
+                if (_partsClasses.Exists(e => e.Item1 == "DummyEnemy")) //TODO2 MSB: this probably doesnt work for maps with no dummy enemies (ER only?)
+                {
+                    if (ImGui.MenuItem("Dummify Selection", "Ctrl+M", false, selectedEntities.Count > 0))
+                    {
+                        foreach (var ent in selectedEntities)
+                        {
+                            //TODO2 MSB: get objects and enemies, make dummy copies, delete
+                            //if (ent.GetType() == )
+                            //AddNewEntity(Type .Item2, MapEntity.MapEntityType.Part);
+                        }
+                    }
+                    if (ImGui.MenuItem("Undummy Selection", "Ctrl+U", false, selectedEntities.Count > 0))
+                    { 
+                    
+                    }
+                }
                 ImGui.EndMenu();
             }
 

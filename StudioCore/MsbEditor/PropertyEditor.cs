@@ -361,8 +361,8 @@ namespace StudioCore.MsbEditor
             bool changed = false;
 
             changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
-            //bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            bool committed = true;
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            //bool committed = true;
             UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed, false, false);
             ImGui.NextColumn();
             ImGui.PopID();
@@ -503,8 +503,8 @@ namespace StudioCore.MsbEditor
                                 {
                                     ImGui.SetItemDefaultFocus();
                                 }
-                                //bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                                bool committed = true;
+                                bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                                //bool committed = true;
                                 UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
@@ -554,8 +554,8 @@ namespace StudioCore.MsbEditor
                                 {
                                     ImGui.SetItemDefaultFocus();
                                 }
-                                //bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                                bool committed = true;
+                                bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                                //bool committed = true;
                                 UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
@@ -654,8 +654,8 @@ namespace StudioCore.MsbEditor
                         {
                             ImGui.SetItemDefaultFocus();
                         }
-                        //bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                        bool committed = true;
+                        bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                        //bool committed = true;
                         UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false);
 
                         ImGui.NextColumn();
