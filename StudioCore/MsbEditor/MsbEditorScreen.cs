@@ -202,7 +202,7 @@ namespace StudioCore.MsbEditor
                 {
                     FrameSelection();
                 }
-
+                /*
                 var selectedEntities = _selection.GetFilteredSelection<Entity>();
                 if (_partsClasses.Exists(e => e.Item1 == "DummyEnemy")) //TODO2 MSB: this probably doesnt work for maps with no dummy enemies (ER only?)
                 {
@@ -220,6 +220,7 @@ namespace StudioCore.MsbEditor
                     
                     }
                 }
+                */
                 ImGui.EndMenu();
             }
 
