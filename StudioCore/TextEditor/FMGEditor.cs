@@ -262,8 +262,8 @@ namespace StudioCore.TextEditor
                 }
             }
 
-            //bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            bool committed = true;
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            //bool committed = true;
             UpdateProperty(entry.GetType().GetProperty("Text"), entry, newval, changed, committed);
 
             ImGui.NextColumn();
