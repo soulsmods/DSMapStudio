@@ -17,9 +17,6 @@ namespace StudioCore.TextEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
 
-        //private string _activeParam = null;
-        //private PARAM.Row _activeRow = null;
-
         private FMGBank.ItemCategory[] _displayCategories {
             get {
                 if (FMGBank.AssetLocator.Type == GameType.EldenRing)

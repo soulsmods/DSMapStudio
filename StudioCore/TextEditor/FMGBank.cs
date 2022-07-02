@@ -253,7 +253,6 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.SummaryGoodsPatch:
                 case ItemFMGTypes.TitleGoodsPatch:
                     return ItemCategory.Goods;
-                    //return ItemCategory.DSRGoods;
 
                 case ItemFMGTypes.DescriptionWeapons:
                 case ItemFMGTypes.DescriptionWeaponsDLC1:
@@ -266,7 +265,6 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.SummaryWeaponsPatch:
                 case ItemFMGTypes.TitleWeaponsPatch:
                     return ItemCategory.Weapons;
-                    //return ItemCategory.DSRWeapons;
 
                 case ItemFMGTypes.DescriptionArmor:
                 case ItemFMGTypes.DescriptionArmorDLC1:
@@ -279,7 +277,6 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.SummaryArmorPatch:
                 case ItemFMGTypes.TitleArmorPatch:
                     return ItemCategory.Armor;
-                    //return ItemCategory.DSRArmor;
 
                 case ItemFMGTypes.DescriptionRings:
                 case ItemFMGTypes.DescriptionRingsDLC1:
@@ -294,7 +291,6 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.SummaryRingsPatch:
                 case ItemFMGTypes.TitleRingsPatch:
                     return ItemCategory.Rings;
-                    //return ItemCategory.DSRRings;
 
                 case ItemFMGTypes.DescriptionSpells:
                 case ItemFMGTypes.DescriptionSpellsDLC1:
@@ -308,21 +304,18 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DescriptionSpellsPatch:
                 case ItemFMGTypes.TitleSpellsPatch:
                     return ItemCategory.Spells;
-                    //return ItemCategory.DSRSpells;
 
                 case ItemFMGTypes.TitleCharacters:
                 case ItemFMGTypes.TitleCharactersDLC1:
                 case ItemFMGTypes.TitleCharactersDLC2:
                 case ItemFMGTypes.TitleCharactersPatch:
                     return ItemCategory.Characters;
-                    //return ItemCategory.DSRCharacters;
 
                 case ItemFMGTypes.TitleLocations:
                 case ItemFMGTypes.TitleLocationsDLC1:
                 case ItemFMGTypes.TitleLocationsDLC2:
                 case ItemFMGTypes.TitleLocationsPatch:
                     return ItemCategory.Locations;
-                    //return ItemCategory.DSRLocations;
 
                 case ItemFMGTypes.TitleGem:
                 case ItemFMGTypes.SummaryGem:
@@ -766,7 +759,7 @@ namespace StudioCore.TextEditor
             {
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd3);
-                //if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+                //Some item FMGs are in item.msgbnd
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
             }
@@ -774,6 +767,7 @@ namespace StudioCore.TextEditor
             {
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd4);
+                //Some item FMGs are in item.msgbnd
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
             }
@@ -784,6 +778,5 @@ namespace StudioCore.TextEditor
             AssetLocator = l;
             //ReloadFMGs();
         }
-        //TODO2: Import/Export to XML or whatever
     }
 }
