@@ -60,7 +60,6 @@ namespace StudioCore.TextEditor
         private FMGBank.ItemCategory _activeItemCategory = FMGBank.ItemCategory.None;
         private KeyValuePair<FMGBank.MenuFMGTypes, FMG> _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
         private string _activeCategoryDS2 = null;
-        private FMG _activeFMG = null;
         private List<FMG.Entry> _cachedEntriesFiltered = null;
         private List<FMG.Entry> _cachedEntries = null;
         private FMG.Entry _activeEntry = null;
@@ -70,8 +69,6 @@ namespace StudioCore.TextEditor
         private FMG.Entry _cachedDescription = null;
 
         private PropertyEditor _propEditor = null;
-
-        private bool _openImportPopup = false;
 
         public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
@@ -103,13 +100,11 @@ namespace StudioCore.TextEditor
                 if (ImGui.MenuItem("Delete", "Delete", false, true))
                 {
                     //TODO2: delete
-                    //idk how to implement along with undo/redo
                 }
                 if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, true))
                 {
                     //TODO2: dupe row
-                    //idk how to implement along with undo/redo
-                }  //idk how to implement along with undo/redo
+                }
                 ImGui.EndMenu();
             }
             if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
