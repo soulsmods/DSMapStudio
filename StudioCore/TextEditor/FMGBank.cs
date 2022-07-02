@@ -6,18 +6,7 @@ using System.Linq;
 using SoulsFormats;
 using System.Threading.Tasks;
 using StudioCore.Editor;
-//TODO2: list of changes: FMGs entires are now ordered by ID. Fixed patch FMGs in general. Added FMG search bar. "Committed" fix (in progress), support FMGs for other languages, support menu.msgbnd
-//TODO2: hide useless FMGs option
-    // add UI option and public var
-    // add enums for useless game type + fmg IDs
-    // category checks, but also include checks in title/desc/summary along with category
-//TODO2: dupe FMG row, change ID if thats not in there. delete row too i guess.
-//TODO2: v2 "committed" fix, undo/redo gets a bit messed up atm
-//TODO2: make sure DSR only cares about patch FMGs
-//TODO2: move fmgType enums to soulsformat git, add some funcs
-//TODO2: MSB: add button & shortcut to dummy/undummy enemies & objects
-//TODO2: MSB: fix drwagroup menu
-//TODO2: MSB: render a thing for c0000, c1000
+using System.Windows.Forms;
 namespace StudioCore.TextEditor
 {
     /// <summary>
@@ -223,7 +212,7 @@ namespace StudioCore.TextEditor
 
         private static Dictionary<ItemFMGTypes, FMG> _itemFMGs = null;
         private static Dictionary<MenuFMGTypes, FMG> _menuFMGs = null;
-
+        private static string _languageFolder = "";
         /// <summary>
         /// DS2 uses a different system with loose fmgs instead of IDs
         /// </summary>
@@ -479,6 +468,11 @@ namespace StudioCore.TextEditor
             return list;
         }
 
+        public static Dictionary<ItemFMGTypes, FMG> GetItemFMGs()
+        {
+            return _itemFMGs;
+        }
+
         public static Dictionary<MenuFMGTypes,FMG> GetMenuFMGs()
         {
             return _menuFMGs;
@@ -574,8 +568,92 @@ namespace StudioCore.TextEditor
             }
         }
 
+        public static bool ExportFMGs()
+        {
+            FolderBrowserDialog folderBrowserDialog1 = new();
+            folderBrowserDialog1.UseDescriptionForTitle = true;
+            folderBrowserDialog1.Description = "Choose Export Folder";
+            if (folderBrowserDialog1.ShowDialog() != DialogResult.OK)
+            {
+                return false;
+            }
+
+            var path = folderBrowserDialog1.SelectedPath;//$@"{AssetLocator.GameModDirectory}\Export";
+
+            var itemPath = $@"{path}\Item Text";
+            var menuPath = $@"{path}\Menu Text";
+            Directory.CreateDirectory(itemPath);
+            Directory.CreateDirectory(menuPath);
+            int filecount = 0;
+
+            foreach (var fmg in _itemFMGs)
+            {
+                var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText($@"{itemPath}\{fmg.Key.ToString()}.fmg.json", json);
+                filecount++;
+            }
+
+            foreach (var fmg in _menuFMGs)
+            {
+                var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText($@"{menuPath}\{fmg.Key.ToString()}.fmg.json", json);
+                filecount++;
+            }
+            MessageBox.Show($"Exported {filecount} text files", "Finished", MessageBoxButtons.OK);
+            return true;
+        }
+        public static bool ImportFMGs()
+        {
+            OpenFileDialog openFileDialog1 = new();
+            //openFileDialog1.InitialDirectory = $@"{AssetLocator.GameModDirectory}\Export\Text";
+            openFileDialog1.Title = "Choose Files to Import";
+            openFileDialog1.Filter ="Exported FMGs|*.fmg.json|All files|*.*";
+            if (openFileDialog1.ShowDialog() != DialogResult.OK)
+            {
+                return false;
+            }
+            var files = openFileDialog1.FileNames;
+
+            if (files.Length == 0)
+            {
+                return false;
+            }
+
+            int filecount = 0;
+
+            foreach (var filePath in files)
+            {
+                var file = File.ReadAllText(filePath);
+                var json = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyValuePair<string, FMG>>(@file);
+                foreach (var fmg in _itemFMGs)
+                {
+                    if (fmg.Key.ToString() == json.Key)
+                    {
+                        _itemFMGs[fmg.Key] = json.Value;
+                        filecount++;
+                        goto Continue;
+                    }
+                }
+                foreach (var fmg in _menuFMGs)
+                {
+                    if (fmg.Key.ToString() == json.Key)
+                    {
+                        _menuFMGs[fmg.Key] = json.Value;
+                        filecount++;
+                        goto Continue;
+                    }
+                }
+                Continue:;
+            }
+            MessageBox.Show($"Imported {filecount} text files", "Finished", MessageBoxButtons.OK);
+            return true;
+        }
+
         public static void ReloadFMGs(string languageFolder = "")
         {
+            _languageFolder = languageFolder;
             IsLoaded = false;
             IsLoading = true;
 

@@ -71,39 +71,26 @@ namespace StudioCore.TextEditor
 
         private PropertyEditor _propEditor = null;
 
+        private bool _openImportPopup = false;
+
         public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
             _propEditor = new PropertyEditor(EditorActionManager);
         }
 
+        private void ClearFMGCache()
+        {
+            _activeItemCategory = FMGBank.ItemCategory.None;
+            _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
+            _cachedEntries = null;
+            _cachedEntriesFiltered = null;
+            _activeEntry = null;
+            _FMGsearchStr = "";
+            _FMGsearchStrCache = "";
+        }
         public override void DrawEditorMenu()
         {
-            if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
-            {
-                //TODO FMG: handle however ds2 does it
-                if (ImGui.BeginMenu("Text Language"))
-                {
-                    var folderList = FMGBank.AssetLocator.GetMsgLanguages();
-                    foreach (var fullpath in folderList)
-                    {
-                        var foldername = fullpath.Split("\\").Last();
-                        if (ImGui.MenuItem(foldername, true))
-                        {
-                            FMGBank.ReloadFMGs(foldername); //load specified language
-                            //ImGui.Columns(1);
-                            _activeItemCategory = FMGBank.ItemCategory.None;
-                            _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
-                            _cachedEntries = null;
-                            _cachedEntriesFiltered = null;
-                            _activeEntry = null;
-                            _FMGsearchStr = "";
-                            _FMGsearchStrCache = "";
-                        }
-                    }
-                    ImGui.EndMenu();
-                }
-            }
-            if (ImGui.BeginMenu("Edit"))
+            if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
                 if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
                 {
@@ -116,10 +103,46 @@ namespace StudioCore.TextEditor
                 if (ImGui.MenuItem("Delete", "Delete", false, true))
                 {
                     //TODO2: delete
+                    //idk how to implement along with undo/redo
                 }
                 if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, true))
                 {
                     //TODO2: dupe row
+                    //idk how to implement along with undo/redo
+                }  //idk how to implement along with undo/redo
+                ImGui.EndMenu();
+            }
+            if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
+            {
+                //TODO2 FMG: handle however ds2 does it
+                if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
+                {
+                    var folderList = FMGBank.AssetLocator.GetMsgLanguages();
+                    foreach (var fullpath in folderList)
+                    {
+                        var foldername = fullpath.Split("\\").Last();
+                        if (ImGui.MenuItem(foldername, true))
+                        {
+                            FMGBank.ReloadFMGs(foldername); //load specified language
+                            //ImGui.Columns(1);
+                            ClearFMGCache();
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
+            }
+            if (ImGui.BeginMenu("Import/Export", FMGBank.IsLoaded))
+            {
+                if (ImGui.MenuItem("Import Files", true))
+                {
+                    if (FMGBank.ImportFMGs())
+                    {
+                        ClearFMGCache();
+                    }
+                }
+                if (ImGui.MenuItem("Export All Text", true))
+                {
+                    FMGBank.ExportFMGs();
                 }
                 ImGui.EndMenu();
             }
@@ -133,7 +156,7 @@ namespace StudioCore.TextEditor
 
             ImGui.InputText("Search...", ref _FMGsearchStr, 255);
 
-            //TODO: regex crap
+            //TODO2: regex crap
             /*
             Regex propSearchRx = null;
             try
