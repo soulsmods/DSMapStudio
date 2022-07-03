@@ -1167,8 +1167,8 @@ namespace StudioCore.Scene
 
         private static DbgPrimWireBox _modelMarkerBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
         //private static DbgPrimWireCylinder _modelMarkerTri = new DbgPrimWireCylinder(Transform.Default, 1f, 1.5f, 3, Color.Firebrick);
-        //private static DbgPrimWireArrow _modelMarkerTri = new DbgPrimWireArrow("", Transform.Default, Color.Firebrick);
-        private static DbgPrimWireCapsule _modelMarkerTri = new DbgPrimWireCapsule(Color.Firebrick);
+        private static DbgPrimWireArrow _modelMarkerTri = new DbgPrimWireArrow("", Transform.Default, Color.Firebrick);
+        //private static DbgPrimWireCapsule _modelMarkerTri = new DbgPrimWireCapsule(Color.Firebrick);
         private static DbgPrimWireSphere _modelMarkerSphere = new DbgPrimWireSphere(Transform.Default, 0.75f, Color.Firebrick, 2, 11);
         public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(RenderScene scene, string partType)
         {
