@@ -963,6 +963,21 @@ namespace StudioCore.MsbEditor
                 CurrentModel = GetPropertyValue<string>("ModelName");
             }
         }
+        /// <summary>
+        /// Checks if supplied model ID is on the list of models that will not render, and will use a model marker instead.
+        /// </summary>
+        private static bool CheckIfModelMarker(string model)
+        {
+            var idStr = new string(model.Where(char.IsDigit).ToArray());
+            int id = 9999;
+            int.TryParse(idStr, out id);
+
+            //|| model.StartsWith("o") && !RenderableProxy._modelMarkerList.find ModelName) //TODO2 MSB: objects that need model markers
+            if (model.StartsWith("c") && id <= 1010)
+                return true;
+
+            return false;
+        }
 
         public override void UpdateRenderModel()
         {
@@ -989,22 +1004,43 @@ namespace StudioCore.MsbEditor
             }
             else
             {
+
                 var model = GetPropertyValue<string>("ModelName");
-                if (model != null && model != CurrentModel)
+
+                if (model != null)
                 {
-                    if (_renderSceneMesh != null)
+                    //todo2: rejig logic for performance
+                    if (CheckIfModelMarker(model) && (CurrentModel != model || _renderSceneMesh == null))
                     {
-                        _renderSceneMesh.Dispose();
+                        //render model marker (region mesh)
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+                        CurrentModel = model;
+                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
                     }
-                    CurrentModel = model;
-                    _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
-                    if (Universe.Selection.IsSelected(this))
+                    else if (!CheckIfModelMarker(model) && model != null && model != CurrentModel)
                     {
-                        OnSelected();
+                        // Render Model
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+                        CurrentModel = model;
+                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
                     }
                 }
             }
-
             base.UpdateRenderModel();
         }
 
@@ -1012,7 +1048,7 @@ namespace StudioCore.MsbEditor
         {
             var t = base.GetLocalTransform();
             // If this is a region scale the region primitive by its respective parameters
-            if (Type == MapEntityType.Region)
+            if (Type == MapEntityType.Region) //todo2:
             {
                 var shape = GetPropertyValue("Shape");
                 if (shape != null && shape is MSB.Shape.Box b2)
@@ -1028,6 +1064,13 @@ namespace StudioCore.MsbEditor
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
             }
+            /*
+            if (Type == MapEntityType.Part && CheckIfModelMarker(CurrentModel))
+            {
+                // Parts that render via Model Marker
+                t.Scale = new Vector3(.3f, 1.8f, .3f);
+            }
+            */
 
             // DS2 event regions
             if (Type == MapEntityType.DS2EventLocation)

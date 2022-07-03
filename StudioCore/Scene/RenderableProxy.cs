@@ -22,7 +22,18 @@ namespace StudioCore.Scene
     public abstract class RenderableProxy : Renderer.IRendererUpdatable, IDisposable
     {
         private bool disposedValue;
+        /*
+        /// <summary>
+        /// List of Model IDs that should be rendered using mesh primitive instead of the actual model. 
+        /// By default, characters models <=1010 always use mesh primitives.
+        /// </summary>
+        public List<string> _modelMarkerList = new()
+        {
+            "o0000",
+            "o0010",
 
+        };
+        */
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyRenderables();
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
@@ -1151,6 +1162,56 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OverlayRenderables, _jointSphere);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+
+        private static DbgPrimWireBox _modelMarkerBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+        //private static DbgPrimWireCylinder _modelMarkerTri = new DbgPrimWireCylinder(Transform.Default, 1f, 1.5f, 3, Color.Firebrick);
+        //private static DbgPrimWireArrow _modelMarkerTri = new DbgPrimWireArrow("", Transform.Default, Color.Firebrick);
+        private static DbgPrimWireCapsule _modelMarkerTri = new DbgPrimWireCapsule(Color.Firebrick);
+        private static DbgPrimWireSphere _modelMarkerSphere = new DbgPrimWireSphere(Transform.Default, 0.75f, Color.Firebrick, 2, 11);
+        public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(RenderScene scene, string partType)
+        {
+            //Model Markers for meshses that don't render normally (like c0000)
+            partType = partType.Split(" : ")[0]; //hack, but who cares
+            IDbgPrim prim;
+            Color baseColor;
+            Color selectColor;
+
+            switch (partType)
+            {
+                case "Enemy":
+                case "DummyEnemy":
+                    prim = _modelMarkerTri;
+                    baseColor = Color.Firebrick;
+                    selectColor = Color.Tomato;
+                    break;
+                case "Object":
+                case "DummyObject":
+                    prim = _modelMarkerBox;
+                    baseColor = Color.Firebrick;
+                    selectColor = Color.Tomato;
+                    break;
+                case "Player":
+                    prim = _modelMarkerSphere;
+                    baseColor = Color.Firebrick;
+                    selectColor = Color.Tomato;
+                    break;
+                case "MapPiece":
+                case "Collision":
+                case "Navmesh":
+                case "Region":
+                default:
+                    prim = _modelMarkerBox;
+                    baseColor = Color.Firebrick;
+                    selectColor = Color.Tomato;
+                    break;
+            }
+
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, prim);
+            r.BaseColor = baseColor;
+            r.HighlightedColor = selectColor;
+
             return r;
         }
     }

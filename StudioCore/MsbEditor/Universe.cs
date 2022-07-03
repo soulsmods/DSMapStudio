@@ -43,6 +43,43 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        private static RenderFilter GetRenderFilter(string type)
+        {
+            RenderFilter filter;
+            type = type.Split(" : ")[0]; //hack, but who cares
+
+            switch (type)
+            {
+                case "Enemy":
+                case "DummyEnemy":
+                    filter = RenderFilter.Character;
+                    break;
+                case "Object":
+                case "DummyObject":
+                    filter = RenderFilter.Object;
+                    break;
+                case "Player":
+                    filter = RenderFilter.Region;
+                    break;
+                case "MapPiece":
+                    filter = RenderFilter.MapPiece;
+                    break;
+                case "Collision":
+                    filter = RenderFilter.Collision;
+                    break;
+                case "Navmesh":
+                    filter = RenderFilter.Navmesh;
+                    break;
+                case "Region":
+                    filter = RenderFilter.Region;
+                    break;
+                default:
+                    filter = RenderFilter.All;
+                    break;
+            }
+            return filter;
+        }
+
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
             if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
@@ -75,6 +112,14 @@ namespace StudioCore.MsbEditor
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbPart r5)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderScene, obj.WrappedObject.ToString());
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = GetRenderFilter(obj.WrappedObject.ToString());
                 return mesh;
             }
             return null;
@@ -507,9 +552,9 @@ namespace StudioCore.MsbEditor
 
             foreach (var obj in map.Objects)
             {
-                if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "")
+                if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "" && obj.RenderSceneMesh == null)
                 {
-                    GetModelDrawable(map, obj, mp.ModelName, false);
+                        GetModelDrawable(map, obj, mp.ModelName, false); 
                 }
 
                 // Try to find the map offset
