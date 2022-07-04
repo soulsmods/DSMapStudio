@@ -662,39 +662,38 @@ namespace StudioCore.TextEditor
                 return;
             }
 
-                IBinder fmgBinderItem;
-                IBinder fmgBinderMenu;
-                var itemMsgPath = AssetLocator.GetItemMsgbnd(languageFolder);
-                var menuMsgPath = AssetLocator.GetMenuMsgbnd(languageFolder);
-                if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
-                {
-                    fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
-                    fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
-                }
-                else
-                {
-                    fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
-                    fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
-                }
+            IBinder fmgBinderItem;
+            IBinder fmgBinderMenu;
+            var itemMsgPath = AssetLocator.GetItemMsgbnd(languageFolder);
+            var menuMsgPath = AssetLocator.GetMenuMsgbnd(languageFolder);
+            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+            {
+                fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
+                fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
+            }
+            else
+            {
+                fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
+                fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
+            }
 
-                _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
-                _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
-                foreach (var file in fmgBinderItem.Files)
-                {
+            _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
+            _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
+            foreach (var file in fmgBinderItem.Files)
+            {
+                _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
+            }
+
+            foreach (var file in fmgBinderMenu.Files)
+            {
+                if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID)) //catch item FMGs in menu msgbnd 
                     _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                }
+                else
+                    _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
+            }
 
-                foreach (var file in fmgBinderMenu.Files)
-                {
-                    if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID)) //catch item FMGs in menu msgbnd 
-                        _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                    else
-                        _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
-                }
-
-                IsLoaded = true;
-                IsLoading = false;
-            });
+            IsLoaded = true;
+            IsLoading = false;
         }
 
         public static void SaveFMGsDS2()
