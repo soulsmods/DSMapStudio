@@ -11,6 +11,7 @@ using StudioCore.Resource;
 using Newtonsoft.Json;
 using ImGuiNET;
 using StudioCore.Scene;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -613,14 +614,17 @@ namespace StudioCore.MsbEditor
         }
         public void ReloadUniverse()
         {
-            Universe.UnloadAllMaps();
-            GC.Collect();
-            Universe.PopulateMapList();
-
-            if (AssetLocator.Type != GameType.Undefined)
+            TaskManager.Run("U:LoadUniverse", true, false, true, () =>
             {
-                PopulateClassNames(AssetLocator.Type);
-            }
+                Universe.UnloadAllMaps();
+                GC.Collect();
+                Universe.PopulateMapList();
+
+                if (AssetLocator.Type != GameType.Undefined)
+                {
+                    PopulateClassNames(AssetLocator.Type);
+                }
+            });
         }
 
         public override void Save()

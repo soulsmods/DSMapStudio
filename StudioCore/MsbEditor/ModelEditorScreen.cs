@@ -9,6 +9,7 @@ using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using StudioCore.Resource;
 using StudioCore.Scene;
+using StudioCore.Editor;
 using ImGuiNET;
 
 namespace StudioCore.MsbEditor
@@ -281,10 +282,13 @@ namespace StudioCore.MsbEditor
 
         public void ReloadAssetBrowser()
         {
-            if (AssetLocator.Type != GameType.Undefined)
+            TaskManager.Run("Model:LoadAssetBrowser", true, false, true, () =>
             {
-                _assetBrowser.RebuildCaches();
-            }
+                if (AssetLocator.Type != GameType.Undefined)
+                {
+                    _assetBrowser.RebuildCaches();
+                }
+            });
         }
 
         public override void Save()

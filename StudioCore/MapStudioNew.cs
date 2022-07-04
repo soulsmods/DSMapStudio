@@ -332,28 +332,12 @@ namespace StudioCore
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
 
-            TaskManager.Run("AB:LoadAliases", true, false, true, () =>
-            {
-                Editor.AliasBank.ReloadAliases();
-            });
-            TaskManager.Run("PB:LoadParams", true, false, true, () =>
-            {
-                ParamEditor.ParamBank.ReloadParams(newsettings);
-            });
-            TaskManager.Run("FB:Reload", true, false, true, () =>
-            {
-                TextEditor.FMGBank.ReloadFMGs();
-            });
-            TaskManager.Run("MB:LoadMtds", true, false, true, ()=>{
-                MsbEditor.MtdBank.ReloadMtds();
-            });
-
-            TaskManager.Run("U:LoadUniverse", true, false, true, ()=>{
-                _msbEditor.ReloadUniverse();
-            });
-            TaskManager.Run("Model:LoadAssetBrowser", true, false, true, ()=>{
-                _modelEditor.ReloadAssetBrowser();
-            });
+            Editor.AliasBank.ReloadAliases();
+            ParamEditor.ParamBank.ReloadParams(newsettings);
+            TextEditor.FMGBank.ReloadFMGs();
+            MsbEditor.MtdBank.ReloadMtds();
+            _msbEditor.ReloadUniverse();
+            _modelEditor.ReloadAssetBrowser();
             
             //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
