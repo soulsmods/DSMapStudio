@@ -968,6 +968,44 @@ namespace StudioCore.MsbEditor
         /// </summary>
         private static bool CheckIfModelMarker(string model)
         {
+            List<string> objModelMarkerList = new()
+            {
+            //DS1
+            "o1400",
+            "o1401",
+            "o1402",
+            "o1403",
+            "o1404",
+            "o1405",
+            "o1406",
+            "o1407",
+            "o1408",
+            "o1409",
+            "o1410",
+            "o1411",
+            "o1412",
+            "o1413",
+            "o1414",
+            "o1415",
+            "o1416",
+            "o1417",
+            "o1418",
+            "o1419",
+            "o1420",
+            "o1421",
+            //DS3
+            "o000400",
+            "o000401",
+            "o000402",
+            "o000499",
+            //ER
+            "AEG099_000",
+            "AEG099_001",
+            "AEG099_002",
+            "AEG099_003",
+            "AEG099_005",
+            };
+
             var idStr = new string(model.Where(char.IsDigit).ToArray());
             int id = 9999;
             int.TryParse(idStr, out id);
@@ -976,8 +1014,7 @@ namespace StudioCore.MsbEditor
             {
                 return true;
             }
-            //|| model.StartsWith("o") && !RenderableProxy._modelMarkerList.find ModelName) //TODO2 MSB: objects that need model markers
-            if (model.StartsWith("c") && id <= 1010)
+            if (objModelMarkerList.Contains(model) || model.StartsWith("c") && id <= 1010)
                 return true;
 
             return false;

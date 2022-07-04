@@ -22,18 +22,7 @@ namespace StudioCore.Scene
     public abstract class RenderableProxy : Renderer.IRendererUpdatable, IDisposable
     {
         private bool disposedValue;
-        /*
-        /// <summary>
-        /// List of Model IDs that should be rendered using mesh primitive instead of the actual model. 
-        /// By default, characters models <=1010 always use mesh primitives.
-        /// </summary>
-        public List<string> _modelMarkerList = new()
-        {
-            "o0000",
-            "o0010",
-
-        };
-        */
+        
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyRenderables();
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
