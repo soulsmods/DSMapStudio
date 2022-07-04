@@ -146,6 +146,13 @@ namespace StudioCore.TextEditor
         private void FMGSearchGUI()
         {
 
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+            ImGui.PopStyleColor();
+            ImGui.Begin("Search Text", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.Modal);
+            ImGui.Columns(2);
+            if (ImGui.Button("Clear Text"))
+                _FMGsearchStr = "";
+            ImGui.NextColumn();
             ImGui.InputText("Search...", ref _FMGsearchStr, 255);
 
             //TODO2: regex crap
@@ -159,9 +166,6 @@ namespace StudioCore.TextEditor
             {
             }
             */
-
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
-            ImGui.PopStyleColor();
 
             if (_cachedEntries != null)
             {
@@ -237,6 +241,7 @@ namespace StudioCore.TextEditor
                         _cachedEntriesFiltered = _cachedEntries;//FMGBank.GetMenuFMGEntries(_active);
                 }
             }
+            ImGui.End();
             //ImGui.Separator();
         }
 
@@ -252,11 +257,14 @@ namespace StudioCore.TextEditor
                 }
                 return;
             }
+            var dsid = ImGui.GetID("DockSpace_TextEntries");
+            ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
 
-            ImGui.Columns(3);
+            FMGSearchGUI();//
+
+            ImGui.Columns(2);
             ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(8.0f, 8.0f));
-            ImGui.BeginChild("categories");
-            ImGui.Spacing();
+            ImGui.Begin("Text Categories");
             ImGui.Separator();
             ImGui.Text("  Item Text");
             ImGui.Separator();
@@ -303,14 +311,14 @@ namespace StudioCore.TextEditor
                     ImGui.SetScrollHereY();
                 }
             }
-            ImGui.EndChild();
+            ImGui.End();
 
             ImGui.PopStyleVar();
             ImGui.NextColumn();
 
-            FMGSearchGUI();//
+            //ImGui.BeginChild("TextRows");
+            ImGui.Begin("Text Entries");
 
-            ImGui.BeginChild("rows");
             if (_activeItemCategory == FMGBank.ItemCategory.None && _activeMenuCategoryPair.Key == FMGBank.MenuFMGTypes.None)
             {
                 ImGui.Text("Select a category to see items");
@@ -338,9 +346,11 @@ namespace StudioCore.TextEditor
                     }
                 }
             }
-            ImGui.EndChild();
-            ImGui.NextColumn();
-            ImGui.BeginChild("text");
+            ImGui.End();
+            //ImGui.NextColumn();
+            //ImGui.BeginMenu("text");
+
+            ImGui.Begin("Text");
             if (_activeEntry == null)
             {
                 ImGui.Text("Select an item to edit text");
@@ -349,6 +359,7 @@ namespace StudioCore.TextEditor
             {
                 //_propEditor.PropEditorParamRow(_activeRow);
                 ImGui.Columns(2);
+                ImGui.SetColumnWidth(0, 100);
                 ImGui.Text("ID");
                 ImGui.NextColumn();
                 int id = _activeEntry.ID;
@@ -379,7 +390,8 @@ namespace StudioCore.TextEditor
                 }
                 _propEditor.PropEditorFMGEnd();
             }
-            ImGui.EndChild();
+            ImGui.End();
+            //ImGui.EndChild();
         }
 
         private void EditorGUIDS2(bool doFocus)
