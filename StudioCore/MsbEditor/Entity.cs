@@ -972,6 +972,10 @@ namespace StudioCore.MsbEditor
             int id = 9999;
             int.TryParse(idStr, out id);
 
+            if (model == "")
+            {
+                return true;
+            }
             //|| model.StartsWith("o") && !RenderableProxy._modelMarkerList.find ModelName) //TODO2 MSB: objects that need model markers
             if (model.StartsWith("c") && id <= 1010)
                 return true;

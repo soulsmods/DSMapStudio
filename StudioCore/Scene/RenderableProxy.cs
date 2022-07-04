@@ -1165,15 +1165,15 @@ namespace StudioCore.Scene
             return r;
         }
 
-        private static DbgPrimWireBox _modelMarkerBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
-        //private static DbgPrimWireCylinder _modelMarkerTri = new DbgPrimWireCylinder(Transform.Default, 1f, 1.5f, 3, Color.Firebrick);
-        private static DbgPrimWireArrow _modelMarkerTri = new DbgPrimWireArrow("", Transform.Default, Color.Firebrick);
-        //private static DbgPrimWireCapsule _modelMarkerTri = new DbgPrimWireCapsule(Color.Firebrick);
-        private static DbgPrimWireSphere _modelMarkerSphere = new DbgPrimWireSphere(Transform.Default, 0.75f, Color.Firebrick, 2, 11);
+        //private static DbgPrimWireBox _modelMarkerObj = new DbgPrimWireBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+        private static DbgPrimWireSpheroidWithArrow _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
+        private static DbgPrimWireSphere _modelMarkerObj = new DbgPrimWireSphere(Transform.Default, 2f, Color.Firebrick, 2, 10);
+        private static DbgPrimWireSpheroidWithArrow _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
+        private static DbgPrimWireBox _modelMarkerOther = new DbgPrimWireBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
         public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(RenderScene scene, string partType)
         {
             //Model Markers for meshses that don't render normally (like c0000)
-            partType = partType.Split(" : ")[0]; //hack, but who cares
+
             IDbgPrim prim;
             Color baseColor;
             Color selectColor;
@@ -1182,29 +1182,29 @@ namespace StudioCore.Scene
             {
                 case "Enemy":
                 case "DummyEnemy":
-                    prim = _modelMarkerTri;
+                    prim = _modelMarkerChr;
                     baseColor = Color.Firebrick;
                     selectColor = Color.Tomato;
                     break;
                 case "Object":
                 case "DummyObject":
-                    prim = _modelMarkerBox;
-                    baseColor = Color.Firebrick;
-                    selectColor = Color.Tomato;
+                    prim = _modelMarkerObj;
+                    baseColor = Color.DarkKhaki;
+                    selectColor = Color.Orange;
                     break;
                 case "Player":
-                    prim = _modelMarkerSphere;
-                    baseColor = Color.Firebrick;
-                    selectColor = Color.Tomato;
+                    prim = _modelMarkerPlayer;
+                    baseColor = Color.DarkOliveGreen;
+                    selectColor = Color.DarkSeaGreen;
                     break;
                 case "MapPiece":
                 case "Collision":
                 case "Navmesh":
                 case "Region":
                 default:
-                    prim = _modelMarkerBox;
-                    baseColor = Color.Firebrick;
-                    selectColor = Color.Tomato;
+                    prim = _modelMarkerOther;
+                    baseColor = Color.Wheat;
+                    selectColor = Color.AntiqueWhite;
                     break;
             }
 

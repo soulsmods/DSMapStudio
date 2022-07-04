@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using StudioCore.Resource;
@@ -46,7 +47,6 @@ namespace StudioCore.MsbEditor
         private static RenderFilter GetRenderFilter(string type)
         {
             RenderFilter filter;
-            type = type.Split(" : ")[0]; //hack, but who cares
 
             switch (type)
             {
@@ -116,10 +116,11 @@ namespace StudioCore.MsbEditor
             }
             else if (obj.WrappedObject is IMsbPart r5)
             {
-                var mesh = DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderScene, obj.WrappedObject.ToString());
+                var enemyTypeStr = obj.WrappedObject.GetType().ToString().Split("+").Last();
+                var mesh = DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderScene, enemyTypeStr);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
-                mesh.DrawFilter = GetRenderFilter(obj.WrappedObject.ToString());
+                mesh.DrawFilter = GetRenderFilter(enemyTypeStr);
                 return mesh;
             }
             return null;
