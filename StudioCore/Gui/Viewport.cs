@@ -36,7 +36,7 @@ namespace StudioCore.Gui
         public int Height;
 
         public float NearClip = 0.1f;
-        public float FarClip = 2000.0f;
+        public float FarClip = 20000.0f;
 
         public bool DrawGrid { get; set; } = true;
 

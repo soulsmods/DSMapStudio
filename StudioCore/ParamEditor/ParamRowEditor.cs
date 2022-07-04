@@ -18,14 +18,16 @@ namespace StudioCore.ParamEditor
     public class PropertyEditor
     {
         public ActionManager ContextActionManager;
+        private ParamEditorScreen _paramEditor;
 
         private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
 
         private string _refContextCurrentAutoComplete = "";
 
-        public PropertyEditor(ActionManager manager)
+        public PropertyEditor(ActionManager manager, ParamEditorScreen paramEditorScreen)
         {
             ContextActionManager = manager;
+            _paramEditor = paramEditorScreen;
         }
 
         private bool PropertyRow(Type typ, object oldval, out object newval, bool isBool)
@@ -220,7 +222,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString)
+        public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
             ImGui.Columns(ParamEditorScreen.ShowVanillaParamsPreference?3:2);
@@ -249,7 +251,18 @@ namespace StudioCore.ParamEditor
             PropEditorPropInfoRow(row, nameProp, "Name", ref id, propSearchRx);
             PropEditorPropInfoRow(row, idProp, "ID", ref id, propSearchRx);
             ImGui.PopStyleColor();
+            ImGui.Separator();
 
+            List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
+            foreach (var field in pinnedFields)
+            {
+                List<PARAM.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                List<PARAM.Cell> vmatches = vrow==null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                for (int i=0; i<matches.Count; i++)
+                    PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx, activeParam, true);
+            }
+            if (pinnedFields.Count != 0)
+                ImGui.Separator();
             List<string> fieldOrder = meta != null && meta.AlternateOrder != null && ParamEditorScreen.AllowFieldReorderPreference ? meta.AlternateOrder : new List<string>();
             foreach (PARAMDEF.Field field in row.Def.Fields)
             {
@@ -268,7 +281,7 @@ namespace StudioCore.ParamEditor
                 List<PARAM.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 List<PARAM.Cell> vmatches = vrow==null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 for (int i=0; i<matches.Count; i++)
-                    PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx);
+                    PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
         }
@@ -276,13 +289,13 @@ namespace StudioCore.ParamEditor
         // Many parameter options, which may be simplified.
         private void PropEditorPropInfoRow(PARAM.Row row, PropertyInfo prop, string visualName, ref int id, Regex propSearchRx)
         {
-            PropEditorPropRow(prop.GetValue(row), null, ref id, visualName, null, prop.PropertyType, prop, null, row, propSearchRx);
+            PropEditorPropRow(prop.GetValue(row), null, ref id, visualName, null, prop.PropertyType, prop, null, row, propSearchRx, null, false);
         }
-        private void PropEditorPropCellRow(PARAM.Cell cell, PARAM.Cell vcell, ref int id, Regex propSearchRx)
+        private void PropEditorPropCellRow(PARAM.Cell cell, PARAM.Cell vcell, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
         {
-            PropEditorPropRow(cell.Value, vcell==null?null:vcell.Value, ref id, cell.Def.InternalName, FieldMetaData.Get(cell.Def), cell.Value.GetType(), cell.GetType().GetProperty("Value"), cell, null, propSearchRx);
+            PropEditorPropRow(cell.Value, vcell==null?null:vcell.Value, ref id, cell.Def.InternalName, FieldMetaData.Get(cell.Def), cell.Value.GetType(), cell.GetType().GetProperty("Value"), cell, null, propSearchRx, activeParam, isPinned);
         }
-        private void PropEditorPropRow(object oldval, object vanillaval, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, PARAM.Cell nullableCell, PARAM.Row nullableRow, Regex propSearchRx)
+        private void PropEditorPropRow(object oldval, object vanillaval, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, PARAM.Cell nullableCell, PARAM.Row nullableRow, Regex propSearchRx, string activeParam, bool isPinned)
         {
             List<string> RefTypes = cellMeta == null ? null : cellMeta.RefTypes;
             string VirtualRef = cellMeta == null ? null : cellMeta.VirtualRef;
@@ -303,7 +316,7 @@ namespace StudioCore.ParamEditor
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
             PropertyRowName(ref internalName, cellMeta);
-            PropertyRowNameContextMenu(internalName, cellMeta);
+            PropertyRowNameContextMenu(internalName, cellMeta, activeParam, activeParam!=null, isPinned);
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
@@ -390,7 +403,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private void PropertyRowNameContextMenu(string originalName, FieldMetaData cellMeta)
+        private void PropertyRowNameContextMenu(string originalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
         {
             if (ImGui.BeginPopupContextItem("rowName"))
             {
@@ -398,6 +411,16 @@ namespace StudioCore.ParamEditor
                     ImGui.Text(originalName);
                 if (ImGui.Selectable("Search..."))
                     EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
+                if (showPinOptions && ImGui.Selectable((isPinned?"Unpin ":"Pin "+ originalName)))
+                {
+                    if(!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
+                        _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
+                    List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
+                    if (isPinned)
+                        pinned.Remove(originalName);
+                    else if (!pinned.Contains(originalName))
+                        pinned.Add(originalName);
+                }
                 if (ParamEditorScreen.EditorMode && cellMeta != null)
                 {
                     if (ImGui.BeginMenu("Add Reference"))
@@ -557,20 +580,6 @@ namespace StudioCore.ParamEditor
 
             }
             return false;
-        }
-
-        public void OnGui(PARAM.Row selection, PARAM.Row vselection, string id, float w, float h)
-        {
-            ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
-            ImGui.SetNextWindowSize(new Vector2(350, h - 80), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(w - 370, 20), ImGuiCond.FirstUseEver);
-            ImGui.Begin($@"Properties##{id}");
-            ImGui.BeginChild("propedit");
-            string _noSearchStr = null;
-            PropEditorParamRow(selection, vselection, ref _noSearchStr);
-            ImGui.EndChild();
-            ImGui.End();
-            ImGui.PopStyleColor();
         }
     }
 }

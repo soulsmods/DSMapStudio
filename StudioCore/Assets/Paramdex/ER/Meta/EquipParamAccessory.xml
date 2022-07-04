@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="ReferenceType" type="u8">
+		<Option Value="0" Name="Behavior / None" />
+		<Option Value="1" Name="Bullet" />
+		<Option Value="2" Name="SpEffect" />
+	  </Enum>
+	  <Enum Name="Rarity" type="u8">
+		<Option Value="0" Name="Default" />
+		<Option Value="1" Name="Common" />
+		<Option Value="2" Name="Rare" />
+		<Option Value="3" Name="Legendary" />
+	  </Enum>
+  </Enums>
   <Field>
+    <refCategory Enum="ReferenceType" />
+	<rarity Enum="Rarity" />
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
     <refId Refs="SpEffectParam,Bullet,AtkParam_Pc" />

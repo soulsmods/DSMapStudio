@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using SoulsFormats;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -76,7 +77,6 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
-
         }
 
         public static void LoadMtds(AssetLocator l)

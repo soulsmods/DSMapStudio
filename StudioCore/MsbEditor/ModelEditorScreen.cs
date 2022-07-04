@@ -276,6 +276,11 @@ namespace StudioCore.MsbEditor
 
         public override void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
+            
+        }
+
+        public void ReloadAssetBrowser()
+        {
             if (AssetLocator.Type != GameType.Undefined)
             {
                 _assetBrowser.RebuildCaches();

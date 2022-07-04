@@ -178,8 +178,9 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists($@"{dir}\\param\gameparam\{paramBinderName}"))
             {
-                MessageBox.Show("Could not find DES regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DES regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DES regulation file. Functionality will be limited.");
             }
 
             // Load params
@@ -209,8 +210,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS1 regulation file. Functionality will be limited.");
             }
 
             // Load params
@@ -235,8 +237,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS1 regulation file. Functionality will be limited.");
             }
 
             // Load params
@@ -261,8 +264,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
             }
 
             // Load params
@@ -305,8 +309,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS2 regulation file. Functionality will be limited.");
             }
             if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
             {
@@ -433,8 +438,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find DS3 regulation file. Functionality will be limited.");
             }
 
             var vparam = $@"{dir}\Data0.bdt";
@@ -472,8 +478,9 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
             }
 
             // Load params
@@ -526,94 +533,91 @@ namespace StudioCore.ParamEditor
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _params = new Dictionary<string, PARAM>();
-            _vanillaParams = new Dictionary<string, PARAM>();
             IsDefsLoaded = false;
-            IsMetaLoaded = false;
             IsLoadingParams = true;
-            IsLoadingVParams = true;
-
-            TaskManager.Run("PB:LoadParams", true, false, () =>
+            
+            if (AssetLocator.Type != GameType.Undefined)
             {
-                if (AssetLocator.Type != GameType.Undefined)
+                List<(string, PARAMDEF)> defPairs = LoadParamdefs();
+                IsDefsLoaded = true;
+                TaskManager.Run("PB:LoadParamMeta", true, false, false, () =>
                 {
-                    List<(string, PARAMDEF)> defPairs = LoadParamdefs();
-                    IsDefsLoaded = true;
-                    TaskManager.Run("PB:LoadParamMeta", true, false, () =>
-                    {
-                        LoadParamMeta(defPairs);
-                        IsMetaLoaded = true;
-                    });
-                }
-                string vparamDir = null;
-                if (AssetLocator.Type == GameType.DemonsSouls)
-                {
-                    vparamDir = LoadParamsDES();
-                }
-                if (AssetLocator.Type == GameType.DarkSoulsPTDE)
-                {
-                    vparamDir = LoadParamsDS1();
-                }
-                if (AssetLocator.Type == GameType.DarkSoulsRemastered)
-                {
-                    vparamDir = LoadParamsDS1R();
-                }
-                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    vparamDir = LoadParamsDS2();
-                }
-                if (AssetLocator.Type == GameType.DarkSoulsIII)
-                {
-                    vparamDir = LoadParamsDS3();
-                }
-                if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
-                {
-                    vparamDir = LoadParamsBBSekrio();
-                }
-                if (AssetLocator.Type == GameType.EldenRing)
-                {
-                    vparamDir = LoadParamsER(settings.PartialParams);
-                }
-                _paramDirtyCache = new Dictionary<string, HashSet<int>>();
-                foreach (string param in _params.Keys)
-                    _paramDirtyCache.Add(param, new HashSet<int>());
-                IsLoadingParams = false;
+                    IsMetaLoaded = false;
+                    LoadParamMeta(defPairs);
+                    IsMetaLoaded = true;
+                });
+            }
+            string vparamDir = null;
+            if (AssetLocator.Type == GameType.DemonsSouls)
+            {
+                vparamDir = LoadParamsDES();
+            }
+            if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+            {
+                vparamDir = LoadParamsDS1();
+            }
+            if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+            {
+                vparamDir = LoadParamsDS1R();
+            }
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                vparamDir = LoadParamsDS2();
+            }
+            if (AssetLocator.Type == GameType.DarkSoulsIII)
+            {
+                vparamDir = LoadParamsDS3();
+            }
+            if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+            {
+                vparamDir = LoadParamsBBSekrio();
+            }
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                vparamDir = LoadParamsER(settings.PartialParams);
+            }
 
-                if (vparamDir != null)
-                {
-                    TaskManager.Run("PB:LoadVParams", true, false, () => {
-                        if (AssetLocator.Type == GameType.DemonsSouls)
-                        {
-                            LoadVParamsDES(vparamDir);
-                        }
-                        if (AssetLocator.Type == GameType.DarkSoulsPTDE)
-                        {
-                            LoadVParamsDS1(vparamDir);
-                        }
-                        if (AssetLocator.Type == GameType.DarkSoulsRemastered)
-                        {
-                            LoadVParamsDS1R(vparamDir);
-                        }
-                        if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                        {
-                            LoadVParamsDS2(vparamDir);
-                        }
-                        if (AssetLocator.Type == GameType.DarkSoulsIII)
-                        {
-                            LoadVParamsDS3(vparamDir);
-                        }
-                        if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
-                        {
-                            LoadVParamsBBSekrio(vparamDir);
-                        }
-                        if (AssetLocator.Type == GameType.EldenRing)
-                        {
-                            LoadVParamsER(vparamDir);
-                        }
-                        IsLoadingVParams = false;
-                        TaskManager.Run("PB:RefreshDirtyCache", false, true, () => refreshParamDirtyCache());
-                    });
-                }
-            });
+            if (vparamDir != null)
+            {
+                IsLoadingVParams = true;
+                _vanillaParams = new Dictionary<string, PARAM>();
+                TaskManager.Run("PB:LoadVParams", true, false, false, () => {
+                    if (AssetLocator.Type == GameType.DemonsSouls)
+                    {
+                        LoadVParamsDES(vparamDir);
+                    }
+                    if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+                    {
+                        LoadVParamsDS1(vparamDir);
+                    }
+                    if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+                    {
+                        LoadVParamsDS1R(vparamDir);
+                    }
+                    if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        LoadVParamsDS2(vparamDir);
+                    }
+                    if (AssetLocator.Type == GameType.DarkSoulsIII)
+                    {
+                        LoadVParamsDS3(vparamDir);
+                    }
+                    if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+                    {
+                        LoadVParamsBBSekrio(vparamDir);
+                    }
+                    if (AssetLocator.Type == GameType.EldenRing)
+                    {
+                        LoadVParamsER(vparamDir);
+                    }
+                    IsLoadingVParams = false;
+                });
+            }
+
+            _paramDirtyCache = new Dictionary<string, HashSet<int>>();
+            foreach (string param in _params.Keys)
+                _paramDirtyCache.Add(param, new HashSet<int>());
+            IsLoadingParams = false;
         }
 
         public static void refreshParamDirtyCache()

@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+  <Enum Name="ToCaution" type="u8">
+    <Option Value="0" Name="Wait for Battle Start Distance" />
+    <Option Value="1" Name="Look at Source" />
+    <Option Value="2" Name="Approach Source" />
+    <Option Value="3" Name="Run to Source" />
+    <Option Value="4" Name="Immediate Battle AI" />
+  </Enum>
+  </Enums>
   <Field>
+    <goalAction_ToCaution Enum="ToCaution" />
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
     <isNoAvoidHugeEnemy IsBool="" />

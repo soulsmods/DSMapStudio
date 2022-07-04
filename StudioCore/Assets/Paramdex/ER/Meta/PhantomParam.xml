@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="GhostType" type="u8">
+		<Option Value="0" Name="Player" />
+		<Option Value="1" Name="Player" />
+		<Option Value="2" Name="Player/Enemy" />
+		<Option Value="3" Name="Player/Enemy" />
+	  </Enum>
+  </Enums>
   <Field>
     <isEdgeSubtract IsBool="" />
     <isFrontSubtract IsBool="" />
     <isNo2Pass IsBool="" />
+	<blendType Enum="GhostType" />
   </Field>
   <Self />
 </PARAMMETA>

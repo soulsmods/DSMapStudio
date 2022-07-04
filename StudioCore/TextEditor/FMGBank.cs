@@ -649,21 +649,18 @@ namespace StudioCore.TextEditor
             _languageFolder = languageFolder;
             IsLoaded = false;
             IsLoading = true;
-
-            TaskManager.Run("FB:Reload", true, false, () =>
+            if (AssetLocator.Type == GameType.Undefined)
             {
-                if (AssetLocator.Type == GameType.Undefined)
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    ReloadFMGsDS2();
-                    IsLoading = false;
-                    IsLoaded = true;
-                    return;
-                }
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                ReloadFMGsDS2();
+                IsLoading = false;
+                IsLoaded = true;
+                return;
+            }
 
                 IBinder fmgBinderItem;
                 IBinder fmgBinderMenu;
@@ -710,6 +707,8 @@ namespace StudioCore.TextEditor
 
         public static void SaveFMGs()
         {
+            if (!IsLoaded)
+                return;
             if (AssetLocator.Type == GameType.Undefined)
             {
                 return;

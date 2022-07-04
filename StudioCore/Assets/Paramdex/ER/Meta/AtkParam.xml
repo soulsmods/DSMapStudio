@@ -1,6 +1,115 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="AttackAttribute" type="s8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Slash" />
+		<Option Value="2" Name="Strike" />
+		<Option Value="3" Name="Thrust" />
+		<Option Value="4" Name="Standard" />
+	  </Enum>
+	  <Enum Name="EffectAttribute" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="10" Name="Magic" />
+		<Option Value="11" Name="Fire" />
+		<Option Value="12" Name="Lightning" />
+		<Option Value="13" Name="Holy" />
+		<Option Value="20" Name="Poison" />
+		<Option Value="21" Name="Scarlet Rot" />
+		<Option Value="22" Name="Hemorrhage" />
+		<Option Value="23" Name="Frostbite" />
+		<Option Value="24" Name="Sleep" />
+		<Option Value="25" Name="Madness" />
+		<Option Value="26" Name="Blight" />
+		<Option Value="254" Name="None" />
+	  </Enum>
+	  <Enum Name="DamageLevel" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="No Stagger" />
+		<Option Value="2" Name="Short Stagger" />
+		<Option Value="3" Name="Long Stagger" />
+		<Option Value="4" Name="Stagger to Floor" />
+		<Option Value="5" Name="Stagger Backwards" />
+		<Option Value="6" Name="Faceplant" />
+		<Option Value="7" Name="Stagger to Floor" />
+		<Option Value="8" Name="Faceplant" />
+		<Option Value="9" Name="Air Juggle Stagger" />
+		<Option Value="10" Name="Push" />
+		<Option Value="11" Name="Strong Stagger" />
+		<Option Value="12" Name="Stagger Backwards" />
+	  </Enum>
+	  <Enum Name="AttackType" type="s8">
+		<Option Value="0" Name="Slash" />
+		<Option Value="1" Name="Strike" />
+		<Option Value="2" Name="Thrust" />
+	  </Enum>
+	  <Enum Name="HitType" type="u8">
+		<Option Value="0" Name="Ignore Collision" />
+		<Option Value="2" Name="Invoke Collision" />
+	  </Enum>
+	  <Enum Name="MapHitType" type="u8">
+		<Option Value="0" Name="Default" />
+		<Option Value="1" Name="Projectile" />
+		<Option Value="2" Name="Hazard" />
+	  </Enum>
+	  <Enum Name="ConditionalWeaponEffect" type="s8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Full Moon Spell" />
+		<Option Value="2" Name="Carian Sword Spell" />
+		<Option Value="3" Name="Glintblade Spell" />
+		<Option Value="4" Name="Stonedigger Spell" />
+		<Option Value="5" Name="Crystalian Spell" />
+		<Option Value="6" Name="Karolos Spell" />
+		<Option Value="7" Name="Olivinus Spell" />
+		<Option Value="8" Name="Lava Spell" />
+		<Option Value="9" Name="Thorn Spell" />
+		<Option Value="10" Name="Death Spell" />
+		<Option Value="11" Name="Gravity Spell" />
+		<Option Value="12" Name="Night Spell" />
+		<Option Value="13" Name="Ranni Spell" />
+		<Option Value="14" Name="Azur Spell" />
+		<Option Value="15" Name="Lusat Spell" />
+		<Option Value="20" Name="Black Flame Spell" />
+		<Option Value="21" Name="Flame Spell" />
+		<Option Value="22" Name="Dragon Cult Spell" />
+		<Option Value="23" Name="Bestial Spell" />
+		<Option Value="24" Name="Golden Order Spell" />
+		<Option Value="25" Name="Dragon Communion Spell" />
+		<Option Value="26" Name="Frenzied Flame Spell" />
+		<Option Value="27" Name="Godslayer Spell" />
+		<Option Value="28" Name="Primordial Crucible Spell" />
+		<Option Value="100" Name="Charge Attack" />
+		<Option Value="101" Name="Horseback Attack" />
+		<Option Value="102" Name="Jump Attack" />
+		<Option Value="103" Name="Guard Counter Attack" />
+		<Option Value="104" Name="Final Chain Attack" />
+		<Option Value="105" Name="Ammunition Attack" />
+		<Option Value="106" Name="Roar Attack" />
+		<Option Value="107" Name="Breath Attack" />
+		<Option Value="108" Name="Pot Item Attack" />
+		<Option Value="109" Name="Perfume Item Attack" />
+		<Option Value="110" Name="Charged Attack" />
+		<Option Value="111" Name="Charged Skill Attack" />
+		<Option Value="112" Name="Skill Attack" />
+		<Option Value="113" Name="Ranged Skill Attack" />
+		<Option Value="114" Name="Vapor Attack" />
+		<Option Value="116" Name="Unknown Attack" />
+		<Option Value="117" Name="Wraith Attack" />
+		<Option Value="118" Name="Ammunition OnHit Attack" />
+	  </Enum>
+  </Enums>
   <Field>
+	<subCategory1 Enum="ConditionalWeaponEffect" />
+	<subCategory2 Enum="ConditionalWeaponEffect" />
+	<hit0_hitType Enum="HitType" />
+	<hit1_hitType Enum="HitType" />
+	<hit2_hitType Enum="HitType" />
+	<hit3_hitType Enum="HitType" />
+	<dmgLevel Enum="DamageLevel" />
+	<mapHitType Enum="MapHitType" />
+    <atkAttribute Enum="AttackAttribute" />
+	<spAttribute Enum="EffectAttribute" />
+	<atkType Enum="AttackType" />
     <spEffectId0 Refs="SpEffectParam" />
     <spEffectId1 Refs="SpEffectParam" />
     <spEffectId2 Refs="SpEffectParam" />

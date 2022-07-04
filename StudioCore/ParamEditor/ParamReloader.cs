@@ -10,6 +10,7 @@ using ProcessMemoryUtilities.Native;
 using SoulsFormats;
 using ImGuiNET;
 using System.Text;
+using StudioCore.Editor;
 
 namespace StudioCore.ParamEditor
 {
@@ -21,14 +22,20 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadMemoryParams(AssetLocator loc, string[] paramNames)
         {
-            GameOffsets offsets = GetGameOffsets(loc);
-            var processArray = Process.GetProcessesByName(offsets.exeName);
-            if (processArray.Any())
-            {
-                SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
-                ReloadMemoryParamsThreads(offsets, paramNames, memoryHandler);
-                memoryHandler.Terminate();
-            }
+            TaskManager.Run("PB:LiveParams", true, true, true, ()=>{
+                GameOffsets offsets = GetGameOffsets(loc);
+                var processArray = Process.GetProcessesByName(offsets.exeName);
+                if (!processArray.Any())
+                    processArray = Process.GetProcessesByName(offsets.exeName.Replace(".exe", ""));
+                if (processArray.Any())
+                {
+                    SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
+                    ReloadMemoryParamsThreads(offsets, paramNames, memoryHandler);
+                    memoryHandler.Terminate();
+                } else {
+                    throw new Exception("Unable to find running game");
+                }
+            });
         }
         private static void ReloadMemoryParamsThreads(GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
         {

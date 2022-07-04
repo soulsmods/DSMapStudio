@@ -338,7 +338,6 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            ImGui.PopID();
 
             // Invisible item to be a drag drop target between nodes
             if (_pendingDragDrop)
@@ -388,6 +387,7 @@ namespace StudioCore.MsbEditor
                 HierarchyView(e);
                 ImGui.TreePop();
             }
+            ImGui.PopID();
         }
 
         private void HierarchyView(Entity entity)
@@ -501,10 +501,14 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;
+                if (_universe.LoadedObjectContainers.Count==0)
+                    ImGui.Text("This Editor requires game to be unpacked");
                 foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
                 {
                     var map = lm.Value;
                     var mapid = lm.Key;
+                    if (mapid == null)
+                        continue;
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
                     if (map != null && _selection.GetSelection().Contains(map.RootObject))
                     {
@@ -512,24 +516,23 @@ namespace StudioCore.MsbEditor
                     }
                     bool nodeopen = false;
                     string unsaved = (map != null && map.HasUnsavedChanges) ? "*" : "";
-                    ImGui.Separator();
-                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
-                    {
-                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
-                    }
-                    else
-                    {
-                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<>");
-                    }
+                    ImGui.BeginGroup();
                     if (map != null)
                     {
                         nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags, $@"{ForkAwesome.Cube} {mapid}{unsaved}");
                     }
                     else
                     {
-                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false,ImGuiSelectableFlags.AllowItemOverlap);
+                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
                     }
-
+                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
+                    {
+                        ImGui.SameLine();
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
+                    }
+                    ImGui.EndGroup();
+                    if (nodeopen)
+                        ImGui.Indent(); //TreeNodeEx fails to indent as it is inside a group / indentation is reset
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
                     {

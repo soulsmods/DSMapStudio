@@ -1,6 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+	  <Enum Name="AttackAttribute" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Slash" />
+		<Option Value="2" Name="Strike" />
+		<Option Value="3" Name="Thrust" />
+		<Option Value="4" Name="Standard" />
+	  </Enum>
+	  <Enum Name="EffectAttribute" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="10" Name="Magic" />
+		<Option Value="11" Name="Fire" />
+		<Option Value="12" Name="Lightning" />
+		<Option Value="13" Name="Holy" />
+		<Option Value="20" Name="Poison" />
+		<Option Value="21" Name="Scarlet Rot" />
+		<Option Value="22" Name="Hemorrhage" />
+		<Option Value="23" Name="Frostbite" />
+		<Option Value="24" Name="Sleep" />
+		<Option Value="25" Name="Madness" />
+		<Option Value="26" Name="Blight" />
+		<Option Value="254" Name="None" />
+	  </Enum>
+	  <Enum Name="LaunchType" type="u8">
+		<Option Value="0" Name="Forward" />
+		<Option Value="1" Name="Down" />
+		<Option Value="2" Name="Forward/Down" />
+	  </Enum>
+	  <Enum Name="CounterType" type="u8">
+		<Option Value="0" Name="Unk" />
+		<Option Value="1" Name="Unk" />
+	  </Enum>
+  </Enums>
   <Field>
+    <atkAttribute Enum="AttackAttribute" />
+	<spAttribute Enum="EffectAttribute" />
     <atkId_Bullet Refs="AtkParam_Pc,AtkParam_Npc" />
     <spEffectId0 Refs="SpEffectParam" />
     <spEffectId1 Refs="SpEffectParam" />
@@ -26,13 +61,15 @@
     <isSyncBulletCulcDumypolyPos IsBool="" />
     <isOwnerOverrideInitAngle IsBool="" />
     <isInheritSfxToChild IsBool="" />
+	<sfxPostureType Enum="LaunchType" />
     <createLimitGroupId Refs="BulletCreateLimitParam" />
+	<pad5 Enum="CounterType" />
     <isInheritSpeedToChild IsBool="" />
     <isDisableHitSfx_byChrAndObj IsBool="" />
     <isCheckWall_byCenterRay IsBool="" />
     <isHitFlare IsBool="" />
     <isUseBulletWallFilter IsBool="" />
-    <isNonDependenceMagicForFunnleNum IsBool="" />
+    <isNonDependenceMagicForFunnlEnum IsBool="" />
     <isAiInterruptShootNoDamageBullet IsBool="" />
   </Field>
   <Self />

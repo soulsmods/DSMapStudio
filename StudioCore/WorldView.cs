@@ -361,6 +361,11 @@ namespace StudioCore
                 PointCameraToLocation(CameraPositionDefault.Position);
             }
 
+            if (InputTracker.GetMouseWheelDelta() > 0)
+                CameraMoveSpeed *= 1.05f;
+            if (InputTracker.GetMouseWheelDelta() < 0)
+                CameraMoveSpeed *= 1/1.05f;
+
             float moveMult = dt * CameraMoveSpeed;
 
             if (isSpeedupKeyPressed)
