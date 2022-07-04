@@ -512,22 +512,23 @@ namespace StudioCore.MsbEditor
                     }
                     bool nodeopen = false;
                     string unsaved = (map != null && map.HasUnsavedChanges) ? "*" : "";
-                    if (map != null)
+                    ImGui.Separator();
+                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
                     {
-                        nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags, $@"{ForkAwesome.Cube} {mapid}{unsaved}");
-                        ImGui.BeginGroup();
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
                     }
                     else
                     {
-                        ImGui.BeginGroup();
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<>");
+                    }
+                    if (map != null)
+                    {
+                        nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags, $@"{ForkAwesome.Cube} {mapid}{unsaved}");
+                    }
+                    else
+                    {
                         ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false,ImGuiSelectableFlags.AllowItemOverlap);
                     }
-                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
-                    {
-                        ImGui.SameLine();
-                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
-                    }
-                    ImGui.EndGroup();
 
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
