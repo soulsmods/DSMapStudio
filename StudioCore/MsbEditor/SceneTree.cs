@@ -515,16 +515,20 @@ namespace StudioCore.MsbEditor
                     if (map != null)
                     {
                         nodeopen = ImGui.TreeNodeEx($@"{ForkAwesome.Cube} {mapid}", treeflags, $@"{ForkAwesome.Cube} {mapid}{unsaved}");
+                        ImGui.BeginGroup();
                     }
                     else
                     {
-                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
+                        ImGui.BeginGroup();
+                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false,ImGuiSelectableFlags.AllowItemOverlap);
                     }
                     if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
                     {
                         ImGui.SameLine();
                         ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
                     }
+                    ImGui.EndGroup();
+
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
                     {
