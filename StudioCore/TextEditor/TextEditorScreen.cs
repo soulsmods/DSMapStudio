@@ -4,6 +4,7 @@ using System.Text;
 using System.Numerics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -171,10 +172,17 @@ namespace StudioCore.TextEditor
                     _cachedEntriesFiltered = _cachedEntries;
                     List<FMG.Entry> matches = new();
 
+                    //TaskManager.Run("SearchFMGs", false, false, true, () =>
                     if (_activeFmgType == FMGBank.FMGTypes.Item)
                     {
                         //item
-                        foreach (var entry in FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Title).ToList())
+                        List<FMG.Entry> searchEntries;
+                        if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
+                            searchEntries = _cachedEntriesFiltered;
+                        else
+                            searchEntries = _cachedEntries;//FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Title).ToList()
+
+                        foreach (var entry in searchEntries)
                         {
                             if (entry.ID.ToString().Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
                                 matches.Add(entry);
@@ -212,7 +220,13 @@ namespace StudioCore.TextEditor
                     else
                     {
                         //menu
-                        foreach (var entry in FMGBank.GetMenuFMGEntries(_activeMenuCategoryPair.Value).ToList())
+                        List<FMG.Entry> searchEntries;
+                        if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
+                            searchEntries = _cachedEntriesFiltered;
+                        else
+                            searchEntries = _cachedEntries;// FMGBank.GetMenuFMGEntries(_activeMenuCategoryPair.Value).ToList();
+
+                        foreach (var entry in searchEntries)
                         {
                             if (entry.Text != null)
                             {
@@ -224,7 +238,6 @@ namespace StudioCore.TextEditor
                                 }
                             }
                         }
-                        
                     }
 
                     _cachedEntriesFiltered = matches;
@@ -277,8 +290,10 @@ namespace StudioCore.TextEditor
                         _cachedEntries = _cachedEntriesFiltered;
                         _activeFmgType = FMGBank.FMGTypes.Item;
                         _activeEntry = null;
-                    }
-                
+                        _FMGsearchStr = "";
+                        _FMGsearchStrCache = "";
+                }
+
                 if (doFocus && cat == _activeItemCategory)
                 {
                     ImGui.SetScrollHereY();
@@ -300,6 +315,8 @@ namespace StudioCore.TextEditor
                     _cachedEntries = _cachedEntriesFiltered;
                     _activeFmgType = FMGBank.FMGTypes.Menu;
                     _activeEntry = null;
+                    _FMGsearchStr = "";
+                    _FMGsearchStrCache = "";
                 }
                 if (doFocus && cat.Key == _activeMenuCategoryPair.Key)
                 {
