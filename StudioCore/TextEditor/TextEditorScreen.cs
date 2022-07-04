@@ -563,6 +563,7 @@ namespace StudioCore.TextEditor
 
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
+            ClearFMGCache();
         }
 
         public override void Save()

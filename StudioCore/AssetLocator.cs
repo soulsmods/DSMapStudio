@@ -473,7 +473,7 @@ namespace StudioCore
                 foreach (var langStr in GetMsgLanguages())
                 {
                     string folder = langStr.Split("\\").Last();
-                    if (folder.Contains("eng")) //I believe this is good enough.
+                    if (folder.Contains("eng",StringComparison.CurrentCultureIgnoreCase)) //I believe this is good enough.
                     {
                         langFolder = folder;
                         break;

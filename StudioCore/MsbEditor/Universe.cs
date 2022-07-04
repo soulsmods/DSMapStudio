@@ -54,6 +54,7 @@ namespace StudioCore.MsbEditor
                 case "DummyEnemy":
                     filter = RenderFilter.Character;
                     break;
+                case "Asset":
                 case "Object":
                 case "DummyObject":
                     filter = RenderFilter.Object;
