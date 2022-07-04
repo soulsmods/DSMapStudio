@@ -10,6 +10,7 @@ using System.Numerics;
 using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Reflection;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -18,7 +19,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Elden Ring Test 3";
+        private static string _version = "Elden Ring Test + Supertest";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -225,6 +226,10 @@ namespace StudioCore
             reg = Utils.readRegistry("showVanillaParamsPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference = reg == "true";
+            if (!File.Exists("imgui.ini"))
+            {
+                File.Copy("imgui.ini.backup", "imgui.ini");
+            }
         }
         public void SaveParamStudioConfig()
         {
