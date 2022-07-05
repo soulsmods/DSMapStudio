@@ -463,7 +463,21 @@ namespace StudioCore.TextEditor
             }
         }
 
-        public static List<FMG.Entry> GetItemFMGEntriesByType(ItemCategory cat, ItemType type)
+
+        public static Dictionary<ItemFMGTypes, FMG> GetItemFMGs()
+        {
+            return _itemFMGs;
+        }
+
+        public static Dictionary<MenuFMGTypes, FMG> GetMenuFMGs()
+        {
+            return _menuFMGs;
+        }
+
+        /// <summary>
+        /// Get Item FMG entries by type, check for patch FMGs and order list afterwards.
+        /// </summary>
+        public static List<FMG.Entry> GetItemFMGEntriesByType(ItemCategory cat, ItemType type, bool sort = true)
         {
             var list = new List<FMG.Entry>();
             foreach (var fmg in _itemFMGs)
@@ -489,18 +503,9 @@ namespace StudioCore.TextEditor
                     }
                 }
             }
-            list = list.OrderBy(e => e.ID).ToList();
+            if (sort)
+                list = list.OrderBy(e => e.ID).ToList();
             return list;
-        }
-
-        public static Dictionary<ItemFMGTypes, FMG> GetItemFMGs()
-        {
-            return _itemFMGs;
-        }
-
-        public static Dictionary<MenuFMGTypes,FMG> GetMenuFMGs()
-        {
-            return _menuFMGs;
         }
         public static List<FMG.Entry> GetMenuFMGEntries(FMG fmg)
         {
@@ -525,7 +530,6 @@ namespace StudioCore.TextEditor
             list = list.OrderBy(e => e.ID).ToList();
             return list;
         }
-
 
         public static void LookupItemID(int id, ItemCategory cat, out FMG.Entry title, out FMG.Entry summary, out FMG.Entry description)
         {
@@ -556,20 +560,6 @@ namespace StudioCore.TextEditor
                     description = item;
                 }
             }
-        }
-
-        public static FMG.Entry LookupItemID(int id, ItemCategory cat)
-        {
-            if (!IsLoaded || IsLoading)
-                return null;
-            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Title))
-            {
-                if (item.ID == id)
-                {
-                    return item;
-                }
-            }
-            return null;
         }
 
         public static void ReloadFMGsDS2()
@@ -701,11 +691,15 @@ namespace StudioCore.TextEditor
                 if (itemMsgPath.AssetPath == null)
                 {
                     MessageBox.Show($"Could not find item.msgbnd in {languageFolder}", "Error");
+                    IsLoaded = true; //permits loading default language
+                    IsLoading = false;
                     return;
                 }
                 if (menuMsgPath.AssetPath == null)
                 {
                     MessageBox.Show($"Could not find menu.msgbnd in {languageFolder}", "Error");
+                    IsLoaded = true; //permits loading default language
+                    IsLoading = false;
                     return;
                 }
 

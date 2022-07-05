@@ -445,7 +445,8 @@ namespace StudioCore
             }
             else
             {
-                maps = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
+                //exclude folders that don't have typical msgbnds
+                maps = Directory.GetDirectories(GameRootDirectory + @"\msg").Where((x) => !"common,as,eu,jp,na,uk".Contains(x.Split("\\").Last())).ToList();
             }
 
             return maps;

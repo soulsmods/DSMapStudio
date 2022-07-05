@@ -25,6 +25,8 @@ namespace StudioCore.ParamEditor
         public void DecorateParam(PARAM.Row row);
 
         public void DecorateContextMenuItems(PARAM.Row row);
+
+        public void ClearDecoratorCache();
     }
 
     public class FMGItemParamDecorator : IParamDecorator
@@ -40,13 +42,29 @@ namespace StudioCore.ParamEditor
             _category = cat;
         }
 
+        private void PopulateDecorator()
+        {
+            if (_entryCache.Count == 0)
+            {
+                var fmgEntries = FMGBank.GetItemFMGEntriesByType(_category, FMGBank.ItemType.Title, false);
+                foreach (var fmgEntry in fmgEntries)
+                {
+                    _entryCache.Add(fmgEntry.ID, fmgEntry);
+                }
+            }
+        }
+
+        public void ClearDecoratorCache()
+        {
+            _entryCache.Clear();
+        }
+
         public void DecorateParam(PARAM.Row row)
         {
-            if (!_entryCache.ContainsKey((int)row.ID))
-            {
-                _entryCache.Add((int)row.ID, FMGBank.LookupItemID((int)row.ID, _category));
-            }
-            var entry = _entryCache[(int)row.ID];
+            PopulateDecorator();
+            FMG.Entry entry = null;
+            _entryCache.TryGetValue(row.ID, out entry);
+
             if (entry != null)
             {
                 ImGui.SameLine();
@@ -58,6 +76,7 @@ namespace StudioCore.ParamEditor
 
         public void DecorateContextMenuItems(PARAM.Row row)
         {
+            PopulateDecorator();
             if (!_entryCache.ContainsKey((int)row.ID))
             {
                 return;
@@ -489,7 +508,6 @@ namespace StudioCore.ParamEditor
                                 viewToMofidy = _views[cmdIndex];
                         }
                         _activeView = viewToMofidy;
-                        
                         viewToMofidy._selection.setActiveParam(initcmd[2]);
                         if (initcmd.Length > 3)
                         {
@@ -704,6 +722,10 @@ namespace StudioCore.ParamEditor
             {
                 if (view != null)
                     view._selection.cleanAllSelectionState();
+            }
+            foreach (var dec in _decorators)
+            {
+                dec.Value.ClearDecoratorCache();
             }
         }
 
