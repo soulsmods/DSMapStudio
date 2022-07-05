@@ -67,25 +67,15 @@ namespace StudioCore.TextEditor
                         return "LoadingTitle";
                     else
                         return "SystemMessage_ps4";
-                    break;
                 case MenuFMGTypes.SystemMessage_XboxOne__LoadingText:
                     if (gameType == GameType.EldenRing)
                         return "LoadingText";
                     else
                         return "SystemMessage_xboxone";
-                    break;
             }
             return str.ToString();
         }
 
-        /// <summary>
-        /// BND IDs for menu fmg files usually in menu.msgbnd
-        /// </summary>
-        public enum MenuFMGTypesAltName_ER
-        {
-            LoadingTitle = 205,
-            LoadingText = 206,
-        };
         /// <summary>
         /// BND IDs for menu fmg files usually in menu.msgbnd
         /// </summary>
@@ -125,8 +115,8 @@ namespace StudioCore.TextEditor
             Modern_KeyGuide = 202,
             Modern_System_Message_win64 = 203,
             Modern_Dialogues = 204,
-            SystemMessage_PS4__LoadingTitle = 205, //DS3: SystemMessage ps4. ER: LoadingTitle
-            SystemMessage_XboxOne__LoadingText = 206, //DS3: SystemMessage xboxone. ER: LoadingText
+            SystemMessage_PS4__LoadingTitle = 205, //DS3: SystemMessage_PS4. ER: LoadingTitle
+            SystemMessage_XboxOne__LoadingText = 206, //DS3: SystemMessage_XboxOne. ER: LoadingText
             TalkMsg_dlc1 = 230,
             Event_dlc1 = 231,
             Modern_MenuText_dlc1 = 232,
@@ -605,15 +595,15 @@ namespace StudioCore.TextEditor
 
         public static bool ExportFMGs()
         {
-            FolderBrowserDialog folderBrowserDialog1 = new();
-            folderBrowserDialog1.UseDescriptionForTitle = true;
-            folderBrowserDialog1.Description = "Choose Export Folder";
-            if (folderBrowserDialog1.ShowDialog() != DialogResult.OK)
+            FolderBrowserDialog folderDialog = new();
+            folderDialog.UseDescriptionForTitle = true;
+            folderDialog.Description = "Choose Export Folder";
+            if (folderDialog.ShowDialog() != DialogResult.OK)
             {
                 return false;
             }
 
-            var path = folderBrowserDialog1.SelectedPath;//$@"{AssetLocator.GameModDirectory}\Export";
+            var path = folderDialog.SelectedPath;
 
             var itemPath = $@"{path}\Item Text";
             var menuPath = $@"{path}\Menu Text";
@@ -641,15 +631,14 @@ namespace StudioCore.TextEditor
         }
         public static bool ImportFMGs()
         {
-            OpenFileDialog openFileDialog1 = new();
-            //openFileDialog1.InitialDirectory = $@"{AssetLocator.GameModDirectory}\Export\Text";
-            openFileDialog1.Title = "Choose Files to Import";
-            openFileDialog1.Filter ="Exported FMGs|*.fmg.json|All files|*.*";
-            if (openFileDialog1.ShowDialog() != DialogResult.OK)
+            OpenFileDialog fileDialog = new();
+            fileDialog.Title = "Choose Files to Import";
+            fileDialog.Filter ="Exported FMGs|*.fmg.json|All files|*.*";
+            if (fileDialog.ShowDialog() != DialogResult.OK)
             {
                 return false;
             }
-            var files = openFileDialog1.FileNames;
+            var files = fileDialog.FileNames;
 
             if (files.Length == 0)
             {
@@ -747,12 +736,12 @@ namespace StudioCore.TextEditor
 
                 foreach (var file in fmgBinderMenu.Files)
                 {
-                    if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID)) //catch item FMGs in menu msgbnd 
+                    if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
                         _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
                     else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
                         _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
                     else
-                        MessageBox.Show($"Didn't expect FMG ID \"{file.ID}\" in \"menu.msgbnd\". Please report this error.\nFMG skipped", "FMG skipped");
+                        MessageBox.Show($"Didn't expect FMG ID \"{file.ID}\" in \"menu.msgbnd\". Please report this error.", "FMG skipped");
                 }
                 _itemFMGs = _itemFMGs.OrderBy(e => e.Key.ToString()).ToDictionary(e => e.Key, e => e.Value);
                 _menuFMGs = _menuFMGs.OrderBy(e => MenuEnumString(e.Key)).ToDictionary(e => e.Key, e => e.Value);
