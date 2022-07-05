@@ -45,6 +45,47 @@ namespace StudioCore.TextEditor
             Menu = 1
         }
 
+        //If you ever find yourself needing to use this: just rewrite everything. Seriously.
+        /*
+        public static string ItemEnumString(this ItemFMGTypes str)
+        {
+            //var gameType = AssetLocator.Type;
+            return str.ToString();
+        }
+        */
+
+        /// <summary>
+        /// Returns a string that should be used for this menu FMG with the current game type
+        /// </summary>
+        public static string MenuEnumString(this MenuFMGTypes str)
+        {
+            var gameType = AssetLocator.Type;
+            switch (str)
+            {
+                case MenuFMGTypes.SystemMessage_PS4__LoadingTitle:
+                    if (gameType == GameType.EldenRing)
+                        return "LoadingTitle";
+                    else
+                        return "SystemMessage_ps4";
+                    break;
+                case MenuFMGTypes.SystemMessage_XboxOne__LoadingText:
+                    if (gameType == GameType.EldenRing)
+                        return "LoadingText";
+                    else
+                        return "SystemMessage_xboxone";
+                    break;
+            }
+            return str.ToString();
+        }
+
+        /// <summary>
+        /// BND IDs for menu fmg files usually in menu.msgbnd
+        /// </summary>
+        public enum MenuFMGTypesAltName_ER
+        {
+            LoadingTitle = 205,
+            LoadingText = 206,
+        };
         /// <summary>
         /// BND IDs for menu fmg files usually in menu.msgbnd
         /// </summary>
@@ -61,7 +102,7 @@ namespace StudioCore.TextEditor
             MenuOther = 77,
             MenuDialog = 78,
             MenuKeyGuide = 79,
-            MenuOneLine = 80,
+            MenuLineHelp = 80,
             MenuContext = 81,
             MenuTags = 90,
 
@@ -79,32 +120,32 @@ namespace StudioCore.TextEditor
             MenuCommonPatch = 124,
 
             //DS3 DLC1
-            Super_MenuText = 200,
-            Super_LineHelp = 201,
-            Super_KeyGuide = 202,
-            Super_System_Message_win64 = 203,
-            Super_Dialogues = 204,
-            FDP_システムメッセージ_ps4 = 205,
-            FDP_システムメッセージ_xboxone = 206,
-            会話_dlc1 = 230,
-            イベントテキスト_dlc1 = 231,
-            FDP_メニューテキスト_dlc1 = 232,
-            FDP_一行ヘルプ_dlc1 = 233,
-            FDP_システムメッセージ_win64_dlc1 = 235,
-            FDP_ダイアログ_dlc1 = 236,
-            FDP_システムメッセージ_ps4_dlc1 = 237,
-            FDP_システムメッセージ_xboxone_dlc1 = 238,
-            血文字_dlc1 = 239,
+            Modern_MenuText = 200,
+            Modern_LineHelp = 201,
+            Modern_KeyGuide = 202,
+            Modern_System_Message_win64 = 203,
+            Modern_Dialogues = 204,
+            SystemMessage_PS4__LoadingTitle = 205, //DS3: SystemMessage ps4. ER: LoadingTitle
+            SystemMessage_XboxOne__LoadingText = 206, //DS3: SystemMessage xboxone. ER: LoadingText
+            TalkMsg_dlc1 = 230,
+            Event_dlc1 = 231,
+            Modern_MenuText_dlc1 = 232,
+            Modern_LineHelp_dlc1 = 233,
+            Modern_System_Message_win64_dlc1 = 235,
+            Modern_Dialogues_dlc1 = 236,
+            SystemMessage_PS4_dlc1 = 237,
+            SystemMessage_XboxOne_dlc1 = 238,
+            BloodMsg_dlc1 = 239,
             //DS3 DLC2
-            会話_dlc2 = 270,
-            イベントテキスト_dlc2 = 271,
-            FDP_メニューテキスト_dlc2 = 272,
-            FDP_一行ヘルプ_dlc2 = 273,
-            FDP_システムメッセージ_win64_dlc2 = 275,
-            FDP_ダイアログ_dlc2 = 276,
-            FDP_システムメッセージ_ps4_dlc2 = 277,
-            FDP_システムメッセージ_xboxone_dlc2 = 278,
-            血文字_dlc2 = 279,
+            TalkMsg_dlc2 = 270,
+            Event_dlc2 = 271,
+            Modern_MenuText_dlc2 = 272,
+            Modern_LineHelp_dlc2 = 273,
+            Modern_System_Message_win64_dlc2 = 275,
+            Modern_Dialogues_dlc2 = 276,
+            SystemMessage_PS4_dlc2 = 277,
+            SystemMessage_XboxOne__dlc2 = 278,
+            BloodMsg_dlc2 = 279,
 
             //ER
             TalkMsg_FemalePC_Alt = 4,
@@ -714,7 +755,7 @@ namespace StudioCore.TextEditor
                         MessageBox.Show($"Didn't expect FMG ID \"{file.ID}\" in \"menu.msgbnd\". Please report this error.\nFMG skipped", "FMG skipped");
                 }
                 _itemFMGs = _itemFMGs.OrderBy(e => e.Key.ToString()).ToDictionary(e => e.Key, e => e.Value);
-                _menuFMGs = _menuFMGs.OrderBy(e => e.Key.ToString()).ToDictionary(e => e.Key, e => e.Value);
+                _menuFMGs = _menuFMGs.OrderBy(e => MenuEnumString(e.Key)).ToDictionary(e => e.Key, e => e.Value);
             IsLoaded = true;
             IsLoading = false;
             });

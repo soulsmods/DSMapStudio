@@ -307,7 +307,7 @@ namespace StudioCore.TextEditor
 
             foreach (var cat in FMGBank.GetMenuFMGs())
             {
-                if (ImGui.Selectable($@" {cat.Key.ToString()}", cat.Key == _activeMenuCategoryPair.Key))
+                if (ImGui.Selectable($@" {FMGBank.MenuEnumString(cat.Key)}", cat.Key == _activeMenuCategoryPair.Key))
                 {
                     _activeItemCategory = FMGBank.ItemCategory.None;
                     _activeMenuCategoryPair = cat;
