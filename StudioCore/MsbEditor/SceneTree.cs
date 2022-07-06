@@ -489,6 +489,10 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.PopStyleVar();
+                ImGui.Indent(116);
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text("List Sorting Style:");
+                ImGui.SameLine();
                 ImGui.SetNextItemWidth(-1);
                 if (_configuration == Configuration.MapEditor)
                 {
@@ -498,6 +502,7 @@ namespace StudioCore.MsbEditor
                         _viewMode = (ViewMode)mode;
                     }
                 }
+                ImGui.Unindent(116);
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;
