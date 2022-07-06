@@ -166,7 +166,7 @@ namespace StudioCore.MsbEditor
         {
             var newent = typ.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
 
-            var map = Universe.LoadedObjectContainers.Values.First((x) => x != null);
+            var map = Universe.LoadedObjectContainers.Values.First((x) => x != null); //TODO: if selection is not null, target map holding selection. first loaded map otherwise.
             var obj = new MapEntity(map, newent, etype);
 
             var act = new AddMapObjectsAction(Universe, (Map)map, RenderScene, new List<MapEntity> { obj }, true);

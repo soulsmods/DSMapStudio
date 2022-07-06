@@ -163,11 +163,11 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Copy", "Ctrl+C", false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Copy", "Ctrl+C", false, _activeView._selection.rowSelectionExists())) //TODO: hotkey
                 {
                     CopySelectionToClipboard();
                 }
-                if (ImGui.MenuItem("Paste", "Ctrl+V", false, _clipboardRows.Any()))
+                if (ImGui.MenuItem("Paste", "Ctrl+V", false, _clipboardRows.Any())) //TODO: hotkey
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
@@ -964,11 +964,16 @@ namespace StudioCore.ParamEditor
 
                 ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW\n | original | modified");
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
-                ImGui.InputText("Search rows...", ref _selection.getCurrentRowSearchString(), 256);
+
+                if (InputTracker.GetControlShortcut(Key.F))
+                    ImGui.SetKeyboardFocusHere();
+                ImGui.InputText("Search Rows <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
+
                 if (ImGui.IsItemActive())
                     _paramEditor._isSearchBarActive = true;
                 else
                     _paramEditor._isSearchBarActive = false;
+
                 ImGui.BeginChild("rows" + activeParam);
                 List<PARAM.Row> p;
                 Match m = ROWFILTERMATCHER.Match(_selection.getCurrentRowSearchString());

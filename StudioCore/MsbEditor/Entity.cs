@@ -407,7 +407,7 @@ namespace StudioCore.MsbEditor
                 var pp = row[prop];
                 if (pp != null)
                 {
-                    return pp.GetType().GetProperty("Value");
+                    return pp.GetType().GetProperty("Value", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 }
             }
             else if (WrappedObject is MergedParamRow mrow)
@@ -415,10 +415,10 @@ namespace StudioCore.MsbEditor
                 var pp = mrow[prop];
                 if (pp != null)
                 {
-                    return pp.GetType().GetProperty("Value");
+                    return pp.GetType().GetProperty("Value", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 }
             }
-            var p = WrappedObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (p != null)
             {
                 return p;
@@ -744,8 +744,8 @@ namespace StudioCore.MsbEditor
                         }
                         else if (Universe.postLoad)
                         {
-                            //collisionName referenced doesn't exist. Maybe warn the player?
-                            TaskManager.warningList.TryAdd($"{Name} colName", $"Warning: Entity '{Name}' refers to a collisionName `{colNameStr}` which doesn't exist.");
+                            //collisionName referenced doesn't exist
+                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
                         }
                     }
                 }

@@ -722,15 +722,22 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
-                if (TaskManager.warningList.Count > 0 && ImGui.BeginMenu("Warnings"))
+
+                if (TaskManager.warningList.Count > 0)
                 {
-                    foreach (var task in TaskManager.warningList) {
-                        if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
+                    if (ImGui.BeginMenu("!! WARNINGS !!"))
+                    {
+                        foreach (var task in TaskManager.warningList)
                         {
-                            TaskManager.warningList.TryRemove(task);
+                            if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
+                            {
+                                TaskManager.warningList.TryRemove(task);
+                            }
                         }
+                        ImGui.EndMenu();
                     }
-                    ImGui.EndMenu();
+                    ImGui.PopStyleColor();
                 }
                 ImGui.EndMainMenuBar();
             }

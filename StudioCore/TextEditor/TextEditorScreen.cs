@@ -87,7 +87,7 @@ namespace StudioCore.TextEditor
         {
             if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
@@ -319,7 +319,10 @@ namespace StudioCore.TextEditor
             if (ImGui.Button("Clear Text"))
                 _FMGsearchStr = "";
             ImGui.SameLine();
-            ImGui.InputText("Search...", ref _FMGsearchStr, 255);
+
+            if (InputTracker.GetControlShortcut(Key.F))
+                ImGui.SetKeyboardFocusHere();
+            ImGui.InputText("Search <Ctrl+F>", ref _FMGsearchStr, 255);
 
             FMGSearchLogic();
 

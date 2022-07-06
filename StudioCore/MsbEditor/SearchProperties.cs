@@ -118,9 +118,14 @@ namespace StudioCore.MsbEditor
             }
             if (ImGui.Begin("Search Properties"))
             {
+                ImGui.Text("Search Properties By Name <Ctrl+F>");
+                ImGui.Separator();
                 ImGui.Columns(2);
                 ImGui.Text("Property Name");
                 ImGui.NextColumn();
+
+                if (InputTracker.GetControlShortcut(Key.F))
+                    ImGui.SetKeyboardFocusHere();
                 if (ImGui.InputText("##value", ref PropertyName, 40))
                 {
                     PropertyType = Universe.GetPropertyType(PropertyName);

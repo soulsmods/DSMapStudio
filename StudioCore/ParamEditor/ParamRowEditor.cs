@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Numerics;
 using SoulsFormats;
 using ImGuiNET;
+using Veldrid;
 using System.Net.Http.Headers;
 using System.Security;
 using System.Text.RegularExpressions;
@@ -225,12 +226,15 @@ namespace StudioCore.ParamEditor
         public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
-            ImGui.Columns(ParamEditorScreen.ShowVanillaParamsPreference?3:2);
-            ImGui.Separator();
             int id = 0;
 
             if (propSearchString != null)
-                ImGui.InputText("Search...", ref propSearchString, 255);
+            {
+                if (InputTracker.GetControlShortcut(Key.N))
+                    ImGui.SetKeyboardFocusHere();
+                ImGui.InputText("Search Field Names <Ctrl+N>", ref propSearchString, 255);
+                ImGui.Separator();
+            }
             Regex propSearchRx = null;
             try
             {
@@ -239,6 +243,8 @@ namespace StudioCore.ParamEditor
             catch
             {
             }
+            ImGui.BeginChild("Param Fields");
+            ImGui.Columns(ParamEditorScreen.ShowVanillaParamsPreference ? 3 : 2);
             ImGui.NextColumn();
             ImGui.NextColumn();
             if (ParamEditorScreen.ShowVanillaParamsPreference)
@@ -284,6 +290,7 @@ namespace StudioCore.ParamEditor
                     PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
+            ImGui.EndChild();
         }
         
         // Many parameter options, which may be simplified.
