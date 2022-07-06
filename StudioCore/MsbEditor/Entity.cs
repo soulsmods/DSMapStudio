@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using SoulsFormats;
 using StudioCore.Scene;
 using System.Diagnostics;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -66,7 +67,7 @@ namespace StudioCore.MsbEditor
             }
         }
         [XmlIgnore]
-        public bool UseDrawGroups { set; get; } = false;
+        public bool UseDrawGroups { set; get; } = true;
 
         [XmlIgnore]
         public virtual string Name
@@ -719,6 +720,44 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public void UpdateDrawgroups()
+        {
+
+            if (UseDrawGroups && RenderSceneMesh != null)
+            {
+                var myDrawGroupsProp = WrappedObject.GetType().GetProperty("DrawGroups");
+                var myCollisionNameProp = WrappedObject.GetType().GetProperty("CollisionName");
+                uint[] drawGroups = null;
+
+                if (myDrawGroupsProp != null && myCollisionNameProp != null)
+                {
+                    string colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); //get string in collisionName field
+                    if (colNameStr != null) //maybe should be ""
+                    {
+                        //collisionName field is not empty
+                        var colNameEnt = Container.GetObjectByName(colNameStr); //get entity referenced by collisionName
+                        if (colNameEnt != null)
+                        {
+                            drawGroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DrawGroups").GetValue(colNameEnt.WrappedObject); //get drawgroups from collisionName
+                            RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                            RenderSceneMesh.DrawGroups.Drawgroups = drawGroups;
+                        }
+                        else if (Universe.postLoad)
+                        {
+                            //collisionName referenced doesn't exist. Maybe warn the player?
+                            TaskManager.warningList.TryAdd($"{Name} colName", $"Warning: Entity '{Name}' refers to a collisionName `{colNameStr}` which doesn't exist.");
+                        }
+                    }
+                }
+                if (myDrawGroupsProp != null && drawGroups == null)
+                {
+                    drawGroups = (uint[])myDrawGroupsProp.GetValue(WrappedObject);
+                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                    RenderSceneMesh.DrawGroups.Drawgroups = drawGroups;
+                }
+            }
+        }
+
         public virtual void UpdateRenderModel()
         {
             if (!HasTransform)
@@ -743,16 +782,11 @@ namespace StudioCore.MsbEditor
                     c.UpdateRenderModel();
                 }
             }
+            
+            //DrawGroup management
+            UpdateDrawgroups();
+            
 
-            if (UseDrawGroups)
-            {
-                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
-                if (prop != null && RenderSceneMesh != null)
-                {
-                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
-                }
-            }
 
             if (RenderSceneMesh != null)
             {
@@ -966,8 +1000,9 @@ namespace StudioCore.MsbEditor
         /// <summary>
         /// Checks if supplied model ID is on the list of models that will not render, and will use a model marker instead.
         /// </summary>
+        [Obsolete("Current solution checks model submeshes")]
         private static bool CheckIfModelMarker(string model)
-        {
+        { //keeping this around, just in case.
             List<string> objModelMarkerList = new()
             {
             //DS1
@@ -1020,9 +1055,29 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
+        private bool CheckNoEntitySubmesh()
+        {
+            if (_renderSceneMesh != null)
+            {
+                var myRenderType = _renderSceneMesh.GetType().Name;
+                var meshType = typeof(MeshRenderableProxy).Name;
+                if (myRenderType == meshType)
+                {
+                    //is a mesh proxy
+                    var prox = (MeshRenderableProxy)_renderSceneMesh;
+                    var mesh = prox.Submeshes;
+                    if (mesh.Count == 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool _wasPreLoad = true;
         public override void UpdateRenderModel()
         {
-            // If the model field changed, then update the visible model
             if (Type == MapEntityType.DS2Generator)
             {
 
@@ -1046,11 +1101,78 @@ namespace StudioCore.MsbEditor
             else
             {
 
+                //v3
                 var model = GetPropertyValue<string>("ModelName");
 
                 if (model != null)
                 {
-                    //todo2: rejig logic for performance
+                    bool modelChanged = false;
+                    if (CurrentModel != model)
+                        modelChanged = true;
+
+                    if (Universe.postLoad && _wasPreLoad)
+                    {
+                        //post initial load submesh check
+                        if (Universe.postLoad)
+                            _wasPreLoad = false;
+
+                        CurrentModel = model;
+                        var noSubMeshes = CheckNoEntitySubmesh();
+
+                        if (noSubMeshes)
+                        {
+                            //should be a model marker
+                            if (_renderSceneMesh != null)
+                            {
+                                _renderSceneMesh.Dispose();
+                            }
+                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                            if (Universe.Selection.IsSelected(this))
+                            {
+                                OnSelected();
+                            }
+                        }
+                    }
+                    else if (modelChanged)
+                    {
+                        //model field is different, or this is the first check, or this is during the post-load check
+
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+
+                        if (Universe.postLoad)
+                            _wasPreLoad = false;
+                        CurrentModel = model;
+
+                        //get model (even if just to check the submeshes)
+                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+
+                        //there may be a risk of async being too slow here? Haven't run into it yet, though.
+                        var noSubMeshes = CheckNoEntitySubmesh();
+
+                        if (Universe.postLoad && noSubMeshes)
+                        {
+                            //should be a model marker
+                            if (_renderSceneMesh != null)
+                            {
+                                _renderSceneMesh.Dispose();
+                            }
+                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                        }
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
+                    }
+                }
+                
+                //v1
+                /*
+                var model = GetPropertyValue<string>("ModelName");
+                if (model != null)
+                {
                     if (CheckIfModelMarker(model) && (CurrentModel != model || _renderSceneMesh == null))
                     {
                         //render model marker (region mesh)
@@ -1081,6 +1203,7 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
+                */
             }
             base.UpdateRenderModel();
         }

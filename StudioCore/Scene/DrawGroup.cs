@@ -22,11 +22,13 @@ namespace StudioCore.Scene
 
         public bool IsInDisplayGroup(DrawGroup disp)
         {
-            if (AlwaysVisible || disp.AlwaysVisible)
+            AlwaysVisible = false; //todo2: temp for testing
+            if (AlwaysVisible || disp.AlwaysVisible || Drawgroups == null)
             {
                 return true;
             }
             bool isAllZero = true;
+
             for (int i = 0; i < Drawgroups.Length && i < disp.Drawgroups.Length; i++)
             {
                 if ((Drawgroups[i] & disp.Drawgroups[i]) != 0)

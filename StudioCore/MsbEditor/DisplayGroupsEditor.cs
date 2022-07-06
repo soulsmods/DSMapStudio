@@ -46,7 +46,7 @@ namespace StudioCore.MsbEditor
                     dg.AlwaysVisible = false;
                 }
 
-                if (ImGui.Button("Check All"))
+                if (ImGui.Button("Show All"))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -54,7 +54,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Uncheck All"))
+                if (ImGui.Button("Hide All"))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -62,13 +62,19 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Set from Selected") && sdispgroups != null)
+
+                if (sdispgroups == null)
+                    ImGui.BeginDisabled();
+                if (ImGui.Button("Get Selection DispGroups"))
                 {
                     for (int i = 0; i < count; i++)
                     {
                         dg.Drawgroups[i] = sdispgroups[i];
                     }
                 }
+                if (sdispgroups == null)
+                    ImGui.EndDisabled();
+
 
                 for (int g = 0; g < dg.Drawgroups.Length; g++)
                 {
