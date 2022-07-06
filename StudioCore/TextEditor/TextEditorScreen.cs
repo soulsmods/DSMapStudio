@@ -144,14 +144,8 @@ namespace StudioCore.TextEditor
         private string _FMGsearchStr = "";
         private string _FMGsearchStrCache = "";
 
-        private void FMGSearchGUI()
+        private void FMGSearchLogic()
         {
-            ImGui.Begin("Search Text");
-            ImGui.Columns(2);
-            if (ImGui.Button("Clear Text"))
-                _FMGsearchStr = "";
-            ImGui.NextColumn();
-            ImGui.InputText("Search...", ref _FMGsearchStr, 255);
 
             //TODO2: regex crap
             /*
@@ -251,7 +245,6 @@ namespace StudioCore.TextEditor
                         _cachedEntriesFiltered = _cachedEntries;
                 }
             }
-            ImGui.End();
         }
 
         private void EditorGUI(bool doFocus)
@@ -268,10 +261,6 @@ namespace StudioCore.TextEditor
             }
             var dsid = ImGui.GetID("DockSpace_TextEntries");
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
-
-            //
-            FMGSearchGUI();
-            //
 
             ImGui.Begin("Text Categories");
             ImGui.Separator();
@@ -326,6 +315,16 @@ namespace StudioCore.TextEditor
             ImGui.End();
 
             ImGui.Begin("Text Entries");
+            //text entry search
+            if (ImGui.Button("Clear Text"))
+                _FMGsearchStr = "";
+            ImGui.SameLine();
+            ImGui.InputText("Search...", ref _FMGsearchStr, 255);
+
+            FMGSearchLogic();
+
+            ImGui.BeginChild("Text Entry List");
+            //actual text entries
 
             if (_activeItemCategory == FMGBank.ItemCategory.None && _activeMenuCategoryPair.Key == FMGBank.MenuFMGTypes.None)
             {
@@ -354,6 +353,7 @@ namespace StudioCore.TextEditor
                     }
                 }
             }
+            ImGui.EndChild();
             ImGui.End();
 
             ImGui.Begin("Text");
@@ -400,6 +400,7 @@ namespace StudioCore.TextEditor
 
         private void EditorGUIDS2(bool doFocus)
         {
+            //todo2: all of this is out of date (and probably doesn't need to exist anymore, and should do some alt tweaks in regular GUI func instead)
             if (FMGBank.DS2Fmgs == null)
             {
                 return;
@@ -422,7 +423,7 @@ namespace StudioCore.TextEditor
             ImGui.EndChild();
             ImGui.NextColumn();
 
-            FMGSearchGUI();//
+            FMGSearchLogic();//todo2: update imgui structure (needs children), actually test
 
             ImGui.BeginChild("rows");
             if (_activeCategoryDS2 == null)

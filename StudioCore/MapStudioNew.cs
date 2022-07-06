@@ -383,12 +383,13 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.TabRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(100f,100f));
         }
 
         public void UnapplyStyle()
         {
             ImGui.PopStyleColor(27);
-            ImGui.PopStyleVar(4);
+            ImGui.PopStyleVar(5);
         }
 
         private void DumpFlverLayouts()
