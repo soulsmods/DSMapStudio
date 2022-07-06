@@ -75,7 +75,7 @@ namespace StudioCore.MsbEditor
             "Type View",
         };
 
-        private ViewMode _viewMode = ViewMode.Flat;
+        private ViewMode _viewMode = ViewMode.ObjectType;
 
         public enum Configuration
         {
