@@ -146,7 +146,7 @@ namespace StudioCore.TextEditor
 
         private void FMGSearchGUI()
         {
-            ImGui.Begin("Search Text", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.Modal);
+            ImGui.Begin("Search Text");
             ImGui.Columns(2);
             if (ImGui.Button("Clear Text"))
                 _FMGsearchStr = "";
