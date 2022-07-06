@@ -1157,7 +1157,7 @@ namespace StudioCore.Scene
         private static DbgPrimWireSpheroidWithArrow _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
         private static DbgPrimWireWallBox _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
         private static DbgPrimWireSpheroidWithArrow _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
-        private static DbgPrimWireBox _modelMarkerOther = new DbgPrimWireBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+        private static DbgPrimWireWallBox _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
         public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(RenderScene scene, string partType)
         {
             //Model Markers for meshses that don't render normally (like c0000)
