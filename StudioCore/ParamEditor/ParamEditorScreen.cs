@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Numerics;
 using System.Threading.Tasks;
+using System.IO;
 using System.Linq;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -172,6 +173,53 @@ namespace StudioCore.ParamEditor
                         }
                         ImGui.EndMenu();
                     }
+                    if (ImGui.BeginMenu("To File...", _activeView._selection.rowSelectionExists()))
+                    {
+                        if (ImGui.MenuItem("All"))
+                        {
+                            _activeView._selection.sortSelection();
+                            var rbrowseDlg = new System.Windows.Forms.SaveFileDialog()
+                            {
+                                Filter = "CSV file (*.CSV)|*.CSV|Text file (*.txt) |*.TXT|All Files|*.*",
+                                ValidateNames = true,
+                                CheckPathExists = true
+                            };
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows()));
+                        }
+                        if (ImGui.MenuItem("Name"))
+                        {
+                            _activeView._selection.sortSelection();
+                            var rbrowseDlg = new System.Windows.Forms.SaveFileDialog()
+                            {
+                                Filter = "CSV file (*.CSV)|*.CSV|Text file (*.txt) |*.TXT|All Files|*.*",
+                                ValidateNames = true,
+                                CheckPathExists = true
+                            };
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), "Name"));
+                        }
+                        if (ImGui.BeginMenu("Field"))
+                        {
+                            foreach (PARAMDEF.Field field in ParamBank.Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
+                            {
+                                if (ImGui.MenuItem(field.InternalName))
+                                {
+                                    _activeView._selection.sortSelection();
+                                    var rbrowseDlg = new System.Windows.Forms.SaveFileDialog()
+                                    {
+                                        Filter = "CSV file (*.CSV)|*.CSV|Text file (*.txt) |*.TXT|All Files|*.*",
+                                        ValidateNames = true,
+                                        CheckPathExists = true
+                                    };
+                                    if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                        File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), field.InternalName));
+                                }
+                            }
+                            ImGui.EndMenu();
+                        }
+                        ImGui.EndMenu();
+                    }
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
@@ -186,6 +234,70 @@ namespace StudioCore.ParamEditor
                         {
                             if (ImGui.MenuItem(field.InternalName))
                                 EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/{field.InternalName}");
+                        }
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("From file...", _activeView._selection.paramSelectionExists()))
+                    {
+                        if (ImGui.MenuItem("All"))
+                        {
+                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            {
+                                Filter = "CSV file (*.CSV)|*.CSV|Text file (*.txt) |*.TXT|All Files|*.*",
+                                ValidateNames = true,
+                                CheckFileExists = true
+                            };
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                MassEditResult r = MassParamEditCSV.PerformMassEdit(File.ReadAllText(rbrowseDlg.FileName), EditorActionManager, _activeView._selection.getActiveParam(), false, false);
+                                if (r.Type == MassEditResultType.SUCCESS)
+                                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
+                                else
+                                    System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                            }
+                        }
+                        if (ImGui.MenuItem("Name"))
+                        {
+                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            {
+                                Filter = "CSV file (*.CSV)|*.CSV|Text file (*.txt) |*.TXT|All Files|*.*",
+                                ValidateNames = true,
+                                CheckFileExists = true
+                            };
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", false);
+                                if (r.Type == MassEditResultType.SUCCESS && a != null)
+                                    EditorActionManager.ExecuteAction(a);
+                                else
+                                    System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
+                            }
+                        }
+                        if (ImGui.BeginMenu("Field"))
+                        {
+                            foreach (PARAMDEF.Field field in ParamBank.Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
+                            {
+                                if (ImGui.MenuItem(field.InternalName))
+                                {
+                                    var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                                    {
+                                        Filter = "CSV file (*.CSV)|*.CSV|Text file (*.txt) |*.TXT|All Files|*.*",
+                                        ValidateNames = true,
+                                        CheckFileExists = true
+                                    };
+                                    if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                    {
+                                        (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), field.InternalName, false);
+                                        if (r.Type == MassEditResultType.SUCCESS && a != null)
+                                            EditorActionManager.ExecuteAction(a);
+                                        else
+                                            System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
+                                    }
+                                }
+                            }
+                            ImGui.EndMenu();
                         }
                         ImGui.EndMenu();
                     }
