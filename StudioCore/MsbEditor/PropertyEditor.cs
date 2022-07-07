@@ -548,8 +548,11 @@ namespace StudioCore.MsbEditor
                                     ImGui.SetItemDefaultFocus();
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                                committed |= ParamRefRow(prop, oldval, ref newval);
-                                if (committed) changed = true;
+                                if (ParamRefRow(prop, oldval, ref newval))
+                                {
+                                    changed = true;
+                                    committed = true;
+                                }
                                 UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
@@ -648,8 +651,11 @@ namespace StudioCore.MsbEditor
                             ImGui.SetItemDefaultFocus();
                         }
                         bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                        committed |= ParamRefRow(prop, oldval, ref newval);
-                        if (committed) changed = true;
+                        if (ParamRefRow(prop, oldval, ref newval))
+                        {
+                            changed = true;
+                            committed = true;
+                        }
                         UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false);
 
                         ImGui.NextColumn();
