@@ -552,6 +552,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     changed = true;
                                     committed = true;
+                                    //return tuple?
                                 }
                                 UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
