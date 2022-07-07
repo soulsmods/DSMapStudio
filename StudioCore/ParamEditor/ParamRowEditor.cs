@@ -22,8 +22,6 @@ namespace StudioCore.ParamEditor
 
         private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
 
-        private string _refContextCurrentAutoComplete = "";
-
         public PropertyEditor(ActionManager manager, ParamEditorScreen paramEditorScreen)
         {
             ContextActionManager = manager;
@@ -354,7 +352,7 @@ namespace StudioCore.ParamEditor
 
             if (ParamEditorScreen.HideReferenceRowsPreference == false || ParamEditorScreen.HideEnumsPreference == false)
             {
-                if (PropertyRowMetaValueContextMenu(oldval, ref newval, RefTypes, Enum))
+                if (EditorDecorations.ParamRefEnumContextMenu(oldval, ref newval, RefTypes, Enum))
                 {
                     changed = true;
                     committed = true;
@@ -482,103 +480,6 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndPopup();
             }
-        }
-        private bool PropertyRowMetaValueContextMenu(object oldval, ref object newval, List<string> RefTypes, ParamEnum Enum)
-        {
-            if (RefTypes == null && Enum == null)
-                return false;
-            bool result = false;
-            if (ImGui.BeginPopupContextItem("rowMetaValue"))
-            {
-                if (RefTypes != null)
-                    result |= PropertyRowRefsContextItems(RefTypes, oldval, ref newval);
-                if (Enum != null)
-                    result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
-                ImGui.EndPopup();
-            }
-            return result;
-        }
-
-        private bool PropertyRowRefsContextItems(List<string> reftypes, dynamic oldval, ref object newval)
-        { 
-            // Add Goto statements
-            foreach (string rt in reftypes)
-            {
-                if (!ParamBank.Params.ContainsKey(rt))
-                    continue;
-                int searchVal = (int) oldval;
-                ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
-                if (meta != null)
-                {
-                    if (meta.Row0Dummy && searchVal == 0)
-                        continue;
-                    if (meta.FixedOffset != 0 && searchVal > 0)
-                    {
-                        searchVal = searchVal + meta.FixedOffset;
-                    }
-                    if (meta.OffsetSize > 0 && searchVal > 0 && ParamBank.Params[rt][(int) searchVal] == null)
-                    {
-                        searchVal = (int) searchVal - (int) oldval % meta.OffsetSize;
-                    }
-                }
-                if (ParamBank.Params[rt][searchVal] != null)
-                {   
-                    if (ImGui.Selectable($@"Go to {rt}"))
-                        EditorCommandQueue.AddCommand($@"param/select/-1/{rt}/{searchVal}");
-                    if (ImGui.Selectable($@"Go to {rt} in new view"))
-                        EditorCommandQueue.AddCommand($@"param/select/new/{rt}/{searchVal}");
-                }
-            }
-            // Add searchbar for named editing
-            ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);
-            // This should be replaced by a proper search box with a scroll and everything
-            if (_refContextCurrentAutoComplete != "")
-            {
-                foreach (string rt in reftypes)
-                {
-                    if (!ParamBank.Params.ContainsKey(rt))
-                        continue;
-                    ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
-                    int maxResultsPerRefType = 15/reftypes.Count;
-                    Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_refContextCurrentAutoComplete);
-                    List<PARAM.Row> rows = MassParamEditRegex.GetMatchingParamRows(ParamBank.Params[rt], m, true, false);
-                    foreach (PARAM.Row r in rows)
-                    {
-                        if (maxResultsPerRefType <= 0)
-                            break;
-                        if (ImGui.Selectable(r.ID+": "+r.Name))
-                        {
-                            if (meta!=null && meta.FixedOffset!=0)
-                                newval = (int) r.ID - meta.FixedOffset;
-                            else
-                                newval = (int) r.ID;
-                            _refContextCurrentAutoComplete = "";
-                            return true;
-                        }
-                        maxResultsPerRefType--;
-                    }
-                }
-            }
-            return false;
-        }
-        private bool PropertyRowEnumContextItems(ParamEnum en, object oldval, ref object newval)
-        {
-            try
-            {
-                foreach (KeyValuePair<string, string> option in en.values)
-                {
-                    if (ImGui.Selectable($"{option.Key}: {option.Value}"))
-                    {
-                        newval = Convert.ChangeType(option.Key, oldval.GetType());
-                        return true;
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-            return false;
         }
     }
 }
