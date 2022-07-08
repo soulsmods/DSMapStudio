@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using Veldrid;
 using ImGuiNET;
 
 namespace StudioCore.MsbEditor
@@ -33,58 +34,95 @@ namespace StudioCore.MsbEditor
             }
 
             ImGui.SetNextWindowSize(new Vector2(100, 100));
-            if (ImGui.Begin("Display Groups"))
+            if (ImGui.Begin("Render Groups") 
+                || InputTracker.GetControlShortcut(Key.R) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
+                || InputTracker.GetControlShortcut(Key.G)) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
             {
+                
                 var dg = _scene.DisplayGroup;
-                if (dg.AlwaysVisible || dg.Drawgroups.Length != dispCount)
+                if (dg.AlwaysVisible || dg.RenderGroups.Length != dispCount)
                 {
-                    dg.Drawgroups = new uint[dispCount];
+                    dg.RenderGroups = new uint[dispCount];
                     for (int i = 0; i < dispCount; i++)
                     {
-                        dg.Drawgroups[i] = 0xFFFFFFFF;
+                        dg.RenderGroups[i] = 0xFFFFFFFF;
                     }
                     dg.AlwaysVisible = false;
                 }
 
-                if (ImGui.Button("Show All"))
+                if (ImGui.Button("Show All <Ctrl+R>") || InputTracker.GetControlShortcut(Key.R))
                 {
                     for (int i = 0; i < dispCount; i++)
                     {
-                        dg.Drawgroups[i] = 0xFFFFFFFF;
+                        dg.RenderGroups[i] = 0xFFFFFFFF;
                     }
                 }
+
                 ImGui.SameLine();
                 if (ImGui.Button("Hide All"))
                 {
                     for (int i = 0; i < dispCount; i++)
                     {
-                        dg.Drawgroups[i] = 0;
+                        dg.RenderGroups[i] = 0;
                     }
                 }
-                ImGui.SameLine();
 
+                ImGui.SameLine(0, 20f);
                 if (sdispgroups == null)
                     ImGui.BeginDisabled();
-                if (ImGui.Button("Get Selection DispGroups"))
+                if ((ImGui.Button("Get DispGroups <Ctrl+G>") || InputTracker.GetControlShortcut(Key.G)) && sdispgroups != null)
                 {
                     for (int i = 0; i < dispCount; i++)
                     {
-                        dg.Drawgroups[i] = sdispgroups[i];
+                        dg.RenderGroups[i] = sdispgroups[i];
+                    }
+                }
+
+                ImGui.SameLine();
+                if (ImGui.Button("Get DrawGroups"))
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        dg.RenderGroups[i] = sdrawgroups[i];
+                    }
+                }
+
+                ImGui.SameLine(0, 20f);
+                if (ImGui.Button("Give as DrawGroups"))
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        sel.Drawgroups[i] = dg.RenderGroups[i];
+                    }
+                }
+
+                ImGui.SameLine();
+                if (ImGui.Button("Give as DispGroups"))
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        sel.Dispgroups[i] = dg.RenderGroups[i];
                     }
                 }
                 if (sdispgroups == null)
                     ImGui.EndDisabled();
 
-                ImGui.SameLine();
-                ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
-                if (ImGui.BeginPopupContextWindow("Render Group Help"))
+                ImGui.SameLine(0, 60f);
+                if (ImGui.Button("Help"))
+                {
+                    ImGui.OpenPopup("##RenderHelp");
+                }
+                if (ImGui.BeginPopup("##RenderHelp"))
                 {
                     ImGui.Text(
-                        "Display Groups: Determines which DrawGroups should render.\n" +
-                        "Draw Groups: Determines if things will render when a DispGroup is active.\n" +
+                        "Render Groups are used by the game to determine what should render and what shouldn't.\n" +
+                        "They consist of Display Groups and Draw Groups.\n" +
+                        //"Display Groups: Determines which DrawGroups should render.\n" +
+                        //"Draw Groups: Determines if things will render when a DispGroup is active.\n" +
                         "When a Display Group is active, Map Objects with that Draw Group will render.\n" +
                         "\n" +
                         "If a Map Object uses the CollisionName field, they will inherit Draw Groups from the referenced Map Object.\n" +
+                        "Also, CollisionName references will be targeted by DSMapStudio when using `Set Selection`/`Get Selection` instead of your actual selection.\n" +
                         "When a character walks on top of a piece of collision, they will use its DispGroups and DrawGroups.\n" +
                         "\n" +
                         "Color indicates which Render Groups selected Map Object is using.\n" +
@@ -93,18 +131,27 @@ namespace StudioCore.MsbEditor
                         "Yellow = Selection uses both.\n" +
                         "\n" +
                         "POTENTIALLY INACCURATE FOR SEKIRO / ELDEN RING!");
-
                     ImGui.EndPopup();
                 }
 
-                for (int g = 0; g < dg.Drawgroups.Length; g++)
+                ImGui.Separator();
+                ImGui.BeginChild("##DispTicks");
+                for (int g = 0; g < dg.RenderGroups.Length; g++)
                 {
                     //row (groups)
-                    ImGui.Text($@"Display Group {g}: ");
+                    ImGui.Text($@"Render Group {g}:");
                     for (int i = 0; i < 32; i++)
                     {
                         //column (bits)
-                        bool check = ((dg.Drawgroups[g] >> i) & 0x1) > 0;
+                        bool check = ((dg.RenderGroups[g] >> i) & 0x1) > 0;
+
+                        if (i % 4 == 0)
+                        {
+                            //add spacing every 4 boxes
+                            ImGui.SameLine();
+                            ImGui.Spacing();
+                        }
+
                         ImGui.SameLine();
 
                         bool drawActive = sdrawgroups != null && (((sdrawgroups[g] >> i) & 0x1) > 0);
@@ -132,15 +179,16 @@ namespace StudioCore.MsbEditor
                             ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                         }
 
+
                         if (ImGui.Checkbox($@"##dispgroup{g}{i}", ref check))
                         {
                             if (check)
                             {
-                                dg.Drawgroups[g] |= (1u << i);
+                                dg.RenderGroups[g] |= (1u << i);
                             }
                             else
                             {
-                                dg.Drawgroups[g] &= ~(1u << i);
+                                dg.RenderGroups[g] &= ~(1u << i);
                             }
                         }
 
@@ -150,6 +198,7 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
+                ImGui.EndChild();
             }
             ImGui.End();
         }

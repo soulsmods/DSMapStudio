@@ -883,7 +883,7 @@ namespace StudioCore.MsbEditor
             {
                 UpdateDispDrawGroups();
                 RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                RenderSceneMesh.DrawGroups.Drawgroups = Drawgroups;
+                RenderSceneMesh.DrawGroups.RenderGroups = Drawgroups;
             }
         }
 

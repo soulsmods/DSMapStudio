@@ -59,7 +59,8 @@ propref originEquipWep0 Dagger";
         public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false)
         {
             bool ret = false;
-            ImGui.SameLine();
+            ImGui.SameLine(0, 20f);
+            /*
             ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
             if (ImGui.BeginPopupContextItem(id))
             {
@@ -73,6 +74,26 @@ propref originEquipWep0 Dagger";
                     ImGui.Text(hint);
                 ImGui.EndPopup();
             }
+            */
+
+            if (ImGui.Button("Searchbar Help"))
+            {
+                ImGui.OpenPopup("##ParamSearchHelp");
+            }
+            if (ImGui.BeginPopup("##ParamSearchHelp"))
+            {
+
+                if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                {
+                    ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                    if (ImGui.IsItemDeactivatedAfterEdit())
+                        ret = true;
+                }
+                else
+                    ImGui.Text(hint);
+                ImGui.EndPopup();
+            }
+
             return ret;
         }
     }
