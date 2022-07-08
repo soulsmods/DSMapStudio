@@ -31,6 +31,8 @@ namespace StudioCore.ParamEditor
             _paramEditor = paramEditorScreen;
         }
 
+        private object _editedPropCache;
+
         private bool PropertyRow(Type typ, object oldval, out object newval, bool isBool)
         {
             try
@@ -42,6 +44,7 @@ namespace StudioCore.ParamEditor
                     if (ImGui.Checkbox("##valueBool", ref checkVal))
                     {
                         newval = Convert.ChangeType(checkVal ? 1 : 0, oldval.GetType());
+                        _editedPropCache = newval;
                         return true;
                     }
                     ImGui.SameLine();
@@ -62,6 +65,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
+                        _editedPropCache = newval;
                         return true;
                     }
                 }
@@ -72,6 +76,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = val;
+                    _editedPropCache = newval;
                     return true;
                 }
             }
@@ -85,6 +90,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
+                        _editedPropCache = newval;
                         return true;
                     }
                 }
@@ -95,6 +101,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (short)val;
+                    _editedPropCache = newval;
                     return true;
                 }
             }
@@ -108,6 +115,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
+                        _editedPropCache = newval;
                         return true;
                     }
                 }
@@ -118,6 +126,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (sbyte)val;
+                    _editedPropCache = newval;
                     return true;
                 }
             }
@@ -131,6 +140,7 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
+                        _editedPropCache = newval;
                         return true;
                     }
                 }
@@ -141,6 +151,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Checkbox("##value", ref val))
                 {
                     newval = val;
+                    _editedPropCache = newval;
                     return true;
                 }
             }
@@ -150,6 +161,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat("##value", ref val, 0.1f))
                 {
                     newval = val;
+                    _editedPropCache = newval;
                     return true;
                     // shouldUpdateVisual = true;
                 }
@@ -164,6 +176,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputText("##value", ref val, 128))
                 {
                     newval = val;
+                    _editedPropCache = newval;
                     return true;
                 }
             }
@@ -173,6 +186,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat2("##value", ref val, 0.1f))
                 {
                     newval = val;
+                    _editedPropCache = newval;
                     return true;
                     // shouldUpdateVisual = true;
                 }
@@ -183,6 +197,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat3("##value", ref val, 0.1f))
                 {
                     newval = val;
+                    _editedPropCache = newval;
                     return true;
                     // shouldUpdateVisual = true;
                 }
@@ -292,7 +307,7 @@ namespace StudioCore.ParamEditor
             ImGui.Columns(1);
             ImGui.EndChild();
         }
-        
+
         // Many parameter options, which may be simplified.
         private void PropEditorPropInfoRow(PARAM.Row row, PropertyInfo prop, string visualName, ref int id, Regex propSearchRx)
         {
@@ -383,7 +398,12 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, newval, changed, committed);
+            if (_editedPropCache != oldval)
+            {
+                changed = true;
+            }
+
+            UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, _editedPropCache, changed, committed);
             if (diffVanilla && !(isRef || matchDefault)) //and not already removed
                 ImGui.PopStyleColor();
             ImGui.NextColumn();

@@ -21,7 +21,7 @@ namespace StudioCore.Editor
         {
             if (hint == null)
                 return false;
-            return UIHints.AddImGuiHintButton(id, ref hint, canEdit); //presently a hack, move code here
+            return UIHints.AddImGuiHintButton(id, ref hint, canEdit, true); //presently a hack, move code here
         }
 
         public static void ParamRefText(List<string> paramRefs)

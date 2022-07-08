@@ -56,10 +56,10 @@ id 10000
 name Dagger
 propref originEquipWep0 Dagger";
 
-        public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false)
+        public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
         {
             bool ret = false;
-            ImGui.SameLine(0, 20f);
+            ImGui.SameLine();
             /*
             ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
             if (ImGui.BeginPopupContextItem(id))
@@ -76,24 +76,44 @@ propref originEquipWep0 Dagger";
             }
             */
 
-            if (ImGui.Button("Searchbar Help"))
+            // Even worse of a hack than it was before. eat my shorts (all of this should be redone)
+            if (isRowHint)
             {
-                ImGui.OpenPopup("##ParamSearchHelp");
-            }
-            if (ImGui.BeginPopup("##ParamSearchHelp"))
-            {
-
-                if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1f), "?");
+                if (ImGui.BeginPopupContextItem(id))
                 {
-                    ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                        ret = true;
+                    if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                    {
+                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                        if (ImGui.IsItemDeactivatedAfterEdit())
+                            ret = true;
+                    }
+                    else
+                        ImGui.Text(hint);
+                    ImGui.EndPopup();
                 }
-                else
-                    ImGui.Text(hint);
-                ImGui.EndPopup();
             }
+            else
+            {
+                ImGui.SameLine(0, 20f);
+                if (ImGui.Button("Help"))
+                {
+                    ImGui.OpenPopup("##ParamHelp");
+                }
+                if (ImGui.BeginPopup("##ParamHelp"))
+                {
 
+                    if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                    {
+                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                        if (ImGui.IsItemDeactivatedAfterEdit())
+                            ret = true;
+                    }
+                    else
+                        ImGui.Text(hint);
+                    ImGui.EndPopup();
+                }
+            }
             return ret;
         }
     }
