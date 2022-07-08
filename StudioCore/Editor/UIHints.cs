@@ -60,7 +60,7 @@ propref originEquipWep0 Dagger";
         {
             bool ret = false;
             ImGui.SameLine();
-            ImGui.TextColored(new Vector4(0.3f, 0.3f, 1.0f, 1.0f), "(?)");
+            ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
             if (ImGui.BeginPopupContextItem(id))
             {
                 if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier

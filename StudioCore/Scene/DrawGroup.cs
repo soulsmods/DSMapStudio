@@ -22,7 +22,6 @@ namespace StudioCore.Scene
 
         public bool IsInDisplayGroup(DrawGroup disp)
         {
-            AlwaysVisible = false; //todo2: temp for testing
             if (AlwaysVisible || disp.AlwaysVisible || Drawgroups == null)
             {
                 return true;

@@ -46,6 +46,7 @@ namespace StudioCore.MsbEditor
         }
 
         public bool postLoad = false;
+        public int _dispGroupCount = 8;
 
         private static RenderFilter GetRenderFilter(string type)
         {
@@ -491,6 +492,29 @@ namespace StudioCore.MsbEditor
             var objsToLoad = new HashSet<AssetDescription>();
             var colsToLoad = new HashSet<AssetDescription>();
             var navsToLoad = new HashSet<AssetDescription>();
+
+            //drawgroup count
+            switch (_assetLocator.Type)
+            {
+                // imgui checkbox click seems to break at some point after 8 (8*32) checkboxes, so let's just hope that never happens, yeah?
+                case GameType.DemonsSouls:
+                case GameType.DarkSoulsPTDE:
+                case GameType.DarkSoulsRemastered:
+                case GameType.DarkSoulsIISOTFS:
+                    _dispGroupCount = 4;
+                    break;
+                case GameType.Bloodborne:
+                case GameType.DarkSoulsIII:
+                    _dispGroupCount = 8;
+                    break;
+                case GameType.Sekiro:
+                case GameType.EldenRing:
+                    _dispGroupCount = 8; //?
+                    break;
+                default:
+                    throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
+                    //break;
+            }
 
             var ad = _assetLocator.GetMapMSB(mapid);
             if (ad.AssetPath == null)

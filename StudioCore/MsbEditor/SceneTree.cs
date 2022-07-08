@@ -359,7 +359,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.BeginDragDropTarget())
                 {
                     var payload = ImGui.AcceptDragDropPayload("entity");
-                    if (payload.NativePtr != null)
+                    if (payload.NativePtr != null) //todo: never passes
                     {
                         DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
                         var pload = _dragDropPayloads[h->Index];
@@ -489,7 +489,8 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.PopStyleVar();
-                ImGui.Indent(116);
+                ImGui.Spacing();
+                ImGui.Indent();
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("List Sorting Style:");
                 ImGui.SameLine();
@@ -502,7 +503,7 @@ namespace StudioCore.MsbEditor
                         _viewMode = (ViewMode)mode;
                     }
                 }
-                ImGui.Unindent(116);
+                ImGui.Unindent();
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;

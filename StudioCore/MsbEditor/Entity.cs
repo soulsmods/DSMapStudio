@@ -114,32 +114,12 @@ namespace StudioCore.MsbEditor
         protected string CurrentModel = "";
 
         [XmlIgnore]
-        public uint[] Drawgroups
-        {
-            get
-            {
-                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
-                if (prop != null)
-                {
-                    return (uint[])prop.GetValue(WrappedObject);
-                }
-                return null;
-            }
-        }
+        public uint[] Drawgroups;
 
         [XmlIgnore]
-        public uint[] Dispgroups
-        {
-            get
-            {
-                var prop = WrappedObject.GetType().GetProperty("DispGroups");
-                if (prop != null)
-                {
-                    return (uint[])prop.GetValue(WrappedObject);
-                }
-                return null;
-            }
-        }
+        public uint[] Dispgroups;
+
+        //public uint[] FakeDispgroups; //Used for Viewport dispgroup rendering. Doesn't affect anything else.
 
         protected bool _EditorVisible = true;
         [XmlIgnore]
@@ -720,41 +700,190 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void UpdateDrawgroups()
+        /*
+        private void DrawDispCopy()
         {
-
-            if (UseDrawGroups && RenderSceneMesh != null)
+            //maybe a Sekiro/Elden Ring thing? Probably not, but maybe.
+            FakeDispgroups = Dispgroups;
+            if (Name[0] == 'h') //todo2 temporary shitty collision check
             {
-                var myDrawGroupsProp = WrappedObject.GetType().GetProperty("DrawGroups");
-                var myCollisionNameProp = WrappedObject.GetType().GetProperty("CollisionName");
-                uint[] drawGroups = null;
-
-                if (myDrawGroupsProp != null && myCollisionNameProp != null)
+                for (var i = 0; i < Dispgroups.Length; i++)
                 {
-                    string colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); //get string in collisionName field
-                    if (colNameStr != null) //maybe should be ""
+                    //todo2: i'm actually setting the entity's field by doing this, which I should not.
+                    if (Dispgroups[i] == 0)
+                        FakeDispgroups[i] = Drawgroups[i];
+                }
+            }
+        }
+        */
+
+        /// <summary>
+        /// Updates entity's DrawGroups/DispGroups. Uses CollisionName DrawGroups if possible.
+        /// </summary>
+        private void UpdateDispDrawGroups()
+        {
+            string colNameStr = null;
+            string[] partNameArray = null;
+
+            object renderStruct = null;
+            var myDrawProp = WrappedObject.GetType().GetProperty("DrawGroups");
+            var myDispProp = WrappedObject.GetType().GetProperty("DispGroups");
+
+            List<PropertyInfo> myDrawPropList = new();
+            List<PropertyInfo> myDispPropList = new();
+            if (myDrawProp == null)
+            {
+                //Couldn't find DrawGroups. Check if this is post DS3 and drawgroups are in Unk1 struct.
+                var renderGroups = WrappedObject.GetType().GetProperty("Unk1");
+                if (renderGroups != null)
+                {
+                    //Found Unk1, this is post DS3
+                    renderStruct = renderGroups.GetValue(WrappedObject);
+                    myDrawProp = renderStruct.GetType().GetProperty("DrawGroups");
+                    myDispProp = renderStruct.GetType().GetProperty("DisplayGroups");
+                    /*
+                    myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups1"));
+                    myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups2"));
+                    //myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups3"));
+                    myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups1"));
+                    myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups2"));
+                    //myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups3"));
+                    myDrawProp = myDrawPropList[0]; //just a temp thing to make sure the block after next passes
+                    */
+                }
+            }
+
+            var myCollisionNameProp = WrappedObject.GetType().GetProperty("CollisionName");
+            if (myCollisionNameProp == null)
+            {
+                myCollisionNameProp = WrappedObject.GetType().GetProperty("CollisionPartName");
+                if (myCollisionNameProp == null)
+                {
+                    /*
+                    * UnkPartNames is PROBABLY not a pseudo-CollisionName, but I might be wrong. Keep this code here until we know more.
+                    //todo todo2: when UnkPartNames is figured out. 
+                    //TEST! DON'T KNOW ENOUGH ABOUT UNKPARTNAMES (or; how AEG assets handle CollisionName functionality) ATM TO DO THIS.
+                        //Don't know if it's s actually relevant to  drawgroup rendering (and which indicies do what)
+
+                    myCollisionNameProp = WrappedObject.GetType().GetProperty("UnkPartNames"); //string[]
+                    if (myCollisionNameProp != null)
                     {
-                        //collisionName field is not empty
-                        var colNameEnt = Container.GetObjectByName(colNameStr); //get entity referenced by collisionName
-                        if (colNameEnt != null)
+                        partNameArray = (string[])myCollisionNameProp.GetValue(WrappedObject);
+                        foreach (var str in partNameArray)
                         {
-                            drawGroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DrawGroups").GetValue(colNameEnt.WrappedObject); //get drawgroups from collisionName
-                            RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                            RenderSceneMesh.DrawGroups.Drawgroups = drawGroups;
-                        }
-                        else if (Universe.postLoad)
-                        {
-                            //collisionName referenced doesn't exist
-                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                            if (str != null && str != "")
+                            {
+                                colNameStr = str;
+                                break;
+                            }
                         }
                     }
+                    */
                 }
-                if (myDrawGroupsProp != null && drawGroups == null)
+            }
+
+            if (myDrawProp != null && myCollisionNameProp != null)
+            {
+                //Found DrawGroups and CollisionName
+                if (partNameArray == null) //didn't get string from UnkPartNames
+                    colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); //get string in collisionName field
+
+                if (colNameStr != null)
                 {
-                    drawGroups = (uint[])myDrawGroupsProp.GetValue(WrappedObject);
-                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                    RenderSceneMesh.DrawGroups.Drawgroups = drawGroups;
+                    //CollisionName field is not empty
+                    var colNameEnt = Container.GetObjectByName(colNameStr); //get entity referenced by collisionName
+                    if (colNameEnt != null)
+                    {
+                        //get DrawGroups from CollisionName reference
+                        var renderGroups_col = colNameEnt.WrappedObject.GetType().GetProperty("Unk1");
+                        if (renderGroups_col != null)
+                        {
+                            //This is post DS3 and drawgroups are in Unk1 struct.
+                            var renderStruct_col = renderGroups_col.GetValue(colNameEnt.WrappedObject);
+
+                            Drawgroups = (uint[])renderStruct_col.GetType().GetProperty("DrawGroups").GetValue(renderStruct_col);
+                            Dispgroups = (uint[])renderStruct_col.GetType().GetProperty("DisplayGroups").GetValue(renderStruct_col);
+                            /*
+                            int groupCount = Universe._dispGroupCount;
+                            Drawgroups = new uint[groupCount];
+                            var i = 0;
+                            foreach (var e in myDrawPropList)
+                            {
+                                var array = (uint[])e.GetValue(renderStruct_col);
+                                array.CopyTo(Drawgroups, i);
+                                i += array.Length;
+                            }
+                            Dispgroups = new uint[groupCount];
+                            i = 0;
+                            foreach (var e in myDispPropList)
+                            {
+                                var array = (uint[])e.GetValue(renderStruct_col);
+                                array.CopyTo(Dispgroups, i);
+                                i += array.Length;
+                            }
+                            */
+                        }
+                        else
+                        {
+                            Drawgroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DrawGroups").GetValue(colNameEnt.WrappedObject);
+                            Dispgroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DispGroups").GetValue(colNameEnt.WrappedObject);
+                        }
+                        //DrawDispCopy();
+                        return;
+                    }
+                    else if (Universe.postLoad)
+                    {
+                        //collisionName referenced doesn't exist
+                        TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                    }
                 }
+            }
+            if (myDrawProp != null)
+            {
+                //Found Drawgroups, but no CollisionName reference
+                if (renderStruct != null)
+                {
+                    Drawgroups = (uint[])myDrawProp.GetValue(renderStruct);
+                    Dispgroups = (uint[])myDispProp.GetValue(renderStruct);
+                    /*
+                    int groupCount = Universe._dispGroupCount;
+                    Drawgroups = new uint[groupCount]; //drawgroup 
+                    var i = 0;
+                    foreach (var e in myDrawPropList)
+                    {
+                        var array = (uint[])e.GetValue(renderStruct);
+                        array.CopyTo(Drawgroups, i);
+                        i += array.Length;
+                    }
+                    Dispgroups = new uint[groupCount];
+                    i = 0;
+                    foreach (var e in myDispPropList)
+                    {
+                        var array = (uint[])e.GetValue(renderStruct);
+                        array.CopyTo(Dispgroups, i);
+                        i += array.Length;
+                    }
+                    */
+                }
+                else
+                {
+                    Drawgroups = (uint[])myDrawProp.GetValue(WrappedObject);
+                    Dispgroups = (uint[])myDispProp.GetValue(WrappedObject);
+                }
+                //DrawDispCopy();
+            }
+
+            return;
+        }
+
+        private void RefreshDrawgroups()
+        {
+            //I doubt this needs to be separate from UpdateDispDrawGroups.
+            if (UseDrawGroups && RenderSceneMesh != null)
+            {
+                UpdateDispDrawGroups();
+                RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                RenderSceneMesh.DrawGroups.Drawgroups = Drawgroups;
             }
         }
 
@@ -784,9 +913,8 @@ namespace StudioCore.MsbEditor
             }
             
             //DrawGroup management
-            UpdateDrawgroups();
+            RefreshDrawgroups();
             
-
 
             if (RenderSceneMesh != null)
             {
