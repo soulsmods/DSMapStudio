@@ -235,7 +235,11 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    job.StartJobAsync();
+                    var task = job.StartJobAsync();
+                    if (obj.Universe.postLoad)
+                    {
+                        task.Wait();
+                    }
                 }
                 return mesh;
             }
@@ -257,7 +261,11 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    job.StartJobAsync();
+                    var task = job.StartJobAsync();
+                    if (obj.Universe.postLoad)
+                    {
+                        task.Wait();
+                    }
                 }
                 return mesh;
             }
@@ -283,7 +291,11 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    job.StartJobAsync();
+                    var task = job.StartJobAsync();
+                    if (obj.Universe.postLoad)
+                    {
+                        task.Wait();
+                    }
                 }
                 return model;
             }
