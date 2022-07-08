@@ -312,7 +312,7 @@ namespace StudioCore.MsbEditor
                     return pp.Value;
                 }
             }
-            var p = WrappedObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (p != null)
             {
                 return p.GetValue(WrappedObject, null);

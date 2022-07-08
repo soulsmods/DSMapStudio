@@ -343,6 +343,7 @@ namespace StudioCore.TextEditor
                         _activeEntry = r;
                         if (_activeFmgType == FMGBank.FMGTypes.Item)
                         {
+                            //TODO2: do this in a faster way?
                             FMGBank.LookupItemID(r.ID, _activeItemCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
                         }
                         else
