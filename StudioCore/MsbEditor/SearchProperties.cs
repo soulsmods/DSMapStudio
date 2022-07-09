@@ -78,7 +78,7 @@ namespace StudioCore.MsbEditor
 
         public bool SearchValue()
         {
-            ImGui.Text("Value");
+            ImGui.Text("Value (Exact)");
             ImGui.NextColumn();
             bool ret = false;
             if (PropertyType == typeof(int))
@@ -97,7 +97,7 @@ namespace StudioCore.MsbEditor
                 {
                     val = "";
                 }
-                if (ImGui.InputText("##value2", ref val, 40))
+                if (ImGui.InputText("##value2", ref val, 256))
                 {
                     PropertyValue = val;
                     ret = true;

@@ -35,10 +35,10 @@ namespace StudioCore.MsbEditor
 
             ImGui.SetNextWindowSize(new Vector2(100, 100));
             if (ImGui.Begin("Render Groups") 
-                || InputTracker.GetControlShortcut(Key.R) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
-                || InputTracker.GetControlShortcut(Key.G)) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
+            || InputTracker.GetControlShortcut(Key.R) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
+            || InputTracker.GetControlShortcut(Key.G)) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
             {
-                
+
                 var dg = _scene.DisplayGroup;
                 if (dg.AlwaysVisible || dg.RenderGroups.Length != dispCount)
                 {
@@ -67,7 +67,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine(0, 20f);
+                ImGui.SameLine(0, 14f);
                 if (sdispgroups == null)
                     ImGui.BeginDisabled();
                 if ((ImGui.Button("Get DispGroups <Ctrl+G>") || InputTracker.GetControlShortcut(Key.G)) && sdispgroups != null)
@@ -87,7 +87,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine(0, 20f);
+                ImGui.SameLine(0, 14f);
                 if (ImGui.Button("Give as DrawGroups"))
                 {
                     for (int i = 0; i < dispCount; i++)
@@ -139,15 +139,22 @@ namespace StudioCore.MsbEditor
                 for (int g = 0; g < dg.RenderGroups.Length; g++)
                 {
                     //row (groups)
+                    
+                    //add spacing every 4 rows
+                    if (g % 4 == 0 && g != 0)
+                    {
+                        ImGui.Spacing();
+                    }
+
                     ImGui.Text($@"Render Group {g}:");
                     for (int i = 0; i < 32; i++)
                     {
                         //column (bits)
                         bool check = ((dg.RenderGroups[g] >> i) & 0x1) > 0;
 
+                        //add spacing every 4 boxes
                         if (i % 4 == 0)
                         {
-                            //add spacing every 4 boxes
                             ImGui.SameLine();
                             ImGui.Spacing();
                         }
