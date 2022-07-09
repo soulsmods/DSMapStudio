@@ -271,7 +271,7 @@ namespace StudioCore.MsbEditor
             Viewport.OnGui();
             _assetBrowser.OnGui();
             _sceneTree.OnGui();
-            _propEditor.OnGui(_selection.GetSingleFilteredSelection<Entity>(), "modeleditprop", Viewport.Width, Viewport.Height);
+            _propEditor.OnGui(_selection, _selection.GetSingleFilteredSelection<Entity>(), "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
 

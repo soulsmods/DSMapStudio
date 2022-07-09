@@ -420,9 +420,9 @@ namespace StudioCore.MsbEditor
             "Composite",
         };
 
-        private void PropEditorGeneric(Entity selection, object target=null, bool decorate=true)
+        private void PropEditorGeneric(Selection selection, Entity entSelection, object target=null, bool decorate=true)
         {
-            var obj = (target == null) ? selection.WrappedObject : target;
+            var obj = (target == null) ? entSelection.WrappedObject : target;
             var type = obj.GetType();
             if (!_propCache.ContainsKey(type.FullName))
             {
@@ -442,7 +442,7 @@ namespace StudioCore.MsbEditor
             // Custom editors
             if (type == typeof(FLVER2.BufferLayout))
             {
-                PropEditorFlverLayout(selection, (FLVER2.BufferLayout)obj);
+                PropEditorFlverLayout(entSelection, (FLVER2.BufferLayout)obj);
             }
             else
             {
@@ -482,7 +482,7 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 if (open)
                                 {
-                                    PropEditorGeneric(selection, o, false);
+                                    PropEditorGeneric(selection, entSelection, o, false);
                                     ImGui.TreePop();
                                 }
                                 ImGui.PopID();
@@ -505,7 +505,7 @@ namespace StudioCore.MsbEditor
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
                                 //bool committed = true;
-                                UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
+                                UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -533,7 +533,7 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 if (open)
                                 {
-                                    PropEditorGeneric(selection, o, false);
+                                    PropEditorGeneric(selection, entSelection, o, false);
                                     ImGui.TreePop();
                                 }
                                 ImGui.PopID();
@@ -556,7 +556,7 @@ namespace StudioCore.MsbEditor
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
                                 //bool committed = true;
-                                UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
+                                UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -602,15 +602,15 @@ namespace StudioCore.MsbEditor
                             action.SetPostExecutionAction((undo) =>
                             {
                                 bool selected = false;
-                                if (selection.RenderSceneMesh != null)
+                                if (entSelection.RenderSceneMesh != null)
                                 {
-                                    selected = selection.RenderSceneMesh.RenderSelectionOutline;
-                                    selection.RenderSceneMesh.Dispose();
-                                    selection.RenderSceneMesh = null;
+                                    selected = entSelection.RenderSceneMesh.RenderSelectionOutline;
+                                    entSelection.RenderSceneMesh.Dispose();
+                                    entSelection.RenderSceneMesh = null;
                                 }
 
-                                selection.UpdateRenderModel();
-                                selection.RenderSceneMesh.RenderSelectionOutline = selected;
+                                entSelection.UpdateRenderModel();
+                                entSelection.RenderSceneMesh.RenderSelectionOutline = selected;
                             });
 
                             ContextActionManager.ExecuteAction(action);
@@ -618,7 +618,7 @@ namespace StudioCore.MsbEditor
                         ImGui.NextColumn();
                         if (open)
                         {
-                            PropEditorGeneric(selection, o, false);
+                            PropEditorGeneric(selection, entSelection, o, false);
                             ImGui.TreePop();
                         }
                         ImGui.PopID();
@@ -633,7 +633,7 @@ namespace StudioCore.MsbEditor
                         ImGui.NextColumn();
                         if (open)
                         {
-                            PropEditorGeneric(selection, o, false);
+                            PropEditorGeneric(selection, entSelection, o, false);
                             ImGui.TreePop();
                         }
                         ImGui.PopID();
@@ -648,7 +648,7 @@ namespace StudioCore.MsbEditor
                         bool changed = false;
                         object newval = null;
 
-                        changed = PropertyRow(typ, oldval, out newval, selection, prop.Name);
+                        changed = PropertyRow(typ, oldval, out newval, entSelection, prop.Name);
                         PropertyContextMenu(obj, prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                         {
@@ -656,7 +656,7 @@ namespace StudioCore.MsbEditor
                         }
                         bool committed = ImGui.IsItemDeactivatedAfterEdit();
                         //bool committed = true;
-                        UpdateProperty(prop, selection, obj, newval, changed, committed, shouldUpdateVisual, false);
+                        UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false);
 
                         ImGui.NextColumn();
                         ImGui.PopID();
@@ -667,35 +667,47 @@ namespace StudioCore.MsbEditor
             if (decorate)
             {
                 ImGui.Columns(1);
-                if (selection.References != null)
+                if (entSelection.References != null)
                 {
                     ImGui.NewLine();
                     ImGui.Text("References: ");
-                    foreach (var m in selection.References)
+                    ImGui.Indent(10);
+                    foreach (var m in entSelection.References)
                     {
                         foreach (var n in m.Value)
                         {
-                            ImGui.Text(n.PrettyName);
+                            if (ImGui.Button(n.PrettyName))
+                            {
+                                selection.ClearSelection();
+                                selection.AddSelection(n);
+                            }
                         }
                     }
                 }
+                ImGui.Unindent(10);
                 ImGui.NewLine();
                 ImGui.Text("Objects referencing this object:");
-                foreach (var m in selection.GetReferencingObjects())
+                ImGui.Indent(10);
+                foreach (var m in entSelection.GetReferencingObjects())
                 {
-                    ImGui.Text(m.PrettyName);
+                    if (ImGui.Button(m.PrettyName))
+                    {
+                        selection.ClearSelection();
+                        selection.AddSelection(m);
+                    }
                 }
+                ImGui.Unindent(10);
             }
         }
 
-        public void OnGui(Entity selection, string id, float w, float h)
+        public void OnGui(Selection selection, Entity entSelection, string id, float w, float h)
         {
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             ImGui.SetNextWindowSize(new Vector2(350, h - 80), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(w - 370, 20), ImGuiCond.FirstUseEver);
             ImGui.Begin($@"Properties##{id}");
             ImGui.BeginChild("propedit");
-            if (selection == null || selection.WrappedObject == null)
+            if (entSelection == null || entSelection.WrappedObject == null)
             {
                 ImGui.Text("Select a single object to edit properties.");
                 ImGui.EndChild();
@@ -703,13 +715,13 @@ namespace StudioCore.MsbEditor
                 ImGui.PopStyleColor();
                 return;
             }
-            if (selection.WrappedObject is PARAM.Row prow || selection.WrappedObject is MergedParamRow)
+            if (entSelection.WrappedObject is PARAM.Row prow || entSelection.WrappedObject is MergedParamRow)
             {
-                PropEditorParamRow(selection);
+                PropEditorParamRow(entSelection);
             }
             else
             {
-                PropEditorGeneric(selection);
+                PropEditorGeneric(selection, entSelection);
             }
             ImGui.EndChild();
             ImGui.End();
