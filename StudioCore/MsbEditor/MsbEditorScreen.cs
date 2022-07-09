@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Numerics;
+using System.Reflection;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -173,6 +174,75 @@ namespace StudioCore.MsbEditor
             EditorActionManager.ExecuteAction(act);
         }
 
+        private void DummyUndummySelection(string sourceStr, string targetStr)
+        {
+            //Incomplete.
+            //todo2: implement into new action via EditorActionManager.
+            Type msbclass;
+            switch (AssetLocator.Type)
+            {
+                case GameType.DemonsSouls:
+                    msbclass = typeof(MSBD);
+                    break;
+                case GameType.DarkSoulsPTDE:
+                case GameType.DarkSoulsRemastered:
+                    msbclass = typeof(MSB1);
+                    break;
+                case GameType.DarkSoulsIISOTFS:
+                    msbclass = typeof(MSB2);
+                    break;
+                case GameType.DarkSoulsIII:
+                    msbclass = typeof(MSB3);
+                    break;
+                case GameType.Bloodborne:
+                    msbclass = typeof(MSBB);
+                    break;
+                case GameType.Sekiro:
+                    msbclass = typeof(MSBS);
+                    break;
+                case GameType.EldenRing:
+                    msbclass = typeof(MSBE);
+                    break;
+                default:
+                    throw new ArgumentException("type must be valid");
+            }
+
+            var sourceList = _selection.GetFilteredSelection<MapEntity>().ToList();
+
+            var targetType = msbclass.GetNestedType("Part").GetNestedType(targetStr);
+            var sourceType = msbclass.GetNestedType("Part").GetNestedType(sourceStr);
+
+            for (var i=0;i<sourceList.Count;i++)
+            {
+                var ent = sourceList[i];
+
+                if (ent.Type == MapEntity.MapEntityType.Part)
+                {
+                    var currentType = ent.WrappedObject.GetType();
+                    if (currentType == sourceType)
+                    {
+                        var source = ent.WrappedObject;
+                        var target = targetType.GetConstructor(Type.EmptyTypes).Invoke(Array.Empty<object>());
+
+                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => p.CanWrite))
+                        {
+                            property.SetValue(target, property.GetValue(source, null), null);
+                        }
+                        ent.WrappedObject = target;
+                    }
+                }
+            }
+
+            /*
+            var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
+            EditorActionManager.ExecuteAction(action);
+            var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
+            EditorActionManager.ExecuteAction(action);
+                //make them use ActionEvent.ObjectAddedRemoved to refresh msb map list cache
+            */
+
+        }
+
         public override void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit"))
@@ -203,25 +273,45 @@ namespace StudioCore.MsbEditor
                 {
                     FrameSelection();
                 }
+
                 /*
-                var selectedEntities = _selection.GetFilteredSelection<Entity>();
-                if (_partsClasses.Exists(e => e.Item1 == "DummyEnemy")) //TODO2 MSB: this probably doesnt work for maps with no dummy enemies (ER only?)
+                //todo2: Finish. Add (difficult to press by accident) hotkeys for enemies.
+                if (ImGui.BeginMenu("Dummify/Undummify Selection"))
                 {
-                    if (ImGui.MenuItem("Dummify Selection", "Ctrl+M", false, selectedEntities.Count > 0))
+                    if (ImGui.MenuItem("Selected Enemies -> DummyEnemies", "", false, _selection.IsSelection()))
                     {
-                        foreach (var ent in selectedEntities)
+                        DummyUndummySelection("Enemy", "DummyEnemy");
+                    }
+                    if (ImGui.MenuItem("Selected DummyEnemies -> Enemies", "", false, _selection.IsSelection()))
+                    {   
+                        DummyUndummySelection("DummyEnemy", "Enemy");
+                    }
+                    if (AssetLocator.Type != GameType.EldenRing)
+                    {
+                        if (ImGui.MenuItem("Selected Objects -> DummyObjects", "", false, _selection.IsSelection()))
                         {
-                            //TODO2 MSB: get objects and enemies, make dummy copies, delete
-                            //if (ent.GetType() == )
-                            //AddNewEntity(Type .Item2, MapEntity.MapEntityType.Part);
+                            DummyUndummySelection("", "");
+                        }
+                        if (ImGui.MenuItem("Selected DummyObjects -> Objects", "", false, _selection.IsSelection()))
+                        {   
+                            DummyUndummySelection("", "");
                         }
                     }
-                    if (ImGui.MenuItem("Undummy Selection", "Ctrl+U", false, selectedEntities.Count > 0))
-                    { 
-                    
+                    else
+                    {
+                        if (ImGui.MenuItem("Assets", "", false, _selection.IsSelection()))
+                        {
+                            DummyUndummySelection("", "");
+                        }
+                        if (ImGui.MenuItem("Assets", "", false, _selection.IsSelection()))
+                        {   
+                            DummyUndummySelection("", "");
+                        }
                     }
+                    ImGui.EndMenu();
                 }
                 */
+
                 ImGui.EndMenu();
             }
 
@@ -580,11 +670,8 @@ namespace StudioCore.MsbEditor
                     msbclass = typeof(MSBS);
                     break;
                 case GameType.EldenRing:
-                    // TODO
-                    _partsClasses = new List<(string, Type)>();
-                    _regionClasses = new List<(string, Type)>();
-                    _eventClasses = new List<(string, Type)>();
-                    return;
+                    msbclass = typeof(MSBE);
+                    break;
                 default:
                     throw new ArgumentException("type must be valid");
             }

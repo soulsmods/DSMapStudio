@@ -95,6 +95,7 @@ namespace StudioCore.TextEditor
                 {
                     EditorActionManager.RedoAction();
                 }
+                /*
                 if (ImGui.MenuItem("Delete", "Delete", false, true))
                 {
                     //TODO2: delete
@@ -103,6 +104,7 @@ namespace StudioCore.TextEditor
                 {
                     //TODO2: dupe row
                 }
+                */
                 ImGui.EndMenu();
             }
             if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
@@ -147,7 +149,7 @@ namespace StudioCore.TextEditor
         private void FMGSearchLogic()
         {
 
-            //TODO2: regex crap
+            // Do we really need regex here? Eh.
             /*
             Regex propSearchRx = null;
             try

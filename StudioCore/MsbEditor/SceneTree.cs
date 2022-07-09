@@ -542,7 +542,7 @@ namespace StudioCore.MsbEditor
                     // Right click context menu
                     if (ImGui.BeginPopupContextItem($@"mapcontext_{mapid}"))
                     {
-                        if (map == null) //todo2: show dulled out option or something instead of having a visible, but unselectable entry
+                        if (map == null)
                         {
                             if (ImGui.Selectable("Load Map"))
                             {

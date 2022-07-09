@@ -709,7 +709,7 @@ namespace StudioCore.MsbEditor
             {
                 for (var i = 0; i < Dispgroups.Length; i++)
                 {
-                    //todo2: i'm actually setting the entity's field by doing this, which I should not.
+                    //i'm actually setting the entity's field by doing this, which I should not.
                     if (Dispgroups[i] == 0)
                         FakeDispgroups[i] = Drawgroups[i];
                 }
