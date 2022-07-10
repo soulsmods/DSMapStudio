@@ -141,7 +141,7 @@ namespace StudioCore.MsbEditor
                     //row (groups)
                     
                     //add spacing every 4 rows
-                    if (g % 4 == 0 && g != 0)
+                    if (g % 4 == 0 && g > 0)
                     {
                         ImGui.Spacing();
                     }

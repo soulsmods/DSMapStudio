@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
             {
                 long val = (long)oldval;
                 string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 40))
+                if (ImGui.InputText("##value", ref strval, 99))
                 {
                     var res = long.TryParse(strval, out val);
                     if (res)
@@ -151,7 +151,7 @@ namespace StudioCore.MsbEditor
                 {
                     val = "";
                 }
-                if (ImGui.InputText("##value", ref val, 40))
+                if (ImGui.InputText("##value", ref val, 99))
                 {
                     newval = val;
                     return true;

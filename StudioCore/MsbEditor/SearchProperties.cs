@@ -23,7 +23,12 @@ namespace StudioCore.MsbEditor
 
         public bool InitializeSearchValue()
         {
-            if (PropertyType == typeof(byte))
+            if (PropertyType == typeof(bool))
+            {
+                PropertyValue = false;
+                return true;
+            }
+            else if (PropertyType == typeof(byte))
             {
                 PropertyValue = (byte)0;
                 return true;
@@ -68,6 +73,11 @@ namespace StudioCore.MsbEditor
                 PropertyValue = 0.0f;
                 return true;
             }
+            else if (PropertyType == typeof(double))
+            {
+                PropertyValue = 0.0d;
+                return true;
+            }
             else if (PropertyType == typeof(string))
             {
                 PropertyValue = "";
@@ -81,12 +91,109 @@ namespace StudioCore.MsbEditor
             ImGui.Text("Value (Exact)");
             ImGui.NextColumn();
             bool ret = false;
-            if (PropertyType == typeof(int))
+            if (PropertyType == typeof(bool))
+            {
+                var val = (bool)PropertyValue;
+                if (ImGui.Checkbox("##valBool", ref val))
+                {
+                    PropertyValue = val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(byte))
+            {
+                var val = (int)(byte)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (byte)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(char))
+            {
+                var val = (int)(char)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (char)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(short))
+            {
+                var val = (int)(short)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (short)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(ushort))
+            {
+                var val = (int)(ushort)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (ushort)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(int))
             {
                 int ival = (int)PropertyValue;
                 if (ImGui.InputInt("##value2", ref ival))
                 {
                     PropertyValue = ival;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(uint))
+            {
+                var val = (int)(uint)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (uint)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(long))
+            {
+                var val = (int)(long)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (long)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(ulong))
+            {
+                var val = (int)(ulong)PropertyValue;
+
+                if (ImGui.InputInt("##value4", ref val))
+                {
+                    PropertyValue = (ulong)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(float))
+            {
+                var val = (float)PropertyValue;
+                if (ImGui.InputFloat("##value3", ref val))
+                {
+                    PropertyValue = val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(double))
+            {
+                var val = (double)PropertyValue;
+                if (ImGui.InputDouble("##value3", ref val))
+                {
+                    PropertyValue = val;
                     ret = true;
                 }
             }
@@ -97,7 +204,7 @@ namespace StudioCore.MsbEditor
                 {
                     val = "";
                 }
-                if (ImGui.InputText("##value2", ref val, 256))
+                if (ImGui.InputText("##value2", ref val, 99))
                 {
                     PropertyValue = val;
                     ret = true;
@@ -126,7 +233,7 @@ namespace StudioCore.MsbEditor
 
                 if (InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
-                if (ImGui.InputText("##value", ref PropertyName, 40))
+                if (ImGui.InputText("##value", ref PropertyName, 64))
                 {
                     PropertyType = Universe.GetPropertyType(PropertyName);
                     ValidType = InitializeSearchValue();
