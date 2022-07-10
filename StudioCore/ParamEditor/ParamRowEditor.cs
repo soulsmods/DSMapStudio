@@ -247,7 +247,7 @@ namespace StudioCore.ParamEditor
             {
                 if (InputTracker.GetControlShortcut(Key.N))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText("Search Field Names <Ctrl+N>", ref propSearchString, 255);
+                ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
                 ImGui.Separator();
             }
             Regex propSearchRx = null;
@@ -432,12 +432,18 @@ namespace StudioCore.ParamEditor
 
         private void PropertyRowNameContextMenu(string originalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
         {
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f));
             if (ImGui.BeginPopupContextItem("rowName"))
             {
                 if (ParamEditorScreen.ShowAltNamesPreference == true && ParamEditorScreen.AlwaysShowOriginalNamePreference == false)
-                    ImGui.Text(originalName);
-                if (ImGui.Selectable("Search..."))
+                {
+                    ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
+                    ImGui.Separator();
+                }
+                if (ImGui.Selectable("Add to Searchbar"))
+                {
                     EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
+                }
                 if (showPinOptions && ImGui.Selectable((isPinned?"Unpin ":"Pin "+ originalName)))
                 {
                     if(!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
@@ -486,6 +492,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndPopup();
             }
+            ImGui.PopStyleVar();
         }
         private void PropertyRowValueContextMenu(string internalName, string VirtualRef, dynamic oldval)
         {

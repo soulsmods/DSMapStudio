@@ -967,7 +967,7 @@ namespace StudioCore.ParamEditor
 
                 if (InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText("Search Rows <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
+                ImGui.InputText("Search <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
 
                 if (ImGui.IsItemActive())
                     _paramEditor._isSearchBarActive = true;

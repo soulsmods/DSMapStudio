@@ -104,7 +104,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(byte)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valByte", ref val))
                 {
                     PropertyValue = (byte)val;
                     ret = true;
@@ -114,7 +114,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(char)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valChar", ref val))
                 {
                     PropertyValue = (char)val;
                     ret = true;
@@ -124,7 +124,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(short)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valShort", ref val))
                 {
                     PropertyValue = (short)val;
                     ret = true;
@@ -134,7 +134,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(ushort)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valUShort", ref val))
                 {
                     PropertyValue = (ushort)val;
                     ret = true;
@@ -143,7 +143,7 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(int))
             {
                 int ival = (int)PropertyValue;
-                if (ImGui.InputInt("##value2", ref ival))
+                if (ImGui.InputInt("##valInt", ref ival))
                 {
                     PropertyValue = ival;
                     ret = true;
@@ -153,7 +153,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(uint)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valUInt", ref val))
                 {
                     PropertyValue = (uint)val;
                     ret = true;
@@ -163,7 +163,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(long)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valLong", ref val))
                 {
                     PropertyValue = (long)val;
                     ret = true;
@@ -173,7 +173,7 @@ namespace StudioCore.MsbEditor
             {
                 var val = (int)(ulong)PropertyValue;
 
-                if (ImGui.InputInt("##value4", ref val))
+                if (ImGui.InputInt("##valULong", ref val))
                 {
                     PropertyValue = (ulong)val;
                     ret = true;
@@ -182,7 +182,7 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(float))
             {
                 var val = (float)PropertyValue;
-                if (ImGui.InputFloat("##value3", ref val))
+                if (ImGui.InputFloat("##valFloat", ref val))
                 {
                     PropertyValue = val;
                     ret = true;
@@ -191,7 +191,7 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(double))
             {
                 var val = (double)PropertyValue;
-                if (ImGui.InputDouble("##value3", ref val))
+                if (ImGui.InputDouble("##valDouble", ref val))
                 {
                     PropertyValue = val;
                     ret = true;
@@ -204,7 +204,7 @@ namespace StudioCore.MsbEditor
                 {
                     val = "";
                 }
-                if (ImGui.InputText("##value2", ref val, 99))
+                if (ImGui.InputText("##valString", ref val, 99))
                 {
                     PropertyValue = val;
                     ret = true;
