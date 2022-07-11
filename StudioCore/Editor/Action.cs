@@ -234,52 +234,50 @@ namespace StudioCore.Editor
         }
     }
 
-    public class CloneFmgsAction : EditorAction
+    
+    public class DuplicateFMGEntryAction : EditorAction
     {
-        private FMG Fmg;
-        private string FmgString;
-        private List<FMG.Entry> Clonables = new List<FMG.Entry>();
-        private List<FMG.Entry> Clones = new List<FMG.Entry>();
-        private bool SetSelection = false;
+        //Not implemented ATM: needs to update FMG active entry, and force FMG to refresh the cache (+ on undo/redo)
+        private FMG Fmg = new();
+        private FMG.Entry Entry;
+        private KeyValuePair<FMG, FMG.Entry> Clone;
 
-        public CloneFmgsAction(FMG fmg, string fstring, List<FMG.Entry> entries, bool setsel)
+        public DuplicateFMGEntryAction(FMG fmg, FMG.Entry entry)
         {
             Fmg = fmg;
-            Clonables.AddRange(entries);
-            FmgString = fstring;
-            SetSelection = setsel;
+            Entry = entry;
         }
 
         public override ActionEvent Execute()
         {
-            foreach (var entry in Clonables)
+
+            FMG.Entry newentry = new(Entry.ID, Entry.Text);
+
+            do
             {
-                var newentry = new FMG.Entry(0, "");
-                newentry.ID = entry.ID;
-                newentry.Text = newentry.Text != null ? newentry.Text : "";
-                Fmg.Entries.Insert(Fmg.Entries.IndexOf(entry) + 1, newentry);
-                Clones.Add(newentry);
+                newentry.ID++; //get an unused ID
             }
-            if (SetSelection)
-            {
-                // EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
-            }
+            while (Fmg.Entries.Find(e => e.ID == newentry.ID) != null);
+
+            Fmg.Entries.Insert(Fmg.Entries.IndexOf(Entry) + 1, newentry);
+
+            Clone = new(Fmg, newentry);
+
             return ActionEvent.NoEvent;
         }
 
         public override ActionEvent Undo()
         {
-            for (int i = 0; i < Clones.Count(); i++)
-            {
-                Fmg.Entries.Remove(Clones[i]);
-            }
-            Clones.Clear();
-            if (SetSelection)
-            {
-            }
+            Fmg = Clone.Key;
+            Entry = Clone.Value;
+
+            Fmg.Entries.Remove(Entry);
+            Clone = new();
+
             return ActionEvent.NoEvent;
         }
     }
+    
 
     public class DeleteParamsAction : EditorAction
     {
@@ -315,6 +313,7 @@ namespace StudioCore.Editor
             }
             if (SetSelection)
             {
+                
             }
             return ActionEvent.NoEvent;
         }

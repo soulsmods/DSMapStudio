@@ -418,53 +418,6 @@ namespace StudioCore.MsbEditor
         }
     }
 
-    public class CloneFmgsAction : Action
-    {
-        private FMG Fmg;
-        private string FmgString;
-        private List<FMG.Entry> Clonables = new List<FMG.Entry>();
-        private List<FMG.Entry> Clones = new List<FMG.Entry>();
-        private bool SetSelection = false;
-
-        public CloneFmgsAction(FMG fmg, string fstring, List<FMG.Entry> entries, bool setsel)
-        {
-            Fmg = fmg;
-            Clonables.AddRange(entries);
-            FmgString = fstring;
-            SetSelection = setsel;
-        }
-
-        public override ActionEvent Execute()
-        {
-            foreach (var entry in Clonables)
-            {
-                var newentry = new FMG.Entry(0, "");
-                newentry.ID = entry.ID;
-                newentry.Text = newentry.Text != null ? newentry.Text : "";
-                Fmg.Entries.Insert(Fmg.Entries.IndexOf(entry) + 1, newentry);
-                Clones.Add(newentry);
-            }
-            if (SetSelection)
-            {
-                // EditorCommandQueue.AddCommand($@"param/select/{ParamString}/{Clones[0].ID}");
-            }
-            return ActionEvent.NoEvent;
-        }
-
-        public override ActionEvent Undo()
-        {
-            for (int i = 0; i < Clones.Count(); i++)
-            {
-                Fmg.Entries.Remove(Clones[i]);
-            }
-            Clones.Clear();
-            if (SetSelection)
-            {
-            }
-            return ActionEvent.NoEvent;
-        }
-    }
-
     public class DeleteMapObjectsAction : Action
     {
         private Universe Universe;

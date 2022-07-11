@@ -33,10 +33,16 @@ namespace StudioCore.MsbEditor
                 //sdispgroups = sel.FakeDispgroups;
             }
 
+
             ImGui.SetNextWindowSize(new Vector2(100, 100));
-            if (ImGui.Begin("Render Groups") 
-            || InputTracker.GetControlShortcut(Key.R) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
-            || InputTracker.GetControlShortcut(Key.G)) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
+
+            if (InputTracker.GetControlShortcut(Key.R)
+            || InputTracker.GetControlShortcut(Key.G))
+            {
+                ImGui.SetNextWindowFocus();
+            }
+
+            if (ImGui.Begin("Render Groups"))
             {
 
                 var dg = _scene.DisplayGroup;

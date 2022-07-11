@@ -61,6 +61,8 @@ namespace StudioCore.TextEditor
         private List<FMG.Entry> _cachedEntriesFiltered = null;
         private List<FMG.Entry> _cachedEntries = null;
         private FMG.Entry _activeEntry = null;
+        private int _cachedID = 0;
+
 
         private FMG.Entry _cachedTitle = null;
         private FMG.Entry _cachedSummary = null;
@@ -83,6 +85,144 @@ namespace StudioCore.TextEditor
             _FMGsearchStr = "";
             _FMGsearchStrCache = "";
         }
+        private void RefreshFMGCache()
+        {
+            _FMGsearchStr = "";
+            _FMGsearchStrCache = "";
+            if (_activeFmgType == FMGBank.FMGTypes.Item)
+            {
+                _cachedEntriesFiltered = FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Title);
+                _cachedEntries = _cachedEntriesFiltered;
+            }
+            else if (_activeFmgType == FMGBank.FMGTypes.Menu)
+            {
+                _activeItemCategory = FMGBank.ItemCategory.None;
+                _cachedEntriesFiltered = FMGBank.GetMenuFMGEntries(_activeMenuCategoryPair.Value);
+                _cachedEntries = _cachedEntriesFiltered;
+            }
+        }
+
+        //not an action ATM because that would likely require a full FMG system rewrite
+        private void TempActionDeleteEntry()
+        {
+            //todo: replace me with action
+            if (_activeFmgType == FMGBank.FMGTypes.Item)
+            {
+                //item
+                FMG.Entry title;
+                FMG.Entry summary;
+                FMG.Entry desc;
+
+                FMGBank.LookupItemID(_activeEntry.ID, _activeItemCategory, out title, out summary, out desc);
+
+                if (title != null)
+                {
+                    var index = _cachedEntries.IndexOf(_activeEntry);
+                    if (_cachedEntries.Count > index + 1)
+                        _activeEntry = _cachedEntries[index + 1];
+                    else
+                        _activeEntry = _cachedEntries[index - 1];
+
+                    var fmg = FMGBank.FindFMGForEntry_Item(title); //Very dumb.
+                    DeleteFMGEntry(fmg, title);
+                }
+                if (summary != null)
+                {
+                    var fmg = FMGBank.FindFMGForEntry_Item(summary); //Very dumb.
+                    DeleteFMGEntry(fmg, summary);
+                }
+                if (desc != null)
+                {
+                    var fmg = FMGBank.FindFMGForEntry_Item(desc); //Very dumb.
+                    DeleteFMGEntry(fmg, desc);
+                }
+            }
+            else
+            {
+                //menu
+                var index = _cachedEntries.IndexOf(_activeEntry);
+                if (_cachedEntries.Count > index + 1)
+                    _activeEntry = _cachedEntries[index + 1];
+                else
+                    _activeEntry = _cachedEntries[index - 1];
+
+                FMG.Entry entry = _activeEntry;
+                DeleteFMGEntry(_activeMenuCategoryPair.Value, entry);
+
+            }
+        }
+        private void DeleteFMGEntry(FMG fmg, FMG.Entry entry)
+        {
+            fmg.Entries.Remove(entry);
+            _cachedEntries.Remove(entry);
+            return;
+        }
+
+
+        //not an action ATM because that would likely require a full FMG system rewrite
+        private void TempActionDupeEntry()
+        {
+            //todo: replace me with action
+            if (_activeFmgType == FMGBank.FMGTypes.Item)
+            {
+                //items
+                FMGBank.LookupItemID(_activeEntry.ID, _activeItemCategory, out FMG.Entry title, out FMG.Entry summary, out FMG.Entry desc);
+
+                if (title != null)
+                {
+                    var fmg = FMGBank.FindFMGForEntry_Item(title); //Very dumb.
+                    var newEntry = DuplicateFMGEntry(fmg, title);
+                    //_cachedEntries.Insert(_cachedEntries.IndexOf(title) + 1, newEntry);
+                    _cachedEntries.Insert(_cachedEntries.FindIndex(e => e.ID == newEntry.ID - 1) + 1, newEntry);
+                    _activeEntry = newEntry;
+                    _cachedTitle = newEntry;
+                }
+                else
+                {
+                    throw new Exception("Error: FMG duplicate could not find 'title'");
+                }
+                if (summary != null)
+                {
+                    var fmg = FMGBank.FindFMGForEntry_Item(summary); //Very dumb.
+                    DuplicateFMGEntry(fmg, summary);
+                    _cachedSummary = summary;
+                }
+                if (desc != null)
+                {
+                    var fmg = FMGBank.FindFMGForEntry_Item(desc); //Very dumb.
+                    DuplicateFMGEntry(fmg, desc);
+                    _cachedDescription = desc;
+                }
+            }
+            else
+            {
+                //menu
+                FMG.Entry text = _activeEntry;
+                var newEntry = DuplicateFMGEntry(_activeMenuCategoryPair.Value, text);
+                //_cachedEntries.Insert(_cachedEntries.IndexOf(text) + 1, newEntry);
+                _cachedEntries.Insert(_cachedEntries.FindIndex(e => e.ID == newEntry.ID - 1) + 1, newEntry);
+                _activeEntry = newEntry;
+
+            }
+        }
+        private FMG.Entry DuplicateFMGEntry(FMG fmg, FMG.Entry entry)
+        {
+            FMG.Entry newentry = new(entry.ID, entry.Text);
+
+            do
+            {
+                newentry.ID++; //get an unused ID
+            }
+            while (fmg.Entries.Find(e => e.ID == newentry.ID) != null);
+
+            //fmg.Entries.Insert(fmg.Entries.IndexOf(entry) + 1, newentry);
+            fmg.Entries.Insert(fmg.Entries.FindIndex(e => e.ID == newentry.ID-1) + 1, newentry);
+
+            //RefreshFMGCache();
+            return newentry;
+        }
+
+
         public override void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
@@ -95,16 +235,14 @@ namespace StudioCore.TextEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                /*
-                if (ImGui.MenuItem("Delete", "Delete", false, true))
+                if (ImGui.MenuItem("Delete Entry", "Ctrl+Delete", false, false || _activeEntry != null))
                 {
-                    //TODO2: delete
+                    TempActionDeleteEntry(); //todo2: replace with action (GOOD LUCK)
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, true))
+                if (ImGui.MenuItem("Duplicate Entry", "Ctrl+D", false, _activeEntry != null))
                 {
-                    //TODO2: dupe row
+                    TempActionDupeEntry(); //todo2: replace with action
                 }
-                */
                 ImGui.EndMenu();
             }
             if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
@@ -337,7 +475,7 @@ namespace StudioCore.TextEditor
             }
             else
             {
-                foreach (var r in _cachedEntriesFiltered)
+                foreach (var r in _cachedEntriesFiltered.ToList())
                 {
                     var text = (r.Text == null) ? "%null%" : r.Text;
                     if (ImGui.Selectable($@"{r.ID} {text}", _activeEntry == r))
@@ -352,6 +490,25 @@ namespace StudioCore.TextEditor
                         {
                             _cachedTitle = r;
                         }
+                    }
+                    if (ImGui.BeginPopupContextItem())
+                    {
+                        if (ImGui.Selectable("Duplicate Entry"))
+                        {
+                            _activeEntry = r;
+                            if (_activeFmgType == FMGBank.FMGTypes.Item)
+                            {
+                                //TODO2: do this in a faster way?
+                                FMGBank.LookupItemID(r.ID, _activeItemCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
+                            }
+                            else
+                            {
+                                _cachedTitle = r;
+                            }
+                            TempActionDupeEntry();
+                        }
+                        ImGui.EndPopup();
+                        //todo: put delete entry in here once they are implemented via aciton (currently not in because doing it by mistake would be bad)
                     }
                     if (doFocus && _activeEntry == r)
                     {
@@ -373,8 +530,23 @@ namespace StudioCore.TextEditor
                 ImGui.SetColumnWidth(0, 100);
                 ImGui.Text("ID");
                 ImGui.NextColumn();
-                int id = _activeEntry.ID;
-                ImGui.InputInt("##id", ref id);
+                //int id = _activeEntry.ID;
+                ImGui.InputInt("##id", ref _activeEntry.ID);
+
+                if (_cachedID != _activeEntry.ID)
+                {
+                    //ID was changed, make sure it's not a dupe.
+                    if (_cachedEntries.Count(e => e.ID == _activeEntry.ID) > 1)
+                    {
+                        //ID is a dupe, go pick an unused one instead.
+                        do
+                        {
+                            _activeEntry.ID++;
+                        } while (_cachedEntries.Count(e => e.ID == _activeEntry.ID) > 1);
+                    }
+                    _cachedID = _activeEntry.ID;
+                }
+
                 ImGui.NextColumn();
 
                 _propEditor.PropEditorFMGBegin();
@@ -512,6 +684,14 @@ namespace StudioCore.TextEditor
             if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
             {
                 EditorActionManager.RedoAction();
+            }
+            if (InputTracker.GetControlShortcut(Key.Delete) && _activeEntry != null)
+            {
+                TempActionDeleteEntry(); //todo2: turn to action
+            }
+            if (InputTracker.GetControlShortcut(Key.D) && _activeEntry != null)
+            {
+                TempActionDupeEntry(); //todo2: turn to action
             }
 
             bool doFocus = false;

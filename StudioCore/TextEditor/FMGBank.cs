@@ -531,6 +531,22 @@ namespace StudioCore.TextEditor
             return list;
         }
 
+
+        //very, very stupid hack solution for row duplication.
+        public static FMG FindFMGForEntry_Item(FMG.Entry entry)
+        {
+            var fmgPair = _itemFMGs.Values.First(e => e.Entries.Contains(entry));
+            FMG fmg = fmgPair;
+            return fmg;
+        }
+        //very, very stupid hack solution for row duplication.
+        public static FMG FindFMGForEntry_Menu(FMG.Entry entry)
+        {
+            FMG fmg = new();
+            fmg = (FMG)_menuFMGs.Where(e => e.Value.Entries.Contains(entry));
+            return fmg;
+        }
+
         public static void LookupItemID(int id, ItemCategory cat, out FMG.Entry title, out FMG.Entry summary, out FMG.Entry description)
         {
             title = null;
