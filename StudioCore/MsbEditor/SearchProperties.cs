@@ -10,9 +10,11 @@ namespace StudioCore.MsbEditor
     {
         private Universe Universe = null;
         public string PropertyName = "";
-        private object PropertyValue = null;
+
+        private dynamic PropertyValue = null;
         private Type PropertyType = null;
         private bool ValidType = false;
+        private bool InitSearch = false;
 
         private Dictionary<string, List<WeakReference<Entity>>> FoundObjects = new Dictionary<string, List<WeakReference<Entity>>>();
 
@@ -21,67 +23,71 @@ namespace StudioCore.MsbEditor
             Universe = universe;
         }
 
+
         public bool InitializeSearchValue()
         {
-            if (PropertyType == typeof(bool))
+            if (PropertyType != null)
             {
-                PropertyValue = false;
-                return true;
-            }
-            else if (PropertyType == typeof(byte))
-            {
-                PropertyValue = (byte)0;
-                return true;
-            }
-            else if (PropertyType == typeof(char))
-            {
-                PropertyValue = (char)0;
-                return true;
-            }
-            else if (PropertyType == typeof(short))
-            {
-                PropertyValue = (short)0;
-                return true;
-            }
-            else if (PropertyType == typeof(ushort))
-            {
-                PropertyValue = (ushort)0;
-                return true;
-            }
-            else if (PropertyType == typeof(int))
-            {
-                PropertyValue = (int)0;
-                return true;
-            }
-            else if (PropertyType == typeof(uint))
-            {
-                PropertyValue = (uint)0;
-                return true;
-            }
-            else if (PropertyType == typeof(long))
-            {
-                PropertyValue = (long)0;
-                return true;
-            }
-            else if (PropertyType == typeof(ulong))
-            {
-                PropertyValue = (ulong)0;
-                return true;
-            }
-            else if (PropertyType == typeof(float))
-            {
-                PropertyValue = 0.0f;
-                return true;
-            }
-            else if (PropertyType == typeof(double))
-            {
-                PropertyValue = 0.0d;
-                return true;
-            }
-            else if (PropertyType == typeof(string))
-            {
-                PropertyValue = "";
-                return true;
+                if (PropertyType == typeof(bool) || PropertyType == typeof(bool[]))
+                {
+                    PropertyValue = false;
+                    return true;
+                }
+                else if (PropertyType == typeof(byte) || PropertyType == typeof(byte[]))
+                {
+                    PropertyValue = (byte)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(char) || PropertyType == typeof(char[]))
+                {
+                    PropertyValue = (char)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(short) || PropertyType == typeof(short[]))
+                {
+                    PropertyValue = (short)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(ushort) || PropertyType == typeof(ushort[]))
+                {
+                    PropertyValue = (ushort)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(int) || PropertyType == typeof(int[]))
+                {
+                    PropertyValue = (int)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(uint) || PropertyType == typeof(uint[]))
+                {
+                    PropertyValue = (uint)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(long) || PropertyType == typeof(long[]))
+                {
+                    PropertyValue = (long)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(ulong) || PropertyType == typeof(ulong[]))
+                {
+                    PropertyValue = (ulong)0;
+                    return true;
+                }
+                else if (PropertyType == typeof(float) || PropertyType == typeof(float[]))
+                {
+                    PropertyValue = 0.0f;
+                    return true;
+                }
+                else if (PropertyType == typeof(double) || PropertyType == typeof(double[]))
+                {
+                    PropertyValue = 0.0d;
+                    return true;
+                }
+                else if (PropertyType == typeof(string) || PropertyType == typeof(string[]))
+                {
+                    PropertyValue = "";
+                    return true;
+                }
             }
             return false;
         }
@@ -91,125 +97,129 @@ namespace StudioCore.MsbEditor
             ImGui.Text("Value (Exact)");
             ImGui.NextColumn();
             bool ret = false;
-            if (PropertyType == typeof(bool))
+            if (PropertyType == typeof(bool) || PropertyType == typeof(bool[]))
             {
                 var val = (bool)PropertyValue;
-                if (ImGui.Checkbox("##valBool", ref val))
+                if (ImGui.Checkbox("##valBool", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(byte))
+            else if (PropertyType == typeof(byte) || PropertyType == typeof(byte[]))
             {
-                var val = (int)(byte)PropertyValue;
-
-                if (ImGui.InputInt("##valByte", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valbyte", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (byte)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(char))
+            else if (PropertyType == typeof(char) || PropertyType == typeof(char[]))
             {
-                var val = (int)(char)PropertyValue;
-
-                if (ImGui.InputInt("##valChar", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valchar", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (char)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(short))
+            else if (PropertyType == typeof(short) || PropertyType == typeof(short[]))
             {
-                var val = (int)(short)PropertyValue;
-
-                if (ImGui.InputInt("##valShort", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valshort", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (short)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(ushort))
+            else if (PropertyType == typeof(ushort) || PropertyType == typeof(ushort[]))
             {
-                var val = (int)(ushort)PropertyValue;
-
-                if (ImGui.InputInt("##valUShort", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valushort", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (ushort)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(int))
+            else if (PropertyType == typeof(int) || PropertyType == typeof(int[]))
             {
-                int ival = (int)PropertyValue;
-                if (ImGui.InputInt("##valInt", ref ival))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valbyte", ref val) || InitSearch == true)
                 {
-                    PropertyValue = ival;
+                    InitSearch = false;
+                    PropertyValue = (int)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(uint))
+            else if (PropertyType == typeof(uint) || PropertyType == typeof(uint[]))
             {
-                var val = (int)(uint)PropertyValue;
-
-                if (ImGui.InputInt("##valUInt", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valuint", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (uint)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(long))
+            else if (PropertyType == typeof(long) || PropertyType == typeof(long[]))
             {
-                var val = (int)(long)PropertyValue;
-
-                if (ImGui.InputInt("##valLong", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##vallong", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (long)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(ulong))
+            else if (PropertyType == typeof(ulong) || PropertyType == typeof(ulong[]))
             {
-                var val = (int)(ulong)PropertyValue;
-
-                if (ImGui.InputInt("##valULong", ref val))
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valulong", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = (ulong)val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(float))
+            else if (PropertyType == typeof(float) || PropertyType == typeof(float[]))
             {
                 var val = (float)PropertyValue;
-                if (ImGui.InputFloat("##valFloat", ref val))
+                if (ImGui.InputFloat("##valFloat", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(double))
+            else if (PropertyType == typeof(double) || PropertyType == typeof(double[]))
             {
                 var val = (double)PropertyValue;
-                if (ImGui.InputDouble("##valDouble", ref val))
+                if (ImGui.InputDouble("##valDouble", ref val) || InitSearch == true)
                 {
+                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
             }
-            else if (PropertyType == typeof(string))
+            else if (PropertyType == typeof(string) || PropertyType == typeof(string[]))
             {
-                string val = (string)PropertyValue;
-                if (val == null)
+                string val = PropertyValue;
+                if (ImGui.InputText("##valString", ref val, 99) || InitSearch == true)
                 {
-                    val = "";
-                }
-                if (ImGui.InputText("##valString", ref val, 99))
-                {
+                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
             }
+
+            InitSearch = true;
+
             ImGui.NextColumn();
             return ret;
         }
@@ -223,6 +233,9 @@ namespace StudioCore.MsbEditor
                 PropertyType = Universe.GetPropertyType(PropertyName);
                 ValidType = InitializeSearchValue();
             }
+
+            if (InputTracker.GetControlShortcut(Key.F))
+                ImGui.SetNextWindowFocus();
             if (ImGui.Begin("Search Properties"))
             {
                 ImGui.Text("Search Properties By Name <Ctrl+F>");
@@ -260,14 +273,38 @@ namespace StudioCore.MsbEditor
                                 {
                                     if (ob is MapEntity e)
                                     {
-                                        var p = ob.GetPropertyValue(PropertyName);
-                                        if (p != null && p.Equals(PropertyValue))
+                                        if (PropertyType.IsArray)
                                         {
-                                            if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
+                                            //search through objects to find field matches (field is an array)
+                                            dynamic pArray = ob.GetPropertyValue(PropertyName);
+                                            if (pArray != null)
                                             {
-                                                FoundObjects.Add(e.ContainingMap.Name, new List<WeakReference<Entity>>());
+                                                foreach (var p in pArray)
+                                                {
+                                                    if (p != null && p.Equals(PropertyValue))
+                                                    {
+                                                        if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
+                                                        {
+                                                            FoundObjects.Add(e.ContainingMap.Name, new List<WeakReference<Entity>>());
+                                                        }
+                                                        FoundObjects[e.ContainingMap.Name].Add(new WeakReference<Entity>(e));
+                                                        break;
+                                                    }
+                                                }
                                             }
-                                            FoundObjects[e.ContainingMap.Name].Add(new WeakReference<Entity>(e));
+                                        }
+                                        else
+                                        {
+                                            //search through objects to find field matches
+                                            var p = ob.GetPropertyValue(PropertyName);
+                                            if (p != null && p.Equals(PropertyValue))
+                                            {
+                                                if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
+                                                {
+                                                    FoundObjects.Add(e.ContainingMap.Name, new List<WeakReference<Entity>>());
+                                                }
+                                                FoundObjects[e.ContainingMap.Name].Add(new WeakReference<Entity>(e));
+                                            }
                                         }
                                     }
                                 }
@@ -276,7 +313,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 ImGui.Columns(1);
-                if (FoundObjects.Count > 0)
+                if (FoundObjects.Count > 0 && ValidType)
                 {
                     ImGui.Text("Search Results");
                     ImGui.Separator();

@@ -1170,6 +1170,7 @@ namespace StudioCore.MsbEditor
 
         public Type GetPropertyType(string name)
         {
+            // TODO: needs to scan within structs too 
             foreach (var m in LoadedObjectContainers)
             {
                 if (m.Value == null)

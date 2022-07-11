@@ -247,7 +247,7 @@ namespace StudioCore.MsbEditor
         {
             if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
@@ -269,7 +269,7 @@ namespace StudioCore.MsbEditor
                 {
                     HideShowSelection();
                 }
-                if (ImGui.MenuItem("Frame", "Ctrl-F", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Frame", "F", false, _selection.IsSelection()))
                 {
                     FrameSelection();
                 }
