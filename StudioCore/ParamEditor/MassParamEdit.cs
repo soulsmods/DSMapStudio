@@ -613,7 +613,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (csvLine.Trim().Equals(""))
                         continue;
-                    string[] csvs = csvLine.Trim().Split(useSpace ? ' ' : ',', 2, StringSplitOptions.RemoveEmptyEntries);
+                    string[] csvs = csvLine.Trim().Split(useSpace ? ' ' : ',', 2);
                     if (csvs.Length != 2)
                         return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
                     int id = int.Parse(csvs[0]);
