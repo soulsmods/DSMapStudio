@@ -464,6 +464,8 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private string  _mapNameSearchStr = "";
+
         public void OnGui()
         {
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
@@ -490,7 +492,7 @@ namespace StudioCore.MsbEditor
 
                 ImGui.PopStyleVar();
                 ImGui.Spacing();
-                ImGui.Indent();
+                ImGui.Indent(30);
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("List Sorting Style:");
                 ImGui.SameLine();
@@ -503,7 +505,13 @@ namespace StudioCore.MsbEditor
                         _viewMode = (ViewMode)mode;
                     }
                 }
-                ImGui.Unindent();
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text("Map ID Search:");
+                ImGui.SameLine();
+                ImGui.SetNextItemWidth(-1);
+                ImGui.InputText("##treeSearch", ref _mapNameSearchStr, 99);
+
+                ImGui.Unindent(30);
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;
@@ -511,10 +519,29 @@ namespace StudioCore.MsbEditor
                     ImGui.Text("This Editor requires game to be unpacked");
                 foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
                 {
+                    string metaName = "";
                     var map = lm.Value;
                     var mapid = lm.Key;
                     if (mapid == null)
                         continue;
+
+                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
+                    {
+                        metaName = Editor.AliasBank.MapNames[mapid];
+                    }
+
+                    if (_mapNameSearchStr != "")
+                    {
+                        if (lm.Key.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase) || metaName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
+                        { 
+                            //do nothing
+                        }
+                        else
+                        {
+                            continue; //ID not in search filter
+                        }
+                    }
+
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
                     if (map != null && _selection.GetSelection().Contains(map.RootObject))
                     {
@@ -531,7 +558,7 @@ namespace StudioCore.MsbEditor
                     {
                         ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
                     }
-                    if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.ContainsKey(mapid))
+                    if (metaName != "")
                     {
                         ImGui.SameLine();
                         ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
