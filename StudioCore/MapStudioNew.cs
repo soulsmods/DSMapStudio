@@ -733,6 +733,12 @@ namespace StudioCore
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
                     if (ImGui.BeginMenu("!! WARNINGS !!"))
                     {
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+                        ImGui.Text("Click warnings to remove them from list");
+                        if (ImGui.Button("Remove All Warnings"))
+                            TaskManager.warningList.Clear();
+
+                        ImGui.Separator();
                         foreach (var task in TaskManager.warningList)
                         {
                             if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
@@ -740,6 +746,7 @@ namespace StudioCore
                                 TaskManager.warningList.TryRemove(task);
                             }
                         }
+                        ImGui.PopStyleColor();
                         ImGui.EndMenu();
                     }
                     ImGui.PopStyleColor();
@@ -760,7 +767,7 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
-            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize))
+            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize)) // The Grey overlay is apparently an imgui bug (that has been fixed in updated builds; in some forks at least).
             {
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");
