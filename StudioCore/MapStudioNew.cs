@@ -653,7 +653,7 @@ namespace StudioCore
                             _textEditor.Save();
                         }
                     }
-                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft)||InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
+                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -709,13 +709,17 @@ namespace StudioCore
                     */
                     ImGui.EndMenu();
                 }
-                if (ImGui.BeginMenu("Tests"))
+                if (FeatureFlags.MBSE_Test)
                 {
-                    if (ImGui.MenuItem("MSBE read/write test"))
+                    if (ImGui.BeginMenu("Tests"))
                     {
-                        Tests.MSBReadWrite.Run(_assetLocator);
+                        if (ImGui.MenuItem("MSBE read/write test"))
+                        {
+                            Tests.MSBReadWrite.Run(_assetLocator);
+                        }
+                        ImGui.EndMenu();
                     }
-                    ImGui.EndMenu();
+
                 }
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
@@ -724,7 +728,6 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
-
                 if (TaskManager.warningList.Count > 0)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));

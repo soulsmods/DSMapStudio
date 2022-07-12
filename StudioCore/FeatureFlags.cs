@@ -11,10 +11,10 @@ namespace StudioCore
     /// </summary>
     public static class FeatureFlags
     {
-        public static bool EnableEnhancedParamEditor = false;
-
-        public static bool LoadDS3Navmeshes = false;
+        public static bool LoadDS3Navmeshes = false; //Breaks rendering for other games
 
         public static bool EnableNavmeshBuilder = false;
+
+        public static bool MBSE_Test = false; //MBSE read/write test
     }
 }
