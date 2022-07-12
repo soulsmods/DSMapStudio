@@ -19,7 +19,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Elden Ring Test + Supertest";
+        private static string _version = ": Elden Ring Test + GeorgeFeatures v0.1.0";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
