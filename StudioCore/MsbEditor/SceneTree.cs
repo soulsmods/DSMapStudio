@@ -431,8 +431,9 @@ namespace StudioCore.MsbEditor
                             {
                                 // Regions don't have multiple types in games before DS3
                                 if (cats.Key == MapEntity.MapEntityType.Region &&
-                                    _assetLocator.Type != GameType.DarkSoulsIII && _assetLocator.Type != GameType.Sekiro)
-                                    //TODO: ER
+                                    _assetLocator.Type != GameType.DarkSoulsIII && 
+                                    _assetLocator.Type != GameType.Sekiro &&
+                                    _assetLocator.Type != GameType.EldenRing)
                                 {
                                     foreach (var obj in typ.Value)
                                     {
