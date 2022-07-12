@@ -58,6 +58,7 @@ namespace StudioCore.TextEditor
         private FMGBank.ItemCategory _activeItemCategory = FMGBank.ItemCategory.None;
         private KeyValuePair<FMGBank.MenuFMGTypes, FMG> _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
         private string _activeCategoryDS2 = null;
+        private FMG _activeDS2FMG = null;
         private List<FMG.Entry> _cachedEntriesFiltered = null;
         private List<FMG.Entry> _cachedEntries = null;
         private FMG.Entry _activeEntry = null;
@@ -81,9 +82,16 @@ namespace StudioCore.TextEditor
             _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
             _cachedEntries = null;
             _cachedEntriesFiltered = null;
+            _activeCategoryDS2 = null;
+            _activeDS2FMG = null;
             _activeEntry = null;
+            _cachedID = 0;
             _FMGsearchStr = "";
             _FMGsearchStrCache = "";
+
+            _cachedTitle = null;
+            _cachedSummary = null;
+            _cachedDescription = null;
         }
         private void RefreshFMGCache()
         {
@@ -117,12 +125,6 @@ namespace StudioCore.TextEditor
 
                 if (title != null)
                 {
-                    var index = _cachedEntries.IndexOf(_activeEntry);
-                    if (_cachedEntries.Count > index + 1)
-                        _activeEntry = _cachedEntries[index + 1];
-                    else
-                        _activeEntry = _cachedEntries[index - 1];
-
                     var fmg = FMGBank.FindFMGForEntry_Item(title); //Very dumb.
                     DeleteFMGEntry(fmg, title);
                 }
@@ -137,19 +139,32 @@ namespace StudioCore.TextEditor
                     DeleteFMGEntry(fmg, desc);
                 }
             }
+            else if (_activeFmgType == FMGBank.FMGTypes.DS2)
+            {
+                //ds2
+                FMG.Entry entry = _activeEntry;
+                DeleteFMGEntry(_activeDS2FMG, entry);
+
+            }
             else
             {
                 //menu
-                var index = _cachedEntries.IndexOf(_activeEntry);
-                if (_cachedEntries.Count > index + 1)
-                    _activeEntry = _cachedEntries[index + 1];
-                else
-                    _activeEntry = _cachedEntries[index - 1];
-
                 FMG.Entry entry = _activeEntry;
                 DeleteFMGEntry(_activeMenuCategoryPair.Value, entry);
 
             }
+            
+            /*
+            var index = _cachedEntries.IndexOf(_activeEntry);
+            if (_cachedEntries.Count > index + 1)
+                _activeEntry = _cachedEntries[index + 1];
+            else
+                _activeEntry = _cachedEntries[index - 1];
+            */
+            _activeEntry = null;
+            _cachedTitle = null;
+            _cachedSummary = null;
+            _cachedDescription = null;
         }
         private void DeleteFMGEntry(FMG fmg, FMG.Entry entry)
         {
@@ -193,6 +208,16 @@ namespace StudioCore.TextEditor
                     DuplicateFMGEntry(fmg, desc);
                     _cachedDescription = desc;
                 }
+            }
+            else if (_activeFmgType == FMGBank.FMGTypes.DS2)
+            {
+                //ds2
+                FMG.Entry text = _activeEntry;
+                var newEntry = DuplicateFMGEntry(_activeDS2FMG, text);
+                //_cachedEntries.Insert(_cachedEntries.IndexOf(text) + 1, newEntry);
+                //_cachedEntries.Insert(_cachedEntries.FindIndex(e => e.ID == newEntry.ID - 1) + 1, newEntry);
+                _activeEntry = newEntry;
+
             }
             else
             {
@@ -245,35 +270,31 @@ namespace StudioCore.TextEditor
                 }
                 ImGui.EndMenu();
             }
-            if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
+            if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
             {
-                //TODO2 FMG: handle however ds2 does it
-                if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
+                var folderList = FMGBank.AssetLocator.GetMsgLanguages();
+                foreach (var fullpath in folderList)
                 {
-                    var folderList = FMGBank.AssetLocator.GetMsgLanguages();
-                    foreach (var fullpath in folderList)
+                    var foldername = fullpath.Split("\\").Last();
+                    if (ImGui.MenuItem(foldername, true))
                     {
-                        var foldername = fullpath.Split("\\").Last();
-                        if (ImGui.MenuItem(foldername, true))
-                        {
-                            FMGBank.ReloadFMGs(foldername); //load specified language
-                            //ImGui.Columns(1);
-                            ClearFMGCache();
-                        }
+                        FMGBank.ReloadFMGs(foldername); //load specified language
+                        //ImGui.Columns(1);
+                        ClearFMGCache();
                     }
-                    ImGui.EndMenu();
                 }
+                ImGui.EndMenu();
             }
             if (ImGui.BeginMenu("Import/Export", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Import Files", true))
+                if (ImGui.MenuItem("Import Files"))
                 {
                     if (FMGBank.ImportFMGs())
                     {
                         ClearFMGCache();
                     }
                 }
-                if (ImGui.MenuItem("Export All Text", true))
+                if (ImGui.MenuItem("Export All Text"))
                 {
                     FMGBank.ExportFMGs();
                 }
@@ -493,9 +514,9 @@ namespace StudioCore.TextEditor
                     }
                     if (ImGui.BeginPopupContextItem())
                     {
+                        _activeEntry = r;
                         if (ImGui.Selectable("Duplicate Entry"))
                         {
-                            _activeEntry = r;
                             if (_activeFmgType == FMGBank.FMGTypes.Item)
                             {
                                 //TODO2: do this in a faster way?
@@ -578,11 +599,14 @@ namespace StudioCore.TextEditor
 
         private void EditorGUIDS2(bool doFocus)
         {
-            //todo2: all of this is out of date (and probably doesn't need to exist anymore, and should do some alt tweaks in regular GUI func instead)
+            
+
+            /*
             if (FMGBank.DS2Fmgs == null)
             {
                 return;
             }
+
 
             ImGui.Columns(3);
             ImGui.BeginChild("categories");
@@ -642,15 +666,145 @@ namespace StudioCore.TextEditor
 
 
                 _propEditor.PropEditorFMGBegin();
-                /*ImGui.Text("Text");
-                ImGui.NextColumn();
-                string text = (_activeEntry.Text != null) ? _activeEntry.Text : "";
-                ImGui.InputTextMultiline("##description", ref text, 1000, new Vector2(-1, 160.0f));
-                ImGui.NextColumn();*/
+                //ImGui.Text("Text");
+                //ImGui.NextColumn();
+                //string text = (_activeEntry.Text != null) ? _activeEntry.Text : "";
+                //ImGui.InputTextMultiline("##description", ref text, 1000, new Vector2(-1, 160.0f));
+                //ImGui.NextColumn();
                 _propEditor.PropEditorFMG(_activeEntry, "Text", 160.0f);
                 _propEditor.PropEditorFMGEnd();
             }
             ImGui.EndChild();
+            */
+
+
+            if (!FMGBank.IsLoaded)
+            {
+                if (FMGBank.IsLoading)
+                {
+                    ImGui.Text("Loading...");
+                }
+                return;
+            }
+            if (FMGBank.DS2Fmgs == null)
+            {
+                return;
+            }
+
+            var dsid = ImGui.GetID("DockSpace_TextEntries");
+            ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
+
+            ImGui.Begin("Text Categories");
+            ImGui.Spacing();
+            ImGui.Separator();
+            ImGui.Text("  Text (-bloodmes, -talk)");
+            ImGui.Separator();
+
+            foreach (var cat in FMGBank.DS2Fmgs.Keys)
+            {
+                if (ImGui.Selectable($@" {cat}", cat == _activeCategoryDS2))
+                {
+                    _activeCategoryDS2 = cat;
+                    _cachedEntriesFiltered = FMGBank.DS2Fmgs[cat].Entries;
+                    _cachedEntries = _cachedEntriesFiltered;
+                    _activeEntry = null;
+                    _FMGsearchStr = "";
+                    _FMGsearchStrCache = "";
+                    _activeDS2FMG = FMGBank.DS2Fmgs[cat];
+                    _activeFmgType = FMGBank.FMGTypes.DS2;
+                }
+                if (doFocus && cat == _activeCategoryDS2)
+                {
+                    ImGui.SetScrollHereY();
+                }
+            }
+
+            ImGui.End();
+
+            ImGui.Begin("Text Entries");
+            //text entry search
+            if (ImGui.Button("Clear Text"))
+                _FMGsearchStr = "";
+            ImGui.SameLine();
+
+            if (InputTracker.GetControlShortcut(Key.F))
+                ImGui.SetKeyboardFocusHere();
+            ImGui.InputText("Search <Ctrl+F>", ref _FMGsearchStr, 255);
+
+            FMGSearchLogic();
+
+            ImGui.BeginChild("Text Entry List");
+            //actual text entries
+
+            if (_activeCategoryDS2 == null)
+            {
+                ImGui.Text("Select a category to see items");
+            }
+            else
+            {
+                foreach (var r in _cachedEntriesFiltered.ToList())
+                {
+                    var text = (r.Text == null) ? "%null%" : r.Text;
+                    if (ImGui.Selectable($@"{r.ID} {text}", _activeEntry == r))
+                    {
+                        _activeEntry = r;
+                        _cachedTitle = r;
+                    }
+                    if (ImGui.BeginPopupContextItem())
+                    {
+                        _activeEntry = r;
+                        if (ImGui.Selectable("Duplicate Entry"))
+                        {
+                            _cachedTitle = r;
+                            TempActionDupeEntry();
+                        }
+                        ImGui.EndPopup();
+                        //todo: put delete entry in here once they are implemented via aciton (currently not in because doing it by mistake would be bad)
+                    }
+                    if (doFocus && _activeEntry == r)
+                    {
+                        ImGui.SetScrollHereY();
+                    }
+                }
+            }
+            ImGui.EndChild();
+            ImGui.End();
+
+            ImGui.Begin("Text");
+            if (_activeEntry == null)
+            {
+                ImGui.Text("Select an item to edit text");
+            }
+            else
+            {
+                ImGui.Columns(2);
+                ImGui.SetColumnWidth(0, 100);
+                ImGui.Text("ID");
+                ImGui.NextColumn();
+                //int id = _activeEntry.ID;
+                ImGui.InputInt("##id", ref _activeEntry.ID);
+
+                if (_cachedID != _activeEntry.ID)
+                {
+                    //ID was changed, make sure it's not a dupe.
+                    if (_cachedEntries.Count(e => e.ID == _activeEntry.ID) > 1)
+                    {
+                        //ID is a dupe, go pick an unused one instead.
+                        do
+                        {
+                            _activeEntry.ID++;
+                        } while (_cachedEntries.Count(e => e.ID == _activeEntry.ID) > 1);
+                    }
+                    _cachedID = _activeEntry.ID;
+                }
+
+                ImGui.NextColumn();
+
+                _propEditor.PropEditorFMGBegin();
+                _propEditor.PropEditorFMG(_activeEntry, "Text", 160.0f);
+                _propEditor.PropEditorFMGEnd();
+            }
+            ImGui.End();
         }
 
         public void OnGUI(string[] initcmd)
