@@ -1233,67 +1233,71 @@ namespace StudioCore.MsbEditor
             {
 
                 //v3
-                var model = GetPropertyValue<string>("ModelName");
-                bool modelChanged = false;
-                if (CurrentModel != model)
-                    modelChanged = true;
-
-                if (Universe.postLoad && _canLoadPostLoad)
+                var modelProp = GetProperty("ModelName");
+                if (modelProp != null) // Check if ModelName property exists. Some games (DS2) have parts with no ModelName.
                 {
-                    //post initial load submesh check
-                    _canLoadPostLoad = false;
+                    string model = (string)modelProp.GetValue(this.WrappedObject);
 
-                    CurrentModel = model;
-                    var noSubMeshes = CheckNoEntitySubmesh();
+                    bool modelChanged = false;
+                    if (CurrentModel != model)
+                        modelChanged = true;
 
-                    if (noSubMeshes)
+                    if (Universe.postLoad && _canLoadPostLoad)
                     {
-                        //should be a model marker
+                        //post initial load submesh check
+                        _canLoadPostLoad = false;
+
+                        CurrentModel = model;
+                        var noSubMeshes = CheckNoEntitySubmesh();
+
+                        if (noSubMeshes)
+                        {
+                            //should be a model marker
+                            if (_renderSceneMesh != null)
+                            {
+                                _renderSceneMesh.Dispose();
+                            }
+                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                            if (Universe.Selection.IsSelected(this))
+                            {
+                                OnSelected();
+                            }
+                        }
+                    }
+                    else if (modelChanged)
+                    {
+                        //model field is different, or this is the first check, or this is during the post-load check
+
                         if (_renderSceneMesh != null)
                         {
                             _renderSceneMesh.Dispose();
                         }
-                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+
+                        if (Universe.postLoad)
+                            _canLoadPostLoad = false;
+                        CurrentModel = model;
+
+                        //get model (even if just to check the submeshes)
+                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+
+                        //there may be a risk of async being too slow here? Haven't run into it yet, though.
+                        var noSubMeshes = CheckNoEntitySubmesh();
+
+                        if (Universe.postLoad && noSubMeshes)
+                        {
+                            //should be a model marker
+                            if (_renderSceneMesh != null)
+                            {
+                                _renderSceneMesh.Dispose();
+                            }
+                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                        }
                         if (Universe.Selection.IsSelected(this))
                         {
                             OnSelected();
                         }
                     }
                 }
-                else if (modelChanged)
-                {
-                    //model field is different, or this is the first check, or this is during the post-load check
-
-                    if (_renderSceneMesh != null)
-                    {
-                        _renderSceneMesh.Dispose();
-                    }
-
-                    if (Universe.postLoad)
-                        _canLoadPostLoad = false;
-                    CurrentModel = model;
-
-                    //get model (even if just to check the submeshes)
-                    _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
-
-                    //there may be a risk of async being too slow here? Haven't run into it yet, though.
-                    var noSubMeshes = CheckNoEntitySubmesh();
-
-                    if (Universe.postLoad && noSubMeshes)
-                    {
-                        //should be a model marker
-                        if (_renderSceneMesh != null)
-                        {
-                            _renderSceneMesh.Dispose();
-                        }
-                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                    }
-                    if (Universe.Selection.IsSelected(this))
-                    {
-                        OnSelected();
-                    }
-                }
-                
                 //v1
                 /*
                 var model = GetPropertyValue<string>("ModelName");
