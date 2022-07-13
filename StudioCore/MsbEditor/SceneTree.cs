@@ -562,7 +562,10 @@ namespace StudioCore.MsbEditor
                     if (metaName != "")
                     {
                         ImGui.SameLine();
-                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{Editor.AliasBank.MapNames[mapid]}>");
+                        if (metaName.StartsWith("--")) //marked as normally unused (use red text)
+                            ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--","")}>");
+                        else
+                            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
                     }
                     ImGui.EndGroup();
                     if (nodeopen)

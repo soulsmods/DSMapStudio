@@ -1234,15 +1234,47 @@ namespace StudioCore.MsbEditor
 
                 //v3
                 var modelProp = GetProperty("ModelName");
-                if (modelProp != null) // Check if ModelName property exists. Some games (DS2) have parts with no ModelName.
+                if (modelProp != null) // Check if ModelName property exists
                 {
-                    string model = (string)modelProp.GetValue(this.WrappedObject);
+                    string model = (string)modelProp.GetValue(WrappedObject);
 
                     bool modelChanged = false;
                     if (CurrentModel != model)
                         modelChanged = true;
 
-                    if (Universe.postLoad && _canLoadPostLoad)
+                    if (modelChanged)
+                    {
+                        //model name has been changed or this is the initial check
+
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+
+                        if (Universe.postLoad)
+                            _canLoadPostLoad = false;
+                        CurrentModel = model;
+
+                        //get model (even if just to check the submeshes)
+                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+
+                        var noSubMeshes = CheckNoEntitySubmesh();
+
+                        if (Universe.postLoad && noSubMeshes)
+                        {
+                            //should be a model marker
+                            if (_renderSceneMesh != null)
+                            {
+                                _renderSceneMesh.Dispose();
+                            }
+                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                        }
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
+                    }
+                    else if (Universe.postLoad && _canLoadPostLoad)
                     {
                         //post initial load submesh check
                         _canLoadPostLoad = false;
@@ -1262,39 +1294,6 @@ namespace StudioCore.MsbEditor
                             {
                                 OnSelected();
                             }
-                        }
-                    }
-                    else if (modelChanged)
-                    {
-                        //model field is different, or this is the first check, or this is during the post-load check
-
-                        if (_renderSceneMesh != null)
-                        {
-                            _renderSceneMesh.Dispose();
-                        }
-
-                        if (Universe.postLoad)
-                            _canLoadPostLoad = false;
-                        CurrentModel = model;
-
-                        //get model (even if just to check the submeshes)
-                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
-
-                        //there may be a risk of async being too slow here? Haven't run into it yet, though.
-                        var noSubMeshes = CheckNoEntitySubmesh();
-
-                        if (Universe.postLoad && noSubMeshes)
-                        {
-                            //should be a model marker
-                            if (_renderSceneMesh != null)
-                            {
-                                _renderSceneMesh.Dispose();
-                            }
-                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                        }
-                        if (Universe.Selection.IsSelected(this))
-                        {
-                            OnSelected();
                         }
                     }
                 }
