@@ -824,9 +824,9 @@ namespace SoulsFormats
                 public sbyte[] EventIDs { get; private set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Amount of time it takes for GParam to transition (in seconds). -1 = Some default time.
                 /// </summary>
-                public float Unk40 { get; set; }
+                public float TransitionTime { get; set; }
 
                 /// <summary>
                 /// Creates a SceneGparamConfig with default values.
@@ -850,7 +850,7 @@ namespace SoulsFormats
                 {
                     br.AssertPattern(0x3C, 0x00);
                     EventIDs = br.ReadSBytes(4);
-                    Unk40 = br.ReadSingle();
+                    TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -860,7 +860,7 @@ namespace SoulsFormats
                 {
                     bw.WritePattern(0x3C, 0x00);
                     bw.WriteSBytes(EventIDs);
-                    bw.WriteSingle(Unk40);
+                    bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -871,7 +871,7 @@ namespace SoulsFormats
                 /// </summary>
                 public override string ToString()
                 {
-                    return $"EventID[{EventIDs[0],2}][{EventIDs[1],2}][{EventIDs[2],2}][{EventIDs[3],2}] {Unk40:0.0}";
+                    return $"EventID[{EventIDs[0],2}][{EventIDs[1],2}][{EventIDs[2],2}][{EventIDs[3],2}] {TransitionTime:0.0}";
                 }
             }
 
