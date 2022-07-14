@@ -199,6 +199,20 @@ namespace StudioCore.Editor
                         return rx.Match(term).Success;
                 });
             }));
+            filterList.Add("idrange", (2, (args, lenient)=>{
+                double floor = double.Parse(args[0]);
+                double ceil = double.Parse(args[1]);
+                return noContext((row)=>row.ID >= floor && row.ID <= ceil);
+            }));
+            filterList.Add("proprange", (3, (args, lenient)=>{
+                string field = args[0].Replace(@"\s", " ");
+                double floor = double.Parse(args[1]);
+                double ceil = double.Parse(args[2]);
+                return noContext((row)=>{
+                        PARAM.Cell c = row[field];
+                        return ((double)c.Value) >= floor && ((double)c.Value) <= ceil;
+                });
+            }));
             filterList.Add("propref", (2, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
