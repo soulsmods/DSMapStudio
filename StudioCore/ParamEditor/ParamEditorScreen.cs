@@ -448,23 +448,11 @@ namespace StudioCore.ParamEditor
                 ImGui.Text("param PARAM: id VALUE: FIELD: = VALUE;");
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.MassEditHint);
                 ImGui.InputTextMultiline("MEditRegexInput", ref _currentMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
-                if (ImGui.BeginCombo("###", ""))
-                {
-                    string target = _currentMEditRegexInput.Split('\n').LastOrDefault();
-                    foreach (string option in MassParamEditRegex.GetRegexAutocomplete(target, _activeView._selection.getActiveParam()))
-                    {
-                        if (ImGui.Selectable(target + option))
-                        {
-                            _currentMEditRegexInput = _currentMEditRegexInput + option;
-                        }
-                    }
-                    ImGui.EndCombo();
-                }
 
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
                     _activeView._selection.sortSelection();
-                    (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, _activeView._selection.getActiveParam(), _activeView._selection.getSelectedRows());
+                    (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit(_currentMEditRegexInput, _activeView._selection);
                     if (child != null)
                         EditorActionManager.PushSubManager(child);
                     if (r.Type == MassEditResultType.SUCCESS)
@@ -548,17 +536,8 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {
                     _clipboardParam = _activeView._selection.getActiveParam();
-                    Match m = new Regex(MassParamEditRegex.rowfilterRx).Match(_activeView._selection.getCurrentRowSearchString());
-                    if (!m.Success)
-                    {
-                        foreach (PARAM.Row row in ParamBank.Params[_activeView._selection.getActiveParam()].Rows)
-                            _activeView._selection.addRowToSelection(row);
-                    }
-                    else
-                    {
-                        foreach (PARAM.Row row in MassParamEditRegex.GetMatchingParamRows(ParamBank.Params[_activeView._selection.getActiveParam()], m, true, true))
-                            _activeView._selection.addRowToSelection(row);
-                    }
+                    foreach (PARAM.Row row in RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true))
+                        _activeView._selection.addRowToSelection(row);
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.C))
                 {
@@ -858,7 +837,7 @@ namespace StudioCore.ParamEditor
         }
     }
 
-    internal class ParamEditorSelectionState
+    public class ParamEditorSelectionState
     {
         private static string _globalRowSearchString = "";
         private static string _globalPropSearchString = "";
@@ -980,7 +959,6 @@ namespace StudioCore.ParamEditor
     {
         private static Vector4 DIRTYCOLOUR = new Vector4(0.7f,1,0.7f,1);
         private static Vector4 CLEANCOLOUR = new Vector4(0.9f,0.9f,0.9f,1);
-        private static Regex ROWFILTERMATCHER = new Regex(MassParamEditRegex.rowfilterRx);
 
         private ParamEditorScreen _paramEditor;
         internal int _viewIndex;
@@ -1087,17 +1065,8 @@ namespace StudioCore.ParamEditor
                     _paramEditor._isSearchBarActive = false;
 
                 ImGui.BeginChild("rows" + activeParam);
-                List<PARAM.Row> p;
-                Match m = ROWFILTERMATCHER.Match(_selection.getCurrentRowSearchString());
-                if (!m.Success)
-                {
-                    p = para.Rows;
-                }
-                else
-                {
-                    //Todo: cache this, make it dirtyable
-                    p = MassParamEditRegex.GetMatchingParamRows(para, m, true, true);
-                }
+                //Todo: cache this, make it dirtyable
+                List<PARAM.Row> p = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
 
                 foreach (var r in p)
                 {

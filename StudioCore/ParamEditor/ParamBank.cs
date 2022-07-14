@@ -132,7 +132,7 @@ namespace StudioCore.ParamEditor
         }
         public static ActionManager TrimNewlineChrsFromNames()
         {
-            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null, null);
+            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
             return child;
         }
 

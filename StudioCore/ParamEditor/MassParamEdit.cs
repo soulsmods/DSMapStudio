@@ -138,105 +138,7 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditRegex : MassParamEdit
     {
-        // eg "selection"
-        private static readonly string paramrowfilterselection = $@"(selection:\s+)";
-        // eg "EquipParamWeapon: "
-        private static readonly string paramfilterRx = $@"(param\s+(?<paramrx>[^:]+):\s+)";
-
-        private static readonly string rowfiltersingleRx = $@"(?<rowkey>modified|original)";
-        // eg "id (100|200)00"
-        private static readonly string rowfiltershortkeyRx = $@"((?<rowkey>id|name)\s+)";
-        private static readonly string rowfiltershortRx = $@"({rowfiltershortkeyRx}(?<rowexp>[^:]+))";
-        // eg "prop sellValue 100"
-        private static readonly string rowfilterlongkeyRx = $@"((?<rowkey>prop|propref)\s+)";
-        private static readonly string rowfilterlongRx = $@"({rowfilterlongkeyRx}(?<rowfield>[^:]+)\s+(?<rowexp>[^:]+))";
-        public static readonly string rowfilterRx = $@"({rowfiltersingleRx}|{rowfiltershortRx}|{rowfilterlongRx})";
-        // eg "correctFaith: "
-        private static readonly string fieldRx = $@"(?<fieldrx>[^:]+):\s+";
-        // eg "* 2;
-        private static readonly string opRx = $@"(?<op>=|\+|-|\*|/|ref|replace)\s+";
-        private static readonly string opFieldRx = $@"{opRx}(?<fieldtype>field\s+)?";
-        private static readonly string operationRx = $@"{opFieldRx}(?<opparam>[^;]+);";
-
-        private static readonly Regex commandRx = new Regex($@"^({paramrowfilterselection}|({paramfilterRx}{rowfilterRx}:\s+)){fieldRx}{operationRx}$");
-
-        public static List<string> GetRegexAutocomplete(string text, string activeViewParam)
-        {
-            if (text == null)
-            {
-                text = "";
-            }
-            List<string> options = new List<string>();
-
-            if (new Regex($@"({paramrowfilterselection}|({paramfilterRx}{rowfilterRx}:\s+)){fieldRx}{opFieldRx}").IsMatch(text))
-            {
-                if (activeViewParam == null || !ParamBank.Params.ContainsKey(activeViewParam))
-                    return options;
-                foreach (PARAMDEF.Field field in ParamBank.Params[activeViewParam].AppliedParamdef.Fields)
-                {
-                    options.Add(Regex.Escape(field.InternalName)+": ");
-                }
-                return options;
-            }
-            if (new Regex($@"({paramrowfilterselection}|({paramfilterRx}{rowfilterRx}:\s+)){fieldRx}{opRx}").IsMatch(text))
-            {
-                options.Add("field ");
-                return options;
-            }
-            if (new Regex($@"({paramrowfilterselection}|({paramfilterRx}{rowfilterRx}:\s+)){fieldRx}").IsMatch(text))
-            {
-                options.Add("= ");
-                options.Add("+ ");
-                options.Add("- ");
-                options.Add("* ");
-                options.Add("/ ");
-                options.Add("ref ");
-                options.Add("replace ");
-                return options;
-            }
-            if (new Regex($@"({paramrowfilterselection}|({paramfilterRx}{rowfilterRx}:\s+))").IsMatch(text))
-            {
-                if (activeViewParam == null || !ParamBank.Params.ContainsKey(activeViewParam))
-                    return options;
-                foreach (PARAMDEF.Field field in ParamBank.Params[activeViewParam].AppliedParamdef.Fields)
-                {
-                    options.Add(Regex.Escape(field.InternalName)+": ");
-                }
-                return options;
-            }
-            if (new Regex(paramfilterRx+rowfilterlongkeyRx).IsMatch(text))
-            {
-                if (activeViewParam == null || !ParamBank.Params.ContainsKey(activeViewParam))
-                    return options;
-                foreach (PARAMDEF.Field field in ParamBank.Params[activeViewParam].AppliedParamdef.Fields)
-                {
-                    options.Add(Regex.Escape(field.InternalName)+" ");
-                }
-                return options;
-            }
-            if (new Regex(paramfilterRx).IsMatch(text))
-            {
-                options.Add("modified: ");
-                options.Add("original: ");
-                options.Add("id ");
-                options.Add("name ");
-                options.Add("prop ");
-                options.Add("propref ");
-                return options;
-            }
-            if (text == "")
-            {
-                options.Add("selection: ");
-                foreach(string param in ParamBank.Params.Keys)
-                {
-                    options.Add("param " + Regex.Escape(param) + ": ");
-                }
-                return options;
-            }
-            return options;
-        }
-
-        public static (MassEditResult, ActionManager child) PerformMassEdit(string commandsString, string contextActiveParam, List<PARAM.Row> contextActiveRows)
+        public static (MassEditResult, ActionManager child) PerformMassEdit(string commandsString, ParamEditorSelectionState context)
         {
             string[] commands = commandsString.Split('\n');
             int changeCount = 0;
@@ -244,247 +146,81 @@ namespace StudioCore.ParamEditor
             foreach (string command in commands)
             {
                 List<EditorAction> partialActions = new List<EditorAction>();
-                Match comm = commandRx.Match(command);
-                if (comm.Success)
+
+                string[] stages = command.Split(":", StringSplitOptions.TrimEntries);
+
+
+                List<PARAM> affectedParams = new List<PARAM>();
+                List<PARAM.Row> affectedRows = new List<PARAM.Row>();
+                List<PARAM.Cell> affectedCells = new List<PARAM.Cell>();
+                int stage = 0;
+                if (ParamAndRowSearchEngine.parse.HandlesCommand(stages[stage]))
                 {
-                    Group paramrx = comm.Groups["paramrx"];
-                    Regex fieldRx = new Regex($@"^{comm.Groups["fieldrx"].Value}$");
-                    string op = comm.Groups["op"].Value;
-                    bool isopparamField = comm.Groups["fieldtype"].Success;
-                    string opparam = comm.Groups["opparam"].Value;
-                    
-                    List<PARAM> affectedParams = new List<PARAM>();
-                    if (paramrx.Success)
-                        affectedParams = GetMatchingParams(new Regex($@"^{paramrx.Value}$"));
-                    else
-                        affectedParams.Add(ParamBank.Params[contextActiveParam]);
-
-                    List<PARAM.Row> affectedRows = new List<PARAM.Row>();
-                    foreach (PARAM param in affectedParams)
-                    {
-                        if (!paramrx.Success)
-                            affectedRows = contextActiveRows;
-                        else
-                            affectedRows.AddRange(GetMatchingParamRows(param, comm, false, false));
-                    }
-                    bool editName = fieldRx.Match("Name").Success;
-                    foreach (PARAM.Row row in affectedRows)
-                    {
-                        List<PARAM.Cell> affectedCells = GetMatchingCells(row, fieldRx);
-
-                        string opparamcontext = opparam;
-                        if (isopparamField)
-                        {
-                            foreach (PARAM.Cell cell in row.Cells)
-                            {
-                                if (cell.Def.InternalName.Equals(opparam))
-                                {
-                                    opparamcontext = cell.Value.ToString();
-                                    break;
-                                }
-                            }
-                            if (opparamcontext.Equals(opparam))
-                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not look up field {opparam} in row {row.Name}"), null);
-                        }
-                        
-                        changeCount += affectedCells.Count;
-                        foreach (PARAM.Cell cell in affectedCells)
-                        {
-                            object newval = PerformOperation(cell, op, opparamcontext);
-                            if (newval == null)
-                            {
-                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparamcontext} on field {cell.Def.InternalName}"), null);
-                            }
-                            partialActions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
-                        }
-                        if (editName)
-                        {
-                            string newval = PerformNameOperation(row.Name, op, opparamcontext);
-                            if (newval == null)
-                            {
-                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {opparamcontext} on name"), null);
-                            }
-                            partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, newval));
-                        
-                        }
-                    }
+                    affectedRows = ParamAndRowSearchEngine.parse.Search(context, stages[stage], false, false);
+                    stage++;
                 }
                 else
                 {
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unrecognised command {command}"), null);
+                    affectedParams = ParamSearchEngine.pse.Search(false, stages[stage], false, false);
+                    stage++;
+                    if (stage>=stages.Length || stages[stage].Equals(""))
+                        return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter"), null);
+                    affectedRows = RowSearchEngine.rse.Search(affectedParams, stages[stage], false, false);
+                    stage++;
+                }
+
+                if (stage>=stages.Length || stages[stage].Equals(""))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter"), null);
+                int cellStage = stage;
+                //hack
+                string[] cellStageSplit = stages[cellStage].Split(" ", StringSplitOptions.TrimEntries);
+                bool editName = cellStageSplit.Length == 1 && cellStageSplit[0].Equals("Name");
+                //hack
+                stage++;
+
+                //skip ahead to op stage
+                if (stage>=stages.Length || stages[stage].Equals(""))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform"), null);
+                string[] operation = stages[stage].Split(" ", 2, StringSplitOptions.TrimEntries);
+                string op = operation[0];
+                if(!"= + - * / replace".Contains(op))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation"), null);
+                
+                if (operation.Length<2 || operation[1].Equals(""))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation argument"), null);
+                bool readField = false;
+                string[] opArgs = operation[1].Split(" ", 2, StringSplitOptions.TrimEntries);
+                if (opArgs.Length > 1 && opArgs[0].Equals("field"))
+                    readField = true;
+                //back to cell stage - this is because we want row context ["cell" as a stage is inaccurate, do (row, cell)? (row,propertyinfo)?]
+                foreach(PARAM.Row row in affectedRows)
+                {
+                    string valueToUse = opArgs[0];
+                    if (readField)
+                        valueToUse = row[opArgs[0]].Value.ToString();
+
+                    affectedCells = CellSearchEngine.cse.Search(row, stages[cellStage], false, false);
+
+                    changeCount += affectedCells.Count;
+                    foreach (PARAM.Cell cell in affectedCells)
+                    {
+                        object newval = PerformOperation(cell, op, valueToUse);
+                        if (newval == null)
+                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {valueToUse} on field {cell.Def.InternalName}"), null);
+                        partialActions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
+                    }
+                    if (editName)
+                    {
+                        string newval = PerformNameOperation(row.Name, op, valueToUse);
+                        if (newval == null)
+                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {valueToUse} on name"), null);
+                        partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, newval));
+                    
+                    }
                 }
                 childManager.ExecuteAction(new CompoundAction(partialActions));
             }
             return (new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected"), childManager);
-        }
-
-        public static List<PARAM> GetMatchingParams(Regex paramrx)
-        {
-            List<PARAM> plist = new List<PARAM>();
-            foreach (string name in ParamBank.Params.Keys)
-            {
-                if (paramrx.Match(name).Success)
-                {
-                    plist.Add(ParamBank.Params[name]);
-                }
-            }
-            return plist;
-        }
-
-        public static List<PARAM.Row> GetMatchingParamRows(PARAM param, Match command, bool lenient, bool failureAllOrNone)
-        {
-            string rowkeyexp = command.Groups["rowkey"].Value;
-            string rowfield = command.Groups["rowfield"].Value;
-            string rowexp = command.Groups["rowexp"].Value;
-            if (rowkeyexp == "modified")
-                return GetMatchingParamRowsByState(param, true, failureAllOrNone);
-            else if (rowkeyexp == "original")
-                return GetMatchingParamRowsByState(param, false, failureAllOrNone);
-            else if (rowkeyexp == "id")
-                return GetMatchingParamRowsByID(param, rowexp, lenient, failureAllOrNone);
-            else if (rowkeyexp == "name")
-                return GetMatchingParamRowsByName(param, rowexp, lenient, failureAllOrNone);
-            else if (rowkeyexp == "prop")
-                return GetMatchingParamRowsByPropVal(param, rowfield, rowexp, lenient, failureAllOrNone);
-            else if (rowkeyexp == "propref")
-                return GetMatchingParamRowsByPropRef(param, rowfield, rowexp, lenient, failureAllOrNone);
-            else
-                return failureAllOrNone ? param.Rows : new List<PARAM.Row>();
-        }
-        
-        public static List<PARAM.Row> GetMatchingParamRowsByState(PARAM param, bool modified, bool failureAllOrNone)
-        {
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            string paramName = ParamBank.GetKeyForParam(param);
-            if (paramName == null)
-                return failureAllOrNone ? param.Rows : rlist;
-            HashSet<int> cache = ParamBank.DirtyParamCache[paramName];
-            if (cache == null)
-                return failureAllOrNone ? param.Rows : rlist;
-            try
-            {
-                foreach (PARAM.Row row in param.Rows)
-                {
-                    if (cache.Contains(row.ID) ^ !modified)
-                        rlist.Add(row);
-                }
-                return rlist;
-            }
-            catch
-            {
-                return failureAllOrNone ? param.Rows : rlist;
-            }
-        }
-
-        public static List<PARAM.Row> GetMatchingParamRowsByID(PARAM param, string rowvalexp, bool lenient, bool failureAllOrNone)
-        {
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            try
-            {
-                Regex rx = lenient ? new Regex(rowvalexp) : new Regex($@"^{rowvalexp}$");
-                foreach (PARAM.Row row in param.Rows)
-                {
-                    string term = row.ID.ToString();
-                    if (rx.Match(term).Success)
-                        rlist.Add(row);
-                }
-                return rlist;
-            }
-            catch
-            {
-                return failureAllOrNone ? param.Rows : rlist;
-            }
-        }
-
-        public static List<PARAM.Row> GetMatchingParamRowsByName(PARAM param, string namerx, bool lenient, bool failureAllOrNone)
-        {
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            try
-            {
-                Regex rownamerx = lenient ? new Regex(namerx.ToLower()) : new Regex($@"^{namerx}$");
-                foreach (PARAM.Row row in param.Rows)
-                {
-                    string nameToMatch = row.Name == null ? "" : row.Name;
-                    if (rownamerx.Match(lenient ? nameToMatch.ToLower() : nameToMatch).Success)
-                        rlist.Add(row);
-                }
-                return rlist;
-            }
-            catch
-            {
-                return failureAllOrNone ? param.Rows : rlist;
-            }
-        }
-
-        public static List<PARAM.Row> GetMatchingParamRowsByPropVal(PARAM param, string rowfield, string rowvalexp, bool lenient, bool failureAllOrNone)
-        {
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            try
-            {
-                Regex rx = lenient ? new Regex(rowvalexp.ToLower()) : new Regex($@"^{rowvalexp}$");
-                foreach (PARAM.Row row in param.Rows)
-                {
-                    PARAM.Cell c = row[rowfield.Replace(@"\s", " ")];
-                    if (c==null)
-                        continue;
-                    string term = c.Value.ToString();
-                    if (c != null && rx.Match(term).Success)
-                        rlist.Add(row);
-                }
-                return rlist;
-            }
-            catch
-            {
-                return failureAllOrNone ? param.Rows : rlist;
-            }
-        }
-
-        public static List<PARAM.Row> GetMatchingParamRowsByPropRef(PARAM param, string rowfield, string namerx, bool lenient, bool failureAllOrNone)
-        {
-            List<PARAM.Row> rlist = new List<PARAM.Row>();
-            try
-            {
-                Regex rownamerx = lenient ? new Regex(namerx.ToLower()) : new Regex($@"^{namerx}$");
-                foreach (PARAM.Row row in param.Rows)
-                {
-                    PARAM.Cell c = row[rowfield.Replace(@"\s", " ")];
-                    if (c == null)
-                        continue;
-                    int val = (int) c.Value;
-                    foreach (string rt in FieldMetaData.Get(c.Def).RefTypes)
-                    {
-                        if (!ParamBank.Params.ContainsKey(rt))
-                            continue;
-                        PARAM.Row r = ParamBank.Params[rt][val];
-                        if (r==null)
-                            continue;
-                        string nameToMatch = r.Name == null ? "" : r.Name;
-                        if (r != null && rownamerx.Match(lenient ? nameToMatch.ToLower() : nameToMatch).Success)
-                        {
-                            rlist.Add(row);
-                            break;
-                        }
-                    }
-                }
-                return rlist;
-            }
-            catch
-            {
-                return failureAllOrNone ? param.Rows : rlist;
-            }
-        }
-
-        public static List<PARAM.Cell> GetMatchingCells(PARAM.Row row, Regex fieldrx)
-        {
-            List<PARAM.Cell> clist = new List<PARAM.Cell>();
-            foreach (PARAM.Cell c in row.Cells)
-            {
-                if (fieldrx.Match(c.Def.InternalName).Success)
-                {
-                    clist.Add(c);
-                }
-            }
-            return clist;
         }
     }
 
