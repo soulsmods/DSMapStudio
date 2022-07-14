@@ -143,8 +143,12 @@ namespace StudioCore.ParamEditor
             string[] commands = commandsString.Split('\n');
             int changeCount = 0;
             ActionManager childManager = new ActionManager();
-            foreach (string command in commands)
+            foreach (string cmd in commands)
             {
+                string command = cmd.Trim();
+                if (command.EndsWith(';'))
+                    command = command.Substring(0, command.Length-1);
+
                 List<EditorAction> partialActions = new List<EditorAction>();
 
                 string[] stages = command.Split(":", StringSplitOptions.TrimEntries);
@@ -197,7 +201,12 @@ namespace StudioCore.ParamEditor
                 {
                     string valueToUse = opArgs[0];
                     if (readField)
-                        valueToUse = row[opArgs[0]].Value.ToString();
+                    {
+                        PARAM.Cell reffed = row[opArgs[1]];
+                        if (reffed == null)
+                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not read field {opArgs[1]}"), null);
+                        valueToUse = reffed.Value.ToString();
+                    }
 
                     affectedCells = CellSearchEngine.cse.Search(row, stages[cellStage], false, false);
 
