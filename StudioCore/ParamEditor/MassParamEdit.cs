@@ -159,7 +159,7 @@ namespace StudioCore.ParamEditor
                 List<PARAM.Cell> affectedCells = new List<PARAM.Cell>();
                 int stage = 0;
                 if (stages[stage].Equals(""))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Use one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
                 if (ParamAndRowSearchEngine.parse.HandlesCommand(stages[stage]))
                 {
                     affectedRows = ParamAndRowSearchEngine.parse.Search(context, stages[stage], false, false);
@@ -170,13 +170,13 @@ namespace StudioCore.ParamEditor
                     affectedParams = ParamSearchEngine.pse.Search(false, stages[stage], false, false);
                     stage++;
                     if (stage>=stages.Length || stages[stage].Equals(""))
-                        return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Use one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
+                        return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
                     affectedRows = RowSearchEngine.rse.Search(affectedParams, stages[stage], false, false);
                     stage++;
                 }
 
                 if (stage>=stages.Length || stages[stage].Equals(""))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Use one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
                 int cellStage = stage;
                 //hack
                 string[] cellStageSplit = stages[cellStage].Split(" ", StringSplitOptions.TrimEntries);
@@ -186,14 +186,14 @@ namespace StudioCore.ParamEditor
 
                 //skip ahead to op stage
                 if (stage>=stages.Length || stages[stage].Equals(""))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform"), null);
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
                 string[] operation = stages[stage].Split(" ", 2, StringSplitOptions.TrimEntries);
                 string op = operation[0];
                 if(!"= + - * / replace".Contains(op))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation"), null);
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+op), null);
                 
                 if (operation.Length<2 || operation[1].Equals(""))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation argument"), null);
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation argument. Add a number, or 'field' followed by a field to read a number from."), null);
                 bool readField = false;
                 string[] opArgs = operation[1].Split(" ", 2, StringSplitOptions.TrimEntries);
                 if (opArgs.Length > 1 && opArgs[0].Equals("field"))
