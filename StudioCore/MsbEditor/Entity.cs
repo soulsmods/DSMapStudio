@@ -1256,19 +1256,26 @@ namespace StudioCore.MsbEditor
                         CurrentModel = model;
 
                         //get model (even if just to check the submeshes)
-                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
-
-                        var noSubMeshes = CheckNoEntitySubmesh();
+                        bool noSubMeshes;
+                        if (model != null)
+                        {
+                            _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+                            noSubMeshes = CheckNoEntitySubmesh();
+                        }
+                        else
+                        {
+                            noSubMeshes = true;
+                        }
 
                         if (Universe.postLoad && noSubMeshes)
-                        {
-                            //should be a model marker
-                            if (_renderSceneMesh != null)
                             {
-                                _renderSceneMesh.Dispose();
+                                //should be a model marker
+                                if (_renderSceneMesh != null)
+                                {
+                                    _renderSceneMesh.Dispose();
+                                }
+                                _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
                             }
-                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                        }
                         if (Universe.Selection.IsSelected(this))
                         {
                             OnSelected();
