@@ -158,6 +158,8 @@ namespace StudioCore.ParamEditor
                 List<PARAM.Row> affectedRows = new List<PARAM.Row>();
                 List<PARAM.Cell> affectedCells = new List<PARAM.Cell>();
                 int stage = 0;
+                if (stages[stage].Equals(""))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Use one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
                 if (ParamAndRowSearchEngine.parse.HandlesCommand(stages[stage]))
                 {
                     affectedRows = ParamAndRowSearchEngine.parse.Search(context, stages[stage], false, false);
@@ -168,13 +170,13 @@ namespace StudioCore.ParamEditor
                     affectedParams = ParamSearchEngine.pse.Search(false, stages[stage], false, false);
                     stage++;
                     if (stage>=stages.Length || stages[stage].Equals(""))
-                        return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter"), null);
+                        return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Use one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
                     affectedRows = RowSearchEngine.rse.Search(affectedParams, stages[stage], false, false);
                     stage++;
                 }
 
                 if (stage>=stages.Length || stages[stage].Equals(""))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter"), null);
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Use one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
                 int cellStage = stage;
                 //hack
                 string[] cellStageSplit = stages[cellStage].Split(" ", StringSplitOptions.TrimEntries);

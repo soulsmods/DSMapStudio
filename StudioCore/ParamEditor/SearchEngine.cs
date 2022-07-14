@@ -41,6 +41,17 @@ namespace StudioCore.Editor
         {
             return filterList.ContainsKey(command.Split(" ")[0]);
         }
+        public List<string> AvailableCommands()
+        {
+            List<string> options = new List<string>();
+            foreach (string op in filterList.Keys)
+            {
+                options.Add(op+"("+(filterList[op].Item1)+" args)");
+            }
+            if (defaultFilter!=(0, null))
+                options.Add("or omit specifying and use default ("+defaultFilter.Item1+"args)");
+            return options;
+        }
 
         public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
         {
