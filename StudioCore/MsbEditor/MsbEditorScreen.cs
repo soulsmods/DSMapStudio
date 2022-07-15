@@ -1,18 +1,16 @@
-﻿using SoulsFormats;
+﻿using ImGuiNET;
+using SoulsFormats;
+using StudioCore.Editor;
+using StudioCore.Resource;
+using StudioCore.Scene;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Numerics;
-using System.Reflection;
+using System.Windows.Forms;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
-using StudioCore.Resource;
-using Newtonsoft.Json;
-using ImGuiNET;
-using StudioCore.Scene;
-using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -162,22 +160,68 @@ namespace StudioCore.MsbEditor
                 s.EditorVisible = allhidden;
             }
         }
+        /// <summary>
+        /// Unhides all objects in every map
+        /// </summary>
+        public void UnhideAllObjects()
+        {
+            foreach (var m in Universe.LoadedObjectContainers.Values)
+            {
+                if (m == null)
+                    continue;
 
-        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype)
+                foreach (var obj in m.Objects)
+                {
+                    obj.EditorVisible = true;
+                }
+            }
+        }
+
+        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Selection selection)
         {
             var newent = typ.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
 
-            var map = Universe.LoadedObjectContainers.Values.First((x) => x != null); //TODO: if selection is not null, target map holding selection. first loaded map otherwise.
+            Map map;
+            var a = selection.GetSelection();
+            var loadedMaps = Universe.LoadedObjectContainers.Values.Where((x) => x != null);
+
+            if (selection.GetSelection().Count > 0)
+            {
+                // Multiple maps loaded. Get map of first selected entity
+                var mapID = selection.GetFilteredSelection<MapEntity>().First().MapID;
+                map = Universe.GetLoadedMap(mapID);
+            }
+            else if (loadedMaps.Count() == 1)
+            {
+                map = (Map)loadedMaps.First();
+            }
+            else
+            {
+                MessageBox.Show("Multiple maps are loaded. Please select an entity in the viewport to target that map, then try again.");
+                return;
+            }
+
             var obj = new MapEntity(map, newent, etype);
 
             var act = new AddMapObjectsAction(Universe, (Map)map, RenderScene, new List<MapEntity> { obj }, true);
             EditorActionManager.ExecuteAction(act);
         }
 
-        private void DummyUndummySelection(string sourceStr, string targetStr)
+        private void DummySelection()
         {
-            //Incomplete.
-            //todo2: implement into new action via EditorActionManager.
+            string[] sourceTypes = { "Enemy", "Object", "Asset" };
+            string[] targetTypes = { "DummyEnemy", "DummyObject", "DummyAsset" };
+            DummyUndummySelection(sourceTypes, targetTypes);
+        }
+        private void UnDummySelection()
+        {
+            string[] sourceTypes = { "DummyEnemy", "DummyObject", "DummyAsset" };
+            string[] targetTypes = { "Enemy", "Object", "Asset" };
+            DummyUndummySelection(sourceTypes, targetTypes);
+        }
+        private void DummyUndummySelection(string[] sourceTypes, string[] targetTypes)
+        {
+            //Incomplete. see action
             Type msbclass;
             switch (AssetLocator.Type)
             {
@@ -190,7 +234,8 @@ namespace StudioCore.MsbEditor
                     break;
                 case GameType.DarkSoulsIISOTFS:
                     msbclass = typeof(MSB2);
-                    break;
+                    //break;
+                    return; //idk how ds2 dummies should work
                 case GameType.DarkSoulsIII:
                     msbclass = typeof(MSB3);
                     break;
@@ -209,37 +254,8 @@ namespace StudioCore.MsbEditor
 
             var sourceList = _selection.GetFilteredSelection<MapEntity>().ToList();
 
-            var targetType = msbclass.GetNestedType("Part").GetNestedType(targetStr);
-            var sourceType = msbclass.GetNestedType("Part").GetNestedType(sourceStr);
-
-            for (var i=0;i<sourceList.Count;i++)
-            {
-                var ent = sourceList[i];
-
-                if (ent.Type == MapEntity.MapEntityType.Part)
-                {
-                    var currentType = ent.WrappedObject.GetType();
-                    if (currentType == sourceType)
-                    {
-                        var source = ent.WrappedObject;
-                        var target = targetType.GetConstructor(Type.EmptyTypes).Invoke(Array.Empty<object>());
-
-                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => p.CanWrite))
-                        {
-                            property.SetValue(target, property.GetValue(source, null), null);
-                        }
-                        ent.WrappedObject = target;
-                    }
-                }
-            }
-
-            /*
-            var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
+            var action = new ChangeMapObjectType(Universe, msbclass, sourceList, sourceTypes, targetTypes, "Part", true);
             EditorActionManager.ExecuteAction(action);
-            var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
-            EditorActionManager.ExecuteAction(action);
-                //make them use ActionEvent.ObjectAddedRemoved to refresh msb map list cache
-            */
 
         }
 
@@ -247,6 +263,7 @@ namespace StudioCore.MsbEditor
         {
             if (ImGui.BeginMenu("Edit"))
             {
+
                 if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
@@ -255,6 +272,7 @@ namespace StudioCore.MsbEditor
                 {
                     EditorActionManager.RedoAction();
                 }
+
                 if (ImGui.MenuItem("Delete", "Delete", false, _selection.IsSelection()))
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
@@ -265,65 +283,60 @@ namespace StudioCore.MsbEditor
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (ImGui.MenuItem("Hide/Show", "Ctrl+H", false, _selection.IsSelection()))
+
+                if (ImGui.BeginMenu("Dummify/Un-Dummify"))
                 {
-                    HideShowSelection();
+                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", "Shift+<", false, _selection.IsSelection()))
+                    {
+                        UnDummySelection();
+                    }
+                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", "Shift+>", false, _selection.IsSelection()))
+                    {
+                        DummySelection();
+                    }
+                    //ImGui.TextColored(new Vector4(1f, .4f, 0f, 1f), "Warning: Converting Assets to Dummy Assets will result in lost property data (Undo will properly restore data)");
+                    ImGui.EndMenu();
                 }
+
+                //
+                ImGui.Separator(); // Visual options goes below here
+
+                if (ImGui.BeginMenu("Hide/Unhide"))
+                {
+                    if (ImGui.MenuItem("Hide/Unhide", "Ctrl+H", false, _selection.IsSelection()))
+                    {
+                        HideShowSelection();
+                    }
+                    var loadedMap = Universe.LoadedObjectContainers.Values.FirstOrDefault(x => x != null);
+                    if (ImGui.MenuItem("Unhide All", "Alt+H", false, loadedMap != null))
+                    {
+                        UnhideAllObjects();
+                    }
+                    ImGui.EndMenu();
+                }
+
                 if (ImGui.MenuItem("Frame", "F", false, _selection.IsSelection()))
                 {
                     FrameSelection();
                 }
 
-                /*
-                //todo2: Finish. Add (difficult to press by accident) hotkeys for enemies.
-                if (ImGui.BeginMenu("Dummify/Undummify Selection"))
-                {
-                    if (ImGui.MenuItem("Selected Enemies -> DummyEnemies", "", false, _selection.IsSelection()))
-                    {
-                        DummyUndummySelection("Enemy", "DummyEnemy");
-                    }
-                    if (ImGui.MenuItem("Selected DummyEnemies -> Enemies", "", false, _selection.IsSelection()))
-                    {   
-                        DummyUndummySelection("DummyEnemy", "Enemy");
-                    }
-                    if (AssetLocator.Type != GameType.EldenRing)
-                    {
-                        if (ImGui.MenuItem("Selected Objects -> DummyObjects", "", false, _selection.IsSelection()))
-                        {
-                            DummyUndummySelection("", "");
-                        }
-                        if (ImGui.MenuItem("Selected DummyObjects -> Objects", "", false, _selection.IsSelection()))
-                        {   
-                            DummyUndummySelection("", "");
-                        }
-                    }
-                    else
-                    {
-                        if (ImGui.MenuItem("Assets", "", false, _selection.IsSelection()))
-                        {
-                            DummyUndummySelection("", "");
-                        }
-                        if (ImGui.MenuItem("Assets", "", false, _selection.IsSelection()))
-                        {   
-                            DummyUndummySelection("", "");
-                        }
-                    }
-                    ImGui.EndMenu();
-                }
-                */
-
                 ImGui.EndMenu();
             }
-
+            
             if (ImGui.BeginMenu("Create"))
             {
+                var loadedMap = Universe.LoadedObjectContainers.Values.FirstOrDefault(x => x != null);
+                if (loadedMap == null)
+                {
+                    ImGui.BeginDisabled();
+                }
                 if (ImGui.BeginMenu("Parts"))
                 {
                     foreach (var p in _partsClasses)
                     {
                         if (ImGui.MenuItem(p.Item1))
                         {
-                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Part);
+                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Part, _selection);
                         }
                     }
                     ImGui.EndMenu();
@@ -333,7 +346,7 @@ namespace StudioCore.MsbEditor
                 {
                     if (ImGui.MenuItem("Region"))
                     {
-                        AddNewEntity(_regionClasses[0].Item2, MapEntity.MapEntityType.Region);
+                        AddNewEntity(_regionClasses[0].Item2, MapEntity.MapEntityType.Region, _selection);
                     }
                 }
                 else
@@ -344,7 +357,7 @@ namespace StudioCore.MsbEditor
                         {
                             if (ImGui.MenuItem(p.Item1))
                             {
-                                AddNewEntity(p.Item2, MapEntity.MapEntityType.Region);
+                                AddNewEntity(p.Item2, MapEntity.MapEntityType.Region, _selection);
                             }
                         }
                         ImGui.EndMenu();
@@ -356,10 +369,14 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.MenuItem(p.Item1))
                         {
-                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Event);
+                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Event, _selection);
                         }
                     }
                     ImGui.EndMenu();
+                }
+                if (loadedMap == null)
+                {
+                    ImGui.EndDisabled();
                 }
                 ImGui.EndMenu();
             }
@@ -477,11 +494,11 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Origin"))
                 {
-                    if (ImGui.MenuItem("World", "", Gizmos.Origin == Gizmos.GizmosOrigin.World))
+                    if (ImGui.MenuItem("World", "Home", Gizmos.Origin == Gizmos.GizmosOrigin.World))
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
-                    if (ImGui.MenuItem("Bounding Box", "", Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
+                    if (ImGui.MenuItem("Bounding Box", "Home", Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.BoundingBox;
                     }
@@ -557,16 +574,33 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                // Hide/Show
+                // Hide/Unhide
                 if (InputTracker.GetControlShortcut(Key.H) && _selection.IsSelection())
                 {
                     HideShowSelection();
+                }
+
+                // Unhide all
+                if (InputTracker.GetAltShortcut(Key.H))
+                {
+                    UnhideAllObjects();
                 }
 
                 // F key frames the selection
                 if (InputTracker.GetKeyDown(Key.F))
                 {
                     FrameSelection();
+                }
+
+                //Undummify
+                if (InputTracker.GetShiftShortcut(Key.Comma) && _selection.IsSelection())
+                {
+                    UnDummySelection();
+                }
+                //Dummify
+                if (InputTracker.GetShiftShortcut(Key.Period) && _selection.IsSelection())
+                {
+                    DummySelection();
                 }
 
                 // Render settings

@@ -1,11 +1,8 @@
-﻿using System;
+﻿using SoulsFormats;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
-using SoulsFormats;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 namespace StudioCore.MsbEditor
@@ -809,6 +806,125 @@ namespace StudioCore.MsbEditor
                 }
             }*/
             return ActionEvent.NoEvent;
+        }
+    }
+
+
+    public class ChangeMapObjectType : Action
+    {
+        private Universe Universe;
+        private Queue<object> UndoQueue = new();
+        private List<MapEntity> ModifiedObjects = new();
+        private List<MapEntity> Entities = new();
+        private Type MsbType;
+        private string[] SourceTypes;
+        private string[] TargetTypes;
+        private bool SetSelection;
+        private string MsbParamstr;
+
+        /// <summary>
+        /// Change selected map objects from one type to another. Only works for map objects of the same overarching type, such as Parts or Regions.
+        /// Data for properties absent in targeted type will be lost, but will be restored for undo/redo.
+        /// </summary>
+        public ChangeMapObjectType(Universe univ, Type msbclass, List<MapEntity> selectedEnts, string[] sourceTypes, string[] targetTypes, string msbParamStr ,bool setSelection)
+        {
+
+            Universe = univ;
+            MsbType = msbclass;
+            Entities.AddRange(selectedEnts);
+            SourceTypes = sourceTypes;
+            TargetTypes = targetTypes;
+            SetSelection = setSelection;
+            MsbParamstr = msbParamStr;
+        }
+
+        public override ActionEvent Execute()
+        {
+            for (var iTypes = 0; iTypes < SourceTypes.Length; iTypes++)
+            {
+                var sourceType = MsbType.GetNestedType(MsbParamstr).GetNestedType(SourceTypes[iTypes]); //get desired msbparam type for the current MSB
+                var targetType = MsbType.GetNestedType(MsbParamstr).GetNestedType(TargetTypes[iTypes]); //get desired msbparam type for the current MSB
+                var partType = MsbType.GetNestedType(MsbParamstr);
+
+                for (var i = 0; i < Entities.Count; i++)
+                {
+                    var ent = Entities[i];
+
+                    var currentType = ent.WrappedObject.GetType();
+                    if (currentType == sourceType)
+                    {
+                        var m = Universe.GetLoadedMap(ent.MapID);
+                        m.HasUnsavedChanges = true;
+                        UndoQueue.Enqueue(ent.DeepCopyObject(ent.WrappedObject)); //store backup of wrappedObj in queue for undoing
+
+                        var source = ent.WrappedObject;
+                        var target = targetType.GetConstructor(Type.EmptyTypes).Invoke(Array.Empty<object>());
+
+                        // Go through properties of source type and set them to target type (if they exist under the same name)
+                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => p.CanWrite)) //public set properties
+                        {
+                            var targetProp = target.GetType().GetProperty(property.Name);
+                            if (targetProp != null) //make sure target type has this property (happens for Assets vs DummyAssets)
+                            {
+                                targetProp.SetValue(target, property.GetValue(source, null), null); // Copy every (writable) value to/from dummy/nondummy. this may be too risky in the future!
+                            }
+                        }
+                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => !p.CanWrite)) //private set properties
+                        {
+                            var targetProp = target.GetType().GetProperty(property.Name);
+                            if (targetProp != null) //make sure target type has this property (happens for Assets vs DummyAssets)
+                            {
+                                var prop = targetProp.DeclaringType.GetProperty(property.Name);
+                                prop.SetValue(target, property.GetValue(source, null), BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+                                // Pretty good chance this will explode in some circumstances!
+                            }
+                        }
+
+                        //assign new dummied/undummied wrappedObj to entity
+                        ent.WrappedObject = target;
+                        ModifiedObjects.Add(ent);
+                    }
+                }
+            }
+
+            //if (SetSelection) {}
+            return ActionEvent.ObjectAddedRemoved;
+        }
+
+        public override ActionEvent Undo()
+        {
+            for (var iTypes = 0; iTypes < SourceTypes.Length; iTypes++)
+            {
+                Type sourceType = MsbType.GetNestedType(MsbParamstr).GetNestedType(TargetTypes[iTypes]); //inverted for undo
+                //Type targetType = MsbType.GetNestedType(MsbParamstr).GetNestedType(SourceTypes[iTypes]); //inverted for undo
+
+                for (var i = 0; i < ModifiedObjects.Count; i++)
+                {
+                    var ent = ModifiedObjects[i];
+
+                    if (ent.Type == MapEntity.MapEntityType.Part)
+                    {
+                        var currentType = ent.WrappedObject.GetType();
+                        if (currentType == sourceType)
+                        {
+                            var m = Universe.GetLoadedMap(ent.MapID);
+                            m.HasUnsavedChanges = true;
+
+                            ent.WrappedObject = UndoQueue.Dequeue(); //retrieve backup object from queue
+                        }
+                    }
+                }
+            }
+
+            if (SetSelection)
+            {
+                Universe.Selection.ClearSelection();
+                foreach (var d in Entities)
+                {
+                    Universe.Selection.AddSelection(d);
+                }
+            }
+            return ActionEvent.ObjectAddedRemoved;
         }
     }
 

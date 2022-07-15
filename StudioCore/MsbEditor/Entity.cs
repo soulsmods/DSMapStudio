@@ -224,7 +224,7 @@ namespace StudioCore.MsbEditor
             return new Entity(Container, clone);
         }
 
-        private object DeepCopyObject(object obj)
+        public object DeepCopyObject(object obj)
         {
             var typ = obj.GetType();
 
