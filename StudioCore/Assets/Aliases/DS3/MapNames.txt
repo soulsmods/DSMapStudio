@@ -1,5 +1,5 @@
 m21_00_00_00 --Base
-m30_00_00_00 High Wall of Lothric / Consumed King's Garden
+m30_00_00_00 High Wall of Lothric / Garden
 m30_01_00_00 --Eclipsed Royal Castle 2
 m30_02_00_00 --Eclipsed Royal Castle 2
 m31_00_00_00 Undead Settlement
@@ -13,18 +13,18 @@ m35_00_00_00 Cathedral of the Deep
 m36_00_00_00 --The Grave Of God
 m36_90_00_00 --The Grave Of God 2
 m37_00_00_00 Irithyll / Anor Londo
-m38_00_00_00 Catacombs of Carthus / Smouldering Lake
-m39_00_00_00 Irithyll Dungeon / Profaned Capital
-m40_00_00_00 Cemetary / Firelink / Untended Graves
-m41_00_00_00 Kiln of the First Flame / Flameless Shrine
+m38_00_00_00 Catacombs Carthus / Smouldering Lake
+m39_00_00_00 Dungeon / Profaned Capital
+m40_00_00_00 Cemetary / Firelink / Untended
+m41_00_00_00 Kiln of Flame / Flameless Shrine
 m45_00_00_00 Painted world of Ariandel
-m46_00_00_00 DLC - Arena 1 - Royal Castle 3
-m47_00_00_00 DLC - Arena 2 - Last Boss Arena
+m46_00_00_00 Arena - Grand Roof
+m47_00_00_00 Arena - Kiln of Flame
 m50_00_00_00 Dreg Heap
 m51_00_00_00 Ringed City
 m51_01_00_00 Filianore's rest
-m53_00_00_00 DLC - Arena 3
-m54_00_00_00 DLC - Arena 4
+m53_00_00_00 Arena - Dragon Ruins
+m54_00_00_00 Arena - Round Plaza
 m90_00_00_00 --テスト地形
 m90_00_02_00 --加藤テスト
 m91_00_00_00 --ナビメッシュテスト
