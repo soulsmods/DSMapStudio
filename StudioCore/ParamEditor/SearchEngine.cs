@@ -132,10 +132,6 @@ namespace StudioCore.Editor
     class ParamSearchEngine : SearchEngine<bool, PARAM>
     {
         public static ParamSearchEngine pse = new ParamSearchEngine();
-        public static List<PARAM> GetMatchingParams(string command, bool lenient, bool failureAllOrNone)
-        {
-            return pse.Search(false, command, lenient, failureAllOrNone);
-        }
         internal override void Setup()
         {
             unpacker = (dummy)=>new List<PARAM>(ParamBank.Params.Values);
@@ -158,15 +154,6 @@ namespace StudioCore.Editor
     class RowSearchEngine : SearchEngine<PARAM, PARAM.Row>
     {
         public static RowSearchEngine rse = new RowSearchEngine();
-        public static List<PARAM.Row> GetMatchingParamRows(PARAM param, Match command, bool lenient, bool failureAllOrNone)
-        {
-            string rowkeyexp = command.Groups["rowkey"].Value;
-            string rowfield = command.Groups["rowfield"].Value;
-            string rowexp = command.Groups["rowexp"].Value;
-
-            string cmd = rowkeyexp=="modified"||rowkeyexp=="original"?rowkeyexp : (rowkeyexp=="id"||rowkeyexp=="name"?rowkeyexp+" "+rowexp : rowkeyexp+" "+rowfield+" "+rowexp);
-            return rse.Search(param, cmd, lenient, failureAllOrNone);
-        }
         internal override void Setup()
         {
             unpacker = (param)=>param.Rows;
