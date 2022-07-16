@@ -237,53 +237,56 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditCSV : MassParamEdit
     {
-        public static string GenerateColumnLabels(PARAM param)
+        public static string GenerateColumnLabels(PARAM param, char separator)
         {
             string str = "";
-            str += "ID,Name,";
+            str += $@"ID{separator}Name{separator}";
             foreach (var f in param.AppliedParamdef.Fields)
             {
-                string rowgen = $@"{f.InternalName}";
-                str += rowgen + ",";
+                 str += $@"{f.InternalName}{separator}";
             }
             return str+"\n";
         }
         
-        public static string GenerateCSV(List<PARAM.Row> rows, PARAM param)
+        public static string GenerateCSV(List<PARAM.Row> rows, PARAM param, char separator)
         {
             string gen = "";
-            gen += GenerateColumnLabels(param);
+            gen += GenerateColumnLabels(param, separator);
 
             foreach (PARAM.Row row in rows)
             {
-                string rowgen = $@"{row.ID},{row.Name}";
+                string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
+                string rowgen = $@"{row.ID}{separator}{name}";
                 foreach (PARAM.Cell cell in row.Cells)
                 {
-                    rowgen += $@",{cell.Value}";
+                    rowgen += $@"{separator}{cell.Value}";
                 }
                 gen += rowgen + "\n";
             }
             return gen;
         }
-        public static string GenerateSingleCSV(List<PARAM.Row> rows, PARAM param, string field)
+        public static string GenerateSingleCSV(List<PARAM.Row> rows, PARAM param, string field, char separator)
         {
             string gen = "";
-            gen += GenerateColumnLabels(param);
+            gen += GenerateColumnLabels(param, separator);
             foreach (PARAM.Row row in rows)
             {
                 string rowgen;
                 if (field.Equals("Name"))
-                    rowgen = $@"{row.ID},{row.Name}";
+                {
+                    string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
+                    rowgen = $@"{row.ID}{separator}{name}";
+                }
                 else
                 {
-                    rowgen = $@"{row.ID},{row[field].Value}";
+                    rowgen = $@"{row.ID}{separator}{row[field].Value}";
                 }
                 gen += rowgen + "\n";
             }
             return gen;
         }
         
-        public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams)
+        public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
         {
             try
             {
@@ -292,7 +295,7 @@ namespace StudioCore.ParamEditor
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains("ID,Name"))
+                if (csvLines[0].Contains($@"ID{separator}Name"))
                     csvLines[0] = ""; //skip column label row
                 int changeCount = 0;
                 int addedCount = 0;
@@ -302,7 +305,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (csvLine.Trim().Equals(""))
                         continue;
-                    string[] csvs = csvLine.Trim().Split(',');
+                    string[] csvs = csvLine.Trim().Split(separator);
                     if (csvs.Length != csvLength || csvs.Length < 2)
                     {
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
@@ -344,7 +347,7 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             }
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, bool useSpace)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator)
         {
             try
             {
@@ -352,7 +355,7 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains("ID,Name"))
+                if (csvLines[0].Contains($@"ID{separator}Name"))
                     csvLines[0] = ""; //skip column label row
                 int changeCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
@@ -360,7 +363,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (csvLine.Trim().Equals(""))
                         continue;
-                    string[] csvs = csvLine.Trim().Split(useSpace ? ' ' : ',', 2);
+                    string[] csvs = csvLine.Trim().Split(separator, 2);
                     if (csvs.Length != 2)
                         return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
                     int id = int.Parse(csvs[0]);

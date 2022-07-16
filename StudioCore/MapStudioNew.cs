@@ -226,6 +226,9 @@ namespace StudioCore
             reg = Utils.readRegistry("showVanillaParamsPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference = reg == "true";
+            reg = Utils.readRegistry("csvDelimiterPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
             if (!File.Exists("imgui.ini"))
             {
                 File.Copy("imgui.ini.backup", "imgui.ini");
@@ -240,6 +243,7 @@ namespace StudioCore
             Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
             Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
             Utils.setRegistry("showVanillaParamsPreference", ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference ? "true" : "false");
+            Utils.setRegistry("csvDelimiterPreference", ParamEditor.ParamEditorScreen.CSVDelimiterPreference);
         }
 
         public void Run()

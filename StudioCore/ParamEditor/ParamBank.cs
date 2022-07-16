@@ -125,7 +125,7 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(param))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", true);
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", ' ');
                 actions.Add(a);
             }
             return new CompoundAction(actions);
