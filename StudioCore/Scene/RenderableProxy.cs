@@ -1175,6 +1175,7 @@ namespace StudioCore.Scene
                     selectColor = Color.Tomato;
                     break;
                 case "Asset":
+                case "DummyAsset":
                 case "Object":
                 case "DummyObject":
                     prim = _modelMarkerObj;
