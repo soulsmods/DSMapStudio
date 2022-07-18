@@ -1242,9 +1242,9 @@ namespace SoulsFormats
                 private int CollisionPartIndex;
 
                 /// <summary>
-                /// Unknown.
+                /// References which PatrolInfo index to use for patrol information.
                 /// </summary>
-                public short UnkT20 { get; set; }
+                public short PatrolIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1326,7 +1326,7 @@ namespace SoulsFormats
                     PlatoonID = br.ReadInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
-                    UnkT20 = br.ReadInt16();
+                    PatrolIndex = br.ReadInt16();
                     UnkT22 = br.ReadInt16();
                     UnkT24 = br.ReadInt32();
                     br.AssertPattern(0x10, 0xFF);
@@ -1367,7 +1367,7 @@ namespace SoulsFormats
                     bw.WriteInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
-                    bw.WriteInt16(UnkT20);
+                    bw.WriteInt16(PatrolIndex);
                     bw.WriteInt16(UnkT22);
                     bw.WriteInt32(UnkT24);
                     bw.WritePattern(0x10, 0xFF);

@@ -1166,14 +1166,14 @@ namespace SoulsFormats
                 public int UnkT10 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of character to render along with the message.
                 /// </summary>
-                public int UnkT14 { get; set; }
+                public int CharacterModelName { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// NpcParam ID to use when rendering a character with the message.
                 /// </summary>
-                public int UnkT18 { get; set; }
+                public int NPCParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1203,8 +1203,8 @@ namespace SoulsFormats
                     UnkT08 = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
                     UnkT10 = br.ReadInt32();
-                    UnkT14 = br.ReadInt32();
-                    UnkT18 = br.ReadInt32();
+                    CharacterModelName = br.ReadInt32();
+                    NPCParamID = br.ReadInt32();
                     UnkT1C = br.ReadInt32();
                     UnkT20 = br.ReadInt32();
                 }
@@ -1217,8 +1217,8 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT08);
                     bw.WriteInt32(UnkT0C);
                     bw.WriteInt32(UnkT10);
-                    bw.WriteInt32(UnkT14);
-                    bw.WriteInt32(UnkT18);
+                    bw.WriteInt32(CharacterModelName);
+                    bw.WriteInt32(NPCParamID);
                     bw.WriteInt32(UnkT1C);
                     bw.WriteInt32(UnkT20);
                 }
