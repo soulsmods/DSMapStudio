@@ -1,3 +1,5 @@
+##DSMapStudio repo has moved! Please go to https://github.com/soulsmods/DSMapStudio for updated versions!
+
 ## About DS Map Studio:
 DS Map Studio is a standalone map editor for all the souls games. It is intended to be the successor to DSTools, but be much more lightweight with a heavy emphasis on editor performance. It is currently in alpha testing with builds being uploaded to releases periodically. It is functional in many cases for games and supports saving maps for all the games but DeS and Sekiro, but the editor still lacks the stability and polish expected from a full release, so keep that in mind when attempting to use the editor.
 
