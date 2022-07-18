@@ -398,7 +398,7 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            if (_editedPropCache != oldval)
+            if (_editedPropCache!=null && _editedPropCache != oldval)
             {
                 changed = true;
             }
