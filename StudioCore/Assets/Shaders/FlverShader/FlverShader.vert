@@ -18,6 +18,7 @@ struct instanceData
 {
 	mat4 world;
 	// 0: material id
+	// 1: bone base
 	// 3: entity id
 	uvec4 materialID;
 };
@@ -26,6 +27,13 @@ layout(set = 1, binding = 0, std140) buffer WorldBuffer
 {
     readonly instanceData idata[];
 };
+
+layout(set = 7, binding = 0, std140) buffer BoneBuffer
+{
+    readonly mat4 bones[];
+};
+
+layout (constant_id = 50) const bool c_normalWBoneTransform = false;
 
 layout(location = 0) in vec3 position;
 layout(location = 1) in ivec2 uv;
@@ -68,5 +76,13 @@ void main()
 	vec3 N = normalize(mat3(w) * vec3(normal));
 	fsin_worldToTangent = mat3(T, B, N);
 	
-    gl_Position = sceneparam.projection * sceneparam.view * w * vec4(position, 1);
+	if (c_normalWBoneTransform)
+	{
+		gl_Position = sceneparam.projection * sceneparam.view * w *
+			(bones[idata[gl_InstanceIndex].materialID.y + normal.w] * vec4(position, 1));
+	}
+	else
+	{
+		gl_Position = sceneparam.projection * sceneparam.view * w * vec4(position, 1);
+	}
 }

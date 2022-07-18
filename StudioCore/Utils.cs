@@ -638,7 +638,7 @@ namespace StudioCore
             var parentBone = bone;
             do
             {
-                res *= bone.ComputeLocalTransform();
+                res *= parentBone.ComputeLocalTransform();
                 if (parentBone.ParentIndex >= 0)
                 {
                     parentBone = bones[parentBone.ParentIndex];

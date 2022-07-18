@@ -92,7 +92,7 @@ namespace StudioCore.Resource
 
             public string ShaderName = null;
             public MeshLayoutType LayoutType;
-            public SpecializationConstant[] SpecializationConstants = null;
+            public List<SpecializationConstant> SpecializationConstants = null;
             public VertexLayoutDescription VertexLayout;
             public uint VertexSize;
 
@@ -106,6 +106,17 @@ namespace StudioCore.Resource
             public TextureResourceHande ShininessTextureResource2 = null;
             public TextureResourceHande BlendmaskTextureResource = null;
             private bool disposedValue;
+
+            private bool _setNormalWBoneTransform = false;
+            
+            public void SetNormalWBoneTransform()
+            {
+                if (!_setNormalWBoneTransform)
+                {
+                    SpecializationConstants.Add(new SpecializationConstant(50, true));
+                    _setNormalWBoneTransform = true;
+                }
+            }
 
             private void SetMaterialTexture(TextureResourceHande handle, ref ushort matTex, ushort defaultTex)
             {
@@ -233,6 +244,9 @@ namespace StudioCore.Resource
 
             public Matrix4x4 LocalTransform = Matrix4x4.Identity;
 
+            // Use the w field in the normal as an index to a bone that has a transform
+            public bool UseNormalWBoneTransform { get; set; } = false;
+
             public int DefaultBoneIndex { get; set; } = -1;
 
             public FlverMaterial Material { get; set; } = null;
@@ -251,6 +265,8 @@ namespace StudioCore.Resource
 
         public List<FLVER.Bone> Bones { get; private set; } = null;
         private List<FlverBone> FBones { get; set; } = null;
+
+        public Scene.GPUBufferAllocator.GPUBufferHandle StaticBoneBuffer { get; private set; } = null;
 
         private string TexturePathToVirtual(string texpath)
         {
@@ -403,7 +419,7 @@ namespace StudioCore.Resource
                 dest.LayoutType = MeshLayoutType.LayoutSky;
                 dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
                 dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
-                dest.SpecializationConstants = new SpecializationConstant[0];
+                dest.SpecializationConstants = new List<SpecializationConstant>();
                 return;
             }
 
@@ -444,7 +460,7 @@ namespace StudioCore.Resource
                 specConstants.Add(new SpecializationConstant(3, hasShininess2));
             }
 
-            dest.SpecializationConstants = specConstants.ToArray();
+            dest.SpecializationConstants = specConstants;
             dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
             dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
 
@@ -464,7 +480,7 @@ namespace StudioCore.Resource
                 dest.LayoutType = MeshLayoutType.LayoutSky;
                 dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
                 dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
-                dest.SpecializationConstants = new SpecializationConstant[0];
+                dest.SpecializationConstants = new List<SpecializationConstant>();
                 return;
             }
 
@@ -507,7 +523,7 @@ namespace StudioCore.Resource
                 specConstants.Add(new SpecializationConstant(3, hasShininess2));
             }
 
-            dest.SpecializationConstants = specConstants.ToArray();
+            dest.SpecializationConstants = specConstants;
             dest.VertexLayout = MeshLayoutUtils.GetLayoutDescription(dest.LayoutType);
             dest.VertexSize = MeshLayoutUtils.GetLayoutVertexSize(dest.LayoutType);
 
@@ -551,12 +567,13 @@ namespace StudioCore.Resource
             dest[0] = (sbyte)(n.X * 127.0f);
             dest[1] = (sbyte)(n.Y * 127.0f);
             dest[2] = (sbyte)(n.Z * 127.0f);
+            dest[3] = (sbyte)v.NormalW;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private unsafe void FillNormalSNorm8(sbyte* dest, BinaryReaderEx br, FLVER.LayoutType type, ref Vector3 n)
         {
-            int nw;
+            int nw = 0;
             if (type == FLVER.LayoutType.Float3)
             {
                 n = br.ReadVector3();
@@ -611,6 +628,7 @@ namespace StudioCore.Resource
             dest[0] = (sbyte)(n.X * 127.0f);
             dest[1] = (sbyte)(n.Y * 127.0f);
             dest[2] = (sbyte)(n.Z * 127.0f);
+            dest[3] = (sbyte)nw;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1386,9 +1404,18 @@ namespace StudioCore.Resource
                 }
             }
 
-            if (mesh.DefaultBoneIndex != -1 && mesh.DefaultBoneIndex < Bones.Count)
+            if (mesh.Dynamic == 0)
             {
-                dest.LocalTransform = Utils.GetBoneObjectMatrix(Bones[mesh.DefaultBoneIndex], Bones);
+                var elements = mesh.VertexBuffers.SelectMany(b => Flver.BufferLayouts[b.LayoutIndex]);
+                dest.UseNormalWBoneTransform = elements.Any(e => e.Semantic == FLVER.LayoutSemantic.Normal && (e.Type == FLVER.LayoutType.Byte4B || e.Type == FLVER.LayoutType.Byte4E));
+                if (dest.UseNormalWBoneTransform)
+                {
+                    dest.Material.SetNormalWBoneTransform();
+                }
+                else if (mesh.DefaultBoneIndex != -1 && mesh.DefaultBoneIndex < Bones.Count)
+                {
+                    dest.LocalTransform = Utils.GetBoneObjectMatrix(Bones[mesh.DefaultBoneIndex], Bones);
+                }
             }
 
             Marshal.FreeHGlobal(dest.PickingVertices);
@@ -1400,7 +1427,7 @@ namespace StudioCore.Resource
             FlverBone? parentBone = bone;
             do
             {
-                res *= bone.ComputeLocalTransform();
+                res *= parentBone.Value.ComputeLocalTransform();
                 if (parentBone?.parentIndex >= 0)
                 {
                     parentBone = bones[(int)parentBone?.parentIndex];
@@ -1454,6 +1481,8 @@ namespace StudioCore.Resource
                 for (int i = 0; i < layout.memberCount; i++)
                 {
                     layoutmembers[i] = new FlverBufferLayoutMember(br);
+                    if (layoutmembers[i].semantic == FLVER.LayoutSemantic.Normal && (layoutmembers[i].type == FLVER.LayoutType.Byte4B || layoutmembers[i].type == FLVER.LayoutType.Byte4E))
+                        dest.UseNormalWBoneTransform = true;
                 }
                 br.StepOut();
                 if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
@@ -1599,9 +1628,16 @@ namespace StudioCore.Resource
                 }
             }*/
 
-            if (mesh.defaultBoneIndex != -1 && mesh.defaultBoneIndex < FBones.Count)
+            if (mesh.dynamic == 0)
             {
-                dest.LocalTransform = GetBoneObjectMatrix(FBones[mesh.defaultBoneIndex], FBones);
+                if (dest.UseNormalWBoneTransform)
+                {
+                    dest.Material.SetNormalWBoneTransform();
+                }
+                else if (mesh.defaultBoneIndex != -1 && mesh.defaultBoneIndex < FBones.Count)
+                {
+                    dest.LocalTransform = GetBoneObjectMatrix(FBones[mesh.defaultBoneIndex], FBones);
+                }
             }
 
             Marshal.FreeHGlobal(dest.PickingVertices);
@@ -1671,6 +1707,21 @@ namespace StudioCore.Resource
                     {
                         Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                     }
+                }
+
+                if (GPUMeshes.Any(e => e.UseNormalWBoneTransform))
+                {
+                    StaticBoneBuffer = Renderer.BoneBufferAllocator.Allocate(64 * (uint)Bones.Count, 64);
+                    Matrix4x4[] tbones = new Matrix4x4[Bones.Count];
+                    for (int i = 0; i < Bones.Count; i++)
+                    {
+                        tbones[i] = Utils.GetBoneObjectMatrix(Bones[i], Bones);
+                    }
+
+                    Renderer.AddBackgroundUploadTask((d, cl) =>
+                    {
+                        StaticBoneBuffer.FillBuffer(cl, tbones);
+                    });
                 }
             }
 
@@ -1998,6 +2049,21 @@ namespace StudioCore.Resource
                 {
                     Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                 }
+            }
+
+            if (GPUMeshes.Any(e => e.UseNormalWBoneTransform))
+            {
+                StaticBoneBuffer = Renderer.BoneBufferAllocator.Allocate(64 * (uint)FBones.Count, 64);
+                Matrix4x4[] tbones = new Matrix4x4[FBones.Count];
+                for (int i = 0; i < FBones.Count; i++)
+                {
+                    tbones[i] = GetBoneObjectMatrix(FBones[i], FBones);
+                }
+
+                Renderer.AddBackgroundUploadTask((d, cl) =>
+                {
+                    StaticBoneBuffer.FillBuffer(cl, tbones);
+                });
             }
 
             return true;

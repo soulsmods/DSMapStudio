@@ -466,7 +466,17 @@ namespace StudioCore.Scene
                 pipelineDescription.ShaderSet = new ShaderSetDescription(
                     vertexLayouts: mainVertexLayouts,
                     shaders: _shaders, _meshProvider.SpecializationConstants);
-                pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.GlobalCubeTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout, pickingResultLayout};
+                pipelineDescription.ResourceLayouts = new ResourceLayout[]
+                { 
+                    projViewLayout,
+                    mainPerObjectLayout,
+                    Renderer.GlobalTexturePool.GetLayout(),
+                    Renderer.GlobalCubeTexturePool.GetLayout(),
+                    Renderer.MaterialBufferAllocator.GetLayout(),
+                    SamplerSet.SamplersLayout,
+                    pickingResultLayout,
+                    Renderer.BoneBufferAllocator.GetLayout(),
+                };
                 pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
                 _pipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
 
@@ -507,6 +517,14 @@ namespace StudioCore.Scene
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
+                if (_meshProvider.BoneBuffer != null)
+                {
+                    dat.BoneStartIndex = _meshProvider.BoneBuffer.AllocationStart / 64;
+                }
+                else
+                {
+                    dat.BoneStartIndex = 0;
+                }
                 dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
                 _worldBuffer.FillBuffer(gd, cl, ref dat);
 
@@ -568,6 +586,14 @@ namespace StudioCore.Scene
                 InstanceData dat = new InstanceData();
                 dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
                 dat.MaterialID = _meshProvider.MaterialIndex;
+                if (_meshProvider.BoneBuffer != null)
+                {
+                    dat.BoneStartIndex = _meshProvider.BoneBuffer.AllocationStart / 64;
+                }
+                else
+                {
+                    dat.BoneStartIndex = 0;
+                }
                 dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
                 if (_worldBuffer == null)
                 {
@@ -980,7 +1006,17 @@ namespace StudioCore.Scene
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: mainVertexLayouts,
                 shaders: _shaders, _debugPrimitive.SpecializationConstants);
-            pipelineDescription.ResourceLayouts = new ResourceLayout[] { projViewLayout, mainPerObjectLayout, Renderer.GlobalTexturePool.GetLayout(), Renderer.GlobalCubeTexturePool.GetLayout(), Renderer.MaterialBufferAllocator.GetLayout(), SamplerSet.SamplersLayout, pickingResultLayout };
+            pipelineDescription.ResourceLayouts = new ResourceLayout[]
+            {
+                projViewLayout,
+                mainPerObjectLayout,
+                Renderer.GlobalTexturePool.GetLayout(),
+                Renderer.GlobalCubeTexturePool.GetLayout(),
+                Renderer.MaterialBufferAllocator.GetLayout(),
+                SamplerSet.SamplersLayout,
+                pickingResultLayout,
+                Renderer.BoneBufferAllocator.GetLayout(),
+            };
             pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
             _pipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
 
