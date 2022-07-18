@@ -552,7 +552,18 @@ namespace StudioCore.TextEditor
                 ImGui.Text("ID");
                 ImGui.NextColumn();
                 //int id = _activeEntry.ID;
-                ImGui.InputInt("##id", ref _activeEntry.ID);
+                if (ImGui.InputInt("##id", ref _activeEntry.ID))
+                {
+                    if (_activeFmgType == FMGBank.FMGTypes.Item)
+                    {
+                        if (_cachedTitle != null)
+                            _cachedTitle.ID = _activeEntry.ID;
+                        if (_cachedSummary != null)
+                            _cachedSummary.ID = _activeEntry.ID;
+                        if (_cachedDescription != null)
+                            _cachedDescription.ID = _activeEntry.ID;
+                    }
+                }
 
                 if (_cachedID != _activeEntry.ID)
                 {
