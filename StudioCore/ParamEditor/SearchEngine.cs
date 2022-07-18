@@ -247,6 +247,12 @@ namespace StudioCore.Editor
                     };
                 };
             }));
+            defaultFilter = (1, (args, lenient)=>{
+                if (!lenient)
+                    return noContext((row)=>false);
+                Regex rx = new Regex(args[0], RegexOptions.IgnoreCase);
+                return noContext((row)=>rx.Match(row.Name == null ? "" : row.Name).Success || rx.Match(row.ID.ToString()).Success);
+            });
         }
     }
 
