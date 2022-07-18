@@ -197,7 +197,7 @@ namespace StudioCore.Editor
                 double ceil = double.Parse(args[2]);
                 return noContext((row)=>{
                         PARAM.Cell c = row[field];
-                        return ((double)c.Value) >= floor && ((double)c.Value) <= ceil;
+                        return (Convert.ToDouble(c.Value)) >= floor && (Convert.ToDouble(c.Value)) <= ceil;
                 });
             }));
             filterList.Add("propref", (2, (args, lenient)=>{
