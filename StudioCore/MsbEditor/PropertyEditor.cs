@@ -374,21 +374,28 @@ namespace StudioCore.MsbEditor
         {
             if (ImGui.BeginPopupContextItem(propinfo.Name))
             {
-                var att = propinfo.GetCustomAttribute<MSBParamReference>();
-                if (att != null)
-                {
-                    if (ImGui.Selectable($@"Goto {att.ParamName}"))
-                    {
-                        var id = (int)propinfo.GetValue(obj);
-                        EditorCommandQueue.AddCommand($@"param/select/-1/{att.ParamName}/{id}");
-                    }
-                }
                 if (ImGui.Selectable($@"Search"))
                 {
                     EditorCommandQueue.AddCommand($@"map/propsearch/{propinfo.Name}");
                 }
                 ImGui.EndPopup();
             }
+        }
+        private bool ParamRefRow(PropertyInfo propinfo, object oldval, ref object newObj)
+        {
+            var att = propinfo.GetCustomAttribute<MSBParamReference>();
+            if (att != null)
+            {
+                ImGui.NextColumn();
+                List<string> refs = new List<string>();
+                refs.Add(att.ParamName);
+                Editor.EditorDecorations.ParamRefText(refs);
+                ImGui.NextColumn();
+                var id = (int)oldval;
+                Editor.EditorDecorations.ParamRefsSelectables(refs, id);
+                return Editor.EditorDecorations.ParamRefEnumContextMenu(id, ref newObj, refs, null);
+            }
+            return false;
         }
 
         private void PropEditorFlverLayout(Entity selection, FLVER2.BufferLayout layout)
@@ -555,6 +562,12 @@ namespace StudioCore.MsbEditor
                                     ImGui.SetItemDefaultFocus();
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                                if (ParamRefRow(prop, oldval, ref newval))
+                                {
+                                    changed = true;
+                                    committed = true;
+                                    //return tuple?
+                                }
                                 //bool committed = true;
                                 UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
@@ -655,6 +668,11 @@ namespace StudioCore.MsbEditor
                             ImGui.SetItemDefaultFocus();
                         }
                         bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                        if (ParamRefRow(prop, oldval, ref newval))
+                        {
+                            changed = true;
+                            committed = true;
+                        }
                         //bool committed = true;
                         UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false);
 
