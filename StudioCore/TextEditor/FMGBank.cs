@@ -42,7 +42,8 @@ namespace StudioCore.TextEditor
         public enum FMGTypes
         {
             Item = 0,
-            Menu = 1
+            Menu = 1,
+            DS2 = 2
         }
 
         //If you ever find yourself needing to use this: just rewrite everything. Seriously.
@@ -531,6 +532,22 @@ namespace StudioCore.TextEditor
             return list;
         }
 
+
+        //very, very stupid hack solution for row duplication.
+        public static FMG FindFMGForEntry_Item(FMG.Entry entry)
+        {
+            var fmgPair = _itemFMGs.Values.First(e => e.Entries.Contains(entry));
+            FMG fmg = fmgPair;
+            return fmg;
+        }
+        //very, very stupid hack solution for row duplication.
+        public static FMG FindFMGForEntry_Menu(FMG.Entry entry)
+        {
+            FMG fmg = new();
+            fmg = (FMG)_menuFMGs.Where(e => e.Value.Entries.Contains(entry));
+            return fmg;
+        }
+
         public static void LookupItemID(int id, ItemCategory cat, out FMG.Entry title, out FMG.Entry summary, out FMG.Entry description)
         {
             title = null;
@@ -562,9 +579,10 @@ namespace StudioCore.TextEditor
             }
         }
 
-        public static void ReloadFMGsDS2()
+        public static void ReloadFMGsDS2(ref string languageFolder)
         {
-            var desc = AssetLocator.GetItemMsgbnd(null, true);
+            var desc = AssetLocator.GetItemMsgbnd(ref languageFolder, true);
+            //var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg",SearchOption.AllDirectories).ToList(); // needs to handle subfolders differently, within GUI section menus
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
             _ds2fmgs = new Dictionary<string, FMG>();
             foreach (var file in files)
@@ -594,27 +612,42 @@ namespace StudioCore.TextEditor
             }
 
             var path = folderDialog.SelectedPath;
-
-            var itemPath = $@"{path}\Item Text";
-            var menuPath = $@"{path}\Menu Text";
-            Directory.CreateDirectory(itemPath);
-            Directory.CreateDirectory(menuPath);
             int filecount = 0;
 
-            foreach (var fmg in _itemFMGs)
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
-                var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                File.WriteAllText($@"{itemPath}\{fmg.Key.ToString()}.fmg.json", json);
-                filecount++;
-            }
+                Directory.CreateDirectory(path);
 
-            foreach (var fmg in _menuFMGs)
+                foreach (var fmg in _ds2fmgs)
+                {
+                    var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
+                    File.WriteAllText($@"{path}\{fmg.Key.ToString()}.fmg.json", json);
+                    filecount++;
+                }
+            }
+            else
             {
-                var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                File.WriteAllText($@"{menuPath}\{fmg.Key.ToString()}.fmg.json", json);
-                filecount++;
+                var itemPath = $@"{path}\Item Text";
+                var menuPath = $@"{path}\Menu Text";
+                Directory.CreateDirectory(itemPath);
+                Directory.CreateDirectory(menuPath);
+
+                foreach (var fmg in _itemFMGs)
+                {
+                    var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
+                    File.WriteAllText($@"{itemPath}\{fmg.Key.ToString()}.fmg.json", json);
+                    filecount++;
+                }
+
+                foreach (var fmg in _menuFMGs)
+                {
+                    var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
+                    File.WriteAllText($@"{menuPath}\{fmg.Key.ToString()}.fmg.json", json);
+                    filecount++;
+                }
             }
             MessageBox.Show($"Exported {filecount} text files", "Finished", MessageBoxButtons.OK);
             return true;
@@ -624,6 +657,7 @@ namespace StudioCore.TextEditor
             OpenFileDialog fileDialog = new();
             fileDialog.Title = "Choose Files to Import";
             fileDialog.Filter ="Exported FMGs|*.fmg.json|All files|*.*";
+            fileDialog.Multiselect = true;
             if (fileDialog.ShowDialog() != DialogResult.OK)
             {
                 return false;
@@ -641,22 +675,38 @@ namespace StudioCore.TextEditor
             {
                 var file = File.ReadAllText(filePath);
                 var json = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyValuePair<string, FMG>>(@file);
-                foreach (var fmg in _itemFMGs)
+
+                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    if (fmg.Key.ToString() == json.Key)
+                    foreach (var fmg in _ds2fmgs)
                     {
-                        _itemFMGs[fmg.Key] = json.Value;
-                        filecount++;
-                        goto Continue;
+                        if (fmg.Key.ToString() == json.Key)
+                        {
+                            _ds2fmgs[fmg.Key] = json.Value;
+                            filecount++;
+                            goto Continue;
+                        }
                     }
                 }
-                foreach (var fmg in _menuFMGs)
+                else
                 {
-                    if (fmg.Key.ToString() == json.Key)
+                    foreach (var fmg in _itemFMGs)
                     {
-                        _menuFMGs[fmg.Key] = json.Value;
-                        filecount++;
-                        goto Continue;
+                        if (fmg.Key.ToString() == json.Key)
+                        {
+                            _itemFMGs[fmg.Key] = json.Value;
+                            filecount++;
+                            goto Continue;
+                        }
+                    }
+                    foreach (var fmg in _menuFMGs)
+                    {
+                        if (fmg.Key.ToString() == json.Key)
+                        {
+                            _menuFMGs[fmg.Key] = json.Value;
+                            filecount++;
+                            goto Continue;
+                        }
                     }
                 }
                 Continue:;
@@ -680,24 +730,24 @@ namespace StudioCore.TextEditor
 
                 if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    ReloadFMGsDS2();
+                    ReloadFMGsDS2(ref _languageFolder);
                     IsLoading = false;
                     IsLoaded = true;
                     return;
                 }
 
-                var itemMsgPath = AssetLocator.GetItemMsgbnd(languageFolder);
-                var menuMsgPath = AssetLocator.GetMenuMsgbnd(languageFolder);
+                var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
+                var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
                 if (itemMsgPath.AssetPath == null)
                 {
-                    MessageBox.Show($"Could not find item.msgbnd in {languageFolder}", "Error");
+                    MessageBox.Show($"Could not find item.msgbnd in {_languageFolder}", "Error");
                     IsLoaded = true; //permits loading default language
                     IsLoading = false;
                     return;
                 }
                 if (menuMsgPath.AssetPath == null)
                 {
-                    MessageBox.Show($"Could not find menu.msgbnd in {languageFolder}", "Error");
+                    MessageBox.Show($"Could not find menu.msgbnd in {_languageFolder}", "Error");
                     IsLoaded = true; //permits loading default language
                     IsLoading = false;
                     return;
@@ -748,7 +798,7 @@ namespace StudioCore.TextEditor
         {
             foreach (var fmg in _ds2fmgs)
             {
-                Utils.WriteWithBackup(AssetLocator.GameRootDirectory, AssetLocator.GameModDirectory, $@"menu\text\english\{fmg.Key}.fmg", fmg.Value);
+                Utils.WriteWithBackup(AssetLocator.GameRootDirectory, AssetLocator.GameModDirectory, $@"menu\text\{_languageFolder}\{fmg.Key}.fmg", fmg.Value);
             }
         }
 
@@ -770,8 +820,8 @@ namespace StudioCore.TextEditor
             // Load the fmg bnd, replace fmgs, and save
             IBinder fmgBinderItem;
             IBinder fmgBinderMenu;
-            var itemMsgPath = AssetLocator.GetItemMsgbnd();
-            var menuMsgPath = AssetLocator.GetMenuMsgbnd();
+            var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
+            var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
             if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
@@ -799,8 +849,8 @@ namespace StudioCore.TextEditor
                     file.Bytes = _itemFMGs[(ItemFMGTypes)file.ID].Write();
             }
 
-            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(null, true);
-            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(null, true);
+            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(ref _languageFolder, true);
+            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(ref _languageFolder, true);
             if (fmgBinderItem is BND3 bnd3)
             {
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,

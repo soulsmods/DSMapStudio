@@ -824,9 +824,9 @@ namespace SoulsFormats
                 public sbyte[] EventIDs { get; private set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Amount of time it takes for GParam to transition (in seconds). -1 = Some default time.
                 /// </summary>
-                public float Unk40 { get; set; }
+                public float TransitionTime { get; set; }
 
                 /// <summary>
                 /// Creates a SceneGparamConfig with default values.
@@ -850,7 +850,7 @@ namespace SoulsFormats
                 {
                     br.AssertPattern(0x3C, 0x00);
                     EventIDs = br.ReadSBytes(4);
-                    Unk40 = br.ReadSingle();
+                    TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -860,7 +860,7 @@ namespace SoulsFormats
                 {
                     bw.WritePattern(0x3C, 0x00);
                     bw.WriteSBytes(EventIDs);
-                    bw.WriteSingle(Unk40);
+                    bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -871,7 +871,7 @@ namespace SoulsFormats
                 /// </summary>
                 public override string ToString()
                 {
-                    return $"EventID[{EventIDs[0],2}][{EventIDs[1],2}][{EventIDs[2],2}][{EventIDs[3],2}] {Unk40:0.0}";
+                    return $"EventID[{EventIDs[0],2}][{EventIDs[1],2}][{EventIDs[2],2}][{EventIDs[3],2}] {TransitionTime:0.0}";
                 }
             }
 
@@ -1242,9 +1242,9 @@ namespace SoulsFormats
                 private int CollisionPartIndex;
 
                 /// <summary>
-                /// Unknown.
+                /// References which PatrolInfo index to use for patrol information.
                 /// </summary>
-                public short UnkT20 { get; set; }
+                public short PatrolIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1326,7 +1326,7 @@ namespace SoulsFormats
                     PlatoonID = br.ReadInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
-                    UnkT20 = br.ReadInt16();
+                    PatrolIndex = br.ReadInt16();
                     UnkT22 = br.ReadInt16();
                     UnkT24 = br.ReadInt32();
                     br.AssertPattern(0x10, 0xFF);
@@ -1367,7 +1367,7 @@ namespace SoulsFormats
                     bw.WriteInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
-                    bw.WriteInt16(UnkT20);
+                    bw.WriteInt16(PatrolIndex);
                     bw.WriteInt16(UnkT22);
                     bw.WriteInt32(UnkT24);
                     bw.WritePattern(0x10, 0xFF);

@@ -1166,14 +1166,14 @@ namespace SoulsFormats
                 public int UnkT10 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of character to render along with the message.
                 /// </summary>
-                public int UnkT14 { get; set; }
+                public int CharacterModelName { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// NpcParam ID to use when rendering a character with the message.
                 /// </summary>
-                public int UnkT18 { get; set; }
+                public int NPCParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1203,8 +1203,8 @@ namespace SoulsFormats
                     UnkT08 = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
                     UnkT10 = br.ReadInt32();
-                    UnkT14 = br.ReadInt32();
-                    UnkT18 = br.ReadInt32();
+                    CharacterModelName = br.ReadInt32();
+                    NPCParamID = br.ReadInt32();
                     UnkT1C = br.ReadInt32();
                     UnkT20 = br.ReadInt32();
                 }
@@ -1217,8 +1217,8 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT08);
                     bw.WriteInt32(UnkT0C);
                     bw.WriteInt32(UnkT10);
-                    bw.WriteInt32(UnkT14);
-                    bw.WriteInt32(UnkT18);
+                    bw.WriteInt32(CharacterModelName);
+                    bw.WriteInt32(NPCParamID);
                     bw.WriteInt32(UnkT1C);
                     bw.WriteInt32(UnkT20);
                 }
@@ -1233,14 +1233,14 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Distance from camera required before enabling envmap. 0 = always enabled.
                 /// </summary>
-                public float UnkT00 { get; set; }
+                public float EnableDist { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Distance it takes for an envmap to fully transition into view.
                 /// </summary>
-                public float Compare { get; set; }
+                public float TransitionDist { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1311,8 +1311,8 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadSingle();
-                    Compare = br.ReadSingle();
+                    EnableDist = br.ReadSingle();
+                    TransitionDist = br.ReadSingle();
                     UnkT08 = br.ReadByte();
                     UnkT09 = br.ReadByte();
                     UnkT0A = br.ReadInt16();
@@ -1332,8 +1332,8 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteSingle(UnkT00);
-                    bw.WriteSingle(Compare);
+                    bw.WriteSingle(EnableDist);
+                    bw.WriteSingle(TransitionDist);
                     bw.WriteByte(UnkT08);
                     bw.WriteByte(UnkT09);
                     bw.WriteInt16(UnkT0A);

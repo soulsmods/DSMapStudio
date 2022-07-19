@@ -19,7 +19,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Elden Ring Test + Supertest";
+        private static string _version = ": Elden Ring Test + GeorgeFeatures v0.1.1";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -658,7 +658,7 @@ namespace StudioCore
                             _textEditor.Save();
                         }
                     }
-                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft)||InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
+                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -714,13 +714,17 @@ namespace StudioCore
                     */
                     ImGui.EndMenu();
                 }
-                if (ImGui.BeginMenu("Tests"))
+                if (FeatureFlags.MBSE_Test)
                 {
-                    if (ImGui.MenuItem("MSBE read/write test"))
+                    if (ImGui.BeginMenu("Tests"))
                     {
-                        Tests.MSBReadWrite.Run(_assetLocator);
+                        if (ImGui.MenuItem("MSBE read/write test"))
+                        {
+                            Tests.MSBReadWrite.Run(_assetLocator);
+                        }
+                        ImGui.EndMenu();
                     }
-                    ImGui.EndMenu();
+
                 }
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
@@ -729,12 +733,17 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
-
                 if (TaskManager.warningList.Count > 0)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
                     if (ImGui.BeginMenu("!! WARNINGS !!"))
                     {
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+                        ImGui.Text("Click warnings to remove them from list");
+                        if (ImGui.Button("Remove All Warnings"))
+                            TaskManager.warningList.Clear();
+
+                        ImGui.Separator();
                         foreach (var task in TaskManager.warningList)
                         {
                             if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
@@ -742,6 +751,7 @@ namespace StudioCore
                                 TaskManager.warningList.TryRemove(task);
                             }
                         }
+                        ImGui.PopStyleColor();
                         ImGui.EndMenu();
                     }
                     ImGui.PopStyleColor();
@@ -762,7 +772,7 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
-            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize))
+            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize)) // The Grey overlay is apparently an imgui bug (that has been fixed in updated builds; in some forks at least).
             {
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");

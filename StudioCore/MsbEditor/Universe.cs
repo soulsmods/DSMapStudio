@@ -10,6 +10,7 @@ using StudioCore.Resource;
 using SoulsFormats;
 using Newtonsoft.Json;
 using StudioCore.Scene;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -791,12 +792,51 @@ namespace StudioCore.MsbEditor
             postLoad = true;
 
             // Update models
-                // Get accurate `CollisionName` field reference info
-                // Check model meshes for model markers
+            //// Get accurate `CollisionName` field reference info
+            //// Check model meshes for model markers
+            // Check for duplicate EntityIDs and create warning.
+            Dictionary<int, string> entityIDList = new();
             foreach (var obj in map.Objects)
             {
                 obj.UpdateRenderModel(); //(also updates drawgroups)
-                //obj.UpdateDrawgroups();
+
+                // Check for duplicate entityIDs
+                /*
+                 * Notes about dupe EntityID behavior in-game: 
+                 * Entity ID dupes exist in vanilla (including dupe regions)
+                 * Duplicate entity IDs for regions causes all regions later in the map object list to not function properly.
+                 * Currently unknown if entity IDs actually cause issues outside of regions.
+                 * Unique behavior can be seen when using dupe IDs with objects, and all objects with the same ID can be affected by single commands.
+                 * * This behavior is probably unintentional and may secretly cause issues. Unknown.
+                 * Further testing is required to refine this warning message.
+                 * Dummy Objects (and probably dummy enemies) dupe IDs don't matter.
+                 * 
+                 * At the moment, only region ID checking is necessary.
+                */
+                // todo: also check when saving
+                var objType = obj.WrappedObject.GetType().ToString();
+                if (objType.Contains("Region"))
+                {
+                    var entityIDProp = obj.GetProperty("EntityID");
+                    if (entityIDProp != null)
+                    {
+                        int entityID = (int)entityIDProp.GetValue(obj.WrappedObject);
+                        if (entityID > 0)
+                        {
+                            var entryExists = entityIDList.TryGetValue(entityID, out string name);
+                            if (entryExists)
+                            {
+                                var key = $"{obj.Name} Dupe EntityID";
+                                var value = $"Duplicate EntityID: `{entityID}` is being used by multiple regions; `{obj.PrettyName}` and `{name}`";
+                                TaskManager.warningList.TryAdd(key, value);
+                            }
+                            else
+                            {
+                                entityIDList.Add(entityID, obj.PrettyName);
+                            }
+                        }
+                    }
+                }
             }
 
             return;
@@ -1170,6 +1210,7 @@ namespace StudioCore.MsbEditor
 
         public Type GetPropertyType(string name)
         {
+            // TODO: needs to scan within structs too 
             foreach (var m in LoadedObjectContainers)
             {
                 if (m.Value == null)

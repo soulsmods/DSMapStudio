@@ -505,7 +505,7 @@ namespace StudioCore.MsbEditor
                                 object newval = null;
 
                                 changed = PropertyRow(typ.GetElementType(), oldval, out newval);
-                                // PropertyContextMenu(prop);
+                                PropertyContextMenu(obj, prop);
                                 if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                                 {
                                     ImGui.SetItemDefaultFocus();

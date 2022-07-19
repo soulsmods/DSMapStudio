@@ -58,6 +58,16 @@ namespace StudioCore
             return (GetKey(Key.LControl) || GetKey(Key.RControl)) && GetKeyDown(key);
         }
 
+        public static bool GetAltShortcut(Key key)
+        {
+            return (GetKey(Key.AltLeft) || GetKey(Key.AltRight)) && GetKeyDown(key);
+        }
+
+        public static bool GetShiftShortcut(Key key)
+        {
+            return (GetKey(Key.ShiftLeft) || GetKey(Key.ShiftRight)) && GetKeyDown(key);
+        }
+
         public static bool GetMouseButton(MouseButton button)
         {
             return _currentlyPressedMouseButtons.Contains(button);

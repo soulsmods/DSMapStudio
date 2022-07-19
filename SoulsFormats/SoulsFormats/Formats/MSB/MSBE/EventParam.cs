@@ -966,9 +966,9 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Determines patrol behavior. 0 = return to first region on loop, 1 = go through list backwards on loop, etc.
                 /// </summary>
-                public byte UnkT00 { get; set; }
+                public byte PatrolType { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -995,7 +995,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadByte();
+                    PatrolType = br.ReadByte();
                     br.AssertByte(0);
                     br.AssertByte(0);
                     br.AssertByte(1);
@@ -1007,7 +1007,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteByte(UnkT00);
+                    bw.WriteByte(PatrolType);
                     bw.WriteByte(0);
                     bw.WriteByte(0);
                     bw.WriteByte(1);

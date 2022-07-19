@@ -455,18 +455,18 @@ namespace StudioCore
         /// <summary>
         /// Get path of item.msgbnd (english by default)
         /// </summary>
-        public AssetDescription GetItemMsgbnd(string langFolder = "", bool writemode = false)
+        public AssetDescription GetItemMsgbnd(ref string langFolder, bool writemode = false)
         {
-            return GetMsgbnd("item", langFolder, writemode);
+            return GetMsgbnd("item", ref langFolder, writemode);
         }
         /// <summary>
         /// Get path of menu.msgbnd (english by default)
         /// </summary>
-        public AssetDescription GetMenuMsgbnd(string langFolder = "", bool writemode = false)
+        public AssetDescription GetMenuMsgbnd(ref string langFolder, bool writemode = false)
         {
-            return GetMsgbnd("menu", langFolder, writemode);
+            return GetMsgbnd("menu", ref langFolder, writemode);
         }
-        public AssetDescription GetMsgbnd(string msgBndType, string langFolder, bool writemode = false)
+        public AssetDescription GetMsgbnd(string msgBndType, ref string langFolder, bool writemode = false)
         {
             if (langFolder == "")
             {
