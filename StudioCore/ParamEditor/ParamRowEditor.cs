@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Numerics;
 using SoulsFormats;
 using ImGuiNET;
+using Veldrid;
 using System.Net.Http.Headers;
 using System.Security;
 using System.Text.RegularExpressions;
@@ -28,7 +29,9 @@ namespace StudioCore.ParamEditor
             _paramEditor = paramEditorScreen;
         }
 
-        private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, bool isBool)
+        private object _editedPropCache;
+
+        private bool PropertyRow(Type typ, object oldval, out object newval, bool isBool)
         {
             try
             {
@@ -39,7 +42,8 @@ namespace StudioCore.ParamEditor
                     if (ImGui.Checkbox("##valueBool", ref checkVal))
                     {
                         newval = Convert.ChangeType(checkVal ? 1 : 0, oldval.GetType());
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        _editedPropCache = newval;
+                        return true;
                     }
                     ImGui.SameLine();
                 }
@@ -59,7 +63,8 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        _editedPropCache = newval;
+                        return true;
                     }
                 }
             }
@@ -69,7 +74,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                 }
             }
             else if (typ == typeof(uint))
@@ -82,7 +88,8 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        _editedPropCache = newval;
+                        return true;
                     }
                 }
             }
@@ -92,7 +99,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (short)val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                 }
             }
             else if (typ == typeof(ushort))
@@ -105,7 +113,8 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        _editedPropCache = newval;
+                        return true;
                     }
                 }
             }
@@ -115,7 +124,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (sbyte)val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                 }
             }
             else if (typ == typeof(byte))
@@ -128,7 +138,8 @@ namespace StudioCore.ParamEditor
                     if (res)
                     {
                         newval = val;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        _editedPropCache = newval;
+                        return true;
                     }
                 }
             }
@@ -138,7 +149,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Checkbox("##value", ref val))
                 {
                     newval = val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                 }
             }
             else if (typ == typeof(float))
@@ -147,7 +159,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                     // shouldUpdateVisual = true;
                 }
             }
@@ -161,7 +174,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.InputText("##value", ref val, 128))
                 {
                     newval = val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                 }
             }
             else if (typ == typeof(Vector2))
@@ -170,7 +184,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat2("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                     // shouldUpdateVisual = true;
                 }
             }
@@ -180,7 +195,8 @@ namespace StudioCore.ParamEditor
                 if (ImGui.DragFloat3("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    _editedPropCache = newval;
+                    return true;
                     // shouldUpdateVisual = true;
                 }
             }
@@ -238,12 +254,15 @@ namespace StudioCore.ParamEditor
         public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
-            ImGui.Columns(ParamEditorScreen.ShowVanillaParamsPreference?3:2);
-            ImGui.Separator();
             int id = 0;
 
             if (propSearchString != null)
-                ImGui.InputText("Search...", ref propSearchString, 255);
+            {
+                if (InputTracker.GetControlShortcut(Key.N))
+                    ImGui.SetKeyboardFocusHere();
+                ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
+                ImGui.Separator();
+            }
             Regex propSearchRx = null;
             try
             {
@@ -252,6 +271,8 @@ namespace StudioCore.ParamEditor
             catch
             {
             }
+            ImGui.BeginChild("Param Fields");
+            ImGui.Columns(ParamEditorScreen.ShowVanillaParamsPreference ? 3 : 2);
             ImGui.NextColumn();
             ImGui.NextColumn();
             if (ParamEditorScreen.ShowVanillaParamsPreference)
@@ -269,8 +290,8 @@ namespace StudioCore.ParamEditor
             List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
             foreach (var field in pinnedFields)
             {
-                List<PARAM.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                List<PARAM.Cell> vmatches = vrow==null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                List<PARAM.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName.ToLower() == field.ToLower()).ToList();
+                List<PARAM.Cell> vmatches = vrow==null ? null : vrow.Cells.Where(cell => cell.Def.InternalName.ToLower() == field.ToLower()).ToList();
                 for (int i=0; i<matches.Count; i++)
                     PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx, activeParam, true);
             }
@@ -297,8 +318,9 @@ namespace StudioCore.ParamEditor
                     PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
+            ImGui.EndChild();
         }
-        
+
         // Many parameter options, which may be simplified.
         private void PropEditorPropInfoRow(PARAM.Row row, PropertyInfo prop, string visualName, ref int id, Regex propSearchRx)
         {
@@ -354,7 +376,9 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             else if (diffVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
-            (changed, committed) = PropertyRow(propType, oldval, out newval, IsBool);
+            changed = PropertyRow(propType, oldval, out newval, IsBool);
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            //bool committed = true;
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
@@ -391,7 +415,12 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, newval, changed, committed);
+            if (_editedPropCache != oldval)
+            {
+                changed = true;
+            }
+
+            UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, _editedPropCache, changed, committed);
             if (diffVanilla && !(isRef || matchDefault)) //and not already removed
                 ImGui.PopStyleColor();
             ImGui.NextColumn();
@@ -420,12 +449,18 @@ namespace StudioCore.ParamEditor
 
         private void PropertyRowNameContextMenu(string originalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
         {
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f));
             if (ImGui.BeginPopupContextItem("rowName"))
             {
                 if (ParamEditorScreen.ShowAltNamesPreference == true && ParamEditorScreen.AlwaysShowOriginalNamePreference == false)
-                    ImGui.Text(originalName);
-                if (ImGui.Selectable("Search..."))
+                {
+                    ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
+                    ImGui.Separator();
+                }
+                if (ImGui.Selectable("Add to Searchbar"))
+                {
                     EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
+                }
                 if (showPinOptions && ImGui.Selectable((isPinned?"Unpin ":"Pin "+ originalName)))
                 {
                     if(!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
@@ -474,6 +509,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndPopup();
             }
+            ImGui.PopStyleVar();
         }
         private void PropertyRowValueContextMenu(string internalName, string VirtualRef, dynamic oldval)
         {
@@ -498,6 +534,102 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndPopup();
             }
+        }
+        private bool PropertyRowMetaValueContextMenu(object oldval, ref object newval, List<string> RefTypes, ParamEnum Enum)
+        {
+            if (RefTypes == null && Enum == null)
+                return false;
+            bool result = false;
+            if (ImGui.BeginPopupContextItem("rowMetaValue"))
+            {
+                if (RefTypes != null)
+                    result |= PropertyRowRefsContextItems(RefTypes, oldval, ref newval);
+                if (Enum != null)
+                    result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
+                ImGui.EndPopup();
+            }
+            return result;
+        }
+
+        private bool PropertyRowRefsContextItems(List<string> reftypes, dynamic oldval, ref object newval)
+        { 
+            // Add Goto statements
+            foreach (string rt in reftypes)
+            {
+                if (!ParamBank.Params.ContainsKey(rt))
+                    continue;
+                int searchVal = (int) oldval;
+                ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
+                if (meta != null)
+                {
+                    if (meta.Row0Dummy && searchVal == 0)
+                        continue;
+                    if (meta.FixedOffset != 0 && searchVal > 0)
+                    {
+                        searchVal = searchVal + meta.FixedOffset;
+                    }
+                    if (meta.OffsetSize > 0 && searchVal > 0 && ParamBank.Params[rt][(int) searchVal] == null)
+                    {
+                        searchVal = (int) searchVal - (int) oldval % meta.OffsetSize;
+                    }
+                }
+                if (ParamBank.Params[rt][searchVal] != null)
+                {   
+                    if (ImGui.Selectable($@"Go to {rt}"))
+                        EditorCommandQueue.AddCommand($@"param/select/-1/{rt}/{searchVal}");
+                    if (ImGui.Selectable($@"Go to {rt} in new view"))
+                        EditorCommandQueue.AddCommand($@"param/select/new/{rt}/{searchVal}");
+                }
+            }
+            // Add searchbar for named editing
+            ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);
+            // This should be replaced by a proper search box with a scroll and everything
+            if (_refContextCurrentAutoComplete != "")
+            {
+                foreach (string rt in reftypes)
+                {
+                    if (!ParamBank.Params.ContainsKey(rt))
+                        continue;
+                    ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
+                    int maxResultsPerRefType = 15/reftypes.Count;
+                    List<PARAM.Row> rows = RowSearchEngine.rse.Search(ParamBank.Params[rt], _refContextCurrentAutoComplete, true, true);
+                    foreach (PARAM.Row r in rows)
+                    {
+                        if (maxResultsPerRefType <= 0)
+                            break;
+                        if (ImGui.Selectable(r.ID+": "+r.Name))
+                        {
+                            if (meta!=null && meta.FixedOffset!=0)
+                                newval = (int) r.ID - meta.FixedOffset;
+                            else
+                                newval = (int) r.ID;
+                            _refContextCurrentAutoComplete = "";
+                            return true;
+                        }
+                        maxResultsPerRefType--;
+                    }
+                }
+            }
+            return false;
+        }
+        private bool PropertyRowEnumContextItems(ParamEnum en, object oldval, ref object newval)
+        {
+            try
+            {
+                foreach (KeyValuePair<string, string> option in en.values)
+                {
+                    if (ImGui.Selectable($"{option.Key}: {option.Value}"))
+                    {
+                        newval = Convert.ChangeType(option.Key, oldval.GetType());
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return false;
         }
     }
 }

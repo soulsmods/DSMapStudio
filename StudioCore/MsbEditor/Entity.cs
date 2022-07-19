@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using SoulsFormats;
 using StudioCore.Scene;
 using System.Diagnostics;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -66,7 +67,7 @@ namespace StudioCore.MsbEditor
             }
         }
         [XmlIgnore]
-        public bool UseDrawGroups { set; get; } = false;
+        public bool UseDrawGroups { set; get; } = true;
 
         [XmlIgnore]
         public virtual string Name
@@ -113,32 +114,12 @@ namespace StudioCore.MsbEditor
         protected string CurrentModel = "";
 
         [XmlIgnore]
-        public uint[] Drawgroups
-        {
-            get
-            {
-                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
-                if (prop != null)
-                {
-                    return (uint[])prop.GetValue(WrappedObject);
-                }
-                return null;
-            }
-        }
+        public uint[] Drawgroups;
 
         [XmlIgnore]
-        public uint[] Dispgroups
-        {
-            get
-            {
-                var prop = WrappedObject.GetType().GetProperty("DispGroups");
-                if (prop != null)
-                {
-                    return (uint[])prop.GetValue(WrappedObject);
-                }
-                return null;
-            }
-        }
+        public uint[] Dispgroups;
+
+        //public uint[] FakeDispgroups; //Used for Viewport dispgroup rendering. Doesn't affect anything else.
 
         protected bool _EditorVisible = true;
         [XmlIgnore]
@@ -331,7 +312,7 @@ namespace StudioCore.MsbEditor
                     return pp.Value;
                 }
             }
-            var p = WrappedObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (p != null)
             {
                 return p.GetValue(WrappedObject, null);
@@ -406,7 +387,7 @@ namespace StudioCore.MsbEditor
                 var pp = row[prop];
                 if (pp != null)
                 {
-                    return pp.GetType().GetProperty("Value");
+                    return pp.GetType().GetProperty("Value", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 }
             }
             else if (WrappedObject is MergedParamRow mrow)
@@ -414,10 +395,10 @@ namespace StudioCore.MsbEditor
                 var pp = mrow[prop];
                 if (pp != null)
                 {
-                    return pp.GetType().GetProperty("Value");
+                    return pp.GetType().GetProperty("Value", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 }
             }
-            var p = WrappedObject.GetType().GetProperty(prop);
+            var p = WrappedObject.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (p != null)
             {
                 return p;
@@ -719,6 +700,193 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        /*
+        private void DrawDispCopy()
+        {
+            //maybe a Sekiro/Elden Ring thing? Probably not, but maybe.
+            FakeDispgroups = Dispgroups;
+            if (Name[0] == 'h') //todo2 temporary shitty collision check
+            {
+                for (var i = 0; i < Dispgroups.Length; i++)
+                {
+                    //i'm actually setting the entity's field by doing this, which I should not.
+                    if (Dispgroups[i] == 0)
+                        FakeDispgroups[i] = Drawgroups[i];
+                }
+            }
+        }
+        */
+
+        /// <summary>
+        /// Updates entity's DrawGroups/DispGroups. Uses CollisionName DrawGroups if possible.
+        /// </summary>
+        private void UpdateDispDrawGroups()
+        {
+            string colNameStr = null;
+            string[] partNameArray = null;
+
+            object renderStruct = null;
+            var myDrawProp = WrappedObject.GetType().GetProperty("DrawGroups");
+            var myDispProp = WrappedObject.GetType().GetProperty("DispGroups");
+
+            List<PropertyInfo> myDrawPropList = new();
+            List<PropertyInfo> myDispPropList = new();
+            if (myDrawProp == null)
+            {
+                //Couldn't find DrawGroups. Check if this is post DS3 and drawgroups are in Unk1 struct.
+                var renderGroups = WrappedObject.GetType().GetProperty("Unk1");
+                if (renderGroups != null)
+                {
+                    //Found Unk1, this is post DS3
+                    renderStruct = renderGroups.GetValue(WrappedObject);
+                    myDrawProp = renderStruct.GetType().GetProperty("DrawGroups");
+                    myDispProp = renderStruct.GetType().GetProperty("DisplayGroups");
+                    /*
+                    myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups1"));
+                    myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups2"));
+                    //myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups3"));
+                    myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups1"));
+                    myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups2"));
+                    //myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups3"));
+                    myDrawProp = myDrawPropList[0]; //just a temp thing to make sure the block after next passes
+                    */
+                }
+            }
+
+            var myCollisionNameProp = WrappedObject.GetType().GetProperty("CollisionName");
+            if (myCollisionNameProp == null)
+            {
+                myCollisionNameProp = WrappedObject.GetType().GetProperty("CollisionPartName");
+                if (myCollisionNameProp == null)
+                {
+                    /*
+                    * UnkPartNames is PROBABLY not a pseudo-CollisionName, but I might be wrong. Keep this code here until we know more.
+                    //todo todo2: when UnkPartNames is figured out. 
+                    //TEST! DON'T KNOW ENOUGH ABOUT UNKPARTNAMES (or; how AEG assets handle CollisionName functionality) ATM TO DO THIS.
+                        //Don't know if it's s actually relevant to  drawgroup rendering (and which indicies do what)
+
+                    myCollisionNameProp = WrappedObject.GetType().GetProperty("UnkPartNames"); //string[]
+                    if (myCollisionNameProp != null)
+                    {
+                        partNameArray = (string[])myCollisionNameProp.GetValue(WrappedObject);
+                        foreach (var str in partNameArray)
+                        {
+                            if (str != null && str != "")
+                            {
+                                colNameStr = str;
+                                break;
+                            }
+                        }
+                    }
+                    */
+                }
+            }
+
+            if (myDrawProp != null && myCollisionNameProp != null)
+            {
+                //Found DrawGroups and CollisionName
+                if (partNameArray == null) //didn't get string from UnkPartNames
+                    colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); //get string in collisionName field
+
+                if (colNameStr != null)
+                {
+                    //CollisionName field is not empty
+                    var colNameEnt = Container.GetObjectByName(colNameStr); //get entity referenced by collisionName
+                    if (colNameEnt != null)
+                    {
+                        //get DrawGroups from CollisionName reference
+                        var renderGroups_col = colNameEnt.WrappedObject.GetType().GetProperty("Unk1");
+                        if (renderGroups_col != null)
+                        {
+                            //This is post DS3 and drawgroups are in Unk1 struct.
+                            var renderStruct_col = renderGroups_col.GetValue(colNameEnt.WrappedObject);
+
+                            Drawgroups = (uint[])renderStruct_col.GetType().GetProperty("DrawGroups").GetValue(renderStruct_col);
+                            Dispgroups = (uint[])renderStruct_col.GetType().GetProperty("DisplayGroups").GetValue(renderStruct_col);
+                            /*
+                            int groupCount = Universe._dispGroupCount;
+                            Drawgroups = new uint[groupCount];
+                            var i = 0;
+                            foreach (var e in myDrawPropList)
+                            {
+                                var array = (uint[])e.GetValue(renderStruct_col);
+                                array.CopyTo(Drawgroups, i);
+                                i += array.Length;
+                            }
+                            Dispgroups = new uint[groupCount];
+                            i = 0;
+                            foreach (var e in myDispPropList)
+                            {
+                                var array = (uint[])e.GetValue(renderStruct_col);
+                                array.CopyTo(Dispgroups, i);
+                                i += array.Length;
+                            }
+                            */
+                        }
+                        else
+                        {
+                            Drawgroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DrawGroups").GetValue(colNameEnt.WrappedObject);
+                            Dispgroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DispGroups").GetValue(colNameEnt.WrappedObject);
+                        }
+                        //DrawDispCopy();
+                        return;
+                    }
+                    else if (Universe.postLoad)
+                    {
+                        //collisionName referenced doesn't exist
+                        TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                    }
+                }
+            }
+            if (myDrawProp != null)
+            {
+                //Found Drawgroups, but no CollisionName reference
+                if (renderStruct != null)
+                {
+                    Drawgroups = (uint[])myDrawProp.GetValue(renderStruct);
+                    Dispgroups = (uint[])myDispProp.GetValue(renderStruct);
+                    /*
+                    int groupCount = Universe._dispGroupCount;
+                    Drawgroups = new uint[groupCount]; //drawgroup 
+                    var i = 0;
+                    foreach (var e in myDrawPropList)
+                    {
+                        var array = (uint[])e.GetValue(renderStruct);
+                        array.CopyTo(Drawgroups, i);
+                        i += array.Length;
+                    }
+                    Dispgroups = new uint[groupCount];
+                    i = 0;
+                    foreach (var e in myDispPropList)
+                    {
+                        var array = (uint[])e.GetValue(renderStruct);
+                        array.CopyTo(Dispgroups, i);
+                        i += array.Length;
+                    }
+                    */
+                }
+                else
+                {
+                    Drawgroups = (uint[])myDrawProp.GetValue(WrappedObject);
+                    Dispgroups = (uint[])myDispProp.GetValue(WrappedObject);
+                }
+                //DrawDispCopy();
+            }
+
+            return;
+        }
+
+        private void RefreshDrawgroups()
+        {
+            //I doubt this needs to be separate from UpdateDispDrawGroups.
+            if (UseDrawGroups && RenderSceneMesh != null)
+            {
+                UpdateDispDrawGroups();
+                RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+                RenderSceneMesh.DrawGroups.RenderGroups = Drawgroups;
+            }
+        }
+
         public virtual void UpdateRenderModel()
         {
             if (!HasTransform)
@@ -743,16 +911,10 @@ namespace StudioCore.MsbEditor
                     c.UpdateRenderModel();
                 }
             }
-
-            if (UseDrawGroups)
-            {
-                var prop = WrappedObject.GetType().GetProperty("DrawGroups");
-                if (prop != null && RenderSceneMesh != null)
-                {
-                    RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-                    RenderSceneMesh.DrawGroups.Drawgroups = (uint[])prop.GetValue(WrappedObject);
-                }
-            }
+            
+            //DrawGroup management
+            RefreshDrawgroups();
+            
 
             if (RenderSceneMesh != null)
             {
@@ -963,10 +1125,90 @@ namespace StudioCore.MsbEditor
                 CurrentModel = GetPropertyValue<string>("ModelName");
             }
         }
+        /// <summary>
+        /// Checks if supplied model ID is on the list of models that will not render, and will use a model marker instead.
+        /// </summary>
+        [Obsolete("Current solution checks model submeshes")]
+        private static bool CheckIfModelMarker(string model)
+        { //keeping this around, just in case.
+            List<string> objModelMarkerList = new()
+            {
+            //DS1
+            "o1400",
+            "o1401",
+            "o1402",
+            "o1403",
+            "o1404",
+            "o1405",
+            "o1406",
+            "o1407",
+            "o1408",
+            "o1409",
+            "o1410",
+            "o1411",
+            "o1412",
+            "o1413",
+            "o1414",
+            "o1415",
+            "o1416",
+            "o1417",
+            "o1418",
+            "o1419",
+            "o1420",
+            "o1421",
+            //DS3
+            "o000400",
+            "o000401",
+            "o000402",
+            "o000499",
+            //ER
+            "AEG099_000",
+            "AEG099_001",
+            "AEG099_002",
+            "AEG099_003",
+            "AEG099_005",
+            };
 
+            var idStr = new string(model.Where(char.IsDigit).ToArray());
+            int id = 9999;
+            int.TryParse(idStr, out id);
+
+            if (model == "")
+            {
+                return true;
+            }
+            if (objModelMarkerList.Contains(model) || model.StartsWith("c") && id <= 1010)
+                return true;
+
+            return false;
+        }
+
+        private bool CheckNoEntitySubmesh()
+        {
+            if (_renderSceneMesh == null)
+            {
+                //null asset
+                return true;
+            }
+
+            var myRenderType = _renderSceneMesh.GetType().Name;
+            var meshType = typeof(MeshRenderableProxy).Name;
+            if (myRenderType == meshType)
+            {
+                //is a mesh proxy
+                var prox = (MeshRenderableProxy)_renderSceneMesh;
+                var mesh = prox.Submeshes;
+                if (mesh.Count == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool _canLoadPostLoad = true;
         public override void UpdateRenderModel()
         {
-            // If the model field changed, then update the visible model
             if (Type == MapEntityType.DS2Generator)
             {
 
@@ -989,22 +1231,106 @@ namespace StudioCore.MsbEditor
             }
             else
             {
+
+                //v3
                 var model = GetPropertyValue<string>("ModelName");
-                if (model != null && model != CurrentModel)
+                bool modelChanged = false;
+                if (CurrentModel != model)
+                    modelChanged = true;
+
+                if (Universe.postLoad && _canLoadPostLoad)
                 {
+                    //post initial load submesh check
+                    _canLoadPostLoad = false;
+
+                    CurrentModel = model;
+                    var noSubMeshes = CheckNoEntitySubmesh();
+
+                    if (noSubMeshes)
+                    {
+                        //should be a model marker
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
+                    }
+                }
+                else if (modelChanged)
+                {
+                    //model field is different, or this is the first check, or this is during the post-load check
+
                     if (_renderSceneMesh != null)
                     {
                         _renderSceneMesh.Dispose();
                     }
+
+                    if (Universe.postLoad)
+                        _canLoadPostLoad = false;
                     CurrentModel = model;
+
+                    //get model (even if just to check the submeshes)
                     _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+
+                    //there may be a risk of async being too slow here? Haven't run into it yet, though.
+                    var noSubMeshes = CheckNoEntitySubmesh();
+
+                    if (Universe.postLoad && noSubMeshes)
+                    {
+                        //should be a model marker
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+                    }
                     if (Universe.Selection.IsSelected(this))
                     {
                         OnSelected();
                     }
                 }
-            }
+                
+                //v1
+                /*
+                var model = GetPropertyValue<string>("ModelName");
+                if (model != null)
+                {
+                    if (CheckIfModelMarker(model) && (CurrentModel != model || _renderSceneMesh == null))
+                    {
+                        //render model marker (region mesh)
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+                        CurrentModel = model;
+                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
 
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
+                    }
+                    else if (!CheckIfModelMarker(model) && model != null && model != CurrentModel)
+                    {
+                        // Render Model
+                        if (_renderSceneMesh != null)
+                        {
+                            _renderSceneMesh.Dispose();
+                        }
+                        CurrentModel = model;
+                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
+                        if (Universe.Selection.IsSelected(this))
+                        {
+                            OnSelected();
+                        }
+                    }
+                }
+                */
+            }
             base.UpdateRenderModel();
         }
 
@@ -1028,6 +1354,12 @@ namespace StudioCore.MsbEditor
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
             }
+            /*
+            if (Type == MapEntityType.Part && CheckIfModelMarker(CurrentModel))
+            {
+                // Parts that render via Model Marker
+            }
+            */
 
             // DS2 event regions
             if (Type == MapEntityType.DS2EventLocation)

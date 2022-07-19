@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using System.Threading.Tasks;
 using StudioCore.Resource;
 using SoulsFormats;
 using Newtonsoft.Json;
@@ -43,6 +45,46 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public bool postLoad = false;
+        public int _dispGroupCount = 8;
+
+        private static RenderFilter GetRenderFilter(string type)
+        {
+            RenderFilter filter;
+
+            switch (type)
+            {
+                case "Enemy":
+                case "DummyEnemy":
+                    filter = RenderFilter.Character;
+                    break;
+                case "Asset":
+                case "Object":
+                case "DummyObject":
+                    filter = RenderFilter.Object;
+                    break;
+                case "Player":
+                    filter = RenderFilter.Region;
+                    break;
+                case "MapPiece":
+                    filter = RenderFilter.MapPiece;
+                    break;
+                case "Collision":
+                    filter = RenderFilter.Collision;
+                    break;
+                case "Navmesh":
+                    filter = RenderFilter.Navmesh;
+                    break;
+                case "Region":
+                    filter = RenderFilter.Region;
+                    break;
+                default:
+                    filter = RenderFilter.All;
+                    break;
+            }
+            return filter;
+        }
+
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
             if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
@@ -75,6 +117,15 @@ namespace StudioCore.MsbEditor
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbPart r5)
+            {
+                var enemyTypeStr = obj.WrappedObject.GetType().ToString().Split("+").Last();
+                var mesh = DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderScene, enemyTypeStr);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = GetRenderFilter(enemyTypeStr);
                 return mesh;
             }
             return null;
@@ -184,7 +235,11 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    job.StartJobAsync();
+                    var task = job.StartJobAsync();
+                    if (obj.Universe.postLoad)
+                    {
+                        task.Wait();
+                    }
                 }
                 return mesh;
             }
@@ -206,7 +261,11 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    job.StartJobAsync();
+                    var task = job.StartJobAsync();
+                    if (obj.Universe.postLoad)
+                    {
+                        task.Wait();
+                    }
                 }
                 return mesh;
             }
@@ -232,7 +291,11 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    job.StartJobAsync();
+                    var task = job.StartJobAsync();
+                    if (obj.Universe.postLoad)
+                    {
+                        task.Wait();
+                    }
                 }
                 return model;
             }
@@ -418,7 +481,23 @@ namespace StudioCore.MsbEditor
 
         public bool LoadMap(string mapid)
         {
+
+            var ad = _assetLocator.GetMapMSB(mapid);
+            if (ad.AssetPath == null)
+            {
+                return false;
+            }
+            LoadMapAsync(mapid);
+            return true;
+
+        }
+        public async void LoadMapAsync(string mapid)
+        {
+            postLoad = false;
             var map = new Map(this, mapid);
+
+            List<Task> tasks = new();
+            Task task;
 
             var mappiecesToLoad = new HashSet<AssetDescription>();
             var chrsToLoad = new HashSet<AssetDescription>();
@@ -426,10 +505,33 @@ namespace StudioCore.MsbEditor
             var colsToLoad = new HashSet<AssetDescription>();
             var navsToLoad = new HashSet<AssetDescription>();
 
+            //drawgroup count
+            switch (_assetLocator.Type)
+            {
+                // imgui checkbox click seems to break at some point after 8 (8*32) checkboxes, so let's just hope that never happens, yeah?
+                case GameType.DemonsSouls:
+                case GameType.DarkSoulsPTDE:
+                case GameType.DarkSoulsRemastered:
+                case GameType.DarkSoulsIISOTFS:
+                    _dispGroupCount = 4;
+                    break;
+                case GameType.Bloodborne:
+                case GameType.DarkSoulsIII:
+                    _dispGroupCount = 8;
+                    break;
+                case GameType.Sekiro:
+                case GameType.EldenRing:
+                    _dispGroupCount = 8; //?
+                    break;
+                default:
+                    throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
+                    //break;
+            }
+
             var ad = _assetLocator.GetMapMSB(mapid);
             if (ad.AssetPath == null)
             {
-                return false;
+                return;
             }
             IMsb msb;
             if (_assetLocator.Type == GameType.DarkSoulsIII)
@@ -511,9 +613,9 @@ namespace StudioCore.MsbEditor
 
             foreach (var obj in map.Objects)
             {
-                if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "")
+                if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "" && obj.RenderSceneMesh == null)
                 {
-                    GetModelDrawable(map, obj, mp.ModelName, false);
+                    GetModelDrawable(map, obj, mp.ModelName, false); 
                 }
 
                 // Try to find the map offset
@@ -574,8 +676,9 @@ namespace StudioCore.MsbEditor
                 {
                     job.AddLoadFileTask(mappiece.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
-            } 
-            job.StartJobAsync();
+            }
+            task = job.StartJobAsync();
+            tasks.Add(task);
 
             if (CFG.Current.EnableTexturing)
             {
@@ -591,7 +694,8 @@ namespace StudioCore.MsbEditor
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
                 }
-                job.StartJobAsync();
+                task = job.StartJobAsync();
+                tasks.Add(task);
             }
 
             job = ResourceManager.CreateNewJob($@"Loading {amapid} collisions");
@@ -614,7 +718,9 @@ namespace StudioCore.MsbEditor
             {
                 job.AddLoadArchiveTask(archive, AccessLevel.AccessGPUOptimizedOnly, false, colassets);
             }
-            job.StartJobAsync();
+            task = job.StartJobAsync();
+            tasks.Add(task);
+
             job = ResourceManager.CreateNewJob($@"Loading chrs");
             foreach (var chr in chrsToLoad)
             {
@@ -627,7 +733,9 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            job.StartJobAsync();
+            task = job.StartJobAsync();
+            tasks.Add(task);
+
             job = ResourceManager.CreateNewJob($@"Loading objs");
             foreach (var obj in objsToLoad)
             {
@@ -640,7 +748,8 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(obj.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            job.StartJobAsync();
+            task = job.StartJobAsync();
+            tasks.Add(task);
 
             if (FeatureFlags.LoadDS3Navmeshes)
             {
@@ -664,7 +773,8 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
-                job.StartJobAsync();
+                task = job.StartJobAsync();
+                tasks.Add(task);
             }
 
             // Real bad hack
@@ -676,7 +786,20 @@ namespace StudioCore.MsbEditor
             }
             ResourceManager.ScheduleUnloadedTexturesRefresh();
 
-            return true;
+            //After everything loads, do some additional checks:
+            await Task.WhenAll(tasks);
+            postLoad = true;
+
+            // Update models
+                // Get accurate `CollisionName` field reference info
+                // Check model meshes for model markers
+            foreach (var obj in map.Objects)
+            {
+                obj.UpdateRenderModel(); //(also updates drawgroups)
+                //obj.UpdateDrawgroups();
+            }
+
+            return;
         }
 
         public void LoadFlver(FLVER2 flver, MeshRenderableProxy proxy, string name)

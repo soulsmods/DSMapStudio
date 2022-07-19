@@ -22,7 +22,7 @@ namespace StudioCore.Scene
     public abstract class RenderableProxy : Renderer.IRendererUpdatable, IDisposable
     {
         private bool disposedValue;
-
+        
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyRenderables();
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
@@ -1187,6 +1187,56 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OverlayRenderables, _jointSphere);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            return r;
+        }
+
+        private static DbgPrimWireSpheroidWithArrow _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
+        private static DbgPrimWireWallBox _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
+        private static DbgPrimWireSpheroidWithArrow _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
+        private static DbgPrimWireWallBox _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+        public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(RenderScene scene, string partType)
+        {
+            //Model Markers for meshses that don't render normally (like c0000)
+
+            IDbgPrim prim;
+            Color baseColor;
+            Color selectColor;
+
+            switch (partType)
+            {
+                case "Enemy":
+                case "DummyEnemy":
+                    prim = _modelMarkerChr;
+                    baseColor = Color.Firebrick;
+                    selectColor = Color.Tomato;
+                    break;
+                case "Asset":
+                case "Object":
+                case "DummyObject":
+                    prim = _modelMarkerObj;
+                    baseColor = Color.MediumVioletRed;
+                    selectColor = Color.DeepPink;
+                    break;
+                case "Player":
+                    prim = _modelMarkerPlayer;
+                    baseColor = Color.DarkOliveGreen;
+                    selectColor = Color.OliveDrab;
+                    break;
+                case "MapPiece":
+                case "Collision":
+                case "Navmesh":
+                case "Region":
+                default:
+                    prim = _modelMarkerOther;
+                    baseColor = Color.Wheat;
+                    selectColor = Color.AntiqueWhite;
+                    break;
+            }
+
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, prim);
+            r.BaseColor = baseColor;
+            r.HighlightedColor = selectColor;
+
             return r;
         }
     }

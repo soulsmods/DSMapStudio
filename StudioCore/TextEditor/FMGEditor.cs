@@ -227,6 +227,8 @@ namespace StudioCore.TextEditor
             ImGui.Separator();
         }
 
+        private string _textCache = "";
+
         public void PropEditorFMG(FMG.Entry entry, string name, float boxsize)
         {
             ImGui.PushID(_fmgID);
@@ -249,7 +251,7 @@ namespace StudioCore.TextEditor
             {
                 if (ImGui.InputTextMultiline("##value", ref val, 2000, new Vector2(-1, boxsize)))
                 {
-                    newval = val;
+                    _textCache = val;
                     changed = true;
                 }
             }
@@ -257,13 +259,17 @@ namespace StudioCore.TextEditor
             {
                 if (ImGui.InputText("##value", ref val, 2000))
                 {
-                    newval = val;
+                    _textCache = val;
                     changed = true;
                 }
             }
-
+            if (_textCache != oldval)
+            {
+                changed = true;
+            }
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            UpdateProperty(entry.GetType().GetProperty("Text"), entry, newval, changed, committed);
+
+            UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache, changed, committed);
 
             ImGui.NextColumn();
             ImGui.PopID();

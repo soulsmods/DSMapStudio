@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -16,32 +18,9 @@ namespace StudioCore.TextEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
 
-        //private string _activeParam = null;
-        //private PARAM.Row _activeRow = null;
-
         private FMGBank.ItemCategory[] _displayCategories {
             get {
-                if (FMGBank.AssetLocator.Type == GameType.DarkSoulsRemastered)
-                {
-                    return new FMGBank.ItemCategory[]
-                    {
-                        FMGBank.ItemCategory.Armor,
-                        FMGBank.ItemCategory.Characters,
-                        FMGBank.ItemCategory.Goods,
-                        FMGBank.ItemCategory.Locations,
-                        FMGBank.ItemCategory.Rings,
-                        FMGBank.ItemCategory.Spells,
-                        FMGBank.ItemCategory.Weapons,
-                        FMGBank.ItemCategory.DSRArmor,
-                        FMGBank.ItemCategory.DSRCharacters,
-                        FMGBank.ItemCategory.DSRGoods,
-                        FMGBank.ItemCategory.DSRLocations,
-                        FMGBank.ItemCategory.DSRRings,
-                        FMGBank.ItemCategory.DSRSpells,
-                        FMGBank.ItemCategory.DSRWeapons
-                    };
-                }
-                else if (FMGBank.AssetLocator.Type == GameType.EldenRing)
+                if (FMGBank.AssetLocator.Type == GameType.EldenRing)
                 {
                     return new FMGBank.ItemCategory[]
                     {
@@ -57,7 +36,6 @@ namespace StudioCore.TextEditor
                         FMGBank.ItemCategory.Effect,
                         FMGBank.ItemCategory.Message,
                         FMGBank.ItemCategory.Misc,
-                        
                     };
                 }
                 else
@@ -76,8 +54,11 @@ namespace StudioCore.TextEditor
             }
         }
 
-        private FMGBank.ItemCategory _activeCategory = FMGBank.ItemCategory.None;
+        private FMGBank.FMGTypes _activeFmgType = FMGBank.FMGTypes.Item;
+        private FMGBank.ItemCategory _activeItemCategory = FMGBank.ItemCategory.None;
+        private KeyValuePair<FMGBank.MenuFMGTypes, FMG> _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
         private string _activeCategoryDS2 = null;
+        private List<FMG.Entry> _cachedEntriesFiltered = null;
         private List<FMG.Entry> _cachedEntries = null;
         private FMG.Entry _activeEntry = null;
 
@@ -92,11 +73,21 @@ namespace StudioCore.TextEditor
             _propEditor = new PropertyEditor(EditorActionManager);
         }
 
+        private void ClearFMGCache()
+        {
+            _activeItemCategory = FMGBank.ItemCategory.None;
+            _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
+            _cachedEntries = null;
+            _cachedEntriesFiltered = null;
+            _activeEntry = null;
+            _FMGsearchStr = "";
+            _FMGsearchStrCache = "";
+        }
         public override void DrawEditorMenu()
         {
-            if (ImGui.BeginMenu("Edit"))
+            if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Undo", "CTRL+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
@@ -104,18 +95,164 @@ namespace StudioCore.TextEditor
                 {
                     EditorActionManager.RedoAction();
                 }
+                /*
                 if (ImGui.MenuItem("Delete", "Delete", false, true))
                 {
+                    //TODO2: delete
                 }
                 if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, true))
                 {
+                    //TODO2: dupe row
+                }
+                */
+                ImGui.EndMenu();
+            }
+            if (FMGBank.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
+            {
+                //TODO2 FMG: handle however ds2 does it
+                if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
+                {
+                    var folderList = FMGBank.AssetLocator.GetMsgLanguages();
+                    foreach (var fullpath in folderList)
+                    {
+                        var foldername = fullpath.Split("\\").Last();
+                        if (ImGui.MenuItem(foldername, true))
+                        {
+                            FMGBank.ReloadFMGs(foldername); //load specified language
+                            //ImGui.Columns(1);
+                            ClearFMGCache();
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
+            }
+            if (ImGui.BeginMenu("Import/Export", FMGBank.IsLoaded))
+            {
+                if (ImGui.MenuItem("Import Files", true))
+                {
+                    if (FMGBank.ImportFMGs())
+                    {
+                        ClearFMGCache();
+                    }
+                }
+                if (ImGui.MenuItem("Export All Text", true))
+                {
+                    FMGBank.ExportFMGs();
                 }
                 ImGui.EndMenu();
+            }
+        }
+        
+        private string _FMGsearchStr = "";
+        private string _FMGsearchStrCache = "";
+
+        private void FMGSearchLogic()
+        {
+
+            // Do we really need regex here? Eh.
+            /*
+            Regex propSearchRx = null;
+            try
+            {
+                propSearchRx = new Regex(_FMGsearchStr.ToLower());
+            }
+            catch
+            {
+            }
+            */
+
+            if (_cachedEntries != null)
+            {
+                if (_FMGsearchStr != _FMGsearchStrCache)
+                {
+                    _cachedEntriesFiltered = _cachedEntries;
+                    List<FMG.Entry> matches = new();
+
+                    //TaskManager.Run("SearchFMGs", false, false, true, () =>
+                    if (_activeFmgType == FMGBank.FMGTypes.Item)
+                    {
+                        //item
+                        List<FMG.Entry> searchEntries;
+                        if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
+                            searchEntries = _cachedEntriesFiltered;
+                        else
+                            searchEntries = _cachedEntries;//FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Title).ToList()
+
+                        foreach (var entry in searchEntries)
+                        {
+                            if (entry.ID.ToString().Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                                matches.Add(entry);
+                            else if (entry.Text != null)
+                            {
+                                if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                                    matches.Add(entry);
+                            }
+                        }
+                        foreach (var entry in FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Description).ToList())
+                        {
+                            if (entry.Text != null)
+                            {
+                                if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    var search = _cachedEntries.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                    if (search != null)
+                                        matches.Add(search);
+                                }
+                            }
+                        }
+                        foreach (var entry in FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Summary).ToList())
+                        {
+                            if (entry.Text != null)
+                            {
+                                if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    var search = _cachedEntries.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                    if (search != null)
+                                        matches.Add(search);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //menu
+                        List<FMG.Entry> searchEntries;
+                        if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
+                            searchEntries = _cachedEntriesFiltered;
+                        else
+                            searchEntries = _cachedEntries;// FMGBank.GetMenuFMGEntries(_activeMenuCategoryPair.Value).ToList();
+
+                        foreach (var entry in searchEntries)
+                        {
+                            if (entry.Text != null)
+                            {
+                                if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    var search = _cachedEntries.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                    if (search != null)
+                                        matches.Add(search);
+                                }
+                            }
+                        }
+                    }
+
+                    _cachedEntriesFiltered = matches;
+                    _FMGsearchStrCache = _FMGsearchStr;
+                }
+                else if (_cachedEntries != _cachedEntriesFiltered && _FMGsearchStr == "")
+                {
+                    if (_activeFmgType == FMGBank.FMGTypes.Item)
+                        _cachedEntriesFiltered = _cachedEntries;
+                    else
+                        _cachedEntriesFiltered = _cachedEntries;
+                }
             }
         }
 
         private void EditorGUI(bool doFocus)
         {
+            //TODO2: hide mostly-useless FMGs option
+
             if (!FMGBank.IsLoaded)
             {
                 if (FMGBank.IsLoading)
@@ -124,39 +261,97 @@ namespace StudioCore.TextEditor
                 }
                 return;
             }
+            var dsid = ImGui.GetID("DockSpace_TextEntries");
+            ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
 
-            ImGui.Columns(3);
-            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(8.0f, 8.0f));
-            ImGui.BeginChild("categories");
+            ImGui.Begin("Text Categories");
+            ImGui.Separator();
+            ImGui.Text("  Item Text");
+            ImGui.Separator();
+
             foreach (var cat in _displayCategories)
             {
-                if (ImGui.Selectable($@" {cat.ToString()}", cat == _activeCategory))
-                {
-                    _activeCategory = cat;
-                    _cachedEntries = FMGBank.GetEntriesOfCategoryAndType(cat, FMGBank.ItemType.Title);
+                //if (Enum.IsDefined(typeof(FMGBank.ItemFMGTypes)) && cat != _activeItemCategory) //check if this fmg should be hidden
+                
+                    if (ImGui.Selectable($@" {cat.ToString()}", cat == _activeItemCategory))
+                    {
+                        _activeItemCategory = cat;
+                        _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
+                        _cachedEntriesFiltered = FMGBank.GetItemFMGEntriesByType(cat, FMGBank.ItemType.Title);
+                        _cachedEntries = _cachedEntriesFiltered;
+                        _activeFmgType = FMGBank.FMGTypes.Item;
+                        _activeEntry = null;
+                        _FMGsearchStr = "";
+                        _FMGsearchStrCache = "";
                 }
-                if (doFocus && cat == _activeCategory)
+
+                if (doFocus && cat == _activeItemCategory)
                 {
                     ImGui.SetScrollHereY();
                 }
             }
-            ImGui.EndChild();
-            ImGui.PopStyleVar();
-            ImGui.NextColumn();
-            ImGui.BeginChild("rows");
-            if (_activeCategory == FMGBank.ItemCategory.None)
+
+            ImGui.Spacing();
+            ImGui.Separator();
+            ImGui.Text("  Menu Text");
+            ImGui.Separator();
+
+            foreach (var cat in FMGBank.GetMenuFMGs())
+            {
+                if (ImGui.Selectable($@" {FMGBank.MenuEnumString(cat.Key)}", cat.Key == _activeMenuCategoryPair.Key))
+                {
+                    _activeItemCategory = FMGBank.ItemCategory.None;
+                    _activeMenuCategoryPair = cat;
+                    _cachedEntriesFiltered = FMGBank.GetMenuFMGEntries(cat.Value);
+                    _cachedEntries = _cachedEntriesFiltered;
+                    _activeFmgType = FMGBank.FMGTypes.Menu;
+                    _activeEntry = null;
+                    _FMGsearchStr = "";
+                    _FMGsearchStrCache = "";
+                }
+                if (doFocus && cat.Key == _activeMenuCategoryPair.Key)
+                {
+                    ImGui.SetScrollHereY();
+                }
+            }
+            ImGui.End();
+
+            ImGui.Begin("Text Entries");
+            //text entry search
+            if (ImGui.Button("Clear Text"))
+                _FMGsearchStr = "";
+            ImGui.SameLine();
+
+            if (InputTracker.GetControlShortcut(Key.F))
+                ImGui.SetKeyboardFocusHere();
+            ImGui.InputText("Search <Ctrl+F>", ref _FMGsearchStr, 255);
+
+            FMGSearchLogic();
+
+            ImGui.BeginChild("Text Entry List");
+            //actual text entries
+
+            if (_activeItemCategory == FMGBank.ItemCategory.None && _activeMenuCategoryPair.Key == FMGBank.MenuFMGTypes.None)
             {
                 ImGui.Text("Select a category to see items");
             }
             else
             {
-                foreach (var r in _cachedEntries)
+                foreach (var r in _cachedEntriesFiltered)
                 {
                     var text = (r.Text == null) ? "%null%" : r.Text;
                     if (ImGui.Selectable($@"{r.ID} {text}", _activeEntry == r))
                     {
                         _activeEntry = r;
-                        FMGBank.LookupItemID(r.ID, _activeCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
+                        if (_activeFmgType == FMGBank.FMGTypes.Item)
+                        {
+                            //TODO2: do this in a faster way?
+                            FMGBank.LookupItemID(r.ID, _activeItemCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
+                        }
+                        else
+                        {
+                            _cachedTitle = r;
+                        }
                     }
                     if (doFocus && _activeEntry == r)
                     {
@@ -165,16 +360,17 @@ namespace StudioCore.TextEditor
                 }
             }
             ImGui.EndChild();
-            ImGui.NextColumn();
-            ImGui.BeginChild("text");
+            ImGui.End();
+
+            ImGui.Begin("Text");
             if (_activeEntry == null)
             {
                 ImGui.Text("Select an item to edit text");
             }
             else
             {
-                //_propEditor.PropEditorParamRow(_activeRow);
                 ImGui.Columns(2);
+                ImGui.SetColumnWidth(0, 100);
                 ImGui.Text("ID");
                 ImGui.NextColumn();
                 int id = _activeEntry.ID;
@@ -182,27 +378,35 @@ namespace StudioCore.TextEditor
                 ImGui.NextColumn();
 
                 _propEditor.PropEditorFMGBegin();
-                if (_cachedTitle != null)
+                if (_activeFmgType == FMGBank.FMGTypes.Item)
                 {
-                    _propEditor.PropEditorFMG(_cachedTitle, "Title", -1.0f);
-                }
+                    if (_cachedTitle != null)
+                    {
+                        _propEditor.PropEditorFMG(_cachedTitle, "Title", -1.0f);
+                    }
 
-                if (_cachedSummary != null)
-                {
-                    _propEditor.PropEditorFMG(_cachedSummary, "Summary", 80.0f);
-                }
+                    if (_cachedSummary != null)
+                    {
+                        _propEditor.PropEditorFMG(_cachedSummary, "Summary", 80.0f);
+                    }
 
-                if (_cachedDescription != null)
+                    if (_cachedDescription != null)
+                    {
+                        _propEditor.PropEditorFMG(_cachedDescription, "Description", 160.0f);
+                    }
+                }
+                else
                 {
-                    _propEditor.PropEditorFMG(_cachedDescription, "Description", 160.0f);
+                    _propEditor.PropEditorFMG(_activeEntry, "Text", 160.0f);
                 }
                 _propEditor.PropEditorFMGEnd();
             }
-            ImGui.EndChild();
+            ImGui.End();
         }
 
         private void EditorGUIDS2(bool doFocus)
         {
+            //todo2: all of this is out of date (and probably doesn't need to exist anymore, and should do some alt tweaks in regular GUI func instead)
             if (FMGBank.DS2Fmgs == null)
             {
                 return;
@@ -215,7 +419,7 @@ namespace StudioCore.TextEditor
                 if (ImGui.Selectable($@" {cat}", cat == _activeCategoryDS2))
                 {
                     _activeCategoryDS2 = cat;
-                    _cachedEntries = FMGBank.DS2Fmgs[cat].Entries;
+                    _cachedEntriesFiltered = FMGBank.DS2Fmgs[cat].Entries;
                 }
                 if (doFocus && cat == _activeCategoryDS2)
                 {
@@ -224,6 +428,9 @@ namespace StudioCore.TextEditor
             }
             ImGui.EndChild();
             ImGui.NextColumn();
+
+            FMGSearchLogic();//todo2: update imgui structure (needs children), actually test
+
             ImGui.BeginChild("rows");
             if (_activeCategoryDS2 == null)
             {
@@ -231,7 +438,7 @@ namespace StudioCore.TextEditor
             }
             else
             {
-                foreach (var r in _cachedEntries)
+                foreach (var r in _cachedEntriesFiltered)
                 {
                     var text = (r.Text == null) ? "%null%" : r.Text;
                     if (ImGui.Selectable($@"{r.ID} {text}", _activeEntry == r))
@@ -314,26 +521,53 @@ namespace StudioCore.TextEditor
                 if (initcmd.Length > 1)
                 {
                     doFocus = true;
-                    foreach (var cat in _displayCategories)
+                    if (_activeFmgType == FMGBank.FMGTypes.Item)
                     {
-                        if (cat.ToString() == initcmd[1])
+                        foreach (var cat in _displayCategories)
                         {
-                            _activeCategory = cat;
-                            _cachedEntries = FMGBank.GetEntriesOfCategoryAndType(cat, FMGBank.ItemType.Title);
-                            break;
+                            if (cat.ToString() == initcmd[1])
+                            {
+                                _activeItemCategory = cat;
+                                _activeMenuCategoryPair = new(FMGBank.MenuFMGTypes.None, null);
+                                _cachedEntriesFiltered = FMGBank.GetItemFMGEntriesByType(cat, FMGBank.ItemType.Title);
+                                _cachedEntries = _cachedEntriesFiltered;
+                                break;
+                            }
                         }
                     }
+                    else //FMGBank.FMGTypes.Menu
+                    {
+                        foreach (var cat in FMGBank.GetMenuFMGs())
+                        {
+                            if (cat.ToString() == initcmd[1])
+                            {
+                                _activeItemCategory = FMGBank.ItemCategory.None;
+                                _activeMenuCategoryPair = cat;
+                                _cachedEntriesFiltered = FMGBank.GetMenuFMGEntries(cat.Value);
+                                _cachedEntries = _cachedEntriesFiltered;
+                                break;
+                            }
+                        }
+                    }
+
                     if (initcmd.Length > 2)
                     {
                         int id;
                         var parsed = int.TryParse(initcmd[2], out id);
                         if (parsed)
                         {
-                            var r = _cachedEntries.FirstOrDefault(r => r.ID == id);
+                            var r = _cachedEntriesFiltered.FirstOrDefault(r => r.ID == id);
                             if (r != null)
                             {
                                 _activeEntry = r;
-                                FMGBank.LookupItemID(r.ID, _activeCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
+                                if (_activeFmgType == FMGBank.FMGTypes.Item)
+                                {
+                                    FMGBank.LookupItemID(r.ID, _activeItemCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
+                                }
+                                else
+                                {
+                                    _cachedTitle = r;
+                                }
                             }
                         }
                     }
@@ -352,6 +586,7 @@ namespace StudioCore.TextEditor
 
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
+            ClearFMGCache();
         }
 
         public override void Save()

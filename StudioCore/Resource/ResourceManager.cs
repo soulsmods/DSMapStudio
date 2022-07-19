@@ -943,6 +943,7 @@ namespace StudioCore.Resource
                 ImGui.End();
                 return;
             }
+            ImGui.Text("List of Resources Loaded & Unloaded");
             ImGui.Columns(4);
             ImGui.Separator();
             int id = 0;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using Veldrid;
 using ImGuiNET;
 
 namespace StudioCore.MsbEditor
@@ -17,7 +18,7 @@ namespace StudioCore.MsbEditor
             _selection = sel;
         }
 
-        public void OnGui(GameType game)
+        public void OnGui(int dispCount)
         {
             uint[] sdrawgroups = null;
             uint[] sdispgroups = null;
@@ -26,86 +27,185 @@ namespace StudioCore.MsbEditor
             {
                 if (sel.UseDrawGroups)
                 {
-                    sdrawgroups = sel.Drawgroups;
+                    sdrawgroups = sel.Drawgroups; //Will be CollisionName values (if reference is valid)
                 }
                 sdispgroups = sel.Dispgroups;
+                //sdispgroups = sel.FakeDispgroups;
             }
 
             ImGui.SetNextWindowSize(new Vector2(100, 100));
-            if (ImGui.Begin("Display Groups"))
+            if (ImGui.Begin("Render Groups") 
+            || InputTracker.GetControlShortcut(Key.R) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
+            || InputTracker.GetControlShortcut(Key.G)) //Allow shortcuts even if menu is closed (this may cause troubles I didn't run into)
             {
+
                 var dg = _scene.DisplayGroup;
-                var count = (game == GameType.DemonsSouls || game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsRemastered || game == GameType.DarkSoulsIISOTFS) ? 4 : 8;
-                if (dg.AlwaysVisible || dg.Drawgroups.Length != count)
+                if (dg.AlwaysVisible || dg.RenderGroups.Length != dispCount)
                 {
-                    dg.Drawgroups = new uint[count];
-                    for (int i = 0; i < count; i++)
+                    dg.RenderGroups = new uint[dispCount];
+                    for (int i = 0; i < dispCount; i++)
                     {
-                        dg.Drawgroups[i] = 0xFFFFFFFF;
+                        dg.RenderGroups[i] = 0xFFFFFFFF;
                     }
                     dg.AlwaysVisible = false;
                 }
 
-                if (ImGui.Button("Check All"))
+                if (ImGui.Button("Show All <Ctrl+R>") || InputTracker.GetControlShortcut(Key.R))
                 {
-                    for (int i = 0; i < count; i++)
+                    for (int i = 0; i < dispCount; i++)
                     {
-                        dg.Drawgroups[i] = 0xFFFFFFFF;
-                    }
-                }
-                ImGui.SameLine();
-                if (ImGui.Button("Uncheck All"))
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        dg.Drawgroups[i] = 0;
-                    }
-                }
-                ImGui.SameLine();
-                if (ImGui.Button("Set from Selected") && sdispgroups != null)
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        dg.Drawgroups[i] = sdispgroups[i];
+                        dg.RenderGroups[i] = 0xFFFFFFFF;
                     }
                 }
 
-                for (int g = 0; g < dg.Drawgroups.Length; g++)
+                ImGui.SameLine();
+                if (ImGui.Button("Hide All"))
                 {
-                    ImGui.Text($@"Display Group {g}: ");
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        dg.RenderGroups[i] = 0;
+                    }
+                }
+
+                ImGui.SameLine(0, 14f);
+                if (sdispgroups == null)
+                    ImGui.BeginDisabled();
+                if ((ImGui.Button("Get DispGroups <Ctrl+G>") || InputTracker.GetControlShortcut(Key.G)) && sdispgroups != null)
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        dg.RenderGroups[i] = sdispgroups[i];
+                    }
+                }
+
+                ImGui.SameLine();
+                if (ImGui.Button("Get DrawGroups"))
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        dg.RenderGroups[i] = sdrawgroups[i];
+                    }
+                }
+
+                ImGui.SameLine(0, 14f);
+                if (ImGui.Button("Give as DrawGroups"))
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        sel.Drawgroups[i] = dg.RenderGroups[i];
+                    }
+                }
+
+                ImGui.SameLine();
+                if (ImGui.Button("Give as DispGroups"))
+                {
+                    for (int i = 0; i < dispCount; i++)
+                    {
+                        sel.Dispgroups[i] = dg.RenderGroups[i];
+                    }
+                }
+                if (sdispgroups == null)
+                    ImGui.EndDisabled();
+
+                ImGui.SameLine(0, 60f);
+                if (ImGui.Button("Help"))
+                {
+                    ImGui.OpenPopup("##RenderHelp");
+                }
+                if (ImGui.BeginPopup("##RenderHelp"))
+                {
+                    ImGui.Text(
+                        "Render Groups are used by the game to determine what should render and what shouldn't.\n" +
+                        "They consist of Display Groups and Draw Groups.\n" +
+                        //"Display Groups: Determines which DrawGroups should render.\n" +
+                        //"Draw Groups: Determines if things will render when a DispGroup is active.\n" +
+                        "When a Display Group is active, Map Objects with that Draw Group will render.\n" +
+                        "\n" +
+                        "If a Map Object uses the CollisionName field, they will inherit Draw Groups from the referenced Map Object.\n" +
+                        "Also, CollisionName references will be targeted by DSMapStudio when using `Set Selection`/`Get Selection` instead of your actual selection.\n" +
+                        "When a character walks on top of a piece of collision, they will use its DispGroups and DrawGroups.\n" +
+                        "\n" +
+                        "Color indicates which Render Groups selected Map Object is using.\n" +
+                        "Red = Selection uses this Display Group.\n" +
+                        "Green = Selection uses this Draw Group.\n" +
+                        "Yellow = Selection uses both.\n" +
+                        "\n" +
+                        "POTENTIALLY INACCURATE FOR SEKIRO / ELDEN RING!");
+                    ImGui.EndPopup();
+                }
+
+                ImGui.Separator();
+                ImGui.BeginChild("##DispTicks");
+                for (int g = 0; g < dg.RenderGroups.Length; g++)
+                {
+                    //row (groups)
+                    
+                    //add spacing every 4 rows
+                    if (g % 4 == 0 && g > 0)
+                    {
+                        ImGui.Spacing();
+                    }
+
+                    ImGui.Text($@"Render Group {g}:");
                     for (int i = 0; i < 32; i++)
                     {
-                        bool check = ((dg.Drawgroups[g] >> i) & 0x1) > 0;
-                        ImGui.SameLine();
-                        bool red = sdrawgroups != null && (((sdrawgroups[g] >> i) & 0x1) > 0);
-                        bool green = sdispgroups != null && (((sdispgroups[g] >> i) & 0x1) > 0);
-                        if (red)
+                        //column (bits)
+                        bool check = ((dg.RenderGroups[g] >> i) & 0x1) > 0;
+
+                        //add spacing every 4 boxes
+                        if (i % 4 == 0)
                         {
-                            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.06f, 0.06f, 1.0f));
-                            ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
+                            ImGui.SameLine();
+                            ImGui.Spacing();
                         }
-                        else if (green)
+
+                        ImGui.SameLine();
+
+                        bool drawActive = sdrawgroups != null && (((sdrawgroups[g] >> i) & 0x1) > 0);
+                        bool dispActive = sdispgroups != null && (((sdispgroups[g] >> i) & 0x1) > 0);
+
+                        if (drawActive && dispActive)
                         {
+                            //selection dispgroup and drawgroup is ticked
+                            //yellow
+                            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.4f, 0.06f, 1.0f));
+                            ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1f, 1f, 0.02f, 1.0f));
+                        }
+                        else if (drawActive)
+                        {
+                            //selection drawgroup is ticked
+                            //green
                             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.02f, 0.3f, 0.02f, 1.0f));
                             ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(0.2f, 1.0f, 0.2f, 1.0f));
                         }
+                        else if (dispActive)
+                        {
+                            //selection dispGroup is ticked
+                            //red
+                            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.06f, 0.06f, 1.0f));
+                            ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
+                        }
+
+
                         if (ImGui.Checkbox($@"##dispgroup{g}{i}", ref check))
                         {
                             if (check)
                             {
-                                dg.Drawgroups[g] |= (1u << i);
+                                dg.RenderGroups[g] |= (1u << i);
                             }
                             else
                             {
-                                dg.Drawgroups[g] &= ~(1u << i);
+                                dg.RenderGroups[g] &= ~(1u << i);
                             }
                         }
-                        if (red || green)
+
+                        if (drawActive || dispActive)
                         {
                             ImGui.PopStyleColor(2);
                         }
                     }
                 }
+                ImGui.EndChild();
             }
             ImGui.End();
         }

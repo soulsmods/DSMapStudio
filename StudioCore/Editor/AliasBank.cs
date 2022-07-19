@@ -52,13 +52,16 @@ namespace StudioCore.Editor
         }
         public static void ReloadAliases()
         {
-            _mapNames = new Dictionary<string, string>();
-            IsLoadingAliases = true;
-            if (AssetLocator.Type != GameType.Undefined)
+            TaskManager.Run("AB:LoadAliases", true, false, true, () =>
             {
-                LoadMapNames();
-            }
-            IsLoadingAliases = false;
+                _mapNames = new Dictionary<string, string>();
+                IsLoadingAliases = true;
+                if (AssetLocator.Type != GameType.Undefined)
+                {
+                    LoadMapNames();
+                }
+                IsLoadingAliases = false;
+            });
         }
 
         public static void SetAssetLocator(AssetLocator l)

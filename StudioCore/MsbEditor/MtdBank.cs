@@ -34,49 +34,53 @@ namespace StudioCore.MsbEditor
 
         public static void ReloadMtds()
         {
-            IBinder mtdBinder = null;
-            if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
-            {
-                mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
-                IsMatbin = false;
-            }
-            else if (AssetLocator.Type == GameType.EldenRing)
-            {
-                mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
-                IsMatbin = true;
-            }
 
-            if (mtdBinder == null)
+            TaskManager.Run("MB:LoadMtds", true, false, true, () =>
             {
-                return;
-            }
-
-            if (IsMatbin)
-            {
-                _matbins = new Dictionary<string, MATBIN>();
-                foreach (var f in mtdBinder.Files)
+                IBinder mtdBinder = null;
+                if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
                 {
-                    var matname = Path.GetFileNameWithoutExtension(f.Name);
-                    // Because *certain* mods contain duplicate entries for the same material
-                    if (!_matbins.ContainsKey(matname))
+                    mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
+                    IsMatbin = false;
+                }
+                else if (AssetLocator.Type == GameType.EldenRing)
+                {
+                    mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
+                    IsMatbin = true;
+                }
+
+                if (mtdBinder == null)
+                {
+                    return;
+                }
+
+                if (IsMatbin)
+                {
+                    _matbins = new Dictionary<string, MATBIN>();
+                    foreach (var f in mtdBinder.Files)
                     {
-                        _matbins.Add(matname, MATBIN.Read(f.Bytes));
+                        var matname = Path.GetFileNameWithoutExtension(f.Name);
+                        // Because *certain* mods contain duplicate entries for the same material
+                        if (!_matbins.ContainsKey(matname))
+                        {
+                            _matbins.Add(matname, MATBIN.Read(f.Bytes));
+                        }
                     }
                 }
-            }
-            else
-            {
-            _mtds = new Dictionary<string, MTD>();
-                foreach (var f in mtdBinder.Files)
+                else
                 {
-                    var mtdname = Path.GetFileNameWithoutExtension(f.Name);
-                    // Because *certain* mods contain duplicate entries for the same material
-                    if (!_mtds.ContainsKey(mtdname))
+                    _mtds = new Dictionary<string, MTD>();
+                    foreach (var f in mtdBinder.Files)
                     {
-                        _mtds.Add(mtdname, MTD.Read(f.Bytes));
+                        var mtdname = Path.GetFileNameWithoutExtension(f.Name);
+                        // Because *certain* mods contain duplicate entries for the same material
+                        if (!_mtds.ContainsKey(mtdname))
+                        {
+                            _mtds.Add(mtdname, MTD.Read(f.Bytes));
+                        }
                     }
                 }
-            }
+            });
         }
 
         public static void LoadMtds(AssetLocator l)

@@ -56,11 +56,12 @@ id 10000
 name Dagger
 propref originEquipWep0 Dagger";
 
-        public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false)
+        public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
         {
             bool ret = false;
             ImGui.SameLine();
-            ImGui.TextColored(new Vector4(0.3f, 0.3f, 1.0f, 1.0f), "(?)");
+            /*
+            ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
             if (ImGui.BeginPopupContextItem(id))
             {
                 if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
@@ -72,6 +73,46 @@ propref originEquipWep0 Dagger";
                 else
                     ImGui.Text(hint);
                 ImGui.EndPopup();
+            }
+            */
+
+            // Even worse of a hack than it was before. eat my shorts (all of this should be redone)
+            if (isRowHint)
+            {
+                ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1f), "?");
+                if (ImGui.BeginPopupContextItem(id))
+                {
+                    if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                    {
+                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                        if (ImGui.IsItemDeactivatedAfterEdit())
+                            ret = true;
+                    }
+                    else
+                        ImGui.Text(hint);
+                    ImGui.EndPopup();
+                }
+            }
+            else
+            {
+                ImGui.SameLine(0, 20f);
+                if (ImGui.Button("Help"))
+                {
+                    ImGui.OpenPopup("##ParamHelp");
+                }
+                if (ImGui.BeginPopup("##ParamHelp"))
+                {
+
+                    if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                    {
+                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                        if (ImGui.IsItemDeactivatedAfterEdit())
+                            ret = true;
+                    }
+                    else
+                        ImGui.Text(hint);
+                    ImGui.EndPopup();
+                }
             }
             return ret;
         }

@@ -10,6 +10,7 @@ using System.Numerics;
 using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Reflection;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -18,7 +19,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "Elden Ring Test 3";
+        private static string _version = "Elden Ring Test + Supertest";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -225,6 +226,13 @@ namespace StudioCore
             reg = Utils.readRegistry("showVanillaParamsPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference = reg == "true";
+            reg = Utils.readRegistry("csvDelimiterPreference");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
+            if (!File.Exists("imgui.ini"))
+            {
+                File.Copy("imgui.ini.backup", "imgui.ini");
+            }
         }
         public void SaveParamStudioConfig()
         {
@@ -235,6 +243,7 @@ namespace StudioCore
             Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
             Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
             Utils.setRegistry("showVanillaParamsPreference", ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference ? "true" : "false");
+            Utils.setRegistry("csvDelimiterPreference", ParamEditor.ParamEditorScreen.CSVDelimiterPreference);
         }
 
         public void Run()
@@ -327,28 +336,12 @@ namespace StudioCore
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
 
-            TaskManager.Run("AB:LoadAliases", true, false, true, () =>
-            {
-                Editor.AliasBank.ReloadAliases();
-            });
-            TaskManager.Run("PB:LoadParams", true, false, true, () =>
-            {
-                ParamEditor.ParamBank.ReloadParams(newsettings);
-            });
-            TaskManager.Run("FB:Reload", true, false, true, () =>
-            {
-                TextEditor.FMGBank.ReloadFMGs();
-            });
-            TaskManager.Run("MB:LoadMtds", true, false, true, ()=>{
-                MsbEditor.MtdBank.ReloadMtds();
-            });
-
-            TaskManager.Run("U:LoadUniverse", true, false, true, ()=>{
-                _msbEditor.ReloadUniverse();
-            });
-            TaskManager.Run("Model:LoadAssetBrowser", true, false, true, ()=>{
-                _modelEditor.ReloadAssetBrowser();
-            });
+            Editor.AliasBank.ReloadAliases();
+            ParamEditor.ParamBank.ReloadParams(newsettings);
+            TextEditor.FMGBank.ReloadFMGs();
+            MsbEditor.MtdBank.ReloadMtds();
+            _msbEditor.ReloadUniverse();
+            _modelEditor.ReloadAssetBrowser();
             
             //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
@@ -394,12 +387,13 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.TabRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(100f,100f));
         }
 
         public void UnapplyStyle()
         {
             ImGui.PopStyleColor(27);
-            ImGui.PopStyleVar(4);
+            ImGui.PopStyleVar(5);
         }
 
         private void DumpFlverLayouts()
@@ -710,11 +704,13 @@ namespace StudioCore
                         ImGui.Text("DSParamStudio was forked and merged back into Katalash's DSMapStudio, and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
                         ImGui.EndMenu();
                     }
+                    /*
                     if (ImGui.BeginMenu("Edits aren't sticking!"))
                     {
                         ImGui.Text("The mechanism that is used to detect if a field has been changed can stop existing before registering a change.\nThis occurs when switching param, row or using tab between fields.\nI hope to have this fixed soon, however it is a complicated issue.\nTo ensure a change sticks, simply click off the field you are editing.");
                         ImGui.EndMenu();
                     }
+                    */
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Tests"))
@@ -732,15 +728,22 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
-                if (TaskManager.warningList.Count > 0 && ImGui.BeginMenu("Warnings"))
+
+                if (TaskManager.warningList.Count > 0)
                 {
-                    foreach (var task in TaskManager.warningList) {
-                        if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
+                    if (ImGui.BeginMenu("!! WARNINGS !!"))
+                    {
+                        foreach (var task in TaskManager.warningList)
                         {
-                            TaskManager.warningList.TryRemove(task);
+                            if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
+                            {
+                                TaskManager.warningList.TryRemove(task);
+                            }
                         }
+                        ImGui.EndMenu();
                     }
-                    ImGui.EndMenu();
+                    ImGui.PopStyleColor();
                 }
                 ImGui.EndMainMenuBar();
             }

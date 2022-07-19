@@ -75,7 +75,7 @@ namespace StudioCore.MsbEditor
             "Type View",
         };
 
-        private ViewMode _viewMode = ViewMode.Flat;
+        private ViewMode _viewMode = ViewMode.ObjectType;
 
         public enum Configuration
         {
@@ -359,7 +359,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.BeginDragDropTarget())
                 {
                     var payload = ImGui.AcceptDragDropPayload("entity");
-                    if (payload.NativePtr != null)
+                    if (payload.NativePtr != null) //todo: never passes
                     {
                         DragDropPayloadReference* h = (DragDropPayloadReference*)payload.Data;
                         var pload = _dragDropPayloads[h->Index];
@@ -489,6 +489,11 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.PopStyleVar();
+                ImGui.Spacing();
+                ImGui.Indent();
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text("List Sorting Style:");
+                ImGui.SameLine();
                 ImGui.SetNextItemWidth(-1);
                 if (_configuration == Configuration.MapEditor)
                 {
@@ -498,6 +503,7 @@ namespace StudioCore.MsbEditor
                         _viewMode = (ViewMode)mode;
                     }
                 }
+                ImGui.Unindent();
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;

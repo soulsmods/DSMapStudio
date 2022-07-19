@@ -125,14 +125,14 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(param))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", true);
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", ' ');
                 actions.Add(a);
             }
             return new CompoundAction(actions);
         }
         public static ActionManager TrimNewlineChrsFromNames()
         {
-            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null, null);
+            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
             return child;
         }
 
@@ -535,89 +535,93 @@ namespace StudioCore.ParamEditor
             _params = new Dictionary<string, PARAM>();
             IsDefsLoaded = false;
             IsLoadingParams = true;
-            
-            if (AssetLocator.Type != GameType.Undefined)
+
+            TaskManager.Run("PB:LoadParams", true, false, true, () =>
             {
-                List<(string, PARAMDEF)> defPairs = LoadParamdefs();
-                IsDefsLoaded = true;
-                TaskManager.Run("PB:LoadParamMeta", true, false, false, () =>
+                if (AssetLocator.Type != GameType.Undefined)
                 {
-                    IsMetaLoaded = false;
-                    LoadParamMeta(defPairs);
-                    IsMetaLoaded = true;
-                });
-            }
-            string vparamDir = null;
-            if (AssetLocator.Type == GameType.DemonsSouls)
-            {
-                vparamDir = LoadParamsDES();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsPTDE)
-            {
-                vparamDir = LoadParamsDS1();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsRemastered)
-            {
-                vparamDir = LoadParamsDS1R();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                vparamDir = LoadParamsDS2();
-            }
-            if (AssetLocator.Type == GameType.DarkSoulsIII)
-            {
-                vparamDir = LoadParamsDS3();
-            }
-            if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
-            {
-                vparamDir = LoadParamsBBSekrio();
-            }
-            if (AssetLocator.Type == GameType.EldenRing)
-            {
-                vparamDir = LoadParamsER(settings.PartialParams);
-            }
+                    List<(string, PARAMDEF)> defPairs = LoadParamdefs();
+                    IsDefsLoaded = true;
+                    TaskManager.Run("PB:LoadParamMeta", true, false, false, () =>
+                    {
+                        IsMetaLoaded = false;
+                        LoadParamMeta(defPairs);
+                        IsMetaLoaded = true;
+                    });
+                }
+                string vparamDir = null;
+                if (AssetLocator.Type == GameType.DemonsSouls)
+                {
+                    vparamDir = LoadParamsDES();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+                {
+                    vparamDir = LoadParamsDS1();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+                {
+                    vparamDir = LoadParamsDS1R();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    vparamDir = LoadParamsDS2();
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsIII)
+                {
+                    vparamDir = LoadParamsDS3();
+                }
+                if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+                {
+                    vparamDir = LoadParamsBBSekrio();
+                }
+                if (AssetLocator.Type == GameType.EldenRing)
+                {
+                    vparamDir = LoadParamsER(settings.PartialParams);
+                }
 
-            if (vparamDir != null)
-            {
-                IsLoadingVParams = true;
-                _vanillaParams = new Dictionary<string, PARAM>();
-                TaskManager.Run("PB:LoadVParams", true, false, false, () => {
-                    if (AssetLocator.Type == GameType.DemonsSouls)
+                if (vparamDir != null)
+                {
+                    IsLoadingVParams = true;
+                    _vanillaParams = new Dictionary<string, PARAM>();
+                    TaskManager.Run("PB:LoadVParams", true, false, false, () =>
                     {
-                        LoadVParamsDES(vparamDir);
-                    }
-                    if (AssetLocator.Type == GameType.DarkSoulsPTDE)
-                    {
-                        LoadVParamsDS1(vparamDir);
-                    }
-                    if (AssetLocator.Type == GameType.DarkSoulsRemastered)
-                    {
-                        LoadVParamsDS1R(vparamDir);
-                    }
-                    if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                    {
-                        LoadVParamsDS2(vparamDir);
-                    }
-                    if (AssetLocator.Type == GameType.DarkSoulsIII)
-                    {
-                        LoadVParamsDS3(vparamDir);
-                    }
-                    if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
-                    {
-                        LoadVParamsBBSekrio(vparamDir);
-                    }
-                    if (AssetLocator.Type == GameType.EldenRing)
-                    {
-                        LoadVParamsER(vparamDir);
-                    }
-                    IsLoadingVParams = false;
-                });
-            }
+                        if (AssetLocator.Type == GameType.DemonsSouls)
+                        {
+                            LoadVParamsDES(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.DarkSoulsPTDE)
+                        {
+                            LoadVParamsDS1(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.DarkSoulsRemastered)
+                        {
+                            LoadVParamsDS1R(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                        {
+                            LoadVParamsDS2(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.DarkSoulsIII)
+                        {
+                            LoadVParamsDS3(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
+                        {
+                            LoadVParamsBBSekrio(vparamDir);
+                        }
+                        if (AssetLocator.Type == GameType.EldenRing)
+                        {
+                            LoadVParamsER(vparamDir);
+                        }
+                        IsLoadingVParams = false;
+                    });
+                }
 
-            _paramDirtyCache = new Dictionary<string, HashSet<int>>();
-            foreach (string param in _params.Keys)
-                _paramDirtyCache.Add(param, new HashSet<int>());
+                _paramDirtyCache = new Dictionary<string, HashSet<int>>();
+                foreach (string param in _params.Keys)
+                    _paramDirtyCache.Add(param, new HashSet<int>());
             IsLoadingParams = false;
+            });
         }
 
         public static void refreshParamDirtyCache()
