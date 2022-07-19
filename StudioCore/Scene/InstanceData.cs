@@ -11,7 +11,7 @@ namespace StudioCore.Scene
     {
         public Matrix4x4 WorldMatrix;
         public uint MaterialID;
-        public uint r1;
+        public uint BoneStartIndex;
         public uint r2;
         public uint EntityID;
     }

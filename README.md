@@ -34,6 +34,11 @@ A: Likely not. Rendering the entirety of the maps for DS3, Bloodborne, and Sekir
 * Intel GPUs currently don't seem to be working properly. At the moment, you will probably need a somewhat recent (2014+) NVIDIA or AMD GPU
 * A 4GB (8GB recommended) graphics card if modding DS3/BB/Sekiro maps due to huge map sizes
 
+## Credits:
+* Katalash - primary author
+* philiquaz - major contributor to integrated param editor
+* george - contributor to integrated text editor and other features
+
 ## Special Thanks
 * TKGP - Made Soulsformats
 * [Pav](https://github.com/JohrnaJohrna)

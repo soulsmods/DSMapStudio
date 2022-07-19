@@ -370,25 +370,21 @@ namespace StudioCore.MsbEditor
         }
 
 
-        private void PropertyContextMenu(object obj, PropertyInfo propinfo)
+        private bool ParamRefRow(PropertyInfo propinfo, object oldval, ref object newObj)
         {
-            if (ImGui.BeginPopupContextItem(propinfo.Name))
+            var att = propinfo.GetCustomAttribute<MSBParamReference>();
+            if (att!=null)
             {
-                var att = propinfo.GetCustomAttribute<MSBParamReference>();
-                if (att != null)
-                {
-                    if (ImGui.Selectable($@"Goto {att.ParamName}"))
-                    {
-                        var id = (int)propinfo.GetValue(obj);
-                        EditorCommandQueue.AddCommand($@"param/select/-1/{att.ParamName}/{id}");
-                    }
-                }
-                if (ImGui.Selectable($@"Search"))
-                {
-                    EditorCommandQueue.AddCommand($@"map/propsearch/{propinfo.Name}");
-                }
-                ImGui.EndPopup();
+                ImGui.NextColumn();
+                List<string> refs = new List<string>();
+                refs.Add(att.ParamName);
+                Editor.EditorDecorations.ParamRefText(refs);
+                ImGui.NextColumn();
+                var id = (int)oldval;
+                Editor.EditorDecorations.ParamRefsSelectables(refs, id);
+                return Editor.EditorDecorations.ParamRefEnumContextMenu(id, ref newObj, refs, null);
             }
+            return false;
         }
 
         private void PropEditorFlverLayout(Entity selection, FLVER2.BufferLayout layout)
@@ -549,7 +545,6 @@ namespace StudioCore.MsbEditor
                                 object newval = null;
 
                                 changed = PropertyRow(arrtyp, oldval, out newval);
-                                PropertyContextMenu(obj, prop);
                                 if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                                 {
                                     ImGui.SetItemDefaultFocus();

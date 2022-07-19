@@ -23,8 +23,6 @@ namespace StudioCore.ParamEditor
 
         private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
 
-        private string _refContextCurrentAutoComplete = "";
-
         public PropertyEditor(ActionManager manager, ParamEditorScreen paramEditorScreen)
         {
             ContextActionManager = manager;
@@ -202,13 +200,28 @@ namespace StudioCore.ParamEditor
                     // shouldUpdateVisual = true;
                 }
             }
+            else if (typ == typeof(Byte[]))
+            {
+                
+                Byte[] bval = (Byte[])oldval;
+                string val = ParamUtils.Dummy8Write(bval);
+                if (ImGui.InputText("##value", ref val, 128))
+                {
+                    Byte[] nval = ParamUtils.Dummy8Read(val, bval.Length);
+                    if (nval!=null)
+                    {
+                        newval = nval;
+                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    }
+                }
+            }
             else
             {
                 ImGui.Text("ImplementMe");
             }
 
             newval = null;
-            return false;
+            return (false, false);
         }
 
         private void UpdateProperty(object prop, object obj, object newval,
@@ -352,8 +365,9 @@ namespace StudioCore.ParamEditor
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
             bool changed = false;
+            bool committed = false;
 
-            bool diffVanilla = vanillaval != null && !oldval.Equals(vanillaval);
+            bool diffVanilla = vanillaval != null && !(oldval.Equals(vanillaval) || (propType == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])oldval, (byte[])vanillaval)));
             bool matchDefault = nullableCell != null && nullableCell.Def.Default!=null && nullableCell.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
             if (isRef)
@@ -377,7 +391,7 @@ namespace StudioCore.ParamEditor
 
             if (ParamEditorScreen.HideReferenceRowsPreference == false || ParamEditorScreen.HideEnumsPreference == false)
             {
-                if (PropertyRowMetaValueContextMenu(oldval, ref newval, RefTypes, Enum))
+                if (EditorDecorations.ParamRefEnumContextMenu(oldval, ref newval, RefTypes, Enum))
                 {
                     changed = true;
                     committed = true;
@@ -390,7 +404,10 @@ namespace StudioCore.ParamEditor
                     ImGui.TextUnformatted("");
                 else
                 {
-                    ImGui.TextUnformatted(vanillaval.ToString());
+                    if (propType == typeof(byte[]))
+                        ImGui.TextUnformatted(ParamUtils.Dummy8Write((byte[])vanillaval));
+                    else
+                        ImGui.TextUnformatted(vanillaval.ToString());
                     if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
                         EditorDecorations.ParamRefsSelectables(RefTypes, vanillaval);
                     if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)

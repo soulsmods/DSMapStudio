@@ -220,6 +220,7 @@ namespace StudioCore.Scene
                     GlobalTexturePool.BindTexturePool(cl, 2);
                     GlobalCubeTexturePool.BindTexturePool(cl, 3);
                     MaterialBufferAllocator.BindAsResourceSet(cl, 4);
+                    BoneBufferAllocator.BindAsResourceSet(cl, 7);
                     cl.SetGraphicsResourceSet(5, SamplerSet.SamplersSet);
                     
                     if (!GeometryBufferAllocator.BindAsVertexBuffer(cl, _batches[MAX_BATCH * _renderSet + i]._bufferIndex))
@@ -462,6 +463,7 @@ namespace StudioCore.Scene
         public static VertexIndexBufferAllocator GeometryBufferAllocator { get; private set; }
         public static GPUBufferAllocator UniformBufferAllocator { get; private set; }
         public static GPUBufferAllocator MaterialBufferAllocator { get; private set; }
+        public static GPUBufferAllocator BoneBufferAllocator { get; private set; }
         public static TexturePool GlobalTexturePool { get; private set; }
         public static TexturePool GlobalCubeTexturePool { get; private set; }
 
@@ -522,6 +524,7 @@ namespace StudioCore.Scene
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
             MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
+            BoneBufferAllocator = new GPUBufferAllocator("bones", 65536 * 64, BufferUsage.StructuredBufferReadWrite, 64, ShaderStages.Vertex);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 
