@@ -419,7 +419,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The item lot to be given.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
+                [MSBParamReference(ParamName = "ItemLotParam_map")]
                 public int ItemLotID { get; set; }
 
                 /// <summary>
