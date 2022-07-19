@@ -29,7 +29,7 @@ namespace StudioCore.MsbEditor
             ContextActionManager = manager;
         }
 
-        private bool PropertyRow(Type typ, object oldval, out object newval, Entity obj=null, string propname=null)
+        private bool PropertyRow(Type typ, object oldval, out object newval, Entity obj = null, string propname = null)
         {
             if (typ == typeof(long))
             {
@@ -340,7 +340,7 @@ namespace StudioCore.MsbEditor
             }
             ImGui.Columns(1);
         }
-        
+
         // Many parameter options, which may be simplified.
         private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection)
         {
@@ -370,21 +370,25 @@ namespace StudioCore.MsbEditor
         }
 
 
-        private bool ParamRefRow(PropertyInfo propinfo, object oldval, ref object newObj)
+        private void PropertyContextMenu(object obj, PropertyInfo propinfo)
         {
-            var att = propinfo.GetCustomAttribute<MSBParamReference>();
-            if (att!=null)
+            if (ImGui.BeginPopupContextItem(propinfo.Name))
             {
-                ImGui.NextColumn();
-                List<string> refs = new List<string>();
-                refs.Add(att.ParamName);
-                Editor.EditorDecorations.ParamRefText(refs);
-                ImGui.NextColumn();
-                var id = (int)oldval;
-                Editor.EditorDecorations.ParamRefsSelectables(refs, id);
-                return Editor.EditorDecorations.ParamRefEnumContextMenu(id, ref newObj, refs, null);
+                var att = propinfo.GetCustomAttribute<MSBParamReference>();
+                if (att != null)
+                {
+                    if (ImGui.Selectable($@"Goto {att.ParamName}"))
+                    {
+                        var id = (int)propinfo.GetValue(obj);
+                        EditorCommandQueue.AddCommand($@"param/select/-1/{att.ParamName}/{id}");
+                    }
+                }
+                if (ImGui.Selectable($@"Search"))
+                {
+                    EditorCommandQueue.AddCommand($@"map/propsearch/{propinfo.Name}");
+                }
+                ImGui.EndPopup();
             }
-            return false;
         }
 
         private void PropEditorFlverLayout(Entity selection, FLVER2.BufferLayout layout)
@@ -416,7 +420,7 @@ namespace StudioCore.MsbEditor
             "Composite",
         };
 
-        private void PropEditorGeneric(Selection selection, Entity entSelection, object target=null, bool decorate=true)
+        private void PropEditorGeneric(Selection selection, Entity entSelection, object target = null, bool decorate = true)
         {
             var obj = (target == null) ? entSelection.WrappedObject : target;
             var type = obj.GetType();
@@ -545,6 +549,7 @@ namespace StudioCore.MsbEditor
                                 object newval = null;
 
                                 changed = PropertyRow(arrtyp, oldval, out newval);
+                                PropertyContextMenu(obj, prop);
                                 if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                                 {
                                     ImGui.SetItemDefaultFocus();
