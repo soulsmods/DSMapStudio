@@ -45,7 +45,7 @@ namespace StudioCore.ParamEditor
 
         private void PopulateDecorator()
         {
-            if (_entryCache.Count == 0)
+            if (_entryCache.Count == 0 && FMGBank.IsLoaded)
             {
                 var fmgEntries = FMGBank.GetItemFMGEntriesByType(_category, FMGBank.ItemType.Title, false);
                 foreach (var fmgEntry in fmgEntries)
