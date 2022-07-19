@@ -2632,73 +2632,7 @@
       <Increment>0.001</Increment>
       <SortID>300040</SortID>
     </Field>
-    <Field Def="u8 unk3-1.1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.2">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.3">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4a:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4b:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4c:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4d:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4e:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4f:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4g:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u8 unk3-1.4h:1">
-      <DisplayName>pad</DisplayName>
-      <DisplayFormat>%f</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>470002</SortID>
-    </Field>
-    <Field Def="u32 unk3-2">
+    <Field Def="dummy8 unk3[8]">
       <DisplayName>pad</DisplayName>
       <DisplayFormat>%f</DisplayFormat>
       <EditFlags>Wrap</EditFlags>

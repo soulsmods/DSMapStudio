@@ -214,6 +214,11 @@ namespace StudioCore.Scene
 
         public virtual uint MaterialIndex { get => 0; }
 
+        /// <summary>
+        /// Get handle to GPU bone transforms
+        /// </summary>
+        public virtual GPUBufferAllocator.GPUBufferHandle BoneBuffer { get => null; }
+
         // Pipeline state
         public abstract string ShaderName { get; }
 
@@ -423,9 +428,11 @@ namespace StudioCore.Scene
 
         public override uint MaterialIndex => MaterialBuffer.AllocationStart / (uint)sizeof(Material);
 
+        public override GPUBufferAllocator.GPUBufferHandle BoneBuffer { get => _resource.Get().StaticBoneBuffer; }
+
         public override string ShaderName => _resource.Get().GPUMeshes[_meshIndex].Material.ShaderName;
 
-        public override SpecializationConstant[] SpecializationConstants => _resource.Get().GPUMeshes[_meshIndex].Material.SpecializationConstants;
+        public override SpecializationConstant[] SpecializationConstants => _resource.Get().GPUMeshes[_meshIndex].Material.SpecializationConstants.ToArray();
 
         public override FaceCullMode CullMode => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].BackfaceCulling ? FaceCullMode.Back : FaceCullMode.None;
 

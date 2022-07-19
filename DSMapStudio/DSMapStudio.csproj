@@ -21,21 +21,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="imgui.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StudioCore\StudioCore.csproj" />
     <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<None Update="imgui.ini">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="copy &quot;$(SolutionDir)\DSMapStudio\imgui.ini&quot; &quot;$(TargetDir)imgui.ini&quot;" />
-	</Target>
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="copy &quot;$(SolutionDir)\DSMapStudio\imgui.ini&quot; &quot;$(TargetDir)imgui.ini.backup&quot;" />
-	</Target>
 
 </Project>

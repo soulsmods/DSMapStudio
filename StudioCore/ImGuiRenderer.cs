@@ -622,8 +622,8 @@ namespace StudioCore
 
                         cl.SetScissorRect(
                             0,
-                            (uint)pcmd.ClipRect.X,
-                            (uint)pcmd.ClipRect.Y,
+                            (uint)Math.Max(pcmd.ClipRect.X, 0),
+                            (uint)Math.Max(pcmd.ClipRect.Y, 0),
                             (uint)(pcmd.ClipRect.Z - pcmd.ClipRect.X),
                             (uint)(pcmd.ClipRect.W - pcmd.ClipRect.Y));
 

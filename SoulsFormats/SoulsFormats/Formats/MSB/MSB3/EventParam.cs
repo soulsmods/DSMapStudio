@@ -854,6 +854,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// List of points in the route.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkPointNames { get; private set; }
                 private short[] WalkPointIndices;
 

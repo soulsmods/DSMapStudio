@@ -125,14 +125,14 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(param))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", true);
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", ' ');
                 actions.Add(a);
             }
             return new CompoundAction(actions);
         }
         public static ActionManager TrimNewlineChrsFromNames()
         {
-            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null, null);
+            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
             return child;
         }
 
@@ -664,23 +664,10 @@ namespace StudioCore.ParamEditor
             }
             foreach (PARAM.Row vrow in vanils)
             {
-                if (!RowChanged(row, vrow))
+                if (ParamUtils.RowMatches(row, vrow))
                     return false;//if we find a matching vanilla row
             }
             return true;
-        }
-        private static bool RowChanged(PARAM.Row row, PARAM.Row vrow)
-        {
-            foreach (PARAMDEF.Field field in row.Def.Fields)
-            {
-                if (field.InternalType == "dummy8" || field.InternalType == "")
-                    continue;
-                if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public static void SetAssetLocator(AssetLocator l)
