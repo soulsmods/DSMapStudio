@@ -273,7 +273,8 @@ namespace StudioCore
             {
                 Tracy.TracyCFrameMark();
 
-                bool focused = true;// _window.Focused;
+                // Limit frame rate when window isn't focused unless we are profiling
+                bool focused = Tracy.EnableTracy ? true : _window.Focused;
                 if (!focused)
                 {
                     _desiredFrameLengthSeconds = 1.0 / 20.0f;
