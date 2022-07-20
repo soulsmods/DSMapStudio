@@ -348,8 +348,8 @@ namespace StudioCore
             string backupPath;
             if (Type == GameType.DarkSoulsIISOTFS)
             {
-                preferredPath = $@"map\{mapid}\{mapid}.msb.dcx";
-                backupPath = $@"map\{mapid}\{mapid}.msb";
+                preferredPath = $@"map\{mapid}\{mapid}.msb";
+                backupPath = $@"map\{mapid}\{mapid}.msb";//ds2 doesn't even do dcx
             }
             // BB chalice maps
             else if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
@@ -363,6 +363,13 @@ namespace StudioCore
                 preferredPath = $@"\map\MapStudio\{mapid}.msb";
                 backupPath = $@"\map\MapStudio\{mapid}.msb.dcx";
             }
+            // BB other, DS3, ER, SSDT
+            else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII || Type == GameType.EldenRing || Type == GameType.Sekiro)
+            {
+                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid}.msb";
+            }
+            // Future games?
             else
             {
                 preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
