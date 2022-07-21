@@ -7,8 +7,8 @@
   <Version>201</Version>
   <Fields>
     <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk01" />
-    <Field Def="u8 Unk02" />
+    <Field Def="u8 SpawnLimit" />
+    <Field Def="u8 SpawnLimitGameClear" />
     <Field Def="u8 AggroGroup" />
     <Field Def="u32 DeathEventID">
       <Description>Used in ESD. Determines if Death state is active.</Description>
