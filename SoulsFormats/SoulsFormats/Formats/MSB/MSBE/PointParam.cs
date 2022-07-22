@@ -1161,9 +1161,9 @@ namespace SoulsFormats
                 public int UnkT0C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Event Flag required to be ON for the message to appear.
                 /// </summary>
-                public int UnkT10 { get; set; }
+                public int EnableEventFlag { get; set; }
 
                 /// <summary>
                 /// ID of character to render along with the message.
@@ -1202,7 +1202,7 @@ namespace SoulsFormats
                     Hidden = br.AssertInt32(0, 1) == 1;
                     UnkT08 = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
-                    UnkT10 = br.ReadInt32();
+                    EnableEventFlag = br.ReadInt32();
                     CharacterModelName = br.ReadInt32();
                     NPCParamID = br.ReadInt32();
                     UnkT1C = br.ReadInt32();
@@ -1216,7 +1216,7 @@ namespace SoulsFormats
                     bw.WriteInt32(Hidden ? 1 : 0);
                     bw.WriteInt32(UnkT08);
                     bw.WriteInt32(UnkT0C);
-                    bw.WriteInt32(UnkT10);
+                    bw.WriteInt32(EnableEventFlag);
                     bw.WriteInt32(CharacterModelName);
                     bw.WriteInt32(NPCParamID);
                     bw.WriteInt32(UnkT1C);
