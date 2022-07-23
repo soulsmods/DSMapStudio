@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using FSParam;
 using StudioCore.Editor;
 
 namespace StudioCore.ParamEditor
@@ -25,6 +26,9 @@ namespace StudioCore.ParamEditor
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, HashSet<int>> _paramDirtyCache = null; //If param != vanillaparam
 
+        private static Dictionary<string, FSParam.Param> _fsparams = null;
+        private static Dictionary<string, FSParam.Param> _fsvanillaParams = null;
+        
         public static bool IsDefsLoaded { get; private set; } = false;
         public static bool IsMetaLoaded { get; private set; } = false;
         public static bool IsLoadingParams { get; private set; } = false;
@@ -160,6 +164,34 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
                 p.ApplyParamdef(_paramdefs[p.ParamType]);
+                paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+            }
+        }
+        
+        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank)
+        {
+            // Load every param in the regulation
+            // _params = new Dictionary<string, PARAM>();
+            foreach (var f in parambnd.Files)
+            {
+                if (!f.Name.ToUpper().EndsWith(".PARAM") || Path.GetFileNameWithoutExtension(f.Name).StartsWith("default_"))
+                {
+                    continue;
+                }
+                if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
+                {
+                    continue;
+                }
+                if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
+                {
+                    continue;
+                }
+                FSParam.Param p = FSParam.Param.Read(f.Bytes);
+                if (!_paramdefs.ContainsKey(p.ParamType))
+                {
+                    continue;
+                }
+                //p.ApplyParamdef(_paramdefs[p.ParamType]);
                 paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
         }
@@ -491,7 +523,8 @@ namespace StudioCore.ParamEditor
             }
             BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            //LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _fsparams);
 
             param = $@"{mod}\regulation.bin";
             if (partial && File.Exists(param))
@@ -525,14 +558,16 @@ namespace StudioCore.ParamEditor
         }
         private static void LoadVParamsER(string dir)
         {
-            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
+            //LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _fsvanillaParams);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
         public static void ReloadParams(ProjectSettings settings)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
-            _params = new Dictionary<string, PARAM>();
+            //_params = new Dictionary<string, PARAM>();
+            _fsparams = new Dictionary<string, Param>();
             IsDefsLoaded = false;
             IsLoadingParams = true;
 
@@ -582,7 +617,8 @@ namespace StudioCore.ParamEditor
                 if (vparamDir != null)
                 {
                     IsLoadingVParams = true;
-                    _vanillaParams = new Dictionary<string, PARAM>();
+                    //_vanillaParams = new Dictionary<string, PARAM>();
+                    _fsvanillaParams = new Dictionary<string, Param>();
                     TaskManager.Run("PB:LoadVParams", true, false, false, () =>
                     {
                         if (AssetLocator.Type == GameType.DemonsSouls)
@@ -618,7 +654,8 @@ namespace StudioCore.ParamEditor
                 }
 
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
-                foreach (string param in _params.Keys)
+                //foreach (string param in _params.Keys)
+                foreach (string param in _fsparams.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
             IsLoadingParams = false;
             });

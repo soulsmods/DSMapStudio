@@ -51,7 +51,8 @@ namespace StudioCore.Editor
             }
 
             Task t = new Task(() => {
-                try
+                action.Invoke();
+                /*try
                 {
                     action.Invoke();
                 }
@@ -65,7 +66,7 @@ namespace StudioCore.Editor
                     {
                         MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                }
+                }*/
                 (bool, Task) old;
                 _liveTasks.TryRemove(taskId, out old);
                 if (old.Item1 == true)
