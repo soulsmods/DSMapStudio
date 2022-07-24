@@ -335,12 +335,12 @@ namespace StudioCore.TextEditor
                         if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
                             searchEntries = _cachedEntriesFiltered;
                         else
-                            searchEntries = _cachedEntries;//FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Title).ToList()
+                            searchEntries = _cachedEntries;
 
                         foreach (var entry in searchEntries)
                         {
-                            if (entry.ID.ToString().Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
-                                matches.Add(entry);
+                            if (entry.ID.ToString().Contains(_FMGsearchStr))
+                                matches.Add(entry); //ID matches
                             else if (entry.Text != null)
                             {
                                 if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
@@ -379,11 +379,13 @@ namespace StudioCore.TextEditor
                         if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
                             searchEntries = _cachedEntriesFiltered;
                         else
-                            searchEntries = _cachedEntries;// FMGBank.GetMenuFMGEntries(_activeMenuCategoryPair.Value).ToList();
+                            searchEntries = _cachedEntries;
 
                         foreach (var entry in searchEntries)
                         {
-                            if (entry.Text != null)
+                            if (entry.ID.ToString().Contains(_FMGsearchStr))
+                                matches.Add(entry); //ID matches
+                            else if (entry.Text != null)
                             {
                                 if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
                                 {
