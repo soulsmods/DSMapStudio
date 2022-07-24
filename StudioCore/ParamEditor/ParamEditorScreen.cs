@@ -976,6 +976,7 @@ namespace StudioCore.ParamEditor
 
         private ParamEditorScreen _paramEditor;
         internal int _viewIndex;
+        private int _gotoParamRow = -1;
 
         internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
@@ -991,24 +992,32 @@ namespace StudioCore.ParamEditor
         public void ParamView(bool doFocus)
         {
             ImGui.Columns(3);
-            List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
-            foreach (var paramKey in pinnedParamKeyList)
-            {
-                if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
-                {
-                    EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
-                }
-                if (ImGui.BeginPopupContextItem())
-                {
-                    if (ImGui.Selectable("Unpin "+paramKey))
-                        _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
-                    ImGui.EndPopup();
-                }
-            }
             ImGui.BeginChild("params");
-            float scrollTo = 0f;
-            if (pinnedParamKeyList.Count != 0)
+            List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
+
+            if (pinnedParamKeyList.Count > 0)
+            {
+                //ImGui.Text("        Pinned Params");
+                foreach (var paramKey in pinnedParamKeyList)
+                {
+                    if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
+                    }
+                    if (ImGui.BeginPopupContextItem())
+                    {
+                        if (ImGui.Selectable("Unpin " + paramKey))
+                            _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
+                        ImGui.EndPopup();
+                    }
+                }
+                ImGui.Spacing();
                 ImGui.Separator();
+                ImGui.Spacing();
+            }
+
+            ImGui.BeginChild("paramTypes");
+            float scrollTo = 0f;
             List<string> paramKeyList = ParamBank.Params.Keys.ToList();
             if (ParamEditorScreen.AlphabeticalParamsPreference)
                 paramKeyList.Sort();
@@ -1028,8 +1037,10 @@ namespace StudioCore.ParamEditor
                     ImGui.EndPopup();
                 }
             }
+
             if (doFocus)
                 ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+            ImGui.EndChild();
             ImGui.EndChild();
             ImGui.NextColumn();
             string activeParam = _selection.getActiveParam();
@@ -1049,34 +1060,62 @@ namespace StudioCore.ParamEditor
                 }
                 scrollTo = 0;
 
-                List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
-                foreach (int rowID in pinnedRowList)
-                {
-                    PARAM.Row row = para[rowID];
-                    if (row == null)
-                    {
-                        _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
-                        continue;
-                    }
-                    RowColumnEntry(activeParam, null, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
-                }
-
-                if (pinnedRowList.Count != 0)
-                {
-                    ImGui.NewLine();//Separator bleeds into other columns because imgui
-                }
-
                 ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW\n | original | modified");
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
 
+                //Goto ID
+                if (ImGui.Button("Goto ID <Ctrl+G>") || InputTracker.GetControlShortcut(Key.G))
+                {
+                    ImGui.OpenPopup("gotoParamRow");
+                }
+                if (ImGui.BeginPopup("gotoParamRow"))
+                {
+                    int gotorow = 0;
+                    ImGui.SetKeyboardFocusHere();
+                    ImGui.InputInt("Goto Row ID", ref gotorow);
+                    if (ImGui.IsItemDeactivated())
+                    {
+                        _gotoParamRow = gotorow;
+                        ImGui.CloseCurrentPopup();
+                    }
+                    ImGui.EndPopup();
+                }
+
+
+                //Row ID/name search
                 if (InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
+                //ImGui.SetNextItemWidth(ImGui.GetColumnWidth(1) - 256);
                 ImGui.InputText("Search <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
 
                 if (ImGui.IsItemActive())
                     _paramEditor._isSearchBarActive = true;
                 else
                     _paramEditor._isSearchBarActive = false;
+
+
+                ImGui.BeginChild("pinnedRows");
+
+
+                List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
+                if (pinnedRowList.Count != 0)
+                {
+
+                    foreach (int rowID in pinnedRowList)
+                    {
+                        PARAM.Row row = para[rowID];
+                        if (row == null)
+                        {
+                            _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
+                            continue;
+                        }
+                        RowColumnEntry(activeParam, null, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
+                    }
+
+                    ImGui.Spacing();
+                    ImGui.Separator();
+                    ImGui.Spacing();
+                }
 
                 ImGui.BeginChild("rows" + activeParam);
                 //Todo: cache this, make it dirtyable
@@ -1088,6 +1127,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                ImGui.EndChild();
             }
             PARAM.Row activeRow = _selection.getActiveRow();
             ImGui.EndChild();
@@ -1111,7 +1151,20 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
             else
                 ImGui.PushStyleColor(ImGuiCol.Text, CLEANCOLOUR);
-            if (ImGui.Selectable($@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}", _selection.getSelectedRows().Contains(r)))
+
+            var selected = _selection.getSelectedRows().Contains(r);
+            if (_gotoParamRow != -1)
+            {
+                //Goto row was activated. As soon as a corresponding ID is found, change selection to it.
+                if (r.ID == _gotoParamRow)
+                {
+                    selected = true;
+                    _selection.SetActiveRow(r, true);
+                    _gotoParamRow = -1;
+                }
+            }
+
+            if (ImGui.Selectable($@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}", selected))
             {
                 if (InputTracker.GetKey(Key.LControl))
                 {
