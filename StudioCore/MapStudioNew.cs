@@ -930,10 +930,14 @@ namespace StudioCore
                     }
                     if (validated && (Path.GetDirectoryName(_newProjectSettings.GameRoot)).Equals(_newProjectDirectory))
                     {
-                        System.Windows.Forms.MessageBox.Show("Project Directory cannot be the same as the base game files.", "Error",
-                                         System.Windows.Forms.MessageBoxButtons.OK,
+                        var message = System.Windows.Forms.MessageBox.Show(
+                            "Project Directory is the same as Game Directory, which allows game files to be overwritten directly.\n\n" +
+                            "It's highly recommended you use the Mod Engine mod folder as your project folder instead (if possible).\n\n" +
+                            "Continue and create project anyway?", "Caution",
+                                         System.Windows.Forms.MessageBoxButtons.OKCancel,
                                          System.Windows.Forms.MessageBoxIcon.None);
-                        validated = false;
+                        if (message != System.Windows.Forms.DialogResult.OK)
+                            validated = false;
                     }
                     if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
                     {
