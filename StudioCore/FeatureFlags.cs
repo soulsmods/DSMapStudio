@@ -11,7 +11,9 @@ namespace StudioCore
     /// </summary>
     public static class FeatureFlags
     {
-        public static bool LoadDS3Navmeshes = false; //Breaks rendering for other games
+        public static bool LoadNavmeshes = true;
+        public static bool LoadDS3Navmeshes = true;
+        public static bool LoadOtherGameNavmeshes = true;
 
         public static bool EnableNavmeshBuilder = false;
 

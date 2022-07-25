@@ -169,8 +169,8 @@ namespace StudioCore.Scene
             }
         }
 
-        public override bool AutoRegister 
-        { 
+        public override bool AutoRegister
+        {
             get => _autoregister; set
             {
                 _autoregister = value;
@@ -267,9 +267,9 @@ namespace StudioCore.Scene
 
         private bool _renderOutline = false;
 
-        public override bool RenderSelectionOutline 
-        { 
-            get => _renderOutline; 
+        public override bool RenderSelectionOutline
+        {
+            get => _renderOutline;
             set
             {
                 _renderOutline = value;
@@ -644,6 +644,8 @@ namespace StudioCore.Scene
             }
         }
 
+        public int MeshIndexCount = 0;
+
         public void OnProviderAvailable()
         {
             if (_meshProvider.TryLock())
@@ -670,6 +672,7 @@ namespace StudioCore.Scene
                         }
                     }
                 }
+                MeshIndexCount = _meshProvider.IndexCount; //Used for model markers for old Navmeshes. Is this the best place for this check??
                 _meshProvider.Unlock();
             }
         }

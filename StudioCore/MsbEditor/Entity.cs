@@ -1212,8 +1212,7 @@ namespace StudioCore.MsbEditor
             {
                 //is a mesh proxy
                 var prox = (MeshRenderableProxy)_renderSceneMesh;
-                var mesh = prox.Submeshes;
-                if (mesh.Count == 0)
+                if (prox.Submeshes.Count == 0 && prox.MeshIndexCount == 0)
                 {
                     return true;
                 }
