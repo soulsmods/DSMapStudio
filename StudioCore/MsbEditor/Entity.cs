@@ -451,6 +451,20 @@ namespace StudioCore.MsbEditor
                     {
                         if (p.PropertyType.IsArray)
                         {
+                            Array array = (Array)p.GetValue(WrappedObject);
+                            foreach (var i in array)
+                            {
+                                var sref = (string)i;
+                                if (sref != null && sref != "")
+                                {
+                                    var obj = Container.GetObjectByName(sref);
+                                    if (obj != null)
+                                    {
+                                        if (!References.ContainsKey(sref))
+                                            References.Add(sref, new[] { obj });
+                                    }
+                                }
+                            }
 
                         }
                         else
@@ -461,7 +475,8 @@ namespace StudioCore.MsbEditor
                                 var obj = Container.GetObjectByName(sref);
                                 if (obj != null)
                                 {
-                                    References.Add(p.Name, new[] { obj });
+                                    if (!References.ContainsKey(sref))
+                                        References.Add(sref, new[] { obj });
                                 }
                             }
                         }
