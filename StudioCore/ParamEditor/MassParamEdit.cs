@@ -261,7 +261,10 @@ namespace StudioCore.ParamEditor
                 string rowgen = $@"{row.ID}{separator}{name}";
                 foreach (PARAM.Cell cell in row.Cells)
                 {
-                    rowgen += $@"{separator}{cell.Value}";
+                    if (cell.Value.GetType() == typeof(byte[]))
+                        rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])cell.Value)}";
+                    else
+                        rowgen += $@"{separator}{cell.Value}";
                 }
                 gen += rowgen + "\n";
             }
