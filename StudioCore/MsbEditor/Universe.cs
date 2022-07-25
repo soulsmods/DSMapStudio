@@ -1149,6 +1149,8 @@ namespace StudioCore.MsbEditor
 
             map.HasUnsavedChanges = false;
 
+            TaskManager.UpdateLastActionString("Saved Maps");
+
             //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
             //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
             //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);

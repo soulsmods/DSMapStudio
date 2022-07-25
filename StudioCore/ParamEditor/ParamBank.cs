@@ -1018,6 +1018,7 @@ namespace StudioCore.ParamEditor
             {
                 SaveParamsER(partialParams);
             }
+            TaskManager.UpdateLastActionString("Saved Parameters");
         }
 
         public static string GetChrIDForEnemy(long enemyID)

@@ -400,17 +400,18 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.BeginMenu("Hot Reload Params"))
                 {
-                    if (ImGui.MenuItem("Current Param", "F5", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
+                    bool canHotReload = ParamReloader.CanReloadMemoryParams(_projectSettings);
+                    if (ImGui.MenuItem("Current Param", "F5", false, canHotReload))
                     {
                         ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
                     }
-                    if (ImGui.MenuItem("All Params", "Shift-F5", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
+                    if (ImGui.MenuItem("All Params", "Shift+F5", false, canHotReload))
                     {
                         ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, ParamBank.Params.Keys.ToArray());
                     }
                     foreach (string param in ParamReloader.GetReloadableParams(ParamBank.AssetLocator))
                     {
-                        if (ImGui.MenuItem(param, "", false, _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false))
+                        if (ImGui.MenuItem(param, "", false, canHotReload))
                         {
                             ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[]{param});
                         }
@@ -572,14 +573,6 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            if (InputTracker.GetKey(Key.F5) && _projectSettings != null && (_projectSettings.GameType == GameType.DarkSoulsIII || _projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false)
-            {
-                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
-                    ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, ParamBank.Params.Keys.ToArray());
-                else
-                    ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
-            }
-
             if (ParamBank.Params == null)
             {
                 if (ParamBank.IsLoadingParams)
@@ -588,7 +581,16 @@ namespace StudioCore.ParamEditor
                 }
                 return;
             }
-            
+
+            //Hot Reload shortcut keys
+            if (InputTracker.GetKey(Key.F5) && ParamReloader.CanReloadMemoryParams(_projectSettings))
+            {
+                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, ParamBank.Params.Keys.ToArray());
+                else
+                    ParamReloader.ReloadMemoryParams(ParamBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
+            }
+
             // Parse commands
             bool doFocus = false;
             // Parse select commands
