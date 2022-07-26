@@ -311,7 +311,7 @@ namespace StudioCore.ParamEditor
                     if (csvLine.Trim().Equals(""))
                         continue;
                     string[] csvs = csvLine.Trim().Split(separator);
-                    if (csvs.Length != csvLength || csvs.Length < 2)
+                    if (csvs.Length != csvLength && !(csvs.Length==csvLength+1 && csvs[csvLength].Trim().Equals("")))
                     {
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
                     }
@@ -366,7 +366,7 @@ namespace StudioCore.ParamEditor
                     if (csvLine.Trim().Equals(""))
                         continue;
                     string[] csvs = csvLine.Trim().Split(separator, 2);
-                    if (csvs.Length != 2)
+                    if (csvs.Length != 2 && !(csvs.Length==3 && csvs[2].Trim().Equals("")))
                         return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
                     int id = int.Parse(csvs[0]);
                     string value = csvs[1];
