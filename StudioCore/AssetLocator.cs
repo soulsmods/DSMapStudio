@@ -346,9 +346,10 @@ namespace StudioCore
             }
             string preferredPath;
             string backupPath;
+            // SOFTS
             if (Type == GameType.DarkSoulsIISOTFS)
             {
-                preferredPath = $@"map\{mapid}\{mapid}.msb.dcx";
+                preferredPath = $@"map\{mapid}\{mapid}.msb";
                 backupPath = $@"map\{mapid}\{mapid}.msb";
             }
             // BB chalice maps
@@ -357,11 +358,17 @@ namespace StudioCore
                 preferredPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb.dcx";
                 backupPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb";
             }
-            // DeS,DS1,DSR1
+            // DeS, DS1, DS1R
             else if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered || Type == GameType.DemonsSouls)
             {
                 preferredPath = $@"\map\MapStudio\{mapid}.msb";
                 backupPath = $@"\map\MapStudio\{mapid}.msb.dcx";
+            }
+            // BB, DS3, ER, SSDT
+            else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII || Type == GameType.EldenRing || Type == GameType.Sekiro)
+            {
+                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid}.msb";
             }
             else
             {
@@ -502,7 +509,8 @@ namespace StudioCore
                 // DS2 does not have an msgbnd but loose fmg files instead
                 path = $@"menu\text\{langFolder}";
                 AssetDescription ad2 = new AssetDescription();
-                ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}"; //TODO: doesn't support project files
+                ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
+                //TODO: doesn't support project files
                 return ad2;
             }
             else if (Type == GameType.DarkSoulsIII)
@@ -723,7 +731,6 @@ namespace StudioCore
                     ret.Add(ad);
                 }
             }
-            //TODO: ER
             return ret;
         }
 
@@ -863,7 +870,7 @@ namespace StudioCore
             }
             else
             {
-                //clean this up? even if it's common code having something like "!=Sekiro" can lead to future issues
+                // Clean this up. Even if it's common code having something like "!=Sekiro" can lead to future issues
                 var mid = mapid.Substring(0, 3);
 
                 var t0000 = new AssetDescription();
@@ -924,7 +931,6 @@ namespace StudioCore
                     }
                 }
             }
-            //TODO: DES,PTDE,DSR,DS2,BB,SDT,ER
             return l;
         }
 
@@ -961,7 +967,6 @@ namespace StudioCore
                     ad.AssetVirtualPath = $@"chr/{chrid}/tex";
                 }
             }
-            //TODO: DES,PTDE,DSR,DS2,ER
             return ad;
         }
 
@@ -980,7 +985,6 @@ namespace StudioCore
                 return GetNullAsset();
             }
             return ret;
-            //TODO: DS2,BB,DS3,SDT,ER
         }
 
         public AssetDescription GetHavokNavmeshes(string mapid)
@@ -1220,7 +1224,6 @@ namespace StudioCore
                         }
                         return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpfbhd");
                     }
-                    //TODO: PTDE,BB,DS3,SDT,ER ?
                 }
                 else if (mapRegex.IsMatch(pathElements[i]))
                 {
@@ -1251,7 +1254,6 @@ namespace StudioCore
                             return GetAssetPath($@"map\{mapid.Substring(0, 3)}\{mapid}\{pathElements[i]}.mapbnd.dcx");
                         }
                         return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
-                        //TODO: DS3,SDT,ER ?
                     }
                     else if (pathElements[i].Equals("hit"))
                     {
@@ -1279,7 +1281,6 @@ namespace StudioCore
                         }
                         bndpath = "";
                         return null;
-                        //TODO: DSR,SDT,ER
                     }
                     else if (pathElements[i].Equals("nav"))
                     {
@@ -1307,7 +1308,6 @@ namespace StudioCore
                         }
                         bndpath = "";
                         return null;
-                        //TODO: DS2,BB,SDT,ER
                     }
                 }
             }
@@ -1349,7 +1349,6 @@ namespace StudioCore
                         return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
                     }
                 }
-                //TODO: DSR,BB,ER
             }
             else if (pathElements[i].Equals("obj"))
             {
@@ -1373,7 +1372,6 @@ namespace StudioCore
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
-                //TODO: DES,DSR,BB,DS3,SDT,ER
             }
 
             bndpath = virtualPath;
