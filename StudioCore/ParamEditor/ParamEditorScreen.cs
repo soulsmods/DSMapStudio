@@ -1083,11 +1083,10 @@ namespace StudioCore.ParamEditor
                     ImGui.EndPopup();
                 }
 
-
                 //Row ID/name search
                 if (InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
-                //ImGui.SetNextItemWidth(ImGui.GetColumnWidth(1) - 256);
+
                 ImGui.InputText("Search <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
 
                 if (ImGui.IsItemActive())
@@ -1095,9 +1094,7 @@ namespace StudioCore.ParamEditor
                 else
                     _paramEditor._isSearchBarActive = false;
 
-
                 ImGui.BeginChild("pinnedRows");
-
 
                 List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
                 if (pinnedRowList.Count != 0)

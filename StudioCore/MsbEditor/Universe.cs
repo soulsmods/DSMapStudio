@@ -760,7 +760,7 @@ namespace StudioCore.MsbEditor
                     var nav = _assetLocator.GetHavokNavmeshes(amapid);
                     job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
                 }
-                else if (FeatureFlags.LoadOtherGameNavmeshes)
+                else
                 {
                     foreach (var nav in navsToLoad)
                     {
@@ -1148,8 +1148,6 @@ namespace StudioCore.MsbEditor
             }
 
             map.HasUnsavedChanges = false;
-
-            TaskManager.UpdateLastActionString("Saved Maps");
 
             //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
             //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,

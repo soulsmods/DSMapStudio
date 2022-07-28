@@ -330,7 +330,7 @@ namespace StudioCore.TextEditor
                     //TaskManager.Run("SearchFMGs", false, false, true, () =>
                     if (_activeFmgType == FMGBank.FMGTypes.Item)
                     {
-                        //item
+                        // Item FMGs
                         List<FMG.Entry> searchEntries;
                         if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
                             searchEntries = _cachedEntriesFiltered;
@@ -339,16 +339,22 @@ namespace StudioCore.TextEditor
 
                         foreach (var entry in searchEntries)
                         {
-                            if (entry.ID.ToString().Contains(_FMGsearchStr))
-                                matches.Add(entry); //ID matches
+                            // Titles
+                            if (entry.ID.ToString().Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                // ID search
+                                matches.Add(entry);
+                            }
                             else if (entry.Text != null)
                             {
+                                // Text search
                                 if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
                                     matches.Add(entry);
                             }
                         }
                         foreach (var entry in FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Description).ToList())
                         {
+                            // Descriptions
                             if (entry.Text != null)
                             {
                                 if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
@@ -361,6 +367,7 @@ namespace StudioCore.TextEditor
                         }
                         foreach (var entry in FMGBank.GetItemFMGEntriesByType(_activeItemCategory, FMGBank.ItemType.Summary).ToList())
                         {
+                            // Summaries
                             if (entry.Text != null)
                             {
                                 if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
@@ -374,7 +381,7 @@ namespace StudioCore.TextEditor
                     }
                     else
                     {
-                        //menu
+                        // Menu FMGs
                         List<FMG.Entry> searchEntries;
                         if (_FMGsearchStr.Length > _FMGsearchStrCache.Length)
                             searchEntries = _cachedEntriesFiltered;
@@ -383,10 +390,14 @@ namespace StudioCore.TextEditor
 
                         foreach (var entry in searchEntries)
                         {
-                            if (entry.ID.ToString().Contains(_FMGsearchStr))
-                                matches.Add(entry); //ID matches
+                            if (entry.ID.ToString().Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                // ID search
+                                matches.Add(entry);
+                            }
                             else if (entry.Text != null)
                             {
+                                // Text search
                                 if (entry.Text.Contains(_FMGsearchStr, StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     var search = _cachedEntries.Find(e => e.ID == entry.ID && !matches.Contains(e));

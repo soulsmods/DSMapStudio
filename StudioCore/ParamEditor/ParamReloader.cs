@@ -44,7 +44,6 @@ namespace StudioCore.ParamEditor
                     throw new Exception("Unable to find running game");
                 }
             });
-            TaskManager.UpdateLastActionString("Hot Reload Completed");
         }
         private static void ReloadMemoryParamsThreads(GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
         {

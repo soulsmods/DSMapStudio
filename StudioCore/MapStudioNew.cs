@@ -681,11 +681,11 @@ namespace StudioCore
                         focusType = "Text";
                     }
 
-                    if (ImGui.MenuItem($"Save {focusType}", "Ctrl+S") || InputTracker.GetControlShortcut(Key.S))
+                    if (ImGui.MenuItem($"Save {focusType}", "Ctrl+S"))
                     {
                         SaveFocusedEditor();
                     }
-                    if (ImGui.MenuItem("Save All"))//, "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
+                    if (ImGui.MenuItem("Save All"))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -783,12 +783,13 @@ namespace StudioCore
                     }
                     ImGui.PopStyleColor();
                 }
-
+                /*
                 //Recently completed task
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(.1f, 1f, .4f, 1.0f));
                 ImGui.Spacing();
                 ImGui.Text($"{TaskManager.lastCompletedActionString}");
                 ImGui.PopStyleColor();
+                */
 
                 ImGui.EndMainMenuBar();
             }
@@ -1048,11 +1049,9 @@ namespace StudioCore
             }
             ImGui.End();
 
-
-            //Global shortcut keys
+            // Global shortcut keys
             if (InputTracker.GetControlShortcut(Key.S) && !_msbEditor.Viewport.ViewportSelected)
                 SaveFocusedEditor();
-
 
             string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")

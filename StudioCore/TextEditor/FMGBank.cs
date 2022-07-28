@@ -867,7 +867,6 @@ namespace StudioCore.TextEditor
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
             }
-            TaskManager.UpdateLastActionString("Saved FMGs");
         }
 
         public static void SetAssetLocator(AssetLocator l)

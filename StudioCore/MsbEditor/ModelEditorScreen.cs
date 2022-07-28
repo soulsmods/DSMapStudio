@@ -293,12 +293,12 @@ namespace StudioCore.MsbEditor
 
         public override void Save()
         {
-            TaskManager.UpdateLastActionString("Model Saving is not implemented");
+
         }
 
         public override void SaveAll()
         {
-            TaskManager.UpdateLastActionString("Model Saving is not implemented");
+
         }
 
         public void OnEntityContextMenu(Entity ent)

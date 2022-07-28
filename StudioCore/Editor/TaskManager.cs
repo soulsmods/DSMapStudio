@@ -12,25 +12,6 @@ namespace StudioCore.Editor
         public static volatile ConcurrentDictionary<string, string> warningList = new ConcurrentDictionary<string, string>();
         private static volatile ConcurrentDictionary<string, (bool, Task)> _liveTasks = new ConcurrentDictionary<string, (bool, Task)>();
         private static int _anonIndex = 0;
-        public static string lastCompletedActionString = "";
-
-        private static readonly System.Timers.Timer lastCompletedActionTimer = new(3000); //Time in milliseconds is how long string will appear in UI before being removed
-
-        /// <summary>
-        /// Update string used to notify user of recently completed major actions
-        /// </summary>
-        public static void UpdateLastActionString(string str)
-        {
-            lastCompletedActionString = str;
-            lastCompletedActionTimer.Stop();
-            lastCompletedActionTimer.Elapsed += new System.Timers.ElapsedEventHandler(ClearActionString);
-            lastCompletedActionTimer.Start();
-        }
-        private static void ClearActionString(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            lastCompletedActionString = "";
-            lastCompletedActionTimer.Stop();
-        }
 
         public static bool Run(string taskId, bool wait, bool canRequeue, bool silentFail, System.Action action)
         {
