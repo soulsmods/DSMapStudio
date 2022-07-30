@@ -19,7 +19,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = ": Elden Ring Test + GeorgeFeatures v0.1.1";
+        private static string _version = "version 1.00";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -729,8 +729,44 @@ namespace StudioCore
                     }
                     if (ImGui.BeginMenu("About"))
                     {
-                        ImGui.Text("DSParamStudio was forked and merged back into Katalash's DSMapStudio, and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
+                        ImGui.Text("Original Author:\nKatalash\n\nMaintainers:\nKatalash\nPhiliquaz\nKing bore haha (george)");
                         ImGui.EndMenu();
+                    }
+
+                    if (ImGui.MenuItem("Modding Wiki"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "http://soulsmodding.wikidot.com/",
+                            UseShellExecute = true
+                        });
+                    }
+                    
+                    if (ImGui.MenuItem("Map ID Reference"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "http://soulsmodding.wikidot.com/reference:map-list",
+                            UseShellExecute = true
+                        });
+                    }
+                    
+                    if (ImGui.MenuItem("DSMapStudio Discord"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://discord.gg/CKDBCUFhB3",
+                            UseShellExecute = true
+                        });
+                    }
+                    
+                    if (ImGui.MenuItem("FromSoftware Modding Discord"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://discord.gg/mT2JJjx",
+                            UseShellExecute = true
+                        });
                     }
                     /*
                     if (ImGui.BeginMenu("Edits aren't sticking!"))
