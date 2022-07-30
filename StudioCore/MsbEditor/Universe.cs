@@ -752,10 +752,10 @@ namespace StudioCore.MsbEditor
             task = job.StartJobAsync();
             tasks.Add(task);
 
-            if (FeatureFlags.LoadDS3Navmeshes)
+            if (FeatureFlags.LoadNavmeshes)
             {
                 job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
-                if (_assetLocator.Type == GameType.DarkSoulsIII)
+                if (_assetLocator.Type == GameType.DarkSoulsIII && FeatureFlags.LoadDS3Navmeshes)
                 {
                     var nav = _assetLocator.GetHavokNavmeshes(amapid);
                     job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);

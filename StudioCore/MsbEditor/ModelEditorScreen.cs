@@ -293,12 +293,12 @@ namespace StudioCore.MsbEditor
 
         public override void Save()
         {
-            
+
         }
 
         public override void SaveAll()
         {
-            
+
         }
 
         public void OnEntityContextMenu(Entity ent)

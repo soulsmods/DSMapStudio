@@ -288,15 +288,17 @@ namespace StudioCore.ParamEditor
             ImGui.Separator();
 
             List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
-            foreach (var field in pinnedFields)
+            if (pinnedFields.Count > 0)
             {
-                List<PARAM.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                List<PARAM.Cell> vmatches = vrow==null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                for (int i=0; i<matches.Count; i++)
-                    PropEditorPropCellRow(matches[i], vrow==null ? null : vmatches[i], ref id, propSearchRx, activeParam, true);
-            }
-            if (pinnedFields.Count != 0)
+                foreach (var field in pinnedFields)
+                {
+                    List<PARAM.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                    List<PARAM.Cell> vmatches = vrow == null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                    for (int i = 0; i < matches.Count; i++)
+                        PropEditorPropCellRow(matches[i], vrow == null ? null : vmatches[i], ref id, propSearchRx, activeParam, true);
+                }
                 ImGui.Separator();
+            }
             List<string> fieldOrder = meta != null && meta.AlternateOrder != null && ParamEditorScreen.AllowFieldReorderPreference ? meta.AlternateOrder : new List<string>();
             foreach (PARAMDEF.Field field in row.Def.Fields)
             {

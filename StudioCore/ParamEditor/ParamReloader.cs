@@ -20,6 +20,14 @@ namespace StudioCore.ParamEditor
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
+        public static bool CanReloadMemoryParams(ProjectSettings projectSettings)
+        {
+            if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false)
+                return true;
+
+            return false;
+        }
+
         public static void ReloadMemoryParams(AssetLocator loc, string[] paramNames)
         {
             TaskManager.Run("PB:LiveParams", true, true, true, ()=>{

@@ -168,6 +168,8 @@ namespace StudioCore.Gui
             return true;
         }
 
+        public bool ViewportSelected = false;
+
         public void OnGui()
         {
             if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
@@ -179,6 +181,11 @@ namespace StudioCore.Gui
                 if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
                 {
                     ImGui.SetWindowFocus();
+                    ViewportSelected = true;
+                }
+                else if(!InputTracker.GetMouseButton(MouseButton.Right))
+                {
+                    ViewportSelected = false;
                 }
                 _canInteract = ImGui.IsWindowFocused();
                 _vpvisible = true;
