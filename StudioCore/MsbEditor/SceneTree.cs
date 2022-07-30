@@ -492,31 +492,33 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.PopStyleVar();
-                ImGui.Spacing();
-                ImGui.Indent(30);
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("List Sorting Style:");
-                ImGui.SameLine();
-                ImGui.SetNextItemWidth(-1);
                 if (_configuration == Configuration.MapEditor)
                 {
+                    ImGui.Spacing();
+                    ImGui.Indent(30);
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("List Sorting Style:");
+                    ImGui.SameLine();
+                    ImGui.SetNextItemWidth(-1);
+                    
                     int mode = (int)_viewMode;
                     if (ImGui.Combo("##typecombo", ref mode, _viewModeStrings, _viewModeStrings.Length))
                     {
                         _viewMode = (ViewMode)mode;
                     }
-                }
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Map ID Search:");
-                ImGui.SameLine();
-                ImGui.SetNextItemWidth(-1);
-                ImGui.InputText("##treeSearch", ref _mapNameSearchStr, 99);
+                    
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("Map ID Search:");
+                    ImGui.SameLine();
+                    ImGui.SetNextItemWidth(-1);
+                    ImGui.InputText("##treeSearch", ref _mapNameSearchStr, 99);
 
-                ImGui.Unindent(30);
+                    ImGui.Unindent(30);
+                }
 
                 ImGui.BeginChild("listtree");
                 Map pendingUnload = null;
-                if (_universe.LoadedObjectContainers.Count==0)
+                if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
                 foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
                 {
