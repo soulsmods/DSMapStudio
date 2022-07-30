@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Numerics;
+using FSParam;
 using ImGuiNET;
 using SoulsFormats;
 using StudioCore.ParamEditor;
@@ -120,7 +122,7 @@ namespace StudioCore.Editor
         }
     }
     
-    class ParamAndRowSearchEngine : SearchEngine<ParamEditorSelectionState, PARAM.Row>
+    class ParamAndRowSearchEngine : SearchEngine<ParamEditorSelectionState, Param.Row>
     {
         public static ParamAndRowSearchEngine parse = new ParamAndRowSearchEngine();
         internal override void Setup()
@@ -129,12 +131,12 @@ namespace StudioCore.Editor
             filterList.Add("selection", (0, noArgs(noContext((row)=>true))));
         }
     }
-    class ParamSearchEngine : SearchEngine<bool, PARAM>
+    class ParamSearchEngine : SearchEngine<bool, Param>
     {
         public static ParamSearchEngine pse = new ParamSearchEngine();
         internal override void Setup()
         {
-            unpacker = (dummy)=>new List<PARAM>(ParamBank.Params.Values);
+            unpacker = (dummy)=>new List<FSParam.Param>(ParamBank.Params.Values);
             filterList.Add("modified", (0, noArgs(noContext((param)=>{
                     HashSet<int> cache = ParamBank.DirtyParamCache[ParamBank.GetKeyForParam(param)];
                     return cache.Count>0;
@@ -151,12 +153,12 @@ namespace StudioCore.Editor
             }));
         }
     }
-    class RowSearchEngine : SearchEngine<PARAM, PARAM.Row>
+    class RowSearchEngine : SearchEngine<Param, Param.Row>
     {
         public static RowSearchEngine rse = new RowSearchEngine();
         internal override void Setup()
         {
-            unpacker = (param)=>param.Rows;
+            unpacker = (param) => param.Rows;
             filterList.Add("modified", (0, noArgs((context)=>{
                     string paramName = ParamBank.GetKeyForParam(context);
                     HashSet<int> cache = ParamBank.DirtyParamCache[paramName];
@@ -181,8 +183,9 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return noContext((row)=>{
-                        PARAM.Cell c = row[field];
-                        string term = c.Value.ToString();
+                        Param.CellHandle? c = row[field];
+                        if (c == null) throw new Exception();
+                        string term = c.Value.Value.ToString();
                         return rx.Match(term).Success;
                 });
             }));
@@ -195,9 +198,11 @@ namespace StudioCore.Editor
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
-                return noContext((row)=>{
-                        PARAM.Cell c = row[field];
-                        return (Convert.ToDouble(c.Value)) >= floor && (Convert.ToDouble(c.Value)) <= ceil;
+                return noContext((row)=>
+                {
+                        Param.CellHandle? c = row[field];
+                        if (c == null) throw new Exception();
+                        return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                 });
             }));
             filterList.Add("propref", (2, (args, lenient)=>{
@@ -205,12 +210,15 @@ namespace StudioCore.Editor
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
                     List<string> validFields = FieldMetaData.Get(context.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>ParamBank.Params.ContainsKey(p));
-                    return (row)=>{
-                        int val = (int) row[field].Value;
+                    return (row)=>
+                    {
+                        Param.CellHandle? c = row[field];
+                        if (c == null) throw new Exception();
+                        int val = (int) c.Value.Value;
                         foreach (string rt in validFields)
                         {
-                            PARAM.Row r = ParamBank.Params[rt][val];
-                            if (r != null && rx.Match(r.Name == null ? "" : r.Name).Success)
+                            Param.Row r = ParamBank.Params[rt][val];
+                            if (r != null && rx.Match(r.Name ?? "").Success)
                                 return true;
                         }
                         return false;
@@ -243,7 +251,7 @@ namespace StudioCore.Editor
                         if (!_cache.ContainsKey(row.ID))
                             return false;
                         FMG.Entry e = _cache[row.ID];
-                        return e != null && rx.Match(e.Text == null ? "" : e.Text).Success;
+                        return e != null && rx.Match(e.Text ?? "").Success;
                     };
                 };
             }));
@@ -251,17 +259,17 @@ namespace StudioCore.Editor
                 if (!lenient)
                     return noContext((row)=>false);
                 Regex rx = new Regex(args[0], RegexOptions.IgnoreCase);
-                return noContext((row)=>rx.Match(row.Name == null ? "" : row.Name).Success || rx.Match(row.ID.ToString()).Success);
+                return noContext((row)=>rx.Match(row.Name ?? "").Success || rx.Match(row.ID.ToString()).Success);
             });
         }
     }
 
-    class CellSearchEngine : SearchEngine<PARAM.Row, PARAM.Cell>
+    class CellSearchEngine : SearchEngine<Param.Row, Param.Cell>
     {
         public static CellSearchEngine cse = new CellSearchEngine();
         internal override void Setup()
         {
-            unpacker = (row)=>new List<PARAM.Cell>(row.Cells);
+            unpacker = (row)=>new List<Param.Cell>(row.Cells);
             defaultFilter = (1, (args, lenient) => {
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((cell)=>rx.Match(cell.Def.InternalName).Success);

@@ -21,20 +21,17 @@ namespace StudioCore.ParamEditor
         private static PARAM EnemyParam = null;
         internal static AssetLocator AssetLocator = null;
 
-        private static Dictionary<string, PARAM> _params = null;
-        private static Dictionary<string, PARAM> _vanillaParams = null;
+        private static Dictionary<string, Param> _params = null;
+        private static Dictionary<string, Param> _vanillaParams = null;
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, HashSet<int>> _paramDirtyCache = null; //If param != vanillaparam
 
-        private static Dictionary<string, FSParam.Param> _fsparams = null;
-        private static Dictionary<string, FSParam.Param> _fsvanillaParams = null;
-        
         public static bool IsDefsLoaded { get; private set; } = false;
         public static bool IsMetaLoaded { get; private set; } = false;
         public static bool IsLoadingParams { get; private set; } = false;
         public static bool IsLoadingVParams { get; private set; } = false;
 
-        public static IReadOnlyDictionary<string, PARAM> Params
+        public static IReadOnlyDictionary<string, Param> Params
         {
             get
             {
@@ -45,7 +42,7 @@ namespace StudioCore.ParamEditor
                 return _params;
             }
         }
-        public static IReadOnlyDictionary<string, PARAM> VanillaParams
+        public static IReadOnlyDictionary<string, Param> VanillaParams
         {
             get
             {
@@ -134,40 +131,14 @@ namespace StudioCore.ParamEditor
             }
             return new CompoundAction(actions);
         }
+
         public static ActionManager TrimNewlineChrsFromNames()
         {
-            (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
+            (MassEditResult r, ActionManager child) =
+                MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
             return child;
         }
 
-        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, PARAM> paramBank)
-        {
-            // Load every param in the regulation
-            // _params = new Dictionary<string, PARAM>();
-            foreach (var f in parambnd.Files)
-            {
-                if (!f.Name.ToUpper().EndsWith(".PARAM") || Path.GetFileNameWithoutExtension(f.Name).StartsWith("default_"))
-                {
-                    continue;
-                }
-                if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
-                {
-                    continue;
-                }
-                if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
-                {
-                    continue;
-                }
-                PARAM p = PARAM.Read(f.Bytes);
-                if (!_paramdefs.ContainsKey(p.ParamType))
-                {
-                    continue;
-                }
-                p.ApplyParamdef(_paramdefs[p.ParamType]);
-                paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
-            }
-        }
-        
         private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank)
         {
             // Load every param in the regulation
@@ -441,7 +412,7 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
 
-                var lp = PARAM.Read(p);
+                var lp = Param.Read(p);
                 var fname = lp.ParamType;
                 PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
                 lp.ApplyParamdef(def);
@@ -523,18 +494,17 @@ namespace StudioCore.ParamEditor
             }
             BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
-            //LoadParamFromBinder(paramBnd, ref _params);
-            LoadParamFromBinder(paramBnd, ref _fsparams);
+            LoadParamFromBinder(paramBnd, ref _params);
 
             param = $@"{mod}\regulation.bin";
             if (partial && File.Exists(param))
             {
                 BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
-                Dictionary<string, PARAM> cParamBank = new Dictionary<string, PARAM>();
+                Dictionary<string, Param> cParamBank = new Dictionary<string, Param>();
                 LoadParamFromBinder(pParamBnd, ref cParamBank);
                 foreach (var pair in cParamBank)
                 {
-                    PARAM baseParam = _params[pair.Key];
+                    Param baseParam = _params[pair.Key];
                     foreach (var row in pair.Value.Rows)
                     {
                         PARAM.Row bRow = baseParam[row.ID];
@@ -559,15 +529,14 @@ namespace StudioCore.ParamEditor
         private static void LoadVParamsER(string dir)
         {
             //LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
-            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _fsvanillaParams);
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
         public static void ReloadParams(ProjectSettings settings)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
-            //_params = new Dictionary<string, PARAM>();
-            _fsparams = new Dictionary<string, Param>();
+            _params = new Dictionary<string, Param>();
             IsDefsLoaded = false;
             IsLoadingParams = true;
 
@@ -617,8 +586,7 @@ namespace StudioCore.ParamEditor
                 if (vparamDir != null)
                 {
                     IsLoadingVParams = true;
-                    //_vanillaParams = new Dictionary<string, PARAM>();
-                    _fsvanillaParams = new Dictionary<string, Param>();
+                    _vanillaParams = new Dictionary<string, Param>();
                     TaskManager.Run("PB:LoadVParams", true, false, false, () =>
                     {
                         if (AssetLocator.Type == GameType.DemonsSouls)
@@ -654,8 +622,7 @@ namespace StudioCore.ParamEditor
                 }
 
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
-                //foreach (string param in _params.Keys)
-                foreach (string param in _fsparams.Keys)
+                foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
             IsLoadingParams = false;
             });
@@ -670,36 +637,36 @@ namespace StudioCore.ParamEditor
             {
                 HashSet<int> cache = new HashSet<int>();
                 newCache.Add(param, cache);
-                PARAM p = _params[param];
+                Param p = _params[param];
                 if (!_vanillaParams.ContainsKey(param))
                 {
                     Console.WriteLine("Missing vanilla param "+param);
                     continue;
                 }
-                PARAM vp = _vanillaParams[param];
-                foreach (PARAM.Row row in _params[param].Rows.ToList())
+                Param vp = _vanillaParams[param];
+                foreach (Param.Row row in _params[param].Rows.ToList())
                 {
                     refreshParamRowDirtyCache(row, vp, cache);
                 }
             }
             _paramDirtyCache = newCache;
         }
-        public static void refreshParamRowDirtyCache(PARAM.Row row, PARAM vanillaParam, HashSet<int> cache)
+        public static void refreshParamRowDirtyCache(Param.Row row, Param vanillaParam, HashSet<int> cache)
         {
-            PARAM.Row vrow = vanillaParam[row.ID];
+            Param.Row vrow = vanillaParam[row.ID];
             if (IsChanged(row, vanillaParam))
                 cache.Add(row.ID);
             else
                 cache.Remove(row.ID);
         }
-        private static bool IsChanged(PARAM.Row row, PARAM vanilla)
+        private static bool IsChanged(Param.Row row, Param vanilla)
         {
-            List<PARAM.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
+            List<Param.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
             if (vanils.Count == 0)
             {
                 return true;
             }
-            foreach (PARAM.Row vrow in vanils)
+            foreach (Param.Row vrow in vanils)
             {
                 if (ParamUtils.RowMatches(row, vrow))
                     return false;//if we find a matching vanilla row
@@ -1069,9 +1036,9 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        public static string GetKeyForParam(PARAM param)
+        public static string GetKeyForParam(Param param)
         {
-            foreach (KeyValuePair<string, PARAM> pair in ParamBank.Params)
+            foreach (KeyValuePair<string, Param> pair in ParamBank.Params)
             {
                 if (param == pair.Value)
                     return pair.Key;

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Data;
+using System.Runtime.InteropServices;
 using SoulsFormats;
 using StudioUtils;
 
@@ -115,11 +116,79 @@ namespace FSParam
             Flag80 = 0b1000_0000,
         }
 
-        public struct Row
+        public class Row
         {
-            public int ID;
-            public string Name;
-            public uint DataIndex;
+            internal Param Parent;
+            public int ID { get; set; }
+            public string? Name { get; set; }
+            internal uint DataIndex;
+
+            public IEnumerable<Cell> Cells => Parent.Cells;
+
+            internal Row(int id, string? name, Param parent, uint dataIndex)
+            {
+                ID = id;
+                Name = name;
+                Parent = parent;
+                DataIndex = dataIndex;
+            }
+            
+            public Row(int id, string name, Param parent)
+            {
+                ID = id;
+                Name = name;
+                Parent = parent;
+                DataIndex = parent.ParamData.AddZeroedElement();
+            }
+
+            public Row(Row clone)
+            {
+                Parent = clone.Parent;
+                ID = clone.ID;
+                Name = clone.Name;
+                DataIndex = Parent.ParamData.AddZeroedElement();
+                // TODO: clone data
+            }
+
+            public CellHandle? this[string field] => throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Minimal handle of a cell in a row that contains enough to mutate the value of the cell and created
+        /// on demand
+        /// </summary>
+        public struct CellHandle
+        {
+            public object Value { get; set; }
+        }
+        
+        /// <summary>
+        /// Represents a Cell (key/value pair) in the param. Unlike the Soulsformats Cell, this one is stored
+        /// completely separately, and reading/writing a value requires the Row to read/write from.
+        /// </summary>
+        public class Cell
+        {
+            public PARAMDEF.Field Def { get; }
+
+            public Type ValueType { get; private set; }
+            
+            private uint _byteOffset;
+            
+            internal Cell(PARAMDEF.Field def, uint byteOffset)
+            {
+                Def = def;
+                _byteOffset = byteOffset;
+            }
+
+            public object GetValue(Row row)
+            {
+                return null;
+            }
+
+            public void SetValue(Row row, object value)
+            {
+                
+            }
         }
         
         /// <summary>
@@ -162,16 +231,19 @@ namespace FSParam
         /// </summary>
         public uint DetectedSize { get; private set; }
 
-        public StridedByteArray? ParamData { get; private set; } = null;
+        public StridedByteArray ParamData { get; private set; } = new StridedByteArray(0, 1);
         
         public List<Row> Rows { get; private set; }
+        
+        public IReadOnlyList<Cell> Cells { get; private set; }
 
-        /// <summary>
-        /// Get the rows as a span to allow in place modification of the structure. You must call
-        /// this to get a new span if you add or delete any members to the underlying Rows list
-        /// </summary>
-        public Span<Row> RowsAsSpan => CollectionsMarshal.AsSpan(Rows);
+        public PARAMDEF AppliedParamdef { get; private set; }
 
+        public void ApplyParamdef(PARAMDEF def)
+        {
+            
+        }
+        
         protected override void Read(BinaryReaderEx br)
         {
             br.Position = 0x2C;
@@ -222,21 +294,23 @@ namespace FSParam
             }
 
             Rows = new List<Row>(rowCount);
-            var pendingRow = new Row();
             for (var i = 0; i < rowCount; i++)
             {
                 long nameOffset;
+                int id;
+                string? name = null;
+                uint dataIndex;
                 if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
                 {
-                    pendingRow.ID = br.ReadInt32();
+                    id = br.ReadInt32();
                     br.ReadInt32(); // I would like to assert 0, but some of the generatordbglocation params in DS2S have garbage here
-                    pendingRow.DataIndex = (uint)br.ReadInt64();
+                    dataIndex = (uint)br.ReadInt64();
                     nameOffset = br.ReadInt64();
                 }
                 else
                 {
-                    pendingRow.ID = br.ReadInt32();
-                    pendingRow.DataIndex = br.ReadUInt32();
+                    id = br.ReadInt32();
+                    dataIndex = br.ReadUInt32();
                     nameOffset = br.ReadUInt32();
                 }
 
@@ -246,11 +320,11 @@ namespace FSParam
                         actualStringsOffset = nameOffset;
 
                     if (Format2E.HasFlag(FormatFlags2.UnicodeRowNames))
-                        pendingRow.Name = br.GetUTF16(nameOffset);
+                        name = br.GetUTF16(nameOffset);
                     else
-                        pendingRow.Name = br.GetShiftJIS(nameOffset);
+                        name = br.GetShiftJIS(nameOffset);
                 }
-                Rows.Add(pendingRow);
+                Rows.Add(new Row(id, name, this, dataIndex));
             }
             
             if (Rows.Count > 1)
@@ -266,6 +340,12 @@ namespace FSParam
                 br.Position = dataStart;
                 var rowData = br.ReadBytes(Rows.Count * (int)DetectedSize);
                 ParamData = new StridedByteArray(rowData, DetectedSize, BigEndian);
+                
+                // Convert raw data offsets into indices
+                foreach (var r in Rows)
+                {
+                    r.DataIndex = (r.DataIndex - dataStart) / DetectedSize;
+                }
             }
         }
 
@@ -273,5 +353,25 @@ namespace FSParam
         {
             
         }
+
+        /// <summary>
+        /// Gets the index of the Row with ID id or returns null
+        /// </summary>
+        /// <param name="id">The ID of the row to find</param>
+        public Row? this[int id]
+        {
+            get
+            {
+                for (int i = 0; i < Rows.Count; i++)
+                {
+                    if (Rows[i].ID == id)
+                        return Rows[i];
+                }
+
+                return null;
+            }
+        }
+
+        public Cell? this[string name] => Cells.FirstOrDefault(cell => cell.Def.InternalName == name);
     }
 }
