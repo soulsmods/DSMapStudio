@@ -354,21 +354,27 @@ namespace StudioCore
                 PointCameraToLocation(CameraPositionDefault.Position);
             }
 
+            // Change camera speed via mousewheel
+            float moveMult = 1;
+            float mouseWheelSpeedStep = 1.15f;
             if (InputTracker.GetMouseWheelDelta() > 0)
-                CFG.Current.GFX_Camera_MoveSpeed_Normal *= 1.05f;
+                moveMult *= mouseWheelSpeedStep;
             if (InputTracker.GetMouseWheelDelta() < 0)
-                CFG.Current.GFX_Camera_MoveSpeed_Normal *= 1/1.05f;
-
-            float moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Normal;
-
+                moveMult *= 1/mouseWheelSpeedStep;
             if (isSpeedupKeyPressed)
             {
+                CFG.Current.GFX_Camera_MoveSpeed_Fast *= moveMult;
                 moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Fast;
             }
-
-            if (isSlowdownKeyPressed)
+            else if (isSlowdownKeyPressed)
             {
+                CFG.Current.GFX_Camera_MoveSpeed_Slow *= moveMult;
                 moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Slow;
+            }
+            else
+            {
+                CFG.Current.GFX_Camera_MoveSpeed_Normal *= moveMult;
+                moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Normal;
             }
 
             var cameraDist = CameraOrigin.Position - CameraTransform.Position;
@@ -406,11 +412,11 @@ namespace StudioCore
                     MoveCamera_OrbitCenterPoint_MouseDelta(mousePos, oldMouse);
                     //Vector2 mouseDelta = mousePos - oldMouse;
                     //MoveCamera_OrbitCenterPoint(-mouseDelta.X, mouseDelta.Y, 0, moveMult);
-                }
+                    }
 
 
-                //if (GFX.LastViewport.Bounds.Contains(mouse.Position))
-                //    OrbitCamDistance -= ((currentWheel - oldWheel) / 150f) * 0.25f;
+                    //if (GFX.LastViewport.Bounds.Contains(mouse.Position))
+                    //    OrbitCamDistance -= ((currentWheel - oldWheel) / 150f) * 0.25f;
 
             }
             else
