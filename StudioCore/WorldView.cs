@@ -63,15 +63,8 @@ namespace StudioCore
         public Matrix4x4 MatrixWorld;
         public Matrix4x4 MatrixProjection;
 
-        public float FieldOfView = 43;
-        public float NearClipDistance = 0.1f;
-        public float FarClipDistance = 10000;
         public float CameraTurnSpeedGamepad = 1.5f * 0.1f;
         public float CameraTurnSpeedMouse = 1.5f * 0.25f;
-
-        public float CameraMoveSpeed = 20.0f;
-        public float CameraMoveSpeedFast = 200.0f;
-        public float CameraMoveSpeedSlow = 1.0f;
 
         public static readonly Vector3 CameraDefaultPos = new Vector3(0, 0.25f, -5);
         public static readonly Vector3 CameraDefaultRot = new Vector3(0, 0, 0);
@@ -362,20 +355,20 @@ namespace StudioCore
             }
 
             if (InputTracker.GetMouseWheelDelta() > 0)
-                CameraMoveSpeed *= 1.05f;
+                CFG.Current.GFX_Camera_MoveSpeed_Normal *= 1.05f;
             if (InputTracker.GetMouseWheelDelta() < 0)
-                CameraMoveSpeed *= 1/1.05f;
+                CFG.Current.GFX_Camera_MoveSpeed_Normal *= 1/1.05f;
 
-            float moveMult = dt * CameraMoveSpeed;
+            float moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Normal;
 
             if (isSpeedupKeyPressed)
             {
-                moveMult = dt * CameraMoveSpeedFast;
+                moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Fast;
             }
 
             if (isSlowdownKeyPressed)
             {
-                moveMult = dt * CameraMoveSpeedSlow;
+                moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Slow;
             }
 
             var cameraDist = CameraOrigin.Position - CameraTransform.Position;
