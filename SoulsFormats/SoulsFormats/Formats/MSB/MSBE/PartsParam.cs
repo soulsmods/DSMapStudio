@@ -2398,9 +2398,9 @@ namespace SoulsFormats
                 public byte UnkT12 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of AssetModelSfxParam to use.
                 /// </summary>
-                public short UnkT1C { get; set; }
+                public short AssetModelSfxParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2979,7 +2979,7 @@ namespace SoulsFormats
                     br.AssertByte(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
-                    UnkT1C = br.ReadInt16();
+                    AssetModelSfxParamID = br.ReadInt16();
                     UnkT1E = br.ReadInt16();
                     br.AssertInt32(-1);
                     UnkT24 = br.ReadInt32();
@@ -3032,7 +3032,7 @@ namespace SoulsFormats
                     bw.WriteByte(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
-                    bw.WriteInt16(UnkT1C);
+                    bw.WriteInt16(AssetModelSfxParamID);
                     bw.WriteInt16(UnkT1E);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(UnkT24);
