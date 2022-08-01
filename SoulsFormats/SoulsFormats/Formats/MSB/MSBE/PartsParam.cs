@@ -2398,7 +2398,7 @@ namespace SoulsFormats
                 public byte UnkT12 { get; set; }
 
                 /// <summary>
-                /// ID of AssetModelSfxParam to use.
+                /// ID offset added onto model ID determining AssetModelSfxParam to use.
                 /// </summary>
                 public short AssetModelSfxParamID { get; set; }
 
