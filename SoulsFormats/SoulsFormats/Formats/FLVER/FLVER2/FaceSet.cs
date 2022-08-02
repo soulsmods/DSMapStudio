@@ -138,7 +138,7 @@ namespace SoulsFormats
                     Indices = new int[indexCount];
                     for (int i = 0; i < indexCount; i++)
                     {
-                        Indices[i] = br.ReadInt16();
+                        Indices[i] = br.ReadUInt16();
                     }
                     br.StepOut();
 
