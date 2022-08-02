@@ -565,17 +565,7 @@ namespace StudioCore.MsbEditor
             }
             map.LoadMSB(msb);
 
-            var amapid = mapid.Substring(0, 6) + "_00_00";
-            if (_assetLocator.Type == GameType.EldenRing)
-            {
-                // Elden Ring all maps have their own assets
-                amapid = mapid;
-            }
-            // Special case for chalice dungeon assets
-            if (mapid.StartsWith("m29"))
-            {
-                amapid = "m29_00_00_00";
-            }
+            var amapid = _assetLocator.GetAssetMapID(mapid);
 
             foreach (var model in msb.Models.GetEntries())
             {

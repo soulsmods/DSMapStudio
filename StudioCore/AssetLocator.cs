@@ -331,8 +331,9 @@ namespace StudioCore
                 }
             }
             var mapRegex = new Regex(@"^m\d{2}_\d{2}_\d{2}_\d{2}$");
-            FullMapList = mapSet.Where(x => mapRegex.IsMatch(x)).ToList();
-            FullMapList.Sort();
+            var mapList = mapSet.Where(x => mapRegex.IsMatch(x)).ToList();
+            mapList.Sort();
+            FullMapList = mapList;
             return FullMapList;
         }
 
@@ -696,6 +697,8 @@ namespace StudioCore
             var ret = new List<AssetDescription>();
             if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
             {
+                if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
+                    return ret;
                 var mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", @"*.mapbnd.dcx").ToList();
                 foreach (var f in mapfiles)
                 {
@@ -718,6 +721,8 @@ namespace StudioCore
             }
             else
             {
+                if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
+                    return ret;
                 var ext = Type == GameType.DarkSoulsPTDE ? @"*.flver" : @"*.flver.dcx";
                 var mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", ext).ToList();
                 foreach (var f in mapfiles)
@@ -751,6 +756,28 @@ namespace StudioCore
             return $@"{mapid}_{modelname.Substring(1)}";
         }
 
+        /// <summary>
+        /// Gets the adjusted map ID that contains all the map assets
+        /// </summary>
+        /// <param name="mapid">The msb map ID to adjust</param>
+        /// <returns>The map ID for the purpose of asset storage</returns>
+        public string GetAssetMapID(string mapid)
+        {
+            var amapid = mapid.Substring(0, 6) + "_00_00";
+            if (Type == GameType.EldenRing)
+            {
+                // Elden Ring all maps have their own assets
+                amapid = mapid;
+            }
+            // Special case for chalice dungeon assets
+            if (mapid.StartsWith("m29"))
+            {
+                amapid = "m29_00_00_00";
+            }
+
+            return amapid;
+        }
+        
         public AssetDescription GetMapModel(string mapid, string model)
         {
             var ret = new AssetDescription();
