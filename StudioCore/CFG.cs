@@ -229,5 +229,11 @@ namespace StudioCore
 
         public int GFX_Display_X { get; set; } = 0;
         public int GFX_Display_Y { get; set; } = 23;
+
+        public float GFX_Camera_FOV { get; set; } = 60.0f;
+        public float GFX_Camera_MoveSpeed_Slow { get; set; } = 1.0f;
+        public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
+        public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
+        public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
     }
 }

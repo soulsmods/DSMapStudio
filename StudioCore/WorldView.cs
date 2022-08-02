@@ -63,15 +63,12 @@ namespace StudioCore
         public Matrix4x4 MatrixWorld;
         public Matrix4x4 MatrixProjection;
 
-        public float FieldOfView = 43;
-        public float NearClipDistance = 0.1f;
-        public float FarClipDistance = 10000;
         public float CameraTurnSpeedGamepad = 1.5f * 0.1f;
         public float CameraTurnSpeedMouse = 1.5f * 0.25f;
 
-        public float CameraMoveSpeed = 20.0f;
-        public float CameraMoveSpeedFast = 200.0f;
-        public float CameraMoveSpeedSlow = 1.0f;
+        public float CameraMoveSpeed_Slow = CFG.Current.GFX_Camera_MoveSpeed_Slow;
+        public float CameraMoveSpeed_Normal = CFG.Current.GFX_Camera_MoveSpeed_Normal;
+        public float CameraMoveSpeed_Fast = CFG.Current.GFX_Camera_MoveSpeed_Fast;
 
         public static readonly Vector3 CameraDefaultPos = new Vector3(0, 0.25f, -5);
         public static readonly Vector3 CameraDefaultRot = new Vector3(0, 0, 0);
@@ -361,21 +358,27 @@ namespace StudioCore
                 PointCameraToLocation(CameraPositionDefault.Position);
             }
 
+            // Change camera speed via mousewheel
+            float moveMult = 1;
+            float mouseWheelSpeedStep = 1.15f;
             if (InputTracker.GetMouseWheelDelta() > 0)
-                CameraMoveSpeed *= 1.05f;
+                moveMult *= mouseWheelSpeedStep;
             if (InputTracker.GetMouseWheelDelta() < 0)
-                CameraMoveSpeed *= 1/1.05f;
-
-            float moveMult = dt * CameraMoveSpeed;
-
+                moveMult *= 1/mouseWheelSpeedStep;
             if (isSpeedupKeyPressed)
             {
-                moveMult = dt * CameraMoveSpeedFast;
+                CameraMoveSpeed_Fast *= moveMult;
+                moveMult = dt * CameraMoveSpeed_Fast;
             }
-
-            if (isSlowdownKeyPressed)
+            else if (isSlowdownKeyPressed)
             {
-                moveMult = dt * CameraMoveSpeedSlow;
+                CameraMoveSpeed_Slow *= moveMult;
+                moveMult = dt * CameraMoveSpeed_Slow;
+            }
+            else
+            {
+                CameraMoveSpeed_Normal *= moveMult;
+                moveMult = dt * CameraMoveSpeed_Normal;
             }
 
             var cameraDist = CameraOrigin.Position - CameraTransform.Position;
@@ -413,11 +416,11 @@ namespace StudioCore
                     MoveCamera_OrbitCenterPoint_MouseDelta(mousePos, oldMouse);
                     //Vector2 mouseDelta = mousePos - oldMouse;
                     //MoveCamera_OrbitCenterPoint(-mouseDelta.X, mouseDelta.Y, 0, moveMult);
-                }
+                    }
 
 
-                //if (GFX.LastViewport.Bounds.Contains(mouse.Position))
-                //    OrbitCamDistance -= ((currentWheel - oldWheel) / 150f) * 0.25f;
+                    //if (GFX.LastViewport.Bounds.Contains(mouse.Position))
+                    //    OrbitCamDistance -= ((currentWheel - oldWheel) / 150f) * 0.25f;
 
             }
             else
