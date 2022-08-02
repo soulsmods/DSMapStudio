@@ -66,6 +66,10 @@ namespace StudioCore
         public float CameraTurnSpeedGamepad = 1.5f * 0.1f;
         public float CameraTurnSpeedMouse = 1.5f * 0.25f;
 
+        public float CameraMoveSpeed_Slow = CFG.Current.GFX_Camera_MoveSpeed_Slow;
+        public float CameraMoveSpeed_Normal = CFG.Current.GFX_Camera_MoveSpeed_Normal;
+        public float CameraMoveSpeed_Fast = CFG.Current.GFX_Camera_MoveSpeed_Fast;
+
         public static readonly Vector3 CameraDefaultPos = new Vector3(0, 0.25f, -5);
         public static readonly Vector3 CameraDefaultRot = new Vector3(0, 0, 0);
 
@@ -363,18 +367,18 @@ namespace StudioCore
                 moveMult *= 1/mouseWheelSpeedStep;
             if (isSpeedupKeyPressed)
             {
-                CFG.Current.GFX_Camera_MoveSpeed_Fast *= moveMult;
-                moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Fast;
+                CameraMoveSpeed_Fast *= moveMult;
+                moveMult = dt * CameraMoveSpeed_Fast;
             }
             else if (isSlowdownKeyPressed)
             {
-                CFG.Current.GFX_Camera_MoveSpeed_Slow *= moveMult;
-                moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Slow;
+                CameraMoveSpeed_Slow *= moveMult;
+                moveMult = dt * CameraMoveSpeed_Slow;
             }
             else
             {
-                CFG.Current.GFX_Camera_MoveSpeed_Normal *= moveMult;
-                moveMult = dt * CFG.Current.GFX_Camera_MoveSpeed_Normal;
+                CameraMoveSpeed_Normal *= moveMult;
+                moveMult = dt * CameraMoveSpeed_Normal;
             }
 
             var cameraDist = CameraOrigin.Position - CameraTransform.Position;

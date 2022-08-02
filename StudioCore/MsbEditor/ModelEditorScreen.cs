@@ -69,6 +69,11 @@ namespace StudioCore.MsbEditor
                     var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
                     var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
 
+                    var basespeed = (float)Math.Sqrt(mindim / 3.0f);
+                    Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
+                    Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
+                    Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
+
                     Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
                     Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
                 }
