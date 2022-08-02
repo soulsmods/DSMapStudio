@@ -183,10 +183,15 @@ namespace StudioCore.Scene
             WeakReference<ISelectable> sel;
             if (renderableSystemIndex == 0)
             {
+                // TODO: Logging?
+                if ((_pickingEntity & 0x3FFFFFFF) >= Scene.OpaqueRenderables.cSelectables.Length)
+                    return null;
                 sel = Scene.OpaqueRenderables.cSelectables[_pickingEntity & 0x3FFFFFFF];
             }
             else
             {
+                if ((_pickingEntity & 0x3FFFFFFF) >= Scene.OverlayRenderables.cSelectables.Length)
+                    return null;
                 sel = Scene.OverlayRenderables.cSelectables[_pickingEntity & 0x3FFFFFFF];
             }
             ISelectable selected;
