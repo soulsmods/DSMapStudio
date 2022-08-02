@@ -109,7 +109,7 @@ namespace StudioCore.MsbEditor
             
         }
 
-        public void LoadModel(string modelid)
+        public void LoadModel(string modelid, string mapid = null)
         {
             AssetDescription asset;
             AssetDescription assettex;
@@ -123,6 +123,11 @@ namespace StudioCore.MsbEditor
             else if (modelid.StartsWith("o") || modelid.StartsWith("aeg"))
             {
                 asset = AssetLocator.GetObjModel(modelid);
+                assettex = AssetLocator.GetNullAsset();
+            }
+            else if (modelid.StartsWith("m"))
+            {
+                asset = AssetLocator.GetMapModel(mapid, modelid);
                 assettex = AssetLocator.GetNullAsset();
             }
             else
@@ -171,6 +176,11 @@ namespace StudioCore.MsbEditor
         public void OnInstantiateObj(string objid)
         {
             LoadModel(objid);
+        }
+
+        public void OnInstantiateMapPiece(string mapid, string modelid)
+        {
+            LoadModel(modelid, mapid);
         }
 
         public void OnGUI()
