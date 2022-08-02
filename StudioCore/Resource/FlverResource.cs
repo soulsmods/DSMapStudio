@@ -1512,6 +1512,7 @@ namespace StudioCore.Resource
             foreach (var fsidx in facesetIndices)
             {
                 indicesTotal += facesets[fsidx].indexCount;
+                is32bit = is32bit || facesets[fsidx].indexSize != 16;
             }
             if (is32bit)
             {
@@ -1560,33 +1561,30 @@ namespace StudioCore.Resource
                 }
 
                 br.StepIn(faceset.indicesOffset);
-                if (is32bit)
+                for (int i = 0; i < faceset.indexCount; i++)
                 {
-                    for (int i = 0; i < faceset.indexCount; i++)
+                    if (faceset.indexSize == 16)
                     {
-                        int idx = br.ReadInt32();
-                        if (idx == 0xFFFF && idx > vertexCount)
+                        var idx = br.ReadUInt16();
+                        if (is32bit)
+                        {
+                            fs32[newFaceSet.IndexOffset + i] = (idx == 0xFFFF ? -1 : idx);
+                        }
+                        else
+                        {
+                            fs16[newFaceSet.IndexOffset + i] = idx;
+                        }
+                    }
+                    else
+                    {
+                        var idx = br.ReadInt32();
+                        if (idx > vertexCount)
                         {
                             fs32[newFaceSet.IndexOffset + i] = -1;
                         }
                         else
                         {
                             fs32[newFaceSet.IndexOffset + i] = idx;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < faceset.indexCount; i++)
-                    {
-                        ushort idx = br.ReadUInt16();
-                        if (idx == 0xFFFF && idx > vertexCount)
-                        {
-                            fs16[newFaceSet.IndexOffset + i] = 0xFFFF;
-                        }
-                        else
-                        {
-                            fs16[newFaceSet.IndexOffset + i] = idx;
                         }
                     }
                 }
