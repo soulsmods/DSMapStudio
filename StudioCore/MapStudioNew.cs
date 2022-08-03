@@ -590,32 +590,6 @@ namespace StudioCore
             {
                 if (ImGui.BeginMenu("File"))
                 {
-                    if (_projectSettings == null || _projectSettings.ProjectName == null)
-                    {
-                        ImGui.MenuItem("No project open", false);
-                    }
-                    else
-                    {
-                        if (ImGui.BeginMenu($@"Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
-                        {
-                            bool useLoose = _projectSettings.UseLooseParams;
-                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
-                            {
-                                _projectSettings.UseLooseParams = useLoose;
-                            }
-                            bool usepartial = _projectSettings.PartialParams;
-                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
-                            {
-                                _projectSettings.PartialParams = usepartial;
-                            }
-                            ImGui.EndMenu();
-                        }
-                    }
-
-                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
-                    {
-                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
-                    }
 
                     if (ImGui.MenuItem("New Project", "CTRL+N", false, Editor.TaskManager.GetLiveThreads().Count == 0) || InputTracker.GetControlShortcut(Key.N))
                     {
@@ -637,7 +611,7 @@ namespace StudioCore
                             AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
-                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0))
+                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
                         foreach (var p in CFG.Current.RecentProjects)
@@ -714,6 +688,76 @@ namespace StudioCore
                 else if (_textEditorFocused)
                 {
                     _textEditor.DrawEditorMenu();
+                }
+                if (ImGui.BeginMenu("Settings"))
+                {
+                    if (_projectSettings == null || _projectSettings.ProjectName == null)
+                    {
+                        ImGui.MenuItem("Project Settings: (No project)", false);
+                    }
+                    else
+                    {
+                        if (ImGui.BeginMenu($@"Project Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            bool useLoose = _projectSettings.UseLooseParams;
+                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            {
+                                _projectSettings.UseLooseParams = useLoose;
+                            }
+                            bool usepartial = _projectSettings.PartialParams;
+                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            {
+                                _projectSettings.PartialParams = usepartial;
+                            }
+                            ImGui.EndMenu();
+                        }
+                    }
+                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
+                    {
+                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
+                    }
+                    if (ImGui.BeginMenu("Viewport Settings"))
+                    {
+                        if (ImGui.Button("Reset"))
+                        {
+                            CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
+
+                            _msbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
+                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
+                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
+                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
+                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        }
+                        float cam_fov = CFG.Current.GFX_Camera_FOV;
+                        if (ImGui.SliderFloat("Camera FOV", ref cam_fov, 40.0f, 140.0f))
+                        {
+                            CFG.Current.GFX_Camera_FOV = cam_fov;
+                        }
+                        if (ImGui.SliderFloat("Map Max Render Distance", ref _msbEditor.Viewport.FarClip, 10.0f, 500000.0f))
+                        {
+                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Slow)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Normal)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Fast)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        }
+                        ImGui.EndMenu();
+                    }
+                    ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Help"))
                 {

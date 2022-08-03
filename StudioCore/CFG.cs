@@ -16,6 +16,7 @@ namespace StudioCore
 
         public const string FileName = "DSMapStudio_Config.json";
         public static CFG Current { get; private set; } = null;
+        public static CFG Default { get; private set; } = new();
 
         public const int MAX_RECENT_PROJECTS = 10;
 
