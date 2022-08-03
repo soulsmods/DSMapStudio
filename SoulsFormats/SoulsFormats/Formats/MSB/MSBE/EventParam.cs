@@ -339,7 +339,7 @@ namespace SoulsFormats
                 bw.ReserveInt64("Unk3Offset");
 
                 bw.FillInt64("NameOffset", bw.Position - start);
-                bw.WriteUTF16(Name, true);
+                bw.WriteUTF16(MSB.ReambiguateName(Name), true);
                 bw.Pad(8);
 
                 bw.FillInt64("BaseDataOffset", bw.Position - start);

@@ -96,6 +96,7 @@ namespace SoulsFormats
             MSB.DisambiguateNames(entries.Models);
             MSB.DisambiguateNames(entries.Regions);
             MSB.DisambiguateNames(entries.Parts);
+            MSB.DisambiguateNames(entries.Events);
 
             foreach (Event evt in entries.Events)
                 evt.GetNames(this, entries);
