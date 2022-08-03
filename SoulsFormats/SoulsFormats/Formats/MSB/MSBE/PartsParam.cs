@@ -1512,11 +1512,12 @@ namespace SoulsFormats
                 public string CollisionPartName { get; set; }
                 private int CollisionPartIndex;
 
-
                 /// <summary>
-                /// References which PatrolInfo index to use for patrol information.
+                /// Walk route followed by this enemy.
                 /// </summary>
-                public short PatrolIndex { get; set; }
+                [MSBReference(ReferenceType = typeof(Event.PatrolInfo))]
+                public string WalkRouteName { get; set; }
+                private short WalkRouteIndex;
 
                 /// <summary>
                 /// Unknown.
@@ -1611,7 +1612,7 @@ namespace SoulsFormats
                     PlatoonID = br.ReadInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
-                    PatrolIndex = br.ReadInt16();
+                    WalkRouteIndex = br.ReadInt16();
                     br.AssertInt16(0);
                     UnkT24 = br.AssertInt32(-1);
                     UnkT28 = br.ReadInt32();
@@ -1657,7 +1658,7 @@ namespace SoulsFormats
                     bw.WriteInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
-                    bw.WriteInt16(PatrolIndex);
+                    bw.WriteInt16(WalkRouteIndex);
                     bw.WriteInt16(0);
                     bw.WriteInt32(UnkT24);
                     bw.WriteInt32(UnkT28);
@@ -1695,12 +1696,14 @@ namespace SoulsFormats
                 {
                     base.GetNames(msb, entries);
                     CollisionPartName = MSB.FindName(entries.Parts, CollisionPartIndex);
+                    WalkRouteName = MSB.FindName(msb.Events.PatrolInfo, WalkRouteIndex);
                 }
 
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
                     CollisionPartIndex = MSB.FindIndex(entries.Parts, CollisionPartName);
+                    WalkRouteIndex = (short)MSB.FindIndex(msb.Events.PatrolInfo, WalkRouteName);
                 }
             }
 
