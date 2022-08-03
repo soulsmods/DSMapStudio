@@ -383,13 +383,10 @@ namespace StudioCore.MsbEditor
 
             if (ImGui.BeginMenu("Display"))
             {
-                /*
-                // Doesn't do anything
                 if (ImGui.MenuItem("Grid", "", Viewport.DrawGrid))
                 {
                     Viewport.DrawGrid = !Viewport.DrawGrid;
                 }
-                */
                 if (ImGui.BeginMenu("Object Types"))
                 {
                     if (ImGui.MenuItem("Debug", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Debug)))
