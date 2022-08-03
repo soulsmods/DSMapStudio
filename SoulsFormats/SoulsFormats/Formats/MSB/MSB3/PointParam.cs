@@ -1012,7 +1012,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Distance from camera required before enabling envmap. 0 = always enabled.
                 /// </summary>
-                public float EmableDist { get; set; }
+                public float EnableDist { get; set; }
 
                 /// <summary>
                 /// Distance it takes for an envmap to fully transition into view.
@@ -1043,7 +1043,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    EmableDist = br.ReadSingle();
+                    EnableDist = br.ReadSingle();
                     TransitionDist = br.ReadSingle();
                     UnkT08 = br.ReadBoolean();
                     UnkT09 = br.ReadByte();
@@ -1060,7 +1060,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteSingle(EmableDist);
+                    bw.WriteSingle(EnableDist);
                     bw.WriteSingle(TransitionDist);
                     bw.WriteBoolean(UnkT08);
                     bw.WriteByte(UnkT09);
