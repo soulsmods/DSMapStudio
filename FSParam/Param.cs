@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Runtime.InteropServices;
+using System.Security;
 using SoulsFormats;
 using StudioUtils;
 
@@ -125,6 +126,8 @@ namespace FSParam
 
             public IEnumerable<Cell> Cells => Parent.Cells;
 
+            public PARAMDEF Def => Parent.AppliedParamdef;
+
             internal Row(int id, string? name, Param parent, uint dataIndex)
             {
                 ID = id;
@@ -150,7 +153,13 @@ namespace FSParam
                 // TODO: clone data
             }
 
+            ~Row()
+            {
+                Parent.ParamData.RemoveAt(DataIndex);
+            }
+
             public CellHandle? this[string field] => throw new NotImplementedException();
+            public CellHandle this[Cell field] => throw new NotImplementedException();
         }
 
         /// <summary>
@@ -160,6 +169,7 @@ namespace FSParam
         public struct CellHandle
         {
             public object Value { get; set; }
+            public PARAMDEF.Field Def { get; }
         }
         
         /// <summary>
@@ -232,8 +242,23 @@ namespace FSParam
         public uint DetectedSize { get; private set; }
 
         public StridedByteArray ParamData { get; private set; } = new StridedByteArray(0, 1);
-        
-        public List<Row> Rows { get; private set; }
+
+        private List<Row> _rows = new List<Row>();
+        public List<Row> Rows 
+        { 
+            get => _rows;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                
+                if (Rows.Any(r => r.Parent != this))
+                {
+                    throw new ArgumentException("Attempting to add rows created from another Param");
+                }
+                _rows = value;
+            } 
+        }
         
         public IReadOnlyList<Cell> Cells { get; private set; }
 

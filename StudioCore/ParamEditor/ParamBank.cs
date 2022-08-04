@@ -348,7 +348,7 @@ namespace StudioCore.ParamEditor
                         continue;
                     }
 
-                    var lp = PARAM.Read(p);
+                    var lp = Param.Read(p);
                     var fname = lp.ParamType;
                     PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
                     lp.ApplyParamdef(def);
@@ -507,7 +507,7 @@ namespace StudioCore.ParamEditor
                     Param baseParam = _params[pair.Key];
                     foreach (var row in pair.Value.Rows)
                     {
-                        PARAM.Row bRow = baseParam[row.ID];
+                        Param.Row bRow = baseParam[row.ID];
                         if (bRow == null)
                         {
                             baseParam.Rows.Add(row);
@@ -515,9 +515,10 @@ namespace StudioCore.ParamEditor
                         else
                         {
                             bRow.Name = row.Name;
-                            foreach (PARAMDEF.Field field in bRow.Def.Fields)
+                            foreach (var field in bRow.Cells)
                             {
-                                bRow[field.InternalName].Value = row[field.InternalName].Value;
+                                var cell = bRow[field];
+                                cell.Value = row[field].Value;
                             }
                         }
                     }
@@ -967,14 +968,14 @@ namespace StudioCore.ParamEditor
             {
                 if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
-                    PARAM paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
-                    List<PARAM.Row> backup = paramFile.Rows;
-                    List<PARAM.Row> changed = new List<PARAM.Row>();
+                    Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
+                    List<Param.Row> backup = paramFile.Rows;
+                    List<Param.Row> changed = new List<Param.Row>();
                     if (partial)
                     {
                         TaskManager.WaitAll();//wait on dirtycache update
                         HashSet<int> dirtyCache = _paramDirtyCache[Path.GetFileNameWithoutExtension(p.Name)];
-                        foreach (PARAM.Row row in paramFile.Rows)
+                        foreach (Param.Row row in paramFile.Rows)
                         {
                             if (dirtyCache.Contains(row.ID))
                                 changed.Add(row);

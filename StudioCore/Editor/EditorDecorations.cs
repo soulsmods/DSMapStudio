@@ -10,6 +10,7 @@ using ImGuiNET;
 using System.Net.Http.Headers;
 using System.Security;
 using System.Text.RegularExpressions;
+using FSParam;
 using StudioCore;
 using StudioCore.Editor;
 using StudioCore.ParamEditor;
@@ -65,20 +66,20 @@ namespace StudioCore.Editor
             }
             ImGui.EndGroup();
         }
-        private static List<(PARAM.Row, string)> resolveRefs(List<string> paramRefs, dynamic oldval)
+        private static List<(Param.Row, string)> resolveRefs(List<string> paramRefs, dynamic oldval)
         {
-            List<(PARAM.Row, string)> rows = new List<(PARAM.Row, string)>();
+            List<(Param.Row, string)> rows = new List<(Param.Row, string)>();
             int originalValue = (int)oldval; //make sure to explicitly cast from dynamic or C# complains. Object or Convert.ToInt32 fail.
             foreach (string rt in paramRefs)
             {
                 string hint = "";
                 if (ParamEditor.ParamBank.Params.ContainsKey(rt))
                 {
-                    PARAM param = ParamEditor.ParamBank.Params[rt];
+                    Param param = ParamEditor.ParamBank.Params[rt];
                     ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.Get(ParamEditor.ParamBank.Params[rt].AppliedParamdef);
                     if (meta != null && meta.Row0Dummy && originalValue == 0)
                         continue;
-                    PARAM.Row r = param[originalValue];
+                    Param.Row r = param[originalValue];
                     if (r == null && originalValue > 0 && meta != null)
                     {
                         int altval = originalValue;
@@ -139,7 +140,7 @@ namespace StudioCore.Editor
                 //add selectable
                 if (ImGui.Selectable($@"Go to first in {param.Key}"))
                 {
-                    foreach (PARAM.Row row in param.Value.Rows)
+                    foreach (Param.Row row in param.Value.Rows)
                     {
                         if (row[foundfield.InternalName].Value.ToString().Equals(searchValue.ToString()))
                         {
@@ -208,8 +209,8 @@ namespace StudioCore.Editor
                         continue;
                     ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
                     int maxResultsPerRefType = 15 / reftypes.Count;
-                    List<PARAM.Row> rows = RowSearchEngine.rse.Search(ParamBank.Params[rt], _refContextCurrentAutoComplete, true, true);
-                    foreach (PARAM.Row r in rows)
+                    List<Param.Row> rows = RowSearchEngine.rse.Search(ParamBank.Params[rt], _refContextCurrentAutoComplete, true, true);
+                    foreach (Param.Row r in rows)
                     {
                         if (maxResultsPerRefType <= 0)
                             break;

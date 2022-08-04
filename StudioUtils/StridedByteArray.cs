@@ -15,6 +15,8 @@ public class StridedByteArray
     
     private byte[] _backing;
 
+    private List<uint> _freeEntries = new List<uint>();
+
     public StridedByteArray(uint initialCapacity, uint stride, bool bigEndian=false)
     {
         Capacity = initialCapacity;
@@ -60,6 +62,12 @@ public class StridedByteArray
     /// <returns>The index of the new element</returns>
     public uint AddZeroedElement()
     {
+        if (_freeEntries.Count > 0)
+        {
+            var index = _freeEntries[^1];
+            _freeEntries.RemoveAt(_freeEntries.Count - 1);
+            return index;
+        }
         Count++;
         GrowIfNeeded();
         return Count - 1;
@@ -70,12 +78,14 @@ public class StridedByteArray
         if (index >= Count)
             throw new IndexOutOfRangeException();
         
-        // If we're not deleting the last index, shift the data down to fill the index
+        // If we're not deleting the last index, mark it as empty and able to be allocated
         if (index < Count - 1)
-            Array.Copy(_backing, (int)(index + 1) * (int)Stride, _backing, (int)index * (int)Stride, Stride);
-        
-        // Clear the last element
-        Array.Clear(_backing, (int)(Count - 1) * (int)Stride, (int)Stride);
+        {
+            _freeEntries.Add(index);
+        }
+
+        // Clear the element
+        Array.Clear(_backing, (int)(index + 1) * (int)Stride, (int)Stride);
 
         Count -= 1;
     }
@@ -85,7 +95,7 @@ public class StridedByteArray
     /// </summary>
     /// <param name="index"></param>
     /// <returns>The index of the new element</returns>
-    public uint InsertAt(uint index)
+    /*public uint InsertAt(uint index)
     {
         if (index > Count)
             throw new IndexOutOfRangeException();
@@ -102,7 +112,7 @@ public class StridedByteArray
         Array.Clear(_backing, (int)index * (int)Stride, (int)Stride);
 
         return index;
-    }
+    }*/
 
     /// <summary>
     /// Reads an element interpreted as a specific type at a specific offset of an element array

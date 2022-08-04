@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -240,7 +241,7 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditCSV : MassParamEdit
     {
-        public static string GenerateColumnLabels(PARAM param, char separator)
+        public static string GenerateColumnLabels(Param param, char separator)
         {
             string str = "";
             str += $@"ID{separator}Name{separator}";
@@ -251,31 +252,31 @@ namespace StudioCore.ParamEditor
             return str+"\n";
         }
         
-        public static string GenerateCSV(List<PARAM.Row> rows, PARAM param, char separator)
+        public static string GenerateCSV(List<Param.Row> rows, Param param, char separator)
         {
             string gen = "";
             gen += GenerateColumnLabels(param, separator);
 
-            foreach (PARAM.Row row in rows)
+            foreach (Param.Row row in rows)
             {
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
-                foreach (PARAM.Cell cell in row.Cells)
+                foreach (Param.Cell cell in row.Cells)
                 {
-                    if (cell.Value.GetType() == typeof(byte[]))
-                        rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])cell.Value)}";
+                    if (row[cell].Value.GetType() == typeof(byte[]))
+                        rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])row[cell].Value)}";
                     else
-                        rowgen += $@"{separator}{cell.Value}";
+                        rowgen += $@"{separator}{row[cell].Value}";
                 }
                 gen += rowgen + "\n";
             }
             return gen;
         }
-        public static string GenerateSingleCSV(List<PARAM.Row> rows, PARAM param, string field, char separator)
+        public static string GenerateSingleCSV(List<Param.Row> rows, Param param, string field, char separator)
         {
             string gen = "";
             gen += GenerateColumnLabels(param, separator);
-            foreach (PARAM.Row row in rows)
+            foreach (Param.Row row in rows)
             {
                 string rowgen;
                 if (field.Equals("Name"))
@@ -332,20 +333,21 @@ namespace StudioCore.ParamEditor
                     var row = p[id];
                     if (row == null || replaceParams)
                     {
-                        row = new Param.Row(id, name, p.AppliedParamdef);
-                        addedParams.Add(row.Value);
+                        row = new Param.Row(id, name, p);
+                        addedParams.Add(row);
                     }
-                    if (!row.Value.Name.Equals(name))
+                    if (row.Name != null && !row.Name.Equals(name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
-                    foreach (PARAM.Cell c in row.Cells)
+                    foreach (Param.Cell c in row.Cells)
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = PerformOperation(c, "=", v);
+                        object newval = PerformOperation(row, c, "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.InternalName}");
-                        if (!(c.Value.Equals(newval) || (c.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])c.Value, (byte[])newval))))
+                        var handle = row[c];
+                        if (!(handle.Value.Equals(newval) || (handle.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
                             actions.Add(new PropertiesChangedAction(c.GetType().GetProperty("Value"), -1, c, newval));
                     }
                 }
@@ -387,7 +389,7 @@ namespace StudioCore.ParamEditor
                         return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}"), null);
                     if (field.Equals("Name"))
                     {
-                        if (!row.Value.Name.Equals(value))
+                        if (row.Name != null && !row.Name.Equals(value))
                             actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }
                     else
@@ -397,10 +399,10 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = PerformOperation(cell, "=", value);
+                        object newval = PerformOperation(row, cell, "=", value);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {cell.Def.InternalName}"), null);
-                        if (!(cell.GetValue(row.Value).Equals(newval) || (cell.GetValue(row.Value).GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])cell.GetValue(row.Value), (byte[])newval))))
+                        if (!(cell.GetValue(row).Equals(newval) || (cell.GetValue(row).GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])cell.GetValue(row), (byte[])newval))))
                             actions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
                     }
                 }

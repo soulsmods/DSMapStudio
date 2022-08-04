@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using FSParam;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -23,9 +24,9 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public interface IParamDecorator
     {
-        public void DecorateParam(PARAM.Row row);
+        public void DecorateParam(Param.Row row);
 
-        public void DecorateContextMenuItems(PARAM.Row row);
+        public void DecorateContextMenuItems(Param.Row row);
 
         public void ClearDecoratorCache();
     }
@@ -60,7 +61,7 @@ namespace StudioCore.ParamEditor
             _entryCache.Clear();
         }
 
-        public void DecorateParam(PARAM.Row row)
+        public void DecorateParam(Param.Row row)
         {
             PopulateDecorator();
             FMG.Entry entry = null;
@@ -75,7 +76,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public void DecorateContextMenuItems(PARAM.Row row)
+        public void DecorateContextMenuItems(Param.Row row)
         {
             PopulateDecorator();
             if (!_entryCache.ContainsKey((int)row.ID))
@@ -98,7 +99,7 @@ namespace StudioCore.ParamEditor
 
         // Clipboard vars
         private string _clipboardParam = null;
-        private List<PARAM.Row> _clipboardRows = new List<PARAM.Row>();
+        private List<Param.Row> _clipboardRows = new List<Param.Row>();
         private long _clipboardBaseRow = 0;
         private bool _ctrlVuseIndex = false;
         private string _currentCtrlVValue = "0";
@@ -433,9 +434,9 @@ namespace StudioCore.ParamEditor
             _clipboardRows.Clear();
             long baseValue = long.MaxValue;
             _activeView._selection.sortSelection();
-            foreach (PARAM.Row r in _activeView._selection.getSelectedRows())
+            foreach (Param.Row r in _activeView._selection.getSelectedRows())
             {
-                _clipboardRows.Add(new PARAM.Row(r));// make a clone
+                _clipboardRows.Add(new Param.Row(r));// make a clone
                 if (r.ID < baseValue)
                     baseValue = r.ID;
             }
@@ -551,7 +552,7 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {
                     _clipboardParam = _activeView._selection.getActiveParam();
-                    foreach (PARAM.Row row in RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true))
+                    foreach (Param.Row row in RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true))
                         _activeView._selection.addRowToSelection(row);
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.C))
@@ -731,9 +732,9 @@ namespace StudioCore.ParamEditor
                     if (_ctrlVuseIndex)
                     {
                         ImGui.Text("Note: You may produce out-of-order or duplicate rows. These may confuse later ID-based row additions.");
-                        List<PARAM.Row> rows = _activeView._selection.getSelectedRows();
-                        PARAM param = ParamBank.Params[_activeView._selection.getActiveParam()];
-                        foreach (PARAM.Row r in rows)
+                        List<Param.Row> rows = _activeView._selection.getSelectedRows();
+                        Param param = ParamBank.Params[_activeView._selection.getActiveParam()];
+                        foreach (Param.Row r in rows)
                         {
                             max = param.Rows.IndexOf(r) > max ? param.Rows.IndexOf(r) : max;
                         }
@@ -759,10 +760,10 @@ namespace StudioCore.ParamEditor
                     int index = 1;
                     if (ImGui.Selectable("Submit"))
                     {
-                        List<PARAM.Row> rowsToInsert = new List<PARAM.Row>();
-                        foreach (PARAM.Row r in _clipboardRows)
+                        List<Param.Row> rowsToInsert = new List<Param.Row>();
+                        foreach (Param.Row r in _clipboardRows)
                         {
-                            PARAM.Row newrow = new PARAM.Row(r);// more cloning
+                            Param.Row newrow = new Param.Row(r);// more cloning
                             if (_ctrlVuseIndex)
                                 newrow.ID = (int) (max+index);
                             else
@@ -890,13 +891,13 @@ namespace StudioCore.ParamEditor
         {
             return _activeParam != null && _paramStates[_activeParam].activeRow != null;
         }
-        public PARAM.Row getActiveRow()
+        public Param.Row getActiveRow()
         {
             if (_activeParam == null)
                 return null;
             return _paramStates[_activeParam].activeRow;
         }
-        public void SetActiveRow(PARAM.Row row, bool clearSelection)
+        public void SetActiveRow(Param.Row row, bool clearSelection)
         {
             if (_activeParam != null)
             {
@@ -906,7 +907,7 @@ namespace StudioCore.ParamEditor
                 s.selectionRows.Add(row);
             }
         }
-        public void toggleRowInSelection(PARAM.Row row)
+        public void toggleRowInSelection(Param.Row row)
         {
             if (_activeParam != null)
             {
@@ -917,7 +918,7 @@ namespace StudioCore.ParamEditor
                     s.selectionRows.Add(row);
             }
         }
-        public void addRowToSelection(PARAM.Row row)
+        public void addRowToSelection(Param.Row row)
         {
             if (_activeParam != null)
             {
@@ -926,12 +927,12 @@ namespace StudioCore.ParamEditor
                     s.selectionRows.Add(row);
             }
         }
-        public void removeRowFromSelection(PARAM.Row row)
+        public void removeRowFromSelection(Param.Row row)
         {
             if (_activeParam != null)
                 _paramStates[_activeParam].selectionRows.Remove(row);
         }
-        public List<PARAM.Row> getSelectedRows()
+        public List<Param.Row> getSelectedRows()
         {
             if (_activeParam == null)
                 return null;
@@ -957,8 +958,8 @@ namespace StudioCore.ParamEditor
             if (_activeParam != null)
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
-                PARAM p = ParamBank.Params[_activeParam];
-                s.selectionRows.Sort((PARAM.Row a, PARAM.Row b) => {return p.Rows.IndexOf(a) - p.Rows.IndexOf(b);});
+                Param p = ParamBank.Params[_activeParam];
+                s.selectionRows.Sort((Param.Row a, Param.Row b) => {return p.Rows.IndexOf(a) - p.Rows.IndexOf(b);});
             }
         }
     }
@@ -967,8 +968,8 @@ namespace StudioCore.ParamEditor
     {
         internal string currentRowSearchString = "";
         internal string currentPropSearchString = "";
-        internal PARAM.Row activeRow = null;
-        internal List<PARAM.Row> selectionRows = new List<PARAM.Row>();
+        internal Param.Row activeRow = null;
+        internal List<Param.Row> selectionRows = new List<Param.Row>();
     }
 
     public class ParamEditorView
@@ -1053,7 +1054,7 @@ namespace StudioCore.ParamEditor
             }
             else
             {
-                PARAM para = ParamBank.Params[activeParam];
+                Param para = ParamBank.Params[activeParam];
                 HashSet<int> dirtyCache = ParamBank.DirtyParamCache[activeParam];
                 IParamDecorator decorator = null;
                 if (_paramEditor._decorators.ContainsKey(activeParam))
@@ -1102,7 +1103,7 @@ namespace StudioCore.ParamEditor
 
                     foreach (int rowID in pinnedRowList)
                     {
-                        PARAM.Row row = para[rowID];
+                        Param.Row row = para[rowID];
                         if (row == null)
                         {
                             _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
@@ -1118,7 +1119,7 @@ namespace StudioCore.ParamEditor
 
                 ImGui.BeginChild("rows" + activeParam);
                 //Todo: cache this, make it dirtyable
-                List<PARAM.Row> p = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
+                List<Param.Row> p = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
 
                 foreach (var r in p)
                 {
@@ -1128,7 +1129,7 @@ namespace StudioCore.ParamEditor
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
                 ImGui.EndChild();
             }
-            PARAM.Row activeRow = _selection.getActiveRow();
+            Param.Row activeRow = _selection.getActiveRow();
             ImGui.EndChild();
             ImGui.NextColumn();
             if (activeRow == null)
@@ -1144,7 +1145,7 @@ namespace StudioCore.ParamEditor
             ImGui.EndChild();
         }
 
-        private void RowColumnEntry(string activeParam, List<PARAM.Row> p,  PARAM.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
+        private void RowColumnEntry(string activeParam, List<Param.Row> p,  Param.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
             if (dirtyCache != null && dirtyCache.Contains(r.ID))
                 ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
