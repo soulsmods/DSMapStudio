@@ -391,7 +391,7 @@ namespace StudioCore.MsbEditor
                 refs.Add(att.ParamName);
                 Editor.EditorDecorations.ParamRefText(refs);
                 ImGui.NextColumn();
-                var id = (int)oldval;
+                var id = oldval; //oldval cannot always be casted to int
                 Editor.EditorDecorations.ParamRefsSelectables(refs, id);
                 return Editor.EditorDecorations.ParamRefEnumContextMenu(id, ref newObj, refs, null);
             }
@@ -694,7 +694,8 @@ namespace StudioCore.MsbEditor
                     {
                         foreach (var n in m.Value)
                         {
-                            if (ImGui.Button(n.PrettyName))
+                            var nameWithType = n.PrettyName.Insert(2, n.WrappedObject.GetType().Name + " - ");
+                            if (ImGui.Button(nameWithType))
                             {
                                 selection.ClearSelection();
                                 selection.AddSelection(n);
@@ -708,7 +709,8 @@ namespace StudioCore.MsbEditor
                 ImGui.Indent(10);
                 foreach (var m in entSelection.GetReferencingObjects())
                 {
-                    if (ImGui.Button(m.PrettyName))
+                    var nameWithType = m.PrettyName.Insert(2, m.WrappedObject.GetType().Name + " - ");
+                    if (ImGui.Button(nameWithType))
                     {
                         selection.ClearSelection();
                         selection.AddSelection(m);

@@ -16,6 +16,7 @@ namespace StudioCore
 
         public const string FileName = "DSMapStudio_Config.json";
         public static CFG Current { get; private set; } = null;
+        public static CFG Default { get; private set; } = new();
 
         public const int MAX_RECENT_PROJECTS = 10;
 
@@ -229,5 +230,11 @@ namespace StudioCore
 
         public int GFX_Display_X { get; set; } = 0;
         public int GFX_Display_Y { get; set; } = 23;
+
+        public float GFX_Camera_FOV { get; set; } = 60.0f;
+        public float GFX_Camera_MoveSpeed_Slow { get; set; } = 1.0f;
+        public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
+        public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
+        public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
     }
 }

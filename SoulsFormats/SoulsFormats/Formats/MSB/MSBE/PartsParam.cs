@@ -1512,11 +1512,12 @@ namespace SoulsFormats
                 public string CollisionPartName { get; set; }
                 private int CollisionPartIndex;
 
-
                 /// <summary>
-                /// References which PatrolInfo index to use for patrol information.
+                /// Walk route followed by this enemy.
                 /// </summary>
-                public short PatrolIndex { get; set; }
+                [MSBReference(ReferenceType = typeof(Event.PatrolInfo))]
+                public string WalkRouteName { get; set; }
+                private short WalkRouteIndex;
 
                 /// <summary>
                 /// Unknown.
@@ -1611,7 +1612,7 @@ namespace SoulsFormats
                     PlatoonID = br.ReadInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
-                    PatrolIndex = br.ReadInt16();
+                    WalkRouteIndex = br.ReadInt16();
                     br.AssertInt16(0);
                     UnkT24 = br.AssertInt32(-1);
                     UnkT28 = br.ReadInt32();
@@ -1657,7 +1658,7 @@ namespace SoulsFormats
                     bw.WriteInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
-                    bw.WriteInt16(PatrolIndex);
+                    bw.WriteInt16(WalkRouteIndex);
                     bw.WriteInt16(0);
                     bw.WriteInt32(UnkT24);
                     bw.WriteInt32(UnkT28);
@@ -1695,12 +1696,14 @@ namespace SoulsFormats
                 {
                     base.GetNames(msb, entries);
                     CollisionPartName = MSB.FindName(entries.Parts, CollisionPartIndex);
+                    WalkRouteName = MSB.FindName(msb.Events.PatrolInfo, WalkRouteIndex);
                 }
 
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
                     CollisionPartIndex = MSB.FindIndex(entries.Parts, CollisionPartName);
+                    WalkRouteIndex = (short)MSB.FindIndex(msb.Events.PatrolInfo, WalkRouteName);
                 }
             }
 
@@ -2398,9 +2401,9 @@ namespace SoulsFormats
                 public byte UnkT12 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value added onto model ID determining AssetModelSfxParam to use.
                 /// </summary>
-                public short UnkT1C { get; set; }
+                public short AssetSfxParamRelativeID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2979,7 +2982,7 @@ namespace SoulsFormats
                     br.AssertByte(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
-                    UnkT1C = br.ReadInt16();
+                    AssetSfxParamRelativeID = br.ReadInt16();
                     UnkT1E = br.ReadInt16();
                     br.AssertInt32(-1);
                     UnkT24 = br.ReadInt32();
@@ -3032,7 +3035,7 @@ namespace SoulsFormats
                     bw.WriteByte(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
-                    bw.WriteInt16(UnkT1C);
+                    bw.WriteInt16(AssetSfxParamRelativeID);
                     bw.WriteInt16(UnkT1E);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(UnkT24);

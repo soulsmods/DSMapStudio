@@ -14,7 +14,6 @@ namespace StudioCore.MsbEditor
         private dynamic PropertyValue = null;
         private Type PropertyType = null;
         private bool ValidType = false;
-        private bool InitSearch = false;
 
         private Dictionary<string, List<WeakReference<Entity>>> FoundObjects = new Dictionary<string, List<WeakReference<Entity>>>();
 
@@ -22,7 +21,6 @@ namespace StudioCore.MsbEditor
         {
             Universe = universe;
         }
-
 
         public bool InitializeSearchValue()
         {
@@ -92,7 +90,7 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
-        public bool SearchValue()
+        public bool SearchValue(bool searchFieldchanged)
         {
             ImGui.Text("Value (Exact)");
             ImGui.NextColumn();
@@ -100,9 +98,8 @@ namespace StudioCore.MsbEditor
             if (PropertyType == typeof(bool) || PropertyType == typeof(bool[]))
             {
                 var val = (bool)PropertyValue;
-                if (ImGui.Checkbox("##valBool", ref val) || InitSearch == true)
+                if (ImGui.Checkbox("##valBool", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
@@ -110,9 +107,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(byte) || PropertyType == typeof(byte[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valbyte", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valbyte", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (byte)val;
                     ret = true;
                 }
@@ -120,9 +116,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(char) || PropertyType == typeof(char[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valchar", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valchar", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (char)val;
                     ret = true;
                 }
@@ -130,9 +125,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(short) || PropertyType == typeof(short[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valshort", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valshort", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (short)val;
                     ret = true;
                 }
@@ -140,9 +134,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(ushort) || PropertyType == typeof(ushort[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valushort", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valushort", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (ushort)val;
                     ret = true;
                 }
@@ -150,9 +143,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(int) || PropertyType == typeof(int[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valbyte", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valbyte", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (int)val;
                     ret = true;
                 }
@@ -160,9 +152,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(uint) || PropertyType == typeof(uint[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valuint", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valuint", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (uint)val;
                     ret = true;
                 }
@@ -170,9 +161,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(long) || PropertyType == typeof(long[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##vallong", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##vallong", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (long)val;
                     ret = true;
                 }
@@ -180,9 +170,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(ulong) || PropertyType == typeof(ulong[]))
             {
                 int val = (int)PropertyValue;
-                if (ImGui.InputInt("##valulong", ref val) || InitSearch == true)
+                if (ImGui.InputInt("##valulong", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = (ulong)val;
                     ret = true;
                 }
@@ -190,9 +179,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(float) || PropertyType == typeof(float[]))
             {
                 var val = (float)PropertyValue;
-                if (ImGui.InputFloat("##valFloat", ref val) || InitSearch == true)
+                if (ImGui.InputFloat("##valFloat", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
@@ -200,9 +188,8 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(double) || PropertyType == typeof(double[]))
             {
                 var val = (double)PropertyValue;
-                if (ImGui.InputDouble("##valDouble", ref val) || InitSearch == true)
+                if (ImGui.InputDouble("##valDouble", ref val) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
@@ -210,15 +197,12 @@ namespace StudioCore.MsbEditor
             else if (PropertyType == typeof(string) || PropertyType == typeof(string[]))
             {
                 string val = PropertyValue;
-                if (ImGui.InputText("##valString", ref val, 99) || InitSearch == true)
+                if (ImGui.InputText("##valString", ref val, 99) || searchFieldchanged == true)
                 {
-                    InitSearch = false;
                     PropertyValue = val;
                     ret = true;
                 }
             }
-
-            InitSearch = true;
 
             ImGui.NextColumn();
             return ret;
@@ -246,10 +230,13 @@ namespace StudioCore.MsbEditor
 
                 if (InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
+
+                bool searchFieldChanged = false;
                 if (ImGui.InputText("##value", ref PropertyName, 64))
                 {
                     PropertyType = Universe.GetPropertyType(PropertyName);
                     ValidType = InitializeSearchValue();
+                    searchFieldChanged = true;
                 }
                 ImGui.NextColumn();
                 if (PropertyType != null && ValidType)
@@ -258,7 +245,7 @@ namespace StudioCore.MsbEditor
                     ImGui.NextColumn();
                     ImGui.Text(PropertyType.Name);
                     ImGui.NextColumn();
-                    if (SearchValue())
+                    if (SearchValue(searchFieldChanged))
                     {
                         FoundObjects.Clear();
                         foreach (var o in Universe.LoadedObjectContainers.Values)

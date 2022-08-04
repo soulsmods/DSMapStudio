@@ -19,7 +19,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = ": Elden Ring Test + GeorgeFeatures v0.1.1";
+        private static string _version = "version 1.01";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -512,6 +512,31 @@ namespace StudioCore
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _user32_ShowWindow(IntPtr hWnd, int nCmdShow);
 
+        private void SaveFocusedEditor()
+        {
+            if (_projectSettings != null && _projectSettings.ProjectName != null)
+            {
+                _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
+                SaveParamStudioConfig();
+                if (_msbEditorFocused)
+                {
+                    _msbEditor.Save();
+                }
+                if (_modelEditorFocused)
+                {
+                    _modelEditor.Save();
+                }
+                if (_paramEditorFocused)
+                {
+                    _paramEditor.Save();
+                }
+                if (_textEditorFocused)
+                {
+                    _textEditor.Save();
+                }
+            }
+        }
+
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -565,33 +590,10 @@ namespace StudioCore
             {
                 if (ImGui.BeginMenu("File"))
                 {
-                    if (_projectSettings == null || _projectSettings.ProjectName == null)
-                    {
-                        ImGui.MenuItem("No project open", false);
-                    }
-                    else
-                    {
-                        if (ImGui.BeginMenu($@"Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
-                        {
-                            bool useLoose = _projectSettings.UseLooseParams;
-                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
-                            {
-                                _projectSettings.UseLooseParams = useLoose;
-                            }
-                            bool usepartial = _projectSettings.PartialParams;
-                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
-                            {
-                                _projectSettings.PartialParams = usepartial;
-                            }
-                            ImGui.EndMenu();
-                        }
-                    }
-
                     if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
-
                     if (ImGui.MenuItem("New Project", "CTRL+N", false, Editor.TaskManager.GetLiveThreads().Count == 0) || InputTracker.GetControlShortcut(Key.N))
                     {
                         newProject = true;
@@ -612,7 +614,7 @@ namespace StudioCore
                             AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
-                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0))
+                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
                         foreach (var p in CFG.Current.RecentProjects)
@@ -637,28 +639,30 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Save", "CTRL+S") || InputTracker.GetControlShortcut(Key.S))
+
+                    string focusType = "";
+                    if (_msbEditorFocused)
                     {
-                        _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
-                        SaveParamStudioConfig();
-                        if (_msbEditorFocused)
-                        {
-                            _msbEditor.Save();
-                        }
-                        if (_modelEditorFocused)
-                        {
-                            _modelEditor.Save();
-                        }
-                        if (_paramEditorFocused)
-                        {
-                            _paramEditor.Save();
-                        }
-                        if (_textEditorFocused)
-                        {
-                            _textEditor.Save();
-                        }
+                        focusType = "Maps";
                     }
-                    if (ImGui.MenuItem("Save All", "CTRL+SHIFT+S") || ((InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)) && InputTracker.GetControlShortcut(Key.S)))
+                    else if (_modelEditorFocused)
+                    {
+                        focusType = "Models";
+                    }
+                    else if (_paramEditorFocused)
+                    {
+                        focusType = "Params";
+                    }
+                    else if (_textEditorFocused)
+                    {
+                        focusType = "Text";
+                    }
+
+                    if (ImGui.MenuItem($"Save {focusType}", "Ctrl+S"))
+                    {
+                        SaveFocusedEditor();
+                    }
+                    if (ImGui.MenuItem("Save All"))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -688,6 +692,76 @@ namespace StudioCore
                 {
                     _textEditor.DrawEditorMenu();
                 }
+                if (ImGui.BeginMenu("Settings"))
+                {
+                    if (_projectSettings == null || _projectSettings.ProjectName == null)
+                    {
+                        ImGui.MenuItem("Project Settings: (No project)", false);
+                    }
+                    else
+                    {
+                        if (ImGui.BeginMenu($@"Project Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            bool useLoose = _projectSettings.UseLooseParams;
+                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            {
+                                _projectSettings.UseLooseParams = useLoose;
+                            }
+                            bool usepartial = _projectSettings.PartialParams;
+                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            {
+                                _projectSettings.PartialParams = usepartial;
+                            }
+                            ImGui.EndMenu();
+                        }
+                    }
+                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
+                    {
+                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
+                    }
+                    if (ImGui.BeginMenu("Viewport Settings"))
+                    {
+                        if (ImGui.Button("Reset"))
+                        {
+                            CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
+
+                            _msbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
+                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
+                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
+                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
+                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        }
+                        float cam_fov = CFG.Current.GFX_Camera_FOV;
+                        if (ImGui.SliderFloat("Camera FOV", ref cam_fov, 40.0f, 140.0f))
+                        {
+                            CFG.Current.GFX_Camera_FOV = cam_fov;
+                        }
+                        if (ImGui.SliderFloat("Map Max Render Distance", ref _msbEditor.Viewport.FarClip, 10.0f, 500000.0f))
+                        {
+                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Slow)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Normal)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Fast)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        }
+                        ImGui.EndMenu();
+                    }
+                    ImGui.EndMenu();
+                }
                 if (ImGui.BeginMenu("Help"))
                 {
                     if (ImGui.BeginMenu("How to use"))
@@ -702,8 +776,44 @@ namespace StudioCore
                     }
                     if (ImGui.BeginMenu("About"))
                     {
-                        ImGui.Text("DSParamStudio was forked and merged back into Katalash's DSMapStudio, and is currently maintained by Philiquaz.\nFor bug reports and feature requests, ping the right person please.");
+                        ImGui.Text("Original Author:\nKatalash\n\nMaintainers:\nKatalash\nPhiliquaz\nKing bore haha (george)");
                         ImGui.EndMenu();
+                    }
+
+                    if (ImGui.MenuItem("Modding Wiki"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "http://soulsmodding.wikidot.com/",
+                            UseShellExecute = true
+                        });
+                    }
+                    
+                    if (ImGui.MenuItem("Map ID Reference"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "http://soulsmodding.wikidot.com/reference:map-list",
+                            UseShellExecute = true
+                        });
+                    }
+                    
+                    if (ImGui.MenuItem("DSMapStudio Discord"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://discord.gg/CKDBCUFhB3",
+                            UseShellExecute = true
+                        });
+                    }
+                    
+                    if (ImGui.MenuItem("FromSoftware Modding Discord"))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://discord.gg/mT2JJjx",
+                            UseShellExecute = true
+                        });
                     }
                     /*
                     if (ImGui.BeginMenu("Edits aren't sticking!"))
@@ -756,6 +866,14 @@ namespace StudioCore
                     }
                     ImGui.PopStyleColor();
                 }
+                /*
+                //Recently completed task
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(.1f, 1f, .4f, 1.0f));
+                ImGui.Spacing();
+                ImGui.Text($"{TaskManager.lastCompletedActionString}");
+                ImGui.PopStyleColor();
+                */
+
                 ImGui.EndMainMenuBar();
             }
             ImGui.PopStyleVar();
@@ -896,10 +1014,14 @@ namespace StudioCore
                     }
                     if (validated && (Path.GetDirectoryName(_newProjectSettings.GameRoot)).Equals(_newProjectDirectory))
                     {
-                        System.Windows.Forms.MessageBox.Show("Project Directory cannot be the same as the base game files.", "Error",
-                                         System.Windows.Forms.MessageBoxButtons.OK,
+                        var message = System.Windows.Forms.MessageBox.Show(
+                            "Project Directory is the same as Game Directory, which allows game files to be overwritten directly.\n\n" +
+                            "It's highly recommended you use the Mod Engine mod folder as your project folder instead (if possible).\n\n" +
+                            "Continue and create project anyway?", "Caution",
+                                         System.Windows.Forms.MessageBoxButtons.OKCancel,
                                          System.Windows.Forms.MessageBoxIcon.None);
-                        validated = false;
+                        if (message != System.Windows.Forms.DialogResult.OK)
+                            validated = false;
                     }
                     if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
                     {
@@ -1009,6 +1131,10 @@ namespace StudioCore
                 _paramEditorFocused = false;
             }
             ImGui.End();
+
+            // Global shortcut keys
+            if (InputTracker.GetControlShortcut(Key.S) && !_msbEditor.Viewport.ViewportSelected)
+                SaveFocusedEditor();
 
             string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")

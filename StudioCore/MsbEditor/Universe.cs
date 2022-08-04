@@ -565,17 +565,7 @@ namespace StudioCore.MsbEditor
             }
             map.LoadMSB(msb);
 
-            var amapid = mapid.Substring(0, 6) + "_00_00";
-            if (_assetLocator.Type == GameType.EldenRing)
-            {
-                // Elden Ring all maps have their own assets
-                amapid = mapid;
-            }
-            // Special case for chalice dungeon assets
-            if (mapid.StartsWith("m29"))
-            {
-                amapid = "m29_00_00_00";
-            }
+            var amapid = _assetLocator.GetAssetMapID(mapid);
 
             foreach (var model in msb.Models.GetEntries())
             {
@@ -752,10 +742,10 @@ namespace StudioCore.MsbEditor
             task = job.StartJobAsync();
             tasks.Add(task);
 
-            if (FeatureFlags.LoadDS3Navmeshes)
+            if (FeatureFlags.LoadNavmeshes)
             {
                 job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
-                if (_assetLocator.Type == GameType.DarkSoulsIII)
+                if (_assetLocator.Type == GameType.DarkSoulsIII && FeatureFlags.LoadDS3Navmeshes)
                 {
                     var nav = _assetLocator.GetHavokNavmeshes(amapid);
                     job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);

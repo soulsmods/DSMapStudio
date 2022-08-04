@@ -68,10 +68,11 @@ namespace StudioCore.MsbEditor
                     var dim = box.GetDimensions();
                     var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
                     var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
+
                     var basespeed = (float)Math.Sqrt(mindim / 3.0f);
-                    Viewport._worldView.CameraMoveSpeed = basespeed;
-                    Viewport._worldView.CameraMoveSpeedSlow = basespeed / 10.0f;
-                    Viewport._worldView.CameraMoveSpeedFast = basespeed * 10.0f;
+                    Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
+                    Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
+                    Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
 
                     Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
                     Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
@@ -109,7 +110,7 @@ namespace StudioCore.MsbEditor
             
         }
 
-        public void LoadModel(string modelid)
+        public void LoadModel(string modelid, string mapid = null)
         {
             AssetDescription asset;
             AssetDescription assettex;
@@ -123,6 +124,11 @@ namespace StudioCore.MsbEditor
             else if (modelid.StartsWith("o") || modelid.StartsWith("aeg"))
             {
                 asset = AssetLocator.GetObjModel(modelid);
+                assettex = AssetLocator.GetNullAsset();
+            }
+            else if (modelid.StartsWith("m"))
+            {
+                asset = AssetLocator.GetMapModel(mapid, modelid);
                 assettex = AssetLocator.GetNullAsset();
             }
             else
@@ -171,6 +177,11 @@ namespace StudioCore.MsbEditor
         public void OnInstantiateObj(string objid)
         {
             LoadModel(objid);
+        }
+
+        public void OnInstantiateMapPiece(string mapid, string modelid)
+        {
+            LoadModel(modelid, mapid);
         }
 
         public void OnGUI()
@@ -293,12 +304,12 @@ namespace StudioCore.MsbEditor
 
         public override void Save()
         {
-            
+
         }
 
         public override void SaveAll()
         {
-            
+
         }
 
         public void OnEntityContextMenu(Entity ent)

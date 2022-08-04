@@ -36,7 +36,7 @@ namespace StudioCore.Gui
         public int Height;
 
         public float NearClip = 0.1f;
-        public float FarClip = 20000.0f;
+        public float FarClip = CFG.Current.GFX_RenderDistance_Max;
 
         public bool DrawGrid { get; set; } = true;
 
@@ -91,7 +91,7 @@ namespace StudioCore.Gui
 
             //RenderScene.AddObject(ViewportGrid);
 
-            _projectionMat = Utils.CreatePerspective(device, false, 60.0f * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
+            _projectionMat = Utils.CreatePerspective(device, false, CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, (float)width / (float)height, NearClip, FarClip);
             _frustum = new BoundingFrustum(_projectionMat);
             _actionManager = am;
 
@@ -168,6 +168,8 @@ namespace StudioCore.Gui
             return true;
         }
 
+        public bool ViewportSelected = false;
+
         public void OnGui()
         {
             if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
@@ -179,6 +181,11 @@ namespace StudioCore.Gui
                 if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
                 {
                     ImGui.SetWindowFocus();
+                    ViewportSelected = true;
+                }
+                else if(!InputTracker.GetMouseButton(MouseButton.Right))
+                {
+                    ViewportSelected = false;
                 }
                 _canInteract = ImGui.IsWindowFocused();
                 _vpvisible = true;
@@ -271,7 +278,7 @@ namespace StudioCore.Gui
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
-            _projectionMat = Utils.CreatePerspective(device, true, 60.0f * (float)Math.PI / 180.0f, (float)Width / (float)Height, NearClip, FarClip);
+            _projectionMat = Utils.CreatePerspective(device, true, CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, (float)Width / (float)Height, NearClip, FarClip);
             _frustum = new BoundingFrustum(_worldView.CameraTransform.CameraViewMatrixLH * _projectionMat);
             _viewPipeline.TestUpdateView(_projectionMat, _worldView.CameraTransform.CameraViewMatrixLH, _worldView.CameraTransform.Position, _cursorX, _cursorY);
             _viewPipeline.RenderScene(_frustum);
