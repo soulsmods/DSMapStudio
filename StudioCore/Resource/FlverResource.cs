@@ -1787,7 +1787,7 @@ namespace StudioCore.Resource
                 boundingBoxMin = br.ReadVector3();
                 br.ReadInt32(); // unknown
                 boundingBoxMax = br.ReadVector3();
-                br.AssertPattern(0x34, 0x00);
+                br.Position += 0x34;
             }
         }
 
@@ -1917,7 +1917,7 @@ namespace StudioCore.Resource
                 scale = br.ReadVector2();
 
                 // unks
-                br.AssertByte(0, 1, 2);
+                br.ReadByte();
                 br.ReadBoolean();
                 br.AssertByte(0);
                 br.AssertByte(0);
