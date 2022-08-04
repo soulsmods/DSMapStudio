@@ -982,12 +982,14 @@ namespace SoulsFormats
         public string ReadUTF16()
         {
             List<byte> bytes = new List<byte>();
-            byte[] pair = ReadBytes(2);
-            while (pair[0] != 0 || pair[1] != 0)
+            byte a = ReadByte();
+            byte b = ReadByte();
+            while (a != 0 || b != 0)
             {
-                bytes.Add(pair[0]);
-                bytes.Add(pair[1]);
-                pair = ReadBytes(2);
+                bytes.Add(a);
+                bytes.Add(b);
+                a = ReadByte(); 
+                b = ReadByte();
             }
 
             if (BigEndian)
