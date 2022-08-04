@@ -139,10 +139,10 @@ namespace StudioCore
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
             var fonts = ImGui.GetIO().Fonts;
-            var fileJp = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\NotoSansCJKtc-Light.otf");
-            var fontJp = File.ReadAllBytes(fileJp);
             var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
             var fontEn = File.ReadAllBytes(fileEn);
+            var fileOther = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\NotoSansCJKtc-Light.otf");
+            var fontOther = File.ReadAllBytes(fileOther);
             var fileIcon = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\forkawesome-webfont.ttf");
             var fontIcon = File.ReadAllBytes(fileIcon);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
@@ -154,9 +154,9 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 5.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
             }
-            fixed (byte* p = fontJp)
+            fixed (byte* p = fontOther)
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
                 var cfg = new ImFontConfigPtr(ptr);
@@ -164,7 +164,13 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 7.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontJp.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
+                cfg.GlyphMinAdvanceX = 5.0f;
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
             }
             fixed (byte* p = fontIcon)
             {
