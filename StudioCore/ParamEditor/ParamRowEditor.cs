@@ -458,11 +458,11 @@ namespace StudioCore.ParamEditor
                     ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
                     ImGui.Separator();
                 }
-                if (ImGui.Selectable("Add to Searchbar"))
+                if (ImGui.MenuItem("Add to Searchbar"))
                 {
                     EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
                 }
-                if (showPinOptions && ImGui.Selectable((isPinned ? "Unpin " : "Pin " + originalName)))
+                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + originalName)))
                 {
                     if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
                         _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
@@ -478,7 +478,7 @@ namespace StudioCore.ParamEditor
                     {
                         foreach (string p in ParamBank.Params.Keys)
                         {
-                            if (ImGui.Selectable(p))
+                            if (ImGui.MenuItem(p+"##add"+p))
                             {
                                 if (cellMeta.RefTypes == null)
                                     cellMeta.RefTypes = new List<string>();
@@ -491,7 +491,7 @@ namespace StudioCore.ParamEditor
                     {
                         foreach (string p in cellMeta.RefTypes)
                         {
-                            if (ImGui.Selectable(p))
+                            if (ImGui.MenuItem(p+"##remove"+p))
                             {
                                 cellMeta.RefTypes.Remove(p);
                                 if (cellMeta.RefTypes.Count == 0)
@@ -501,11 +501,11 @@ namespace StudioCore.ParamEditor
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.Selectable(cellMeta.IsBool ? "Remove bool toggle" : "Add bool toggle"))
+                    if (ImGui.MenuItem(cellMeta.IsBool ? "Remove bool toggle" : "Add bool toggle"))
                         cellMeta.IsBool = !cellMeta.IsBool;
-                    if (cellMeta.Wiki == null && ImGui.Selectable("Add wiki..."))
+                    if (cellMeta.Wiki == null && ImGui.MenuItem("Add wiki..."))
                         cellMeta.Wiki = "Empty wiki...";
-                    if (cellMeta.Wiki != null && ImGui.Selectable("Remove wiki"))
+                    if (cellMeta.Wiki != null && ImGui.MenuItem("Remove wiki"))
                         cellMeta.Wiki = null;
                 }
                 ImGui.EndPopup();
