@@ -158,8 +158,15 @@ namespace FSParam
                 Parent.ParamData.RemoveAt(DataIndex);
             }
 
-            public CellHandle? this[string field] => throw new NotImplementedException();
-            public CellHandle this[Cell field] => throw new NotImplementedException();
+            public CellHandle? this[string field]
+            {
+                get
+                {
+                    var cell = Cells.FirstOrDefault(cell => cell.Def.InternalName == field);
+                    return cell != null ? new CellHandle(this, cell) : null;
+                }
+            }
+            public CellHandle this[Cell field] => new CellHandle(this, field);
         }
 
         /// <summary>
@@ -168,8 +175,22 @@ namespace FSParam
         /// </summary>
         public struct CellHandle
         {
-            public object Value { get; set; }
-            public PARAMDEF.Field Def { get; }
+            private Row _row;
+            private Cell _cell;
+
+            internal CellHandle(Row row, Cell cell)
+            {
+                _row = row;
+                _cell = cell;
+            }
+
+            public object Value
+            {
+                get => _cell.GetValue(_row);
+                set => _cell.SetValue(_row, value);
+            }
+
+            public PARAMDEF.Field Def => _cell.Def;
         }
         
         /// <summary>
@@ -183,16 +204,60 @@ namespace FSParam
             public Type ValueType { get; private set; }
             
             private uint _byteOffset;
+            private uint _arrayLength;
+            private int _bitSize;
+            private uint _bitOffset;
             
-            internal Cell(PARAMDEF.Field def, uint byteOffset)
+            internal Cell(PARAMDEF.Field def, uint byteOffset, uint arrayLength = 1)
             {
                 Def = def;
                 _byteOffset = byteOffset;
+                _arrayLength = arrayLength;
+                _bitSize = -1;
+                _bitOffset = 0;
+            }
+
+            internal Cell(PARAMDEF.Field def, uint byteOffset, int bitSize, uint bitOffset)
+            {
+                Def = def;
+                _byteOffset = byteOffset;
+                _arrayLength = 1;
+                _bitSize = bitSize;
+                _bitOffset = bitOffset;
             }
 
             public object GetValue(Row row)
             {
-                return null;
+                var data = row.Parent.ParamData;
+                switch (Def.DisplayType)
+                {
+                    case PARAMDEF.DefType.s8:
+                        return data.ReadValueAtElementOffset<sbyte>(row.DataIndex, _byteOffset);
+                    case PARAMDEF.DefType.s16:
+                        return data.ReadValueAtElementOffset<short>(row.DataIndex, _byteOffset);
+                    case PARAMDEF.DefType.s32:
+                        return data.ReadValueAtElementOffset<int>(row.DataIndex, _byteOffset);
+                    case PARAMDEF.DefType.f32:
+                        return data.ReadValueAtElementOffset<float>(row.DataIndex, _byteOffset);
+                    case PARAMDEF.DefType.u8:
+                    case PARAMDEF.DefType.dummy8:
+                        var value8 = data.ReadValueAtElementOffset<byte>(row.DataIndex, _byteOffset);
+                        if (_bitSize != -1)
+                            value8 = (byte)((value8 >> (int)_bitOffset) & (0xFF >> (8 - _bitSize)));
+                        return value8;
+                    case PARAMDEF.DefType.u16:
+                        var value16 = data.ReadValueAtElementOffset<ushort>(row.DataIndex, _byteOffset);
+                        if (_bitSize != -1)
+                            value16 = (ushort)((value16 >> (int)_bitOffset) & (0xFFFF >> (16 - _bitSize)));
+                        return value16;
+                    case PARAMDEF.DefType.u32:
+                        var value32 = data.ReadValueAtElementOffset<uint>(row.DataIndex, _byteOffset);
+                        if (_bitSize != -1)
+                            value32 = (uint)((value32 >> (int)_bitOffset) & (0xFFFFFFFF >> (32 - _bitSize)));
+                        return value32;
+                    default:
+                        throw new NotImplementedException($"Unsupported field type: {Def.DisplayType}");
+                }
             }
 
             public void SetValue(Row row, object value)
@@ -266,7 +331,82 @@ namespace FSParam
 
         public void ApplyParamdef(PARAMDEF def)
         {
+            AppliedParamdef = def;
+            var cells = new List<Cell>(def.Fields.Count);
             
+            int bitOffset = -1;
+            uint byteOffset = 0;
+            uint lastSize = 0;
+            PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
+            const int BIT_VALUE_SIZE = 64;
+
+            for (int i = 0; i < def.Fields.Count; i++)
+            {
+                PARAMDEF.Field field = def.Fields[i];
+                PARAMDEF.DefType type = field.DisplayType;
+                bool isBitType = ParamUtil.IsBitType(type);
+                if (!isBitType || (isBitType && field.BitSize == -1))
+                {
+                    // Advance the offset if we were last reading bits
+                    if (bitOffset != -1)
+                        byteOffset += lastSize;
+                    
+                    cells.Add(ParamUtil.IsArrayType(type)
+                        ? new Cell(field, byteOffset, (uint)field.ArrayLength)
+                        : new Cell(field, byteOffset));
+                    switch (type)
+                    {
+                        case PARAMDEF.DefType.s8:
+                        case PARAMDEF.DefType.u8:
+                            byteOffset += 1;
+                            break;
+                        case PARAMDEF.DefType.s16:
+                        case PARAMDEF.DefType.u16:
+                            byteOffset += 2;
+                            break;
+                        case PARAMDEF.DefType.s32:
+                        case PARAMDEF.DefType.u32:
+                        case PARAMDEF.DefType.f32:
+                            byteOffset += 4;
+                            break;
+                        case PARAMDEF.DefType.fixstr:
+                        case PARAMDEF.DefType.dummy8:
+                            byteOffset += (uint)field.ArrayLength;
+                            break;
+                        case PARAMDEF.DefType.fixstrW:
+                            byteOffset += (uint)field.ArrayLength * 2;
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unsupported field type: {type}");
+                    }
+                    
+                    bitOffset = -1;
+                }
+                else
+                {
+                    PARAMDEF.DefType newBitType = type == PARAMDEF.DefType.dummy8 ? PARAMDEF.DefType.u8 : type;
+                    int bitLimit = ParamUtil.GetBitLimit(newBitType);
+
+                    if (field.BitSize == 0)
+                        throw new NotImplementedException($"Bit size 0 is not supported.");
+                    if (field.BitSize > bitLimit)
+                        throw new InvalidDataException($"Bit size {field.BitSize} is too large to fit in type {newBitType}.");
+
+                    lastSize = (uint)ParamUtil.GetValueSize(newBitType);
+                    if (bitOffset == -1 || newBitType != bitType || bitOffset + field.BitSize > bitLimit)
+                    {
+                        if (bitOffset != -1)
+                            byteOffset += lastSize;
+                        bitOffset = 0;
+                        bitType = newBitType;
+                    }
+                    
+                    cells.Add(new Cell(field, byteOffset, field.BitSize, (uint)bitOffset));
+                    bitOffset += field.BitSize;
+                }
+            }
+
+            Cells = cells;
         }
         
         protected override void Read(BinaryReaderEx br)

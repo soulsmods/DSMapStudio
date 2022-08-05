@@ -46,11 +46,11 @@ namespace StudioCore.Editor
             // Add named row and context menu
             // Lists located params
             // May span lines
-            List<(PARAM.Row, string)> matches = resolveRefs(paramRefs, oldval);
+            List<(Param.Row, string)> matches = resolveRefs(paramRefs, oldval);
             bool entryFound = matches.Count > 0;
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
             ImGui.BeginGroup();
-            foreach ((PARAM.Row row, string hint) in matches)
+            foreach ((Param.Row row, string hint) in matches)
             {
                 if (row.Name == null || row.Name.Trim().Equals(""))
                     ImGui.TextUnformatted("Unnamed Row");

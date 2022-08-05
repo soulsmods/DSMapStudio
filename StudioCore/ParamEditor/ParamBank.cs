@@ -162,7 +162,7 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                //p.ApplyParamdef(_paramdefs[p.ParamType]);
+                p.ApplyParamdef(_paramdefs[p.ParamType]);
                 paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
         }
