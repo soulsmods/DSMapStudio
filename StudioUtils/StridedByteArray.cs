@@ -1,6 +1,26 @@
-﻿namespace StudioUtils;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 
-using System.Runtime.InteropServices;
+namespace StudioUtils;
+internal static class StudioEncoding
+{
+    public static readonly Encoding ASCII;
+
+    public static readonly Encoding ShiftJIS;
+
+    public static readonly Encoding UTF16;
+
+    public static readonly Encoding UTF16BE;
+
+    static StudioEncoding()
+    {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        ASCII = Encoding.ASCII;
+        ShiftJIS = Encoding.GetEncoding("shift-jis");
+        UTF16 = Encoding.Unicode;
+        UTF16BE = Encoding.BigEndianUnicode;
+    }
+}
 
 /// <summary>
 /// An unstructured array backed by a byte array and has a specified stride for the array
@@ -85,34 +105,28 @@ public class StridedByteArray
         }
 
         // Clear the element
-        Array.Clear(_backing, (int)(index + 1) * (int)Stride, (int)Stride);
+        Array.Clear(_backing, (int)index * (int)Stride, (int)Stride);
 
         Count -= 1;
     }
 
     /// <summary>
-    /// Inserts a new element at an index, zeroes it out, and returns the index
+    /// Copies data at one index to another index
     /// </summary>
-    /// <param name="index"></param>
-    /// <returns>The index of the new element</returns>
-    /*public uint InsertAt(uint index)
+    /// <param name="dstindex">The index to copy to</param>
+    /// <param name="srcindex">The index to copy from</param>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    public void CopyData(uint dstindex, uint srcindex)
     {
-        if (index > Count)
+        if (dstindex >= Count || srcindex >= Count)
             throw new IndexOutOfRangeException();
 
-        // Grow array if needed
-        Count += 1;
-        GrowIfNeeded();
+        if (dstindex == srcindex)
+            return;
         
-        // Move memory to clear out space at the index
-        if (index <= Count)
-            Array.Copy(_backing, (int)index * (int)Stride, _backing, (int)(index + 1) * (int)Stride, Stride);
-        
-        // Clear the space out
-        Array.Clear(_backing, (int)index * (int)Stride, (int)Stride);
-
-        return index;
-    }*/
+        Array.Copy(_backing, (int)(srcindex) * (int)Stride,
+            _backing, (int)(dstindex) * (int)Stride, (int)Stride);
+    }
 
     /// <summary>
     /// Reads an element interpreted as a specific type at a specific offset of an element array
@@ -153,7 +167,7 @@ public class StridedByteArray
     }
 
     /// <summary>
-    /// Writesx an element interpreted as a specific type at a specific offset of an element array
+    /// Writes an element interpreted as a specific type at a specific offset of an element array
     /// </summary>
     /// <param name="element">The element to read</param>
     /// <param name="offset">The byte offset to get the data from</param>
@@ -178,6 +192,131 @@ public class StridedByteArray
                 Span<byte> data = new Span<byte>(p, Marshal.SizeOf<T>());
                 EndianSwap(data);
             }
+        }
+    }
+
+    /// <summary>
+    /// Reads an element interpreted as a fixed-length string at a specific offset of an element array
+    /// </summary>
+    /// <param name="element">The element to read</param>
+    /// <param name="offset">The byte offset to read the string from</param>
+    /// <param name="count">The number of fixed code points to read</param>
+    /// <returns>The read string</returns>
+    public unsafe string ReadFixedStringAtElementOffset(uint element, uint offset, uint count)
+    {
+        if (element >= Count)
+            throw new IndexOutOfRangeException();
+
+        if (offset + count > Stride)
+            throw new ArgumentOutOfRangeException();
+
+        string result;
+        fixed (byte* p = &_backing[(int)element * (int)Stride + (int)offset])
+        {
+            Span<byte> data = new Span<byte>(p, (int)count);
+            int terminator;
+            for (terminator = 0; terminator < count; terminator++)
+            {
+                if (data[terminator] == 0)
+                    break;
+            }
+
+            result = StudioEncoding.ShiftJIS.GetString(new Span<byte>(p, terminator));
+        }
+
+        return result;
+    }
+    
+    /// <summary>
+    /// Writes a fixed-length string at a specific offset of an element array
+    /// </summary>
+    /// <param name="element">The element to write</param>
+    /// <param name="offset">The byte offset to write the string to</param>
+    /// <param name="value">The string to write</param>
+    /// <param name="count">The maximum length of the string</param>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public unsafe void WriteFixedStringAtElementOffset(uint element, uint offset, string value, uint count)
+    {
+        if (element >= Count)
+            throw new IndexOutOfRangeException();
+
+        if (offset + count > Stride)
+            throw new ArgumentOutOfRangeException();
+        
+        Array.Clear(_backing, (int)element * (int)Stride + (int)offset, (int)count);
+        fixed (byte* p = &_backing[(int)element * (int)Stride + (int)offset])
+        {
+            Span<byte> data = new Span<byte>(p, (int)count);
+            var bytes = StudioEncoding.ShiftJIS.GetBytes(value + '\0');
+            var span = new Span<byte>(bytes)[..Math.Min(bytes.Length, (int)count)];
+            span.CopyTo(data);
+        }
+    }
+    
+    /// <summary>
+    /// Reads an element interpreted as a fixed-length wide string at a specific offset of an element array
+    /// </summary>
+    /// <param name="element">The element to read</param>
+    /// <param name="offset">The byte offset to read the string from</param>
+    /// <param name="count">The number of fixed code points to read</param>
+    /// <returns>The read string</returns>
+    public unsafe string ReadFixedStringWAtElementOffset(uint element, uint offset, uint count)
+    {
+        if (element >= Count)
+            throw new IndexOutOfRangeException();
+
+        if (offset + count * 2 > Stride)
+            throw new ArgumentOutOfRangeException();
+
+        string result;
+        fixed (byte* p = &_backing[(int)element * (int)Stride + (int)offset])
+        {
+            Span<byte> data = new Span<byte>(p, (int)count * 2);
+            int terminator;
+            for (terminator = 0; terminator < count; terminator++)
+            {
+                if (data[terminator * 2] == 0 && data[terminator * 2 + 1] == 0)
+                    break;
+            }
+
+            if (BigEndian)
+                result = StudioEncoding.UTF16BE.GetString(new Span<byte>(p, terminator * 2));
+            else
+                result = StudioEncoding.UTF16.GetString(new Span<byte>(p, terminator * 2));
+        }
+
+        return result;
+    }
+    
+    /// <summary>
+    /// Writes a fixed-length wide string at a specific offset of an element array
+    /// </summary>
+    /// <param name="element">The element to write</param>
+    /// <param name="offset">The byte offset to write the string to</param>
+    /// <param name="value">The string to write</param>
+    /// <param name="count">The maximum length of the string</param>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public unsafe void WriteFixedStringWAtElementOffset(uint element, uint offset, string value, uint count)
+    {
+        if (element >= Count)
+            throw new IndexOutOfRangeException();
+
+        if (offset + count * 2 > Stride)
+            throw new ArgumentOutOfRangeException();
+        
+        Array.Clear(_backing, (int)element * (int)Stride + (int)offset, (int)count * 2);
+        fixed (byte* p = &_backing[(int)element * (int)Stride + (int)offset])
+        {
+            Span<byte> data = new Span<byte>(p, (int)count * 2);
+            byte[] bytes;
+            if (BigEndian)
+                bytes = StudioEncoding.UTF16BE.GetBytes(value + '\0');
+            else
+                bytes = StudioEncoding.UTF16.GetBytes(value + '\0');
+            var span = new Span<byte>(bytes)[..Math.Min(bytes.Length, (int)count * 2)];
+            span.CopyTo(data);
         }
     }
 }

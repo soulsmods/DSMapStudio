@@ -150,7 +150,7 @@ namespace FSParam
                 ID = clone.ID;
                 Name = clone.Name;
                 DataIndex = Parent.ParamData.AddZeroedElement();
-                // TODO: clone data
+                Parent.ParamData.CopyData(DataIndex, clone.DataIndex);
             }
 
             ~Row()
@@ -255,6 +255,10 @@ namespace FSParam
                         if (_bitSize != -1)
                             value32 = (uint)((value32 >> (int)_bitOffset) & (0xFFFFFFFF >> (32 - _bitSize)));
                         return value32;
+                    case PARAMDEF.DefType.fixstr:
+                        return data.ReadFixedStringAtElementOffset(row.DataIndex, _byteOffset, _arrayLength);
+                    case PARAMDEF.DefType.fixstrW:
+                        return data.ReadFixedStringWAtElementOffset(row.DataIndex, _byteOffset, _arrayLength);
                     default:
                         throw new NotImplementedException($"Unsupported field type: {Def.DisplayType}");
                 }
@@ -262,7 +266,61 @@ namespace FSParam
 
             public void SetValue(Row row, object value)
             {
-                
+                var data = row.Parent.ParamData;
+                switch (Def.DisplayType)
+                {
+                    case PARAMDEF.DefType.s8:
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (sbyte)value);
+                        break;
+                    case PARAMDEF.DefType.s16:
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (short)value);
+                        break;
+                    case PARAMDEF.DefType.s32:
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (int)value);
+                        break;
+                    case PARAMDEF.DefType.f32:
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (float)value);
+                        break;
+                    case PARAMDEF.DefType.u8:
+                    case PARAMDEF.DefType.dummy8:
+                        var value8 = (byte)value;
+                        if (_bitSize != -1)
+                        {
+                            var o8 = data.ReadValueAtElementOffset<byte>(row.DataIndex, _byteOffset);
+                            var mask8 = (byte)(0xFF >> (8 - _bitSize) << (int)_bitOffset);
+                            value8 = (byte)((o8 & ~mask8) | ((value8 << (int)_bitOffset) & mask8));
+                        }
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, value8);
+                        break;
+                    case PARAMDEF.DefType.u16:
+                        var value16 = (ushort)value;
+                        if (_bitSize != -1)
+                        {
+                            var o16 = data.ReadValueAtElementOffset<ushort>(row.DataIndex, _byteOffset);
+                            var mask16 = (ushort)(0xFFFF >> (16 - _bitSize) << (int)_bitOffset);
+                            value16 = (ushort)((o16 & ~mask16) | ((value16 << (int)_bitOffset) & mask16));
+                        }
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, value16);
+                        break;
+                    case PARAMDEF.DefType.u32:
+                        var value32 = (uint)value;
+                        if (_bitSize != -1)
+                        {
+                            var o32 = data.ReadValueAtElementOffset<uint>(row.DataIndex, _byteOffset);
+                            var mask32 = (uint)(0xFFFFFFFF >> (32 - _bitSize) << (int)_bitOffset);
+                            value32 = (uint)((o32 & ~mask32) | ((value32 << (int)_bitOffset) & mask32));
+                        }
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, value32);
+                        break;
+                    case PARAMDEF.DefType.fixstr:
+                        data.WriteFixedStringAtElementOffset(row.DataIndex, _byteOffset, (string)value, _arrayLength);
+                        break;
+                    case PARAMDEF.DefType.fixstrW:
+                        data.WriteFixedStringWAtElementOffset(row.DataIndex, _byteOffset, (string)value, _arrayLength);
+                        break;
+                    default:
+                        throw new NotImplementedException($"Unsupported field type: {Def.DisplayType}");
+                }
             }
         }
         
@@ -338,7 +396,6 @@ namespace FSParam
             uint byteOffset = 0;
             uint lastSize = 0;
             PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
-            const int BIT_VALUE_SIZE = 64;
 
             for (int i = 0; i < def.Fields.Count; i++)
             {
