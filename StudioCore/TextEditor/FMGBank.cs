@@ -66,11 +66,15 @@ namespace StudioCore.TextEditor
                 case MenuFMGTypes.SystemMessage_PS4__LoadingTitle:
                     if (gameType == GameType.EldenRing)
                         return "LoadingTitle";
+                    else if (gameType == GameType.Sekiro)
+                        return "LoadingText";
                     else
                         return "SystemMessage_ps4";
                 case MenuFMGTypes.SystemMessage_XboxOne__LoadingText:
                     if (gameType == GameType.EldenRing)
                         return "LoadingText";
+                    else if (gameType == GameType.Sekiro)
+                        return "LoadingTitle";
                     else
                         return "SystemMessage_xboxone";
             }
@@ -97,7 +101,7 @@ namespace StudioCore.TextEditor
             MenuContext = 81,
             MenuTags = 90,
 
-            //DS1
+            // DS1
             Win32Tags = 91,
             Win32Messages = 92,
             EventPatch = 101,
@@ -110,14 +114,20 @@ namespace StudioCore.TextEditor
             MenuOtherPatch = 123,
             MenuCommonPatch = 124,
 
-            //DS3 DLC1
+            // DS3 DLC1
             Modern_MenuText = 200,
             Modern_LineHelp = 201,
             Modern_KeyGuide = 202,
             Modern_System_Message_win64 = 203,
             Modern_Dialogues = 204,
-            SystemMessage_PS4__LoadingTitle = 205, //DS3: SystemMessage_PS4. ER: LoadingTitle
-            SystemMessage_XboxOne__LoadingText = 206, //DS3: SystemMessage_XboxOne. ER: LoadingText
+            SystemMessage_PS4__LoadingTitle = 205,
+                // DS3: SystemMessage_PS4
+                // SDT: TutorialText
+                // ER: LoadingTitle
+            SystemMessage_XboxOne__LoadingText = 206,
+                // DS3: SystemMessage_XboxOne
+                // SDT: TutorialTitle
+                // ER: LoadingText
             TalkMsg_dlc1 = 230,
             Event_dlc1 = 231,
             Modern_MenuText_dlc1 = 232,
@@ -127,7 +137,7 @@ namespace StudioCore.TextEditor
             SystemMessage_PS4_dlc1 = 237,
             SystemMessage_XboxOne_dlc1 = 238,
             BloodMsg_dlc1 = 239,
-            //DS3 DLC2
+            // DS3 DLC2
             TalkMsg_dlc2 = 270,
             Event_dlc2 = 271,
             Modern_MenuText_dlc2 = 272,
@@ -138,7 +148,10 @@ namespace StudioCore.TextEditor
             SystemMessage_XboxOne__dlc2 = 278,
             BloodMsg_dlc2 = 279,
 
-            //ER
+            // SDT
+            Skills = 40,
+
+            // ER
             TalkMsg_FemalePC_Alt = 4,
             NetworkMessage = 31,
             ActionButtonText = 32,
@@ -175,7 +188,6 @@ namespace StudioCore.TextEditor
             DescriptionRings = 27,
             SummarySpells = 28,
             DescriptionSpells = 29,
-            DescriptionSkills = 40,
 
             // DS1 DLC
             DescriptionGoodsPatch = 100,
@@ -269,7 +281,6 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.TitleTest:
                 case ItemFMGTypes.TitleTest2:
                 case ItemFMGTypes.TitleTest3:
-                case ItemFMGTypes.DescriptionSkills:
                 case ItemFMGTypes.ERUnk45:
                     return ItemCategory.None;
                 
@@ -392,7 +403,6 @@ namespace StudioCore.TextEditor
                 case ItemFMGTypes.DescriptionSpells:
                 case ItemFMGTypes.DescriptionSpellsDLC1:
                 case ItemFMGTypes.DescriptionSpellsDLC2:
-                case ItemFMGTypes.DescriptionSkills:
                 case ItemFMGTypes.DescriptionArmorPatch:
                 case ItemFMGTypes.DescriptionGoodsPatch:
                 case ItemFMGTypes.DescriptionRingsPatch:
