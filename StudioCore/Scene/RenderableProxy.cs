@@ -672,7 +672,14 @@ namespace StudioCore.Scene
                         }
                     }
                 }
-                MeshIndexCount = _meshProvider.IndexCount; //Used for model markers for old Navmeshes. Is this the best place for this check??
+                
+                // Used for model markers for old Navmeshes.
+                // Really stupid hack that's likely in a very stupid location. Can be removed when Model Marker code is improved.
+                if (_meshProvider.HasMeshData())
+                    MeshIndexCount = _meshProvider.IndexCount;
+                else
+                    MeshIndexCount = 0;
+                
                 _meshProvider.Unlock();
             }
         }
