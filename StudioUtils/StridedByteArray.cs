@@ -35,7 +35,7 @@ public class StridedByteArray
     
     private byte[] _backing;
 
-    private List<uint> _freeEntries = new List<uint>();
+    private HashSet<uint> _freeEntries = new HashSet<uint>();
 
     public StridedByteArray(uint initialCapacity, uint stride, bool bigEndian=false)
     {
@@ -84,8 +84,8 @@ public class StridedByteArray
     {
         if (_freeEntries.Count > 0)
         {
-            var index = _freeEntries[^1];
-            _freeEntries.RemoveAt(_freeEntries.Count - 1);
+            var index = _freeEntries.First();
+            _freeEntries.Remove(index);
             return index;
         }
         Count++;
@@ -98,16 +98,22 @@ public class StridedByteArray
         if (index >= Count)
             throw new IndexOutOfRangeException();
         
-        // If we're not deleting the last index, mark it as empty and able to be allocated
+        if (_freeEntries.Contains(index))
+            throw new IndexOutOfRangeException();
+        
         if (index < Count - 1)
         {
+            // If we're not deleting the last index, mark it as empty and able to be allocated
             _freeEntries.Add(index);
+        }
+        else
+        {
+            // Otherwise we can shrink the head
+            Count -= 1;
         }
 
         // Clear the element
         Array.Clear(_backing, (int)index * (int)Stride, (int)Stride);
-
-        Count -= 1;
     }
 
     /// <summary>
@@ -119,6 +125,9 @@ public class StridedByteArray
     public void CopyData(uint dstindex, uint srcindex)
     {
         if (dstindex >= Count || srcindex >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(dstindex) || _freeEntries.Contains(srcindex))
             throw new IndexOutOfRangeException();
 
         if (dstindex == srcindex)
@@ -142,6 +151,9 @@ public class StridedByteArray
         if (element >= Count)
             throw new IndexOutOfRangeException();
 
+        if (_freeEntries.Contains(element))
+            throw new IndexOutOfRangeException();
+        
         if (offset + (uint)Marshal.SizeOf<T>() > Stride)
             throw new ArgumentOutOfRangeException();
 
@@ -179,6 +191,9 @@ public class StridedByteArray
     {
         if (element >= Count)
             throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
+            throw new IndexOutOfRangeException();
 
         if (offset + (uint)Marshal.SizeOf<T>() > Stride)
             throw new ArgumentOutOfRangeException();
@@ -205,6 +220,9 @@ public class StridedByteArray
     public unsafe string ReadFixedStringAtElementOffset(uint element, uint offset, uint count)
     {
         if (element >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
             throw new IndexOutOfRangeException();
 
         if (offset + count > Stride)
@@ -240,6 +258,9 @@ public class StridedByteArray
     {
         if (element >= Count)
             throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
+            throw new IndexOutOfRangeException();
 
         if (offset + count > Stride)
             throw new ArgumentOutOfRangeException();
@@ -264,6 +285,9 @@ public class StridedByteArray
     public unsafe string ReadFixedStringWAtElementOffset(uint element, uint offset, uint count)
     {
         if (element >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
             throw new IndexOutOfRangeException();
 
         if (offset + count * 2 > Stride)
@@ -301,6 +325,9 @@ public class StridedByteArray
     public unsafe void WriteFixedStringWAtElementOffset(uint element, uint offset, string value, uint count)
     {
         if (element >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
             throw new IndexOutOfRangeException();
 
         if (offset + count * 2 > Stride)
