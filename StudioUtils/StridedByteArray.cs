@@ -116,6 +116,17 @@ public class StridedByteArray
         Array.Clear(_backing, (int)index * (int)Stride, (int)Stride);
     }
 
+    public Span<byte> DataForElement(uint index)
+    {
+        if (index >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(index))
+            throw new IndexOutOfRangeException();
+
+        return new Span<byte>(_backing, (int)index * (int)Stride, (int)Stride);
+    }
+
     /// <summary>
     /// Copies data at one index to another index
     /// </summary>

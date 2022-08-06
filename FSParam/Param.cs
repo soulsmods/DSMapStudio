@@ -8,8 +8,12 @@ namespace FSParam
 {
     /// <summary>
     /// An alternative to the SoulsFormats param class that's designed to be faster to read/write and be
-    /// much more memory efficient. This goes a bit against idiomatic C# in the name of efficiency, so the
-    /// API is admittedly a little awkward.
+    /// much more memory efficient. This tries to match the SoulsFormats PARAM API as much as possible but
+    /// has some differences out of necessity. The main difference is rows and cells are separate rather
+    /// than each row having an array of cells. For convenience, a CellHandle struct was added that provides
+    /// a similar API to the SoulsFormats Cell.
+    ///
+    /// A lot of this code is based off the SoulsFormats PARAM class (especially the read/write), so thanks TKGP.
     /// </summary>
     public class Param : SoulsFile<Param>
     {
@@ -573,7 +577,119 @@ namespace FSParam
 
         protected override void Write(BinaryWriterEx bw)
         {
+            if (AppliedParamdef == null)
+                throw new InvalidOperationException("Params cannot be written without applying a paramdef.");
             
+            bw.BigEndian = BigEndian;
+            
+            bw.ReserveUInt32("StringsOffset");
+            if (Format2D.HasFlag(FormatFlags1.Flag01) && Format2D.HasFlag(FormatFlags1.IntDataOffset) || Format2D.HasFlag(FormatFlags1.LongDataOffset))
+            {
+                bw.WriteInt16(0);
+            }
+            else
+            {
+                bw.ReserveUInt16("DataStart");
+            }
+            bw.WriteInt16(Unk06);
+            bw.WriteInt16(ParamdefDataVersion);
+            bw.WriteUInt16((ushort)Rows.Count);
+            if (Format2D.HasFlag(FormatFlags1.OffsetParamType))
+            {
+                bw.WriteInt32(0);
+                bw.ReserveInt64("ParamTypeOffset");
+                bw.WritePattern(0x14, 0x00);
+            }
+            else
+            {
+                // This padding heuristic isn't completely accurate, not that it matters
+                bw.WriteFixStr(ParamType, 0x20, (byte)(Format2D.HasFlag(FormatFlags1.Flag01) ? 0x20 : 0x00));
+            }
+            bw.WriteByte((byte)(BigEndian ? 0xFF : 0x00));
+            bw.WriteByte((byte)Format2D);
+            bw.WriteByte((byte)Format2E);
+            bw.WriteByte(ParamdefFormatVersion);
+            if (Format2D.HasFlag(FormatFlags1.Flag01) && Format2D.HasFlag(FormatFlags1.IntDataOffset))
+            {
+                bw.ReserveUInt32("DataStart");
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+            }
+            else if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
+            {
+                bw.ReserveInt64("DataStart");
+                bw.WriteInt64(0);
+            }
+            
+            // Write row headers
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
+                {
+                    bw.WriteInt32(Rows[i].ID);
+                    bw.WriteInt32(0);
+                    bw.ReserveInt64($"RowOffset{i}");
+                    bw.ReserveInt64($"NameOffset{i}");
+                }
+                else
+                {
+                    bw.WriteInt32(Rows[i].ID);
+                    bw.ReserveUInt32($"RowOffset{i}");
+                    bw.ReserveUInt32($"NameOffset{i}");
+                }
+            }
+            
+            // This is probably pretty stupid
+            if (Format2D == FormatFlags1.Flag01)
+                bw.WritePattern(0x20, 0x00);
+
+            if (Format2D.HasFlag(FormatFlags1.Flag01) && Format2D.HasFlag(FormatFlags1.IntDataOffset))
+                bw.FillUInt32("DataStart", (uint)bw.Position);
+            else if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
+                bw.FillInt64("DataStart", bw.Position);
+            else
+                bw.FillUInt16("DataStart", (ushort)bw.Position);
+            
+            // Write row data
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
+                    bw.FillInt64($"RowOffset{i}", bw.Position);
+                else
+                    bw.FillUInt32($"RowOffset{i}", (uint)bw.Position);
+                
+                var data = ParamData.DataForElement(Rows[i].DataIndex);
+                bw.WriteBytes(data);
+            }
+            
+            bw.FillUInt32("StringsOffset", (uint)bw.Position);
+            
+            if (Format2D.HasFlag(FormatFlags1.OffsetParamType))
+            {
+                bw.FillInt64("ParamTypeOffset", bw.Position);
+                bw.WriteASCII(ParamType, true);
+            }
+            
+            // Write row names
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                string? rowName = Rows[i].Name;
+                long nameOffset = 0;
+                if (rowName != null)
+                {
+                    nameOffset = bw.Position;
+                    if (Format2E.HasFlag(FormatFlags2.UnicodeRowNames))
+                        bw.WriteUTF16(rowName, true);
+                    else
+                        bw.WriteShiftJIS(rowName, true);
+                }
+
+                if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
+                    bw.FillInt64($"NameOffset{i}", nameOffset);
+                else
+                    bw.FillUInt32($"NameOffset{i}", (uint)nameOffset);
+            }
         }
 
         /// <summary>
