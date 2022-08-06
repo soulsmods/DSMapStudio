@@ -855,6 +855,7 @@ namespace StudioCore.ParamEditor
 
     public class ParamEditorSelectionState
     {
+        internal string currentParamSearchString = "";
         private static string _globalRowSearchString = "";
         private static string _globalPropSearchString = "";
         private string _activeParam = null;
@@ -995,6 +996,8 @@ namespace StudioCore.ParamEditor
         {
             ImGui.Columns(3);
             ImGui.BeginChild("params");
+            ImGui.InputText("Search...", ref _selection.currentParamSearchString, 256);
+
             List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
 
             if (pinnedParamKeyList.Count > 0)
@@ -1020,7 +1023,8 @@ namespace StudioCore.ParamEditor
 
             ImGui.BeginChild("paramTypes");
             float scrollTo = 0f;
-            List<string> paramKeyList = ParamBank.Params.Keys.ToList();
+            List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+            List<string> paramKeyList = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
             if (ParamEditorScreen.AlphabeticalParamsPreference)
                 paramKeyList.Sort();
             foreach (var paramKey in paramKeyList)
