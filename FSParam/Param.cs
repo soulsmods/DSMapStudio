@@ -159,7 +159,7 @@ namespace FSParam
                 ID = id;
                 Name = name;
                 Parent = parent;
-                DataIndex = parent.ParamData.AddZeroedElement();
+                DataIndex = parent._paramData.AddZeroedElement();
             }
 
             public Row(Row clone)
@@ -167,8 +167,8 @@ namespace FSParam
                 Parent = clone.Parent;
                 ID = clone.ID;
                 Name = clone.Name;
-                DataIndex = Parent.ParamData.AddZeroedElement();
-                Parent.ParamData.CopyData(DataIndex, clone.DataIndex);
+                DataIndex = Parent._paramData.AddZeroedElement();
+                Parent._paramData.CopyData(DataIndex, clone.DataIndex);
             }
             
             public Row(Row clone, Param newParent)
@@ -176,13 +176,13 @@ namespace FSParam
                 Parent = newParent;
                 ID = clone.ID;
                 Name = clone.Name;
-                DataIndex = Parent.ParamData.AddZeroedElement();
-                clone.Parent.ParamData.CopyData(Parent.ParamData, DataIndex, clone.DataIndex);
+                DataIndex = Parent._paramData.AddZeroedElement();
+                clone.Parent._paramData.CopyData(Parent._paramData, DataIndex, clone.DataIndex);
             }
 
             ~Row()
             {
-                Parent.ParamData.RemoveAt(DataIndex);
+                Parent._paramData.RemoveAt(DataIndex);
             }
 
             /// <summary>
@@ -274,7 +274,7 @@ namespace FSParam
 
             public object GetValue(Row row)
             {
-                var data = row.Parent.ParamData;
+                var data = row.Parent._paramData;
                 switch (Def.DisplayType)
                 {
                     case PARAMDEF.DefType.s8:
@@ -316,7 +316,7 @@ namespace FSParam
 
             public void SetValue(Row row, object value)
             {
-                var data = row.Parent.ParamData;
+                var data = row.Parent._paramData;
                 switch (Def.DisplayType)
                 {
                     case PARAMDEF.DefType.s8:
@@ -423,7 +423,7 @@ namespace FSParam
         /// </summary>
         public uint DetectedSize { get; private set; }
 
-        public StridedByteArray ParamData { get; private set; } = new StridedByteArray(0, 1);
+        private StridedByteArray _paramData = new StridedByteArray(0, 1);
 
         private List<Row> _rows = new List<Row>();
         public IReadOnlyList<Row> Rows 
@@ -569,6 +569,24 @@ namespace FSParam
 
             Cells = cells;
         }
+
+        /// <summary>
+        /// A bug in prior versions of DSMS and other param editors would save soundCutsceneParam as
+        /// 32 bytes instead of 36 bytes. Fortunately appending 0s at the end should be enough to fix
+        /// these params.
+        /// </summary>
+        private void FixupERSoundCutsceneParam()
+        {
+            StridedByteArray newData = new StridedByteArray((uint)Rows.Count, 36, BigEndian);
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                newData.AddZeroedElement();
+                _paramData.CopyData(newData, (uint)i, (uint)i);
+            }
+
+            _paramData = newData;
+            DetectedSize = 36;
+        }
         
         protected override void Read(BinaryReaderEx br)
         {
@@ -665,13 +683,18 @@ namespace FSParam
                 var dataStart = Rows.Min(row => row.DataIndex);
                 br.Position = dataStart;
                 var rowData = br.ReadBytes(Rows.Count * (int)DetectedSize);
-                ParamData = new StridedByteArray(rowData, DetectedSize, BigEndian);
+                _paramData = new StridedByteArray(rowData, DetectedSize, BigEndian);
                 
                 // Convert raw data offsets into indices
                 foreach (var r in Rows)
                 {
                     r.DataIndex = (r.DataIndex - dataStart) / DetectedSize;
                 }
+            }
+
+            if (ParamType == "SOUND_CUTSCENE_PARAM_ST" && ParamdefDataVersion == 6 && DetectedSize == 32)
+            {
+                FixupERSoundCutsceneParam();
             }
         }
 
@@ -759,7 +782,7 @@ namespace FSParam
                 else
                     bw.FillUInt32($"RowOffset{i}", (uint)bw.Position);
                 
-                var data = ParamData.DataForElement(Rows[i].DataIndex);
+                var data = _paramData.DataForElement(Rows[i].DataIndex);
                 bw.WriteBytes(data);
             }
             

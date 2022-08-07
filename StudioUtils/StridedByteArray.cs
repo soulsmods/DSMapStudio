@@ -163,8 +163,11 @@ public class StridedByteArray
         if (dstArray._freeEntries.Contains(dstindex) || _freeEntries.Contains(srcindex))
             throw new IndexOutOfRangeException();
 
+        if (Stride > dstArray.Stride)
+            throw new ArgumentException();
+        
         Array.Copy(_backing, (int)(srcindex) * (int)Stride,
-            dstArray._backing, (int)(dstindex) * (int)Stride, (int)Stride);
+            dstArray._backing, (int)(dstindex) * (int)dstArray.Stride, (int)Stride);
     }
 
     /// <summary>
