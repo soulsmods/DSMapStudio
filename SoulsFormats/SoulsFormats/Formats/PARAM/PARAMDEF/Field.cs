@@ -43,9 +43,24 @@ namespace SoulsFormats
             u32,
 
             /// <summary>
+            /// 4-byte integer representing a boolean.
+            /// </summary>
+            b32,
+
+            /// <summary>
             /// Single-precision floating point value.
             /// </summary>
             f32,
+
+            /// <summary>
+            /// Single-precision floating point value representing an angle.
+            /// </summary>
+            angle32,
+
+            /// <summary>
+            /// Double-precision floating point value.
+            /// </summary>
+            f64,
 
             /// <summary>
             /// Byte or array of bytes used for padding or placeholding.
@@ -227,10 +242,10 @@ namespace SoulsFormats
                 }
                 else
                 {
-                Default = br.ReadSingle();
-                Minimum = br.ReadSingle();
-                Maximum = br.ReadSingle();
-                Increment = br.ReadSingle();
+                    Default = br.ReadSingle();
+                    Minimum = br.ReadSingle();
+                    Maximum = br.ReadSingle();
+                    Increment = br.ReadSingle();
                 }
 
                 EditFlags = (EditFlags)br.ReadInt32();
@@ -246,7 +261,7 @@ namespace SoulsFormats
                 {
                     if (def.Unicode)
                         Description = br.GetUTF16(descriptionOffset);
-                else
+                    else
                         Description = br.GetShiftJIS(descriptionOffset);
                 }
 
@@ -317,17 +332,33 @@ namespace SoulsFormats
                             case DefType.s16:
                             case DefType.u16:
                             case DefType.s32:
-                            case DefType.u32: value = br.ReadInt32(); break;
-                            case DefType.f32: value = br.ReadSingle(); break;
+                            case DefType.u32:
+                            case DefType.b32:
+                                value = br.ReadInt32();
+                                br.AssertInt32(0);
+                                break;
+
+                            case DefType.f32:
+                            case DefType.angle32:
+                                value = br.ReadSingle();
+                                br.AssertInt32(0);
+                                break;
+
+                            case DefType.f64:
+                                value = br.ReadDouble();
+                                break;
+
                             // Given that there are 8 bytes available, these could possibly be offsets
                             case DefType.dummy8:
                             case DefType.fixstr:
-                            case DefType.fixstrW: value = null; br.AssertInt32(0); break;
+                            case DefType.fixstrW:
+                                value = null;
+                                br.AssertInt64(0);
+                                break;
 
                             default:
                                 throw new NotImplementedException($"Missing variable read for type: {DisplayType}");
                         }
-                        br.AssertInt32(0);
                         return value;
                     }
 
@@ -405,16 +436,31 @@ namespace SoulsFormats
                             case DefType.s16:
                             case DefType.u16:
                             case DefType.s32:
-                            case DefType.u32: bw.WriteInt32(Convert.ToInt32(value)); break;
-                            case DefType.f32: bw.WriteSingle(Convert.ToSingle(value)); break;
+                            case DefType.u32:
+                            case DefType.b32:
+                                bw.WriteInt32(Convert.ToInt32(value));
+                                bw.WriteInt32(0);
+                                break;
+
+                            case DefType.f32:
+                            case DefType.angle32:
+                                bw.WriteSingle(Convert.ToSingle(value));
+                                bw.WriteInt32(0);
+                                break;
+
+                            case DefType.f64:
+                                bw.WriteDouble(Convert.ToDouble(value));
+                                break;
+
                             case DefType.dummy8:
                             case DefType.fixstr:
-                            case DefType.fixstrW: bw.WriteInt32(0); break;
+                            case DefType.fixstrW:
+                                bw.WriteInt64(0);
+                                break;
 
                             default:
                                 throw new NotImplementedException($"Missing variable write for type: {DisplayType}");
                         }
-                        bw.WriteInt32(0);
                     }
 
                     writeVariableValue(Default);
