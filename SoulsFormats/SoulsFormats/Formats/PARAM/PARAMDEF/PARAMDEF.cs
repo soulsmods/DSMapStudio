@@ -280,6 +280,14 @@ namespace SoulsFormats
         }
 
         /// <summary>
+        /// Returns a string representation of the PARAMDEF.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{ParamType} v{DataVersion}";
+        }
+
+        /// <summary>
         /// Reads an XML-formatted PARAMDEF from a file.
         /// </summary>
         public static PARAMDEF XmlDeserialize(string path)

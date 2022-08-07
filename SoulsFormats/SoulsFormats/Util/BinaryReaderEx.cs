@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -328,12 +329,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads a two-byte signed integer.
         /// </summary>
-        public short ReadInt16()
+        public unsafe short ReadInt16()
         {
             if (BigEndian)
-                return BitConverter.ToInt16(ReadReversedBytes(2), 0);
-            else
-                return br.ReadInt16();
+            {
+                short i = br.ReadInt16();
+                return BinaryPrimitives.ReadInt16BigEndian(new ReadOnlySpan<byte>((byte*)&i, 2));
+            }
+            return br.ReadInt16();
         }
 
         /// <summary>
@@ -376,12 +379,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads a two-byte unsigned integer.
         /// </summary>
-        public ushort ReadUInt16()
+        public unsafe ushort ReadUInt16()
         {
             if (BigEndian)
-                return BitConverter.ToUInt16(ReadReversedBytes(2), 0);
-            else
-                return br.ReadUInt16();
+            {
+                ushort i = br.ReadUInt16();
+                return BinaryPrimitives.ReadUInt16BigEndian(new ReadOnlySpan<byte>((byte*)&i, 2));
+            }
+            return br.ReadUInt16();
         }
 
         /// <summary>
@@ -424,12 +429,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads a four-byte signed integer.
         /// </summary>
-        public int ReadInt32()
+        public unsafe int ReadInt32()
         {
             if (BigEndian)
-                return BitConverter.ToInt32(ReadReversedBytes(4), 0);
-            else
-                return br.ReadInt32();
+            {
+                int i = br.ReadInt32();
+                return BinaryPrimitives.ReadInt32BigEndian(new ReadOnlySpan<byte>((byte*)&i, 4));
+            }
+            return br.ReadInt32();
         }
 
         /// <summary>
@@ -472,12 +479,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads a four-byte unsigned integer.
         /// </summary>
-        public uint ReadUInt32()
+        public unsafe uint ReadUInt32()
         {
             if (BigEndian)
-                return BitConverter.ToUInt32(ReadReversedBytes(4), 0);
-            else
-                return br.ReadUInt32();
+            {
+                uint i = br.ReadUInt32();
+                return BinaryPrimitives.ReadUInt32BigEndian(new ReadOnlySpan<byte>((byte*)&i, 4));
+            }
+            return br.ReadUInt32();
         }
 
         /// <summary>
@@ -520,12 +529,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads an eight-byte signed integer.
         /// </summary>
-        public long ReadInt64()
+        public unsafe long ReadInt64()
         {
             if (BigEndian)
-                return BitConverter.ToInt64(ReadReversedBytes(8), 0);
-            else
-                return br.ReadInt64();
+            {
+                long i = br.ReadInt64();
+                return BinaryPrimitives.ReadInt64BigEndian(new ReadOnlySpan<byte>((byte*)&i, 8));
+            }
+            return br.ReadInt64();
         }
 
         /// <summary>
@@ -568,12 +579,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads an eight-byte unsigned integer.
         /// </summary>
-        public ulong ReadUInt64()
+        public unsafe ulong ReadUInt64()
         {
             if (BigEndian)
-                return BitConverter.ToUInt64(ReadReversedBytes(8), 0);
-            else
-                return br.ReadUInt64();
+            {
+                ulong i = br.ReadUInt64();
+                return BinaryPrimitives.ReadUInt64BigEndian(new ReadOnlySpan<byte>((byte*)&i, 8));
+            }
+            return br.ReadUInt64();
         }
 
         /// <summary>
@@ -672,12 +685,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads a four-byte floating point number.
         /// </summary>
-        public float ReadSingle()
+        public unsafe float ReadSingle()
         {
             if (BigEndian)
-                return BitConverter.ToSingle(ReadReversedBytes(4), 0);
-            else
-                return br.ReadSingle();
+            {
+                float i = br.ReadSingle();
+                return BinaryPrimitives.ReadUInt64BigEndian(new ReadOnlySpan<byte>((byte*)&i, 4));
+            }
+            return br.ReadSingle();
         }
 
         /// <summary>
@@ -720,12 +735,14 @@ namespace SoulsFormats
         /// <summary>
         /// Reads an eight-byte floating point number.
         /// </summary>
-        public double ReadDouble()
+        public unsafe double ReadDouble()
         {
             if (BigEndian)
-                return BitConverter.ToDouble(ReadReversedBytes(8), 0);
-            else
-                return br.ReadDouble();
+            {
+                double i = br.ReadDouble();
+                return BinaryPrimitives.ReadUInt64BigEndian(new ReadOnlySpan<byte>((byte*)&i, 8));
+            }
+            return br.ReadDouble();
         }
 
         /// <summary>
@@ -981,7 +998,7 @@ namespace SoulsFormats
         /// </summary>
         public string ReadUTF16()
         {
-            List<byte> bytes = new List<byte>();
+            List<byte> bytes = new List<byte>(64);
             byte a = ReadByte();
             byte b = ReadByte();
             while (a != 0 || b != 0)

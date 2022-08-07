@@ -11,7 +11,7 @@ namespace SoulsFormats
     {
         private static class XmlSerializer
         {
-            public const int CURRENT_XML_VERSION = 2;
+            public const int CURRENT_XML_VERSION = 3;
 
             public static PARAMDEF Deserialize(XmlDocument xml)
             {
@@ -122,11 +122,21 @@ namespace SoulsFormats
                         case DefType.s16:
                         case DefType.u16:
                         case DefType.s32:
-                        case DefType.u32: return int.Parse(text);
-                        case DefType.f32: return float.Parse(text, CultureInfo.InvariantCulture);
+                        case DefType.u32:
+                        case DefType.b32:
+                            return int.Parse(text);
+
+                        case DefType.f32:
+                        case DefType.angle32:
+                            return float.Parse(text, CultureInfo.InvariantCulture);
+
+                        case DefType.f64:
+                            return double.Parse(text, CultureInfo.InvariantCulture);
+
                         case DefType.dummy8:
                         case DefType.fixstr:
-                        case DefType.fixstrW: return null;
+                        case DefType.fixstrW:
+                            return null;
 
                         default:
                             throw new NotImplementedException($"Missing variable parse for type: {type}");
@@ -149,11 +159,21 @@ namespace SoulsFormats
                         case DefType.s16:
                         case DefType.u16:
                         case DefType.s32:
-                        case DefType.u32: return node.ReadInt32OrDefault(xpath, (int)defaultValue);
-                        case DefType.f32: return node.ReadSingleOrDefault(xpath, (float)defaultValue, CultureInfo.InvariantCulture);
+                        case DefType.u32:
+                        case DefType.b32:
+                            return node.ReadInt32OrDefault(xpath, (int)defaultValue);
+
+                        case DefType.f32:
+                        case DefType.angle32:
+                            return node.ReadSingleOrDefault(xpath, (float)defaultValue, CultureInfo.InvariantCulture);
+
+                        case DefType.f64:
+                            return node.ReadDoubleOrDefault(xpath, (double)defaultValue, CultureInfo.InvariantCulture);
+
                         case DefType.dummy8:
                         case DefType.fixstr:
-                        case DefType.fixstrW: return null;
+                        case DefType.fixstrW:
+                            return null;
 
                         default:
                             throw new NotImplementedException($"Missing variable read for type: {type}");
@@ -203,11 +223,21 @@ namespace SoulsFormats
                         case DefType.s16:
                         case DefType.u16:
                         case DefType.s32:
-                        case DefType.u32: return Convert.ToInt32(value).ToString();
-                        case DefType.f32: return Convert.ToSingle(value).ToString();
+                        case DefType.u32:
+                        case DefType.b32:
+                            return Convert.ToInt32(value).ToString();
+
+                        case DefType.f32:
+                        case DefType.angle32:
+                            return Convert.ToSingle(value).ToString();
+
+                        case DefType.f64:
+                            return Convert.ToDouble(value).ToString();
+
                         case DefType.dummy8:
                         case DefType.fixstr:
-                        case DefType.fixstrW: return "null";
+                        case DefType.fixstrW:
+                            return "null";
 
                         default:
                             throw new NotImplementedException($"Missing variable tostring for type: {type}");
@@ -231,11 +261,17 @@ namespace SoulsFormats
                         case DefType.u16:
                         case DefType.s32:
                         case DefType.u32:
+                        case DefType.b32:
                             xw.WriteDefaultElement(localName, Convert.ToInt32(value), (int)defaultValue);
                             break;
 
                         case DefType.f32:
+                        case DefType.angle32:
                             xw.WriteDefaultElement(localName, Convert.ToSingle(value), (float)defaultValue);
+                            break;
+
+                        case DefType.f64:
+                            xw.WriteDefaultElement(localName, Convert.ToDouble(value), (double)defaultValue);
                             break;
 
                         case DefType.dummy8:

@@ -17,7 +17,10 @@ namespace SoulsFormats
                 case DefType.u16: return "%d";
                 case DefType.s32: return "%d";
                 case DefType.u32: return "%d";
+                case DefType.b32: return "%d";
                 case DefType.f32: return "%f";
+                case DefType.angle32: return "%f";
+                case DefType.f64: return "%f";
                 case DefType.dummy8: return "";
                 case DefType.fixstr: return "%d";
                 case DefType.fixstrW: return "%d";
@@ -35,7 +38,10 @@ namespace SoulsFormats
             [DefType.u16] = 0,
             [DefType.s32] = 0,
             [DefType.u32] = 0,
+            [DefType.b32] = 0,
             [DefType.f32] = 0,
+            [DefType.angle32] = 0,
+            [DefType.f64] = 0,
             [DefType.dummy8] = 0,
             [DefType.fixstr] = 0,
             [DefType.fixstrW] = 0,
@@ -49,7 +55,10 @@ namespace SoulsFormats
             [DefType.u16] = 0,
             [DefType.s32] = 0,
             [DefType.u32] = 0,
+            [DefType.b32] = 0,
             [DefType.f32] = 0f,
+            [DefType.angle32] = 0f,
+            [DefType.f64] = 0d,
             [DefType.dummy8] = null,
             [DefType.fixstr] = null,
             [DefType.fixstrW] = null,
@@ -71,7 +80,10 @@ namespace SoulsFormats
             [DefType.u16] = ushort.MinValue,
             [DefType.s32] = -2147483520, // Smallest representable float greater than int.MinValue
             [DefType.u32] = uint.MinValue,
+            [DefType.b32] = 0,
             [DefType.f32] = float.MinValue,
+            [DefType.angle32] = float.MinValue,
+            [DefType.f64] = float.MinValue,
             [DefType.dummy8] = 0,
             [DefType.fixstr] = -1,
             [DefType.fixstrW] = -1,
@@ -85,7 +97,10 @@ namespace SoulsFormats
             [DefType.u16] = (int)ushort.MinValue,
             [DefType.s32] = int.MinValue,
             [DefType.u32] = (int)uint.MinValue,
+            [DefType.b32] = 0,
             [DefType.f32] = float.MinValue,
+            [DefType.angle32] = float.MinValue,
+            [DefType.f64] = double.MinValue,
             [DefType.dummy8] = null,
             [DefType.fixstr] = null,
             [DefType.fixstrW] = null,
@@ -107,7 +122,10 @@ namespace SoulsFormats
             [DefType.u16] = ushort.MaxValue,
             [DefType.s32] = 2147483520, // Largest representable float less than int.MaxValue
             [DefType.u32] = 4294967040, // Largest representable float less than uint.MaxValue
-            [DefType.f32] = float.MinValue,
+            [DefType.b32] = 1,
+            [DefType.f32] = float.MaxValue,
+            [DefType.angle32] = float.MaxValue,
+            [DefType.f64] = float.MaxValue,
             [DefType.dummy8] = 0,
             [DefType.fixstr] = 1000000000,
             [DefType.fixstrW] = 1000000000,
@@ -121,7 +139,10 @@ namespace SoulsFormats
             [DefType.u16] = (int)ushort.MaxValue,
             [DefType.s32] = int.MaxValue,
             [DefType.u32] = int.MaxValue, // Yes, u32 uses signed int too (usually)
-            [DefType.f32] = float.MinValue,
+            [DefType.b32] = 1,
+            [DefType.f32] = float.MaxValue,
+            [DefType.angle32] = float.MaxValue,
+            [DefType.f64] = double.MaxValue,
             [DefType.dummy8] = null,
             [DefType.fixstr] = null,
             [DefType.fixstrW] = null,
@@ -143,7 +164,10 @@ namespace SoulsFormats
             [DefType.u16] = 1,
             [DefType.s32] = 1,
             [DefType.u32] = 1,
+            [DefType.b32] = 1,
             [DefType.f32] = 0.01f,
+            [DefType.angle32] = 0.01f,
+            [DefType.f64] = 0.01f,
             [DefType.dummy8] = 0,
             [DefType.fixstr] = 1,
             [DefType.fixstrW] = 1,
@@ -157,7 +181,10 @@ namespace SoulsFormats
             [DefType.u16] = 1,
             [DefType.s32] = 1,
             [DefType.u32] = 1,
+            [DefType.b32] = 1,
             [DefType.f32] = 0.01f,
+            [DefType.angle32] = 0.01f,
+            [DefType.f64] = 0.01d,
             [DefType.dummy8] = null,
             [DefType.fixstr] = null,
             [DefType.fixstrW] = null,
@@ -181,7 +208,10 @@ namespace SoulsFormats
                 case DefType.u16: return EditFlags.Wrap;
                 case DefType.s32: return EditFlags.Wrap;
                 case DefType.u32: return EditFlags.Wrap;
+                case DefType.b32: return EditFlags.Wrap;
                 case DefType.f32: return EditFlags.Wrap;
+                case DefType.angle32: return EditFlags.Wrap;
+                case DefType.f64: return EditFlags.Wrap;
                 case DefType.dummy8: return EditFlags.None;
                 case DefType.fixstr: return EditFlags.Wrap;
                 case DefType.fixstrW: return EditFlags.Wrap;
@@ -230,7 +260,10 @@ namespace SoulsFormats
                 case DefType.u16: return 2;
                 case DefType.s32: return 4;
                 case DefType.u32: return 4;
+                case DefType.b32: return 4;
                 case DefType.f32: return 4;
+                case DefType.angle32: return 4;
+                case DefType.f64: return 8;
                 case DefType.dummy8: return 1;
                 case DefType.fixstr: return 1;
                 case DefType.fixstrW: return 2;
@@ -250,7 +283,10 @@ namespace SoulsFormats
                 case DefType.u16: return Convert.ToUInt16(field.Default);
                 case DefType.s32: return Convert.ToInt32(field.Default);
                 case DefType.u32: return Convert.ToUInt32(field.Default);
+                case DefType.b32: return Convert.ToInt32(field.Default);
                 case DefType.f32: return Convert.ToSingle(field.Default);
+                case DefType.angle32: return Convert.ToSingle(field.Default);
+                case DefType.f64: return Convert.ToDouble(field.Default);
                 case DefType.fixstr: return "";
                 case DefType.fixstrW: return "";
                 case DefType.dummy8:
