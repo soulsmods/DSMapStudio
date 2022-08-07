@@ -282,9 +282,13 @@ namespace FSParam
                     case PARAMDEF.DefType.s16:
                         return data.ReadValueAtElementOffset<short>(row.DataIndex, _byteOffset);
                     case PARAMDEF.DefType.s32:
+                    case PARAMDEF.DefType.b32:
                         return data.ReadValueAtElementOffset<int>(row.DataIndex, _byteOffset);
                     case PARAMDEF.DefType.f32:
+                    case PARAMDEF.DefType.angle32:
                         return data.ReadValueAtElementOffset<float>(row.DataIndex, _byteOffset);
+                    case PARAMDEF.DefType.f64:
+                        return data.ReadValueAtElementOffset<double>(row.DataIndex, _byteOffset);
                     case PARAMDEF.DefType.u8:
                     case PARAMDEF.DefType.dummy8:
                         if (_arrayLength > 1)
@@ -326,10 +330,15 @@ namespace FSParam
                         data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (short)value);
                         break;
                     case PARAMDEF.DefType.s32:
+                    case PARAMDEF.DefType.b32:
                         data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (int)value);
                         break;
                     case PARAMDEF.DefType.f32:
+                    case PARAMDEF.DefType.angle32:
                         data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (float)value);
+                        break;
+                    case PARAMDEF.DefType.f64:
+                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, (double)value);
                         break;
                     case PARAMDEF.DefType.u8:
                     case PARAMDEF.DefType.dummy8:
@@ -522,7 +531,12 @@ namespace FSParam
                         case PARAMDEF.DefType.s32:
                         case PARAMDEF.DefType.u32:
                         case PARAMDEF.DefType.f32:
+                        case PARAMDEF.DefType.b32:
+                        case PARAMDEF.DefType.angle32:
                             byteOffset += 4;
+                            break;
+                        case PARAMDEF.DefType.f64:
+                            byteOffset += 8;
                             break;
                         case PARAMDEF.DefType.fixstr:
                         case PARAMDEF.DefType.dummy8:

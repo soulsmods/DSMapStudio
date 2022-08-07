@@ -32,7 +32,7 @@ namespace StudioCore.ParamEditor
 
         private object _editedPropCache;
 
-        private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, bool isBool)
+        private unsafe (bool, bool) PropertyRow(Type typ, object oldval, out object newval, bool isBool)
         {
             try
             {
@@ -163,6 +163,16 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     return (true, ImGui.IsItemDeactivatedAfterEdit());
                     // shouldUpdateVisual = true;
+                }
+            }
+            else if (typ == typeof(double))
+            {
+                double val = (double)oldval;
+                if (ImGui.DragScalar("##value", ImGuiDataType.Double, new IntPtr(&val), 0.1f))
+                {
+                    newval = val;
+                    _editedPropCache = newval;
+                    return (true, ImGui.IsItemDeactivatedAfterEdit());
                 }
             }
             else if (typ == typeof(string))
