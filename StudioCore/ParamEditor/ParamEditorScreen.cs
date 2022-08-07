@@ -736,7 +736,7 @@ namespace StudioCore.ParamEditor
                         Param param = ParamBank.Params[_activeView._selection.getActiveParam()];
                         foreach (Param.Row r in rows)
                         {
-                            max = param.Rows.IndexOf(r) > max ? param.Rows.IndexOf(r) : max;
+                            max = param.IndexOfRow(r) > max ? param.IndexOfRow(r) : max;
                         }
                     }
                     else
@@ -959,7 +959,7 @@ namespace StudioCore.ParamEditor
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
                 Param p = ParamBank.Params[_activeParam];
-                s.selectionRows.Sort((Param.Row a, Param.Row b) => {return p.Rows.IndexOf(a) - p.Rows.IndexOf(b);});
+                s.selectionRows.Sort((Param.Row a, Param.Row b) => {return p.IndexOfRow(a) - p.IndexOfRow(b);});
             }
         }
     }

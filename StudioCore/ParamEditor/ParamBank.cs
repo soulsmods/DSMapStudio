@@ -18,7 +18,7 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
-        private static PARAM EnemyParam = null;
+        private static Param EnemyParam = null;
         internal static AssetLocator AssetLocator = null;
 
         private static Dictionary<string, Param> _params = null;
@@ -65,23 +65,23 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        //DS2 Only
-        private static PARAM GetParam(BND4 parambnd, string paramfile)
+        // DS2 Only
+        private static Param GetParam(BND4 parambnd, string paramfile)
         {
             var bndfile = parambnd.Files.Find(x => Path.GetFileName(x.Name) == paramfile);
             if (bndfile != null)
             {
-                return PARAM.Read(bndfile.Bytes);
+                return Param.Read(bndfile.Bytes);
             }
 
             // Otherwise the param is a loose param
             if (File.Exists($@"{AssetLocator.GameModDirectory}\Param\{paramfile}"))
             {
-                return PARAM.Read($@"{AssetLocator.GameModDirectory}\Param\{paramfile}");
+                return Param.Read($@"{AssetLocator.GameModDirectory}\Param\{paramfile}");
             }
             if (File.Exists($@"{AssetLocator.GameRootDirectory}\Param\{paramfile}"))
             {
-                return PARAM.Read($@"{AssetLocator.GameRootDirectory}\Param\{paramfile}");
+                return Param.Read($@"{AssetLocator.GameRootDirectory}\Param\{paramfile}");
             }
             return null;
         }
@@ -510,7 +510,7 @@ namespace StudioCore.ParamEditor
                         Param.Row bRow = baseParam[row.ID];
                         if (bRow == null)
                         {
-                            baseParam.Rows.Add(row);
+                            baseParam.AddRow(row);
                         }
                         else
                         {
@@ -969,7 +969,7 @@ namespace StudioCore.ParamEditor
                 if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
                     Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
-                    List<Param.Row> backup = paramFile.Rows;
+                    IReadOnlyList<Param.Row> backup = paramFile.Rows;
                     List<Param.Row> changed = new List<Param.Row>();
                     if (partial)
                     {
@@ -1027,14 +1027,8 @@ namespace StudioCore.ParamEditor
 
         public static string GetChrIDForEnemy(long enemyID)
         {
-            if (EnemyParam != null)
-            {
-                if (EnemyParam[(int)enemyID] != null)
-                {
-                    return $@"{EnemyParam[(int)enemyID]["Chr ID"].Value:D4}";
-                }
-            }
-            return null;
+            var enemy = EnemyParam?[(int)enemyID];
+            return enemy != null ? $@"{enemy.GetCellHandleOrThrow("Chr ID").Value:D4}" : null;
         }
 
         public static string GetKeyForParam(Param param)

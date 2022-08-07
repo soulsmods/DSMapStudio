@@ -23,7 +23,7 @@ namespace StudioCore.Editor
 
         internal Dictionary<string, (int, Func<string[], bool, Func<A, Func<B, bool>>>)> filterList = new Dictionary<string, (int, Func<string[], bool, Func<A, Func<B, bool>>>)>();
         internal (int, Func<string[], bool, Func<A, Func<B, bool>>>) defaultFilter;
-        internal Func<A, List<B>> unpacker;
+        internal Func<A, IReadOnlyList<B>> unpacker;
         protected void addExistsFilter() {
             filterList.Add("exists", (0, noArgs(noContext((B)=>true))));
         }
@@ -64,8 +64,8 @@ namespace StudioCore.Editor
             //assumes unpacking doesn't fail
             string[] conditions = command.Split("&&", StringSplitOptions.TrimEntries);
 
-            List<(A, List<B>)> liveRows = new List<(A, List<B>)>();
-            List<(A, List<B>)> originalRows = liveRows;
+            List<(A, IReadOnlyList<B>)> liveRows = new List<(A, IReadOnlyList<B>)>();
+            List<(A, IReadOnlyList<B>)> originalRows = liveRows;
             foreach (A p in param)
             {
                 liveRows.Add((p, unpacker(p)));
@@ -93,8 +93,8 @@ namespace StudioCore.Editor
                         args = condition.Split(" ", argC, StringSplitOptions.TrimEntries);
                     }
                     var filter = method(args, lenient);
-                    List<(A, List<B>)> rows = new List<(A, List<B>)>();
-                    foreach ((A p, List<B> live) in liveRows)
+                    List<(A, IReadOnlyList<B>)> rows = new List<(A, IReadOnlyList<B>)>();
+                    foreach ((A p, IReadOnlyList<B> live) in liveRows)
                     {
                         Func<B, bool> criteria = filter(p);
                         List<B> newRows = new List<B>();
@@ -110,11 +110,11 @@ namespace StudioCore.Editor
             }
             catch (Exception e)
             {
-                liveRows = failureAllOrNone ? originalRows : new List<(A, List<B>)>();
+                liveRows = failureAllOrNone ? originalRows : new List<(A, IReadOnlyList<B>)>();
             }
             //assumes serialising doesn't fail
             List<B> finalRows = new List<B>();
-            foreach ((A p, List<B> l) in liveRows)
+            foreach ((A p, IReadOnlyList<B> l) in liveRows)
             {
                 finalRows.AddRange(l);
             }

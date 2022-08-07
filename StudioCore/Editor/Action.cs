@@ -167,7 +167,7 @@ namespace StudioCore.Editor
                 var newrow = new Param.Row(row);
                 if (useIDAsIndex)
                 {
-                    Param.Rows.Insert(newrow.ID, newrow);
+                    Param.InsertRow(newrow.ID, newrow);
                 }
                 else
                 {
@@ -176,9 +176,9 @@ namespace StudioCore.Editor
                         if (replParams)
                         {
                             Param.Row existing = Param[(int) row.ID];
-                            RemovedIndex.Add(Param.Rows.IndexOf(existing));
+                            RemovedIndex.Add(Param.IndexOfRow(existing));
                             Removed.Add(existing);
-                            Param.Rows.Remove(existing);
+                            Param.RemoveRow(existing);
                         }
                         else
                         {
@@ -189,7 +189,7 @@ namespace StudioCore.Editor
                                 newID++;
                             }
                             newrow.ID = newID;
-                            Param.Rows.Insert(Param.Rows.IndexOf(Param[(int) newID - 1]) + 1, newrow);
+                            Param.InsertRow(Param.IndexOfRow(Param[(int) newID - 1]) + 1, newrow);
                         }
                     }
                     if (Param[(int) row.ID] == null)
@@ -197,7 +197,7 @@ namespace StudioCore.Editor
                         newrow.Name = row.Name != null ? row.Name : "";
                         if (appOnly)
                         {
-                            Param.Rows.Add(newrow);
+                            Param.AddRow(newrow);
                         }
                         else
                         {
@@ -208,7 +208,7 @@ namespace StudioCore.Editor
                                     break;
                                 index++;
                             }
-                            Param.Rows.Insert(index, newrow);
+                            Param.InsertRow(index, newrow);
                         }
                     }
                 }
@@ -221,11 +221,11 @@ namespace StudioCore.Editor
         {
             for (int i = 0; i < Clones.Count(); i++)
             {
-                Param.Rows.Remove(Clones[i]);
+                Param.RemoveRow(Clones[i]);
             }
             for (int i = Removed.Count()-1; i >= 0; i--)
             {
-                Param.Rows.Insert(RemovedIndex[i], Removed[i]);
+                Param.InsertRow(RemovedIndex[i], Removed[i]);
             }
             
             Clones.Clear();
@@ -297,8 +297,8 @@ namespace StudioCore.Editor
         {
             foreach (var row in Deletables)
             {
-                RemoveIndices.Add(Param.Rows.IndexOf(row));
-                Param.Rows.RemoveAt(RemoveIndices.Last());
+                RemoveIndices.Add(Param.IndexOfRow(row));
+                Param.RemoveRowAt(RemoveIndices.Last());
             }
             if (SetSelection)
             {
@@ -310,7 +310,7 @@ namespace StudioCore.Editor
         {
             for (int i = Deletables.Count() -1 ; i >= 0 ; i--)
             {
-                Param.Rows.Insert(RemoveIndices[i], Deletables[i]);
+                Param.InsertRow(RemoveIndices[i], Deletables[i]);
             }
             if (SetSelection)
             {

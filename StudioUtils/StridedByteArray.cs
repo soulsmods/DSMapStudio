@@ -147,6 +147,25 @@ public class StridedByteArray
         Array.Copy(_backing, (int)(srcindex) * (int)Stride,
             _backing, (int)(dstindex) * (int)Stride, (int)Stride);
     }
+    
+    /// <summary>
+    /// Copies data at one index to another index
+    /// </summary>
+    /// <param name="dstArray">The array to copy to</param>
+    /// <param name="dstindex">The index to copy to</param>
+    /// <param name="srcindex">The index to copy from</param>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    public void CopyData(StridedByteArray dstArray, uint dstindex, uint srcindex)
+    {
+        if (dstindex >= dstArray.Count || srcindex >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (dstArray._freeEntries.Contains(dstindex) || _freeEntries.Contains(srcindex))
+            throw new IndexOutOfRangeException();
+
+        Array.Copy(_backing, (int)(srcindex) * (int)Stride,
+            dstArray._backing, (int)(dstindex) * (int)Stride, (int)Stride);
+    }
 
     /// <summary>
     /// Reads an element interpreted as a specific type at a specific offset of an element array
@@ -192,8 +211,8 @@ public class StridedByteArray
     /// <summary>
     /// Writes an element interpreted as a specific type at a specific offset of an element array
     /// </summary>
-    /// <param name="element">The element to read</param>
-    /// <param name="offset">The byte offset to get the data from</param>
+    /// <param name="element">The element to write to</param>
+    /// <param name="offset">The byte offset to write the data to</param>
     /// <param name="value">The value to write</param>
     /// <typeparam name="T">The type that is being read</typeparam>
     /// <exception cref="IndexOutOfRangeException"></exception>
@@ -219,6 +238,53 @@ public class StridedByteArray
                 EndianSwap(data);
             }
         }
+    }
+
+    /// <summary>
+    /// Reads an element interpreted as a byte array at a specific offset of an element array
+    /// </summary>
+    /// <param name="element">The element to read</param>
+    /// <param name="offset">The byte offset to get the data from</param>
+    /// <param name="size">The size of the array</param>
+    /// <returns>The read bytes</returns>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public byte[] ReadByteArrayAtElementOffset(uint element, uint offset, uint size)
+    {
+        if (element >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
+            throw new IndexOutOfRangeException();
+
+        if (offset + size > Stride)
+            throw new ArgumentOutOfRangeException();
+
+        var ret = new byte[size];
+        Array.Copy(_backing, (int)element * (int)Stride + (int)offset, ret, 0, (int)size);
+        return ret;
+    }
+
+    /// <summary>
+    /// Writes an element interpreted as a byte array at a specific offset of an element array
+    /// </summary>
+    /// <param name="element">The element to write to</param>
+    /// <param name="offset">The byte offset to write the data to</param>
+    /// <param name="value">The array to write</param>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public void WriteByteArrayAtElementOffset(uint element, uint offset, byte[] value)
+    {
+        if (element >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (_freeEntries.Contains(element))
+            throw new IndexOutOfRangeException();
+
+        if (offset + value.Length > Stride)
+            throw new ArgumentOutOfRangeException();
+        
+        Array.Copy(value, 0, _backing, (int)element * (int)Stride + (int)offset, value.Length);
     }
 
     /// <summary>

@@ -130,6 +130,20 @@ namespace FSParam
 
             public IEnumerable<Cell> Cells => Parent.Cells;
 
+            public IReadOnlyList<CellHandle> CellHandles
+            {
+                get
+                {
+                    var cells = new List<CellHandle>(Cells.Count());
+                    foreach (var cell in Cells)
+                    {
+                        cells.Add(new CellHandle(this, cell));
+                    }
+
+                    return cells;
+                }
+            }
+
             public PARAMDEF Def => Parent.AppliedParamdef;
 
             internal Row(int id, string? name, Param parent, uint dataIndex)
@@ -156,12 +170,35 @@ namespace FSParam
                 DataIndex = Parent.ParamData.AddZeroedElement();
                 Parent.ParamData.CopyData(DataIndex, clone.DataIndex);
             }
+            
+            public Row(Row clone, Param newParent)
+            {
+                Parent = newParent;
+                ID = clone.ID;
+                Name = clone.Name;
+                DataIndex = Parent.ParamData.AddZeroedElement();
+                clone.Parent.ParamData.CopyData(Parent.ParamData, DataIndex, clone.DataIndex);
+            }
 
             ~Row()
             {
                 Parent.ParamData.RemoveAt(DataIndex);
             }
 
+            /// <summary>
+            /// Gets a cell handle from a name or throw an exception if the field name is not found
+            /// </summary>
+            /// <param name="field">The field to look for</param>
+            /// <returns>A cell handle for the field</returns>
+            /// <exception cref="ArgumentException">Throws if field name doesn't exist</exception>
+            public CellHandle GetCellHandleOrThrow(string field)
+            {
+                var cell = Cells.FirstOrDefault(cell => cell.Def.InternalName == field);
+                if (cell == null)
+                    throw new ArgumentException();
+                return new CellHandle(this, cell);
+            }
+            
             public CellHandle? this[string field]
             {
                 get
@@ -192,6 +229,11 @@ namespace FSParam
             {
                 get => _cell.GetValue(_row);
                 set => _cell.SetValue(_row, value);
+            }
+
+            public void SetValue(object value)
+            {
+                _cell.SetValue(_row, value);
             }
 
             public PARAMDEF.Field Def => _cell.Def;
@@ -245,6 +287,10 @@ namespace FSParam
                         return data.ReadValueAtElementOffset<float>(row.DataIndex, _byteOffset);
                     case PARAMDEF.DefType.u8:
                     case PARAMDEF.DefType.dummy8:
+                        if (_arrayLength > 1)
+                        {
+                            return data.ReadByteArrayAtElementOffset(row.DataIndex, _byteOffset, _arrayLength);
+                        }
                         var value8 = data.ReadValueAtElementOffset<byte>(row.DataIndex, _byteOffset);
                         if (_bitSize != -1)
                             value8 = (byte)((value8 >> (int)_bitOffset) & (0xFF >> (8 - _bitSize)));
@@ -287,14 +333,23 @@ namespace FSParam
                         break;
                     case PARAMDEF.DefType.u8:
                     case PARAMDEF.DefType.dummy8:
-                        var value8 = (byte)value;
-                        if (_bitSize != -1)
+                        if (_arrayLength > 1)
                         {
-                            var o8 = data.ReadValueAtElementOffset<byte>(row.DataIndex, _byteOffset);
-                            var mask8 = (byte)(0xFF >> (8 - _bitSize) << (int)_bitOffset);
-                            value8 = (byte)((o8 & ~mask8) | ((value8 << (int)_bitOffset) & mask8));
+                            data.WriteByteArrayAtElementOffset(row.DataIndex, _byteOffset, (byte[])value);
                         }
-                        data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, value8);
+                        else
+                        {
+                            var value8 = (byte)value;
+                            if (_bitSize != -1)
+                            {
+                                var o8 = data.ReadValueAtElementOffset<byte>(row.DataIndex, _byteOffset);
+                                var mask8 = (byte)(0xFF >> (8 - _bitSize) << (int)_bitOffset);
+                                value8 = (byte)((o8 & ~mask8) | ((value8 << (int)_bitOffset) & mask8));
+                            }
+
+                            data.WriteValueAtElementOffset(row.DataIndex, _byteOffset, value8);
+                        }
+
                         break;
                     case PARAMDEF.DefType.u16:
                         var value16 = (ushort)value;
@@ -371,7 +426,7 @@ namespace FSParam
         public StridedByteArray ParamData { get; private set; } = new StridedByteArray(0, 1);
 
         private List<Row> _rows = new List<Row>();
-        public List<Row> Rows 
+        public IReadOnlyList<Row> Rows 
         { 
             get => _rows;
             set
@@ -383,7 +438,8 @@ namespace FSParam
                 {
                     throw new ArgumentException("Attempting to add rows created from another Param");
                 }
-                _rows = value;
+
+                _rows = new List<Row>(value);
             } 
         }
         
@@ -391,6 +447,44 @@ namespace FSParam
 
         public PARAMDEF AppliedParamdef { get; private set; }
 
+        public void ClearRows()
+        {
+            _rows.Clear();
+        }
+        
+        public void AddRow(Row row)
+        {
+            if (row.Parent != this)
+                throw new ArgumentException();
+            _rows.Add(row);
+        }
+
+        public void InsertRow(int index, Row row)
+        {
+            if (row.Parent != this)
+                throw new ArgumentException();
+            _rows.Insert(index, row);
+        }
+
+        public int IndexOfRow(Row? row)
+        {
+            if (row == null || row.Parent != this)
+                throw new ArgumentException();
+            return _rows.IndexOf(row);
+        }
+
+        public void RemoveRow(Row row)
+        {
+            if (row.Parent != this)
+                throw new ArgumentException();
+            _rows.Remove(row);
+        }
+
+        public void RemoveRowAt(int index)
+        {
+            _rows.RemoveAt(index);
+        }
+        
         public void ApplyParamdef(PARAMDEF def)
         {
             AppliedParamdef = def;
@@ -466,6 +560,12 @@ namespace FSParam
                     bitOffset += field.BitSize;
                 }
             }
+            
+            // Get the final size and sanity check against our calculated row size
+            if (bitOffset != -1)
+                byteOffset += lastSize;
+            if (byteOffset != DetectedSize)
+                throw new Exception($@"Row size paramdef mismatch for {ParamType}");
 
             Cells = cells;
         }
@@ -550,7 +650,7 @@ namespace FSParam
                     else
                         name = br.GetShiftJIS(nameOffset);
                 }
-                Rows.Add(new Row(id, name, this, dataIndex));
+                _rows.Add(new Row(id, name, this, dataIndex));
             }
             
             if (Rows.Count > 1)

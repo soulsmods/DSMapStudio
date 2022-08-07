@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Numerics;
 using FSParam;
@@ -421,7 +422,7 @@ namespace StudioCore.ParamEditor
         public static AddParamsAction SortRows(string paramName)
         {
             Param param = ParamBank.Params[paramName];
-            List<Param.Row> newRows = new List<Param.Row>(param.Rows.ToArray());
+            List<Param.Row> newRows = new List<Param.Row>(param.Rows);
             newRows.Sort((Param.Row a, Param.Row b)=>{return a.ID - b.ID;});
             return new AddParamsAction(param, paramName, newRows, true, true, false); //appending same params and allowing overwrite
         }

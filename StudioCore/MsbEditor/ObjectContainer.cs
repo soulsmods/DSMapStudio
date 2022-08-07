@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection.Metadata;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using FSParam;
 using SoulsFormats;
 using StudioCore.Scene;
 
@@ -670,7 +674,7 @@ namespace StudioCore.MsbEditor
             serializer.Serialize(writer, this);
         }
 
-        public bool SerializeDS2Generators(PARAM locations, PARAM generators)
+        public bool SerializeDS2Generators(Param locations, Param generators)
         {
             HashSet<long> ids = new HashSet<long>();
             foreach (var o in Objects)
@@ -690,28 +694,31 @@ namespace StudioCore.MsbEditor
                     if (loc != null)
                     {
                         // Adjust the location to be relative to the mapoffset
-                        var newloc = new PARAM.Row(loc);
-                        newloc["PositionX"].Value = (float)loc["PositionX"].Value - MapOffset.Position.X;
-                        newloc["PositionY"].Value = (float)loc["PositionY"].Value - MapOffset.Position.Y;
-                        newloc["PositionZ"].Value = (float)loc["PositionZ"].Value - MapOffset.Position.Z;
-                        locations.Rows.Add(newloc);
+                        var newloc = new Param.Row(loc, locations);
+                        newloc.GetCellHandleOrThrow("PositionX").SetValue(
+                            (float)loc.GetCellHandleOrThrow("PositionX").Value - MapOffset.Position.X);
+                        newloc.GetCellHandleOrThrow("PositionY").SetValue( 
+                            (float)loc.GetCellHandleOrThrow("PositionY").Value - MapOffset.Position.Y);
+                        newloc.GetCellHandleOrThrow("PositionZ").SetValue( 
+                            (float)loc.GetCellHandleOrThrow("PositionZ").Value - MapOffset.Position.Z);
+                        locations.AddRow(newloc);
                     }
                     var gen = mp.GetRow("generator");
                     if (gen != null)
                     {
-                        generators.Rows.Add(gen);
+                        generators.AddRow(new Param.Row(gen, generators));
                     }
                 }
             }
             return true;
         }
 
-        public bool SerializeDS2Regist(PARAM regist)
+        public bool SerializeDS2Regist(Param regist)
         {
             HashSet<long> ids = new HashSet<long>();
             foreach (var o in Objects)
             {
-                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2GeneratorRegist && m.WrappedObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2GeneratorRegist && m.WrappedObject is Param.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -722,18 +729,18 @@ namespace StudioCore.MsbEditor
                         MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
-                    regist.Rows.Add(mp);
+                    regist.AddRow(new Param.Row(mp, regist));
                 }
             }
             return true;
         }
 
-        public bool SerializeDS2Events(PARAM evs)
+        public bool SerializeDS2Events(Param evs)
         {
             HashSet<long> ids = new HashSet<long>();
             foreach (var o in Objects)
             {
-                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2Event && m.WrappedObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2Event && m.WrappedObject is Param.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -745,19 +752,19 @@ namespace StudioCore.MsbEditor
                         return false;
                     }
 
-                    var newloc = new PARAM.Row(mp);
-                    evs.Rows.Add(newloc);
+                    var newloc = new Param.Row(mp, evs);
+                    evs.AddRow(newloc);
                 }
             }
             return true;
         }
 
-        public bool SerializeDS2EventLocations(PARAM locs)
+        public bool SerializeDS2EventLocations(Param locs)
         {
             HashSet<long> ids = new HashSet<long>();
             foreach (var o in Objects)
             {
-                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2EventLocation && m.WrappedObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2EventLocation && m.WrappedObject is Param.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -770,22 +777,25 @@ namespace StudioCore.MsbEditor
                     }
 
                     // Adjust the location to be relative to the mapoffset
-                    var newloc = new PARAM.Row(mp);
-                    newloc["PositionX"].Value = (float)mp["PositionX"].Value - MapOffset.Position.X;
-                    newloc["PositionY"].Value = (float)mp["PositionY"].Value - MapOffset.Position.Y;
-                    newloc["PositionZ"].Value = (float)mp["PositionZ"].Value - MapOffset.Position.Z;
-                    locs.Rows.Add(newloc);
+                    var newloc = new Param.Row(mp, locs);
+                    newloc.GetCellHandleOrThrow("PositionX").SetValue(
+                        (float)mp.GetCellHandleOrThrow("PositionX").Value - MapOffset.Position.X);
+                    newloc.GetCellHandleOrThrow("PositionY").SetValue( 
+                        (float)mp.GetCellHandleOrThrow("PositionY").Value - MapOffset.Position.Y);
+                    newloc.GetCellHandleOrThrow("PositionZ").SetValue( 
+                        (float)mp.GetCellHandleOrThrow("PositionZ").Value - MapOffset.Position.Z);
+                    locs.AddRow(newloc);
                 }
             }
             return true;
         }
 
-        public bool SerializeDS2ObjInstances(PARAM objs)
+        public bool SerializeDS2ObjInstances(Param objs)
         {
             HashSet<long> ids = new HashSet<long>();
             foreach (var o in Objects)
             {
-                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2ObjectInstance && m.WrappedObject is PARAM.Row mp)
+                if (o is MapEntity m && m.Type == MapEntity.MapEntityType.DS2ObjectInstance && m.WrappedObject is Param.Row mp)
                 {
                     if (!ids.Contains(mp.ID))
                     {
@@ -797,8 +807,8 @@ namespace StudioCore.MsbEditor
                         return false;
                     }
 
-                    var newobj = new PARAM.Row(mp);
-                    objs.Rows.Add(newobj);
+                    var newobj = new Param.Row(mp, objs);
+                    objs.AddRow(newobj);
                 }
             }
             return true;
