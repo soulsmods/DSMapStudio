@@ -33,7 +33,10 @@ namespace SoulsFormats
                         case PARAMDEF.DefType.u16: this.value = Convert.ToUInt16(value); break;
                         case PARAMDEF.DefType.s32: this.value = Convert.ToInt32(value); break;
                         case PARAMDEF.DefType.u32: this.value = Convert.ToUInt32(value); break;
+                        case PARAMDEF.DefType.b32: this.value = Convert.ToInt32(value); break;
                         case PARAMDEF.DefType.f32: this.value = Convert.ToSingle(value); break;
+                        case PARAMDEF.DefType.angle32: this.value = Convert.ToSingle(value); break;
+                        case PARAMDEF.DefType.f64: this.value = Convert.ToDouble(value); break;
                         case PARAMDEF.DefType.fixstr: this.value = Convert.ToString(value); break;
                         case PARAMDEF.DefType.fixstrW: this.value = Convert.ToString(value); break;
                         case PARAMDEF.DefType.dummy8:
