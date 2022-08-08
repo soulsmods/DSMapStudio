@@ -554,8 +554,8 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {
                     _clipboardParam = _activeView._selection.getActiveParam();
-                    _activeView.rowSearchCache = RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true);
-                    foreach (PARAM.Row row in _activeView.rowSearchCache)
+                    _activeView.rowSearchCache[_activeView._selection.getActiveParam()] = RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true);
+                    foreach (PARAM.Row row in _activeView.rowSearchCache[_activeView._selection.getActiveParam()])
                         _activeView._selection.addRowToSelection(row);
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.C))
@@ -991,15 +991,15 @@ namespace StudioCore.ParamEditor
 
         private string lastParamSearch = "";
         internal List<string> paramKeySearchCache = null;
-        private string lastRowSearch = "";
-        internal List<PARAM.Row> rowSearchCache = null;
+        private Dictionary<string, string> lastRowSearch = new Dictionary<string, string>();
+        internal Dictionary<string, List<PARAM.Row>> rowSearchCache = new Dictionary<string, List<PARAM.Row>>();
 
         public ParamEditorView(ParamEditorScreen parent, int index)
         {
             _paramEditor = parent;
             _viewIndex = index;
             _propEditor = new PropertyEditor(parent.EditorActionManager, _paramEditor);
-            CacheBank.RegisterCache(() => parent._views.Contains(this), () => {paramKeySearchCache = null; rowSearchCache = null;});
+            CacheBank.RegisterCache(() => parent._views.Contains(this), () => {paramKeySearchCache = null; rowSearchCache = new Dictionary<string, List<PARAM.Row>>();});
         }
 
         public void ParamView(bool doFocus, bool isActiveView)
@@ -1038,6 +1038,7 @@ namespace StudioCore.ParamEditor
 
             if (paramKeySearchCache == null || !_selection.currentParamSearchString.Equals(lastParamSearch))
             {
+                Console.WriteLine("SearchingParams");
                 List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                 paramKeySearchCache = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
                 if (ParamEditorScreen.AlphabeticalParamsPreference)
@@ -1129,7 +1130,7 @@ namespace StudioCore.ParamEditor
                             _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                             continue;
                         }
-                        RowColumnEntry(activeParam, null, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
+                        RowColumnEntry(activeParam, false, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
                     }
 
                     ImGui.Spacing();
@@ -1139,15 +1140,16 @@ namespace StudioCore.ParamEditor
 
                 ImGui.BeginChild("rows" + activeParam);
                 
-                if (rowSearchCache == null || !lastRowSearch.Equals(_selection.getCurrentRowSearchString()))
+                if (!rowSearchCache.ContainsKey(_selection.getActiveParam()) || !(lastRowSearch.ContainsKey(_selection.getActiveParam()) && lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString())))
                 {
-                    rowSearchCache = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
-                    lastRowSearch = _selection.getCurrentRowSearchString();
+                    Console.WriteLine("SearchingRows");
+                    rowSearchCache[_selection.getActiveParam()] = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
+                    lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
                 }
 
-                foreach (var r in rowSearchCache)
+                foreach (var r in rowSearchCache[_selection.getActiveParam()])
                 {
-                    RowColumnEntry(activeParam, rowSearchCache, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                    RowColumnEntry(activeParam, true, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
@@ -1169,7 +1171,7 @@ namespace StudioCore.ParamEditor
             ImGui.EndChild();
         }
 
-        private void RowColumnEntry(string activeParam, List<PARAM.Row> p,  PARAM.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
+        private void RowColumnEntry(string activeParam, bool enableShiftSelect, PARAM.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
             if (dirtyCache != null && dirtyCache.Contains(r.ID))
                 ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
@@ -1196,14 +1198,15 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    if (p!=null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                    if (enableShiftSelect && rowSearchCache.ContainsKey(_selection.getActiveParam()) && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
                     {
                         _selection.cleanSelectedRows();
-                        int start = p.IndexOf(_selection.getActiveRow());
-                        int end = p.IndexOf(r);
+                        List<PARAM.Row> rows = rowSearchCache[_selection.getActiveParam()];
+                        int start = rows.IndexOf(_selection.getActiveRow());
+                        int end = rows.IndexOf(r);
                         if (start != end)
                         {
-                            foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                            foreach (var r2 in rows.GetRange(start < end ? start : end, Math.Abs(end - start)))
                                 _selection.addRowToSelection(r2);
                         }
                         _selection.addRowToSelection(r);
