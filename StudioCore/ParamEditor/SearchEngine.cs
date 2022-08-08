@@ -151,6 +151,10 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>rx.Match(ParamBank.GetKeyForParam(param) == null ? "" : ParamBank.GetKeyForParam(param)).Success);
             }));
+            defaultFilter = (1, (args, lenient)=>{
+                Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
+                return noContext((param)=>rx.Match(ParamBank.GetKeyForParam(param) == null ? "" : ParamBank.GetKeyForParam(param)).Success);
+            });
         }
     }
     class RowSearchEngine : SearchEngine<Param, Param.Row>
