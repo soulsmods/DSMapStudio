@@ -211,6 +211,7 @@ namespace StudioCore.ParamEditor
                     if (nval!=null)
                     {
                         newval = nval;
+                        _editedPropCache = newval;
                         return (true, ImGui.IsItemDeactivatedAfterEdit());
                     }
                 }
@@ -238,6 +239,12 @@ namespace StudioCore.ParamEditor
         {
             if (committed)
             {
+                if (newval == null)
+                {
+                    // Safety check warned to user, should have proper crash handler instead
+                    TaskManager.warningList["ParamRowEditorPropertyChangeError"] = "ParamRowEditor: Property changed was null";
+                    return;
+                }
                 PropertiesChangedAction action;
                 if (arrayindex != -1)
                 {
