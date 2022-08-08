@@ -141,5 +141,17 @@ namespace StudioCore.MsbEditor
             }
             return false;
         }
+
+        // State for SceneTree auto-scroll, as these are set at the same time as selections or using selections.
+        // This is processed by SceneTree and cleared as soon as the goto is complete, or no goto target was found.
+        //
+        // More advanced functionality could be added to expand TreeNodes to show the entity, but this requires
+        // tracking even more state in SceneTree, as well as path-from-root metadata for an entity. This should
+        // probably be split out of Selection at that point (IGotoTarget, perhaps).
+        public Scene.ISelectable GotoTreeTarget { get; set; }
+
+        public bool ShouldGoto(Scene.ISelectable selected) => selected != null && GotoTreeTarget == selected;
+
+        public void ClearGotoTarget() => GotoTreeTarget = null;
     }
 }

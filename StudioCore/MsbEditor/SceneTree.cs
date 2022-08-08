@@ -270,6 +270,13 @@ namespace StudioCore.MsbEditor
                 }
             }
 
+            if (_selection.ShouldGoto(e))
+            {
+                // By default, this places the item at 50% in the frame. Use 0 to place it on top.
+                ImGui.SetScrollHereY();
+                _selection.ClearGotoTarget();
+            }
+
             if (ImGui.BeginPopupContextItem())
             {
                 _handler.OnEntityContextMenu(e);
@@ -570,6 +577,12 @@ namespace StudioCore.MsbEditor
                             ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
                     }
                     ImGui.EndGroup();
+                    if (map?.RootObject != null && _selection.ShouldGoto(map.RootObject))
+                    {
+                        ImGui.SetScrollHereY();
+                        _selection.ClearGotoTarget();
+                    }
+
                     if (nodeopen)
                         ImGui.Indent(); //TreeNodeEx fails to indent as it is inside a group / indentation is reset
                     // Right click context menu
@@ -711,6 +724,7 @@ namespace StudioCore.MsbEditor
             }
             ImGui.End();
             ImGui.PopStyleColor();
+            _selection.ClearGotoTarget();
         }
 
         public void OnActionEvent(ActionEvent evt)
