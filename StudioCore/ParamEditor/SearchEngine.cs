@@ -187,7 +187,7 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return noContext((row)=>{
-                        Param.CellHandle? c = row[field];
+                        Param.Cell? c = row[field];
                         if (c == null) throw new Exception();
                         string term = c.Value.Value.ToString();
                         return rx.Match(term).Success;
@@ -204,7 +204,7 @@ namespace StudioCore.Editor
                 double ceil = double.Parse(args[2]);
                 return noContext((row)=>
                 {
-                        Param.CellHandle? c = row[field];
+                        Param.Cell? c = row[field];
                         if (c == null) throw new Exception();
                         return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                 });
@@ -216,7 +216,7 @@ namespace StudioCore.Editor
                     List<string> validFields = FieldMetaData.Get(context.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>ParamBank.Params.ContainsKey(p));
                     return (row)=>
                     {
-                        Param.CellHandle? c = row[field];
+                        Param.Cell? c = row[field];
                         if (c == null) throw new Exception();
                         int val = (int) c.Value.Value;
                         foreach (string rt in validFields)
@@ -268,12 +268,12 @@ namespace StudioCore.Editor
         }
     }
 
-    class CellSearchEngine : SearchEngine<Param.Row, Param.Cell>
+    class CellSearchEngine : SearchEngine<Param.Row, Param.Column>
     {
         public static CellSearchEngine cse = new CellSearchEngine();
         internal override void Setup()
         {
-            unpacker = (row)=>new List<Param.Cell>(row.Cells);
+            unpacker = (row)=>new List<Param.Column>(row.Cells);
             defaultFilter = (1, (args, lenient) => {
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((cell)=>rx.Match(cell.Def.InternalName).Success);

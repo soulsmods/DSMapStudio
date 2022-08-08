@@ -128,16 +128,16 @@ namespace FSParam
             public string? Name { get; set; }
             internal uint DataIndex;
 
-            public IEnumerable<Cell> Cells => Parent.Cells;
+            public IEnumerable<Column> Cells => Parent.Cells;
 
-            public IReadOnlyList<CellHandle> CellHandles
+            public IReadOnlyList<Cell> CellHandles
             {
                 get
                 {
-                    var cells = new List<CellHandle>(Cells.Count());
+                    var cells = new List<Cell>(Cells.Count());
                     foreach (var cell in Cells)
                     {
-                        cells.Add(new CellHandle(this, cell));
+                        cells.Add(new Cell(this, cell));
                     }
 
                     return cells;
@@ -191,59 +191,59 @@ namespace FSParam
             /// <param name="field">The field to look for</param>
             /// <returns>A cell handle for the field</returns>
             /// <exception cref="ArgumentException">Throws if field name doesn't exist</exception>
-            public CellHandle GetCellHandleOrThrow(string field)
+            public Cell GetCellHandleOrThrow(string field)
             {
                 var cell = Cells.FirstOrDefault(cell => cell.Def.InternalName == field);
                 if (cell == null)
                     throw new ArgumentException();
-                return new CellHandle(this, cell);
+                return new Cell(this, cell);
             }
             
-            public CellHandle? this[string field]
+            public Cell? this[string field]
             {
                 get
                 {
                     var cell = Cells.FirstOrDefault(cell => cell.Def.InternalName == field);
-                    return cell != null ? new CellHandle(this, cell) : null;
+                    return cell != null ? new Cell(this, cell) : null;
                 }
             }
-            public CellHandle this[Cell field] => new CellHandle(this, field);
+            public Cell this[Column field] => new Cell(this, field);
         }
 
         /// <summary>
         /// Minimal handle of a cell in a row that contains enough to mutate the value of the cell and created
         /// on demand
         /// </summary>
-        public struct CellHandle
+        public struct Cell
         {
             private Row _row;
-            private Cell _cell;
+            private Column _column;
 
-            internal CellHandle(Row row, Cell cell)
+            internal Cell(Row row, Column column)
             {
                 _row = row;
-                _cell = cell;
+                _column = column;
             }
 
             public object Value
             {
-                get => _cell.GetValue(_row);
-                set => _cell.SetValue(_row, value);
+                get => _column.GetValue(_row);
+                set => _column.SetValue(_row, value);
             }
 
             public void SetValue(object value)
             {
-                _cell.SetValue(_row, value);
+                _column.SetValue(_row, value);
             }
 
-            public PARAMDEF.Field Def => _cell.Def;
+            public PARAMDEF.Field Def => _column.Def;
         }
         
         /// <summary>
-        /// Represents a Cell (key/value pair) in the param. Unlike the Soulsformats Cell, this one is stored
+        /// Represents a Column (param field) in the param. Unlike the Soulsformats Cell, this one is stored
         /// completely separately, and reading/writing a value requires the Row to read/write from.
         /// </summary>
-        public class Cell
+        public class Column
         {
             public PARAMDEF.Field Def { get; }
 
@@ -254,7 +254,7 @@ namespace FSParam
             private int _bitSize;
             private uint _bitOffset;
             
-            internal Cell(PARAMDEF.Field def, uint byteOffset, uint arrayLength = 1)
+            internal Column(PARAMDEF.Field def, uint byteOffset, uint arrayLength = 1)
             {
                 Def = def;
                 _byteOffset = byteOffset;
@@ -264,7 +264,7 @@ namespace FSParam
                 ValueType = TypeForParamDefType(def.DisplayType, arrayLength > 1);
             }
 
-            internal Cell(PARAMDEF.Field def, uint byteOffset, int bitSize, uint bitOffset)
+            internal Column(PARAMDEF.Field def, uint byteOffset, int bitSize, uint bitOffset)
             {
                 Def = def;
                 _byteOffset = byteOffset;
@@ -486,7 +486,7 @@ namespace FSParam
             } 
         }
         
-        public IReadOnlyList<Cell> Cells { get; private set; }
+        public IReadOnlyList<Column> Cells { get; private set; }
 
         public PARAMDEF AppliedParamdef { get; private set; }
 
@@ -531,7 +531,7 @@ namespace FSParam
         public void ApplyParamdef(PARAMDEF def)
         {
             AppliedParamdef = def;
-            var cells = new List<Cell>(def.Fields.Count);
+            var cells = new List<Column>(def.Fields.Count);
             
             int bitOffset = -1;
             uint byteOffset = 0;
@@ -550,8 +550,8 @@ namespace FSParam
                         byteOffset += lastSize;
                     
                     cells.Add(ParamUtil.IsArrayType(type)
-                        ? new Cell(field, byteOffset, (uint)field.ArrayLength)
-                        : new Cell(field, byteOffset));
+                        ? new Column(field, byteOffset, (uint)field.ArrayLength)
+                        : new Column(field, byteOffset));
                     switch (type)
                     {
                         case PARAMDEF.DefType.s8:
@@ -604,7 +604,7 @@ namespace FSParam
                         bitType = newBitType;
                     }
                     
-                    cells.Add(new Cell(field, byteOffset, field.BitSize, (uint)bitOffset));
+                    cells.Add(new Column(field, byteOffset, field.BitSize, (uint)bitOffset));
                     bitOffset += field.BitSize;
                 }
             }
@@ -881,6 +881,6 @@ namespace FSParam
             }
         }
 
-        public Cell? this[string name] => Cells.FirstOrDefault(cell => cell.Def.InternalName == name);
+        public Column? this[string name] => Cells.FirstOrDefault(cell => cell.Def.InternalName == name);
     }
 }

@@ -154,7 +154,7 @@ namespace StudioCore.ParamEditor
                 offset += WriteMemoryCell(row[cell], RowDataSectionPtr + offset, ref bitFieldPos, ref bits, memoryHandler);
             }
         }
-        private static int WriteMemoryCell(Param.CellHandle cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler)
+        private static int WriteMemoryCell(Param.Cell cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler)
         {
             PARAMDEF.DefType displayType = cell.Def.DisplayType;
             // If this can be simplified, that would be ideal. Currently we have to reconcile DefType, a numerical size in bits, and the Type used for the bitField array
@@ -283,7 +283,7 @@ namespace StudioCore.ParamEditor
                 throw new Exception("Unexpected Field Type");
             }
         }
-        private static int WriteBitArray(Param.CellHandle? cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler, bool flushBits)
+        private static int WriteBitArray(Param.Cell? cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler, bool flushBits)
         {
             if (!flushBits)
             {

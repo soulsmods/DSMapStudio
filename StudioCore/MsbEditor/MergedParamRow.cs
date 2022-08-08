@@ -43,11 +43,11 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public List<Param.CellHandle> CellHandles
+        public List<Param.Cell> CellHandles
         {
             get
             {
-                var ret = new List<Param.CellHandle>();
+                var ret = new List<Param.Cell>();
                 foreach (var r in Rows)
                 {
                     ret.AddRange(r.CellHandles);
@@ -90,7 +90,7 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
-        public Param.CellHandle? this[string name]
+        public Param.Cell? this[string name]
         {
             get
             {

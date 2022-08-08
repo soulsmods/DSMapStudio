@@ -31,15 +31,15 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
-        protected static object PerformOperation(Param.Row row, Param.Cell cell, string op, string opparam)
+        protected static object PerformOperation(Param.Row row, Param.Column column, string op, string opparam)
         {
             try
             {
                 if (op.Equals("ref"))
                 {
-                    if (cell.ValueType == typeof(int))
+                    if (column.ValueType == typeof(int))
                     {
-                        foreach (string reftype in FieldMetaData.Get(cell.Def).RefTypes)
+                        foreach (string reftype in FieldMetaData.Get(column.Def).RefTypes)
                         {
                             var p = ParamBank.Params[reftype];
                             if (p == null)
@@ -56,34 +56,34 @@ namespace StudioCore.ParamEditor
                 }
                 if (op.Equals("="))
                 {
-                    if (cell.ValueType == typeof(bool))
+                    if (column.ValueType == typeof(bool))
                         return bool.Parse(opparam);
-                    else if (cell.ValueType == typeof(string))
+                    else if (column.ValueType == typeof(string))
                         return opparam;
-                    else if (cell.ValueType == typeof(byte[]))
-                        return ParamUtils.Dummy8Read(opparam, ((byte[])cell.GetValue(row)).Length);
+                    else if (column.ValueType == typeof(byte[]))
+                        return ParamUtils.Dummy8Read(opparam, ((byte[])column.GetValue(row)).Length);
                 }
                 
-                if (cell.ValueType == typeof(long))
-                    return PerformBasicOperation<long>(row, cell, op, double.Parse(opparam));
-                if (cell.ValueType == typeof(ulong))
-                    return PerformBasicOperation<ulong>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(int))
-                    return PerformBasicOperation<int>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(uint))
-                    return PerformBasicOperation<uint>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(short))
-                    return PerformBasicOperation<short>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(ushort))
-                    return PerformBasicOperation<ushort>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(sbyte))
-                    return PerformBasicOperation<sbyte>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(byte))
-                    return PerformBasicOperation<byte>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(float))
-                    return PerformBasicOperation<float>(row, cell, op, double.Parse(opparam));
-                else if (cell.ValueType == typeof(double))
-                    return PerformBasicOperation<double>(row,cell, op, double.Parse(opparam));
+                if (column.ValueType == typeof(long))
+                    return PerformBasicOperation<long>(row, column, op, double.Parse(opparam));
+                if (column.ValueType == typeof(ulong))
+                    return PerformBasicOperation<ulong>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(int))
+                    return PerformBasicOperation<int>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(uint))
+                    return PerformBasicOperation<uint>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(short))
+                    return PerformBasicOperation<short>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(ushort))
+                    return PerformBasicOperation<ushort>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(sbyte))
+                    return PerformBasicOperation<sbyte>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(byte))
+                    return PerformBasicOperation<byte>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(float))
+                    return PerformBasicOperation<float>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(double))
+                    return PerformBasicOperation<double>(row,column, op, double.Parse(opparam));
             }
             catch
             {
@@ -116,7 +116,7 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        public static T PerformBasicOperation<T>(Param.Row row, Param.Cell c, string op, double opparam) where T : struct, IFormattable
+        public static T PerformBasicOperation<T>(Param.Row row, Param.Column c, string op, double opparam) where T : struct, IFormattable
         {
             try
             {
@@ -161,7 +161,7 @@ namespace StudioCore.ParamEditor
 
                 List<Param> affectedParams = new List<Param>();
                 List<Param.Row> affectedRows = new List<Param.Row>();
-                List<Param.Cell> affectedCells = new List<Param.Cell>();
+                List<Param.Column> affectedCells = new List<Param.Column>();
                 int stage = 0;
                 if (stages[stage].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
@@ -209,7 +209,7 @@ namespace StudioCore.ParamEditor
                     string valueToUse = opArgs[0];
                     if (readField)
                     {
-                        Param.CellHandle? reffed = row[opArgs[1]];
+                        Param.Cell? reffed = row[opArgs[1]];
                         if (reffed == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not read field {opArgs[1]}"), null);
                         valueToUse = reffed.Value.Value.ToString();
@@ -218,7 +218,7 @@ namespace StudioCore.ParamEditor
                     affectedCells = CellSearchEngine.cse.Search(row, stages[cellStage], false, false);
 
                     changeCount += affectedCells.Count;
-                    foreach (Param.Cell cell in affectedCells)
+                    foreach (Param.Column cell in affectedCells)
                     {
                         object newval = PerformOperation(row, cell, op, valueToUse);
                         if (newval == null)
@@ -262,7 +262,7 @@ namespace StudioCore.ParamEditor
             {
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
-                foreach (Param.Cell cell in row.Cells)
+                foreach (Param.Column cell in row.Cells)
                 {
                     if (row[cell].Value.GetType() == typeof(byte[]))
                         rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])row[cell].Value)}";
@@ -340,7 +340,7 @@ namespace StudioCore.ParamEditor
                     if (row.Name != null && !row.Name.Equals(name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
-                    foreach (Param.Cell c in row.Cells)
+                    foreach (Param.Column c in row.Cells)
                     {
                         string v = csvs[index];
                         index++;
@@ -395,7 +395,7 @@ namespace StudioCore.ParamEditor
                     }
                     else
                     {
-                        Param.Cell? cell = p[field];
+                        Param.Column? cell = p[field];
                         if (cell == null)
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);

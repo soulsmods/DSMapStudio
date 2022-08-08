@@ -315,8 +315,8 @@ namespace StudioCore.ParamEditor
             {
                 foreach (var field in pinnedFields)
                 {
-                    List<Param.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                    List<Param.Cell> vmatches = vrow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                    List<Param.Column> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                    List<Param.Column> vmatches = vrow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                     for (int i = 0; i < matches.Count; i++)
                         PropEditorPropCellRow(row[matches[i]], vrow?[vmatches[i]], ref id, propSearchRx, activeParam, true);
                 }
@@ -337,8 +337,8 @@ namespace StudioCore.ParamEditor
                 }
                 if (row[field] == null)
                     continue;
-                List<Param.Cell> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                List<Param.Cell> vmatches = vrow == null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                List<Param.Column> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                List<Param.Column> vmatches = vrow == null ? null : vrow.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 for (int i = 0; i < matches.Count; i++)
                     PropEditorPropCellRow(row[matches[i]], vrow?[vmatches[i]], ref id, propSearchRx, activeParam, false);
             }
@@ -351,7 +351,7 @@ namespace StudioCore.ParamEditor
         {
             PropEditorPropRow(prop.GetValue(row), null, ref id, visualName, null, prop.PropertyType, prop, null, row, propSearchRx, null, false);
         }
-        private void PropEditorPropCellRow(Param.CellHandle cell, Param.CellHandle? vcell, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
+        private void PropEditorPropCellRow(Param.Cell cell, Param.Cell? vcell, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
         {
             PropEditorPropRow(
                 cell.Value,
@@ -362,7 +362,7 @@ namespace StudioCore.ParamEditor
                 cell.GetType().GetProperty("Value"),
                 cell, null, propSearchRx, activeParam, isPinned);
         }
-        private void PropEditorPropRow(object oldval, object vanillaval, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.CellHandle? nullableCell, Param.Row? nullableRow, Regex propSearchRx, string activeParam, bool isPinned)
+        private void PropEditorPropRow(object oldval, object vanillaval, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? nullableRow, Regex propSearchRx, string activeParam, bool isPinned)
         {
             List<string> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;

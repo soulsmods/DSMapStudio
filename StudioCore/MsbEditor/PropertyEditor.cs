@@ -292,7 +292,7 @@ namespace StudioCore.MsbEditor
 
         private void PropEditorParamRow(Entity selection)
         {
-            IReadOnlyList<Param.CellHandle> cells = new List<Param.CellHandle>();
+            IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
             if (selection.WrappedObject is Param.Row row)
             {
                 cells = row.CellHandles;
@@ -345,7 +345,7 @@ namespace StudioCore.MsbEditor
         {
             PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
         }
-        private void PropEditorPropCellRow(Param.CellHandle cell, ref int id, Entity nullableSelection)
+        private void PropEditorPropCellRow(Param.Cell cell, ref int id, Entity nullableSelection)
         {
             PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
         }
