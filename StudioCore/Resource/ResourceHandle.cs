@@ -337,13 +337,13 @@ namespace StudioCore.Resource
             lock (AcquireFreeLock)
             {
                 ReferenceCount--;
-                if (ReferenceCount <= 0 && IsLoaded)
+                if (ReferenceCount == 0 && IsLoaded)
                 {
                     unload = true;
                 }
-                if (ReferenceCount <= 0)
+                if (ReferenceCount < 0)
                 {
-                    ReferenceCount = 0;
+                    throw new Exception($@"Resource {AssetVirtualPath} reference count already 0");
                 }
             }
             if (unload)

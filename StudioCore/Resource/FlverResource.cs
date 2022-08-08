@@ -2153,6 +2153,11 @@ namespace StudioCore.Resource
                     }
                 }
 
+                if (StaticBoneBuffer != null)
+                {
+                    StaticBoneBuffer.Dispose();
+                }
+
                 disposedValue = true;
             }
         }

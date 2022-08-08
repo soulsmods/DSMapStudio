@@ -791,17 +791,6 @@ namespace StudioCore.Resource
             });
         }
 
-        public static void UnloadUnusedResources()
-        {
-            foreach (var r in ResourceDatabase)
-            {
-                if (r.Value.GetReferenceCounts() == 0)
-                {
-                    r.Value.Release();
-                }
-            }
-        }
-
         public static ResourceJobBuilder CreateNewJob(string name)
         {
             return new ResourceJobBuilder(name);

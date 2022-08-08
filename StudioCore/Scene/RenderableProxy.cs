@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using StudioCore.DebugPrimitives;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Threading;
 
 namespace StudioCore.Scene
 {
@@ -160,6 +161,8 @@ namespace StudioCore.Scene
         private Matrix4x4 _world = Matrix4x4.Identity;
 
         private WeakReference<ISelectable> _selectable = null;
+        
+        private ReaderWriterLockSlim _submeshesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
         public IResourceHandle ResourceHandle
         {
@@ -173,11 +176,13 @@ namespace StudioCore.Scene
         {
             get => _autoregister; set
             {
+                _submeshesLock.EnterReadLock();
                 _autoregister = value;
                 foreach (var c in _submeshes)
                 {
                     c.AutoRegister = value;
                 }
+                _submeshesLock.ExitReadLock();
             }
         }
 
@@ -189,12 +194,14 @@ namespace StudioCore.Scene
             }
             set
             {
+                _submeshesLock.EnterReadLock();
                 _world = value;
                 ScheduleRenderableUpdate();
                 foreach (var sm in _submeshes)
                 {
                     sm.World = _world;
                 }
+                _submeshesLock.ExitReadLock();
             }
         }
 
@@ -207,6 +214,7 @@ namespace StudioCore.Scene
             }
             set
             {
+                _submeshesLock.EnterReadLock();
                 _visible = value;
                 if (_renderable != -1)
                 {
@@ -220,6 +228,7 @@ namespace StudioCore.Scene
                 {
                     sm.Visible = _visible;
                 }
+                _submeshesLock.ExitReadLock();
             }
         }
 
@@ -232,6 +241,7 @@ namespace StudioCore.Scene
             }
             set
             {
+                _submeshesLock.EnterReadLock();
                 _drawfilter = value;
                 if (_renderable != -1)
                 {
@@ -241,6 +251,7 @@ namespace StudioCore.Scene
                 {
                     sm.DrawFilter = _drawfilter;
                 }
+                _submeshesLock.ExitReadLock();
             }
         }
 
@@ -253,6 +264,7 @@ namespace StudioCore.Scene
             }
             set
             {
+                _submeshesLock.EnterReadLock();
                 _drawgroups = value;
                 if (_renderable != -1)
                 {
@@ -262,6 +274,7 @@ namespace StudioCore.Scene
                 {
                     sm.DrawGroups = _drawgroups;
                 }
+                _submeshesLock.ExitReadLock();
             }
         }
 
@@ -272,6 +285,7 @@ namespace StudioCore.Scene
             get => _renderOutline;
             set
             {
+                _submeshesLock.EnterReadLock();
                 _renderOutline = value;
                 if (_registered)
                 {
@@ -281,6 +295,7 @@ namespace StudioCore.Scene
                 {
                     child.RenderSelectionOutline = value;
                 }
+                _submeshesLock.ExitReadLock();
             }
         }
 
@@ -296,11 +311,13 @@ namespace StudioCore.Scene
                 _meshProvider.Unlock();
                 return BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform);
             }
+            _submeshesLock.EnterReadLock();
             BoundingBox b = _submeshes.Count > 0 ? _submeshes[0].GetLocalBounds() : new BoundingBox();
             foreach (var c in _submeshes)
             {
                 b = BoundingBox.Combine(b, c.GetLocalBounds());
             }
+            _submeshesLock.ExitReadLock();
             return b;
         }
 
@@ -329,12 +346,14 @@ namespace StudioCore.Scene
             {
                 return;
             }
+            _submeshesLock.EnterReadLock();
             foreach (var c in _submeshes)
             {
                 c.Register();
             }
             _registered = true;
             ScheduleRenderableConstruction();
+            _submeshesLock.ExitReadLock();
         }
 
         public override void UnregisterWithScene()
@@ -344,10 +363,12 @@ namespace StudioCore.Scene
                 _registered = false;
                 DestroyRenderables();
             }
+            _submeshesLock.EnterReadLock();
             foreach (var c in _submeshes)
             {
                 c.UnregisterWithScene();
             }
+            _submeshesLock.ExitReadLock();
         }
 
         public override void UnregisterAndRelease()
@@ -356,10 +377,12 @@ namespace StudioCore.Scene
             {
                 UnregisterWithScene();
             }
+            _submeshesLock.EnterReadLock();
             foreach (var c in _submeshes)
             {
                 c.UnregisterAndRelease();
             }
+            _submeshesLock.ExitReadLock();
             if (_meshProvider != null)
             {
                 _meshProvider.Release();
@@ -373,6 +396,7 @@ namespace StudioCore.Scene
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
+            _submeshesLock.EnterReadLock();
             foreach (var c in _submeshes)
             {
                 if (c._registered)
@@ -395,12 +419,14 @@ namespace StudioCore.Scene
                 if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
                 {
                     _meshProvider.Unlock();
+                    _submeshesLock.ExitReadLock();
                     return;
                 }
 
                 if (_meshProvider.GeometryBuffer == null)
                 {
                     _meshProvider.Unlock();
+                    _submeshesLock.ExitReadLock();
                     return;
                 }
 
@@ -408,6 +434,7 @@ namespace StudioCore.Scene
                 {
                     ScheduleRenderableConstruction();
                     _meshProvider.Unlock();
+                    _submeshesLock.ExitReadLock();
                     return;
                 }
 
@@ -572,6 +599,7 @@ namespace StudioCore.Scene
 
                 _meshProvider.Unlock();
             }
+            _submeshesLock.ExitReadLock();
         }
 
         public unsafe override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
@@ -625,14 +653,17 @@ namespace StudioCore.Scene
                 _renderablesSet.RemoveRenderable(_selectionOutlineRenderable);
                 _selectionOutlineRenderable = -1;
             }
+            _submeshesLock.EnterReadLock();
             foreach (var c in _submeshes)
             {
                 c.DestroyRenderables();
             }
+            _submeshesLock.ExitReadLock();
         }
 
         public override void SetSelectable(ISelectable sel)
         {
+            _submeshesLock.EnterReadLock();
             _selectable = new WeakReference<ISelectable>(sel);
             if (_renderable != -1)
             {
@@ -642,6 +673,7 @@ namespace StudioCore.Scene
             {
                 child.SetSelectable(sel);
             }
+            _submeshesLock.ExitReadLock();
         }
 
         public int MeshIndexCount = 0;
@@ -650,10 +682,7 @@ namespace StudioCore.Scene
         {
             if (_meshProvider.TryLock())
             {
-                if (_meshProvider.HasMeshData())
-                {
-                    ScheduleRenderableConstruction();
-                }
+                _submeshesLock.EnterWriteLock();
                 for (int i = 0; i < _meshProvider.ChildCount; i++)
                 {
                     var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i), AutoRegister);
@@ -672,7 +701,11 @@ namespace StudioCore.Scene
                         }
                     }
                 }
-                
+                if (_meshProvider.HasMeshData())
+                {
+                    ScheduleRenderableConstruction();
+                }
+
                 // Used for model markers for old Navmeshes.
                 // Really stupid hack that's likely in a very stupid location. Can be removed when Model Marker code is improved.
                 if (_meshProvider.HasMeshData())
@@ -681,6 +714,7 @@ namespace StudioCore.Scene
                     MeshIndexCount = 0;
                 
                 _meshProvider.Unlock();
+                _submeshesLock.ExitWriteLock();
             }
         }
 
@@ -688,11 +722,13 @@ namespace StudioCore.Scene
         {
             if (_meshProvider.IsAtomic())
             {
+                _submeshesLock.EnterReadLock();
                 foreach (var c in _submeshes)
                 {
                     c.UnregisterAndRelease();
                 }
                 _submeshes.Clear();
+                _submeshesLock.ExitReadLock();
             }
         }
 
