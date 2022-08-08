@@ -93,8 +93,8 @@ namespace StudioCore.ParamEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
 
-        private List<ParamEditorView> _views;
-        private ParamEditorView _activeView;
+        internal List<ParamEditorView> _views;
+        internal ParamEditorView _activeView;
 
         // Clipboard vars
         private string _clipboardParam = null;
@@ -377,7 +377,10 @@ namespace StudioCore.ParamEditor
                 if (ImGui.MenuItem("Allow field reordering", null, AllowFieldReorderPreference))
                     AllowFieldReorderPreference = !AllowFieldReorderPreference;
                 if (ImGui.MenuItem("Sort Params Alphabetically", null, AlphabeticalParamsPreference))
+                {
                     AlphabeticalParamsPreference = !AlphabeticalParamsPreference;
+                    CacheBank.ClearCaches();
+                }
                 if (ImGui.MenuItem("Show Vanilla Params", null, ShowVanillaParamsPreference))
                     ShowVanillaParamsPreference = !ShowVanillaParamsPreference;
                 ImGui.Separator();
@@ -551,7 +554,8 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {
                     _clipboardParam = _activeView._selection.getActiveParam();
-                    foreach (PARAM.Row row in RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true))
+                    _activeView.rowSearchCache = RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true);
+                    foreach (PARAM.Row row in _activeView.rowSearchCache)
                         _activeView._selection.addRowToSelection(row);
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.C))
@@ -985,11 +989,17 @@ namespace StudioCore.ParamEditor
 
         private PropertyEditor _propEditor = null;
 
+        private string lastParamSearch = "";
+        internal List<string> paramKeySearchCache = null;
+        private string lastRowSearch = "";
+        internal List<PARAM.Row> rowSearchCache = null;
+
         public ParamEditorView(ParamEditorScreen parent, int index)
         {
             _paramEditor = parent;
             _viewIndex = index;
             _propEditor = new PropertyEditor(parent.EditorActionManager, _paramEditor);
+            CacheBank.RegisterCache(() => parent._views.Contains(this), () => {paramKeySearchCache = null; rowSearchCache = null;});
         }
 
         public void ParamView(bool doFocus, bool isActiveView)
@@ -1025,11 +1035,16 @@ namespace StudioCore.ParamEditor
 
             ImGui.BeginChild("paramTypes");
             float scrollTo = 0f;
-            List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
-            List<string> paramKeyList = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
-            if (ParamEditorScreen.AlphabeticalParamsPreference)
-                paramKeyList.Sort();
-            foreach (var paramKey in paramKeyList)
+
+            if (paramKeySearchCache == null || !_selection.currentParamSearchString.Equals(lastParamSearch))
+            {
+                List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+                paramKeySearchCache = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
+                if (ParamEditorScreen.AlphabeticalParamsPreference)
+                    paramKeySearchCache.Sort();
+                lastParamSearch = _selection.currentParamSearchString;
+            }
+            foreach (var paramKey in paramKeySearchCache)
             {
                 if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                 {
@@ -1123,12 +1138,16 @@ namespace StudioCore.ParamEditor
                 }
 
                 ImGui.BeginChild("rows" + activeParam);
-                //Todo: cache this, make it dirtyable
-                List<PARAM.Row> p = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
-
-                foreach (var r in p)
+                
+                if (rowSearchCache == null || !lastRowSearch.Equals(_selection.getCurrentRowSearchString()))
                 {
-                    RowColumnEntry(activeParam, p, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                    rowSearchCache = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
+                    lastRowSearch = _selection.getCurrentRowSearchString();
+                }
+
+                foreach (var r in rowSearchCache)
+                {
+                    RowColumnEntry(activeParam, rowSearchCache, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
