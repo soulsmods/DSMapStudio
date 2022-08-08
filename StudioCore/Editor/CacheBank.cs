@@ -15,7 +15,6 @@ namespace StudioCore.Editor
         {
             if (!caches.ContainsKey(key))
             {
-                Console.WriteLine("No Cache");
                 caches[key] = getValue();
             }
             return (T)caches[key];

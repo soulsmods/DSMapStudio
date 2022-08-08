@@ -1005,6 +1005,11 @@ namespace StudioCore.ParamEditor
             if (isActiveView && InputTracker.GetControlShortcut(Key.P))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText("Search <Ctrl+P>", ref _selection.currentParamSearchString, 256);
+            if (!_selection.currentParamSearchString.Equals(lastParamSearch))
+            {
+                CacheBank.ClearCaches();
+                lastParamSearch = _selection.currentParamSearchString;
+            }
 
             List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
 
@@ -1032,11 +1037,6 @@ namespace StudioCore.ParamEditor
             ImGui.BeginChild("paramTypes");
             float scrollTo = 0f;
 
-            if (!_selection.currentParamSearchString.Equals(lastParamSearch))
-            {
-                CacheBank.ClearCaches();
-                lastParamSearch = _selection.currentParamSearchString;
-            }
             List<string> paramKeyList = CacheBank.GetCached((_viewIndex, "params"), () => {
                 var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                 var keyList = list.Select((param) => ParamBank.GetKeyForParam(param)).ToList();
@@ -1110,6 +1110,11 @@ namespace StudioCore.ParamEditor
                     ImGui.SetKeyboardFocusHere();
 
                 ImGui.InputText("Search <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
+                if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
+                {
+                    CacheBank.ClearCaches();
+                    lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
+                }
 
                 if (ImGui.IsItemActive())
                     _paramEditor._isSearchBarActive = true;
@@ -1139,12 +1144,6 @@ namespace StudioCore.ParamEditor
                 }
 
                 ImGui.BeginChild("rows" + activeParam);
-                
-                if (!(lastRowSearch.ContainsKey(_selection.getActiveParam()) && lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString())))
-                {
-                    CacheBank.ClearCaches();
-                    lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
-                }
                 List<PARAM.Row> rows = CacheBank.GetCached((_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
 
                 foreach (var r in rows)
