@@ -258,14 +258,14 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam)
+        public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam, bool isActiveView)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
             int id = 0;
 
             if (propSearchString != null)
             {
-                if (InputTracker.GetControlShortcut(Key.N))
+                if (isActiveView && InputTracker.GetControlShortcut(Key.N))
                     ImGui.SetKeyboardFocusHere();
                 ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
                 ImGui.Separator();
