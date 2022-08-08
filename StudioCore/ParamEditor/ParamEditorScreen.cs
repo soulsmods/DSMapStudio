@@ -1038,7 +1038,6 @@ namespace StudioCore.ParamEditor
 
             if (paramKeySearchCache == null || !_selection.currentParamSearchString.Equals(lastParamSearch))
             {
-                Console.WriteLine("SearchingParams");
                 List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                 paramKeySearchCache = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
                 if (ParamEditorScreen.AlphabeticalParamsPreference)
@@ -1142,7 +1141,6 @@ namespace StudioCore.ParamEditor
                 
                 if (!rowSearchCache.ContainsKey(_selection.getActiveParam()) || !(lastRowSearch.ContainsKey(_selection.getActiveParam()) && lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString())))
                 {
-                    Console.WriteLine("SearchingRows");
                     rowSearchCache[_selection.getActiveParam()] = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
                     lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
                 }
