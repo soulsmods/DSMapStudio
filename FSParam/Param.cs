@@ -261,6 +261,7 @@ namespace FSParam
                 _arrayLength = arrayLength;
                 _bitSize = -1;
                 _bitOffset = 0;
+                ValueType = TypeForParamDefType(def.DisplayType, arrayLength > 1);
             }
 
             internal Cell(PARAMDEF.Field def, uint byteOffset, int bitSize, uint bitOffset)
@@ -270,6 +271,39 @@ namespace FSParam
                 _arrayLength = 1;
                 _bitSize = bitSize;
                 _bitOffset = bitOffset;
+                ValueType = TypeForParamDefType(def.DisplayType, false);
+            }
+            
+            private static Type TypeForParamDefType(PARAMDEF.DefType type, bool isArray)
+            {
+                switch (type)
+                {
+                    case PARAMDEF.DefType.s8:
+                        return typeof(sbyte);
+                    case PARAMDEF.DefType.u8:
+                        return typeof(byte);
+                    case PARAMDEF.DefType.s16:
+                        return typeof(short);
+                    case PARAMDEF.DefType.u16:
+                        return typeof(ushort);
+                    case PARAMDEF.DefType.s32:
+                    case PARAMDEF.DefType.b32:
+                        return typeof(int);
+                    case PARAMDEF.DefType.u32:
+                        return typeof(uint);
+                    case PARAMDEF.DefType.f32: 
+                    case PARAMDEF.DefType.angle32:
+                        return typeof(float);
+                    case PARAMDEF.DefType.f64:
+                        return typeof(double);
+                    case PARAMDEF.DefType.dummy8:
+                        return isArray ? typeof(byte[]) : typeof(byte);
+                    case PARAMDEF.DefType.fixstr:
+                    case PARAMDEF.DefType.fixstrW:
+                        return typeof(string);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                }
             }
 
             public object GetValue(Row row)
@@ -493,7 +527,7 @@ namespace FSParam
         {
             _rows.RemoveAt(index);
         }
-        
+
         public void ApplyParamdef(PARAMDEF def)
         {
             AppliedParamdef = def;

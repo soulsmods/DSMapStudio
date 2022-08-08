@@ -223,7 +223,7 @@ namespace StudioCore.ParamEditor
                         object newval = PerformOperation(row, cell, op, valueToUse);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {valueToUse} on field {cell.Def.InternalName}"), null);
-                        partialActions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
+                        partialActions.Add(new PropertiesChangedAction(row[cell].GetType().GetProperty("Value"), -1, row[cell], newval));
                     }
                     if (editName)
                     {
