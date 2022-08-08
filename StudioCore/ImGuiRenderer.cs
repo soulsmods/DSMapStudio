@@ -507,6 +507,7 @@ namespace StudioCore
             io.KeyMap[(int)ImGuiKey.Delete] = (int)Key.Delete;
             io.KeyMap[(int)ImGuiKey.Backspace] = (int)Key.BackSpace;
             io.KeyMap[(int)ImGuiKey.Enter] = (int)Key.Enter;
+            io.KeyMap[(int)ImGuiKey.KeypadEnter] = (int)Key.KeypadEnter;
             io.KeyMap[(int)ImGuiKey.Escape] = (int)Key.Escape;
             io.KeyMap[(int)ImGuiKey.A] = (int)Key.A;
             io.KeyMap[(int)ImGuiKey.C] = (int)Key.C;

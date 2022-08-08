@@ -134,10 +134,12 @@ namespace SoulsFormats
                         value = br.ReadSByte();
                     else if (type == PARAMDEF.DefType.s16)
                         value = br.ReadInt16();
-                    else if (type == PARAMDEF.DefType.s32)
+                    else if (type == PARAMDEF.DefType.s32 || type == PARAMDEF.DefType.b32)
                         value = br.ReadInt32();
-                    else if (type == PARAMDEF.DefType.f32)
+                    else if (type == PARAMDEF.DefType.f32 || type == PARAMDEF.DefType.angle32)
                         value = br.ReadSingle();
+                    else if (type == PARAMDEF.DefType.f64)
+                        value = br.ReadDouble();
                     else if (type == PARAMDEF.DefType.fixstr)
                         value = br.ReadFixStr(field.ArrayLength);
                     else if (type == PARAMDEF.DefType.fixstrW)
@@ -244,10 +246,12 @@ namespace SoulsFormats
                         bw.WriteSByte((sbyte)value);
                     else if (type == PARAMDEF.DefType.s16)
                         bw.WriteInt16((short)value);
-                    else if (type == PARAMDEF.DefType.s32)
+                    else if (type == PARAMDEF.DefType.s32 || type == PARAMDEF.DefType.b32)
                         bw.WriteInt32((int)value);
-                    else if (type == PARAMDEF.DefType.f32)
+                    else if (type == PARAMDEF.DefType.f32 || type == PARAMDEF.DefType.angle32)
                         bw.WriteSingle((float)value);
+                    else if (type == PARAMDEF.DefType.f64)
+                        bw.WriteDouble((double)value);
                     else if (type == PARAMDEF.DefType.fixstr)
                         bw.WriteFixStr((string)value, field.ArrayLength);
                     else if (type == PARAMDEF.DefType.fixstrW)

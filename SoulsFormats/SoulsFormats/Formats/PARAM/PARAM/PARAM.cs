@@ -251,6 +251,14 @@ namespace SoulsFormats
         public Row this[int id] => Rows.Find(row => row.ID == id);
 
         /// <summary>
+        /// Returns a string representation of the PARAM.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{ParamType} v{ParamdefDataVersion} [{Rows.Count}]";
+        }
+
+        /// <summary>
         /// First set of flags indicating file format; highly speculative.
         /// </summary>
         [Flags]

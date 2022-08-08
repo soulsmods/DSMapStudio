@@ -686,7 +686,7 @@ namespace StudioCore.ParamEditor
 
             if (CountViews() == 1)
             {
-                _activeView.ParamView(doFocus);
+                _activeView.ParamView(doFocus, true);
             }
             else
             {
@@ -712,7 +712,7 @@ namespace StudioCore.ParamEditor
                         }
                         ImGui.EndMenu();
                     }
-                    view.ParamView(doFocus && view == _activeView);
+                    view.ParamView(doFocus && view == _activeView, view == _activeView);
                     ImGui.End();
                 }
             }
@@ -855,6 +855,7 @@ namespace StudioCore.ParamEditor
 
     public class ParamEditorSelectionState
     {
+        internal string currentParamSearchString = "";
         private static string _globalRowSearchString = "";
         private static string _globalPropSearchString = "";
         private string _activeParam = null;
@@ -991,10 +992,14 @@ namespace StudioCore.ParamEditor
             _propEditor = new PropertyEditor(parent.EditorActionManager, _paramEditor);
         }
 
-        public void ParamView(bool doFocus)
+        public void ParamView(bool doFocus, bool isActiveView)
         {
             ImGui.Columns(3);
             ImGui.BeginChild("params");
+            if (isActiveView && InputTracker.GetControlShortcut(Key.P))
+                ImGui.SetKeyboardFocusHere();
+            ImGui.InputText("Search <Ctrl+P>", ref _selection.currentParamSearchString, 256);
+
             List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
 
             if (pinnedParamKeyList.Count > 0)
@@ -1020,7 +1025,8 @@ namespace StudioCore.ParamEditor
 
             ImGui.BeginChild("paramTypes");
             float scrollTo = 0f;
-            List<string> paramKeyList = ParamBank.Params.Keys.ToList();
+            List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+            List<string> paramKeyList = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
             if (ParamEditorScreen.AlphabeticalParamsPreference)
                 paramKeyList.Sort();
             foreach (var paramKey in paramKeyList)
@@ -1066,7 +1072,7 @@ namespace StudioCore.ParamEditor
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
 
                 //Goto ID
-                if (ImGui.Button("Goto ID <Ctrl+G>") || InputTracker.GetControlShortcut(Key.G))
+                if (ImGui.Button("Goto ID <Ctrl+G>") || (isActiveView && InputTracker.GetControlShortcut(Key.G)))
                 {
                     ImGui.OpenPopup("gotoParamRow");
                 }
@@ -1084,7 +1090,7 @@ namespace StudioCore.ParamEditor
                 }
 
                 //Row ID/name search
-                if (InputTracker.GetControlShortcut(Key.F))
+                if (isActiveView && InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
 
                 ImGui.InputText("Search <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
@@ -1139,7 +1145,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 ImGui.BeginChild("columns" + activeParam);
-                _propEditor.PropEditorParamRow(activeRow, ParamBank.VanillaParams != null ? ParamBank.VanillaParams[activeParam][activeRow.ID] : null, ref _selection.getCurrentPropSearchString(), activeParam);
+                _propEditor.PropEditorParamRow(activeRow, ParamBank.VanillaParams != null ? ParamBank.VanillaParams[activeParam][activeRow.ID] : null, ref _selection.getCurrentPropSearchString(), activeParam, isActiveView);
             }
             ImGui.EndChild();
         }
