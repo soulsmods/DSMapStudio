@@ -554,8 +554,7 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {
                     _clipboardParam = _activeView._selection.getActiveParam();
-                    _activeView.rowSearchCache[_activeView._selection.getActiveParam()] = RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true);
-                    foreach (PARAM.Row row in _activeView.rowSearchCache[_activeView._selection.getActiveParam()])
+                    foreach (PARAM.Row row in CacheBank.GetCached((_activeView._viewIndex, _activeView._selection.getActiveParam()), () => RowSearchEngine.rse.Search(ParamBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true)))
                         _activeView._selection.addRowToSelection(row);
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.C))
@@ -990,16 +989,13 @@ namespace StudioCore.ParamEditor
         private PropertyEditor _propEditor = null;
 
         private string lastParamSearch = "";
-        internal List<string> paramKeySearchCache = null;
         private Dictionary<string, string> lastRowSearch = new Dictionary<string, string>();
-        internal Dictionary<string, List<PARAM.Row>> rowSearchCache = new Dictionary<string, List<PARAM.Row>>();
 
         public ParamEditorView(ParamEditorScreen parent, int index)
         {
             _paramEditor = parent;
             _viewIndex = index;
             _propEditor = new PropertyEditor(parent.EditorActionManager, _paramEditor);
-            CacheBank.RegisterCache(() => parent._views.Contains(this), () => {paramKeySearchCache = null; rowSearchCache = new Dictionary<string, List<PARAM.Row>>();});
         }
 
         public void ParamView(bool doFocus, bool isActiveView)
@@ -1036,15 +1032,20 @@ namespace StudioCore.ParamEditor
             ImGui.BeginChild("paramTypes");
             float scrollTo = 0f;
 
-            if (paramKeySearchCache == null || !_selection.currentParamSearchString.Equals(lastParamSearch))
+            if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
-                List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
-                paramKeySearchCache = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
-                if (ParamEditorScreen.AlphabeticalParamsPreference)
-                    paramKeySearchCache.Sort();
+                CacheBank.ClearCaches();
                 lastParamSearch = _selection.currentParamSearchString;
             }
-            foreach (var paramKey in paramKeySearchCache)
+            List<string> paramKeyList = CacheBank.GetCached((_viewIndex, "params"), () => {
+                var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+                var keyList = list.Select((param) => ParamBank.GetKeyForParam(param)).ToList();
+                if (ParamEditorScreen.AlphabeticalParamsPreference)
+                    keyList.Sort();
+                return keyList;
+            });
+
+            foreach (var paramKey in paramKeyList)
             {
                 if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                 {
@@ -1129,7 +1130,7 @@ namespace StudioCore.ParamEditor
                             _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                             continue;
                         }
-                        RowColumnEntry(activeParam, false, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
+                        RowColumnEntry(activeParam, null, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
                     }
 
                     ImGui.Spacing();
@@ -1139,15 +1140,16 @@ namespace StudioCore.ParamEditor
 
                 ImGui.BeginChild("rows" + activeParam);
                 
-                if (!rowSearchCache.ContainsKey(_selection.getActiveParam()) || !(lastRowSearch.ContainsKey(_selection.getActiveParam()) && lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString())))
+                if (!(lastRowSearch.ContainsKey(_selection.getActiveParam()) && lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString())))
                 {
-                    rowSearchCache[_selection.getActiveParam()] = RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true);
+                    CacheBank.ClearCaches();
                     lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
                 }
+                List<PARAM.Row> rows = CacheBank.GetCached((_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
 
-                foreach (var r in rowSearchCache[_selection.getActiveParam()])
+                foreach (var r in rows)
                 {
-                    RowColumnEntry(activeParam, true, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                    RowColumnEntry(activeParam, rows, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
@@ -1169,7 +1171,7 @@ namespace StudioCore.ParamEditor
             ImGui.EndChild();
         }
 
-        private void RowColumnEntry(string activeParam, bool enableShiftSelect, PARAM.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
+        private void RowColumnEntry(string activeParam, List<PARAM.Row> p, PARAM.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
             if (dirtyCache != null && dirtyCache.Contains(r.ID))
                 ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
@@ -1196,15 +1198,14 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    if (enableShiftSelect && rowSearchCache.ContainsKey(_selection.getActiveParam()) && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                    if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
                     {
                         _selection.cleanSelectedRows();
-                        List<PARAM.Row> rows = rowSearchCache[_selection.getActiveParam()];
-                        int start = rows.IndexOf(_selection.getActiveRow());
-                        int end = rows.IndexOf(r);
+                        int start = p.IndexOf(_selection.getActiveRow());
+                        int end = p.IndexOf(r);
                         if (start != end)
                         {
-                            foreach (var r2 in rows.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                            foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
                                 _selection.addRowToSelection(r2);
                         }
                         _selection.addRowToSelection(r);

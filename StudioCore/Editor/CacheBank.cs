@@ -9,27 +9,20 @@ namespace StudioCore.Editor
 {
     public class CacheBank
     {
-        private static List<(Func<bool>, Action)> cacheClears = new List<(Func<bool>, Action)>();
+        private static Dictionary<object, object> caches = new Dictionary<object, object>();
 
-        public static void RegisterCache(Func<bool> isStillValid, Action clearCacheFunction)
+        public static T GetCached<T>(object key, Func<T> getValue)
         {
-            cacheClears.Add((isStillValid, clearCacheFunction));
+            if (!caches.ContainsKey(key))
+            {
+                Console.WriteLine("No Cache");
+                caches[key] = getValue();
+            }
+            return (T)caches[key];
         }
         public static void ClearCaches()
         {
-            for (int i=0; i<cacheClears.Count; i++)
-            {
-                (Func<bool> test, Action action) = cacheClears[i];
-                if (!test())
-                {
-                    cacheClears.RemoveAt(i);
-                    i--;
-                }
-                else
-                {
-                    action();
-                }
-            }
+            caches.Clear();
         }
     }
 }
