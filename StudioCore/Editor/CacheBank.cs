@@ -11,13 +11,14 @@ namespace StudioCore.Editor
     {
         private static Dictionary<object, object> caches = new Dictionary<object, object>();
 
-        public static T GetCached<T>(object key, Func<T> getValue)
+        public static T GetCached<T>(object UIScreen, object key, Func<T> getValue)
         {
-            if (!caches.ContainsKey(key))
+            var trueKey = (UIScreen, key);
+            if (!caches.ContainsKey(trueKey))
             {
-                caches[key] = getValue();
+                caches[trueKey] = getValue();
             }
-            return (T)caches[key];
+            return (T)caches[trueKey];
         }
         public static void ClearCaches()
         {
