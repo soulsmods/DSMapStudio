@@ -617,6 +617,14 @@ namespace StudioCore.MsbEditor
                     map.MapOffset = t;
                 }
             }
+            if (_assetLocator.Type == GameType.EldenRing && CFG.Current.EnableEldenRingAutoMapOffset)
+            {
+                if (SpecialMapConnections.GetEldenMapTransform(mapid, LoadedObjectContainers) is Transform loadTransform)
+                {
+                    map.RootObject.GetUpdateTransformAction(loadTransform).Execute();
+                }
+            }
+
             if (!LoadedObjectContainers.ContainsKey(mapid))
             {
                 LoadedObjectContainers.Add(mapid, map);
