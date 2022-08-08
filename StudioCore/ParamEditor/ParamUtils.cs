@@ -48,7 +48,7 @@ namespace StudioCore.ParamEditor
             foreach (var field in row.Cells)
             {
                 // Second check because someone made a dummy8 bit?
-                if (field.Def.InternalName == "dummy8" && row[field].Value.GetType() == typeof(byte[]))
+                if (field.Def.InternalType == "dummy8" && row[field].Value.GetType() == typeof(byte[]))
                 {
                     if (!ByteArrayEquals((byte[])(row[field].Value), (byte[])(vrow[field].Value)))
                         return false;

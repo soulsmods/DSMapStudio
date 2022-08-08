@@ -1026,7 +1026,7 @@ namespace StudioCore.ParamEditor
 
             ImGui.BeginChild("paramTypes");
             float scrollTo = 0f;
-            List<PARAM> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+            List<Param> paramList = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
             List<string> paramKeyList = paramList.Select((param)=>ParamBank.GetKeyForParam(param)).ToList();
             if (ParamEditorScreen.AlphabeticalParamsPreference)
                 paramKeyList.Sort();
