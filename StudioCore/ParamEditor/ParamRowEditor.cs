@@ -31,8 +31,10 @@ namespace StudioCore.ParamEditor
 
         private object _editedPropCache;
 
-        private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, bool isBool)
+        private (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
         {
+            bool isChanged = false;
+            bool isDeactivatedAfterEdit = false;
             try
             {
                 if (isBool)
@@ -43,8 +45,9 @@ namespace StudioCore.ParamEditor
                     {
                         newval = Convert.ChangeType(checkVal ? 1 : 0, oldval.GetType());
                         _editedPropCache = newval;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        isChanged = true;
                     }
+                    isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit();
                     ImGui.SameLine();
                 }
             }
@@ -64,7 +67,7 @@ namespace StudioCore.ParamEditor
                     {
                         newval = val;
                         _editedPropCache = newval;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        isChanged = true;
                     }
                 }
             }
@@ -75,7 +78,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(uint))
@@ -89,7 +92,7 @@ namespace StudioCore.ParamEditor
                     {
                         newval = val;
                         _editedPropCache = newval;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        isChanged = true;
                     }
                 }
             }
@@ -100,7 +103,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = (short)val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(ushort))
@@ -114,7 +117,7 @@ namespace StudioCore.ParamEditor
                     {
                         newval = val;
                         _editedPropCache = newval;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        isChanged = true;
                     }
                 }
             }
@@ -125,7 +128,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = (sbyte)val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(byte))
@@ -139,7 +142,7 @@ namespace StudioCore.ParamEditor
                     {
                         newval = val;
                         _editedPropCache = newval;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        isChanged = true;
                     }
                 }
             }
@@ -150,7 +153,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(float))
@@ -160,7 +163,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                     // shouldUpdateVisual = true;
                 }
             }
@@ -175,7 +178,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(Vector2))
@@ -185,7 +188,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                     // shouldUpdateVisual = true;
                 }
             }
@@ -196,7 +199,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                     // shouldUpdateVisual = true;
                 }
             }
@@ -211,17 +214,20 @@ namespace StudioCore.ParamEditor
                     if (nval!=null)
                     {
                         newval = nval;
-                        return (true, ImGui.IsItemDeactivatedAfterEdit());
+                        _editedPropCache = newval;
+                        isChanged = true;
                     }
                 }
             }
             else
             {
-                ImGui.Text("ImplementMe");
+                // Using InputText means IsItemDeactivatedAfterEdit doesn't pick up random previous item
+                string implMe = "ImplementMe";
+                ImGui.InputText(null, ref implMe, 256, ImGuiInputTextFlags.ReadOnly);
             }
+            isDeactivatedAfterEdit |= ImGui.IsItemDeactivatedAfterEdit();
 
-            newval = null;
-            return (false, false);
+            return (isChanged, isDeactivatedAfterEdit);
         }
 
         private void UpdateProperty(object prop, object obj, object newval,
@@ -238,6 +244,12 @@ namespace StudioCore.ParamEditor
         {
             if (committed)
             {
+                if (newval == null)
+                {
+                    // Safety check warned to user, should have proper crash handler instead
+                    TaskManager.warningList["ParamRowEditorPropertyChangeError"] = "ParamRowEditor: Property changed was null";
+                    return;
+                }
                 PropertiesChangedAction action;
                 if (arrayindex != -1)
                 {
@@ -251,14 +263,14 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam)
+        public void PropEditorParamRow(PARAM.Row row, PARAM.Row vrow, ref string propSearchString, string activeParam, bool isActiveView)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
             int id = 0;
 
             if (propSearchString != null)
             {
-                if (InputTracker.GetControlShortcut(Key.N))
+                if (isActiveView && InputTracker.GetControlShortcut(Key.N))
                     ImGui.SetKeyboardFocusHere();
                 ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
                 ImGui.Separator();
@@ -378,7 +390,7 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             else if (diffVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
-            (changed, committed) = PropertyRow(propType, oldval, out newval, IsBool);
+            (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
             //bool committed = true;
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
@@ -458,11 +470,11 @@ namespace StudioCore.ParamEditor
                     ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
                     ImGui.Separator();
                 }
-                if (ImGui.Selectable("Add to Searchbar"))
+                if (ImGui.MenuItem("Add to Searchbar"))
                 {
                     EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
                 }
-                if (showPinOptions && ImGui.Selectable((isPinned ? "Unpin " : "Pin " + originalName)))
+                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + originalName)))
                 {
                     if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
                         _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
@@ -478,7 +490,7 @@ namespace StudioCore.ParamEditor
                     {
                         foreach (string p in ParamBank.Params.Keys)
                         {
-                            if (ImGui.Selectable(p))
+                            if (ImGui.MenuItem(p+"##add"+p))
                             {
                                 if (cellMeta.RefTypes == null)
                                     cellMeta.RefTypes = new List<string>();
@@ -491,7 +503,7 @@ namespace StudioCore.ParamEditor
                     {
                         foreach (string p in cellMeta.RefTypes)
                         {
-                            if (ImGui.Selectable(p))
+                            if (ImGui.MenuItem(p+"##remove"+p))
                             {
                                 cellMeta.RefTypes.Remove(p);
                                 if (cellMeta.RefTypes.Count == 0)
@@ -501,11 +513,11 @@ namespace StudioCore.ParamEditor
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.Selectable(cellMeta.IsBool ? "Remove bool toggle" : "Add bool toggle"))
+                    if (ImGui.MenuItem(cellMeta.IsBool ? "Remove bool toggle" : "Add bool toggle"))
                         cellMeta.IsBool = !cellMeta.IsBool;
-                    if (cellMeta.Wiki == null && ImGui.Selectable("Add wiki..."))
+                    if (cellMeta.Wiki == null && ImGui.MenuItem("Add wiki..."))
                         cellMeta.Wiki = "Empty wiki...";
-                    if (cellMeta.Wiki != null && ImGui.Selectable("Remove wiki"))
+                    if (cellMeta.Wiki != null && ImGui.MenuItem("Remove wiki"))
                         cellMeta.Wiki = null;
                 }
                 ImGui.EndPopup();
