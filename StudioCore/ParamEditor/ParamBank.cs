@@ -161,8 +161,6 @@ namespace StudioCore.ParamEditor
                 }
                 if (p.ApplyParamdefCarefully(_paramdefs[p.ParamType]))
                     paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
-                else
-                    throw new Exception("Invalid paramdef for "+p.ParamType);
             }
         }
 
@@ -622,7 +620,7 @@ namespace StudioCore.ParamEditor
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
-            IsLoadingParams = false;
+                IsLoadingParams = false;
             });
         }
 
