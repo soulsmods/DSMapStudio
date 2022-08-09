@@ -30,6 +30,11 @@ namespace StudioCore.MsbEditor
             return _selected.Count == 1;
         }
 
+        public bool IsMultiSelection()
+        {
+            return _selected.Count > 1;
+        }
+
         public bool IsSingleFilteredSelection<T>() where T : Scene.ISelectable
         {
             return GetFilteredSelection<T>().Count == 1;
@@ -150,7 +155,7 @@ namespace StudioCore.MsbEditor
         // probably be split out of Selection at that point (IGotoTarget, perhaps).
         public Scene.ISelectable GotoTreeTarget { get; set; }
 
-        public bool ShouldGoto(Scene.ISelectable selected) => selected != null && GotoTreeTarget == selected;
+        public bool ShouldGoto(Scene.ISelectable selected) => selected != null && selected.Equals(GotoTreeTarget);
 
         public void ClearGotoTarget() => GotoTreeTarget = null;
     }

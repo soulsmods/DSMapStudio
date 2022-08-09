@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text.RegularExpressions;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -57,6 +58,149 @@ namespace StudioCore.MsbEditor
 
             Vector3 targetOffset = targetGlobal - closestOriginGlobal;
             return closestMap.RootObject.GetLocalTransform() + targetOffset;
+        }
+
+        public enum RelationType
+        {
+            Unknown,
+            Ancestor,
+            Parent,
+            Child,
+            Descendant,
+            Connection,
+        }
+
+        public static IReadOnlyDictionary<string, RelationType> GetRelatedMaps(
+            GameType gameType,
+            string mapid,
+            IReadOnlyCollection<string> allMapIds,
+            List<byte[]> connectColMaps)
+        {
+            SortedDictionary<string, RelationType> relations = new SortedDictionary<string, RelationType>();
+            if (!TryParseMap(mapid, out byte[] parts))
+            {
+                return relations;
+            }
+            if (gameType == GameType.EldenRing && parts[0] == 60 && parts[1] > 0 && parts[2] > 0)
+            {
+                int scale = parts[3] % 10;
+                if (scale < 2)
+                {
+                    byte tileX = parts[1];
+                    byte tileZ = parts[2];
+                    tileX /= 2;
+                    tileZ /= 2;
+                    string parent = FormatMap(new byte[] { 60, tileX, tileZ, (byte)(parts[3] + 1) });
+                    if (allMapIds.Contains(parent))
+                    {
+                        relations[parent] = RelationType.Parent;
+                        if (scale == 0)
+                        {
+                            tileX /= 2;
+                            tileZ /= 2;
+                            string ancestor = FormatMap(new byte[] { 60, tileX, tileZ, (byte)(parts[3] + 2) });
+                            if (allMapIds.Contains(ancestor))
+                            {
+                                relations[ancestor] = RelationType.Ancestor;
+                            }
+                        }
+                    }
+                }
+                if (scale > 0)
+                {
+                    // Order: Southwest, Northwest, Southeast, Northeast
+                    byte tileX = parts[1];
+                    byte tileZ = parts[2];
+                    for (int x = 0; x <= 1; x++)
+                    {
+                        for (int z = 0; z <= 1; z++)
+                        {
+                            byte childX = (byte)(tileX * 2 + x);
+                            byte childZ = (byte)(tileZ * 2 + z);
+                            string child = FormatMap(new byte[] { 60, childX, childZ, (byte)(parts[3] - 1) });
+                            if (allMapIds.Contains(child))
+                            {
+                                relations[child] = RelationType.Child;
+                                if (scale != 2)
+                                {
+                                    continue;
+                                }
+                                for (int cx = 0; cx <= 1; cx++)
+                                {
+                                    for (int cz = 0; cz <= 1; cz++)
+                                    {
+                                        byte descX = (byte)(childX * 2 + cx);
+                                        byte descZ = (byte)(childZ * 2 + cz);
+                                        string desc = FormatMap(new byte[] { 60, descX, descZ, (byte)(parts[3] - 2) });
+                                        if (allMapIds.Contains(desc))
+                                        {
+                                            relations[desc] = RelationType.Descendant;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Dictionary<string, string> colPatterns = new Dictionary<string, string>();
+            foreach (byte[] connectParts in connectColMaps)
+            {
+                string connectMapId = FormatMap(connectParts);
+                if (connectParts.Length != 4 || colPatterns.ContainsKey(connectMapId))
+                {
+                    continue;
+                }
+                colPatterns[connectMapId] = null;
+                // DeS, DS1 use wildcards in the last two digits
+                // DS2, DS3 use full map ids
+                // Bloodborne, Sekiro use wildcards in 0-3 final positions
+                // Elden Ring uses wildcards in the final position, and also has the alternate map system (_10 tiles)
+                // Not all connections are valid in-game, but include all matches nonetheless, with a few exceptions.
+                int firstWildcard = Array.IndexOf(connectParts, (byte)0xFF);
+                if (firstWildcard == -1)
+                {
+                    if (allMapIds.Contains(connectMapId))
+                    {
+                        relations[connectMapId] = RelationType.Connection;
+                        continue;
+                    }
+                }
+                else if (firstWildcard == 0)
+                {
+                    // Full wildcards are no-ops
+                    continue;
+                }
+                if (connectParts.Skip(firstWildcard).Any(p => p != 0xFF))
+                {
+                    // Sanity check for no non-wildcards after wildcards
+                    continue;
+                }
+                // Avoid putting in tons of maps. These types of cols are not used in the vanilla game.
+                if (gameType == GameType.EldenRing && connectParts[0] == 60 && firstWildcard < 3)
+                {
+                    continue;
+                }
+                else if (gameType == GameType.Bloodborne && connectParts[0] == 29)
+                {
+                    continue;
+                }
+                colPatterns[connectMapId] = "^m" + string.Join("_", connectParts.Select(p => p == 0xFF ? @"\d\d" : $"{p:d2}")) + "$";
+            }
+            if (colPatterns.Count > 0)
+            {
+                string pattern = string.Join("|", colPatterns.Select(e => e.Value).Where(v => v != null));
+                if (pattern.Length > 1)
+                {
+                    Regex re = new Regex(pattern);
+                    // Add all matching maps, aside from skyboxes
+                    foreach (string matchingMap in allMapIds.Where(m => re.IsMatch(m) && !m.EndsWith("_99")))
+                    {
+                        relations[matchingMap] = RelationType.Connection;
+                    }
+                }
+            }
+            return relations;
         }
 
         private class DungeonOffset
@@ -224,8 +368,8 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
-        private static string FormatMap(IEnumerable<byte> bytes) =>
-            "m" + string.Join("_", bytes.Select(b => b == 0xFF ? "XX" : $"{b:d2}"));
+        private static string FormatMap(IEnumerable<byte> parts) =>
+            "m" + string.Join("_", parts.Select(p => p == 0xFF ? "XX" : $"{p:d2}"));
 
         private static List<byte> GetRowMapParts(PARAM.Row row, List<string> fields)
         {

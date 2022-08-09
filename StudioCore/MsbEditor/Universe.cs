@@ -46,6 +46,8 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public GameType GameType => _assetLocator.Type;
+
         public bool postLoad = false;
         public int _dispGroupCount = 8;
 
@@ -480,19 +482,19 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public bool LoadMap(string mapid)
+        public bool LoadMap(string mapid, bool selectOnLoad = false)
         {
-
             var ad = _assetLocator.GetMapMSB(mapid);
             if (ad.AssetPath == null)
             {
                 return false;
             }
-            LoadMapAsync(mapid);
+            LoadMapAsync(mapid, selectOnLoad);
             return true;
 
         }
-        public async void LoadMapAsync(string mapid)
+
+        public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
         {
             postLoad = false;
             var map = new Map(this, mapid);
@@ -632,6 +634,13 @@ namespace StudioCore.MsbEditor
             else
             {
                 LoadedObjectContainers[mapid] = map;
+            }
+            // Intervene in the UI to change selection if requested.
+            // We want to do this as soon as the RootObject is available, rather than at the end of all jobs.
+            if (selectOnLoad)
+            {
+                Selection.ClearSelection();
+                Selection.AddSelection(map.RootObject);
             }
 
             if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
