@@ -27,5 +27,5 @@
     <isFaithCorrect_byDark IsBool="" />
     <isLuckCorrect_byDark IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

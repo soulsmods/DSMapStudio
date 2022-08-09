@@ -16,5 +16,5 @@
     <dopingSpEffect_lv10 Refs="SpEffectParam" />
     <npcPlayerInitParamId Refs="CharaInitParam" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

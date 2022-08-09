@@ -8,5 +8,5 @@
     <isGrayoutRightHand IsBool="" />
     <isGrayoutBothHand IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>
