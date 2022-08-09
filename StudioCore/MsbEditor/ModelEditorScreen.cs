@@ -165,7 +165,7 @@ namespace StudioCore.MsbEditor
                 {
                     job.AddLoadFileTask(assettex.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
-                _loadingTask = job.StartJobAsync();
+                _loadingTask = job.Complete();
             }
         }
 

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Numerics;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks.Dataflow;
 using SoulsFormats;
 using ImGuiNET;
 
@@ -23,12 +24,7 @@ namespace StudioCore.Resource
     public static class ResourceManager
     {
         private static QueuedTaskScheduler JobScheduler = new QueuedTaskScheduler(4, "JobMaster");
-        private static QueuedTaskScheduler BinderWorkerScheduler = new QueuedTaskScheduler(12, "BinderWorker");
-        private static QueuedTaskScheduler ResourceWorkerScheduler = new QueuedTaskScheduler(12, "ResourceWorker");
-
         private static TaskFactory JobTaskFactory = new TaskFactory(JobScheduler);
-        private static TaskFactory BinderTaskFactory = new TaskFactory(BinderWorkerScheduler);
-        private static TaskFactory ResourceTaskFactory = new TaskFactory(ResourceWorkerScheduler);
 
         [Flags]
         public enum ResourceType
@@ -65,160 +61,126 @@ namespace StudioCore.Resource
             public int GetEstimateTaskSize();
         }
 
-        public class LoadResourceFromBytesTask : IResourceTask
+        internal struct LoadResourceFromBytesAction
         {
-            private IResourceHandle handle = null;
-            private byte[] bytes = null;
-            private AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            private GameType Game;
-            public LoadResourceFromBytesTask(IResourceHandle handle, byte[] bytes, AccessLevel al, GameType type)
+            public IResourceHandle handle = null;
+            public byte[] bytes = null;
+            public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
+            public GameType Game;
+            public LoadResourceFromBytesAction(IResourceHandle handle, byte[] bytes, AccessLevel al, GameType type)
             {
                 this.handle = handle;
                 this.bytes = bytes;
                 this.AccessLevel = al;
                 Game = type;
             }
-
-            public int GetEstimateTaskSize()
-            {
-                return 1;
-            }
-
-            public void Run()
-            {
-                var ctx = Tracy.TracyCZoneN(1, "LoadResourceFromBytesTask::Run");
-                handle._LoadResource(bytes, AccessLevel, Game);
-                bytes = null;
-                Tracy.TracyCZoneEnd(ctx);
-            }
-
-            public Task RunAsync(IProgress<int> progress)
-            {
-                return ResourceTaskFactory.StartNew(() =>
-                {
-                    Run();
-                    bytes = null;
-                    progress.Report(1);
-                });
-            }
         }
 
-        public class LoadResourceFromFileTask : IResourceTask
+        internal static IResourceHandle LoadResourceFromBytes(LoadResourceFromBytesAction action)
         {
-            private IResourceHandle handle = null;
-            private string file = null;
-            private AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            private GameType Game;
-            public LoadResourceFromFileTask(IResourceHandle handle, string file, AccessLevel al, GameType type)
+            var ctx = Tracy.TracyCZoneN(1, "LoadResourceFromBytesTask::Run");
+            action.handle._LoadResource(action.bytes, action.AccessLevel, action.Game);
+            action.bytes = null;
+            Tracy.TracyCZoneEnd(ctx);
+            return action.handle;
+        }
+
+        internal struct LoadResourcesFromFileAction
+        {
+            public IResourceHandle handle = null;
+            public string file = null;
+            public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
+            public GameType Game;
+            public LoadResourcesFromFileAction(IResourceHandle handle, string file, AccessLevel al, GameType type)
             {
                 this.handle = handle;
                 this.file = file;
                 this.AccessLevel = al;
                 this.Game = type;
             }
-
-            public int GetEstimateTaskSize()
-            {
-                return 1;
-            }
-
-            public void Run()
-            {
-                var ctx = Tracy.TracyCZoneN(1, $@"LoadResourceFromFileTask::Run {file}");
-                handle._LoadResource(file, AccessLevel, Game);
-                Tracy.TracyCZoneEnd(ctx);
-            }
-
-            public Task RunAsync(IProgress<int> progress)
-            {
-                return ResourceTaskFactory.StartNew(() =>
-                {
-                    Run();
-                    progress.Report(1);
-                });
-            }
+        }
+        
+        internal static IResourceHandle LoadResourceFromFile(LoadResourcesFromFileAction action)
+        {
+            var ctx = Tracy.TracyCZoneN(1, $@"LoadResourceFromFileTask::Run {action.file}");
+            action.handle._LoadResource(action.file, action.AccessLevel, action.Game);
+            Tracy.TracyCZoneEnd(ctx);
+            return action.handle;
         }
 
-        public class LoadTPFResourcesTask : IResourceTask
+        internal struct LoadTPFResourcesAction
         {
-            private string _virtpathbase = null;
-            private TPF _tpf = null;
-            private AccessLevel _accessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            private GameType _game;
+            public ResourceJob _job;
+            public string _virtpathbase = null;
+            public TPF _tpf = null;
+            public AccessLevel _accessLevel = AccessLevel.AccessGPUOptimizedOnly;
+            public GameType _game;
+            public List<Tuple<TextureResourceHande, string, int>> _pendingResources = new List<Tuple<TextureResourceHande, string, int>>();
 
-            private List<Tuple<TextureResourceHande, string, int>> _pendingResources = new List<Tuple<TextureResourceHande, string, int>>();
-
-            public LoadTPFResourcesTask(string virtpathbase, TPF tpf, AccessLevel al, GameType type)
+            public LoadTPFResourcesAction (ResourceJob job, string virtpathbase, TPF tpf, AccessLevel al, GameType type)
             {
+                _job = job;
                 _virtpathbase = virtpathbase;
                 _tpf = tpf;
                 _accessLevel = al;
                 _game = type;
             }
-
-            public int GetEstimateTaskSize()
-            {
-                return 1;
-            }
-
-            public void Run()
-            {
-                var ctx = Tracy.TracyCZoneN(1, $@"LoadTPFResourcesTask::Run {_virtpathbase}");
-                if (!CFG.Current.EnableTexturing)
-                {
-                    _pendingResources.Clear();
-                    _tpf = null;
-                    Tracy.TracyCZoneEnd(ctx);
-                    return;
-                }
-
-                for (int i = 0; i < _tpf.Textures.Count; i++)
-                {
-                    var tex = _tpf.Textures[i];
-                    var handle = ResourceManager.GetTextureResource($@"{_virtpathbase}/{tex.Name.ToLower()}");
-                    _pendingResources.Add(new Tuple<TextureResourceHande, string, int>(handle, $@"{_virtpathbase}/{tex.Name}", i));
-                }
-
-                foreach (var t in _pendingResources)
-                {
-                    t.Item1._LoadTextureResource(_tpf, t.Item3, _accessLevel, _game);
-                }
-                _pendingResources.Clear();
-                _tpf = null;
-                Tracy.TracyCZoneEnd(ctx);
-            }
-
-            public Task RunAsync(IProgress<int> progress)
-            {
-                return ResourceTaskFactory.StartNew(() =>
-                {
-                    Run();
-                    progress.Report(1);
-                });
-            }
         }
 
-        public class LoadBinderResourcesTask : IResourceTask
+        private static IResourceHandle[] LoadTPFResources(LoadTPFResourcesAction action)
         {
-            private string BinderVirtualPath = null;
-            private BinderReader Binder = null;
-            private bool PopulateResourcesOnly = false;
-            private HashSet<int> BinderLoadMask = null;
-            private List<Task> LoadingTasks = new List<Task>();
-            private List<int> TaskSizes = new List<int>();
-            private List<int> TaskProgress = new List<int>();
-            private int TotalSize = 0;
-            private HashSet<string> AssetWhitelist = null;
-            private ResourceType ResourceMask = ResourceType.All;
-            private AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-
-            private List<Tuple<IResourceHandle, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceHandle, string, BinderFileHeader>>();
-            private List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
-
-            private readonly object ProgressLock = new object();
-
-            public LoadBinderResourcesTask(string virtpath, AccessLevel accessLevel, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
+            var ctx = Tracy.TracyCZoneN(1, $@"LoadTPFResourcesTask::Run {action._virtpathbase}");
+            if (!CFG.Current.EnableTexturing)
             {
+                action._pendingResources.Clear();
+                action._tpf = null;
+                Tracy.TracyCZoneEnd(ctx);
+                return new IResourceHandle[]{};
+            }
+
+            action._job.IncrementEstimateTaskSize(action._tpf.Textures.Count);
+            var ret = new IResourceHandle[action._tpf.Textures.Count];
+            for (int i = 0; i < action._tpf.Textures.Count; i++)
+            {
+                var tex = action._tpf.Textures[i];
+                var handle = ResourceManager.GetTextureResource($@"{action._virtpathbase}/{tex.Name.ToLower()}");
+                action._pendingResources.Add(new Tuple<TextureResourceHande, string, int>(handle, $@"{action._virtpathbase}/{tex.Name}", i));
+                ret[i] = handle;
+            }
+
+            foreach (var t in action._pendingResources)
+            {
+                t.Item1._LoadTextureResource(action._tpf, t.Item3, action._accessLevel, action._game);
+            }
+            action._pendingResources.Clear();
+            action._tpf = null;
+            Tracy.TracyCZoneEnd(ctx);
+            return ret;
+        }
+
+        internal class LoadBinderResourcesAction
+        {
+            public ResourceJob _job;
+            public string BinderVirtualPath = null;
+            public BinderReader Binder = null;
+            public bool PopulateResourcesOnly = false;
+            public HashSet<int> BinderLoadMask = null;
+            public List<Task> LoadingTasks = new List<Task>();
+            public List<int> TaskSizes = new List<int>();
+            public List<int> TaskProgress = new List<int>();
+            public int TotalSize = 0;
+            public HashSet<string> AssetWhitelist = null;
+            public ResourceType ResourceMask = ResourceType.All;
+            public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
+
+            public List<Tuple<IResourceHandle, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceHandle, string, BinderFileHeader>>();
+            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
+
+            public readonly object ProgressLock = new object();
+
+            public LoadBinderResourcesAction(ResourceJob job, string virtpath, AccessLevel accessLevel, bool populateOnly, ResourceType mask, HashSet<string> whitelist)
+            {
+                _job = job;
                 BinderVirtualPath = virtpath;
                 PopulateResourcesOnly = populateOnly;
                 ResourceMask = mask;
@@ -253,11 +215,6 @@ namespace StudioCore.Resource
                         continue;
                     }
                     IResourceHandle handle = null;
-                    /*if (ResourceMan.ResourceDatabase.ContainsKey(filevirtpath))
-                    {
-                        handle = ResourceMan.ResourceDatabase[filevirtpath];
-                    }*/
-
                     if (filevirtpath.ToUpper().EndsWith(".TPF") || filevirtpath.ToUpper().EndsWith(".TPF.DCX"))
                     {
                         string virt = BinderVirtualPath;
@@ -309,268 +266,137 @@ namespace StudioCore.Resource
                     }
                 }
             }
+        }
 
-            public void Run()
+        private static void LoadBinderResources(LoadBinderResourcesAction action)
+        {
+            action.ProcessBinder();
+            if (!action.PopulateResourcesOnly)
             {
-                ProcessBinder();
-                if (!PopulateResourcesOnly)
+                bool doasync = (action.PendingResources.Count() + action.PendingTPFs.Count()) > 1;
+                int i = 0;
+                foreach (var p in action.PendingResources)
                 {
-                    foreach (var p in PendingResources)
-                    {
-                        var f = Binder.ReadFile(p.Item3);
-                        var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel, ResourceManager.Locator.Type);
-                        task.Run();
-                    }
+                    var f = action.Binder.ReadFile(p.Item3);
+                    action._job.AddLoadByteResources(new LoadResourceFromBytesAction(p.Item1, f, action.AccessLevel,
+                        ResourceManager.Locator.Type));
+                    action._job.IncrementEstimateTaskSize(1);
+                    i++;
+                }
 
-                    foreach (var t in PendingTPFs)
-                    {
-                        var f = TPF.Read(Binder.ReadFile(t.Item2));
-                        var task = new LoadTPFResourcesTask(t.Item1, f, AccessLevel, ResourceManager.Locator.Type);
-                        task.Run();
-                    }
-                }
-                PendingResources.Clear();
-                Binder = null;
-            }
-
-            public void UpdateProgress(IProgress<int> progress)
-            {
-                int totalProgress;
-                lock (ProgressLock)
+                foreach (var t in action.PendingTPFs)
                 {
-                    totalProgress = TaskProgress.Sum();
-                }
-                if (TotalSize != 0)
-                {
-                    progress.Report(totalProgress);
-                }
-                else
-                {
-                    progress.Report(0);
+                    var f = TPF.Read(action.Binder.ReadFile(t.Item2));
+                    action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
+                    i++;
                 }
             }
 
-            public Task RunAsync(IProgress<int> progress)
-            {
-                return BinderTaskFactory.StartNew(() =>
-                {
-                    var ctx = Tracy.TracyCZoneN(1, $@"LoadBinderResourcesTask::RunAsync {BinderVirtualPath}");
-                    ProcessBinder();
-                    if (!PopulateResourcesOnly)
-                    {
-                        bool doasync = (PendingResources.Count() + PendingTPFs.Count()) > 1;
-                        int i = 0;
-                        foreach (var p in PendingResources)
-                        {
-                            var f = Binder.ReadFile(p.Item3);
-                            var task = new LoadResourceFromBytesTask(p.Item1, f, AccessLevel, ResourceManager.Locator.Type);
-                            var size = task.GetEstimateTaskSize();
-                            TotalSize += size;
-                            if (doasync)
-                            {
-                                var progress1 = new Progress<int>();
-                                TaskSizes.Add(size);
-                                lock (ProgressLock)
-                                {
-                                    TaskProgress.Add(0);
-                                }
-                                int bindi = i;
-                                progress1.ProgressChanged += (x, e) =>
-                                {
-                                    lock (ProgressLock)
-                                    {
-                                        TaskProgress[bindi] = e;
-                                    }
-                                    UpdateProgress(progress);
-                                };
-                                LoadingTasks.Add(task.RunAsync(progress1));
-                                i++;
-                            }
-                            else
-                            {
-                                task.Run();
-                                i++;
-                                progress.Report(i);
-                            }
-                        }
-
-                        foreach (var t in PendingTPFs)
-                        {
-                            var f = TPF.Read(Binder.ReadFile(t.Item2));
-                            var task = new LoadTPFResourcesTask(t.Item1, f, AccessLevel, ResourceManager.Locator.Type);
-                            var size = task.GetEstimateTaskSize();
-                            TotalSize += size;
-                            if (doasync)
-                            {
-                                var progress1 = new Progress<int>();
-                                TaskSizes.Add(size);
-                                lock (ProgressLock)
-                                {
-                                    TaskProgress.Add(0);
-                                }
-                                int bindi = i;
-                                progress1.ProgressChanged += (x, e) =>
-                                {
-                                    lock (ProgressLock)
-                                    {
-                                        TaskProgress[bindi] = e;
-                                    }
-                                    UpdateProgress(progress);
-                                };
-                                LoadingTasks.Add(task.RunAsync(progress1));
-                                i++;
-                            }
-                            else
-                            {
-                                task.Run();
-                                i++;
-                                progress.Report(i);
-                            }
-                        }
-                    }
-                    PendingResources.Clear();
-
-                    // Wait for all the tasks to complete
-                    while (LoadingTasks.Count() > 0)
-                    {
-                        int idx = Task.WaitAny(LoadingTasks.ToArray());
-                        LoadingTasks.RemoveAt(idx);
-                    }
-                    Binder = null;
-                    Tracy.TracyCZoneEnd(ctx);
-                });
-            }
-
-            public int GetEstimateTaskSize()
-            {
-                if (TotalSize == 0)
-                {
-                    // Shitty estimate, but usually works as it is used most often when there's a large amount of tiny archives
-                    return 1;
-                }
-                return TotalSize;
-            }
+            action.PendingResources.Clear();
+            action.Binder = null;
         }
 
         /// <summary>
         /// A named job that runs many tasks and whose progress will appear in the progress window
         /// </summary>
-        public class ResourceJob : IResourceTask
+        public class ResourceJob
         {
             public string Name { get; private set; } = null;
-            private List<IResourceTask> TaskList;
-            private List<Task> RunningTaskList = new List<Task>();
-            private List<int> TaskProgress = new List<int>();
+            private int _courseSize = 0;
             private int TotalSize = 0;
+            public int Progress { get; private set; } = 0;
 
-            private readonly object ProgressLock = new object();
-            private readonly object TaskListLock = new object();
-
+            private TransformBlock<LoadResourceFromBytesAction, IResourceHandle> _loadByteResources;
+            private TransformBlock<LoadResourcesFromFileAction, IResourceHandle> _loadFileResources;
+            private TransformManyBlock<LoadTPFResourcesAction, IResourceHandle> _loadTPFResources;
+            private ActionBlock<LoadBinderResourcesAction> _loadBinderResources;
+            private BufferBlock<IResourceHandle> _processedResources;
             public bool Finished { get; private set; } = false;
 
-            public ResourceJob(string name, List<IResourceTask> tasks)
+            public ResourceJob(string name)
             {
+                var options = new ExecutionDataflowBlockOptions() { MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded};
                 Name = name;
-                TaskList = tasks;
+                _loadByteResources = 
+                    new TransformBlock<LoadResourceFromBytesAction, IResourceHandle>(LoadResourceFromBytes, options);
+                _loadFileResources =
+                    new TransformBlock<LoadResourcesFromFileAction, IResourceHandle>(LoadResourceFromFile, options);
+                _loadTPFResources = new TransformManyBlock<LoadTPFResourcesAction, IResourceHandle>(LoadTPFResources, options);
+                
+                //options.MaxDegreeOfParallelism = 4;
+                _loadBinderResources = new ActionBlock<LoadBinderResourcesAction>(LoadBinderResources, options);
+                _processedResources = new BufferBlock<IResourceHandle>();
+                _loadByteResources.LinkTo(_processedResources);
+                _loadFileResources.LinkTo(_processedResources);
+                _loadTPFResources.LinkTo(_processedResources);
+            }
+
+            internal void IncrementEstimateTaskSize(int size)
+            {
+                Interlocked.Add(ref TotalSize, size);
             }
 
             public int GetEstimateTaskSize()
             {
-                if (TotalSize == 0)
-                {
-                    int size = 0;
-                    lock (TaskListLock)
-                    {
-                        foreach (var t in TaskList)
-                        {
-                            size += t.GetEstimateTaskSize();
-                        }
-                    }
-                    TotalSize = size;
-                }
-                return TotalSize;
+                return Math.Max(TotalSize, _courseSize);
             }
 
-            public void Run()
+            internal void AddLoadByteResources(LoadResourceFromBytesAction action)
             {
-                foreach (var t in TaskList)
-                {
-                    t.Run();
-                }
+                _loadByteResources.Post(action);
             }
-
-            public void UpdateProgress(IProgress<int> progress)
+            
+            internal void AddLoadFileResources(LoadResourcesFromFileAction action)
             {
-                int totalProgress;
-                lock (ProgressLock)
-                {
-                    totalProgress = TaskProgress.Sum();
-                }
-                TotalSize = 0;
-                GetEstimateTaskSize();
-                if (TotalSize != 0)
-                {
-                    progress.Report(totalProgress);
-                }
-                else
-                {
-                    progress.Report(0);
-                }
+                _courseSize++;
+                _loadFileResources.Post(action);
+            }
+            
+            internal void AddLoadTPFResources(LoadTPFResourcesAction action)
+            {
+                _loadTPFResources.Post(action);
+            }
+            
+            internal void AddLoadBinderResources(LoadBinderResourcesAction action)
+            {
+                _courseSize++;
+                _loadBinderResources.Post(action);
             }
 
-            public Task RunAsync(IProgress<int> progress)
+            public Task Complete()
             {
                 return JobTaskFactory.StartNew(() =>
                 {
-                    var ctx = Tracy.TracyCZoneN(1, $@"ResourceJob::RunAsync {Name}");
-                    TotalSize = 0;
-                    int i = 0;
-                    foreach (var t in TaskList)
-                    {
-                        var progress1 = new Progress<int>();
-                        lock (ProgressLock)
-                        {
-                            TaskProgress.Add(0);
-                        }
-                        int bindi = i;
-                        progress1.ProgressChanged += (x, e) =>
-                        {
-                            lock (ProgressLock)
-                            {
-                                TaskProgress[bindi] = e;
-                            }
-                            UpdateProgress(progress);
-                            TotalSize = 0; // Hack to force recompuation of total task size
-                        };
-                        RunningTaskList.Add(t.RunAsync(progress1));
-                        TotalSize = t.GetEstimateTaskSize();
-                        i++;
-                    }
-
-                    while (RunningTaskList.Count() > 0)
-                    {
-                        int idx = Task.WaitAny(RunningTaskList.ToArray());
-                        RunningTaskList.RemoveAt(idx);
-                        //TaskList.RemoveAt(idx);
-                    }
-                    lock (TaskListLock)
-                    {
-                        TaskList.Clear();
-                    }
+                    _loadBinderResources.Complete();
+                    _loadBinderResources.Completion.Wait();
+                    _loadByteResources.Complete();
+                    _loadFileResources.Complete();
+                    _loadTPFResources.Complete();
+                    _loadByteResources.Completion.Wait();
+                    _loadFileResources.Completion.Wait();
+                    _loadTPFResources.Completion.Wait();
                     Finished = true;
-                    Tracy.TracyCZoneEnd(ctx);
                 });
+            }
+
+            public void ProcessLoadedResources()
+            {
+                if (_processedResources.TryReceiveAll(out var processed))
+                {
+                    Progress += processed.Count;
+                }
             }
         }
 
         public class ResourceJobBuilder
         {
-            private List<IResourceTask> Tasks = new List<IResourceTask>();
+            private ResourceJob _job;
             private string Name;
             private HashSet<string> archivesToLoad = new HashSet<string>();
 
             public ResourceJobBuilder(string name)
             {
+                _job = new ResourceJob(name);
                 Name = name;
             }
 
@@ -587,8 +413,7 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(virtualPath, al, populateOnly, ResourceType.All, assets);
-                    Tasks.Add(task);
+                    _job.AddLoadBinderResources(new LoadBinderResourcesAction(_job, virtualPath, al, populateOnly, ResourceType.All, assets));
                 }
             }
 
@@ -601,8 +426,7 @@ namespace StudioCore.Resource
                 if (!archivesToLoad.Contains(virtualPath))
                 {
                     archivesToLoad.Add(virtualPath);
-                    var task = new LoadBinderResourcesTask(virtualPath, al, populateOnly, filter, assets);
-                    Tasks.Add(task);
+                    _job.AddLoadBinderResources(new LoadBinderResourcesAction(_job, virtualPath, al, populateOnly, filter, assets));
                 }
             }
 
@@ -639,16 +463,14 @@ namespace StudioCore.Resource
                             virt = virt.Substring(0, virt.Length - 4);
                         }
                     }
-                    var ttask = new LoadTPFResourcesTask(virt, TPF.Read(path), al, Locator.Type);
-                    Tasks.Add(ttask);
+                    _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job, virt, TPF.Read(path), al, Locator.Type));
                     return;
                 }
                 else
                 {
                     handle = GetResource<FlverResource>(virtualPath);
                 }
-                var task = new LoadResourceFromFileTask(handle, path, al, Locator.Type);
-                Tasks.Add(task);
+                _job.AddLoadFileResources(new LoadResourcesFromFileAction(handle, path, al, Locator.Type));
             }
 
             /// <summary>
@@ -669,8 +491,7 @@ namespace StudioCore.Resource
                         }
                         if (path != null && File.Exists(path))
                         {
-                            var task = new LoadTPFResourcesTask(Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
-                            Tasks.Add(task);
+                            _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
                 }
@@ -702,25 +523,19 @@ namespace StudioCore.Resource
                         }
                         if (path != null && File.Exists(path))
                         {
-                            var task = new LoadTPFResourcesTask(Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
-                            Tasks.Add(task);
+                            _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
+                                Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path),
+                                AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
                 }
             }
 
-            public Task StartJobAsync()
+            public Task Complete()
             {
                 // Build the job, register it with the task manager, and start it
-                var job = new ResourceJob(Name, Tasks);
-                ActiveJobProgress[job] = 0;
-                var progress1 = new Progress<int>();
-                progress1.ProgressChanged += (x, e) =>
-                {
-                    ActiveJobProgress[job] = e;
-                };
-                Tasks = null;
-                var jobtask = job.RunAsync(progress1);
+                ActiveJobProgress[_job] = 0;
+                var jobtask = _job.Complete();
                 var posttask = new Task(async () =>
                 {
                     await jobtask;
@@ -728,7 +543,7 @@ namespace StudioCore.Resource
                     bool removed = false;
                     while (!removed)
                     {
-                        removed = ActiveJobProgress.TryRemove(job, out o);
+                        removed = ActiveJobProgress.TryRemove(_job, out o);
                     }
                 });
                 //posttask.Start();
@@ -791,6 +606,14 @@ namespace StudioCore.Resource
             });
         }
 
+        public static void UnloadUnusedResources()
+        {
+            foreach (var r in ResourceDatabase)
+            {
+                //r.Value.CleanupIfUnused();
+            }
+        }
+        
         public static ResourceJobBuilder CreateNewJob(string name)
         {
             return new ResourceJobBuilder(name);
@@ -848,6 +671,7 @@ namespace StudioCore.Resource
                 HashSet<ResourceJob> toRemove = new HashSet<ResourceJob>();
                 foreach (var job in ActiveJobProgress)
                 {
+                    job.Key.ProcessLoadedResources();
                     if (job.Key.Finished)
                     {
                         toRemove.Add(job.Key);
@@ -875,7 +699,7 @@ namespace StudioCore.Resource
                 {
                     var job = CreateNewJob($@"Loading UDSFM textures");
                     job.AddLoadUDSFMTexturesTask();
-                    job.StartJobAsync();
+                    job.Complete();
                     _scheduleUDSFMLoad = false;
                 }
                 if (_scheduleUnloadedTexturesLoad)
@@ -884,7 +708,7 @@ namespace StudioCore.Resource
                     {
                         var job = CreateNewJob($@"Loading other textures");
                         job.AddLoadUnloadedTextures();
-                        job.StartJobAsync();
+                        job.Complete();
                     });
                     _scheduleUnloadedTexturesLoad = false;
                 }
@@ -909,6 +733,7 @@ namespace StudioCore.Resource
                 {
                     if (!job.Key.Finished)
                     {
+                        var completed = job.Key.Progress;
                         var size = job.Key.GetEstimateTaskSize();
                         ImGui.Text(job.Key.Name);
                         if (size == 0)
@@ -917,7 +742,7 @@ namespace StudioCore.Resource
                         }
                         else
                         {
-                            ImGui.ProgressBar((float)job.Value / (float)size, new Vector2(386.0f, 20.0f));
+                            ImGui.ProgressBar((float)completed / (float)size, new Vector2(386.0f, 20.0f));
                         }
                     }
                 }
@@ -961,11 +786,7 @@ namespace StudioCore.Resource
         public static void Shutdown()
         {
             JobScheduler.Dispose();
-            BinderWorkerScheduler.Dispose();
-            ResourceWorkerScheduler.Dispose();
             JobScheduler = null;
-            BinderWorkerScheduler = null;
-            ResourceWorkerScheduler = null;
         }
     }
 }

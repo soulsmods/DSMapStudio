@@ -236,7 +236,7 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    var task = job.StartJobAsync();
+                    var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
                         task.Wait();
@@ -262,7 +262,7 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    var task = job.StartJobAsync();
+                    var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
                         task.Wait();
@@ -292,7 +292,7 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    var task = job.StartJobAsync();
+                    var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
                         task.Wait();
@@ -468,7 +468,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            job.StartJobAsync();
+            job.Complete();
         }
 
         public void PopulateMapList()
@@ -668,7 +668,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(mappiece.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             if (CFG.Current.EnableTexturing)
@@ -685,7 +685,7 @@ namespace StudioCore.MsbEditor
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
                 }
-                task = job.StartJobAsync();
+                task = job.Complete();
                 tasks.Add(task);
             }
 
@@ -709,7 +709,7 @@ namespace StudioCore.MsbEditor
             {
                 job.AddLoadArchiveTask(archive, AccessLevel.AccessGPUOptimizedOnly, false, colassets);
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             job = ResourceManager.CreateNewJob($@"Loading chrs");
@@ -724,7 +724,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             job = ResourceManager.CreateNewJob($@"Loading objs");
@@ -739,7 +739,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(obj.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             if (FeatureFlags.LoadNavmeshes)
@@ -764,7 +764,7 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
-                task = job.StartJobAsync();
+                task = job.Complete();
                 tasks.Add(task);
             }
 

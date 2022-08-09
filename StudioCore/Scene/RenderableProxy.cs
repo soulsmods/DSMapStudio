@@ -713,8 +713,8 @@ namespace StudioCore.Scene
                 else
                     MeshIndexCount = 0;
                 
-                _meshProvider.Unlock();
                 _submeshesLock.ExitWriteLock();
+                _meshProvider.Unlock();
             }
         }
 
