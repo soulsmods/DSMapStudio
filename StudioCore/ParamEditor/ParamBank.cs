@@ -159,8 +159,10 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                p.ApplyParamdef(_paramdefs[p.ParamType]);
-                paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                if (p.ApplyParamdefCarefully(_paramdefs[p.ParamType]))
+                    paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                else
+                    throw new Exception("Invalid paramdef for "+p.ParamType);
             }
         }
 
