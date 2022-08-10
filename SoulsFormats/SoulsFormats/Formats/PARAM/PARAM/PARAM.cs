@@ -220,7 +220,7 @@ namespace SoulsFormats
         
         /// <summary>
         /// Applies paramdef and mutates it if its row size doesn't match this param's.
-        /// If subsequently called on a smaller param, it will be temporarily shrunk by the added field, then expanded
+        /// If subsequently called on a smaller param, it will attempt to fill in the added dummy8 field with an empty byte[]
         /// Fails if paramType or paramdefDataVersion is incorrect.
         /// Returns true if applied.
         /// </summary>
