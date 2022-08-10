@@ -161,6 +161,8 @@ namespace StudioCore.ParamEditor
                 }
                 if (p.ApplyParamdefCarefully(_paramdefs[p.ParamType]))
                     paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                else
+                    TaskManager.warningList["ParamLoading"+p.ParamType] = "Failed to apply paramdef "+p.ParamType;
             }
         }
 
