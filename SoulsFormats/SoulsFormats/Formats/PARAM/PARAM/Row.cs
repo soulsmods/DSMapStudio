@@ -100,7 +100,7 @@ namespace SoulsFormats
                 }
             }
 
-            internal void ReadCells(BinaryReaderEx br, PARAMDEF paramdef)
+            internal void ReadCells(BinaryReaderEx br, PARAMDEF paramdef, long expectedLength = -1)
             {
                 // In case someone decides to add new rows before applying the paramdef (please don't do that)
                 if (DataOffset == 0)
@@ -126,7 +126,13 @@ namespace SoulsFormats
 
                 for (int i = 0; i < paramdef.Fields.Count; i++)
                 {
+                    
                     PARAMDEF.Field field = paramdef.Fields[i];
+                    if (expectedLength != -1 && br.Position - DataOffset >= expectedLength && field.InternalName == "UPDATEDPARAM")
+                    {
+                        cells[i] = new Cell(field, new byte[field.ArrayLength]);
+                        break;
+                    }
                     object value = null;
                     PARAMDEF.DefType type = field.DisplayType;
 

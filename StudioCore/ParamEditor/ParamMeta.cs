@@ -332,13 +332,12 @@ namespace StudioCore.ParamEditor
         {
             if (!ParamBank.IsMetaLoaded)
                 return null;
-            FieldMetaData fieldMeta = _FieldMetas[def];
-            if (fieldMeta == null)
+            if (!_FieldMetas.ContainsKey(def))
             {
                 ParamMetaData pdef = ParamMetaData.Get(def.Parent);
-                fieldMeta = new FieldMetaData(pdef, def);
+                _FieldMetas[def] = new FieldMetaData(pdef, def);
             }
-            return fieldMeta;
+            return _FieldMetas[def];
         }
 
         private static void Add(PARAMDEF.Field key, FieldMetaData meta)

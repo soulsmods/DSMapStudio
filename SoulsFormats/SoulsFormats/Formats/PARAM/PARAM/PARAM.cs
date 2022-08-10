@@ -211,11 +211,35 @@ namespace SoulsFormats
         /// <summary>
         /// Interprets row data according to the given paramdef and stores it for later writing.
         /// </summary>
-        public void ApplyParamdef(PARAMDEF paramdef)
+        public void ApplyParamdef(PARAMDEF paramdef, long expectedLength = -1)
         {
             AppliedParamdef = paramdef;
             foreach (Row row in Rows)
-                row.ReadCells(RowReader, AppliedParamdef);
+                row.ReadCells(RowReader, AppliedParamdef, expectedLength);
+        }
+        
+        /// <summary>
+        /// Applies paramdef and mutates it if its row size doesn't match this param's.
+        /// If subsequently called on a smaller param, it will be temporarily shrunk by the added field, then expanded
+        /// Fails if paramType or paramdefDataVersion is incorrect.
+        /// Returns true if applied.
+        /// </summary>
+        public bool ApplyAndModifyParamdef(PARAMDEF paramdef)
+        {
+            if (ParamType == paramdef.ParamType && ParamdefDataVersion == paramdef.DataVersion)
+            {
+                int sizeDiff = (int)(DetectedSize - paramdef.GetRowSize());
+                const string EXTENSIONFIELDNAME = "UPDATEDPARAM";
+                if (sizeDiff > 0 && DetectedSize != -1)
+                {
+                    PARAMDEF.Field newField = new PARAMDEF.Field(paramdef, PARAMDEF.DefType.dummy8, EXTENSIONFIELDNAME);
+                    newField.ArrayLength = sizeDiff;
+                    paramdef.Fields.Add(newField);
+                }
+                ApplyParamdef(paramdef, DetectedSize);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
