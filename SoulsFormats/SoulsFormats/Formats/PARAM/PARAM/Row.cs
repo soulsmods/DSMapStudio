@@ -131,7 +131,7 @@ namespace SoulsFormats
                     if (expectedLength != -1 && br.Position - DataOffset >= expectedLength && field.InternalName == "UPDATEDPARAM")
                     {
                         cells[i] = new Cell(field, new byte[field.ArrayLength]);
-                        break;
+                        continue;
                     }
                     object value = null;
                     PARAMDEF.DefType type = field.DisplayType;
