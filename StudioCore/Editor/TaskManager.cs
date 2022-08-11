@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ImGuiNET;
 
 namespace StudioCore.Editor
 {
@@ -93,6 +94,24 @@ namespace StudioCore.Editor
         public static List<string> GetLiveThreads()
         {
             return new List<string>(_liveTasks.Keys);
+        }
+
+        public static void RunCrashableTask(string taskId, bool printImGui, Action task)
+        {
+            if (warningList.ContainsKey(taskId))
+            {
+                if (printImGui)
+                    ImGui.TextColored(new System.Numerics.Vector4(1.0f, 0, 0, 1), taskId+" has crashed");
+                return;
+            }
+            try
+            {
+                task.Invoke();
+            }
+            catch (Exception e)
+            {
+                warningList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message+"\nClick to attempt to resume.";
+            }
         }
     }
 }
