@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -692,30 +693,66 @@ namespace StudioCore.ParamEditor
                     Console.WriteLine("Missing vanilla param "+param);
                     continue;
                 }
-                Param vp = _vanillaParams[param];
-                foreach (Param.Row row in _params[param].Rows.ToList())
+
+                var rows = _params[param].Rows.OrderBy(r => r.ID).ToArray();
+                var vrows = _vanillaParams[param].Rows.OrderBy(r => r.ID).ToArray();
+                
+                var vanillaIndex = 0;
+                int lastID = -1;
+                Span<Param.Row> lastVanillaRows = default;
+                for (int i = 0; i < rows.Length; i++)
                 {
-                    refreshParamRowDirtyCache(row, vp, cache);
+                    int ID = rows[i].ID;
+                    if (ID == lastID)
+                    {
+                        refreshParamRowDirtyCache(rows[i], lastVanillaRows, cache);
+                    }
+                    else
+                    {
+                        while (vanillaIndex < vrows.Length && vrows[vanillaIndex].ID < ID)
+                            vanillaIndex++;
+                        if (vanillaIndex >= vrows.Length)
+                        {
+                            refreshParamRowDirtyCache(rows[i], Span<Param.Row>.Empty, cache);
+                        }
+                        else
+                        {
+                            int count = 0;
+                            while (vanillaIndex + count < vrows.Length && vrows[vanillaIndex + count].ID == ID)
+                                count++;
+                            refreshParamRowDirtyCache(rows[i], new ReadOnlySpan<Param.Row>(vrows, vanillaIndex, count), cache);
+                            vanillaIndex += count;
+                        }
+                    }
                 }
             }
             _paramDirtyCache = newCache;
         }
-        public static void refreshParamRowDirtyCache(Param.Row row, Param vanillaParam, HashSet<int> cache)
+        public static void refreshParamRowDirtyCache(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows, HashSet<int> cache)
         {
-            Param.Row vrow = vanillaParam[row.ID];
-            if (IsChanged(row, vanillaParam))
+            if (IsChanged(row, vanillaRows))
                 cache.Add(row.ID);
             else
                 cache.Remove(row.ID);
         }
-        private static bool IsChanged(Param.Row row, Param vanilla)
+        
+        public static void refreshParamRowDirtyCache(Param.Row row, Param vanillaParam, HashSet<int> cache)
         {
-            List<Param.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
-            if (vanils.Count == 0)
+            var vanillaRows = vanillaParam.Rows.Where(cell => cell.ID == row.ID).ToArray();
+            if (IsChanged(row, vanillaRows))
+                cache.Add(row.ID);
+            else
+                cache.Remove(row.ID);
+        }
+        
+        private static bool IsChanged(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows)
+        {
+            //List<Param.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
+            if (vanillaRows.Length == 0)
             {
                 return true;
             }
-            foreach (Param.Row vrow in vanils)
+            foreach (Param.Row vrow in vanillaRows)
             {
                 if (ParamUtils.RowMatches(row, vrow))
                     return false;//if we find a matching vanilla row

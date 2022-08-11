@@ -170,6 +170,26 @@ public class StridedByteArray
             dstArray._backing, (int)(dstindex) * (int)dstArray.Stride, (int)Stride);
     }
 
+    public bool DataEquals(StridedByteArray dstArray, uint dstindex, uint srcindex)
+    {
+        if (dstindex >= dstArray.Count || srcindex >= Count)
+            throw new IndexOutOfRangeException();
+        
+        if (dstArray._freeEntries.Contains(dstindex) || _freeEntries.Contains(srcindex))
+            throw new IndexOutOfRangeException();
+
+        if (Stride != dstArray.Stride)
+            return false;
+
+        for (int i = 0; i < Stride; i++)
+        {
+            if (_backing[(int)srcindex * (int)Stride + i] != dstArray._backing[(int)dstindex * (int)Stride + i])
+                return false;
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Reads an element interpreted as a specific type at a specific offset of an element array
     /// </summary>

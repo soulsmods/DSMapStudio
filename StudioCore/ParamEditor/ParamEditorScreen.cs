@@ -603,7 +603,9 @@ namespace StudioCore.ParamEditor
                     {
                         doFocus = initcmd[0] == "select";
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.IsLoadingVParams)
-                            ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(), ParamBank.VanillaParams[_activeView._selection.getActiveParam()], ParamBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
+                            ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(), 
+                                ParamBank.VanillaParams[_activeView._selection.getActiveParam()],
+                                ParamBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
 
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
@@ -633,7 +635,9 @@ namespace StudioCore.ParamEditor
                             }
                         }
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.IsLoadingVParams)
-                            ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(), ParamBank.VanillaParams[_activeView._selection.getActiveParam()], ParamBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
+                            ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(),
+                                ParamBank.VanillaParams[_activeView._selection.getActiveParam()],
+                                ParamBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
 
                     }
                 }

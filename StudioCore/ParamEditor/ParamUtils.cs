@@ -45,20 +45,10 @@ namespace StudioCore.ParamEditor
         }
         public static bool RowMatches(Param.Row row, Param.Row vrow)
         {
-            foreach (var field in row.Cells)
-            {
-                // Second check because someone made a dummy8 bit?
-                if (field.Def.InternalType == "dummy8" && row[field].Value.GetType() == typeof(byte[]))
-                {
-                    if (!ByteArrayEquals((byte[])(row[field].Value), (byte[])(vrow[field].Value)))
-                        return false;
-                }
-                else if (!row[field].Value.Equals(vrow[field].Value))
-                {
-                    return false;
-                }
-            }
-            return true;
+            if (row.Def != vrow.Def)
+                return false;
+            
+            return row.Equals(vrow);
         }
         public static bool ByteArrayEquals(byte[] v1, byte[] v2) {
             if (v1.Length!=v2.Length)
