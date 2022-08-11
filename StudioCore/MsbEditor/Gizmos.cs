@@ -257,6 +257,7 @@ namespace StudioCore.MsbEditor
 
         public void Update(Ray ray, bool canCaptureMouse)
         {
+            bool canTransform = true;
             if (IsTransforming)
             {
                 if (!InputTracker.GetMouseButton(MouseButton.Left))
@@ -408,7 +409,6 @@ namespace StudioCore.MsbEditor
                             RotateGizmoZProxy.RenderSelectionOutline = (hoveredAxis == Axis.PosZ);
                             break;
                     }
-                    
 
                     if (canCaptureMouse && InputTracker.GetMouseButtonDown(MouseButton.Left))
                     {
@@ -435,10 +435,14 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
+                else
+                {
+                    canTransform = false;
+                }
             }
 
             // Update gizmos transform and visibility
-            if (_selection.IsSelection())
+            if (_selection.IsSelection() & canTransform)
             {
                 //var selected = MsbEditor.Selection.Selected;
                 //var center = selected.RenderSceneMesh.GetBounds().GetCenter();
