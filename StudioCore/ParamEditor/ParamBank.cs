@@ -29,6 +29,8 @@ namespace StudioCore.ParamEditor
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
         private static Dictionary<string, HashSet<int>> _paramDirtyCache = null; //If param != vanillaparam
 
+        private static bool _pendingUpgrade = false;
+        
         public static bool IsDefsLoaded { get; private set; } = false;
         public static bool IsMetaLoaded { get; private set; } = false;
         public static bool IsLoadingParams { get; private set; } = false;
@@ -1056,7 +1058,7 @@ namespace StudioCore.ParamEditor
 
             // Load params
             var param = $@"{mod}\regulation.bin";
-            if (!File.Exists(param))
+            if (!File.Exists(param) || _pendingUpgrade)
             {
                 param = $@"{dir}\regulation.bin";
             }
@@ -1086,6 +1088,7 @@ namespace StudioCore.ParamEditor
                 }
             }
             Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.EldenRing);
+            _pendingUpgrade = false;
         }
 
         public static void SaveParams(bool loose = false, bool partialParams = false)
@@ -1136,6 +1139,7 @@ namespace StudioCore.ParamEditor
             Add,
             Delete,
             Modify,
+            NameChange,
             Match,
         }
         
@@ -1162,6 +1166,10 @@ namespace StudioCore.ParamEditor
             // List of rows that are in source and oldVanilla, but are modified
             Dictionary<int, List<Param.Row>> modifiedRows = new Dictionary<int, List<Param.Row>>(source.Rows.Count);
 
+            // List of rows that only had the name changed
+            Dictionary<int, List<Param.Row>> renamedRows = new Dictionary<int, List<Param.Row>>(source.Rows.Count);
+            
+            // List of ordered edit operations for each ID
             Dictionary<int, List<EditOperation>> editOperations = new Dictionary<int, List<EditOperation>>(source.Rows.Count);
 
             // First off we go through source and everything starts as an added param
@@ -1193,12 +1201,27 @@ namespace StudioCore.ParamEditor
                 // First we see if we match the first target row. If so we can remove it.
                 if (row.Equals(list[0]))
                 {
+                    var modrow = list[0];
                     list.RemoveAt(0);
                     if (list.Count == 0)
                         addedRows.Remove(row.ID);
                     if (!editOperations.ContainsKey(row.ID))
                         editOperations.Add(row.ID, new List<EditOperation>());
-                    editOperations[row.ID].Add(EditOperation.Match);
+                    
+                    // See if the name was not updated
+                    if ((modrow.Name == null && row.Name == null) ||
+                        (modrow.Name != null && row.Name != null && modrow.Name == row.Name))
+                    {
+                        editOperations[row.ID].Add(EditOperation.Match);
+                        continue;
+                    }
+                    
+                    // Name was updated
+                    editOperations[row.ID].Add(EditOperation.NameChange);
+                    if (!renamedRows.ContainsKey(row.ID))
+                        renamedRows.Add(row.ID, new List<Param.Row>());
+                    renamedRows[row.ID].Add(modrow);
+                    
                     continue;
                 }
                 
@@ -1281,6 +1304,16 @@ namespace StudioCore.ParamEditor
                     if (modifiedRows[row.ID].Count == 0)
                         modifiedRows.Remove(row.ID);
                 }
+                else if (operation == EditOperation.NameChange)
+                {
+                    // Inherit name
+                    var newRow = new Param.Row(row, dest);
+                    newRow.Name = renamedRows[row.ID][0].Name;
+                    dest.AddRow(newRow);
+                    renamedRows[row.ID].RemoveAt(0);
+                    if (renamedRows[row.ID].Count == 0)
+                        renamedRows.Remove(row.ID);
+                }
             }
             
             // Take care of any more pending adds
@@ -1333,6 +1366,7 @@ namespace StudioCore.ParamEditor
             // Set new params
             _params = updatedParams;
             _paramVersion = VanillaParamVersion;
+            _pendingUpgrade = true;
             
             return ParamUpgradeResult.Success;
         }
