@@ -678,19 +678,19 @@ namespace StudioCore
                 }
                 if (_msbEditorFocused)
                 {
-                    _msbEditor.DrawEditorMenu();
+                    TaskManager.RunCrashableTask("MapEditorMenu", true, () => _msbEditor.DrawEditorMenu());
                 }
                 else if (_modelEditorFocused)
                 {
-                    _modelEditor.DrawEditorMenu();
+                    TaskManager.RunCrashableTask("ModelEditorMenu", true, () => _modelEditor.DrawEditorMenu());
                 }
                 else if (_paramEditorFocused)
                 {
-                    _paramEditor.DrawEditorMenu();
+                    TaskManager.RunCrashableTask("ParamEditorMenu", true, () => _paramEditor.DrawEditorMenu());
                 }
                 else if (_textEditorFocused)
                 {
-                    _textEditor.DrawEditorMenu();
+                    TaskManager.RunCrashableTask("TextEditorMenu", true, () => _textEditor.DrawEditorMenu());
                 }
                 if (ImGui.BeginMenu("Settings"))
                 {
@@ -1084,7 +1084,7 @@ namespace StudioCore
             {
                 ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
-                _msbEditor.OnGUI(mapcmds);
+                TaskManager.RunCrashableTask("MapEditor", true, () => _msbEditor.OnGUI(mapcmds));
                 ImGui.End();
                 _msbEditorFocused = true;
                 _msbEditor.Update(deltaseconds);
@@ -1103,7 +1103,7 @@ namespace StudioCore
             {
                 ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
-                _modelEditor.OnGUI();
+                TaskManager.RunCrashableTask("ModelEditor", true, () => _modelEditor.OnGUI());
                 _modelEditorFocused = true;
                 _modelEditor.Update(deltaseconds);
             }
@@ -1123,7 +1123,8 @@ namespace StudioCore
             }
             if (ImGui.Begin("Param Editor"))
             {
-                _paramEditor.OnGUI(paramcmds);
+                TaskManager.RunCrashableTask("ParamEditor", true, () => _paramEditor.OnGUI(paramcmds));
+                
                 _paramEditorFocused = true;
             }
             else
@@ -1145,7 +1146,7 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4));
             if (ImGui.Begin("Text Editor"))
             {
-                _textEditor.OnGUI(textcmds);
+                TaskManager.RunCrashableTask("TextEditor", true, () => _textEditor.OnGUI(textcmds));
                 _textEditorFocused = true;
             }
             else
