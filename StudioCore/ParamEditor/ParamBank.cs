@@ -688,7 +688,7 @@ namespace StudioCore.ParamEditor
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
-            IsLoadingParams = false;
+                IsLoadingParams = false;
             });
         }
 
@@ -1203,12 +1203,12 @@ namespace StudioCore.ParamEditor
                 }
                 
                 // Otherwise it is modified
+                if (!modifiedRows.ContainsKey(row.ID))
+                    modifiedRows.Add(row.ID, new List<Param.Row>());
+                modifiedRows[row.ID].Add(list[0]);
                 list.RemoveAt(0);
                 if (list.Count == 0)
                     addedRows.Remove(row.ID);
-                if (!modifiedRows.ContainsKey(row.ID))
-                    modifiedRows.Add(row.ID, new List<Param.Row>());
-                modifiedRows[row.ID].Add(row);
                 if (!editOperations.ContainsKey(row.ID))
                     editOperations.Add(row.ID, new List<EditOperation>());
                 editOperations[row.ID].Add(EditOperation.Modify);
