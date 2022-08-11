@@ -49,8 +49,8 @@ namespace StudioCore.Editor
                 _anonIndex++;
                 taskId = Thread.CurrentThread.Name+":"+_anonIndex;
             }
-
             Task t = new Task(() => {
+                #if !DEBUG
                 try
                 {
                     action.Invoke();
@@ -66,6 +66,9 @@ namespace StudioCore.Editor
                         MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                #else
+                action.Invoke();
+                #endif
                 (bool, Task) old;
                 _liveTasks.TryRemove(taskId, out old);
                 if (old.Item1 == true)
