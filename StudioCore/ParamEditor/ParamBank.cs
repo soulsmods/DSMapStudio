@@ -24,6 +24,7 @@ namespace StudioCore.ParamEditor
         private static Dictionary<string, Param> _params = null;
         private static Dictionary<string, Param> _vanillaParams = null;
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
+        private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
         private static Dictionary<string, HashSet<int>> _paramDirtyCache = null; //If param != vanillaparam
 
         public static bool IsDefsLoaded { get; private set; } = false;
@@ -89,6 +90,7 @@ namespace StudioCore.ParamEditor
         private static List<(string, PARAMDEF)> LoadParamdefs()
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
+            _patchParamdefs = new Dictionary<string, Dictionary<ulong, PARAMDEF>>();
             var dir = AssetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
             List<(string, PARAMDEF)> defPairs = new List<(string, PARAMDEF)>();
@@ -98,6 +100,25 @@ namespace StudioCore.ParamEditor
                 _paramdefs.Add(pdef.ParamType, pdef);
                 defPairs.Add((f, pdef));
             }
+            
+            // Load patch paramdefs
+            var patches = AssetLocator.GetParamdefPatches();
+            foreach (var patch in patches)
+            {
+                var pdir = AssetLocator.GetParamdefPatchDir(patch);
+                var pfiles = Directory.GetFiles(pdir, "*.xml");
+                foreach (var f in pfiles)
+                {
+                    var pdef = PARAMDEF.XmlDeserialize(f);
+                    defPairs.Add((pdef.ParamType, pdef));
+                    if (!_patchParamdefs.ContainsKey(pdef.ParamType))
+                    {
+                        _patchParamdefs[pdef.ParamType] = new Dictionary<ulong, PARAMDEF>();
+                    }
+                    _patchParamdefs[pdef.ParamType].Add(patch, pdef);
+                }
+            }
+            
             return defPairs;
         }
 
@@ -141,6 +162,13 @@ namespace StudioCore.ParamEditor
 
         private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank)
         {
+            ulong version;
+            bool success = ulong.TryParse(parambnd.Version, out version);
+            if (!success)
+            {
+                throw new Exception($@"Failed to get regulation version. Params might be corrupt.");
+            }
+            
             // Load every param in the regulation
             // _params = new Dictionary<string, PARAM>();
             foreach (var f in parambnd.Files)
@@ -158,11 +186,31 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
                 FSParam.Param p = FSParam.Param.Read(f.Bytes);
-                if (!_paramdefs.ContainsKey(p.ParamType))
+                if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
                 {
                     continue;
                 }
-                p.ApplyParamdef(_paramdefs[p.ParamType]);
+                
+                // Lookup the correct paramdef based on the version
+                PARAMDEF def = null;
+                if (_patchParamdefs.ContainsKey(p.ParamType))
+                {
+                    var keys = _patchParamdefs[p.ParamType].Keys.OrderByDescending(e => e);
+                    foreach (var k in keys)
+                    {
+                        if (version >= k)
+                        {
+                            def = _patchParamdefs[p.ParamType][k];
+                            break;
+                        }
+                    }
+                }
+
+                // If no patched paramdef was found for this regulation version, fallback to vanilla defs
+                if (def == null)
+                    def = _paramdefs[p.ParamType];
+                
+                p.ApplyParamdef(def);
                 paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
             }
         }
