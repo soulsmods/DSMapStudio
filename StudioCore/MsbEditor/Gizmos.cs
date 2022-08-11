@@ -228,15 +228,30 @@ namespace StudioCore.MsbEditor
         Vector3 DebugAxis = Vector3.Zero;
         float DebugAngle = 0.0f;
 
-        private Transform ProjectTransformDelta(Transform objt)
+        /// <summary>
+        /// Calculate position of selection as its being moved
+        /// </summary>
+        private Transform ProjectTransformDelta(Entity sel)
         {
+            var objt = sel.GetLocalTransform();
+            var rootT = sel.GetRootTransform();
+
             Quaternion deltaRot = CurrentTransform.Rotation * Quaternion.Inverse(OriginalTransform.Rotation);
-            Vector3 deltaPos = CurrentTransform.Position - OriginalTransform.Position;
+            Vector3 deltaPos = Vector3.Transform(CurrentTransform.Position - OriginalTransform.Position, Quaternion.Inverse(rootT.Rotation));
             objt.Rotation = deltaRot * objt.Rotation;
-            var posdif = objt.Position - OriginalTransform.Position;
+
+            // TODO: fix rotation gizmo being wrong due to root object transform node rotation
+            var rotateCenterOffset = Vector3.Transform(rootT.Position, rootT.Rotation);
+            //rotateCenterOffset = OriginalTransform.Position;
+            //rotateCenterOffset = Vector3.Zero;
+
+            var posdif = objt.Position - OriginalTransform.Position + rotateCenterOffset;
+
             posdif = Vector3.Transform(Vector3.Transform(posdif, Quaternion.Conjugate(OriginalTransform.Rotation)), CurrentTransform.Rotation);
+
             objt.Position = OriginalTransform.Position + posdif;
-            objt.Position += deltaPos;
+            objt.Position += deltaPos - rotateCenterOffset;
+
             return objt;
         }
 
@@ -251,7 +266,7 @@ namespace StudioCore.MsbEditor
                     foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                     {
                         sel.ClearTemporaryTransform(false);
-                        actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel.GetLocalTransform())));
+                        actlist.Add(sel.GetUpdateTransformAction(ProjectTransformDelta(sel)));
                     }
                     var action = new CompoundAction(actlist);
                     ActionManager.ExecuteAction(action);
@@ -304,7 +319,7 @@ namespace StudioCore.MsbEditor
                         //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
                         foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
                         {
-                            sel.SetTemporaryTransform(ProjectTransformDelta(sel.GetLocalTransform()));
+                            sel.SetTemporaryTransform(ProjectTransformDelta(sel));
                         }
                     }
                 }
@@ -316,7 +331,7 @@ namespace StudioCore.MsbEditor
                     if (_selection.IsSingleFilteredSelection<Entity>((o) => o.HasTransform))
                     {
                         var sel = _selection.GetSingleFilteredSelection<Entity>((o) => o.HasTransform);
-                        OriginalTransform = sel.GetLocalTransform();
+                        OriginalTransform = sel.GetRootLocalTransform();
                         if (Origin == GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
                         {
                             OriginalTransform.Position = sel.RenderSceneMesh.GetBounds().GetCenter();
@@ -328,13 +343,14 @@ namespace StudioCore.MsbEditor
                     }
                     else
                     {
-                        // Average the positions of the selections and use a neutral rotation
+                        // Average the positions of the selections and use rotation of first
                         Vector3 accumPos = Vector3.Zero;
-                        foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
+                        var sels = _selection.GetFilteredSelection<Entity>((o) => o.HasTransform);
+                        foreach (var sel in sels)
                         {
-                            accumPos += sel.GetLocalTransform().Position;
+                            accumPos += sel.GetRootLocalTransform().Position;
                         }
-                        OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, Vector3.Zero);
+                        OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, sels.First().GetRootLocalTransform().EulerRotation);
                     }
 
                     Axis hoveredAxis = Axis.None;

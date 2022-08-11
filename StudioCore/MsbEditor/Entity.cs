@@ -526,6 +526,34 @@ namespace StudioCore.MsbEditor
             ReferencingObjects = null;
         }
 
+        /// <summary>
+        /// Get root object's transform
+        /// </summary>
+        public virtual Transform GetRootTransform()
+        {
+            if (this != Container.RootObject)
+            {
+                return Container.RootObject.GetLocalTransform();
+            }
+            return Transform.Default;
+        }
+
+        /// <summary>
+        /// Get local transform and offset it by Root Object (Transform Node)
+        /// </summary>
+        public virtual Transform GetRootLocalTransform()
+        {
+            var t = GetLocalTransform();
+            if (this != Container.RootObject)
+            {
+                var root = GetRootTransform();
+                t.Rotation *= root.Rotation;
+                t.Position = Vector3.Transform(t.Position, root.Rotation);
+                t.Position += root.Position;
+            }
+            return t;
+        }
+
         public virtual Transform GetLocalTransform()
         {
             var t = Transform.Default;
