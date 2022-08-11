@@ -21,6 +21,11 @@ namespace StudioCore.Resource
 {
     public class FlverResource : IResource, IDisposable
     {
+        internal class FlverLoadPipeline
+        {
+            
+        }
+        
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();
         public static int CacheCount { get; private set; } = 0;
         public static long CacheFootprint

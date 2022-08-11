@@ -42,6 +42,11 @@ namespace StudioCore.Resource
         AccessFull,
     }
 
+    public record LoadByteResourceRequest
+    {
+        
+    }
+    
     public interface IResourceHandle
     {
         public string AssetVirtualPath { get; }
