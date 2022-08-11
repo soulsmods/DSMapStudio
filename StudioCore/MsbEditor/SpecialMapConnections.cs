@@ -163,8 +163,8 @@ namespace StudioCore.MsbEditor
                     if (allMapIds.Contains(connectMapId))
                     {
                         relations[connectMapId] = RelationType.Connection;
-                        continue;
                     }
+                    continue;
                 }
                 else if (firstWildcard == 0)
                 {
