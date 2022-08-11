@@ -153,6 +153,12 @@ namespace StudioCore.ParamEditor
             _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.ItemCategory.Gem));
             _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.ItemCategory.SwordArts));
         }
+        
+        public void UpgradeRegulation(string oldRegulation)
+        {
+            var result = ParamBank.UpgradeRegulation(oldRegulation);
+            EditorActionManager.Clear();
+        }
 
         public override void DrawEditorMenu()
         {
@@ -425,6 +431,47 @@ namespace StudioCore.ParamEditor
                     ParamReloader.GiveItemMenu(ParamBank.AssetLocator, _activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
                 }
                 ImGui.EndMenu();
+            }
+            
+            // Param upgrading for Elden Ring
+            if (ParamBank.AssetLocator.Type == GameType.EldenRing &&
+                ParamBank.IsDefsLoaded && ParamBank.Params != null && ParamBank.VanillaParams != null &&
+                !ParamBank.IsLoadingParams && !ParamBank.IsLoadingVParams &&
+                ParamBank.ParamVersion < ParamBank.VanillaParamVersion)
+            {
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                if (ImGui.Button("Upgrade Params"))
+                {
+                    var message = System.Windows.Forms.MessageBox.Show(
+                        $@"Your mod is currently on regulation version {ParamBank.ParamVersion} while the game is on param version " +
+                        $"{ParamBank.VanillaParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                        "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
+                        "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
+                        "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
+                        "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
+                        $"that your current mod is based on (version {ParamBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
+                        "in the param editor where you can view and save them, but this operation is not undoable." +
+                        "Would you like to continue?", "Regulation upgrade",
+                        System.Windows.Forms.MessageBoxButtons.OKCancel,
+                        System.Windows.Forms.MessageBoxIcon.Question);
+                    if (message == System.Windows.Forms.DialogResult.OK)
+                    {
+                        var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                        {
+                            Filter = AssetLocator.ParamFilter,
+                            ValidateNames = true,
+                            CheckFileExists = true,
+                            CheckPathExists = true,
+                        };
+                            
+                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            var path = rbrowseDlg.FileName;
+                            UpgradeRegulation(path);
+                        }
+                    }
+                }
+                ImGui.PopStyleColor();
             }
         }
 

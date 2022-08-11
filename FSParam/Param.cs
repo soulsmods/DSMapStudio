@@ -500,6 +500,30 @@ namespace FSParam
 
         public PARAMDEF AppliedParamdef { get; private set; }
 
+        public Param()
+        {
+            
+        }
+        
+        /// <summary>
+        /// Creates a new empty param inheriting config/paramdef from a source
+        /// </summary>
+        /// <param name="source"></param>
+        public Param(Param source)
+        {
+            BigEndian = source.BigEndian;
+            Format2D = source.Format2D;
+            Format2E = source.Format2E;
+            ParamdefFormatVersion = source.ParamdefFormatVersion;
+            Unk06 = source.Unk06;
+            ParamdefDataVersion = source.ParamdefDataVersion;
+            ParamType = source.ParamType;
+            DetectedSize = source.DetectedSize;
+            _paramData = new StridedByteArray((uint)source._rows.Count, DetectedSize, BigEndian);
+            AppliedParamdef = source.AppliedParamdef;
+            ApplyParamdef(AppliedParamdef);
+        }
+        
         public void ClearRows()
         {
             _rows.Clear();

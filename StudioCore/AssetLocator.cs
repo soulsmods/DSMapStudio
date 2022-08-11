@@ -82,6 +82,9 @@ namespace StudioCore
         public static readonly string JsonFilter =
             "Project file (project.json) |PROJECT.JSON";
 
+        public static readonly string ParamFilter =
+            "Regulation file (regulation.bin) |REGULATION.BIN";
+        
         public GameType Type { get; private set; } = GameType.Undefined;
 
         /// <summary>

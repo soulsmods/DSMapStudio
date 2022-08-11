@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using FSParam;
 using StudioCore.Editor;
 
@@ -55,6 +56,19 @@ namespace StudioCore.ParamEditor
                 return _vanillaParams;
             }
         }
+
+        private static ulong _paramVersion;
+        public static ulong ParamVersion
+        {
+            get => _paramVersion;
+        }
+
+        private static ulong _vanillaParamVersion;
+        public static ulong VanillaParamVersion
+        {
+            get => _vanillaParamVersion;
+        }
+        
         public static IReadOnlyDictionary<string, HashSet<int>> DirtyParamCache
         {
             get
@@ -161,9 +175,8 @@ namespace StudioCore.ParamEditor
             return child;
         }
 
-        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank)
+        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version)
         {
-            ulong version;
             bool success = ulong.TryParse(parambnd.Version, out version);
             if (!success)
             {
@@ -243,7 +256,7 @@ namespace StudioCore.ParamEditor
             }
             BND3 paramBnd = BND3.Read(param);
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
         private static void LoadVParamsDES(string dir)
@@ -253,7 +266,7 @@ namespace StudioCore.ParamEditor
             {
                 paramBinderName = "gameparamna.parambnd.dcx";
             }
-            LoadParamFromBinder(BND3.Read($@"{dir}\param\gameparam\{paramBinderName}"), ref _vanillaParams);
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\gameparam\{paramBinderName}"), ref _vanillaParams, out _vanillaParamVersion);
         }
 
         private static string LoadParamsDS1()
@@ -275,12 +288,12 @@ namespace StudioCore.ParamEditor
             }
             BND3 paramBnd = BND3.Read(param);
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
         private static void LoadVParamsDS1(string dir)
         {
-            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd"), ref _vanillaParams);
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd"), ref _vanillaParams, out _vanillaParamVersion);
         }
 
         private static string LoadParamsDS1R()
@@ -302,12 +315,12 @@ namespace StudioCore.ParamEditor
             }
             BND3 paramBnd = BND3.Read(param);
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
         private static void LoadVParamsDS1R(string dir)
         {
-            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd.dcx"), ref _vanillaParams);
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd.dcx"), ref _vanillaParams, out _vanillaParamVersion);
         }
 
         private static string LoadParamsBBSekrio()
@@ -329,12 +342,12 @@ namespace StudioCore.ParamEditor
             }
             BND4 paramBnd = BND4.Read(param);
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
         private static void LoadVParamsBBSekrio(string dir)
         {
-            LoadParamFromBinder(BND4.Read($@"{dir}\param\gameparam\gameparam.parambnd.dcx"), ref _vanillaParams);
+            LoadParamFromBinder(BND4.Read($@"{dir}\param\gameparam\gameparam.parambnd.dcx"), ref _vanillaParams, out _vanillaParamVersion);
         }
 
         /// <summary>
@@ -438,7 +451,7 @@ namespace StudioCore.ParamEditor
                 EnemyParam.ApplyParamdef(def);
             }
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
         private static void LoadVParamsDS2(string dir)
@@ -481,7 +494,7 @@ namespace StudioCore.ParamEditor
             {
                 vParamBnd = BND4.Read($@"{dir}\enc_regulation.bnd.dcx");
             }
-            LoadParamFromBinder(vParamBnd, ref _vanillaParams);
+            LoadParamFromBinder(vParamBnd, ref _vanillaParams, out _vanillaParamVersion);
         }
 
         private static string LoadParamsDS3()
@@ -503,7 +516,7 @@ namespace StudioCore.ParamEditor
                 var lparam = $@"{mod}\param\gameparam\gameparam_dlc2.parambnd.dcx";
                 BND4 lparamBnd = BND4.Read(lparam);
 
-                LoadParamFromBinder(lparamBnd, ref _params);
+                LoadParamFromBinder(lparamBnd, ref _params, out _paramVersion);
             }
             else
             {
@@ -514,14 +527,14 @@ namespace StudioCore.ParamEditor
                     param = vparam;
                 }
                 BND4 paramBnd = SFUtil.DecryptDS3Regulation(param);
-                LoadParamFromBinder(paramBnd, ref _params);
+                LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             }
             return vparam;
         }
         private static void LoadVParamsDS3(string vparam)
         {
             BND4 vParamBnd = SFUtil.DecryptDS3Regulation(vparam);
-            LoadParamFromBinder(vParamBnd, ref _vanillaParams);
+            LoadParamFromBinder(vParamBnd, ref _vanillaParams, out _vanillaParamVersion);
         }
 
         private static string LoadParamsER(bool partial)
@@ -543,14 +556,15 @@ namespace StudioCore.ParamEditor
             }
             BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
-            LoadParamFromBinder(paramBnd, ref _params);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
 
             param = $@"{mod}\regulation.bin";
             if (partial && File.Exists(param))
             {
                 BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
                 Dictionary<string, Param> cParamBank = new Dictionary<string, Param>();
-                LoadParamFromBinder(pParamBnd, ref cParamBank);
+                ulong v;
+                LoadParamFromBinder(pParamBnd, ref cParamBank, out v);
                 foreach (var pair in cParamBank)
                 {
                     Param baseParam = _params[pair.Key];
@@ -579,7 +593,7 @@ namespace StudioCore.ParamEditor
         private static void LoadVParamsER(string dir)
         {
             //LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
-            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams, out _vanillaParamVersion);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
@@ -1108,6 +1122,219 @@ namespace StudioCore.ParamEditor
             {
                 SaveParamsER(partialParams);
             }
+        }
+
+        public enum ParamUpgradeResult
+        {
+            Success = 0,
+            OldRegulationNotFound = -1,
+            OldRegulationVersionMismatch = -2,
+        }
+
+        private enum EditOperation
+        {
+            Add,
+            Delete,
+            Modify,
+            Match,
+        }
+        
+        private static Param UpgradeParam(Param source, Param oldVanilla, Param newVanilla)
+        {
+            // Presorting this would make it easier, but we're trying to preserve order as much as possible
+            // Unfortunately given that rows aren't guaranteed to be sorted and there can be duplicate IDs,
+            // we try to respect the existing order and IDs as much as possible.
+            
+            // In order to assemble the final param, the param needs to know where to sort rows from given the
+            // following rules:
+            // 1. If a row with a given ID is unchanged from source to oldVanilla, we source from newVanilla
+            // 2. If a row with a given ID is deleted from source compared to oldVanilla, we don't take any row
+            // 3. If a row with a given ID is changed from source compared to oldVanilla, we source from source
+            // 4. If a row has duplicate IDs, we treat them as if the rows were deduplicated and process them
+            //    in the order they appear.
+
+            // List of rows that are in source but not oldVanilla
+            Dictionary<int, List<Param.Row>> addedRows = new Dictionary<int, List<Param.Row>>(source.Rows.Count);
+
+            // List of rows in oldVanilla that aren't in source
+            Dictionary<int, List<Param.Row>> deletedRows = new Dictionary<int, List<Param.Row>>(source.Rows.Count);
+
+            // List of rows that are in source and oldVanilla, but are modified
+            Dictionary<int, List<Param.Row>> modifiedRows = new Dictionary<int, List<Param.Row>>(source.Rows.Count);
+
+            Dictionary<int, List<EditOperation>> editOperations = new Dictionary<int, List<EditOperation>>(source.Rows.Count);
+
+            // First off we go through source and everything starts as an added param
+            foreach (var row in source.Rows)
+            {
+                if (!addedRows.ContainsKey(row.ID))
+                    addedRows.Add(row.ID, new List<Param.Row>());
+                addedRows[row.ID].Add(row);
+            }
+            
+            // Next we go through oldVanilla to determine if a row is added, deleted, modified, or unmodified
+            foreach (var row in oldVanilla.Rows)
+            {
+                // First off if the row did not exist in the source, it's deleted
+                if (!addedRows.ContainsKey(row.ID))
+                {
+                    if (!deletedRows.ContainsKey(row.ID))
+                        deletedRows.Add(row.ID, new List<Param.Row>());
+                    deletedRows[row.ID].Add(row);
+                    if (!editOperations.ContainsKey(row.ID))
+                        editOperations.Add(row.ID, new List<EditOperation>());
+                    editOperations[row.ID].Add(EditOperation.Delete);
+                    continue;
+                }
+                
+                // Otherwise the row exists in source. Time to classify it.
+                var list = addedRows[row.ID];
+                
+                // First we see if we match the first target row. If so we can remove it.
+                if (row.Equals(list[0]))
+                {
+                    list.RemoveAt(0);
+                    if (list.Count == 0)
+                        addedRows.Remove(row.ID);
+                    if (!editOperations.ContainsKey(row.ID))
+                        editOperations.Add(row.ID, new List<EditOperation>());
+                    editOperations[row.ID].Add(EditOperation.Match);
+                    continue;
+                }
+                
+                // Otherwise it is modified
+                list.RemoveAt(0);
+                if (list.Count == 0)
+                    addedRows.Remove(row.ID);
+                if (!modifiedRows.ContainsKey(row.ID))
+                    modifiedRows.Add(row.ID, new List<Param.Row>());
+                modifiedRows[row.ID].Add(row);
+                if (!editOperations.ContainsKey(row.ID))
+                    editOperations.Add(row.ID, new List<EditOperation>());
+                editOperations[row.ID].Add(EditOperation.Modify);
+            }
+            
+            // Mark all remaining rows as added
+            foreach (var entry in addedRows)
+            {
+                if (!editOperations.ContainsKey(entry.Key))
+                    editOperations.Add(entry.Key, new List<EditOperation>());
+                foreach (var k in editOperations.Values)
+                    editOperations[entry.Key].Add(EditOperation.Add);
+            }
+
+            Param dest = new Param(newVanilla);
+            
+            // Now try to build the destination from the new regulation with the edit operations in mind
+            var pendingAdds = addedRows.Keys.OrderBy(e => e).ToArray();
+            int currPendingAdd = 0;
+            int lastID = 0;
+            foreach (var row in newVanilla.Rows)
+            {
+                // See if we have any pending adds we can slot in
+                if (currPendingAdd < pendingAdds.Length && pendingAdds[currPendingAdd] > lastID && pendingAdds[currPendingAdd] <= row.ID)
+                {
+                    foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
+                    {
+                        dest.AddRow(new Param.Row(arow, dest));
+                    }
+
+                    addedRows.Remove(pendingAdds[currPendingAdd]);
+                    editOperations.Remove(pendingAdds[currPendingAdd]);
+                    currPendingAdd++;
+                }
+                
+                if (!editOperations.ContainsKey(row.ID))
+                {
+                    // No edit operations for this ID, so just add it (likely a new row in the update)
+                    dest.AddRow(new Param.Row(row, dest));
+                    continue;
+                }
+
+                // Pop the latest operation we need to do
+                var operation = editOperations[row.ID][0];
+                editOperations[row.ID].RemoveAt(0);
+                if (editOperations[row.ID].Count == 0)
+                    editOperations.Remove(row.ID);
+
+                if (operation == EditOperation.Add)
+                {
+                    throw new Exception("Adds should have been handled already");
+                }
+                else if (operation == EditOperation.Match)
+                {
+                    // Match means we inherit updated param
+                    dest.AddRow(new Param.Row(row, dest));
+                }
+                else if (operation == EditOperation.Delete)
+                {
+                    // deleted means we don't add anything
+                    deletedRows[row.ID].RemoveAt(0);
+                    if (deletedRows[row.ID].Count == 0)
+                        deletedRows.Remove(row.ID);
+                }
+                else if (operation == EditOperation.Modify)
+                {
+                    // Modified means we use the modded regulation's param
+                    dest.AddRow(new Param.Row(modifiedRows[row.ID][0], dest));
+                    modifiedRows[row.ID].RemoveAt(0);
+                    if (modifiedRows[row.ID].Count == 0)
+                        modifiedRows.Remove(row.ID);
+                }
+            }
+            
+            // Take care of any more pending adds
+            for (; currPendingAdd < pendingAdds.Length; currPendingAdd++)
+            {
+                foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
+                {
+                    dest.AddRow(new Param.Row(arow, dest));
+                }
+
+                addedRows.Remove(pendingAdds[currPendingAdd]);
+                editOperations.Remove(pendingAdds[currPendingAdd]);
+            }
+
+            return dest;
+        }
+
+        // Param upgrade. Currently for Elden Ring only.
+        public static ParamUpgradeResult UpgradeRegulation(string oldVanillaParamPath)
+        {
+            // First we need to load the old regulation
+            if (!File.Exists(oldVanillaParamPath))
+                return ParamUpgradeResult.OldRegulationNotFound;
+
+            // Load old vanilla regulation
+            BND4 oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            var oldVanillaParams = new Dictionary<string, Param>();
+            ulong version;
+            LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version);
+            if (version != ParamVersion)
+                return ParamUpgradeResult.OldRegulationVersionMismatch;
+
+            var updatedParams = new Dictionary<string, Param>();
+            
+            // Now we must diff everything to try and find changed/added rows for each param
+            foreach (var k in VanillaParams.Keys)
+            {
+                // If the param is completely new, just take it
+                if (!oldVanillaParams.ContainsKey(k) || !Params.ContainsKey(k))
+                {
+                    updatedParams.Add(k, VanillaParams[k]);
+                    continue;
+                }
+                
+                // Otherwise try to upgrade
+                var res = UpgradeParam(Params[k], oldVanillaParams[k], VanillaParams[k]);
+                updatedParams.Add(k, res);
+            }
+            
+            // Set new params
+            _params = updatedParams;
+            _paramVersion = VanillaParamVersion;
+            
+            return ParamUpgradeResult.Success;
         }
 
         public static string GetChrIDForEnemy(long enemyID)
