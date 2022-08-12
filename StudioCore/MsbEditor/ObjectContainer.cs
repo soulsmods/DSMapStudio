@@ -213,6 +213,8 @@ namespace StudioCore.MsbEditor
             {
                 m.BuildReferenceMap();
             }
+            // Add map-level references after all others
+            RootObject.BuildReferenceMap();
         }
 
         private void AddModelDeS(IMsb m, MSBD.Model model, string name)

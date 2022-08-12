@@ -694,11 +694,36 @@ namespace StudioCore.MsbEditor
                     {
                         foreach (var n in m.Value)
                         {
-                            var nameWithType = n.PrettyName.Insert(2, n.WrappedObject.GetType().Name + " - ");
-                            if (ImGui.Button(nameWithType))
+                            if (n is Entity e)
                             {
-                                selection.ClearSelection();
-                                selection.AddSelection(n);
+                                var nameWithType = e.PrettyName.Insert(2, e.WrappedObject.GetType().Name + " - ");
+                                if (ImGui.Button(nameWithType))
+                                {
+                                    selection.ClearSelection();
+                                    selection.AddSelection(e);
+                                }
+                            }
+                            else if (n is ObjectContainerReference r)
+                            {
+                                // Try to select the map's RootObject if it is loaded, and the reference otherwise.
+                                // It's not the end of the world if we choose the wrong one, as SceneTree can use either,
+                                // but only the RootObject has the TransformNode and Viewport integration.
+                                string mapid = r.Name;
+                                string prettyName = $"{ForkAwesome.Cube} {mapid}";
+                                if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.TryGetValue(mapid, out string metaName))
+                                {
+                                    prettyName += $" <{metaName.Replace("--", "")}>";
+                                }
+                                if (ImGui.Button(prettyName))
+                                {
+                                    Scene.ISelectable rootTarget = r.GetSelectionTarget();
+                                    selection.ClearSelection();
+                                    selection.AddSelection(rootTarget);
+                                    // For this type of connection, jump to the object in the list to actually load the map
+                                    // (is this desirable in other cases?). It could be possible to have a Load context menu
+                                    // here, but that should be shared with SceneTree.
+                                    selection.GotoTreeTarget = rootTarget;
+                                }
                             }
                         }
                     }
@@ -729,7 +754,10 @@ namespace StudioCore.MsbEditor
             ImGui.BeginChild("propedit");
             if (entSelection == null || entSelection.WrappedObject == null)
             {
-                ImGui.Text("Select a single object to edit properties.");
+                if (selection.IsMultiSelection())
+                {
+                    ImGui.Text("Select a single object to edit properties.");
+                }
                 ImGui.EndChild();
                 ImGui.End();
                 ImGui.PopStyleColor();
