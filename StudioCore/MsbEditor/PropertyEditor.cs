@@ -9,6 +9,7 @@ using SoulsFormats;
 using ImGuiNET;
 using System.Net.Http.Headers;
 using System.Security;
+using FSParam;
 
 namespace StudioCore.MsbEditor
 {
@@ -291,15 +292,15 @@ namespace StudioCore.MsbEditor
 
         private void PropEditorParamRow(Entity selection)
         {
-            IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
-            if (selection.WrappedObject is PARAM.Row row)
+            IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
+            if (selection.WrappedObject is Param.Row row)
             {
-                cells = row.Cells;
+                cells = row.CellHandles;
 
             }
             else if (selection.WrappedObject is MergedParamRow mrow)
             {
-                cells = mrow.Cells;
+                cells = mrow.CellHandles;
             }
             ImGui.Columns(2);
             ImGui.Separator();
@@ -318,10 +319,8 @@ namespace StudioCore.MsbEditor
             ImGui.Columns(1);
         }
 
-        public void PropEditorParamRow(PARAM.Row row)
+        public void PropEditorParamRow(Param.Row row)
         {
-            IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
-            cells = row.Cells;
             ImGui.Columns(2);
             ImGui.Separator();
             int id = 0;
@@ -334,9 +333,9 @@ namespace StudioCore.MsbEditor
             PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
             ImGui.PopStyleColor();
 
-            foreach (var cell in cells)
+            foreach (var cell in row.Cells)
             {
-                PropEditorPropCellRow(cell, ref id, null);
+                PropEditorPropCellRow(row[cell], ref id, null);
             }
             ImGui.Columns(1);
         }
@@ -346,7 +345,7 @@ namespace StudioCore.MsbEditor
         {
             PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
         }
-        private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection)
+        private void PropEditorPropCellRow(Param.Cell cell, ref int id, Entity nullableSelection)
         {
             PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
         }
@@ -763,7 +762,7 @@ namespace StudioCore.MsbEditor
                 ImGui.PopStyleColor();
                 return;
             }
-            if (entSelection.WrappedObject is PARAM.Row prow || entSelection.WrappedObject is MergedParamRow)
+            if (entSelection.WrappedObject is Param.Row prow || entSelection.WrappedObject is MergedParamRow)
             {
                 PropEditorParamRow(entSelection);
             }

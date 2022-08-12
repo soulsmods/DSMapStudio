@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
+using FSParam;
 using StudioCore.Resource;
 using SoulsFormats;
 using Newtonsoft.Json;
@@ -307,22 +308,22 @@ namespace StudioCore.MsbEditor
 
         public void LoadDS2Generators(string mapid, Map map)
         {
-            Dictionary<long, PARAM.Row> registParams = new Dictionary<long, PARAM.Row>();
+            Dictionary<long, Param.Row> registParams = new Dictionary<long, Param.Row>();
             Dictionary<long, MergedParamRow> generatorParams = new Dictionary<long, MergedParamRow>();
             Dictionary<long, Entity> generatorObjs = new Dictionary<long, Entity>();
-            Dictionary<long, PARAM.Row> eventParams = new Dictionary<long, PARAM.Row>();
-            Dictionary<long, PARAM.Row> eventLocationParams = new Dictionary<long, PARAM.Row>();
-            Dictionary<long, PARAM.Row> objectInstanceParams = new Dictionary<long, PARAM.Row>();
+            Dictionary<long, Param.Row> eventParams = new Dictionary<long, Param.Row>();
+            Dictionary<long, Param.Row> eventLocationParams = new Dictionary<long, Param.Row>();
+            Dictionary<long, Param.Row> objectInstanceParams = new Dictionary<long, Param.Row>();
 
             var regparamad = _assetLocator.GetDS2GeneratorRegistParam(mapid);
-            var regparam = PARAM.Read(regparamad.AssetPath);
+            var regparam = Param.Read(regparamad.AssetPath);
             var reglayout = _assetLocator.GetParamdefForParam(regparam.ParamType);
             regparam.ApplyParamdef(reglayout);
             foreach (var row in regparam.Rows)
             {
-                if (row.Name == null || row.Name == "")
+                if (string.IsNullOrEmpty(row.Name))
                 {
-                    row.Name = "regist_" + row.ID.ToString();
+                    row.Name = "regist_" + row.ID;
                 }
                 registParams.Add(row.ID, row);
 
@@ -331,21 +332,24 @@ namespace StudioCore.MsbEditor
             }
 
             var locparamad = _assetLocator.GetDS2GeneratorLocationParam(mapid);
-            var locparam = PARAM.Read(locparamad.AssetPath);
+            var locparam = Param.Read(locparamad.AssetPath);
             var loclayout = _assetLocator.GetParamdefForParam(locparam.ParamType);
             locparam.ApplyParamdef(loclayout);
             foreach (var row in locparam.Rows)
             {
-                if (row.Name == null || row.Name == "")
+                if (string.IsNullOrEmpty(row.Name))
                 {
                     row.Name = "generator_" + row.ID.ToString();
                 }
 
                 // Offset the generators by the map offset
-                row["PositionX"].Value = (float)row["PositionX"].Value + map.MapOffset.Position.X;
-                row["PositionY"].Value = (float)row["PositionY"].Value + map.MapOffset.Position.Y;
-                row["PositionZ"].Value = (float)row["PositionZ"].Value + map.MapOffset.Position.Z;
-
+                row.GetCellHandleOrThrow("PositionX").SetValue(
+                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
+                row.GetCellHandleOrThrow("PositionY").SetValue(
+                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
+                row.GetCellHandleOrThrow("PositionZ").SetValue(
+                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
+                
                 var mergedRow = new MergedParamRow();
                 mergedRow.AddRow("generator-loc", row);
                 generatorParams.Add(row.ID, mergedRow);
@@ -357,7 +361,7 @@ namespace StudioCore.MsbEditor
 
             var chrsToLoad = new HashSet<AssetDescription>();
             var genparamad = _assetLocator.GetDS2GeneratorParam(mapid);
-            var genparam = PARAM.Read(genparamad.AssetPath);
+            var genparam = Param.Read(genparamad.AssetPath);
             var genlayout = _assetLocator.GetParamdefForParam(genparam.ParamType);
             genparam.ApplyParamdef(genlayout);
             foreach (var row in genparam.Rows)
@@ -381,11 +385,12 @@ namespace StudioCore.MsbEditor
                     map.AddObject(obj);
                 }
 
-                uint registid = (uint)row["GeneratorRegistParam"].Value;
+                uint registid = (uint)row.GetCellHandleOrThrow("GeneratorRegistParam").Value;
                 if (registParams.ContainsKey(registid))
                 {
                     var regist = registParams[registid];
-                    var chrid = ParamEditor.ParamBank.GetChrIDForEnemy((uint)regist["EnemyParamID"].Value);
+                    var chrid = ParamEditor.ParamBank.GetChrIDForEnemy(
+                        (uint)regist.GetCellHandleOrThrow("EnemyParamID").Value);
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
@@ -400,12 +405,12 @@ namespace StudioCore.MsbEditor
             }
 
             var evtparamad = _assetLocator.GetDS2EventParam(mapid);
-            var evtparam = PARAM.Read(evtparamad.AssetPath);
+            var evtparam = Param.Read(evtparamad.AssetPath);
             var evtlayout = _assetLocator.GetParamdefForParam(evtparam.ParamType);
             evtparam.ApplyParamdef(evtlayout);
             foreach (var row in evtparam.Rows)
             {
-                if (row.Name == null || row.Name == "")
+                if (string.IsNullOrEmpty(row.Name))
                 {
                     row.Name = "event_" + row.ID.ToString();
                 }
@@ -416,21 +421,24 @@ namespace StudioCore.MsbEditor
             }
 
             var evtlparamad = _assetLocator.GetDS2EventLocationParam(mapid);
-            var evtlparam = PARAM.Read(evtlparamad.AssetPath);
+            var evtlparam = Param.Read(evtlparamad.AssetPath);
             var evtllayout = _assetLocator.GetParamdefForParam(evtlparam.ParamType);
             evtlparam.ApplyParamdef(evtllayout);
             foreach (var row in evtlparam.Rows)
             {
-                if (row.Name == null || row.Name == "")
+                if (string.IsNullOrEmpty(row.Name))
                 {
                     row.Name = "eventloc_" + row.ID.ToString();
                 }
                 eventLocationParams.Add(row.ID, row);
 
                 // Offset the generators by the map offset
-                row["PositionX"].Value = (float)row["PositionX"].Value + map.MapOffset.Position.X;
-                row["PositionY"].Value = (float)row["PositionY"].Value + map.MapOffset.Position.Y;
-                row["PositionZ"].Value = (float)row["PositionZ"].Value + map.MapOffset.Position.Z;
+                row.GetCellHandleOrThrow("PositionX").SetValue(
+                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
+                row.GetCellHandleOrThrow("PositionY").SetValue(
+                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
+                row.GetCellHandleOrThrow("PositionZ").SetValue(
+                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
 
                 var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
                 map.AddObject(obj);
@@ -443,12 +451,12 @@ namespace StudioCore.MsbEditor
             }
 
             var objparamad = _assetLocator.GetDS2ObjInstanceParam(mapid);
-            var objparam = PARAM.Read(objparamad.AssetPath);
+            var objparam = Param.Read(objparamad.AssetPath);
             var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
             objparam.ApplyParamdef(objlayout);
             foreach (var row in objparam.Rows)
             {
-                if (row.Name == null || row.Name == "")
+                if (string.IsNullOrEmpty(row.Name))
                 {
                     row.Name = "objinstance_" + row.ID.ToString();
                 }
@@ -870,47 +878,47 @@ namespace StudioCore.MsbEditor
             // Load all the params
             var regparamad = _assetLocator.GetDS2GeneratorRegistParam(map.Name);
             var regparamadw = _assetLocator.GetDS2GeneratorRegistParam(map.Name, true);
-            var regparam = PARAM.Read(regparamad.AssetPath);
+            var regparam = Param.Read(regparamad.AssetPath);
             var reglayout = _assetLocator.GetParamdefForParam(regparam.ParamType);
             regparam.ApplyParamdef(reglayout);
 
             var locparamad = _assetLocator.GetDS2GeneratorLocationParam(map.Name);
             var locparamadw = _assetLocator.GetDS2GeneratorLocationParam(map.Name, true);
-            var locparam = PARAM.Read(locparamad.AssetPath);
+            var locparam = Param.Read(locparamad.AssetPath);
             var loclayout = _assetLocator.GetParamdefForParam(locparam.ParamType);
             locparam.ApplyParamdef(loclayout);
 
             var genparamad = _assetLocator.GetDS2GeneratorParam(map.Name);
             var genparamadw = _assetLocator.GetDS2GeneratorParam(map.Name, true);
-            var genparam = PARAM.Read(genparamad.AssetPath);
+            var genparam = Param.Read(genparamad.AssetPath);
             var genlayout = _assetLocator.GetParamdefForParam(genparam.ParamType);
             genparam.ApplyParamdef(genlayout);
 
             var evtparamad = _assetLocator.GetDS2EventParam(map.Name);
             var evtparamadw = _assetLocator.GetDS2EventParam(map.Name, true);
-            var evtparam = PARAM.Read(evtparamad.AssetPath);
+            var evtparam = Param.Read(evtparamad.AssetPath);
             var evtlayout = _assetLocator.GetParamdefForParam(evtparam.ParamType);
             evtparam.ApplyParamdef(evtlayout);
 
             var evtlparamad = _assetLocator.GetDS2EventLocationParam(map.Name);
             var evtlparamadw = _assetLocator.GetDS2EventLocationParam(map.Name, true);
-            var evtlparam = PARAM.Read(evtlparamad.AssetPath);
+            var evtlparam = Param.Read(evtlparamad.AssetPath);
             var evtllayout = _assetLocator.GetParamdefForParam(evtlparam.ParamType);
             evtlparam.ApplyParamdef(evtllayout);
 
             var objparamad = _assetLocator.GetDS2ObjInstanceParam(map.Name);
             var objparamadw = _assetLocator.GetDS2ObjInstanceParam(map.Name, true);
-            var objparam = PARAM.Read(objparamad.AssetPath);
+            var objparam = Param.Read(objparamad.AssetPath);
             var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
             objparam.ApplyParamdef(objlayout);
 
             // Clear them out
-            regparam.Rows.Clear();
-            locparam.Rows.Clear();
-            genparam.Rows.Clear();
-            evtparam.Rows.Clear();
-            evtlparam.Rows.Clear();
-            objparam.Rows.Clear();
+            regparam.ClearRows();
+            locparam.ClearRows();
+            genparam.ClearRows();
+            evtparam.ClearRows();
+            evtlparam.ClearRows();
+            objparam.ClearRows();
 
             // Serialize objects
             if (!map.SerializeDS2Generators(locparam, genparam))
