@@ -9,6 +9,7 @@ using SoulsFormats;
 using ImGuiNET;
 using System.Net.Http.Headers;
 using System.Security;
+using FSParam;
 
 namespace StudioCore.MsbEditor
 {
@@ -291,15 +292,15 @@ namespace StudioCore.MsbEditor
 
         private void PropEditorParamRow(Entity selection)
         {
-            IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
-            if (selection.WrappedObject is PARAM.Row row)
+            IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
+            if (selection.WrappedObject is Param.Row row)
             {
-                cells = row.Cells;
+                cells = row.CellHandles;
 
             }
             else if (selection.WrappedObject is MergedParamRow mrow)
             {
-                cells = mrow.Cells;
+                cells = mrow.CellHandles;
             }
             ImGui.Columns(2);
             ImGui.Separator();
@@ -318,10 +319,8 @@ namespace StudioCore.MsbEditor
             ImGui.Columns(1);
         }
 
-        public void PropEditorParamRow(PARAM.Row row)
+        public void PropEditorParamRow(Param.Row row)
         {
-            IReadOnlyList<PARAM.Cell> cells = new List<PARAM.Cell>();
-            cells = row.Cells;
             ImGui.Columns(2);
             ImGui.Separator();
             int id = 0;
@@ -334,9 +333,9 @@ namespace StudioCore.MsbEditor
             PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
             ImGui.PopStyleColor();
 
-            foreach (var cell in cells)
+            foreach (var cell in row.Cells)
             {
-                PropEditorPropCellRow(cell, ref id, null);
+                PropEditorPropCellRow(row[cell], ref id, null);
             }
             ImGui.Columns(1);
         }
@@ -346,7 +345,7 @@ namespace StudioCore.MsbEditor
         {
             PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
         }
-        private void PropEditorPropCellRow(PARAM.Cell cell, ref int id, Entity nullableSelection)
+        private void PropEditorPropCellRow(Param.Cell cell, ref int id, Entity nullableSelection)
         {
             PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
         }
@@ -433,7 +432,9 @@ namespace StudioCore.MsbEditor
             var type = obj.GetType();
             if (!_propCache.ContainsKey(type.FullName))
             {
-                _propCache.Add(type.FullName, type.GetProperties(BindingFlags.Instance | BindingFlags.Public));
+                var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                props = props.OrderBy(p => p.MetadataToken).ToArray();
+                _propCache.Add(type.FullName, props);
             }
             var properties = _propCache[type.FullName];
             if (decorate)
@@ -694,11 +695,36 @@ namespace StudioCore.MsbEditor
                     {
                         foreach (var n in m.Value)
                         {
-                            var nameWithType = n.PrettyName.Insert(2, n.WrappedObject.GetType().Name + " - ");
-                            if (ImGui.Button(nameWithType))
+                            if (n is Entity e)
                             {
-                                selection.ClearSelection();
-                                selection.AddSelection(n);
+                                var nameWithType = e.PrettyName.Insert(2, e.WrappedObject.GetType().Name + " - ");
+                                if (ImGui.Button(nameWithType))
+                                {
+                                    selection.ClearSelection();
+                                    selection.AddSelection(e);
+                                }
+                            }
+                            else if (n is ObjectContainerReference r)
+                            {
+                                // Try to select the map's RootObject if it is loaded, and the reference otherwise.
+                                // It's not the end of the world if we choose the wrong one, as SceneTree can use either,
+                                // but only the RootObject has the TransformNode and Viewport integration.
+                                string mapid = r.Name;
+                                string prettyName = $"{ForkAwesome.Cube} {mapid}";
+                                if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.TryGetValue(mapid, out string metaName))
+                                {
+                                    prettyName += $" <{metaName.Replace("--", "")}>";
+                                }
+                                if (ImGui.Button(prettyName))
+                                {
+                                    Scene.ISelectable rootTarget = r.GetSelectionTarget();
+                                    selection.ClearSelection();
+                                    selection.AddSelection(rootTarget);
+                                    // For this type of connection, jump to the object in the list to actually load the map
+                                    // (is this desirable in other cases?). It could be possible to have a Load context menu
+                                    // here, but that should be shared with SceneTree.
+                                    selection.GotoTreeTarget = rootTarget;
+                                }
                             }
                         }
                     }
@@ -729,13 +755,16 @@ namespace StudioCore.MsbEditor
             ImGui.BeginChild("propedit");
             if (entSelection == null || entSelection.WrappedObject == null)
             {
-                ImGui.Text("Select a single object to edit properties.");
+                if (selection.IsMultiSelection())
+                {
+                    ImGui.Text("Select a single object to edit properties.");
+                }
                 ImGui.EndChild();
                 ImGui.End();
                 ImGui.PopStyleColor();
                 return;
             }
-            if (entSelection.WrappedObject is PARAM.Row prow || entSelection.WrappedObject is MergedParamRow)
+            if (entSelection.WrappedObject is Param.Row prow || entSelection.WrappedObject is MergedParamRow)
             {
                 PropEditorParamRow(entSelection);
             }

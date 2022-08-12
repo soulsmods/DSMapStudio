@@ -354,6 +354,10 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    /// <summary>
+    /// Deprecated
+    /// </summary>
+    [Obsolete]
     public class AddParamsAction : Action
     {
         private PARAM Param;
@@ -506,6 +510,10 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    /// <summary>
+    /// Deprecated
+    /// </summary>
+    [Obsolete]
     public class DeleteParamsAction : Action
     {
         private PARAM Param;

@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using SoulsFormats;
 using StudioCore.Scene;
 using System.Diagnostics;
+using FSParam;
 using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
@@ -41,7 +42,7 @@ namespace StudioCore.MsbEditor
         /// A map that contains references for each property
         /// </summary>
         [XmlIgnore]
-        public Dictionary<string, Entity[]> References { get; private set; } = new Dictionary<string, Entity[]>();
+        public Dictionary<string, object[]> References { get; private set; } = new Dictionary<string, object[]>();
 
         [XmlIgnore]
         public virtual bool HasTransform
@@ -296,12 +297,12 @@ namespace StudioCore.MsbEditor
             {
                 return null;
             }
-            if (WrappedObject is PARAM.Row row)
+            if (WrappedObject is Param.Row row)
             {
                 var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
-                    return pp.Value;
+                    return pp.GetValue(row);
                 }
             }
             else if (WrappedObject is MergedParamRow mrow)
@@ -309,7 +310,7 @@ namespace StudioCore.MsbEditor
                 var pp = mrow[prop];
                 if (pp != null)
                 {
-                    return pp.Value;
+                    return pp.Value.Value;
                 }
             }
             var p = WrappedObject.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
@@ -326,7 +327,7 @@ namespace StudioCore.MsbEditor
             {
                 return false;
             }
-            if (WrappedObject is PARAM.Row row || WrappedObject is MergedParamRow mrow)
+            if (WrappedObject is Param.Row row || WrappedObject is MergedParamRow mrow)
             {
                 return false;
             }
@@ -339,7 +340,7 @@ namespace StudioCore.MsbEditor
             {
                 return false;
             }
-            if (WrappedObject is PARAM.Row row || WrappedObject is MergedParamRow mrow)
+            if (WrappedObject is Param.Row row || WrappedObject is MergedParamRow mrow)
             {
                 return false;
             }
@@ -352,12 +353,12 @@ namespace StudioCore.MsbEditor
             {
                 return default(T);
             }
-            if (WrappedObject is PARAM.Row row)
+            if (WrappedObject is Param.Row row)
             {
                 var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
-                    return (T)pp.Value;
+                    return (T)pp.GetValue(row);
                 }
             }
             else if (WrappedObject is MergedParamRow mrow)
@@ -365,7 +366,7 @@ namespace StudioCore.MsbEditor
                 var pp = mrow[prop];
                 if (pp != null)
                 {
-                    return (T)pp.Value;
+                    return (T)pp.Value.Value;
                 }
             }
             var p = WrappedObject.GetType().GetProperty(prop);
@@ -382,7 +383,7 @@ namespace StudioCore.MsbEditor
             {
                 return null;
             }
-            if (WrappedObject is PARAM.Row row)
+            if (WrappedObject is Param.Row row)
             {
                 var pp = row[prop];
                 if (pp != null)
@@ -412,7 +413,7 @@ namespace StudioCore.MsbEditor
             {
                 return null;
             }
-            if (WrappedObject is PARAM.Row row)
+            if (WrappedObject is Param.Row row)
             {
                 var pp = row[prop];
                 if (pp != null)
@@ -438,9 +439,9 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
-        public void BuildReferenceMap()
+        public virtual void BuildReferenceMap()
         {
-            if (!(WrappedObject is PARAM.Row) && !(WrappedObject is MergedParamRow))
+            if (!(WrappedObject is Param.Row) && !(WrappedObject is MergedParamRow))
             {
                 var type = WrappedObject.GetType();
                 var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
@@ -687,7 +688,7 @@ namespace StudioCore.MsbEditor
 
         public Action GetUpdateTransformAction(Transform newt)
         {
-            if (WrappedObject is PARAM.Row || WrappedObject is MergedParamRow)
+            if (WrappedObject is Param.Row || WrappedObject is MergedParamRow)
             {
                 var actions = new List<Action>();
                 float roty = newt.EulerRotation.Y * Utils.Rad2Deg - 180.0f;
@@ -1096,6 +1097,10 @@ namespace StudioCore.MsbEditor
                 {
                     icon = ForkAwesome.LocationArrow;
                 }
+                else if (Type == MapEntityType.MapRoot)
+                {
+                    icon = ForkAwesome.Cube;
+                }
                 else if (Type == MapEntityType.DS2Generator)
                 {
                     icon = ForkAwesome.Male;
@@ -1163,7 +1168,7 @@ namespace StudioCore.MsbEditor
             Container = map;
             WrappedObject = msbo;
             Type = type;
-            if (!(msbo is PARAM.Row) && !(msbo is MergedParamRow))
+            if (!(msbo is Param.Row) && !(msbo is MergedParamRow))
             {
                 CurrentModel = GetPropertyValue<string>("ModelName");
             }
@@ -1384,6 +1389,44 @@ namespace StudioCore.MsbEditor
                 */
             }
             base.UpdateRenderModel();
+        }
+
+        public override void BuildReferenceMap()
+        {
+            if (Type == MapEntityType.MapRoot && Universe != null)
+            {
+                // Special handling for map itself, as it references objects outside of the map.
+                // This depends on Type, which is only defined in MapEntity.
+                List<byte[]> connects = new List<byte[]>();
+                foreach (Entity child in Children)
+                {
+                    // This could use an annotation, but it would require both a custom type and field annotation.
+                    if (child.WrappedObject?.GetType().Name != "ConnectCollision")
+                    {
+                        continue;
+                    }
+                    PropertyInfo mapProp = child.WrappedObject.GetType().GetProperty("MapID");
+                    if (mapProp == null || mapProp.PropertyType != typeof(byte[]))
+                    {
+                        continue;
+                    }
+                    byte[] mapId = (byte[])mapProp.GetValue(child.WrappedObject);
+                    if (mapId != null)
+                    {
+                        connects.Add(mapId);
+                    }
+                }
+                // For now, the map relationship type is not given here (dictionary values), just all related maps.
+                foreach (string mapRef in SpecialMapConnections.GetRelatedMaps(
+                    Universe.GameType, Name, Universe.LoadedObjectContainers.Keys, connects).Keys)
+                {
+                    References[mapRef] = new[] { new ObjectContainerReference(mapRef, Universe) };
+                }
+            }
+            else
+            {
+                base.BuildReferenceMap();
+            }
         }
 
         public override Transform GetLocalTransform()

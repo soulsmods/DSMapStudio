@@ -6,5 +6,5 @@
     <spEffectId3 Refs="SpEffectParam" />
     <spEffectId4 Refs="SpEffectParam" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

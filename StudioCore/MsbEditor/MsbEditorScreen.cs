@@ -140,6 +140,11 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void GotoSelection()
+        {
+            _selection.GotoTreeTarget = _selection.GetSingleSelection();
+        }
+
         /// <summary>
         /// Hides all the selected objects, unless all of them are hidden in which
         /// they will be unhidden
@@ -315,9 +320,13 @@ namespace StudioCore.MsbEditor
                     ImGui.EndMenu();
                 }
 
-                if (ImGui.MenuItem("Frame", "F", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Frame in Viewport", "F", false, _selection.IsSelection()))
                 {
                     FrameSelection();
+                }
+                if (ImGui.MenuItem("Goto in Object List", "G", false, _selection.IsSelection()))
+                {
+                    GotoSelection();
                 }
 
                 ImGui.EndMenu();
@@ -590,6 +599,12 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetKeyDown(Key.F))
                 {
                     FrameSelection();
+                }
+
+                // G key jumps in SceneTree
+                if (InputTracker.GetKeyDown(Key.G))
+                {
+                    GotoSelection();
                 }
 
                 //Undummify

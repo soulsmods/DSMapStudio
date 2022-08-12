@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -19,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.01";
+        private static string _version = "version 1.02a";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;

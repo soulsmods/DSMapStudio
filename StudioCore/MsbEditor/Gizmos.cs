@@ -257,7 +257,6 @@ namespace StudioCore.MsbEditor
 
         public void Update(Ray ray, bool canCaptureMouse)
         {
-            bool canTransform = true;
             if (IsTransforming)
             {
                 if (!InputTracker.GetMouseButton(MouseButton.Left))
@@ -315,7 +314,7 @@ namespace StudioCore.MsbEditor
                         //CurrentTransform.EulerRotation.Y = OriginalTransform.EulerRotation.Y + angle;
                         CurrentTransform.Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * OriginalTransform.Rotation);
                     }
-                    if (_selection.IsSelection())
+                    if (_selection.IsFilteredSelection<Entity>())
                     {
                         //Selection.GetSingleSelection().SetTemporaryTransform(CurrentTransform);
                         foreach (var sel in _selection.GetFilteredSelection<Entity>((o) => o.HasTransform))
@@ -435,14 +434,10 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
-                else
-                {
-                    canTransform = false;
-                }
             }
 
             // Update gizmos transform and visibility
-            if (_selection.IsSelection() & canTransform)
+            if (_selection.IsFilteredSelection<Entity>())
             {
                 //var selected = MsbEditor.Selection.Selected;
                 //var center = selected.RenderSceneMesh.GetBounds().GetCenter();

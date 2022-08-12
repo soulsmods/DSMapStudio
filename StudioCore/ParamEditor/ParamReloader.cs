@@ -10,6 +10,7 @@ using ProcessMemoryUtilities.Native;
 using SoulsFormats;
 using ImGuiNET;
 using System.Text;
+using FSParam;
 using StudioCore.Editor;
 
 namespace StudioCore.ParamEditor
@@ -60,7 +61,7 @@ namespace StudioCore.ParamEditor
             foreach (var thread in threads)
                 thread.Join();
         }
-        public static void GiveItemMenu(AssetLocator loc, List<PARAM.Row> rowsToGib, string param)
+        public static void GiveItemMenu(AssetLocator loc, List<Param.Row> rowsToGib, string param)
         {
             GameOffsets offsets = GetGameOffsets(loc);
 
@@ -99,7 +100,7 @@ namespace StudioCore.ParamEditor
             }
             ImGui.Unindent();
         }
-        private static void GiveItem(GameOffsets offsets, List<PARAM.Row> rowsToGib, string studioParamType, int itemQuantityReceived, int upgradeLevelItemToGive = 0)
+        private static void GiveItem(GameOffsets offsets, List<Param.Row> rowsToGib, string studioParamType, int itemQuantityReceived, int upgradeLevelItemToGive = 0)
         {
             if (rowsToGib.Any())
             {
@@ -114,7 +115,7 @@ namespace StudioCore.ParamEditor
                 }
             }
         }
-        private static void WriteMemoryPARAM(GameOffsets offsets, PARAM param, int paramOffset, SoulsMemoryHandler memoryHandler)
+        private static void WriteMemoryPARAM(GameOffsets offsets, Param param, int paramOffset, SoulsMemoryHandler memoryHandler)
         {
             var BasePtr = memoryHandler.GetParamPtr(offsets, paramOffset);
             var BaseDataPtr = memoryHandler.GetToRowPtr(offsets, paramOffset);
@@ -135,14 +136,14 @@ namespace StudioCore.ParamEditor
 
                 BaseDataPtr += offsets.rowHeaderSize;
 
-                PARAM.Row row = param[RowId];
+                Param.Row row = param[RowId];
                 if (row != null)
                 {
                     WriteMemoryRow(row, DataSectionPtr, memoryHandler);
                 }
             }
         }
-        private static void WriteMemoryRow(PARAM.Row row, IntPtr RowDataSectionPtr, SoulsMemoryHandler memoryHandler)
+        private static void WriteMemoryRow(Param.Row row, IntPtr RowDataSectionPtr, SoulsMemoryHandler memoryHandler)
         {
             int offset = 0;
             int bitFieldPos = 0;
@@ -150,10 +151,10 @@ namespace StudioCore.ParamEditor
 
             foreach (var cell in row.Cells)
             {
-                offset += WriteMemoryCell(cell, RowDataSectionPtr + offset, ref bitFieldPos, ref bits, memoryHandler);
+                offset += WriteMemoryCell(row[cell], RowDataSectionPtr + offset, ref bitFieldPos, ref bits, memoryHandler);
             }
         }
-        private static int WriteMemoryCell(PARAM.Cell cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler)
+        private static int WriteMemoryCell(Param.Cell cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler)
         {
             PARAMDEF.DefType displayType = cell.Def.DisplayType;
             // If this can be simplified, that would be ideal. Currently we have to reconcile DefType, a numerical size in bits, and the Type used for the bitField array
@@ -282,29 +283,32 @@ namespace StudioCore.ParamEditor
                 throw new Exception("Unexpected Field Type");
             }
         }
-        private static int WriteBitArray(PARAM.Cell cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler, bool flushBits)
+        private static int WriteBitArray(Param.Cell? cell, IntPtr CellDataPtr, ref int bitFieldPos, ref BitArray bits, SoulsMemoryHandler memoryHandler, bool flushBits)
         {
             if (!flushBits)
             {
+                if (cell == null)
+                    throw new ArgumentException();
+                
                 BitArray cellValueBitArray = null;
                 if (bits.Count == 8)
                 {
-                    cellValueBitArray = new BitArray(BitConverter.GetBytes((byte)cell.Value << bitFieldPos));
+                    cellValueBitArray = new BitArray(BitConverter.GetBytes((byte)cell.Value.Value << bitFieldPos));
                 }
                 else if (bits.Count == 16)
                 {
-                    cellValueBitArray = new BitArray(BitConverter.GetBytes((ushort)cell.Value << bitFieldPos));
+                    cellValueBitArray = new BitArray(BitConverter.GetBytes((ushort)cell.Value.Value << bitFieldPos));
                 }
                 else if (bits.Count == 32)
                 {
-                    cellValueBitArray = new BitArray(BitConverter.GetBytes((uint)cell.Value << bitFieldPos));
+                    cellValueBitArray = new BitArray(BitConverter.GetBytes((uint)cell.Value.Value << bitFieldPos));
                 }
                 else
                 {
                     throw new Exception("Unknown bitfield length");
                 }
 
-                for (int i = 0; i < cell.Def.BitSize; i++)
+                for (int i = 0; i < cell.Value.Def.BitSize; i++)
                 {
                     bits.Set(bitFieldPos, cellValueBitArray[bitFieldPos]);
                     bitFieldPos++;
@@ -583,7 +587,7 @@ namespace StudioCore.ParamEditor
 
             ExecuteBufferFunction(buffer, chrNameBytes);
         }
-        internal void PlayerItemGive(GameOffsets offsets, List<PARAM.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
+        internal void PlayerItemGive(GameOffsets offsets, List<Param.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
         {//Thanks Church Guard for providing the foundation of this.
         //Only supports ds3 as of now
             if (offsets.itemGibOffsets.ContainsKey(paramDefParamType) && rows.Any())
