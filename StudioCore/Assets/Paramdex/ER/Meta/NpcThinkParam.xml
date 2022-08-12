@@ -34,5 +34,5 @@
     <weaponOffSpecialEffectId Refs="SpEffectParam" />
     <weaponOnSpecialEffectId Refs="SpEffectParam" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

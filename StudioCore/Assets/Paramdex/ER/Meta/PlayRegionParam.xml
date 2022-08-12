@@ -10,5 +10,5 @@
     <dispMask01 IsBool="" />
     <isAutoIntrudePoint IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

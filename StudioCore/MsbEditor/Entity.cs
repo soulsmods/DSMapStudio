@@ -42,7 +42,7 @@ namespace StudioCore.MsbEditor
         /// A map that contains references for each property
         /// </summary>
         [XmlIgnore]
-        public Dictionary<string, Entity[]> References { get; private set; } = new Dictionary<string, Entity[]>();
+        public Dictionary<string, object[]> References { get; private set; } = new Dictionary<string, object[]>();
 
         [XmlIgnore]
         public virtual bool HasTransform
@@ -439,7 +439,7 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
-        public void BuildReferenceMap()
+        public virtual void BuildReferenceMap()
         {
             if (!(WrappedObject is Param.Row) && !(WrappedObject is MergedParamRow))
             {
@@ -1069,6 +1069,10 @@ namespace StudioCore.MsbEditor
                 {
                     icon = ForkAwesome.LocationArrow;
                 }
+                else if (Type == MapEntityType.MapRoot)
+                {
+                    icon = ForkAwesome.Cube;
+                }
                 else if (Type == MapEntityType.DS2Generator)
                 {
                     icon = ForkAwesome.Male;
@@ -1357,6 +1361,44 @@ namespace StudioCore.MsbEditor
                 */
             }
             base.UpdateRenderModel();
+        }
+
+        public override void BuildReferenceMap()
+        {
+            if (Type == MapEntityType.MapRoot && Universe != null)
+            {
+                // Special handling for map itself, as it references objects outside of the map.
+                // This depends on Type, which is only defined in MapEntity.
+                List<byte[]> connects = new List<byte[]>();
+                foreach (Entity child in Children)
+                {
+                    // This could use an annotation, but it would require both a custom type and field annotation.
+                    if (child.WrappedObject?.GetType().Name != "ConnectCollision")
+                    {
+                        continue;
+                    }
+                    PropertyInfo mapProp = child.WrappedObject.GetType().GetProperty("MapID");
+                    if (mapProp == null || mapProp.PropertyType != typeof(byte[]))
+                    {
+                        continue;
+                    }
+                    byte[] mapId = (byte[])mapProp.GetValue(child.WrappedObject);
+                    if (mapId != null)
+                    {
+                        connects.Add(mapId);
+                    }
+                }
+                // For now, the map relationship type is not given here (dictionary values), just all related maps.
+                foreach (string mapRef in SpecialMapConnections.GetRelatedMaps(
+                    Universe.GameType, Name, Universe.LoadedObjectContainers.Keys, connects).Keys)
+                {
+                    References[mapRef] = new[] { new ObjectContainerReference(mapRef, Universe) };
+                }
+            }
+            else
+            {
+                base.BuildReferenceMap();
+            }
         }
 
         public override Transform GetLocalTransform()

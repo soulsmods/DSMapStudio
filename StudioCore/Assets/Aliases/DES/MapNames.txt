@@ -1,8 +1,8 @@
 m01_00_00_00 The Nexus / Below the Nexus
-m02_00_00_00 Boletarian Palace
-m02_01_00_00 Boletarian Palace
-m02_02_00_00 Boletarian Palace
-m02_03_00_00 Boletarian Palace
+m02_00_00_00 Boletarian Palace 1
+m02_01_00_00 Boletarian Palace 2
+m02_02_00_00 Boletarian Palace 3
+m02_03_00_00 Boletarian Palace 4
 m03_00_00_00 --Shrine of Storms 0
 m03_01_00_00 Shrine of Storms 1
 m03_02_00_00 Shrine of Storms 2

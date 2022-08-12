@@ -32,5 +32,5 @@
     <refId Refs="AtkParam_Pc,AtkParam_Npc,Bullet,SpEffectParam" />
 	<category Enum="BehaviorCategory" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>
