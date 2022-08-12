@@ -117,5 +117,5 @@
     <reinforceGoodsId Refs="EquipParamGoods" />
     <reinforceMaterialId Refs="EquipMtrlSetParam" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

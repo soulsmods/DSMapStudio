@@ -14,5 +14,5 @@
     <isDisableDispNum05 IsBool="" />
     <isDisableDispNum06 IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>
