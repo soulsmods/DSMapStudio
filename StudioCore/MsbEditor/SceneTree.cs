@@ -247,9 +247,13 @@ namespace StudioCore.MsbEditor
                 _pendingClick = null;
             }
 
-            if (ImGui.IsItemFocused() && !_selection.IsSelected(e))
+            // Up/Down arrow mass selection
+            bool arrowKeySelect = false;
+            if (ImGui.IsItemFocused() && !_selection.IsSelected(e) 
+                && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
             {
                 doSelect = true;
+                arrowKeySelect = true;
             }
 
             if (hierarchial && doSelect)
@@ -334,12 +338,52 @@ namespace StudioCore.MsbEditor
             // If the visibility icon wasn't clicked actually perform the selection
             if (doSelect)
             {
-                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                if (arrowKeySelect)
                 {
                     _selection.AddSelection(e);
                 }
+                else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                {
+                    // Toggle Selection
+                    if (_selection.GetSelection().Contains(e))
+                    {
+                        _selection.RemoveSelection(e);
+                    }
+                    else
+                    {
+                        _selection.AddSelection(e);
+                    }
+                }
+                else if (_selection.GetSelection().Count > 0 
+                    && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
+                {
+                    // Select Range
+                    var entList = e.Container.Objects;
+                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container));
+                    var i2 = entList.IndexOf((MapEntity)e);
+
+                    if (i1 != -1 && i2 != -1)
+                    {
+                        var iStart = i1;
+                        var iEnd = i2;
+                        if (i2 < i1)
+                        {
+                            iStart = i2;
+                            iEnd = i1;
+                        }
+                        for (var i = iStart; i <= iEnd; i++)
+                        {
+                            _selection.AddSelection(entList[i]);
+                        }
+                    }
+                    else
+                    {
+                        _selection.AddSelection(e);
+                    }
+                }
                 else
                 {
+                    // Exclusive Selection
                     _selection.ClearSelection();
                     _selection.AddSelection(e);
                 }
