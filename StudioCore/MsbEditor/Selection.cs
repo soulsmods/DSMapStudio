@@ -135,6 +135,14 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public void RemoveSelection(Scene.ISelectable selected)
+        {
+            if (selected != null)
+            {
+                selected.OnDeselected();
+                _selected.Remove(selected);
+            }
+        }
         public bool IsSelected(Scene.ISelectable selected)
         {
             foreach (var sel in _selected)

@@ -254,7 +254,7 @@ namespace StudioCore.Gui
                 if (_viewPipeline.PickingResultsReady)
                 {
                     var sel = _viewPipeline.GetSelection();
-                    if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight) || InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                     {
                         if (sel != null)
                         {
