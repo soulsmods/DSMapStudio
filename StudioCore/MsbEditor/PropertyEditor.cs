@@ -432,7 +432,9 @@ namespace StudioCore.MsbEditor
             var type = obj.GetType();
             if (!_propCache.ContainsKey(type.FullName))
             {
-                _propCache.Add(type.FullName, type.GetProperties(BindingFlags.Instance | BindingFlags.Public));
+                var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                props = props.OrderBy(p => p.MetadataToken).ToArray();
+                _propCache.Add(type.FullName, props);
             }
             var properties = _propCache[type.FullName];
             if (decorate)
