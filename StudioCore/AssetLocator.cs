@@ -82,6 +82,9 @@ namespace StudioCore
         public static readonly string JsonFilter =
             "Project file (project.json) |PROJECT.JSON";
 
+        public static readonly string ParamFilter =
+            "Regulation file (regulation.bin) |REGULATION.BIN";
+        
         public GameType Type { get; private set; } = GameType.Undefined;
 
         /// <summary>
@@ -577,6 +580,21 @@ namespace StudioCore
         public string GetParamdefDir()
         {
             return $@"{GetParamAssetsDir()}\Defs";
+        }
+        
+        public ulong[] GetParamdefPatches()
+        {
+            if (Directory.Exists($@"{GetParamAssetsDir()}\DefsPatch"))
+            {
+                var entries = Directory.GetFileSystemEntries($@"{GetParamAssetsDir()}\DefsPatch");
+                return entries.Select(e => ulong.Parse(Path.GetFileNameWithoutExtension(e))).ToArray();
+            }
+            return new ulong[]  { };
+        }
+        
+        public string GetParamdefPatchDir(ulong patch)
+        {
+            return $@"{GetParamAssetsDir()}\DefsPatch\{patch}";
         }
 
         public string GetParammetaDir()

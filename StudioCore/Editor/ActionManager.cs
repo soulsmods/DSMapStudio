@@ -56,6 +56,7 @@ namespace StudioCore.Editor
             NotifyHandlers(a.Execute());
             UndoStack.Push(a);
             RedoStack.Clear();
+            CacheBank.ClearCaches();
         }
 
         public void PushSubManager(ActionManager child)
@@ -64,6 +65,7 @@ namespace StudioCore.Editor
             childList.Reverse();
             UndoStack.Push(new CompoundAction(childList));
             RedoStack.Clear();
+            CacheBank.ClearCaches();
         }
 
         public EditorAction PeekUndoAction()
@@ -84,6 +86,7 @@ namespace StudioCore.Editor
             var a = UndoStack.Pop();
             NotifyHandlers(a.Undo());
             RedoStack.Push(a);
+            CacheBank.ClearCaches();
         }
 
         public void RedoAction()
@@ -95,6 +98,7 @@ namespace StudioCore.Editor
             var a = RedoStack.Pop();
             NotifyHandlers(a.Execute());
             UndoStack.Push(a);
+            CacheBank.ClearCaches();
         }
 
         public bool CanUndo()

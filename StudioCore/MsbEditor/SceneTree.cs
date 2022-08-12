@@ -57,7 +57,7 @@ namespace StudioCore.MsbEditor
         // Keep track of open tree nodes for selection management purposes
         private HashSet<Entity> _treeOpenEntities = new HashSet<Entity>();
 
-        private Entity _pendingClick = null;
+        private Scene.ISelectable _pendingClick = null;
 
         private bool _setNextFocus = false;
 
@@ -247,9 +247,13 @@ namespace StudioCore.MsbEditor
                 _pendingClick = null;
             }
 
-            if (ImGui.IsItemFocused() && !_selection.IsSelected(e))
+            // Up/Down arrow mass selection
+            bool arrowKeySelect = false;
+            if (ImGui.IsItemFocused() && !_selection.IsSelected(e) 
+                && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
             {
                 doSelect = true;
+                arrowKeySelect = true;
             }
 
             if (hierarchial && doSelect)
@@ -268,6 +272,13 @@ namespace StudioCore.MsbEditor
                 {
                     _treeOpenEntities.Remove(e);
                 }
+            }
+
+            if (_selection.ShouldGoto(e))
+            {
+                // By default, this places the item at 50% in the frame. Use 0 to place it on top.
+                ImGui.SetScrollHereY();
+                _selection.ClearGotoTarget();
             }
 
             if (ImGui.BeginPopupContextItem())
@@ -327,12 +338,52 @@ namespace StudioCore.MsbEditor
             // If the visibility icon wasn't clicked actually perform the selection
             if (doSelect)
             {
-                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                if (arrowKeySelect)
                 {
                     _selection.AddSelection(e);
                 }
+                else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                {
+                    // Toggle Selection
+                    if (_selection.GetSelection().Contains(e))
+                    {
+                        _selection.RemoveSelection(e);
+                    }
+                    else
+                    {
+                        _selection.AddSelection(e);
+                    }
+                }
+                else if (_selection.GetSelection().Count > 0 
+                    && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
+                {
+                    // Select Range
+                    var entList = e.Container.Objects;
+                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container));
+                    var i2 = entList.IndexOf((MapEntity)e);
+
+                    if (i1 != -1 && i2 != -1)
+                    {
+                        var iStart = i1;
+                        var iEnd = i2;
+                        if (i2 < i1)
+                        {
+                            iStart = i2;
+                            iEnd = i1;
+                        }
+                        for (var i = iStart; i <= iEnd; i++)
+                        {
+                            _selection.AddSelection(entList[i]);
+                        }
+                    }
+                    else
+                    {
+                        _selection.AddSelection(e);
+                    }
+                }
                 else
                 {
+                    // Exclusive Selection
                     _selection.ClearSelection();
                     _selection.AddSelection(e);
                 }
@@ -520,6 +571,7 @@ namespace StudioCore.MsbEditor
                 Map pendingUnload = null;
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
+
                 foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
                 {
                     string metaName = "";
@@ -545,8 +597,13 @@ namespace StudioCore.MsbEditor
                         }
                     }
 
+                    Entity mapRoot = map?.RootObject;
+                    ObjectContainerReference mapRef = new ObjectContainerReference(mapid, _universe);
+                    Scene.ISelectable selectTarget = (Scene.ISelectable)mapRoot ?? mapRef;
+
                     var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
-                    if (map != null && _selection.GetSelection().Contains(map.RootObject))
+                    bool selected = _selection.GetSelection().Contains(mapRoot) || _selection.GetSelection().Contains(mapRef);
+                    if (selected)
                     {
                         treeflags |= ImGuiTreeNodeFlags.Selected;
                     }
@@ -559,7 +616,7 @@ namespace StudioCore.MsbEditor
                     }
                     else
                     {
-                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", false);
+                        ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", selected);
                     }
                     if (metaName != "")
                     {
@@ -570,6 +627,12 @@ namespace StudioCore.MsbEditor
                             ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
                     }
                     ImGui.EndGroup();
+                    if (_selection.ShouldGoto(mapRoot) || _selection.ShouldGoto(mapRef))
+                    {
+                        ImGui.SetScrollHereY();
+                        _selection.ClearGotoTarget();
+                    }
+
                     if (nodeopen)
                         ImGui.Indent(); //TreeNodeEx fails to indent as it is inside a group / indentation is reset
                     // Right click context menu
@@ -579,7 +642,11 @@ namespace StudioCore.MsbEditor
                         {
                             if (ImGui.Selectable("Load Map"))
                             {
-                                _universe.LoadMap(mapid);
+                                if (selected)
+                                {
+                                    _selection.ClearSelection();
+                                }
+                                _universe.LoadMap(mapid, selected);
                             }
                         }
                         else if (map is Map m)
@@ -606,37 +673,41 @@ namespace StudioCore.MsbEditor
                         }
                         ImGui.EndPopup();
                     }
-                    if (ImGui.IsItemClicked() && map != null)
+                    if (ImGui.IsItemClicked())
                     {
-                        _pendingClick = map.RootObject;
+                        _pendingClick = selectTarget;
                     }
-                    if (map != null && _pendingClick == map.RootObject && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
+                    if ((_pendingClick == mapRoot || mapRef.Equals(_pendingClick)) && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
                     {
                         if (ImGui.IsItemHovered())
                         {
                             // Only select if a node is not currently being opened/closed
-                            if ((nodeopen && _treeOpenEntities.Contains(map.RootObject)) ||
-                                (!nodeopen && !_treeOpenEntities.Contains(map.RootObject)))
+                            if (mapRoot == null ||
+                                (nodeopen && _treeOpenEntities.Contains(mapRoot)) ||
+                                (!nodeopen && !_treeOpenEntities.Contains(mapRoot)))
                             {
                                 if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
                                 {
-                                    _selection.AddSelection(map.RootObject);
+                                    _selection.AddSelection(selectTarget);
                                 }
                                 else
                                 {
                                     _selection.ClearSelection();
-                                    _selection.AddSelection(map.RootObject);
+                                    _selection.AddSelection(selectTarget);
                                 }
                             }
 
                             // Update the open/closed state
-                            if (nodeopen && !_treeOpenEntities.Contains(map.RootObject))
+                            if (mapRoot != null)
                             {
-                                _treeOpenEntities.Add(map.RootObject);
-                            }
-                            else if (!nodeopen && _treeOpenEntities.Contains(map.RootObject))
-                            {
-                                _treeOpenEntities.Remove(map.RootObject);
+                                if (nodeopen && !_treeOpenEntities.Contains(mapRoot))
+                                {
+                                    _treeOpenEntities.Add(mapRoot);
+                                }
+                                else if (!nodeopen && _treeOpenEntities.Contains(mapRoot))
+                                {
+                                    _treeOpenEntities.Remove(mapRoot);
+                                }
                             }
                         }
                         _pendingClick = null;
@@ -707,6 +778,7 @@ namespace StudioCore.MsbEditor
             }
             ImGui.End();
             ImGui.PopStyleColor();
+            _selection.ClearGotoTarget();
         }
 
         public void OnActionEvent(ActionEvent evt)

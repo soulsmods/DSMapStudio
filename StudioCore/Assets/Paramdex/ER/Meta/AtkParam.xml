@@ -133,5 +133,5 @@
     <isDisableBothHandsAtkBonus IsBool="" />
     <isInvalidatedByNoDamageInAir IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

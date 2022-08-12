@@ -48,5 +48,5 @@
     <canExecByFriendlyGhost IsBool="" />
     <canExecByHostileGhost IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

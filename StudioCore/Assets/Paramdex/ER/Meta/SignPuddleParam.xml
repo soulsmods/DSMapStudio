@@ -4,5 +4,5 @@
     <disableParam_NT IsBool="" />
     <disableParamReserve1 IsBool="" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>
