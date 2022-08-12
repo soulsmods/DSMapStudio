@@ -1,7 +1,10 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Numerics;
+using FSParam;
 using ImGuiNET;
 using SoulsFormats;
 using StudioCore.Editor;
@@ -28,59 +31,59 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
-        public static object PerformOperation(PARAM.Cell cell, string op, string opparam)
+        protected static object PerformOperation(Param.Row row, Param.Column column, string op, string opparam)
         {
             try
             {
                 if (op.Equals("ref"))
                 {
-                    if (cell.Value.GetType() == typeof(int))
+                    if (column.ValueType == typeof(int))
                     {
-                        foreach (string reftype in FieldMetaData.Get(cell.Def).RefTypes)
+                        foreach (string reftype in FieldMetaData.Get(column.Def).RefTypes)
                         {
-                            PARAM p = ParamBank.Params[reftype];
+                            var p = ParamBank.Params[reftype];
                             if (p == null)
                                 continue;
-                            foreach (PARAM.Row r in p.Rows)
+                            foreach (var r in p.Rows)
                             {
                                 if (r.Name == null)
                                     continue;
                                 if (r.Name.Equals(opparam))
-                                    return (int) r.ID;
+                                    return r.ID;
                             }
                         }
                     }
                 }
                 if (op.Equals("="))
                 {
-                    if (cell.Value.GetType() == typeof(bool))
+                    if (column.ValueType == typeof(bool))
                         return bool.Parse(opparam);
-                    else if (cell.Value.GetType() == typeof(string))
+                    else if (column.ValueType == typeof(string))
                         return opparam;
-                    else if (cell.Value.GetType() == typeof(byte[]))
-                        return ParamUtils.Dummy8Read(opparam, ((byte[])cell.Value).Length);
+                    else if (column.ValueType == typeof(byte[]))
+                        return ParamUtils.Dummy8Read(opparam, ((byte[])column.GetValue(row)).Length);
                 }
                 
-                if (cell.Value.GetType() == typeof(long))
-                    return PerformBasicOperation<long>(cell, op, double.Parse(opparam));
-                if (cell.Value.GetType() == typeof(ulong))
-                    return PerformBasicOperation<ulong>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(int))
-                    return PerformBasicOperation<int>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(uint))
-                    return PerformBasicOperation<uint>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(short))
-                    return PerformBasicOperation<short>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(ushort))
-                    return PerformBasicOperation<ushort>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(sbyte))
-                    return PerformBasicOperation<sbyte>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(byte))
-                    return PerformBasicOperation<byte>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(float))
-                    return PerformBasicOperation<float>(cell, op, double.Parse(opparam));
-                else if (cell.Value.GetType() == typeof(double))
-                    return PerformBasicOperation<double>(cell, op, double.Parse(opparam));
+                if (column.ValueType == typeof(long))
+                    return PerformBasicOperation<long>(row, column, op, double.Parse(opparam));
+                if (column.ValueType == typeof(ulong))
+                    return PerformBasicOperation<ulong>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(int))
+                    return PerformBasicOperation<int>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(uint))
+                    return PerformBasicOperation<uint>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(short))
+                    return PerformBasicOperation<short>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(ushort))
+                    return PerformBasicOperation<ushort>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(sbyte))
+                    return PerformBasicOperation<sbyte>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(byte))
+                    return PerformBasicOperation<byte>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(float))
+                    return PerformBasicOperation<float>(row, column, op, double.Parse(opparam));
+                else if (column.ValueType == typeof(double))
+                    return PerformBasicOperation<double>(row,column, op, double.Parse(opparam));
             }
             catch
             {
@@ -113,11 +116,11 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        public static T PerformBasicOperation<T>(PARAM.Cell c, string op, double opparam) where T : struct, IFormattable
+        public static T PerformBasicOperation<T>(Param.Row row, Param.Column c, string op, double opparam) where T : struct, IFormattable
         {
             try
             {
-                dynamic val = c.Value;
+                dynamic val = c.GetValue(row);
                 dynamic opp = opparam;
                 if (op.Equals("="))
                     return (T) (opp);
@@ -156,9 +159,9 @@ namespace StudioCore.ParamEditor
                 string[] stages = command.Split(":", StringSplitOptions.TrimEntries);
 
 
-                List<PARAM> affectedParams = new List<PARAM>();
-                List<PARAM.Row> affectedRows = new List<PARAM.Row>();
-                List<PARAM.Cell> affectedCells = new List<PARAM.Cell>();
+                List<Param> affectedParams = new List<Param>();
+                List<Param.Row> affectedRows = new List<Param.Row>();
+                List<Param.Column> affectedCells = new List<Param.Column>();
                 int stage = 0;
                 if (stages[stage].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
@@ -201,26 +204,26 @@ namespace StudioCore.ParamEditor
                 if (opArgs.Length > 1 && opArgs[0].Equals("field"))
                     readField = true;
                 //back to cell stage - this is because we want row context ["cell" as a stage is inaccurate, do (row, cell)? (row,propertyinfo)?]
-                foreach(PARAM.Row row in affectedRows)
+                foreach(var row in affectedRows)
                 {
                     string valueToUse = opArgs[0];
                     if (readField)
                     {
-                        PARAM.Cell reffed = row[opArgs[1]];
+                        Param.Cell? reffed = row[opArgs[1]];
                         if (reffed == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not read field {opArgs[1]}"), null);
-                        valueToUse = reffed.Value.ToString();
+                        valueToUse = reffed.Value.Value.ToString();
                     }
 
                     affectedCells = CellSearchEngine.cse.Search(row, stages[cellStage], false, false);
 
                     changeCount += affectedCells.Count;
-                    foreach (PARAM.Cell cell in affectedCells)
+                    foreach (Param.Column cell in affectedCells)
                     {
-                        object newval = PerformOperation(cell, op, valueToUse);
+                        object newval = PerformOperation(row, cell, op, valueToUse);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {valueToUse} on field {cell.Def.InternalName}"), null);
-                        partialActions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
+                        partialActions.Add(new PropertiesChangedAction(row[cell].GetType().GetProperty("Value"), -1, row[cell], newval));
                     }
                     if (editName)
                     {
@@ -239,7 +242,7 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditCSV : MassParamEdit
     {
-        public static string GenerateColumnLabels(PARAM param, char separator)
+        public static string GenerateColumnLabels(Param param, char separator)
         {
             string str = "";
             str += $@"ID{separator}Name{separator}";
@@ -250,31 +253,31 @@ namespace StudioCore.ParamEditor
             return str+"\n";
         }
         
-        public static string GenerateCSV(List<PARAM.Row> rows, PARAM param, char separator)
+        public static string GenerateCSV(List<Param.Row> rows, Param param, char separator)
         {
             string gen = "";
             gen += GenerateColumnLabels(param, separator);
 
-            foreach (PARAM.Row row in rows)
+            foreach (Param.Row row in rows)
             {
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
-                foreach (PARAM.Cell cell in row.Cells)
+                foreach (Param.Column cell in row.Cells)
                 {
-                    if (cell.Value.GetType() == typeof(byte[]))
-                        rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])cell.Value)}";
+                    if (row[cell].Value.GetType() == typeof(byte[]))
+                        rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])row[cell].Value)}";
                     else
-                        rowgen += $@"{separator}{cell.Value}";
+                        rowgen += $@"{separator}{row[cell].Value}";
                 }
                 gen += rowgen + "\n";
             }
             return gen;
         }
-        public static string GenerateSingleCSV(List<PARAM.Row> rows, PARAM param, string field, char separator)
+        public static string GenerateSingleCSV(List<Param.Row> rows, Param param, string field, char separator)
         {
             string gen = "";
             gen += GenerateColumnLabels(param, separator);
-            foreach (PARAM.Row row in rows)
+            foreach (Param.Row row in rows)
             {
                 string rowgen;
                 if (field.Equals("Name"))
@@ -290,12 +293,23 @@ namespace StudioCore.ParamEditor
             }
             return gen;
         }
+
+        public static bool IsIanACuck()
+        {
+            bool yes = true;
+            return yes && true;
+        }
+
+        public static bool IsIanASimp()
+        {
+            return IsIanACuck() && true;
+        }
         
         public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
         {
             try
             {
-                PARAM p = ParamBank.Params[param];
+                Param p = ParamBank.Params[param];
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
@@ -305,7 +319,7 @@ namespace StudioCore.ParamEditor
                 int changeCount = 0;
                 int addedCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
-                List<PARAM.Row> addedParams = new List<PARAM.Row>();
+                List<Param.Row> addedParams = new List<Param.Row>();
                 foreach (string csvLine in csvLines)
                 {
                     if (csvLine.Trim().Equals(""))
@@ -317,23 +331,24 @@ namespace StudioCore.ParamEditor
                     }
                     int id = int.Parse(csvs[0]);
                     string name = csvs[1];
-                    PARAM.Row row = p[id];
+                    var row = p[id];
                     if (row == null || replaceParams)
                     {
-                        row = new PARAM.Row(id, name, p.AppliedParamdef);
+                        row = new Param.Row(id, name, p);
                         addedParams.Add(row);
                     }
-                    if (row.Name == null || !row.Name.Equals(name))
+                    if (row.Name != null && !row.Name.Equals(name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
-                    foreach (PARAM.Cell c in row.Cells)
+                    foreach (Param.Column c in row.Cells)
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = PerformOperation(c, "=", v);
+                        object newval = PerformOperation(row, c, "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.InternalName}");
-                        if (!(c.Value.Equals(newval) || (c.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])c.Value, (byte[])newval))))
+                        var handle = row[c];
+                        if (!(handle.Value.Equals(newval) || (handle.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
                             actions.Add(new PropertiesChangedAction(c.GetType().GetProperty("Value"), -1, c, newval));
                     }
                 }
@@ -353,7 +368,7 @@ namespace StudioCore.ParamEditor
         {
             try
             {
-                PARAM p = ParamBank.Params[param];
+                Param p = ParamBank.Params[param];
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
@@ -370,25 +385,25 @@ namespace StudioCore.ParamEditor
                         return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
                     int id = int.Parse(csvs[0]);
                     string value = csvs[1];
-                    PARAM.Row row = p[id];
+                    Param.Row? row = p[id];
                     if (row == null)
                         return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}"), null);
                     if (field.Equals("Name"))
                     {
-                        if (row.Name == null || !row.Name.Equals(value))
+                        if (row.Name != null && !row.Name.Equals(value))
                             actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }
                     else
                     {
-                        PARAM.Cell cell = row[field];
+                        Param.Column? cell = p[field];
                         if (cell == null)
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = PerformOperation(cell, "=", value);
+                        object newval = PerformOperation(row, cell, "=", value);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {cell.Def.InternalName}"), null);
-                        if (!(cell.Value.Equals(newval) || (cell.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])cell.Value, (byte[])newval))))
+                        if (!(cell.GetValue(row).Equals(newval) || (cell.GetValue(row).GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])cell.GetValue(row), (byte[])newval))))
                             actions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
                     }
                 }
@@ -406,9 +421,9 @@ namespace StudioCore.ParamEditor
     {
         public static AddParamsAction SortRows(string paramName)
         {
-            PARAM param = ParamBank.Params[paramName];
-            List<PARAM.Row> newRows = new List<PARAM.Row>(param.Rows.ToArray());
-            newRows.Sort((PARAM.Row a, PARAM.Row b)=>{return a.ID - b.ID;});
+            Param param = ParamBank.Params[paramName];
+            List<Param.Row> newRows = new List<Param.Row>(param.Rows);
+            newRows.Sort((Param.Row a, Param.Row b)=>{return a.ID - b.ID;});
             return new AddParamsAction(param, paramName, newRows, true, true, false); //appending same params and allowing overwrite
         }
     }

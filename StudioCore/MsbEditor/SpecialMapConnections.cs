@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
+using FSParam;
 using SoulsFormats;
+using StudioCore.ParamEditor;
 
 namespace StudioCore.MsbEditor
 {
@@ -217,9 +219,9 @@ namespace StudioCore.MsbEditor
             {
                 return eldenRingOffsets.Count > 0;
             }
-            IReadOnlyDictionary<string, PARAM> loadedParams = ParamEditor.ParamBank.Params;
+            IReadOnlyDictionary<string, Param> loadedParams = ParamEditor.ParamBank.Params;
             // Do not explicitly check ParamBank's game type here, but fail gracefully if the param does not exist
-            if (loadedParams == null || !loadedParams.TryGetValue("WorldMapLegacyConvParam", out PARAM convParam))
+            if (loadedParams == null || !loadedParams.TryGetValue("WorldMapLegacyConvParam", out Param convParam))
             {
                 return false;
             }
@@ -237,11 +239,11 @@ namespace StudioCore.MsbEditor
                 ["m15_00_00_00"] = "m60_48_57_00",
             };
             Dictionary<string, DungeonOffset> dungeonOffsets = new Dictionary<string, DungeonOffset>();
-            foreach (PARAM.Row row in convParam.Rows)
+            foreach (Param.Row row in convParam.Rows)
             {
                 // Dungeon -> World conversions
                 // Calculating source (legacy) in terms of destination (overworld)
-                if ((byte)row["isBasePoint"].Value == 0)
+                if ((byte)row.GetCellHandleOrThrow("isBasePoint").Value == 0)
                 {
                     continue;
                 }
@@ -266,7 +268,7 @@ namespace StudioCore.MsbEditor
                     TileOffset = dstPos - srcPos,
                 };
             }
-            foreach (PARAM.Row row in convParam.Rows)
+            foreach (Param.Row row in convParam.Rows)
             {
                 // Dungeon -> Dungeon
                 // Calculating destination (legacy) in terms of source (already legacy)
@@ -371,9 +373,9 @@ namespace StudioCore.MsbEditor
         private static string FormatMap(IEnumerable<byte> parts) =>
             "m" + string.Join("_", parts.Select(p => p == 0xFF ? "XX" : $"{p:d2}"));
 
-        private static List<byte> GetRowMapParts(PARAM.Row row, List<string> fields)
+        private static List<byte> GetRowMapParts(Param.Row row, List<string> fields)
         {
-            List<byte> bytes = fields.Select(f => (byte)row[f].Value).ToList();
+            List<byte> bytes = fields.Select(f => (byte)row.GetCellHandleOrThrow(f).Value).ToList();
             while (bytes.Count < 4)
             {
                 bytes.Add(0);
@@ -381,9 +383,11 @@ namespace StudioCore.MsbEditor
             return bytes;
         }
 
-        private static Vector3 GetRowPosition(PARAM.Row row, string type)
+        private static Vector3 GetRowPosition(Param.Row row, string type)
         {
-            return new Vector3((float)row[$"{type}X"].Value, (float)row[$"{type}Y"].Value, (float)row[$"{type}Z"].Value);
+            return new Vector3((float)row.GetCellHandleOrThrow($"{type}X").Value, 
+                (float)row.GetCellHandleOrThrow($"{type}Y").Value, 
+                (float)row.GetCellHandleOrThrow($"{type}Z").Value);
         }
     }
 }
