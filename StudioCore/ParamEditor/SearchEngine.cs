@@ -187,6 +187,8 @@ namespace StudioCore.Editor
                 return noContext((row)=>{
                         PARAM.Cell c = row[field];
                         string term = c.Value.ToString();
+                        if (c.Def.InternalType=="dummy8")
+                            term = ParamUtils.Dummy8Write((byte[])c.Value);
                         return rx.Match(term).Success;
                 });
             }));
