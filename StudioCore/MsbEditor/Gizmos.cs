@@ -257,6 +257,7 @@ namespace StudioCore.MsbEditor
 
         public void Update(Ray ray, bool canCaptureMouse)
         {
+            bool canTransform = true;
             if (IsTransforming)
             {
                 if (!InputTracker.GetMouseButton(MouseButton.Left))
@@ -434,10 +435,14 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
+                else
+                {
+                    canTransform = false;
+                }
             }
 
             // Update gizmos transform and visibility
-            if (_selection.IsFilteredSelection<Entity>())
+            if (_selection.IsFilteredSelection<Entity>() && canTransform)
             {
                 //var selected = MsbEditor.Selection.Selected;
                 //var center = selected.RenderSceneMesh.GetBounds().GetCenter();
