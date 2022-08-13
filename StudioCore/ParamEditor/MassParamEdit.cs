@@ -307,8 +307,10 @@ namespace StudioCore.ParamEditor
         
         public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
         {
+            #if !DEBUG
             try
             {
+            #endif
                 Param p = ParamBank.Params[param];
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
@@ -349,7 +351,7 @@ namespace StudioCore.ParamEditor
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.InternalName}");
                         var handle = row[c];
                         if (!(handle.Value.Equals(newval) || (handle.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
-                            actions.Add(new PropertiesChangedAction(c.GetType().GetProperty("Value"), -1, c, newval));
+                            actions.Add(new PropertiesChangedAction(handle.GetType().GetProperty("Value"), -1, handle, newval));
                     }
                 }
                 changeCount = actions.Count;
@@ -358,11 +360,15 @@ namespace StudioCore.ParamEditor
                 if (changeCount != 0 || addedCount != 0)
                     actionManager.ExecuteAction(new CompoundAction(actions));
                 return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} rows added");
+            #if !DEBUG
             }
             catch
             {
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             }
+            #else
+                return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
+            #endif
         }
         public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator)
         {
