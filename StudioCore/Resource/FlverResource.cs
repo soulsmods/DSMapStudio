@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using StudioCore.MsbEditor;
 using StudioCore.Scene;
 using System.Data;
+using System.Threading.Tasks.Dataflow;
 
 namespace StudioCore.Resource
 {
@@ -23,7 +24,9 @@ namespace StudioCore.Resource
     {
         internal class FlverLoadPipeline
         {
-            
+            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock;
+            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest;
+            public ISourceBlock<IResourceHandle> LoadedResourcesBlock;
         }
         
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();

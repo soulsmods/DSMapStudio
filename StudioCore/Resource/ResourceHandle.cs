@@ -42,10 +42,9 @@ namespace StudioCore.Resource
         AccessFull,
     }
 
-    public record LoadByteResourceRequest
-    {
-        
-    }
+    public readonly record struct LoadByteResourceRequest(byte[] Data, AccessLevel AccessLevel, GameType GameType);
+
+    public readonly record struct LoadFileResourceRequest(string file, AccessLevel AccessLevel, GameType GameType);
     
     public interface IResourceHandle
     {
