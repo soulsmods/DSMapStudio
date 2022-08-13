@@ -232,7 +232,13 @@ namespace StudioCore
                 ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
             if (!File.Exists("imgui.ini"))
             {
-                File.Copy("imgui.ini.backup", "imgui.ini");
+                if (File.Exists("imgui.ini.backup"))
+                    File.Copy("imgui.ini.backup", "imgui.ini");
+            }
+            else if (!File.Exists("imgui.ini.backup"))
+            {
+                if (File.Exists("imgui.ini"))
+                    File.Copy("imgui.ini", "imgui.ini.backup");
             }
         }
         public void SaveParamStudioConfig()
