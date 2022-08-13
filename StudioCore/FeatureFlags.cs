@@ -17,5 +17,7 @@ namespace StudioCore
         public static bool EnableNavmeshBuilder = false;
 
         public static bool MBSE_Test = false; //MBSE read/write test
+
+        public static bool EnablePartialParam = false;
     }
 }
