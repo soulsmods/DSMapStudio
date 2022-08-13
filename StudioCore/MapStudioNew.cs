@@ -709,7 +709,8 @@ namespace StudioCore
                                 _projectSettings.UseLooseParams = useLoose;
                             }
                             bool usepartial = _projectSettings.PartialParams;
-                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            if ((FeatureFlags.EnablePartialParam || usepartial) &&
+                                _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
                             {
                                 _projectSettings.PartialParams = usepartial;
                             }
