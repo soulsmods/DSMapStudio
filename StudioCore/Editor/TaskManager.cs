@@ -11,6 +11,7 @@ namespace StudioCore.Editor
     public class TaskManager
     {
         public static volatile ConcurrentDictionary<string, string> warningList = new ConcurrentDictionary<string, string>();
+        public static volatile ConcurrentDictionary<string, string> errorList = new ConcurrentDictionary<string, string>();
         private static volatile ConcurrentDictionary<string, (bool, Task)> _liveTasks = new ConcurrentDictionary<string, (bool, Task)>();
         private static int _anonIndex = 0;
 
@@ -98,34 +99,27 @@ namespace StudioCore.Editor
             return new List<string>(_liveTasks.Keys);
         }
 
-        public static void RunCrashableTask(string taskId, bool printImGui, Action task)
+        public static void RunCrashableTask(string taskId, AssetLocator locator, Action task)
         {
-            if (warningList.ContainsKey(taskId))
+            if (errorList.ContainsKey(taskId))
             {
-                if (printImGui)
-                    ImGui.TextColored(new System.Numerics.Vector4(1.0f, 0, 0, 1), taskId+" has crashed");
+                ImGui.TextColored(new System.Numerics.Vector4(1.0f, 0, 0, 1), taskId+" has crashed");
                 return;
             }
-            #if !DEBUG
+            //#if !DEBUG
             try
             {
                 task.Invoke();
             }
             catch (Exception e)
             {
-                if (!ForceLoudFailures)
-                {
-                    warningList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message+"\nClick to attempt to resume.";
-                }
-                else
-                {
-                    warningList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message+"\nClick to attempt to resume.";
-                    MessageBox.Show(("A crash has occurred in "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                errorList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message;
+                locator.SetModProjectDirectory(locator.GameModDirectory+"\\recovered");
+                MessageBox.Show(("A crash has occurred in "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            #else
-            task.Invoke();
-            #endif
+            //#else
+            //task.Invoke();
+            //#endif
         }
     }
 }

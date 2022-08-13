@@ -682,19 +682,19 @@ namespace StudioCore
                 }
                 if (_msbEditorFocused)
                 {
-                    TaskManager.RunCrashableTask("MapEditorMenu", true, () => _msbEditor.DrawEditorMenu());
+                    TaskManager.RunCrashableTask("MapEditorMenu", _assetLocator, () => _msbEditor.DrawEditorMenu());
                 }
                 else if (_modelEditorFocused)
                 {
-                    TaskManager.RunCrashableTask("ModelEditorMenu", true, () => _modelEditor.DrawEditorMenu());
+                    TaskManager.RunCrashableTask("ModelEditorMenu", _assetLocator, () => _modelEditor.DrawEditorMenu());
                 }
                 else if (_paramEditorFocused)
                 {
-                    TaskManager.RunCrashableTask("ParamEditorMenu", true, () => _paramEditor.DrawEditorMenu());
+                    TaskManager.RunCrashableTask("ParamEditorMenu", _assetLocator, () => _paramEditor.DrawEditorMenu());
                 }
                 else if (_textEditorFocused)
                 {
-                    TaskManager.RunCrashableTask("TextEditorMenu", true, () => _textEditor.DrawEditorMenu());
+                    TaskManager.RunCrashableTask("TextEditorMenu", _assetLocator, () => _textEditor.DrawEditorMenu());
                 }
                 if (ImGui.BeginMenu("Settings"))
                 {
@@ -869,6 +869,20 @@ namespace StudioCore
                                 TaskManager.warningList.TryRemove(task);
                             }
                         }
+                        ImGui.PopStyleColor();
+                        ImGui.EndMenu();
+                    }
+                    ImGui.PopStyleColor();
+                }
+                if (TaskManager.errorList.Count > 0)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
+                    if (ImGui.BeginMenu("!! ERRORS !!"))
+                    {
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+                        ImGui.Text("A part of mapstudio has crashed.\nBe warned that any future action is not safe.\nIf you choose to save, files will be saved to another directory.");
+                        foreach (var task in TaskManager.errorList)
+                            ImGui.TextUnformatted(task.Value);
                         ImGui.PopStyleColor();
                         ImGui.EndMenu();
                     }
@@ -1092,7 +1106,7 @@ namespace StudioCore
             {
                 ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
-                TaskManager.RunCrashableTask("MapEditor", true, () => _msbEditor.OnGUI(mapcmds));
+                TaskManager.RunCrashableTask("MapEditor", _assetLocator, () => _msbEditor.OnGUI(mapcmds));
                 ImGui.End();
                 _msbEditorFocused = true;
                 _msbEditor.Update(deltaseconds);
@@ -1111,7 +1125,7 @@ namespace StudioCore
             {
                 ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
-                TaskManager.RunCrashableTask("ModelEditor", true, () => _modelEditor.OnGUI());
+                TaskManager.RunCrashableTask("ModelEditor", _assetLocator, () => _modelEditor.OnGUI());
                 _modelEditorFocused = true;
                 _modelEditor.Update(deltaseconds);
             }
@@ -1131,7 +1145,7 @@ namespace StudioCore
             }
             if (ImGui.Begin("Param Editor"))
             {
-                TaskManager.RunCrashableTask("ParamEditor", true, () => _paramEditor.OnGUI(paramcmds));
+                TaskManager.RunCrashableTask("ParamEditor", _assetLocator, () => _paramEditor.OnGUI(paramcmds));
                 
                 _paramEditorFocused = true;
             }
@@ -1154,7 +1168,7 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4));
             if (ImGui.Begin("Text Editor"))
             {
-                TaskManager.RunCrashableTask("TextEditor", true, () => _textEditor.OnGUI(textcmds));
+                TaskManager.RunCrashableTask("TextEditor", _assetLocator, () => _textEditor.OnGUI(textcmds));
                 _textEditorFocused = true;
             }
             else

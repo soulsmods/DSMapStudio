@@ -354,6 +354,8 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.MenuItem("New View"))
                 {
+                    PARAM p = null;
+                    p.ApplyParamdef(null);
                     AddView();
                 }
                 if (ImGui.MenuItem("Close View", null, false, CountViews() > 1))
