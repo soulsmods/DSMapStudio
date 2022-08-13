@@ -106,7 +106,7 @@ namespace StudioCore.Editor
                 ImGui.TextColored(new System.Numerics.Vector4(1.0f, 0, 0, 1), taskId+" has crashed");
                 return;
             }
-            //#if !DEBUG
+            #if !DEBUG
             try
             {
                 task.Invoke();
@@ -117,9 +117,9 @@ namespace StudioCore.Editor
                 locator.SetModProjectDirectory(locator.GameModDirectory+"\\recovered");
                 MessageBox.Show(("A crash has occurred in "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //#else
-            //task.Invoke();
-            //#endif
+            #else
+            task.Invoke();
+            #endif
         }
     }
 }
