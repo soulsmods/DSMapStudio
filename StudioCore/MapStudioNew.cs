@@ -229,6 +229,9 @@ namespace StudioCore
             reg = Utils.readRegistry("csvDelimiterPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
+            reg = Utils.readRegistry("forceLoudFailures");
+            if (reg != null)
+                TaskManager.ForceLoudFailures = reg == "true";
             if (!File.Exists("imgui.ini"))
             {
                 File.Copy("imgui.ini.backup", "imgui.ini");
@@ -244,6 +247,7 @@ namespace StudioCore
             Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
             Utils.setRegistry("showVanillaParamsPreference", ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference ? "true" : "false");
             Utils.setRegistry("csvDelimiterPreference", ParamEditor.ParamEditorScreen.CSVDelimiterPreference);
+            Utils.setRegistry("forceLoudFailures", TaskManager.ForceLoudFailures ? "true" : "false");
         }
 
         public void Run()
@@ -759,6 +763,10 @@ namespace StudioCore
                             CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                         }
                         ImGui.EndMenu();
+                    }
+                    if (ImGui.MenuItem("Always show crashes and errors", "", TaskManager.ForceLoudFailures))
+                    {
+                        TaskManager.ForceLoudFailures = !TaskManager.ForceLoudFailures;
                     }
                     ImGui.EndMenu();
                 }

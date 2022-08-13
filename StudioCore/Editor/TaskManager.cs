@@ -14,6 +14,8 @@ namespace StudioCore.Editor
         private static volatile ConcurrentDictionary<string, (bool, Task)> _liveTasks = new ConcurrentDictionary<string, (bool, Task)>();
         private static int _anonIndex = 0;
 
+        public static bool ForceLoudFailures = false;
+
         public static bool Run(string taskId, bool wait, bool canRequeue, bool silentFail, System.Action action)
         {
             bool add = AddTask(taskId, silentFail, action);
@@ -26,7 +28,7 @@ namespace StudioCore.Editor
                     if (_liveTasks.TryGetValue(taskId, out t))
                     {
                         t.Item2.Wait();
-                        return AddTask(taskId, silentFail, action);                        
+                        return AddTask(taskId, silentFail && !ForceLoudFailures, action);                        
                     }
                 }
                 if (canRequeue)
@@ -58,7 +60,7 @@ namespace StudioCore.Editor
                 }
                 catch (Exception e)
                 {
-                    if (silentFail)
+                    if (silentFail && !ForceLoudFailures)
                     {
                         warningList.TryAdd(taskId, ("An error has occurred in task "+taskId+":\n"+e.Message).Replace("\0", "\\0"));
                     }
@@ -104,14 +106,26 @@ namespace StudioCore.Editor
                     ImGui.TextColored(new System.Numerics.Vector4(1.0f, 0, 0, 1), taskId+" has crashed");
                 return;
             }
+            #if !DEBUG
             try
             {
                 task.Invoke();
             }
             catch (Exception e)
             {
-                warningList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message+"\nClick to attempt to resume.";
+                if (!ForceLoudFailures)
+                {
+                    warningList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message+"\nClick to attempt to resume.";
+                }
+                else
+                {
+                    warningList[taskId] = "A crash has occurred in "+taskId+":\n"+e.Message+"\nClick to attempt to resume.";
+                    MessageBox.Show(("A crash has occurred in "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+            #else
+            task.Invoke();
+            #endif
         }
     }
 }
