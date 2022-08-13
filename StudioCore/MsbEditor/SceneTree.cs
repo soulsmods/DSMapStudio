@@ -686,9 +686,17 @@ namespace StudioCore.MsbEditor
                                 (nodeopen && _treeOpenEntities.Contains(mapRoot)) ||
                                 (!nodeopen && !_treeOpenEntities.Contains(mapRoot)))
                             {
-                                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                                 {
-                                    _selection.AddSelection(selectTarget);
+                                    // Toggle Selection
+                                    if (_selection.GetSelection().Contains(selectTarget))
+                                    {
+                                        _selection.RemoveSelection(selectTarget);
+                                    }
+                                    else
+                                    {
+                                        _selection.AddSelection(selectTarget);
+                                    }
                                 }
                                 else
                                 {
