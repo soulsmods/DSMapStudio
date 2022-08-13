@@ -504,6 +504,36 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
+            if (ImGui.BeginMenu("Help"))
+            {
+                if (ImGui.BeginMenu("Search and MassEdit"))
+                {
+                    if (ImGui.BeginMenu("Search"))
+                    {
+                        ImGui.TextUnformatted(UIHints.SearchBarHint);
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("MassEdit"))
+                    {
+                        ImGui.TextUnformatted(UIHints.MassEditHint);
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("Examples"))
+                    {
+                        ImGui.TextUnformatted(UIHints.MassEditExamples);
+                        ImGui.Separator();
+                        ImGui.TextUnformatted(UIHints.SearchExamples);
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("Regex"))
+                    {
+                        ImGui.TextUnformatted(UIHints.RegexCheatSheet);
+                        ImGui.EndMenu();
+                    }
+                    ImGui.EndMenu();
+                }
+                ImGui.EndMenu();
+            }
             
             // Param upgrading for Elden Ring
             if (ParamBank.AssetLocator.Type == GameType.EldenRing &&
@@ -1206,9 +1236,6 @@ namespace StudioCore.ParamEditor
                 }
                 scrollTo = 0;
 
-                ImGui.Text("id VALUE | name ROW | prop FIELD VALUE | propref FIELD ROW\n | original | modified");
-                UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
-
                 //Goto ID
                 if (ImGui.Button("Goto ID <Ctrl+G>") || (isActiveView && InputTracker.GetControlShortcut(Key.G)))
                 {
@@ -1242,6 +1269,7 @@ namespace StudioCore.ParamEditor
                     _paramEditor._isSearchBarActive = true;
                 else
                     _paramEditor._isSearchBarActive = false;
+                UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
 
                 ImGui.BeginChild("pinnedRows");
 
