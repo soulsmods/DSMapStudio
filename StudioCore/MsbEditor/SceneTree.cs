@@ -359,7 +359,7 @@ namespace StudioCore.MsbEditor
                 {
                     // Select Range
                     var entList = e.Container.Objects;
-                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container));
+                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container && fe != e.Container.RootObject));
                     var i2 = entList.IndexOf((MapEntity)e);
 
                     if (i1 != -1 && i2 != -1)
