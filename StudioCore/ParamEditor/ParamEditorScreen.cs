@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Numerics;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using FSParam;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -156,7 +158,74 @@ namespace StudioCore.ParamEditor
         
         public void UpgradeRegulation(string oldRegulation)
         {
-            var result = ParamBank.UpgradeRegulation(oldRegulation);
+            var conflicts = new Dictionary<string, HashSet<int>>();
+            var result = ParamBank.UpgradeRegulation(oldRegulation, conflicts);
+
+            if (result == ParamBank.ParamUpgradeResult.OldRegulationNotFound)
+            {
+                System.Windows.Forms.MessageBox.Show(
+                    $@"Unable to load old vanilla regulation.", 
+                    "Loading error",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Error);
+            }
+            if (result == ParamBank.ParamUpgradeResult.OldRegulationVersionMismatch)
+            {
+                System.Windows.Forms.MessageBox.Show(
+                    $@"The version of the vanilla regulation you selected does not match the version of your mod.", 
+                    "Version mismatch",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Error);
+                return;
+            }
+
+            if (result == ParamBank.ParamUpgradeResult.RowConflictsFound)
+            {
+                // If there's row conflicts write a conflict log
+                var logPath = $@"{ParamBank.AssetLocator.GameModDirectory}\regulationUpgradeLog.txt";
+                if (File.Exists(logPath))
+                {
+                    File.Delete(logPath);
+                }
+
+                using StreamWriter logWriter = new StreamWriter(logPath);
+                logWriter.WriteLine("The following rows have conflicts (i.e. both you and the game update added these rows).");
+                logWriter.WriteLine("The conflicting rows have been overwritten with your modded version, but it is recommended");
+                logWriter.WriteLine("that you review these rows and potentially move them to new IDs and try merging again");
+                logWriter.WriteLine("instead of saving your upgraded regulation right away.");
+                logWriter.WriteLine();
+                foreach (var c in conflicts)
+                {
+                    logWriter.WriteLine($@"{c.Key}:");
+                    foreach (var r in c.Value)
+                    {
+                        logWriter.WriteLine($@"    {r}");
+                    }
+                    logWriter.WriteLine();
+                }
+                logWriter.Flush();
+                
+                var msgRes = System.Windows.Forms.MessageBox.Show(
+                    $@"Conflicts were found while upgrading params. This is usually caused by a game updating adding " +
+                    "a new row that has the same ID as the one that you added in your mod. It is recommended that you " +
+                    "review these conflicts and handle them before saving. You can revert to your original params by " +
+                    "reloading your project by saving and move the conflicting rows to new IDs, or you can chance it by " +
+                    "trying to fix the current post-merge result. Currently your mod added rows will have overwritten" +
+                    "the added rows in the vanilla regulation.\n\nThe list of conflicts can be found in regulationUpgradeLog.txt" +
+                    "in your mod project directory. Would you like to open them now?",
+                    "Row conflicts found",
+                    System.Windows.Forms.MessageBoxButtons.YesNo,
+                    System.Windows.Forms.MessageBoxIcon.Warning);
+                if (msgRes == DialogResult.Yes)
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "explorer",
+                        Arguments = "\"" + logPath + "\""
+                    });
+                }
+            }
+            
             EditorActionManager.Clear();
         }
 
