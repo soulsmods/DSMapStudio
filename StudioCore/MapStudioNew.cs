@@ -963,7 +963,7 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
-                if (_newProjectSettings.GameType == GameType.EldenRing)
+                if (FeatureFlags.EnablePartialParam && _newProjectSettings.GameType == GameType.EldenRing)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
