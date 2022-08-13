@@ -340,7 +340,16 @@ namespace StudioCore.MsbEditor
             {
                 if (arrowKeySelect)
                 {
-                    _selection.AddSelection(e);
+                    if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight)
+                        || InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    {
+                        _selection.AddSelection(e);
+                    }
+                    else
+                    {
+                        _selection.ClearSelection();
+                        _selection.AddSelection(e);
+                    }
                 }
                 else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                 {
