@@ -426,6 +426,7 @@ namespace StudioCore.ParamEditor
                 {
                     changed = true;
                     committed = true;
+                    _editedPropCache = newval;
                 }
             }
             if (ParamEditorScreen.ShowVanillaParamsPreference)
