@@ -133,6 +133,22 @@ namespace StudioCore.MsbEditor
                         box = BoundingBox.Combine(box, s.RenderSceneMesh.GetBounds());
                     }
                 }
+                else if (s.Container.RootObject == s)
+                {
+                    // Selection is transform node
+                    Vector3 nodeOffset = new(10.0f, 10.0f, 10.0f);
+                    Vector3 pos = s.GetLocalTransform().Position;
+                    BoundingBox nodeBox = new(pos - nodeOffset, pos + nodeOffset);
+                    if (!first)
+                    {
+                        first = true;
+                        box = nodeBox;
+                    }
+                    else
+                    {
+                        box = BoundingBox.Combine(box, nodeBox);
+                    }
+                }
             }
             if (first)
             {

@@ -315,5 +315,13 @@ namespace StudioCore.Gui
             var radius = Vector3.Distance(box.Max, box.Min);
             _worldView.CameraTransform.Position = pos - (camdir * radius);
         }
+
+        /// <summary>
+        /// Moves the camera position such that it is directly looking at a position.
+        public void FramePosition(Vector3 pos, float dist)
+        {
+            var camdir = Vector3.Transform(Vector3.UnitZ, _worldView.CameraTransform.RotationMatrix);
+            _worldView.CameraTransform.Position = pos - (camdir * dist);
+        }
     }
 }
