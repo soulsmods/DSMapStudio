@@ -410,14 +410,14 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(_activeView._selection.getActiveParam()));
                 }
-                if (ImGui.MenuItem("Load Default Row Names"))
+                if (ImGui.MenuItem("Load Default Row Names", "", false, ParamBank.Params != null))
                 {
                     try {
                         EditorActionManager.ExecuteAction(ParamBank.LoadParamDefaultNames());
                     } catch {
                     }
                 }
-                if (ImGui.MenuItem("Trim hidden newlines in names"))
+                if (ImGui.MenuItem("Trim hidden newlines in names", "", false, ParamBank.Params != null))
                 {
                     try {
                         EditorActionManager.PushSubManager(ParamBank.TrimNewlineChrsFromNames());
