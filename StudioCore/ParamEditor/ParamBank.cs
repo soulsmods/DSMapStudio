@@ -205,6 +205,15 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
                 
+                // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
+                // it's an easy fixup
+                if (AssetLocator.Type == GameType.EldenRing &&
+                    p.ParamType == "CHR_MODEL_PARAM_ST" &&
+                    _paramVersion == 10601000)
+                {
+                    p.FixupERChrModelParam();
+                }
+
                 // Lookup the correct paramdef based on the version
                 PARAMDEF def = null;
                 if (_patchParamdefs.ContainsKey(p.ParamType))
@@ -603,6 +612,8 @@ namespace StudioCore.ParamEditor
             _params = new Dictionary<string, Param>();
             IsDefsLoaded = false;
             IsLoadingParams = true;
+            
+            CacheBank.ClearCaches();
 
             TaskManager.Run("PB:LoadParams", true, false, true, () =>
             {
@@ -1397,6 +1408,10 @@ namespace StudioCore.ParamEditor
             _params = updatedParams;
             _paramVersion = VanillaParamVersion;
             _pendingUpgrade = true;
+            
+            // Refresh dirty cache
+            CacheBank.ClearCaches();
+            refreshParamDirtyCache();
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }

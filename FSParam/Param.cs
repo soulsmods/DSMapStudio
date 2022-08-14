@@ -670,6 +670,26 @@ namespace FSParam
             DetectedSize = 36;
         }
         
+        /// <summary>
+        /// People were using Yapped and other param editors to save botched ER 1.06 params, so we need
+        /// to fix them up again. Fortunately the only modified paramdef was ChrModelParam, and the new
+        /// field is always 0, so we can easily fix them.
+        /// </summary>
+        public void FixupERChrModelParam()
+        {
+            if (DetectedSize != 12)
+                return;
+            StridedByteArray newData = new StridedByteArray((uint)Rows.Count, 16, BigEndian);
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                newData.AddZeroedElement();
+                _paramData.CopyData(newData, (uint)i, (uint)i);
+            }
+
+            _paramData = newData;
+            DetectedSize = 16;
+        }
+        
         protected override void Read(BinaryReaderEx br)
         {
             br.Position = 0x2C;
