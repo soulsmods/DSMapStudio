@@ -37,6 +37,7 @@ namespace StudioCore.MsbEditor
         {
             _chrCache = new List<string>();
             _objCache = new List<string>();
+            _mapModelCache = new Dictionary<string, List<string>>();
             _chrCache = _locator.GetChrModels();
             _objCache = _locator.GetObjModels();
             var mapList = _locator.GetFullMapList();

@@ -752,17 +752,14 @@ namespace StudioCore.MsbEditor
         }
         public void ReloadUniverse()
         {
-            TaskManager.Run("U:LoadUniverse", true, false, true, () =>
-            {
-                Universe.UnloadAllMaps();
-                GC.Collect();
-                Universe.PopulateMapList();
+            Universe.UnloadAllMaps();
+            GC.Collect();
+            Universe.PopulateMapList();
 
-                if (AssetLocator.Type != GameType.Undefined)
-                {
-                    PopulateClassNames(AssetLocator.Type);
-                }
-            });
+            if (AssetLocator.Type != GameType.Undefined)
+            {
+                PopulateClassNames(AssetLocator.Type);
+            }
         }
 
         public override void Save()
