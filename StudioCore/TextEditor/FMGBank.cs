@@ -10,11 +10,429 @@ using System.Windows.Forms;
 namespace StudioCore.TextEditor
 {
     /// <summary>
-    /// Static class that stores all the strings for a Souls game
+    /// Static class that stores all the strings for a Souls game.
     /// </summary>
     public static class FMGBank
     {
-        public enum ItemCategory
+        /// <summary>
+        /// Value pair with an entry and the FMG it belongs to.
+        /// </summary>
+        public class EntryFMGInfoPair
+        {
+            public EntryFMGInfoPair(FMGInfo fmgInfo, FMG.Entry entry)
+            {
+                FmgInfo = fmgInfo;
+                Entry = entry;
+            }
+
+            public FMGInfo FmgInfo { get; set; }
+            public FMG.Entry Entry { get; set; }
+        }
+
+        /// <summary>
+        /// Base object that stores an FMG and information regarding it.
+        /// </summary>
+        public class FMGInfo
+        {
+            public string Name;
+            public FmgIDType FmgID;
+            public FMG Fmg;
+            public List<FMGInfo> PatchChildren = new();
+            public bool IsPatchChild = false;
+            public FmgUICategory UICategory;
+            public FmgEntryCategory EntryCategory;
+            public FmgEntryTextType EntryType;
+
+            /// <summary>
+            /// Returns a list of value pairs with Entry & FMG, found within from this FMG and its children.
+            /// </summary>
+            public List<EntryFMGInfoPair> PatchedEntryFMGPairs(bool sort = true)
+            {
+                List<EntryFMGInfoPair> list = new();
+                foreach (var entry in Fmg.Entries)
+                {
+                    list.Add(new EntryFMGInfoPair(this, entry));
+                }
+                foreach (var child in PatchChildren)
+                {
+                    foreach (var entry in child.Fmg.Entries)
+                    {
+                        var match = list.Find(e => e.Entry.ID == entry.ID);
+                        if (match != null)
+                        {
+                            match.Entry = entry;
+                            match.FmgInfo = child;
+                        }
+                        else
+                        {
+                            list.Add(new EntryFMGInfoPair(child, entry));
+                        }
+                    }
+                }
+                if (sort)
+                    list = list.OrderBy(e => e.Entry.ID).ToList();
+                return list;
+            }
+
+            /// <summary>
+            /// Returns a list of entries in this FMG and its children.
+            /// </summary>
+            public List<FMG.Entry> PatchedEntries(bool sort = true)
+            {
+                List<FMG.Entry> list = new();
+                list.AddRange(Fmg.Entries);
+                foreach (var child in PatchChildren)
+                {
+                    foreach (var entry in child.Fmg.Entries)
+                    {
+                        var match = list.Find(e => e.ID == entry.ID);
+                        if (match != null)
+                        {
+                            match = entry; // Change the reference (TODO2: won't this fuck up fmginfo checking?)
+                        }
+                        else
+                        {
+                            list.Add(entry);
+                        }
+                    }
+                }
+                if (sort)
+                    list = list.OrderBy(e => e.ID).ToList();
+                return list;
+            }
+
+            /// <summary>
+            /// Adds an entry to the end of the FMG.
+            /// </summary>
+            public void AddEntry(FMG.Entry entry, bool sort = true)
+            {
+                Fmg.Entries.Add(entry);
+                if (sort)
+                    Fmg.Entries.Sort();
+            }
+
+            /// <summary>
+            /// Inserts an entry into FMG at the specified index.
+            /// </summary>
+            public void InsertEntry(int index, FMG.Entry newEntry)
+            {
+                Fmg.Entries.Insert(index, newEntry);
+            }
+
+            /// <summary>
+            /// Copies an entry within the FMG.
+            /// If desired, it will also get and set the next unused entry ID.
+            /// </summary>
+            /// <param name="getUnusedID">If true, get next unused ID and set entry ID to it</param>
+            /// <returns>The new entry</returns>
+            public FMG.Entry CopyEntry(FMG.Entry entry, bool getUnusedID = false)
+            {
+                FMG.Entry newEntry = new(entry.ID, entry.Text);
+                if (getUnusedID)
+                {
+                    do
+                    {
+                        newEntry.ID++;
+                    }
+                    while (Fmg.Entries.Find(e => e.ID == newEntry.ID) != null);
+                }
+                return newEntry;
+            }
+
+            /// <summary>
+            /// Removes an entry from FMGInfo's FMG.
+            /// </summary>
+            public void DeleteEntry(FMG.Entry entry)
+            {
+                Fmg.Entries.Remove(entry);
+            }
+        }
+
+        /// <summary>
+        /// A group of entries that may be associated (such as title, summary, description) along with respective FMGs.
+        /// </summary>
+        public class EntryGroup
+        {
+            public FMG.Entry TextBody;
+            public FMGInfo TextBodyInfo;
+            public FMG.Entry Title;
+            public FMGInfo TitleInfo;
+            public FMG.Entry Summary;
+            public FMGInfo SummaryInfo;
+            public FMG.Entry Description;
+            public FMGInfo DescriptionInfo;
+
+            private int _ID = -1;
+            public int ID
+            {
+                set
+                {
+                    _ID = value;
+                    if (TextBody != null)
+                        TextBody.ID = _ID;
+                    if (Title != null)
+                        Title.ID = _ID;
+                    if (Summary != null)
+                        Summary.ID = _ID;
+                    if (Description != null)
+                        Description.ID = _ID;
+                }
+                get => _ID;
+            }
+
+            /// <summary>
+            /// Sets ID of all entries to the next unused entry ID.
+            /// </summary>
+            public void SetNextUnusedID()
+            {
+                var id = ID;
+                if (TextBody != null)
+                {
+                    var entries = TextBodyInfo.PatchedEntries();
+                    do
+                    {
+                        id++;
+                    }
+                    while (entries.Find(e => e.ID == id) != null);
+                }
+                else if (Title != null)
+                {
+                    var entries = TitleInfo.PatchedEntries();
+                    do
+                    {
+                        id++;
+                    }
+                    while (entries.Find(e => e.ID == id) != null);
+                }
+                else if (Summary != null)
+                {
+                    var entries = SummaryInfo.PatchedEntries();
+                    do
+                    {
+                        id++;
+                    }
+                    while (entries.Find(e => e.ID == id) != null);
+                }
+                else if (Description != null)
+                {
+                    var entries = DescriptionInfo.PatchedEntries();
+                    do
+                    {
+                        id++;
+                    }
+                    while (entries.Find(e => e.ID == id) != null);
+                }
+                ID = id;
+                return;
+            }
+
+            /// <summary>
+            /// Inserts all entries into their assigned FMGs.
+            /// </summary>
+            public void InsertEntries(int index)
+            {
+                if (TextBody != null)
+                {
+                    TextBodyInfo.InsertEntry(index, TextBody);
+                }
+                if (Title != null)
+                {
+                    TitleInfo.InsertEntry(index, Title);
+                }
+                if (Summary != null)
+                {
+                    SummaryInfo.InsertEntry(index, Summary);
+                }
+                if (Description != null)
+                {
+                    DescriptionInfo.InsertEntry(index, Description);
+                }
+            }
+
+            /// <summary>
+            /// Duplicates all entries within their assigned FMGs.
+            /// New entries are inserted into their assigned FMGs.
+            /// </summary>
+            /// <returns>The new EntryGroup</returns>
+            public EntryGroup DuplicateEntries()
+            {
+                var index = GetIndex();
+                if (index == -1)
+                {
+                    throw new Exception($"Could not find EntryGroup entries in assigned FMGs. {this}");
+                }
+                EntryGroup newGroup = new();
+                if (TextBody != null)
+                {
+                    newGroup.TextBodyInfo = TextBodyInfo;
+                    newGroup.TextBody = TextBodyInfo.CopyEntry(TextBody);
+                    TextBodyInfo.InsertEntry(index, newGroup.TextBody);
+                }
+                if (Title != null)
+                {
+                    newGroup.TitleInfo = TitleInfo;
+                    newGroup.Title = TitleInfo.CopyEntry(Title);
+                    TitleInfo.InsertEntry(index, newGroup.Title);
+                }
+                if (Summary != null)
+                {
+                    newGroup.SummaryInfo = SummaryInfo;
+                    newGroup.Summary = SummaryInfo.CopyEntry(Summary);
+                    SummaryInfo.InsertEntry(index, newGroup.Summary);
+                }
+                if (Description != null)
+                {
+                    newGroup.DescriptionInfo = DescriptionInfo;
+                    newGroup.Description = DescriptionInfo.CopyEntry(Description);
+                    DescriptionInfo.InsertEntry(index, newGroup.Description);
+                }
+                newGroup.ID = ID;
+                return newGroup;
+            }
+
+            /// <summary>
+            /// Copies EntryGroup and returns 
+            /// </summary>
+            /// <returns>The new EntryGroup</returns>
+            public EntryGroup CopyEntryGroup()
+            {
+                EntryGroup newGroup = new();
+                if (TextBody != null)
+                {
+                    newGroup.TextBodyInfo = TextBodyInfo;
+                    newGroup.TextBody = TextBodyInfo.CopyEntry(TextBody);
+                }
+                if (Title != null)
+                {
+                    newGroup.TitleInfo = TitleInfo;
+                    newGroup.Title = TitleInfo.CopyEntry(Title);
+                }
+                if (Summary != null)
+                {
+                    newGroup.SummaryInfo = SummaryInfo;
+                    newGroup.Summary = SummaryInfo.CopyEntry(Summary);
+                }
+                if (Description != null)
+                {
+                    newGroup.DescriptionInfo = DescriptionInfo;
+                    newGroup.Description = DescriptionInfo.CopyEntry(Description);
+                }
+                return newGroup;
+            }
+
+            /// <summary>
+            /// Removes all entries from their assigned FMGs.
+            /// </summary>
+            public void DeleteEntries()
+            {
+                if (TextBody != null)
+                {
+                    TextBodyInfo.DeleteEntry(TextBody);
+                }
+                if (Title != null)
+                {
+                    TitleInfo.DeleteEntry(Title);
+                }
+                if (Summary != null)
+                {
+                    SummaryInfo.DeleteEntry(Summary);
+                }
+                if (Description != null)
+                {
+                    DescriptionInfo.DeleteEntry(Description);
+                }
+            }
+
+
+            /// <summary>
+            /// Finds shared index of entries in FMGs.
+            /// </summary>
+            /// <returns>The zero-based index if found; otherwise -1.</returns>
+            public int GetIndex()
+            {
+                if (TextBody != null)
+                {
+                    return TextBodyInfo.Fmg.Entries.IndexOf(TextBody);
+                }
+                else if (Title != null)
+                {
+                    return TitleInfo.Fmg.Entries.IndexOf(Title);
+                }
+                else if (Summary != null)
+                {
+                    return SummaryInfo.Fmg.Entries.IndexOf(Summary);
+                }
+                else if (Description != null)
+                {
+                    return DescriptionInfo.Fmg.Entries.IndexOf(Description);
+                }
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// Contains Entry Cache info
+        /// </summary>
+        public class EntryCache
+        {
+            public List<FMG.Entry> Entries;
+            public List<FMG.Entry> FilteredEntries;
+            public string Filter = "";
+            public string FilterCache = "";
+
+            public void InsertEntryIntoCache(int index, FMG.Entry entry)
+            {
+                Entries.Insert(index, entry);
+                FilteredEntries = Entries;
+                FilterCache = "";
+            }
+
+            public void DeleteEntryFromCache(FMG.Entry entry)
+            {
+                Entries.Remove(entry);
+                FilteredEntries = Entries;
+                FilterCache = "";
+            }
+        }
+
+        internal static AssetLocator AssetLocator;
+        public static bool IsLoaded { get; private set; } = false;
+        public static bool IsLoading { get; private set; } = false;
+        private static string _languageFolder = "";
+
+        private static List<FMGInfo> _fmgInfoBank = new();
+        public static List<FMGInfo> FmgInfoBank
+        {
+            get { return _fmgInfoBank; }
+        }
+
+        public static Dictionary<FmgUICategory, bool> ActiveUITypes { get; private set; } = new();
+
+        /// <summary>
+        /// FMG sections in UI
+        /// </summary>
+        public enum FmgUICategory
+        {
+            Text = 0,
+            Item = 1,
+            Menu = 2,
+        }
+
+        /// <summary>
+        /// Entry type for Title, Summary, Description, or other.
+        /// </summary>
+        public enum FmgEntryTextType
+        {
+            TextBody = 0,
+            Title = 1,
+            Summary = 2,
+            Description = 3,
+        }
+
+        /// <summary>
+        /// Text categories made up of multiple FMGs
+        /// </summary>
+        public enum FmgEntryCategory
         {
             None,
             Goods,
@@ -28,146 +446,16 @@ namespace StudioCore.TextEditor
             Message,
             SwordArts,
             Effect,
-            Misc,
-        }
-
-        public enum ItemType
-        {
-            None,
-            Title,
-            Summary,
-            Description,
-        }
-
-        public enum FMGTypes
-        {
-            Item = 0,
-            Menu = 1,
-            DS2 = 2
-        }
-
-        //If you ever find yourself needing to use this: just rewrite everything. Seriously.
-        /*
-        public static string ItemEnumString(this ItemFMGTypes str)
-        {
-            //var gameType = AssetLocator.Type;
-            return str.ToString();
-        }
-        */
-
-        /// <summary>
-        /// Returns a string that should be used for this menu FMG with the current game type
-        /// </summary>
-        public static string MenuEnumString(this MenuFMGTypes str)
-        {
-            var gameType = AssetLocator.Type;
-            switch (str)
-            {
-                case MenuFMGTypes.SystemMessage_PS4__LoadingTitle:
-                    if (gameType == GameType.EldenRing)
-                        return "LoadingTitle";
-                    else if (gameType == GameType.Sekiro)
-                        return "LoadingText";
-                    else
-                        return "SystemMessage_ps4";
-                case MenuFMGTypes.SystemMessage_XboxOne__LoadingText:
-                    if (gameType == GameType.EldenRing)
-                        return "LoadingText";
-                    else if (gameType == GameType.Sekiro)
-                        return "LoadingTitle";
-                    else
-                        return "SystemMessage_xboxone";
-            }
-            return str.ToString();
         }
 
         /// <summary>
-        /// BND IDs for menu fmg files usually in menu.msgbnd
+        /// BND IDs for FMG files used for identification
         /// </summary>
-        public enum MenuFMGTypes
+        public enum FmgIDType
         {
+            // Note: Matching names with _DLC and _PATCH are used as identifiers for patch FMGs. This is a little dumb and patch fmg handling should probably be redone.
             None = -1,
 
-            TalkMsg = 1,
-            BloodMsg = 2,
-            MovieSubtitle = 3,
-            Event = 30,
-            MenuInGame = 70,
-            MenuCommon = 76,
-            MenuOther = 77,
-            MenuDialog = 78,
-            MenuKeyGuide = 79,
-            MenuLineHelp = 80,
-            MenuContext = 81,
-            MenuTags = 90,
-
-            // DS1
-            Win32Tags = 91,
-            Win32Messages = 92,
-            EventPatch = 101,
-            MenuDialogPatch = 102,
-            Win32MessagesPatch = 103,
-            NpcDialogPatch = 104,
-            BloodMessagePatch = 107,
-            MenuOneLinePatch = 121,
-            MenuKeyGuidePatch = 122,
-            MenuOtherPatch = 123,
-            MenuCommonPatch = 124,
-
-            // DS3 DLC1
-            Modern_MenuText = 200,
-            Modern_LineHelp = 201,
-            Modern_KeyGuide = 202,
-            Modern_System_Message_win64 = 203,
-            Modern_Dialogues = 204,
-            SystemMessage_PS4__LoadingTitle = 205,
-                // DS3: SystemMessage_PS4
-                // SDT: TutorialText
-                // ER: LoadingTitle
-            SystemMessage_XboxOne__LoadingText = 206,
-                // DS3: SystemMessage_XboxOne
-                // SDT: TutorialTitle
-                // ER: LoadingText
-            TalkMsg_dlc1 = 230,
-            Event_dlc1 = 231,
-            Modern_MenuText_dlc1 = 232,
-            Modern_LineHelp_dlc1 = 233,
-            Modern_System_Message_win64_dlc1 = 235,
-            Modern_Dialogues_dlc1 = 236,
-            SystemMessage_PS4_dlc1 = 237,
-            SystemMessage_XboxOne_dlc1 = 238,
-            BloodMsg_dlc1 = 239,
-            // DS3 DLC2
-            TalkMsg_dlc2 = 270,
-            Event_dlc2 = 271,
-            Modern_MenuText_dlc2 = 272,
-            Modern_LineHelp_dlc2 = 273,
-            Modern_System_Message_win64_dlc2 = 275,
-            Modern_Dialogues_dlc2 = 276,
-            SystemMessage_PS4_dlc2 = 277,
-            SystemMessage_XboxOne__dlc2 = 278,
-            BloodMsg_dlc2 = 279,
-
-            // SDT
-            Skills = 40,
-
-            // ER
-            TalkMsg_FemalePC_Alt = 4,
-            NetworkMessage = 31,
-            ActionButtonText = 32,
-            EventTextForTalk = 33,
-            EventTextForMap = 34,
-            TutorialTitle = 207,
-            TutorialBody = 208,
-            TextEmbedImageName_win64 = 209,
-            ToS_win64 = 210,
-        }
-
-        /// <summary>
-        /// BND IDs for item fmg files usually in item.msgbnd
-        /// </summary>
-        public enum ItemFMGTypes
-        {
             TitleGoods = 10,
             TitleWeapons = 11,
             TitleArmor = 12,
@@ -188,58 +476,109 @@ namespace StudioCore.TextEditor
             DescriptionRings = 27,
             SummarySpells = 28,
             DescriptionSpells = 29,
+            //
+            TalkMsg = 1,
+            BloodMsg = 2,
+            MovieSubtitle = 3,
+            Event = 30,
+            MenuInGame = 70,
+            MenuCommon = 76,
+            MenuOther = 77,
+            MenuDialog = 78,
+            MenuKeyGuide = 79,
+            MenuLineHelp = 80,
+            MenuContext = 81,
+            MenuTags = 90,
+            Win32Tags = 91,
+            Win32Messages = 92,
+            Event_Patch = 101,
+            MenuDialog_Patch = 102,
+            Win32Messages_Patch = 103,
+            NpcDialog_Patch = 104,
+            BloodMessage_Patch = 107,
+            MenuOneLine_Patch = 121,
+            MenuKeyGuide_Patch = 122,
+            MenuOther_Patch = 123,
+            MenuCommon_Patch = 124,
 
-            // DS1 DLC
-            DescriptionGoodsPatch = 100,
-            DescriptionSpellsPatch = 105,
-            DescriptionWeaponsPatch = 106,
-            DescriptionArmorPatch = 108,
-            DescriptionRingsPatch = 109,
-            SummaryGoodsPatch = 110,
-            TitleGoodsPatch = 111,
-            SummaryRingsPatch = 112,
-            TitleRingsPatch = 113,
-            SummaryWeaponsPatch = 114,
-            TitleWeaponsPatch = 115,
-            SummaryArmorPatch = 116,
-            TitleArmorPatch = 117,
-            TitleSpellsPatch = 118,
-            TitleCharactersPatch = 119,
-            TitleLocationsPatch = 120,
+            // DS1 _DLC
+            DescriptionGoods_Patch = 100,
+            DescriptionSpells_Patch = 105,
+            DescriptionWeapons_Patch = 106,
+            DescriptionArmor_Patch = 108,
+            DescriptionRings_Patch = 109,
+            SummaryGoods_Patch = 110,
+            TitleGoods_Patch = 111,
+            SummaryRings_Patch = 112,
+            TitleRings_Patch = 113,
+            SummaryWeapons_Patch = 114,
+            TitleWeapons_Patch = 115,
+            SummaryArmor_Patch = 116,
+            TitleArmor_Patch = 117,
+            TitleSpells_Patch = 118,
+            TitleCharacters_Patch = 119,
+            TitleLocations_Patch = 120,
 
-            // DS3 DLC1
-            TitleGoodsDLC1 = 210,
-            TitleWeaponsDLC1 = 211,
-            TitleArmorDLC1 = 212,
-            TitleRingsDLC1 = 213,
-            TitleSpellsDLC1 = 214,
-            TitleCharactersDLC1 = 215,
-            TitleLocationsDLC1 = 216,
-            SummaryGoodsDLC1 = 217,
-            SummaryRingsDLC1 = 220,
-            DescriptionGoodsDLC1 = 221,
-            DescriptionWeaponsDLC1 = 222,
-            DescriptionArmorDLC1 = 223,
-            DescriptionRingsDLC1 = 224,
-            SummarySpellsDLC1 = 225,
-            DescriptionSpellsDLC1 = 226,
+            // DS3 _DLC1
+            TitleWeapons_DLC1 = 211,
+            TitleArmor_DLC1 = 212,
+            TitleRings_DLC1 = 213,
+            TitleSpells_DLC1 = 214,
+            TitleCharacters_DLC1 = 215,
+            TitleLocations_DLC1 = 216,
+            SummaryGoods_DLC1 = 217,
+            SummaryRings_DLC1 = 220,
+            DescriptionGoods_DLC1 = 221,
+            DescriptionWeapons_DLC1 = 222,
+            DescriptionArmor_DLC1 = 223,
+            DescriptionRings_DLC1 = 224,
+            SummarySpells_DLC1 = 225,
+            DescriptionSpells_DLC1 = 226,
+            //
+            Modern_MenuText = 200,
+            Modern_LineHelp = 201,
+            Modern_KeyGuide = 202,
+            Modern_System_Message_win64 = 203,
+            Modern_Dialogues = 204,
+            TalkMsg_DLC1 = 230,
+            Event_DLC1 = 231,
+            Modern_MenuText_DLC1 = 232,
+            Modern_LineHelp_DLC1 = 233,
+            Modern_System_Message_win64_DLC1 = 235,
+            Modern_Dialogues_DLC1 = 236,
+            SystemMessage_PS4_DLC1 = 237,
+            SystemMessage_XboxOne_DLC1 = 238,
+            BloodMsg_DLC1 = 239,
 
-            // DS3 DLC2
-            TitleGoodsDLC2 = 250,
-            TitleWeaponsDLC2 = 251,
-            TitleArmorDLC2 = 252,
-            TitleRingsDLC2 = 253,
-            TitleSpellsDLC2 = 254,
-            TitleCharactersDLC2 = 255,
-            TitleLocationsDLC2 = 256,
-            SummaryGoodsDLC2 = 257,
-            SummaryRingsDLC2 = 260,
-            DescriptionGoodsDLC2 = 261,
-            DescriptionWeaponsDLC2 = 262,
-            DescriptionArmorDLC2 = 263,
-            DescriptionRingsDLC2 = 264,
-            SummarySpellsDLC2 = 265,
-            DescriptionSpellsDLC2 = 266,
+            // DS3 _DLC2
+            TitleGoods_DLC2 = 250,
+            TitleWeapons_DLC2 = 251,
+            TitleArmor_DLC2 = 252,
+            TitleRings_DLC2 = 253,
+            TitleSpells_DLC2 = 254,
+            TitleCharacters_DLC2 = 255,
+            TitleLocations_DLC2 = 256,
+            SummaryGoods_DLC2 = 257,
+            SummaryRings_DLC2 = 260,
+            DescriptionGoods_DLC2 = 261,
+            DescriptionWeapons_DLC2 = 262,
+            DescriptionArmor_DLC2 = 263,
+            DescriptionRings_DLC2 = 264,
+            SummarySpells_DLC2 = 265,
+            DescriptionSpells_DLC2 = 266,
+            //
+            TalkMsg_DLC2 = 270,
+            Event_DLC2 = 271,
+            Modern_MenuText_DLC2 = 272,
+            Modern_LineHelp_DLC2 = 273,
+            Modern_System_Message_win64_DLC2 = 275,
+            Modern_Dialogues_DLC2 = 276,
+            SystemMessage_PS4_DLC2 = 277,
+            SystemMessage_XboxOne_DLC2 = 278,
+            BloodMsg_DLC2 = 279,
+
+            // SDT
+            Skills = 40,
 
             // ER
             TitleGem = 35,
@@ -251,364 +590,580 @@ namespace StudioCore.TextEditor
             SummaryEffect = 44,
             ERUnk45 = 45,
             SummaryMiscER = 46,
-        }
+            //
+            TalkMsg_FemalePC_Alt = 4,
+            NetworkMessage = 31,
+            ActionButtonText = 32,
+            EventTextForTalk = 33,
+            EventTextForMap = 34,
+            TutorialTitle = 207,
+            TutorialBody = 208,
+            TextEmbedImageName_win64 = 209,
 
-        public static AssetLocator AssetLocator = null;
-
-        private static Dictionary<ItemFMGTypes, FMG> _itemFMGs = null;
-        private static Dictionary<MenuFMGTypes, FMG> _menuFMGs = null;
-        private static string _languageFolder = "";
-        /// <summary>
-        /// DS2 uses a different system with loose fmgs instead of IDs
-        /// </summary>
-        private static Dictionary<string, FMG> _ds2fmgs = null;
-
-        public static bool IsLoaded { get; private set; } = false;
-        public static bool IsLoading { get; private set; } = false;
-
-        public static IReadOnlyDictionary<string, FMG> DS2Fmgs
-        {
-            get
-            {
-                return _ds2fmgs;
-            }
-        }
-
-        public static ItemCategory ItemCategoryOf(ItemFMGTypes ftype)
-        {
-            switch (ftype)
-            {
-                case ItemFMGTypes.TitleTest:
-                case ItemFMGTypes.TitleTest2:
-                case ItemFMGTypes.TitleTest3:
-                case ItemFMGTypes.ERUnk45:
-                    return ItemCategory.None;
-                
-                case ItemFMGTypes.DescriptionGoods:
-                case ItemFMGTypes.DescriptionGoodsDLC1:
-                case ItemFMGTypes.DescriptionGoodsDLC2:
-                case ItemFMGTypes.SummaryGoods:
-                case ItemFMGTypes.SummaryGoodsDLC1:
-                case ItemFMGTypes.SummaryGoodsDLC2:
-                case ItemFMGTypes.TitleGoods:
-                case ItemFMGTypes.TitleGoodsDLC1:
-                case ItemFMGTypes.TitleGoodsDLC2:
-                case ItemFMGTypes.DescriptionGoodsPatch:
-                case ItemFMGTypes.SummaryGoodsPatch:
-                case ItemFMGTypes.TitleGoodsPatch:
-                    return ItemCategory.Goods;
-
-                case ItemFMGTypes.DescriptionWeapons:
-                case ItemFMGTypes.DescriptionWeaponsDLC1:
-                case ItemFMGTypes.DescriptionWeaponsDLC2:
-                case ItemFMGTypes.SummaryWeapons:
-                case ItemFMGTypes.TitleWeapons:
-                case ItemFMGTypes.TitleWeaponsDLC1:
-                case ItemFMGTypes.TitleWeaponsDLC2:
-                case ItemFMGTypes.DescriptionWeaponsPatch:
-                case ItemFMGTypes.SummaryWeaponsPatch:
-                case ItemFMGTypes.TitleWeaponsPatch:
-                    return ItemCategory.Weapons;
-
-                case ItemFMGTypes.DescriptionArmor:
-                case ItemFMGTypes.DescriptionArmorDLC1:
-                case ItemFMGTypes.DescriptionArmorDLC2:
-                case ItemFMGTypes.SummaryArmor:
-                case ItemFMGTypes.TitleArmor:
-                case ItemFMGTypes.TitleArmorDLC1:
-                case ItemFMGTypes.TitleArmorDLC2:
-                case ItemFMGTypes.DescriptionArmorPatch:
-                case ItemFMGTypes.SummaryArmorPatch:
-                case ItemFMGTypes.TitleArmorPatch:
-                    return ItemCategory.Armor;
-
-                case ItemFMGTypes.DescriptionRings:
-                case ItemFMGTypes.DescriptionRingsDLC1:
-                case ItemFMGTypes.DescriptionRingsDLC2:
-                case ItemFMGTypes.SummaryRings:
-                case ItemFMGTypes.SummaryRingsDLC1:
-                case ItemFMGTypes.SummaryRingsDLC2:
-                case ItemFMGTypes.TitleRings:
-                case ItemFMGTypes.TitleRingsDLC1:
-                case ItemFMGTypes.TitleRingsDLC2:
-                case ItemFMGTypes.DescriptionRingsPatch:
-                case ItemFMGTypes.SummaryRingsPatch:
-                case ItemFMGTypes.TitleRingsPatch:
-                    return ItemCategory.Rings;
-
-                case ItemFMGTypes.DescriptionSpells:
-                case ItemFMGTypes.DescriptionSpellsDLC1:
-                case ItemFMGTypes.DescriptionSpellsDLC2:
-                case ItemFMGTypes.SummarySpells:
-                case ItemFMGTypes.SummarySpellsDLC1:
-                case ItemFMGTypes.SummarySpellsDLC2:
-                case ItemFMGTypes.TitleSpells:
-                case ItemFMGTypes.TitleSpellsDLC1:
-                case ItemFMGTypes.TitleSpellsDLC2:
-                case ItemFMGTypes.DescriptionSpellsPatch:
-                case ItemFMGTypes.TitleSpellsPatch:
-                    return ItemCategory.Spells;
-
-                case ItemFMGTypes.TitleCharacters:
-                case ItemFMGTypes.TitleCharactersDLC1:
-                case ItemFMGTypes.TitleCharactersDLC2:
-                case ItemFMGTypes.TitleCharactersPatch:
-                    return ItemCategory.Characters;
-
-                case ItemFMGTypes.TitleLocations:
-                case ItemFMGTypes.TitleLocationsDLC1:
-                case ItemFMGTypes.TitleLocationsDLC2:
-                case ItemFMGTypes.TitleLocationsPatch:
-                    return ItemCategory.Locations;
-
-                case ItemFMGTypes.TitleGem:
-                case ItemFMGTypes.SummaryGem:
-                case ItemFMGTypes.DescriptionGem:
-                    return ItemCategory.Gem;
-
-                case ItemFMGTypes.TitleSwordArts:
-                case ItemFMGTypes.SummarySwordArts:
-                    return ItemCategory.SwordArts;
-
-                case ItemFMGTypes.TitleMessage:
-                    return ItemCategory.Message;
-
-                case ItemFMGTypes.SummaryEffect:
-                    return ItemCategory.Effect;
-
-                case ItemFMGTypes.SummaryMiscER:
-                    return ItemCategory.Misc;
-                default:
-                    //throw new Exception("Unrecognized FMG type");
-                    return ItemCategory.None;
-            }
-        }
-
-        public static ItemType ItemTypeOf(ItemFMGTypes ftype)
-        {
-            switch (ftype)
-            {
-                case ItemFMGTypes.DescriptionGoods:
-                case ItemFMGTypes.DescriptionGoodsDLC1:
-                case ItemFMGTypes.DescriptionGoodsDLC2:
-                case ItemFMGTypes.DescriptionWeapons:
-                case ItemFMGTypes.DescriptionWeaponsDLC1:
-                case ItemFMGTypes.DescriptionWeaponsDLC2:
-                case ItemFMGTypes.DescriptionArmor:
-                case ItemFMGTypes.DescriptionArmorDLC1:
-                case ItemFMGTypes.DescriptionArmorDLC2:
-                case ItemFMGTypes.DescriptionRings:
-                case ItemFMGTypes.DescriptionRingsDLC1:
-                case ItemFMGTypes.DescriptionRingsDLC2:
-                case ItemFMGTypes.DescriptionSpells:
-                case ItemFMGTypes.DescriptionSpellsDLC1:
-                case ItemFMGTypes.DescriptionSpellsDLC2:
-                case ItemFMGTypes.DescriptionArmorPatch:
-                case ItemFMGTypes.DescriptionGoodsPatch:
-                case ItemFMGTypes.DescriptionRingsPatch:
-                case ItemFMGTypes.DescriptionSpellsPatch:
-                case ItemFMGTypes.DescriptionWeaponsPatch:
-                case ItemFMGTypes.DescriptionGem:
-                    return ItemType.Description;
-                case ItemFMGTypes.SummaryGoods:
-                case ItemFMGTypes.SummaryGoodsDLC1:
-                case ItemFMGTypes.SummaryGoodsDLC2:
-                case ItemFMGTypes.SummaryWeapons:
-                case ItemFMGTypes.SummaryArmor:
-                case ItemFMGTypes.SummaryRings:
-                case ItemFMGTypes.SummaryRingsDLC1:
-                case ItemFMGTypes.SummaryRingsDLC2:
-                case ItemFMGTypes.SummarySpells:
-                case ItemFMGTypes.SummarySpellsDLC1:
-                case ItemFMGTypes.SummarySpellsDLC2:
-                case ItemFMGTypes.SummaryArmorPatch:
-                case ItemFMGTypes.SummaryGoodsPatch:
-                case ItemFMGTypes.SummaryRingsPatch:
-                case ItemFMGTypes.SummaryWeaponsPatch:
-                case ItemFMGTypes.SummaryGem:
-                case ItemFMGTypes.SummarySwordArts:
-                    return ItemType.Summary;
-                case ItemFMGTypes.TitleGoods:
-                case ItemFMGTypes.TitleGoodsDLC1:
-                case ItemFMGTypes.TitleGoodsDLC2:
-                case ItemFMGTypes.TitleWeapons:
-                case ItemFMGTypes.TitleWeaponsDLC1:
-                case ItemFMGTypes.TitleWeaponsDLC2:
-                case ItemFMGTypes.TitleArmor:
-                case ItemFMGTypes.TitleArmorDLC1:
-                case ItemFMGTypes.TitleArmorDLC2:
-                case ItemFMGTypes.TitleRings:
-                case ItemFMGTypes.TitleRingsDLC1:
-                case ItemFMGTypes.TitleRingsDLC2:
-                case ItemFMGTypes.TitleSpells:
-                case ItemFMGTypes.TitleSpellsDLC1:
-                case ItemFMGTypes.TitleSpellsDLC2:
-                case ItemFMGTypes.TitleCharacters:
-                case ItemFMGTypes.TitleCharactersDLC1:
-                case ItemFMGTypes.TitleCharactersDLC2:  
-                case ItemFMGTypes.TitleLocations:
-                case ItemFMGTypes.TitleLocationsDLC1:
-                case ItemFMGTypes.TitleLocationsDLC2:
-                case ItemFMGTypes.TitleTest:
-                case ItemFMGTypes.TitleTest2:
-                case ItemFMGTypes.TitleTest3:
-                case ItemFMGTypes.TitleArmorPatch:
-                case ItemFMGTypes.TitleCharactersPatch:
-                case ItemFMGTypes.TitleGoodsPatch:
-                case ItemFMGTypes.TitleLocationsPatch:
-                case ItemFMGTypes.TitleRingsPatch:
-                case ItemFMGTypes.TitleSpellsPatch:
-                case ItemFMGTypes.TitleWeaponsPatch:
-                case ItemFMGTypes.TitleGem:
-                case ItemFMGTypes.TitleMessage:
-                case ItemFMGTypes.TitleSwordArts:
-                //Summaries without titles
-                case ItemFMGTypes.SummaryEffect:
-                case ItemFMGTypes.SummaryMiscER:
-                    return ItemType.Title;
-                case ItemFMGTypes.ERUnk45:
-                    return ItemType.None;
-                default:
-                    //throw new Exception("Unrecognized FMG type");
-                    return ItemType.None;
-            }
-        }
-
-
-        public static Dictionary<ItemFMGTypes, FMG> GetItemFMGs()
-        {
-            return _itemFMGs;
-        }
-
-        public static Dictionary<MenuFMGTypes, FMG> GetMenuFMGs()
-        {
-            return _menuFMGs;
+            // Multiple use cases
+            ReusedFMG_210 = 210,
+            // 210
+            // DS3: TitleGoods_DLC1
+            // ER:  ToS_win64
+            ReusedFMG_205 = 205,
+            // 205
+            // DS3: SystemMessage_PS4
+            // SDT: TutorialText
+            // ER:  LoadingTitle
+            ReusedFMG_206 = 206,
+            // 206
+            // DS3: SystemMessage_XboxOne 
+            // SDT: TutorialTitle
+            // ER:  LoadingText
         }
 
         /// <summary>
-        /// Get Item FMG entries by type, check for patch FMGs and order list afterwards.
+        /// Get category for grouped entries (Goods, Weapons, etc)
         /// </summary>
-        public static List<FMG.Entry> GetItemFMGEntriesByType(ItemCategory cat, ItemType type, bool sort = true)
+        public static FmgEntryCategory GetFmgCategory(int id)
         {
-            var list = new List<FMG.Entry>();
-            foreach (var fmg in _itemFMGs)
+            switch ((FmgIDType)id)
             {
-                if (ItemCategoryOf(fmg.Key) == cat && ItemTypeOf(fmg.Key) == type)
+                case FmgIDType.TitleTest:
+                case FmgIDType.TitleTest2:
+                case FmgIDType.TitleTest3:
+                case FmgIDType.ERUnk45:
+                    return FmgEntryCategory.None;
+
+                case FmgIDType.DescriptionGoods:
+                case FmgIDType.DescriptionGoods_Patch:
+                case FmgIDType.DescriptionGoods_DLC1:
+                case FmgIDType.DescriptionGoods_DLC2:
+                case FmgIDType.SummaryGoods:
+                case FmgIDType.SummaryGoods_Patch:
+                case FmgIDType.SummaryGoods_DLC1:
+                case FmgIDType.SummaryGoods_DLC2:
+                case FmgIDType.TitleGoods:
+                case FmgIDType.TitleGoods_Patch:
+                case FmgIDType.ReusedFMG_210:
+                case FmgIDType.TitleGoods_DLC2:
+                    return FmgEntryCategory.Goods;
+
+                case FmgIDType.DescriptionWeapons:
+                case FmgIDType.DescriptionWeapons_DLC1:
+                case FmgIDType.DescriptionWeapons_DLC2:
+                case FmgIDType.SummaryWeapons:
+                case FmgIDType.TitleWeapons:
+                case FmgIDType.TitleWeapons_DLC1:
+                case FmgIDType.TitleWeapons_DLC2:
+                case FmgIDType.DescriptionWeapons_Patch:
+                case FmgIDType.SummaryWeapons_Patch:
+                case FmgIDType.TitleWeapons_Patch:
+                    return FmgEntryCategory.Weapons;
+
+                case FmgIDType.DescriptionArmor:
+                case FmgIDType.DescriptionArmor_DLC1:
+                case FmgIDType.DescriptionArmor_DLC2:
+                case FmgIDType.SummaryArmor:
+                case FmgIDType.TitleArmor:
+                case FmgIDType.TitleArmor_DLC1:
+                case FmgIDType.TitleArmor_DLC2:
+                case FmgIDType.DescriptionArmor_Patch:
+                case FmgIDType.SummaryArmor_Patch:
+                case FmgIDType.TitleArmor_Patch:
+                    return FmgEntryCategory.Armor;
+
+                case FmgIDType.DescriptionRings:
+                case FmgIDType.DescriptionRings_DLC1:
+                case FmgIDType.DescriptionRings_DLC2:
+                case FmgIDType.SummaryRings:
+                case FmgIDType.SummaryRings_DLC1:
+                case FmgIDType.SummaryRings_DLC2:
+                case FmgIDType.TitleRings:
+                case FmgIDType.TitleRings_DLC1:
+                case FmgIDType.TitleRings_DLC2:
+                case FmgIDType.DescriptionRings_Patch:
+                case FmgIDType.SummaryRings_Patch:
+                case FmgIDType.TitleRings_Patch:
+                    return FmgEntryCategory.Rings;
+
+                case FmgIDType.DescriptionSpells:
+                case FmgIDType.DescriptionSpells_DLC1:
+                case FmgIDType.DescriptionSpells_DLC2:
+                case FmgIDType.SummarySpells:
+                case FmgIDType.SummarySpells_DLC1:
+                case FmgIDType.SummarySpells_DLC2:
+                case FmgIDType.TitleSpells:
+                case FmgIDType.TitleSpells_DLC1:
+                case FmgIDType.TitleSpells_DLC2:
+                case FmgIDType.DescriptionSpells_Patch:
+                case FmgIDType.TitleSpells_Patch:
+                    return FmgEntryCategory.Spells;
+
+                case FmgIDType.TitleCharacters:
+                case FmgIDType.TitleCharacters_DLC1:
+                case FmgIDType.TitleCharacters_DLC2:
+                case FmgIDType.TitleCharacters_Patch:
+                    return FmgEntryCategory.Characters;
+
+                case FmgIDType.TitleLocations:
+                case FmgIDType.TitleLocations_DLC1:
+                case FmgIDType.TitleLocations_DLC2:
+                case FmgIDType.TitleLocations_Patch:
+                    return FmgEntryCategory.Locations;
+
+                case FmgIDType.TitleGem:
+                case FmgIDType.SummaryGem:
+                case FmgIDType.DescriptionGem:
+                    return FmgEntryCategory.Gem;
+
+                case FmgIDType.TitleSwordArts:
+                case FmgIDType.SummarySwordArts:
+                    return FmgEntryCategory.SwordArts;
+
+                case FmgIDType.TitleMessage:
+                    return FmgEntryCategory.Message;
+
+                case FmgIDType.SummaryEffect:
+                    return FmgEntryCategory.Effect;
+
+                default:
+                    return FmgEntryCategory.None;
+            }
+        }
+
+        /// <summary>
+        /// Get entry text type (such as weapon Title, Summary, Description)
+        /// </summary>
+        public static FmgEntryTextType GetFmgTextType(int id)
+        {
+            switch ((FmgIDType)id)
+            {
+                case FmgIDType.DescriptionGoods:
+                case FmgIDType.DescriptionGoods_DLC1:
+                case FmgIDType.DescriptionGoods_DLC2:
+                case FmgIDType.DescriptionWeapons:
+                case FmgIDType.DescriptionWeapons_DLC1:
+                case FmgIDType.DescriptionWeapons_DLC2:
+                case FmgIDType.DescriptionArmor:
+                case FmgIDType.DescriptionArmor_DLC1:
+                case FmgIDType.DescriptionArmor_DLC2:
+                case FmgIDType.DescriptionRings:
+                case FmgIDType.DescriptionRings_DLC1:
+                case FmgIDType.DescriptionRings_DLC2:
+                case FmgIDType.DescriptionSpells:
+                case FmgIDType.DescriptionSpells_DLC1:
+                case FmgIDType.DescriptionSpells_DLC2:
+                case FmgIDType.DescriptionArmor_Patch:
+                case FmgIDType.DescriptionGoods_Patch:
+                case FmgIDType.DescriptionRings_Patch:
+                case FmgIDType.DescriptionSpells_Patch:
+                case FmgIDType.DescriptionWeapons_Patch:
+                case FmgIDType.DescriptionGem:
+                    return FmgEntryTextType.Description;
+
+                case FmgIDType.SummaryGoods:
+                case FmgIDType.SummaryGoods_DLC1:
+                case FmgIDType.SummaryGoods_DLC2:
+                case FmgIDType.SummaryWeapons:
+                case FmgIDType.SummaryArmor:
+                case FmgIDType.SummaryRings:
+                case FmgIDType.SummaryRings_DLC1:
+                case FmgIDType.SummaryRings_DLC2:
+                case FmgIDType.SummarySpells:
+                case FmgIDType.SummarySpells_DLC1:
+                case FmgIDType.SummarySpells_DLC2:
+                case FmgIDType.SummaryArmor_Patch:
+                case FmgIDType.SummaryGoods_Patch:
+                case FmgIDType.SummaryRings_Patch:
+                case FmgIDType.SummaryWeapons_Patch:
+                case FmgIDType.SummaryGem:
+                case FmgIDType.SummarySwordArts:
+                    return FmgEntryTextType.Summary;
+
+                case FmgIDType.TitleGoods:
+                case FmgIDType.ReusedFMG_210:
+                case FmgIDType.TitleGoods_DLC2:
+                case FmgIDType.TitleWeapons:
+                case FmgIDType.TitleWeapons_DLC1:
+                case FmgIDType.TitleWeapons_DLC2:
+                case FmgIDType.TitleArmor:
+                case FmgIDType.TitleArmor_DLC1:
+                case FmgIDType.TitleArmor_DLC2:
+                case FmgIDType.TitleRings:
+                case FmgIDType.TitleRings_DLC1:
+                case FmgIDType.TitleRings_DLC2:
+                case FmgIDType.TitleSpells:
+                case FmgIDType.TitleSpells_DLC1:
+                case FmgIDType.TitleSpells_DLC2:
+                case FmgIDType.TitleCharacters:
+                case FmgIDType.TitleCharacters_DLC1:
+                case FmgIDType.TitleCharacters_DLC2:
+                case FmgIDType.TitleLocations:
+                case FmgIDType.TitleLocations_DLC1:
+                case FmgIDType.TitleLocations_DLC2:
+                case FmgIDType.TitleTest:
+                case FmgIDType.TitleTest2:
+                case FmgIDType.TitleTest3:
+                case FmgIDType.TitleArmor_Patch:
+                case FmgIDType.TitleCharacters_Patch:
+                case FmgIDType.TitleGoods_Patch:
+                case FmgIDType.TitleLocations_Patch:
+                case FmgIDType.TitleRings_Patch:
+                case FmgIDType.TitleSpells_Patch:
+                case FmgIDType.TitleWeapons_Patch:
+                case FmgIDType.TitleGem:
+                case FmgIDType.TitleMessage:
+                case FmgIDType.TitleSwordArts:
+                    return FmgEntryTextType.Title;
+
+                // Summaries without titles
+                case FmgIDType.ERUnk45:
+                case FmgIDType.SummaryEffect:
+                case FmgIDType.SummaryMiscER:
+                    return FmgEntryTextType.TextBody;
+                default:
+                    return FmgEntryTextType.TextBody;
+            }
+        }
+
+        /*
+        /// <summary>
+        /// Checks if FMG is a patch FMG
+        /// </summary>
+        public static bool IsPatchFMG(FMGInfo info)
+        {
+            switch (info.FmgID)
+            {
+                case FmgIDType.ReusedFMG_210: // Changes per-game. Handled elsewhere.
+                    return false;
+                case FmgIDType.TitleGoods_Patch:
+                case FmgIDType.DescriptionGoods_Patch:
+                case FmgIDType.DescriptionGoods_DLC1:
+                case FmgIDType.DescriptionGoods_DLC2:
+                case FmgIDType.SummaryGoods_Patch:
+                case FmgIDType.SummaryGoods_DLC1:
+                case FmgIDType.SummaryGoods_DLC2:
+                case FmgIDType.TitleGoods:
+                case FmgIDType.TitleGoods_DLC2:
+                case FmgIDType.DescriptionWeapons_DLC1:
+                case FmgIDType.DescriptionWeapons_DLC2:
+                case FmgIDType.TitleWeapons_DLC1:
+                case FmgIDType.TitleWeapons_DLC2:
+                case FmgIDType.DescriptionWeapons_Patch:
+                case FmgIDType.SummaryWeapons_Patch:
+                case FmgIDType.TitleWeapons_Patch:
+                case FmgIDType.DescriptionArmor_DLC1:
+                case FmgIDType.DescriptionArmor_DLC2:
+                case FmgIDType.TitleArmor_DLC1:
+                case FmgIDType.TitleArmor_DLC2:
+                case FmgIDType.DescriptionArmor_Patch:
+                case FmgIDType.SummaryArmor_Patch:
+                case FmgIDType.TitleArmor_Patch:
+                case FmgIDType.DescriptionRings_DLC1:
+                case FmgIDType.DescriptionRings_DLC2:
+                case FmgIDType.SummaryRings_DLC1:
+                case FmgIDType.SummaryRings_DLC2:
+                case FmgIDType.TitleRings_DLC1:
+                case FmgIDType.TitleRings_DLC2:
+                case FmgIDType.DescriptionRings_Patch:
+                case FmgIDType.SummaryRings_Patch:
+                case FmgIDType.TitleRings_Patch:
+                case FmgIDType.DescriptionSpells_DLC1:
+                case FmgIDType.DescriptionSpells_DLC2:
+                case FmgIDType.SummarySpells_DLC1:
+                case FmgIDType.SummarySpells_DLC2:
+                case FmgIDType.TitleSpells_DLC1:
+                case FmgIDType.TitleSpells_DLC2:
+                case FmgIDType.DescriptionSpells_Patch:
+                case FmgIDType.TitleSpells_Patch:
+                case FmgIDType.TitleCharacters_DLC1:
+                case FmgIDType.TitleCharacters_DLC2:
+                case FmgIDType.TitleCharacters_Patch:
+                case FmgIDType.TitleLocations_DLC1:
+                case FmgIDType.TitleLocations_DLC2:
+                case FmgIDType.TitleLocations_Patch:
+                    return true;
+            }
+            return false;
+        }
+        */
+
+        /// <summary>
+        /// Dumb little list for comparing FMG type enum strings for patch FMGs
+        /// </summary>
+        private readonly static List<string> patchStrings = new()
+        {
+            "_Patch",
+            "_DLC1",
+            "_DLC2",
+        };
+
+        /// <summary>
+        /// Removes patch/DLC identifiers from strings for the purposes of finding patch FMGs. Kinda dumb.
+        /// </summary>
+        private static string RemovePatchStrings(string str)
+        {
+            foreach (var badString in patchStrings)
+            {
+                str = str.Replace(badString, "", StringComparison.CurrentCultureIgnoreCase);
+            }
+            return str;
+        }
+
+        public static FMGInfo SetFMGInfo(BinderFile file)
+        {
+            var fmg = FMG.Read(file.Bytes);
+            var name = Enum.GetName(typeof(FmgIDType), file.ID);
+            FMGInfo info = new()
+            {
+                Name = name,
+                FmgID = (FmgIDType)file.ID,
+                Fmg = fmg,
+                EntryType = GetFmgTextType(file.ID),
+                EntryCategory = GetFmgCategory(file.ID)
+            };
+            if (info.EntryCategory == FmgEntryCategory.None)
+            {
+                info.UICategory = FmgUICategory.Menu;
+            }
+            else
+            {
+                info.UICategory = FmgUICategory.Item;
+            }
+
+            foreach (var parentInfo in _fmgInfoBank)
+            {
+                if (parentInfo.Name == RemovePatchStrings(info.FmgID.ToString()))
                 {
-                    foreach (var entry in fmg.Value.Entries)
-                    {
-                        var oldEntry = list.Find(e => e.ID == entry.ID);
-                        if (oldEntry != null)
-                        {
-                            //List already has this ID, so this is probably a patch entry. Replace the old one if the new one isn't null
-                            if (entry.Text != null)
-                            {
-                                list.Remove(oldEntry);
-                                list.Add(entry);
-                            }
-                        }
-                        else
-                        {
-                            list.Add(entry);
-                        }
-                    }
+                    // Patch FMG found
+                    info.IsPatchChild = true;
+                    parentInfo.PatchChildren.Add(info);
                 }
             }
-            if (sort)
-                list = list.OrderBy(e => e.ID).ToList();
-            return list;
+
+            ApplyGameDifferences(info);
+            ActiveUITypes[info.UICategory] = true;
+
+            return info;
         }
-        public static List<FMG.Entry> GetMenuFMGEntries(FMG fmg)
+
+        public static void SetFMGInfoDS2(string file)
         {
-            var list = new List<FMG.Entry>();
-            foreach (var entry in fmg.Entries)
+            // TODO: DS2 FMG grouping & UI sorting (copy SetFMGInfo)
+            var fmg = FMG.Read(file);
+            var name = Path.GetFileNameWithoutExtension(file);
+            FMGInfo info = new()
             {
-                var oldEntry = list.Find(e => e.ID == entry.ID);
-                if (oldEntry != null)
-                {
-                    //List already has this ID, so this is probably a patch entry. Replace the old one if the new one isn't null
-                    if (entry.Text != null)
-                    {
-                        list.Remove(oldEntry);
-                        list.Add(entry);
-                    }
-                }
-                else
-                {
-                    list.Add(entry);
-                }
-            }
-            list = list.OrderBy(e => e.ID).ToList();
-            return list;
+                Name = name,
+                FmgID = FmgIDType.None,
+                Fmg = fmg,
+                EntryType = FmgEntryTextType.TextBody,
+                EntryCategory = FmgEntryCategory.None,
+                UICategory = FmgUICategory.Text,
+            };
+            ActiveUITypes[info.UICategory] = true;
+            _fmgInfoBank.Add(info);
         }
 
-
-        //very, very stupid hack solution for row duplication.
-        public static FMG FindFMGForEntry_Item(FMG.Entry entry)
+        /// <summary>
+        /// Loads MSGbnd from path, generates FMGInfo, and fills FmgInfoBank.
+        /// </summary>
+        /// <returns>True if successful; false otherwise.</returns>
+        private static bool LoadMSGBND(string path)
         {
-            var fmgPair = _itemFMGs.Values.First(e => e.Entries.Contains(entry));
-            FMG fmg = fmgPair;
-            return fmg;
-        }
-        //very, very stupid hack solution for row duplication.
-        public static FMG FindFMGForEntry_Menu(FMG.Entry entry)
-        {
-            FMG fmg = new();
-            fmg = (FMG)_menuFMGs.Where(e => e.Value.Entries.Contains(entry));
-            return fmg;
-        }
-
-        public static void LookupItemID(int id, ItemCategory cat, out FMG.Entry title, out FMG.Entry summary, out FMG.Entry description)
-        {
-            title = null;
-            summary = null;
-            description = null;
-
-            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Title))
+            if (path == null)
             {
-                if (item.ID == id)
-                {
-                    title = item;
-                }
+                MessageBox.Show($"Could not find {path}", "Error");
+                IsLoaded = true; //permits loading default language
+                IsLoading = false;
+                return false;
             }
 
-            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Summary))
+            IBinder fmgBinder;
+            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
-                if (item.ID == id)
-                {
-                    summary = item;
-                }
+                fmgBinder = BND3.Read(path);
+            }
+            else
+            {
+                fmgBinder = BND4.Read(path);
             }
 
-            foreach (var item in GetItemFMGEntriesByType(cat, ItemType.Description))
+            foreach (var file in fmgBinder.Files)
             {
-                if (item.ID == id)
-                {
-                    description = item;
-                }
+                _fmgInfoBank.Add(SetFMGInfo(file));
             }
+            return true;
+        }
+        public static void ReloadFMGs(string languageFolder = "")
+        {
+            _languageFolder = languageFolder;
+            IsLoaded = false;
+            IsLoading = true;
+
+            ActiveUITypes.Clear();
+            foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
+            {
+                ActiveUITypes.Add((FmgUICategory)e, false);
+            }
+
+            //TaskManager.Run("FB:Reload", true, false, true, () =>
+            if (AssetLocator.Type == GameType.Undefined)
+            {
+                return;
+            }
+
+            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                ReloadDS2FMGs(ref _languageFolder);
+                IsLoading = false;
+                IsLoaded = true;
+                return;
+            }
+
+            var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
+            var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+            _fmgInfoBank.Clear();
+            LoadMSGBND(itemMsgPath.AssetPath);
+            LoadMSGBND(menuMsgPath.AssetPath);
+
+            _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
+
+            IsLoaded = true;
+            IsLoading = false;
         }
 
-        public static void ReloadFMGsDS2(ref string languageFolder)
+        public static void ReloadDS2FMGs(ref string languageFolder)
         {
             var desc = AssetLocator.GetItemMsgbnd(ref languageFolder, true);
-            //var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg",SearchOption.AllDirectories).ToList(); // needs to handle subfolders differently, within GUI section menus
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
-            _ds2fmgs = new Dictionary<string, FMG>();
+            _fmgInfoBank.Clear();
             foreach (var file in files)
             {
                 var modfile = $@"{AssetLocator.GameModDirectory}\{desc.AssetPath}\{Path.GetFileName(file)}";
                 if (AssetLocator.GameModDirectory != null && File.Exists(modfile))
                 {
                     var fmg = FMG.Read(modfile);
-                    _ds2fmgs.Add(Path.GetFileNameWithoutExtension(modfile), fmg);
+                    SetFMGInfoDS2(modfile);
                 }
                 else
                 {
                     var fmg = FMG.Read(file);
-                    _ds2fmgs.Add(Path.GetFileNameWithoutExtension(file), fmg);
+                    SetFMGInfoDS2(file);
+                }
+
+                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Checks for FMG info that differs per-game
+        /// </summary>
+        public static void ApplyGameDifferences(FMGInfo info)
+        {
+            var gameType = AssetLocator.Type;
+            switch (info.FmgID)
+            {
+                case FmgIDType.ReusedFMG_205:
+                    if (gameType == GameType.EldenRing)
+                        info.Name = "LoadingTitle";
+                    else if (gameType == GameType.Sekiro)
+                        info.Name = "LoadingText";
+                    else
+                        info.Name = "SystemMessage_PS4";
+                    break;
+                case FmgIDType.ReusedFMG_206:
+                    if (gameType == GameType.EldenRing)
+                        info.Name = "LoadingText";
+                    else if (gameType == GameType.Sekiro)
+                        info.Name = "LoadingTitle";
+                    else
+                        info.Name = "SystemMessage_XboxOne";
+                    break;
+                case FmgIDType.ReusedFMG_210:
+                    if (gameType == GameType.EldenRing)
+                    {
+                        info.Name = "ToS_win64";
+                        info.UICategory = FmgUICategory.Menu;
+                        info.EntryType = FmgEntryTextType.TextBody;
+                        info.EntryCategory = FmgEntryCategory.None;
+                    }
+                    else
+                    {
+                        info.Name = "TitleGoods_DLC1";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryType = FmgEntryTextType.Title;
+                        info.EntryCategory = FmgEntryCategory.Goods;
+                        info.IsPatchChild = true;
+                        var parent = _fmgInfoBank.Find(e => e.FmgID == FmgIDType.TitleGoods);
+                        parent.PatchChildren.Add(info);
+                    }
+                    break;
+            }
+            return;
+        }
+
+
+        /// <summary>
+        /// Get patched FMG Entries for the specified category and text type.
+        /// </summary>
+        /// <returns>Returns a list of entries if found; otherwise returns an empty list.</returns>
+        public static List<FMG.Entry> GetFmgEntriesByType(FmgEntryCategory category, FmgEntryTextType textType, bool sort = true)
+        {
+            foreach (var info in _fmgInfoBank)
+            {
+                if (info.EntryCategory == category && info.EntryType == textType)
+                {
+                    return info.PatchedEntries(sort);
                 }
             }
+            return new List<FMG.Entry>();
+        }
+
+        /// <summary>
+        /// Generate a new EntryGroup using a given ID and FMGInfo.
+        /// Data is updated using FMGInfo PatchChildren.
+        /// </summary>
+        public static EntryGroup GenerateEntryGroup(int id, FMGInfo fmgInfo)
+        {
+            EntryGroup eInfo = new()
+            {
+                ID = id,
+            };
+            if (fmgInfo.EntryCategory == FmgEntryCategory.None)
+            {
+                var entryPairs = fmgInfo.PatchedEntryFMGPairs();
+                var pair = entryPairs.Find(e => e.Entry.ID == id);
+                eInfo.TextBody = pair.Entry;
+                eInfo.TextBodyInfo = pair.FmgInfo;
+                return eInfo;
+            }
+            else
+            {
+                foreach (var info in _fmgInfoBank)
+                {
+                    if (info.EntryCategory == fmgInfo.EntryCategory)
+                    {
+                        var entryPairs = info.PatchedEntryFMGPairs();
+                        var pair = entryPairs.Find(e => e.Entry.ID == id);
+                        if (pair != null)
+                        {
+                            switch (info.EntryType)
+                            {
+                                case FmgEntryTextType.Title:
+                                    eInfo.Title = pair.Entry;
+                                    eInfo.TitleInfo = pair.FmgInfo;
+                                    break;
+                                case FmgEntryTextType.Summary:
+                                    eInfo.Summary = pair.Entry;
+                                    eInfo.SummaryInfo = pair.FmgInfo;
+                                    break;
+                                case FmgEntryTextType.Description:
+                                    eInfo.Description = pair.Entry;
+                                    eInfo.DescriptionInfo = pair.FmgInfo;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            return eInfo;
         }
 
         public static bool ExportFMGs()
@@ -623,16 +1178,15 @@ namespace StudioCore.TextEditor
 
             var path = folderDialog.SelectedPath;
             int filecount = 0;
-
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 Directory.CreateDirectory(path);
 
-                foreach (var fmg in _ds2fmgs)
+                foreach (var info in _fmgInfoBank)
                 {
-                    var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                    var fmgPair = KeyValuePair.Create(info.Name, info.Fmg);
                     var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                    File.WriteAllText($@"{path}\{fmg.Key.ToString()}.fmg.json", json);
+                    File.WriteAllText($@"{path}\{info.Name}.fmg.json", json);
                     filecount++;
                 }
             }
@@ -642,31 +1196,31 @@ namespace StudioCore.TextEditor
                 var menuPath = $@"{path}\Menu Text";
                 Directory.CreateDirectory(itemPath);
                 Directory.CreateDirectory(menuPath);
-
-                foreach (var fmg in _itemFMGs)
+                foreach (var info in _fmgInfoBank)
                 {
-                    var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
+                    if (info.UICategory == FmgUICategory.Item)
+                    {
+                        path = itemPath;
+                    }
+                    else if (info.UICategory == FmgUICategory.Item)
+                    {
+                        path = menuPath;
+                    }
+                    var fmgPair = KeyValuePair.Create(info.Name, info.Fmg);
                     var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                    File.WriteAllText($@"{itemPath}\{fmg.Key.ToString()}.fmg.json", json);
-                    filecount++;
-                }
-
-                foreach (var fmg in _menuFMGs)
-                {
-                    var fmgPair = KeyValuePair.Create(fmg.Key.ToString(), fmg.Value);
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                    File.WriteAllText($@"{menuPath}\{fmg.Key.ToString()}.fmg.json", json);
+                    File.WriteAllText($@"{path}\{info.Name}.fmg.json", json);
                     filecount++;
                 }
             }
             MessageBox.Show($"Exported {filecount} text files", "Finished", MessageBoxButtons.OK);
             return true;
         }
+
         public static bool ImportFMGs()
         {
             OpenFileDialog fileDialog = new();
             fileDialog.Title = "Choose Files to Import";
-            fileDialog.Filter ="Exported FMGs|*.fmg.json|All files|*.*";
+            fileDialog.Filter = "Exported FMGs|*.fmg.json|All files|*.*";
             fileDialog.Multiselect = true;
             if (fileDialog.ShowDialog() != DialogResult.OK)
             {
@@ -680,219 +1234,106 @@ namespace StudioCore.TextEditor
             }
 
             int filecount = 0;
-
             foreach (var filePath in files)
             {
                 var file = File.ReadAllText(filePath);
                 var json = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyValuePair<string, FMG>>(@file);
-
-                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                foreach (var info in _fmgInfoBank)
                 {
-                    foreach (var fmg in _ds2fmgs)
+                    if (info.Name == json.Key)
                     {
-                        if (fmg.Key.ToString() == json.Key)
-                        {
-                            _ds2fmgs[fmg.Key] = json.Value;
-                            filecount++;
-                            goto Continue;
-                        }
+                        info.Fmg = json.Value;
+                        filecount++;
+                        continue;
                     }
                 }
-                else
-                {
-                    foreach (var fmg in _itemFMGs)
-                    {
-                        if (fmg.Key.ToString() == json.Key)
-                        {
-                            _itemFMGs[fmg.Key] = json.Value;
-                            filecount++;
-                            goto Continue;
-                        }
-                    }
-                    foreach (var fmg in _menuFMGs)
-                    {
-                        if (fmg.Key.ToString() == json.Key)
-                        {
-                            _menuFMGs[fmg.Key] = json.Value;
-                            filecount++;
-                            goto Continue;
-                        }
-                    }
-                }
-                Continue:;
             }
             MessageBox.Show($"Imported {filecount} text files", "Finished", MessageBoxButtons.OK);
             return true;
         }
 
-        public static void ReloadFMGs(string languageFolder = "")
-        {
-            _languageFolder = languageFolder;
-            IsLoaded = false;
-            IsLoading = true;
-
-            TaskManager.Run("FB:Reload", true, false, true, () =>
-            {
-                try
-                {
-                    if (AssetLocator.Type == GameType.Undefined)
-                    {
-                        return;
-                    }
-
-                    if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                    {
-                        ReloadFMGsDS2(ref _languageFolder);
-                        IsLoading = false;
-                        IsLoaded = true;
-                        return;
-                    }
-
-                    var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-                    var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
-                    if (itemMsgPath.AssetPath == null)
-                    {
-                        MessageBox.Show($"Could not find item.msgbnd in {_languageFolder}", "Error");
-                        IsLoaded = true; //permits loading default language
-                        IsLoading = false;
-                        return;
-                    }
-
-                    if (menuMsgPath.AssetPath == null)
-                    {
-                        MessageBox.Show($"Could not find menu.msgbnd in {_languageFolder}", "Error");
-                        IsLoaded = true; //permits loading default language
-                        IsLoading = false;
-                        return;
-                    }
-
-                    IBinder fmgBinderItem;
-                    IBinder fmgBinderMenu;
-                    if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE ||
-                        AssetLocator.Type == GameType.DarkSoulsRemastered)
-                    {
-                        fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
-                        fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
-                    }
-                    else
-                    {
-                        fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
-                        fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
-                    }
-
-                    _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
-                    _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
-                    foreach (var file in fmgBinderItem.Files)
-                    {
-                        if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
-                            _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                        else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
-                            _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
-                        else
-                            MessageBox.Show(
-                                $"Didn't expect FMG ID \"{file.ID}\" in \"item.msgbnd\". Please report this error.",
-                                "FMG skipped");
-                    }
-
-                    foreach (var file in fmgBinderMenu.Files)
-                    {
-                        if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
-                            _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                        else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
-                            _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
-                        else
-                            MessageBox.Show(
-                                $"Didn't expect FMG ID \"{file.ID}\" in \"menu.msgbnd\". Please report this error.",
-                                "FMG skipped");
-                    }
-
-                    _itemFMGs = _itemFMGs.OrderBy(e => e.Key.ToString()).ToDictionary(e => e.Key, e => e.Value);
-                    _menuFMGs = _menuFMGs.OrderBy(e => MenuEnumString(e.Key)).ToDictionary(e => e.Key, e => e.Value);
-                    IsLoaded = true;
-                    IsLoading = false;
-                }
-                catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
-                {
-                    _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
-                    _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
-                    IsLoaded = false;
-                    IsLoading = false;
-                }
-            });
-        }
-
         private static void SaveFMGsDS2()
         {
-            foreach (var fmg in _ds2fmgs)
+            foreach (var info in _fmgInfoBank)
             {
-                Utils.WriteWithBackup(AssetLocator.GameRootDirectory, AssetLocator.GameModDirectory, $@"menu\text\{_languageFolder}\{fmg.Key}.fmg", fmg.Value);
+                Utils.WriteWithBackup(AssetLocator.GameRootDirectory, AssetLocator.GameModDirectory, $@"menu\text\{_languageFolder}\{info.Name}.fmg", info.Fmg);
             }
         }
 
         public static void SaveFMGs()
         {
-            if (!IsLoaded)
-                return;
-            if (AssetLocator.Type == GameType.Undefined)
+            try
             {
-                return;
-            }
-
-            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                SaveFMGsDS2();
-                return;
-            }
-
-            // Load the fmg bnd, replace fmgs, and save
-            IBinder fmgBinderItem;
-            IBinder fmgBinderMenu;
-            var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-            var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
-            if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
-            {
-                fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
-                fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
-            }
-            else
-            {
-                fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
-                fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
-            }
-
-            foreach (var file in fmgBinderItem.Files)
-            {
-                if (_itemFMGs.ContainsKey((ItemFMGTypes)file.ID))
+                if (!IsLoaded)
+                    return;
+                if (AssetLocator.Type == GameType.Undefined)
                 {
-                    file.Bytes = _itemFMGs[(ItemFMGTypes)file.ID].Write();
+                    return;
+                }
+
+                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    SaveFMGsDS2();
+                    return;
+                }
+
+                // Load the fmg bnd, replace fmgs, and save
+                IBinder fmgBinderItem;
+                IBinder fmgBinderMenu;
+                var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
+                var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+                if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
+                {
+                    fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
+                    fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
+                }
+                else
+                {
+                    fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
+                    fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
+                }
+
+                foreach (var file in fmgBinderItem.Files)
+                {
+                    var info = _fmgInfoBank.Find(e => e.FmgID == (FmgIDType)file.ID);
+                    if (info != null)
+                    {
+                        file.Bytes = info.Fmg.Write();
+                    }
+                }
+
+                foreach (var file in fmgBinderMenu.Files)
+                {
+                    var info = _fmgInfoBank.Find(e => e.FmgID == (FmgIDType)file.ID);
+                    if (info != null)
+                    {
+                        file.Bytes = info.Fmg.Write();
+                    }
+                }
+
+                var itemMsgPathDest = AssetLocator.GetItemMsgbnd(ref _languageFolder, true);
+                var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(ref _languageFolder, true);
+                if (fmgBinderItem is BND3 bnd3)
+                {
+                    Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                        AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd3);
+                    Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                        AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
+                }
+                else if (fmgBinderItem is BND4 bnd4)
+                {
+                    Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                        AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd4);
+                    Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                        AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
                 }
             }
-
-            foreach (var file in fmgBinderMenu.Files)
+            catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
             {
-                if (_menuFMGs.ContainsKey((MenuFMGTypes)file.ID))
-                    file.Bytes = _menuFMGs[(MenuFMGTypes)file.ID].Write();
-                else if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
-                    file.Bytes = _itemFMGs[(ItemFMGTypes)file.ID].Write();
-            }
-
-            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(ref _languageFolder, true);
-            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(ref _languageFolder, true);
-            if (fmgBinderItem is BND3 bnd3)
-            {
-                Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
-                    AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd3);
-                //Some item FMGs are in item.msgbnd
-                Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
-                    AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
-            }
-            else if (fmgBinderItem is BND4 bnd4)
-            {
-                Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
-                    AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd4);
-                //Some item FMGs are in item.msgbnd
-                Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
-                    AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
+                _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
+                _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
+                IsLoaded = false;
+                IsLoading = false;
             }
         }
 

@@ -460,24 +460,39 @@ namespace StudioCore
             return ad;
         }
 
-        //msgbnd
-        public List<string> GetMsgLanguages()
+        /// <summary>
+        /// Get folders with msgbnds used in-game
+        /// </summary>
+        /// <returns>Dictionary with language name and path</returns>
+        public Dictionary<string, string> GetMsgLanguages()
         {
-            List<string> maps = new();
+            Dictionary<string, string> dict = new();
+            List<string> folders = new();
 
-            if (Type == GameType.DarkSoulsIISOTFS)
+            if (Type == GameType.DemonsSouls)
             {
-                maps = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
+                folders = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
+                // Japanese uses root directory
+                if (File.Exists(GameRootDirectory + @"\msg\menu.msgbnd.dcx") || File.Exists(GameRootDirectory + @"\msg\item.msgbnd.dcx"))
+                    dict.Add("Japanese", "");
+            }
+            else if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
             }
             else
             {
-                //exclude folders that don't have typical msgbnds
-                maps = Directory.GetDirectories(GameRootDirectory + @"\msg").Where((x) => !"common,as,eu,jp,na,uk".Contains(x.Split("\\").Last())).ToList();
+                // Exclude folders that don't have typical msgbnds
+                folders = Directory.GetDirectories(GameRootDirectory + @"\msg").Where(x => !"common,as,eu,jp,na,uk,japanese".Contains(x.Split("\\").Last())).ToList();
             }
 
-            return maps;
-        }
+            foreach (var path in folders)
+            {
+                dict.Add(path.Split("\\").Last(), path);
+            }
 
+            return dict;
+        }
         /// <summary>
         /// Get path of item.msgbnd (english by default)
         /// </summary>
@@ -497,10 +512,10 @@ namespace StudioCore
             if (langFolder == "")
             {
                 //pick default (english) path
-                foreach (var langStr in GetMsgLanguages())
+                foreach (var lang in GetMsgLanguages())
                 {
-                    string folder = langStr.Split("\\").Last();
-                    if (folder.Contains("eng",StringComparison.CurrentCultureIgnoreCase)) //I believe this is good enough.
+                    string folder = lang.Value.Split("\\").Last();
+                    if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase)) //I believe this is good enough.
                     {
                         langFolder = folder;
                         break;
@@ -514,6 +529,11 @@ namespace StudioCore
             if (Type == GameType.DemonsSouls)
             {
                 path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
+                // Demon's Souls has msgbnds directly in the msg folder
+                if (!File.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    path = $@"msg\{msgBndType}.msgbnd.dcx";
+                }
             }
             else if (Type == GameType.DarkSoulsPTDE)
             {
