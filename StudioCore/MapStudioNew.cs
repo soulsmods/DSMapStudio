@@ -20,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02a";
+        private static string _version = "version 1.02";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -71,8 +71,8 @@ namespace StudioCore
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
-
-        unsafe public MapStudioNew()
+        
+        public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
 
@@ -139,6 +139,24 @@ namespace StudioCore
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
+            SetupFonts();
+            ImguiRenderer.OnSetupDone();
+
+            var style = ImGui.GetStyle();
+            style.TabBorderSize = 0;
+
+            if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
+            {
+                if (File.Exists(CFG.Current.LastProjectFile))
+                {
+                    var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
+                    AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
+                }
+            }
+        }
+
+        private unsafe void SetupFonts()
+        {
             var fonts = ImGui.GetIO().Fonts;
             var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
             var fontEn = File.ReadAllBytes(fileEn);
@@ -166,12 +184,17 @@ namespace StudioCore
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
                 fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
+                if (CFG.Current.FontChinese)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
+                if (CFG.Current.FontKorean)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
+                if (CFG.Current.FontThai)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
+                if (CFG.Current.FontVietnamese)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
                 cfg.GlyphMinAdvanceX = 5.0f;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
+                if (CFG.Current.FontCyrillic)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
             }
             fixed (byte* p = fontIcon)
             {
@@ -191,19 +214,6 @@ namespace StudioCore
             }
             fonts.Build();
             ImguiRenderer.RecreateFontDeviceTexture();
-            ImguiRenderer.OnSetupDone();
-
-            var style = ImGui.GetStyle();
-            style.TabBorderSize = 0;
-
-            if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
-            {
-                if (File.Exists(CFG.Current.LastProjectFile))
-                {
-                    var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
-                    AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
-                }
-            }
         }
 
         public void SetupCSharpDefaults()
@@ -728,6 +738,34 @@ namespace StudioCore
                             }
                             ImGui.EndMenu();
                         }
+                    }
+
+                    if (ImGui.BeginMenu("Additional Language Fonts"))
+                    {
+                        ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                        ImGui.Text("Please restart program for changes to take effect.");
+                        ImGui.Separator();
+                        if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+                        {
+                            CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                        }
+                        if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                        {
+                            CFG.Current.FontKorean = !CFG.Current.FontKorean;
+                        }
+                        if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
+                        {
+                            CFG.Current.FontThai = !CFG.Current.FontThai;
+                        }
+                        if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
+                        {
+                            CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
+                        }
+                        if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
+                        {
+                            CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                        }
+                        ImGui.EndMenu();
                     }
                     if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                     {
