@@ -648,8 +648,18 @@ namespace Veldrid.Vk
             VkPhysicalDevice[] physicalDevices = new VkPhysicalDevice[deviceCount];
             fixed (VkPhysicalDevice* pPhysicalDevice = &physicalDevices[0])
                 vkEnumeratePhysicalDevices(_instance, &deviceCount, pPhysicalDevice);
-            // Just use the first one.
+            
+            // Try to find a discrete gpu and use that instead if we find one. Otherwise use the first
             _physicalDevice = physicalDevices[0];
+            foreach (var device in physicalDevices)
+            {
+                vkGetPhysicalDeviceProperties(device, out var props);
+                if (props.deviceType == VkPhysicalDeviceType.DiscreteGpu)
+                {
+                    _physicalDevice = device;
+                    break;
+                }
+            }
 
             vkGetPhysicalDeviceProperties(_physicalDevice, out _physicalDeviceProperties);
             string deviceName;
