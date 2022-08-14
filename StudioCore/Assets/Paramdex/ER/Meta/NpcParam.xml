@@ -204,5 +204,5 @@
     <resistCorrectId_madness Refs="ResistCorrectParam" />
     <phantomShaderId Refs="PhantomParam" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

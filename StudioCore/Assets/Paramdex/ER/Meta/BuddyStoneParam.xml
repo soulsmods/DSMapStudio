@@ -6,5 +6,5 @@
     <isSpecial IsBool="" />
     <dopingSpEffectId Refs="SpEffectParam" />
   </Field>
-  <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

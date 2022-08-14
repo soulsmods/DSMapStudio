@@ -1925,9 +1925,9 @@ namespace SoulsFormats
                 public byte UnkT35 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Disable being able to summon/ride Torrent
                 /// </summary>
-                public bool UnkT36 { get; set; }
+                public bool DisableTorrent { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2008,7 +2008,7 @@ namespace SoulsFormats
                     UnkT30 = br.ReadInt32();
                     UnkT34 = br.ReadByte();
                     UnkT35 = br.ReadByte();
-                    UnkT36 = br.ReadBoolean();
+                    DisableTorrent = br.ReadBoolean();
                     br.AssertByte(0);
                     br.AssertInt32(-1);
                     UnkT3C = br.ReadInt16();
@@ -2049,7 +2049,7 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT30);
                     bw.WriteByte(UnkT34);
                     bw.WriteByte(UnkT35);
-                    bw.WriteBoolean(UnkT36);
+                    bw.WriteBoolean(DisableTorrent);
                     bw.WriteByte(0);
                     bw.WriteInt32(-1);
                     bw.WriteInt16(UnkT3C);

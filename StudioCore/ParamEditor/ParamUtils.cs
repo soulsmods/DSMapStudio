@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Numerics;
+using FSParam;
 using ImGuiNET;
 using SoulsFormats;
 
@@ -42,21 +43,12 @@ namespace StudioCore.ParamEditor
             }
             return nval;
         }
-        public static bool RowMatches(PARAM.Row row, PARAM.Row vrow)
+        public static bool RowMatches(Param.Row row, Param.Row vrow)
         {
-            foreach (PARAMDEF.Field field in row.Def.Fields)
-            {
-                if (field.InternalType == "dummy8" && row[field.InternalName].Value.GetType()==typeof(byte[]))//second check because someone made a dummy8 bit?
-                {
-                    if (!ByteArrayEquals((byte[])(row[field.InternalName].Value), (byte[])(vrow[field.InternalName].Value)))
-                        return false;
-                }
-                else if (!row[field.InternalName].Value.Equals(vrow[field.InternalName].Value))
-                {
-                    return false;
-                }
-            }
-            return true;
+            if (row.Def != vrow.Def)
+                return false;
+            
+            return row.Equals(vrow);
         }
         public static bool ByteArrayEquals(byte[] v1, byte[] v2) {
             if (v1.Length!=v2.Length)

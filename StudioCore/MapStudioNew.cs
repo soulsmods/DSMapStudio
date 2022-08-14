@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -19,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.01";
+        private static string _version = "version 1.02a";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -231,7 +232,13 @@ namespace StudioCore
                 ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
             if (!File.Exists("imgui.ini"))
             {
-                File.Copy("imgui.ini.backup", "imgui.ini");
+                if (File.Exists("imgui.ini.backup"))
+                    File.Copy("imgui.ini.backup", "imgui.ini");
+            }
+            else if (!File.Exists("imgui.ini.backup"))
+            {
+                if (File.Exists("imgui.ini"))
+                    File.Copy("imgui.ini", "imgui.ini.backup");
             }
         }
         public void SaveParamStudioConfig()
@@ -708,7 +715,8 @@ namespace StudioCore
                                 _projectSettings.UseLooseParams = useLoose;
                             }
                             bool usepartial = _projectSettings.PartialParams;
-                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            if ((FeatureFlags.EnablePartialParam || usepartial) &&
+                                _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
                             {
                                 _projectSettings.PartialParams = usepartial;
                             }
@@ -962,7 +970,7 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
-                if (_newProjectSettings.GameType == GameType.EldenRing)
+                if (FeatureFlags.EnablePartialParam && _newProjectSettings.GameType == GameType.EldenRing)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");

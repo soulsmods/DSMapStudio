@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FSParam;
 using SoulsFormats;
 
 namespace StudioCore.MsbEditor
@@ -42,21 +43,21 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public List<PARAM.Cell> Cells
+        public List<Param.Cell> CellHandles
         {
             get
             {
-                var ret = new List<PARAM.Cell>();
+                var ret = new List<Param.Cell>();
                 foreach (var r in Rows)
                 {
-                    ret.AddRange(r.Cells);
+                    ret.AddRange(r.CellHandles);
                 }
                 return ret;
             }
         }
 
-        private List<PARAM.Row> Rows = new List<PARAM.Row>();
-        private Dictionary<string, PARAM.Row> RowMap = new Dictionary<string, PARAM.Row>();
+        private List<Param.Row> Rows = new List<Param.Row>();
+        private Dictionary<string, Param.Row> RowMap = new Dictionary<string, Param.Row>();
 
         public MergedParamRow() { }
 
@@ -64,13 +65,13 @@ namespace StudioCore.MsbEditor
         {
             foreach (var entry in clone.RowMap)
             {
-                var n = new PARAM.Row(entry.Value);
+                var n = new Param.Row(entry.Value);
                 RowMap.Add(entry.Key, n);
                 Rows.Add(n);
             }
         }
 
-        public void AddRow(string key, PARAM.Row row)
+        public void AddRow(string key, Param.Row row)
         {
             if (Rows.Count > 0 && row.ID != Rows[0].ID)
             {
@@ -80,7 +81,7 @@ namespace StudioCore.MsbEditor
             Rows.Add(row);
         }
 
-        public PARAM.Row GetRow(string key)
+        public Param.Row GetRow(string key)
         {
             if (RowMap.ContainsKey(key))
             {
@@ -89,7 +90,7 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
-        public PARAM.Cell this[string name]
+        public Param.Cell? this[string name]
         {
             get
             {

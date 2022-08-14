@@ -9,52 +9,118 @@ namespace StudioCore.Editor
     public class UIHints
     {
         public static string MassEditHint =
-        @"Mass Edit Commands utilise Regex, and CAPITALISED words in commands indicate that a Regex expression may be used instead of plain text.
-Multiple commands can be given at once.
-A mass edit command is formed of a selector and an operation.
+        @"For help with regex or examples, consult the main help menu.
+Mass Edit Commands utilise Regex, and words surrounded by ! in commands indicate that a Regex expression may be used instead of plain text.
+All other words in capitals are parameters for the given command.
+A mass edit command is formed of selectors and an operation.
+There are multiple stages of selection, going from params, to rows, to cells (fields).
+Multiple selectors can be given for a single stage by separating them with &&.
 
-The selector may be 'selection: FIELD' to indicate that you wish to edit all currently selected rows.
-It may also be 'param PARAM: ' to select by a specific param followed by any of the following row selectors:
-    'modified: ' to select modified rows,
-    'original: ' to select unmodified rows,
-    'id VALUE: ' to select rows by their ids,
-    'name NAME: ' to select rows with a matching name,
-    'prop FIELD VALUE: ' to select rows that have a field that matches the given value. FIELD must be exact, but \s may be used instead of a space.
-    'propref FIELD NAME: ' to select rows that have a field that is a reference to a row with a matching name. FIELD must be exact, but \s may be used instead of a space.
-And finally followed with 'FIELD: ' to indicate the field you wish to change.
+Param selection is done through any of the following:
+    modified: to select params changed from vanilla
+    original: to select unmodified params
+    param !NAME!: to select params with a matching name
 
-An operation is given by 'OP VALUE;'
-VALUE is either a given number or 'field NAME;', indicating the value to be used is read from the given field (per row).
-The valid values of OP are:
-    '=' assigns the value to the field
-    '*' multiplies the current value of the field by the given value
-    '/' divides the current value of the field by the given value
-    '+' adds the given value to the value of the field
-    '-' subtracts the given value from the value of the field
-    'ref' searches for a row with a given name in a field supporting references and assigns it to that field
-    'replace' works for names only, and requires an argument in the form stringA:stringB, where stringA is replaced by stringB.
+Row selection is done through any of the following:
+    modified: to select rows changed from vanilla
+    original: to select unmodified rows
+    id !VALUE!: to select rows with a matching ID
+    idrange MIN MAX: to select rows with an ID within the given bounds
+    name !NAME!: to select rows with a matching name
+    prop FIELD !VALUE!: to select rows who have a matching value for the given field
+    proprange FIELD MIN MAX: to select rows who have a value for the given field within the given bounds
+    propref FIELD !NAME!: to select rows that have a reference to another row with a matching name.
 
-A complete command may look like the following DS3 examples:
-selection: throwAtkRate: = 30;
-param EquipParamWeapon: name Dagger.*: throwAtkRate: * 2;
-param EquipParamWeapon: prop weaponCategory 0: correctAgility: + field correctStrength;";
+An optional combined form of selecting both params and rows is given by the following:
+    selection: to select the param and rows in the active view's selection.
+
+Cell selection is done through the following:
+    !FIELD!: to select cells with a matching name
+
+An operation is given by any of the following:
+    OP VALUE; to perform the operation OP with the given literal value
+    OP field NAME; to perform the operation OP with a value read from the given field of the row being modified.
+
+The valid operations (OP) are:
+    = assigns the given value to the field
+    * multiplies by the given value and is invalid for names or arrays
+    / divides by the given value and is invalid for names or arrays
+    + adds the given value and is invalid for names or arrays
+    - subtracts the given value and is invalid for names or arrays
+    ref !NAME! searches for a row with a given name in a field supporting references and assigns it to that field
+    replace !OLD!:NEW works for names only, and replaces parts of the name matching OLD with NEW
+
+A complete command may look like the following examples:
+selection: throwAtkRate: = 30; (This selects from the current selection, the field throwAtkRate and makes its value 30)
+param EquipParamWeapon: name Dagger.*: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger, and multiplies the values in throwAtkRate by 2)
+param EquipParamWeapon: prop weaponCategory 0: correctAgility: + field correctStrength; (This selects from EquipParamWeapon all rows whose weaponCategory is 0, and adds the row's correctStrength to its correctAgility)
+param EquipParamWeapon: id .*: name: replace Dark:Holy; (This selects from EquipParamWeapon ALL rows, and replaces all cases of Dark in their name with Holy
+param EquipParamWeapon: name Dagger.* && idrange 10000 Infinity: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger and with an id higher than 9999, and multiplies the values in throwAtkRate by 2)";
 
         public static string SearchBarHint =
-@"This searchbar utilises Regex, and CAPITALISED words in a search expression indicates that a Regex expression may be used instead of plain text.
+@"For help with regex or examples, consult the main help menu.
+This searchbar utilise Regex, and words surrounded by ! in commands indicate that a Regex expression may be used instead of plain text.
+All other words in capitals are parameters for the given command.
 Searches are case-insensitive and the searched term may appear anywhere in the target rows.
+Multiple selectors can be given by separating them with &&.
 
-The following options determine how rows a filtered:
-    'modified' to select modified rows,
-    'original' to select unmodified rows,
-    'id VALUE' to select rows by their ids,
-    'name NAME' to select rows with a matching name,
-    'prop FIELD VALUE' to select rows that have a field that matches the given value. FIELD must be exact, but \s may be used instead of a space.
-    'propref FIELD NAME' to select rows that have a field that is a reference to a row with a matching name. FIELD must be exact, but \s may be used instead of a space.
+Row selection is done through any of the following:
+    !VALUE!: to select rows with a matching ID or a matching name
+    modified: to select rows changed from vanilla
+    original: to select unmodified rows
+    id !VALUE!: to select rows with a matching ID
+    idrange MIN MAX: to select rows with an ID within the given bounds
+    name !NAME!: to select rows with a matching name
+    prop FIELD !VALUE!: to select rows who have a matching value for the given field
+    proprange FIELD MIN MAX: to select rows who have a value for the given field within the given bounds
+    propref FIELD !NAME!: to select rows that have a reference to another row with a matching name.
 
-A complete search may look like the following DS3 examples:
-id 10000
-name Dagger
-propref originEquipWep0 Dagger";
+A complete search may look like the following examples:
+id 10000 (This searches for all rows with an id containing 10000. This includes 10000, 1000010, 210000)
+name Dagger (This searches for all rows with a name containing Dagger. This includes Blood Dagger, Sharp daggers and daggerfall)
+propref originEquipWep0 Dagger (This searches for all rows whose field originEquipWep0 refers to a row with a name containing Dagger, following the same rules above.
+name Dagger && idrange 10000 Infinity (This searches for all rows with a name containing Dagger and that have an id greater than 9999)";
+
+        public static string MassEditExamples = @"A complete MassEdit command may look like the following examples:
+selection: throwAtkRate: = 30; (This selects from the current selection, the field throwAtkRate and makes its value 30)
+param EquipParamWeapon: name Dagger.*: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger, and multiplies the values in throwAtkRate by 2)
+param EquipParamWeapon: prop weaponCategory 0: correctAgility: + field correctStrength; (This selects from EquipParamWeapon all rows whose weaponCategory is 0, and adds the row's correctStrength to its correctAgility)
+param EquipParamWeapon: id .*: name: replace Dark:Holy; (This selects from EquipParamWeapon ALL rows, and replaces all cases of Dark in their name with Holy
+param EquipParamWeapon: name Dagger.* && idrange 10000 Infinity: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger and with an id higher than 9999, and multiplies the values in throwAtkRate by 2)";
+        public static string SearchExamples = @"A complete search may look like the following examples:
+id 10000 (This searches for all rows with an id containing 10000. This includes 10000, 1000010, 210000)
+name Dagger (This searches for all rows with a name containing Dagger. This includes Blood Dagger, Sharp daggers and daggerfall)
+propref originEquipWep0 Dagger (This searches for all rows whose field originEquipWep0 refers to a row with a name containing Dagger, following the same rules above.
+name Dagger && idrange 10000 Infinity (This searches for all rows with a name containing Dagger and that have an id greater than 9999)";
+
+        public static string RegexCheatSheet = @"Regex is a common way to write an expression that 'matches' strings or words, finding occurances within a passage of text.
+
+For letters and numbers, regex matches only those explicit characters and nothing else. This means searching for dog, you will only match when 'dog' is found.
+Regex also has many meta-characters, and most symbols have some meaning. For example, * means 'any number of the previous character'.
+In this case, Do*g matches Dg, Dog, Doog, Dooog... etc.
+
+Regex can also provide options with the | symbol (OR symbol). Dog|Frog matches Dog or Frog.
+This isn't always useful as maybe only part of your expression is optional. You can use brackets to seperate that part.
+In this manner, (D|Fr)og matches Dog or Frog. You can even use * on a bracketed expression.
+
+Sometimes it doesn't make sense to write (0|1|2|3|4|5|6|7|8|9), so regex also has something called ranges.
+This is written as [abc123*+] and matches any single character inside. Many metacharacters also don't function inside, and merely match themselves literally.
+They can also include expressions like [1-9] and [a-zA-Z] which include the middle numbers and letters.
+
+As if that wasn't enough, for common ones of these there are more shorthands called character classes.
+\d matches [0-9], \w matches any letter, number, or _, \s matches any whitespace, and . matches any character at all - which makes .* a handy 'match any amount of anything'.
+Character classes can also begin with ^ to mean any character NOT given. So [^0] is any nonzero character.
+
+Finally, regex is often used to find occurances within text, not to match the entire text. The character ^ is used to match the start of the text, and $ the end.
+A statement like ^[^-] will only match text that begins with something other than - for example.
+
+Regex has a broad syntax and application, but with this quick guide and an online cheatsheet, many interesting combinations are possible.
+While regex is aimed at text and is not perfect for numbers, it can still be useful.
+Some common tools for mapstudio include:
+.* (match anything)
+[^0] (match anything that isn't just 0)
+^[^-] (match anything that doesn't begin with -)
+^2\d\d$ (match any number from 200 to 299)";
 
         public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
         {

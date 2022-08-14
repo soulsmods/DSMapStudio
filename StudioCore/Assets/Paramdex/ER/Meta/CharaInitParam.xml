@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <equip_Wep_Right Refs="EquipParamWeapon" />
-    <equip_Subwep_Right Refs="EquipParamWeapon" />
-    <equip_Wep_Left Refs="EquipParamWeapon" />
-    <equip_Subwep_Left Refs="EquipParamWeapon" />
+    <equip_Wep_Right Refs="EquipParamWeapon,EquipParamCustomWeapon" />
+    <equip_Subwep_Right Refs="EquipParamWeapon,EquipParamCustomWeapon" />
+    <equip_Wep_Left Refs="EquipParamWeapon,EquipParamCustomWeapon" />
+    <equip_Subwep_Left Refs="EquipParamWeapon,EquipParamCustomWeapon" />
     <equip_Helm Refs="EquipParamProtector" />
     <equip_Armer Refs="EquipParamProtector" />
     <equip_Gaunt Refs="EquipParamProtector" />
@@ -37,8 +37,8 @@
     <npcPlayerFaceGenId Refs="FaceParam" />
     <npcPlayerThinkId Refs="NpcThinkParam" />
     <isSyncTarget IsBool="" />
-    <equip_Subwep_Right3 Refs="EquipParamWeapon" />
-    <equip_Subwep_Left3 Refs="EquipParamWeapon" />
+    <equip_Subwep_Right3 Refs="EquipParamWeapon,EquipParamCustomWeapon" />
+    <equip_Subwep_Left3 Refs="EquipParamWeapon,EquipParamCustomWeapon" />
     <secondaryItem_01 Refs="EquipParamGoods" />
     <secondaryItem_02 Refs="EquipParamGoods" />
     <secondaryItem_03 Refs="EquipParamGoods" />
