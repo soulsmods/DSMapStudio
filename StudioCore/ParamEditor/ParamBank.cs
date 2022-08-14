@@ -154,8 +154,6 @@ namespace StudioCore.ParamEditor
             var dir = AssetLocator.GetParamNamesDir();
             var files = Directory.GetFiles(dir, "*.txt");
             List<EditorAction> actions = new List<EditorAction>();
-            while (IsLoadingParams); //super hack
-                Thread.Sleep(100);
             foreach (var f in files)
             {
                 int last = f.LastIndexOf('\\') + 1;
@@ -599,7 +597,7 @@ namespace StudioCore.ParamEditor
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
-        public static void ReloadParams(ProjectSettings settings)
+        public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _params = new Dictionary<string, Param>();
@@ -690,7 +688,17 @@ namespace StudioCore.ParamEditor
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
+
                 IsLoadingParams = false;
+
+                if (options != null)
+                {
+                    if (options.loadDefaultNames)
+                    {
+                        new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
+                        ParamEditor.ParamBank.SaveParams(settings.UseLooseParams);
+                    }
+                }
             });
         }
 

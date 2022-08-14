@@ -41,4 +41,11 @@ namespace StudioCore.Editor
             return JsonSerializer.Deserialize<ProjectSettings>(readOnlySpan);
         }
     }
+
+    public class NewProjectOptions
+    {
+        public Editor.ProjectSettings settings;
+        public string directory = "";
+        public bool loadDefaultNames = false;
+    }
 }
