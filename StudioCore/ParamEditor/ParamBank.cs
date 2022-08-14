@@ -175,10 +175,10 @@ namespace StudioCore.ParamEditor
             return child;
         }
 
-        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version)
+        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
-            if (!success)
+            if (checkVersion && !success)
             {
                 throw new Exception($@"Failed to get regulation version. Params might be corrupt.");
             }
@@ -556,7 +556,7 @@ namespace StudioCore.ParamEditor
             }
             BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
-            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion, true);
 
             param = $@"{mod}\regulation.bin";
             if (partial && File.Exists(param))
@@ -564,7 +564,7 @@ namespace StudioCore.ParamEditor
                 BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
                 Dictionary<string, Param> cParamBank = new Dictionary<string, Param>();
                 ulong v;
-                LoadParamFromBinder(pParamBnd, ref cParamBank, out v);
+                LoadParamFromBinder(pParamBnd, ref cParamBank, out v, true);
                 foreach (var pair in cParamBank)
                 {
                     Param baseParam = _params[pair.Key];
@@ -593,7 +593,7 @@ namespace StudioCore.ParamEditor
         private static void LoadVParamsER(string dir)
         {
             //LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
-            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams, out _vanillaParamVersion, true);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
@@ -1367,7 +1367,7 @@ namespace StudioCore.ParamEditor
             BND4 oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
             var oldVanillaParams = new Dictionary<string, Param>();
             ulong version;
-            LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version);
+            LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version, true);
             if (version != ParamVersion)
                 return ParamUpgradeResult.OldRegulationVersionMismatch;
 
