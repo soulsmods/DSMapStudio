@@ -682,6 +682,8 @@ namespace StudioCore.ParamEditor
                             LoadVParamsER(vparamDir);
                         }
                         IsLoadingVParams = false;
+
+                        TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => refreshParamDirtyCache());
                     });
                 }
 
