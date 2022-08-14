@@ -802,33 +802,35 @@ namespace StudioCore.MsbEditor
             }
             ResourceManager.ScheduleUnloadedTexturesRefresh();
 
-            //After everything loads, do some additional checks:
+            // After everything loads, do some additional checks:
             await Task.WhenAll(tasks);
             postLoad = true;
 
-            // Update models
-            //// Get accurate `CollisionName` field reference info
-            //// Check model meshes for model markers
-            // Check for duplicate EntityIDs and create warning.
+            // Update models (For checking meshes for Model Markers. & updates `CollisionName` field reference info)
+            foreach (var obj in map.Objects)
+            {
+                obj.UpdateRenderModel();
+            }
+            // Check for duplicate EntityIDs
+            CheckDupeEntityIDs(map);
+
+            return;
+        }
+
+        public static void CheckDupeEntityIDs(Map map)
+        {
+            /* Notes about dupe Entity ID behavior in-game: 
+             * Entity ID dupes exist in vanilla (including dupe regions)
+             * Duplicate Entity IDs for regions causes all regions later in the map object list to not function properly (only confirmed for DS1).
+             * Currently unknown if dupes cause issues outside of regions.
+             * Unique behavior can be seen when using dupe IDs with objects, and all objects with the same ID can be affected by single commands.
+             * * This behavior is probably unintentional and may secretly cause issues. Unknown.
+             * 
+             * At the moment, only region ID checking is necessary.
+             */
             Dictionary<int, string> entityIDList = new();
             foreach (var obj in map.Objects)
             {
-                obj.UpdateRenderModel(); //(also updates drawgroups)
-
-                // Check for duplicate entityIDs
-                /*
-                 * Notes about dupe EntityID behavior in-game: 
-                 * Entity ID dupes exist in vanilla (including dupe regions)
-                 * Duplicate entity IDs for regions causes all regions later in the map object list to not function properly.
-                 * Currently unknown if entity IDs actually cause issues outside of regions.
-                 * Unique behavior can be seen when using dupe IDs with objects, and all objects with the same ID can be affected by single commands.
-                 * * This behavior is probably unintentional and may secretly cause issues. Unknown.
-                 * Further testing is required to refine this warning message.
-                 * Dummy Objects (and probably dummy enemies) dupe IDs don't matter.
-                 * 
-                 * At the moment, only region ID checking is necessary.
-                */
-                // todo: also check when saving
                 var objType = obj.WrappedObject.GetType().ToString();
                 if (objType.Contains("Region"))
                 {
@@ -853,8 +855,6 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
-
-            return;
         }
 
         public void LoadFlver(FLVER2 flver, MeshRenderableProxy proxy, string name)
@@ -1162,6 +1162,7 @@ namespace StudioCore.MsbEditor
                 SaveDS2Generators(map);
             }
 
+            CheckDupeEntityIDs(map);
             map.HasUnsavedChanges = false;
 
             //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());

@@ -154,8 +154,6 @@ namespace StudioCore.ParamEditor
             var dir = AssetLocator.GetParamNamesDir();
             var files = Directory.GetFiles(dir, "*.txt");
             List<EditorAction> actions = new List<EditorAction>();
-            while (IsLoadingParams); //super hack
-                Thread.Sleep(100);
             foreach (var f in files)
             {
                 int last = f.LastIndexOf('\\') + 1;
@@ -177,10 +175,10 @@ namespace StudioCore.ParamEditor
             return child;
         }
 
-        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version)
+        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
-            if (!success)
+            if (checkVersion && !success)
             {
                 throw new Exception($@"Failed to get regulation version. Params might be corrupt.");
             }
@@ -207,6 +205,15 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
                 
+                // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
+                // it's an easy fixup
+                if (AssetLocator.Type == GameType.EldenRing &&
+                    p.ParamType == "CHR_MODEL_PARAM_ST" &&
+                    _paramVersion == 10601000)
+                {
+                    p.FixupERChrModelParam();
+                }
+
                 // Lookup the correct paramdef based on the version
                 PARAMDEF def = null;
                 if (_patchParamdefs.ContainsKey(p.ParamType))
@@ -558,7 +565,7 @@ namespace StudioCore.ParamEditor
             }
             BND4 paramBnd = SFUtil.DecryptERRegulation(param);
 
-            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
+            LoadParamFromBinder(paramBnd, ref _params, out _paramVersion, true);
 
             param = $@"{mod}\regulation.bin";
             if (partial && File.Exists(param))
@@ -566,7 +573,7 @@ namespace StudioCore.ParamEditor
                 BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
                 Dictionary<string, Param> cParamBank = new Dictionary<string, Param>();
                 ulong v;
-                LoadParamFromBinder(pParamBnd, ref cParamBank, out v);
+                LoadParamFromBinder(pParamBnd, ref cParamBank, out v, true);
                 foreach (var pair in cParamBank)
                 {
                     Param baseParam = _params[pair.Key];
@@ -595,16 +602,18 @@ namespace StudioCore.ParamEditor
         private static void LoadVParamsER(string dir)
         {
             //LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
-            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams, out _vanillaParamVersion, true);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
-        public static void ReloadParams(ProjectSettings settings)
+        public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _params = new Dictionary<string, Param>();
             IsDefsLoaded = false;
             IsLoadingParams = true;
+            
+            CacheBank.ClearCaches();
 
             TaskManager.Run("PB:LoadParams", true, false, true, () =>
             {
@@ -684,13 +693,25 @@ namespace StudioCore.ParamEditor
                             LoadVParamsER(vparamDir);
                         }
                         IsLoadingVParams = false;
+
+                        TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => refreshParamDirtyCache());
                     });
                 }
 
                 _paramDirtyCache = new Dictionary<string, HashSet<int>>();
                 foreach (string param in _params.Keys)
                     _paramDirtyCache.Add(param, new HashSet<int>());
+
                 IsLoadingParams = false;
+
+                if (options != null)
+                {
+                    if (options.loadDefaultNames)
+                    {
+                        new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
+                        ParamEditor.ParamBank.SaveParams(settings.UseLooseParams);
+                    }
+                }
             });
         }
 
@@ -1130,8 +1151,9 @@ namespace StudioCore.ParamEditor
         public enum ParamUpgradeResult
         {
             Success = 0,
-            OldRegulationNotFound = -1,
-            OldRegulationVersionMismatch = -2,
+            RowConflictsFound = -1,
+            OldRegulationNotFound = -2,
+            OldRegulationVersionMismatch = -3,
         }
 
         private enum EditOperation
@@ -1143,7 +1165,7 @@ namespace StudioCore.ParamEditor
             Match,
         }
         
-        private static Param UpgradeParam(Param source, Param oldVanilla, Param newVanilla)
+        private static Param UpgradeParam(Param source, Param oldVanilla, Param newVanilla, HashSet<int> rowConflicts)
         {
             // Presorting this would make it easier, but we're trying to preserve order as much as possible
             // Unfortunately given that rows aren't guaranteed to be sorted and there can be duplicate IDs,
@@ -1255,8 +1277,15 @@ namespace StudioCore.ParamEditor
             foreach (var row in newVanilla.Rows)
             {
                 // See if we have any pending adds we can slot in
-                if (currPendingAdd < pendingAdds.Length && pendingAdds[currPendingAdd] > lastID && pendingAdds[currPendingAdd] <= row.ID)
+                while (currPendingAdd < pendingAdds.Length && 
+                       pendingAdds[currPendingAdd] >= lastID && 
+                       pendingAdds[currPendingAdd] < row.ID)
                 {
+                    if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
+                    {
+                        currPendingAdd++;
+                        continue;
+                    }
                     foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
                     {
                         dest.AddRow(new Param.Row(arow, dest));
@@ -1266,6 +1295,8 @@ namespace StudioCore.ParamEditor
                     editOperations.Remove(pendingAdds[currPendingAdd]);
                     currPendingAdd++;
                 }
+
+                lastID = row.ID;
                 
                 if (!editOperations.ContainsKey(row.ID))
                 {
@@ -1282,7 +1313,13 @@ namespace StudioCore.ParamEditor
 
                 if (operation == EditOperation.Add)
                 {
-                    throw new Exception("Adds should have been handled already");
+                    // Getting here means both the mod and the updated regulation added a row. Our current strategy is
+                    // to overwrite the new vanilla row with the modded one and add to the conflict log to give the user
+                    rowConflicts.Add(row.ID);
+                    dest.AddRow(new Param.Row(addedRows[row.ID][0], dest));
+                    addedRows[row.ID].RemoveAt(0);
+                    if (addedRows[row.ID].Count == 0)
+                        addedRows.Remove(row.ID);
                 }
                 else if (operation == EditOperation.Match)
                 {
@@ -1332,7 +1369,8 @@ namespace StudioCore.ParamEditor
         }
 
         // Param upgrade. Currently for Elden Ring only.
-        public static ParamUpgradeResult UpgradeRegulation(string oldVanillaParamPath)
+        public static ParamUpgradeResult UpgradeRegulation(string oldVanillaParamPath, 
+            Dictionary<string, HashSet<int>> conflictingParams)
         {
             // First we need to load the old regulation
             if (!File.Exists(oldVanillaParamPath))
@@ -1342,12 +1380,11 @@ namespace StudioCore.ParamEditor
             BND4 oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
             var oldVanillaParams = new Dictionary<string, Param>();
             ulong version;
-            LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version);
+            LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version, true);
             if (version != ParamVersion)
                 return ParamUpgradeResult.OldRegulationVersionMismatch;
 
             var updatedParams = new Dictionary<string, Param>();
-            
             // Now we must diff everything to try and find changed/added rows for each param
             foreach (var k in VanillaParams.Keys)
             {
@@ -1359,8 +1396,12 @@ namespace StudioCore.ParamEditor
                 }
                 
                 // Otherwise try to upgrade
-                var res = UpgradeParam(Params[k], oldVanillaParams[k], VanillaParams[k]);
+                var conflicts = new HashSet<int>();
+                var res = UpgradeParam(Params[k], oldVanillaParams[k], VanillaParams[k], conflicts);
                 updatedParams.Add(k, res);
+                
+                if (conflicts.Count > 0)
+                    conflictingParams.Add(k, conflicts);
             }
             
             // Set new params
@@ -1368,7 +1409,11 @@ namespace StudioCore.ParamEditor
             _paramVersion = VanillaParamVersion;
             _pendingUpgrade = true;
             
-            return ParamUpgradeResult.Success;
+            // Refresh dirty cache
+            CacheBank.ClearCaches();
+            refreshParamDirtyCache();
+
+            return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }
 
         public static string GetChrIDForEnemy(long enemyID)

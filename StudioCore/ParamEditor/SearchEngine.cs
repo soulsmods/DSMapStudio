@@ -187,9 +187,12 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return noContext((row)=>{
-                        Param.Cell? c = row[field];
-                        if (c == null) throw new Exception();
-                        string term = c.Value.Value.ToString();
+                        Param.Cell? cq = row[field];
+                        if (cq == null) throw new Exception();
+                        Param.Cell c = cq.Value;
+                        string term = c.Value.ToString();
+                        if (c.Def.InternalType=="dummy8")
+                            term = ParamUtils.Dummy8Write((byte[])c.Value);
                         return rx.Match(term).Success;
                 });
             }));

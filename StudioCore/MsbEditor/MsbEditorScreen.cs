@@ -44,6 +44,8 @@ namespace StudioCore.MsbEditor
         public bool ShiftHeld;
         public bool AltHeld;
 
+        private int _createEntityMapIndex = 0;
+
         private static object _lock_PauseUpdate = new object();
         private bool _PauseUpdate;
         private bool PauseUpdate
@@ -133,6 +135,22 @@ namespace StudioCore.MsbEditor
                         box = BoundingBox.Combine(box, s.RenderSceneMesh.GetBounds());
                     }
                 }
+                else if (s.Container.RootObject == s)
+                {
+                    // Selection is transform node
+                    Vector3 nodeOffset = new(10.0f, 10.0f, 10.0f);
+                    Vector3 pos = s.GetLocalTransform().Position;
+                    BoundingBox nodeBox = new(pos - nodeOffset, pos + nodeOffset);
+                    if (!first)
+                    {
+                        first = true;
+                        box = nodeBox;
+                    }
+                    else
+                    {
+                        box = BoundingBox.Combine(box, nodeBox);
+                    }
+                }
             }
             if (first)
             {
@@ -182,33 +200,12 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Selection selection)
+        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Map map)
         {
             var newent = typ.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
-
-            Map map;
-            var a = selection.GetSelection();
-            var loadedMaps = Universe.LoadedObjectContainers.Values.Where((x) => x != null);
-
-            if (selection.GetSelection().Count > 0)
-            {
-                // Multiple maps loaded. Get map of first selected entity
-                var mapID = selection.GetFilteredSelection<MapEntity>().First().MapID;
-                map = Universe.GetLoadedMap(mapID);
-            }
-            else if (loadedMaps.Count() == 1)
-            {
-                map = (Map)loadedMaps.First();
-            }
-            else
-            {
-                MessageBox.Show("Multiple maps are loaded. Please select an entity in the viewport to target that map, then try again.");
-                return;
-            }
-
             var obj = new MapEntity(map, newent, etype);
 
-            var act = new AddMapObjectsAction(Universe, (Map)map, RenderScene, new List<MapEntity> { obj }, true);
+            var act = new AddMapObjectsAction(Universe, map, RenderScene, new List<MapEntity> { obj }, true);
             EditorActionManager.ExecuteAction(act);
         }
 
@@ -331,61 +328,66 @@ namespace StudioCore.MsbEditor
 
                 ImGui.EndMenu();
             }
-            
+
             if (ImGui.BeginMenu("Create"))
             {
-                var loadedMap = Universe.LoadedObjectContainers.Values.FirstOrDefault(x => x != null);
-                if (loadedMap == null)
+                var loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
+                if (loadedMaps.Count() == 0)
                 {
-                    ImGui.BeginDisabled();
-                }
-                if (ImGui.BeginMenu("Parts"))
-                {
-                    foreach (var p in _partsClasses)
-                    {
-                        if (ImGui.MenuItem(p.Item1))
-                        {
-                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Part, _selection);
-                        }
-                    }
-                    ImGui.EndMenu();
-                }
-                // Some games only have one single region class
-                if (_regionClasses.Count == 1)
-                {
-                    if (ImGui.MenuItem("Region"))
-                    {
-                        AddNewEntity(_regionClasses[0].Item2, MapEntity.MapEntityType.Region, _selection);
-                    }
+                    ImGui.Text("No maps loaded");
                 }
                 else
                 {
-                    if (ImGui.BeginMenu("Regions"))
+                    if (_createEntityMapIndex >= loadedMaps.Count())
+                        _createEntityMapIndex = 0;
+                    ImGui.Combo("Target Map", ref _createEntityMapIndex, loadedMaps.Select(e => e.Name).ToArray(), loadedMaps.Count());
+
+                    Map map = (Map)loadedMaps.ElementAt(_createEntityMapIndex);
+
+                    if (ImGui.BeginMenu("Parts"))
                     {
-                        foreach (var p in _regionClasses)
+                        foreach (var p in _partsClasses)
                         {
                             if (ImGui.MenuItem(p.Item1))
                             {
-                                AddNewEntity(p.Item2, MapEntity.MapEntityType.Region, _selection);
+                                AddNewEntity(p.Item2, MapEntity.MapEntityType.Part, map);
                             }
                         }
                         ImGui.EndMenu();
                     }
-                }
-                if (ImGui.BeginMenu("Events"))
-                {
-                    foreach (var p in _eventClasses)
+                    // Some games only have one single region class
+                    if (_regionClasses.Count == 1)
                     {
-                        if (ImGui.MenuItem(p.Item1))
+                        if (ImGui.MenuItem("Region"))
                         {
-                            AddNewEntity(p.Item2, MapEntity.MapEntityType.Event, _selection);
+                            AddNewEntity(_regionClasses[0].Item2, MapEntity.MapEntityType.Region, map);
                         }
                     }
-                    ImGui.EndMenu();
-                }
-                if (loadedMap == null)
-                {
-                    ImGui.EndDisabled();
+                    else
+                    {
+                        if (ImGui.BeginMenu("Regions"))
+                        {
+                            foreach (var p in _regionClasses)
+                            {
+                                if (ImGui.MenuItem(p.Item1))
+                                {
+                                    AddNewEntity(p.Item2, MapEntity.MapEntityType.Region, map);
+                                }
+                            }
+                            ImGui.EndMenu();
+                        }
+                    }
+                    if (ImGui.BeginMenu("Events"))
+                    {
+                        foreach (var p in _eventClasses)
+                        {
+                            if (ImGui.MenuItem(p.Item1))
+                            {
+                                AddNewEntity(p.Item2, MapEntity.MapEntityType.Event, map);
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
                 }
                 ImGui.EndMenu();
             }
@@ -750,17 +752,14 @@ namespace StudioCore.MsbEditor
         }
         public void ReloadUniverse()
         {
-            TaskManager.Run("U:LoadUniverse", true, false, true, () =>
-            {
-                Universe.UnloadAllMaps();
-                GC.Collect();
-                Universe.PopulateMapList();
+            Universe.UnloadAllMaps();
+            GC.Collect();
+            Universe.PopulateMapList();
 
-                if (AssetLocator.Type != GameType.Undefined)
-                {
-                    PopulateClassNames(AssetLocator.Type);
-                }
-            });
+            if (AssetLocator.Type != GameType.Undefined)
+            {
+                PopulateClassNames(AssetLocator.Type);
+            }
         }
 
         public override void Save()

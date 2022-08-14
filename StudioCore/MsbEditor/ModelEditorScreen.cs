@@ -293,13 +293,10 @@ namespace StudioCore.MsbEditor
 
         public void ReloadAssetBrowser()
         {
-            TaskManager.Run("Model:LoadAssetBrowser", true, false, true, () =>
+            if (AssetLocator.Type != GameType.Undefined)
             {
-                if (AssetLocator.Type != GameType.Undefined)
-                {
-                    _assetBrowser.RebuildCaches();
-                }
-            });
+                _assetBrowser.RebuildCaches();
+            }
         }
 
         public override void Save()

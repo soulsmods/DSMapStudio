@@ -69,14 +69,18 @@ namespace StudioCore.Editor
         private static List<(Param.Row, string)> resolveRefs(List<string> paramRefs, dynamic oldval)
         {
             List<(Param.Row, string)> rows = new List<(Param.Row, string)>();
+            if (ParamBank.Params == null)
+            {
+                return rows;
+            }
             int originalValue = (int)oldval; //make sure to explicitly cast from dynamic or C# complains. Object or Convert.ToInt32 fail.
             foreach (string rt in paramRefs)
             {
                 string hint = "";
-                if (ParamEditor.ParamBank.Params.ContainsKey(rt))
+                if (ParamBank.Params.ContainsKey(rt))
                 {
-                    Param param = ParamEditor.ParamBank.Params[rt];
-                    ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.Get(ParamEditor.ParamBank.Params[rt].AppliedParamdef);
+                    Param param = ParamBank.Params[rt];
+                    ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
                     if (meta != null && meta.Row0Dummy && originalValue == 0)
                         continue;
                     Param.Row r = param[originalValue];
@@ -93,7 +97,7 @@ namespace StudioCore.Editor
                             altval = altval - altval % meta.OffsetSize;
                             hint += "+" + (originalValue % meta.OffsetSize).ToString();
                         }
-                        r = ParamEditor.ParamBank.Params[rt][altval];
+                        r = ParamBank.Params[rt][altval];
                     }
                     if (r == null)
                         continue;
@@ -122,13 +126,15 @@ namespace StudioCore.Editor
         public static void VirtualParamRefSelectables(string virtualRefName, object searchValue)
         {
             // Add Goto statements
-            foreach (var param in ParamEditor.ParamBank.Params)
+            if (ParamBank.Params == null)
+                return;
+            foreach (var param in ParamBank.Params)
             {
                 PARAMDEF.Field foundfield = null;
                 //get field
                 foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                 {
-                    if (ParamEditor.FieldMetaData.Get(f).VirtualRef != null && ParamEditor.FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
+                    if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
                     {
                         foundfield = f;
                         break;
@@ -170,6 +176,8 @@ namespace StudioCore.Editor
 
         public static bool PropertyRowRefsContextItems(List<string> reftypes, dynamic oldval, ref object newval)
         {
+            if (ParamBank.Params == null)
+                return false;
             // Add Goto statements
             foreach (string rt in reftypes)
             {

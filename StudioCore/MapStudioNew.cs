@@ -20,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02a";
+        private static string _version = "version 1.02.1";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -65,14 +65,12 @@ namespace StudioCore
         private AssetLocator _assetLocator;
         private Editor.ProjectSettings _projectSettings = null;
 
-        private Editor.ProjectSettings _newProjectSettings;
-        private string _newProjectDirectory = "";
-        private bool _newProjectLoadDefaultNames = false;
+        private NewProjectOptions _newProjectOptions = new NewProjectOptions();
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
-
-        unsafe public MapStudioNew()
+        
+        public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
 
@@ -139,11 +137,29 @@ namespace StudioCore
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
+            SetupFonts();
+            ImguiRenderer.OnSetupDone();
+
+            var style = ImGui.GetStyle();
+            style.TabBorderSize = 0;
+
+            if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
+            {
+                if (File.Exists(CFG.Current.LastProjectFile))
+                {
+                    var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
+                    AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
+                }
+            }
+        }
+
+        private unsafe void SetupFonts()
+        {
             var fonts = ImGui.GetIO().Fonts;
-            var fileJp = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\NotoSansCJKtc-Light.otf");
-            var fontJp = File.ReadAllBytes(fileJp);
             var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
             var fontEn = File.ReadAllBytes(fileEn);
+            var fileOther = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\NotoSansCJKtc-Light.otf");
+            var fontOther = File.ReadAllBytes(fileOther);
             var fileIcon = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\forkawesome-webfont.ttf");
             var fontIcon = File.ReadAllBytes(fileIcon);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
@@ -155,9 +171,9 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 5.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
             }
-            fixed (byte* p = fontJp)
+            fixed (byte* p = fontOther)
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
                 var cfg = new ImFontConfigPtr(ptr);
@@ -165,7 +181,18 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 7.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontJp.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+                if (CFG.Current.FontChinese)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
+                if (CFG.Current.FontKorean)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
+                if (CFG.Current.FontThai)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
+                if (CFG.Current.FontVietnamese)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
+                cfg.GlyphMinAdvanceX = 5.0f;
+                if (CFG.Current.FontCyrillic)
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
             }
             fixed (byte* p = fontIcon)
             {
@@ -185,19 +212,6 @@ namespace StudioCore
             }
             fonts.Build();
             ImguiRenderer.RecreateFontDeviceTexture();
-            ImguiRenderer.OnSetupDone();
-
-            var style = ImGui.GetStyle();
-            style.TabBorderSize = 0;
-
-            if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
-            {
-                if (File.Exists(CFG.Current.LastProjectFile))
-                {
-                    var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
-                    AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
-                }
-            }
         }
 
         public void SetupCSharpDefaults()
@@ -232,7 +246,13 @@ namespace StudioCore
                 ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
             if (!File.Exists("imgui.ini"))
             {
-                File.Copy("imgui.ini.backup", "imgui.ini");
+                if (File.Exists("imgui.ini.backup"))
+                    File.Copy("imgui.ini.backup", "imgui.ini");
+            }
+            else if (!File.Exists("imgui.ini.backup"))
+            {
+                if (File.Exists("imgui.ini"))
+                    File.Copy("imgui.ini", "imgui.ini.backup");
             }
         }
         public void SaveParamStudioConfig()
@@ -333,13 +353,13 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
-        private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir)
+        private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
         {
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
 
             Editor.AliasBank.ReloadAliases();
-            ParamEditor.ParamBank.ReloadParams(newsettings);
+            ParamEditor.ParamBank.ReloadParams(newsettings, options);
             TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.ReloadUniverse();
@@ -423,7 +443,7 @@ namespace StudioCore
             }
         }
 
-        private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents=true)
+        private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents=true, NewProjectOptions options=null)
         {
             bool success = true;
 
@@ -490,7 +510,7 @@ namespace StudioCore
                     File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
                 }
                 _projectSettings = settings;
-                ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename));
+                ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
                 CFG.Current.LastProjectFile = filename;
                 if (updateRecents)
                 {
@@ -709,12 +729,41 @@ namespace StudioCore
                                 _projectSettings.UseLooseParams = useLoose;
                             }
                             bool usepartial = _projectSettings.PartialParams;
-                            if (_projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            if ((FeatureFlags.EnablePartialParam || usepartial) &&
+                                _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
                             {
                                 _projectSettings.PartialParams = usepartial;
                             }
                             ImGui.EndMenu();
                         }
+                    }
+
+                    if (ImGui.BeginMenu("Additional Language Fonts"))
+                    {
+                        ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                        ImGui.Text("Please restart program for changes to take effect.");
+                        ImGui.Separator();
+                        if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+                        {
+                            CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                        }
+                        if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                        {
+                            CFG.Current.FontKorean = !CFG.Current.FontKorean;
+                        }
+                        if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
+                        {
+                            CFG.Current.FontThai = !CFG.Current.FontThai;
+                        }
+                        if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
+                        {
+                            CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
+                        }
+                        if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
+                        {
+                            CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                        }
+                        ImGui.EndMenu();
                     }
                     if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                     {
@@ -883,8 +932,8 @@ namespace StudioCore
             // New project modal
             if (newProject)
             {
-                _newProjectSettings = new Editor.ProjectSettings();
-                _newProjectDirectory = "";
+                _newProjectOptions.settings = new Editor.ProjectSettings();
+                _newProjectOptions.directory = "";
                 ImGui.OpenPopup("New Project");
             }
             bool open = true;
@@ -896,16 +945,16 @@ namespace StudioCore
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");
                 ImGui.SameLine();
-                var pname = _newProjectSettings.ProjectName;
+                var pname = _newProjectOptions.settings.ProjectName;
                 if (ImGui.InputText("##pname", ref pname, 255))
                 {
-                    _newProjectSettings.ProjectName = pname;
+                    _newProjectOptions.settings.ProjectName = pname;
                 }
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Directory: ");
                 ImGui.SameLine();
-                ImGui.InputText("##pdir", ref _newProjectDirectory, 255);
+                ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
                 ImGui.SameLine();
                 if (ImGui.Button($@"{ForkAwesome.FileO}"))
                 {
@@ -913,18 +962,18 @@ namespace StudioCore
 
                     if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        _newProjectDirectory = browseDlg.SelectedPath;
+                        _newProjectOptions.directory = browseDlg.SelectedPath;
                     }
                 }
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Game Executable:   ");
                 ImGui.SameLine();
-                var gname = _newProjectSettings.GameRoot;
+                var gname = _newProjectOptions.settings.GameRoot;
                 if (ImGui.InputText("##gdir", ref gname, 255))
                 {
-                    _newProjectSettings.GameRoot = gname;
-                    _newProjectSettings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectSettings.GameRoot);
+                    _newProjectOptions.settings.GameRoot = gname;
+                    _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
                 }
                 ImGui.SameLine();
                 ImGui.PushID("fd2");
@@ -941,37 +990,37 @@ namespace StudioCore
 
                     if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        _newProjectSettings.GameRoot = browseDlg.FileName;
-                        _newProjectSettings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectSettings.GameRoot);
+                        _newProjectOptions.settings.GameRoot = browseDlg.FileName;
+                        _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
                     }
                 }
                 ImGui.PopID();
-                ImGui.Text($@"Detected Game:      {_newProjectSettings.GameType.ToString()}");
+                ImGui.Text($@"Detected Game:      {_newProjectOptions.settings.GameType.ToString()}");
 
                 ImGui.NewLine();
                 ImGui.Separator();
                 ImGui.NewLine();
-                if (_newProjectSettings.GameType == GameType.DarkSoulsIISOTFS || _newProjectSettings.GameType == GameType.DarkSoulsIII)
+                if (_newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS || _newProjectOptions.settings.GameType == GameType.DarkSoulsIII)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Use Loose Params:  ");
                     ImGui.SameLine();
-                    var looseparams = _newProjectSettings.UseLooseParams;
+                    var looseparams = _newProjectOptions.settings.UseLooseParams;
                     if (ImGui.Checkbox("##looseparams", ref looseparams))
                     {
-                        _newProjectSettings.UseLooseParams = looseparams;
+                        _newProjectOptions.settings.UseLooseParams = looseparams;
                     }
                     ImGui.NewLine();
                 }
-                if (_newProjectSettings.GameType == GameType.EldenRing)
+                if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
                     ImGui.SameLine();
-                    var partialReg = _newProjectSettings.PartialParams;
+                    var partialReg = _newProjectOptions.settings.PartialParams;
                     if (ImGui.Checkbox("##partialparams", ref partialReg))
                     {
-                        _newProjectSettings.PartialParams = partialReg;
+                        _newProjectOptions.settings.PartialParams = partialReg;
                     }
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
                     ImGui.NewLine();
@@ -979,41 +1028,41 @@ namespace StudioCore
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text($@"Load default row names:  ");
                 ImGui.SameLine();
-                ImGui.Checkbox("##loadDefaultNames", ref _newProjectLoadDefaultNames);
+                ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 ImGui.NewLine();
 
                 if (ImGui.Button("Create", new Vector2(120, 0)))
                 {
                     bool validated = true;
-                    if (_newProjectSettings.GameRoot == null || !File.Exists(_newProjectSettings.GameRoot))
+                    if (_newProjectOptions.settings.GameRoot == null || !File.Exists(_newProjectOptions.settings.GameRoot))
                     {
                         System.Windows.Forms.MessageBox.Show("Your game executable path does not exist. Please select a valid executable.", "Error",
                             System.Windows.Forms.MessageBoxButtons.OK,
                             System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
                     }
-                    if (validated && _newProjectSettings.GameType == GameType.Undefined)
+                    if (validated && _newProjectOptions.settings.GameType == GameType.Undefined)
                     {
                         System.Windows.Forms.MessageBox.Show("Your game executable is not a valid supported game.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
                     }
-                    if (validated && (_newProjectDirectory == null || !Directory.Exists(_newProjectDirectory)))
+                    if (validated && (_newProjectOptions.directory == null || !Directory.Exists(_newProjectOptions.directory)))
                     {
                         System.Windows.Forms.MessageBox.Show("Your selected project directory is not valid.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
                     }
-                    if (validated && File.Exists($@"{_newProjectDirectory}\project.json"))
+                    if (validated && File.Exists($@"{_newProjectOptions.directory}\project.json"))
                     {
                         System.Windows.Forms.MessageBox.Show("Your selected project directory is already a project.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
                                          System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
                     }
-                    if (validated && (Path.GetDirectoryName(_newProjectSettings.GameRoot)).Equals(_newProjectDirectory))
+                    if (validated && (Path.GetDirectoryName(_newProjectOptions.settings.GameRoot)).Equals(_newProjectOptions.directory))
                     {
                         var message = System.Windows.Forms.MessageBox.Show(
                             "Project Directory is the same as Game Directory, which allows game files to be overwritten directly.\n\n" +
@@ -1024,7 +1073,7 @@ namespace StudioCore
                         if (message != System.Windows.Forms.DialogResult.OK)
                             validated = false;
                     }
-                    if (validated && (_newProjectSettings.ProjectName == null || _newProjectSettings.ProjectName == ""))
+                    if (validated && (_newProjectOptions.settings.ProjectName == null || _newProjectOptions.settings.ProjectName == ""))
                     {
                         System.Windows.Forms.MessageBox.Show("You must specify a project name.", "Error",
                                          System.Windows.Forms.MessageBoxButtons.OK,
@@ -1032,14 +1081,14 @@ namespace StudioCore
                         validated = false;
                     }
 
-                    string gameroot = Path.GetDirectoryName(_newProjectSettings.GameRoot);
-                    if (_newProjectSettings.GameType == GameType.Bloodborne)
+                    string gameroot = Path.GetDirectoryName(_newProjectOptions.settings.GameRoot);
+                    if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                     {
                         gameroot = gameroot + @"\dvdroot_ps4";
                     }
-                    if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectSettings.GameType))
+                    if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectOptions.settings.GameType))
                     {
-                        System.Windows.Forms.MessageBox.Show($@"The files for {_newProjectSettings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
+                        System.Windows.Forms.MessageBox.Show($@"The files for {_newProjectOptions.settings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
                             System.Windows.Forms.MessageBoxButtons.OK,
                             System.Windows.Forms.MessageBoxIcon.None);
                         validated = false;
@@ -1047,14 +1096,9 @@ namespace StudioCore
 
                     if (validated)
                     {
-                        _newProjectSettings.GameRoot = gameroot;
-                        _newProjectSettings.Serialize($@"{_newProjectDirectory}\project.json");
-                        AttemptLoadProject(_newProjectSettings, $@"{_newProjectDirectory}\project.json", true);
-                        if (_newProjectLoadDefaultNames)
-                        {
-                            new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
-                            ParamEditor.ParamBank.SaveParams(_newProjectSettings.UseLooseParams);
-                        }
+                        _newProjectOptions.settings.GameRoot = gameroot;
+                        _newProjectOptions.settings.Serialize($@"{_newProjectOptions.directory}\project.json");
+                        AttemptLoadProject(_newProjectOptions.settings, $@"{_newProjectOptions.directory}\project.json", true, _newProjectOptions);
 
                         ImGui.CloseCurrentPopup();
                     }

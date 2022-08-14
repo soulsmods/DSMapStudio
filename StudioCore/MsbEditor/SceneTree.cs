@@ -340,7 +340,16 @@ namespace StudioCore.MsbEditor
             {
                 if (arrowKeySelect)
                 {
-                    _selection.AddSelection(e);
+                    if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight)
+                        || InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    {
+                        _selection.AddSelection(e);
+                    }
+                    else
+                    {
+                        _selection.ClearSelection();
+                        _selection.AddSelection(e);
+                    }
                 }
                 else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                 {
@@ -359,7 +368,7 @@ namespace StudioCore.MsbEditor
                 {
                     // Select Range
                     var entList = e.Container.Objects;
-                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container));
+                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container && fe != e.Container.RootObject));
                     var i2 = entList.IndexOf((MapEntity)e);
 
                     if (i1 != -1 && i2 != -1)
@@ -677,6 +686,10 @@ namespace StudioCore.MsbEditor
                     {
                         _pendingClick = selectTarget;
                     }
+                    if (ImGui.IsMouseDoubleClicked(0) && _pendingClick != null && mapRoot == _pendingClick)
+                    {
+                        _viewport.FramePosition(mapRoot.GetLocalTransform().Position, 10f);
+                    }
                     if ((_pendingClick == mapRoot || mapRef.Equals(_pendingClick)) && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
                     {
                         if (ImGui.IsItemHovered())
@@ -686,9 +699,17 @@ namespace StudioCore.MsbEditor
                                 (nodeopen && _treeOpenEntities.Contains(mapRoot)) ||
                                 (!nodeopen && !_treeOpenEntities.Contains(mapRoot)))
                             {
-                                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                                 {
-                                    _selection.AddSelection(selectTarget);
+                                    // Toggle Selection
+                                    if (_selection.GetSelection().Contains(selectTarget))
+                                    {
+                                        _selection.RemoveSelection(selectTarget);
+                                    }
+                                    else
+                                    {
+                                        _selection.AddSelection(selectTarget);
+                                    }
                                 }
                                 else
                                 {

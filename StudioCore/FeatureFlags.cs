@@ -19,5 +19,7 @@ namespace StudioCore
         public static bool StrictResourceChecking = true;
 
         public static bool MBSE_Test = false; //MBSE read/write test
+
+        public static bool EnablePartialParam = false;
     }
 }
