@@ -686,6 +686,10 @@ namespace StudioCore.MsbEditor
                     {
                         _pendingClick = selectTarget;
                     }
+                    if (ImGui.IsMouseDoubleClicked(0) && _pendingClick != null && mapRoot == _pendingClick)
+                    {
+                        _viewport.FramePosition(mapRoot.GetLocalTransform().Position, 10f);
+                    }
                     if ((_pendingClick == mapRoot || mapRef.Equals(_pendingClick)) && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
                     {
                         if (ImGui.IsItemHovered())
