@@ -16,6 +16,7 @@ namespace StudioCore.MsbEditor
     {
         private string _id;
 
+        private bool _cachesLoaded = false;
         private List<string> _chrCache = new List<string>();
         private List<string> _objCache = new List<string>();
         private Dictionary<string, List<string>> _mapModelCache = new Dictionary<string, List<string>>();
@@ -35,6 +36,7 @@ namespace StudioCore.MsbEditor
 
         public void RebuildCaches()
         {
+            _cachesLoaded = false;
             _chrCache = new List<string>();
             _objCache = new List<string>();
             _chrCache = _locator.GetChrModels();
@@ -54,6 +56,7 @@ namespace StudioCore.MsbEditor
                     _mapModelCache.Add(adjm, cache);
                 }
             }
+            _cachesLoaded = true;
         }
 
 
@@ -71,56 +74,58 @@ namespace StudioCore.MsbEditor
                 {
                     _selected = "Obj";
                 }
-
-                foreach (var m in _mapModelCache.Keys)
+                if (_cachesLoaded)
                 {
-                    if (ImGui.Selectable(m, _selected == m))
+                    foreach (var m in _mapModelCache.Keys)
                     {
-                        _selected = m;
-                    }
-                }
-                ImGui.EndChild();
-                ImGui.NextColumn();
-                ImGui.BeginChild("AssetList");
-                if (_selected == "Chr")
-                {
-                    foreach (var chr in _chrCache)
-                    {
-                        if (ImGui.Selectable(chr))
+                        if (ImGui.Selectable(m, _selected == m))
                         {
-                        }
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                        {
-                            _handler.OnInstantiateChr(chr);
+                            _selected = m;
                         }
                     }
-                }
-                else if (_selected == "Obj")
-                {
-                    foreach (var obj in _objCache)
+                    ImGui.EndChild();
+                    ImGui.NextColumn();
+                    ImGui.BeginChild("AssetList");
+                    if (_selected == "Chr")
                     {
-                        if (ImGui.Selectable(obj))
+                        foreach (var chr in _chrCache)
                         {
-                        }
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                        {
-                            _handler.OnInstantiateObj(obj);
-                        }
-                    }
-                }
-                else if (_selected != null && _selected.StartsWith("m"))
-                {
-                    if (_mapModelCache.ContainsKey(_selected))
-                    {
-                        foreach (var model in _mapModelCache[_selected])
-                        {
-                            if (ImGui.Selectable(model))
+                            if (ImGui.Selectable(chr))
                             {
                             }
-
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                             {
-                                _handler.OnInstantiateMapPiece(_selected, model);
+                                _handler.OnInstantiateChr(chr);
+                            }
+                        }
+                    }
+                    else if (_selected == "Obj")
+                    {
+                        foreach (var obj in _objCache)
+                        {
+                            if (ImGui.Selectable(obj))
+                            {
+                            }
+                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            {
+                                _handler.OnInstantiateObj(obj);
+                            }
+                        }
+                    }
+                    else if (_selected != null && _selected.StartsWith("m"))
+                    {
+                        if (_mapModelCache.ContainsKey(_selected))
+                        {
+                            foreach (var model in _mapModelCache[_selected])
+                            {
+                                if (ImGui.Selectable(model))
+                                {
+                                }
+
+                                if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                                {
+                                    _handler.OnInstantiateMapPiece(_selected, model);
+                                }
                             }
                         }
                     }
