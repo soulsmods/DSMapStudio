@@ -156,13 +156,13 @@ namespace StudioCore.ParamEditor
             List<EditorAction> actions = new List<EditorAction>();
             foreach (var f in files)
             {
-                int last = f.LastIndexOf('\\') + 1;
-                string file = f.Substring(last);
-                string param = file.Substring(0, file.Length - 4);
-                if (!_params.ContainsKey(param))
+                string fName = Path.GetFileNameWithoutExtension(f);
+                if (!_params.ContainsKey(fName))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, param, "Name", ' ');
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, fName, "Name", ' ', true);
+                if (r.Type != MassEditResultType.SUCCESS)
+                    continue;
                 actions.Add(a);
             }
             return new CompoundAction(actions);

@@ -370,7 +370,7 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             #endif
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator, bool ignoreMissingRows)
         {
             try
             {
@@ -393,7 +393,11 @@ namespace StudioCore.ParamEditor
                     string value = csvs[1];
                     Param.Row? row = p[id];
                     if (row == null)
+                    {
+                        if (ignoreMissingRows)
+                            continue;
                         return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}"), null);
+                    }
                     if (field.Equals("Name"))
                     {
                         if (row.Name != null && !row.Name.Equals(value))
