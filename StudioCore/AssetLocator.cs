@@ -297,47 +297,62 @@ namespace StudioCore
                 return FullMapList;
             }
 
-            var mapSet = new HashSet<string>();
-
-            // DS2 has its own structure for msbs, where they are all inside individual folders
-            if (Type == GameType.DarkSoulsIISOTFS)
+            try
             {
-                var maps = Directory.GetFileSystemEntries(GameRootDirectory + @"\map", @"m*").ToList();
-                if (GameModDirectory != null)
+                var mapSet = new HashSet<string>();
+
+                // DS2 has its own structure for msbs, where they are all inside individual folders
+                if (Type == GameType.DarkSoulsIISOTFS)
                 {
-                    if (Directory.Exists(GameModDirectory + @"\map"))
+                    var maps = Directory.GetFileSystemEntries(GameRootDirectory + @"\map", @"m*").ToList();
+                    if (GameModDirectory != null)
                     {
-                        maps.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map", @"m*").ToList());
+                        if (Directory.Exists(GameModDirectory + @"\map"))
+                        {
+                            maps.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map", @"m*").ToList());
+                        }
+                    }
+
+                    foreach (var map in maps)
+                    {
+                        mapSet.Add(Path.GetFileNameWithoutExtension($@"{map}.blah"));
                     }
                 }
-                foreach (var map in maps)
+                else
                 {
-                    mapSet.Add(Path.GetFileNameWithoutExtension($@"{map}.blah"));
-                }
-            }
-            else
-            {
-                var msbFiles = Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb")
-                    .Select(Path.GetFileNameWithoutExtension).ToList();
-                msbFiles.AddRange(Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb.dcx")
-                    .Select(Path.GetFileNameWithoutExtension).Select(Path.GetFileNameWithoutExtension).ToList());
-                if (GameModDirectory != null && Directory.Exists(GameModDirectory + @"\map\MapStudio\"))
-                {
-                    msbFiles.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb")
-                    .Select(Path.GetFileNameWithoutExtension).ToList());
-                    msbFiles.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb.dcx")
+                    var msbFiles = Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb")
+                        .Select(Path.GetFileNameWithoutExtension).ToList();
+                    msbFiles.AddRange(Directory
+                        .GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb.dcx")
                         .Select(Path.GetFileNameWithoutExtension).Select(Path.GetFileNameWithoutExtension).ToList());
+                    if (GameModDirectory != null && Directory.Exists(GameModDirectory + @"\map\MapStudio\"))
+                    {
+                        msbFiles.AddRange(Directory
+                            .GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb")
+                            .Select(Path.GetFileNameWithoutExtension).ToList());
+                        msbFiles.AddRange(Directory
+                            .GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb.dcx")
+                            .Select(Path.GetFileNameWithoutExtension).Select(Path.GetFileNameWithoutExtension)
+                            .ToList());
+                    }
+
+                    foreach (var msb in msbFiles)
+                    {
+                        mapSet.Add(msb);
+                    }
                 }
-                foreach (var msb in msbFiles)
-                {
-                    mapSet.Add(msb);
-                }
+
+                var mapRegex = new Regex(@"^m\d{2}_\d{2}_\d{2}_\d{2}$");
+                var mapList = mapSet.Where(x => mapRegex.IsMatch(x)).ToList();
+                mapList.Sort();
+                FullMapList = mapList;
+                return FullMapList;
             }
-            var mapRegex = new Regex(@"^m\d{2}_\d{2}_\d{2}_\d{2}$");
-            var mapList = mapSet.Where(x => mapRegex.IsMatch(x)).ToList();
-            mapList.Sort();
-            FullMapList = mapList;
-            return FullMapList;
+            catch (DirectoryNotFoundException e)
+            {
+                // Game is likely not UXM unpacked
+                return new List<string>();
+            }
         }
 
         public AssetDescription GetMapMSB(string mapid, bool writemode = false)
@@ -1054,58 +1069,67 @@ namespace StudioCore
 
         public List<string> GetChrModels()
         {
-            var chrs = new HashSet<string>();
-            var ret = new List<string>();
+            try
+            {
+                var chrs = new HashSet<string>();
+                var ret = new List<string>();
 
-            string modelDir = $@"\chr";
-            string modelExt = $@".chrbnd.dcx";
-            if (Type == GameType.DarkSoulsPTDE)
-            {
-                modelExt = ".chrbnd";
-            }
-            else if (Type == GameType.DarkSoulsIISOTFS)
-            {
-                modelDir = $@"\model\chr";
-                modelExt = ".bnd";
-            }
-
-            if (Type == GameType.DemonsSouls)
-            {
-                var chrdirs = Directory.GetDirectories(GameRootDirectory + modelDir);
-                foreach (var f in chrdirs)
+                string modelDir = $@"\chr";
+                string modelExt = $@".chrbnd.dcx";
+                if (Type == GameType.DarkSoulsPTDE)
                 {
-                    var name = Path.GetFileNameWithoutExtension(f + ".dummy");
-                    if (name.StartsWith("c"))
-                    {
-                        ret.Add(name);
-                    }
+                    modelExt = ".chrbnd";
                 }
-                return ret;
-            }
+                else if (Type == GameType.DarkSoulsIISOTFS)
+                {
+                    modelDir = $@"\model\chr";
+                    modelExt = ".bnd";
+                }
 
-            var chrfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
-            foreach (var f in chrfiles)
-            {
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                ret.Add(name);
-                chrs.Add(name);
-            }
+                if (Type == GameType.DemonsSouls)
+                {
+                    var chrdirs = Directory.GetDirectories(GameRootDirectory + modelDir);
+                    foreach (var f in chrdirs)
+                    {
+                        var name = Path.GetFileNameWithoutExtension(f + ".dummy");
+                        if (name.StartsWith("c"))
+                        {
+                            ret.Add(name);
+                        }
+                    }
 
-            if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
-            {
-                chrfiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
+                    return ret;
+                }
+
+                var chrfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
                 foreach (var f in chrfiles)
                 {
                     var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                    if (!chrs.Contains(name))
+                    ret.Add(name);
+                    chrs.Add(name);
+                }
+
+                if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
+                {
+                    chrfiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
+                    foreach (var f in chrfiles)
                     {
-                        ret.Add(name);
-                        chrs.Add(name);
+                        var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                        if (!chrs.Contains(name))
+                        {
+                            ret.Add(name);
+                            chrs.Add(name);
+                        }
                     }
                 }
-            }
 
-            return ret;
+                return ret;
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                // Game likely isn't UXM unpacked
+                return new List<string>();
+            }
         }
 
         public AssetDescription GetChrModel(string chr)
@@ -1126,64 +1150,72 @@ namespace StudioCore
 
         public List<string> GetObjModels()
         {
-            var objs = new HashSet<string>();
-            var ret = new List<string>();
+            try
+            {
+                var objs = new HashSet<string>();
+                var ret = new List<string>();
 
-            string modelDir = $@"\obj";
-            string modelExt = $@".objbnd.dcx";
-            if (Type == GameType.DarkSoulsPTDE)
-            {
-                modelExt = ".objbnd";
-            }
-            else if (Type == GameType.DarkSoulsIISOTFS)
-            {
-                modelDir = $@"\model\obj";
-                modelExt = ".bnd";
-            }
-            else if (Type == GameType.EldenRing)
-            {
-                // AEGs are objs in my heart :(
-                modelDir = @"\asset\aeg";
-                modelExt = ".geombnd.dcx";
-            }
-
-            // Directories to search for obj models
-            List<string> searchDirs = new List<string>();
-            if (Type == GameType.EldenRing)
-            {
-                searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"aeg*").ToList();
-            }
-            else
-            {
-                searchDirs.Add(GameRootDirectory + modelDir);
-            }
-
-            foreach (var searchDir in searchDirs)
-            {
-                var objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
-                foreach (var f in objfiles)
+                string modelDir = $@"\obj";
+                string modelExt = $@".objbnd.dcx";
+                if (Type == GameType.DarkSoulsPTDE)
                 {
-                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                    ret.Add(name);
-                    objs.Add(name);
+                    modelExt = ".objbnd";
+                }
+                else if (Type == GameType.DarkSoulsIISOTFS)
+                {
+                    modelDir = $@"\model\obj";
+                    modelExt = ".bnd";
+                }
+                else if (Type == GameType.EldenRing)
+                {
+                    // AEGs are objs in my heart :(
+                    modelDir = @"\asset\aeg";
+                    modelExt = ".geombnd.dcx";
                 }
 
-                if (GameModDirectory != null && Directory.Exists(searchDir))
+                // Directories to search for obj models
+                List<string> searchDirs = new List<string>();
+                if (Type == GameType.EldenRing)
                 {
-                    objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
+                    searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"aeg*").ToList();
+                }
+                else
+                {
+                    searchDirs.Add(GameRootDirectory + modelDir);
+                }
+
+                foreach (var searchDir in searchDirs)
+                {
+                    var objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
                     foreach (var f in objfiles)
                     {
                         var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                        if (!objs.Contains(name))
+                        ret.Add(name);
+                        objs.Add(name);
+                    }
+
+                    if (GameModDirectory != null && Directory.Exists(searchDir))
+                    {
+                        objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
+                        foreach (var f in objfiles)
                         {
-                            ret.Add(name);
-                            objs.Add(name);
+                            var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                            if (!objs.Contains(name))
+                            {
+                                ret.Add(name);
+                                objs.Add(name);
+                            }
                         }
                     }
                 }
-            }
 
-            return ret;
+                return ret;
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                // Game likely isn't UXM unpacked
+                return new List<string>();
+            }
         }
 
         public AssetDescription GetObjModel(string obj)
