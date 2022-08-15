@@ -111,7 +111,6 @@ namespace StudioCore.ParamEditor
         private string _currentMEditRegexInput = "";
         private string _lastMEditRegexInput = "";
         private string _mEditRegexResult = "";
-        private bool _currentMEditSingleCSVSpaces = false;
         private string _currentMEditSingleCSVField = "";
         private string _currentMEditCSVInput = "";
         private string _currentMEditCSVOutput = "";
@@ -661,7 +660,6 @@ namespace StudioCore.ParamEditor
             else if (ImGui.BeginPopup("massEditMenuSingleCSVImport"))
             {
                 ImGui.Text(_currentMEditSingleCSVField);
-                ImGui.Checkbox("Space separator", ref _currentMEditSingleCSVSpaces);
                 ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
                 ImGui.InputText("Delimiter", ref CSVDelimiterPreference, 1);
                 if (ImGui.IsItemDeactivatedAfterEdit() && CSVDelimiterPreference.Length==0)
