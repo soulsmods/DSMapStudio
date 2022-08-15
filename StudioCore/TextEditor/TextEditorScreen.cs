@@ -431,6 +431,10 @@ namespace StudioCore.TextEditor
                 {
                     ImGui.Text("Loading...");
                 }
+                else
+                {
+                    ImGui.Text("This editor requires a project with the game unpacked to be loaded.");
+                }
                 return;
             }
             var dsid = ImGui.GetID("DockSpace_TextEntries");
