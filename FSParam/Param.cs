@@ -121,7 +121,7 @@ namespace FSParam
             Flag80 = 0b1000_0000,
         }
 
-        public class Row : IEquatable<Row>
+        public class Row
         {
             internal Param Parent;
             public int ID { get; set; }
@@ -180,7 +180,7 @@ namespace FSParam
                 clone.Parent._paramData.CopyData(Parent._paramData, DataIndex, clone.DataIndex);
             }
 
-            public bool Equals(Row? other)
+            public bool DataEquals(Row? other)
             {
                 if (other == null)
                     return false;
