@@ -24,9 +24,12 @@ namespace StudioCore.Resource
     {
         internal class FlverLoadPipeline
         {
-            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock;
-            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest;
-            public ISourceBlock<IResourceHandle> LoadedResourcesBlock;
+            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock { get; private set; }
+            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest { get; private set; }
+            public ISourceBlock<IResourceHandle> LoadedResourcesBlock { get; private set; }
+
+            private TransformBlock<LoadByteResourceRequest, IResourceHandle> _loadByteResourcesTransform;
+            private TransformBlock<LoadFileResourceRequest, IResourceHandle> _loadFileResourcesTransform;
         }
         
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();
