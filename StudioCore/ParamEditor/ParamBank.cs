@@ -736,7 +736,7 @@ namespace StudioCore.ParamEditor
                 
                 var vanillaIndex = 0;
                 int lastID = -1;
-                Span<Param.Row> lastVanillaRows = default;
+                ReadOnlySpan<Param.Row> lastVanillaRows = default;
                 for (int i = 0; i < rows.Length; i++)
                 {
                     int ID = rows[i].ID;
@@ -746,6 +746,7 @@ namespace StudioCore.ParamEditor
                     }
                     else
                     {
+                        lastID = ID;
                         while (vanillaIndex < vrows.Length && vrows[vanillaIndex].ID < ID)
                             vanillaIndex++;
                         if (vanillaIndex >= vrows.Length)
@@ -757,7 +758,8 @@ namespace StudioCore.ParamEditor
                             int count = 0;
                             while (vanillaIndex + count < vrows.Length && vrows[vanillaIndex + count].ID == ID)
                                 count++;
-                            refreshParamRowDirtyCache(rows[i], new ReadOnlySpan<Param.Row>(vrows, vanillaIndex, count), cache);
+                            lastVanillaRows = new ReadOnlySpan<Param.Row>(vrows, vanillaIndex, count);
+                            refreshParamRowDirtyCache(rows[i], lastVanillaRows, cache);
                             vanillaIndex += count;
                         }
                     }
