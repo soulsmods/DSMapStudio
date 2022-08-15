@@ -1173,17 +1173,19 @@ namespace SoulsFormats
                 /// <summary>
                 /// NpcParam ID to use when rendering a character with the message.
                 /// </summary>
+                [MSBParamReference(ParamName = "NPCParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Animation ID to use when rendering a character with the message.
                 /// </summary>
-                public int UnkT1C { get; set; }
+                public int AnimationID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT20 { get; set; }
+                [MSBParamReference(ParamName = "CharaInitParam")]
+                public int CharaInitParamID { get; set; }
 
                 /// <summary>
                 /// Creates a Message with default values.
@@ -1205,8 +1207,8 @@ namespace SoulsFormats
                     EnableEventFlag = br.ReadInt32();
                     CharacterModelName = br.ReadInt32();
                     NPCParamID = br.ReadInt32();
-                    UnkT1C = br.ReadInt32();
-                    UnkT20 = br.ReadInt32();
+                    AnimationID = br.ReadInt32();
+                    CharaInitParamID = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
@@ -1219,8 +1221,8 @@ namespace SoulsFormats
                     bw.WriteInt32(EnableEventFlag);
                     bw.WriteInt32(CharacterModelName);
                     bw.WriteInt32(NPCParamID);
-                    bw.WriteInt32(UnkT1C);
-                    bw.WriteInt32(UnkT20);
+                    bw.WriteInt32(AnimationID);
+                    bw.WriteInt32(CharaInitParamID);
                 }
             }
 
