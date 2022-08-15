@@ -37,48 +37,56 @@ namespace StudioCore.MsbEditor
 
             TaskManager.Run("MB:LoadMtds", true, false, true, () =>
             {
-                IBinder mtdBinder = null;
-                if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
+                try
                 {
-                    mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
-                    IsMatbin = false;
-                }
-                else if (AssetLocator.Type == GameType.EldenRing)
-                {
-                    mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
-                    IsMatbin = true;
-                }
-
-                if (mtdBinder == null)
-                {
-                    return;
-                }
-
-                if (IsMatbin)
-                {
-                    _matbins = new Dictionary<string, MATBIN>();
-                    foreach (var f in mtdBinder.Files)
+                    IBinder mtdBinder = null;
+                    if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
                     {
-                        var matname = Path.GetFileNameWithoutExtension(f.Name);
-                        // Because *certain* mods contain duplicate entries for the same material
-                        if (!_matbins.ContainsKey(matname))
+                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
+                        IsMatbin = false;
+                    }
+                    else if (AssetLocator.Type == GameType.EldenRing)
+                    {
+                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
+                        IsMatbin = true;
+                    }
+
+                    if (mtdBinder == null)
+                    {
+                        return;
+                    }
+
+                    if (IsMatbin)
+                    {
+                        _matbins = new Dictionary<string, MATBIN>();
+                        foreach (var f in mtdBinder.Files)
                         {
-                            _matbins.Add(matname, MATBIN.Read(f.Bytes));
+                            var matname = Path.GetFileNameWithoutExtension(f.Name);
+                            // Because *certain* mods contain duplicate entries for the same material
+                            if (!_matbins.ContainsKey(matname))
+                            {
+                                _matbins.Add(matname, MATBIN.Read(f.Bytes));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _mtds = new Dictionary<string, MTD>();
+                        foreach (var f in mtdBinder.Files)
+                        {
+                            var mtdname = Path.GetFileNameWithoutExtension(f.Name);
+                            // Because *certain* mods contain duplicate entries for the same material
+                            if (!_mtds.ContainsKey(mtdname))
+                            {
+                                _mtds.Add(mtdname, MTD.Read(f.Bytes));
+                            }
                         }
                     }
                 }
-                else
+                catch (Exception e) when (e is FileNotFoundException or DirectoryNotFoundException)
                 {
                     _mtds = new Dictionary<string, MTD>();
-                    foreach (var f in mtdBinder.Files)
-                    {
-                        var mtdname = Path.GetFileNameWithoutExtension(f.Name);
-                        // Because *certain* mods contain duplicate entries for the same material
-                        if (!_mtds.ContainsKey(mtdname))
-                        {
-                            _mtds.Add(mtdname, MTD.Read(f.Bytes));
-                        }
-                    }
+                    _matbins = new Dictionary<string, MATBIN>();
                 }
             });
         }
