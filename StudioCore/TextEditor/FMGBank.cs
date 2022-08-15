@@ -733,78 +733,95 @@ namespace StudioCore.TextEditor
 
             TaskManager.Run("FB:Reload", true, false, true, () =>
             {
-                if (AssetLocator.Type == GameType.Undefined)
+                try
                 {
-                    return;
-                }
+                    if (AssetLocator.Type == GameType.Undefined)
+                    {
+                        return;
+                    }
 
-                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    ReloadFMGsDS2(ref _languageFolder);
-                    IsLoading = false;
+                    if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        ReloadFMGsDS2(ref _languageFolder);
+                        IsLoading = false;
+                        IsLoaded = true;
+                        return;
+                    }
+
+                    var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
+                    var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+                    if (itemMsgPath.AssetPath == null)
+                    {
+                        MessageBox.Show($"Could not find item.msgbnd in {_languageFolder}", "Error");
+                        IsLoaded = true; //permits loading default language
+                        IsLoading = false;
+                        return;
+                    }
+
+                    if (menuMsgPath.AssetPath == null)
+                    {
+                        MessageBox.Show($"Could not find menu.msgbnd in {_languageFolder}", "Error");
+                        IsLoaded = true; //permits loading default language
+                        IsLoading = false;
+                        return;
+                    }
+
+                    IBinder fmgBinderItem;
+                    IBinder fmgBinderMenu;
+                    if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE ||
+                        AssetLocator.Type == GameType.DarkSoulsRemastered)
+                    {
+                        fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
+                        fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
+                    }
+                    else
+                    {
+                        fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
+                        fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
+                    }
+
+                    _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
+                    _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
+                    foreach (var file in fmgBinderItem.Files)
+                    {
+                        if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
+                            _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
+                        else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
+                            _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
+                        else
+                            MessageBox.Show(
+                                $"Didn't expect FMG ID \"{file.ID}\" in \"item.msgbnd\". Please report this error.",
+                                "FMG skipped");
+                    }
+
+                    foreach (var file in fmgBinderMenu.Files)
+                    {
+                        if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
+                            _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
+                        else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
+                            _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
+                        else
+                            MessageBox.Show(
+                                $"Didn't expect FMG ID \"{file.ID}\" in \"menu.msgbnd\". Please report this error.",
+                                "FMG skipped");
+                    }
+
+                    _itemFMGs = _itemFMGs.OrderBy(e => e.Key.ToString()).ToDictionary(e => e.Key, e => e.Value);
+                    _menuFMGs = _menuFMGs.OrderBy(e => MenuEnumString(e.Key)).ToDictionary(e => e.Key, e => e.Value);
                     IsLoaded = true;
-                    return;
-                }
-
-                var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-                var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
-                if (itemMsgPath.AssetPath == null)
-                {
-                    MessageBox.Show($"Could not find item.msgbnd in {_languageFolder}", "Error");
-                    IsLoaded = true; //permits loading default language
                     IsLoading = false;
-                    return;
                 }
-                if (menuMsgPath.AssetPath == null)
+                catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
                 {
-                    MessageBox.Show($"Could not find menu.msgbnd in {_languageFolder}", "Error");
-                    IsLoaded = true; //permits loading default language
+                    _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
+                    _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
+                    IsLoaded = false;
                     IsLoading = false;
-                    return;
                 }
-
-                IBinder fmgBinderItem;
-                IBinder fmgBinderMenu;
-                if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
-                {
-                    fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
-                    fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
-                }
-                else
-                {
-                    fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
-                    fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
-                }
-
-                _itemFMGs = new Dictionary<ItemFMGTypes, FMG>();
-                _menuFMGs = new Dictionary<MenuFMGTypes, FMG>();
-                foreach (var file in fmgBinderItem.Files)
-                {
-                    if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
-                        _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                    else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
-                        _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
-                    else
-                        MessageBox.Show($"Didn't expect FMG ID \"{file.ID}\" in \"item.msgbnd\". Please report this error.", "FMG skipped");
-                }
-
-                foreach (var file in fmgBinderMenu.Files)
-                {
-                    if (Enum.IsDefined(typeof(ItemFMGTypes), file.ID))
-                        _itemFMGs.Add((ItemFMGTypes)file.ID, FMG.Read(file.Bytes));
-                    else if (Enum.IsDefined(typeof(MenuFMGTypes), file.ID))
-                        _menuFMGs.Add((MenuFMGTypes)file.ID, FMG.Read(file.Bytes));
-                    else
-                        MessageBox.Show($"Didn't expect FMG ID \"{file.ID}\" in \"menu.msgbnd\". Please report this error.", "FMG skipped");
-                }
-                _itemFMGs = _itemFMGs.OrderBy(e => e.Key.ToString()).ToDictionary(e => e.Key, e => e.Value);
-                _menuFMGs = _menuFMGs.OrderBy(e => MenuEnumString(e.Key)).ToDictionary(e => e.Key, e => e.Value);
-            IsLoaded = true;
-            IsLoading = false;
             });
         }
 
-        public static void SaveFMGsDS2()
+        private static void SaveFMGsDS2()
         {
             foreach (var fmg in _ds2fmgs)
             {
