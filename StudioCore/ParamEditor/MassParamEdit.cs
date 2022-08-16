@@ -150,59 +150,71 @@ namespace StudioCore.ParamEditor
             ActionManager childManager = new ActionManager();
             foreach (string cmd in commands)
             {
-                string command = cmd.Trim();
+                string command = cmd;
                 if (command.EndsWith(';'))
                     command = command.Substring(0, command.Length-1);
 
                 List<EditorAction> partialActions = new List<EditorAction>();
 
-                string[] stages = command.Split(":", StringSplitOptions.TrimEntries);
-
+                string[] stage = command.Split(":", 2);
+                stage[0] = stage[0].Trim();
 
                 List<Param> affectedParams = new List<Param>();
                 List<Param.Row> affectedRows = new List<Param.Row>();
                 List<Param.Column> affectedCells = new List<Param.Column>();
-                int stage = 0;
-                if (stages[stage].Equals(""))
+
+                if (stage[0].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
-                if (ParamAndRowSearchEngine.parse.HandlesCommand(stages[stage]))
+                if (ParamAndRowSearchEngine.parse.HandlesCommand(stage[0]))
                 {
-                    affectedRows = ParamAndRowSearchEngine.parse.Search(context, stages[stage], false, false);
-                    stage++;
+                    affectedRows = ParamAndRowSearchEngine.parse.Search(context, stage[0], false, false);
+                    stage = stage[1].Split(":", 2);
+                    stage[0] = stage[0].Trim();
                 }
                 else
                 {
-                    affectedParams = ParamSearchEngine.pse.Search(false, stages[stage], false, false);
-                    stage++;
-                    if (stage>=stages.Length || stages[stage].Equals(""))
+                    affectedParams = ParamSearchEngine.pse.Search(false, stage[0], false, false);
+                    if (stage[0].Equals(""))
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
-                    affectedRows = RowSearchEngine.rse.Search(affectedParams, stages[stage], false, false);
-                    stage++;
+                    affectedRows = RowSearchEngine.rse.Search(affectedParams, stage[0], false, false);
+                    stage = stage[1].Split(":", 2);
+                    stage[0] = stage[0].Trim();
                 }
 
-                if (stage>=stages.Length || stages[stage].Equals(""))
+                if (stage[0].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
-                int cellStage = stage;
-                //hack
-                string[] cellStageSplit = stages[cellStage].Split(" ", StringSplitOptions.TrimEntries);
+                
+                // Remember cell stage
+                string cellSt = stage[0];
+                string[] cellStageSplit = cellSt.Split(" ", StringSplitOptions.TrimEntries);
                 bool editName = cellStageSplit.Length == 1 && cellStageSplit[0].Equals("Name");
-                //hack
-                stage++;
+                
+                // Split again per usual, even though we should guarantee this is the last split
+                stage = stage[1].Split(":", 2);
+                stage[0] = stage[0].Trim();
 
-                //skip ahead to op stage
-                if (stage>=stages.Length || stages[stage].Equals(""))
+                if (stage[0].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
-                string[] operation = stages[stage].Split(" ", 2, StringSplitOptions.TrimEntries);
-                string op = operation[0];
+                string[] operation = stage[0].Split(" ", 2);
+                string op = operation[0].Trim();
                 if(!"= + - * / replace".Contains(op))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+op), null);
+                // Fix split up replace operation
+                if("replace" == op)
+                {
+                    stage[0] = stage[0] + ":" + stage[1];
+                    operation = stage[0].Split(" ", 2);
+                    op = operation[0].Trim();
+                }
                 
                 if (operation.Length<2 || operation[1].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation argument. Add a number, or 'field' followed by a field to read a number from."), null);
                 bool readField = false;
-                string[] opArgs = operation[1].Split(" ", 2, StringSplitOptions.TrimEntries);
+                string[] opArgs = operation[1].Split(" ", 2);
                 if (opArgs.Length > 1 && opArgs[0].Equals("field"))
                     readField = true;
+                else
+                    opArgs[0] = operation[1];
                 //back to cell stage - this is because we want row context ["cell" as a stage is inaccurate, do (row, cell)? (row,propertyinfo)?]
                 foreach(var row in affectedRows)
                 {
@@ -215,7 +227,7 @@ namespace StudioCore.ParamEditor
                         valueToUse = reffed.Value.Value.ToString();
                     }
 
-                    affectedCells = CellSearchEngine.cse.Search(row, stages[cellStage], false, false);
+                    affectedCells = CellSearchEngine.cse.Search(row, cellSt, false, false);
 
                     changeCount += affectedCells.Count;
                     foreach (Param.Column cell in affectedCells)
