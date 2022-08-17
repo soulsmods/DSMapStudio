@@ -280,7 +280,7 @@ namespace StudioCore.Editor
 
     public class DuplicateFMGEntryAction : EditorAction
     {
-        private readonly FMGBank.EntryGroup EntryGroup = new();
+        private readonly FMGBank.EntryGroup EntryGroup;
         private FMGBank.EntryGroup NewEntryGroup;
 
         public DuplicateFMGEntryAction(FMGBank.EntryGroup entryGroup)
@@ -292,14 +292,12 @@ namespace StudioCore.Editor
         {
             NewEntryGroup = EntryGroup.DuplicateEntries();
             NewEntryGroup.SetNextUnusedID();
-            CacheBank.ClearCaches();
             return ActionEvent.NoEvent;
         }
 
         public override ActionEvent Undo()
         {
             NewEntryGroup.DeleteEntries();
-            CacheBank.ClearCaches();
             return ActionEvent.NoEvent;
         }
     }
@@ -320,7 +318,6 @@ namespace StudioCore.Editor
             Index = EntryGroup.GetIndex();
             BackupEntryGroup = EntryGroup.CopyEntryGroup();
             EntryGroup.DeleteEntries();
-            CacheBank.ClearCaches();
             return ActionEvent.NoEvent;
         }
 
@@ -328,7 +325,6 @@ namespace StudioCore.Editor
         {
             EntryGroup = BackupEntryGroup;
             EntryGroup.InsertEntries(Index);
-            CacheBank.ClearCaches();
             return ActionEvent.NoEvent;
         }
     }

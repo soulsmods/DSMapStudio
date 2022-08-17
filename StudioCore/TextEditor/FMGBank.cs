@@ -37,6 +37,9 @@ namespace StudioCore.TextEditor
             public string Name;
             public FmgIDType FmgID;
             public FMG Fmg;
+            /// <summary>
+            /// List of associated children to this FMGInfo used to get patch entry data.
+            /// </summary>
             public List<FMGInfo> PatchChildren = new();
             public bool IsPatchChild = false;
             public FmgUICategory UICategory;
@@ -44,7 +47,7 @@ namespace StudioCore.TextEditor
             public FmgEntryTextType EntryType;
 
             /// <summary>
-            /// Returns a list of value pairs with Entry & FMG, found within from this FMG and its children.
+            /// Returns a patched list of Entry & FMG value pairs from this FMG and its children.
             /// </summary>
             public List<EntryFMGInfoPair> PatchedEntryFMGPairs(bool sort = true)
             {
@@ -81,7 +84,7 @@ namespace StudioCore.TextEditor
             }
 
             /// <summary>
-            /// Returns a list of entries in this FMG and its children.
+            /// Returns a patched list of entries in this FMG and its children.
             /// </summary>
             public List<FMG.Entry> PatchedEntries(bool sort = true)
             {
@@ -160,6 +163,7 @@ namespace StudioCore.TextEditor
             }
         }
 
+
         /// <summary>
         /// A group of entries that may be associated (such as title, summary, description) along with respective FMGs.
         /// </summary>
@@ -193,9 +197,9 @@ namespace StudioCore.TextEditor
             }
 
             /// <summary>
-            /// Sets ID of all entries to the next unused entry ID.
+            /// Gets next unused entry ID.
             /// </summary>
-            public void SetNextUnusedID()
+            public int GetNextUnusedID()
             {
                 var id = ID;
                 if (TextBody != null)
@@ -234,7 +238,15 @@ namespace StudioCore.TextEditor
                     }
                     while (entries.Find(e => e.ID == id) != null);
                 }
-                ID = id;
+                return id;
+            }
+
+            /// <summary>
+            /// Sets ID of all entries to the next unused entry ID.
+            /// </summary>
+            public void SetNextUnusedID()
+            {
+                ID = GetNextUnusedID();
                 return;
             }
 
@@ -355,7 +367,6 @@ namespace StudioCore.TextEditor
                 }
             }
 
-
             /// <summary>
             /// Finds shared index of entries in FMGs.
             /// </summary>
@@ -379,31 +390,6 @@ namespace StudioCore.TextEditor
                     return DescriptionInfo.Fmg.Entries.IndexOf(Description);
                 }
                 return -1;
-            }
-        }
-
-        /// <summary>
-        /// Contains Entry Cache info
-        /// </summary>
-        public class EntryCache
-        {
-            public List<FMG.Entry> Entries;
-            public List<FMG.Entry> FilteredEntries;
-            public string Filter = "";
-            public string FilterCache = "";
-
-            public void InsertEntryIntoCache(int index, FMG.Entry entry)
-            {
-                Entries.Insert(index, entry);
-                FilteredEntries = Entries;
-                FilterCache = "";
-            }
-
-            public void DeleteEntryFromCache(FMG.Entry entry)
-            {
-                Entries.Remove(entry);
-                FilteredEntries = Entries;
-                FilterCache = "";
             }
         }
 

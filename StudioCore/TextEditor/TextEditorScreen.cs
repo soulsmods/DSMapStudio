@@ -22,12 +22,14 @@ namespace StudioCore.TextEditor
         private FMGBank.EntryGroup _activeEntryGroup;
         private FMGBank.FMGInfo _activeFmgInfo;
 
-        private List<FMG.Entry> _entryCache;
-        private List<FMG.Entry> _cacheFiltered;
-        private int _activeID = -1;
+        private List<FMG.Entry> _entryLabelCache;
+        private List<FMG.Entry> _EntryLabelCacheFiltered;
+        private int _activeIDCache = -1;
 
         private string _searchFilter = "";
         private string _searchFilterCached = "";
+
+        private bool ClearEntryGroup = false;
 
         public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
@@ -37,10 +39,10 @@ namespace StudioCore.TextEditor
         private void ClearTextEditorCache()
         {
             CacheBank.ClearCaches();
-            _cacheFiltered = null;
+            _EntryLabelCacheFiltered = null;
             _activeFmgInfo = null;
             _activeEntryGroup = null;
-            _activeID = -1;
+            _activeIDCache = -1;
             _searchFilter = "";
             _searchFilterCached = "";
         }
@@ -50,6 +52,7 @@ namespace StudioCore.TextEditor
         /// </summary>
         private void DuplicateFMGEntries(FMGBank.EntryGroup entry)
         {
+            _activeIDCache = entry.GetNextUnusedID();
             var action = new DuplicateFMGEntryAction(entry);
             EditorActionManager.ExecuteAction(action);
         }
@@ -62,7 +65,7 @@ namespace StudioCore.TextEditor
             var action = new DeleteFMGEntryAction(entry);
             EditorActionManager.ExecuteAction(action);
             _activeEntryGroup = null;
-            _activeID = -1;
+            _activeIDCache = -1;
         }
 
         public override void DrawEditorMenu()
@@ -120,11 +123,11 @@ namespace StudioCore.TextEditor
         private void FMGSearchLogic()
         {
             // todo: This could be cleaned up.
-            if (_entryCache != null)
+            if (_entryLabelCache != null)
             {
                 if (_searchFilter != _searchFilterCached)
                 {
-                    _cacheFiltered = _entryCache;
+                    _EntryLabelCacheFiltered = _entryLabelCache;
                     List<FMG.Entry> matches = new();
 
                     if (_activeFmgInfo.EntryCategory != FMGBank.FmgEntryCategory.None)
@@ -132,9 +135,9 @@ namespace StudioCore.TextEditor
                         // Gouped entries
                         List<FMG.Entry> searchEntries;
                         if (_searchFilter.Length > _searchFilterCached.Length)
-                            searchEntries = _cacheFiltered;
+                            searchEntries = _EntryLabelCacheFiltered;
                         else
-                            searchEntries = _entryCache;
+                            searchEntries = _entryLabelCache;
 
                         foreach (var entry in searchEntries)
                         {
@@ -158,7 +161,7 @@ namespace StudioCore.TextEditor
                             {
                                 if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    var search = _entryCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                    var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
                                     if (search != null)
                                         matches.Add(search);
                                 }
@@ -171,7 +174,7 @@ namespace StudioCore.TextEditor
                             {
                                 if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    var search = _entryCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                    var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
                                     if (search != null)
                                         matches.Add(search);
                                 }
@@ -183,9 +186,9 @@ namespace StudioCore.TextEditor
                         // Non-grouped entries
                         List<FMG.Entry> searchEntries;
                         if (_searchFilter.Length > _searchFilterCached.Length)
-                            searchEntries = _cacheFiltered;
+                            searchEntries = _EntryLabelCacheFiltered;
                         else
-                            searchEntries = _entryCache;
+                            searchEntries = _entryLabelCache;
 
                         foreach (var entry in searchEntries)
                         {
@@ -199,7 +202,7 @@ namespace StudioCore.TextEditor
                                 // Text search
                                 if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    var search = _entryCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                    var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
                                     if (search != null)
                                         matches.Add(search);
                                 }
@@ -207,12 +210,12 @@ namespace StudioCore.TextEditor
                         }
                     }
 
-                    _cacheFiltered = matches;
+                    _EntryLabelCacheFiltered = matches;
                     _searchFilterCached = _searchFilter;
                 }
-                else if (_entryCache != _cacheFiltered && _searchFilter == "")
+                else if (_entryLabelCache != _EntryLabelCacheFiltered && _searchFilter == "")
                 {
-                    _cacheFiltered = _entryCache;
+                    _EntryLabelCacheFiltered = _entryLabelCache;
                 }
             }
         }
@@ -270,12 +273,27 @@ namespace StudioCore.TextEditor
             }
             if (_activeFmgInfo != null)
             {
-                _entryCache = CacheBank.GetCached(this, this, () =>
+                _entryLabelCache = CacheBank.GetCached(this, "FMGEntryCache", () =>
                 {
-                    var list = _activeFmgInfo.PatchedEntries();
-                    return list;
+                    return _activeFmgInfo.PatchedEntries();
                 });
             }
+
+            // Needed to ensure EntryGroup is still valid after undo/redo actions while also maintaining highlight-duped-row functionality.
+            // It's a bit dumb and probably overthinking things.
+            ClearEntryGroup = CacheBank.GetCached(this, "FMGClearEntryGroup", () =>
+            {
+                if (ClearEntryGroup)
+                    return false;
+                else
+                    return true;
+            });
+            if (ClearEntryGroup)
+            {
+                _activeEntryGroup = null;
+                CacheBank.RemoveCache(this, "FMGClearEntryGroup");
+            }
+
             ImGui.End();
 
             ImGui.Begin("Text Entries");
@@ -294,19 +312,20 @@ namespace StudioCore.TextEditor
             {
                 ImGui.Text("Select a category to see entries");
             }
-            else if (_cacheFiltered == null)
+            else if (_EntryLabelCacheFiltered == null)
             {
                 ImGui.Text("No entries match search filter");
             }
             else
             {
-                foreach (var r in _cacheFiltered)
+                foreach (var r in _EntryLabelCacheFiltered)
                 {
                     var text = (r.Text == null) ? "%null%" : r.Text;
-                    if (ImGui.Selectable($@"{r.ID} {text}", _activeID == r.ID))
+                    if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID)
+                    || (_activeIDCache == r.ID && _activeEntryGroup == null))
                     {
-                        _activeID = r.ID;
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        doFocus = true;
                     }
                     if (ImGui.BeginPopupContextItem())
                     {
@@ -343,9 +362,9 @@ namespace StudioCore.TextEditor
                 ImGui.Text("ID");
                 ImGui.NextColumn();
 
-                _propEditor.PropIDFMG(_activeEntryGroup, _entryCache);
-                _activeID = _activeEntryGroup.ID;
-                
+                _propEditor.PropIDFMG(_activeEntryGroup, _entryLabelCache);
+                _activeIDCache = _activeEntryGroup.ID;
+
                 ImGui.NextColumn();
 
                 _propEditor.PropEditorFMGBegin();
@@ -365,6 +384,7 @@ namespace StudioCore.TextEditor
                 {
                     _propEditor.PropEditorFMG(_activeEntryGroup.Description, "Description", 160.0f);
                 }
+
                 _propEditor.PropEditorFMGEnd();
             }
             ImGui.End();
@@ -386,6 +406,8 @@ namespace StudioCore.TextEditor
             ImGui.SetNextWindowSize(wins);
 
             // Keyboard shortcuts
+            // TODO2: only allow undo/redo when a text box is not currently in use
+            // TODO2: up/down arrow key functionality
             if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
             {
                 EditorActionManager.UndoAction();
