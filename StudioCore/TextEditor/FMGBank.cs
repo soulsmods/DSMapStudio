@@ -53,6 +53,8 @@ namespace StudioCore.TextEditor
                 {
                     list.Add(new EntryFMGInfoPair(this, entry));
                 }
+
+                // Check and apply patch entries
                 foreach (var child in PatchChildren)
                 {
                     foreach (var entry in child.Fmg.Entries)
@@ -60,8 +62,12 @@ namespace StudioCore.TextEditor
                         var match = list.Find(e => e.Entry.ID == entry.ID);
                         if (match != null)
                         {
-                            match.Entry = entry;
-                            match.FmgInfo = child;
+                            // Only non-null text will overrwrite
+                            if (entry.Text != null)
+                            {
+                                match.Entry = entry;
+                                match.FmgInfo = child;
+                            }
                         }
                         else
                         {
@@ -81,6 +87,8 @@ namespace StudioCore.TextEditor
             {
                 List<FMG.Entry> list = new();
                 list.AddRange(Fmg.Entries);
+
+                // Check and apply patch entries
                 foreach (var child in PatchChildren)
                 {
                     foreach (var entry in child.Fmg.Entries)
@@ -88,7 +96,11 @@ namespace StudioCore.TextEditor
                         var match = list.Find(e => e.ID == entry.ID);
                         if (match != null)
                         {
-                            match = entry; // Change the reference (TODO2: won't this fuck up fmginfo checking?)
+                            // Only non-null text will overrwrite
+                            if (entry.Text != null)
+                            {
+                                match = entry;
+                            }
                         }
                         else
                         {
@@ -1141,13 +1153,12 @@ namespace StudioCore.TextEditor
                 var pair = entryPairs.Find(e => e.Entry.ID == id);
                 eInfo.TextBody = pair.Entry;
                 eInfo.TextBodyInfo = pair.FmgInfo;
-                return eInfo;
             }
             else
             {
                 foreach (var info in _fmgInfoBank)
                 {
-                    if (info.EntryCategory == fmgInfo.EntryCategory)
+                    if (info.EntryCategory == fmgInfo.EntryCategory && !info.IsPatchChild)
                     {
                         var entryPairs = info.PatchedEntryFMGPairs();
                         var pair = entryPairs.Find(e => e.Entry.ID == id);
