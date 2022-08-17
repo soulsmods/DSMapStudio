@@ -41,16 +41,22 @@ namespace StudioCore.TextEditor
             /// List of associated children to this FMGInfo used to get patch entry data.
             /// </summary>
             public List<FMGInfo> PatchChildren = new();
-            public bool IsPatchChild = false;
+            public FMGInfo PatchParent;
             public FmgUICategory UICategory;
             public FmgEntryCategory EntryCategory;
             public FmgEntryTextType EntryType;
 
             /// <summary>
-            /// Returns a patched list of Entry & FMG value pairs from this FMG and its children.
+            /// Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
+            /// If a PatchParent exists, it will be checked instead.
             /// </summary>
             public List<EntryFMGInfoPair> PatchedEntryFMGPairs(bool sort = true)
             {
+                if (PatchParent != null)
+                {
+                    return PatchParent.PatchedEntryFMGPairs(sort);
+                }
+
                 List<EntryFMGInfoPair> list = new();
                 foreach (var entry in Fmg.Entries)
                 {
@@ -84,10 +90,16 @@ namespace StudioCore.TextEditor
             }
 
             /// <summary>
-            /// Returns a patched list of entries in this FMG and its children.
+            /// Returns a patched list of entries in this FMGInfo and its children.
+            /// If a PatchParent exists, it will be checked instead.
             /// </summary>
             public List<FMG.Entry> PatchedEntries(bool sort = true)
             {
+                if (PatchParent != null)
+                {
+                    return PatchParent.PatchedEntries(sort);
+                }
+
                 List<FMG.Entry> list = new();
                 list.AddRange(Fmg.Entries);
 
@@ -375,19 +387,19 @@ namespace StudioCore.TextEditor
             {
                 if (TextBody != null)
                 {
-                    return TextBodyInfo.Fmg.Entries.IndexOf(TextBody);
+                    return TextBodyInfo.Fmg.Entries.FindIndex(e => e.ID == TextBody.ID);
                 }
                 else if (Title != null)
                 {
-                    return TitleInfo.Fmg.Entries.IndexOf(Title);
+                    return TitleInfo.Fmg.Entries.FindIndex(e => e.ID == Title.ID);
                 }
                 else if (Summary != null)
                 {
-                    return SummaryInfo.Fmg.Entries.IndexOf(Summary);
+                    return SummaryInfo.Fmg.Entries.FindIndex(e => e.ID == Summary.ID);
                 }
                 else if (Description != null)
                 {
-                    return DescriptionInfo.Fmg.Entries.IndexOf(Description);
+                    return DescriptionInfo.Fmg.Entries.FindIndex(e => e.ID == Description.ID);
                 }
                 return -1;
             }
@@ -930,7 +942,7 @@ namespace StudioCore.TextEditor
                 if (parentInfo.Name == RemovePatchStrings(info.FmgID.ToString()))
                 {
                     // Patch FMG found
-                    info.IsPatchChild = true;
+                    info.PatchParent = parentInfo;
                     parentInfo.PatchChildren.Add(info);
                 }
             }
@@ -1097,8 +1109,8 @@ namespace StudioCore.TextEditor
                         info.UICategory = FmgUICategory.Item;
                         info.EntryType = FmgEntryTextType.Title;
                         info.EntryCategory = FmgEntryCategory.Goods;
-                        info.IsPatchChild = true;
                         var parent = _fmgInfoBank.Find(e => e.FmgID == FmgIDType.TitleGoods);
+                        info.PatchParent = parent;
                         parent.PatchChildren.Add(info);
                     }
                     break;
@@ -1144,7 +1156,7 @@ namespace StudioCore.TextEditor
             {
                 foreach (var info in _fmgInfoBank)
                 {
-                    if (info.EntryCategory == fmgInfo.EntryCategory && !info.IsPatchChild)
+                    if (info.EntryCategory == fmgInfo.EntryCategory && info.PatchParent == null)
                     {
                         var entryPairs = info.PatchedEntryFMGPairs();
                         var pair = entryPairs.Find(e => e.Entry.ID == id);

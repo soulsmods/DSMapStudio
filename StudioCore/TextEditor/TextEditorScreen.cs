@@ -224,7 +224,7 @@ namespace StudioCore.TextEditor
         {
             foreach (var info in FMGBank.FmgInfoBank)
             {
-                if (!info.IsPatchChild 
+                if (info.PatchParent == null 
                     && info.UICategory == uiType 
                     && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
                 {
@@ -321,8 +321,11 @@ namespace StudioCore.TextEditor
                 foreach (var r in _EntryLabelCacheFiltered)
                 {
                     var text = (r.Text == null) ? "%null%" : r.Text;
-                    if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID)
-                    || (_activeIDCache == r.ID && _activeEntryGroup == null))
+                    if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID))
+                    {
+                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                    }
+                    else if (_activeIDCache == r.ID && _activeEntryGroup == null)
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                         doFocus = true;
