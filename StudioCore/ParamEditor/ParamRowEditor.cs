@@ -70,6 +70,10 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
+                    else
+                    {
+                        _editedPropCache = null;
+                    }
                 }
             }
             else if (typ == typeof(int))
@@ -94,6 +98,10 @@ namespace StudioCore.ParamEditor
                         newval = val;
                         _editedPropCache = newval;
                         isChanged = true;
+                    }
+                    else
+                    {
+                        _editedPropCache = null;
                     }
                 }
             }
@@ -120,6 +128,10 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
+                    else
+                    {
+                        _editedPropCache = null;
+                    }
                 }
             }
             else if (typ == typeof(sbyte))
@@ -144,6 +156,10 @@ namespace StudioCore.ParamEditor
                         newval = val;
                         _editedPropCache = newval;
                         isChanged = true;
+                    }
+                    else
+                    {
+                        _editedPropCache = null;
                     }
                 }
             }
@@ -227,6 +243,10 @@ namespace StudioCore.ParamEditor
                         newval = nval;
                         _editedPropCache = newval;
                         isChanged = true;
+                    }
+                    else
+                    {
+                        _editedPropCache = null;
                     }
                 }
             }
@@ -447,7 +467,7 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            if (_editedPropCache != oldval)
+            if (_editedPropCache != null && _editedPropCache != oldval)
             {
                 changed = true;
             }
