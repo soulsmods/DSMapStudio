@@ -29,7 +29,8 @@ namespace StudioCore.TextEditor
         private string _searchFilter = "";
         private string _searchFilterCached = "";
 
-        private bool ClearEntryGroup = false;
+        private bool _clearEntryGroup = false;
+        private bool _arrowKeyPressed = false;
 
         public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
         {
@@ -122,7 +123,7 @@ namespace StudioCore.TextEditor
 
         private void FMGSearchLogic()
         {
-            // todo: This could be cleaned up.
+            // Todo: This could be cleaned up.
             if (_entryLabelCache != null)
             {
                 if (_searchFilter != _searchFilterCached)
@@ -281,14 +282,14 @@ namespace StudioCore.TextEditor
 
             // Needed to ensure EntryGroup is still valid after undo/redo actions while also maintaining highlight-duped-row functionality.
             // It's a bit dumb and probably overthinking things.
-            ClearEntryGroup = CacheBank.GetCached(this, "FMGClearEntryGroup", () =>
+            _clearEntryGroup = CacheBank.GetCached(this, "FMGClearEntryGroup", () =>
             {
-                if (ClearEntryGroup)
+                if (_clearEntryGroup)
                     return false;
                 else
                     return true;
             });
-            if (ClearEntryGroup)
+            if (_clearEntryGroup)
             {
                 _activeEntryGroup = null;
                 CacheBank.RemoveCache(this, "FMGClearEntryGroup");
@@ -318,9 +319,13 @@ namespace StudioCore.TextEditor
             }
             else
             {
+                if (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                {
+                    _arrowKeyPressed = true;
+                }
                 foreach (var r in _EntryLabelCacheFiltered)
                 {
-                    var text = (r.Text == null) ? "%null%" : r.Text;
+                    var text = (r.Text == null) ? "%null%" : r.Text; 
                     if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID))
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
@@ -329,6 +334,14 @@ namespace StudioCore.TextEditor
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                         doFocus = true;
+                    }
+                    if (_arrowKeyPressed && ImGui.IsItemFocused() 
+                        && _activeEntryGroup.ID != r.ID)
+                    {
+                        // Up/Down arrow selection
+                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        ImGui.SetKeyboardFocusHere(-1);
+                        _arrowKeyPressed = false;
                     }
                     if (ImGui.BeginPopupContextItem())
                     {
@@ -408,24 +421,25 @@ namespace StudioCore.TextEditor
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
 
-            // Keyboard shortcuts
-            // TODO2: only allow undo/redo when a text box is not currently in use
-            // TODO2: up/down arrow key functionality
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if (!ImGui.IsAnyItemActive())
             {
-                EditorActionManager.UndoAction();
-            }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
-            {
-                EditorActionManager.RedoAction();
-            }
-            if (InputTracker.GetKeyDown(Key.Delete) && _activeEntryGroup != null)
-            {
-                DeleteFMGEntries(_activeEntryGroup);
-            }
-            if (InputTracker.GetControlShortcut(Key.D) && _activeEntryGroup != null)
-            {
-                DuplicateFMGEntries(_activeEntryGroup);
+                // Only allow key shortcuts when an item [text box] is not currently activated
+                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+                {
+                    EditorActionManager.UndoAction();
+                }
+                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+                {
+                    EditorActionManager.RedoAction();
+                }
+                if (InputTracker.GetKeyDown(Key.Delete) && _activeEntryGroup != null)
+                {
+                    DeleteFMGEntries(_activeEntryGroup);
+                }
+                if (InputTracker.GetControlShortcut(Key.D) && _activeEntryGroup != null)
+                {
+                    DuplicateFMGEntries(_activeEntryGroup);
+                }
             }
 
             bool doFocus = false;
