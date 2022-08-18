@@ -225,6 +225,15 @@ namespace StudioCore.ParamEditor
                     });
                 }
             }
+
+            if (result == ParamBank.ParamUpgradeResult.Success)
+            {
+                var msgRes = System.Windows.Forms.MessageBox.Show(
+                    "Upgrade successful",
+                    "Success",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Information);
+            }
             
             EditorActionManager.Clear();
         }
