@@ -506,7 +506,7 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(vParamBnd, ref _vanillaParams, out _vanillaParamVersion);
         }
 
-        private static string LoadParamsDS3()
+        private static string LoadParamsDS3(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -519,7 +519,7 @@ namespace StudioCore.ParamEditor
 
             var vparam = $@"{dir}\Data0.bdt";
             // Load loose params if they exist
-            if (File.Exists($@"{mod}\\param\gameparam\gameparam_dlc2.parambnd.dcx"))
+            if (loose && File.Exists($@"{mod}\\param\gameparam\gameparam_dlc2.parambnd.dcx"))
             {
                 // Load params
                 var lparam = $@"{mod}\param\gameparam\gameparam_dlc2.parambnd.dcx";
@@ -647,7 +647,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (AssetLocator.Type == GameType.DarkSoulsIII)
                 {
-                    vparamDir = LoadParamsDS3();
+                    vparamDir = LoadParamsDS3(settings.UseLooseParams);
                 }
                 if (AssetLocator.Type == GameType.Bloodborne || AssetLocator.Type == GameType.Sekiro)
                 {
