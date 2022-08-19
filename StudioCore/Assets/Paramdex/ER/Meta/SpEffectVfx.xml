@@ -20,6 +20,7 @@
     <decalId2 Refs="DecalParam" />
     <phantomParamOverwriteId Refs="PhantomParam" />
     <materialParamId Refs="MaterialExParam" />
+    <transformProtectorId Refs="EquipParamProtector" />
   </Field>
   <Self />
 </PARAMMETA>
