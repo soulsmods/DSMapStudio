@@ -48,7 +48,7 @@ namespace StudioCore.ParamEditor
             if (row.Def != vrow.Def)
                 return false;
             
-            return row.Equals(vrow);
+            return row.DataEquals(vrow);
         }
         public static bool ByteArrayEquals(byte[] v1, byte[] v2) {
             if (v1.Length!=v2.Length)
