@@ -3050,10 +3050,8 @@
 448100401 [Miranda Sprout] Miranda Powder
 448130500 [Miranda Sprout] Miquella's Lily
 448130501 [Miranda Sprout] Poisonbloom
-448130502 [Miranda Sprout] Miranda Powder
 448130600 [Miranda Sprout] Miquella's Lily
 448130601 [Miranda Sprout] Miranda Powder
-448130602 [Miranda Sprout] Poisonbloom
 448200000 [Fading Giant Miranda Sprout] Poisonbloom
 448200001 [Fading Giant Miranda Sprout] Miranda Powder
 448300000 [Fading Miranda Sprout] Poisonbloom
