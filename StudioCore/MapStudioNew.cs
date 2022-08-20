@@ -192,6 +192,7 @@ namespace StudioCore
                 Array.ForEach(SpecialCharsJP, c => glyphJP.AddChar(c));
                 glyphJP.BuildRanges(out ImVector glyphRangeJP);
                 fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, glyphRangeJP.Data);
+                glyphJP.Destroy();
 
                 if (CFG.Current.FontChinese)
                     fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
