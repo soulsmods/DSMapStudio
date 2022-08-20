@@ -22,14 +22,34 @@ namespace StudioCore.Resource
 {
     public class FlverResource : IResource, IDisposable
     {
-        internal class FlverLoadPipeline
+        private class FlverLoadPipeline : IResourceLoadPipeline
         {
-            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock { get; private set; }
-            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest { get; private set; }
-            public ISourceBlock<IResourceHandle> LoadedResourcesBlock { get; private set; }
+            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => _loadByteResourcesTransform;
+            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => _loadFileResourcesTransform;
 
-            private TransformBlock<LoadByteResourceRequest, IResourceHandle> _loadByteResourcesTransform;
-            private TransformBlock<LoadFileResourceRequest, IResourceHandle> _loadFileResourcesTransform;
+            private ActionBlock<LoadByteResourceRequest> _loadByteResourcesTransform;
+            private ActionBlock<LoadFileResourceRequest> _loadFileResourcesTransform;
+
+            private ITargetBlock<IResourceHandle> _loadedResources = null;
+
+            public FlverLoadPipeline()
+            {
+                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>((r) =>
+                {
+                    var res = new FlverResource();
+                    res._Load(r.Data, r.AccessLevel, r.GameType);
+                });
+            }
+
+            public void LinkTo(ITargetBlock<IResourceHandle> target)
+            {
+                _loadedResources = target;
+            }
+        }
+
+        public static IResourceLoadPipeline CreatePipeline()
+        {
+            return new FlverLoadPipeline();
         }
         
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();

@@ -61,53 +61,6 @@ namespace StudioCore.Resource
             public int GetEstimateTaskSize();
         }
 
-        internal struct LoadResourceFromBytesAction
-        {
-            public IResourceHandle handle = null;
-            public byte[] bytes = null;
-            public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            public GameType Game;
-            public LoadResourceFromBytesAction(IResourceHandle handle, byte[] bytes, AccessLevel al, GameType type)
-            {
-                this.handle = handle;
-                this.bytes = bytes;
-                this.AccessLevel = al;
-                Game = type;
-            }
-        }
-
-        internal static IResourceHandle LoadResourceFromBytes(LoadResourceFromBytesAction action)
-        {
-            var ctx = Tracy.TracyCZoneN(1, "LoadResourceFromBytesTask::Run");
-            action.handle._LoadResource(action.bytes, action.AccessLevel, action.Game);
-            action.bytes = null;
-            Tracy.TracyCZoneEnd(ctx);
-            return action.handle;
-        }
-
-        internal struct LoadResourcesFromFileAction
-        {
-            public IResourceHandle handle = null;
-            public string file = null;
-            public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
-            public GameType Game;
-            public LoadResourcesFromFileAction(IResourceHandle handle, string file, AccessLevel al, GameType type)
-            {
-                this.handle = handle;
-                this.file = file;
-                this.AccessLevel = al;
-                this.Game = type;
-            }
-        }
-        
-        internal static IResourceHandle LoadResourceFromFile(LoadResourcesFromFileAction action)
-        {
-            var ctx = Tracy.TracyCZoneN(1, $@"LoadResourceFromFileTask::Run {action.file}");
-            action.handle._LoadResource(action.file, action.AccessLevel, action.Game);
-            Tracy.TracyCZoneEnd(ctx);
-            return action.handle;
-        }
-
         internal struct LoadTPFResourcesAction
         {
             public ResourceJob _job;
@@ -173,7 +126,7 @@ namespace StudioCore.Resource
             public ResourceType ResourceMask = ResourceType.All;
             public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
 
-            public List<Tuple<IResourceHandle, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceHandle, string, BinderFileHeader>>();
+            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>>();
             public List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
 
             public readonly object ProgressLock = new object();
@@ -214,7 +167,7 @@ namespace StudioCore.Resource
                     {
                         continue;
                     }
-                    IResourceHandle handle = null;
+                    IResourceLoadPipeline pipeline = null;
                     if (filevirtpath.ToUpper().EndsWith(".TPF") || filevirtpath.ToUpper().EndsWith(".TPF.DCX"))
                     {
                         string virt = BinderVirtualPath;
@@ -240,7 +193,7 @@ namespace StudioCore.Resource
                              filevirtpath.ToUpper().EndsWith(".FLV.DCX")))
                         {
                             //handle = new ResourceHandle<FlverResource>();
-                            handle = ResourceManager.GetResource<FlverResource>(filevirtpath);
+                            pipeline = _job.FlverLoadPipeline;
                         }
                         else if (ResourceMask.HasFlag(ResourceType.CollisionHKX) &&
                             (filevirtpath.ToUpper().EndsWith(".HKX") ||
@@ -261,7 +214,7 @@ namespace StudioCore.Resource
 
                         if (handle != null)
                         {
-                            PendingResources.Add(new Tuple<IResourceHandle, string, BinderFileHeader>(handle, filevirtpath, f));
+                            PendingResources.Add(new Tuple<IResourceLoadPipeline, string, BinderFileHeader>(pipeline, filevirtpath, f));
                         }
                     }
                 }
@@ -278,8 +231,7 @@ namespace StudioCore.Resource
                 foreach (var p in action.PendingResources)
                 {
                     var f = action.Binder.ReadFile(p.Item3);
-                    action._job.AddLoadByteResources(new LoadResourceFromBytesAction(p.Item1, f, action.AccessLevel,
-                        ResourceManager.Locator.Type));
+                    p.Item1.LoadByteResourceBlock.Post(new LoadByteResourceRequest(p.Item2, f, action.AccessLevel, Locator.Type));
                     action._job.IncrementEstimateTaskSize(1);
                     i++;
                 }
@@ -305,35 +257,39 @@ namespace StudioCore.Resource
             private int _courseSize = 0;
             private int TotalSize = 0;
             public int Progress { get; private set; } = 0;
-
-            private TransformBlock<LoadResourceFromBytesAction, IResourceHandle> _loadByteResources;
-            private TransformBlock<LoadResourcesFromFileAction, IResourceHandle> _loadFileResources;
+            
             private TransformManyBlock<LoadTPFResourcesAction, IResourceHandle> _loadTPFResources;
             private ActionBlock<LoadBinderResourcesAction> _loadBinderResources;
             private BufferBlock<IResourceHandle> _processedResources;
+            
+            // Asset load pipelines
+            internal IResourceLoadPipeline FlverLoadPipeline { get; }
+
             public bool Finished { get; private set; } = false;
 
             public ResourceJob(string name)
             {
                 var options = new ExecutionDataflowBlockOptions() { MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded};
                 Name = name;
-                _loadByteResources = 
-                    new TransformBlock<LoadResourceFromBytesAction, IResourceHandle>(LoadResourceFromBytes, options);
-                _loadFileResources =
-                    new TransformBlock<LoadResourcesFromFileAction, IResourceHandle>(LoadResourceFromFile, options);
                 _loadTPFResources = new TransformManyBlock<LoadTPFResourcesAction, IResourceHandle>(LoadTPFResources, options);
                 
                 //options.MaxDegreeOfParallelism = 4;
                 _loadBinderResources = new ActionBlock<LoadBinderResourcesAction>(LoadBinderResources, options);
                 _processedResources = new BufferBlock<IResourceHandle>();
-                _loadByteResources.LinkTo(_processedResources);
-                _loadFileResources.LinkTo(_processedResources);
                 _loadTPFResources.LinkTo(_processedResources);
+
+                FlverLoadPipeline = FlverResource.CreatePipeline();
+                FlverLoadPipeline.LinkTo(_processedResources);
             }
 
             internal void IncrementEstimateTaskSize(int size)
             {
                 Interlocked.Add(ref TotalSize, size);
+            }
+            
+            internal void IncrementCourseEstimateTaskSize(int size)
+            {
+                Interlocked.Add(ref _courseSize, size);
             }
 
             public int GetEstimateTaskSize()
@@ -341,17 +297,6 @@ namespace StudioCore.Resource
                 return Math.Max(TotalSize, _courseSize);
             }
 
-            internal void AddLoadByteResources(LoadResourceFromBytesAction action)
-            {
-                _loadByteResources.Post(action);
-            }
-            
-            internal void AddLoadFileResources(LoadResourcesFromFileAction action)
-            {
-                _courseSize++;
-                _loadFileResources.Post(action);
-            }
-            
             internal void AddLoadTPFResources(LoadTPFResourcesAction action)
             {
                 _loadTPFResources.Post(action);
@@ -369,11 +314,11 @@ namespace StudioCore.Resource
                 {
                     _loadBinderResources.Complete();
                     _loadBinderResources.Completion.Wait();
-                    _loadByteResources.Complete();
-                    _loadFileResources.Complete();
+                    FlverLoadPipeline.LoadByteResourceBlock.Complete();
+                    FlverLoadPipeline.LoadFileResourceRequest.Complete();
                     _loadTPFResources.Complete();
-                    _loadByteResources.Completion.Wait();
-                    _loadFileResources.Completion.Wait();
+                    FlverLoadPipeline.LoadByteResourceBlock.Completion.Wait();
+                    FlverLoadPipeline.LoadFileResourceRequest.Completion.Wait();
                     _loadTPFResources.Completion.Wait();
                     Finished = true;
                 });
@@ -439,7 +384,7 @@ namespace StudioCore.Resource
                 string bndout;
                 var path = Locator.VirtualToRealPath(virtualPath, out bndout);
 
-                IResourceHandle handle;
+                IResourceLoadPipeline pipeline;
                 if (path == null || virtualPath == "null")
                 {
                     return;
@@ -468,9 +413,10 @@ namespace StudioCore.Resource
                 }
                 else
                 {
-                    handle = GetResource<FlverResource>(virtualPath);
+                    pipeline = _job.FlverLoadPipeline;
                 }
-                _job.AddLoadFileResources(new LoadResourcesFromFileAction(handle, path, al, Locator.Type));
+
+                pipeline.LoadFileResourceRequest.Post(new LoadFileResourceRequest(virtualPath, path, al, Locator.Type));
             }
 
             /// <summary>
@@ -556,6 +502,13 @@ namespace StudioCore.Resource
         private static ConcurrentDictionary<string, IResourceHandle> ResourceDatabase = new ConcurrentDictionary<string, IResourceHandle>();
         private static ConcurrentDictionary<ResourceJob, int> ActiveJobProgress = new ConcurrentDictionary<ResourceJob, int>();
 
+        private readonly record struct AddResourceLoadNotificationRequest(
+            string ResourceVirtualPath,
+            IResourceEventListener Listener);
+
+        private static BufferBlock<AddResourceLoadNotificationRequest> _notificationRequests =
+            new BufferBlock<AddResourceLoadNotificationRequest>();
+
         private static int Pending = 0;
         private static int Finished = 0;
         private static int _prevCount = 0;
@@ -619,7 +572,20 @@ namespace StudioCore.Resource
             return new ResourceJobBuilder(name);
         }
 
-        public static ResourceHandle<T> GetResource<T>(string resourceName) where T : class, IResource, IDisposable, new()
+        /// <summary>
+        /// The primary way to get a handle to the resource, this will call the provided listener once the requested
+        /// resource is available and loaded. This will be called on the main UI thread. The returned resource will
+        /// have its reference count incremented, and the reference count should be decremented when the requester no
+        /// longer needs the resource.
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <param name="listener"></param>
+        public static void GetResourceWhenAvailable(string resourceName, IResourceEventListener listener)
+        {
+            _notificationRequests.Post(new AddResourceLoadNotificationRequest(resourceName, listener));
+        }
+        
+        /*public static ResourceHandle<T> GetResource<T>(string resourceName) where T : class, IResource, IDisposable, new()
         {
             if (ResourceDatabase.ContainsKey(resourceName))
             {
@@ -651,7 +617,7 @@ namespace StudioCore.Resource
                 }
             }
             return (TextureResourceHande)ResourceDatabase[resourceName];
-        }
+        }*/
 
         public static void ScheduleUDSMFRefresh()
         {
@@ -690,10 +656,6 @@ namespace StudioCore.Resource
                     var ctx = Tracy.TracyCZoneN(1, "Flush Staging buffer");
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
                     Tracy.TracyCZoneEnd(ctx);
-                }
-                if (_prevCount > 0)
-                {
-                    FlverResource.PurgeCaches();
                 }
                 if (_scheduleUDSFMLoad)
                 {

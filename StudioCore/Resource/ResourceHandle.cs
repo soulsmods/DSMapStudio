@@ -42,18 +42,23 @@ namespace StudioCore.Resource
         AccessFull,
     }
 
-    public readonly record struct LoadByteResourceRequest(byte[] Data, AccessLevel AccessLevel, GameType GameType);
+    public readonly record struct LoadByteResourceRequest(
+        string virtualPath, 
+        byte[] Data, 
+        AccessLevel AccessLevel, 
+        GameType GameType);
 
-    public readonly record struct LoadFileResourceRequest(string file, AccessLevel AccessLevel, GameType GameType);
+    public readonly record struct LoadFileResourceRequest(
+        string virtualPath,
+        string file,
+        AccessLevel AccessLevel,
+        GameType GameType);
     
     public interface IResourceHandle
     {
         public string AssetVirtualPath { get; }
 
         public AccessLevel AccessLevel { get; }
-
-        public bool _LoadResource(byte[] data, AccessLevel al, GameType type);
-        public bool _LoadResource(string file, AccessLevel al, GameType type);
 
         public int GetReferenceCounts();
         public void Acquire();
@@ -72,7 +77,8 @@ namespace StudioCore.Resource
     }
 
     /// <summary>
-    /// A handle to a resource, which may or may not be loaded.
+    /// A handle to a resource, which may or may not be loaded. Once a resource is unloaded, it may not be
+    /// reloaded with this handle and a new one must be constructed.
     /// </summary>
     /// <typeparam name="T">The resource that is wrapped by this handler</typeparam>
     public class ResourceHandle <T> : IResourceHandle where T : class, IResource, IDisposable, new()
@@ -104,20 +110,11 @@ namespace StudioCore.Resource
             AssetVirtualPath = virtualPath;
         }
 
+        
 
         public T Get()
         {
             return Resource;
-        }
-
-        public void LoadBlocking(AccessLevel al)
-        {
-
-        }
-
-        public void LoadAsync(AccessLevel al)
-        {
-
         }
 
         public bool TryLock()
@@ -145,101 +142,87 @@ namespace StudioCore.Resource
             }
         }
 
-        bool IResourceHandle._LoadResource(byte[] data, AccessLevel al, GameType type)
+        private bool _LoadResource(byte[] data, AccessLevel al, GameType type)
         {
-            lock (LoadingLock)
+            AccessLevel = AccessLevel.AccessLoading;
+            Resource = new T();
+            if (!Resource._Load(data, al, type))
             {
-                if (IsLoaded)
-                {
-                    Unload();
-                }
-                AccessLevel = AccessLevel.AccessLoading;
-                Resource = new T();
-                if (!Resource._Load(data, al, type))
-                {
-                    AccessLevel = AccessLevel.AccessUnloaded;
-                    return false;
-                }
-                // Prevent any new completion handlers from being added while executing them all
-                // Any subsequent pending handlers will be executed after this is done
-                WeakReference<IResourceEventListener>[] listeners;
-                lock (HandlerLock)
-                {
-                    IsLoaded = true;
-                    listeners = EventListeners.ToArray();
-                }
-                foreach (var listener in listeners)
-                {
-                    try
-                    {
-                        IResourceEventListener l;
-                        bool succ = listener.TryGetTarget(out l);
-                        if (succ)
-                        {
-                            l.OnResourceLoaded(this);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        System.Console.WriteLine("blah");
-                    }
-                }
-                AccessLevel = al;
+                AccessLevel = AccessLevel.AccessUnloaded;
+                return false;
             }
+            // Prevent any new completion handlers from being added while executing them all
+            // Any subsequent pending handlers will be executed after this is done
+            WeakReference<IResourceEventListener>[] listeners;
+            lock (HandlerLock)
+            {
+                IsLoaded = true;
+                listeners = EventListeners.ToArray();
+            }
+            foreach (var listener in listeners)
+            {
+                try
+                {
+                    IResourceEventListener l;
+                    bool succ = listener.TryGetTarget(out l);
+                    if (succ)
+                    {
+                        l.OnResourceLoaded(this);
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("blah");
+                }
+            }
+            AccessLevel = al;
             return true;
         }
 
-        bool IResourceHandle._LoadResource(string file, AccessLevel al, GameType type)
+        private bool _LoadResource(string file, AccessLevel al, GameType type)
         {
-            lock (LoadingLock)
+            AccessLevel = AccessLevel.AccessLoading;
+            Resource = new T();
+            try
             {
-                if (IsLoaded)
+                if (!Resource._Load(file, al, type))
                 {
-                    Unload();
-                }
-                AccessLevel = AccessLevel.AccessLoading;
-                Resource = new T();
-                try
-                {
-                    if (!Resource._Load(file, al, type))
-                    {
-                        AccessLevel = AccessLevel.AccessUnloaded;
-                        return false;
-                    }
-                }
-                catch (System.IO.FileNotFoundException)
-                {
-                    Resource = null;
                     AccessLevel = AccessLevel.AccessUnloaded;
                     return false;
                 }
-                // Prevent any new completion handlers from being added while executing them all
-                // Any subsequent pending handlers will be executed after this is done
-                WeakReference<IResourceEventListener>[] listeners;
-                lock (HandlerLock)
-                {
-                    IsLoaded = true;
-                    listeners = EventListeners.ToArray();
-                }
-                foreach (var listener in listeners)
-                {
-                    try
-                    {
-                        IResourceEventListener l;
-                        bool succ = listener.TryGetTarget(out l);
-                        if (succ)
-                        {
-                            l.OnResourceLoaded(this);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        System.Console.WriteLine("blah");
-                    }
-                }
-                AccessLevel = al;
-                return true;
             }
+            catch (System.IO.FileNotFoundException)
+            {
+                Resource = null;
+                AccessLevel = AccessLevel.AccessUnloaded;
+                return false;
+            }
+            // Prevent any new completion handlers from being added while executing them all
+            // Any subsequent pending handlers will be executed after this is done
+            WeakReference<IResourceEventListener>[] listeners;
+            lock (HandlerLock)
+            {
+                IsLoaded = true;
+                listeners = EventListeners.ToArray();
+            }
+            foreach (var listener in listeners)
+            {
+                try
+                {
+                    IResourceEventListener l;
+                    bool succ = listener.TryGetTarget(out l);
+                    if (succ)
+                    {
+                        l.OnResourceLoaded(this);
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("blah");
+                }
+            }
+            AccessLevel = al;
+            return true;
         }
 
         /// <summary>

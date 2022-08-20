@@ -256,11 +256,10 @@ namespace StudioCore.Scene
 
         private List<FlverSubmeshProvider> _submeshes = new List<FlverSubmeshProvider>();
 
-        public FlverMeshProvider(ResourceHandle<Resource.FlverResource> res)
+        public FlverMeshProvider(string resource)
         {
-            _resource = res;
-            //_resource.Acquire();
-            _resource.AddResourceEventListener(this);
+            _resource = null;
+            ResourceManager.GetResourceWhenAvailable(resource, this);
         }
 
         ~FlverMeshProvider()
@@ -348,6 +347,7 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle)
         {
+            _resource = (ResourceHandle<FlverResource>)handle;
             if (_resource != null && _resource.TryLock())
             {
                 CreateSubmeshes();

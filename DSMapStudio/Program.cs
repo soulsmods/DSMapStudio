@@ -20,18 +20,19 @@ namespace DSMapStudio
         /// </summary>
         [STAThread]
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
-        unsafe static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
 
-            SDL_version version;
-            Sdl2Native.SDL_GetVersion(&version);
+            //SDL_version version;
+            //Sdl2Native.SDL_GetVersion(&version);
 
             #if !DEBUG
             try
             {
-                new StudioCore.MapStudioNew().Run();
+                var mapstudio = new StudioCore.MapStudioNew();
+                await mapstudio.Run();
             }
             catch (Exception e)
             {
