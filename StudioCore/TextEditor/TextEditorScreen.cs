@@ -48,6 +48,11 @@ namespace StudioCore.TextEditor
             _searchFilterCached = "";
         }
 
+        private void ResetActionManager()
+        {
+            EditorActionManager = new();
+        }
+
         /// <summary>
         /// Duplicates all FMG Entries in the EntryGroup
         /// </summary>
@@ -98,8 +103,7 @@ namespace StudioCore.TextEditor
                 {
                     if (ImGui.MenuItem(path.Key, true))
                     {
-                        ClearTextEditorCache();
-                        FMGBank.ReloadFMGs(path.Key);
+                        ChangeLanguage(path.Key);
                     }
                 }
                 ImGui.EndMenu();
@@ -111,6 +115,7 @@ namespace StudioCore.TextEditor
                     if (FMGBank.ImportFMGs())
                     {
                         ClearTextEditorCache();
+                        ResetActionManager();
                     }
                 }
                 if (ImGui.MenuItem("Export All Text"))
@@ -510,9 +515,17 @@ namespace StudioCore.TextEditor
             EditorGUI(doFocus);
         }
 
+        private void ChangeLanguage(string path)
+        {
+            ClearTextEditorCache();
+            ResetActionManager();
+            FMGBank.ReloadFMGs(path);
+        }
+
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
             ClearTextEditorCache();
+            ResetActionManager();
             FMGBank.ReloadFMGs();
         }
 
