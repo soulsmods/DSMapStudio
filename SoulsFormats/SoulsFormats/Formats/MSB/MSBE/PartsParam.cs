@@ -1530,9 +1530,10 @@ namespace SoulsFormats
                 public int UnkT28 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// an ID in ChrActivateConditionParam that affects enemy appearance conditions
                 /// </summary>
-                public int UnkT2C { get; set; }
+                [MSBParamReference(ParamName = "ChrActivateConditionParam")]
+                public int ChrActivateCondParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1616,7 +1617,7 @@ namespace SoulsFormats
                     br.AssertInt16(0);
                     UnkT24 = br.AssertInt32(-1);
                     UnkT28 = br.ReadInt32();
-                    UnkT2C = br.ReadInt32();
+                    ChrActivateCondParamID = br.ReadInt32();
                     br.AssertInt32(0);
                     UnkT34 = br.ReadInt32();
                     BackupEventAnimID = br.ReadInt32();
@@ -1662,7 +1663,7 @@ namespace SoulsFormats
                     bw.WriteInt16(0);
                     bw.WriteInt32(UnkT24);
                     bw.WriteInt32(UnkT28);
-                    bw.WriteInt32(UnkT2C);
+                    bw.WriteInt32(ChrActivateCondParamID);
                     bw.WriteInt32(0);
                     bw.WriteInt32(UnkT34);
                     bw.WriteInt32(BackupEventAnimID);
