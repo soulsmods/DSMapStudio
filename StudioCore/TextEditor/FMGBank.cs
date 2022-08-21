@@ -597,9 +597,9 @@ namespace StudioCore.TextEditor
             TitleMessage = 41,
             TitleSwordArts = 42,
             SummarySwordArts = 43,
-            SummaryEffect = 44,
+            WeaponEffect = 44,
             ERUnk45 = 45,
-            SummaryMiscER = 46,
+            GoodsInfo2 = 46,
             //
             TalkMsg_FemalePC_Alt = 4,
             NetworkMessage = 31,
@@ -729,7 +729,7 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleMessage:
                     return FmgEntryCategory.Message;
 
-                case FmgIDType.SummaryEffect:
+                case FmgIDType.WeaponEffect:
                     return FmgEntryCategory.Effect;
 
                 default:
@@ -822,10 +822,10 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleSwordArts:
                     return FmgEntryTextType.Title;
 
-                // Summaries without titles
                 case FmgIDType.ERUnk45:
-                case FmgIDType.SummaryEffect:
-                case FmgIDType.SummaryMiscER:
+                // TODO: implement these two into a 4th text slot? Figure out how where they get used.
+                case FmgIDType.WeaponEffect:
+                case FmgIDType.GoodsInfo2:
                     return FmgEntryTextType.TextBody;
                 default:
                     return FmgEntryTextType.TextBody;

@@ -61,6 +61,10 @@ namespace StudioCore.TextEditor
             _activeIDCache = entry.GetNextUnusedID();
             var action = new DuplicateFMGEntryAction(entry);
             EditorActionManager.ExecuteAction(action);
+
+            // Lazy method to refresh search filter
+            // TODO: _searchFilterCached should be cleared whenever CacheBank is cleared.
+            _searchFilterCached = "";
         }
 
         /// <summary>
@@ -338,6 +342,7 @@ namespace StudioCore.TextEditor
                     else if (_activeIDCache == r.ID && _activeEntryGroup == null)
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        _searchFilterCached = "";
                         doFocus = true;
                     }
                     if (_arrowKeyPressed && ImGui.IsItemFocused() 
