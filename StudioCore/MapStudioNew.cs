@@ -153,6 +153,11 @@ namespace StudioCore
             }
         }
 
+        /// <summary>
+        /// Characters to load that FromSoft use, but aren't included in the ImGui Japanese glyph range.
+        /// </summary>
+        private char[] SpecialCharsJP = {'鉤'};
+
         private unsafe void SetupFonts()
         {
             var fonts = ImGui.GetIO().Fonts;
@@ -181,7 +186,14 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 7.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+
+                var glyphJP = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
+                glyphJP.AddRanges(fonts.GetGlyphRangesJapanese());
+                Array.ForEach(SpecialCharsJP, c => glyphJP.AddChar(c));
+                glyphJP.BuildRanges(out ImVector glyphRangeJP);
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, glyphRangeJP.Data);
+                glyphJP.Destroy();
+
                 if (CFG.Current.FontChinese)
                     fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
                 if (CFG.Current.FontKorean)
