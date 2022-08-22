@@ -451,9 +451,13 @@ namespace StudioCore.ParamEditor
                     RemoveView(_activeView);
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Check all params for edits (Slow!)", null, false, !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
+                if (ImGui.MenuItem("Check all params for edits", null, false, !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
                 {
                     ParamBank.PrimaryBank.refreshParamDirtyCache(ParamBank.VanillaBank);
+                }
+                if (ImGui.MenuItem("Clear current comparison", null, false, _activeView != null && _activeView._selection.getCompareRow() != null))
+                {
+                    _activeView._selection.SetCompareRow(null);
                 }
                 ImGui.Separator();
                 if (ImGui.MenuItem("Show alternate field names", null, ShowAltNamesPreference))
@@ -1083,6 +1087,12 @@ namespace StudioCore.ParamEditor
                 return null;
             return _paramStates[_activeParam].activeRow;
         }
+        public Param.Row getCompareRow()
+        {
+            if (_activeParam == null)
+                return null;
+            return _paramStates[_activeParam].compareRow;
+        }
         public void SetActiveRow(Param.Row row, bool clearSelection)
         {
             if (_activeParam != null)
@@ -1091,6 +1101,14 @@ namespace StudioCore.ParamEditor
                 s.activeRow = row;
                 s.selectionRows.Clear();
                 s.selectionRows.Add(row);
+            }
+        }
+        public void SetCompareRow(Param.Row row)
+        {
+            if (_activeParam != null)
+            {
+                ParamEditorParamSelectionState s = _paramStates[_activeParam];
+                s.compareRow = row;
             }
         }
         public void toggleRowInSelection(Param.Row row)
@@ -1155,6 +1173,8 @@ namespace StudioCore.ParamEditor
         internal string currentRowSearchString = "";
         internal string currentPropSearchString = "";
         internal Param.Row activeRow = null;
+        internal Param.Row compareRow = null;
+
         internal List<Param.Row> selectionRows = new List<Param.Row>();
     }
 
@@ -1346,7 +1366,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 ImGui.BeginChild("columns" + activeParam);
-                _propEditor.PropEditorParamRow(ParamBank.PrimaryBank, activeRow, ParamBank.VanillaBank.Params != null ? ParamBank.VanillaBank.Params[activeParam][activeRow.ID] : null, ref _selection.getCurrentPropSearchString(), activeParam, isActiveView);
+                _propEditor.PropEditorParamRow(ParamBank.PrimaryBank, activeRow, ParamBank.VanillaBank.Params?[activeParam][activeRow.ID], _selection.getCompareRow(), ref _selection.getCurrentPropSearchString(), activeParam, isActiveView);
             }
             ImGui.EndChild();
         }
@@ -1409,6 +1429,10 @@ namespace StudioCore.ParamEditor
                         pinned.Remove(r.ID);
                     else if (!pinned.Contains(r.ID))
                        pinned.Add(r.ID);
+                }
+                if (ImGui.Selectable("Compare..."))
+                {
+                    _selection.SetCompareRow(r);
                 }
                 ImGui.EndPopup();
             }
