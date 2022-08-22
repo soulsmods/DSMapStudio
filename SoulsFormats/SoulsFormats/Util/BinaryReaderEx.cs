@@ -689,8 +689,8 @@ namespace SoulsFormats
         {
             if (BigEndian)
             {
-                float i = br.ReadSingle();
-                return BinaryPrimitives.ReadUInt64BigEndian(new ReadOnlySpan<byte>((byte*)&i, 4));
+                var i = br.ReadUInt32();
+                return BinaryPrimitives.ReadSingleBigEndian(new ReadOnlySpan<byte>((byte*)&i, 4));
             }
             return br.ReadSingle();
         }
@@ -739,8 +739,8 @@ namespace SoulsFormats
         {
             if (BigEndian)
             {
-                double i = br.ReadDouble();
-                return BinaryPrimitives.ReadUInt64BigEndian(new ReadOnlySpan<byte>((byte*)&i, 8));
+                ulong i = br.ReadUInt64();
+                return BinaryPrimitives.ReadDoubleBigEndian(new ReadOnlySpan<byte>((byte*)&i, 8));
             }
             return br.ReadDouble();
         }

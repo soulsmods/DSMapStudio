@@ -20,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02.2";
+        private static string _version = "version 1.02.3";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
