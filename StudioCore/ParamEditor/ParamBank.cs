@@ -20,9 +20,15 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
-        public static ParamBank PrimaryBank = new ParamBank();
+        public static ParamBank PrimaryBank = new ParamBank(false);
         // TODO: Make static
-        private ParamBank VanillaBank = new ParamBank();
+        public ParamBank VanillaBank;
+
+        public ParamBank(bool isVanilla)
+        {
+            if (!isVanilla)
+                VanillaBank = new ParamBank(true);
+        }
 
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
@@ -158,7 +164,7 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(fName))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(names, fName, "Name", ' ', true);
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true);
                 if (r.Type != MassEditResultType.SUCCESS)
                     continue;
                 actions.Add(a);
@@ -169,7 +175,7 @@ namespace StudioCore.ParamEditor
         public ActionManager TrimNewlineChrsFromNames()
         {
             (MassEditResult r, ActionManager child) =
-                MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
+                MassParamEditRegex.PerformMassEdit(this, "param .*: id .*: name: replace \r:0", null);
             return child;
         }
 
