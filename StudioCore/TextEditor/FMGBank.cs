@@ -34,6 +34,7 @@ namespace StudioCore.TextEditor
         /// </summary>
         public class FMGInfo
         {
+            public string FileName;
             public string Name;
             public FmgIDType FmgID;
             public FMG Fmg;
@@ -922,6 +923,7 @@ namespace StudioCore.TextEditor
             var name = Enum.GetName(typeof(FmgIDType), file.ID);
             FMGInfo info = new()
             {
+                FileName = file.Name.Split("\\").Last(),
                 Name = name,
                 FmgID = (FmgIDType)file.ID,
                 Fmg = fmg,
@@ -960,6 +962,7 @@ namespace StudioCore.TextEditor
             var name = Path.GetFileNameWithoutExtension(file);
             FMGInfo info = new()
             {
+                FileName = file.Split("\\").Last(),
                 Name = name,
                 FmgID = FmgIDType.None,
                 Fmg = fmg,

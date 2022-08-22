@@ -238,7 +238,17 @@ namespace StudioCore.TextEditor
                     && info.UICategory == uiType 
                     && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
                 {
-                    if (ImGui.Selectable($@" {info.Name.Replace("Title","")}", info == _activeFmgInfo))
+                    string displayName;
+                    if (CFG.Current.FMG_ShowOriginalNames)
+                    {
+                        displayName = info.FileName;
+                    }
+                    else
+                    {
+                        displayName = info.Name.Replace("Title", "");
+                        displayName = displayName.Replace("Modern_", "");
+                    }
+                    if (ImGui.Selectable($@" {displayName}", info == _activeFmgInfo))
                     {
                         ClearTextEditorCache();
                         _activeFmgInfo = info;

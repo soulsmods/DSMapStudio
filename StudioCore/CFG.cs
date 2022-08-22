@@ -131,6 +131,8 @@ namespace StudioCore
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
 
+        public bool FMG_ShowOriginalNames = false;
+
         public bool EnableEldenRingAutoMapOffset { get; set; } = true;
     }
 }
