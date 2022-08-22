@@ -705,7 +705,7 @@ namespace StudioCore.ParamEditor
                         }
                         VanillaBank.IsLoadingParams = false;
 
-                        TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => refreshParamDirtyCache());
+                        TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => refreshParamDirtyCache(VanillaBank));
                     });
                 }
 
@@ -726,9 +726,9 @@ namespace StudioCore.ParamEditor
             });
         }
 
-        public void refreshParamDirtyCache()
+        public void refreshParamDirtyCache(ParamBank vanillaBank)
         {
-            if (IsLoadingParams || VanillaBank.IsLoadingParams)
+            if (IsLoadingParams || vanillaBank.IsLoadingParams)
                 return;
             Dictionary<string, HashSet<int>> newCache = new Dictionary<string, HashSet<int>>();
             foreach (string param in _params.Keys)
@@ -736,14 +736,14 @@ namespace StudioCore.ParamEditor
                 HashSet<int> cache = new HashSet<int>();
                 newCache.Add(param, cache);
                 Param p = _params[param];
-                if (!VanillaBank._params.ContainsKey(param))
+                if (!vanillaBank._params.ContainsKey(param))
                 {
                     Console.WriteLine("Missing vanilla param "+param);
                     continue;
                 }
 
                 var rows = _params[param].Rows.OrderBy(r => r.ID).ToArray();
-                var vrows = VanillaBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
+                var vrows = vanillaBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
                 
                 var vanillaIndex = 0;
                 int lastID = -1;
@@ -1424,7 +1424,7 @@ namespace StudioCore.ParamEditor
             
             // Refresh dirty cache
             CacheBank.ClearCaches();
-            refreshParamDirtyCache();
+            refreshParamDirtyCache(VanillaBank);
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }
