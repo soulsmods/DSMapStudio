@@ -20,24 +20,27 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
-        private static Param EnemyParam = null;
-        private static Param VEnemyParam = null;
-        internal static AssetLocator AssetLocator = null;
+        public static ParamBank PrimaryBank = new ParamBank();
+        // TODO: Make static
+        private ParamBank VanillaBank = new ParamBank();
 
-        private static Dictionary<string, Param> _params = null;
-        private static Dictionary<string, Param> _vanillaParams = null;
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
-        private static Dictionary<string, HashSet<int>> _paramDirtyCache = null; //If param != vanillaparam
 
-        private static bool _pendingUpgrade = false;
+
+        private Param EnemyParam = null;
+        internal AssetLocator AssetLocator = null;
+
+        private Dictionary<string, Param> _params = null;
+        private Dictionary<string, HashSet<int>> _paramDirtyCache = null; //If param != vanillaparam
+
+        private bool _pendingUpgrade = false;
         
         public static bool IsDefsLoaded { get; private set; } = false;
         public static bool IsMetaLoaded { get; private set; } = false;
-        public static bool IsLoadingParams { get; private set; } = false;
-        public static bool IsLoadingVParams { get; private set; } = false;
+        public bool IsLoadingParams { get; private set; } = false;
 
-        public static IReadOnlyDictionary<string, Param> Params
+        public IReadOnlyDictionary<string, Param> Params
         {
             get
             {
@@ -48,31 +51,25 @@ namespace StudioCore.ParamEditor
                 return _params;
             }
         }
-        public static IReadOnlyDictionary<string, Param> VanillaParams
+        public IReadOnlyDictionary<string, Param> VanillaParams
         {
             get
             {
-                if (IsLoadingVParams)
+                if (VanillaBank.IsLoadingParams)
                 {
                     return null;
                 }
-                return _vanillaParams;
+                return VanillaBank._params;
             }
         }
 
-        private static ulong _paramVersion;
-        public static ulong ParamVersion
+        private ulong _paramVersion;
+        public ulong ParamVersion
         {
             get => _paramVersion;
         }
-
-        private static ulong _vanillaParamVersion;
-        public static ulong VanillaParamVersion
-        {
-            get => _vanillaParamVersion;
-        }
         
-        public static IReadOnlyDictionary<string, HashSet<int>> DirtyParamCache
+        public IReadOnlyDictionary<string, HashSet<int>> DirtyParamCache
         {
             get
             {
@@ -85,7 +82,7 @@ namespace StudioCore.ParamEditor
         }
 
         // DS2 Only
-        private static Param GetParam(BND4 parambnd, string paramfile)
+        private Param GetParam(BND4 parambnd, string paramfile)
         {
             var bndfile = parambnd.Files.Find(x => Path.GetFileName(x.Name) == paramfile);
             if (bndfile != null)
@@ -105,7 +102,7 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        private static List<(string, PARAMDEF)> LoadParamdefs()
+        private List<(string, PARAMDEF)> LoadParamdefs()
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _patchParamdefs = new Dictionary<string, Dictionary<ulong, PARAMDEF>>();
@@ -140,7 +137,7 @@ namespace StudioCore.ParamEditor
             return defPairs;
         }
 
-        public static void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
+        public void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
         {
             var mdir = AssetLocator.GetParammetaDir();
             foreach ((string f, PARAMDEF pdef) in defPairs)
@@ -150,7 +147,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public static CompoundAction LoadParamDefaultNames()
+        public CompoundAction LoadParamDefaultNames()
         {
             var dir = AssetLocator.GetParamNamesDir();
             var files = Directory.GetFiles(dir, "*.txt");
@@ -169,14 +166,14 @@ namespace StudioCore.ParamEditor
             return new CompoundAction(actions);
         }
 
-        public static ActionManager TrimNewlineChrsFromNames()
+        public ActionManager TrimNewlineChrsFromNames()
         {
             (MassEditResult r, ActionManager child) =
                 MassParamEditRegex.PerformMassEdit("param .*: id .*: name: replace \r:0", null);
             return child;
         }
 
-        private static void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
+        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
             if (checkVersion && !success)
@@ -239,7 +236,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private static string LoadParamsDES()
+        private string LoadParamsDES()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -269,17 +266,17 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
-        private static void LoadVParamsDES(string dir)
+        private void LoadVParamsDES(string dir)
         {
             string paramBinderName = "gameparam.parambnd.dcx";
             if (Directory.GetParent(dir).Parent.FullName.Contains("BLUS"))
             {
                 paramBinderName = "gameparamna.parambnd.dcx";
             }
-            LoadParamFromBinder(BND3.Read($@"{dir}\param\gameparam\{paramBinderName}"), ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\gameparam\{paramBinderName}"), ref VanillaBank._params, out VanillaBank._paramVersion);
         }
 
-        private static string LoadParamsDS1()
+        private string LoadParamsDS1()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -301,12 +298,12 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
-        private static void LoadVParamsDS1(string dir)
+        private void LoadVParamsDS1(string dir)
         {
-            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd"), ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd"), ref VanillaBank._params, out VanillaBank._paramVersion);
         }
 
-        private static string LoadParamsDS1R()
+        private string LoadParamsDS1R()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -328,12 +325,12 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
-        private static void LoadVParamsDS1R(string dir)
+        private void LoadVParamsDS1R(string dir)
         {
-            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd.dcx"), ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(BND3.Read($@"{dir}\param\GameParam\GameParam.parambnd.dcx"), ref VanillaBank._params, out VanillaBank._paramVersion);
         }
 
-        private static string LoadParamsBBSekrio()
+        private string LoadParamsBBSekrio()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -355,9 +352,9 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
-        private static void LoadVParamsBBSekrio(string dir)
+        private void LoadVParamsBBSekrio(string dir)
         {
-            LoadParamFromBinder(BND4.Read($@"{dir}\param\gameparam\gameparam.parambnd.dcx"), ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(BND4.Read($@"{dir}\param\gameparam\gameparam.parambnd.dcx"), ref VanillaBank._params, out VanillaBank._paramVersion);
         }
 
         /// <summary>
@@ -378,7 +375,7 @@ namespace StudioCore.ParamEditor
             "treasureboxparam",
         };
 
-        private static string LoadParamsDS2()
+        private string LoadParamsDS2()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -464,7 +461,7 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
             return dir;
         }
-        private static void LoadVParamsDS2(string dir)
+        private void LoadVParamsDS2(string dir)
         {
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
@@ -501,9 +498,9 @@ namespace StudioCore.ParamEditor
                     var fname = lp.ParamType;
                     PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
                     lp.ApplyParamdef(def);
-                    if (!_vanillaParams.ContainsKey(name))
+                    if (!VanillaBank._params.ContainsKey(name))
                     {
-                        _vanillaParams.Add(name, lp);
+                        VanillaBank._params.Add(name, lp);
                     }
                 }
             }
@@ -522,17 +519,17 @@ namespace StudioCore.ParamEditor
                 paramBnd = BND4.Read(param);
             }
 
-            VEnemyParam = GetParam(paramBnd, "EnemyParam.param");
-            if (VEnemyParam != null)
+            VanillaBank.EnemyParam = GetParam(paramBnd, "EnemyParam.param");
+            if (VanillaBank.EnemyParam != null)
             {
-                PARAMDEF def = AssetLocator.GetParamdefForParam(VEnemyParam.ParamType);
-                VEnemyParam.ApplyParamdef(def);
+                PARAMDEF def = AssetLocator.GetParamdefForParam(VanillaBank.EnemyParam.ParamType);
+                VanillaBank.EnemyParam.ApplyParamdef(def);
             }
 
-            LoadParamFromBinder(paramBnd, ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(paramBnd, ref VanillaBank._params, out VanillaBank._paramVersion);
         }
 
-        private static string LoadParamsDS3(bool loose)
+        private string LoadParamsDS3(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -566,13 +563,13 @@ namespace StudioCore.ParamEditor
             }
             return vparam;
         }
-        private static void LoadVParamsDS3(string vparam)
+        private void LoadVParamsDS3(string vparam)
         {
             BND4 vParamBnd = SFUtil.DecryptDS3Regulation(vparam);
-            LoadParamFromBinder(vParamBnd, ref _vanillaParams, out _vanillaParamVersion);
+            LoadParamFromBinder(vParamBnd, ref VanillaBank._params, out VanillaBank._paramVersion);
         }
 
-        private static string LoadParamsER(bool partial)
+        private string LoadParamsER(bool partial)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -625,14 +622,14 @@ namespace StudioCore.ParamEditor
 
             return dir;
         }
-        private static void LoadVParamsER(string dir)
+        private void LoadVParamsER(string dir)
         {
             //LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams);
-            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref _vanillaParams, out _vanillaParamVersion, true);
+            LoadParamFromBinder(SFUtil.DecryptERRegulation($@"{dir}\regulation.bin"), ref VanillaBank._params, out VanillaBank._paramVersion, true);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
-        public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
+        public void ReloadParams(ProjectSettings settings, NewProjectOptions options)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _params = new Dictionary<string, Param>();
@@ -686,8 +683,8 @@ namespace StudioCore.ParamEditor
 
                 if (vparamDir != null)
                 {
-                    IsLoadingVParams = true;
-                    _vanillaParams = new Dictionary<string, Param>();
+                    VanillaBank.IsLoadingParams = true;
+                    VanillaBank._params = new Dictionary<string, Param>();
                     TaskManager.Run("PB:LoadVParams", true, false, false, () =>
                     {
                         if (AssetLocator.Type == GameType.DemonsSouls)
@@ -718,7 +715,7 @@ namespace StudioCore.ParamEditor
                         {
                             LoadVParamsER(vparamDir);
                         }
-                        IsLoadingVParams = false;
+                        VanillaBank.IsLoadingParams = false;
 
                         TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => refreshParamDirtyCache());
                     });
@@ -734,16 +731,16 @@ namespace StudioCore.ParamEditor
                 {
                     if (options.loadDefaultNames)
                     {
-                        new Editor.ActionManager().ExecuteAction(ParamEditor.ParamBank.LoadParamDefaultNames());
-                        ParamEditor.ParamBank.SaveParams(settings.UseLooseParams);
+                        new Editor.ActionManager().ExecuteAction(LoadParamDefaultNames());
+                        SaveParams(settings.UseLooseParams);
                     }
                 }
             });
         }
 
-        public static void refreshParamDirtyCache()
+        public void refreshParamDirtyCache()
         {
-            if (IsLoadingParams || IsLoadingVParams)
+            if (IsLoadingParams || VanillaBank.IsLoadingParams)
                 return;
             Dictionary<string, HashSet<int>> newCache = new Dictionary<string, HashSet<int>>();
             foreach (string param in _params.Keys)
@@ -751,14 +748,14 @@ namespace StudioCore.ParamEditor
                 HashSet<int> cache = new HashSet<int>();
                 newCache.Add(param, cache);
                 Param p = _params[param];
-                if (!_vanillaParams.ContainsKey(param))
+                if (!VanillaBank._params.ContainsKey(param))
                 {
                     Console.WriteLine("Missing vanilla param "+param);
                     continue;
                 }
 
                 var rows = _params[param].Rows.OrderBy(r => r.ID).ToArray();
-                var vrows = _vanillaParams[param].Rows.OrderBy(r => r.ID).ToArray();
+                var vrows = VanillaBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
                 
                 var vanillaIndex = 0;
                 int lastID = -1;
@@ -825,13 +822,13 @@ namespace StudioCore.ParamEditor
             return true;
         }
 
-        public static void SetAssetLocator(AssetLocator l)
+        public void SetAssetLocator(AssetLocator l)
         {
             AssetLocator = l;
             //ReloadParams();
         }
 
-        private static void SaveParamsDS1()
+        private void SaveParamsDS1()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -860,7 +857,7 @@ namespace StudioCore.ParamEditor
             // Don't write to mod dir for now
             Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd", paramBnd);
         }
-        private static void SaveParamsDS1R()
+        private void SaveParamsDS1R()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -889,7 +886,7 @@ namespace StudioCore.ParamEditor
             Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd.dcx", paramBnd);
         }
 
-        private static void SaveParamsDS2(bool loose)
+        private void SaveParamsDS2(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -965,7 +962,7 @@ namespace StudioCore.ParamEditor
             Utils.WriteWithBackup(dir, mod, @"enc_regulation.bnd.dcx", paramBnd);
         }
 
-        private static void SaveParamsDS3(bool loose)
+        private void SaveParamsDS3(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -1029,7 +1026,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private static void SaveParamsBBSekiro()
+        private void SaveParamsBBSekiro()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -1057,7 +1054,7 @@ namespace StudioCore.ParamEditor
             }
             Utils.WriteWithBackup(dir, mod, @"param\gameparam\gameparam.parambnd.dcx", paramBnd);
         }
-        private static void SaveParamsDES()
+        private void SaveParamsDES()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -1095,7 +1092,7 @@ namespace StudioCore.ParamEditor
             }
             Utils.WriteWithBackup(dir, mod, $@"param\gameparam\{paramBinderName}", paramBnd);
         }
-        private static void SaveParamsER(bool partial)
+        private void SaveParamsER(bool partial)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -1140,7 +1137,7 @@ namespace StudioCore.ParamEditor
             _pendingUpgrade = false;
         }
 
-        public static void SaveParams(bool loose = false, bool partialParams = false)
+        public void SaveParams(bool loose = false, bool partialParams = false)
         {
             if (_params == null)
             {
@@ -1397,7 +1394,7 @@ namespace StudioCore.ParamEditor
         }
 
         // Param upgrade. Currently for Elden Ring only.
-        public static ParamUpgradeResult UpgradeRegulation(string oldVanillaParamPath, 
+        public ParamUpgradeResult UpgradeRegulation(string oldVanillaParamPath, 
             Dictionary<string, HashSet<int>> conflictingParams)
         {
             // First we need to load the old regulation
@@ -1434,7 +1431,7 @@ namespace StudioCore.ParamEditor
             
             // Set new params
             _params = updatedParams;
-            _paramVersion = VanillaParamVersion;
+            _paramVersion = VanillaBank.ParamVersion;
             _pendingUpgrade = true;
             
             // Refresh dirty cache
@@ -1444,15 +1441,15 @@ namespace StudioCore.ParamEditor
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }
 
-        public static string GetChrIDForEnemy(long enemyID)
+        public string GetChrIDForEnemy(long enemyID)
         {
             var enemy = EnemyParam?[(int)enemyID];
             return enemy != null ? $@"{enemy.GetCellHandleOrThrow("Chr ID").Value:D4}" : null;
         }
 
-        public static string GetKeyForParam(Param param)
+        public string GetKeyForParam(Param param)
         {
-            foreach (KeyValuePair<string, Param> pair in ParamBank.Params)
+            foreach (KeyValuePair<string, Param> pair in Params)
             {
                 if (param == pair.Value)
                     return pair.Key;
