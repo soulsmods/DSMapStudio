@@ -8,6 +8,7 @@ using System.IO;
 using SoulsFormats;
 using System.Collections.Generic;
 using Microsoft.Win32;
+using StudioCore.MsbEditor;
 
 namespace StudioCore
 {
@@ -202,45 +203,54 @@ namespace StudioCore
             var assetgamepath = $@"{gamedir}\{assetpath}";
             var assetmodpath = $@"{moddir}\{assetpath}";
 
-            if (moddir != null)
+            try
             {
-                if (!Directory.Exists(Path.GetDirectoryName(assetmodpath)))
+                if (moddir != null)
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(assetmodpath));
+                    if (!Directory.Exists(Path.GetDirectoryName(assetmodpath)))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(assetmodpath));
+                    }
                 }
-            }
 
-            // Make a backup of the original file if a mod path doesn't exist
-            if (moddir == null && !File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
-            {
-                File.Copy(assetgamepath, $@"{assetgamepath}.bak", true);
-            }
+                // Make a backup of the original file if a mod path doesn't exist
+                if (moddir == null && !File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
+                {
+                    File.Copy(assetgamepath, $@"{assetgamepath}.bak", true);
+                }
 
-            var writepath = (moddir == null) ? assetgamepath : assetmodpath;
+                var writepath = (moddir == null) ? assetgamepath : assetmodpath;
 
-            if (File.Exists(writepath + ".temp"))
-            {
-                File.Delete(writepath + ".temp");
-            }
-            if (gameType == GameType.DarkSoulsIII && item is BND4 bndDS3)
-            {
-                SFUtil.EncryptDS3Regulation(writepath + ".temp", bndDS3);
-            }
-            else if (gameType == GameType.EldenRing && item is BND4 bndER)
-            {
-                SFUtil.EncryptERRegulation(writepath + ".temp", bndER);
-            }
-            else
-            {
-                item.Write(writepath + ".temp");
-            }
+                if (File.Exists(writepath + ".temp"))
+                {
+                    File.Delete(writepath + ".temp");
+                }
 
-            if (File.Exists(writepath))
-            {
-                File.Copy(writepath, writepath + ".prev", true);
-                File.Delete(writepath);
+                if (gameType == GameType.DarkSoulsIII && item is BND4 bndDS3)
+                {
+                    SFUtil.EncryptDS3Regulation(writepath + ".temp", bndDS3);
+                }
+                else if (gameType == GameType.EldenRing && item is BND4 bndER)
+                {
+                    SFUtil.EncryptERRegulation(writepath + ".temp", bndER);
+                }
+                else
+                {
+                    item.Write(writepath + ".temp");
+                }
+
+                if (File.Exists(writepath))
+                {
+                    File.Copy(writepath, writepath + ".prev", true);
+                    File.Delete(writepath);
+                }
+
+                File.Move(writepath + ".temp", writepath);
             }
-            File.Move(writepath + ".temp", writepath);
+            catch (Exception e)
+            {
+                throw new SavingFailedException(Path.GetFileName(assetmodpath), e);
+            }
         }
 
         public static void WriteStringWithBackup(string gamedir, string moddir, string assetpath, string item)
