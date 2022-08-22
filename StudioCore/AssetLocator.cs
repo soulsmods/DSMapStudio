@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -252,6 +253,27 @@ namespace StudioCore
             GameRootDirectory = settings.GameRoot;
             GameModDirectory = moddir;
             FullMapList = null;
+        }
+
+        public bool CreateRecoveryProject()
+        {
+            if (GameRootDirectory == null || GameModDirectory == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                var time = DateTime.Now.ToString("dd-MM-yyyy-(hh-mm-ss)", CultureInfo.InvariantCulture);
+                GameModDirectory = GameModDirectory + $@"\recovery\{time}";
+                if (!Directory.Exists(GameModDirectory))
+                    Directory.CreateDirectory(GameModDirectory);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool FileExists(string relpath)

@@ -20,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02.3";
+        private static string _version = "version 1.02.4";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -545,6 +545,27 @@ namespace StudioCore
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _user32_ShowWindow(IntPtr hWnd, int nCmdShow);
 
+        // Saves modded files to a recovery directory in the mod folder on crash
+        public void AttemptSaveOnCrash()
+        {
+            bool success = _assetLocator.CreateRecoveryProject();
+            if (success)
+            {
+                _msbEditor.SaveAll();
+                _modelEditor.SaveAll();
+                _paramEditor.SaveAll();
+                _textEditor.SaveAll();
+                System.Windows.Forms.MessageBox.Show(
+                    $@"Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery. " +
+                    "You must manually replace your projects with these recovery files should you wish to restore them. " +
+                    "Given the program has crashed, these files may be corrupt and you should backup your last good saved " +
+                    "files before attempting to use these.", 
+                    "Saved recovery",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Warning);
+            }
+        }
+        
         private void SaveFocusedEditor()
         {
             if (_projectSettings != null && _projectSettings.ProjectName != null)
@@ -890,6 +911,11 @@ namespace StudioCore
                 {
                     if (ImGui.BeginMenu("Tests"))
                     {
+                        if (ImGui.MenuItem("Crash me (will actually crash)"))
+                        {
+                            var badArray = new int[2];
+                            var crash = badArray[5];
+                        }
                         if (ImGui.MenuItem("MSBE read/write test"))
                         {
                             Tests.MSBReadWrite.Run(_assetLocator);

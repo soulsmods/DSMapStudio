@@ -17,6 +17,12 @@ using SoulsFormats;
 using StudioCore;
 using StudioCore.TextEditor;
 using StudioCore.Editor;
+using StudioCore.MsbEditor;
+using ActionManager = StudioCore.Editor.ActionManager;
+using AddParamsAction = StudioCore.Editor.AddParamsAction;
+using CompoundAction = StudioCore.Editor.CompoundAction;
+using DeleteParamsAction = StudioCore.Editor.DeleteParamsAction;
+using EditorScreen = StudioCore.Editor.EditorScreen;
 
 namespace StudioCore.ParamEditor
 {
@@ -1000,17 +1006,35 @@ namespace StudioCore.ParamEditor
 
         public override void Save()
         {
-            if (_projectSettings != null)
+            try
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                if (_projectSettings != null)
+                {
+                    ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                }
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
             }
         }
 
         public override void SaveAll()
         {
-            if (_projectSettings != null)
+            try
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                if (_projectSettings != null)
+                {
+                    ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                }
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
             }
         }
     }
