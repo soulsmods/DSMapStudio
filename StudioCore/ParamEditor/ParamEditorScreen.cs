@@ -161,10 +161,10 @@ namespace StudioCore.ParamEditor
             _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.ItemCategory.SwordArts));
         }
         
-        public void UpgradeRegulation(ParamBank bank, string oldRegulation)
+        public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
             var conflicts = new Dictionary<string, HashSet<int>>();
-            var result = bank.UpgradeRegulation(oldRegulation, conflicts);
+            var result = bank.UpgradeRegulation(vanillaBank, oldRegulation, conflicts);
 
             if (result == ParamBank.ParamUpgradeResult.OldRegulationNotFound)
             {
@@ -451,7 +451,7 @@ namespace StudioCore.ParamEditor
                     RemoveView(_activeView);
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Check all params for edits (Slow!)", null, false, !ParamBank.PrimaryBank.VanillaBank.IsLoadingParams))
+                if (ImGui.MenuItem("Check all params for edits (Slow!)", null, false, !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
                 {
                     ParamBank.PrimaryBank.refreshParamDirtyCache();
                 }
@@ -551,16 +551,16 @@ namespace StudioCore.ParamEditor
             
             // Param upgrading for Elden Ring
             if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing &&
-                ParamBank.IsDefsLoaded && ParamBank.PrimaryBank.Params != null && ParamBank.PrimaryBank.VanillaParams != null &&
-                !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.PrimaryBank.VanillaBank.IsLoadingParams &&
-                ParamBank.PrimaryBank.ParamVersion < ParamBank.PrimaryBank.VanillaBank.ParamVersion)
+                ParamBank.IsDefsLoaded && ParamBank.PrimaryBank.Params != null && ParamBank.VanillaBank.Params != null &&
+                !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams &&
+                ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                 if (ImGui.Button("Upgrade Params"))
                 {
                     var message = System.Windows.Forms.MessageBox.Show(
                         $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                        $"{ParamBank.PrimaryBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                        $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
                         "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
                         "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
                         "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
@@ -583,7 +583,7 @@ namespace StudioCore.ParamEditor
                         if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             var path = rbrowseDlg.FileName;
-                            UpgradeRegulation(ParamBank.PrimaryBank, path);
+                            UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
                         }
                     }
                 }
@@ -765,9 +765,9 @@ namespace StudioCore.ParamEditor
                     if (initcmd.Length > 2 && ParamBank.PrimaryBank.Params.ContainsKey(initcmd[2]))
                     {
                         doFocus = initcmd[0] == "select";
-                        if (_activeView._selection.getActiveRow() != null && !ParamBank.PrimaryBank.VanillaBank.IsLoadingParams)
+                        if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
                             ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(), 
-                                ParamBank.PrimaryBank.VanillaParams[_activeView._selection.getActiveParam()],
+                                ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
                                 ParamBank.PrimaryBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
 
                         ParamEditorView viewToMofidy = _activeView;
@@ -797,9 +797,9 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                         }
-                        if (_activeView._selection.getActiveRow() != null && !ParamBank.PrimaryBank.VanillaBank.IsLoadingParams)
+                        if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
                             ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(),
-                                ParamBank.PrimaryBank.VanillaParams[_activeView._selection.getActiveParam()],
+                                ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
                                 ParamBank.PrimaryBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
 
                     }
@@ -1346,7 +1346,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 ImGui.BeginChild("columns" + activeParam);
-                _propEditor.PropEditorParamRow(ParamBank.PrimaryBank, activeRow, ParamBank.PrimaryBank.VanillaParams != null ? ParamBank.PrimaryBank.VanillaParams[activeParam][activeRow.ID] : null, ref _selection.getCurrentPropSearchString(), activeParam, isActiveView);
+                _propEditor.PropEditorParamRow(ParamBank.PrimaryBank, activeRow, ParamBank.VanillaBank.Params != null ? ParamBank.VanillaBank.Params[activeParam][activeRow.ID] : null, ref _selection.getCurrentPropSearchString(), activeParam, isActiveView);
             }
             ImGui.EndChild();
         }

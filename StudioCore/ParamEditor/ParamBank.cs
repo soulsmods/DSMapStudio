@@ -20,15 +20,8 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
-        public static ParamBank PrimaryBank = new ParamBank(false);
-        // TODO: Make static
-        public ParamBank VanillaBank;
-
-        public ParamBank(bool isVanilla)
-        {
-            if (!isVanilla)
-                VanillaBank = new ParamBank(true);
-        }
+        public static ParamBank PrimaryBank = new ParamBank();
+        public static ParamBank VanillaBank = new ParamBank();
 
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
@@ -55,17 +48,6 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 return _params;
-            }
-        }
-        public IReadOnlyDictionary<string, Param> VanillaParams
-        {
-            get
-            {
-                if (VanillaBank.IsLoadingParams)
-                {
-                    return null;
-                }
-                return VanillaBank._params;
             }
         }
 
@@ -1400,7 +1382,7 @@ namespace StudioCore.ParamEditor
         }
 
         // Param upgrade. Currently for Elden Ring only.
-        public ParamUpgradeResult UpgradeRegulation(string oldVanillaParamPath, 
+        public ParamUpgradeResult UpgradeRegulation(ParamBank vanillaBank, string oldVanillaParamPath, 
             Dictionary<string, HashSet<int>> conflictingParams)
         {
             // First we need to load the old regulation
@@ -1417,18 +1399,18 @@ namespace StudioCore.ParamEditor
 
             var updatedParams = new Dictionary<string, Param>();
             // Now we must diff everything to try and find changed/added rows for each param
-            foreach (var k in VanillaParams.Keys)
+            foreach (var k in vanillaBank.Params.Keys)
             {
                 // If the param is completely new, just take it
                 if (!oldVanillaParams.ContainsKey(k) || !Params.ContainsKey(k))
                 {
-                    updatedParams.Add(k, VanillaParams[k]);
+                    updatedParams.Add(k, vanillaBank.Params[k]);
                     continue;
                 }
                 
                 // Otherwise try to upgrade
                 var conflicts = new HashSet<int>();
-                var res = UpgradeParam(Params[k], oldVanillaParams[k], VanillaParams[k], conflicts);
+                var res = UpgradeParam(Params[k], oldVanillaParams[k], vanillaBank.Params[k], conflicts);
                 updatedParams.Add(k, res);
                 
                 if (conflicts.Count > 0)
