@@ -355,8 +355,8 @@ namespace StudioCore.TextEditor
                         _searchFilterCached = "";
                         doFocus = true;
                     }
-                    if (_arrowKeyPressed && ImGui.IsItemFocused() 
-                        && _activeEntryGroup.ID != r.ID)
+                    if (_arrowKeyPressed && ImGui.IsItemFocused()
+                        && _activeEntryGroup?.ID != r.ID)
                     {
                         // Up/Down arrow selection
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
