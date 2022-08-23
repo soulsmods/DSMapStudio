@@ -54,7 +54,7 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Duplicates all FMG Entries in the EntryGroup
+        /// Duplicates all Entries in active EntryGroup from their FMGs
         /// </summary>
         private void DuplicateFMGEntries(FMGBank.EntryGroup entry)
         {
@@ -68,7 +68,7 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Deletes all FMG Entries in the EntryGroup
+        /// Deletes all Entries within active EntryGroup from their FMGs
         /// </summary>
         private void DeleteFMGEntries(FMGBank.EntryGroup entry)
         {
@@ -90,7 +90,7 @@ namespace StudioCore.TextEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete Entry", "Delete", false, false || _activeEntryGroup != null))
+                if (ImGui.MenuItem("Delete Entry", "Delete", false, _activeEntryGroup != null))
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
@@ -142,7 +142,7 @@ namespace StudioCore.TextEditor
 
                     if (_activeFmgInfo.EntryCategory != FMGBank.FmgEntryCategory.None)
                     {
-                        // Gouped entries
+                        // Grouped entries
                         List<FMG.Entry> searchEntries;
                         if (_searchFilter.Length > _searchFilterCached.Length)
                             searchEntries = _EntryLabelCacheFiltered;
