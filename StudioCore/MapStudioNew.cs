@@ -133,6 +133,7 @@ namespace StudioCore
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
@@ -371,7 +372,7 @@ namespace StudioCore
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
 
             Editor.AliasBank.ReloadAliases();
-            ParamEditor.ParamBank.PrimaryBank.ReloadParams(newsettings, options);
+            ParamEditor.ParamBank.ReloadParams(newsettings, options);
             TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.ReloadUniverse();
