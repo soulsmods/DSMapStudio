@@ -203,7 +203,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private string LoadParamsDES()
+        private void LoadParamsDES()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -229,23 +229,22 @@ namespace StudioCore.ParamEditor
                 param = $@"{dir}\param\gameparam\{paramBinderName}";
             }
             LoadParamsDESFromFile(param);
-            return dir;
         }
-        private void LoadVParamsDES(string dir)
+        private void LoadVParamsDES()
         {
             string paramBinderName = "gameparam.parambnd.dcx";
-            if (Directory.GetParent(dir).Parent.FullName.Contains("BLUS"))
+            if (Directory.GetParent(AssetLocator.GameRootDirectory).Parent.FullName.Contains("BLUS"))
             {
                 paramBinderName = "gameparamna.parambnd.dcx";
             }
-            LoadParamsDESFromFile($@"{dir}\param\gameparam\{paramBinderName}");
+            LoadParamsDESFromFile($@"{AssetLocator.GameRootDirectory}\param\gameparam\{paramBinderName}");
         }
-        private void LoadParamsDESFromFile(string dir)
+        private void LoadParamsDESFromFile(string path)
         {
-            LoadParamFromBinder(BND3.Read(dir), ref _params, out _paramVersion);
+            LoadParamFromBinder(BND3.Read(path), ref _params, out _paramVersion);
         }
 
-        private string LoadParamsDS1()
+        private void LoadParamsDS1()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -262,18 +261,17 @@ namespace StudioCore.ParamEditor
                 param = $@"{dir}\param\GameParam\GameParam.parambnd";
             }
             LoadParamsDS1FromFile(param);
-            return dir;
         }
-        private void LoadVParamsDS1(string dir)
+        private void LoadVParamsDS1()
         {
-            LoadParamsDS1FromFile($@"{dir}\param\GameParam\GameParam.parambnd");
+            LoadParamsDS1FromFile($@"{AssetLocator.GameRootDirectory}\param\GameParam\GameParam.parambnd");
         }
-        private void LoadParamsDS1FromFile(string dir)
+        private void LoadParamsDS1FromFile(string path)
         {
-            LoadParamFromBinder(BND3.Read(dir), ref _params, out _paramVersion);
+            LoadParamFromBinder(BND3.Read(path), ref _params, out _paramVersion);
         }
 
-        private string LoadParamsDS1R()
+        private void LoadParamsDS1R()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -291,18 +289,17 @@ namespace StudioCore.ParamEditor
                 param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
             }
             LoadParamsDS1RFromFile(param);
-            return dir;
         }
-        private void LoadVParamsDS1R(string dir)
+        private void LoadVParamsDS1R()
         {
-            LoadParamsDS1RFromFile($@"{dir}\param\GameParam\GameParam.parambnd.dcx");
+            LoadParamsDS1RFromFile($@"{AssetLocator.GameRootDirectory}\param\GameParam\GameParam.parambnd.dcx");
         }
-        private void LoadParamsDS1RFromFile(string dir)
+        private void LoadParamsDS1RFromFile(string path)
         {
-            LoadParamFromBinder(BND3.Read(dir), ref _params, out _paramVersion);
+            LoadParamFromBinder(BND3.Read(path), ref _params, out _paramVersion);
         }
 
-        private string LoadParamsBBSekiro()
+        private void LoadParamsBBSekiro()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -320,15 +317,14 @@ namespace StudioCore.ParamEditor
                 param = $@"{dir}\param\gameparam\gameparam.parambnd.dcx";
             }
             LoadParamsBBSekiroFromFile(param);
-            return dir;
         }
-        private void LoadVParamsBBSekiro(string dir)
+        private void LoadVParamsBBSekiro()
         {
-            LoadParamsBBSekiroFromFile($@"{dir}\param\gameparam\gameparam.parambnd.dcx");
+            LoadParamsBBSekiroFromFile($@"{AssetLocator.GameRootDirectory}\param\gameparam\gameparam.parambnd.dcx");
         }
-        private void LoadParamsBBSekiroFromFile(string dir)
+        private void LoadParamsBBSekiroFromFile(string path)
         {
-            LoadParamFromBinder(BND4.Read(dir), ref _params, out _paramVersion);
+            LoadParamFromBinder(BND4.Read(path), ref _params, out _paramVersion);
         }
 
         /// <summary>
@@ -349,7 +345,7 @@ namespace StudioCore.ParamEditor
             "treasureboxparam",
         };
 
-        private string LoadParamsDS2()
+        private void LoadParamsDS2()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -380,31 +376,30 @@ namespace StudioCore.ParamEditor
                 param = $@"{dir}\enc_regulation.bnd.dcx";
             }
             string enemyFile = $@"{mod}\Param\EnemyParam.param";
-            if (File.Exists(enemyFile))
+            if (!File.Exists(enemyFile))
             {
                 enemyFile = $@"{dir}\Param\EnemyParam.param";
             }
             LoadParamsDS2FromFile(scandir, param, enemyFile);
-            return dir;
         }
-        private void LoadVParamsDS2(string dir)
+        private void LoadVParamsDS2()
         {
-            if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
+            if (!File.Exists($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
                 throw new FileNotFoundException("Could not find Vanilla DS2 regulation file. Functionality will be limited.");
             }
-            if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
+            if (!BND4.Is($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
                 MessageBox.Show("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // Load loose params
             List<string> scandir = new List<string>();
-            scandir.Add($@"{dir}\Param");
+            scandir.Add($@"{AssetLocator.GameRootDirectory}\Param");
             
-            LoadParamsDS2FromFile(scandir, $@"{dir}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param");
+            LoadParamsDS2FromFile(scandir, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param");
         }
-        private void LoadParamsDS2FromFile(List<string> loosedir, string dir, string enemydir)
+        private void LoadParamsDS2FromFile(List<string> loosedir, string path, string enemypath)
         {
             foreach (var d in loosedir)
             {
@@ -438,14 +433,14 @@ namespace StudioCore.ParamEditor
             }
 
             BND4 paramBnd;
-            if (!BND4.Is(dir))
+            if (!BND4.Is(path))
             {
-                paramBnd = SFUtil.DecryptDS2Regulation(dir);
+                paramBnd = SFUtil.DecryptDS2Regulation(path);
             }
             // No need to decrypt
             else
             {
-                paramBnd = BND4.Read(dir);
+                paramBnd = BND4.Read(path);
             }
             var bndfile = paramBnd.Files.Find(x => Path.GetFileName(x.Name) == "EnemyParam.param");
             if (bndfile != null)
@@ -454,9 +449,9 @@ namespace StudioCore.ParamEditor
             }
 
             // Otherwise the param is a loose param
-            if (File.Exists(enemydir))
+            if (File.Exists(enemypath))
             {
-                EnemyParam = Param.Read(enemydir);
+                EnemyParam = Param.Read(enemypath);
             }
             if (EnemyParam != null)
             {
@@ -466,7 +461,7 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
         }
 
-        private string LoadParamsDS3(bool loose)
+        private void LoadParamsDS3(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -492,11 +487,10 @@ namespace StudioCore.ParamEditor
                 }
                 LoadParamsDS3FromFile(param, false);
             }
-            return vparam;
         }
-        private void LoadVParamsDS3(string vparam)
+        private void LoadVParamsDS3()
         {
-            LoadParamsDS3FromFile(vparam, false);
+            LoadParamsDS3FromFile($@"{AssetLocator.GameRootDirectory}\Data0.bdt", false);
         }
         private void LoadParamsDS3FromFile(string path, bool isLoose)
         {
@@ -504,7 +498,7 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(lparamBnd, ref _params, out _paramVersion);
         }
 
-        private string LoadParamsER(bool partial)
+        private void LoadParamsER(bool partial)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -552,12 +546,10 @@ namespace StudioCore.ParamEditor
                     }
                 }
             }
-
-            return dir;
         }
-        private void LoadVParamsER(string dir)
+        private void LoadVParamsER()
         {
-            LoadParamsERFromFile($@"{dir}\regulation.bin");
+            LoadParamsERFromFile($@"{AssetLocator.GameRootDirectory}\regulation.bin");
         }
         private void LoadParamsERFromFile(string path)
         {
@@ -591,81 +583,74 @@ namespace StudioCore.ParamEditor
                         IsMetaLoaded = true;
                     });
                 }
-                string vparamDir = null;
                 if (locator.Type == GameType.DemonsSouls)
                 {
-                    vparamDir = PrimaryBank.LoadParamsDES();
+                    PrimaryBank.LoadParamsDES();
                 }
                 if (locator.Type == GameType.DarkSoulsPTDE)
                 {
-                    vparamDir = PrimaryBank.LoadParamsDS1();
+                    PrimaryBank.LoadParamsDS1();
                 }
                 if (locator.Type == GameType.DarkSoulsRemastered)
                 {
-                    vparamDir = PrimaryBank.LoadParamsDS1R();
+                    PrimaryBank.LoadParamsDS1R();
                 }
                 if (locator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    vparamDir = PrimaryBank.LoadParamsDS2();
+                    PrimaryBank.LoadParamsDS2();
                 }
                 if (locator.Type == GameType.DarkSoulsIII)
                 {
-                    vparamDir = PrimaryBank.LoadParamsDS3(settings.UseLooseParams);
+                    PrimaryBank.LoadParamsDS3(settings.UseLooseParams);
                 }
                 if (locator.Type == GameType.Bloodborne || locator.Type == GameType.Sekiro)
                 {
-                    vparamDir = PrimaryBank.LoadParamsBBSekiro();
+                    PrimaryBank.LoadParamsBBSekiro();
                 }
                 if (locator.Type == GameType.EldenRing)
                 {
-                    vparamDir = PrimaryBank.LoadParamsER(settings.PartialParams);
+                    PrimaryBank.LoadParamsER(settings.PartialParams);
                 }
 
-                PrimaryBank._paramDiffCache = new Dictionary<string, HashSet<int>>();
-                foreach (string param in PrimaryBank._params.Keys)
-                    PrimaryBank._paramDiffCache.Add(param, new HashSet<int>());
-
+                PrimaryBank.ClearParamDiffCache();
                 PrimaryBank.IsLoadingParams = false;
 
-                if (vparamDir != null)
+                VanillaBank.IsLoadingParams = true;
+                VanillaBank._params = new Dictionary<string, Param>();
+                TaskManager.Run("PB:LoadVParams", true, false, false, () =>
                 {
-                    VanillaBank.IsLoadingParams = true;
-                    VanillaBank._params = new Dictionary<string, Param>();
-                    TaskManager.Run("PB:LoadVParams", true, false, false, () =>
+                    if (locator.Type == GameType.DemonsSouls)
                     {
-                        if (locator.Type == GameType.DemonsSouls)
-                        {
-                            VanillaBank.LoadVParamsDES(vparamDir);
-                        }
-                        if (locator.Type == GameType.DarkSoulsPTDE)
-                        {
-                            VanillaBank.LoadVParamsDS1(vparamDir);
-                        }
-                        if (locator.Type == GameType.DarkSoulsRemastered)
-                        {
-                            VanillaBank.LoadVParamsDS1R(vparamDir);
-                        }
-                        if (locator.Type == GameType.DarkSoulsIISOTFS)
-                        {
-                            VanillaBank.LoadVParamsDS2(vparamDir);
-                        }
-                        if (locator.Type == GameType.DarkSoulsIII)
-                        {
-                            VanillaBank.LoadVParamsDS3(vparamDir);
-                        }
-                        if (locator.Type == GameType.Bloodborne || locator.Type == GameType.Sekiro)
-                        {
-                            VanillaBank.LoadVParamsBBSekiro(vparamDir);
-                        }
-                        if (locator.Type == GameType.EldenRing)
-                        {
-                            VanillaBank.LoadVParamsER(vparamDir);
-                        }
-                        VanillaBank.IsLoadingParams = false;
+                        VanillaBank.LoadVParamsDES();
+                    }
+                    if (locator.Type == GameType.DarkSoulsPTDE)
+                    {
+                        VanillaBank.LoadVParamsDS1();
+                    }
+                    if (locator.Type == GameType.DarkSoulsRemastered)
+                    {
+                        VanillaBank.LoadVParamsDS1R();
+                    }
+                    if (locator.Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        VanillaBank.LoadVParamsDS2();
+                    }
+                    if (locator.Type == GameType.DarkSoulsIII)
+                    {
+                        VanillaBank.LoadVParamsDS3();
+                    }
+                    if (locator.Type == GameType.Bloodborne || locator.Type == GameType.Sekiro)
+                    {
+                        VanillaBank.LoadVParamsBBSekiro();
+                    }
+                    if (locator.Type == GameType.EldenRing)
+                    {
+                        VanillaBank.LoadVParamsER();
+                    }
+                    VanillaBank.IsLoadingParams = false;
 
-                        TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCache(VanillaBank));
-                    });
-                }
+                    TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCache(VanillaBank));
+                });
                 
                 if (options != null)
                 {
@@ -677,7 +662,12 @@ namespace StudioCore.ParamEditor
                 }
             });
         }
-
+        public void ClearParamDiffCache()
+        {
+            _paramDiffCache = new Dictionary<string, HashSet<int>>();
+            foreach (string param in _params.Keys)
+                _paramDiffCache.Add(param, new HashSet<int>());
+        }
         public void RefreshParamDiffCache(ParamBank vanillaBank)
         {
             if (IsLoadingParams || vanillaBank.IsLoadingParams)
