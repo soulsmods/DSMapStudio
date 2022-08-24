@@ -294,11 +294,12 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView)
+        public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
             int id = 0;
-            bool showCompare = crow != null;
+            bool showParamCompare = auxRows.Count > 0;
+            bool showRowCompare = crow != null;
 
             if (propSearchString != null)
             {
@@ -319,22 +320,36 @@ namespace StudioCore.ParamEditor
             int columnCount = 2;
             if (ParamEditorScreen.ShowVanillaParamsPreference)
                 columnCount++;
-            if (showCompare)
+            if (showRowCompare)
                 columnCount++;
+            if (showParamCompare)
+                columnCount += auxRows.Count;
             ImGui.Columns(columnCount);
             ImGui.NextColumn();
+            if (showParamCompare)
+                ImGui.Text("Current");
             ImGui.NextColumn();
             if (ParamEditorScreen.ShowVanillaParamsPreference)
+            {
+                if (showParamCompare)
+                    ImGui.Text("Vanilla");
                 ImGui.NextColumn();
-            if (showCompare)
+            }
+            foreach ((string name, Param.Row r) in auxRows)
+            {
+                if (showParamCompare)
+                    ImGui.Text(name);
+                ImGui.NextColumn();
+            }
+            if (showRowCompare)
                 ImGui.NextColumn();
 
             // This should be rewritten somehow it's super ugly
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
-            PropEditorPropInfoRow(bank, row, vrow, crow, showCompare, nameProp, "Name", ref id);
-            PropEditorPropInfoRow(bank, row, vrow, crow, showCompare, idProp, "ID", ref id);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, nameProp, "Name", ref id);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, idProp, "ID", ref id);
             ImGui.PopStyleColor();
             ImGui.Separator();
 
@@ -345,9 +360,10 @@ namespace StudioCore.ParamEditor
                 {
                     List<Param.Column> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                     List<Param.Column> vmatches = vrow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                    List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
                     List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                     for (int i = 0; i < matches.Count; i++)
-                        PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], crow?[cmatches[i]], showCompare, ref id, propSearchRx, activeParam, true);
+                        PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, true);
                 }
                 ImGui.Separator();
             }
@@ -370,34 +386,58 @@ namespace StudioCore.ParamEditor
                     continue;
                 List<Param.Column> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 List<Param.Column> vmatches = vrow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
                 List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 for (int i = 0; i < matches.Count; i++)
-                    lastRowExists |= PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], crow?[cmatches[i]], showCompare, ref id, propSearchRx, activeParam, false);
+                    lastRowExists |= PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
             ImGui.EndChild();
         }
 
         // Many parameter options, which may be simplified.
-        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, Param.Row crow, bool showCompare, PropertyInfo prop, string visualName, ref int id)
+        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, bool showParamCompare, bool showRowCompare, PropertyInfo prop, string visualName, ref int id)
         {
-            PropEditorPropRow(bank, prop.GetValue(row), vrow != null ? prop.GetValue(vrow) : null, crow != null ? prop.GetValue(crow) : null, showCompare, ref id, visualName, null, prop.PropertyType, prop, null, row, null, null, false);
+            PropEditorPropRow(
+                bank,
+                prop.GetValue(row),
+                vrow != null ? prop.GetValue(vrow) : null,
+                auxRows.Select((r, i) => r.Item2 != null ? prop.GetValue(r.Item2) : null).ToList(),
+                crow != null ? prop.GetValue(crow) : null,
+                showParamCompare,
+                showRowCompare,
+                ref id,
+                visualName,
+                null,
+                prop.PropertyType,
+                prop,
+                null,
+                row,
+                null,
+                null,
+                false);
         }
-        private bool PropEditorPropCellRow(ParamBank bank, Param.Cell cell, Param.Cell? vcell, Param.Cell? ccell, bool showCompare, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropCellRow(ParamBank bank, Param.Cell cell, Param.Cell? vcell, List<Param.Cell?> auxCells, Param.Cell? ccell, bool showParamCompare, bool showRowCompare, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
         {
             return PropEditorPropRow(
                 bank,
                 cell.Value,
                 vcell?.Value,
+                auxCells.Select((c, i) => c?.Value).ToList(),
                 ccell?.Value,
-                showCompare,
+                showParamCompare,
+                showRowCompare,
                 ref id, cell.Def.InternalName,
                 FieldMetaData.Get(cell.Def),
                 cell.Value.GetType(),
                 cell.GetType().GetProperty("Value"),
-                cell, null, propSearchRx, activeParam, isPinned);
+                cell,
+                null,
+                propSearchRx,
+                activeParam,
+                isPinned);
         }
-        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, object compareval, bool showCompare, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? nullableRow, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, List<object> auxVals, object compareval, bool showParamCompare, bool showRowCompare, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? nullableRow, Regex propSearchRx, string activeParam, bool isPinned)
         {
             List<string> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
@@ -434,14 +474,16 @@ namespace StudioCore.ParamEditor
             bool changed = false;
             bool committed = false;
 
-            bool diffVanilla = vanillaval != null && !(oldval.Equals(vanillaval) || (propType == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])oldval, (byte[])vanillaval)));
-            bool diffCompare = compareval != null && !(oldval.Equals(compareval) || (propType == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])oldval, (byte[])compareval)));
-            //bool diffCompare = vanillaval != null && compareval != null && !(compareval.Equals(vanillaval) || (propType == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])compareval, (byte[])vanillaval)));
-            //bool diffConclift = diffVanilla && diffCompare;
+            bool diffVanilla = ParamUtils.IsValueDiff(ref oldval, ref vanillaval, propType);
+            bool diffCompare = ParamUtils.IsValueDiff(ref oldval, ref compareval, propType);
+            List<bool> diffAuxVanilla = auxVals.Select((o, i) => ParamUtils.IsValueDiff(ref o, ref vanillaval, propType)).ToList();
+            bool conflict = diffVanilla && diffAuxVanilla.Contains(true);
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
-            if (diffVanilla)
+            if (conflict)
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1f));
+            else if (diffVanilla)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
             if (isRef)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
@@ -468,16 +510,32 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                 }
             }
-            if (diffVanilla)
+            if (conflict || diffVanilla)
                 ImGui.PopStyleColor();
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
+            if (conflict)
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1f));
             if (ParamEditorScreen.ShowVanillaParamsPreference)
             {
                 ImGui.NextColumn();
                 AdditionalColumnValue(vanillaval, propType, bank, RefTypes, Enum);
             }
-            if (showCompare)
+            if (showParamCompare)
+            {
+                for (int i=0; i<auxVals.Count; i++)
+                {
+                    if (!conflict && diffAuxVanilla[i])
+                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));
+                    ImGui.NextColumn();
+                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, Enum);
+                    if (!conflict && diffAuxVanilla[i])
+                        ImGui.PopStyleColor();
+                }
+                if (conflict)
+                    ImGui.PopStyleColor();
+            }
+            if (showRowCompare)
             {
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));

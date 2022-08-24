@@ -22,6 +22,7 @@ namespace StudioCore.ParamEditor
     {
         public static ParamBank PrimaryBank = new ParamBank();
         public static ParamBank VanillaBank = new ParamBank();
+        public static Dictionary<string, ParamBank> AuxBanks = new Dictionary<string, ParamBank>();
 
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
@@ -57,7 +58,7 @@ namespace StudioCore.ParamEditor
             get => _paramVersion;
         }
         
-        public IReadOnlyDictionary<string, HashSet<int>> DirtyParamCache
+        public IReadOnlyDictionary<string, HashSet<int>> DiffParamCache
         {
             get
             {
@@ -565,6 +566,8 @@ namespace StudioCore.ParamEditor
             _paramdefs = new Dictionary<string, PARAMDEF>();
             IsDefsLoaded = false;
             
+            AuxBanks = new Dictionary<string, ParamBank>();
+            
             PrimaryBank._params = new Dictionary<string, Param>();
             PrimaryBank.IsLoadingParams = true;
             
@@ -662,6 +665,25 @@ namespace StudioCore.ParamEditor
                 }
             });
         }
+        public static void LoadAuxBank(string path)
+        {
+            // Steal assetlocator
+            AssetLocator locator = PrimaryBank.AssetLocator;
+            ParamBank newBank = new ParamBank();
+            newBank.SetAssetLocator(locator);
+            newBank._params = new Dictionary<string, Param>();
+            newBank.IsLoadingParams = true;
+            if (locator.Type == GameType.EldenRing)
+            {
+                newBank.LoadParamsERFromFile(path);
+            }
+            newBank.ClearParamDiffCache();
+            newBank.IsLoadingParams = false;
+            newBank.RefreshParamDiffCache(VanillaBank);
+            AuxBanks[Path.GetFileName(Path.GetDirectoryName(path))] = newBank;
+        }
+
+
         public void ClearParamDiffCache()
         {
             _paramDiffCache = new Dictionary<string, HashSet<int>>();
@@ -695,7 +717,7 @@ namespace StudioCore.ParamEditor
                     int ID = rows[i].ID;
                     if (ID == lastID)
                     {
-                        refreshParamRowDirtyCache(rows[i], lastVanillaRows, cache);
+                        RefreshParamRowDiffCache(rows[i], lastVanillaRows, cache);
                     }
                     else
                     {
@@ -704,7 +726,7 @@ namespace StudioCore.ParamEditor
                             vanillaIndex++;
                         if (vanillaIndex >= vrows.Length)
                         {
-                            refreshParamRowDirtyCache(rows[i], Span<Param.Row>.Empty, cache);
+                            RefreshParamRowDiffCache(rows[i], Span<Param.Row>.Empty, cache);
                         }
                         else
                         {
@@ -712,7 +734,7 @@ namespace StudioCore.ParamEditor
                             while (vanillaIndex + count < vrows.Length && vrows[vanillaIndex + count].ID == ID)
                                 count++;
                             lastVanillaRows = new ReadOnlySpan<Param.Row>(vrows, vanillaIndex, count);
-                            refreshParamRowDirtyCache(rows[i], lastVanillaRows, cache);
+                            RefreshParamRowDiffCache(rows[i], lastVanillaRows, cache);
                             vanillaIndex += count;
                         }
                     }
@@ -720,7 +742,7 @@ namespace StudioCore.ParamEditor
             }
             _paramDiffCache = newCache;
         }
-        public static void refreshParamRowDirtyCache(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows, HashSet<int> cache)
+        public static void RefreshParamRowDiffCache(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows, HashSet<int> cache)
         {
             if (IsChanged(row, vanillaRows))
                 cache.Add(row.ID);
@@ -728,7 +750,7 @@ namespace StudioCore.ParamEditor
                 cache.Remove(row.ID);
         }
         
-        public static void refreshParamRowDirtyCache(Param.Row row, Param vanillaParam, HashSet<int> cache)
+        public static void RefreshParamRowDiffCache(Param.Row row, Param vanillaParam, HashSet<int> cache)
         {
             var vanillaRows = vanillaParam.Rows.Where(cell => cell.ID == row.ID).ToArray();
             if (IsChanged(row, vanillaRows))

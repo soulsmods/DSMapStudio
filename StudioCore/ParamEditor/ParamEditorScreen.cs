@@ -455,10 +455,6 @@ namespace StudioCore.ParamEditor
                 {
                     ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank);
                 }
-                if (ImGui.MenuItem("Clear current comparison", null, false, _activeView != null && _activeView._selection.getCompareRow() != null))
-                {
-                    _activeView._selection.SetCompareRow(null);
-                }
                 ImGui.Separator();
                 if (ImGui.MenuItem("Show alternate field names", null, ShowAltNamesPreference))
                     ShowAltNamesPreference = !ShowAltNamesPreference;
@@ -519,6 +515,46 @@ namespace StudioCore.ParamEditor
                 if (activeParam != null && _projectSettings.GameType == GameType.DarkSoulsIII)
                 {
                     ParamReloader.GiveItemMenu(ParamBank.PrimaryBank.AssetLocator, _activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
+                }
+                ImGui.EndMenu();
+            }
+            if (ImGui.BeginMenu("Compare"))
+            {
+                if (ImGui.MenuItem("Clear current row comparison", null, false, _activeView != null && _activeView._selection.getCompareRow() != null))
+                {
+                    _activeView._selection.SetCompareRow(null);
+                }
+                ImGui.Separator();
+                // Only support ER for now
+                if (ImGui.MenuItem("Load Params for comparison...", null, false, _projectSettings.GameType == GameType.EldenRing))
+                {
+                    try
+                    {
+                        var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                        {
+                            Filter = AssetLocator.ParamFilter,
+                            ValidateNames = true,
+                            CheckFileExists = true,
+                            CheckPathExists = true,
+                            //ShowReadOnly = true,
+                        };
+                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            ParamBank.LoadAuxBank(rbrowseDlg.FileName);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Windows.Forms.MessageBox.Show(
+                        $@"Unable to load regulation.\n"+e.Message, 
+                        "Loading error",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+                }
+                if (ImGui.MenuItem("Clear all param comparisons", null, false, ParamBank.AuxBanks.Count > 0))
+                {
+                    ParamBank.AuxBanks = new Dictionary<string, ParamBank>();
                 }
                 ImGui.EndMenu();
             }
@@ -770,9 +806,9 @@ namespace StudioCore.ParamEditor
                     {
                         doFocus = initcmd[0] == "select";
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(), 
+                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(), 
                                 ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
+                                ParamBank.PrimaryBank.DiffParamCache[_activeView._selection.getActiveParam()]);
 
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
@@ -802,9 +838,9 @@ namespace StudioCore.ParamEditor
                             }
                         }
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.refreshParamRowDirtyCache(_activeView._selection.getActiveRow(),
+                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
                                 ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.DirtyParamCache[_activeView._selection.getActiveParam()]);
+                                ParamBank.PrimaryBank.DiffParamCache[_activeView._selection.getActiveParam()]);
 
                     }
                 }
@@ -1180,6 +1216,8 @@ namespace StudioCore.ParamEditor
 
     public class ParamEditorView
     {
+        private static Vector4 CONFLICTCOLOUR = new Vector4(1,0.7f,0.7f,1);
+        private static Vector4 DIFFEDCOLOUR = new Vector4(0.7f,0.7f,1,1);
         private static Vector4 DIRTYCOLOUR = new Vector4(0.7f,1,0.7f,1);
         private static Vector4 CLEANCOLOUR = new Vector4(0.9f,0.9f,0.9f,1);
 
@@ -1279,7 +1317,8 @@ namespace StudioCore.ParamEditor
             else
             {
                 Param para = ParamBank.PrimaryBank.Params[activeParam];
-                HashSet<int> dirtyCache = ParamBank.PrimaryBank.DirtyParamCache[activeParam];
+                HashSet<int> dirtyCache = ParamBank.PrimaryBank.DiffParamCache[activeParam];
+                List<HashSet<int>> diffCaches = ParamBank.AuxBanks.Select((bank, i) => bank.Value.DiffParamCache[activeParam]).ToList();
                 IParamDecorator decorator = null;
                 if (_paramEditor._decorators.ContainsKey(activeParam))
                 {
@@ -1336,7 +1375,7 @@ namespace StudioCore.ParamEditor
                             _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                             continue;
                         }
-                        RowColumnEntry(activeParam, null, para[rowID], dirtyCache, decorator, ref scrollTo, false, true);
+                        RowColumnEntry(activeParam, null, para[rowID], dirtyCache, diffCaches, decorator, ref scrollTo, false, true);
                     }
 
                     ImGui.Spacing();
@@ -1349,7 +1388,7 @@ namespace StudioCore.ParamEditor
 
                 foreach (var r in rows)
                 {
-                    RowColumnEntry(activeParam, rows, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                    RowColumnEntry(activeParam, rows, r, dirtyCache, diffCaches, decorator, ref scrollTo, doFocus, false);
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
@@ -1366,17 +1405,36 @@ namespace StudioCore.ParamEditor
             else
             {
                 ImGui.BeginChild("columns" + activeParam);
-                _propEditor.PropEditorParamRow(ParamBank.PrimaryBank, activeRow, ParamBank.VanillaBank.Params?[activeParam][activeRow.ID], _selection.getCompareRow(), ref _selection.getCurrentPropSearchString(), activeParam, isActiveView);
+                _propEditor.PropEditorParamRow(
+                    ParamBank.PrimaryBank,
+                    activeRow,
+                    ParamBank.VanillaBank.Params?[activeParam][activeRow.ID],
+                    ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?[activeParam][activeRow.ID])).ToList(),
+                    _selection.getCompareRow(),
+                    ref _selection.getCurrentPropSearchString(),
+                    activeParam,
+                    isActiveView);
             }
             ImGui.EndChild();
         }
 
-        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> dirtyCache, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
+        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> dirtyCache, List<HashSet<int>> diffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
+            bool diffCacheChanges = diffCaches.Where((cache) => cache.Contains(r.ID)).Count() > 0;
             if (dirtyCache != null && dirtyCache.Contains(r.ID))
-                ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
+            {
+                if (diffCacheChanges)
+                    ImGui.PushStyleColor(ImGuiCol.Text, CONFLICTCOLOUR);
+                else
+                    ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
+            }
             else
-                ImGui.PushStyleColor(ImGuiCol.Text, CLEANCOLOUR);
+            {
+                if (diffCacheChanges)
+                    ImGui.PushStyleColor(ImGuiCol.Text, DIFFEDCOLOUR);
+                else
+                    ImGui.PushStyleColor(ImGuiCol.Text, CLEANCOLOUR);
+            }
 
             var selected = _selection.getSelectedRows().Contains(r);
             if (_gotoParamRow != -1)
