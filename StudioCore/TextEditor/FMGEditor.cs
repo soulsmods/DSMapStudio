@@ -270,9 +270,9 @@ namespace StudioCore.TextEditor
         }
 
         private int _idCache = 0;
-        public void PropIDFMG(FMGBank.EntryGroup eInfo, List<FMG.Entry> entryCache)
+        public void PropIDFMG(FMGBank.EntryGroup eGroup, List<FMG.Entry> entryCache)
         {
-            var oldID = eInfo.ID;
+            var oldID = eGroup.ID;
             var id = oldID;
             if (ImGui.InputInt("##id", ref id))
             {
@@ -286,7 +286,7 @@ namespace StudioCore.TextEditor
                     // Forbid duplicate IDs
                     if (entryCache.Find(e => e.ID == id) == null)
                     {
-                        UpdateProperty(eInfo.GetType().GetProperty("ID"), eInfo, _idCache);
+                        UpdateProperty(eGroup.GetType().GetProperty("ID"), eGroup, _idCache);
                     }
                 }
             }

@@ -51,11 +51,11 @@ namespace StudioCore.TextEditor
             /// Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
             /// If a PatchParent exists, it will be checked instead.
             /// </summary>
-            public List<EntryFMGInfoPair> PatchedEntryFMGPairs(bool sort = true)
+            public List<EntryFMGInfoPair> GetPatchedEntryFMGPairs(bool sort = true)
             {
                 if (PatchParent != null)
                 {
-                    return PatchParent.PatchedEntryFMGPairs(sort);
+                    return PatchParent.GetPatchedEntryFMGPairs(sort);
                 }
 
                 List<EntryFMGInfoPair> list = new();
@@ -94,11 +94,11 @@ namespace StudioCore.TextEditor
             /// Returns a patched list of entries in this FMGInfo and its children.
             /// If a PatchParent exists, it will be checked instead.
             /// </summary>
-            public List<FMG.Entry> PatchedEntries(bool sort = true)
+            public List<FMG.Entry> GetPatchedEntries(bool sort = true)
             {
                 if (PatchParent != null)
                 {
-                    return PatchParent.PatchedEntries(sort);
+                    return PatchParent.GetPatchedEntries(sort);
                 }
 
                 List<FMG.Entry> list = new();
@@ -217,7 +217,7 @@ namespace StudioCore.TextEditor
                 var id = ID;
                 if (TextBody != null)
                 {
-                    var entries = TextBodyInfo.PatchedEntries();
+                    var entries = TextBodyInfo.GetPatchedEntries();
                     do
                     {
                         id++;
@@ -226,7 +226,7 @@ namespace StudioCore.TextEditor
                 }
                 else if (Title != null)
                 {
-                    var entries = TitleInfo.PatchedEntries();
+                    var entries = TitleInfo.GetPatchedEntries();
                     do
                     {
                         id++;
@@ -235,7 +235,7 @@ namespace StudioCore.TextEditor
                 }
                 else if (Summary != null)
                 {
-                    var entries = SummaryInfo.PatchedEntries();
+                    var entries = SummaryInfo.GetPatchedEntries();
                     do
                     {
                         id++;
@@ -244,7 +244,7 @@ namespace StudioCore.TextEditor
                 }
                 else if (Description != null)
                 {
-                    var entries = DescriptionInfo.PatchedEntries();
+                    var entries = DescriptionInfo.GetPatchedEntries();
                     do
                     {
                         id++;
@@ -917,7 +917,7 @@ namespace StudioCore.TextEditor
             return str;
         }
 
-        public static FMGInfo SetFMGInfo(BinderFile file)
+        private static FMGInfo GenerateFMGInfo(BinderFile file)
         {
             var fmg = FMG.Read(file.Bytes);
             var name = Enum.GetName(typeof(FmgIDType), file.ID);
@@ -955,7 +955,7 @@ namespace StudioCore.TextEditor
             return info;
         }
 
-        public static void SetFMGInfoDS2(string file)
+        private static void SetFMGInfoDS2(string file)
         {
             // TODO: DS2 FMG grouping & UI sorting (copy SetFMGInfo)
             var fmg = FMG.Read(file);
@@ -978,7 +978,7 @@ namespace StudioCore.TextEditor
         /// Loads MSGbnd from path, generates FMGInfo, and fills FmgInfoBank.
         /// </summary>
         /// <returns>True if successful; false otherwise.</returns>
-        private static bool LoadMSGBND(string path)
+        private static bool LoadMsgBnd(string path)
         {
             if (path == null)
             {
@@ -1000,7 +1000,7 @@ namespace StudioCore.TextEditor
 
             foreach (var file in fmgBinder.Files)
             {
-                _fmgInfoBank.Add(SetFMGInfo(file));
+                _fmgInfoBank.Add(GenerateFMGInfo(file));
             }
             return true;
         }
@@ -1035,8 +1035,8 @@ namespace StudioCore.TextEditor
                 var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
                 var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
                 _fmgInfoBank.Clear();
-                LoadMSGBND(itemMsgPath.AssetPath);
-                LoadMSGBND(menuMsgPath.AssetPath);
+                LoadMsgBnd(itemMsgPath.AssetPath);
+                LoadMsgBnd(menuMsgPath.AssetPath);
 
                 _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
 
@@ -1051,7 +1051,7 @@ namespace StudioCore.TextEditor
             }
         }
 
-        public static void ReloadDS2FMGs(ref string languageFolder)
+        private static void ReloadDS2FMGs(ref string languageFolder)
         {
             var desc = AssetLocator.GetItemMsgbnd(ref languageFolder, true);
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
@@ -1077,7 +1077,7 @@ namespace StudioCore.TextEditor
         /// <summary>
         /// Checks for FMG info that differs per-game
         /// </summary>
-        public static void ApplyGameDifferences(FMGInfo info)
+        private static void ApplyGameDifferences(FMGInfo info)
         {
             var gameType = AssetLocator.Type;
             switch (info.FmgID)
@@ -1132,7 +1132,7 @@ namespace StudioCore.TextEditor
             {
                 if (info.EntryCategory == category && info.EntryType == textType)
                 {
-                    return info.PatchedEntries(sort);
+                    return info.GetPatchedEntries(sort);
                 }
             }
             return new List<FMG.Entry>();
@@ -1144,16 +1144,16 @@ namespace StudioCore.TextEditor
         /// </summary>
         public static EntryGroup GenerateEntryGroup(int id, FMGInfo fmgInfo)
         {
-            EntryGroup eInfo = new()
+            EntryGroup eGroup = new()
             {
                 ID = id,
             };
             if (fmgInfo.EntryCategory == FmgEntryCategory.None)
             {
-                var entryPairs = fmgInfo.PatchedEntryFMGPairs();
+                var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
                 var pair = entryPairs.Find(e => e.Entry.ID == id);
-                eInfo.TextBody = pair.Entry;
-                eInfo.TextBodyInfo = pair.FmgInfo;
+                eGroup.TextBody = pair.Entry;
+                eGroup.TextBodyInfo = pair.FmgInfo;
             }
             else
             {
@@ -1161,30 +1161,30 @@ namespace StudioCore.TextEditor
                 {
                     if (info.EntryCategory == fmgInfo.EntryCategory && info.PatchParent == null)
                     {
-                        var entryPairs = info.PatchedEntryFMGPairs();
+                        var entryPairs = info.GetPatchedEntryFMGPairs();
                         var pair = entryPairs.Find(e => e.Entry.ID == id);
                         if (pair != null)
                         {
                             switch (info.EntryType)
                             {
                                 case FmgEntryTextType.Title:
-                                    eInfo.Title = pair.Entry;
-                                    eInfo.TitleInfo = pair.FmgInfo;
+                                    eGroup.Title = pair.Entry;
+                                    eGroup.TitleInfo = pair.FmgInfo;
                                     break;
                                 case FmgEntryTextType.Summary:
-                                    eInfo.Summary = pair.Entry;
-                                    eInfo.SummaryInfo = pair.FmgInfo;
+                                    eGroup.Summary = pair.Entry;
+                                    eGroup.SummaryInfo = pair.FmgInfo;
                                     break;
                                 case FmgEntryTextType.Description:
-                                    eInfo.Description = pair.Entry;
-                                    eInfo.DescriptionInfo = pair.FmgInfo;
+                                    eGroup.Description = pair.Entry;
+                                    eGroup.DescriptionInfo = pair.FmgInfo;
                                     break;
                             }
                         }
                     }
                 }
             }
-            return eInfo;
+            return eGroup;
         }
 
         public static bool ExportFMGs()

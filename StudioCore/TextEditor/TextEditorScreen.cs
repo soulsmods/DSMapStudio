@@ -296,7 +296,7 @@ namespace StudioCore.TextEditor
             {
                 _entryLabelCache = CacheBank.GetCached(this, "FMGEntryCache", () =>
                 {
-                    return _activeFmgInfo.PatchedEntries();
+                    return _activeFmgInfo.GetPatchedEntries();
                 });
             }
 
