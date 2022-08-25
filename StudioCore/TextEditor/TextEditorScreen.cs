@@ -287,6 +287,7 @@ namespace StudioCore.TextEditor
                     ImGui.Separator();
                     ImGui.Text($"  {v.Key} Text");
                     ImGui.Separator();
+                    // Categories
                     CategoryListUI(v.Key, doFocus);
                     ImGui.Spacing();
                 }
@@ -321,6 +322,7 @@ namespace StudioCore.TextEditor
                 _searchFilter = "";
             ImGui.SameLine();
 
+            // Search
             if (InputTracker.GetControlShortcut(Key.F))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText("Search <Ctrl+F>", ref _searchFilter, 255);
@@ -338,10 +340,13 @@ namespace StudioCore.TextEditor
             }
             else
             {
+                // Up/Down arrow key input
                 if (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
                 {
                     _arrowKeyPressed = true;
                 }
+
+                // Entries
                 foreach (var r in _EntryLabelCacheFiltered)
                 {
                     var text = (r.Text == null) ? "%null%" : r.Text; 
@@ -355,14 +360,15 @@ namespace StudioCore.TextEditor
                         _searchFilterCached = "";
                         doFocus = true;
                     }
+
                     if (_arrowKeyPressed && ImGui.IsItemFocused()
                         && _activeEntryGroup?.ID != r.ID)
                     {
-                        // Up/Down arrow selection
+                        // Up/Down arrow key selection
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                        ImGui.SetKeyboardFocusHere(-1);
                         _arrowKeyPressed = false;
                     }
+
                     if (ImGui.BeginPopupContextItem())
                     {
                         if (ImGui.Selectable("Duplicate Entry"))
