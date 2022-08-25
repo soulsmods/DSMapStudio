@@ -1045,11 +1045,14 @@ namespace StudioCore.TextEditor
                 var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
 
                 _fmgInfoBank.Clear();
-
-                if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd"))
+                if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd")
+                    || !LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
+                {
+                    _fmgInfoBank.Clear();
+                    IsLoaded = false;
+                    IsLoading = false;
                     return;
-                if (!LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
-                    return;
+                }
 
                 _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
 
