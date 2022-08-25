@@ -100,14 +100,21 @@ namespace StudioCore.TextEditor
                 }
                 ImGui.EndMenu();
             }
-            if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
+            if (ImGui.BeginMenu("Text Language"))
             {
                 var folders = FMGBank.AssetLocator.GetMsgLanguages();
-                foreach (var path in folders)
+                if (folders.Count == 0)
                 {
-                    if (ImGui.MenuItem(path.Key, true))
+                    ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), "Cannot find language folders.");
+                }
+                else
+                {
+                    foreach (var path in folders)
                     {
-                        ChangeLanguage(path.Key);
+                        if (ImGui.MenuItem(path.Key, true))
+                        {
+                            ChangeLanguage(path.Key);
+                        }
                     }
                 }
                 ImGui.EndMenu();

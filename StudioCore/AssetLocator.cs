@@ -468,31 +468,36 @@ namespace StudioCore
         {
             Dictionary<string, string> dict = new();
             List<string> folders = new();
+            try
+            {
+                if (Type == GameType.DemonsSouls)
+                {
+                    folders = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
+                    // Japanese uses root directory
+                    if (File.Exists(GameRootDirectory + @"\msg\menu.msgbnd.dcx") || File.Exists(GameRootDirectory + @"\msg\item.msgbnd.dcx"))
+                        dict.Add("Japanese", "");
+                }
+                else if (Type == GameType.DarkSoulsIISOTFS)
+                {
+                    folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
+                }
+                else
+                {
+                    // Exclude folders that don't have typical msgbnds
+                    folders = Directory.GetDirectories(GameRootDirectory + @"\msg").Where(x => !"common,as,eu,jp,na,uk,japanese".Contains(x.Split("\\").Last())).ToList();
+                }
 
-            if (Type == GameType.DemonsSouls)
-            {
-                folders = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
-                // Japanese uses root directory
-                if (File.Exists(GameRootDirectory + @"\msg\menu.msgbnd.dcx") || File.Exists(GameRootDirectory + @"\msg\item.msgbnd.dcx"))
-                    dict.Add("Japanese", "");
+                foreach (var path in folders)
+                {
+                    dict.Add(path.Split("\\").Last(), path);
+                }
             }
-            else if (Type == GameType.DarkSoulsIISOTFS)
+            catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
             {
-                folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
             }
-            else
-            {
-                // Exclude folders that don't have typical msgbnds
-                folders = Directory.GetDirectories(GameRootDirectory + @"\msg").Where(x => !"common,as,eu,jp,na,uk,japanese".Contains(x.Split("\\").Last())).ToList();
-            }
-
-            foreach (var path in folders)
-            {
-                dict.Add(path.Split("\\").Last(), path);
-            }
-
             return dict;
         }
+
         /// <summary>
         /// Get path of item.msgbnd (english by default)
         /// </summary>
@@ -509,6 +514,7 @@ namespace StudioCore
         }
         public AssetDescription GetMsgbnd(string msgBndType, ref string langFolder, bool writemode = false)
         {
+            AssetDescription ad = new();
             if (langFolder == "")
             {
                 //pick default (english) path
@@ -522,7 +528,10 @@ namespace StudioCore
                     }
                 }
                 if (langFolder == "")
-                    throw new Exception("Could not find english text msgbnd");
+                {
+                    // Could not find default [english] text msgbnd.
+                    return ad;
+                }
             }
 
             string path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
@@ -557,7 +566,6 @@ namespace StudioCore
                 path = $@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx";
             }
 
-            AssetDescription ad = new AssetDescription();
             if (writemode)
             {
                 ad.AssetPath = path;

@@ -978,12 +978,20 @@ namespace StudioCore.TextEditor
         /// Loads MSGbnd from path, generates FMGInfo, and fills FmgInfoBank.
         /// </summary>
         /// <returns>True if successful; false otherwise.</returns>
-        private static bool LoadMsgBnd(string path)
+        private static bool LoadMsgBnd(string path, string msgBndType = "UNDEFINED")
         {
             if (path == null)
             {
-                MessageBox.Show($"Could not find {path}", "Error");
-                IsLoaded = true; //permits loading default language
+                if (_languageFolder == "")
+                {
+                    // Default language folder could not be found.
+                }
+                else
+                {
+                    MessageBox.Show($"Could not find {msgBndType} in language folder \"{_languageFolder}\".\nText data will not be loaded.", "Error");
+                }
+                
+                IsLoaded = false;
                 IsLoading = false;
                 return false;
             }
@@ -1004,6 +1012,7 @@ namespace StudioCore.TextEditor
             }
             return true;
         }
+
         public static void ReloadFMGs(string languageFolder = "")
         {
             try
@@ -1034,9 +1043,13 @@ namespace StudioCore.TextEditor
 
                 var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
                 var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+
                 _fmgInfoBank.Clear();
-                LoadMsgBnd(itemMsgPath.AssetPath);
-                LoadMsgBnd(menuMsgPath.AssetPath);
+
+                if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd"))
+                    return;
+                if (!LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
+                    return;
 
                 _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
 
