@@ -751,27 +751,27 @@ namespace StudioCore.Scene
             return new RenderKey((code << 41) | (index << 40) | ((ulong)(_renderablesSet.cDrawParameters[_renderable]._bufferIndex & 0xFF) << 32) + cameraDistanceInt);
         }
 
-        public static MeshRenderableProxy MeshRenderableFromFlverResource(RenderScene scene, ResourceHandle<FlverResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromFlverResource(RenderScene scene, string virtualPath)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetFlverMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetFlverMeshProvider(virtualPath));
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromCollisionResource(RenderScene scene, ResourceHandle<HavokCollisionResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromCollisionResource(RenderScene scene, string virtualPath)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetCollisionMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetCollisionMeshProvider(virtualPath));
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromNVMResource(RenderScene scene, ResourceHandle<NVMNavmeshResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromNVMResource(RenderScene scene, string virtualPath)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetNVMMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetNVMMeshProvider(virtualPath));
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(RenderScene scene, ResourceHandle<HavokNavmeshResource> handle, bool temp=false)
+        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(RenderScene scene, string virtualPath, bool temp=false)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetHavokNavMeshProvider(handle, temp));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetHavokNavMeshProvider(virtualPath, temp));
             return renderable;
         }
     }

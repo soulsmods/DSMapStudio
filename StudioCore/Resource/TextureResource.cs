@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading.Tasks.Dataflow;
 using SoulsFormats;
 using Veldrid;
 
@@ -11,6 +12,38 @@ namespace StudioCore.Resource
 {
     public class TextureResource : IResource, IDisposable
     {
+        private class TextureLoadPipeline : IResourceLoadPipeline
+        {
+            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => throw new NotImplementedException();
+            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => throw new NotImplementedException();
+
+            public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest =>
+                _loadTPFResourcesTransform;
+
+            private ActionBlock<LoadTPFTextureResourceRequest> _loadTPFResourcesTransform;
+
+            private ITargetBlock<IResourceHandle> _loadedResources = null;
+
+            public TextureLoadPipeline(ITargetBlock<IResourceHandle> target)
+            {
+                _loadedResources = target;
+                _loadTPFResourcesTransform = new ActionBlock<LoadTPFTextureResourceRequest>(r =>
+                {
+                    var res = new TextureResourceHandle(r.virtualPath);
+                    bool success = res._LoadTextureResource(r.tpf, r.index, r.AccessLevel, r.GameType);
+                    if (success)
+                    {
+                        _loadedResources.Post(res);
+                    }
+                });
+            }
+        }
+
+        public static IResourceLoadPipeline CreatePipeline(ITargetBlock<IResourceHandle> target)
+        {
+            return new TextureLoadPipeline(target);
+        }
+        
         public TPF Texture { get; private set; } = null;
         private int TPFIndex = 0;
 

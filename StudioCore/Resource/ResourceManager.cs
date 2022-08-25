@@ -11,6 +11,7 @@ using System.Numerics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
+using Accessibility;
 using SoulsFormats;
 using ImGuiNET;
 
@@ -68,7 +69,6 @@ namespace StudioCore.Resource
             public TPF _tpf = null;
             public AccessLevel _accessLevel = AccessLevel.AccessGPUOptimizedOnly;
             public GameType _game;
-            public List<Tuple<TextureResourceHande, string, int>> _pendingResources = new List<Tuple<TextureResourceHande, string, int>>();
 
             public LoadTPFResourcesAction (ResourceJob job, string virtpathbase, TPF tpf, AccessLevel al, GameType type)
             {
@@ -80,32 +80,24 @@ namespace StudioCore.Resource
             }
         }
 
-        private static IResourceHandle[] LoadTPFResources(LoadTPFResourcesAction action)
+        private static LoadTPFTextureResourceRequest[] LoadTPFResources(LoadTPFResourcesAction action)
         {
             var ctx = Tracy.TracyCZoneN(1, $@"LoadTPFResourcesTask::Run {action._virtpathbase}");
             if (!CFG.Current.EnableTexturing)
             {
-                action._pendingResources.Clear();
                 action._tpf = null;
                 Tracy.TracyCZoneEnd(ctx);
-                return new IResourceHandle[]{};
+                return new LoadTPFTextureResourceRequest[]{};
             }
 
             action._job.IncrementEstimateTaskSize(action._tpf.Textures.Count);
-            var ret = new IResourceHandle[action._tpf.Textures.Count];
+            var ret = new LoadTPFTextureResourceRequest[action._tpf.Textures.Count];
             for (int i = 0; i < action._tpf.Textures.Count; i++)
             {
                 var tex = action._tpf.Textures[i];
-                var handle = ResourceManager.GetTextureResource($@"{action._virtpathbase}/{tex.Name.ToLower()}");
-                action._pendingResources.Add(new Tuple<TextureResourceHande, string, int>(handle, $@"{action._virtpathbase}/{tex.Name}", i));
-                ret[i] = handle;
+                ret[i] = new LoadTPFTextureResourceRequest($@"{action._virtpathbase}/{tex.Name}", action._tpf, i, action._accessLevel, action._game);
             }
-
-            foreach (var t in action._pendingResources)
-            {
-                t.Item1._LoadTextureResource(action._tpf, t.Item3, action._accessLevel, action._game);
-            }
-            action._pendingResources.Clear();
+            
             action._tpf = null;
             Tracy.TracyCZoneEnd(ctx);
             return ret;
@@ -199,20 +191,20 @@ namespace StudioCore.Resource
                             (filevirtpath.ToUpper().EndsWith(".HKX") ||
                              filevirtpath.ToUpper().EndsWith(".HKX.DCX")))
                         {
-                            handle = ResourceManager.GetResource<HavokCollisionResource>(filevirtpath);
+                           pipeline = _job.HavokCollisionLoadPipeline;
                         }
                         else if (ResourceMask.HasFlag(ResourceType.Navmesh) && filevirtpath.ToUpper().EndsWith(".NVM"))
                         {
-                            handle = ResourceManager.GetResource<NVMNavmeshResource>(filevirtpath);
+                            pipeline = _job.NVMNavmeshLoadPipeline;
                         }
                         else if (ResourceMask.HasFlag(ResourceType.NavmeshHKX) &&
                             (filevirtpath.ToUpper().EndsWith(".HKX") ||
                              filevirtpath.ToUpper().EndsWith(".HKX.DCX")))
                         {
-                            handle = ResourceManager.GetResource<HavokNavmeshResource>(filevirtpath);
+                            pipeline = _job.HavokNavmeshLoadPipeline;
                         }
 
-                        if (handle != null)
+                        if (pipeline != null)
                         {
                             PendingResources.Add(new Tuple<IResourceLoadPipeline, string, BinderFileHeader>(pipeline, filevirtpath, f));
                         }
@@ -258,12 +250,16 @@ namespace StudioCore.Resource
             private int TotalSize = 0;
             public int Progress { get; private set; } = 0;
             
-            private TransformManyBlock<LoadTPFResourcesAction, IResourceHandle> _loadTPFResources;
+            private TransformManyBlock<LoadTPFResourcesAction, LoadTPFTextureResourceRequest> _loadTPFResources;
             private ActionBlock<LoadBinderResourcesAction> _loadBinderResources;
             private BufferBlock<IResourceHandle> _processedResources;
             
             // Asset load pipelines
             internal IResourceLoadPipeline FlverLoadPipeline { get; }
+            internal IResourceLoadPipeline HavokCollisionLoadPipeline { get; }
+            internal IResourceLoadPipeline HavokNavmeshLoadPipeline { get; }
+            internal IResourceLoadPipeline NVMNavmeshLoadPipeline { get; }
+            internal IResourceLoadPipeline TPFTextureLoadPipeline { get; }
 
             public bool Finished { get; private set; } = false;
 
@@ -271,15 +267,18 @@ namespace StudioCore.Resource
             {
                 var options = new ExecutionDataflowBlockOptions() { MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded};
                 Name = name;
-                _loadTPFResources = new TransformManyBlock<LoadTPFResourcesAction, IResourceHandle>(LoadTPFResources, options);
+                _loadTPFResources = new TransformManyBlock<LoadTPFResourcesAction, LoadTPFTextureResourceRequest>(LoadTPFResources, options);
                 
                 //options.MaxDegreeOfParallelism = 4;
                 _loadBinderResources = new ActionBlock<LoadBinderResourcesAction>(LoadBinderResources, options);
                 _processedResources = new BufferBlock<IResourceHandle>();
-                _loadTPFResources.LinkTo(_processedResources);
 
-                FlverLoadPipeline = FlverResource.CreatePipeline();
-                FlverLoadPipeline.LinkTo(_processedResources);
+                FlverLoadPipeline = FlverResource.CreatePipeline(_processedResources);
+                HavokCollisionLoadPipeline = HavokCollisionResource.CreatePipeline(_processedResources);
+                HavokNavmeshLoadPipeline = HavokNavmeshResource.CreatePipeline(_processedResources);
+                NVMNavmeshLoadPipeline = NVMNavmeshResource.CreatePipeline(_processedResources);
+                TPFTextureLoadPipeline = TextureResource.CreatePipeline(_processedResources);
+                _loadTPFResources.LinkTo(TPFTextureLoadPipeline.LoadTPFTextureResourceRequest);
             }
 
             internal void IncrementEstimateTaskSize(int size)
@@ -329,6 +328,23 @@ namespace StudioCore.Resource
                 if (_processedResources.TryReceiveAll(out var processed))
                 {
                     Progress += processed.Count;
+                    foreach (var p in processed)
+                    {
+                        if (!ResourceDatabase.ContainsKey(p.AssetVirtualPath))
+                            ResourceDatabase.Add(p.AssetVirtualPath, new ResourceRegistration(p.AccessLevel));
+                        var reg = ResourceDatabase[p.AssetVirtualPath];
+                        reg.Handle = p;
+                        var newNotificationRequests = new List<AddResourceLoadNotificationRequest>();
+                        foreach (var r in reg.NotificationRequests)
+                        {
+                            if (CheckAccessLevel(r.AccessLevel, reg.AccessLevel))
+                                r.Listener.OnResourceLoaded(p, r.tag);
+                            else
+                                newNotificationRequests.Add(r);
+                        }
+
+                        reg.NotificationRequests = newNotificationRequests;
+                    }
                 }
             }
         }
@@ -391,7 +407,7 @@ namespace StudioCore.Resource
                 }
                 if (virtualPath.EndsWith(".hkx"))
                 {
-                    handle = GetResource<HavokCollisionResource>(virtualPath);
+                    pipeline = _job.HavokCollisionLoadPipeline;
                 }
                 else if (path.ToUpper().EndsWith(".TPF") || path.ToUpper().EndsWith(".TPF.DCX"))
                 {
@@ -424,9 +440,9 @@ namespace StudioCore.Resource
             /// </summary>
             public void AddLoadUDSFMTexturesTask()
             {
-                foreach (var r in ResourceDatabase)
+                /*foreach (var r in ResourceDatabase)
                 {
-                    if (r.Value is TextureResourceHande t && t.AccessLevel == AccessLevel.AccessUnloaded &&
+                    if (r.Value is TextureResourceHandle t && t.AccessLevel == AccessLevel.AccessUnloaded &&
                         t.GetReferenceCounts() > 0)
                     {
                         var texpath = r.Key;
@@ -440,7 +456,7 @@ namespace StudioCore.Resource
                             _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
-                }
+                }*/
             }
 
             /// <summary>
@@ -448,10 +464,10 @@ namespace StudioCore.Resource
             /// </summary>
             public void AddLoadUnloadedTextures()
             {
-                var assetTpfs = new HashSet<string>();
+                /*var assetTpfs = new HashSet<string>();
                 foreach (var r in ResourceDatabase)
                 {
-                    if (r.Value is TextureResourceHande t && t.AccessLevel == AccessLevel.AccessUnloaded &&
+                    if (r.Value is TextureResourceHandle t && t.AccessLevel == AccessLevel.AccessUnloaded &&
                         t.GetReferenceCounts() > 0)
                     {
                         var texpath = r.Key;
@@ -474,7 +490,7 @@ namespace StudioCore.Resource
                                 AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
-                }
+                }*/
             }
 
             public Task Complete()
@@ -499,12 +515,28 @@ namespace StudioCore.Resource
 
         public static AssetLocator Locator;
 
-        private static ConcurrentDictionary<string, IResourceHandle> ResourceDatabase = new ConcurrentDictionary<string, IResourceHandle>();
+        private class ResourceRegistration
+        {
+            public IResourceHandle? Handle { get; set; } = null;
+            public AccessLevel AccessLevel { get; set; }
+
+            public List<AddResourceLoadNotificationRequest> NotificationRequests { get; set; } =
+                new List<AddResourceLoadNotificationRequest>();
+
+            public ResourceRegistration(AccessLevel al)
+            {
+                AccessLevel = al;
+            }
+        }
+        
+        private static Dictionary<string, ResourceRegistration> ResourceDatabase = new Dictionary<string, ResourceRegistration>();
         private static ConcurrentDictionary<ResourceJob, int> ActiveJobProgress = new ConcurrentDictionary<ResourceJob, int>();
 
         private readonly record struct AddResourceLoadNotificationRequest(
             string ResourceVirtualPath,
-            IResourceEventListener Listener);
+            IResourceEventListener Listener,
+            AccessLevel AccessLevel,
+            int tag);
 
         private static BufferBlock<AddResourceLoadNotificationRequest> _notificationRequests =
             new BufferBlock<AddResourceLoadNotificationRequest>();
@@ -519,6 +551,20 @@ namespace StudioCore.Resource
         private static bool _scheduleUDSFMLoad = false;
         private static bool _scheduleUnloadedTexturesLoad = false;
 
+        /// <summary>
+        /// See if you can use a target resource's access level with a given access level
+        /// </summary>
+        /// <param name="src">The access level you want to use a resource at</param>
+        /// <param name="target">The access level the resource is at</param>
+        /// <returns></returns>
+        private static bool CheckAccessLevel(AccessLevel src, AccessLevel target)
+        {
+            // Full access level means anything can use it
+            if (target == AccessLevel.AccessFull)
+                return true;
+            return (src == target);
+        }
+        
         public static BinderReader InstantiateBinderReaderForFile(string filePath, GameType type)
         {
             if (filePath == null || !File.Exists(filePath))
@@ -543,22 +589,6 @@ namespace StudioCore.Resource
             }
         }
 
-        public static void LoadResource(string resourceVirtual)
-        {
-            Pending++;
-            Task.Run(() =>
-            {
-                string leftover;
-                var path = Locator.VirtualToRealPath(resourceVirtual, out leftover);
-                IBinder bnd = BND4.Read(path);
-                var flverbytes = bnd.Files.First(x => x.Name.ToUpper().Contains("FLVER")).Bytes;
-                IResourceHandle res = new ResourceHandle<FlverResource>(resourceVirtual);
-                res._LoadResource(flverbytes, AccessLevel.AccessGPUOptimizedOnly, Locator.Type);
-                ResourceDatabase[resourceVirtual] = res;
-                Finished++;
-            });
-        }
-
         public static void UnloadUnusedResources()
         {
             foreach (var r in ResourceDatabase)
@@ -580,9 +610,23 @@ namespace StudioCore.Resource
         /// </summary>
         /// <param name="resourceName"></param>
         /// <param name="listener"></param>
-        public static void GetResourceWhenAvailable(string resourceName, IResourceEventListener listener)
+        public static void GetResourceWhenAvailable(string resourceName, IResourceEventListener listener, AccessLevel al, int tag = 0)
         {
-            _notificationRequests.Post(new AddResourceLoadNotificationRequest(resourceName, listener));
+            _notificationRequests.Post(new AddResourceLoadNotificationRequest(resourceName, listener, al, tag));
+        }
+
+        public static void MarkResourceInFlight(string resourceName, AccessLevel al)
+        {
+            if (!ResourceDatabase.ContainsKey(resourceName))
+                ResourceDatabase.Add(resourceName, new ResourceRegistration(al));
+            ResourceDatabase[resourceName].AccessLevel = al;
+        }
+        
+        public static bool IsResourceLoadedOrInFlight(string resourceName, AccessLevel al)
+        {
+            return ResourceDatabase.ContainsKey(resourceName) &&
+                   CheckAccessLevel(al, ResourceDatabase[resourceName].AccessLevel);
+            //throw new NotImplementedException();
         }
         
         /*public static ResourceHandle<T> GetResource<T>(string resourceName) where T : class, IResource, IDisposable, new()
@@ -602,21 +646,21 @@ namespace StudioCore.Resource
             return (ResourceHandle<T>)ResourceDatabase[resourceName];
         }
 
-        public static TextureResourceHande GetTextureResource(string resourceName)
+        public static TextureResourceHandle GetTextureResource(string resourceName)
         {
             if (ResourceDatabase.ContainsKey(resourceName))
             {
-                return (TextureResourceHande)ResourceDatabase[resourceName];
+                return (TextureResourceHandle)ResourceDatabase[resourceName];
             }
             lock (AddResourceLock)
             {
-                var handle = new TextureResourceHande(resourceName);
+                var handle = new TextureResourceHandle(resourceName);
                 if (!ResourceDatabase.ContainsKey(resourceName))
                 {
                     ResourceDatabase[resourceName] = handle;
                 }
             }
-            return (TextureResourceHande)ResourceDatabase[resourceName];
+            return (TextureResourceHandle)ResourceDatabase[resourceName];
         }*/
 
         public static void ScheduleUDSMFRefresh()
@@ -631,6 +675,29 @@ namespace StudioCore.Resource
 
         public static void UpdateTasks()
         {
+            // Process any resource notification requests
+            var res = _notificationRequests.TryReceiveAll(out var requests);
+            if (res)
+            {
+                foreach (var r in requests)
+                {
+                    if (!ResourceDatabase.ContainsKey(r.ResourceVirtualPath))
+                    {
+                        ResourceDatabase.Add(r.ResourceVirtualPath, new ResourceRegistration(r.AccessLevel));
+                    }
+
+                    var registration = ResourceDatabase[r.ResourceVirtualPath];
+                    if (registration.Handle != null && CheckAccessLevel(r.AccessLevel, registration.AccessLevel))
+                    {
+                        r.Listener.OnResourceLoaded(registration.Handle, r.tag);
+                    }
+                    else
+                    {
+                        registration.NotificationRequests.Add(r);
+                    }
+                }
+            }
+            
             int count = ActiveJobProgress.Count();
             if (count > 0)
             {
@@ -730,13 +797,13 @@ namespace StudioCore.Resource
                 ImGui.Text(item.Key);
                 ImGui.NextColumn();
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(item.Value.IsLoaded() ? "Loaded" : "Unloaded");
+                ImGui.Text(item.Value.Handle != null ? "Loaded" : "Unloaded");
                 ImGui.NextColumn();
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text(item.Value.AccessLevel.ToString());
                 ImGui.NextColumn();
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text(item.Value.GetReferenceCounts().ToString());
+                ImGui.Text((item.Value.Handle == null) ? "0" : item.Value.Handle.GetReferenceCounts().ToString());
                 ImGui.NextColumn();
                 ImGui.PopID();
             }

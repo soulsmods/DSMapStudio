@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,30 +27,43 @@ namespace StudioCore.Resource
         {
             public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => _loadByteResourcesTransform;
             public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => _loadFileResourcesTransform;
+            public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest =>
+                throw new NotImplementedException();
 
             private ActionBlock<LoadByteResourceRequest> _loadByteResourcesTransform;
             private ActionBlock<LoadFileResourceRequest> _loadFileResourcesTransform;
 
             private ITargetBlock<IResourceHandle> _loadedResources = null;
 
-            public FlverLoadPipeline()
-            {
-                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>((r) =>
-                {
-                    var res = new FlverResource();
-                    res._Load(r.Data, r.AccessLevel, r.GameType);
-                });
-            }
-
-            public void LinkTo(ITargetBlock<IResourceHandle> target)
+            public FlverLoadPipeline(ITargetBlock<IResourceHandle> target)
             {
                 _loadedResources = target;
+                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
+                {
+                    var res = new ResourceHandle<FlverResource>(r.virtualPath);
+                    bool success = res._LoadResource(r.Data, r.AccessLevel, r.GameType);
+                    Debug.Write(r.virtualPath + "\n");
+                    if (success)
+                    {
+                        _loadedResources.Post(res);
+                    }
+                });
+                _loadFileResourcesTransform = new ActionBlock<LoadFileResourceRequest>(r =>
+                {
+                    var res = new ResourceHandle<FlverResource>(r.virtualPath);
+                    bool success = res._LoadResource(r.file, r.AccessLevel, r.GameType);
+                    Debug.Write(r.virtualPath + "\n");
+                    if (success)
+                    {
+                        _loadedResources.Post(res);
+                    }
+                });
             }
         }
 
-        public static IResourceLoadPipeline CreatePipeline()
+        public static IResourceLoadPipeline CreatePipeline(ITargetBlock<IResourceHandle> target)
         {
-            return new FlverLoadPipeline();
+            return new FlverLoadPipeline(target);
         }
         
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();
@@ -127,15 +141,22 @@ namespace StudioCore.Resource
             public VertexLayoutDescription VertexLayout;
             public uint VertexSize;
 
-            public TextureResourceHande AlbedoTextureResource = null;
-            public TextureResourceHande AlbedoTextureResource2 = null;
-            public TextureResourceHande NormalTextureResource = null;
-            public TextureResourceHande NormalTextureResource2 = null;
-            public TextureResourceHande SpecularTextureResource = null;
-            public TextureResourceHande SpecularTextureResource2 = null;
-            public TextureResourceHande ShininessTextureResource = null;
-            public TextureResourceHande ShininessTextureResource2 = null;
-            public TextureResourceHande BlendmaskTextureResource = null;
+            public enum TextureType
+            {
+                AlbedoTextureResource = 0,
+                AlbedoTextureResource2,
+                NormalTextureResource,
+                NormalTextureResource2,
+                SpecularTextureResource,
+                SpecularTextureResource2,
+                ShininessTextureResource,
+                ShininessTextureResource2,
+                BlendmaskTextureResource,
+                TextureResourceCount,
+            }
+
+            public readonly TextureResourceHandle?[] TextureResources = new TextureResourceHandle[(int)TextureType.TextureResourceCount];
+            
             private bool disposedValue;
 
             private bool _setNormalWBoneTransform = false;
@@ -149,8 +170,9 @@ namespace StudioCore.Resource
                 }
             }
 
-            private void SetMaterialTexture(TextureResourceHande handle, ref ushort matTex, ushort defaultTex)
+            private void SetMaterialTexture(TextureType textureType, ref ushort matTex, ushort defaultTex)
             {
+                var handle = TextureResources[(int)textureType];
                 if (handle != null && handle.IsLoaded && handle.TryLock())
                 {
                     var res = handle.Get();
@@ -170,38 +192,31 @@ namespace StudioCore.Resource
                 }
             }
 
-            private void ReleaseTexture(TextureResourceHande handle)
+            private void ReleaseTexture(TextureResourceHandle handle)
             {
-                if (handle != null)
-                {
-                    handle.Release();
-                }
+                handle.Release();
             }
 
             public void ReleaseTextures()
             {
-                ReleaseTexture(AlbedoTextureResource);
-                ReleaseTexture(AlbedoTextureResource2);
-                ReleaseTexture(NormalTextureResource);
-                ReleaseTexture(NormalTextureResource2);
-                ReleaseTexture(SpecularTextureResource);
-                ReleaseTexture(SpecularTextureResource2);
-                ReleaseTexture(ShininessTextureResource);
-                ReleaseTexture(ShininessTextureResource2);
-                ReleaseTexture(BlendmaskTextureResource);
+                foreach (var tex in TextureResources)
+                {
+                    if (tex != null)
+                        ReleaseTexture(tex);
+                }
             }
 
             public void UpdateMaterial()
             {
-                SetMaterialTexture(AlbedoTextureResource, ref MaterialData.colorTex, 0);
-                SetMaterialTexture(AlbedoTextureResource2, ref MaterialData.colorTex2, 0);
-                SetMaterialTexture(NormalTextureResource, ref MaterialData.normalTex, 1);
-                SetMaterialTexture(NormalTextureResource2, ref MaterialData.normalTex2, 1);
-                SetMaterialTexture(SpecularTextureResource, ref MaterialData.specTex, 2);
-                SetMaterialTexture(SpecularTextureResource2, ref MaterialData.specTex2, 2);
-                SetMaterialTexture(ShininessTextureResource, ref MaterialData.shininessTex, 2);
-                SetMaterialTexture(ShininessTextureResource2, ref MaterialData.shininessTex2, 2);
-                SetMaterialTexture(BlendmaskTextureResource, ref MaterialData.blendMaskTex, 0);
+                SetMaterialTexture(TextureType.AlbedoTextureResource, ref MaterialData.colorTex, 0);
+                SetMaterialTexture(TextureType.AlbedoTextureResource2, ref MaterialData.colorTex2, 0);
+                SetMaterialTexture(TextureType.NormalTextureResource, ref MaterialData.normalTex, 1);
+                SetMaterialTexture(TextureType.NormalTextureResource2, ref MaterialData.normalTex2, 1);
+                SetMaterialTexture(TextureType.SpecularTextureResource, ref MaterialData.specTex, 2);
+                SetMaterialTexture(TextureType.SpecularTextureResource2, ref MaterialData.specTex2, 2);
+                SetMaterialTexture(TextureType.ShininessTextureResource, ref MaterialData.shininessTex, 2);
+                SetMaterialTexture(TextureType.ShininessTextureResource2, ref MaterialData.shininessTex2, 2);
+                SetMaterialTexture(TextureType.BlendmaskTextureResource, ref MaterialData.blendMaskTex, 0);
 
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
@@ -211,13 +226,18 @@ namespace StudioCore.Resource
                 });
             }
 
-            public void OnResourceLoaded(IResourceHandle handle)
+            public void OnResourceLoaded(IResourceHandle handle, int tag)
             {
+                var texHandle = (TextureResourceHandle)handle;
+                texHandle.Acquire();
+                texHandle.AddResourceEventListener(this, tag);
+                TextureResources[tag] = texHandle;
                 UpdateMaterial();
             }
 
-            public void OnResourceUnloaded(IResourceHandle handle)
+            public void OnResourceUnloaded(IResourceHandle handle, int tag)
             {
+                TextureResources[tag] = null;
                 UpdateMaterial();
             }
 
@@ -337,7 +357,7 @@ namespace StudioCore.Resource
             return texpath;
         }
 
-        private void LookupTexture(ref TextureResourceHande handle, FlverMaterial dest, string type, string mpath, string mtd)
+        private void LookupTexture(FlverMaterial.TextureType textureType, FlverMaterial dest, string type, string mpath, string mtd)
         {
             var path = mpath;
             if (mpath == "")
@@ -368,10 +388,8 @@ namespace StudioCore.Resource
                     }
                 }
             }
-            handle = ResourceManager.GetTextureResource(TexturePathToVirtual(path.ToLower()));
-            handle.Acquire();
-            handle.AddResourceEventListener(dest);
-
+            ResourceManager.GetResourceWhenAvailable(TexturePathToVirtual(path.ToLower()), dest, 
+                AccessLevel.AccessGPUOptimizedOnly, (int)textureType);
         }
 
         private void ProcessMaterialTexture(FlverMaterial dest, string type, string mpath, string mtd,
@@ -394,46 +412,46 @@ namespace StudioCore.Resource
             }
             if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
             {
-                LookupTexture(ref dest.AlbedoTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource2, dest, type, mpath, mtd);
                 blend = true;
             }
             else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
             {
-                LookupTexture(ref dest.AlbedoTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource, dest, type, mpath, mtd);
             }
             else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
             {
-                LookupTexture(ref dest.NormalTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.NormalTextureResource2, dest, type, mpath, mtd);
                 blend = true;
                 hasNormal2 = true;
             }
             else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
             {
-                LookupTexture(ref dest.NormalTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.NormalTextureResource, dest, type, mpath, mtd);
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
             {
-                LookupTexture(ref dest.SpecularTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.SpecularTextureResource2, dest, type, mpath, mtd);
                 blend = true;
                 hasSpec2 = true;
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
             {
-                LookupTexture(ref dest.SpecularTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.SpecularTextureResource, dest, type, mpath, mtd);
             }
             else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
             {
-                LookupTexture(ref dest.ShininessTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, type, mpath, mtd);
                 blend = true;
                 hasShininess2 = true;
             }
             else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
             {
-                LookupTexture(ref dest.ShininessTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, type, mpath, mtd);
             }
             else if (paramNameCheck.Contains("BLENDMASK"))
             {
-                LookupTexture(ref dest.BlendmaskTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.BlendmaskTextureResource, dest, type, mpath, mtd);
                 blendMask = true;
             }
         }

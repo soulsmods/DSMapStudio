@@ -268,7 +268,7 @@ namespace StudioCore
             Utils.setRegistry("csvDelimiterPreference", ParamEditor.ParamEditorScreen.CSVDelimiterPreference);
         }
 
-        public async Task Run()
+        public void Run()
         {
             SetupCSharpDefaults();
             SetupParamStudioConfig();
@@ -294,7 +294,7 @@ namespace StudioCore
             while (_window.Exists)
             {
                 // Make sure any awaited UI thread work has a chance to complete
-                await Task.Yield();
+                //await Task.Yield();
                 
                 Tracy.TracyCFrameMark();
 

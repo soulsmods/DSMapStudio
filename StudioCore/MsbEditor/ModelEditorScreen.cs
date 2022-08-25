@@ -14,7 +14,7 @@ using ImGuiNET;
 
 namespace StudioCore.MsbEditor
 {
-    public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler
+    public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler, IResourceEventListener
     {
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
@@ -136,18 +136,16 @@ namespace StudioCore.MsbEditor
                 asset = AssetLocator.GetNullAsset();
                 assettex = AssetLocator.GetNullAsset();
             }
-
-            var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+            
             if (_renderMesh != null)
             {
                 //RenderScene.RemoveObject(_renderMesh);
             }
-            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(RenderScene, res);
+            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(RenderScene, asset.AssetVirtualPath);
             //_renderMesh.DrawFilter = filt;
             _renderMesh.World = Matrix4x4.Identity;
-            _flverhandle = res;
             _currentModel = modelid;
-            if (!res.IsLoaded || res.AccessLevel != AccessLevel.AccessFull)
+            if (ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessFull))
             {
                 if (asset.AssetArchiveVirtualPath != null)
                 {
@@ -167,6 +165,7 @@ namespace StudioCore.MsbEditor
                 }
                 _loadingTask = job.Complete();
             }
+            ResourceManager.GetResourceWhenAvailable(asset.AssetVirtualPath, this, AccessLevel.AccessFull);
         }
 
         public void OnInstantiateChr(string chrid)
@@ -312,6 +311,18 @@ namespace StudioCore.MsbEditor
         public void OnEntityContextMenu(Entity ent)
         {
 
+        }
+
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
+        {
+            _flverhandle = (ResourceHandle<FlverResource>)handle;
+            _flverhandle.Acquire();
+            _flverhandle.AddResourceEventListener(this);
+        }
+
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
+        {
+            _flverhandle = null;
         }
     }
 }

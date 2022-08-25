@@ -14,15 +14,10 @@ namespace StudioCore.Resource
     public enum AccessLevel
     {
         /// <summary>
-        /// Asset is not loaded
+        /// Resource was just created
         /// </summary>
         AccessUnloaded,
-
-        /// <summary>
-        /// Asset is loading
-        /// </summary>
-        AccessLoading,
-
+        
         /// <summary>
         /// Access to this resource is intended for low level editing only
         /// </summary>
@@ -51,6 +46,13 @@ namespace StudioCore.Resource
     public readonly record struct LoadFileResourceRequest(
         string virtualPath,
         string file,
+        AccessLevel AccessLevel,
+        GameType GameType);
+    
+    public readonly record struct LoadTPFTextureResourceRequest(
+        string virtualPath,
+        TPF tpf,
+        int index,
         AccessLevel AccessLevel,
         GameType GameType);
     
@@ -100,7 +102,10 @@ namespace StudioCore.Resource
 
         protected T Resource = null;
 
-        protected List<WeakReference<IResourceEventListener>> EventListeners = new List<WeakReference<IResourceEventListener>>();
+        protected readonly record struct EventListener(
+            WeakReference<IResourceEventListener> Listener,
+            int tag);
+        protected List<EventListener> EventListeners = new List<EventListener>();
 
         protected int LockCounter = 0;
         protected object ResourceLock = new object();
@@ -110,8 +115,6 @@ namespace StudioCore.Resource
             AssetVirtualPath = virtualPath;
         }
 
-        
-
         public T Get()
         {
             return Resource;
@@ -119,107 +122,38 @@ namespace StudioCore.Resource
 
         public bool TryLock()
         {
-            if (!IsLoaded)
-            {
-                return false;
-            }
-            lock (ResourceLock)
-            {
-                if (IsLoaded)
-                {
-                    LockCounter++;
-                    return true;
-                }
-            }
-            return false;
+            return true;
         }
 
         public void Unlock()
         {
-            lock (ResourceLock)
-            {
-                LockCounter--;
-            }
         }
 
-        private bool _LoadResource(byte[] data, AccessLevel al, GameType type)
+        internal bool _LoadResource(byte[] data, AccessLevel al, GameType type)
         {
-            AccessLevel = AccessLevel.AccessLoading;
             Resource = new T();
             if (!Resource._Load(data, al, type))
             {
-                AccessLevel = AccessLevel.AccessUnloaded;
                 return false;
-            }
-            // Prevent any new completion handlers from being added while executing them all
-            // Any subsequent pending handlers will be executed after this is done
-            WeakReference<IResourceEventListener>[] listeners;
-            lock (HandlerLock)
-            {
-                IsLoaded = true;
-                listeners = EventListeners.ToArray();
-            }
-            foreach (var listener in listeners)
-            {
-                try
-                {
-                    IResourceEventListener l;
-                    bool succ = listener.TryGetTarget(out l);
-                    if (succ)
-                    {
-                        l.OnResourceLoaded(this);
-                    }
-                }
-                catch (Exception e)
-                {
-                    System.Console.WriteLine("blah");
-                }
             }
             AccessLevel = al;
             return true;
         }
 
-        private bool _LoadResource(string file, AccessLevel al, GameType type)
+        internal bool _LoadResource(string file, AccessLevel al, GameType type)
         {
-            AccessLevel = AccessLevel.AccessLoading;
             Resource = new T();
             try
             {
                 if (!Resource._Load(file, al, type))
                 {
-                    AccessLevel = AccessLevel.AccessUnloaded;
                     return false;
                 }
             }
             catch (System.IO.FileNotFoundException)
             {
                 Resource = null;
-                AccessLevel = AccessLevel.AccessUnloaded;
                 return false;
-            }
-            // Prevent any new completion handlers from being added while executing them all
-            // Any subsequent pending handlers will be executed after this is done
-            WeakReference<IResourceEventListener>[] listeners;
-            lock (HandlerLock)
-            {
-                IsLoaded = true;
-                listeners = EventListeners.ToArray();
-            }
-            foreach (var listener in listeners)
-            {
-                try
-                {
-                    IResourceEventListener l;
-                    bool succ = listener.TryGetTarget(out l);
-                    if (succ)
-                    {
-                        l.OnResourceLoaded(this);
-                    }
-                }
-                catch (Exception e)
-                {
-                    System.Console.WriteLine("blah");
-                }
             }
             AccessLevel = al;
             return true;
@@ -231,68 +165,23 @@ namespace StudioCore.Resource
         /// To prevent deadlock, these handlers should not trigger a load/unload of the resource
         /// </summary>
         /// <param name="handler"></param>
-        public void AddResourceEventListener(IResourceEventListener listener)
+        public void AddResourceEventListener(IResourceEventListener listener, int tag = 0)
         {
-            // Prevent modification of loading status while doing this check
-            bool listenLoad = false;
-            bool listenUnload = false;
-            lock (HandlerLock)
-            {
-                if (IsLoaded)
-                {
-                    listenLoad = true;
-                }
-                if (!IsLoaded)
-                {
-                    listenUnload = true;
-                }
-                EventListeners.Add(new WeakReference<IResourceEventListener>(listener));
-            }
-            if (listenLoad)
-            {
-                listener.OnResourceLoaded(this);
-            }
-            if (listenUnload)
-            {
-                listener.OnResourceUnloaded(this);
-            }
+            EventListeners.Add(new EventListener(new WeakReference<IResourceEventListener>(listener), tag));
         }
 
         /// <summary>
-        /// Unloads the resource from memory by disposing it, assuming there are no other references to the
-        /// underlying resource
+        /// Unloads the resource by notifying all the users and then scheduling it for deletion in the resource manager
         /// </summary>
         public void Unload()
         {
-            // Make sure any outstanding handlers are added before changing
-            WeakReference<IResourceEventListener>[] listeners;
-            lock (HandlerLock)
-            {
-                bool spin = true;
-                while (spin)
-                {
-                    // Wait until the resource isn't locked
-                    while (LockCounter > 0) ;
-                    lock (ResourceLock)
-                    {
-                        if (LockCounter <= 0)
-                        {
-                            spin = false;
-                            IsLoaded = false;
-                            AccessLevel = AccessLevel.AccessUnloaded;
-                        }
-                    }
-                }
-
-                listeners = EventListeners.ToArray();
-            }
-            foreach (var listener in listeners)
+            foreach (var listener in EventListeners)
             {
                 IResourceEventListener l;
-                bool succ = listener.TryGetTarget(out l);
+                bool succ = listener.Listener.TryGetTarget(out l);
                 if (succ)
                 {
-                    l.OnResourceUnloaded(this);
+                    l.OnResourceUnloaded(this, listener.tag);
                 }
             }
             var handle = Resource;
@@ -312,26 +201,20 @@ namespace StudioCore.Resource
 
         public void Acquire()
         {
-            lock (AcquireFreeLock)
-            {
-                ReferenceCount++;
-            }
+            ReferenceCount++;
         }
 
         public void Release()
         {
             bool unload = false;
-            lock (AcquireFreeLock)
+            ReferenceCount--;
+            if (ReferenceCount == 0 && IsLoaded)
             {
-                ReferenceCount--;
-                if (ReferenceCount == 0 && IsLoaded)
-                {
-                    unload = true;
-                }
-                if (ReferenceCount < 0)
-                {
-                    throw new Exception($@"Resource {AssetVirtualPath} reference count already 0");
-                }
+                unload = true;
+            }
+            if (ReferenceCount < 0)
+            {
+                throw new Exception($@"Resource {AssetVirtualPath} reference count already 0");
             }
             if (unload)
             {
@@ -361,49 +244,21 @@ namespace StudioCore.Resource
         }
     }
 
-    public class TextureResourceHande : ResourceHandle<TextureResource>
+    public class TextureResourceHandle : ResourceHandle<TextureResource>
     {
-        public TextureResourceHande(string virtualPath) : base(virtualPath)
+        public TextureResourceHandle(string virtualPath) : base(virtualPath)
         {
         }
 
         public bool _LoadTextureResource(TPF tex, int index, AccessLevel al, GameType type)
         {
-            lock (LoadingLock)
+            if (IsLoaded)
             {
-                if (IsLoaded)
-                {
-                    Unload();
-                }
-                AccessLevel = AccessLevel.AccessLoading;
-                Resource = new TextureResource(tex, index);
-                Resource._LoadTexture(al);
-                // Prevent any new completion handlers from being added while executing them all
-                // Any subsequent pending handlers will be executed after this is done
-                WeakReference<IResourceEventListener>[] listeners;
-                lock (HandlerLock)
-                {
-                    IsLoaded = true;
-                    listeners = EventListeners.ToArray();
-                }
-                foreach (var listener in listeners)
-                {
-                    try
-                    {
-                        IResourceEventListener l;
-                        bool succ = listener.TryGetTarget(out l);
-                        if (succ)
-                        {
-                            l.OnResourceLoaded(this);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        System.Console.WriteLine("blah");
-                    }
-                }
-                AccessLevel = al;
+                Unload();
             }
+            Resource = new TextureResource(tex, index);
+            Resource._LoadTexture(al);
+            AccessLevel = al;
             return true;
         }
     }

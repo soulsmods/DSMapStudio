@@ -8,12 +8,54 @@ using Veldrid;
 using Veldrid.Utilities;
 using SoulsFormats;
 using System.IO;
+using System.Threading.Tasks.Dataflow;
 using HKX2;
 
 namespace StudioCore.Resource
 {
     public class HavokCollisionResource : IResource, IDisposable
     {
+        private class HavokCollisionLoadPipeline : IResourceLoadPipeline
+        {
+            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => _loadByteResourcesTransform;
+            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => _loadFileResourcesTransform;
+            public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest =>
+                throw new NotImplementedException();
+
+            private ActionBlock<LoadByteResourceRequest> _loadByteResourcesTransform;
+            private ActionBlock<LoadFileResourceRequest> _loadFileResourcesTransform;
+
+            private ITargetBlock<IResourceHandle> _loadedResources = null;
+
+            public HavokCollisionLoadPipeline(ITargetBlock<IResourceHandle> target)
+            {
+                _loadedResources = target;
+                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
+                {
+                    var res = new ResourceHandle<HavokCollisionResource>(r.virtualPath);
+                    bool success = res._LoadResource(r.Data, r.AccessLevel, r.GameType);
+                    if (success)
+                    {
+                        _loadedResources.Post(res);
+                    }
+                });
+                _loadFileResourcesTransform = new ActionBlock<LoadFileResourceRequest>(r =>
+                {
+                    var res = new ResourceHandle<HavokCollisionResource>(r.virtualPath);
+                    bool success = res._LoadResource(r.file, r.AccessLevel, r.GameType);
+                    if (success)
+                    {
+                        _loadedResources.Post(res);
+                    }
+                });
+            }
+        }
+
+        public static IResourceLoadPipeline CreatePipeline(ITargetBlock<IResourceHandle> target)
+        {
+            return new HavokCollisionLoadPipeline(target);
+        }
+        
         public class CollisionSubmesh
         {
             public int IndexCount;

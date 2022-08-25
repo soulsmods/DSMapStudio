@@ -20,7 +20,7 @@ namespace DSMapStudio
         /// </summary>
         [STAThread]
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
@@ -32,7 +32,7 @@ namespace DSMapStudio
             try
             {
                 var mapstudio = new StudioCore.MapStudioNew();
-                await mapstudio.Run();
+                mapstudio.Run();
             }
             catch (Exception e)
             {

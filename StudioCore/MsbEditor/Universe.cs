@@ -223,13 +223,12 @@ namespace StudioCore.MsbEditor
 
             if (loadcol)
             {
-                var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
+                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, asset.AssetVirtualPath);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Collision;
                 obj.RenderSceneMesh = mesh;
-                if (!res.IsLoaded && load)
+                if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -239,6 +238,7 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
+                    ResourceManager.MarkResourceInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
@@ -249,13 +249,12 @@ namespace StudioCore.MsbEditor
             }
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
-                var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
+                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, asset.AssetVirtualPath);
                 mesh.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Navmesh;
-                if (!res.IsLoaded && load)
+                if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -265,6 +264,7 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
+                    ResourceManager.MarkResourceInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
@@ -279,13 +279,12 @@ namespace StudioCore.MsbEditor
             }
             else if (loadflver)
             {
-                var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
+                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, asset.AssetVirtualPath);
                 model.DrawFilter = filt;
                 model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
                 model.SetSelectable(obj);
-                if (!res.IsLoaded && load)
+                if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -295,6 +294,7 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
+                    ResourceManager.MarkResourceInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
@@ -394,8 +394,7 @@ namespace StudioCore.MsbEditor
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
-                        var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
+                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, asset.AssetVirtualPath);
                         model.DrawFilter = RenderFilter.Character;
                         generatorObjs[row.ID].RenderSceneMesh = model;
                         model.SetSelectable(generatorObjs[row.ID]);
@@ -670,9 +669,8 @@ namespace StudioCore.MsbEditor
                         var navid = $@"n{nav.ModelID:D6}";
                         var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
                         var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
-
-                        var res = ResourceManager.GetResource<Resource.HavokNavmeshResource>(nasset.AssetVirtualPath);
-                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, res);
+                        
+                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, nasset.AssetVirtualPath);
                         mesh.World = n.GetWorldMatrix();
                         mesh.SetSelectable(n);
                         mesh.DrawFilter = RenderFilter.Navmesh;

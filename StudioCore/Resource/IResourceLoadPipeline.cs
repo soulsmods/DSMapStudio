@@ -6,6 +6,5 @@ public interface IResourceLoadPipeline
 {
     public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock { get; }
     public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest { get; }
-
-    public void LinkTo(ITargetBlock<IResourceHandle> target);
+    public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest { get; }
 }
