@@ -367,6 +367,9 @@ namespace StudioCore.Resource
             /// <param name="virtualPath"></param>
             public void AddLoadArchiveTask(string virtualPath, AccessLevel al, bool populateOnly, HashSet<string> assets=null)
             {
+                if (InFlightFiles.Contains(virtualPath))
+                    return;
+                InFlightFiles.Add(virtualPath);
                 if (virtualPath == "null")
                 {
                     return;
@@ -380,6 +383,9 @@ namespace StudioCore.Resource
 
             public void AddLoadArchiveTask(string virtualPath, AccessLevel al, bool populateOnly, ResourceType filter, HashSet<string> assets = null)
             {
+                if (InFlightFiles.Contains(virtualPath))
+                    return;
+                InFlightFiles.Add(virtualPath);
                 if (virtualPath == "null")
                 {
                     return;
@@ -397,6 +403,10 @@ namespace StudioCore.Resource
             /// <param name="virtualPath"></param>
             public void AddLoadFileTask(string virtualPath, AccessLevel al)
             {
+                if (InFlightFiles.Contains(virtualPath))
+                    return;
+                InFlightFiles.Add(virtualPath);
+                
                 string bndout;
                 var path = Locator.VirtualToRealPath(virtualPath, out bndout);
 
@@ -531,6 +541,7 @@ namespace StudioCore.Resource
         
         private static Dictionary<string, ResourceRegistration> ResourceDatabase = new Dictionary<string, ResourceRegistration>();
         private static ConcurrentDictionary<ResourceJob, int> ActiveJobProgress = new ConcurrentDictionary<ResourceJob, int>();
+        private static HashSet<string> InFlightFiles = new HashSet<string>();
 
         private readonly record struct AddResourceLoadNotificationRequest(
             string ResourceVirtualPath,
