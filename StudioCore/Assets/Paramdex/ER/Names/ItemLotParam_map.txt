@@ -595,8 +595,8 @@
 103601 [Thops] Academy Glintstone Staff
 103602 [Thops] Thops's Barrier
 103700 [Brother Corhyn] Corhyn's Bell Bearing
-103710 [Brother Corhyn] Flail
-103720 [Brother Corhyn] Corhyn's Robe
+103701 [Brother Corhyn] Flail
+103702 [Brother Corhyn] Corhyn's Robe
 103800 [Dung Eater] Sewer-Gaol Key
 103820 [Dung Eater] Omen Helm
 103821 [Dung Eater] Omen Armor

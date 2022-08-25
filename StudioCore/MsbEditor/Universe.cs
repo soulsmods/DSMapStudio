@@ -1049,120 +1049,121 @@ namespace StudioCore.MsbEditor
 
         public void SaveMap(Map map)
         {
-            var ad = _assetLocator.GetMapMSB(map.Name);
-            var adw = _assetLocator.GetMapMSB(map.Name, true);// _assetLocator.Type == GameType.DarkSoulsPTDE ? false : true);
-            IMsb msb;
-            DCX.Type compressionType = DCX.Type.None;
-            if (_assetLocator.Type == GameType.DarkSoulsIII)
-            {
-                MSB3 prev = MSB3.Read(ad.AssetPath);
-                MSB3 n = new MSB3();
-                n.PartsPoses = prev.PartsPoses;
-                n.Layers = prev.Layers;
-                n.Routes = prev.Routes;
-                msb = n;
-                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
-            }
-            else if (_assetLocator.Type == GameType.EldenRing)
-            {
-                MSBE prev = MSBE.Read(ad.AssetPath);
-                MSBE n = new MSBE();
-                n.Layers = prev.Layers;
-                n.Routes = prev.Routes;
-                msb = n;
-                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
-            }
-            else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                MSB2 prev = MSB2.Read(ad.AssetPath);
-                MSB2 n = new MSB2();
-                n.PartPoses = prev.PartPoses;
-                msb = n;
-            }
-            else if (_assetLocator.Type == GameType.Sekiro)
-            {
-                MSBS prev = MSBS.Read(ad.AssetPath);
-                MSBS n = new MSBS();
-                n.PartsPoses = prev.PartsPoses;
-                n.Layers = prev.Layers;
-                n.Routes = prev.Routes;
-                msb = n;
-                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
-            }
-            else if (_assetLocator.Type == GameType.Bloodborne)
-            {
-                msb = new MSBB();
-                compressionType = DCX.Type.DCX_DFLT_10000_44_9;
-            }
-            else if (_assetLocator.Type == GameType.DemonsSouls)
-            {
-                MSBD prev = MSBD.Read(ad.AssetPath);
-                MSBD n = new MSBD();
-                n.Trees = prev.Trees;
-                msb = n;
-            }
-            else
-            {
-                msb = new MSB1();
-                //var t = MSB1.Read(ad.AssetPath);
-                //((MSB1)msb).Models = t.Models;
-            }
-
-            map.SerializeToMSB(msb, _assetLocator.Type);
-
-            // Create the map directory if it doesn't exist
-            if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(adw.AssetPath));
-            }
-
-            // Write as a temporary file to make sure there are no errors before overwriting current file 
-            string mapPath = adw.AssetPath;
-            //if (GetModProjectPathForFile(mapPath) != null)
-            //{
-            //    mapPath = GetModProjectPathForFile(mapPath);
-            //}
-
-            // If a backup file doesn't exist of the original file create it
-            if (!File.Exists(mapPath + ".bak") && File.Exists(mapPath))
-            {
-                File.Copy(mapPath, mapPath + ".bak", true);
-            }
-
-            if (File.Exists(mapPath + ".temp"))
-            {
-                File.Delete(mapPath + ".temp");
-            }
             try
             {
+                var ad = _assetLocator.GetMapMSB(map.Name);
+                var adw = _assetLocator.GetMapMSB(map.Name, true);
+                IMsb msb;
+                DCX.Type compressionType = DCX.Type.None;
+                if (_assetLocator.Type == GameType.DarkSoulsIII)
+                {
+                    MSB3 prev = MSB3.Read(ad.AssetPath);
+                    MSB3 n = new MSB3();
+                    n.PartsPoses = prev.PartsPoses;
+                    n.Layers = prev.Layers;
+                    n.Routes = prev.Routes;
+                    msb = n;
+                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
+                }
+                else if (_assetLocator.Type == GameType.EldenRing)
+                {
+                    MSBE prev = MSBE.Read(ad.AssetPath);
+                    MSBE n = new MSBE();
+                    n.Layers = prev.Layers;
+                    n.Routes = prev.Routes;
+                    msb = n;
+                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
+                }
+                else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    MSB2 prev = MSB2.Read(ad.AssetPath);
+                    MSB2 n = new MSB2();
+                    n.PartPoses = prev.PartPoses;
+                    msb = n;
+                }
+                else if (_assetLocator.Type == GameType.Sekiro)
+                {
+                    MSBS prev = MSBS.Read(ad.AssetPath);
+                    MSBS n = new MSBS();
+                    n.PartsPoses = prev.PartsPoses;
+                    n.Layers = prev.Layers;
+                    n.Routes = prev.Routes;
+                    msb = n;
+                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
+                }
+                else if (_assetLocator.Type == GameType.Bloodborne)
+                {
+                    msb = new MSBB();
+                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
+                }
+                else if (_assetLocator.Type == GameType.DemonsSouls)
+                {
+                    MSBD prev = MSBD.Read(ad.AssetPath);
+                    MSBD n = new MSBD();
+                    n.Trees = prev.Trees;
+                    msb = n;
+                }
+                else
+                {
+                    msb = new MSB1();
+                    //var t = MSB1.Read(ad.AssetPath);
+                    //((MSB1)msb).Models = t.Models;
+                }
+
+                map.SerializeToMSB(msb, _assetLocator.Type);
+
+                // Create the map directory if it doesn't exist
+                if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(adw.AssetPath));
+                }
+
+                // Write as a temporary file to make sure there are no errors before overwriting current file 
+                string mapPath = adw.AssetPath;
+                //if (GetModProjectPathForFile(mapPath) != null)
+                //{
+                //    mapPath = GetModProjectPathForFile(mapPath);
+                //}
+
+                // If a backup file doesn't exist of the original file create it
+                if (!File.Exists(mapPath + ".bak") && File.Exists(mapPath))
+                {
+                    File.Copy(mapPath, mapPath + ".bak", true);
+                }
+
+                if (File.Exists(mapPath + ".temp"))
+                {
+                    File.Delete(mapPath + ".temp");
+                }
+                
                 msb.Write(mapPath + ".temp", compressionType);
+
+                // Make a copy of the previous map
+                if (File.Exists(mapPath))
+                {
+                    File.Copy(mapPath, mapPath + ".prev", true);
+                }
+
+                // Move temp file as new map file
+                if (File.Exists(mapPath))
+                {
+                    File.Delete(mapPath);
+                }
+
+                File.Move(mapPath + ".temp", mapPath);
+
+                if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    SaveDS2Generators(map);
+                }
+
+                CheckDupeEntityIDs(map);
+                map.HasUnsavedChanges = false;
             }
             catch (Exception e)
             {
-                throw new SavingFailedException(Path.GetFileName(mapPath), e);
+                throw new SavingFailedException(Path.GetFileName(map.Name), e);
             }
-
-            // Make a copy of the previous map
-            if (File.Exists(mapPath))
-            {
-                File.Copy(mapPath, mapPath + ".prev", true);
-            }
-
-            // Move temp file as new map file
-            if (File.Exists(mapPath))
-            {
-                File.Delete(mapPath);
-            }
-            File.Move(mapPath + ".temp", mapPath);
-
-            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                SaveDS2Generators(map);
-            }
-
-            CheckDupeEntityIDs(map);
-            map.HasUnsavedChanges = false;
-
             //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
             //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
             //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);

@@ -17,6 +17,12 @@ using SoulsFormats;
 using StudioCore;
 using StudioCore.TextEditor;
 using StudioCore.Editor;
+using StudioCore.MsbEditor;
+using ActionManager = StudioCore.Editor.ActionManager;
+using AddParamsAction = StudioCore.Editor.AddParamsAction;
+using CompoundAction = StudioCore.Editor.CompoundAction;
+using DeleteParamsAction = StudioCore.Editor.DeleteParamsAction;
+using EditorScreen = StudioCore.Editor.EditorScreen;
 
 namespace StudioCore.ParamEditor
 {
@@ -111,7 +117,6 @@ namespace StudioCore.ParamEditor
         private string _currentMEditRegexInput = "";
         private string _lastMEditRegexInput = "";
         private string _mEditRegexResult = "";
-        private bool _currentMEditSingleCSVSpaces = false;
         private string _currentMEditSingleCSVField = "";
         private string _currentMEditCSVInput = "";
         private string _currentMEditCSVOutput = "";
@@ -224,6 +229,15 @@ namespace StudioCore.ParamEditor
                         Arguments = "\"" + logPath + "\""
                     });
                 }
+            }
+
+            if (result == ParamBank.ParamUpgradeResult.Success)
+            {
+                var msgRes = System.Windows.Forms.MessageBox.Show(
+                    "Upgrade successful",
+                    "Success",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Information);
             }
             
             EditorActionManager.Clear();
@@ -369,7 +383,7 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CSVDelimiterPreference[0]);
+                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CSVDelimiterPreference[0], false);
                                 if (r.Type == MassEditResultType.SUCCESS && a != null)
                                     EditorActionManager.ExecuteAction(a);
                                 else
@@ -391,7 +405,7 @@ namespace StudioCore.ParamEditor
                                     };
                                     if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                                     {
-                                        (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), field.InternalName, CSVDelimiterPreference[0]);
+                                        (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), field.InternalName, CSVDelimiterPreference[0], false);
                                         if (r.Type == MassEditResultType.SUCCESS && a != null)
                                             EditorActionManager.ExecuteAction(a);
                                         else
@@ -552,7 +566,7 @@ namespace StudioCore.ParamEditor
                         "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
                         "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
                         $"that your current mod is based on (version {ParamBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
-                        "in the param editor where you can view and save them, but this operation is not undoable." +
+                        "in the param editor where you can view and save them, but this operation is not undoable. " +
                         "Would you like to continue?", "Regulation upgrade",
                         System.Windows.Forms.MessageBoxButtons.OKCancel,
                         System.Windows.Forms.MessageBoxIcon.Question);
@@ -661,14 +675,13 @@ namespace StudioCore.ParamEditor
             else if (ImGui.BeginPopup("massEditMenuSingleCSVImport"))
             {
                 ImGui.Text(_currentMEditSingleCSVField);
-                ImGui.Checkbox("Space separator", ref _currentMEditSingleCSVSpaces);
                 ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
                 ImGui.InputText("Delimiter", ref CSVDelimiterPreference, 1);
                 if (ImGui.IsItemDeactivatedAfterEdit() && CSVDelimiterPreference.Length==0)
                     CSVDelimiterPreference = ",";
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CSVDelimiterPreference[0]);
+                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CSVDelimiterPreference[0], false);
                     if (a != null)
                         EditorActionManager.ExecuteAction(a);
                     _mEditCSVResult = r.Information;
@@ -993,17 +1006,35 @@ namespace StudioCore.ParamEditor
 
         public override void Save()
         {
-            if (_projectSettings != null)
+            try
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                if (_projectSettings != null)
+                {
+                    ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                }
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
             }
         }
 
         public override void SaveAll()
         {
-            if (_projectSettings != null)
+            try
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                if (_projectSettings != null)
+                {
+                    ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                }
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
             }
         }
     }

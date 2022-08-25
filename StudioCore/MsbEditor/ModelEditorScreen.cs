@@ -69,7 +69,8 @@ namespace StudioCore.MsbEditor
                     var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
                     var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
 
-                    var basespeed = (float)Math.Sqrt(mindim / 3.0f);
+                    var minSpeed = 1.0f;
+                    var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
                     Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
                     Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
                     Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;

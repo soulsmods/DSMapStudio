@@ -139,6 +139,14 @@ namespace StudioCore.ParamEditor
             }
             return default(T);
         }
+
+        internal static void addAction(Param.Cell handle, object newval, List<EditorAction> actions)
+        {
+            if (!(handle.Value.Equals(newval) 
+            || (handle.Value.GetType()==typeof(byte[]) 
+            && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
+                actions.Add(new PropertiesChangedAction(handle.GetType().GetProperty("Value"), -1, handle, newval));
+        }
     }
 
     public class MassParamEditRegex : MassParamEdit
@@ -150,59 +158,72 @@ namespace StudioCore.ParamEditor
             ActionManager childManager = new ActionManager();
             foreach (string cmd in commands)
             {
-                string command = cmd.Trim();
+                string command = cmd;
                 if (command.EndsWith(';'))
                     command = command.Substring(0, command.Length-1);
 
                 List<EditorAction> partialActions = new List<EditorAction>();
 
-                string[] stages = command.Split(":", StringSplitOptions.TrimEntries);
-
+                string[] stage = command.Split(":", 2);
+                stage[0] = stage[0].Trim();
 
                 List<Param> affectedParams = new List<Param>();
                 List<Param.Row> affectedRows = new List<Param.Row>();
                 List<Param.Column> affectedCells = new List<Param.Column>();
-                int stage = 0;
-                if (stages[stage].Equals(""))
+
+                if (stage[0].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
-                if (ParamAndRowSearchEngine.parse.HandlesCommand(stages[stage]))
+                if (ParamAndRowSearchEngine.parse.HandlesCommand(stage[0]))
                 {
-                    affectedRows = ParamAndRowSearchEngine.parse.Search(context, stages[stage], false, false);
-                    stage++;
+                    affectedRows = ParamAndRowSearchEngine.parse.Search(context, stage[0], false, false);
+                    stage = stage[1].Split(":", 2);
+                    stage[0] = stage[0].Trim();
                 }
                 else
                 {
-                    affectedParams = ParamSearchEngine.pse.Search(false, stages[stage], false, false);
-                    stage++;
-                    if (stage>=stages.Length || stages[stage].Equals(""))
+                    affectedParams = ParamSearchEngine.pse.Search(false, stage[0], false, false);
+                    stage = stage[1].Split(":", 2);
+                    stage[0] = stage[0].Trim();
+                    if (stage[0].Equals(""))
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
-                    affectedRows = RowSearchEngine.rse.Search(affectedParams, stages[stage], false, false);
-                    stage++;
+                    affectedRows = RowSearchEngine.rse.Search(affectedParams, stage[0], false, false);
+                    stage = stage[1].Split(":", 2);
+                    stage[0] = stage[0].Trim();
                 }
 
-                if (stage>=stages.Length || stages[stage].Equals(""))
+                if (stage[0].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
-                int cellStage = stage;
-                //hack
-                string[] cellStageSplit = stages[cellStage].Split(" ", StringSplitOptions.TrimEntries);
+                
+                // Remember cell stage
+                string cellSt = stage[0];
+                string[] cellStageSplit = cellSt.Split(" ", StringSplitOptions.TrimEntries);
                 bool editName = cellStageSplit.Length == 1 && cellStageSplit[0].Equals("Name");
-                //hack
-                stage++;
+                
+                stage = stage[1].Split(":", 2);
+                stage[0] = stage[0].Trim();
 
-                //skip ahead to op stage
-                if (stage>=stages.Length || stages[stage].Equals(""))
+                if (stage[0].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
-                string[] operation = stages[stage].Split(" ", 2, StringSplitOptions.TrimEntries);
-                string op = operation[0];
+                string[] operation = stage[0].Split(" ", 2);
+                string op = operation[0].Trim();
                 if(!"= + - * / replace".Contains(op))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+op), null);
+                // Fix split up replace operation
+                if("replace" == op)
+                {
+                    stage[0] = stage[0] + ":" + stage[1];
+                    operation = stage[0].Split(" ", 2);
+                    op = operation[0].Trim();
+                }
                 
                 if (operation.Length<2 || operation[1].Equals(""))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation argument. Add a number, or 'field' followed by a field to read a number from."), null);
                 bool readField = false;
-                string[] opArgs = operation[1].Split(" ", 2, StringSplitOptions.TrimEntries);
+                string[] opArgs = operation[1].Split(" ", 2);
                 if (opArgs.Length > 1 && opArgs[0].Equals("field"))
                     readField = true;
+                else
+                    opArgs[0] = operation[1];
                 //back to cell stage - this is because we want row context ["cell" as a stage is inaccurate, do (row, cell)? (row,propertyinfo)?]
                 foreach(var row in affectedRows)
                 {
@@ -215,15 +236,14 @@ namespace StudioCore.ParamEditor
                         valueToUse = reffed.Value.Value.ToString();
                     }
 
-                    affectedCells = CellSearchEngine.cse.Search(row, stages[cellStage], false, false);
+                    affectedCells = CellSearchEngine.cse.Search(row, cellSt, false, false);
 
-                    changeCount += affectedCells.Count;
                     foreach (Param.Column cell in affectedCells)
                     {
                         object newval = PerformOperation(row, cell, op, valueToUse);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {op} {valueToUse} on field {cell.Def.InternalName}"), null);
-                        partialActions.Add(new PropertiesChangedAction(row[cell].GetType().GetProperty("Value"), -1, row[cell], newval));
+                        addAction(row[cell], newval, partialActions);
                     }
                     if (editName)
                     {
@@ -234,6 +254,7 @@ namespace StudioCore.ParamEditor
                     
                     }
                 }
+                changeCount += partialActions.Count;
                 childManager.ExecuteAction(new CompoundAction(partialActions));
             }
             return (new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected"), childManager);
@@ -275,8 +296,7 @@ namespace StudioCore.ParamEditor
         }
         public static string GenerateSingleCSV(List<Param.Row> rows, Param param, string field, char separator)
         {
-            string gen = "";
-            gen += GenerateColumnLabels(param, separator);
+            string gen = $@"ID{separator}{field}"+"\n";
             foreach (Param.Row row in rows)
             {
                 string rowgen;
@@ -287,22 +307,11 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    rowgen = $@"{row.ID}{separator}{row[field].Value}";
+                    rowgen = $@"{row.ID}{separator}{row[field].Value.Value}";
                 }
                 gen += rowgen + "\n";
             }
             return gen;
-        }
-
-        public static bool DummyB()
-        {
-            bool yes = true;
-            return yes && true;
-        }
-
-        public static bool DummyA()
-        {
-            return DummyB() && true;
         }
         
         public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
@@ -342,16 +351,15 @@ namespace StudioCore.ParamEditor
                     if (row.Name != null && !row.Name.Equals(name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
-                    foreach (Param.Column c in row.Cells)
+                    foreach (Param.Column col in row.Cells)
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = PerformOperation(row, c, "=", v);
+                        object newval = PerformOperation(row, col, "=", v);
                         if (newval == null)
-                            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {c.Def.InternalName}");
-                        var handle = row[c];
-                        if (!(handle.Value.Equals(newval) || (handle.Value.GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
-                            actions.Add(new PropertiesChangedAction(handle.GetType().GetProperty("Value"), -1, handle, newval));
+                            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
+                        var handle = row[col];
+                        addAction(handle, newval, actions);
                     }
                 }
                 changeCount = actions.Count;
@@ -370,7 +378,7 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             #endif
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator, bool ignoreMissingRows)
         {
             try
             {
@@ -378,8 +386,14 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}Name"))
+                if (csvLines[0].Contains($@"ID{separator}"))
+                {
+                    if (!csvLines[0].Contains($@"ID{separator}{field}"))
+                    {
+                        return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong field name"), null);
+                    }
                     csvLines[0] = ""; //skip column label row
+                }
                 int changeCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
                 foreach (string csvLine in csvLines)
@@ -393,7 +407,11 @@ namespace StudioCore.ParamEditor
                     string value = csvs[1];
                     Param.Row? row = p[id];
                     if (row == null)
+                    {
+                        if (ignoreMissingRows)
+                            continue;
                         return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}"), null);
+                    }
                     if (field.Equals("Name"))
                     {
                         if (row.Name != null && !row.Name.Equals(value))
@@ -401,16 +419,16 @@ namespace StudioCore.ParamEditor
                     }
                     else
                     {
-                        Param.Column? cell = p[field];
-                        if (cell == null)
+                        Param.Column? col = p[field];
+                        if (col == null)
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = PerformOperation(row, cell, "=", value);
+                        object newval = PerformOperation(row, col, "=", value);
                         if (newval == null)
-                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {cell.Def.InternalName}"), null);
-                        if (!(cell.GetValue(row).Equals(newval) || (cell.GetValue(row).GetType()==typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])cell.GetValue(row), (byte[])newval))))
-                            actions.Add(new PropertiesChangedAction(cell.GetType().GetProperty("Value"), -1, cell, newval));
+                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
+                        var handle = row[col];
+                        addAction(handle, newval, actions);
                     }
                 }
                 changeCount = actions.Count;

@@ -45,10 +45,10 @@ namespace StudioCore.ParamEditor
         }
         public static bool RowMatches(Param.Row row, Param.Row vrow)
         {
-            if (row.Def != vrow.Def)
+            if (row.Def.ParamType != vrow.Def.ParamType || row.Def.DataVersion != vrow.Def.DataVersion)
                 return false;
             
-            return row.Equals(vrow);
+            return row.DataEquals(vrow);
         }
         public static bool ByteArrayEquals(byte[] v1, byte[] v2) {
             if (v1.Length!=v2.Length)
