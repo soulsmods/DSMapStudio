@@ -1166,6 +1166,7 @@ namespace StudioCore.ParamEditor
         private ParamEditorScreen _paramEditor;
         internal int _viewIndex;
         private int _gotoParamRow = -1;
+        private bool _arrowKeyPressed = false;
 
         internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
@@ -1324,12 +1325,37 @@ namespace StudioCore.ParamEditor
                     ImGui.Spacing();
                 }
 
+                ImGui.SetNextWindowFocus();
                 ImGui.BeginChild("rows" + activeParam);
                 List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
 
+                // Up/Down arrow key input
+                if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)) 
+                    && !ImGui.IsAnyItemActive())
+                {
+                    _arrowKeyPressed = true;
+                }
+
+                // Rows
                 foreach (var r in rows)
                 {
                     RowColumnEntry(activeParam, rows, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
+
+                    if (_arrowKeyPressed && ImGui.IsItemFocused() 
+                        && (r != _selection.getActiveRow()))
+                    {
+                        if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                        {
+                            // Add to selection
+                            _selection.addRowToSelection(r);
+                        }
+                        else
+                        {
+                            // Exclusive selection
+                            _selection.SetActiveRow(r, true);
+                        }
+                        _arrowKeyPressed = false;
+                    }
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
