@@ -776,10 +776,13 @@ namespace StudioCore
 
                     if (ImGui.BeginMenu("Fonts"))
                     {
-                        ImGui.Text("Please restart program for changes to take effect.");
+                        ImGui.Text("Please restart program for font changes to take effect.");
+                        ImGui.Separator();
 
-                        ImGui.SliderFloat("Font Scale", ref CFG.Current.FontSizeScale, 0.5f, 4.0f);
-
+                        if (ImGui.SliderFloat("Font Scale", ref CFG.Current.FontSizeScale, 0.5f, 4.0f))
+                        {
+                            CFG.Current.FontSizeScale = (float)Math.Round(CFG.Current.FontSizeScale, 1);
+                        }
                         if (ImGui.BeginMenu("Additional Language Fonts"))
                         {
                             ImGui.Text("Additional fonts take more VRAM and increase startup time.");
