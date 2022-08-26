@@ -318,7 +318,10 @@ namespace StudioCore.TextEditor
             });
             if (_clearEntryGroup)
             {
-                _activeEntryGroup = null;
+                if (!doFocus)
+                {
+                    _activeEntryGroup = null;
+                }
                 CacheBank.RemoveCache(this, "FMGClearEntryGroup");
             }
 
@@ -365,7 +368,6 @@ namespace StudioCore.TextEditor
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                         _searchFilterCached = "";
-                        doFocus = true;
                     }
 
                     if (_arrowKeyPressed && ImGui.IsItemFocused()
@@ -390,7 +392,7 @@ namespace StudioCore.TextEditor
                         }
                         ImGui.EndPopup();
                     }
-                    if (doFocus && _activeEntryGroup.ID == r.ID)
+                    if (doFocus && _activeEntryGroup?.ID == r.ID)
                     {
                         ImGui.SetScrollHereY();
                     }
@@ -476,70 +478,34 @@ namespace StudioCore.TextEditor
             }
 
             bool doFocus = false;
-
-            if (initcmd != null && initcmd[0] == "select")
-            {
-                var debug = true;
-            }
-            /*
             // Parse select commands
             if (initcmd != null && initcmd[0] == "select")
             {
                 if (initcmd.Length > 1)
                 {
+                    // Select FMG
                     doFocus = true;
-                    if (_activeFmgInfo == FMGBank.FMGTypes.Item)
+                    foreach (var info in FMGBank.FmgInfoBank)
                     {
-                        foreach (var cat in _displayCategories)
+                        if (initcmd[1] == info.EntryCategory.ToString() && info.PatchParent == null
+                            && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
                         {
-                            if (cat.ToString() == initcmd[1])
-                            {
-                                _activeItemCategory = cat;
-                                _cacheFiltered = FMGBank.GetItemFMGEntriesByType(cat, FMGBank.ItemType.Title);
-                                _entryCache = _cacheFiltered;
-                                break;
-                            }
-                        }
-                    }
-                    else //FMGBank.FMGTypes.Menu
-                    {
-                        foreach (var cat in FMGBank.GetMenuFMGs())
-                        {
-                            if (cat.ToString() == initcmd[1])
-                            {
-                                _activeItemCategory = FMGBank.ItemCategory.None;
-                                _activeMenuCategoryPair = cat;
-                                _cacheFiltered = FMGBank.GetMenuFMGEntries(cat.Value);
-                                _entryCache = _cacheFiltered;
-                                break;
-                            }
+                            _activeFmgInfo = info;
+                            break;
                         }
                     }
 
-                    if (initcmd.Length > 2)
+                    if (initcmd.Length > 2 && _activeFmgInfo != null)
                     {
-                        int id;
-                        var parsed = int.TryParse(initcmd[2], out id);
+                        // Select Entry
+                        var parsed = int.TryParse(initcmd[2], out int id);
                         if (parsed)
                         {
-                            var r = _cacheFiltered.FirstOrDefault(r => r.ID == id);
-                            if (r != null)
-                            {
-                                _activeEntryGroup = r;
-                                if (_activeFmgInfo == FMGBank.FMGTypes.Item)
-                                {
-                                    FMGBank.LookupItemID(r.ID, _activeItemCategory, out _cachedTitle, out _cachedSummary, out _cachedDescription);
-                                }
-                                else
-                                {
-                                    _cachedTitle = r;
-                                }
-                            }
+                            _activeEntryGroup = FMGBank.GenerateEntryGroup(id, _activeFmgInfo);
                         }
                     }
                 }
             }
-            */
             EditorGUI(doFocus);
         }
 
