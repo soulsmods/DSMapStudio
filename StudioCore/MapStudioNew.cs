@@ -169,6 +169,9 @@ namespace StudioCore
             var fontIcon = File.ReadAllBytes(fileIcon);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
+
+            var scale = CFG.Current.FontSizeScale;
+
             fixed (byte* p = fontEn)
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
@@ -176,7 +179,7 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 5.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f * scale, cfg, fonts.GetGlyphRangesDefault());
             }
             fixed (byte* p = fontOther)
             {
@@ -191,20 +194,20 @@ namespace StudioCore
                 glyphJP.AddRanges(fonts.GetGlyphRangesJapanese());
                 Array.ForEach(SpecialCharsJP, c => glyphJP.AddChar(c));
                 glyphJP.BuildRanges(out ImVector glyphRangeJP);
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, glyphRangeJP.Data);
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, glyphRangeJP.Data);
                 glyphJP.Destroy();
 
                 if (CFG.Current.FontChinese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesChineseFull());
                 if (CFG.Current.FontKorean)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesKorean());
                 if (CFG.Current.FontThai)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesThai());
                 if (CFG.Current.FontVietnamese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesVietnamese());
                 cfg.GlyphMinAdvanceX = 5.0f;
                 if (CFG.Current.FontCyrillic)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f * scale, cfg, fonts.GetGlyphRangesCyrillic());
             }
             fixed (byte* p = fontIcon)
             {
@@ -219,7 +222,7 @@ namespace StudioCore
 
                 fixed (ushort* r = ranges)
                 {
-                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f, cfg, (IntPtr)r);
+                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f * scale, cfg, (IntPtr)r);
                 }
             }
             fonts.Build();
@@ -771,34 +774,41 @@ namespace StudioCore
                         }
                     }
 
-                    if (ImGui.BeginMenu("Additional Language Fonts"))
+                    if (ImGui.BeginMenu("Fonts"))
                     {
-                        ImGui.Text("Additional fonts take more VRAM and increase startup time.");
                         ImGui.Text("Please restart program for changes to take effect.");
-                        ImGui.Separator();
-                        if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+
+                        ImGui.SliderFloat("Font Scale", ref CFG.Current.FontSizeScale, 0.5f, 4.0f);
+
+                        if (ImGui.BeginMenu("Additional Language Fonts"))
                         {
-                            CFG.Current.FontChinese = !CFG.Current.FontChinese;
-                        }
-                        if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
-                        {
-                            CFG.Current.FontKorean = !CFG.Current.FontKorean;
-                        }
-                        if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
-                        {
-                            CFG.Current.FontThai = !CFG.Current.FontThai;
-                        }
-                        if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
-                        {
-                            CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
-                        }
-                        if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
-                        {
-                            CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                            ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                            ImGui.Separator();
+                            if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+                            {
+                                CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                            }
+                            if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                            {
+                                CFG.Current.FontKorean = !CFG.Current.FontKorean;
+                            }
+                            if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
+                            {
+                                CFG.Current.FontThai = !CFG.Current.FontThai;
+                            }
+                            if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
+                            {
+                                CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
+                            }
+                            if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
+                            {
+                                CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                            }
+                            ImGui.EndMenu();
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
+                        if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
