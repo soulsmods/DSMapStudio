@@ -1361,12 +1361,13 @@ namespace StudioCore.ParamEditor
             var selected = _selection.getSelectedRows().Contains(r);
             if (_gotoParamRow != -1)
             {
-                //Goto row was activated. As soon as a corresponding ID is found, change selection to it.
+                // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
                 if (r.ID == _gotoParamRow)
                 {
                     selected = true;
                     _selection.SetActiveRow(r, true);
                     _gotoParamRow = -1;
+                    ImGui.SetScrollHereY();
                 }
             }
 
