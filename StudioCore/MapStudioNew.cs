@@ -808,7 +808,7 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                        if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
+                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
