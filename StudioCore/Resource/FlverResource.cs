@@ -229,8 +229,7 @@ namespace StudioCore.Resource
             public void OnResourceLoaded(IResourceHandle handle, int tag)
             {
                 var texHandle = (TextureResourceHandle)handle;
-                texHandle.Acquire();
-                texHandle.AddResourceEventListener(this, tag);
+                texHandle.Acquire(this, tag);
                 TextureResources[tag] = texHandle;
                 UpdateMaterial();
             }

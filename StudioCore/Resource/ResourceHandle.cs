@@ -63,7 +63,7 @@ namespace StudioCore.Resource
         public AccessLevel AccessLevel { get; }
 
         public int GetReferenceCounts();
-        public void Acquire();
+        public void Acquire(IResourceEventListener destructionHanlder, int tag = 0);
         public void Release();
 
         /// <summary>
@@ -199,8 +199,9 @@ namespace StudioCore.Resource
             return ReferenceCount;
         }
 
-        public void Acquire()
+        public void Acquire(IResourceEventListener destructionHanlder, int tag = 0)
         {
+            AddResourceEventListener(destructionHanlder, tag);
             ReferenceCount++;
         }
 

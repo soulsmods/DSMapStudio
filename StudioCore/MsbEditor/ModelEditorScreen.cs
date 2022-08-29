@@ -317,7 +317,7 @@ namespace StudioCore.MsbEditor
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _flverhandle = (ResourceHandle<FlverResource>)handle;
-            _flverhandle.Acquire();
+            _flverhandle.Acquire(this, tag);
             _flverhandle.AddResourceEventListener(this);
         }
 

@@ -315,9 +315,19 @@ namespace StudioCore.Resource
                     _loadBinderResources.Completion.Wait();
                     FlverLoadPipeline.LoadByteResourceBlock.Complete();
                     FlverLoadPipeline.LoadFileResourceRequest.Complete();
+                    HavokCollisionLoadPipeline.LoadByteResourceBlock.Complete();
+                    HavokCollisionLoadPipeline.LoadFileResourceRequest.Complete();
+                    HavokNavmeshLoadPipeline.LoadByteResourceBlock.Complete();
+                    HavokNavmeshLoadPipeline.LoadFileResourceRequest.Complete();
+                    TPFTextureLoadPipeline.LoadTPFTextureResourceRequest.Complete();
                     _loadTPFResources.Complete();
                     FlverLoadPipeline.LoadByteResourceBlock.Completion.Wait();
                     FlverLoadPipeline.LoadFileResourceRequest.Completion.Wait();
+                    HavokCollisionLoadPipeline.LoadByteResourceBlock.Completion.Wait();
+                    HavokCollisionLoadPipeline.LoadFileResourceRequest.Completion.Wait();
+                    HavokNavmeshLoadPipeline.LoadByteResourceBlock.Completion.Wait();
+                    HavokNavmeshLoadPipeline.LoadFileResourceRequest.Completion.Wait();
+                    TPFTextureLoadPipeline.LoadTPFTextureResourceRequest.Completion.Wait();
                     _loadTPFResources.Completion.Wait();
                     Finished = true;
                 });
@@ -333,6 +343,8 @@ namespace StudioCore.Resource
                         if (!ResourceDatabase.ContainsKey(p.AssetVirtualPath))
                             ResourceDatabase.Add(p.AssetVirtualPath, new ResourceRegistration(p.AccessLevel));
                         var reg = ResourceDatabase[p.AssetVirtualPath];
+                        if (reg.Handle != null)
+                            _unloadRequests.Post(reg.Handle);
                         reg.Handle = p;
                         var newNotificationRequests = new List<AddResourceLoadNotificationRequest>();
                         foreach (var r in reg.NotificationRequests)
@@ -551,6 +563,8 @@ namespace StudioCore.Resource
 
         private static BufferBlock<AddResourceLoadNotificationRequest> _notificationRequests =
             new BufferBlock<AddResourceLoadNotificationRequest>();
+
+        private static BufferBlock<IResourceHandle> _unloadRequests = new BufferBlock<IResourceHandle>();
 
         private static int Pending = 0;
         private static int Finished = 0;

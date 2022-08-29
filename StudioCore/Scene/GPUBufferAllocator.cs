@@ -540,6 +540,8 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    if (_buffer == null)
+                        return;
                     var ctx = Tracy.TracyCZoneN(1, $@"FillVBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
@@ -640,6 +642,10 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    // Buffer may be freed before upload can be fulfilled
+                    if (_buffer == null)
+                        return;
+                    
                     var ctx = Tracy.TracyCZoneN(1, $@"FillIBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
@@ -686,21 +692,18 @@ namespace StudioCore.Scene
             {
                 if (!disposedValue)
                 {
-                    if (disposing)
-                    {
-                        _allocator._allocations.Remove(this);
-                    }
-
                     if (_buffer != null)
                     {
+                        _allocator._allocations.Remove(this);
                         _buffer._handleCount--;
-                        if (_buffer._handleCount <= 0)
+                        if (_buffer._handleCount <= 0 && _buffer.AllocStatus == VertexIndexBuffer.Status.Resident)
                         {
                             _buffer._backingVertBuffer.Dispose();
                             _buffer._backingIndexBuffer.Dispose();
                             _allocator._buffers[_buffer.BufferIndex] = null;
                         }
                         _buffer = null;
+                        _allocator = null;
                     }
 
                     disposedValue = true;

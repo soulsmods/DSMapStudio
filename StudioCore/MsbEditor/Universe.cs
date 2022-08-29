@@ -228,7 +228,7 @@ namespace StudioCore.MsbEditor
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Collision;
                 obj.RenderSceneMesh = mesh;
-                if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
+                if (load && !ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -254,7 +254,7 @@ namespace StudioCore.MsbEditor
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Navmesh;
-                if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
+                if (load && !ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -284,7 +284,7 @@ namespace StudioCore.MsbEditor
                 model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
                 model.SetSelectable(obj);
-                if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
+                if (load && !ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {

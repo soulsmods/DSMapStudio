@@ -349,12 +349,9 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<FlverResource>)handle;
-            if (_resource != null && _resource.TryLock())
-            {
-                CreateSubmeshes();
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            _resource.Acquire(this, tag);
+            CreateSubmeshes();
+            NotifyAvailable();
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
@@ -553,12 +550,9 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokCollisionResource>)handle;
-            if (_resource != null && _resource.TryLock())
-            {
-                CreateSubmeshes();
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            _resource.Acquire(this, tag); 
+            CreateSubmeshes();
+            NotifyAvailable();
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
@@ -710,11 +704,8 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<NVMNavmeshResource>)handle;
-            if (_resource != null && _resource.TryLock())
-            {
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            _resource.Acquire(this, tag);
+            NotifyAvailable();
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
@@ -823,11 +814,8 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokNavmeshResource>)handle;
-            if (_resource != null && _resource.TryLock())
-            {
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            _resource.Acquire(this, tag);
+            NotifyAvailable();
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
@@ -926,11 +914,8 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokNavmeshResource>)handle;
-            if (_resource != null && _resource.TryLock())
-            {
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            _resource.Acquire(this, tag);
+            NotifyAvailable();
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
