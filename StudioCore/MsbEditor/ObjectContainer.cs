@@ -12,6 +12,8 @@ using System.Xml.Serialization;
 using FSParam;
 using SoulsFormats;
 using StudioCore.Scene;
+using StudioCore.Editor;
+using System.Numerics;
 
 namespace StudioCore.MsbEditor
 {
@@ -219,6 +221,16 @@ namespace StudioCore.MsbEditor
             }
             // Add map-level references after all others
             RootObject.BuildReferenceMap();
+        }
+
+        public void LoadBTL(AssetDescription ad, BTL btl)
+        {
+            foreach (var l in btl.Lights)
+            {
+                var n = new MapEntity(this, l, MapEntity.MapEntityType.Light, ad.AssetName);
+                Objects.Add(n);
+                RootObject.AddChild(n);
+            }
         }
 
         private void AddModelDeS(IMsb m, MSBD.Model model, string name)
@@ -669,6 +681,47 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsER(msb);
             }
+        }
+
+        /// <summary>
+        /// Gets all BTL.Light with matching ParentBtlNames.
+        /// Position is also de-offset by MapOffset to prepare them for saving.
+        /// </summary>
+        public List<BTL.Light> SerializeBtlLights(string btlName)
+        {
+            List<BTL.Light> lights = new();
+            foreach (var m in Objects)
+            {
+                if (m.ParentBTLName == btlName)
+                {
+                    if (m.WrappedObject != null && m.WrappedObject is BTL.Light light)
+                    {
+                        var newLight = light.Clone();
+                        newLight = ReverseOffsetBtlLight(newLight);
+                        lights.Add(newLight);
+                    }
+                    else
+                    {
+                        throw new Exception($"Entity has ParentBTLName `{m.ParentBTLName}`, but WrappedObject `{m.WrappedObject}` is not a BTL Light.");
+                    }
+                }
+            }
+            return lights;
+        }
+
+        /// <summary>
+        /// Uses Event.MapOffset to de-offset BTL light for saving
+        /// </summary>
+        private BTL.Light ReverseOffsetBtlLight(BTL.Light light)
+        {
+            var offset = MapOffset;
+            var degrees = offset.Rotation.Y;
+
+            light.Rotation -= new Vector3(0f, degrees, 0f);
+            light.Position = Utils.RotateVectorAboutPoint(light.Position, offset.Position, new Vector3(0f, 1f, 0f), -degrees);
+            light.Position -= offset.Position;
+
+            return light;
         }
 
         public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)

@@ -1200,6 +1200,32 @@ namespace StudioCore.Scene
             return r;
         }
 
+        // BTL Light Primitives
+        private static DbgPrimWireSphere _pointLight = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 6, 6);
+        private static DbgPrimWireSpotLight _spotLight = new DbgPrimWireSpotLight(Transform.Default, 1.0f, 1.0f, Color.Yellow);
+        private static DbgPrimWireSpheroidWithArrow _directionalLight = new DbgPrimWireSpheroidWithArrow(Transform.Default, 5.0f, Color.Yellow, 4, 2);
+        public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
+            r.BaseColor = Color.YellowGreen;
+            r.HighlightedColor = Color.Yellow;
+            return r;
+        }
+        public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
+            r.BaseColor = Color.Goldenrod;
+            r.HighlightedColor = Color.Violet;
+            return r;
+        }
+        public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _directionalLight);
+            r.BaseColor = Color.Cyan;
+            r.HighlightedColor = Color.AliceBlue;
+            return r;
+        }
+
         private static DbgPrimWireSpheroidWithArrow _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
         private static DbgPrimWireWallBox _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
         private static DbgPrimWireSpheroidWithArrow _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);

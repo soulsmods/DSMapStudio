@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
+using System.Numerics;
 using FSParam;
 using StudioCore.Resource;
 using SoulsFormats;
@@ -82,6 +83,9 @@ namespace StudioCore.MsbEditor
                 case "Region":
                     filter = RenderFilter.Region;
                     break;
+                case "Light":
+                    filter = RenderFilter.Light;
+                    break;
                 default:
                     filter = RenderFilter.All;
                     break;
@@ -133,6 +137,39 @@ namespace StudioCore.MsbEditor
                 return mesh;
             }
             return null;
+        }
+
+        public RenderableProxy GetLightDrawable(Map map, Entity obj)
+        {
+            var light = (BTL.Light)obj.WrappedObject;
+            if (light.Type is BTL.LightType.Directional)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetDirectionalLightProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Light;
+                return mesh;
+            }
+            else if (light.Type is BTL.LightType.Point)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetPointLightProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Light;
+                return mesh;
+            }
+            else if (light.Type is BTL.LightType.Spot)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetSpotLightProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Light;
+                return mesh;
+            }
+            else
+            {
+                throw new Exception($"Unexpected BTL LightType: {light.Type}");
+            }
         }
 
         public RenderableProxy GetDS2EventLocationDrawable(Map map, Entity obj)
@@ -502,6 +539,39 @@ namespace StudioCore.MsbEditor
 
         }
 
+        public BTL ReturnBTL(AssetDescription ad)
+        {
+            if (_assetLocator.Type == GameType.EldenRing && !FeatureFlags.BTL_EldenRing)
+                return null;
+
+            try
+            {
+                BTL btl;
+
+                if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
+                    var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
+                    if (file == null)
+                    {
+                        return null;
+                    }
+                    btl = BTL.Read(file.Bytes);
+                }
+                else
+                {
+                    btl = BTL.Read(ad.AssetPath);
+                }
+
+                return btl;
+            }
+            catch (InvalidDataException)
+            {
+                TaskManager.warningList.TryAdd($"{ad.AssetName} load", $"Failed to load {ad.AssetName}");
+                return null;
+            }
+        }
+
         public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
         {
             postLoad = false;
@@ -573,10 +643,10 @@ namespace StudioCore.MsbEditor
             {
                 msb = MSB1.Read(ad.AssetPath);
             }
+
             map.LoadMSB(msb);
 
             var amapid = _assetLocator.GetAssetMapID(mapid);
-
             foreach (var model in msb.Models.GetEntries())
             {
                 AssetDescription asset;
@@ -620,13 +690,47 @@ namespace StudioCore.MsbEditor
                 }
 
                 // Try to find the map offset
-                if (obj.WrappedObject is MSB2.Event.MapOffset mo)
+                if (obj.WrappedObject is MSB2.Event.MapOffset mo1)
                 {
                     var t = Transform.Default;
-                    t.Position = mo.Translation;
+                    t.Position = mo1.Translation;
+                    map.MapOffset = t;
+                }
+                else if (obj.WrappedObject is MSBB.Event.MapOffset mo2)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo2.Position;
+                    t.Rotation = new Quaternion(0f, Utils.DegToRadians(mo2.Degree), 0f, 1f);
+                    map.MapOffset = t;
+                }
+                else if (obj.WrappedObject is MSB3.Event.MapOffset mo3)
+                {
+                    var t = Transform.Default;
+                    //t.Position = Vector3.Transform(mo3.Position, Quaternion.CreateFromYawPitchRoll(0f, 0f, -Utils.DegToRadians(mo3.Degree)));
+                    t.Position = mo3.Position;
+                    t.Rotation = new Quaternion(0f, Utils.DegToRadians(mo3.Degree), 0f, 1f);
+                    map.MapOffset = t;
+                }
+                else if (obj.WrappedObject is MSBS.Event.MapOffset mo4)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo4.Position;
+                    t.Rotation = new Quaternion(0f, Utils.DegToRadians(mo4.Degree), 0f, 1f);
                     map.MapOffset = t;
                 }
             }
+
+            // Load BTLs (must be done after MapOffset is set)
+            var BTLs = _assetLocator.GetMapBTLs(mapid);
+            foreach (var btl_ad in BTLs)
+            {
+                var btl = ReturnBTL(btl_ad);
+                if (btl != null)
+                {
+                    map.LoadBTL(btl_ad, btl);
+                }
+            }
+
             if (_assetLocator.Type == GameType.EldenRing && CFG.Current.EnableEldenRingAutoMapOffset)
             {
                 if (SpecialMapConnections.GetEldenMapTransform(mapid, LoadedObjectContainers) is Transform loadTransform)
@@ -1049,14 +1153,144 @@ namespace StudioCore.MsbEditor
             File.Move(objparamadw.AssetPath + ".temp", objparamadw.AssetPath);
         }
 
+        private DCX.Type GetCompressionType()
+        {
+            if (_assetLocator.Type == GameType.DarkSoulsIII)
+            {
+                return DCX.Type.DCX_DFLT_10000_44_9;
+            }
+            else if (_assetLocator.Type == GameType.EldenRing)
+            {
+                return DCX.Type.DCX_DFLT_10000_44_9;
+            }
+            else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                return DCX.Type.None;
+            }
+            else if (_assetLocator.Type == GameType.Sekiro)
+            {
+                return DCX.Type.DCX_DFLT_10000_44_9;
+            }
+            else if (_assetLocator.Type == GameType.Bloodborne)
+            {
+                return DCX.Type.DCX_DFLT_10000_44_9;
+            }
+            else if (_assetLocator.Type == GameType.DemonsSouls)
+            {
+                return DCX.Type.None;
+            }
+
+            return DCX.Type.None;
+        }
+
+        /// <summary>
+        /// Save BTL light data
+        /// </summary>
+        public void SaveBTL(Map map)
+        {
+            var BTLs = _assetLocator.GetMapBTLs(map.Name);
+            var BTLs_w = _assetLocator.GetMapBTLs(map.Name, true);
+            DCX.Type compressionType = GetCompressionType();
+            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                for (var i = 0; i < BTLs.Count; i++)
+                {
+                    var bdt = BXF4.Read(BTLs[i].AssetPath, BTLs[i].AssetPath[..^3] + "bdt");
+                    var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
+                    var btl = BTL.Read(file.Bytes);
+                    if (btl != null)
+                    {
+                        var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
+
+                        // Only save BTL if it has been modified
+                        if (!FeatureFlags.BTL_OnlySaveWhenChanged || JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        {
+                            btl.Lights = newLights;
+                            file.Bytes = btl.Write(compressionType);
+                            try
+                            {
+                                bdt.Write(BTLs_w[0].AssetPath, BTLs_w[0].AssetPath[..^3] + "bdt");
+                            }
+                            catch (Exception e)
+                            {
+                                throw new SavingFailedException(Path.GetFileName(map.Name), e);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < BTLs.Count; i++)
+                {
+                    var btl = ReturnBTL(BTLs[i]);
+                    if (btl != null)
+                    {
+                        var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
+
+                        // Only save BTL if it has been modified
+                        if (!FeatureFlags.BTL_OnlySaveWhenChanged || JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        {
+                            btl.Lights = newLights;
+                            try
+                            {
+                                btl.Write(BTLs_w[i].AssetPath, compressionType);
+                            }
+                            catch (Exception e)
+                            {
+                                throw new SavingFailedException(Path.GetFileName(map.Name), e);
+                            }
+                        }
+                    }
+                }
+            }
+            /*
+            // TODO2: BTL temp files and backup files and such
+            // Create the map directory if it doesn't exist
+            if (!Directory.Exists(Path.GetDirectoryName(BTLs_w.AssetPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(BTLs_w.AssetPath));
+            }
+
+            // Write as a temporary file to make sure there are no errors before overwriting current file 
+            // If a backup file doesn't exist of the original file create it
+            if (!File.Exists(BTLs_w + ".bak") && File.Exists(mapPath))
+            {
+                File.Copy(mapPath, mapPath + ".bak", true);
+            }
+
+            if (File.Exists(mapPath + ".temp"))
+            {
+                File.Delete(mapPath + ".temp");
+            }
+
+            msb.Write(mapPath + ".temp", compressionType);
+
+            // Make a copy of the previous map
+            if (File.Exists(mapPath))
+            {
+                File.Copy(mapPath, mapPath + ".prev", true);
+            }
+
+            // Move temp file as new map file
+            if (File.Exists(mapPath))
+            {
+                File.Delete(mapPath);
+            }
+
+            File.Move(mapPath + ".temp", mapPath);
+            */
+        }
+
         public void SaveMap(Map map)
         {
+            SaveBTL(map);
             try
             {
                 var ad = _assetLocator.GetMapMSB(map.Name);
                 var adw = _assetLocator.GetMapMSB(map.Name, true);
                 IMsb msb;
-                DCX.Type compressionType = DCX.Type.None;
+                DCX.Type compressionType = GetCompressionType();
                 if (_assetLocator.Type == GameType.DarkSoulsIII)
                 {
                     MSB3 prev = MSB3.Read(ad.AssetPath);
@@ -1065,7 +1299,6 @@ namespace StudioCore.MsbEditor
                     n.Layers = prev.Layers;
                     n.Routes = prev.Routes;
                     msb = n;
-                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
                 }
                 else if (_assetLocator.Type == GameType.EldenRing)
                 {
@@ -1074,7 +1307,6 @@ namespace StudioCore.MsbEditor
                     n.Layers = prev.Layers;
                     n.Routes = prev.Routes;
                     msb = n;
-                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
@@ -1091,12 +1323,10 @@ namespace StudioCore.MsbEditor
                     n.Layers = prev.Layers;
                     n.Routes = prev.Routes;
                     msb = n;
-                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
                 }
                 else if (_assetLocator.Type == GameType.Bloodborne)
                 {
                     msb = new MSBB();
-                    compressionType = DCX.Type.DCX_DFLT_10000_44_9;
                 }
                 else if (_assetLocator.Type == GameType.DemonsSouls)
                 {

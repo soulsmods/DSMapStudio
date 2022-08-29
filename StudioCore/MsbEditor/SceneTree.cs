@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
 using System.Windows.Forms;
+using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
@@ -80,7 +81,7 @@ namespace StudioCore.MsbEditor
         public enum Configuration
         {
             MapEditor,
-            ModelEditor
+            ModelEditor,
         }
 
         private Configuration _configuration;
@@ -112,7 +113,18 @@ namespace StudioCore.MsbEditor
             mapcache.Add(MapEntity.MapEntityType.Part, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.Region, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.Event, new Dictionary<Type, List<MapEntity>>());
-            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+            if (_assetLocator.Type is GameType.EldenRing)
+            {
+                if (FeatureFlags.BTL_EldenRing)
+                {
+                    mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
+                }
+            }
+            else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS or GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
+            {
+                mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
+            }
+            else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 mapcache.Add(MapEntity.MapEntityType.DS2Event, new Dictionary<Type, List<MapEntity>>());
                 mapcache.Add(MapEntity.MapEntityType.DS2EventLocation, new Dictionary<Type, List<MapEntity>>());
@@ -499,6 +511,24 @@ namespace StudioCore.MsbEditor
                                     foreach (var obj in typ.Value)
                                     {
                                         MapObjectSelectable(obj, true);
+                                    }
+                                }
+                                else if (cats.Key == MapEntity.MapEntityType.Light)
+                                {
+                                    var btlFiles = typ.Value.DistinctBy(e => e.ParentBTLName); // TODO2: cache this
+                                    foreach (var btlFile in btlFiles)
+                                    {
+                                        if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ParentBTLName}", ImGuiTreeNodeFlags.OpenOnArrow))
+                                        {
+                                            foreach (var obj in typ.Value)
+                                            {
+                                                if (obj.ParentBTLName == btlFile.ParentBTLName)
+                                                {
+                                                    MapObjectSelectable(obj, true);
+                                                }
+                                            }
+                                            ImGui.TreePop();
+                                        }
                                     }
                                 }
                                 else if (ImGui.TreeNodeEx(typ.Key.Name, ImGuiTreeNodeFlags.OpenOnArrow))
