@@ -361,6 +361,12 @@ namespace StudioCore
             // Change camera speed via mousewheel
             float moveMult = 1;
             float mouseWheelSpeedStep = 1.15f;
+            if (InputTracker.GetMouseButtonDown(MouseButton.Middle))
+            {
+                CameraMoveSpeed_Slow = CFG.Current.GFX_Camera_MoveSpeed_Slow;
+                CameraMoveSpeed_Normal = CFG.Current.GFX_Camera_MoveSpeed_Normal;
+                CameraMoveSpeed_Fast = CFG.Current.GFX_Camera_MoveSpeed_Fast;
+            }
             if (InputTracker.GetMouseWheelDelta() > 0)
                 moveMult *= mouseWheelSpeedStep;
             if (InputTracker.GetMouseWheelDelta() < 0)
