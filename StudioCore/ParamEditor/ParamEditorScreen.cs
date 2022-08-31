@@ -511,11 +511,11 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndMenu();
                 }
-                string activeParam = _activeView._selection.getActiveParam();
+                /*string activeParam = _activeView._selection.getActiveParam();
                 if (activeParam != null && _projectSettings.GameType == GameType.DarkSoulsIII)
                 {
                     ParamReloader.GiveItemMenu(ParamBank.AssetLocator, _activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
-                }
+                }*/
                 ImGui.EndMenu();
             }
             if (ImGui.BeginMenu("Help"))
