@@ -51,22 +51,22 @@ namespace StudioCore.Editor
             }
 
             Task t = new Task(() => {
-                action.Invoke();
-                /*try
+                if (silentFail)
                 {
-                    action.Invoke();
-                }
-                catch (Exception e)
-                {
-                    if (silentFail)
+                    try
+                    {
+                        action.Invoke();
+                    }
+                    catch (Exception e)
                     {
                         warningList.TryAdd(taskId, ("An error has occurred in task "+taskId+":\n"+e.Message).Replace("\0", "\\0"));
-                    }
-                    else
-                    {
-                        MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }*/
+                    } 
+                }
+                else
+                {
+                    action.Invoke();
+                    //MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 (bool, Task) old;
                 _liveTasks.TryRemove(taskId, out old);
                 if (old.Item1 == true)

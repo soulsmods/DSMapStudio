@@ -641,7 +641,7 @@ namespace StudioCore.ParamEditor
             
             CacheBank.ClearCaches();
 
-            TaskManager.Run("PB:LoadParams", true, false, true, () =>
+            TaskManager.Run("PB:LoadParams", true, false, false, () =>
             {
                 if (AssetLocator.Type != GameType.Undefined)
                 {
@@ -720,7 +720,7 @@ namespace StudioCore.ParamEditor
                         }
                         IsLoadingVParams = false;
 
-                        TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => refreshParamDirtyCache());
+                        TaskManager.Run("PB:RefreshDirtyCache", true, true, true, () => refreshParamDirtyCache());
                     });
                 }
 
