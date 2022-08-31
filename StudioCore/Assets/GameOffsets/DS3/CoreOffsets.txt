@@ -1,5 +1,5 @@
 exeName:DarkSoulsIII
-paramBase:0x4782838
+paramBase:0x4798118
 paramInnerPath:0x68/0x68
 paramCountOffset:0xA
 paramDataOffset:0x40
