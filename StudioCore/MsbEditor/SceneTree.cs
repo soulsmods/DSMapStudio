@@ -489,7 +489,7 @@ namespace StudioCore.MsbEditor
                         {
                             if (typ.Value.Count > 0)
                             {
-                                // Regions only have multiple types in certain games
+                                // Regions don't have multiple types in certain games
                                 if (cats.Key == MapEntity.MapEntityType.Region &&
                                     (_assetLocator.Type is GameType.DemonsSouls
                                     or GameType.DarkSoulsPTDE
