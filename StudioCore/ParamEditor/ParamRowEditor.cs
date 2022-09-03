@@ -477,7 +477,8 @@ namespace StudioCore.ParamEditor
             bool diffVanilla = ParamUtils.IsValueDiff(ref oldval, ref vanillaval, propType);
             bool diffCompare = ParamUtils.IsValueDiff(ref oldval, ref compareval, propType);
             List<bool> diffAuxVanilla = auxVals.Select((o, i) => ParamUtils.IsValueDiff(ref o, ref vanillaval, propType)).ToList();
-            bool conflict = diffVanilla && diffAuxVanilla.Contains(true);
+            List<bool> diffAuxPrimaryAndVanilla = auxVals.Select((o, i) => ParamUtils.IsValueDiff(ref o, ref oldval, propType) && ParamUtils.IsValueDiff(ref o, ref vanillaval, propType)).ToList();
+            bool conflict = diffAuxPrimaryAndVanilla.Contains(true);
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
             bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;

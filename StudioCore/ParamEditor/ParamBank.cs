@@ -86,7 +86,7 @@ namespace StudioCore.ParamEditor
                 if (PrimaryBank == this)
                     return null;
                 }
-                return _vanillaDiffCache;
+                return _primaryDiffCache;
             }
         }
 

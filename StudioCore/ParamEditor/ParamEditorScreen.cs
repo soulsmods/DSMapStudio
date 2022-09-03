@@ -1216,10 +1216,10 @@ namespace StudioCore.ParamEditor
 
     public class ParamEditorView
     {
-        private static Vector4 CONFLICTCOLOUR = new Vector4(1,0.7f,0.7f,1);
-        private static Vector4 DIFFEDCOLOUR = new Vector4(0.7f,0.7f,1,1);
-        private static Vector4 DIRTYCOLOUR = new Vector4(0.7f,1,0.7f,1);
-        private static Vector4 CLEANCOLOUR = new Vector4(0.9f,0.9f,0.9f,1);
+        private static Vector4 AUXCONFLICTCOLOUR = new Vector4(1,0.7f,0.7f,1);
+        private static Vector4 AUXADDEDCOLOUR = new Vector4(0.7f,0.7f,1,1);
+        private static Vector4 PRIMARYCHANGEDCOLOUR = new Vector4(0.7f,1,0.7f,1);
+        private static Vector4 ALLVANILLACOLOUR = new Vector4(0.9f,0.9f,0.9f,1);
 
         private ParamEditorScreen _paramEditor;
         internal int _viewIndex;
@@ -1317,8 +1317,8 @@ namespace StudioCore.ParamEditor
             else
             {
                 Param para = ParamBank.PrimaryBank.Params[activeParam];
-                HashSet<int> dirtyCache = ParamBank.PrimaryBank.VanillaDiffCache[activeParam];
-                List<HashSet<int>> diffCaches = ParamBank.AuxBanks.Select((bank, i) => bank.Value.VanillaDiffCache[activeParam]).ToList();
+                HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.VanillaDiffCache[activeParam];
+                List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.VanillaDiffCache[activeParam], bank.Value.PrimaryDiffCache[activeParam])).ToList();
                 IParamDecorator decorator = null;
                 if (_paramEditor._decorators.ContainsKey(activeParam))
                 {
@@ -1375,7 +1375,7 @@ namespace StudioCore.ParamEditor
                             _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                             continue;
                         }
-                        RowColumnEntry(activeParam, null, para[rowID], dirtyCache, diffCaches, decorator, ref scrollTo, false, true);
+                        RowColumnEntry(activeParam, null, para[rowID], vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true);
                     }
 
                     ImGui.Spacing();
@@ -1388,7 +1388,7 @@ namespace StudioCore.ParamEditor
 
                 foreach (var r in rows)
                 {
-                    RowColumnEntry(activeParam, rows, r, dirtyCache, diffCaches, decorator, ref scrollTo, doFocus, false);
+                    RowColumnEntry(activeParam, rows, r, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
@@ -1418,22 +1418,25 @@ namespace StudioCore.ParamEditor
             ImGui.EndChild();
         }
 
-        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> dirtyCache, List<HashSet<int>> diffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
+        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
-            bool diffCacheChanges = diffCaches.Where((cache) => cache.Contains(r.ID)).Count() > 0;
-            if (dirtyCache != null && dirtyCache.Contains(r.ID))
+            bool diffVanilla = vanillaDiffCache != null && vanillaDiffCache.Contains(r.ID);
+            bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
+            if (diffVanilla)
             {
-                if (diffCacheChanges)
-                    ImGui.PushStyleColor(ImGuiCol.Text, CONFLICTCOLOUR);
+                // If the auxes are changed bu
+                bool auxDiffPrimaryAndVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 0;
+                if (auxDiffVanilla && auxDiffPrimaryAndVanilla)
+                    ImGui.PushStyleColor(ImGuiCol.Text, AUXCONFLICTCOLOUR);
                 else
-                    ImGui.PushStyleColor(ImGuiCol.Text, DIRTYCOLOUR);
+                    ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
             }
             else
             {
-                if (diffCacheChanges)
-                    ImGui.PushStyleColor(ImGuiCol.Text, DIFFEDCOLOUR);
+                if (auxDiffVanilla)
+                    ImGui.PushStyleColor(ImGuiCol.Text, AUXADDEDCOLOUR);
                 else
-                    ImGui.PushStyleColor(ImGuiCol.Text, CLEANCOLOUR);
+                    ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
             }
 
             var selected = _selection.getSelectedRows().Contains(r);
