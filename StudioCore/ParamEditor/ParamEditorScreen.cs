@@ -368,7 +368,7 @@ namespace StudioCore.ParamEditor
                             {
                                 MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), EditorActionManager, _activeView._selection.getActiveParam(), false, false, CSVDelimiterPreference[0]);
                                 if (r.Type == MassEditResultType.SUCCESS)
-                                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                                 else
                                     System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
                             }
@@ -388,7 +388,7 @@ namespace StudioCore.ParamEditor
                                     EditorActionManager.ExecuteAction(a);
                                 else
                                     System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
-                                TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                                TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                             }
                         }
                         if (ImGui.BeginMenu("Field"))
@@ -410,7 +410,7 @@ namespace StudioCore.ParamEditor
                                             EditorActionManager.ExecuteAction(a);
                                         else
                                             System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
-                                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                                     }
                                 }
                             }
@@ -453,7 +453,7 @@ namespace StudioCore.ParamEditor
                 ImGui.Separator();
                 if (ImGui.MenuItem("Check all params for edits", null, false, !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
                 {
-                    ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank);
+                    ParamBank.PrimaryBank.RefreshParamDiffCaches();
                 }
                 ImGui.Separator();
                 if (ImGui.MenuItem("Show alternate field names", null, ShowAltNamesPreference))
@@ -672,7 +672,7 @@ namespace StudioCore.ParamEditor
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
-                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                     }
                     _mEditRegexResult = r.Information;
                 }
@@ -705,7 +705,7 @@ namespace StudioCore.ParamEditor
                     MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, _currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CSVDelimiterPreference[0]);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
-                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                     }
                     _mEditCSVResult = r.Information;
                 }
@@ -744,12 +744,12 @@ namespace StudioCore.ParamEditor
                 if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
                 {
                     EditorActionManager.UndoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                 }
                 if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
                 {
                     EditorActionManager.RedoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCache(ParamBank.VanillaBank));
+                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
                 {
@@ -808,7 +808,7 @@ namespace StudioCore.ParamEditor
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
                             ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(), 
                                 ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.DiffParamCache[_activeView._selection.getActiveParam()]);
+                                ParamBank.PrimaryBank.VanillaDiffCache[_activeView._selection.getActiveParam()]);
 
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
@@ -840,7 +840,7 @@ namespace StudioCore.ParamEditor
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
                             ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
                                 ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.DiffParamCache[_activeView._selection.getActiveParam()]);
+                                ParamBank.PrimaryBank.VanillaDiffCache[_activeView._selection.getActiveParam()]);
 
                     }
                 }
@@ -1317,8 +1317,8 @@ namespace StudioCore.ParamEditor
             else
             {
                 Param para = ParamBank.PrimaryBank.Params[activeParam];
-                HashSet<int> dirtyCache = ParamBank.PrimaryBank.DiffParamCache[activeParam];
-                List<HashSet<int>> diffCaches = ParamBank.AuxBanks.Select((bank, i) => bank.Value.DiffParamCache[activeParam]).ToList();
+                HashSet<int> dirtyCache = ParamBank.PrimaryBank.VanillaDiffCache[activeParam];
+                List<HashSet<int>> diffCaches = ParamBank.AuxBanks.Select((bank, i) => bank.Value.VanillaDiffCache[activeParam]).ToList();
                 IParamDecorator decorator = null;
                 if (_paramEditor._decorators.ContainsKey(activeParam))
                 {

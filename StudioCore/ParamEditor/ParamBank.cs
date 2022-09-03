@@ -32,7 +32,8 @@ namespace StudioCore.ParamEditor
         internal AssetLocator AssetLocator = null;
 
         private Dictionary<string, Param> _params = null;
-        private Dictionary<string, HashSet<int>> _paramDiffCache = null; //If param != vanillaparam
+        private Dictionary<string, HashSet<int>> _vanillaDiffCache = null; //If param != vanillaparam
+        private Dictionary<string, HashSet<int>> _primaryDiffCache = null; //If param != primaryparam
 
         private bool _pendingUpgrade = false;
         
@@ -58,7 +59,7 @@ namespace StudioCore.ParamEditor
             get => _paramVersion;
         }
         
-        public IReadOnlyDictionary<string, HashSet<int>> DiffParamCache
+        public IReadOnlyDictionary<string, HashSet<int>> VanillaDiffCache
         {
             get
             {
@@ -66,7 +67,26 @@ namespace StudioCore.ParamEditor
                 {
                     return null;
                 }
-                return _paramDiffCache;
+                {
+                if (VanillaBank == this)
+                    return null;
+                }
+                return _vanillaDiffCache;
+            }
+        }
+        public IReadOnlyDictionary<string, HashSet<int>> PrimaryDiffCache
+        {
+            get
+            {
+                if (IsLoadingParams)
+                {
+                    return null;
+                }
+                {
+                if (PrimaryBank == this)
+                    return null;
+                }
+                return _vanillaDiffCache;
             }
         }
 
@@ -615,7 +635,7 @@ namespace StudioCore.ParamEditor
                     PrimaryBank.LoadParamsER(settings.PartialParams);
                 }
 
-                PrimaryBank.ClearParamDiffCache();
+                PrimaryBank.ClearParamDiffCaches();
                 PrimaryBank.IsLoadingParams = false;
 
                 VanillaBank.IsLoadingParams = true;
@@ -652,7 +672,7 @@ namespace StudioCore.ParamEditor
                     }
                     VanillaBank.IsLoadingParams = false;
 
-                    TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCache(VanillaBank));
+                    TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCaches());
                 });
                 
                 if (options != null)
@@ -677,37 +697,48 @@ namespace StudioCore.ParamEditor
             {
                 newBank.LoadParamsERFromFile(path);
             }
-            newBank.ClearParamDiffCache();
+            newBank.ClearParamDiffCaches();
             newBank.IsLoadingParams = false;
-            newBank.RefreshParamDiffCache(VanillaBank);
+            newBank.RefreshParamDiffCaches();
             AuxBanks[Path.GetFileName(Path.GetDirectoryName(path))] = newBank;
         }
 
 
-        public void ClearParamDiffCache()
+        public void ClearParamDiffCaches()
         {
-            _paramDiffCache = new Dictionary<string, HashSet<int>>();
+            _vanillaDiffCache = new Dictionary<string, HashSet<int>>();
+            _primaryDiffCache = new Dictionary<string, HashSet<int>>();
             foreach (string param in _params.Keys)
-                _paramDiffCache.Add(param, new HashSet<int>());
+            {
+                _vanillaDiffCache.Add(param, new HashSet<int>());
+                _primaryDiffCache.Add(param, new HashSet<int>());
+            }
         }
-        public void RefreshParamDiffCache(ParamBank vanillaBank)
+        public void RefreshParamDiffCaches()
         {
-            if (IsLoadingParams || vanillaBank.IsLoadingParams)
-                return;
+            if (this != VanillaBank)
+                _vanillaDiffCache = GetParamDiff(VanillaBank);
+            if (this != PrimaryBank)
+                _primaryDiffCache = GetParamDiff(PrimaryBank);
+        }
+        private Dictionary<string, HashSet<int>> GetParamDiff(ParamBank otherBank)
+        {
+            if (IsLoadingParams || otherBank == null || otherBank.IsLoadingParams)
+                return null;
             Dictionary<string, HashSet<int>> newCache = new Dictionary<string, HashSet<int>>();
             foreach (string param in _params.Keys)
             {
                 HashSet<int> cache = new HashSet<int>();
                 newCache.Add(param, cache);
                 Param p = _params[param];
-                if (!vanillaBank._params.ContainsKey(param))
+                if (!otherBank._params.ContainsKey(param))
                 {
                     Console.WriteLine("Missing vanilla param "+param);
                     continue;
                 }
 
                 var rows = _params[param].Rows.OrderBy(r => r.ID).ToArray();
-                var vrows = vanillaBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
+                var vrows = otherBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
                 
                 var vanillaIndex = 0;
                 int lastID = -1;
@@ -740,20 +771,21 @@ namespace StudioCore.ParamEditor
                     }
                 }
             }
-            _paramDiffCache = newCache;
+            return newCache;
         }
-        public static void RefreshParamRowDiffCache(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows, HashSet<int> cache)
+        private static void RefreshParamRowDiffCache(Param.Row row, ReadOnlySpan<Param.Row> otherBankRows, HashSet<int> cache)
         {
-            if (IsChanged(row, vanillaRows))
+            if (IsChanged(row, otherBankRows))
                 cache.Add(row.ID);
             else
                 cache.Remove(row.ID);
         }
         
-        public static void RefreshParamRowDiffCache(Param.Row row, Param vanillaParam, HashSet<int> cache)
+        // In theory this should be called twice for both Vanilla and PrimaryBank. However, as primarybank is the only one to ever change, this is unnecessary.
+        public static void RefreshParamRowDiffCache(Param.Row row, Param otherBankParam, HashSet<int> cache)
         {
-            var vanillaRows = vanillaParam.Rows.Where(cell => cell.ID == row.ID).ToArray();
-            if (IsChanged(row, vanillaRows))
+            var otherBankRows = otherBankParam.Rows.Where(cell => cell.ID == row.ID).ToArray();
+            if (IsChanged(row, otherBankRows))
                 cache.Add(row.ID);
             else
                 cache.Remove(row.ID);
@@ -1073,7 +1105,7 @@ namespace StudioCore.ParamEditor
                     if (partial)
                     {
                         TaskManager.WaitAll();//wait on dirtycache update
-                        HashSet<int> dirtyCache = _paramDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
+                        HashSet<int> dirtyCache = _vanillaDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
                         foreach (Param.Row row in paramFile.Rows)
                         {
                             if (dirtyCache.Contains(row.ID))
@@ -1388,7 +1420,7 @@ namespace StudioCore.ParamEditor
             
             // Refresh dirty cache
             CacheBank.ClearCaches();
-            RefreshParamDiffCache(VanillaBank);
+            RefreshParamDiffCaches();
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }

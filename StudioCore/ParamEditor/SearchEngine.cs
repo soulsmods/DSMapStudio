@@ -144,12 +144,12 @@ namespace StudioCore.Editor
         {
             unpacker = (dummy)=>new List<FSParam.Param>(bank.Params.Values);
             filterList.Add("modified", (0, noArgs(noContext((param)=>{
-                    HashSet<int> cache = bank.DiffParamCache[bank.GetKeyForParam(param)];
+                    HashSet<int> cache = bank.VanillaDiffCache[bank.GetKeyForParam(param)];
                     return cache.Count>0;
                 }
             ))));
             filterList.Add("original", (0, noArgs(noContext((param)=>{
-                    HashSet<int> cache = bank.DiffParamCache[bank.GetKeyForParam(param)];
+                    HashSet<int> cache = bank.VanillaDiffCache[bank.GetKeyForParam(param)];
                     return cache.Count==0;
                 }
             ))));
@@ -176,13 +176,13 @@ namespace StudioCore.Editor
             unpacker = (param) => param.Rows;
             filterList.Add("modified", (0, noArgs((context)=>{
                     string paramName = bank.GetKeyForParam(context);
-                    HashSet<int> cache = bank.DiffParamCache[paramName];
+                    HashSet<int> cache = bank.VanillaDiffCache[paramName];
                     return (row)=>cache.Contains(row.ID);
                 }
             )));
             filterList.Add("original", (0, noArgs((context)=>{
                     string paramName = bank.GetKeyForParam(context);
-                    HashSet<int> cache = bank.DiffParamCache[paramName];
+                    HashSet<int> cache = bank.VanillaDiffCache[paramName];
                     return (row)=>!cache.Contains(row.ID);
                 }
             )));
