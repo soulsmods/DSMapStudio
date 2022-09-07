@@ -759,6 +759,12 @@ namespace StudioCore.MsbEditor
                         ImGui.PopStyleVar();
                         ImGui.TreePop();
                     }
+
+                    // Update type cache when a map is no longer loaded
+                    if (_cachedTypeView != null && map == null && _cachedTypeView.ContainsKey(mapid))
+                    {
+                        _cachedTypeView.Remove(mapid);
+                    }
                 }
                 if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
                 {
