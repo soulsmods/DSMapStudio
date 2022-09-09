@@ -107,6 +107,92 @@ namespace SoulsFormats
             for (int i = 0; i < meshCount; i++)
                 Meshes.Add(new Mesh(br, this, dataOffset));
         }
+
+        protected override void Write(BinaryWriterEx bw)
+        {
+            bw.BigEndian = BigEndian;
+            bw.WriteASCII("FLVER\0");
+            bw.WriteASCII(BigEndian ? "B\0" : "L\0");
+            bw.WriteInt32(Version);
+
+            bw.ReserveInt32("DataOffset");
+            bw.ReserveInt32("DataSize");
+            bw.WriteInt32(Dummies.Count);
+            bw.WriteInt32(Materials.Count);
+            bw.WriteInt32(Bones.Count);
+            bw.WriteInt32(Meshes.Count);
+            bw.WriteInt32(Meshes.Count); //Vert buffer count. Currently based on reads, there should only be one per mesh
+            bw.WriteVector3(BoundingBoxMin);
+            bw.WriteVector3(BoundingBoxMax);
+
+            int triCount = 0;
+            int indicesCount = 0;
+            for (int i = 0; i < Meshes.Count; i++)
+            {
+                triCount += Meshes[i].GetFaces(Version).Count;
+                indicesCount += Meshes[i].VertexIndices.Count;
+            }
+            bw.WriteInt32(triCount);
+            bw.WriteInt32(indicesCount); //Not technically correct, but should be valid for the buffer size
+
+            byte vertexIndicesSize = 16;
+            foreach (Mesh mesh in Meshes)
+            {
+                vertexIndicesSize = (byte)Math.Max(vertexIndicesSize, mesh.GetVertexIndexSize());
+            }
+
+            bw.WriteByte(vertexIndicesSize);
+            bw.WriteBoolean(Unicode);
+            bw.WriteBoolean(Unk4A > 0);
+            bw.WriteByte(0);
+
+            bw.WriteInt32(Unk4C);
+
+            bw.WriteInt32(0);
+            bw.WriteInt32(0);
+            bw.WriteInt32(0);
+            bw.WriteByte((byte)Unk5C);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
+
+            bw.WriteBytes(new byte[0x20]);
+
+            foreach (FLVER.Dummy dummy in Dummies)
+                dummy.Write(bw, Version);
+
+            for (int i = 0; i < Materials.Count; i++)
+                Materials[i].Write(bw, i);
+
+            for (int i = 0; i < Bones.Count; i++)
+                Bones[i].Write(bw, i);
+
+            for (int i = 0; i < Meshes.Count; i++)
+                Meshes[i].Write(bw, this, i);
+
+            for (int i = 0; i < Materials.Count; i++)
+                Materials[i].WriteSubStructs(bw, Unicode, i);
+
+            for (int i = 0; i < Bones.Count; i++)
+                Bones[i].WriteStrings(bw, Unicode, i);
+
+            for (int i = 0; i < Meshes.Count; i++)
+                Meshes[i].WriteVertexBufferHeader(bw, this, i);
+
+            bw.Pad(0x20);
+            int dataOffset = (int)bw.Position;
+            bw.FillInt32("DataOffset", dataOffset);
+
+            for (int i = 0; i < Meshes.Count; i++)
+            {
+                Meshes[i].WriteVertexIndices(bw, this, dataOffset, i);
+                bw.Pad(0x20);
+                Meshes[i].WriteVertexBufferData(bw, this, dataOffset, i);
+                bw.Pad(0x20);
+            }
+
+            bw.FillInt32("DataSize", (int)bw.Position - dataOffset);
+        }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

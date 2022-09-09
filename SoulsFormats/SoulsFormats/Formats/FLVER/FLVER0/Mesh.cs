@@ -201,6 +201,93 @@ namespace SoulsFormats
                 }
                 return triangles;
             }
+
+            public int GetVertexIndexSize()
+            {
+                foreach (int index in VertexIndices)
+                    if (index > ushort.MaxValue + 1)
+                        return 32;
+                return 16;
+            }
+
+            public void Write(BinaryWriterEx bw, FLVER0 flv, int index)
+            {
+                Material material = flv.Materials[MaterialIndex];
+                bw.WriteByte(Dynamic);
+                bw.WriteByte(MaterialIndex);
+                bw.WriteBoolean(Unk02);
+                bw.WriteByte(Unk03);
+
+                bw.WriteInt32(VertexIndices.Count);
+                bw.WriteInt32(Vertices.Count);
+                bw.WriteInt16(DefaultBoneIndex);
+                bw.WriteInt16s(BoneIndices);
+                bw.WriteInt16(Unk46);
+                bw.WriteInt32(VertexIndices.Count * 2);
+                bw.ReserveInt32($"VertexIndicesOffset{index}");
+                bw.WriteInt32(material.Layouts[LayoutIndex].Size * Vertices.Count);
+                bw.ReserveInt32($"VertexBufferOffset{index}");
+                bw.ReserveInt32($"VertexBufferListOffset{index}");
+                bw.WriteInt32(0); //We don't intend to fill vertexBuffersOffset2 so we'll just write it 0 now.
+                bw.WriteInt32(0);
+            }
+
+            public void WriteVertexIndices(BinaryWriterEx bw, FLVER0 flv, int dataOffset, int index)
+            {
+                bw.FillInt32($"VertexIndicesOffset{index}", (int)bw.Position - dataOffset);
+                if (flv.VertexIndexSize == 16)
+                {
+                    for (int i = 0; i < VertexIndices.Count; i++)
+                    {
+                        bw.WriteUInt16((ushort)VertexIndices[i]);
+                    }
+                }
+                else if (flv.VertexIndexSize == 32)
+                {
+                    for (int i = 0; i < VertexIndices.Count; i++)
+                    {
+                        bw.WriteInt32(VertexIndices[i]);
+                    }
+                }
+            }
+
+            public void WriteVertexBufferHeader(BinaryWriterEx bw, FLVER0 flv, int index)
+            {
+                bw.FillInt32($"VertexBufferListOffset{index}", (int)bw.Position);
+
+                bw.WriteInt32(1); //bufferCount
+                bw.ReserveInt32($"VertexBufferInfoOffset{index}");
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+
+                bw.FillInt32($"VertexBufferInfoOffset{index}", (int)bw.Position);
+
+                //Since only the first VertexBuffer data is kept no matter what, we'll only write the first
+                bw.WriteInt32(LayoutIndex);
+                bw.WriteInt32(flv.Materials[MaterialIndex].Layouts[LayoutIndex].Size * Vertices.Count);
+                bw.ReserveInt32($"VertexBufferOffset{index}_{0}");
+                bw.WriteInt32(0);
+
+            }
+
+            public void WriteVertexBufferData(BinaryWriterEx bw, FLVER0 flv, int dataOffset, int index)
+            {
+                bw.FillInt32($"VertexBufferOffset{index}", (int)bw.Position - dataOffset);
+                bw.FillInt32($"VertexBufferOffset{index}_{0}", (int)bw.Position - dataOffset);
+
+                foreach (FLVER.Vertex vertex in Vertices)
+                    vertex.PrepareWrite();
+
+                float uvFactor = 1024;
+                if (!bw.BigEndian)
+                    uvFactor = 2048;
+
+                foreach (FLVER.Vertex vertex in Vertices)
+                    vertex.Write(bw, flv.Materials[MaterialIndex].Layouts[LayoutIndex], uvFactor);
+
+                foreach (FLVER.Vertex vertex in Vertices)
+                    vertex.FinishWrite();
+            }
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }

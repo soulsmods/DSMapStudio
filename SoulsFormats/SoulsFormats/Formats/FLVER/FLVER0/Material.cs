@@ -77,6 +77,106 @@ namespace SoulsFormats
                     br.StepOut();
                 }
             }
+
+            internal void Write(BinaryWriterEx bw, int index)
+            {
+                //This data must be written after the entire material list is written
+                bw.ReserveInt32($"MaterialName{index}");
+                bw.ReserveInt32($"MaterialMTD{index}");
+                bw.ReserveInt32($"TextureOffset{index}");
+                bw.ReserveInt32($"LayoutsOffset{index}");
+
+                bw.ReserveInt32($"MatOffsetDataLength{index}");
+                bw.ReserveInt32($"LayoutHeaderOffset{index}");
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+            }
+
+            internal void WriteSubStructs(BinaryWriterEx bw, bool Unicode, int index)
+            {
+                //Write Material Name
+                int matNameOffset = (int)bw.Position;
+                bw.FillInt32($"MaterialName{index}", matNameOffset);
+                if (Unicode)
+                    bw.WriteUTF16(Name, true);
+                else
+                    bw.WriteShiftJIS(Name, true);
+
+                //Write MTD
+                bw.FillInt32($"MaterialMTD{index}", (int)bw.Position);
+                if (Unicode)
+                    bw.WriteUTF16(MTD, true);
+                else
+                    bw.WriteShiftJIS(MTD, true);
+
+                //Write texture info
+                bw.FillInt32($"TextureOffset{index}", (int)bw.Position);
+                bw.WriteByte((byte)Textures.Count);
+                bw.WriteByte(0);
+                bw.WriteByte(0);
+                bw.WriteByte(0);
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+
+                //Write texture list data
+                for (int i = 0; i < Textures.Count; i++)
+                {
+                    bw.ReserveInt32($"Path_Offset{index}_{i}");
+                    bw.ReserveInt32($"Type_Offset{index}_{i}");
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                }
+
+                //Write texture string data
+                for (int i = 0; i < Textures.Count; i++)
+                {
+                    bw.FillInt32($"Path_Offset{index}_{i}", (int)bw.Position);
+                    if (Unicode)
+                        bw.WriteUTF16(Textures[i].Path, true);
+                    else
+                        bw.WriteShiftJIS(Textures[i].Path, true);
+                    bw.FillInt32($"Type_Offset{index}_{i}", (int)bw.Position);
+                    if (Unicode)
+                        bw.WriteUTF16(Textures[i].Type, true);
+                    else
+                        bw.WriteShiftJIS(Textures[i].Type, true);
+                }
+
+                //Write Layout Header
+                bw.FillInt32($"LayoutHeaderOffset{index}", (int)bw.Position);
+                bw.WriteInt32(Layouts.Count);
+                bw.WriteInt32((int)bw.Position + 0xC);
+                bw.WriteInt32(0);
+                bw.WriteInt32(0);
+
+                //Write Layout Offsets
+                for (int i = 0; i < Layouts.Count; i++)
+                {
+                    bw.ReserveInt32($"LayoutOffset_{index}_{i}");
+                }
+
+                //Write Vertex Layouts
+                bw.FillInt32($"LayoutsOffset{index}", (int)bw.Position);
+                for (int i = 0; i < Layouts.Count; i++)
+                {
+                    bw.FillInt32($"LayoutOffset_{index}_{i}", (int)bw.Position);
+                    bw.WriteUInt16((ushort)Layouts[i].Count);
+                    bw.WriteUInt16((ushort)Layouts[i].Size);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+
+                    int vertOffset = 0;
+                    foreach (var vertData in Layouts[i])
+                    {
+                        vertData.Write(bw, vertOffset);
+                        vertOffset += vertData.Size;
+                    }
+                }
+                bw.FillInt32($"MatOffsetDataLength{index}", (int)bw.Position - matNameOffset);
+
+            }
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
