@@ -137,6 +137,7 @@ namespace StudioCore.Resource
                 return false;
             }
             AccessLevel = al;
+            IsLoaded = true;
             return true;
         }
 
@@ -156,6 +157,7 @@ namespace StudioCore.Resource
                 return false;
             }
             AccessLevel = al;
+            IsLoaded = true;
             return true;
         }
 
@@ -186,6 +188,7 @@ namespace StudioCore.Resource
             }
             var handle = Resource;
             Resource = null;
+            IsLoaded = false;
             handle.Dispose();
         }
 
@@ -260,6 +263,7 @@ namespace StudioCore.Resource
             Resource = new TextureResource(tex, index);
             Resource._LoadTexture(al);
             AccessLevel = al;
+            IsLoaded = true;
             return true;
         }
     }

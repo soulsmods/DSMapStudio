@@ -67,6 +67,7 @@ namespace StudioCore.Resource
             public ResourceJob _job;
             public string _virtpathbase = null;
             public TPF _tpf = null;
+            public string _filePath = null;
             public AccessLevel _accessLevel = AccessLevel.AccessGPUOptimizedOnly;
             public GameType _game;
 
@@ -75,6 +76,15 @@ namespace StudioCore.Resource
                 _job = job;
                 _virtpathbase = virtpathbase;
                 _tpf = tpf;
+                _accessLevel = al;
+                _game = type;
+            }
+            
+            public LoadTPFResourcesAction (ResourceJob job, string virtpathbase, string filePath, AccessLevel al, GameType type)
+            {
+                _job = job;
+                _virtpathbase = virtpathbase;
+                _filePath = filePath;
                 _accessLevel = al;
                 _game = type;
             }
@@ -88,6 +98,19 @@ namespace StudioCore.Resource
                 action._tpf = null;
                 Tracy.TracyCZoneEnd(ctx);
                 return new LoadTPFTextureResourceRequest[]{};
+            }
+
+            // If tpf is null this is a loose file load.
+            if (action._tpf == null)
+            {
+                try
+                {
+                    action._tpf = TPF.Read(action._filePath);
+                }
+                catch (Exception e)
+                {
+                    return new LoadTPFTextureResourceRequest[]{};
+                }
             }
 
             action._job.IncrementEstimateTaskSize(action._tpf.Textures.Count);
@@ -319,8 +342,9 @@ namespace StudioCore.Resource
                     HavokCollisionLoadPipeline.LoadFileResourceRequest.Complete();
                     HavokNavmeshLoadPipeline.LoadByteResourceBlock.Complete();
                     HavokNavmeshLoadPipeline.LoadFileResourceRequest.Complete();
-                    TPFTextureLoadPipeline.LoadTPFTextureResourceRequest.Complete();
                     _loadTPFResources.Complete();
+                    _loadTPFResources.Completion.Wait();
+                    TPFTextureLoadPipeline.LoadTPFTextureResourceRequest.Complete();
                     FlverLoadPipeline.LoadByteResourceBlock.Completion.Wait();
                     FlverLoadPipeline.LoadFileResourceRequest.Completion.Wait();
                     HavokCollisionLoadPipeline.LoadByteResourceBlock.Completion.Wait();
@@ -328,7 +352,6 @@ namespace StudioCore.Resource
                     HavokNavmeshLoadPipeline.LoadByteResourceBlock.Completion.Wait();
                     HavokNavmeshLoadPipeline.LoadFileResourceRequest.Completion.Wait();
                     TPFTextureLoadPipeline.LoadTPFTextureResourceRequest.Completion.Wait();
-                    _loadTPFResources.Completion.Wait();
                     Finished = true;
                 });
             }
@@ -340,9 +363,10 @@ namespace StudioCore.Resource
                     Progress += processed.Count;
                     foreach (var p in processed)
                     {
-                        if (!ResourceDatabase.ContainsKey(p.AssetVirtualPath))
-                            ResourceDatabase.Add(p.AssetVirtualPath, new ResourceRegistration(p.AccessLevel));
-                        var reg = ResourceDatabase[p.AssetVirtualPath];
+                        var lPath = p.AssetVirtualPath.ToLower();
+                        if (!ResourceDatabase.ContainsKey(lPath))
+                            ResourceDatabase.Add(lPath, new ResourceRegistration(p.AccessLevel));
+                        var reg = ResourceDatabase[lPath];
                         if (reg.Handle != null)
                             _unloadRequests.Post(reg.Handle);
                         reg.Handle = p;
@@ -446,7 +470,7 @@ namespace StudioCore.Resource
                             virt = virt.Substring(0, virt.Length - 4);
                         }
                     }
-                    _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job, virt, TPF.Read(path), al, Locator.Type));
+                    _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job, virt, path, al, Locator.Type));
                     return;
                 }
                 else
@@ -486,11 +510,10 @@ namespace StudioCore.Resource
             /// </summary>
             public void AddLoadUnloadedTextures()
             {
-                /*var assetTpfs = new HashSet<string>();
+                var assetTpfs = new HashSet<string>();
                 foreach (var r in ResourceDatabase)
                 {
-                    if (r.Value is TextureResourceHandle t && t.AccessLevel == AccessLevel.AccessUnloaded &&
-                        t.GetReferenceCounts() > 0)
+                    if (r.Value.Handle == null && r.Value.NotificationRequests.Count > 0)
                     {
                         var texpath = r.Key;
                         string path = null;
@@ -508,11 +531,12 @@ namespace StudioCore.Resource
                         if (path != null && File.Exists(path))
                         {
                             _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
-                                Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path),
+                                Path.GetDirectoryName(r.Key).Replace('\\', '/'), path,
                                 AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
+                            
                         }
                     }
-                }*/
+                }
             }
 
             public Task Complete()
@@ -637,20 +661,22 @@ namespace StudioCore.Resource
         /// <param name="listener"></param>
         public static void GetResourceWhenAvailable(string resourceName, IResourceEventListener listener, AccessLevel al, int tag = 0)
         {
-            _notificationRequests.Post(new AddResourceLoadNotificationRequest(resourceName, listener, al, tag));
+            _notificationRequests.Post(new AddResourceLoadNotificationRequest(resourceName.ToLower(), listener, al, tag));
         }
 
         public static void MarkResourceInFlight(string resourceName, AccessLevel al)
         {
-            if (!ResourceDatabase.ContainsKey(resourceName))
-                ResourceDatabase.Add(resourceName, new ResourceRegistration(al));
-            ResourceDatabase[resourceName].AccessLevel = al;
+            var lResourceName = resourceName.ToLower();
+            if (!ResourceDatabase.ContainsKey(lResourceName))
+                ResourceDatabase.Add(lResourceName, new ResourceRegistration(al));
+            ResourceDatabase[lResourceName].AccessLevel = al;
         }
         
         public static bool IsResourceLoadedOrInFlight(string resourceName, AccessLevel al)
         {
-            return ResourceDatabase.ContainsKey(resourceName) &&
-                   CheckAccessLevel(al, ResourceDatabase[resourceName].AccessLevel);
+            var lResourceName = resourceName.ToLower();
+            return ResourceDatabase.ContainsKey(lResourceName) &&
+                   CheckAccessLevel(al, ResourceDatabase[lResourceName].AccessLevel);
             //throw new NotImplementedException();
         }
         
@@ -706,12 +732,13 @@ namespace StudioCore.Resource
             {
                 foreach (var r in requests)
                 {
-                    if (!ResourceDatabase.ContainsKey(r.ResourceVirtualPath))
+                    var lResourceName = r.ResourceVirtualPath.ToLower();
+                    if (!ResourceDatabase.ContainsKey(lResourceName))
                     {
-                        ResourceDatabase.Add(r.ResourceVirtualPath, new ResourceRegistration(r.AccessLevel));
+                        ResourceDatabase.Add(lResourceName, new ResourceRegistration(r.AccessLevel));
                     }
 
-                    var registration = ResourceDatabase[r.ResourceVirtualPath];
+                    var registration = ResourceDatabase[lResourceName];
                     if (registration.Handle != null && CheckAccessLevel(r.AccessLevel, registration.AccessLevel))
                     {
                         r.Listener.OnResourceLoaded(registration.Handle, r.tag);
@@ -758,12 +785,9 @@ namespace StudioCore.Resource
                 }
                 if (_scheduleUnloadedTexturesLoad)
                 {
-                    Task.Run(() =>
-                    {
-                        var job = CreateNewJob($@"Loading other textures");
-                        job.AddLoadUnloadedTextures();
-                        job.Complete();
-                    });
+                    var job = CreateNewJob($@"Loading other textures");
+                    job.AddLoadUnloadedTextures();
+                    job.Complete();
                     _scheduleUnloadedTexturesLoad = false;
                 }
             }
