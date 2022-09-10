@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StudioCore
 {
@@ -70,9 +71,17 @@ namespace StudioCore
                         Current = JsonConvert.DeserializeObject<CFG>(
                         File.ReadAllText(GetConfigFilePath()));
                     }
-                    catch (JsonReaderException)
+                    catch (JsonReaderException e)
                     {
-                        Current = new CFG();
+                        if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{FileName} Load Error", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        {
+                            Current = new CFG();
+                        }
+                        else
+                        {
+                            Current = JsonConvert.DeserializeObject<CFG>(
+                            File.ReadAllText(GetConfigFilePath()));
+                        }
                     }
                 }
             }
