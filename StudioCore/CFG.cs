@@ -1,28 +1,40 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StudioCore
 {
     public class CFG
     {
-        // Set to false currently for TAE editor stuff.
         public static bool IsEnabled = true;
 
-        private static object _lock_SaveLoadCFG = new object();
+        private static object _lock_SaveLoadCFG = new();
 
+        public const string FolderName = "DSMapStudio";
         public const string FileName = "DSMapStudio_Config.json";
         public static CFG Current { get; private set; } = null;
         public static CFG Default { get; private set; } = new();
+
+        // Stores info in config file that isn't in class (to retain newer settings in older versions).
+        [JsonExtensionData]
+        private IDictionary<string, JToken> _additionalData;
 
         public const int MAX_RECENT_PROJECTS = 10;
 
         public static string GetConfigFilePath()
         {
-            return Utils.Frankenpath(new FileInfo(typeof(CFG).Assembly.Location).DirectoryName, FileName);
+            return $@"{GetConfigFolderPath()}\{FileName}";
+        }
+        public static string GetConfigFolderPath()
+        {
+            //return $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\{FolderName}";
+            return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
 
         public static void ResetGraphics()
@@ -59,8 +71,22 @@ namespace StudioCore
             {
                 lock (_lock_SaveLoadCFG)
                 {
-                    Current = Newtonsoft.Json.JsonConvert.DeserializeObject<CFG>(
-                    File.ReadAllText(GetConfigFilePath()));
+                    do
+                    {
+                        try
+                        {
+                            Current = JsonConvert.DeserializeObject<CFG>(
+                            File.ReadAllText(GetConfigFilePath()));
+                        }
+                        catch (JsonReaderException e)
+                        {
+                            if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{FileName} Load Error", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            {
+                                Current = new CFG();
+                            }
+                        }
+                    }
+                    while (Current == null);
                 }
             }
         }
@@ -71,8 +97,10 @@ namespace StudioCore
             {
                 lock (_lock_SaveLoadCFG)
                 {
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(
-                        Current, Newtonsoft.Json.Formatting.Indented);
+                    var json = JsonConvert.SerializeObject(
+                        Current, Formatting.Indented);
+                    if (!Directory.Exists(GetConfigFolderPath()))
+                        Directory.CreateDirectory(GetConfigFolderPath());
                     File.WriteAllText(GetConfigFilePath(), json);
                 }
             }
@@ -131,6 +159,32 @@ namespace StudioCore
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
         public float FontSizeScale = 1.0f;
+
+        public bool FMG_ShowOriginalNames = false;
+
+        // Param settings
+        public bool Param_ShowAltNames = true;
+        public bool Param_AlwaysShowOriginalName = true;
+        public bool Param_HideReferenceRows = true;
+        public bool Param_HideEnums = true;
+        public bool Param_AllowFieldReorder = true;
+        public bool Param_AlphabeticalParams = true;
+        public bool Param_ShowVanillaParams = true;
+
+        //private string _Param_Export_Array_Delimiter = "|";
+        private string _Param_Export_Delimiter = ",";
+        public string Param_Export_Delimiter
+        {
+            get
+            {
+                if (_Param_Export_Delimiter.Length == 0)
+                    _Param_Export_Delimiter = CFG.Default.Param_Export_Delimiter;
+                else if (_Param_Export_Delimiter == "|")
+                    _Param_Export_Delimiter = CFG.Default.Param_Export_Delimiter; // Temporary measure to prevent conflicts with byte array delimiters. Will be removed later.
+                return _Param_Export_Delimiter;
+            }
+            set { _Param_Export_Delimiter = value; }
+        }
 
         public bool FMG_ShowOriginalNames = false;
 
