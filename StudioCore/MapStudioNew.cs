@@ -234,31 +234,8 @@ namespace StudioCore
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
-        public void SetupParamStudioConfig()
+        public void ManageImGuiConfigBackups()
         {
-            string self = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-            Utils.setRegistry("executable", self);
-            string reg = Utils.readRegistry("showAltNamesPreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.ShowAltNamesPreference = reg == "true";
-            reg = Utils.readRegistry("alwaysShowOriginalNamePreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.AlwaysShowOriginalNamePreference = reg == "true";
-            reg = Utils.readRegistry("hideReferenceRowsPreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.HideReferenceRowsPreference = reg == "true";
-            reg = Utils.readRegistry("hideEnumsPreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.HideEnumsPreference = reg == "true";
-            reg = Utils.readRegistry("allFieldReorderPreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.AllowFieldReorderPreference = reg == "true";
-            reg = Utils.readRegistry("showVanillaParamsPreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference = reg == "true";
-            reg = Utils.readRegistry("csvDelimiterPreference");
-            if (reg != null)
-                ParamEditor.ParamEditorScreen.CSVDelimiterPreference = reg.Substring(0, 1);
             if (!File.Exists("imgui.ini"))
             {
                 if (File.Exists("imgui.ini.backup"))
@@ -270,22 +247,11 @@ namespace StudioCore
                     File.Copy("imgui.ini", "imgui.ini.backup");
             }
         }
-        public void SaveParamStudioConfig()
-        {
-            Utils.setRegistry("showAltNamesPreference", ParamEditor.ParamEditorScreen.ShowAltNamesPreference ? "true" : "false");
-            Utils.setRegistry("alwaysShowOriginalNamePreference", ParamEditor.ParamEditorScreen.AlwaysShowOriginalNamePreference ? "true" : "false");
-            Utils.setRegistry("hideReferenceRowsPreference", ParamEditor.ParamEditorScreen.HideReferenceRowsPreference ? "true" : "false");
-            Utils.setRegistry("hideEnumsPreference", ParamEditor.ParamEditorScreen.HideEnumsPreference ? "true" : "false");
-            Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
-            Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
-            Utils.setRegistry("showVanillaParamsPreference", ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference ? "true" : "false");
-            Utils.setRegistry("csvDelimiterPreference", ParamEditor.ParamEditorScreen.CSVDelimiterPreference);
-        }
 
         public void Run()
         {
             SetupCSharpDefaults();
-            SetupParamStudioConfig();
+            ManageImGuiConfigBackups();
             /*Task.Run(() =>
             {
                 while (true)
@@ -359,7 +325,6 @@ namespace StudioCore
             }
 
             //DestroyAllObjects();
-            SaveParamStudioConfig();
             Tracy.Shutdown();
             Resource.ResourceManager.Shutdown();
             _gd.Dispose();
@@ -574,7 +539,6 @@ namespace StudioCore
             if (_projectSettings != null && _projectSettings.ProjectName != null)
             {
                 _projectSettings.Serialize(CFG.Current.LastProjectFile); //Danger zone assuming on lastProjectFile
-                SaveParamStudioConfig();
                 if (_msbEditorFocused)
                 {
                     _msbEditor.Save();
@@ -725,7 +689,6 @@ namespace StudioCore
                         _modelEditor.SaveAll();
                         _paramEditor.SaveAll();
                         _textEditor.SaveAll();
-                        SaveParamStudioConfig();
                     }
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
@@ -855,6 +818,15 @@ namespace StudioCore
                             CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                         }
                         ImGui.EndMenu();
+                    }
+
+                    if (ImGui.Button("Open Config Folder"))
+                    {
+                        if (File.Exists(CFG.GetConfigFilePath()))
+                        {
+                            // Open folder in Windows Explorer
+                            Process.Start(@"explorer.exe", CFG.GetConfigFolderPath());
+                        }
                     }
                     ImGui.EndMenu();
                 }

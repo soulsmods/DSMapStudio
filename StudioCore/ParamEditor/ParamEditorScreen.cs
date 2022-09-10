@@ -124,15 +124,6 @@ namespace StudioCore.ParamEditor
         private bool _mEditCSVAppendOnly = false;
         private bool _mEditCSVReplaceRows = false;
 
-        public static bool ShowAltNamesPreference = true;
-        public static bool AlwaysShowOriginalNamePreference = false;
-        public static bool HideReferenceRowsPreference = false;
-        public static bool HideEnumsPreference = false;
-        public static bool AllowFieldReorderPreference = true;
-        public static bool AlphabeticalParamsPreference = true;
-        public static bool ShowVanillaParamsPreference = false;
-        public static string CSVDelimiterPreference = ",";
-        
         public static bool EditorMode = false;
 
         internal bool _isSearchBarActive = false;
@@ -271,9 +262,8 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.BeginMenu("Export CSV", _activeView._selection.rowSelectionExists()))
                 {
-                    ImGui.InputText("Delimiter", ref CSVDelimiterPreference, 1);
-                    if (ImGui.IsItemDeactivatedAfterEdit() && CSVDelimiterPreference.Length==0)
-                        CSVDelimiterPreference = ",";
+                    DelimiterInputText();
+
                     if (ImGui.MenuItem("All"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
                     if (ImGui.MenuItem("Name"))
@@ -299,7 +289,7 @@ namespace StudioCore.ParamEditor
                                 CheckPathExists = true
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], CSVDelimiterPreference[0]));
+                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], CFG.Current.Param_Export_Delimiter[0]));
                         }
                         if (ImGui.MenuItem("Name"))
                         {
@@ -311,7 +301,7 @@ namespace StudioCore.ParamEditor
                                 CheckPathExists = true
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], "Name", CSVDelimiterPreference[0]));
+                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], "Name", CFG.Current.Param_Export_Delimiter[0]));
                         }
                         if (ImGui.BeginMenu("Field"))
                         {
@@ -327,7 +317,7 @@ namespace StudioCore.ParamEditor
                                         CheckPathExists = true
                                     };
                                     if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                                        File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], field.InternalName, CSVDelimiterPreference[0]));
+                                        File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], field.InternalName, CFG.Current.Param_Export_Delimiter[0]));
                                 }
                             }
                             ImGui.EndMenu();
@@ -338,9 +328,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
                 {
-                    ImGui.InputText("Delimiter", ref CSVDelimiterPreference, 1);
-                    if (ImGui.IsItemDeactivatedAfterEdit() && CSVDelimiterPreference.Length==0)
-                        CSVDelimiterPreference = ",";
+                    DelimiterInputText();
                     if (ImGui.MenuItem("All"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
                     if (ImGui.MenuItem("Name"))
@@ -366,7 +354,7 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                MassEditResult r = MassParamEditCSV.PerformMassEdit(File.ReadAllText(rbrowseDlg.FileName), EditorActionManager, _activeView._selection.getActiveParam(), false, false, CSVDelimiterPreference[0]);
+                                MassEditResult r = MassParamEditCSV.PerformMassEdit(File.ReadAllText(rbrowseDlg.FileName), EditorActionManager, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
                                 if (r.Type == MassEditResultType.SUCCESS)
                                     TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
                                 else
@@ -383,7 +371,7 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CSVDelimiterPreference[0], false);
+                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
                                 if (r.Type == MassEditResultType.SUCCESS && a != null)
                                     EditorActionManager.ExecuteAction(a);
                                 else
@@ -405,7 +393,7 @@ namespace StudioCore.ParamEditor
                                     };
                                     if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                                     {
-                                        (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), field.InternalName, CSVDelimiterPreference[0], false);
+                                        (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
                                         if (r.Type == MassEditResultType.SUCCESS && a != null)
                                             EditorActionManager.ExecuteAction(a);
                                         else
@@ -456,23 +444,23 @@ namespace StudioCore.ParamEditor
                     ParamBank.refreshParamDirtyCache();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Show alternate field names", null, ShowAltNamesPreference))
-                    ShowAltNamesPreference = !ShowAltNamesPreference;
-                if (ImGui.MenuItem("Always show original field names", null, AlwaysShowOriginalNamePreference))
-                    AlwaysShowOriginalNamePreference = !AlwaysShowOriginalNamePreference;
-                if (ImGui.MenuItem("Hide field references", null, HideReferenceRowsPreference))
-                    HideReferenceRowsPreference = !HideReferenceRowsPreference;
-                if (ImGui.MenuItem("Hide field enums", null, HideEnumsPreference))
-                    HideEnumsPreference = !HideEnumsPreference;
-                if (ImGui.MenuItem("Allow field reordering", null, AllowFieldReorderPreference))
-                    AllowFieldReorderPreference = !AllowFieldReorderPreference;
-                if (ImGui.MenuItem("Sort Params Alphabetically", null, AlphabeticalParamsPreference))
+                if (ImGui.MenuItem("Show alternate field names", null, CFG.Current.Param_ShowAltNames))
+                    CFG.Current.Param_ShowAltNames = !CFG.Current.Param_ShowAltNames;
+                if (ImGui.MenuItem("Always show original field names", null, CFG.Current.Param_AlwaysShowOriginalName))
+                    CFG.Current.Param_AlwaysShowOriginalName = !CFG.Current.Param_AlwaysShowOriginalName;
+                if (ImGui.MenuItem("Hide field references", null, CFG.Current.Param_HideReferenceRows))
+                    CFG.Current.Param_HideReferenceRows = !CFG.Current.Param_HideReferenceRows;
+                if (ImGui.MenuItem("Hide field enums", null, CFG.Current.Param_HideEnums))
+                    CFG.Current.Param_HideEnums = !CFG.Current.Param_HideEnums;
+                if (ImGui.MenuItem("Allow field reordering", null, CFG.Current.Param_AllowFieldReorder))
+                    CFG.Current.Param_AllowFieldReorder = !CFG.Current.Param_AllowFieldReorder;
+                if (ImGui.MenuItem("Sort Params Alphabetically", null, CFG.Current.Param_AlphabeticalParams))
                 {
-                    AlphabeticalParamsPreference = !AlphabeticalParamsPreference;
+                    CFG.Current.Param_AlphabeticalParams = !CFG.Current.Param_AlphabeticalParams;
                     CacheBank.ClearCaches();
                 }
-                if (ImGui.MenuItem("Show Vanilla Params", null, ShowVanillaParamsPreference))
-                    ShowVanillaParamsPreference = !ShowVanillaParamsPreference;
+                if (ImGui.MenuItem("Show Vanilla Params", null, CFG.Current.Param_ShowVanillaParams))
+                    CFG.Current.Param_ShowVanillaParams = !CFG.Current.Param_ShowVanillaParams;
                 ImGui.Separator();
                 if (!EditorMode && ImGui.MenuItem("Editor Mode", null, EditorMode))
                     EditorMode = true;
@@ -607,6 +595,20 @@ namespace StudioCore.ParamEditor
             _currentCtrlVValue = _clipboardBaseRow.ToString();
         }
 
+        private static void DelimiterInputText()
+        {
+            string displayDelimiter = CFG.Current.Param_Export_Delimiter;
+            if (displayDelimiter == "\t")
+                displayDelimiter = "\\t";
+
+            if (ImGui.InputText("Delimiter", ref displayDelimiter, 2))
+            {
+                if (displayDelimiter == "\\t")
+                    displayDelimiter = "\t";
+                CFG.Current.Param_Export_Delimiter = displayDelimiter;
+            }
+        }
+
         public void OpenMassEditPopup(string popup)
         {
             ImGui.OpenPopup(popup);
@@ -657,12 +659,10 @@ namespace StudioCore.ParamEditor
                 ImGui.Checkbox("Append new rows instead of ID based insertion (this will create out-of-order IDs)", ref _mEditCSVAppendOnly);
                 if (_mEditCSVAppendOnly)
                     ImGui.Checkbox("Replace existing rows instead of updating them (they will be moved to the end)", ref _mEditCSVReplaceRows);
-                ImGui.InputText("Delimiter", ref CSVDelimiterPreference, 1);
-                if (ImGui.IsItemDeactivatedAfterEdit() && CSVDelimiterPreference.Length==0)
-                    CSVDelimiterPreference = ",";
+                DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CSVDelimiterPreference[0]);
+                    MassEditResult r = MassParamEditCSV.PerformMassEdit(_currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
                         TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.refreshParamDirtyCache());
@@ -676,12 +676,10 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.Text(_currentMEditSingleCSVField);
                 ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
-                ImGui.InputText("Delimiter", ref CSVDelimiterPreference, 1);
-                if (ImGui.IsItemDeactivatedAfterEdit() && CSVDelimiterPreference.Length==0)
-                    CSVDelimiterPreference = ",";
+                DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CSVDelimiterPreference[0], false);
+                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(_currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CFG.Current.Param_Export_Delimiter[0], false);
                     if (a != null)
                         EditorActionManager.ExecuteAction(a);
                     _mEditCSVResult = r.Information;
@@ -826,7 +824,7 @@ namespace StudioCore.ParamEditor
                     {
                         _activeView._selection.sortSelection();
                         if (_activeView._selection.rowSelectionExists())
-                            _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], CSVDelimiterPreference[0]);
+                            _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], CFG.Current.Param_Export_Delimiter[0]);
                         OpenMassEditPopup("massEditMenuCSVExport");
                     }
                     else if (initcmd[1] == "massEditCSVImport")
@@ -838,7 +836,7 @@ namespace StudioCore.ParamEditor
                         _activeView._selection.sortSelection();
                         _currentMEditSingleCSVField = initcmd[2];
                         if (_activeView._selection.rowSelectionExists())
-                            _currentMEditCSVOutput = MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], _currentMEditSingleCSVField, CSVDelimiterPreference[0]);
+                            _currentMEditCSVOutput = MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.Params[_activeView._selection.getActiveParam()], _currentMEditSingleCSVField, CFG.Current.Param_Export_Delimiter[0]);
                         OpenMassEditPopup("massEditMenuSingleCSVExport");
                     }
                     else if (initcmd[1] == "massEditSingleCSVImport" && initcmd.Length > 2)
@@ -1225,7 +1223,7 @@ namespace StudioCore.ParamEditor
             List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
                 var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                 var keyList = list.Select((param) => ParamBank.GetKeyForParam(param)).ToList();
-                if (ParamEditorScreen.AlphabeticalParamsPreference)
+                if (CFG.Current.Param_AlphabeticalParams)
                     keyList.Sort();
                 return keyList;
             });
