@@ -731,7 +731,7 @@ namespace StudioCore.TextEditor
             IsLoaded = false;
             IsLoading = true;
 
-            TaskManager.Run("FB:Reload", true, false, true, () =>
+            TaskManager.Run("FB:Reload", true, false, false, () =>
             {
                 try
                 {
