@@ -122,25 +122,13 @@ namespace SoulsFormats
                 //Write texture list data
                 for (int i = 0; i < Textures.Count; i++)
                 {
-                    bw.ReserveInt32($"Path_Offset{index}_{i}");
-                    bw.ReserveInt32($"Type_Offset{index}_{i}");
-                    bw.WriteInt32(0);
-                    bw.WriteInt32(0);
+                    Textures[i].Write(bw, index, i);
                 }
 
                 //Write texture string data
                 for (int i = 0; i < Textures.Count; i++)
                 {
-                    bw.FillInt32($"Path_Offset{index}_{i}", (int)bw.Position);
-                    if (Unicode)
-                        bw.WriteUTF16(Textures[i].Path, true);
-                    else
-                        bw.WriteShiftJIS(Textures[i].Path, true);
-                    bw.FillInt32($"Type_Offset{index}_{i}", (int)bw.Position);
-                    if (Unicode)
-                        bw.WriteUTF16(Textures[i].Type, true);
-                    else
-                        bw.WriteShiftJIS(Textures[i].Type, true);
+                    Textures[i].WriteStrings(bw, index, i, Unicode);
                 }
 
                 //Write Layout Header
