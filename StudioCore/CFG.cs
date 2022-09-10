@@ -29,7 +29,7 @@ namespace StudioCore
         public static string GetConfigFolderPath()
         {
             //return $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\{FolderName}";
-            return $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\{FolderName}";
+            return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
 
         public static void ResetGraphics()
