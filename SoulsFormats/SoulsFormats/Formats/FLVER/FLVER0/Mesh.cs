@@ -14,9 +14,9 @@ namespace SoulsFormats
             public byte MaterialIndex { get; set; }
             int IFlverMesh.MaterialIndex => MaterialIndex;
 
-            public bool Unk02 { get; set; }
+            public bool BackfaceCulling { get; set; }
 
-            public byte Unk03 { get; set; }
+            public bool UseTristrips { get; set; }
 
             public short DefaultBoneIndex { get; set; }
 
@@ -35,8 +35,8 @@ namespace SoulsFormats
             {
                 Dynamic = br.ReadByte();
                 MaterialIndex = br.ReadByte();
-                Unk02 = br.ReadBoolean();
-                Unk03 = br.ReadByte();
+                BackfaceCulling = br.ReadBoolean();
+                UseTristrips = br.ReadBoolean();
 
                 int vertexIndexCount = br.ReadInt32();
                 int vertexCount = br.ReadInt32();
@@ -139,7 +139,7 @@ namespace SoulsFormats
             public List<int> Triangulate(int version)
             {
                 var triangles = new List<int>();
-                if (version >= 0x15 && Unk03 == 0)
+                if (version >= 0x15 && UseTristrips == false)
                 {
                     triangles = new List<int>(VertexIndices);
                 }
@@ -215,8 +215,8 @@ namespace SoulsFormats
                 Material material = flv.Materials[MaterialIndex];
                 bw.WriteByte(Dynamic);
                 bw.WriteByte(MaterialIndex);
-                bw.WriteBoolean(Unk02);
-                bw.WriteByte(Unk03);
+                bw.WriteBoolean(BackfaceCulling);
+                bw.WriteBoolean(UseTristrips);
 
                 bw.WriteInt32(VertexIndices.Count);
                 bw.WriteInt32(Vertices.Count);
