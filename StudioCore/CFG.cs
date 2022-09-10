@@ -66,23 +66,22 @@ namespace StudioCore
             {
                 lock (_lock_SaveLoadCFG)
                 {
-                    try
+                    do
                     {
-                        Current = JsonConvert.DeserializeObject<CFG>(
-                        File.ReadAllText(GetConfigFilePath()));
-                    }
-                    catch (JsonReaderException e)
-                    {
-                        if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{FileName} Load Error", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                        {
-                            Current = new CFG();
-                        }
-                        else
+                        try
                         {
                             Current = JsonConvert.DeserializeObject<CFG>(
                             File.ReadAllText(GetConfigFilePath()));
                         }
+                        catch (JsonReaderException e)
+                        {
+                            if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{FileName} Load Error", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            {
+                                Current = new CFG();
+                            }
+                        }
                     }
+                    while (Current == null);
                 }
             }
         }
