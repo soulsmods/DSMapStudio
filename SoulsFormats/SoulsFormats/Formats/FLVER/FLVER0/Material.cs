@@ -16,7 +16,7 @@ namespace SoulsFormats
 
             public List<BufferLayout> Layouts { get; set; }
 
-            internal Material(BinaryReaderEx br, FLVER0 flv)
+            internal Material(BinaryReaderEx br, bool useUnicode)
             {
                 int nameOffset = br.ReadInt32();
                 int mtdOffset = br.ReadInt32();
@@ -27,8 +27,8 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 br.AssertInt32(0);
 
-                Name = flv.Unicode ? br.GetUTF16(nameOffset) : br.GetShiftJIS(nameOffset);
-                MTD = flv.Unicode ? br.GetUTF16(mtdOffset) : br.GetShiftJIS(mtdOffset);
+                Name = useUnicode ? br.GetUTF16(nameOffset) : br.GetShiftJIS(nameOffset);
+                MTD = useUnicode ? br.GetUTF16(mtdOffset) : br.GetShiftJIS(mtdOffset);
 
                 br.StepIn(texturesOffset);
                 {
@@ -42,7 +42,7 @@ namespace SoulsFormats
 
                     Textures = new List<Texture>(textureCount);
                     for (int i = 0; i < textureCount; i++)
-                        Textures.Add(new Texture(br, flv));
+                        Textures.Add(new Texture(br, useUnicode));
                 }
                 br.StepOut();
 

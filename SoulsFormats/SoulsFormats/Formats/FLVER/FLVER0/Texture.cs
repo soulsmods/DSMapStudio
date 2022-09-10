@@ -9,16 +9,16 @@
 
             public string Path { get; set; }
 
-            internal Texture(BinaryReaderEx br, FLVER0 flv)
+            internal Texture(BinaryReaderEx br, bool useUnicode)
             {
                 int pathOffset = br.ReadInt32();
                 int typeOffset = br.ReadInt32();
                 br.AssertInt32(0);
                 br.AssertInt32(0);
 
-                Path = flv.Unicode ? br.GetUTF16(pathOffset) : br.GetShiftJIS(pathOffset);
+                Path = useUnicode ? br.GetUTF16(pathOffset) : br.GetShiftJIS(pathOffset);
                 if (typeOffset > 0)
-                    Type = flv.Unicode ? br.GetUTF16(typeOffset) : br.GetShiftJIS(typeOffset);
+                    Type = useUnicode ? br.GetUTF16(typeOffset) : br.GetShiftJIS(typeOffset);
                 else
                     Type = null;
             }

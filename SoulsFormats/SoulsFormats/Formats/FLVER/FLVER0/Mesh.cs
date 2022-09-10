@@ -51,13 +51,13 @@ namespace SoulsFormats
                 int vertexBuffersOffset2 = br.ReadInt32();
                 br.AssertInt32(0);
 
-                if (flv.VertexIndexSize == 16)
+                if (flv.Header.VertexIndexSize == 16)
                 {
                     VertexIndices = new List<int>(vertexCount);
                     foreach (ushort index in br.GetUInt16s(dataOffset + vertexIndicesOffset, vertexIndexCount))
                         VertexIndices.Add(index);
                 }
-                else if (flv.VertexIndexSize == 32)
+                else if (flv.Header.VertexIndexSize == 32)
                 {
                     VertexIndices = new List<int>(br.GetInt32s(dataOffset + vertexIndicesOffset, vertexIndexCount));
                 }
@@ -232,17 +232,17 @@ namespace SoulsFormats
                 bw.WriteInt32(0);
             }
 
-            public void WriteVertexIndices(BinaryWriterEx bw, FLVER0 flv, int dataOffset, int index)
+            public void WriteVertexIndices(BinaryWriterEx bw, byte VertexIndexSize, int dataOffset, int index)
             {
                 bw.FillInt32($"VertexIndicesOffset{index}", (int)bw.Position - dataOffset);
-                if (flv.VertexIndexSize == 16)
+                if (VertexIndexSize == 16)
                 {
                     for (int i = 0; i < VertexIndices.Count; i++)
                     {
                         bw.WriteUInt16((ushort)VertexIndices[i]);
                     }
                 }
-                else if (flv.VertexIndexSize == 32)
+                else if (VertexIndexSize == 32)
                 {
                     for (int i = 0; i < VertexIndices.Count; i++)
                     {

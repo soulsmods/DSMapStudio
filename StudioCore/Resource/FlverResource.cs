@@ -1163,7 +1163,7 @@ namespace StudioCore.Resource
             int idxoffset = 0;
             if (mesh.VertexIndices.Count != 0)
             {
-                var indices = mesh.Triangulate(FlverDeS.Version).ToArray();
+                var indices = mesh.Triangulate(FlverDeS.Header.Version).ToArray();
                 uint buffersize = (uint)indices.Length * (is32bit ? 4u : 2u);
 
                 indicesTotal = indices.Length;
