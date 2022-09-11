@@ -37,6 +37,8 @@ namespace StudioCore.Resource
 
             public FlverLoadPipeline(ITargetBlock<IResourceHandle> target)
             {
+                var options = new ExecutionDataflowBlockOptions();
+                options.MaxDegreeOfParallelism = 6;
                 _loadedResources = target;
                 _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
                 {
@@ -46,7 +48,7 @@ namespace StudioCore.Resource
                     {
                         _loadedResources.Post(res);
                     }
-                });
+                }, options);
                 _loadFileResourcesTransform = new ActionBlock<LoadFileResourceRequest>(r =>
                 {
                     var res = new ResourceHandle<FlverResource>(r.virtualPath);
@@ -55,7 +57,7 @@ namespace StudioCore.Resource
                     {
                         _loadedResources.Post(res);
                     }
-                });
+                }, options);
             }
         }
 

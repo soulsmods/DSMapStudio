@@ -642,7 +642,8 @@ namespace StudioCore.Resource
 
                 foreach (var bodyInfo in physicsscene.m_systemDatas[0].m_bodyCinfos)
                 {
-                    var ncol = (HKX2.fsnpCustomParamCompressedMeshShape)bodyInfo.m_shape;
+                    if (bodyInfo.m_shape is not HKX2.fsnpCustomParamCompressedMeshShape ncol)
+                        continue;
                     try
                     {
                         var mesh = new CollisionSubmesh();
