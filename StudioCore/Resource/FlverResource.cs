@@ -156,6 +156,7 @@ namespace StudioCore.Resource
             }
 
             public readonly TextureResourceHandle?[] TextureResources = new TextureResourceHandle[(int)TextureType.TextureResourceCount];
+            public readonly bool[] TextureResourceFilled = new bool[(int)TextureType.TextureResourceCount];
             
             private bool disposedValue;
 
@@ -235,8 +236,10 @@ namespace StudioCore.Resource
 
             public void OnResourceUnloaded(IResourceHandle handle, int tag)
             {
-                //TextureResources[tag] = null;
-                //UpdateMaterial();
+                TextureResources[tag] = null;
+                UpdateMaterial();
+                ResourceManager.GetResourceWhenAvailable(handle.AssetVirtualPath, this, 
+                    AccessLevel.AccessGPUOptimizedOnly, tag);
             }
 
             protected virtual void Dispose(bool disposing)
@@ -386,8 +389,13 @@ namespace StudioCore.Resource
                     }
                 }
             }
-            ResourceManager.GetResourceWhenAvailable(TexturePathToVirtual(path.ToLower()), dest, 
-                AccessLevel.AccessGPUOptimizedOnly, (int)textureType);
+
+            if (!dest.TextureResourceFilled[(int)textureType])
+            {
+                ResourceManager.GetResourceWhenAvailable(TexturePathToVirtual(path.ToLower()), dest,
+                    AccessLevel.AccessGPUOptimizedOnly, (int)textureType);
+                dest.TextureResourceFilled[(int)textureType] = true;
+            }
         }
 
         private void ProcessMaterialTexture(FlverMaterial dest, string type, string mpath, string mtd,

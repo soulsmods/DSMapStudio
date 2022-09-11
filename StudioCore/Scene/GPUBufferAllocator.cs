@@ -499,6 +499,9 @@ namespace StudioCore.Scene
             internal int _valign;
             internal int _ialign;
 
+            private bool _vfilled = false;
+            private bool _ifilled = false;
+
             public VertexIndexBuffer.Status AllocStatus { get { return _buffer.AllocStatus; } }
 
             public int BufferIndex {
@@ -526,12 +529,14 @@ namespace StudioCore.Scene
 
             public void SetVFilled()
             {
+                _vfilled = true;
                 Interlocked.Increment(ref _buffer._vfillCount);
                 _buffer.FlushIfNeeded();
             }
 
             public void SetIFilled()
             {
+                _ifilled = true;
                 Interlocked.Increment(ref _buffer._ifillCount);
                 _buffer.FlushIfNeeded();
             }
@@ -702,6 +707,10 @@ namespace StudioCore.Scene
                     {
                         _allocator._allocations.Remove(this);
                         _buffer._handleCount--;
+                        if (_vfilled)
+                            Interlocked.Decrement(ref _buffer._vfillCount);
+                        if (_ifilled)
+                            Interlocked.Decrement(ref _buffer._ifillCount);
                         if (_buffer._handleCount <= 0 && _buffer.AllocStatus == VertexIndexBuffer.Status.Resident)
                         {
                             _buffer._backingVertBuffer.Dispose();

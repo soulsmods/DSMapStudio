@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using Veldrid;
@@ -312,23 +313,14 @@ namespace StudioCore.Scene
             if (_referenceCount <= 0)
             {
                 _referenceCount = 0;
-                if (_resource != null)
-                {
-                    _resource.Release();
-                    _resource = null;
-                }
-                foreach (var submesh in _submeshes)
-                {
-                    submesh.Invalidate();
-                }
-                _submeshes.Clear();
-                NotifyUnavailable();
+                _resource?.Release();
+                OnResourceUnloaded(_resource, 0);
             }
         }
 
         public override bool IsAvailable()
         {
-            return _resource != null && 
+            return _resource != null && _referenceCount > 0 &&
                 (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
                  _resource.AccessLevel == AccessLevel.AccessFull);
         }
@@ -364,18 +356,17 @@ namespace StudioCore.Scene
             _submeshes = new List<FlverSubmeshProvider>();
             var res = _resource.Get();
             _bounds = res.Bounds;
-            if (res.GPUMeshes != null)
+            for (int i = 0; i < res.GPUMeshes.Length; i++)
             {
-                for (int i = 0; i < res.GPUMeshes.Length; i++)
-                {
-                    var sm = new FlverSubmeshProvider(_resource, i);
-                    _submeshes.Add(sm);
-                }
+                var sm = new FlverSubmeshProvider(_resource, i);
+                _submeshes.Add(sm);
             }
         }
 
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
+            if (_resource != null)
+                return;
             _resource = (ResourceHandle<FlverResource>)handle;
             _resource.Acquire(this, tag);
             CreateSubmeshes();
@@ -384,6 +375,17 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource = null;
+            foreach (var submesh in _submeshes)
+            {
+                submesh.Invalidate();
+            }
+            _submeshes.Clear();
+            NotifyUnavailable();
+            if (_referenceCount > 0)
+            {
+                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
         }
     }
 

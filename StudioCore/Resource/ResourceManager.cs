@@ -486,10 +486,9 @@ namespace StudioCore.Resource
             /// </summary>
             public void AddLoadUDSFMTexturesTask()
             {
-                /*foreach (var r in ResourceDatabase)
+                foreach (var r in ResourceDatabase)
                 {
-                    if (r.Value is TextureResourceHandle t && t.AccessLevel == AccessLevel.AccessUnloaded &&
-                        t.GetReferenceCounts() > 0)
+                    if (r.Value.Handle == null && r.Value.NotificationRequests.Count > 0)
                     {
                         var texpath = r.Key;
                         string path = null;
@@ -499,10 +498,12 @@ namespace StudioCore.Resource
                         }
                         if (path != null && File.Exists(path))
                         {
-                            _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,Path.GetDirectoryName(r.Key).Replace('\\', '/'), TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
+                            _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
+                                Path.GetDirectoryName(r.Key).Replace('\\', '/'), 
+                                TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
-                }*/
+                }
             }
 
             /// <summary>
@@ -544,17 +545,6 @@ namespace StudioCore.Resource
                 // Build the job, register it with the task manager, and start it
                 ActiveJobProgress[_job] = 0;
                 var jobtask = _job.Complete();
-                var posttask = new Task(async () =>
-                {
-                    await jobtask;
-                    int o;
-                    bool removed = false;
-                    while (!removed)
-                    {
-                        removed = ActiveJobProgress.TryRemove(_job, out o);
-                    }
-                });
-                //posttask.Start();
                 return jobtask;
             }
         }
@@ -642,7 +632,8 @@ namespace StudioCore.Resource
         {
             foreach (var r in ResourceDatabase)
             {
-                r.Value.Handle?.UnloadIfUnused();
+                if (r.Value.NotificationRequests.Count == 0)
+                    r.Value.Handle?.UnloadIfUnused();
             }
         }
         
