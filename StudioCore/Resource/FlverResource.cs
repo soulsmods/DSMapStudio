@@ -42,7 +42,6 @@ namespace StudioCore.Resource
                 {
                     var res = new ResourceHandle<FlverResource>(r.virtualPath);
                     bool success = res._LoadResource(r.Data, r.AccessLevel, r.GameType);
-                    Debug.Write(r.virtualPath + "\n");
                     if (success)
                     {
                         _loadedResources.Post(res);
@@ -52,7 +51,6 @@ namespace StudioCore.Resource
                 {
                     var res = new ResourceHandle<FlverResource>(r.virtualPath);
                     bool success = res._LoadResource(r.file, r.AccessLevel, r.GameType);
-                    Debug.Write(r.virtualPath + "\n");
                     if (success)
                     {
                         _loadedResources.Post(res);

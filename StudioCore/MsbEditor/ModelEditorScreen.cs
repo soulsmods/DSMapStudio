@@ -60,33 +60,6 @@ namespace StudioCore.MsbEditor
             if (_loadingTask != null && _loadingTask.IsCompleted)
             {
                 _loadingTask = null;
-                if (_renderMesh != null)
-                {
-                    var box = _renderMesh.GetBounds();
-                    Viewport.FrameBox(box);
-
-                    var dim = box.GetDimensions();
-                    var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
-                    var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
-
-                    var minSpeed = 1.0f;
-                    var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
-                    Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
-                    Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
-                    Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
-
-                    Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
-                    Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
-                }
-
-                if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
-                {
-                    var r = _flverhandle.Get();
-                    if (r.Flver != null)
-                    {
-                        _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
-                    }
-                }
             }
         }
 
@@ -142,7 +115,7 @@ namespace StudioCore.MsbEditor
             //_renderMesh.DrawFilter = filt;
             _renderMesh.World = Matrix4x4.Identity;
             _currentModel = modelid;
-            if (ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessFull))
+            if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessFull))
             {
                 if (asset.AssetArchiveVirtualPath != null)
                 {
@@ -315,6 +288,34 @@ namespace StudioCore.MsbEditor
             _flverhandle = (ResourceHandle<FlverResource>)handle;
             _flverhandle.Acquire(this, tag);
             _flverhandle.AddResourceEventListener(this);
+            
+            if (_renderMesh != null)
+            {
+                var box = _renderMesh.GetBounds();
+                Viewport.FrameBox(box);
+
+                var dim = box.GetDimensions();
+                var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
+                var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
+
+                var minSpeed = 1.0f;
+                var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
+                Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
+                Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
+                Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
+
+                Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
+                Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
+            }
+
+            if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
+            {
+                var r = _flverhandle.Get();
+                if (r.Flver != null)
+                {
+                    _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
+                }
+            }
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)

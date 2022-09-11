@@ -370,6 +370,7 @@ namespace StudioCore.Resource
                         if (reg.Handle != null)
                             _unloadRequests.Post(reg.Handle);
                         reg.Handle = p;
+                        reg.AccessLevel = p.AccessLevel;
                         var newNotificationRequests = new List<AddResourceLoadNotificationRequest>();
                         foreach (var r in reg.NotificationRequests)
                         {
