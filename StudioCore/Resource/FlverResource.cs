@@ -173,7 +173,7 @@ namespace StudioCore.Resource
             private void SetMaterialTexture(TextureType textureType, ref ushort matTex, ushort defaultTex)
             {
                 var handle = TextureResources[(int)textureType];
-                if (handle != null && handle.IsLoaded && handle.TryLock())
+                if (handle != null && handle.IsLoaded)
                 {
                     var res = handle.Get();
                     if (res != null && res.GPUTexture != null)
@@ -184,7 +184,6 @@ namespace StudioCore.Resource
                     {
                         matTex = defaultTex;
                     }
-                    handle.Unlock();
                 }
                 else
                 {
@@ -236,8 +235,8 @@ namespace StudioCore.Resource
 
             public void OnResourceUnloaded(IResourceHandle handle, int tag)
             {
-                TextureResources[tag] = null;
-                UpdateMaterial();
+                //TextureResources[tag] = null;
+                //UpdateMaterial();
             }
 
             protected virtual void Dispose(bool disposing)

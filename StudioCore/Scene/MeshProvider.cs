@@ -83,6 +83,14 @@ namespace StudioCore.Scene
             }
             return nfmp;
         }
+
+        public static void InvalidateMeshProvider(IResourceHandle handle)
+        {
+            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            {
+                _cache.Remove(handle.AssetVirtualPath);
+            }
+        }
     }
 
     /// <summary>
@@ -252,21 +260,22 @@ namespace StudioCore.Scene
 
     public class FlverMeshProvider : MeshProvider, Resource.IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.FlverResource> _resource;
 
         private List<FlverSubmeshProvider> _submeshes = new List<FlverSubmeshProvider>();
 
         public FlverMeshProvider(string resource)
         {
+            _resourceName = resource;
             _resource = null;
-            ResourceManager.GetResourceWhenAvailable(resource, this, AccessLevel.AccessGPUOptimizedOnly);
         }
 
         ~FlverMeshProvider()
         {
             if (_resource != null)
             {
-                //_resource.Release();
+                _resource.Release();
             }
         }
 
@@ -279,23 +288,42 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            //return _resource.TryLock();
             return true;
         }
 
         public override void Unlock()
         {
-            //_resource.Unlock();
         }
 
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            //_resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            //_resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                if (_resource != null)
+                {
+                    _resource.Release();
+                    _resource = null;
+                }
+                foreach (var submesh in _submeshes)
+                {
+                    submesh.Invalidate();
+                }
+                _submeshes.Clear();
+                NotifyUnavailable();
+            }
         }
 
         public override bool IsAvailable()
@@ -356,13 +384,6 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
-            _resource = null;
-            foreach (var submesh in _submeshes)
-            {
-                submesh.Invalidate();
-            }
-            _submeshes.Clear();
-            NotifyUnavailable();
         }
     }
 
@@ -381,12 +402,11 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
         internal void Invalidate()
@@ -451,21 +471,22 @@ namespace StudioCore.Scene
 
     public class CollisionMeshProvider : MeshProvider, Resource.IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.HavokCollisionResource> _resource;
 
         private List<CollisionSubmeshProvider> _submeshes = new List<CollisionSubmeshProvider>();
 
         public CollisionMeshProvider(string resource)
         {
+            _resourceName = resource;
             _resource = null;
-            ResourceManager.GetResourceWhenAvailable(resource, this, AccessLevel.AccessGPUOptimizedOnly);
         }
 
         ~CollisionMeshProvider()
         {
             if (_resource != null)
             {
-                //_resource.Release();
+                _resource.Release();
             }
         }
 
@@ -478,30 +499,52 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            //return _resource.TryLock();
             return true;
         }
 
         public override void Unlock()
         {
-            //_resource.Unlock();
         }
+
+        private int _referenceCount = 0;
 
         public override void Acquire()
         {
-            //_resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            //_resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                if (_resource != null)
+                {
+                    _resource.Release();
+                    _resource = null;
+                }
+
+                foreach (var submesh in _submeshes)
+                {
+                    submesh.Invalidate();
+                }
+
+                _submeshes.Clear();
+                NotifyUnavailable();
+            }
         }
 
         public override bool IsAvailable()
         {
             return _resource != null &&
-                (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
-                 _resource.AccessLevel == AccessLevel.AccessFull);
+                   (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
+                    _resource.AccessLevel == AccessLevel.AccessFull);
         }
 
         public override bool IsAtomic()
@@ -522,7 +565,8 @@ namespace StudioCore.Scene
 
         public override VertexLayoutDescription LayoutDescription => throw new NotImplementedException();
 
-        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => throw new NotImplementedException();
+        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer =>
+            throw new NotImplementedException();
 
         public override GPUBufferAllocator.GPUBufferHandle MaterialBuffer => throw new NotImplementedException();
 
@@ -550,20 +594,13 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokCollisionResource>)handle;
-            _resource.Acquire(this, tag); 
+            _resource.Acquire(this, tag);
             CreateSubmeshes();
             NotifyAvailable();
         }
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
-            foreach (var submesh in _submeshes)
-            {
-                submesh.Invalidate();
-            }
-            _submeshes.Clear();
-            NotifyUnavailable();
-            _resource = null;
         }
     }
 
@@ -582,12 +619,11 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
         internal void Invalidate()
@@ -651,33 +687,48 @@ namespace StudioCore.Scene
 
     public unsafe class NavmeshProvider : MeshProvider, IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.NVMNavmeshResource> _resource;
 
         public NavmeshProvider(string resource)
         {
+            _resourceName = resource;
             _resource = null;
-            ResourceManager.GetResourceWhenAvailable(resource, this, AccessLevel.AccessGPUOptimizedOnly);
         }
 
         public override bool TryLock()
         {
-            //return _resource.TryLock();
             return true;
         }
 
         public override void Unlock()
         {
-            //_resource.Unlock();
         }
 
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            //_resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            //_resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                if (_resource != null)
+                {
+                    _resource.Release();
+                    _resource = null;
+                }
+                NotifyUnavailable();
+            }
         }
 
         public override bool IsAvailable()
@@ -710,8 +761,6 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
-            NotifyUnavailable();
-            _resource = null;
         }
 
         public override BoundingBox Bounds => _resource.Get().Bounds;
@@ -751,36 +800,53 @@ namespace StudioCore.Scene
 
     public unsafe class HavokNavmeshProvider : MeshProvider, IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.HavokNavmeshResource> _resource;
 
         private HavokNavmeshCostGraphProvider _costGraphProvider;
 
         public HavokNavmeshProvider(string resource)
         {
+            _resourceName = resource;
             _resource = null;
-            ResourceManager.GetResourceWhenAvailable(resource, this, AccessLevel.AccessGPUOptimizedOnly);
             _costGraphProvider = new HavokNavmeshCostGraphProvider(resource);
         }
 
         public override bool TryLock()
         {
-            //return _resource.TryLock();
             return true;
         }
 
         public override void Unlock()
         {
-            //_resource.Unlock();
         }
-
+        
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            //_resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
+            _costGraphProvider.Acquire();
         }
 
         public override void Release()
         {
-            //_resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                if (_resource != null)
+                {
+                    _resource.Release();
+                    _resource = null;
+                }
+                NotifyUnavailable();
+            }
+            _costGraphProvider.Release();
         }
 
         public override bool IsAvailable()
@@ -820,8 +886,6 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
-            NotifyUnavailable();
-            _resource = null;
         }
 
         public override BoundingBox Bounds => _resource.Get().Bounds;
@@ -861,33 +925,56 @@ namespace StudioCore.Scene
 
     public unsafe class HavokNavmeshCostGraphProvider : MeshProvider, IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.HavokNavmeshResource> _resource;
 
         public HavokNavmeshCostGraphProvider(string resource)
         {
+            _resourceName = resource;
             _resource = null;
-            ResourceManager.GetResourceWhenAvailable(resource, this, AccessLevel.AccessGPUOptimizedOnly);
+        }
+        
+        ~HavokNavmeshCostGraphProvider()
+        {
+            if (_resource != null)
+            {
+                _resource.Release();
+            }
         }
 
         public override bool TryLock()
         {
-            //return _resource.TryLock();
             return true;
         }
 
         public override void Unlock()
         {
-            //_resource.Unlock();
         }
 
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            //_resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            //_resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                if (_resource != null)
+                {
+                    _resource.Release();
+                    _resource = null;
+                }
+                NotifyUnavailable();
+            }
         }
 
         public override bool IsAvailable()
@@ -920,8 +1007,6 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
-            NotifyUnavailable();
-            _resource = null;
         }
 
         public override BoundingBox Bounds => _resource.Get().Bounds;

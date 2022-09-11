@@ -642,7 +642,7 @@ namespace StudioCore.Resource
         {
             foreach (var r in ResourceDatabase)
             {
-                //r.Value.CleanupIfUnused();
+                r.Value.Handle?.UnloadIfUnused();
             }
         }
         
@@ -677,43 +677,13 @@ namespace StudioCore.Resource
             var lResourceName = resourceName.ToLower();
             return ResourceDatabase.ContainsKey(lResourceName) &&
                    CheckAccessLevel(al, ResourceDatabase[lResourceName].AccessLevel);
-            //throw new NotImplementedException();
+        }
+
+        public static void UnloadResource(IResourceHandle resource)
+        {
+            _unloadRequests.Post(resource);
         }
         
-        /*public static ResourceHandle<T> GetResource<T>(string resourceName) where T : class, IResource, IDisposable, new()
-        {
-            if (ResourceDatabase.ContainsKey(resourceName))
-            {
-                return (ResourceHandle<T>)ResourceDatabase[resourceName];
-            }
-            lock (AddResourceLock)
-            {
-                var handle = new ResourceHandle<T>(resourceName);
-                if (!ResourceDatabase.ContainsKey(resourceName))
-                {
-                    ResourceDatabase[resourceName] = handle;
-                }
-            }
-            return (ResourceHandle<T>)ResourceDatabase[resourceName];
-        }
-
-        public static TextureResourceHandle GetTextureResource(string resourceName)
-        {
-            if (ResourceDatabase.ContainsKey(resourceName))
-            {
-                return (TextureResourceHandle)ResourceDatabase[resourceName];
-            }
-            lock (AddResourceLock)
-            {
-                var handle = new TextureResourceHandle(resourceName);
-                if (!ResourceDatabase.ContainsKey(resourceName))
-                {
-                    ResourceDatabase[resourceName] = handle;
-                }
-            }
-            return (TextureResourceHandle)ResourceDatabase[resourceName];
-        }*/
-
         public static void ScheduleUDSMFRefresh()
         {
             _scheduleUDSFMLoad = true;
@@ -749,8 +719,22 @@ namespace StudioCore.Resource
                     }
                 }
             }
+
+            // If no loading job is currently in flight, process any unload requests
+            int count = ActiveJobProgress.Count;
+            if (count == 0)
+            {
+                InFlightFiles.Clear();
+                if (_unloadRequests.TryReceiveAll(out var toUnload))
+                {
+                    foreach (var r in toUnload)
+                    {
+                        ResourceDatabase.Remove(r.AssetVirtualPath.ToLower());
+                        r.Unload();
+                    }
+                }
+            }
             
-            int count = ActiveJobProgress.Count();
             if (count > 0)
             {
                 HashSet<ResourceJob> toRemove = new HashSet<ResourceJob>();
@@ -791,7 +775,14 @@ namespace StudioCore.Resource
                     _scheduleUnloadedTexturesLoad = false;
                 }
             }
-            _prevCount = count;
+            
+            // If there were active jobs last frame but none this frame, clear out unused resources
+            if (_prevCount > 0 && ActiveJobProgress.Count == 0)
+            {
+                UnloadUnusedResources();
+            }
+            
+            _prevCount = ActiveJobProgress.Count;
         }
 
         private static bool TaskWindowOpen = true;

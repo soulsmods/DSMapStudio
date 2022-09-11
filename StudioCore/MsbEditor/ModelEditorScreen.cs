@@ -81,14 +81,10 @@ namespace StudioCore.MsbEditor
 
                 if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
                 {
-                    if (_flverhandle.TryLock())
+                    var r = _flverhandle.Get();
+                    if (r.Flver != null)
                     {
-                        var r = _flverhandle.Get();
-                        if (r.Flver != null)
-                        {
-                            _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
-                        }
-                        _flverhandle.Unlock();
+                        _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
                     }
                 }
             }

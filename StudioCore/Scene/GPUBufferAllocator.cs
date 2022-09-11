@@ -594,6 +594,11 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    // If the buffer is null when we get here, it's likely that this allocation was
+                    // destroyed by the time the staging is happening.
+                    if (_buffer == null)
+                        return;
+                    
                     var ctx = Tracy.TracyCZoneN(1, $@"FillVBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
@@ -642,7 +647,8 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
-                    // Buffer may be freed before upload can be fulfilled
+                    // If the buffer is null when we get here, it's likely that this allocation was
+                    // destroyed by the time the staging is happening.
                     if (_buffer == null)
                         return;
                     

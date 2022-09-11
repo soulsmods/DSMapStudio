@@ -67,13 +67,11 @@ namespace StudioCore.Resource
         public void Release();
 
         /// <summary>
-        /// Tries to lock the resource if it is loaded. While locked the resource can't be
-        /// unloaded.
+        /// Should only be used by ResourceManager
         /// </summary>
-        /// <returns>True if the resource is successfully locked</returns>
-        public bool TryLock();
+        public void Unload();
 
-        public void Unlock();
+        public void UnloadIfUnused();
 
         public bool IsLoaded();
     }
@@ -118,15 +116,6 @@ namespace StudioCore.Resource
         public T Get()
         {
             return Resource;
-        }
-
-        public bool TryLock()
-        {
-            return true;
-        }
-
-        public void Unlock()
-        {
         }
 
         internal bool _LoadResource(byte[] data, AccessLevel al, GameType type)
@@ -177,6 +166,9 @@ namespace StudioCore.Resource
         /// </summary>
         public void Unload()
         {
+            if (Resource == null)
+                return;
+            
             foreach (var listener in EventListeners)
             {
                 IResourceEventListener l;
@@ -190,6 +182,14 @@ namespace StudioCore.Resource
             Resource = null;
             IsLoaded = false;
             handle.Dispose();
+        }
+
+        public void UnloadIfUnused()
+        {
+            if (ReferenceCount <= 0)
+            {
+                ResourceManager.UnloadResource(this);
+            }
         }
 
         bool IResourceHandle.IsLoaded()
@@ -222,7 +222,7 @@ namespace StudioCore.Resource
             }
             if (unload)
             {
-                Unload();
+                ResourceManager.UnloadResource(this);
             }
         }
 
