@@ -21,6 +21,7 @@ namespace StudioCore
     public class MapStudioNew
     {
         private static string _version = "version 1.02.5";
+        private static string _programTitle = $"Dark Souls Map Studio {_version}";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -69,7 +70,7 @@ namespace StudioCore
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
-        
+
         public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
@@ -87,7 +88,7 @@ namespace StudioCore
                 WindowWidth = CFG.Current.GFX_Display_Width,
                 WindowHeight = CFG.Current.GFX_Display_Height,
                 WindowInitialState = WindowState.Maximized,
-                WindowTitle = "Dark Souls Map Studio " + _version,
+                WindowTitle = $"{_programTitle}",
             };
             GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 
@@ -527,6 +528,8 @@ namespace StudioCore
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
                 CFG.Current.LastProjectFile = filename;
+                _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+
                 if (updateRecents)
                 {
                     var recent = new CFG.RecentProject();
