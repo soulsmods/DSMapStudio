@@ -16,7 +16,7 @@ namespace StudioCore.Resource
     public enum AccessLevel
     {
         /// <summary>
-        /// Resource was just created
+        /// Resource is not loaded
         /// </summary>
         AccessUnloaded,
         
@@ -39,25 +39,6 @@ namespace StudioCore.Resource
         AccessFull,
     }
 
-    public readonly record struct LoadByteResourceRequest(
-        string virtualPath, 
-        byte[] Data, 
-        AccessLevel AccessLevel, 
-        GameType GameType);
-
-    public readonly record struct LoadFileResourceRequest(
-        string virtualPath,
-        string file,
-        AccessLevel AccessLevel,
-        GameType GameType);
-    
-    public readonly record struct LoadTPFTextureResourceRequest(
-        string virtualPath,
-        TPF tpf,
-        int index,
-        AccessLevel AccessLevel,
-        GameType GameType);
-    
     public interface IResourceHandle
     {
         public string AssetVirtualPath { get; }
@@ -65,12 +46,20 @@ namespace StudioCore.Resource
         public AccessLevel AccessLevel { get; }
 
         public int GetReferenceCounts();
-        public void Acquire(IResourceEventListener destructionHanlder, int tag = 0);
+        public void Acquire();
         public void Release();
 
         /// <summary>
         /// Should only be used by ResourceManager
         /// </summary>
+        public void _ResourceLoaded(IResource resource, AccessLevel accessLevel);
+
+        public void AddResourceEventListener(IResourceEventListener listener, AccessLevel accessLevel, int tag = 0);
+
+        public void RemoveResourceEventListener(IResourceEventListener listener);
+
+        public int EventListenerCount { get; }
+        
         public void Unload();
 
         public void UnloadIfUnused();
@@ -104,11 +93,9 @@ namespace StudioCore.Resource
 
         protected readonly record struct EventListener(
             WeakReference<IResourceEventListener> Listener,
-            int tag);
+            AccessLevel AccessLevel,
+            int Tag);
         protected List<EventListener> EventListeners = new List<EventListener>();
-
-        protected int LockCounter = 0;
-        protected object ResourceLock = new object();
 
         public ResourceHandle(string virtualPath)
         {
@@ -120,47 +107,50 @@ namespace StudioCore.Resource
             return Resource;
         }
 
-        internal bool _LoadResource(byte[] data, AccessLevel al, GameType type)
-        {
-            Resource = new T();
-            if (!Resource._Load(data, al, type))
-            {
-                return false;
-            }
-            AccessLevel = al;
-            IsLoaded = true;
-            return true;
-        }
-
-        internal bool _LoadResource(string file, AccessLevel al, GameType type)
-        {
-            Resource = new T();
-            try
-            {
-                if (!Resource._Load(file, al, type))
-                {
-                    return false;
-                }
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                Resource = null;
-                return false;
-            }
-            AccessLevel = al;
-            IsLoaded = true;
-            return true;
-        }
-
         /// <summary>
         /// Adds a handler that is called every time this resource is loaded. If the resource
         /// is loaded at the time this handler is added, the handler is called immediately
         /// To prevent deadlock, these handlers should not trigger a load/unload of the resource
         /// </summary>
         /// <param name="handler"></param>
-        public void AddResourceEventListener(IResourceEventListener listener, int tag = 0)
+        public void AddResourceEventListener(IResourceEventListener listener, AccessLevel accessLevel, int tag = 0)
         {
-            EventListeners.Add(new EventListener(new WeakReference<IResourceEventListener>(listener), tag));
+            EventListeners.Add(new EventListener(
+                new WeakReference<IResourceEventListener>(listener), accessLevel, tag));
+            
+            if (IsLoaded)
+            {
+                if (ResourceManager.CheckAccessLevel(accessLevel, AccessLevel))
+                    listener.OnResourceLoaded(this, tag);
+            }
+        }
+
+        public void RemoveResourceEventListener(IResourceEventListener listener)
+        {
+            // To implement
+        }
+        
+        public int EventListenerCount => EventListeners.Count;
+
+        public void _ResourceLoaded(IResource resource, AccessLevel accessLevel)
+        {
+            // If there's already a resource make sure it's unloaded and everyone notified
+            Unload();
+
+            Resource = (T)resource;
+            AccessLevel = accessLevel;
+            IsLoaded = true;
+
+            foreach (var listener in EventListeners)
+            {
+                IResourceEventListener l;
+                bool succ = listener.Listener.TryGetTarget(out l);
+                if (succ)
+                {
+                    if (ResourceManager.CheckAccessLevel(listener.AccessLevel, accessLevel))
+                        l.OnResourceLoaded(this, listener.Tag);
+                }
+            }
         }
 
         /// <summary>
@@ -177,7 +167,7 @@ namespace StudioCore.Resource
                 bool succ = listener.Listener.TryGetTarget(out l);
                 if (succ)
                 {
-                    l.OnResourceUnloaded(this, listener.tag);
+                    l.OnResourceUnloaded(this, listener.Tag);
                 }
             }
             var handle = Resource;
@@ -204,9 +194,8 @@ namespace StudioCore.Resource
             return ReferenceCount;
         }
 
-        public void Acquire(IResourceEventListener destructionHanlder, int tag = 0)
+        public void Acquire()
         {
-            AddResourceEventListener(destructionHanlder, tag);
             ReferenceCount++;
         }
 
@@ -247,26 +236,6 @@ namespace StudioCore.Resource
         public override string ToString()
         {
             return AssetVirtualPath;
-        }
-    }
-
-    public class TextureResourceHandle : ResourceHandle<TextureResource>
-    {
-        public TextureResourceHandle(string virtualPath) : base(virtualPath)
-        {
-        }
-
-        public bool _LoadTextureResource(TPF tex, int index, AccessLevel al, GameType type)
-        {
-            if (IsLoaded)
-            {
-                Unload();
-            }
-            Resource = new TextureResource(tex, index);
-            Resource._LoadTexture(al);
-            AccessLevel = al;
-            IsLoaded = true;
-            return true;
         }
     }
 }

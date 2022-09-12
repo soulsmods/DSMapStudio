@@ -302,7 +302,7 @@ namespace StudioCore.Scene
         {
             if (_referenceCount == 0)
             {
-                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+                ResourceManager.AddResourceListener<FlverResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
             }
             _referenceCount++;
         }
@@ -368,7 +368,7 @@ namespace StudioCore.Scene
             if (_resource != null)
                 return;
             _resource = (ResourceHandle<FlverResource>)handle;
-            _resource.Acquire(this, tag);
+            _resource.Acquire();
             CreateSubmeshes();
             NotifyAvailable();
         }
@@ -382,10 +382,6 @@ namespace StudioCore.Scene
             }
             _submeshes.Clear();
             NotifyUnavailable();
-            if (_referenceCount > 0)
-            {
-                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
-            }
         }
     }
 
@@ -512,11 +508,6 @@ namespace StudioCore.Scene
 
         public override void Acquire()
         {
-            if (_referenceCount == 0)
-            {
-                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
-            }
-
             _referenceCount++;
         }
 
@@ -596,7 +587,7 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokCollisionResource>)handle;
-            _resource.Acquire(this, tag);
+            _resource.Acquire();
             CreateSubmeshes();
             NotifyAvailable();
         }
@@ -711,10 +702,6 @@ namespace StudioCore.Scene
         
         public override void Acquire()
         {
-            if (_referenceCount == 0)
-            {
-                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
-            }
             _referenceCount++;
         }
 
@@ -757,7 +744,7 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<NVMNavmeshResource>)handle;
-            _resource.Acquire(this, tag);
+            _resource.Acquire();
             NotifyAvailable();
         }
 
@@ -827,10 +814,6 @@ namespace StudioCore.Scene
         
         public override void Acquire()
         {
-            if (_referenceCount == 0)
-            {
-                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
-            }
             _referenceCount++;
             _costGraphProvider.Acquire();
         }
@@ -882,7 +865,7 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokNavmeshResource>)handle;
-            _resource.Acquire(this, tag);
+            _resource.Acquire();
             NotifyAvailable();
         }
 
@@ -957,10 +940,6 @@ namespace StudioCore.Scene
         
         public override void Acquire()
         {
-            if (_referenceCount == 0)
-            {
-                ResourceManager.GetResourceWhenAvailable(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
-            }
             _referenceCount++;
         }
 
@@ -1003,7 +982,7 @@ namespace StudioCore.Scene
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _resource = (ResourceHandle<HavokNavmeshResource>)handle;
-            _resource.Acquire(this, tag);
+            _resource.Acquire();
             NotifyAvailable();
         }
 

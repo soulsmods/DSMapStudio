@@ -13,47 +13,6 @@ namespace StudioCore.Resource
 {
     public class NVMNavmeshResource : IResource, IDisposable
     {
-        private class NVMNavmeshLoadPipeline : IResourceLoadPipeline
-        {
-            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => _loadByteResourcesTransform;
-            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => _loadFileResourcesTransform;
-            public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest =>
-                throw new NotImplementedException();
-
-            private ActionBlock<LoadByteResourceRequest> _loadByteResourcesTransform;
-            private ActionBlock<LoadFileResourceRequest> _loadFileResourcesTransform;
-
-            private ITargetBlock<IResourceHandle> _loadedResources = null;
-
-            public NVMNavmeshLoadPipeline(ITargetBlock<IResourceHandle> target)
-            {
-                _loadedResources = target;
-                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
-                {
-                    var res = new ResourceHandle<NVMNavmeshResource>(r.virtualPath);
-                    bool success = res._LoadResource(r.Data, r.AccessLevel, r.GameType);
-                    if (success)
-                    {
-                        _loadedResources.Post(res);
-                    }
-                });
-                _loadFileResourcesTransform = new ActionBlock<LoadFileResourceRequest>(r =>
-                {
-                    var res = new ResourceHandle<NVMNavmeshResource>(r.virtualPath);
-                    bool success = res._LoadResource(r.file, r.AccessLevel, r.GameType);
-                    if (success)
-                    {
-                        _loadedResources.Post(res);
-                    }
-                });
-            }
-        }
-
-        public static IResourceLoadPipeline CreatePipeline(ITargetBlock<IResourceHandle> target)
-        {
-            return new NVMNavmeshLoadPipeline(target);
-        }
-        
         public int IndexCount;
         public int[] PickingIndices;
 
@@ -181,13 +140,13 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
         {
             Nvm = NVM.Read(bytes);
             return LoadInternal(al);
         }
 
-        bool IResource._Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string file, AccessLevel al, GameType type)
         {
             Nvm = NVM.Read(file);
             return LoadInternal(al);

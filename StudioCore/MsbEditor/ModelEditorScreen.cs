@@ -135,7 +135,7 @@ namespace StudioCore.MsbEditor
                 }
                 _loadingTask = job.Complete();
             }
-            ResourceManager.GetResourceWhenAvailable(asset.AssetVirtualPath, this, AccessLevel.AccessFull);
+            ResourceManager.AddResourceListener<FlverResource>(asset.AssetVirtualPath, this, AccessLevel.AccessFull);
         }
 
         public void OnInstantiateChr(string chrid)
@@ -286,9 +286,8 @@ namespace StudioCore.MsbEditor
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
             _flverhandle = (ResourceHandle<FlverResource>)handle;
-            _flverhandle.Acquire(this, tag);
-            _flverhandle.AddResourceEventListener(this);
-            
+            _flverhandle.Acquire();
+
             if (_renderMesh != null)
             {
                 var box = _renderMesh.GetBounds();

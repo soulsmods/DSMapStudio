@@ -23,49 +23,6 @@ namespace StudioCore.Resource
 {
     public class FlverResource : IResource, IDisposable
     {
-        private class FlverLoadPipeline : IResourceLoadPipeline
-        {
-            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => _loadByteResourcesTransform;
-            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => _loadFileResourcesTransform;
-            public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest =>
-                throw new NotImplementedException();
-
-            private ActionBlock<LoadByteResourceRequest> _loadByteResourcesTransform;
-            private ActionBlock<LoadFileResourceRequest> _loadFileResourcesTransform;
-
-            private ITargetBlock<IResourceHandle> _loadedResources = null;
-
-            public FlverLoadPipeline(ITargetBlock<IResourceHandle> target)
-            {
-                var options = new ExecutionDataflowBlockOptions();
-                options.MaxDegreeOfParallelism = 6;
-                _loadedResources = target;
-                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
-                {
-                    var res = new ResourceHandle<FlverResource>(r.virtualPath);
-                    bool success = res._LoadResource(r.Data, r.AccessLevel, r.GameType);
-                    if (success)
-                    {
-                        _loadedResources.Post(res);
-                    }
-                }, options);
-                _loadFileResourcesTransform = new ActionBlock<LoadFileResourceRequest>(r =>
-                {
-                    var res = new ResourceHandle<FlverResource>(r.virtualPath);
-                    bool success = res._LoadResource(r.file, r.AccessLevel, r.GameType);
-                    if (success)
-                    {
-                        _loadedResources.Post(res);
-                    }
-                }, options);
-            }
-        }
-
-        public static IResourceLoadPipeline CreatePipeline(ITargetBlock<IResourceHandle> target)
-        {
-            return new FlverLoadPipeline(target);
-        }
-        
         private static Stack<FlverCache> FlverCaches = new Stack<FlverCache>();
         public static int CacheCount { get; private set; } = 0;
         public static long CacheFootprint
@@ -155,7 +112,7 @@ namespace StudioCore.Resource
                 TextureResourceCount,
             }
 
-            public readonly TextureResourceHandle?[] TextureResources = new TextureResourceHandle[(int)TextureType.TextureResourceCount];
+            public readonly ResourceHandle<TextureResource>?[] TextureResources = new ResourceHandle<TextureResource>[(int)TextureType.TextureResourceCount];
             public readonly bool[] TextureResourceFilled = new bool[(int)TextureType.TextureResourceCount];
             
             private bool disposedValue;
@@ -192,7 +149,7 @@ namespace StudioCore.Resource
                 }
             }
 
-            private void ReleaseTexture(TextureResourceHandle handle)
+            private void ReleaseTexture(ResourceHandle<TextureResource> handle)
             {
                 handle.Release();
             }
@@ -228,8 +185,8 @@ namespace StudioCore.Resource
 
             public void OnResourceLoaded(IResourceHandle handle, int tag)
             {
-                var texHandle = (TextureResourceHandle)handle;
-                texHandle.Acquire(this, tag);
+                var texHandle = (ResourceHandle<TextureResource>)handle;
+                texHandle.Acquire();
                 TextureResources[tag] = texHandle;
                 UpdateMaterial();
             }
@@ -238,8 +195,6 @@ namespace StudioCore.Resource
             {
                 TextureResources[tag] = null;
                 UpdateMaterial();
-                ResourceManager.GetResourceWhenAvailable(handle.AssetVirtualPath, this, 
-                    AccessLevel.AccessGPUOptimizedOnly, tag);
             }
 
             protected virtual void Dispose(bool disposing)
@@ -392,7 +347,7 @@ namespace StudioCore.Resource
 
             if (!dest.TextureResourceFilled[(int)textureType])
             {
-                ResourceManager.GetResourceWhenAvailable(TexturePathToVirtual(path.ToLower()), dest,
+                ResourceManager.AddResourceListener<TextureResource>(TexturePathToVirtual(path.ToLower()), dest,
                     AccessLevel.AccessGPUOptimizedOnly, (int)textureType);
                 dest.TextureResourceFilled[(int)textureType] = true;
             }
@@ -2122,7 +2077,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
         {
             bool ret;
             if (type == GameType.DemonsSouls)
@@ -2150,7 +2105,7 @@ namespace StudioCore.Resource
             return ret;
         }
 
-        bool IResource._Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string file, AccessLevel al, GameType type)
         {
             bool ret;
             if (type == GameType.DemonsSouls)

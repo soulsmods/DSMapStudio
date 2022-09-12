@@ -15,47 +15,6 @@ namespace StudioCore.Resource
 {
     public class HavokNavmeshResource : IResource, IDisposable
     {
-        private class HavokNavmeshLoadPipeline : IResourceLoadPipeline
-        {
-            public ITargetBlock<LoadByteResourceRequest> LoadByteResourceBlock => _loadByteResourcesTransform;
-            public ITargetBlock<LoadFileResourceRequest> LoadFileResourceRequest => _loadFileResourcesTransform;
-            public ITargetBlock<LoadTPFTextureResourceRequest> LoadTPFTextureResourceRequest =>
-                throw new NotImplementedException();
-
-            private ActionBlock<LoadByteResourceRequest> _loadByteResourcesTransform;
-            private ActionBlock<LoadFileResourceRequest> _loadFileResourcesTransform;
-
-            private ITargetBlock<IResourceHandle> _loadedResources = null;
-
-            public HavokNavmeshLoadPipeline(ITargetBlock<IResourceHandle> target)
-            {
-                _loadedResources = target;
-                _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
-                {
-                    var res = new ResourceHandle<HavokNavmeshResource>(r.virtualPath);
-                    bool success = res._LoadResource(r.Data, r.AccessLevel, r.GameType);
-                    if (success)
-                    {
-                        _loadedResources.Post(res);
-                    }
-                });
-                _loadFileResourcesTransform = new ActionBlock<LoadFileResourceRequest>(r =>
-                {
-                    var res = new ResourceHandle<HavokNavmeshResource>(r.virtualPath);
-                    bool success = res._LoadResource(r.file, r.AccessLevel, r.GameType);
-                    if (success)
-                    {
-                        _loadedResources.Post(res);
-                    }
-                });
-            }
-        }
-        
-        public static IResourceLoadPipeline CreatePipeline(ITargetBlock<IResourceHandle> target)
-        {
-            return new HavokNavmeshLoadPipeline(target);
-        }
-        
         public int IndexCount;
         public int GraphIndexCount;
         public int[] PickingIndices;
@@ -311,7 +270,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             var des = new HKX2.PackFileDeserializer();
@@ -319,7 +278,7 @@ namespace StudioCore.Resource
             return LoadInternal(al);
         }
 
-        bool IResource._Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string file, AccessLevel al, GameType type)
         {
             using (var s = File.OpenRead(file))
             {
