@@ -7,6 +7,8 @@ using SoulsFormats;
 using System.Threading.Tasks;
 using StudioCore.Editor;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+
 namespace StudioCore.TextEditor
 {
     /// <summary>
@@ -1203,6 +1205,24 @@ namespace StudioCore.TextEditor
             return eGroup;
         }
 
+        private class JsonFMG
+        {
+            public FmgIDType FmgID;
+            public FMG Fmg;
+            public JsonFMG(FmgIDType fmg_id, FMG fmg)
+            {
+                FmgID = fmg_id;
+                Fmg = fmg;
+            }
+        }
+
+        private static string FormatJson(string json)
+        {
+            json = json.Replace("{\"ID\"", "\r\n{\"ID\"");
+            json = json.Replace("],", "\r\n],");
+            return json;
+        }
+
         public static bool ExportFMGs()
         {
             FolderBrowserDialog folderDialog = new();
@@ -1221,9 +1241,16 @@ namespace StudioCore.TextEditor
 
                 foreach (var info in _fmgInfoBank)
                 {
-                    var fmgPair = KeyValuePair.Create(info.Name, info.Fmg);
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                    File.WriteAllText($@"{path}\{info.Name}.fmg.json", json);
+                    var fmgPair = new JsonFMG(info.FmgID, info.Fmg);
+                    var json = JsonConvert.SerializeObject(fmgPair, Formatting.None);
+                    json = FormatJson(json);
+
+                    var fileName = info.Name;
+                    if (CFG.Current.FMG_ShowOriginalNames)
+                        fileName = info.FileName;
+
+                    File.WriteAllText($@"{path}\{fileName}.fmg.json", json);
+
                     filecount++;
                 }
             }
@@ -1243,9 +1270,16 @@ namespace StudioCore.TextEditor
                     {
                         path = menuPath;
                     }
-                    var fmgPair = KeyValuePair.Create(info.Name, info.Fmg);
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(fmgPair, Newtonsoft.Json.Formatting.Indented);
-                    File.WriteAllText($@"{path}\{info.Name}.fmg.json", json);
+                    var fmgPair = new JsonFMG(info.FmgID, info.Fmg);
+                    var json = JsonConvert.SerializeObject(fmgPair, Formatting.None);
+                    json = FormatJson(json);
+
+                    var fileName = info.Name;
+                    if (CFG.Current.FMG_ShowOriginalNames)
+                        fileName = info.FileName;
+
+                    File.WriteAllText($@"{path}\{fileName}.fmg.json", json);
+
                     filecount++;
                 }
             }
@@ -1273,18 +1307,35 @@ namespace StudioCore.TextEditor
             int filecount = 0;
             foreach (var filePath in files)
             {
-                var file = File.ReadAllText(filePath);
-                var json = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyValuePair<string, FMG>>(@file);
-                foreach (var info in _fmgInfoBank)
+                try
                 {
-                    if (info.Name == json.Key)
+                    var file = File.ReadAllText(filePath);
+                    var json = JsonConvert.DeserializeObject<JsonFMG>(@file);
+                    bool success = false;
+                    foreach (var info in _fmgInfoBank)
                     {
-                        info.Fmg = json.Value;
-                        filecount++;
-                        continue;
+                        if (info.FmgID == json.FmgID)
+                        {
+                            info.Fmg = json.Fmg;
+                            success = true;
+                            filecount++;
+                            break;
+                        }
+                    }
+                    if (!success)
+                    {
+                        MessageBox.Show($"Couldn't locate FMG using FMG ID `{json.FmgID}`", "Import Error", MessageBoxButtons.OK);
                     }
                 }
+                catch (JsonReaderException e)
+                {
+                    MessageBox.Show($"{e.Message}\n\nCouldn't import '{filePath}'", "Import Error", MessageBoxButtons.OK);
+                }
             }
+
+            if (filecount == 0)
+                return false;
+
             MessageBox.Show($"Imported {filecount} text files", "Finished", MessageBoxButtons.OK);
             return true;
         }
