@@ -28,18 +28,20 @@ namespace DSMapStudio
             SDL_version version;
             Sdl2Native.SDL_GetVersion(&version);
 
+            var mapStudio = new MapStudioNew();
             #if !DEBUG
             try
             {
-                new StudioCore.MapStudioNew().Run();
+                mapStudio.Run();
             }
             catch (Exception e)
             {
                 MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw e;
+                mapStudio.AttemptSaveOnCrash();
+                throw;
             }
             #else
-            new StudioCore.MapStudioNew().Run();
+            mapStudio.Run();
             #endif
         }
 

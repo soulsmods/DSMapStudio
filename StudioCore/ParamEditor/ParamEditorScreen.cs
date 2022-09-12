@@ -17,6 +17,12 @@ using SoulsFormats;
 using StudioCore;
 using StudioCore.TextEditor;
 using StudioCore.Editor;
+using StudioCore.MsbEditor;
+using ActionManager = StudioCore.Editor.ActionManager;
+using AddParamsAction = StudioCore.Editor.AddParamsAction;
+using CompoundAction = StudioCore.Editor.CompoundAction;
+using DeleteParamsAction = StudioCore.Editor.DeleteParamsAction;
+using EditorScreen = StudioCore.Editor.EditorScreen;
 
 namespace StudioCore.ParamEditor
 {
@@ -1000,17 +1006,35 @@ namespace StudioCore.ParamEditor
 
         public override void Save()
         {
-            if (_projectSettings != null)
+            try
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                if (_projectSettings != null)
+                {
+                    ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                }
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
             }
         }
 
         public override void SaveAll()
         {
-            if (_projectSettings != null)
+            try
             {
-                ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                if (_projectSettings != null)
+                {
+                    ParamBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                }
+            }
+            catch (SavingFailedException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.None);
             }
         }
     }
@@ -1142,6 +1166,8 @@ namespace StudioCore.ParamEditor
         private ParamEditorScreen _paramEditor;
         internal int _viewIndex;
         private int _gotoParamRow = -1;
+        private bool _arrowKeyPressed = false;
+        private bool _focusRows = false;
 
         internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
@@ -1300,9 +1326,23 @@ namespace StudioCore.ParamEditor
                     ImGui.Spacing();
                 }
 
+                // Up/Down arrow key input
+                if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                    && !ImGui.IsAnyItemActive())
+                {
+                    _arrowKeyPressed = true;
+                }
+                if (_focusRows)
+                {
+                    ImGui.SetNextWindowFocus();
+                    _arrowKeyPressed = false;
+                    _focusRows = false;
+                }
+
                 ImGui.BeginChild("rows" + activeParam);
                 List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
 
+                // Rows
                 foreach (var r in rows)
                 {
                     RowColumnEntry(activeParam, rows, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
@@ -1337,17 +1377,19 @@ namespace StudioCore.ParamEditor
             var selected = _selection.getSelectedRows().Contains(r);
             if (_gotoParamRow != -1)
             {
-                //Goto row was activated. As soon as a corresponding ID is found, change selection to it.
+                // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
                 if (r.ID == _gotoParamRow)
                 {
                     selected = true;
                     _selection.SetActiveRow(r, true);
                     _gotoParamRow = -1;
+                    ImGui.SetScrollHereY();
                 }
             }
 
             if (ImGui.Selectable($@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}", selected))
             {
+                _focusRows = true;
                 if (InputTracker.GetKey(Key.LControl))
                 {
                     _selection.toggleRowInSelection(r);
@@ -1371,7 +1413,23 @@ namespace StudioCore.ParamEditor
                         EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{activeParam}/{r.ID}");
                 }
             }
+            if (_arrowKeyPressed && ImGui.IsItemFocused()
+                && (r != _selection.getActiveRow()))
+            {
+                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                {
+                    // Add to selection
+                    _selection.addRowToSelection(r);
+                }
+                else
+                {
+                    // Exclusive selection
+                    _selection.SetActiveRow(r, true);
+                }
+                _arrowKeyPressed = false;
+            }
             ImGui.PopStyleColor();
+
             if (ImGui.BeginPopupContextItem(r.ID.ToString()))
             {
                 if (decorator != null)

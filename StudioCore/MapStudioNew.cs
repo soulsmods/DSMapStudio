@@ -20,7 +20,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02.2";
+        private static string _version = "version 1.02.5";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -153,6 +153,11 @@ namespace StudioCore
             }
         }
 
+        /// <summary>
+        /// Characters to load that FromSoft use, but aren't included in the ImGui Japanese glyph range.
+        /// </summary>
+        private char[] SpecialCharsJP = {'鉤'};
+
         private unsafe void SetupFonts()
         {
             var fonts = ImGui.GetIO().Fonts;
@@ -164,6 +169,9 @@ namespace StudioCore
             var fontIcon = File.ReadAllBytes(fileIcon);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
+
+            var scale = CFG.Current.FontSizeScale;
+
             fixed (byte* p = fontEn)
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
@@ -171,7 +179,7 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 5.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f * scale, cfg, fonts.GetGlyphRangesDefault());
             }
             fixed (byte* p = fontOther)
             {
@@ -181,18 +189,25 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 7.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesJapanese());
+
+                var glyphJP = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
+                glyphJP.AddRanges(fonts.GetGlyphRangesJapanese());
+                Array.ForEach(SpecialCharsJP, c => glyphJP.AddChar(c));
+                glyphJP.BuildRanges(out ImVector glyphRangeJP);
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, glyphRangeJP.Data);
+                glyphJP.Destroy();
+
                 if (CFG.Current.FontChinese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesChineseFull());
                 if (CFG.Current.FontKorean)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesKorean());
                 if (CFG.Current.FontThai)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesThai());
                 if (CFG.Current.FontVietnamese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesVietnamese());
                 cfg.GlyphMinAdvanceX = 5.0f;
                 if (CFG.Current.FontCyrillic)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f * scale, cfg, fonts.GetGlyphRangesCyrillic());
             }
             fixed (byte* p = fontIcon)
             {
@@ -207,7 +222,7 @@ namespace StudioCore
 
                 fixed (ushort* r = ranges)
                 {
-                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f, cfg, (IntPtr)r);
+                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f * scale, cfg, (IntPtr)r);
                 }
             }
             fonts.Build();
@@ -533,6 +548,27 @@ namespace StudioCore
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _user32_ShowWindow(IntPtr hWnd, int nCmdShow);
 
+        // Saves modded files to a recovery directory in the mod folder on crash
+        public void AttemptSaveOnCrash()
+        {
+            bool success = _assetLocator.CreateRecoveryProject();
+            if (success)
+            {
+                _msbEditor.SaveAll();
+                _modelEditor.SaveAll();
+                _paramEditor.SaveAll();
+                _textEditor.SaveAll();
+                System.Windows.Forms.MessageBox.Show(
+                    $@"Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery. " +
+                    "You must manually replace your projects with these recovery files should you wish to restore them. " +
+                    "Given the program has crashed, these files may be corrupt and you should backup your last good saved " +
+                    "files before attempting to use these.", 
+                    "Saved recovery",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Warning);
+            }
+        }
+        
         private void SaveFocusedEditor()
         {
             if (_projectSettings != null && _projectSettings.ProjectName != null)
@@ -738,30 +774,40 @@ namespace StudioCore
                         }
                     }
 
-                    if (ImGui.BeginMenu("Additional Language Fonts"))
+                    if (ImGui.BeginMenu("Fonts"))
                     {
-                        ImGui.Text("Additional fonts take more VRAM and increase startup time.");
-                        ImGui.Text("Please restart program for changes to take effect.");
+                        ImGui.Text("Please restart program for font changes to take effect.");
                         ImGui.Separator();
-                        if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+
+                        if (ImGui.SliderFloat("Font Scale", ref CFG.Current.FontSizeScale, 0.5f, 4.0f))
                         {
-                            CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                            CFG.Current.FontSizeScale = (float)Math.Round(CFG.Current.FontSizeScale, 1);
                         }
-                        if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                        if (ImGui.BeginMenu("Additional Language Fonts"))
                         {
-                            CFG.Current.FontKorean = !CFG.Current.FontKorean;
-                        }
-                        if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
-                        {
-                            CFG.Current.FontThai = !CFG.Current.FontThai;
-                        }
-                        if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
-                        {
-                            CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
-                        }
-                        if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
-                        {
-                            CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                            ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                            ImGui.Separator();
+                            if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+                            {
+                                CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                            }
+                            if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                            {
+                                CFG.Current.FontKorean = !CFG.Current.FontKorean;
+                            }
+                            if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
+                            {
+                                CFG.Current.FontThai = !CFG.Current.FontThai;
+                            }
+                            if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
+                            {
+                                CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
+                            }
+                            if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
+                            {
+                                CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                            }
+                            ImGui.EndMenu();
                         }
                         ImGui.EndMenu();
                     }
@@ -882,6 +928,11 @@ namespace StudioCore
                 {
                     if (ImGui.BeginMenu("Tests"))
                     {
+                        if (ImGui.MenuItem("Crash me (will actually crash)"))
+                        {
+                            var badArray = new int[2];
+                            var crash = badArray[5];
+                        }
                         if (ImGui.MenuItem("MSBE read/write test"))
                         {
                             Tests.MSBReadWrite.Run(_assetLocator);

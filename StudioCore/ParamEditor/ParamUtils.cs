@@ -45,7 +45,7 @@ namespace StudioCore.ParamEditor
         }
         public static bool RowMatches(Param.Row row, Param.Row vrow)
         {
-            if (row.Def != vrow.Def)
+            if (row.Def.ParamType != vrow.Def.ParamType || row.Def.DataVersion != vrow.Def.DataVersion)
                 return false;
             
             return row.DataEquals(vrow);

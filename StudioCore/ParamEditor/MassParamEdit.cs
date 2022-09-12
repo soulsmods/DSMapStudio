@@ -182,6 +182,8 @@ namespace StudioCore.ParamEditor
                 else
                 {
                     affectedParams = ParamSearchEngine.pse.Search(false, stage[0], false, false);
+                    stage = stage[1].Split(":", 2);
+                    stage[0] = stage[0].Trim();
                     if (stage[0].Equals(""))
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
                     affectedRows = RowSearchEngine.rse.Search(affectedParams, stage[0], false, false);
@@ -197,7 +199,6 @@ namespace StudioCore.ParamEditor
                 string[] cellStageSplit = cellSt.Split(" ", StringSplitOptions.TrimEntries);
                 bool editName = cellStageSplit.Length == 1 && cellStageSplit[0].Equals("Name");
                 
-                // Split again per usual, even though we should guarantee this is the last split
                 stage = stage[1].Split(":", 2);
                 stage[0] = stage[0].Trim();
 
