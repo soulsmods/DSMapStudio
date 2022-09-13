@@ -535,11 +535,14 @@ namespace StudioCore.MsbEditor
         /// </summary>
         public virtual Transform GetRootTransform()
         {
-            if (this != Container.RootObject)
+            Transform t = Transform.Default;
+            var parent = Parent;
+            while (parent != null)
             {
-                return Container.RootObject.GetLocalTransform();
+                t += parent.GetLocalTransform();
+                parent = parent.Parent;
             }
-            return Transform.Default;
+            return t;
         }
 
         /// <summary>
@@ -1185,7 +1188,7 @@ namespace StudioCore.MsbEditor
             if (type is MapEntityType.Light)
             {
                 ParentBTLName = btlFile;
-                OffsetBtlLight();
+                //OffsetBtlLight();
             }
         }
 
@@ -1520,22 +1523,6 @@ namespace StudioCore.MsbEditor
                 }
             }
             return t;
-        }
-
-        /// <summary>
-        /// Uses Event.MapOffset to offset BTL light (for loading)
-        /// </summary>
-        private void OffsetBtlLight()
-        {
-            var light = (BTL.Light)WrappedObject;
-            var offset = ((Map)Container).MapOffset;
-            var degrees = offset.Rotation.Y;
-
-            light.Position += offset.Position;
-            light.Position = Utils.RotateVectorAboutPoint(light.Position, offset.Position, new Vector3(0f, 1f, 0f),  degrees);
-            light.Rotation += new Vector3(0f, degrees, 0f);
-
-            return;
         }
 
         internal override Entity DuplicateEntity(object clone)

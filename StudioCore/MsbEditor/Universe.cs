@@ -688,36 +688,6 @@ namespace StudioCore.MsbEditor
                 {
                     GetModelDrawable(map, obj, mp.ModelName, false); 
                 }
-
-                // Try to find the map offset
-                if (obj.WrappedObject is MSB2.Event.MapOffset mo1)
-                {
-                    var t = Transform.Default;
-                    t.Position = mo1.Translation;
-                    map.MapOffset = t;
-                }
-                else if (obj.WrappedObject is MSBB.Event.MapOffset mo2)
-                {
-                    var t = Transform.Default;
-                    t.Position = mo2.Position;
-                    t.Rotation = new Quaternion(0f, Utils.DegToRadians(mo2.Degree), 0f, 1f);
-                    map.MapOffset = t;
-                }
-                else if (obj.WrappedObject is MSB3.Event.MapOffset mo3)
-                {
-                    var t = Transform.Default;
-                    //t.Position = Vector3.Transform(mo3.Position, Quaternion.CreateFromYawPitchRoll(0f, 0f, -Utils.DegToRadians(mo3.Degree)));
-                    t.Position = mo3.Position;
-                    t.Rotation = new Quaternion(0f, Utils.DegToRadians(mo3.Degree), 0f, 1f);
-                    map.MapOffset = t;
-                }
-                else if (obj.WrappedObject is MSBS.Event.MapOffset mo4)
-                {
-                    var t = Transform.Default;
-                    t.Position = mo4.Position;
-                    t.Rotation = new Quaternion(0f, Utils.DegToRadians(mo4.Degree), 0f, 1f);
-                    map.MapOffset = t;
-                }
             }
 
             // Load BTLs (must be done after MapOffset is set)
@@ -769,6 +739,7 @@ namespace StudioCore.MsbEditor
                     NVA nva = NVA.Read(nvaasset.AssetPath);
                     foreach (var nav in nva.Navmeshes)
                     {
+                        // TODO2: set parent to MapOffset
                         var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
                         map.AddObject(n);
                         var navid = $@"n{nav.ModelID:D6}";
