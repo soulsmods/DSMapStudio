@@ -659,6 +659,7 @@ namespace StudioCore.Resource
 
         public static void MarkResourceInFlight(string resourceName, AccessLevel al)
         {
+            // TODO is this needed?
             /*var lResourceName = resourceName.ToLower();
             if (!ResourceDatabase.ContainsKey(lResourceName))
                 ResourceDatabase.Add(lResourceName, new ResourceRegistration(al));
@@ -667,10 +668,9 @@ namespace StudioCore.Resource
         
         public static bool IsResourceLoadedOrInFlight(string resourceName, AccessLevel al)
         {
-            /*var lResourceName = resourceName.ToLower();
+            var lResourceName = resourceName.ToLower();
             return ResourceDatabase.ContainsKey(lResourceName) &&
-                   CheckAccessLevel(al, ResourceDatabase[lResourceName].AccessLevel);*/
-            return false;
+                   CheckAccessLevel(al, ResourceDatabase[lResourceName].AccessLevel);
         }
 
         public static void UnloadResource(IResourceHandle resource)

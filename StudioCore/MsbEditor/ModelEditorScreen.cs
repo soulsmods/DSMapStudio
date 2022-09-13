@@ -111,7 +111,8 @@ namespace StudioCore.MsbEditor
             {
                 //RenderScene.RemoveObject(_renderMesh);
             }
-            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(RenderScene, asset.AssetVirtualPath);
+            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                RenderScene, asset.AssetVirtualPath, ModelMarkerType.None);
             //_renderMesh.DrawFilter = filt;
             _renderMesh.World = Matrix4x4.Identity;
             _currentModel = modelid;

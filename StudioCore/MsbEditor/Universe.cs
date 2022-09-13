@@ -89,6 +89,37 @@ namespace StudioCore.MsbEditor
             return filter;
         }
 
+        private static ModelMarkerType GetModelMarkerType(string type)
+        {
+            ModelMarkerType modelMarker;
+
+            switch (type)
+            {
+                case "Enemy":
+                case "DummyEnemy":
+                    modelMarker = ModelMarkerType.Enemy;
+                    break;
+                case "Asset":
+                case "Object":
+                case "DummyObject":
+                    modelMarker = ModelMarkerType.Object;
+                    break;
+                case "Player":
+                    modelMarker = ModelMarkerType.Player;
+                    break;
+                case "MapPiece":
+                case "Collision":
+                case "Navmesh":
+                case "Region":
+                    modelMarker = ModelMarkerType.Other;
+                    break;
+                default:
+                    modelMarker = ModelMarkerType.None;
+                    break;
+            }
+            return modelMarker;
+        }
+
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
             if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
@@ -121,15 +152,6 @@ namespace StudioCore.MsbEditor
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Region;
-                return mesh;
-            }
-            else if (obj.WrappedObject is IMsbPart r5)
-            {
-                var enemyTypeStr = obj.WrappedObject.GetType().ToString().Split("+").Last();
-                var mesh = DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderScene, enemyTypeStr);
-                mesh.World = obj.GetWorldMatrix();
-                mesh.SetSelectable(obj);
-                mesh.DrawFilter = GetRenderFilter(enemyTypeStr);
                 return mesh;
             }
             return null;
@@ -221,9 +243,11 @@ namespace StudioCore.MsbEditor
                 asset = _assetLocator.GetNullAsset();
             }
 
+            var modelMarkerType = GetModelMarkerType(obj.WrappedObject.GetType().ToString().Split("+").Last());
             if (loadcol)
             {
-                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, asset.AssetVirtualPath);
+                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(
+                    _renderScene, asset.AssetVirtualPath, modelMarkerType);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Collision;
@@ -249,7 +273,8 @@ namespace StudioCore.MsbEditor
             }
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
-                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, asset.AssetVirtualPath);
+                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(
+                    _renderScene, asset.AssetVirtualPath, modelMarkerType);
                 mesh.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
@@ -279,7 +304,8 @@ namespace StudioCore.MsbEditor
             }
             else if (loadflver)
             {
-                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, asset.AssetVirtualPath);
+                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                    _renderScene, asset.AssetVirtualPath, modelMarkerType);
                 model.DrawFilter = filt;
                 model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
@@ -394,7 +420,8 @@ namespace StudioCore.MsbEditor
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
-                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, asset.AssetVirtualPath);
+                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                            _renderScene, asset.AssetVirtualPath, ModelMarkerType.Enemy);
                         model.DrawFilter = RenderFilter.Character;
                         generatorObjs[row.ID].RenderSceneMesh = model;
                         model.SetSelectable(generatorObjs[row.ID]);
@@ -670,7 +697,8 @@ namespace StudioCore.MsbEditor
                         var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
                         var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
                         
-                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, nasset.AssetVirtualPath);
+                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(
+                            _renderScene, nasset.AssetVirtualPath, ModelMarkerType.Other);
                         mesh.World = n.GetWorldMatrix();
                         mesh.SetSelectable(n);
                         mesh.DrawFilter = RenderFilter.Navmesh;
