@@ -461,7 +461,8 @@ namespace StudioCore.Scene
 
         public override int IndexOffset => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexOffset;
 
-        public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexCount;
+        public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets.Count > 0 ?
+            _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexCount : 0;
 
         public override uint VertexSize => _resource.Get().GPUMeshes[_meshIndex].Material.VertexSize;
     }
