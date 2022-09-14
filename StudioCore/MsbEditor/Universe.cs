@@ -1174,7 +1174,7 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (!FeatureFlags.BTL_OnlySaveWhenChanged || JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
                         {
                             btl.Lights = newLights;
                             file.Bytes = btl.Write(compressionType);
@@ -1200,7 +1200,7 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (!FeatureFlags.BTL_OnlySaveWhenChanged || JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
                         {
                             btl.Lights = newLights;
                             try

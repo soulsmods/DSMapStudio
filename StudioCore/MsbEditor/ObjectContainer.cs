@@ -273,18 +273,6 @@ namespace StudioCore.MsbEditor
             RootObject.BuildReferenceMap();
         }
 
-        // TODO: use this to also offset Navmesh.
-        /// <summary>
-        /// Create transform node used with Event.MapOffset
-        /// </summary>
-        private TransformNode CreateMapOffsetNode()
-        {
-            var t = new TransformNode();
-            t.Position += MapOffset.Position;
-            t.Rotation += new Vector3(0f, Utils.RadiansToDeg(MapOffset.EulerRotation.Y), 0f);
-            return t;
-        }
-
         public void LoadBTL(AssetDescription ad, BTL btl)
         {
             /*

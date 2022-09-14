@@ -25,6 +25,5 @@ namespace StudioCore
         public static bool EnablePartialParam = false;
 
         public static bool BTL_EldenRing = false;
-        public static bool BTL_OnlySaveWhenChanged = false; // Needs additional work to deal with MapOffset introducing floating point imprecision.
     }
 }
