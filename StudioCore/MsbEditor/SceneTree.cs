@@ -515,14 +515,14 @@ namespace StudioCore.MsbEditor
                                 }
                                 else if (cats.Key == MapEntity.MapEntityType.Light)
                                 {
-                                    var btlFiles = typ.Value.DistinctBy(e => e.ParentBTLName); // TODO2: cache this
+                                    var btlFiles = typ.Value.DistinctBy(e => e.ExtraSaveInfo); // TODO2: cache this
                                     foreach (var btlFile in btlFiles)
                                     {
-                                        if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ParentBTLName}", ImGuiTreeNodeFlags.OpenOnArrow))
+                                        if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ExtraSaveInfo}", ImGuiTreeNodeFlags.OpenOnArrow))
                                         {
                                             foreach (var obj in typ.Value)
                                             {
-                                                if (obj.ParentBTLName == btlFile.ParentBTLName)
+                                                if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
                                                 {
                                                     MapObjectSelectable(obj, true);
                                                 }

@@ -24,7 +24,7 @@ namespace StudioCore.MsbEditor
 
         private string CachedName = null;
 
-        public string ParentBTLName = null;
+        public string ExtraSaveInfo = null;
 
         [XmlIgnore]
         public ObjectContainer Container { get; set; } = null;
@@ -290,7 +290,7 @@ namespace StudioCore.MsbEditor
             var obj = DuplicateEntity(clone);
             CloneRenderable(obj);
             obj.UseDrawGroups = UseDrawGroups;
-            obj.ParentBTLName = ParentBTLName;
+            obj.ExtraSaveInfo = ExtraSaveInfo;
             return obj;
         }
 
@@ -1187,7 +1187,7 @@ namespace StudioCore.MsbEditor
             }
             if (type is MapEntityType.Light)
             {
-                ParentBTLName = btlFile;
+                ExtraSaveInfo = btlFile;
                 //OffsetBtlLight();
             }
         }

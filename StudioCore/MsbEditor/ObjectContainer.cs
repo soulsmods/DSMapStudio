@@ -754,7 +754,7 @@ namespace StudioCore.MsbEditor
             List<BTL.Light> lights = new();
             foreach (var m in Objects)
             {
-                if (m.ParentBTLName == btlName)
+                if (m.ExtraSaveInfo == btlName)
                 {
                     if (m.WrappedObject != null && m.WrappedObject is BTL.Light light)
                     {
@@ -762,7 +762,7 @@ namespace StudioCore.MsbEditor
                     }
                     else
                     {
-                        throw new Exception($"Entity has ParentBTLName `{m.ParentBTLName}`, but WrappedObject `{m.WrappedObject}` is not a BTL Light.");
+                        throw new Exception($"Entity has ParentBTLName `{m.ExtraSaveInfo}`, but WrappedObject `{m.WrappedObject}` is not a BTL Light.");
                     }
                 }
             }
