@@ -1180,7 +1180,14 @@ namespace StudioCore.MsbEditor
                             file.Bytes = btl.Write(compressionType);
                             try
                             {
-                                bdt.Write(BTLs_w[0].AssetPath, BTLs_w[0].AssetPath[..^3] + "bdt");
+                                var bdtPath = BTLs_w[i].AssetPath[..^3] + "bdt";
+
+                                if (!File.Exists(BTLs_w[i].AssetPath + ".bak") && File.Exists(BTLs_w[i].AssetPath))
+                                    File.Copy(BTLs_w[i].AssetPath, BTLs_w[i].AssetPath + ".bak", true);
+                                if (!File.Exists(bdtPath + ".bak") && File.Exists(bdtPath))
+                                    File.Copy(bdtPath, bdtPath + ".bak", true);
+
+                                bdt.Write(BTLs_w[i].AssetPath, bdtPath);
                             }
                             catch (Exception e)
                             {
@@ -1205,6 +1212,8 @@ namespace StudioCore.MsbEditor
                             btl.Lights = newLights;
                             try
                             {
+                                if (!File.Exists(BTLs_w[i].AssetPath + ".bak") && File.Exists(BTLs_w[i].AssetPath))
+                                    File.Copy(BTLs_w[i].AssetPath, BTLs_w[i].AssetPath + ".bak", true);
                                 btl.Write(BTLs_w[i].AssetPath, compressionType);
                             }
                             catch (Exception e)
@@ -1215,42 +1224,6 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
-            /*
-            // TODO2: BTL temp files and backup files and such
-            // Create the map directory if it doesn't exist
-            if (!Directory.Exists(Path.GetDirectoryName(BTLs_w.AssetPath)))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(BTLs_w.AssetPath));
-            }
-
-            // Write as a temporary file to make sure there are no errors before overwriting current file 
-            // If a backup file doesn't exist of the original file create it
-            if (!File.Exists(BTLs_w + ".bak") && File.Exists(mapPath))
-            {
-                File.Copy(mapPath, mapPath + ".bak", true);
-            }
-
-            if (File.Exists(mapPath + ".temp"))
-            {
-                File.Delete(mapPath + ".temp");
-            }
-
-            msb.Write(mapPath + ".temp", compressionType);
-
-            // Make a copy of the previous map
-            if (File.Exists(mapPath))
-            {
-                File.Copy(mapPath, mapPath + ".prev", true);
-            }
-
-            // Move temp file as new map file
-            if (File.Exists(mapPath))
-            {
-                File.Delete(mapPath);
-            }
-
-            File.Move(mapPath + ".temp", mapPath);
-            */
         }
 
         public void SaveMap(Map map)
