@@ -1231,28 +1231,6 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
-        private bool CheckNoEntitySubmesh()
-        {
-            if (_renderSceneMesh == null)
-            {
-                //null asset
-                return true;
-            }
-
-            var myRenderType = _renderSceneMesh.GetType().Name;
-            var meshType = typeof(MeshRenderableProxy).Name;
-            if (myRenderType == meshType)
-            {
-                //is a mesh proxy
-                var prox = (MeshRenderableProxy)_renderSceneMesh;
-                if (prox.Submeshes.Count == 0 && prox.MeshIndexCount == 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private bool _canLoadPostLoad = true;
         public override void UpdateRenderModel()
         {
@@ -1278,21 +1256,16 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-
-                //v3
                 var modelProp = GetProperty("ModelName");
                 if (modelProp != null) // Check if ModelName property exists
                 {
                     string model = (string)modelProp.GetValue(WrappedObject);
 
-                    bool modelChanged = false;
-                    if (CurrentModel != model)
-                        modelChanged = true;
+                    bool modelChanged = CurrentModel != model;
 
                     if (modelChanged)
                     {
                         //model name has been changed or this is the initial check
-
                         if (_renderSceneMesh != null)
                         {
                             _renderSceneMesh.Dispose();
@@ -1302,91 +1275,18 @@ namespace StudioCore.MsbEditor
                             _canLoadPostLoad = false;
                         CurrentModel = model;
 
-                        //get model (even if just to check the submeshes)
-                        bool noSubMeshes;
+                        // Get model
                         if (model != null)
                         {
                             _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
-                            noSubMeshes = CheckNoEntitySubmesh();
-                        }
-                        else
-                        {
-                            noSubMeshes = true;
                         }
 
-                        if (Universe.postLoad && noSubMeshes)
-                            {
-                                //should be a model marker
-                                if (_renderSceneMesh != null)
-                                {
-                                    _renderSceneMesh.Dispose();
-                                }
-                                _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                            }
-                        if (Universe.Selection.IsSelected(this))
-                        {
-                            OnSelected();
-                        }
-                    }
-                    else if (Universe.postLoad && _canLoadPostLoad)
-                    {
-                        //post initial load submesh check
-                        _canLoadPostLoad = false;
-
-                        CurrentModel = model;
-                        var noSubMeshes = CheckNoEntitySubmesh();
-
-                        if (noSubMeshes)
-                        {
-                            //should be a model marker
-                            if (_renderSceneMesh != null)
-                            {
-                                _renderSceneMesh.Dispose();
-                            }
-                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                            if (Universe.Selection.IsSelected(this))
-                            {
-                                OnSelected();
-                            }
-                        }
-                    }
-                }
-                //v1
-                /*
-                var model = GetPropertyValue<string>("ModelName");
-                if (model != null)
-                {
-                    if (CheckIfModelMarker(model) && (CurrentModel != model || _renderSceneMesh == null))
-                    {
-                        //render model marker (region mesh)
-                        if (_renderSceneMesh != null)
-                        {
-                            _renderSceneMesh.Dispose();
-                        }
-                        CurrentModel = model;
-                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-
-                        if (Universe.Selection.IsSelected(this))
-                        {
-                            OnSelected();
-                        }
-                    }
-                    else if (!CheckIfModelMarker(model) && model != null && model != CurrentModel)
-                    {
-                        // Render Model
-                        if (_renderSceneMesh != null)
-                        {
-                            _renderSceneMesh.Dispose();
-                        }
-                        CurrentModel = model;
-                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
                         if (Universe.Selection.IsSelected(this))
                         {
                             OnSelected();
                         }
                     }
                 }
-                */
             }
             base.UpdateRenderModel();
         }

@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Threading.Tasks;
 using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -308,6 +309,9 @@ namespace StudioCore
             Tracy.Startup();
             while (_window.Exists)
             {
+                // Make sure any awaited UI thread work has a chance to complete
+                //await Task.Yield();
+                
                 Tracy.TracyCFrameMark();
 
                 // Limit frame rate when window isn't focused unless we are profiling
