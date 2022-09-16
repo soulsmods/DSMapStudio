@@ -340,6 +340,7 @@ namespace StudioCore.Resource
                 }
 
                 GeomBuffer.Dispose();
+                CostGraphGeomBuffer.Dispose();
 
                 disposedValue = true;
             }

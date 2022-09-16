@@ -149,17 +149,12 @@ namespace StudioCore.Resource
                 }
             }
 
-            private void ReleaseTexture(ResourceHandle<TextureResource> handle)
-            {
-                handle.Release();
-            }
-
             public void ReleaseTextures()
             {
-                foreach (var tex in TextureResources)
+                for (int i = 0; i < (int)TextureType.TextureResourceCount; i++)
                 {
-                    if (tex != null)
-                        ReleaseTexture(tex);
+                    TextureResources[i]?.Release();
+                    TextureResources[i] = null;
                 }
             }
 
@@ -187,12 +182,14 @@ namespace StudioCore.Resource
             {
                 var texHandle = (ResourceHandle<TextureResource>)handle;
                 texHandle.Acquire();
+                TextureResources[tag]?.Release();
                 TextureResources[tag] = texHandle;
                 UpdateMaterial();
             }
 
             public void OnResourceUnloaded(IResourceHandle handle, int tag)
             {
+                TextureResources[tag]?.Release();
                 TextureResources[tag] = null;
                 UpdateMaterial();
             }
@@ -2145,12 +2142,13 @@ namespace StudioCore.Resource
             {
                 if (disposing)
                 {
-                    if (GPUMaterials != null)
+                }
+                
+                if (GPUMaterials != null)
+                {
+                    foreach (var m in GPUMaterials)
                     {
-                        foreach (var m in GPUMaterials)
-                        {
-                            m.Dispose();
-                        }
+                        m.Dispose();
                     }
                 }
 

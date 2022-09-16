@@ -313,7 +313,6 @@ namespace StudioCore.Scene
             if (_referenceCount <= 0)
             {
                 _referenceCount = 0;
-                _resource?.Release();
                 OnResourceUnloaded(_resource, 0);
             }
         }
@@ -375,6 +374,7 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
             _resource = null;
             foreach (var submesh in _submeshes)
             {
@@ -509,6 +509,10 @@ namespace StudioCore.Scene
 
         public override void Acquire()
         {
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<HavokCollisionResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            } 
             _referenceCount++;
         }
 
@@ -518,19 +522,7 @@ namespace StudioCore.Scene
             if (_referenceCount <= 0)
             {
                 _referenceCount = 0;
-                if (_resource != null)
-                {
-                    _resource.Release();
-                    _resource = null;
-                }
-
-                foreach (var submesh in _submeshes)
-                {
-                    submesh.Invalidate();
-                }
-
-                _submeshes.Clear();
-                NotifyUnavailable();
+                OnResourceUnloaded(_resource, 0);
             }
         }
 
@@ -587,6 +579,8 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
+            if (_resource != null)
+                return;
             _resource = (ResourceHandle<HavokCollisionResource>)handle;
             _resource.Acquire();
             CreateSubmeshes();
@@ -595,6 +589,14 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
+            foreach (var submesh in _submeshes)
+            {
+                submesh.Invalidate();
+            }
+            _submeshes.Clear();
+            NotifyUnavailable();
         }
     }
 
@@ -703,6 +705,10 @@ namespace StudioCore.Scene
         
         public override void Acquire()
         {
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<NVMNavmeshResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
             _referenceCount++;
         }
 
@@ -712,12 +718,7 @@ namespace StudioCore.Scene
             if (_referenceCount <= 0)
             {
                 _referenceCount = 0;
-                if (_resource != null)
-                {
-                    _resource.Release();
-                    _resource = null;
-                }
-                NotifyUnavailable();
+                OnResourceUnloaded(_resource, 0);
             }
         }
 
@@ -744,6 +745,8 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
+            if (_resource != null)
+                return;
             _resource = (ResourceHandle<NVMNavmeshResource>)handle;
             _resource.Acquire();
             NotifyAvailable();
@@ -751,6 +754,9 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
+            NotifyUnavailable();
         }
 
         public override BoundingBox Bounds => _resource.Get().Bounds;
@@ -815,22 +821,21 @@ namespace StudioCore.Scene
         
         public override void Acquire()
         {
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<HavokNavmeshResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
             _referenceCount++;
             _costGraphProvider.Acquire();
         }
 
         public override void Release()
         {
-            _referenceCount--;
+           _referenceCount--;
             if (_referenceCount <= 0)
             {
                 _referenceCount = 0;
-                if (_resource != null)
-                {
-                    _resource.Release();
-                    _resource = null;
-                }
-                NotifyUnavailable();
+                OnResourceUnloaded(_resource, 0);
             }
             _costGraphProvider.Release();
         }
@@ -865,6 +870,8 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
+            if (_resource != null)
+                return;
             _resource = (ResourceHandle<HavokNavmeshResource>)handle;
             _resource.Acquire();
             NotifyAvailable();
@@ -872,6 +879,9 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
+            NotifyUnavailable();
         }
 
         public override BoundingBox Bounds => _resource.Get().Bounds;
@@ -941,6 +951,10 @@ namespace StudioCore.Scene
         
         public override void Acquire()
         {
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<HavokNavmeshResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
             _referenceCount++;
         }
 
@@ -950,12 +964,7 @@ namespace StudioCore.Scene
             if (_referenceCount <= 0)
             {
                 _referenceCount = 0;
-                if (_resource != null)
-                {
-                    _resource.Release();
-                    _resource = null;
-                }
-                NotifyUnavailable();
+                OnResourceUnloaded(_resource, 0);
             }
         }
 
@@ -982,6 +991,8 @@ namespace StudioCore.Scene
 
         public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
+            if (_resource != null)
+                return;
             _resource = (ResourceHandle<HavokNavmeshResource>)handle;
             _resource.Acquire();
             NotifyAvailable();
@@ -989,6 +1000,9 @@ namespace StudioCore.Scene
 
         public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
+            NotifyUnavailable();
         }
 
         public override BoundingBox Bounds => _resource.Get().Bounds;

@@ -743,7 +743,7 @@ namespace StudioCore.Scene
                     }
                 }
 
-                if (child._meshProvider != null && child._meshProvider.IndexCount > 0)
+                if (child._meshProvider != null && child._meshProvider.IsAvailable() && child._meshProvider.IndexCount > 0)
                 {
                     needsPlaceholder = false;
                 }
@@ -882,7 +882,7 @@ namespace StudioCore.Scene
     {
         private MeshRenderables _renderablesSet;
 
-        private IDbgPrim _debugPrimitive;
+        private IDbgPrim? _debugPrimitive;
 
         private int _renderable = -1;
 
@@ -1022,7 +1022,7 @@ namespace StudioCore.Scene
             return _debugPrimitive.Bounds;
         }
 
-        public DebugPrimitiveRenderableProxy(MeshRenderables renderables, IDbgPrim prim, bool autoregister = true)
+        public DebugPrimitiveRenderableProxy(MeshRenderables renderables, IDbgPrim? prim, bool autoregister = true)
         {
             _renderablesSet = renderables;
             _debugPrimitive = prim;
@@ -1264,13 +1264,35 @@ namespace StudioCore.Scene
             return new RenderKey((code << 41) | (index << 40) | ((ulong)(_renderablesSet.cDrawParameters[_renderable]._bufferIndex & 0xFF) << 32) + cameraDistanceInt);
         }
 
-        private static DbgPrimWireBox _regionBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 1.0f, 0.5f), Color.Blue);
-        private static DbgPrimWireCylinder _regionCylinder = new DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
-        private static DbgPrimWireSphere _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
-        private static DbgPrimWireSphere _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
-        private static DbgPrimWireSphere _dmyPoint = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Yellow, 1, 4);
-        private static DbgPrimWireSphere _jointSphere = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Blue, 6, 6);
+        private static DbgPrimWireBox? _regionBox;
+        private static DbgPrimWireCylinder? _regionCylinder;
+        private static DbgPrimWireSphere? _regionSphere;
+        private static DbgPrimWireSphere? _regionPoint;
+        private static DbgPrimWireSphere? _dmyPoint;
+        private static DbgPrimWireSphere? _jointSphere;
+        private static DbgPrimWireSpheroidWithArrow? _modelMarkerChr;
+        private static DbgPrimWireWallBox? _modelMarkerObj;
+        private static DbgPrimWireSpheroidWithArrow? _modelMarkerPlayer;
+        private static DbgPrimWireWallBox? _modelMarkerOther;
 
+        /// <summary>
+        /// These are initialized explicitly to ensure these meshes are created at startup time so that they don't share
+        /// vertex buffer memory with dynamically allocated resources and cause the megabuffers to not be freed.
+        /// </summary>
+        public static void InitializeDebugMeshes()
+        {
+            _regionBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 1.0f, 0.5f), Color.Blue);
+            _regionCylinder = new DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
+            _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
+            _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
+            _dmyPoint = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Yellow, 1, 4);
+            _jointSphere = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Blue, 6, 6);
+            _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
+            _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
+            _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
+            _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+        }
+        
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
@@ -1318,15 +1340,11 @@ namespace StudioCore.Scene
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
-
-        private static DbgPrimWireSpheroidWithArrow _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
-        private static DbgPrimWireWallBox _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
-        private static DbgPrimWireSpheroidWithArrow _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
-        private static DbgPrimWireWallBox _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+        
         public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(MeshRenderables renderables, ModelMarkerType type)
         {
             // Model markers are used as placeholders for meshes that would not otherwise render in the editor
-            IDbgPrim prim;
+            IDbgPrim? prim;
             Color baseColor;
             Color selectColor;
 
