@@ -863,6 +863,10 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
+                    if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
+                    {
+                        CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
+                    }
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Help"))

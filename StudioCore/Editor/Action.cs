@@ -8,6 +8,7 @@ using SoulsFormats;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using FSParam;
+using StudioCore.TextEditor;
 
 namespace StudioCore.Editor
 {
@@ -235,51 +236,6 @@ namespace StudioCore.Editor
         }
     }
 
-    
-    public class DuplicateFMGEntryAction : EditorAction
-    {
-        //Not implemented ATM: needs to update FMG active entry, and force FMG to refresh the cache (+ on undo/redo)
-        private FMG Fmg = new();
-        private FMG.Entry Entry;
-        private KeyValuePair<FMG, FMG.Entry> Clone;
-
-        public DuplicateFMGEntryAction(FMG fmg, FMG.Entry entry)
-        {
-            Fmg = fmg;
-            Entry = entry;
-        }
-
-        public override ActionEvent Execute()
-        {
-
-            FMG.Entry newentry = new(Entry.ID, Entry.Text);
-
-            do
-            {
-                newentry.ID++; //get an unused ID
-            }
-            while (Fmg.Entries.Find(e => e.ID == newentry.ID) != null);
-
-            Fmg.Entries.Insert(Fmg.Entries.IndexOf(Entry) + 1, newentry);
-
-            Clone = new(Fmg, newentry);
-
-            return ActionEvent.NoEvent;
-        }
-
-        public override ActionEvent Undo()
-        {
-            Fmg = Clone.Key;
-            Entry = Clone.Value;
-
-            Fmg.Entries.Remove(Entry);
-            Clone = new();
-
-            return ActionEvent.NoEvent;
-        }
-    }
-    
-
     public class DeleteParamsAction : EditorAction
     {
         private Param Param;
@@ -316,6 +272,59 @@ namespace StudioCore.Editor
             {
                 
             }
+            return ActionEvent.NoEvent;
+        }
+    }
+
+
+
+    public class DuplicateFMGEntryAction : EditorAction
+    {
+        private readonly FMGBank.EntryGroup EntryGroup;
+        private FMGBank.EntryGroup NewEntryGroup;
+
+        public DuplicateFMGEntryAction(FMGBank.EntryGroup entryGroup)
+        {
+            EntryGroup = entryGroup;
+        }
+
+        public override ActionEvent Execute()
+        {
+            NewEntryGroup = EntryGroup.DuplicateEntries();
+            NewEntryGroup.SetNextUnusedID();
+            return ActionEvent.NoEvent;
+        }
+
+        public override ActionEvent Undo()
+        {
+            NewEntryGroup.DeleteEntries();
+            return ActionEvent.NoEvent;
+        }
+    }
+
+    public class DeleteFMGEntryAction : EditorAction
+    {
+        private FMGBank.EntryGroup EntryGroup;
+        private FMGBank.EntryGroup BackupEntryGroup = new();
+        private int Index = -1;
+
+        public DeleteFMGEntryAction(FMGBank.EntryGroup entryGroup)
+        {
+            EntryGroup = entryGroup;
+        }
+
+        public override ActionEvent Execute()
+        {
+            Index = EntryGroup.GetIndex();
+            BackupEntryGroup = EntryGroup.CopyEntryGroup();
+            EntryGroup.DeleteEntries();
+            return ActionEvent.NoEvent;
+        }
+
+        public override ActionEvent Undo()
+        {
+            EntryGroup = BackupEntryGroup;
+            EntryGroup.InsertEntries(Index);
             return ActionEvent.NoEvent;
         }
     }
