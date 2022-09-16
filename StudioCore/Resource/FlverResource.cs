@@ -1659,7 +1659,18 @@ namespace StudioCore.Resource
                 for (int i = 0; i < FlverDeS.Meshes.Count(); i++)
                 {
                     GPUMeshes[i] = new FlverSubmesh();
-                    ProcessMesh(FlverDeS.Meshes[i], GPUMeshes[i]);
+                    var flverMesh = FlverDeS.Meshes[i];
+                    var defaultBoneMatrix = FlverDeS.ComputeBoneWorldMatrix(flverMesh.DefaultBoneIndex);
+
+                    //Transform based on root
+                    for (int v = 0; v < flverMesh.Vertices.Count; v++)
+                    {
+                        var vert = flverMesh.Vertices[v];
+                        vert.Position = Vector3.Transform(vert.Position, defaultBoneMatrix);
+                        vert.Normal = Vector3.TransformNormal(vert.Normal, defaultBoneMatrix);
+                        flverMesh.Vertices[v] = vert;
+                    }
+                    ProcessMesh(flverMesh, GPUMeshes[i]);
                     if (i == 0)
                     {
                         Bounds = GPUMeshes[i].Bounds;

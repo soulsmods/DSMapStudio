@@ -39,6 +39,22 @@ namespace SoulsFormats
             return magic == "FLVER\0" && version >= 0x00000 && version < 0x20000;
         }
 
+        public Matrix4x4 ComputeBoneWorldMatrix(int index)
+        {
+            var bone = Bones[index];
+            Matrix4x4 matrix = Bones[index].ComputeLocalTransform();
+            if (bone.ParentIndex != -1)
+            {
+                do
+                {
+                    bone = Bones[bone.ParentIndex];
+                    matrix *= Bones[index].ComputeLocalTransform();
+                } while (bone.ParentIndex != -1);
+            }
+
+            return matrix;
+        }
+
         protected override void Read(BinaryReaderEx br)
         {
             Header = new FLVER0Header();
