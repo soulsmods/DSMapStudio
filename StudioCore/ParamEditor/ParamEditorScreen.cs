@@ -43,11 +43,11 @@ namespace StudioCore.ParamEditor
     {
         private static Vector4 FMGLINKCOLOUR = new Vector4(1.0f, 1.0f, 0.0f, 1.0f);
 
-        private FMGBank.ItemCategory _category = FMGBank.ItemCategory.None;
+        private FMGBank.FmgEntryCategory _category = FMGBank.FmgEntryCategory.None;
 
         private Dictionary<int, FMG.Entry> _entryCache = new Dictionary<int, FMG.Entry>();
 
-        public FMGItemParamDecorator(FMGBank.ItemCategory cat)
+        public FMGItemParamDecorator(FMGBank.FmgEntryCategory cat)
         {
             _category = cat;
         }
@@ -56,7 +56,7 @@ namespace StudioCore.ParamEditor
         {
             if (_entryCache.Count == 0 && FMGBank.IsLoaded)
             {
-                var fmgEntries = FMGBank.GetItemFMGEntriesByType(_category, FMGBank.ItemType.Title, false);
+                var fmgEntries = FMGBank.GetFmgEntriesByType(_category, FMGBank.FmgEntryTextType.Title, false);
                 foreach (var fmgEntry in fmgEntries)
                 {
                     _entryCache.Add(fmgEntry.ID, fmgEntry);
@@ -153,12 +153,12 @@ namespace StudioCore.ParamEditor
         public void ResetFMGDecorators()
         {
             _decorators.Clear();
-            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FMGBank.ItemCategory.Rings));
-            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.ItemCategory.Goods));
-            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.ItemCategory.Armor));
-            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.ItemCategory.Weapons));
-            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.ItemCategory.Gem));
-            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.ItemCategory.SwordArts));
+            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Rings));
+            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Goods));
+            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Armor));
+            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Weapons));
+            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Gem));
+            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.SwordArts));
         }
         
         public void UpgradeRegulation(string oldRegulation)

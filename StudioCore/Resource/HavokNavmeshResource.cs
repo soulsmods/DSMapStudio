@@ -9,6 +9,7 @@ using Veldrid.Utilities;
 using SoulsFormats;
 using HKX2;
 using System.IO;
+using System.Threading.Tasks.Dataflow;
 
 namespace StudioCore.Resource
 {
@@ -269,7 +270,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             var des = new HKX2.PackFileDeserializer();
@@ -277,7 +278,7 @@ namespace StudioCore.Resource
             return LoadInternal(al);
         }
 
-        bool IResource._Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string file, AccessLevel al, GameType type)
         {
             using (var s = File.OpenRead(file))
             {
@@ -339,6 +340,7 @@ namespace StudioCore.Resource
                 }
 
                 GeomBuffer.Dispose();
+                CostGraphGeomBuffer.Dispose();
 
                 disposedValue = true;
             }

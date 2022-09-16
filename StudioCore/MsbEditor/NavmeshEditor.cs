@@ -116,7 +116,7 @@ namespace StudioCore.MsbEditor
 
                             var res = HavokNavmeshResource.ResourceFromNavmeshRoot(built);
                             _previewResource = ResourceHandle<HavokNavmeshResource>.TempHandleFromResource(res);
-                            _previewMesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_scene, _previewResource, true);
+                            //_previewMesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_scene, _previewResource, true);
                             _previewMesh.World = mrp.World;
 
                             // Do a test save

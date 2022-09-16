@@ -20,13 +20,13 @@ namespace DSMapStudio
         /// </summary>
         [STAThread]
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
-        unsafe static void Main(string[] args)
+        static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
 
-            SDL_version version;
-            Sdl2Native.SDL_GetVersion(&version);
+            //SDL_version version;
+            //Sdl2Native.SDL_GetVersion(&version);
 
             var mapStudio = new MapStudioNew();
             #if !DEBUG
