@@ -71,6 +71,9 @@ namespace SoulsFormats
             BufferLayouts = new List<BufferLayout>();
         }
 
+        /// <summary>
+        /// Creates a FLVER with a preset cache
+        /// </summary>
         public static FLVER2 Read(byte[] bytes, FlverCache cache)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
