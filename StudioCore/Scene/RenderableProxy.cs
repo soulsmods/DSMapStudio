@@ -1385,28 +1385,28 @@ namespace StudioCore.Scene
 
             return r;
         }
-    }
 
-    public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
-    {
-        var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
-        r.BaseColor = Color.YellowGreen;
-        r.HighlightedColor = Color.Yellow;
-        return r;
-    }
-    public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
-    {
-        var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
-        r.BaseColor = Color.Goldenrod;
-        r.HighlightedColor = Color.Violet;
-        return r;
-    }
-    public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
-    {
-        var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _directionalLight);
-        r.BaseColor = Color.Cyan;
-        r.HighlightedColor = Color.AliceBlue;
-        return r;
+        public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
+            r.BaseColor = Color.YellowGreen;
+            r.HighlightedColor = Color.Yellow;
+            return r;
+        }
+        public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
+            r.BaseColor = Color.Goldenrod;
+            r.HighlightedColor = Color.Violet;
+            return r;
+        }
+        public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _directionalLight);
+            r.BaseColor = Color.Cyan;
+            r.HighlightedColor = Color.AliceBlue;
+            return r;
+        }
     }
 
     public class SkeletonBoneRenderableProxy : RenderableProxy
