@@ -15,6 +15,8 @@ namespace StudioCore
         public static bool LoadDS3Navmeshes = true;
 
         public static bool EnableNavmeshBuilder = false;
+        
+        public static bool StrictResourceChecking = true;
 
 #if DEBUG
         public static bool TestMenu = true;

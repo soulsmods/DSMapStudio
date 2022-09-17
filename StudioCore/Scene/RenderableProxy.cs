@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
@@ -11,9 +12,23 @@ using System.Runtime.InteropServices;
 using StudioCore.DebugPrimitives;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Threading;
+using SoulsFormats;
 
 namespace StudioCore.Scene
 {
+    /// <summary>
+    /// Model marker type for meshes that may not be visible in the editor (c0000, fogwalls, etc)
+    /// </summary>
+    public enum ModelMarkerType
+    {
+        Enemy,
+        Object,
+        Player,
+        Other,
+        None,
+    }
+
     /// <summary>
     /// Proxy class that represents a connection between the logical scene
     /// heirarchy and the actual underlying renderable representation. Used to handle
@@ -22,7 +37,7 @@ namespace StudioCore.Scene
     public abstract class RenderableProxy : Renderer.IRendererUpdatable, IDisposable
     {
         private bool disposedValue;
-        
+
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyRenderables();
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
@@ -123,8 +138,8 @@ namespace StudioCore.Scene
         // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~RenderableProxy()
         {
-             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-             Dispose(disposing: false);
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: false);
         }
 
         public void Dispose()
@@ -147,6 +162,9 @@ namespace StudioCore.Scene
 
         public IReadOnlyList<MeshRenderableProxy> Submeshes { get => _submeshes; }
 
+        private ModelMarkerType _placeholderType;
+        private RenderableProxy? _placeholderProxy = null;
+
         private int _renderable = -1;
         private int _selectionOutlineRenderable = -1;
 
@@ -154,7 +172,7 @@ namespace StudioCore.Scene
         protected Pipeline _pickingPipeline;
         protected Pipeline _selectedPipeline;
         protected Shader[] _shaders;
-        protected GPUBufferAllocator.GPUBufferHandle _worldBuffer;
+        protected GPUBufferAllocator.GPUBufferHandle? _worldBuffer;
         protected ResourceSet _perObjectResourceSet;
 
         private Matrix4x4 _world = Matrix4x4.Identity;
@@ -195,6 +213,11 @@ namespace StudioCore.Scene
                 {
                     sm.World = _world;
                 }
+
+                if (_placeholderProxy != null)
+                {
+                    _placeholderProxy.World = value;
+                }
             }
         }
 
@@ -220,6 +243,11 @@ namespace StudioCore.Scene
                 {
                     sm.Visible = _visible;
                 }
+
+                if (_placeholderProxy != null)
+                {
+                    _placeholderProxy.Visible = _visible;
+                }
             }
         }
 
@@ -240,6 +268,11 @@ namespace StudioCore.Scene
                 foreach (var sm in _submeshes)
                 {
                     sm.DrawFilter = _drawfilter;
+                }
+
+                if (_placeholderProxy != null)
+                {
+                    _placeholderProxy.DrawFilter = value;
                 }
             }
         }
@@ -262,6 +295,11 @@ namespace StudioCore.Scene
                 {
                     sm.DrawGroups = _drawgroups;
                 }
+
+                if (_placeholderProxy != null)
+                {
+                    _placeholderProxy.DrawGroups = value;
+                }
             }
         }
 
@@ -280,6 +318,11 @@ namespace StudioCore.Scene
                 foreach (var child in _submeshes)
                 {
                     child.RenderSelectionOutline = value;
+                }
+
+                if (_placeholderProxy != null)
+                {
+                    _placeholderProxy.RenderSelectionOutline = value;
                 }
             }
         }
@@ -304,21 +347,27 @@ namespace StudioCore.Scene
             return b;
         }
 
-        public MeshRenderableProxy(MeshRenderables renderables, MeshProvider provider, bool autoregister=true)
+        public MeshRenderableProxy(
+            MeshRenderables renderables,
+            MeshProvider provider,
+            ModelMarkerType placeholderType = ModelMarkerType.None,
+            bool autoregister = true)
         {
             AutoRegister = autoregister;
+            _registered = AutoRegister;
             _renderablesSet = renderables;
             _meshProvider = provider;
+            _placeholderType = placeholderType;
             _meshProvider.AddEventListener(this);
             _meshProvider.Acquire();
             if (autoregister)
             {
-                _registered = true;
                 ScheduleRenderableConstruction();
             }
         }
 
-        public MeshRenderableProxy(MeshRenderableProxy clone) : this(clone._renderablesSet, clone._meshProvider)
+        public MeshRenderableProxy(MeshRenderableProxy clone) :
+            this(clone._renderablesSet, clone._meshProvider, clone._placeholderType)
         {
             DrawFilter = clone._drawfilter;
         }
@@ -333,6 +382,7 @@ namespace StudioCore.Scene
             {
                 c.Register();
             }
+            _placeholderProxy?.Register();
             _registered = true;
             ScheduleRenderableConstruction();
         }
@@ -348,6 +398,7 @@ namespace StudioCore.Scene
             {
                 c.UnregisterWithScene();
             }
+            _placeholderProxy?.UnregisterWithScene();
         }
 
         public override void UnregisterAndRelease()
@@ -360,6 +411,9 @@ namespace StudioCore.Scene
             {
                 c.UnregisterAndRelease();
             }
+
+            _placeholderProxy?.UnregisterAndRelease();
+
             if (_meshProvider != null)
             {
                 _meshProvider.Release();
@@ -373,6 +427,10 @@ namespace StudioCore.Scene
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
+            // If we were unregistered before construction time, don't construct now
+            if (!_registered)
+                return;
+
             foreach (var c in _submeshes)
             {
                 if (c._registered)
@@ -380,236 +438,251 @@ namespace StudioCore.Scene
                     c.ScheduleRenderableConstruction();
                 }
             }
+
             if (_renderable != -1)
             {
                 _renderablesSet.RemoveRenderable(_renderable);
                 _renderable = -1;
             }
+
             if (_selectionOutlineRenderable != -1)
             {
                 _renderablesSet.RemoveRenderable(_selectionOutlineRenderable);
                 _selectionOutlineRenderable = -1;
             }
-            if (_meshProvider.TryLock())
+
+            if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
             {
-                if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
-                {
-                    _meshProvider.Unlock();
-                    return;
-                }
+                return;
+            }
 
-                if (_meshProvider.GeometryBuffer == null)
-                {
-                    _meshProvider.Unlock();
-                    return;
-                }
+            if (_meshProvider.GeometryBuffer == null)
+            {
+                return;
+            }
 
-                if (_meshProvider.GeometryBuffer.AllocStatus != VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
-                {
-                    ScheduleRenderableConstruction();
-                    _meshProvider.Unlock();
-                    return;
-                }
+            if (_meshProvider.GeometryBuffer.AllocStatus !=
+                VertexIndexBufferAllocator.VertexIndexBuffer.Status.Resident)
+            {
+                ScheduleRenderableConstruction();
+                return;
+            }
 
-                var factory = gd.ResourceFactory;
-                if (_worldBuffer == null)
-                {
-                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
-                }
+            var factory = gd.ResourceFactory;
+            if (_worldBuffer == null)
+            {
+                _worldBuffer =
+                    Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
+            }
 
-                // Construct pipeline
-                ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
-                    gd.ResourceFactory,
-                    new ResourceLayoutDescription(
-                        new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+            // Construct pipeline
+            ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory,
+                new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer,
+                        ShaderStages.Vertex)));
 
-                ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex, ResourceLayoutElementOptions.DynamicBinding)));
+            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
+                new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex,
+                        ResourceLayoutElementOptions.DynamicBinding)));
 
 
-                VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
-                {
-                    _meshProvider.LayoutDescription
-                };
+            VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
+            {
+                _meshProvider.LayoutDescription
+            };
 
-                var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, _meshProvider.ShaderName).ToTuple();
-                _shaders = new Shader[] { res.Item1, res.Item2 };
+            var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, _meshProvider.ShaderName).ToTuple();
+            _shaders = new Shader[] { res.Item1, res.Item2 };
 
-                ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(
-                    gd.ResourceFactory,
-                    StaticResourceCache.SceneParamLayoutDescription);
+            ResourceLayout projViewLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory,
+                StaticResourceCache.SceneParamLayoutDescription);
 
-                ResourceLayout pickingResultLayout = StaticResourceCache.GetResourceLayout(
-                    gd.ResourceFactory,
-                    StaticResourceCache.PickingResultDescription);
+            ResourceLayout pickingResultLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory,
+                StaticResourceCache.PickingResultDescription);
 
-                ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+            ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
+                new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite,
+                        ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
-                ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+            ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
+                new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly,
+                        ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
 
-                _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
-                    Renderer.UniformBufferAllocator._backingBuffer));
+            _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(
+                mainPerObjectLayout,
+                Renderer.UniformBufferAllocator._backingBuffer));
 
-                // Build default pipeline
-                GraphicsPipelineDescription pipelineDescription = new GraphicsPipelineDescription();
-                pipelineDescription.BlendState = BlendStateDescription.SingleOverrideBlend;
-                pipelineDescription.DepthStencilState = DepthStencilStateDescription.DepthOnlyGreaterEqual;
+            // Build default pipeline
+            GraphicsPipelineDescription pipelineDescription = new GraphicsPipelineDescription();
+            pipelineDescription.BlendState = BlendStateDescription.SingleOverrideBlend;
+            pipelineDescription.DepthStencilState = DepthStencilStateDescription.DepthOnlyGreaterEqual;
+            pipelineDescription.RasterizerState = new RasterizerStateDescription(
+                cullMode: _meshProvider.CullMode,
+                fillMode: _meshProvider.FillMode,
+                frontFace: _meshProvider.FrontFace,
+                depthClipEnabled: true,
+                scissorTestEnabled: false);
+            pipelineDescription.PrimitiveTopology = _meshProvider.Topology;
+            pipelineDescription.ShaderSet = new ShaderSetDescription(
+                vertexLayouts: mainVertexLayouts,
+                shaders: _shaders, _meshProvider.SpecializationConstants);
+            pipelineDescription.ResourceLayouts = new ResourceLayout[]
+            {
+                projViewLayout,
+                mainPerObjectLayout,
+                Renderer.GlobalTexturePool.GetLayout(),
+                Renderer.GlobalCubeTexturePool.GetLayout(),
+                Renderer.MaterialBufferAllocator.GetLayout(),
+                SamplerSet.SamplersLayout,
+                pickingResultLayout,
+                Renderer.BoneBufferAllocator.GetLayout(),
+            };
+            pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
+            _pipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+
+            // Build picking pipeline
+            var pickingSpecializationConstants =
+                new SpecializationConstant[_meshProvider.SpecializationConstants.Length + 1];
+            Array.Copy(_meshProvider.SpecializationConstants, pickingSpecializationConstants,
+                _meshProvider.SpecializationConstants.Length);
+            pickingSpecializationConstants[pickingSpecializationConstants.Length - 1] =
+                new SpecializationConstant(99, true);
+            pipelineDescription.ShaderSet = new ShaderSetDescription(
+                vertexLayouts: mainVertexLayouts,
+                shaders: _shaders, pickingSpecializationConstants);
+            _pickingPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+
+            // Create draw call arguments
+            var meshcomp = new MeshDrawParametersComponent();
+            var geombuffer = _meshProvider.GeometryBuffer;
+            uint indexStart = geombuffer.IAllocationStart / (_meshProvider.Is32Bit ? 4u : 2u) +
+                              (uint)_meshProvider.IndexOffset;
+            meshcomp._indirectArgs.FirstInstance = _worldBuffer.AllocationStart / (uint)sizeof(InstanceData);
+            meshcomp._indirectArgs.VertexOffset = (int)(geombuffer.VAllocationStart / _meshProvider.VertexSize);
+            meshcomp._indirectArgs.InstanceCount = 1;
+            meshcomp._indirectArgs.FirstIndex = indexStart;
+            meshcomp._indirectArgs.IndexCount = (uint)_meshProvider.IndexCount;
+
+            // Rest of draw parameters
+            meshcomp._indexFormat = _meshProvider.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
+            meshcomp._objectResourceSet = _perObjectResourceSet;
+            meshcomp._bufferIndex = geombuffer.BufferIndex;
+
+            // Instantiate renderable
+            var bounds = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
+            _renderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
+            _renderablesSet.cRenderKeys[_renderable] = GetRenderKey(0.0f);
+
+            // Pipelines
+            _renderablesSet.cPipelines[_renderable] = _pipeline;
+            _renderablesSet.cSelectionPipelines[_renderable] = _pickingPipeline;
+
+            // Update instance data
+            InstanceData dat = new InstanceData();
+            dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
+            dat.MaterialID = _meshProvider.MaterialIndex;
+            if (_meshProvider.BoneBuffer != null)
+            {
+                dat.BoneStartIndex = _meshProvider.BoneBuffer.AllocationStart / 64;
+            }
+            else
+            {
+                dat.BoneStartIndex = 0;
+            }
+
+            dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
+            _worldBuffer.FillBuffer(gd, cl, ref dat);
+
+            // Selectable
+            _renderablesSet.cSelectables[_renderable] = _selectable;
+
+            // Visible
+            _renderablesSet.cVisible[_renderable]._visible = _visible;
+            if (!_meshProvider.SelectedRenderBaseMesh && _renderOutline)
+            {
+                _renderablesSet.cVisible[_renderable]._visible = false;
+            }
+
+            _renderablesSet.cSceneVis[_renderable]._renderFilter = _drawfilter;
+            _renderablesSet.cSceneVis[_renderable]._drawGroup = _drawgroups;
+
+            // Build mesh for selection outline
+            if (_renderOutline)
+            {
                 pipelineDescription.RasterizerState = new RasterizerStateDescription(
-                    cullMode: _meshProvider.CullMode,
+                    cullMode: _meshProvider.SelectedUseBackface
+                        ? ((_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front)
+                        : _meshProvider.CullMode,
                     fillMode: _meshProvider.FillMode,
                     frontFace: _meshProvider.FrontFace,
                     depthClipEnabled: true,
                     scissorTestEnabled: false);
-                pipelineDescription.PrimitiveTopology = _meshProvider.Topology;
+
+                var s = StaticResourceCache.GetShaders(gd, gd.ResourceFactory,
+                    _meshProvider.ShaderName + (_meshProvider.UseSelectedShader ? "_selected" : "")).ToTuple();
+                _shaders = new Shader[] { s.Item1, s.Item2 };
                 pipelineDescription.ShaderSet = new ShaderSetDescription(
                     vertexLayouts: mainVertexLayouts,
                     shaders: _shaders, _meshProvider.SpecializationConstants);
-                pipelineDescription.ResourceLayouts = new ResourceLayout[]
-                { 
-                    projViewLayout,
-                    mainPerObjectLayout,
-                    Renderer.GlobalTexturePool.GetLayout(),
-                    Renderer.GlobalCubeTexturePool.GetLayout(),
-                    Renderer.MaterialBufferAllocator.GetLayout(),
-                    SamplerSet.SamplersLayout,
-                    pickingResultLayout,
-                    Renderer.BoneBufferAllocator.GetLayout(),
-                };
-                pipelineDescription.Outputs = gd.SwapchainFramebuffer.OutputDescription;
-                _pipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
+                _selectedPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
 
-                // Build picking pipeline
-                var pickingSpecializationConstants = new SpecializationConstant[_meshProvider.SpecializationConstants.Length + 1];
-                Array.Copy(_meshProvider.SpecializationConstants, pickingSpecializationConstants, _meshProvider.SpecializationConstants.Length);
-                pickingSpecializationConstants[pickingSpecializationConstants.Length - 1] = new SpecializationConstant(99, true);
-                pipelineDescription.ShaderSet = new ShaderSetDescription(
-                    vertexLayouts: mainVertexLayouts,
-                    shaders: _shaders, pickingSpecializationConstants);
-                _pickingPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
-
-                // Create draw call arguments
-                var meshcomp = new MeshDrawParametersComponent();
-                var geombuffer = _meshProvider.GeometryBuffer;
-                uint indexStart = geombuffer.IAllocationStart / (_meshProvider.Is32Bit ? 4u : 2u) + (uint)_meshProvider.IndexOffset;
-                meshcomp._indirectArgs.FirstInstance = _worldBuffer.AllocationStart / (uint)sizeof(InstanceData);
-                meshcomp._indirectArgs.VertexOffset = (int)(geombuffer.VAllocationStart / _meshProvider.VertexSize);
-                meshcomp._indirectArgs.InstanceCount = 1;
-                meshcomp._indirectArgs.FirstIndex = indexStart;
-                meshcomp._indirectArgs.IndexCount = (uint)_meshProvider.IndexCount;
-
-                // Rest of draw parameters
-                meshcomp._indexFormat = _meshProvider.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
-                meshcomp._objectResourceSet = _perObjectResourceSet;
-                meshcomp._bufferIndex = geombuffer.BufferIndex;
-
-                // Instantiate renderable
-                var bounds = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
-                _renderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
-                _renderablesSet.cRenderKeys[_renderable] = GetRenderKey(0.0f);
+                _selectionOutlineRenderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
+                _renderablesSet.cRenderKeys[_selectionOutlineRenderable] = GetRenderKey(0.0f);
 
                 // Pipelines
-                _renderablesSet.cPipelines[_renderable] = _pipeline;
-                _renderablesSet.cSelectionPipelines[_renderable] = _pickingPipeline;
-
-                // Update instance data
-                InstanceData dat = new InstanceData();
-                dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
-                dat.MaterialID = _meshProvider.MaterialIndex;
-                if (_meshProvider.BoneBuffer != null)
-                {
-                    dat.BoneStartIndex = _meshProvider.BoneBuffer.AllocationStart / 64;
-                }
-                else
-                {
-                    dat.BoneStartIndex = 0;
-                }
-                dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
-                _worldBuffer.FillBuffer(gd, cl, ref dat);
+                _renderablesSet.cPipelines[_selectionOutlineRenderable] = _selectedPipeline;
+                _renderablesSet.cSelectionPipelines[_selectionOutlineRenderable] = _selectedPipeline;
 
                 // Selectable
-                _renderablesSet.cSelectables[_renderable] = _selectable;
-
-                // Visible
-                _renderablesSet.cVisible[_renderable]._visible = _visible;
-                if (!_meshProvider.SelectedRenderBaseMesh && _renderOutline)
-                {
-                    _renderablesSet.cVisible[_renderable]._visible = false;
-                }
-                _renderablesSet.cSceneVis[_renderable]._renderFilter = _drawfilter;
-                _renderablesSet.cSceneVis[_renderable]._drawGroup = _drawgroups;
-
-                // Build mesh for selection outline
-                if (_renderOutline)
-                {
-                    pipelineDescription.RasterizerState = new RasterizerStateDescription(
-                        cullMode: _meshProvider.SelectedUseBackface ?
-                            ((_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front) :
-                            _meshProvider.CullMode,
-                        fillMode: _meshProvider.FillMode,
-                        frontFace: _meshProvider.FrontFace,
-                        depthClipEnabled: true,
-                        scissorTestEnabled: false);
-
-                    var s = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, _meshProvider.ShaderName + (_meshProvider.UseSelectedShader ? "_selected" : "")).ToTuple();
-                    _shaders = new Shader[] { s.Item1, s.Item2 };
-                    pipelineDescription.ShaderSet = new ShaderSetDescription(
-                        vertexLayouts: mainVertexLayouts,
-                        shaders: _shaders, _meshProvider.SpecializationConstants);
-                    _selectedPipeline = StaticResourceCache.GetPipeline(factory, ref pipelineDescription);
-
-                    _selectionOutlineRenderable = _renderablesSet.CreateMesh(ref bounds, ref meshcomp);
-                    _renderablesSet.cRenderKeys[_selectionOutlineRenderable] = GetRenderKey(0.0f);
-
-                    // Pipelines
-                    _renderablesSet.cPipelines[_selectionOutlineRenderable] = _selectedPipeline;
-                    _renderablesSet.cSelectionPipelines[_selectionOutlineRenderable] = _selectedPipeline;
-
-                    // Selectable
-                    _renderablesSet.cSelectables[_selectionOutlineRenderable] = _selectable;
-                }
-
-                _meshProvider.Unlock();
+                _renderablesSet.cSelectables[_selectionOutlineRenderable] = _selectable;
             }
         }
 
         public unsafe override void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
-            if (_meshProvider.TryLock())
+            if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
             {
-                if (!_meshProvider.IsAvailable() || !_meshProvider.HasMeshData())
-                {
-                    _meshProvider.Unlock();
-                    return;
-                }
-                InstanceData dat = new InstanceData();
-                dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
-                dat.MaterialID = _meshProvider.MaterialIndex;
-                if (_meshProvider.BoneBuffer != null)
-                {
-                    dat.BoneStartIndex = _meshProvider.BoneBuffer.AllocationStart / 64;
-                }
-                else
-                {
-                    dat.BoneStartIndex = 0;
-                }
-                dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
-                if (_worldBuffer == null)
-                {
-                    _worldBuffer = Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
-                }
-                _worldBuffer.FillBuffer(gd, cl, ref dat);
-
-                if (_renderable != -1)
-                {
-                    _renderablesSet.cBounds[_renderable] = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
-                }
-                if (_selectionOutlineRenderable != -1)
-                {
-                    _renderablesSet.cBounds[_selectionOutlineRenderable] = BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
-                }
                 _meshProvider.Unlock();
+                return;
+            }
+
+            InstanceData dat = new InstanceData();
+            dat.WorldMatrix = _meshProvider.ObjectTransform * _world;
+            dat.MaterialID = _meshProvider.MaterialIndex;
+            if (_meshProvider.BoneBuffer != null)
+            {
+                dat.BoneStartIndex = _meshProvider.BoneBuffer.AllocationStart / 64;
+            }
+            else
+            {
+                dat.BoneStartIndex = 0;
+            }
+
+            dat.EntityID = GetPackedEntityID(_renderablesSet.RenderableSystemIndex, _renderable);
+            if (_worldBuffer == null)
+            {
+                _worldBuffer =
+                    Renderer.UniformBufferAllocator.Allocate((uint)sizeof(InstanceData), sizeof(InstanceData));
+            }
+
+            _worldBuffer.FillBuffer(gd, cl, ref dat);
+
+            if (_renderable != -1)
+            {
+                _renderablesSet.cBounds[_renderable] =
+                    BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
+            }
+
+            if (_selectionOutlineRenderable != -1)
+            {
+                _renderablesSet.cBounds[_selectionOutlineRenderable] =
+                    BoundingBox.Transform(_meshProvider.Bounds, _meshProvider.ObjectTransform * _world);
             }
         }
 
@@ -629,6 +702,8 @@ namespace StudioCore.Scene
             {
                 c.DestroyRenderables();
             }
+
+            _placeholderProxy?.DestroyRenderables();
         }
 
         public override void SetSelectable(ISelectable sel)
@@ -642,45 +717,68 @@ namespace StudioCore.Scene
             {
                 child.SetSelectable(sel);
             }
-        }
 
-        public int MeshIndexCount = 0;
+            _placeholderProxy?.SetSelectable(sel);
+        }
 
         public void OnProviderAvailable()
         {
-            if (_meshProvider.TryLock())
+            bool needsPlaceholder = _placeholderType != ModelMarkerType.None;
+            for (int i = 0; i < _meshProvider.ChildCount; i++)
             {
-                if (_meshProvider.HasMeshData())
+                var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i),
+                    ModelMarkerType.None, AutoRegister);
+                child.World = _world;
+                child.Visible = _visible;
+                child.DrawFilter = _drawfilter;
+                child.DrawGroups = _drawgroups;
+                _submeshes.Add(child);
+                ISelectable sel = null;
+                if (_selectable != null)
                 {
-                    ScheduleRenderableConstruction();
-                }
-                for (int i = 0; i < _meshProvider.ChildCount; i++)
-                {
-                    var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i), AutoRegister);
-                    child.World = _world;
-                    child.Visible = _visible;
-                    child.DrawFilter = _drawfilter;
-                    child.DrawGroups = _drawgroups;
-                    _submeshes.Add(child);
-                    ISelectable sel = null;
-                    if (_selectable != null)
+                    _selectable.TryGetTarget(out sel);
+                    if (sel != null)
                     {
-                        _selectable.TryGetTarget(out sel);
-                        if (sel != null)
-                        {
-                            child.SetSelectable(sel);
-                        }
+                        child.SetSelectable(sel);
                     }
                 }
-                
-                // Used for model markers for old Navmeshes.
-                // Really stupid hack that's likely in a very stupid location. Can be removed when Model Marker code is improved.
-                if (_meshProvider.HasMeshData())
-                    MeshIndexCount = _meshProvider.IndexCount;
-                else
-                    MeshIndexCount = 0;
-                
-                _meshProvider.Unlock();
+
+                if (child._meshProvider != null && child._meshProvider.IsAvailable() && child._meshProvider.IndexCount > 0)
+                {
+                    needsPlaceholder = false;
+                }
+            }
+
+            if (_meshProvider.HasMeshData())
+            {
+                ScheduleRenderableConstruction();
+                if (_meshProvider != null && _meshProvider.IndexCount > 0)
+                {
+                    needsPlaceholder = false;
+                }
+            }
+
+            if (needsPlaceholder)
+            {
+                _placeholderProxy =
+                    DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
+                _placeholderProxy.World = World;
+                _placeholderProxy.Visible = Visible;
+                _placeholderProxy.DrawFilter = _drawfilter;
+                _placeholderProxy.DrawGroups = _drawgroups;
+                if (_selectable != null)
+                {
+                    _selectable.TryGetTarget(out var sel);
+                    if (sel != null)
+                    {
+                        _placeholderProxy.SetSelectable(sel);
+                    }
+                }
+
+                if (_registered)
+                {
+                    _placeholderProxy.Register();
+                }
             }
         }
 
@@ -693,6 +791,12 @@ namespace StudioCore.Scene
                     c.UnregisterAndRelease();
                 }
                 _submeshes.Clear();
+            }
+
+            if (_placeholderProxy != null)
+            {
+                _placeholderProxy.Dispose();
+                _placeholderProxy = null;
             }
         }
 
@@ -715,27 +819,35 @@ namespace StudioCore.Scene
             return new RenderKey((code << 41) | (index << 40) | ((ulong)(_renderablesSet.cDrawParameters[_renderable]._bufferIndex & 0xFF) << 32) + cameraDistanceInt);
         }
 
-        public static MeshRenderableProxy MeshRenderableFromFlverResource(RenderScene scene, ResourceHandle<FlverResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromFlverResource(
+            RenderScene scene, string virtualPath, ModelMarkerType modelType)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetFlverMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
+                MeshProviderCache.GetFlverMeshProvider(virtualPath), modelType);
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromCollisionResource(RenderScene scene, ResourceHandle<HavokCollisionResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromCollisionResource(
+            RenderScene scene, string virtualPath, ModelMarkerType modelType)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetCollisionMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
+                MeshProviderCache.GetCollisionMeshProvider(virtualPath), modelType);
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromNVMResource(RenderScene scene, ResourceHandle<NVMNavmeshResource> handle)
+        public static MeshRenderableProxy MeshRenderableFromNVMResource(
+            RenderScene scene, string virtualPath, ModelMarkerType modelType)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetNVMMeshProvider(handle));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
+                MeshProviderCache.GetNVMMeshProvider(virtualPath), modelType);
             return renderable;
         }
 
-        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(RenderScene scene, ResourceHandle<HavokNavmeshResource> handle, bool temp=false)
+        public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(
+            RenderScene scene, string virtualPath, ModelMarkerType modelType, bool temp = false)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, MeshProviderCache.GetHavokNavMeshProvider(handle, temp));
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
+                MeshProviderCache.GetHavokNavMeshProvider(virtualPath, temp), modelType);
             return renderable;
         }
     }
@@ -770,7 +882,7 @@ namespace StudioCore.Scene
     {
         private MeshRenderables _renderablesSet;
 
-        private IDbgPrim _debugPrimitive;
+        private IDbgPrim? _debugPrimitive;
 
         private int _renderable = -1;
 
@@ -910,13 +1022,16 @@ namespace StudioCore.Scene
             return _debugPrimitive.Bounds;
         }
 
-        public DebugPrimitiveRenderableProxy(MeshRenderables renderables, IDbgPrim prim)
+        public DebugPrimitiveRenderableProxy(MeshRenderables renderables, IDbgPrim? prim, bool autoregister = true)
         {
             _renderablesSet = renderables;
             _debugPrimitive = prim;
-            ScheduleRenderableConstruction();
-            AutoRegister = true;
-            _registered = true;
+            if (autoregister)
+            {
+                ScheduleRenderableConstruction();
+                AutoRegister = true;
+                _registered = true;
+            }
         }
 
         public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
@@ -946,6 +1061,10 @@ namespace StudioCore.Scene
 
         public unsafe override void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
         {
+            // If we were unregistered before construction time, don't construct now
+            if (!_registered)
+                return;
+
             if (_renderable != -1)
             {
                 _renderablesSet.RemoveRenderable(_renderable);
@@ -1145,12 +1264,40 @@ namespace StudioCore.Scene
             return new RenderKey((code << 41) | (index << 40) | ((ulong)(_renderablesSet.cDrawParameters[_renderable]._bufferIndex & 0xFF) << 32) + cameraDistanceInt);
         }
 
-        private static DbgPrimWireBox _regionBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 1.0f, 0.5f), Color.Blue);
-        private static DbgPrimWireCylinder _regionCylinder = new DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
-        private static DbgPrimWireSphere _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
-        private static DbgPrimWireSphere _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
-        private static DbgPrimWireSphere _dmyPoint = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Yellow, 1, 4);
-        private static DbgPrimWireSphere _jointSphere = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Blue, 6, 6);
+        private static DbgPrimWireBox? _regionBox;
+        private static DbgPrimWireCylinder? _regionCylinder;
+        private static DbgPrimWireSphere? _regionSphere;
+        private static DbgPrimWireSphere? _regionPoint;
+        private static DbgPrimWireSphere? _dmyPoint;
+        private static DbgPrimWireSphere? _jointSphere;
+        private static DbgPrimWireSpheroidWithArrow? _modelMarkerChr;
+        private static DbgPrimWireWallBox? _modelMarkerObj;
+        private static DbgPrimWireSpheroidWithArrow? _modelMarkerPlayer;
+        private static DbgPrimWireWallBox? _modelMarkerOther;
+        private static DbgPrimWireSphere? _pointLight;
+        private static DbgPrimWireSpotLight? _spotLight;
+        private static DbgPrimWireSpheroidWithArrow? _directionalLight;
+
+        /// <summary>
+        /// These are initialized explicitly to ensure these meshes are created at startup time so that they don't share
+        /// vertex buffer memory with dynamically allocated resources and cause the megabuffers to not be freed.
+        /// </summary>
+        public static void InitializeDebugMeshes()
+        {
+            _regionBox = new DbgPrimWireBox(Transform.Default, new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 1.0f, 0.5f), Color.Blue);
+            _regionCylinder = new DbgPrimWireCylinder(Transform.Default, 1.0f, 1.0f, 12, Color.Blue);
+            _regionSphere = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Blue);
+            _regionPoint = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 1, 4);
+            _dmyPoint = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Yellow, 1, 4);
+            _jointSphere = new DbgPrimWireSphere(Transform.Default, 0.05f, Color.Blue, 6, 6);
+            _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
+            _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
+            _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
+            _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+            _pointLight = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 6, 6);
+            _spotLight = new DbgPrimWireSpotLight(Transform.Default, 1.0f, 1.0f, Color.Yellow);
+            _directionalLight = new DbgPrimWireSpheroidWithArrow(Transform.Default, 5.0f, Color.Yellow, 4, 2);
+        }
 
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
@@ -1200,69 +1347,31 @@ namespace StudioCore.Scene
             return r;
         }
 
-        // BTL Light Primitives
-        private static DbgPrimWireSphere _pointLight = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 6, 6);
-        private static DbgPrimWireSpotLight _spotLight = new DbgPrimWireSpotLight(Transform.Default, 1.0f, 1.0f, Color.Yellow);
-        private static DbgPrimWireSpheroidWithArrow _directionalLight = new DbgPrimWireSpheroidWithArrow(Transform.Default, 5.0f, Color.Yellow, 4, 2);
-        public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
+        public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(MeshRenderables renderables, ModelMarkerType type)
         {
-            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
-            r.BaseColor = Color.YellowGreen;
-            r.HighlightedColor = Color.Yellow;
-            return r;
-        }
-        public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
-        {
-            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
-            r.BaseColor = Color.Goldenrod;
-            r.HighlightedColor = Color.Violet;
-            return r;
-        }
-        public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
-        {
-            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _directionalLight);
-            r.BaseColor = Color.Cyan;
-            r.HighlightedColor = Color.AliceBlue;
-            return r;
-        }
-
-        private static DbgPrimWireSpheroidWithArrow _modelMarkerChr = new DbgPrimWireSpheroidWithArrow(Transform.Default, .9f, Color.Firebrick, 4, 10, true);
-        private static DbgPrimWireWallBox _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
-        private static DbgPrimWireSpheroidWithArrow _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
-        private static DbgPrimWireWallBox _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
-        public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(RenderScene scene, string partType)
-        {
-            //Model Markers for meshses that don't render normally (like c0000)
-
-            IDbgPrim prim;
+            // Model markers are used as placeholders for meshes that would not otherwise render in the editor
+            IDbgPrim? prim;
             Color baseColor;
             Color selectColor;
 
-            switch (partType)
+            switch (type)
             {
-                case "Enemy":
-                case "DummyEnemy":
+                case ModelMarkerType.Enemy:
                     prim = _modelMarkerChr;
                     baseColor = Color.Firebrick;
                     selectColor = Color.Tomato;
                     break;
-                case "Asset":
-                case "DummyAsset":
-                case "Object":
-                case "DummyObject":
+                case ModelMarkerType.Object:
                     prim = _modelMarkerObj;
                     baseColor = Color.MediumVioletRed;
                     selectColor = Color.DeepPink;
                     break;
-                case "Player":
+                case ModelMarkerType.Player:
                     prim = _modelMarkerPlayer;
                     baseColor = Color.DarkOliveGreen;
                     selectColor = Color.OliveDrab;
                     break;
-                case "MapPiece":
-                case "Collision":
-                case "Navmesh":
-                case "Region":
+                case ModelMarkerType.Other:
                 default:
                     prim = _modelMarkerOther;
                     baseColor = Color.Wheat;
@@ -1270,12 +1379,34 @@ namespace StudioCore.Scene
                     break;
             }
 
-            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, prim);
+            var r = new DebugPrimitiveRenderableProxy(renderables, prim, false);
             r.BaseColor = baseColor;
             r.HighlightedColor = selectColor;
 
             return r;
         }
+    }
+
+    public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
+    {
+        var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
+        r.BaseColor = Color.YellowGreen;
+        r.HighlightedColor = Color.Yellow;
+        return r;
+    }
+    public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
+    {
+        var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
+        r.BaseColor = Color.Goldenrod;
+        r.HighlightedColor = Color.Violet;
+        return r;
+    }
+    public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
+    {
+        var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _directionalLight);
+        r.BaseColor = Color.Cyan;
+        r.HighlightedColor = Color.AliceBlue;
+        return r;
     }
 
     public class SkeletonBoneRenderableProxy : RenderableProxy

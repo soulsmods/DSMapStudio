@@ -828,10 +828,6 @@ namespace StudioCore.MsbEditor
                     GC.WaitForPendingFinalizers();
                     GC.Collect();
                     _GCNeedsCollection = true;
-                    Resource.ResourceManager.UnloadUnusedResources();
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
                 }
             }
             else

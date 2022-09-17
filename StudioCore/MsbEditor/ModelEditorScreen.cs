@@ -14,7 +14,7 @@ using ImGuiNET;
 
 namespace StudioCore.MsbEditor
 {
-    public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler
+    public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler, IResourceEventListener
     {
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
@@ -60,37 +60,6 @@ namespace StudioCore.MsbEditor
             if (_loadingTask != null && _loadingTask.IsCompleted)
             {
                 _loadingTask = null;
-                if (_renderMesh != null)
-                {
-                    var box = _renderMesh.GetBounds();
-                    Viewport.FrameBox(box);
-
-                    var dim = box.GetDimensions();
-                    var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
-                    var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
-
-                    var minSpeed = 1.0f;
-                    var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
-                    Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
-                    Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
-                    Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
-
-                    Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
-                    Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
-                }
-
-                if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
-                {
-                    if (_flverhandle.TryLock())
-                    {
-                        var r = _flverhandle.Get();
-                        if (r.Flver != null)
-                        {
-                            _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
-                        }
-                        _flverhandle.Unlock();
-                    }
-                }
             }
         }
 
@@ -137,18 +106,17 @@ namespace StudioCore.MsbEditor
                 asset = AssetLocator.GetNullAsset();
                 assettex = AssetLocator.GetNullAsset();
             }
-
-            var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
+            
             if (_renderMesh != null)
             {
                 //RenderScene.RemoveObject(_renderMesh);
             }
-            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(RenderScene, res);
+            _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                RenderScene, asset.AssetVirtualPath, ModelMarkerType.None);
             //_renderMesh.DrawFilter = filt;
             _renderMesh.World = Matrix4x4.Identity;
-            _flverhandle = res;
             _currentModel = modelid;
-            if (!res.IsLoaded || res.AccessLevel != AccessLevel.AccessFull)
+            if (!ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessFull))
             {
                 if (asset.AssetArchiveVirtualPath != null)
                 {
@@ -166,8 +134,9 @@ namespace StudioCore.MsbEditor
                 {
                     job.AddLoadFileTask(assettex.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
-                _loadingTask = job.StartJobAsync();
+                _loadingTask = job.Complete();
             }
+            ResourceManager.AddResourceListener<FlverResource>(asset.AssetVirtualPath, this, AccessLevel.AccessFull);
         }
 
         public void OnInstantiateChr(string chrid)
@@ -313,6 +282,45 @@ namespace StudioCore.MsbEditor
         public void OnEntityContextMenu(Entity ent)
         {
 
+        }
+
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
+        {
+            _flverhandle = (ResourceHandle<FlverResource>)handle;
+            _flverhandle.Acquire();
+
+            if (_renderMesh != null)
+            {
+                var box = _renderMesh.GetBounds();
+                Viewport.FrameBox(box);
+
+                var dim = box.GetDimensions();
+                var mindim = Math.Min(dim.X, Math.Min(dim.Y, dim.Z));
+                var maxdim = Math.Max(dim.X, Math.Max(dim.Y, dim.Z));
+
+                var minSpeed = 1.0f;
+                var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
+                Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
+                Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
+                Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
+
+                Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
+                Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
+            }
+
+            if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
+            {
+                var r = _flverhandle.Get();
+                if (r.Flver != null)
+                {
+                    _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
+                }
+            }
+        }
+
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
+        {
+            _flverhandle = null;
         }
     }
 }

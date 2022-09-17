@@ -472,7 +472,7 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.MenuItem(map))
                         {
-                            var tex = ResourceManager.GetTextureResource($@"tex/{map}".ToLower());
+                            /*var tex = ResourceManager.GetTextureResource($@"tex/{map}".ToLower());
                             if (tex.IsLoaded && tex.Get() != null && tex.TryLock())
                             {
                                 if (tex.Get().GPUTexture.Resident)
@@ -480,7 +480,7 @@ namespace StudioCore.MsbEditor
                                     Viewport.SetEnvMap(tex.Get().GPUTexture.TexHandle);
                                 }
                                 tex.Unlock();
-                            }
+                            }*/
                         }
                     }
                     ImGui.EndMenu();
