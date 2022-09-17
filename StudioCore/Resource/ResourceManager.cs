@@ -257,12 +257,11 @@ namespace StudioCore.Resource
                     try
                     {
                         f = TPF.Read(action.Binder.ReadFile(t.Item2));
+                        action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
                     }
-                    catch 
-                    {
-                        continue; 
+                    catch  
+                    { 
                     }
-                    action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
                     i++;
                 }
             }

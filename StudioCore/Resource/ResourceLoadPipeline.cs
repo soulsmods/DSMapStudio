@@ -67,9 +67,7 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
             try
             {
                 var res = new T();
-                bool success = false;
-
-                success = res._Load(r.File, r.AccessLevel, r.GameType);
+                bool success = res._Load(r.File, r.AccessLevel, r.GameType);
                 if (success)
                 {
                     _loadedResources.Post(new ResourceLoadedReply(r.VirtualPath, r.AccessLevel, res));
