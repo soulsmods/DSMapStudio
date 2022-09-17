@@ -253,7 +253,15 @@ namespace StudioCore.Resource
 
                 foreach (var t in action.PendingTPFs)
                 {
-                    var f = TPF.Read(action.Binder.ReadFile(t.Item2));
+                    TPF f = null;
+                    try
+                    {
+                        f = TPF.Read(action.Binder.ReadFile(t.Item2));
+                    }
+                    catch 
+                    {
+                        continue; 
+                    }
                     action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
                     i++;
                 }

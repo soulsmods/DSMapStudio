@@ -2,6 +2,7 @@
 using System;
 namespace StudioCore.Resource;
 
+using System.IO;
 using System.Threading.Tasks.Dataflow;
 
 public readonly record struct LoadByteResourceRequest(
@@ -66,13 +67,16 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
             try
             {
                 var res = new T();
-                bool success = res._Load(r.File, r.AccessLevel, r.GameType);
+                bool success = false;
+
+                success = res._Load(r.File, r.AccessLevel, r.GameType);
                 if (success)
                 {
                     _loadedResources.Post(new ResourceLoadedReply(r.VirtualPath, r.AccessLevel, res));
                 }
             }
             catch (System.IO.FileNotFoundException) { }
+            catch (System.IO.DirectoryNotFoundException) { }
         }, options);
     }
 }
