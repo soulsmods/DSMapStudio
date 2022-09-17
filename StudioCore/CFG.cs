@@ -123,7 +123,10 @@ namespace StudioCore
         public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
         public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
-        
+
+        public bool Map_AlwaysListLoadedMaps = true;
+        public bool Map_PinLoadedMaps = true;
+
         // Font settings
         public bool FontChinese = false;
         public bool FontKorean = false;
