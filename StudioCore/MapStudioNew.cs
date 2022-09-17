@@ -21,7 +21,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02.5";
+        private static string _version = "version 1.03";
         private static string _programTitle = $"Dark Souls Map Studio {_version}";
 
         private Sdl2Window _window;
@@ -862,6 +862,10 @@ namespace StudioCore
                             CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                         }
                         ImGui.EndMenu();
+                    }
+                    if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
+                    {
+                        CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
                     }
                     ImGui.EndMenu();
                 }
