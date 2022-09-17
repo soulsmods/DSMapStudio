@@ -27,7 +27,7 @@ namespace SoulsFormats
 
             public short PreviousSiblingIndex;
 
-            internal Bone(BinaryReaderEx br, FLVER0 flv)
+            internal Bone(BinaryReaderEx br, bool useUnicode)
             {
                 Position = br.ReadVector3();
                 int nameOffset = br.ReadInt32();
@@ -44,7 +44,7 @@ namespace SoulsFormats
                 for (int i = 0; i < 13; i++)
                     br.AssertInt32(0);
 
-                Name = flv.Unicode ? br.GetUTF16(nameOffset) : br.GetShiftJIS(nameOffset);
+                Name = useUnicode ? br.GetUTF16(nameOffset) : br.GetShiftJIS(nameOffset);
             }
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -74,7 +74,7 @@ namespace SoulsFormats
                 AttachBoneIndex = -1;
             }
 
-            internal Dummy(BinaryReaderEx br, FLVERHeader header)
+            internal Dummy(BinaryReaderEx br, FLVER2Header header)
             {
                 Position = br.ReadVector3();
                 // Not certain about the ordering of RGB here
@@ -95,7 +95,7 @@ namespace SoulsFormats
                 br.AssertInt32(0);
             }
 
-            internal void Write(BinaryWriterEx bw, FLVERHeader header)
+            internal void Write(BinaryWriterEx bw, FLVER2Header header)
             {
                 bw.WriteVector3(Position);
                 if (header.Version == 0x20010)

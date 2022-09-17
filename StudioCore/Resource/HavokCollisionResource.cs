@@ -39,7 +39,17 @@ namespace StudioCore.Resource
         unsafe private void ProcessMesh(HKX.HKPStorageExtendedMeshShapeMeshSubpartStorage mesh, CollisionSubmesh dest)
         {
             var verts = mesh.Vertices.GetArrayData().Elements;
-            var indices = mesh.Indices16.GetArrayData().Elements;
+            dynamic indices;
+            if(mesh.Indices8?.Capacity > 0)
+            {
+                indices = mesh.Indices8.GetArrayData().Elements;
+            } else if(mesh.Indices16?.Capacity > 0)
+            {
+                indices = mesh.Indices16.GetArrayData().Elements;
+            } else //Indices32 have to be there if those aren't
+            {
+                indices = mesh.Indices32.GetArrayData().Elements;
+            }
             var MeshIndices = new int[(indices.Count / 4) * 3];
             var MeshVertices = new CollisionLayout[(indices.Count / 4) * 3];
             dest.PickingVertices = new Vector3[(indices.Count / 4) * 3];
@@ -50,9 +60,9 @@ namespace StudioCore.Resource
             for (int id = 0; id < indices.Count; id += 4)
             {
                 int i = (id / 4) * 3;
-                var vert1 = mesh.Vertices[mesh.Indices16[id].data].Vector;
-                var vert2 = mesh.Vertices[mesh.Indices16[id+1].data].Vector;
-                var vert3 = mesh.Vertices[mesh.Indices16[id+2].data].Vector;
+                var vert1 = mesh.Vertices[(int)indices[id].data].Vector;
+                var vert2 = mesh.Vertices[(int)indices[id+1].data].Vector;
+                var vert3 = mesh.Vertices[(int)indices[id+2].data].Vector;
 
                 MeshVertices[i] = new CollisionLayout();
                 MeshVertices[i+1] = new CollisionLayout();

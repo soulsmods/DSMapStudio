@@ -392,7 +392,7 @@ namespace SoulsFormats
                         else if (member.Type == LayoutType.Short4toFloat4A)
                         {
                             //Tangents.Add(ReadShortNormXYZW(br));
-                            AddTangent(ReadByteNormXYZW(br));
+                            AddTangent(ReadShortNormXYZW(br));
                         }
                         else if (member.Type == LayoutType.Byte4E)
                         {

@@ -14,7 +14,7 @@ namespace SoulsFormats
         /// <summary>
         /// General values for this model.
         /// </summary>
-        public FLVERHeader Header { get; set; }
+        public FLVER2Header Header { get; set; }
 
         /// <summary>
         /// Dummy polygons in this model.
@@ -62,7 +62,7 @@ namespace SoulsFormats
         /// </summary>
         public FLVER2()
         {
-            Header = new FLVERHeader();
+            Header = new FLVER2Header();
             Dummies = new List<FLVER.Dummy>();
             Materials = new List<Material>();
             GXLists = new List<GXList>();
@@ -71,6 +71,9 @@ namespace SoulsFormats
             BufferLayouts = new List<BufferLayout>();
         }
 
+        /// <summary>
+        /// Creates a FLVER with a preset cache
+        /// </summary>
         public static FLVER2 Read(byte[] bytes, FlverCache cache)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
@@ -128,7 +131,7 @@ namespace SoulsFormats
 
             br.BigEndian = false;
 
-            Header = new FLVERHeader();
+            Header = new FLVER2Header();
             br.AssertASCII("FLVER\0");
             Header.BigEndian = br.AssertASCII("L\0", "B\0") == "B\0";
             br.BigEndian = Header.BigEndian;
@@ -464,72 +467,6 @@ namespace SoulsFormats
             bw.FillInt32("DataSize", (int)bw.Position - dataStart);
             if (Header.Version == 0x2000F || Header.Version == 0x20010)
                 bw.Pad(0x20);
-        }
-
-        /// <summary>
-        /// General metadata about a FLVER.
-        /// </summary>
-        public class FLVERHeader
-        {
-            /// <summary>
-            /// If true FLVER will be written big-endian, if false little-endian.
-            /// </summary>
-            public bool BigEndian { get; set; }
-
-            /// <summary>
-            /// Version of the format indicating presence of various features.
-            /// </summary>
-            public int Version { get; set; }
-
-            /// <summary>
-            /// Minimum extent of the entire model.
-            /// </summary>
-            public Vector3 BoundingBoxMin { get; set; }
-
-            /// <summary>
-            /// Maximum extent of the entire model.
-            /// </summary>
-            public Vector3 BoundingBoxMax { get; set; }
-
-            /// <summary>
-            /// If true strings are UTF-16, if false Shift-JIS.
-            /// </summary>
-            public bool Unicode { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public bool Unk4A { get; set; }
-
-            /// <summary>
-            /// Unknown; I believe this is the primitive restart constant, but I'm not certain.
-            /// </summary>
-            public int Unk4C { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte Unk5C { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte Unk5D { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public int Unk68 { get; set; }
-
-            /// <summary>
-            /// Creates a FLVERHeader with default values.
-            /// </summary>
-            public FLVERHeader()
-            {
-                BigEndian = false;
-                Version = 0x20014;
-                Unicode = true;
-            }
         }
     }
 }

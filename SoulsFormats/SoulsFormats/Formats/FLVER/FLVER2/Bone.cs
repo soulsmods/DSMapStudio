@@ -78,7 +78,7 @@ namespace SoulsFormats
                 Scale = Vector3.One;
             }
 
-            internal Bone(BinaryReaderEx br, FLVERHeader header)
+            internal Bone(BinaryReaderEx br, FLVER2Header header)
             {
                 Position = br.ReadVector3();
                 int nameOffset = br.ReadInt32();
@@ -115,7 +115,7 @@ namespace SoulsFormats
                 bw.WritePattern(0x34, 0x00);
             }
 
-            internal void WriteStrings(BinaryWriterEx bw, FLVERHeader header, int index)
+            internal void WriteStrings(BinaryWriterEx bw, FLVER2Header header, int index)
             {
                 bw.FillInt32($"BoneName{index}", (int)bw.Position);
                 if (header.Unicode)

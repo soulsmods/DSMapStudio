@@ -763,7 +763,11 @@ namespace SoulsFormats
         public class HKPStorageExtendedMeshShapeMeshSubpartStorage : HKXObject
         {
             public HKArray<HKVector4> Vertices;
+            public HKArray<HKByte> Indices8;
             public HKArray<HKUShort> Indices16;
+            public HKArray<HKUInt> Indices32;
+            public HKArray<HKByte> MaterialIndices;
+            public HKArray<HKUInt> Materials;
             public override void Read(HKX hkx, HKXSection section, BinaryReaderEx br, HKXVariation variation)
             {
                 // By no means complete but currently quickly extracts most meshes
@@ -777,10 +781,13 @@ namespace SoulsFormats
                 if (variation != HKXVariation.HKXDeS)
                 {
                     // Supposed to be 8-bit indices for collision, but doesn't seem to be used much if at all, so implement later
-                    AssertPointer(hkx, br);
-                    br.ReadUInt64();
+                    Indices8 = new HKArray<HKByte>(hkx, section, this, br, variation);
                 }
                 Indices16 = new HKArray<HKUShort>(hkx, section, this, br, variation);
+                Indices32 = new HKArray<HKUInt>(hkx, section, this, br, variation);
+
+                MaterialIndices = new HKArray<HKByte>(hkx, section, this, br, variation);
+                Materials = new HKArray<HKUInt>(hkx, section, this, br, variation);
 
                 // More stuff to implement (seemingly unused)
 
@@ -803,33 +810,50 @@ namespace SoulsFormats
                 }
                 Indices16.Write(hkx, section, bw, sectionBaseOffset, variation);
 
-                // Bunch of empty arrays
-                WriteEmptyPointer(hkx, bw);
-                bw.WriteUInt32(0);
-                bw.WriteUInt32(0x80000000);
+                if(variation != HKXVariation.HKXDeS)
+                {
+                    // Bunch of empty arrays
+                    WriteEmptyPointer(hkx, bw);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0x80000000);
 
-                WriteEmptyPointer(hkx, bw);
-                bw.WriteUInt32(0);
-                bw.WriteUInt32(0x80000000);
+                    WriteEmptyPointer(hkx, bw);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0x80000000);
 
-                WriteEmptyPointer(hkx, bw);
-                bw.WriteUInt32(0);
-                bw.WriteUInt32(0x80000000);
+                    WriteEmptyPointer(hkx, bw);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0x80000000);
 
-                WriteEmptyPointer(hkx, bw);
-                bw.WriteUInt32(0);
-                bw.WriteUInt32(0x80000000);
+                    WriteEmptyPointer(hkx, bw);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0x80000000);
 
-                WriteEmptyPointer(hkx, bw);
-                bw.WriteUInt32(0);
-                bw.WriteUInt32(0x80000000);
+                    WriteEmptyPointer(hkx, bw);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0x80000000);
 
-                bw.WriteUInt32(0);
-                bw.WriteUInt32(0);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0);
+                } else
+                {
+                    WriteEmptyPointer(hkx, bw); // Unknown
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0xC0000000);
 
+                    MaterialIndices.Write(hkx, section, bw, sectionBaseOffset, variation); // Material Ids
+
+                    Materials.Write(hkx, section, bw, sectionBaseOffset, variation);  // Materials
+
+                    WriteEmptyPointer(hkx, bw); // Unknown
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0xC0000000);
+                }
                 DataSize = (uint)bw.Position - sectionBaseOffset - SectionOffset;
                 Vertices.WriteReferenceData(hkx, section, bw, sectionBaseOffset, variation);
                 Indices16.WriteReferenceData(hkx, section, bw, sectionBaseOffset, variation);
+                MaterialIndices.WriteReferenceData(hkx, section, bw, sectionBaseOffset, variation);
+                Materials.WriteReferenceData(hkx, section, bw, sectionBaseOffset, variation);
             }
         }
 
