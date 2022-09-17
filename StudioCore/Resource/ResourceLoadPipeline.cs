@@ -2,6 +2,7 @@
 using System;
 namespace StudioCore.Resource;
 
+using System.IO;
 using System.Threading.Tasks.Dataflow;
 
 public readonly record struct LoadByteResourceRequest(
@@ -73,6 +74,7 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
                 }
             }
             catch (System.IO.FileNotFoundException) { }
+            catch (System.IO.DirectoryNotFoundException) { }
         }, options);
     }
 }
