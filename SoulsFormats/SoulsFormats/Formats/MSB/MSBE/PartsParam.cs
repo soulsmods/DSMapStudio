@@ -1588,6 +1588,7 @@ namespace SoulsFormats
                     PlatoonID = -1;
                     CharaInitID = -1;
                     BackupEventAnimID = -1;
+                    UnkT24 = -1;
                 }
 
                 private protected override void DeepCopyTo(Part part)
@@ -1615,7 +1616,7 @@ namespace SoulsFormats
                     CollisionPartIndex = br.ReadInt32();
                     WalkRouteIndex = br.ReadInt16();
                     br.AssertInt16(0);
-                    UnkT24 = br.AssertInt32(-1);
+                    UnkT24 = br.ReadInt32();
                     UnkT28 = br.ReadInt32();
                     ChrActivateCondParamID = br.ReadInt32();
                     br.AssertInt32(0);
