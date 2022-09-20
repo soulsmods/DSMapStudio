@@ -21,8 +21,10 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.03";
-        private static string _programTitle = $"Dark Souls Map Studio {_version}";
+        public static MapStudioNew MainInstance;
+
+        public static string ProgramVersion = "version 1.03";
+        private static string _programTitle = $"Dark Souls Map Studio {ProgramVersion}";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;

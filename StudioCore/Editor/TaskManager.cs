@@ -51,21 +51,22 @@ namespace StudioCore.Editor
             }
 
             Task t = new Task(() => {
-                if (silentFail)
-                {
-                    try
-                    {
-                        action.Invoke();
-                    }
-                    catch (Exception e)
-                    {
-                        warningList.TryAdd(taskId, ("An error has occurred in task "+taskId+":\n"+e.Message).Replace("\0", "\\0"));
-                    } 
-                }
-                else
+                try
                 {
                     action.Invoke();
-                    //MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception e)
+                {
+                    if (silentFail)
+                    {
+                        warningList.TryAdd(taskId, ("An error has occurred in task "+taskId+":\n"+e.Message).Replace("\0", "\\0"));
+                    }
+                    else
+                    {
+                        MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error - "+MapStudioNew.ProgramVersion, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MapStudioNew.MainInstance.AttemptSaveOnCrash();
+                        throw;
+                    }
                 }
                 (bool, Task) old;
                 _liveTasks.TryRemove(taskId, out old);

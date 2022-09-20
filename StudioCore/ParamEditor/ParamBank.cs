@@ -651,6 +651,8 @@ namespace StudioCore.ParamEditor
 
             TaskManager.Run("PB:LoadParams", true, false, false, () =>
             {
+                List<Param> x = null;
+                var y = x[0];
                 if (AssetLocator.Type != GameType.Undefined)
                 {
                     List<(string, PARAMDEF)> defPairs = LoadParamdefs();

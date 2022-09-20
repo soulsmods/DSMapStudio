@@ -14,7 +14,7 @@ namespace DSMapStudio
     public static class Program
     {
         public static string[] ARGS;
-        //public static MapStudio MainInstance;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,20 +28,20 @@ namespace DSMapStudio
             //SDL_version version;
             //Sdl2Native.SDL_GetVersion(&version);
 
-            var mapStudio = new MapStudioNew();
+            MapStudioNew.MainInstance = new MapStudioNew();
             #if !DEBUG
             try
             {
-                mapStudio.Run();
+                MapStudioNew.MainInstance.Run();
             }
             catch (Exception e)
             {
-                MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                mapStudio.AttemptSaveOnCrash();
+                MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error - "+MapStudioNew.ProgramVersion, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MapStudioNew.MainInstance.AttemptSaveOnCrash();
                 throw;
             }
             #else
-            mapStudio.Run();
+            MapStudioNew.MainInstance.Run();
             #endif
         }
 
