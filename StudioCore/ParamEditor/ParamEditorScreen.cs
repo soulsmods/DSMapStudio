@@ -552,6 +552,19 @@ namespace StudioCore.ParamEditor
                         System.Windows.Forms.MessageBoxIcon.Error);
                     }
                 }
+                if (ImGui.BeginMenu("Clear param comparison...", ParamBank.AuxBanks.Count > 0))
+                {
+                    for (int i = 0; i < ParamBank.AuxBanks.Count; i++)
+                    {
+                        var pb = ParamBank.AuxBanks.ElementAt(i);
+                        if (ImGui.MenuItem(pb.Key))
+                        {
+                            ParamBank.AuxBanks.Remove(pb.Key);
+                            break;
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
                 if (ImGui.MenuItem("Clear all param comparisons", null, false, ParamBank.AuxBanks.Count > 0))
                 {
                     ParamBank.AuxBanks = new Dictionary<string, ParamBank>();
