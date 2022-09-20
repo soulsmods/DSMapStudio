@@ -43,11 +43,11 @@ namespace StudioCore.ParamEditor
     {
         private static Vector4 FMGLINKCOLOUR = new Vector4(1.0f, 1.0f, 0.0f, 1.0f);
 
-        private FMGBank.ItemCategory _category = FMGBank.ItemCategory.None;
+        private FMGBank.FmgEntryCategory _category = FMGBank.FmgEntryCategory.None;
 
         private Dictionary<int, FMG.Entry> _entryCache = new Dictionary<int, FMG.Entry>();
 
-        public FMGItemParamDecorator(FMGBank.ItemCategory cat)
+        public FMGItemParamDecorator(FMGBank.FmgEntryCategory cat)
         {
             _category = cat;
         }
@@ -56,7 +56,7 @@ namespace StudioCore.ParamEditor
         {
             if (_entryCache.Count == 0 && FMGBank.IsLoaded)
             {
-                var fmgEntries = FMGBank.GetItemFMGEntriesByType(_category, FMGBank.ItemType.Title, false);
+                var fmgEntries = FMGBank.GetFmgEntriesByType(_category, FMGBank.FmgEntryTextType.Title, false);
                 foreach (var fmgEntry in fmgEntries)
                 {
                     _entryCache.Add(fmgEntry.ID, fmgEntry);
@@ -153,12 +153,12 @@ namespace StudioCore.ParamEditor
         public void ResetFMGDecorators()
         {
             _decorators.Clear();
-            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FMGBank.ItemCategory.Rings));
-            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.ItemCategory.Goods));
-            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.ItemCategory.Armor));
-            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.ItemCategory.Weapons));
-            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.ItemCategory.Gem));
-            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.ItemCategory.SwordArts));
+            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Rings));
+            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Goods));
+            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Armor));
+            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Weapons));
+            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Gem));
+            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.SwordArts));
         }
         
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
@@ -1237,6 +1237,8 @@ namespace StudioCore.ParamEditor
         private ParamEditorScreen _paramEditor;
         internal int _viewIndex;
         private int _gotoParamRow = -1;
+        private bool _arrowKeyPressed = false;
+        private bool _focusRows = false;
 
         internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
@@ -1396,9 +1398,23 @@ namespace StudioCore.ParamEditor
                     ImGui.Spacing();
                 }
 
+                // Up/Down arrow key input
+                if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                    && !ImGui.IsAnyItemActive())
+                {
+                    _arrowKeyPressed = true;
+                }
+                if (_focusRows)
+                {
+                    ImGui.SetNextWindowFocus();
+                    _arrowKeyPressed = false;
+                    _focusRows = false;
+                }
+
                 ImGui.BeginChild("rows" + activeParam);
                 List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
 
+                // Rows
                 foreach (var r in rows)
                 {
                     RowColumnEntry(activeParam, rows, r, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
@@ -1455,17 +1471,19 @@ namespace StudioCore.ParamEditor
             var selected = _selection.getSelectedRows().Contains(r);
             if (_gotoParamRow != -1)
             {
-                //Goto row was activated. As soon as a corresponding ID is found, change selection to it.
+                // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
                 if (r.ID == _gotoParamRow)
                 {
                     selected = true;
                     _selection.SetActiveRow(r, true);
                     _gotoParamRow = -1;
+                    ImGui.SetScrollHereY();
                 }
             }
 
             if (ImGui.Selectable($@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}", selected))
             {
+                _focusRows = true;
                 if (InputTracker.GetKey(Key.LControl))
                 {
                     _selection.toggleRowInSelection(r);
@@ -1489,7 +1507,23 @@ namespace StudioCore.ParamEditor
                         EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{activeParam}/{r.ID}");
                 }
             }
+            if (_arrowKeyPressed && ImGui.IsItemFocused()
+                && (r != _selection.getActiveRow()))
+            {
+                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                {
+                    // Add to selection
+                    _selection.addRowToSelection(r);
+                }
+                else
+                {
+                    // Exclusive selection
+                    _selection.SetActiveRow(r, true);
+                }
+                _arrowKeyPressed = false;
+            }
             ImGui.PopStyleColor();
+
             if (ImGui.BeginPopupContextItem(r.ID.ToString()))
             {
                 if (decorator != null)

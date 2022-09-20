@@ -89,6 +89,37 @@ namespace StudioCore.MsbEditor
             return filter;
         }
 
+        private static ModelMarkerType GetModelMarkerType(string type)
+        {
+            ModelMarkerType modelMarker;
+
+            switch (type)
+            {
+                case "Enemy":
+                case "DummyEnemy":
+                    modelMarker = ModelMarkerType.Enemy;
+                    break;
+                case "Asset":
+                case "Object":
+                case "DummyObject":
+                    modelMarker = ModelMarkerType.Object;
+                    break;
+                case "Player":
+                    modelMarker = ModelMarkerType.Player;
+                    break;
+                case "MapPiece":
+                case "Collision":
+                case "Navmesh":
+                case "Region":
+                    modelMarker = ModelMarkerType.Other;
+                    break;
+                default:
+                    modelMarker = ModelMarkerType.None;
+                    break;
+            }
+            return modelMarker;
+        }
+
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
             if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
@@ -121,15 +152,6 @@ namespace StudioCore.MsbEditor
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Region;
-                return mesh;
-            }
-            else if (obj.WrappedObject is IMsbPart r5)
-            {
-                var enemyTypeStr = obj.WrappedObject.GetType().ToString().Split("+").Last();
-                var mesh = DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderScene, enemyTypeStr);
-                mesh.World = obj.GetWorldMatrix();
-                mesh.SetSelectable(obj);
-                mesh.DrawFilter = GetRenderFilter(enemyTypeStr);
                 return mesh;
             }
             return null;
@@ -221,15 +243,16 @@ namespace StudioCore.MsbEditor
                 asset = _assetLocator.GetNullAsset();
             }
 
+            var modelMarkerType = GetModelMarkerType(obj.WrappedObject.GetType().ToString().Split("+").Last());
             if (loadcol)
             {
-                var res = ResourceManager.GetResource<Resource.HavokCollisionResource>(asset.AssetVirtualPath);
-                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(_renderScene, res);
+                var mesh = MeshRenderableProxy.MeshRenderableFromCollisionResource(
+                    _renderScene, asset.AssetVirtualPath, modelMarkerType);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Collision;
                 obj.RenderSceneMesh = mesh;
-                if (!res.IsLoaded && load)
+                if (load && !ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -239,7 +262,8 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    var task = job.StartJobAsync();
+                    ResourceManager.MarkResourceInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
                         task.Wait();
@@ -249,13 +273,13 @@ namespace StudioCore.MsbEditor
             }
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
-                var res = ResourceManager.GetResource<Resource.NVMNavmeshResource>(asset.AssetVirtualPath);
-                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(_renderScene, res);
+                var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(
+                    _renderScene, asset.AssetVirtualPath, modelMarkerType);
                 mesh.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = mesh;
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Navmesh;
-                if (!res.IsLoaded && load)
+                if (load && !ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -265,7 +289,8 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    var task = job.StartJobAsync();
+                    ResourceManager.MarkResourceInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
                         task.Wait();
@@ -279,13 +304,13 @@ namespace StudioCore.MsbEditor
             }
             else if (loadflver)
             {
-                var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
+                var model = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                    _renderScene, asset.AssetVirtualPath, modelMarkerType);
                 model.DrawFilter = filt;
                 model.World = obj.GetWorldMatrix();
                 obj.RenderSceneMesh = model;
                 model.SetSelectable(obj);
-                if (!res.IsLoaded && load)
+                if (load && !ResourceManager.IsResourceLoadedOrInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
                 {
                     if (asset.AssetArchiveVirtualPath != null)
                     {
@@ -295,7 +320,8 @@ namespace StudioCore.MsbEditor
                     {
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
-                    var task = job.StartJobAsync();
+                    ResourceManager.MarkResourceInFlight(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    var task = job.Complete();
                     if (obj.Universe.postLoad)
                     {
                         task.Wait();
@@ -394,8 +420,8 @@ namespace StudioCore.MsbEditor
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
-                        var res = ResourceManager.GetResource<Resource.FlverResource>(asset.AssetVirtualPath);
-                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(_renderScene, res);
+                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                            _renderScene, asset.AssetVirtualPath, ModelMarkerType.Enemy);
                         model.DrawFilter = RenderFilter.Character;
                         generatorObjs[row.ID].RenderSceneMesh = model;
                         model.SetSelectable(generatorObjs[row.ID]);
@@ -478,7 +504,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            job.StartJobAsync();
+            job.Complete();
         }
 
         public void PopulateMapList()
@@ -670,9 +696,9 @@ namespace StudioCore.MsbEditor
                         var navid = $@"n{nav.ModelID:D6}";
                         var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
                         var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
-
-                        var res = ResourceManager.GetResource<Resource.HavokNavmeshResource>(nasset.AssetVirtualPath);
-                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(_renderScene, res);
+                        
+                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(
+                            _renderScene, nasset.AssetVirtualPath, ModelMarkerType.Other);
                         mesh.World = n.GetWorldMatrix();
                         mesh.SetSelectable(n);
                         mesh.DrawFilter = RenderFilter.Navmesh;
@@ -693,7 +719,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(mappiece.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             if (CFG.Current.EnableTexturing)
@@ -710,7 +736,7 @@ namespace StudioCore.MsbEditor
                         job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
                 }
-                task = job.StartJobAsync();
+                task = job.Complete();
                 tasks.Add(task);
             }
 
@@ -734,7 +760,7 @@ namespace StudioCore.MsbEditor
             {
                 job.AddLoadArchiveTask(archive, AccessLevel.AccessGPUOptimizedOnly, false, colassets);
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             job = ResourceManager.CreateNewJob($@"Loading chrs");
@@ -749,7 +775,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             job = ResourceManager.CreateNewJob($@"Loading objs");
@@ -764,7 +790,7 @@ namespace StudioCore.MsbEditor
                     job.AddLoadFileTask(obj.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                 }
             }
-            task = job.StartJobAsync();
+            task = job.Complete();
             tasks.Add(task);
 
             if (FeatureFlags.LoadNavmeshes)
@@ -789,7 +815,7 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
-                task = job.StartJobAsync();
+                task = job.Complete();
                 tasks.Add(task);
             }
 

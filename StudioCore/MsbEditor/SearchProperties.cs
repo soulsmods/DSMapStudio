@@ -210,12 +210,14 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(string propname=null)
         {
+            bool searchFieldChanged = false;
             if (propname != null)
             {
                 ImGui.SetNextWindowFocus();
                 PropertyName = propname;
                 PropertyType = Universe.GetPropertyType(PropertyName);
                 ValidType = InitializeSearchValue();
+                searchFieldChanged = true;
             }
 
             if (InputTracker.GetControlShortcut(Key.F))
@@ -231,7 +233,6 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetControlShortcut(Key.F))
                     ImGui.SetKeyboardFocusHere();
 
-                bool searchFieldChanged = false;
                 if (ImGui.InputText("##value", ref PropertyName, 64))
                 {
                     PropertyType = Universe.GetPropertyType(PropertyName);

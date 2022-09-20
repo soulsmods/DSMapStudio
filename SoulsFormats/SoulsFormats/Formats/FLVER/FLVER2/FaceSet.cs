@@ -96,7 +96,7 @@ namespace SoulsFormats
                 Indices = indices;
             }
 
-            internal FaceSet(BinaryReaderEx br, FLVERHeader header, FlverCache cache, int headerIndexSize, int dataOffset)
+            internal FaceSet(BinaryReaderEx br, FLVER2Header header, FlverCache cache, int headerIndexSize, int dataOffset)
             {
                 Flags = (FSFlags)br.ReadUInt32();
                 TriangleStrip = br.ReadBoolean();
@@ -149,7 +149,7 @@ namespace SoulsFormats
                 }
             }
 
-            internal void Write(BinaryWriterEx bw, FLVERHeader header, int indexSize, int index)
+            internal void Write(BinaryWriterEx bw, FLVER2Header header, int indexSize, int index)
             {
                 bw.WriteUInt32((uint)Flags);
                 bw.WriteBoolean(TriangleStrip);

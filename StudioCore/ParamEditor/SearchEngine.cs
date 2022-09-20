@@ -243,23 +243,24 @@ namespace StudioCore.Editor
                     };
                 };
             }));
+
             filterList.Add("fmg", (1, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
-                    FMGBank.ItemCategory category = FMGBank.ItemCategory.None;
+                    FMGBank.FmgEntryCategory category = FMGBank.FmgEntryCategory.None;
                     switch(bank.GetKeyForParam(context))
                     {
-                        case "EquipParamAccessory": category = FMGBank.ItemCategory.Rings; break;
-                        case "EquipParamGoods": category = FMGBank.ItemCategory.Goods; break;
-                        case "EquipParamWeapon": category = FMGBank.ItemCategory.Weapons; break;
-                        case "EquipParamProtector": category = FMGBank.ItemCategory.Armor; break;
-                        case "EquipParamGem": category = FMGBank.ItemCategory.Gem; break;
-                        case "SwordArtsParam": category = FMGBank.ItemCategory.SwordArts; break;
+                        case "EquipParamAccessory": category = FMGBank.FmgEntryCategory.Rings; break;
+                        case "EquipParamGoods": category = FMGBank.FmgEntryCategory.Goods; break;
+                        case "EquipParamWeapon": category = FMGBank.FmgEntryCategory.Weapons; break;
+                        case "EquipParamProtector": category = FMGBank.FmgEntryCategory.Armor; break;
+                        case "EquipParamGem": category = FMGBank.FmgEntryCategory.Gem; break;
+                        case "SwordArtsParam": category = FMGBank.FmgEntryCategory.SwordArts; break;
                     }
-                    if (category == FMGBank.ItemCategory.None)
+                    if (category == FMGBank.FmgEntryCategory.None)
                         throw new Exception();
-                    var fmgEntries = FMGBank.GetItemFMGEntriesByType(category, FMGBank.ItemType.Title, false);
+                    var fmgEntries = FMGBank.GetFmgEntriesByType(category, FMGBank.FmgEntryTextType.Title, false);
                     Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();
                     foreach (var fmgEntry in fmgEntries)
                     {

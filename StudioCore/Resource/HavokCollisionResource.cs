@@ -8,6 +8,7 @@ using Veldrid;
 using Veldrid.Utilities;
 using SoulsFormats;
 using System.IO;
+using System.Threading.Tasks.Dataflow;
 using HKX2;
 
 namespace StudioCore.Resource
@@ -38,7 +39,17 @@ namespace StudioCore.Resource
         unsafe private void ProcessMesh(HKX.HKPStorageExtendedMeshShapeMeshSubpartStorage mesh, CollisionSubmesh dest)
         {
             var verts = mesh.Vertices.GetArrayData().Elements;
-            var indices = mesh.Indices16.GetArrayData().Elements;
+            dynamic indices;
+            if(mesh.Indices8?.Capacity > 0)
+            {
+                indices = mesh.Indices8.GetArrayData().Elements;
+            } else if(mesh.Indices16?.Capacity > 0)
+            {
+                indices = mesh.Indices16.GetArrayData().Elements;
+            } else //Indices32 have to be there if those aren't
+            {
+                indices = mesh.Indices32.GetArrayData().Elements;
+            }
             var MeshIndices = new int[(indices.Count / 4) * 3];
             var MeshVertices = new CollisionLayout[(indices.Count / 4) * 3];
             dest.PickingVertices = new Vector3[(indices.Count / 4) * 3];
@@ -49,9 +60,9 @@ namespace StudioCore.Resource
             for (int id = 0; id < indices.Count; id += 4)
             {
                 int i = (id / 4) * 3;
-                var vert1 = mesh.Vertices[mesh.Indices16[id].data].Vector;
-                var vert2 = mesh.Vertices[mesh.Indices16[id+1].data].Vector;
-                var vert3 = mesh.Vertices[mesh.Indices16[id+2].data].Vector;
+                var vert1 = mesh.Vertices[(int)indices[id].data].Vector;
+                var vert2 = mesh.Vertices[(int)indices[id+1].data].Vector;
+                var vert3 = mesh.Vertices[(int)indices[id+2].data].Vector;
 
                 MeshVertices[i] = new CollisionLayout();
                 MeshVertices[i+1] = new CollisionLayout();
@@ -600,7 +611,8 @@ namespace StudioCore.Resource
 
                 foreach (var bodyInfo in physicsscene.m_systemDatas[0].m_bodyCinfos)
                 {
-                    var ncol = (HKX2.fsnpCustomParamCompressedMeshShape)bodyInfo.m_shape;
+                    if (bodyInfo.m_shape is not HKX2.fsnpCustomParamCompressedMeshShape ncol)
+                        continue;
                     try
                     {
                         var mesh = new CollisionSubmesh();
@@ -632,7 +644,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
         {
             
             if (type == GameType.Bloodborne)
@@ -668,7 +680,7 @@ namespace StudioCore.Resource
             return LoadInternal(al);
         }
 
-        bool IResource._Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string file, AccessLevel al, GameType type)
         {
             if (type == GameType.Bloodborne)
             {

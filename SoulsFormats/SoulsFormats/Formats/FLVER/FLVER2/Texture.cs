@@ -74,7 +74,7 @@ namespace SoulsFormats
                 Unk1C = unk1C;
             }
 
-            internal Texture(BinaryReaderEx br, FLVERHeader header)
+            internal Texture(BinaryReaderEx br, FLVER2Header header)
             {
                 int pathOffset = br.ReadInt32();
                 int typeOffset = br.ReadInt32();
@@ -117,7 +117,7 @@ namespace SoulsFormats
                 bw.WriteSingle(Unk1C);
             }
 
-            internal void WriteStrings(BinaryWriterEx bw, FLVERHeader header, int index)
+            internal void WriteStrings(BinaryWriterEx bw, FLVER2Header header, int index)
             {
                 bw.FillInt32($"TexturePath{index}", (int)bw.Position);
                 if (header.Unicode)

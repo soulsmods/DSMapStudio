@@ -9,7 +9,7 @@ namespace StudioCore.Resource
     /// </summary>
     public interface IResourceEventListener
     {
-        public void OnResourceLoaded(IResourceHandle handle);
-        public void OnResourceUnloaded(IResourceHandle handle);
+        public void OnResourceLoaded(IResourceHandle handle, int tag);
+        public void OnResourceUnloaded(IResourceHandle handle, int tag);
     }
 }

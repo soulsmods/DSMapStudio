@@ -218,9 +218,17 @@ namespace StudioCore.ParamEditor
                 // If no patched paramdef was found for this regulation version, fallback to vanilla defs
                 if (def == null)
                     def = _paramdefs[p.ParamType];
-                
-                p.ApplyParamdef(def);
-                paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+
+                try
+                {
+                    p.ApplyParamdef(def);
+                    paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                }
+                catch(Exception e)
+                {
+                    var name = f.Name.Split("\\").Last();
+                    TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
+                }
             }
         }
 
@@ -593,7 +601,7 @@ namespace StudioCore.ParamEditor
             
             CacheBank.ClearCaches();
 
-            TaskManager.Run("PB:LoadParams", true, false, true, () =>
+            TaskManager.Run("PB:LoadParams", true, false, false, () =>
             {
                 if (PrimaryBank.AssetLocator.Type != GameType.Undefined)
                 {
