@@ -52,7 +52,7 @@ namespace StudioCore.Editor
         }
         public static void ReloadAliases()
         {
-            TaskManager.Run("AB:LoadAliases", true, false, true, () =>
+            TaskManager.Run("AB:LoadAliases", true, false, false, () =>
             {
                 _mapNames = new Dictionary<string, string>();
                 IsLoadingAliases = true;

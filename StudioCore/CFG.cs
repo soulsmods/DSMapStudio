@@ -130,6 +130,9 @@ namespace StudioCore
         public bool FontThai = false;
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
+        public float FontSizeScale = 1.0f;
+
+        public bool FMG_ShowOriginalNames = false;
 
         public bool EnableEldenRingAutoMapOffset { get; set; } = true;
     }

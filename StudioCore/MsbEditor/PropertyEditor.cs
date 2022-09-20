@@ -725,6 +725,26 @@ namespace StudioCore.MsbEditor
                                     // here, but that should be shared with SceneTree.
                                     selection.GotoTreeTarget = rootTarget;
                                 }
+
+                                if (ImGui.BeginPopupContextItem())
+                                {
+                                    var map = entSelection.Universe.GetLoadedMap(mapid);
+                                    if (map == null)
+                                    {
+                                        if (ImGui.Selectable("Load Map"))
+                                        {
+                                            entSelection.Universe.LoadMap(mapid);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ImGui.Selectable("Unload Map"))
+                                        {
+                                            entSelection.Universe.UnloadMap(map);
+                                        }
+                                    }
+                                    ImGui.EndPopup();
+                                }
                             }
                         }
                     }

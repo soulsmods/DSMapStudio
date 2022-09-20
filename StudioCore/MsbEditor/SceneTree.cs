@@ -489,11 +489,12 @@ namespace StudioCore.MsbEditor
                         {
                             if (typ.Value.Count > 0)
                             {
-                                // Regions don't have multiple types in games before DS3
+                                // Regions don't have multiple types in certain games
                                 if (cats.Key == MapEntity.MapEntityType.Region &&
-                                    _assetLocator.Type != GameType.DarkSoulsIII && 
-                                    _assetLocator.Type != GameType.Sekiro &&
-                                    _assetLocator.Type != GameType.EldenRing)
+                                    (_assetLocator.Type is GameType.DemonsSouls
+                                    or GameType.DarkSoulsPTDE
+                                    or GameType.DarkSoulsRemastered
+                                    or GameType.Bloodborne))
                                 {
                                     foreach (var obj in typ.Value)
                                     {
@@ -758,6 +759,12 @@ namespace StudioCore.MsbEditor
                         ImGui.PopStyleVar();
                         ImGui.TreePop();
                     }
+
+                    // Update type cache when a map is no longer loaded
+                    if (_cachedTypeView != null && map == null && _cachedTypeView.ContainsKey(mapid))
+                    {
+                        _cachedTypeView.Remove(mapid);
+                    }
                 }
                 if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
                 {
@@ -791,10 +798,6 @@ namespace StudioCore.MsbEditor
                     GC.WaitForPendingFinalizers();
                     GC.Collect();
                     _GCNeedsCollection = true;
-                    Resource.ResourceManager.UnloadUnusedResources();
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
                 }
             }
             else

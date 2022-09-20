@@ -957,7 +957,8 @@ namespace StudioCore.Scene
                         _staging = null;
                     }
                     _pool._allocator.Free(TexHandle);
-                    _pool._handles[(int)TexHandle] = null;
+                    lock (_pool._allocationLock)
+                        _pool._handles[(int)TexHandle] = null;
                     _pool.DescriptorTableDirty = true;
 
                     disposedValue = true;

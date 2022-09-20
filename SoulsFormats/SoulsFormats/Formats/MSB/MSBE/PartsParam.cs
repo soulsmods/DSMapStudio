@@ -473,7 +473,7 @@ namespace SoulsFormats
                 br.AssertByte(0); // Former lantern ID
                 LodParamID = br.ReadByte();
                 UnkE09 = br.ReadByte();
-                IsPointLightShadowSrc = br.AssertSByte(0, -1); // Seems to be 0 or -1
+                IsPointLightShadowSrc = br.ReadSByte(); // Seems to be 0 or -1
                 UnkE0B = br.ReadByte();
                 IsShadowSrc = br.ReadBoolean();
                 IsStaticShadowSrc = br.ReadByte();

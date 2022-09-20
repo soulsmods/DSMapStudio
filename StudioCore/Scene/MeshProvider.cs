@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using Veldrid;
@@ -21,67 +22,75 @@ namespace StudioCore.Scene
     {
         private static Dictionary<string, MeshProvider> _cache = new Dictionary<string, MeshProvider>();
 
-        public static FlverMeshProvider GetFlverMeshProvider(ResourceHandle<FlverResource> handle)
+        public static FlverMeshProvider GetFlverMeshProvider(string virtualResourcePath)
         {
-            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            if (_cache.ContainsKey(virtualResourcePath))
             {
-                if (_cache[handle.AssetVirtualPath] is FlverMeshProvider fmp)
+                if (_cache[virtualResourcePath] is FlverMeshProvider fmp)
                 {
                     return fmp;
                 }
                 throw new Exception("Mesh provider exists but in the wrong form");
             }
-            FlverMeshProvider nfmp = new FlverMeshProvider(handle);
-            _cache.Add(handle.AssetVirtualPath, nfmp);
+            FlverMeshProvider nfmp = new FlverMeshProvider(virtualResourcePath);
+            _cache.Add(virtualResourcePath, nfmp);
             return nfmp;
         }
 
-        public static CollisionMeshProvider GetCollisionMeshProvider(ResourceHandle<HavokCollisionResource> handle)
+        public static CollisionMeshProvider GetCollisionMeshProvider(string virtualResourcePath)
         {
-            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            if (_cache.ContainsKey(virtualResourcePath))
             {
-                if (_cache[handle.AssetVirtualPath] is CollisionMeshProvider fmp)
+                if (_cache[virtualResourcePath] is CollisionMeshProvider fmp)
                 {
                     return fmp;
                 }
                 throw new Exception("Mesh provider exists but in the wrong form");
             }
-            CollisionMeshProvider nfmp = new CollisionMeshProvider(handle);
-            _cache.Add(handle.AssetVirtualPath, nfmp);
+            CollisionMeshProvider nfmp = new CollisionMeshProvider(virtualResourcePath);
+            _cache.Add(virtualResourcePath, nfmp);
             return nfmp;
         }
 
-        public static NavmeshProvider GetNVMMeshProvider(ResourceHandle<NVMNavmeshResource> handle)
+        public static NavmeshProvider GetNVMMeshProvider(string virtualResourcePath)
         {
-            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            if (_cache.ContainsKey(virtualResourcePath))
             {
-                if (_cache[handle.AssetVirtualPath] is NavmeshProvider fmp)
+                if (_cache[virtualResourcePath] is NavmeshProvider fmp)
                 {
                     return fmp;
                 }
                 throw new Exception("Mesh provider exists but in the wrong form");
             }
-            NavmeshProvider nfmp = new NavmeshProvider(handle);
-            _cache.Add(handle.AssetVirtualPath, nfmp);
+            NavmeshProvider nfmp = new NavmeshProvider(virtualResourcePath);
+            _cache.Add(virtualResourcePath, nfmp);
             return nfmp;
         }
 
-        public static HavokNavmeshProvider GetHavokNavMeshProvider(ResourceHandle<HavokNavmeshResource> handle, bool temp = false)
+        public static HavokNavmeshProvider GetHavokNavMeshProvider(string virtualResourcePath, bool temp = false)
         {
-            if (!temp && _cache.ContainsKey(handle.AssetVirtualPath))
+            if (!temp && _cache.ContainsKey(virtualResourcePath))
             {
-                if (_cache[handle.AssetVirtualPath] is HavokNavmeshProvider fmp)
+                if (_cache[virtualResourcePath] is HavokNavmeshProvider fmp)
                 {
                     return fmp;
                 }
                 throw new Exception("Mesh provider exists but in the wrong form");
             }
-            HavokNavmeshProvider nfmp = new HavokNavmeshProvider(handle);
+            HavokNavmeshProvider nfmp = new HavokNavmeshProvider(virtualResourcePath);
             if (!temp)
             {
-                _cache.Add(handle.AssetVirtualPath, nfmp);
+                _cache.Add(virtualResourcePath, nfmp);
             }
             return nfmp;
+        }
+
+        public static void InvalidateMeshProvider(IResourceHandle handle)
+        {
+            if (_cache.ContainsKey(handle.AssetVirtualPath))
+            {
+                _cache.Remove(handle.AssetVirtualPath);
+            }
         }
     }
 
@@ -252,22 +261,22 @@ namespace StudioCore.Scene
 
     public class FlverMeshProvider : MeshProvider, Resource.IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.FlverResource> _resource;
 
         private List<FlverSubmeshProvider> _submeshes = new List<FlverSubmeshProvider>();
 
-        public FlverMeshProvider(ResourceHandle<Resource.FlverResource> res)
+        public FlverMeshProvider(string resource)
         {
-            _resource = res;
-            //_resource.Acquire();
-            _resource.AddResourceEventListener(this);
+            _resourceName = resource;
+            _resource = null;
         }
 
         ~FlverMeshProvider()
         {
             if (_resource != null)
             {
-                //_resource.Release();
+                _resource.Release();
             }
         }
 
@@ -280,27 +289,37 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            _resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<FlverResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            _resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                OnResourceUnloaded(_resource, 0);
+            }
         }
 
         public override bool IsAvailable()
         {
-            return _resource.IsLoaded && 
+            return _resource != null && _referenceCount > 0 &&
                 (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
                  _resource.AccessLevel == AccessLevel.AccessFull);
         }
@@ -336,28 +355,27 @@ namespace StudioCore.Scene
             _submeshes = new List<FlverSubmeshProvider>();
             var res = _resource.Get();
             _bounds = res.Bounds;
-            if (res.GPUMeshes != null)
+            for (int i = 0; i < res.GPUMeshes.Length; i++)
             {
-                for (int i = 0; i < res.GPUMeshes.Length; i++)
-                {
-                    var sm = new FlverSubmeshProvider(_resource, i);
-                    _submeshes.Add(sm);
-                }
+                var sm = new FlverSubmeshProvider(_resource, i);
+                _submeshes.Add(sm);
             }
         }
 
-        public void OnResourceLoaded(IResourceHandle handle)
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
-            if (_resource != null && _resource.TryLock())
-            {
-                CreateSubmeshes();
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            if (_resource != null)
+                return;
+            _resource = (ResourceHandle<FlverResource>)handle;
+            _resource.Acquire();
+            CreateSubmeshes();
+            NotifyAvailable();
         }
 
-        public void OnResourceUnloaded(IResourceHandle handle)
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
             foreach (var submesh in _submeshes)
             {
                 submesh.Invalidate();
@@ -382,12 +400,11 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
         internal void Invalidate()
@@ -444,7 +461,8 @@ namespace StudioCore.Scene
 
         public override int IndexOffset => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexOffset;
 
-        public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexCount;
+        public override int IndexCount => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets.Count > 0 ?
+            _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexCount : 0;
 
         public override uint VertexSize => _resource.Get().GPUMeshes[_meshIndex].Material.VertexSize;
     }
@@ -452,22 +470,22 @@ namespace StudioCore.Scene
 
     public class CollisionMeshProvider : MeshProvider, Resource.IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.HavokCollisionResource> _resource;
 
         private List<CollisionSubmeshProvider> _submeshes = new List<CollisionSubmeshProvider>();
 
-        public CollisionMeshProvider(ResourceHandle<Resource.HavokCollisionResource> res)
+        public CollisionMeshProvider(string resource)
         {
-            _resource = res;
-            //_resource.Acquire();
-            _resource.AddResourceEventListener(this);
+            _resourceName = resource;
+            _resource = null;
         }
 
         ~CollisionMeshProvider()
         {
             if (_resource != null)
             {
-                //_resource.Release();
+                _resource.Release();
             }
         }
 
@@ -480,29 +498,39 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
+
+        private int _referenceCount = 0;
 
         public override void Acquire()
         {
-            _resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<HavokCollisionResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            } 
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            _resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                OnResourceUnloaded(_resource, 0);
+            }
         }
 
         public override bool IsAvailable()
         {
-            return _resource.IsLoaded &&
-                (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
-                 _resource.AccessLevel == AccessLevel.AccessFull);
+            return _resource != null &&
+                   (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
+                    _resource.AccessLevel == AccessLevel.AccessFull);
         }
 
         public override bool IsAtomic()
@@ -523,7 +551,8 @@ namespace StudioCore.Scene
 
         public override VertexLayoutDescription LayoutDescription => throw new NotImplementedException();
 
-        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer => throw new NotImplementedException();
+        public override VertexIndexBufferAllocator.VertexIndexBufferHandle GeometryBuffer =>
+            throw new NotImplementedException();
 
         public override GPUBufferAllocator.GPUBufferHandle MaterialBuffer => throw new NotImplementedException();
 
@@ -548,18 +577,20 @@ namespace StudioCore.Scene
             }
         }
 
-        public void OnResourceLoaded(IResourceHandle handle)
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
-            if (_resource != null && _resource.TryLock())
-            {
-                CreateSubmeshes();
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            if (_resource != null)
+                return;
+            _resource = (ResourceHandle<HavokCollisionResource>)handle;
+            _resource.Acquire();
+            CreateSubmeshes();
+            NotifyAvailable();
         }
 
-        public void OnResourceUnloaded(IResourceHandle handle)
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
             foreach (var submesh in _submeshes)
             {
                 submesh.Invalidate();
@@ -584,12 +615,11 @@ namespace StudioCore.Scene
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
         internal void Invalidate()
@@ -653,37 +683,48 @@ namespace StudioCore.Scene
 
     public unsafe class NavmeshProvider : MeshProvider, IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.NVMNavmeshResource> _resource;
 
-        public NavmeshProvider(ResourceHandle<Resource.NVMNavmeshResource> handle)
+        public NavmeshProvider(string resource)
         {
-            _resource = handle;
-            _resource.AddResourceEventListener(this);
+            _resourceName = resource;
+            _resource = null;
         }
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            _resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<NVMNavmeshResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            _resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                OnResourceUnloaded(_resource, 0);
+            }
         }
 
         public override bool IsAvailable()
         {
-            return _resource.IsLoaded &&
+            return _resource != null &&
                 (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
                  _resource.AccessLevel == AccessLevel.AccessFull);
         }
@@ -695,24 +736,26 @@ namespace StudioCore.Scene
 
         public override bool HasMeshData()
         {
-            if (_resource.IsLoaded && _resource.Get().VertexCount > 0)
+            if (_resource != null && _resource.Get().VertexCount > 0)
             {
                 return true;
             }
             return false;
         }
 
-        public void OnResourceLoaded(IResourceHandle handle)
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
-            if (_resource != null && _resource.TryLock())
-            {
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            if (_resource != null)
+                return;
+            _resource = (ResourceHandle<NVMNavmeshResource>)handle;
+            _resource.Acquire();
+            NotifyAvailable();
         }
 
-        public void OnResourceUnloaded(IResourceHandle handle)
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
             NotifyUnavailable();
         }
 
@@ -753,41 +796,53 @@ namespace StudioCore.Scene
 
     public unsafe class HavokNavmeshProvider : MeshProvider, IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.HavokNavmeshResource> _resource;
 
         private HavokNavmeshCostGraphProvider _costGraphProvider;
 
-        public HavokNavmeshProvider(ResourceHandle<HavokNavmeshResource> handle)
+        public HavokNavmeshProvider(string resource)
         {
-            _resource = handle;
-            _resource.AddResourceEventListener(this);
-
-            _costGraphProvider = new HavokNavmeshCostGraphProvider(handle);
+            _resourceName = resource;
+            _resource = null;
+            _costGraphProvider = new HavokNavmeshCostGraphProvider(resource);
         }
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
-
+        
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            _resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<HavokNavmeshResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
+            _costGraphProvider.Acquire();
         }
 
         public override void Release()
         {
-            _resource.Release();
+           _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                OnResourceUnloaded(_resource, 0);
+            }
+            _costGraphProvider.Release();
         }
 
         public override bool IsAvailable()
         {
-            return _resource.IsLoaded &&
+            return _resource != null&&
                 (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
                  _resource.AccessLevel == AccessLevel.AccessFull);
         }
@@ -799,7 +854,7 @@ namespace StudioCore.Scene
 
         public override bool HasMeshData()
         {
-            if (_resource.IsLoaded && _resource.Get().VertexCount > 0)
+            if (_resource != null && _resource.Get().VertexCount > 0)
             {
                 return true;
             }
@@ -813,17 +868,19 @@ namespace StudioCore.Scene
             return _costGraphProvider;
         }
 
-        public void OnResourceLoaded(IResourceHandle handle)
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
-            if (_resource != null && _resource.TryLock())
-            {
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            if (_resource != null)
+                return;
+            _resource = (ResourceHandle<HavokNavmeshResource>)handle;
+            _resource.Acquire();
+            NotifyAvailable();
         }
 
-        public void OnResourceUnloaded(IResourceHandle handle)
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
             NotifyUnavailable();
         }
 
@@ -864,37 +921,56 @@ namespace StudioCore.Scene
 
     public unsafe class HavokNavmeshCostGraphProvider : MeshProvider, IResourceEventListener
     {
+        private string _resourceName;
         private Resource.ResourceHandle<Resource.HavokNavmeshResource> _resource;
 
-        public HavokNavmeshCostGraphProvider(ResourceHandle<HavokNavmeshResource> handle)
+        public HavokNavmeshCostGraphProvider(string resource)
         {
-            _resource = handle;
-            _resource.AddResourceEventListener(this);
+            _resourceName = resource;
+            _resource = null;
+        }
+        
+        ~HavokNavmeshCostGraphProvider()
+        {
+            if (_resource != null)
+            {
+                _resource.Release();
+            }
         }
 
         public override bool TryLock()
         {
-            return _resource.TryLock();
+            return true;
         }
 
         public override void Unlock()
         {
-            _resource.Unlock();
         }
 
+        private int _referenceCount = 0;
+        
         public override void Acquire()
         {
-            _resource.Acquire();
+            if (_referenceCount == 0)
+            {
+                ResourceManager.AddResourceListener<HavokNavmeshResource>(_resourceName, this, AccessLevel.AccessGPUOptimizedOnly);
+            }
+            _referenceCount++;
         }
 
         public override void Release()
         {
-            _resource.Release();
+            _referenceCount--;
+            if (_referenceCount <= 0)
+            {
+                _referenceCount = 0;
+                OnResourceUnloaded(_resource, 0);
+            }
         }
 
         public override bool IsAvailable()
         {
-            return _resource.IsLoaded &&
+            return _resource != null &&
                 (_resource.AccessLevel == AccessLevel.AccessGPUOptimizedOnly ||
                  _resource.AccessLevel == AccessLevel.AccessFull);
         }
@@ -906,24 +982,26 @@ namespace StudioCore.Scene
 
         public override bool HasMeshData()
         {
-            if (_resource.IsLoaded && _resource.Get().VertexCount > 0)
+            if (_resource != null && _resource.Get().VertexCount > 0)
             {
                 return true;
             }
             return false;
         }
 
-        public void OnResourceLoaded(IResourceHandle handle)
+        public void OnResourceLoaded(IResourceHandle handle, int tag)
         {
-            if (_resource != null && _resource.TryLock())
-            {
-                _resource.Unlock();
-                NotifyAvailable();
-            }
+            if (_resource != null)
+                return;
+            _resource = (ResourceHandle<HavokNavmeshResource>)handle;
+            _resource.Acquire();
+            NotifyAvailable();
         }
 
-        public void OnResourceUnloaded(IResourceHandle handle)
+        public void OnResourceUnloaded(IResourceHandle handle, int tag)
         {
+            _resource?.Release();
+            _resource = null;
             NotifyUnavailable();
         }
 

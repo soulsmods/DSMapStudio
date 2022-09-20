@@ -20,8 +20,6 @@ namespace StudioCore.TextEditor
 
         private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
 
-        private string _refContextCurrentAutoComplete = "";
-
         public PropertyEditor(ActionManager manager)
         {
             ContextActionManager = manager;
@@ -193,7 +191,7 @@ namespace StudioCore.TextEditor
         }
 
         private void UpdateProperty(object prop, object obj, object newval,
-            bool changed, bool committed, int arrayindex = -1)
+            bool changed = true, bool committed = true, int arrayindex = -1)
         {
             if (changed)
             {
@@ -236,11 +234,7 @@ namespace StudioCore.TextEditor
             ImGui.Text(name);
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
-            // ImGui.AlignTextToFramePadding();
-            var typ = typeof(string);
             var oldval = entry.Text;
-            bool changed = false;
-            object newval = null;
 
             string val = (string)oldval;
             if (val == null)
@@ -252,7 +246,6 @@ namespace StudioCore.TextEditor
                 if (ImGui.InputTextMultiline("##value", ref val, 2000, new Vector2(-1, boxsize)))
                 {
                     _textCache = val;
-                    changed = true;
                 }
             }
             else
@@ -260,20 +253,43 @@ namespace StudioCore.TextEditor
                 if (ImGui.InputText("##value", ref val, 2000))
                 {
                     _textCache = val;
-                    changed = true;
                 }
             }
-            if (_textCache != oldval)
-            {
-                changed = true;
-            }
-            bool committed = ImGui.IsItemDeactivatedAfterEdit();
 
-            UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache, changed, committed);
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            if (committed)
+            {
+                if (_textCache != oldval)
+                    UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache);
+                //UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache, change, committed);
+            }
 
             ImGui.NextColumn();
             ImGui.PopID();
             _fmgID++;
+        }
+
+        private int _idCache = 0;
+        public void PropIDFMG(FMGBank.EntryGroup eGroup, List<FMG.Entry> entryCache)
+        {
+            var oldID = eGroup.ID;
+            var id = oldID;
+            if (ImGui.InputInt("##id", ref id))
+            {
+                _idCache = id;
+            }
+            bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            if (committed)
+            {
+                if (_idCache != oldID)
+                {
+                    // Forbid duplicate IDs
+                    if (entryCache.Find(e => e.ID == id) == null)
+                    {
+                        UpdateProperty(eGroup.GetType().GetProperty("ID"), eGroup, _idCache);
+                    }
+                }
+            }
         }
 
         public void PropEditorFMGEnd()
