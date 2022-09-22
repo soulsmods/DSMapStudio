@@ -48,5 +48,5 @@
     <canExecByFriendlyGhost IsBool="" />
     <canExecByHostileGhost IsBool="" />
   </Field>
-  <Self Row0Dummy="" />
+  <Self Row0Dummy="" ConsecutiveIDs="" />
 </PARAMMETA>

@@ -29,6 +29,11 @@ namespace StudioCore.ParamEditor
         /// ID at which grouping begins in a param
         /// </summary>
         public int BlockStart {get; set;}
+        
+        /// <summary>
+        /// Indicates the param uses consecutive IDs and thus rows with consecutive IDs should be kept together if moved
+        /// </summary>
+        public bool ConsecutiveIDs {get; set;}
 
         /// <summary>
         /// Max value of trailing digits used for offset, +1
@@ -114,6 +119,11 @@ namespace StudioCore.ParamEditor
                 if (GroupStart != null)
                 {
                     BlockStart = int.Parse(GroupStart.InnerText);
+                }
+                XmlAttribute CIDs = self.Attributes["ConsecutiveIDs"];
+                if (CIDs != null)
+                {
+                    ConsecutiveIDs = true;
                 }
                 XmlAttribute Off = self.Attributes["OffsetSize"];
                 if (Off != null)
@@ -415,18 +425,18 @@ namespace StudioCore.ParamEditor
         public string param;
         public string conditionField;
         public int conditionValue;
+        public int offset;
 
         internal ParamRef(string refString)
         {
-            string[] parts = refString.Split('(', 2, StringSplitOptions.TrimEntries);
-            if (parts.Length == 0)
-                throw new ArgumentException("refString is not valid ref");
-            param = parts[0];
-            if (parts.Length > 1 && parts[1].EndsWith(')'))
+            string[] conditionSplit = refString.Split('(', 2, StringSplitOptions.TrimEntries);
+            string[] offsetSplit = conditionSplit[0].Split('+', 2);
+            param = offsetSplit[0];
+            if (offsetSplit.Length > 1)
+                offset = int.Parse(offsetSplit[1]);
+            if (conditionSplit.Length > 1 && conditionSplit[1].EndsWith(')'))
             {
-                string[] condition = parts[1].Substring(0, parts[1].Length-1).Split('=', 2, StringSplitOptions.TrimEntries);
-                if (condition.Length != 2)
-                    throw new ArgumentException("condition is not valid");
+                string[] condition = conditionSplit[1].Substring(0, conditionSplit[1].Length-1).Split('=', 2, StringSplitOptions.TrimEntries);
                 conditionField = condition[0];
                 conditionValue = int.Parse(condition[1]);
             }
