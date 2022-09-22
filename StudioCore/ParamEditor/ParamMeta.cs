@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Linq;
 using System.Numerics;
 using ImGuiNET;
 using SoulsFormats;
@@ -301,7 +302,7 @@ namespace StudioCore.ParamEditor
         /// <summary>
         /// Name of another Param that a Field may refer to.
         /// </summary>
-        public List<string> RefTypes { get; set; }
+        public List<ParamRef> RefTypes { get; set; }
 
         /// <summary>
         /// Name linking fields from multiple params that may share values.
@@ -359,7 +360,7 @@ namespace StudioCore.ParamEditor
             Add(field, this);
             XmlAttribute Ref = fieldMeta.Attributes["Refs"];
             if (Ref != null)
-                RefTypes = new List<string>(Ref.InnerText.Split(","));
+                RefTypes = Ref.InnerText.Split(",").Select((x) => new ParamRef(x)).ToList();
             XmlAttribute VRef = fieldMeta.Attributes["VRef"];
             if (VRef != null)
                 VirtualRef = VRef.InnerText;
@@ -381,7 +382,7 @@ namespace StudioCore.ParamEditor
         {
             if (_parent._xml == null)
                 return;
-            ParamMetaData.SetStringListXmlProperty("Refs", RefTypes, null, _parent._xml, "PARAMMETA", "Field", field);
+            ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Vref", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
@@ -406,6 +407,34 @@ namespace StudioCore.ParamEditor
             {
                 values.Add(option.Attributes["Value"].InnerText, option.Attributes["Name"].InnerText);
             }
+        }
+    }
+
+    public class ParamRef
+    {
+        public string param;
+        public string conditionField;
+        public int conditionValue;
+
+        internal ParamRef(string refString)
+        {
+            string[] parts = refString.Split('(', 2, StringSplitOptions.TrimEntries);
+            if (parts.Length == 0)
+                throw new ArgumentException("refString is not valid ref");
+            param = parts[0];
+            if (parts.Length > 1 && parts[1].EndsWith(')'))
+            {
+                string[] condition = parts[1].Substring(0, parts[1].Length-1).Split('=', 2, StringSplitOptions.TrimEntries);
+                if (condition.Length != 2)
+                    throw new ArgumentException("condition is not valid");
+                conditionField = condition[0];
+                conditionValue = int.Parse(condition[1]);
+            }
+        }
+
+        internal string getStringForm()
+        {
+            return param+'('+conditionField+'='+conditionValue+')';
         }
     }
 }

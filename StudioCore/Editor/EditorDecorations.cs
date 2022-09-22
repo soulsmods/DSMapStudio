@@ -28,25 +28,45 @@ namespace StudioCore.Editor
             return UIHints.AddImGuiHintButton(id, ref hint, canEdit, true); //presently a hack, move code here
         }
 
-        public static void ParamRefText(List<string> paramRefs)
+        public static void ParamRefText(List<ParamRef> paramRefs, Param.Row context)
         {
-            if (paramRefs == null)
+            if (paramRefs == null || paramRefs.Count == 0)
                 return;
             if (ParamEditor.ParamEditorScreen.HideReferenceRowsPreference == false) //Move preference
             {
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"  <{String.Join(',', paramRefs)}>");
+                ImGui.TextUnformatted($@"  <");
+                bool first = true;
+                foreach (ParamRef r in paramRefs)
+                {
+                    Param.Cell? c = context?[r.conditionField];
+                    bool inactiveRef = context != null && c != null && Convert.ToInt32(c.Value.Value) != r.conditionValue;
+                    if (inactiveRef)
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+                    ImGui.SameLine();
+                    if (first)
+                        ImGui.TextUnformatted(r.param);
+                    else
+                        ImGui.TextUnformatted(","+r.param);
+                    first = false;
+                    if (inactiveRef)
+                        ImGui.PopStyleColor();
+                }
+                ImGui.SameLine();
+                ImGui.TextUnformatted(">");
                 ImGui.PopStyleColor();
+                ImGui.PopStyleVar();
             }
         }
-        public static void ParamRefsSelectables(List<string> paramRefs, dynamic oldval)
+        public static void ParamRefsSelectables(List<ParamRef> paramRefs, Param.Row context, dynamic oldval)
         {
             if (paramRefs == null)
                 return;
             // Add named row and context menu
             // Lists located params
             // May span lines
-            List<(Param.Row, string)> matches = resolveRefs(paramRefs, oldval);
+            List<(Param.Row, string)> matches = resolveRefs(paramRefs, context, oldval);
             bool entryFound = matches.Count > 0;
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
             ImGui.BeginGroup();
@@ -66,7 +86,7 @@ namespace StudioCore.Editor
             }
             ImGui.EndGroup();
         }
-        private static List<(Param.Row, string)> resolveRefs(List<string> paramRefs, dynamic oldval)
+        private static List<(Param.Row, string)> resolveRefs(List<ParamRef> paramRefs, Param.Row context, dynamic oldval)
         {
             List<(Param.Row, string)> rows = new List<(Param.Row, string)>();
             if (ParamBank.Params == null)
@@ -74,8 +94,13 @@ namespace StudioCore.Editor
                 return rows;
             }
             int originalValue = (int)oldval; //make sure to explicitly cast from dynamic or C# complains. Object or Convert.ToInt32 fail.
-            foreach (string rt in paramRefs)
+            foreach (ParamRef rf in paramRefs)
             {
+                Param.Cell? c = context?[rf.conditionField];
+                bool inactiveRef = context != null && c != null && Convert.ToInt32(c.Value.Value) != rf.conditionValue;
+                if (inactiveRef)
+                    continue;
+                string rt = rf.param;
                 string hint = "";
                 if (ParamBank.Params.ContainsKey(rt))
                 {
@@ -158,7 +183,7 @@ namespace StudioCore.Editor
             }
         }
         
-        public static bool ParamRefEnumContextMenu(object oldval, ref object newval, List<string> RefTypes, ParamEnum Enum)
+        public static bool ParamRefEnumContextMenu(object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum)
         {
             if (RefTypes == null && Enum == null)
                 return false;
@@ -166,7 +191,7 @@ namespace StudioCore.Editor
             if (ImGui.BeginPopupContextItem("rowMetaValue"))
             {
                 if (RefTypes != null)
-                    result |= PropertyRowRefsContextItems(RefTypes, oldval, ref newval);
+                    result |= PropertyRowRefsContextItems(RefTypes, context, oldval, ref newval);
                 if (Enum != null)
                     result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
                 ImGui.EndPopup();
@@ -174,13 +199,18 @@ namespace StudioCore.Editor
             return result;
         }
 
-        public static bool PropertyRowRefsContextItems(List<string> reftypes, dynamic oldval, ref object newval)
+        public static bool PropertyRowRefsContextItems(List<ParamRef> reftypes, Param.Row context, dynamic oldval, ref object newval)
         {
             if (ParamBank.Params == null)
                 return false;
             // Add Goto statements
-            foreach (string rt in reftypes)
+            foreach (ParamRef rf in reftypes)
             {
+                Param.Cell? c = context?[rf.conditionField];
+                bool inactiveRef = context != null && c != null && Convert.ToInt32(c.Value.Value) != rf.conditionValue;
+                if (inactiveRef)
+                    continue;
+                string rt = rf.param;
                 if (!ParamBank.Params.ContainsKey(rt))
                     continue;
                 int searchVal = (int)oldval;
@@ -211,8 +241,9 @@ namespace StudioCore.Editor
             // This should be replaced by a proper search box with a scroll and everything
             if (_refContextCurrentAutoComplete != "")
             {
-                foreach (string rt in reftypes)
+                foreach (ParamRef rf in reftypes)
                 {
+                    string rt = rf.param;
                     if (!ParamBank.Params.ContainsKey(rt))
                         continue;
                     ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
@@ -222,7 +253,7 @@ namespace StudioCore.Editor
                     {
                         if (maxResultsPerRefType <= 0)
                             break;
-                        if (ImGui.Selectable(r.ID + ": " + r.Name))
+                        if (ImGui.Selectable($@"({rt}){r.ID}: {r.Name}"))
                         {
                             if (meta != null && meta.FixedOffset != 0)
                                 newval = (int)r.ID - meta.FixedOffset;

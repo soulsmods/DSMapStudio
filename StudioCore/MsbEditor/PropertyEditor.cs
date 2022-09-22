@@ -386,13 +386,13 @@ namespace StudioCore.MsbEditor
             if (att != null)
             {
                 ImGui.NextColumn();
-                List<string> refs = new List<string>();
-                refs.Add(att.ParamName);
-                Editor.EditorDecorations.ParamRefText(refs);
+                List<ParamEditor.ParamRef> refs = new List<ParamEditor.ParamRef>();
+                refs.Add(new ParamEditor.ParamRef(att.ParamName));
+                Editor.EditorDecorations.ParamRefText(refs, null);
                 ImGui.NextColumn();
                 var id = oldval; //oldval cannot always be casted to int
-                Editor.EditorDecorations.ParamRefsSelectables(refs, id);
-                return Editor.EditorDecorations.ParamRefEnumContextMenu(id, ref newObj, refs, null);
+                Editor.EditorDecorations.ParamRefsSelectables(refs, null, id);
+                return Editor.EditorDecorations.ParamRefEnumContextMenu(id, ref newObj, refs, null, null);
             }
             return false;
         }
