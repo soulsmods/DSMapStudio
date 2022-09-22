@@ -131,6 +131,7 @@ namespace StudioCore.ParamEditor
         public static bool AllowFieldReorderPreference = true;
         public static bool AlphabeticalParamsPreference = true;
         public static bool ShowVanillaParamsPreference = false;
+        public static bool DisableRowGrouping = false;
         public static string CSVDelimiterPreference = ",";
         
         public static bool EditorMode = false;
@@ -471,6 +472,8 @@ namespace StudioCore.ParamEditor
                     AlphabeticalParamsPreference = !AlphabeticalParamsPreference;
                     CacheBank.ClearCaches();
                 }
+                if (ImGui.MenuItem("DisableRowGrouping", null, DisableRowGrouping))
+                    DisableRowGrouping = !DisableRowGrouping;
                 if (ImGui.MenuItem("Show Vanilla Params", null, ShowVanillaParamsPreference))
                     ShowVanillaParamsPreference = !ShowVanillaParamsPreference;
                 ImGui.Separator();
@@ -1342,10 +1345,26 @@ namespace StudioCore.ParamEditor
                 ImGui.BeginChild("rows" + activeParam);
                 List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
 
+                bool enableGrouping = !ParamEditorScreen.DisableRowGrouping && ParamMetaData.Get(ParamBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
+
                 // Rows
-                foreach (var r in rows)
+                for (int i = 0; i < rows.Count; i++)
                 {
-                    RowColumnEntry(activeParam, rows, r, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                    Param.Row currentRow = rows[i];
+                    if (enableGrouping)
+                    {
+                        Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
+                        Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
+                        if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
+                            ImGui.Separator();
+                        RowColumnEntry(activeParam, rows, currentRow, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                        if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
+                            ImGui.Separator();
+                    }
+                    else
+                    {
+                        RowColumnEntry(activeParam, rows, currentRow, dirtyCache, decorator, ref scrollTo, doFocus, false);
+                    }
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());

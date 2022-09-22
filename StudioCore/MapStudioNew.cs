@@ -255,6 +255,9 @@ namespace StudioCore
             reg = Utils.readRegistry("allFieldReorderPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.AllowFieldReorderPreference = reg == "true";
+            reg = Utils.readRegistry("disableRowGrouping");
+            if (reg != null)
+                ParamEditor.ParamEditorScreen.DisableRowGrouping = reg == "true";
             reg = Utils.readRegistry("showVanillaParamsPreference");
             if (reg != null)
                 ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference = reg == "true";
@@ -280,6 +283,7 @@ namespace StudioCore
             Utils.setRegistry("hideEnumsPreference", ParamEditor.ParamEditorScreen.HideEnumsPreference ? "true" : "false");
             Utils.setRegistry("allFieldReorderPreference", ParamEditor.ParamEditorScreen.AllowFieldReorderPreference ? "true" : "false");
             Utils.setRegistry("alphabeticalParamsPreference", ParamEditor.ParamEditorScreen.AlphabeticalParamsPreference ? "true" : "false");
+            Utils.setRegistry("disableRowGrouping", ParamEditor.ParamEditorScreen.DisableRowGrouping ? "true" : "false");
             Utils.setRegistry("showVanillaParamsPreference", ParamEditor.ParamEditorScreen.ShowVanillaParamsPreference ? "true" : "false");
             Utils.setRegistry("csvDelimiterPreference", ParamEditor.ParamEditorScreen.CSVDelimiterPreference);
         }
