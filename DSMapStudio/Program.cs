@@ -28,6 +28,8 @@ namespace DSMapStudio
             //SDL_version version;
             //Sdl2Native.SDL_GetVersion(&version);
 
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+
             var mapStudio = new MapStudioNew();
             #if !DEBUG
             try
