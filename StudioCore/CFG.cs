@@ -178,6 +178,8 @@ namespace StudioCore
             }
             set { _Param_Export_Delimiter = value; }
         }
+        
+        public bool FMG_ShowOriginalNames = false;
 
         public bool EnableEldenRingAutoMapOffset { get; set; } = true;
     }

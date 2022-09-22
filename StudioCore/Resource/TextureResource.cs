@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading.Tasks.Dataflow;
 using SoulsFormats;
 using Veldrid;
 
@@ -39,12 +40,17 @@ namespace StudioCore.Resource
             }
             if (GPUTexture == null)
             {
+                if (FeatureFlags.StrictResourceChecking)
+                    throw new Exception("Unable to allocate texture descriptor");
                 return false;
             }
             if (Texture.Platform == TPF.TPFPlatform.PC || Texture.Platform == TPF.TPFPlatform.PS3)
             {
                 Scene.Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
                 {
+                    if (GPUTexture == null)
+                        return;
+                    
                     GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
                     Texture = null;
                 });
@@ -53,6 +59,9 @@ namespace StudioCore.Resource
             {
                 Scene.Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
                 {
+                    if (GPUTexture == null)
+                        return;
+                    
                     GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
                     Texture = null;
                 });
@@ -72,7 +81,7 @@ namespace StudioCore.Resource
                     // TODO: dispose managed state (managed objects).
                 }
 
-                GPUTexture.Dispose();
+                GPUTexture?.Dispose();
                 GPUTexture = null;
 
                 disposedValue = true;

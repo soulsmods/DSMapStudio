@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Threading.Tasks;
 using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -20,7 +21,8 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02.5";
+        private static string _version = "version 1.03";
+        private static string _programTitle = $"Dark Souls Map Studio {_version}";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -69,7 +71,7 @@ namespace StudioCore
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
-        
+
         public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
@@ -87,7 +89,7 @@ namespace StudioCore
                 WindowWidth = CFG.Current.GFX_Display_Width,
                 WindowHeight = CFG.Current.GFX_Display_Height,
                 WindowInitialState = WindowState.Maximized,
-                WindowTitle = "Dark Souls Map Studio " + _version,
+                WindowTitle = $"{_programTitle}",
             };
             GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 
@@ -273,6 +275,9 @@ namespace StudioCore
             Tracy.Startup();
             while (_window.Exists)
             {
+                // Make sure any awaited UI thread work has a chance to complete
+                //await Task.Yield();
+                
                 Tracy.TracyCFrameMark();
 
                 // Limit frame rate when window isn't focused unless we are profiling
@@ -492,6 +497,8 @@ namespace StudioCore
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
                 CFG.Current.LastProjectFile = filename;
+                _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+
                 if (updateRecents)
                 {
                     var recent = new CFG.RecentProject();
@@ -819,7 +826,10 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-
+                    if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
+                    {
+                        CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
+                    }
                     if (ImGui.Button("Open Config Folder"))
                     {
                         if (File.Exists(CFG.GetConfigFilePath()))

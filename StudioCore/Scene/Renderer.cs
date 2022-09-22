@@ -543,6 +543,10 @@ namespace StudioCore.Scene
             // Default GI envmap texture at 0
             handle = GlobalCubeTexturePool.AllocateTextureDescriptor();
             handle.FillWithColorCube(device, new System.Numerics.Vector4(0.5f, 0.5f, 0.5f, 1.0f));
+            
+            // Initialize global debug primitives
+            // TODO: Make vertex buffer allocation smarter so that we don't need to do this
+            DebugPrimitiveRenderableProxy.InitializeDebugMeshes();
         }
 
         public static void RegisterRenderQueue(RenderQueue queue)
