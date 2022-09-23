@@ -104,14 +104,19 @@ namespace StudioCore.Editor
                 string hint = "";
                 if (ParamBank.Params.ContainsKey(rt))
                 {
+                    int altval = originalValue;
+                    if (rf.offset != 0)
+                    {
+                        altval += rf.offset;
+                        hint += rf.offset > 0 ? "+" + rf.offset.ToString() : rf.offset.ToString();
+                    }
                     Param param = ParamBank.Params[rt];
                     ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
-                    if (meta != null && meta.Row0Dummy && originalValue == 0)
+                    if (meta != null && meta.Row0Dummy && altval == 0)
                         continue;
-                    Param.Row r = param[originalValue];
-                    if (r == null && originalValue > 0 && meta != null)
+                    Param.Row r = param[altval];
+                    if (r == null && altval > 0 && meta != null)
                     {
-                        int altval = originalValue;
                         if (meta.FixedOffset != 0)
                         {
                             altval = originalValue + meta.FixedOffset;
@@ -215,6 +220,10 @@ namespace StudioCore.Editor
                     continue;
                 int searchVal = (int)oldval;
                 ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
+                if (rf.offset != 0 && searchVal > 0)
+                {
+                    searchVal = searchVal + rf.offset;
+                }
                 if (meta != null)
                 {
                     if (meta.Row0Dummy && searchVal == 0)
@@ -256,9 +265,9 @@ namespace StudioCore.Editor
                         if (ImGui.Selectable($@"({rt}){r.ID}: {r.Name}"))
                         {
                             if (meta != null && meta.FixedOffset != 0)
-                                newval = (int)r.ID - meta.FixedOffset;
+                                newval = (int)r.ID - meta.FixedOffset - rf.offset;
                             else
-                                newval = (int)r.ID;
+                                newval = (int)r.ID - rf.offset;
                             _refContextCurrentAutoComplete = "";
                             return true;
                         }
