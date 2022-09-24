@@ -389,7 +389,6 @@ namespace StudioCore
 
             Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams(newsettings, options);
-            TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.ReloadUniverse();
             _modelEditor.ReloadAssetBrowser();
@@ -397,8 +396,8 @@ namespace StudioCore
             //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
             _modelEditor.OnProjectChanged(_projectSettings);
-            _paramEditor.OnProjectChanged(_projectSettings);
             _textEditor.OnProjectChanged(_projectSettings);
+            _paramEditor.OnProjectChanged(_projectSettings);
         }
 
         public void ApplyStyle()
