@@ -247,22 +247,8 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public byte UnkE04 { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte UnkE05 { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte UnkE06 { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte UnkE07 { get; set; }
+            [MSBParamReference(ParamName = "ResidentFxParam")]
+            public int ResidentFXParamID { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -277,7 +263,42 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public byte UnkE0E { get; set; }
+            public bool PointLightShadowSource { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool ShadowSource { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool ShadowDest { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool IsShadowOnly { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool DrawByReflectCam { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool DrawOnlyReflectCam { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool UseDepthBiasFloat { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool DisablePointLightEffect { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -386,14 +407,18 @@ namespace SoulsFormats
             private void ReadEntityData(BinaryReaderEx br)
             {
                 EntityID = br.ReadInt32();
-                UnkE04 = br.ReadByte();
-                UnkE05 = br.ReadByte();
-                UnkE06 = br.ReadByte();
-                UnkE07 = br.ReadByte();
+                ResidentFXParamID = br.ReadInt32();
                 br.AssertInt32(0);
                 LanternID = br.ReadByte();
                 LodParamID = br.ReadByte();
-                UnkE0E = br.ReadByte();
+                PointLightShadowSource = br.ReadBoolean();
+                ShadowSource = br.ReadBoolean();
+                ShadowDest = br.ReadBoolean();
+                IsShadowOnly = br.ReadBoolean();
+                DrawByReflectCam = br.ReadBoolean();
+                DrawOnlyReflectCam = br.ReadBoolean();
+                UseDepthBiasFloat = br.ReadBoolean();
+                DisablePointLightEffect = br.ReadBoolean();
                 UnkE0F = br.ReadByte();
             }
 
@@ -482,14 +507,23 @@ namespace SoulsFormats
             private void WriteEntityData(BinaryWriterEx bw)
             {
                 bw.WriteInt32(EntityID);
-                bw.WriteByte(UnkE04);
-                bw.WriteByte(UnkE05);
-                bw.WriteByte(UnkE06);
-                bw.WriteByte(UnkE07);
+                bw.WriteInt32(ResidentFXParamID);
+
                 bw.WriteInt32(0);
+
                 bw.WriteByte(LanternID);
                 bw.WriteByte(LodParamID);
-                bw.WriteByte(UnkE0E);
+
+                bw.WriteBoolean(PointLightShadowSource);
+                bw.WriteBoolean(ShadowSource);
+                bw.WriteBoolean(ShadowDest);
+                bw.WriteBoolean(IsShadowOnly);
+
+                bw.WriteBoolean(DrawByReflectCam);
+                bw.WriteBoolean(DrawOnlyReflectCam);
+                bw.WriteBoolean(UseDepthBiasFloat);
+                bw.WriteBoolean(DisablePointLightEffect);
+
                 bw.WriteByte(UnkE0F);
             }
 
