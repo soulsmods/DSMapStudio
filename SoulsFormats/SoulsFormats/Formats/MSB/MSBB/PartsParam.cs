@@ -261,47 +261,50 @@ namespace SoulsFormats
             public byte LodParamID { get; set; }
 
             /// <summary>
-            /// Bit array of flags that affect visuals.
-            /// </summary>
-            private byte VisualConfig { get; set; }
-
-            /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool PointLightShadowSource { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool ShadowSource { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool ShadowDest { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool IsShadowOnly { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool DrawByReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool DrawOnlyReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool UseDepthBiasFloat { get; set; }
 
             /// <summary>
             /// Unknown.
+            /// Is a BitFlag.
             /// </summary>
             public bool DisablePointLightEffect { get; set; }
 
@@ -417,7 +420,7 @@ namespace SoulsFormats
                 LanternID = br.ReadByte();
                 LodParamID = br.ReadByte();
 
-                VisualConfig = br.ReadByte();
+                byte VisualConfig = br.ReadByte();
                 PointLightShadowSource = (VisualConfig & (1 << 0)) != 0;
                 ShadowSource = (VisualConfig & (1 << 1)) != 0;
                 ShadowDest = (VisualConfig & (1 << 2)) != 0;
@@ -522,6 +525,7 @@ namespace SoulsFormats
                 bw.WriteByte(LanternID);
                 bw.WriteByte(LodParamID);
 
+                byte VisualConfig = 0;
                 if (PointLightShadowSource)
                     VisualConfig |= 1 << 0;
                 if (ShadowSource)
