@@ -1,9 +1,9 @@
 100000 Stormveil Castle
-110000 Leyndell, Royal Capital
+110000 Leyndell Royal Capital
 130000 Crumbling Farum Azula
 140000 Academy of Raya Lucaria
 150000 Miquella's Haligtree
-150001 Elphael, Brace of the Haligtree
+150001 Elphael Brace of the Haligtree
 160000 Volcano Manor
 180000 Stranded Graveyard
 180001 Fringefolk Hero's Grave
@@ -158,7 +158,7 @@
 63405500 West Windmill Pasture
 63415300 Woodfolk Ruins
 63415301 Minor Erdtree
-63415400 Dominula, Windmill Village
+63415400 Dominula Windmill Village
 63415500 East Windmill Pasture
 63415501 Village Windmill Pasture
 63425400 Highway Lookout Tower
@@ -181,7 +181,7 @@
 64494000 Deep Siofra Well
 64503800 Gowry's Shack
 64503900 Church of the Plague
-64503901 Sellia, Town of Sorcery
+64503901 Sellia Town of Sorcery
 64513600 Redmane Castle
 64513700 Wailing Dunes
 64513900 Fort Faroth
@@ -190,7 +190,7 @@
 64524100 Lenne's Rise
 65475500 Yelough Anix Ruins
 65475800 Apostate Derelict
-65485700 Ordina, Liturgical Town
+65485700 Ordina Liturgical Town
 65495300 Zamor Ruins
 65495301 Grand Lift of Rold
 65505600 Shack of the Lofty
@@ -207,11 +207,11 @@
 65545500 First Church of Marika
 66120100 Uhl Palace Ruins
 66120102 Uhl Palace Ruins
-66120103 Nokstella, Eternal City
+66120103 Nokstella Eternal City
 66120104 Grand Cloister
 66120200 Night's Sacred Ground
 66120201 Siofra Aqueduct
 66120202 Hallowhorn Grounds
 66120203 Hallowhorn Grounds
 66120500 Mohgwyn Dynasty Mausoleum
-66120700 Nokron, Eternal City
+66120700 Nokron Eternal City

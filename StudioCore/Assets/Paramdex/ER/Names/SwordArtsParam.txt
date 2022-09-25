@@ -126,7 +126,7 @@
 1027 Cursed-Blood Slice
 1028 Waterfowl Dance
 1029 Gold Breaker
-1030 I Command Thee, Kneel!
+1030 I Command Thee Kneel!
 1031 Regal Roar
 1032 Starcaller Cry
 1033 Wave of Destruction
