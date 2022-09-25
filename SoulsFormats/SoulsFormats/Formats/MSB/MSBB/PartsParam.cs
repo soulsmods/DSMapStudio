@@ -261,6 +261,11 @@ namespace SoulsFormats
             public byte LodParamID { get; set; }
 
             /// <summary>
+            /// Bit array of flags that affect visuals.
+            /// </summary>
+            private byte VisualConfig { get; set; }
+
+            /// <summary>
             /// Unknown.
             /// </summary>
             public bool PointLightShadowSource { get; set; }
@@ -411,14 +416,17 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 LanternID = br.ReadByte();
                 LodParamID = br.ReadByte();
-                PointLightShadowSource = br.ReadBoolean();
-                ShadowSource = br.ReadBoolean();
-                ShadowDest = br.ReadBoolean();
-                IsShadowOnly = br.ReadBoolean();
-                DrawByReflectCam = br.ReadBoolean();
-                DrawOnlyReflectCam = br.ReadBoolean();
-                UseDepthBiasFloat = br.ReadBoolean();
-                DisablePointLightEffect = br.ReadBoolean();
+
+                VisualConfig = br.ReadByte();
+                PointLightShadowSource = (VisualConfig & (1 << 0)) != 0;
+                ShadowSource = (VisualConfig & (1 << 1)) != 0;
+                ShadowDest = (VisualConfig & (1 << 2)) != 0;
+                IsShadowOnly = (VisualConfig & (1 << 3)) != 0;
+                DrawByReflectCam = (VisualConfig & (1 << 4)) != 0;
+                DrawOnlyReflectCam = (VisualConfig & (1 << 5)) != 0;
+                UseDepthBiasFloat = (VisualConfig & (1 << 6)) != 0;
+                DisablePointLightEffect = (VisualConfig & (1 << 7)) != 0;
+
                 UnkE0F = br.ReadByte();
             }
 
@@ -514,15 +522,23 @@ namespace SoulsFormats
                 bw.WriteByte(LanternID);
                 bw.WriteByte(LodParamID);
 
-                bw.WriteBoolean(PointLightShadowSource);
-                bw.WriteBoolean(ShadowSource);
-                bw.WriteBoolean(ShadowDest);
-                bw.WriteBoolean(IsShadowOnly);
-
-                bw.WriteBoolean(DrawByReflectCam);
-                bw.WriteBoolean(DrawOnlyReflectCam);
-                bw.WriteBoolean(UseDepthBiasFloat);
-                bw.WriteBoolean(DisablePointLightEffect);
+                if (PointLightShadowSource)
+                    VisualConfig |= 1 << 0;
+                if (ShadowSource)
+                    VisualConfig |= 1 << 1;
+                if (ShadowDest)
+                    VisualConfig |= 1 << 2;
+                if (IsShadowOnly)
+                    VisualConfig |= 1 << 3;
+                if (DrawByReflectCam)
+                    VisualConfig |= 1 << 4;
+                if (DrawOnlyReflectCam)
+                    VisualConfig |= 1 << 5;
+                if (UseDepthBiasFloat)
+                    VisualConfig |= 1 << 6;
+                if (DisablePointLightEffect)
+                    VisualConfig |= 1 << 7;
+                bw.WriteByte(VisualConfig);
 
                 bw.WriteByte(UnkE0F);
             }
