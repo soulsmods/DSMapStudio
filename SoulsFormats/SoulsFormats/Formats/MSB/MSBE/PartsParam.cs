@@ -975,32 +975,62 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float Unk10;
+                public float TransitionTime { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk18;
+                public sbyte Unk18 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk1C;
+                public sbyte Unk19 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk20;
+                public sbyte Unk1A { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk1B { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk1C { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk1D { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk20 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk21 { get; set; }
 
                 /// <summary>
                 /// Creates a SceneGparamConfig with default values.
                 /// </summary>
                 public SceneGparamConfig()
                 {
-                    Unk10 = 0.0f;
-                    Unk18 = 0;
-                    Unk1C = 0;
-                    Unk20 = 0;
+                    TransitionTime = 0.0f;
+                    Unk18 = -1;
+                    Unk19 = -1;
+                    Unk1A = -1;
+                    Unk1B = -1;
+                    Unk1C = -1;
+                    Unk1D = -1;
+                    Unk20 = -1;
+                    Unk21 = -1;
                 }
 
                 /// <summary>
@@ -1008,28 +1038,47 @@ namespace SoulsFormats
                 /// </summary>
                 public SceneGparamConfig DeepCopy()
                 {
-                    return (SceneGparamConfig)MemberwiseClone();
+                    var config = (SceneGparamConfig)MemberwiseClone();
+                    return config;
                 }
 
                 internal SceneGparamConfig(BinaryReaderEx br)
                 {
                     br.AssertPattern(16, 0x00);
-                    Unk10 = br.ReadSingle();
+                    TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
-                    Unk18 = br.ReadInt32();
-                    Unk1C = br.ReadInt32();
-                    Unk20 = br.ReadInt32();
+                    Unk18 = br.ReadSByte();
+                    Unk19 = br.ReadSByte();
+                    Unk1A = br.ReadSByte();
+                    Unk1B = br.ReadSByte();
+                    Unk1C = br.ReadSByte();
+                    Unk1D = br.ReadSByte();
+                    br.AssertSByte(0);
+                    br.AssertSByte(0);
+                    Unk20 = br.ReadSByte();
+                    Unk21 = br.ReadSByte();
+                    br.AssertSByte(0);
+                    br.AssertSByte(0);
                     br.AssertPattern(44, 0x00);
                 }
 
                 internal void Write(BinaryWriterEx bw)
                 {
                     bw.WritePattern(16, 0x00);
-                    bw.WriteSingle(Unk10);
+                    bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(Unk18);
-                    bw.WriteInt32(Unk1C);
-                    bw.WriteInt32(Unk20);
+                    bw.WriteSByte(Unk18);
+                    bw.WriteSByte(Unk19);
+                    bw.WriteSByte(Unk1A);
+                    bw.WriteSByte(Unk1B);
+                    bw.WriteSByte(Unk1C);
+                    bw.WriteSByte(Unk1D);
+                    bw.WriteSByte(0);
+                    bw.WriteSByte(0);
+                    bw.WriteSByte(Unk20);
+                    bw.WriteSByte(Unk21);
+                    bw.WriteSByte(0);
+                    bw.WriteSByte(0);
                     bw.WritePattern(44, 0x00);
                 }
             }
