@@ -59,7 +59,7 @@ namespace StudioCore.ParamEditor
                 var fmgEntries = FMGBank.GetFmgEntriesByType(_category, FMGBank.FmgEntryTextType.Title, false);
                 foreach (var fmgEntry in fmgEntries)
                 {
-                    _entryCache.Add(fmgEntry.ID, fmgEntry);
+                    _entryCache[fmgEntry.ID] = fmgEntry;
                 }
             }
         }

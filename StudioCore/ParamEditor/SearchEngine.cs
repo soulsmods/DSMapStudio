@@ -253,7 +253,7 @@ namespace StudioCore.Editor
                     Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();
                     foreach (var fmgEntry in fmgEntries)
                     {
-                        _cache.Add(fmgEntry.ID, fmgEntry);
+                        _cache[fmgEntry.ID] = fmgEntry;
                     }
                     return (row)=>{
                         if (!_cache.ContainsKey(row.ID))
