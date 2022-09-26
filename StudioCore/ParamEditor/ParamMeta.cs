@@ -21,6 +21,11 @@ namespace StudioCore.ParamEditor
         private string _path;
 
         /// <summary>
+        /// Provides a brief description of the param's usage and behaviour
+        /// </summary>
+        public string Wiki {get; set;}
+
+        /// <summary>
         /// Range of grouped rows (eg weapon infusions, itemlot groups)
         /// </summary>
         public int BlockSize {get; set;}
@@ -110,6 +115,11 @@ namespace StudioCore.ParamEditor
             XmlNode self = root.SelectSingleNode("Self");
             if (self != null)
             {
+                XmlAttribute WikiEntry = self.Attributes["Wiki"];
+                if (WikiEntry != null)
+                {
+                    Wiki = WikiEntry.InnerText.Replace("\\n", "\n");
+                }
                 XmlAttribute GroupSize = self.Attributes["BlockSize"];
                 if (GroupSize != null)
                 {
@@ -247,6 +257,7 @@ namespace StudioCore.ParamEditor
         {
             if(_xml == null)
                 return;
+            SetStringXmlProperty("Wiki", Wiki, true, _xml, "PARAMMETA", "Self");
             SetIntXmlProperty("OffsetSize", OffsetSize, _xml, "PARAMMETA", "Self");
             SetIntXmlProperty("FixedOffset", FixedOffset, _xml, "PARAMMETA", "Self");
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
@@ -392,7 +403,8 @@ namespace StudioCore.ParamEditor
         {
             if (_parent._xml == null)
                 return;
-            ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
+            if (RefTypes != null)
+                ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Vref", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);

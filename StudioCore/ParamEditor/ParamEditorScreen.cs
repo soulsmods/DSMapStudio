@@ -1242,11 +1242,30 @@ namespace StudioCore.ParamEditor
                 }
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
+                Param p = ParamBank.Params[paramKey];
                 if (ImGui.BeginPopupContextItem())
                 {
                     if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
                         _paramEditor._projectSettings.PinnedParams.Add(paramKey);
+                    if (ParamEditorScreen.EditorMode && p != null)
+                    {
+                        ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                        if (meta != null && meta.Wiki == null && ImGui.MenuItem("Add wiki..."))
+                            meta.Wiki = "Empty wiki...";
+                        if (meta?.Wiki != null && ImGui.MenuItem("Remove wiki"))
+                            meta.Wiki = null;
+                    }
                     ImGui.EndPopup();
+                }
+                if (p != null)
+                {
+                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                    string Wiki = meta?.Wiki;
+                    if (Wiki != null)
+                    {
+                        if (EditorDecorations.HelpIcon(paramKey+"wiki", ref Wiki, true))
+                            meta.Wiki = Wiki;
+                    }
                 }
             }
 
