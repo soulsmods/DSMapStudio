@@ -45,6 +45,8 @@ namespace StudioCore.MsbEditor
         public bool AltHeld;
 
         private int _createEntityMapIndex = 0;
+        private bool _openPopupDupeTargetMap = false;
+        private string _dupeSelectionTargetedMap = null;
 
         private static object _lock_PauseUpdate = new object();
         private bool _PauseUpdate;
@@ -265,7 +267,6 @@ namespace StudioCore.MsbEditor
         {
             if (ImGui.BeginMenu("Edit"))
             {
-
                 if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
@@ -274,7 +275,6 @@ namespace StudioCore.MsbEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-
                 if (ImGui.MenuItem("Delete", "Delete", false, _selection.IsSelection()))
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
@@ -284,6 +284,10 @@ namespace StudioCore.MsbEditor
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
+                }
+                if (ImGui.MenuItem("Duplicate (Specific Map)", "Shift+D", false, _selection.IsSelection()))
+                {
+                    _openPopupDupeTargetMap = true;
                 }
 
                 if (ImGui.BeginMenu("Dummify/Un-Dummify"))
@@ -428,21 +432,37 @@ namespace StudioCore.MsbEditor
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Region);
                     }
+                    if (ImGui.MenuItem("Light", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Light)))
+                    {
+                        RenderScene.ToggleDrawFilter(Scene.RenderFilter.Light);
+                    }
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Display Presets"))
                 {
-                    if (ImGui.MenuItem("Map Piece/Character/Objects", "Ctrl-1"))
+                    if (ImGui.MenuItem("Map Piece/Character/Object", "Ctrl+1"))
                     {
                         RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                     }
-                    if (ImGui.MenuItem("Collision/Character/Objects", "Ctrl-2"))
+                    if (ImGui.MenuItem("Collision/Character/Object", "Ctrl+2"))
                     {
                         RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
                     }
-                    if (ImGui.MenuItem("Collision/Navmesh/Character/Objects", "Ctrl-3"))
+                    if (ImGui.MenuItem("Col/Navmesh/Object/Char/Region", "Ctrl+3"))
                     {
                         RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    if (ImGui.MenuItem("Light (Map Piece)", "Ctrl+4"))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                    }
+                    if (ImGui.MenuItem("Light (Collision)", "Ctrl+5"))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                    }
+                    if (ImGui.MenuItem("All", "Ctrl+6"))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region | Scene.RenderFilter.Light;
                     }
                     ImGui.EndMenu();
                 }
@@ -542,6 +562,58 @@ namespace StudioCore.MsbEditor
             var dsid = ImGui.GetID("DockSpace_MapEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
+            if (_openPopupDupeTargetMap)
+            {
+                ImGui.OpenPopup("DuplicateSelTargetMap");
+                _openPopupDupeTargetMap = false;
+            }
+            if (ImGui.BeginPopup("DuplicateSelTargetMap"))
+            {
+                ImGui.Text("Duplicate Selection to Targeted Map");
+                ObjectContainer targetMap = null;
+                string name = "None";
+
+                if (_dupeSelectionTargetedMap != null)
+                {
+                    Universe.LoadedObjectContainers.TryGetValue(_dupeSelectionTargetedMap, out targetMap);
+                    if (targetMap != null)
+                    {
+                        name = targetMap.Name;
+                    }
+                    else
+                    {
+                        _dupeSelectionTargetedMap = null;
+                    }
+                }
+                if (ImGui.BeginCombo("Targeted Map", name))
+                {
+                    foreach (var obj in Universe.LoadedObjectContainers)
+                    {
+                        if (obj.Value != null)
+                        {
+                            if (ImGui.Selectable(obj.Key))
+                            {
+                                _dupeSelectionTargetedMap = obj.Key;
+                                break;
+                            }
+                        }
+                    }
+                    ImGui.EndCombo();
+                }
+                var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.BeginDisabled();
+                if (ImGui.Button("Duplicate"))
+                {
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
+                    EditorActionManager.ExecuteAction(action);
+                    ImGui.CloseCurrentPopup();
+                }
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.EndDisabled();
+                ImGui.EndPopup();
+            }
+
             // Keyboard shortcuts
             if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
             {
@@ -553,11 +625,16 @@ namespace StudioCore.MsbEditor
             }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (InputTracker.GetControlShortcut(Key.D) && _selection.IsSelection())
+                if (InputTracker.GetShiftShortcut(Key.D) && _selection.IsSelection())
+                {
+                    _openPopupDupeTargetMap = true;
+                }
+                else if (InputTracker.GetControlShortcut(Key.D) && _selection.IsSelection())
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
+
                 if (InputTracker.GetKeyDown(Key.Delete) && _selection.IsSelection())
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
@@ -632,6 +709,18 @@ namespace StudioCore.MsbEditor
                 else if (InputTracker.GetControlShortcut(Key.Number3))
                 {
                     RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                }
+                else if (InputTracker.GetControlShortcut(Key.Number4))
+                {
+                    RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                }
+                else if (InputTracker.GetControlShortcut(Key.Number5))
+                {
+                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                }
+                else if (InputTracker.GetControlShortcut(Key.Number6))
+                {
+                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region | Scene.RenderFilter.Light;
                 }
                 CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
             }

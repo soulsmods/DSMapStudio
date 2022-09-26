@@ -7,6 +7,8 @@
     <Authors>Katalash</Authors>
     <Version>1.03.0</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <PackageVersion>1.03.1</PackageVersion>
+    <AssemblyVersion>1.03.1</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

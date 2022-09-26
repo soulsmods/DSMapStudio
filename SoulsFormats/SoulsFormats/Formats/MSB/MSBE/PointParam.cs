@@ -2193,9 +2193,9 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Height the player will move upwards when activating a MountJump.
                 /// </summary>
-                public float UnkT00 { get; set; }
+                public float JumpHeight { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2211,13 +2211,13 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadSingle();
+                    JumpHeight = br.ReadSingle();
                     UnkT04 = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteSingle(UnkT00);
+                    bw.WriteSingle(JumpHeight);
                     bw.WriteInt32(UnkT04);
                 }
             }

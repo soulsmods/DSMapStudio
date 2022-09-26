@@ -48,6 +48,7 @@ namespace StudioCore.TextEditor
             public FmgUICategory UICategory;
             public FmgEntryCategory EntryCategory;
             public FmgEntryTextType EntryType;
+            public bool GroupedEntry = false;
 
             /// <summary>
             /// Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
@@ -412,6 +413,7 @@ namespace StudioCore.TextEditor
         public static bool IsLoaded { get; private set; } = false;
         public static bool IsLoading { get; private set; } = false;
         private static string _languageFolder = "";
+        public static string LanguageFolder => _languageFolder;
 
         private static List<FMGInfo> _fmgInfoBank = new();
         public static List<FMGInfo> FmgInfoBank
@@ -443,7 +445,7 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Text categories made up of multiple FMGs
+        /// Text categories used for grouping multiple FMGs or broad identification
         /// </summary>
         public enum FmgEntryCategory
         {
@@ -733,8 +735,6 @@ namespace StudioCore.TextEditor
                     return FmgEntryCategory.Message;
 
                 case FmgIDType.WeaponEffect:
-                    return FmgEntryCategory.Effect;
-
                 default:
                     return FmgEntryCategory.None;
             }
@@ -932,13 +932,20 @@ namespace StudioCore.TextEditor
                 EntryType = GetFmgTextType(file.ID),
                 EntryCategory = GetFmgCategory(file.ID)
             };
-            if (info.EntryCategory == FmgEntryCategory.None)
+            switch (info.EntryCategory)
             {
-                info.UICategory = FmgUICategory.Menu;
-            }
-            else
-            {
-                info.UICategory = FmgUICategory.Item;
+                case FmgEntryCategory.Goods:
+                case FmgEntryCategory.Weapons:
+                case FmgEntryCategory.Armor:
+                case FmgEntryCategory.Rings:
+                case FmgEntryCategory.Gem:
+                case FmgEntryCategory.SwordArts:
+                    info.UICategory = FmgUICategory.Item;
+                    info.GroupedEntry = true;
+                    break;
+                default:
+                    info.UICategory = FmgUICategory.Menu;
+                    break;
             }
 
             foreach (var parentInfo in _fmgInfoBank)
@@ -1057,7 +1064,7 @@ namespace StudioCore.TextEditor
                 }
 
                 _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
-
+                HandleDuplicateEntries();
                 IsLoaded = true;
                 IsLoading = false;
             }
@@ -1087,9 +1094,9 @@ namespace StudioCore.TextEditor
                     var fmg = FMG.Read(file);
                     SetFMGInfoDS2(file);
                 }
-
-                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
             }
+            _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
+            HandleDuplicateEntries();
         }
 
         /// <summary>
@@ -1139,16 +1146,31 @@ namespace StudioCore.TextEditor
             return;
         }
 
-
         /// <summary>
         /// Get patched FMG Entries for the specified category and text type.
         /// </summary>
-        /// <returns>Returns a list of entries if found; otherwise returns an empty list.</returns>
+        /// <returns>List of entries if found; empty list otherwise.</returns>
         public static List<FMG.Entry> GetFmgEntriesByType(FmgEntryCategory category, FmgEntryTextType textType, bool sort = true)
         {
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == category && info.EntryType == textType)
+                {
+                    return info.GetPatchedEntries(sort);
+                }
+            }
+            return new List<FMG.Entry>();
+        }
+
+        /// <summary>
+        /// Get patched FMG Entries for the specified FMG ID.
+        /// </summary>
+        /// <returns>List of entries if found; empty list otherwise.</returns>
+        public static List<FMG.Entry> GetFmgEntriesByID(FmgIDType fmgID, bool sort = true)
+        {
+            foreach (var info in _fmgInfoBank)
+            {
+                if (info.FmgID == fmgID)
                 {
                     return info.GetPatchedEntries(sort);
                 }
@@ -1203,6 +1225,32 @@ namespace StudioCore.TextEditor
                 }
             }
             return eGroup;
+        }
+
+        private static void HandleDuplicateEntries()
+        {
+            bool askedAboutDupes = false;
+            bool ignoreDupes = true;
+            foreach (var info in _fmgInfoBank)
+            {
+                var dupes = info.Fmg.Entries.GroupBy(e => e.ID).SelectMany(g => g.SkipLast(1));
+                if (dupes.Any())
+                {
+                    if (!askedAboutDupes && MessageBox.Show("Duplicate Text Entries within the same FMG have been found.\n\nRemove all duplicates? (Latest entries are kept)", "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        ignoreDupes = false;
+                    }
+                    askedAboutDupes = true;
+
+                    if (!ignoreDupes)
+                    {
+                        foreach (var dupe in dupes)
+                        {
+                            info.Fmg.Entries.Remove(dupe);
+                        }
+                    }
+                }
+            }
         }
 
         private class JsonFMG
@@ -1336,6 +1384,7 @@ namespace StudioCore.TextEditor
             if (filecount == 0)
                 return false;
 
+            HandleDuplicateEntries();
             MessageBox.Show($"Imported {filecount} text files", "Finished", MessageBoxButtons.OK);
             return true;
         }
