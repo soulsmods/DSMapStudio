@@ -839,10 +839,6 @@ namespace StudioCore
                     {
                         CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
                     }
-                    if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
-                    {
-                        CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
-                    }
 
                     if (ImGui.Button("Open Config Folder"))
                     {
