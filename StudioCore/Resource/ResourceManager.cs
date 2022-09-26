@@ -573,7 +573,11 @@ namespace StudioCore.Resource
         private static BufferBlock<AddResourceLoadNotificationRequest> _notificationRequests =
             new BufferBlock<AddResourceLoadNotificationRequest>();
 
-        private static BufferBlock<IResourceHandle> _unloadRequests = new BufferBlock<IResourceHandle>();
+        private readonly record struct UnloadResourceRequest(
+            IResourceHandle Resource,
+            bool UnloadOnlyIfUnused);
+        
+        private static BufferBlock<UnloadResourceRequest> _unloadRequests = new BufferBlock<UnloadResourceRequest>();
 
         private static int Pending = 0;
         private static int Finished = 0;
@@ -624,7 +628,7 @@ namespace StudioCore.Resource
             {
                 if (filePath.ToUpper().EndsWith("BHD"))
                 {
-                    return new BXF3Reader(filePath, filePath.Substring(filePath.Length - 3) + "bdt");
+                    return new BXF3Reader(filePath, filePath.Substring(0, filePath.Length - 3) + "bdt");
                 }
                 return new BND3Reader(filePath);
             }
@@ -679,9 +683,11 @@ namespace StudioCore.Resource
                    CheckAccessLevel(al, ResourceDatabase[lResourceName].AccessLevel);
         }
 
-        public static void UnloadResource(IResourceHandle resource)
+        public static void UnloadResource(IResourceHandle resource, bool unloadOnlyIfUnused)
         {
-            _unloadRequests.Post(resource);
+            if (resource.AssetVirtualPath.Contains("c2900"))
+                Debugger.Break();
+            _unloadRequests.Post(new UnloadResourceRequest(resource, unloadOnlyIfUnused));
         }
         
         public static void ScheduleUDSMFRefresh()
@@ -722,10 +728,12 @@ namespace StudioCore.Resource
                 {
                     foreach (var r in toUnload)
                     {
-                        r.Unload();
-                        if (r.GetReferenceCounts() > 0)
+                        if (r.UnloadOnlyIfUnused && r.Resource.GetReferenceCounts() > 0)
                             continue;
-                        ResourceDatabase.Remove(r.AssetVirtualPath.ToLower());
+                        r.Resource.Unload();
+                        if (r.Resource.GetReferenceCounts() > 0)
+                            continue;
+                        ResourceDatabase.Remove(r.Resource.AssetVirtualPath.ToLower());
                     }
                 }
             }

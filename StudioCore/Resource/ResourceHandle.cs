@@ -180,7 +180,7 @@ namespace StudioCore.Resource
         {
             if (ReferenceCount <= 0)
             {
-                ResourceManager.UnloadResource(this);
+                ResourceManager.UnloadResource(this, true);
             }
         }
 
@@ -213,7 +213,7 @@ namespace StudioCore.Resource
             }
             if (unload)
             {
-                ResourceManager.UnloadResource(this);
+                ResourceManager.UnloadResource(this, true);
             }
         }
 

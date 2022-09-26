@@ -40,6 +40,7 @@ namespace DSMapStudio
             {
                 MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 mapStudio.AttemptSaveOnCrash();
+                mapStudio.CrashShutdown();
                 throw;
             }
             #else
