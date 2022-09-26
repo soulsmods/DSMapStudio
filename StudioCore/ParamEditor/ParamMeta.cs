@@ -249,6 +249,8 @@ namespace StudioCore.ParamEditor
             XmlWriterSettings writeSettings = new XmlWriterSettings();
             writeSettings.Indent = true;
             writeSettings.NewLineHandling = NewLineHandling.None;
+            if (!File.Exists(_path))
+                File.WriteAllBytes(_path, new byte[0]);
             _xml.Save(XmlWriter.Create(_path, writeSettings));
         }
 
