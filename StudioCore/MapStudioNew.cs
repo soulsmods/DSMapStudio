@@ -347,15 +347,6 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
-        // Try to shutdown things gracefully on a crash
-        public void CrashShutdown()
-        {
-            Tracy.Shutdown();
-            Resource.ResourceManager.Shutdown();
-            _gd.Dispose();
-            System.Windows.Forms.Application.Exit();
-        }
-
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
         {
             _projectSettings = newsettings;
