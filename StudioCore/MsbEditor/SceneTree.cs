@@ -612,7 +612,13 @@ namespace StudioCore.MsbEditor
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
 
-                foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
+                IOrderedEnumerable<KeyValuePair<string, ObjectContainer>> orderedMaps; 
+                if (CFG.Current.Map_PinLoadedMaps)
+                    orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Value == null).ThenBy(k => k.Key);
+                else
+                    orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
+
+                foreach (var lm in orderedMaps)
                 {
                     string metaName = "";
                     var map = lm.Value;
@@ -625,16 +631,13 @@ namespace StudioCore.MsbEditor
                         metaName = Editor.AliasBank.MapNames[mapid];
                     }
 
-                    if (_mapNameSearchStr != "")
+                    // Map name search filter
+                    if (_mapNameSearchStr != ""
+                        && (!CFG.Current.Map_AlwaysListLoadedMaps || map == null)
+                        && !lm.Key.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase)
+                        && !metaName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (lm.Key.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase) || metaName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
-                        { 
-                            //do nothing
-                        }
-                        else
-                        {
-                            continue; //ID not in search filter
-                        }
+                        continue;
                     }
 
                     Entity mapRoot = map?.RootObject;

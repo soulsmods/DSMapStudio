@@ -832,6 +832,12 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
+                    if (ImGui.BeginMenu("Map Editor"))
+                    {
+                        ImGui.Checkbox("Pin loaded maps to top of list", ref CFG.Current.Map_PinLoadedMaps);
+                        ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("Viewport Settings"))
                     {
                         if (ImGui.Button("Reset"))
