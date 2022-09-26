@@ -494,7 +494,7 @@ namespace StudioCore.ParamEditor
             }
             else
             {
-                string printedName = (AltName != null && ParamEditorScreen.ShowAltNamesPreference) ? (ParamEditorScreen.AlwaysShowOriginalNamePreference ? $"{internalName} ({AltName})" : $"{AltName}*") : internalName;
+                string printedName = (AltName != null && ParamEditorScreen.ShowAltNamesPreference) ? (ParamEditorScreen.AlwaysShowOriginalNamePreference ? $"{internalName} ({AltName})" : AltName) : internalName;
                 ImGui.TextUnformatted(printedName);
             }
         }
