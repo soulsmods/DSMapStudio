@@ -685,8 +685,6 @@ namespace StudioCore.Resource
 
         public static void UnloadResource(IResourceHandle resource, bool unloadOnlyIfUnused)
         {
-            if (resource.AssetVirtualPath.Contains("c2900"))
-                Debugger.Break();
             _unloadRequests.Post(new UnloadResourceRequest(resource, unloadOnlyIfUnused));
         }
         
