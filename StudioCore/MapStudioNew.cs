@@ -940,7 +940,7 @@ namespace StudioCore
                     */
                     ImGui.EndMenu();
                 }
-                if (FeatureFlags.MBSE_Test)
+                if (FeatureFlags.TestMenu)
                 {
                     if (ImGui.BeginMenu("Tests"))
                     {
@@ -952,6 +952,10 @@ namespace StudioCore
                         if (ImGui.MenuItem("MSBE read/write test"))
                         {
                             Tests.MSBReadWrite.Run(_assetLocator);
+                        }
+                        if (ImGui.MenuItem("BTL read/write test"))
+                        {
+                            Tests.BTLReadWrite.Run(_assetLocator);
                         }
                         ImGui.EndMenu();
                     }

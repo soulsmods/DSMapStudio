@@ -106,9 +106,10 @@ namespace StudioCore
 
         public string LastProjectFile { get; set; } = "";
         public List<RecentProject> RecentProjects { get; set; } = new List<RecentProject>();
+
         public GameType Game_Type { get; set; } = GameType.Undefined;
 
-        public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All;
+        public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All ^ Scene.RenderFilter.Light;
 
         public bool EnableTexturing { get; set; } = false;
 

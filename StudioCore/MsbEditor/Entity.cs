@@ -15,7 +15,7 @@ using StudioCore.Editor;
 namespace StudioCore.MsbEditor
 {
     /// <summary>
-    /// A logical map object that can be either a part, a region, or an event. Uses
+    /// A logical map object that can be either a part, region, event, or light. Uses
     /// reflection to access and update properties
     /// </summary>
     public class Entity : Scene.ISelectable, IDisposable
@@ -23,6 +23,8 @@ namespace StudioCore.MsbEditor
         public object WrappedObject { get; set; }
 
         private string CachedName = null;
+
+        public string ExtraSaveInfo = null;
 
         [XmlIgnore]
         public ObjectContainer Container { get; set; } = null;
@@ -143,9 +145,9 @@ namespace StudioCore.MsbEditor
         internal bool UseTempTransform = false;
         internal Transform TempTransform = Transform.Default;
 
+
         public Entity()
         {
-
         }
 
         public Entity(ObjectContainer map, object msbo)
@@ -288,6 +290,7 @@ namespace StudioCore.MsbEditor
             var obj = DuplicateEntity(clone);
             CloneRenderable(obj);
             obj.UseDrawGroups = UseDrawGroups;
+            obj.ExtraSaveInfo = ExtraSaveInfo;
             return obj;
         }
 
@@ -532,11 +535,14 @@ namespace StudioCore.MsbEditor
         /// </summary>
         public virtual Transform GetRootTransform()
         {
-            if (this != Container.RootObject)
+            Transform t = Transform.Default;
+            var parent = Parent;
+            while (parent != null)
             {
-                return Container.RootObject.GetLocalTransform();
+                t += parent.GetLocalTransform();
+                parent = parent.Parent;
             }
-            return Transform.Default;
+            return t;
         }
 
         /// <summary>
@@ -558,6 +564,7 @@ namespace StudioCore.MsbEditor
         public virtual Transform GetLocalTransform()
         {
             var t = Transform.Default;
+
             var pos = GetPropertyValue("Position");
             if (pos != null)
             {
@@ -586,6 +593,7 @@ namespace StudioCore.MsbEditor
             if (rot != null)
             {
                 var r = (Vector3)rot;
+                
                 if (IsRotationPropertyRadians("Rotation"))
                 {
                     if (IsRotationXZY("Rotation"))
@@ -1063,6 +1071,7 @@ namespace StudioCore.MsbEditor
             Part,
             Region,
             Event,
+            Light,
             DS2Generator,
             DS2GeneratorRegist,
             DS2Event,
@@ -1100,6 +1109,10 @@ namespace StudioCore.MsbEditor
                 else if (Type == MapEntityType.MapRoot)
                 {
                     icon = ForkAwesome.Cube;
+                }
+                else if (Type == MapEntityType.Light)
+                {
+                    icon = ForkAwesome.LightbulbO;
                 }
                 else if (Type == MapEntityType.DS2Generator)
                 {
@@ -1163,7 +1176,7 @@ namespace StudioCore.MsbEditor
             WrappedObject = msbo;
         }
 
-        public MapEntity(ObjectContainer map, object msbo, MapEntityType type)
+        public MapEntity(ObjectContainer map, object msbo, MapEntityType type, string btlFile = null)
         {
             Container = map;
             WrappedObject = msbo;
@@ -1172,7 +1185,13 @@ namespace StudioCore.MsbEditor
             {
                 CurrentModel = GetPropertyValue<string>("ModelName");
             }
+            if (type is MapEntityType.Light)
+            {
+                ExtraSaveInfo = btlFile;
+                //OffsetBtlLight();
+            }
         }
+
         /// <summary>
         /// Checks if supplied model ID is on the list of models that will not render, and will use a model marker instead.
         /// </summary>
@@ -1253,6 +1272,14 @@ namespace StudioCore.MsbEditor
                     _renderSceneMesh.Dispose();
                 }
                 _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
+            }
+            else if (Type == MapEntityType.Light && _renderSceneMesh == null)
+            {
+                if (_renderSceneMesh != null)
+                {
+                    _renderSceneMesh.Dispose();
+                }
+                _renderSceneMesh = Universe.GetLightDrawable(ContainingMap, this);
             }
             else
             {
@@ -1349,15 +1376,35 @@ namespace StudioCore.MsbEditor
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
             }
-            /*
-            if (Type == MapEntityType.Part && CheckIfModelMarker(CurrentModel))
+            else if (Type == MapEntityType.Light)
             {
-                // Parts that render via Model Marker
-            }
-            */
+                var lightType = GetPropertyValue("Type");
+                if (lightType != null)
+                {
+                    if (lightType is BTL.LightType.Directional)
+                    {
+                    }
+                    else if (lightType is BTL.LightType.Spot)
+                    {
+                        var rad = (float)GetPropertyValue("Radius");
+                        t.Scale = new Vector3(rad);
 
+                        // TODO: Better transformation (or update primitive) using BTL ConeAngle
+                        /*
+                            var ang = (float)GetPropertyValue("ConeAngle");
+                            t.Scale.X += ang;
+                            t.Scale.Y += ang;
+                        */
+                    }
+                    else if (lightType is BTL.LightType.Point)
+                    {
+                        var rad = (float)GetPropertyValue("Radius");
+                        t.Scale = new Vector3(rad);
+                    }
+                }
+            }
             // DS2 event regions
-            if (Type == MapEntityType.DS2EventLocation)
+            else if (Type == MapEntityType.DS2EventLocation)
             {
                 var sx = GetPropertyValue("ScaleX");
                 var sy = GetPropertyValue("ScaleY");
