@@ -828,14 +828,14 @@ namespace StudioCore.MsbEditor
 
             if (myDrawProp != null && myCollisionNameProp != null)
             {
-                //Found DrawGroups and CollisionName
-                if (partNameArray == null) //didn't get string from UnkPartNames
-                    colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); //get string in collisionName field
+                // Found DrawGroups and CollisionName
+                if (partNameArray == null) // Didn't get string from UnkPartNames
+                    colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); // Get string in collisionName field
 
-                if (colNameStr != null)
+                if (colNameStr != null && colNameStr != "")
                 {
-                    //CollisionName field is not empty
-                    var colNameEnt = Container.GetObjectByName(colNameStr); //get entity referenced by collisionName
+                    // CollisionName field is not empty
+                    var colNameEnt = Container.GetObjectByName(colNameStr); // Get entity referenced by collisionName
                     if (colNameEnt != null)
                     {
                         //get DrawGroups from CollisionName reference
@@ -877,8 +877,11 @@ namespace StudioCore.MsbEditor
                     }
                     else if (Universe.postLoad)
                     {
-                        //collisionName referenced doesn't exist
-                        TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                        if (colNameStr != "")
+                        {
+                            // CollisionName referenced doesn't exist
+                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                        }
                     }
                 }
             }
