@@ -880,7 +880,7 @@ namespace StudioCore.MsbEditor
                         if (colNameStr != "")
                         {
                             // CollisionName referenced doesn't exist
-                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Container?.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
                         }
                     }
                 }
