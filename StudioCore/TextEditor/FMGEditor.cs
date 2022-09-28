@@ -226,6 +226,7 @@ namespace StudioCore.TextEditor
         }
 
         private string _textCache = "";
+        private FMG.Entry _entryCache;
 
         public void PropEditorFMG(FMG.Entry entry, string name, float boxsize)
         {
@@ -246,6 +247,7 @@ namespace StudioCore.TextEditor
                 if (ImGui.InputTextMultiline("##value", ref val, 2000, new Vector2(-1, boxsize)))
                 {
                     _textCache = val;
+                    _entryCache = entry;
                 }
             }
             else
@@ -253,15 +255,15 @@ namespace StudioCore.TextEditor
                 if (ImGui.InputText("##value", ref val, 2000))
                 {
                     _textCache = val;
+                    _entryCache = entry;
                 }
             }
 
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if (committed)
+            if (committed && _entryCache == entry)
             {
                 if (_textCache != oldval)
                     UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache);
-                //UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache, change, committed);
             }
 
             ImGui.NextColumn();
