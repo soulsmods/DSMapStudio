@@ -1579,7 +1579,7 @@ namespace SoulsFormats
                 public int UnkT28 { get; set; }
 
                 /// <summary>
-                /// an ID in ChrActivateConditionParam that affects enemy appearance conditions
+                /// ID in ChrActivateConditionParam that affects enemy appearance conditions.
                 /// </summary>
                 [MSBParamReference(ParamName = "ChrActivateConditionParam")]
                 public int ChrActivateCondParamID { get; set; }
@@ -1600,24 +1600,28 @@ namespace SoulsFormats
                 public int UnkT3C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
-                public int UnkT40 { get; set; }
+                [MSBParamReference(ParamName = "SpEffectSetParam")]
+                public int SpEffectSetParamID1 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
-                public int UnkT44 { get; set; }
+                [MSBParamReference(ParamName = "SpEffectSetParam")]
+                public int SpEffectSetParamID2 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
-                public int UnkT48 { get; set; }
+                [MSBParamReference(ParamName = "SpEffectSetParam")]
+                public int SpEffectSetParamID3 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
-                public int UnkT4C { get; set; }
+                [MSBParamReference(ParamName = "SpEffectSetParam")]
+                public int SpEffectSetParamID4 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1672,10 +1676,10 @@ namespace SoulsFormats
                     UnkT34 = br.ReadInt32();
                     BackupEventAnimID = br.ReadInt32();
                     UnkT3C = br.ReadInt32();
-                    UnkT40 = br.ReadInt32();
-                    UnkT44 = br.ReadInt32();
-                    UnkT48 = br.ReadInt32();
-                    UnkT4C = br.ReadInt32();
+                    SpEffectSetParamID1 = br.ReadInt32();
+                    SpEffectSetParamID2 = br.ReadInt32();
+                    SpEffectSetParamID3 = br.ReadInt32();
+                    SpEffectSetParamID4 = br.ReadInt32();
                     br.AssertPattern(40, 0);
                     br.AssertUInt64(0x80);
                     br.AssertInt32(0);
@@ -1718,10 +1722,10 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT34);
                     bw.WriteInt32(BackupEventAnimID);
                     bw.WriteInt32(UnkT3C);
-                    bw.WriteInt32(UnkT40);
-                    bw.WriteInt32(UnkT44);
-                    bw.WriteInt32(UnkT48);
-                    bw.WriteInt32(UnkT4C);
+                    bw.WriteInt32(SpEffectSetParamID1);
+                    bw.WriteInt32(SpEffectSetParamID2);
+                    bw.WriteInt32(SpEffectSetParamID3);
+                    bw.WriteInt32(SpEffectSetParamID4);
                     bw.WritePattern(40, 0x00);
                     bw.WriteInt64(0x80);
                     bw.WriteInt32(0);
