@@ -260,10 +260,10 @@ namespace StudioCore.TextEditor
             }
 
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if (committed && _entryCache == entry)
+            if (committed)
             {
                 if (_textCache != oldval)
-                    UpdateProperty(entry.GetType().GetProperty("Text"), entry, _textCache);
+                    UpdateProperty(_entryCache.GetType().GetProperty("Text"), _entryCache, _textCache);
             }
 
             ImGui.NextColumn();
