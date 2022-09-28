@@ -262,7 +262,7 @@ namespace StudioCore.TextEditor
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
             if (committed)
             {
-                if (_textCache != oldval)
+                if (_textCache != _entryCache.Text)
                     UpdateProperty(_entryCache.GetType().GetProperty("Text"), _entryCache, _textCache);
             }
 
