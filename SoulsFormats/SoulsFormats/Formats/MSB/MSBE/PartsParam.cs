@@ -1603,25 +1603,7 @@ namespace SoulsFormats
                 /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
                 [MSBParamReference(ParamName = "SpEffectSetParam")]
-                public int SpEffectSetParamID1 { get; set; }
-
-                /// <summary>
-                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
-                /// </summary>
-                [MSBParamReference(ParamName = "SpEffectSetParam")]
-                public int SpEffectSetParamID2 { get; set; }
-
-                /// <summary>
-                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
-                /// </summary>
-                [MSBParamReference(ParamName = "SpEffectSetParam")]
-                public int SpEffectSetParamID3 { get; set; }
-
-                /// <summary>
-                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
-                /// </summary>
-                [MSBParamReference(ParamName = "SpEffectSetParam")]
-                public int SpEffectSetParamID4 { get; set; }
+                public int[] SpEffectSetParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1651,6 +1633,7 @@ namespace SoulsFormats
                     enemy.Gparam = Gparam.DeepCopy();
                     enemy.Unk8 = Unk8.DeepCopy();
                     enemy.Unk10 = Unk10.DeepCopy();
+                    enemy.SpEffectSetParamID = (int[])SpEffectSetParamID.Clone();
                 }
 
                 private protected EnemyBase(BinaryReaderEx br) : base(br) { }
@@ -1676,10 +1659,7 @@ namespace SoulsFormats
                     UnkT34 = br.ReadInt32();
                     BackupEventAnimID = br.ReadInt32();
                     UnkT3C = br.ReadInt32();
-                    SpEffectSetParamID1 = br.ReadInt32();
-                    SpEffectSetParamID2 = br.ReadInt32();
-                    SpEffectSetParamID3 = br.ReadInt32();
-                    SpEffectSetParamID4 = br.ReadInt32();
+                    SpEffectSetParamID = br.ReadInt32s(4);
                     br.AssertPattern(40, 0);
                     br.AssertUInt64(0x80);
                     br.AssertInt32(0);
@@ -1722,10 +1702,7 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT34);
                     bw.WriteInt32(BackupEventAnimID);
                     bw.WriteInt32(UnkT3C);
-                    bw.WriteInt32(SpEffectSetParamID1);
-                    bw.WriteInt32(SpEffectSetParamID2);
-                    bw.WriteInt32(SpEffectSetParamID3);
-                    bw.WriteInt32(SpEffectSetParamID4);
+                    bw.WriteInt32s(SpEffectSetParamID);
                     bw.WritePattern(40, 0x00);
                     bw.WriteInt64(0x80);
                     bw.WriteInt32(0);
