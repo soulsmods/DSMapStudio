@@ -1203,7 +1203,7 @@ namespace StudioCore.MsbEditor
                         if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
                         {
                             btl.Lights = newLights;
-                            file.Bytes = btl.Write(compressionType);
+                            file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
                             try
                             {
                                 var bdtPath = BTLs_w[i].AssetPath[..^3] + "bdt";

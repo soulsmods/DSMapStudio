@@ -206,7 +206,7 @@ namespace StudioCore.MsbEditor
             Universe = u;
             var t = new TransformNode(mapid);
             RootObject = new MapEntity(this, t, MapEntity.MapEntityType.MapRoot);
-            MapOffsetNode = new MapEntity(this, new TransformNode());
+            MapOffsetNode = new MapEntity(this, new TransformNode(mapid));
             RootObject.AddChild(MapOffsetNode);
         }
 
@@ -747,7 +747,6 @@ namespace StudioCore.MsbEditor
 
         /// <summary>
         /// Gets all BTL.Light with matching ParentBtlNames.
-        /// Position is also de-offset by MapOffset to prepare them for saving.
         /// </summary>
         public List<BTL.Light> SerializeBtlLights(string btlName)
         {
