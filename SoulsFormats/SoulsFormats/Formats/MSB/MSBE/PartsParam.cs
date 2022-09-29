@@ -1603,7 +1603,7 @@ namespace SoulsFormats
                 /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
                 [MSBParamReference(ParamName = "SpEffectSetParam")]
-                public int[] SpEffectSetParamID { get; set; }
+                public int[] SpEffectSetParamID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1616,6 +1616,7 @@ namespace SoulsFormats
                     Gparam = new GparamConfig();
                     Unk8 = new UnkStruct8();
                     Unk10 = new UnkStruct10();
+                    SpEffectSetParamID = new int[4];
                     ThinkParamID = -1;
                     NPCParamID = -1;
                     TalkID = -1;
