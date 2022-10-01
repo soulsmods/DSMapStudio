@@ -897,25 +897,38 @@ namespace FSParam
             }
             
             // Write row names
-            for (int i = 0; i < Rows.Count; i++)
+            StringOffsetDictionary = new Dictionary<string, long> 
             {
-                string? rowName = Rows[i].Name;
-                long nameOffset = 0;
-                if (rowName != null)
+                { string.Empty, bw.Position }
+            };
+            
+            bw.WriteInt16(0); //Write empty string right after the ParamTypeOffset
+            for (int i = 0; i < Rows.Count; i++) 
+            {
+                string rowName = Rows[i].Name ?? string.Empty;
+
+                StringOffsetDictionary.TryGetValue(rowName, out long nameOffset);
+                if (nameOffset == 0) 
                 {
                     nameOffset = bw.Position;
                     if (Format2E.HasFlag(FormatFlags2.UnicodeRowNames))
                         bw.WriteUTF16(rowName, true);
                     else
                         bw.WriteShiftJIS(rowName, true);
+
+                    StringOffsetDictionary.Add(rowName, nameOffset);
                 }
 
                 if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
                     bw.FillInt64($"NameOffset{i}", nameOffset);
                 else
-                    bw.FillUInt32($"NameOffset{i}", (uint)nameOffset);
+                    bw.FillUInt32($"NameOffset{i}", (uint) nameOffset);
             }
+            
+            bw.WriteInt16(0); //FS Seems to end their params with an empty string
         }
+
+        private Dictionary<string, long> StringOffsetDictionary;
 
         /// <summary>
         /// Gets the index of the Row with ID id or returns null
