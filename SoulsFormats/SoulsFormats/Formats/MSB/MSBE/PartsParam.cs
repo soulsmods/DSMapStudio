@@ -2541,7 +2541,7 @@ namespace SoulsFormats
                     /// <summary>
                     /// Unknown.
                     /// </summary>
-                    public bool Unk05 { get; set; }
+                    public bool Unk04 { get; set; }
 
                     /// <summary>
                     /// Disable being able to summon/ride Torrent, but only when asset isn't referencing collision DisableTorrent.
@@ -2590,7 +2590,7 @@ namespace SoulsFormats
                     {
                         Unk00 = br.ReadInt16();
                         br.AssertInt16(-1);
-                        Unk05 = br.ReadBoolean();
+                        Unk04 = br.ReadBoolean();
                         DisableTorrentAssetOnly = br.ReadBoolean();
                         br.AssertInt16(-1);
                         br.AssertInt32(0);
@@ -2614,7 +2614,7 @@ namespace SoulsFormats
                     {
                         bw.WriteInt16(Unk00);
                         bw.WriteInt16(-1);
-                        bw.WriteBoolean(Unk05);
+                        bw.WriteBoolean(Unk04);
                         bw.WriteBoolean(DisableTorrentAssetOnly);
                         bw.WriteInt16(-1);
                         bw.WriteInt32(0);
