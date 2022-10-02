@@ -567,9 +567,6 @@ namespace StudioCore.MsbEditor
 
         public BTL ReturnBTL(AssetDescription ad)
         {
-            if (_assetLocator.Type == GameType.EldenRing && !FeatureFlags.BTL_EldenRing)
-                return null;
-
             try
             {
                 BTL btl;

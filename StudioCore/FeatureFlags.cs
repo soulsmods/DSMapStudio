@@ -25,7 +25,5 @@ namespace StudioCore
 #endif
 
         public static bool EnablePartialParam = false;
-
-        public static bool BTL_EldenRing = false;
     }
 }

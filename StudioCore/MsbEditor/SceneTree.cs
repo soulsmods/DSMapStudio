@@ -113,14 +113,7 @@ namespace StudioCore.MsbEditor
             mapcache.Add(MapEntity.MapEntityType.Part, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.Region, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.Event, new Dictionary<Type, List<MapEntity>>());
-            if (_assetLocator.Type is GameType.EldenRing)
-            {
-                if (FeatureFlags.BTL_EldenRing)
-                {
-                    mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
-                }
-            }
-            else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS or GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
+            if (_assetLocator.Type is GameType.DarkSoulsIISOTFS or GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
             {
                 mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
             }
