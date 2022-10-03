@@ -1976,7 +1976,7 @@ namespace SoulsFormats
                 public byte UnkT35 { get; set; }
 
                 /// <summary>
-                /// Disable being able to summon/ride Torrent
+                /// Disable being able to summon/ride Torrent.
                 /// </summary>
                 public bool DisableTorrent { get; set; }
 
@@ -1996,9 +1996,9 @@ namespace SoulsFormats
                 public float UnkT40 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Disables Fast Travel if Event Flag is not set.
                 /// </summary>
-                public int UnkT48 { get; set; }
+                public int EnableFastTravelEventFlagID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2066,7 +2066,7 @@ namespace SoulsFormats
                     UnkT3E = br.ReadInt16();
                     UnkT40 = br.ReadSingle();
                     br.AssertInt32(0);
-                    UnkT48 = br.ReadInt32();
+                    EnableFastTravelEventFlagID = br.ReadInt32();
                     UnkT4C = br.AssertInt16(0, 1);
                     UnkT4E = br.ReadInt16();
                 }
@@ -2107,7 +2107,7 @@ namespace SoulsFormats
                     bw.WriteInt16(UnkT3E);
                     bw.WriteSingle(UnkT40);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(UnkT48);
+                    bw.WriteInt32(EnableFastTravelEventFlagID);
                     bw.WriteInt16(UnkT4C);
                     bw.WriteInt16(UnkT4E);
                 }
@@ -2541,7 +2541,12 @@ namespace SoulsFormats
                     /// <summary>
                     /// Unknown.
                     /// </summary>
-                    public short Unk04 { get; set; }
+                    public bool Unk04 { get; set; }
+
+                    /// <summary>
+                    /// Disable being able to summon/ride Torrent, but only when asset isn't referencing collision DisableTorrent.
+                    /// </summary>
+                    public bool DisableTorrentAssetOnly { get; set; }
 
                     /// <summary>
                     /// Unknown.
@@ -2585,7 +2590,8 @@ namespace SoulsFormats
                     {
                         Unk00 = br.ReadInt16();
                         br.AssertInt16(-1);
-                        Unk04 = br.ReadInt16();
+                        Unk04 = br.ReadBoolean();
+                        DisableTorrentAssetOnly = br.ReadBoolean();
                         br.AssertInt16(-1);
                         br.AssertInt32(0);
                         br.AssertInt32(0);
@@ -2608,7 +2614,8 @@ namespace SoulsFormats
                     {
                         bw.WriteInt16(Unk00);
                         bw.WriteInt16(-1);
-                        bw.WriteInt16(Unk04);
+                        bw.WriteBoolean(Unk04);
+                        bw.WriteBoolean(DisableTorrentAssetOnly);
                         bw.WriteInt16(-1);
                         bw.WriteInt32(0);
                         bw.WriteInt32(0);
