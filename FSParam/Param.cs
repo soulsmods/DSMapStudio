@@ -897,7 +897,8 @@ namespace FSParam
             }
             
             // Write row names
-            Dictionary<string, long> stringOffsetDictionary = new Dictionary<string, long> {
+            StringOffsetDictionary = new Dictionary<string, long> 
+            {
                 { string.Empty, bw.Position }
             };
             
@@ -906,7 +907,7 @@ namespace FSParam
             {
                 string rowName = Rows[i].Name ?? string.Empty;
 
-                stringOffsetDictionary.TryGetValue(rowName, out long nameOffset);
+                StringOffsetDictionary.TryGetValue(rowName, out long nameOffset);
                 if (nameOffset == 0) 
                 {
                     nameOffset = bw.Position;
@@ -915,7 +916,7 @@ namespace FSParam
                     else
                         bw.WriteShiftJIS(rowName, true);
 
-                    stringOffsetDictionary.Add(rowName, nameOffset);
+                    StringOffsetDictionary.Add(rowName, nameOffset);
                 }
 
                 if (Format2D.HasFlag(FormatFlags1.LongDataOffset))
@@ -927,6 +928,7 @@ namespace FSParam
             bw.WriteInt16(0); //FS Seems to end their params with an empty string
         }
 
+        private Dictionary<string, long> StringOffsetDictionary;
 
         /// <summary>
         /// Gets the index of the Row with ID id or returns null
