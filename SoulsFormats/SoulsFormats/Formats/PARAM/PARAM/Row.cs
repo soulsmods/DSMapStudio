@@ -326,7 +326,8 @@ namespace SoulsFormats
 
             internal void WriteName(BinaryWriterEx bw, PARAM parent, int i)
             {
-                if (Name == null) Name = string.Empty;
+                if (Name == null)
+                    Name = string.Empty;
                 parent.StringOffsetDictionary.TryGetValue(Name, out long nameOffset);
                 
                 if (nameOffset == 0) 
