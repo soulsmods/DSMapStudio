@@ -203,7 +203,8 @@ namespace SoulsFormats
                 bw.WriteASCII(ParamType, true);
             }
             
-            StringOffsetDictionary = new Dictionary<string, long>() {
+            StringOffsetDictionary = new Dictionary<string, long>() 
+            {
                 {"", bw.Position}
             };
             bw.WriteInt16(0); // null string

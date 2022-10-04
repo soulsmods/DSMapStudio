@@ -897,7 +897,8 @@ namespace FSParam
             }
             
             // Write row names
-            Dictionary<string, long> stringOffsetDictionary = new Dictionary<string, long> {
+            Dictionary<string, long> stringOffsetDictionary = new Dictionary<string, long> 
+            {
                 { string.Empty, bw.Position }
             };
             
