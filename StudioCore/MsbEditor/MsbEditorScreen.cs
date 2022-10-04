@@ -660,7 +660,7 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.SetNextWindowFocus();
             }
-            PropEditor.OnGui(_selection, _selection.GetSingleFilteredSelection<Entity>(), "mapeditprop", Viewport.Width, Viewport.Height);
+            PropEditor.OnGui(_selection, "mapeditprop", Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(Universe._dispGroupCount);
             PropSearch.OnGui(propSearchKey);
 

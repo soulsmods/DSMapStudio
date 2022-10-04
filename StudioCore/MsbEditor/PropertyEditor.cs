@@ -200,6 +200,33 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void UpdateProperty(object prop, HashSet<Entity> selection, object obj, object newval,
+            bool changed, bool committed, bool shouldUpdateVisual, bool destroyRenderModel, int arrayindex = -1)
+        {
+            if (selection.Count > 1)
+            {
+                if (changed)
+                {
+                    ChangePropertyMultiple(prop, obj, selection, newval, ref committed, arrayindex);
+                }
+                if (committed)
+                {
+                    CommitPropertyMultiple(selection);
+                }
+            }
+            else
+            {
+                if (changed)
+                {
+                    ChangeProperty(prop, selection.First(), obj, newval, ref committed, shouldUpdateVisual, destroyRenderModel, arrayindex);
+                }
+                if (committed)
+                {
+                    CommitProperty(selection.First(), destroyRenderModel);
+                }
+            }
+        }
+
         private void ChangeProperty(object prop, Entity selection, object obj, object newval,
             ref bool committed, bool shouldUpdateVisual, bool destroyRenderModel, int arrayindex = -1)
         {
@@ -285,6 +312,40 @@ namespace StudioCore.MsbEditor
                 }
             }
 
+            _lastUncommittedAction = null;
+            _changingPropery = null;
+            _changingObject = null;
+        }
+
+        private void ChangePropertyMultiple(object prop, object obj, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1)
+        {
+            if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
+            {
+                ContextActionManager.UndoAction();
+            }
+            else
+            {
+                _lastUncommittedAction = null;
+            }
+            MultipleEntityPropertyChangeAction action;
+            foreach (var selection in ents)
+            {
+                if (selection != null && _changingObject != null && !ents.SetEquals((HashSet<Entity>)_changingObject))
+                {
+                    committed = true;
+                    return;
+                }
+
+            }
+            action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex);
+            ContextActionManager.ExecuteAction(action);
+
+            _lastUncommittedAction = action;
+            _changingPropery = prop;
+            _changingObject = ents;
+        }
+        private void CommitPropertyMultiple(HashSet<Entity> ents)
+        {
             _lastUncommittedAction = null;
             _changingPropery = null;
             _changingObject = null;
@@ -426,9 +487,10 @@ namespace StudioCore.MsbEditor
             "Composite",
         };
 
-        private void PropEditorGeneric(Selection selection, Entity entSelection, object target = null, bool decorate = true)
+        private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true)
         {
-            var obj = (target == null) ? entSelection.WrappedObject : target;
+            var firstEnt = entSelection.First();
+            var obj = (target == null) ? firstEnt.WrappedObject : target;
             var type = obj.GetType();
             if (!_propCache.ContainsKey(type.FullName))
             {
@@ -437,6 +499,7 @@ namespace StudioCore.MsbEditor
                 _propCache.Add(type.FullName, props);
             }
             var properties = _propCache[type.FullName];
+
             if (decorate)
             {
                 ImGui.Columns(2);
@@ -450,7 +513,10 @@ namespace StudioCore.MsbEditor
             // Custom editors
             if (type == typeof(FLVER2.BufferLayout))
             {
-                PropEditorFlverLayout(entSelection, (FLVER2.BufferLayout)obj);
+                if (entSelection.Count() == 1)
+                    PropEditorFlverLayout(firstEnt, (FLVER2.BufferLayout)obj);
+                else
+                    ImGui.Text("Cannot edit multiples of this object at once.");
             }
             else
             {
@@ -567,9 +633,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     changed = true;
                                     committed = true;
-                                    //return tuple?
                                 }
-                                //bool committed = true;
                                 UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
@@ -587,47 +651,48 @@ namespace StudioCore.MsbEditor
                         var o = prop.GetValue(obj);
                         var shapetype = Enum.Parse<RegionShape>(o.GetType().Name);
                         int shap = (int)shapetype;
-                        if (ImGui.Combo("##shapecombo", ref shap, _regionShapes, _regionShapes.Length))
+
+                        if (entSelection.Count == 1)
                         {
-                            MSB.Shape newshape;
-                            switch ((RegionShape)shap)
+                            if (ImGui.Combo("##shapecombo", ref shap, _regionShapes, _regionShapes.Length))
                             {
-                                case RegionShape.Box:
-                                    newshape = new MSB.Shape.Box();
-                                    break;
-                                case RegionShape.Point:
-                                    newshape = new MSB.Shape.Point();
-                                    break;
-                                case RegionShape.Cylinder:
-                                    newshape = new MSB.Shape.Cylinder();
-                                    break;
-                                case RegionShape.Sphere:
-                                    newshape = new MSB.Shape.Sphere();
-                                    break;
-                                case RegionShape.Composite:
-                                    newshape = new MSB.Shape.Composite();
-                                    break;
-                                default:
-                                    throw new Exception("Invalid shape");
-                            }
-                            //UpdateProperty(prop, selection, obj, newshape, true, true, true, true);
-
-                            var action = new PropertiesChangedAction((PropertyInfo)prop, obj, newshape);
-                            action.SetPostExecutionAction((undo) =>
-                            {
-                                bool selected = false;
-                                if (entSelection.RenderSceneMesh != null)
+                                MSB.Shape newshape;
+                                switch ((RegionShape)shap)
                                 {
-                                    selected = entSelection.RenderSceneMesh.RenderSelectionOutline;
-                                    entSelection.RenderSceneMesh.Dispose();
-                                    entSelection.RenderSceneMesh = null;
+                                    case RegionShape.Box:
+                                        newshape = new MSB.Shape.Box();
+                                        break;
+                                    case RegionShape.Point:
+                                        newshape = new MSB.Shape.Point();
+                                        break;
+                                    case RegionShape.Cylinder:
+                                        newshape = new MSB.Shape.Cylinder();
+                                        break;
+                                    case RegionShape.Sphere:
+                                        newshape = new MSB.Shape.Sphere();
+                                        break;
+                                    case RegionShape.Composite:
+                                        newshape = new MSB.Shape.Composite();
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid shape");
                                 }
+                                var action = new PropertiesChangedAction((PropertyInfo)prop, obj, newshape);
+                                action.SetPostExecutionAction((undo) =>
+                                {
+                                    bool selected = false;
+                                    if (firstEnt.RenderSceneMesh != null)
+                                    {
+                                        selected = firstEnt.RenderSceneMesh.RenderSelectionOutline;
+                                        firstEnt.RenderSceneMesh.Dispose();
+                                        firstEnt.RenderSceneMesh = null;
+                                    }
 
-                                entSelection.UpdateRenderModel();
-                                entSelection.RenderSceneMesh.RenderSelectionOutline = selected;
-                            });
-
-                            ContextActionManager.ExecuteAction(action);
+                                    firstEnt.UpdateRenderModel();
+                                    firstEnt.RenderSceneMesh.RenderSelectionOutline = selected;
+                                });
+                                ContextActionManager.ExecuteAction(action);
+                            }
                         }
                         ImGui.NextColumn();
                         if (open)
@@ -662,7 +727,7 @@ namespace StudioCore.MsbEditor
                         bool changed = false;
                         object newval = null;
 
-                        changed = PropertyRow(typ, oldval, out newval, entSelection, prop.Name);
+                        changed = PropertyRow(typ, oldval, out newval, firstEnt, prop.Name);
                         PropertyContextMenu(obj, prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                         {
@@ -683,15 +748,15 @@ namespace StudioCore.MsbEditor
                     id++;
                 }
             }
-            if (decorate)
+            if (decorate && entSelection.Count == 1)
             {
                 ImGui.Columns(1);
-                if (entSelection.References != null)
+                if (firstEnt.References != null)
                 {
                     ImGui.NewLine();
                     ImGui.Text("References: ");
                     ImGui.Indent(10);
-                    foreach (var m in entSelection.References)
+                    foreach (var m in firstEnt.References)
                     {
                         foreach (var n in m.Value)
                         {
@@ -728,19 +793,19 @@ namespace StudioCore.MsbEditor
 
                                 if (ImGui.BeginPopupContextItem())
                                 {
-                                    var map = entSelection.Universe.GetLoadedMap(mapid);
+                                    var map = firstEnt.Universe.GetLoadedMap(mapid);
                                     if (map == null)
                                     {
                                         if (ImGui.Selectable("Load Map"))
                                         {
-                                            entSelection.Universe.LoadMap(mapid);
+                                            firstEnt.Universe.LoadMap(mapid);
                                         }
                                     }
                                     else
                                     {
                                         if (ImGui.Selectable("Unload Map"))
                                         {
-                                            entSelection.Universe.UnloadMap(map);
+                                            firstEnt.Universe.UnloadMap(map);
                                         }
                                     }
                                     ImGui.EndPopup();
@@ -753,7 +818,7 @@ namespace StudioCore.MsbEditor
                 ImGui.NewLine();
                 ImGui.Text("Objects referencing this object:");
                 ImGui.Indent(10);
-                foreach (var m in entSelection.GetReferencingObjects())
+                foreach (var m in firstEnt.GetReferencingObjects())
                 {
                     var nameWithType = m.PrettyName.Insert(2, m.WrappedObject.GetType().Name + " - ");
                     if (ImGui.Button(nameWithType))
@@ -766,31 +831,70 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void OnGui(Selection selection, Entity entSelection, string id, float w, float h)
+        public void OnGui(Selection selection, string id, float w, float h)
         {
+            var entSelection = selection.GetFilteredSelection<Entity>();
+
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             ImGui.SetNextWindowSize(new Vector2(350, h - 80), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(w - 370, 20), ImGuiCond.FirstUseEver);
             ImGui.Begin($@"Properties##{id}");
             ImGui.BeginChild("propedit");
-            if (entSelection == null || entSelection.WrappedObject == null)
+            if (entSelection.Count > 1)
             {
-                if (selection.IsMultiSelection())
+                var firstEnt = entSelection.First();
+                if (entSelection.All(e => e.WrappedObject.GetType() == firstEnt.WrappedObject.GetType()))
                 {
-                    ImGui.Text("Select a single object to edit properties.");
+                    if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
+                    {
+                        ImGui.Text("Cannot edit multiples of this object at once.");
+                        ImGui.EndChild();
+                        ImGui.End();
+                        ImGui.PopStyleColor();
+                        return;
+                    }
+                    else
+                    {
+                        ImGui.TextColored(new Vector4(0.5f, 1.0f, 0.0f, 1.0f), " Editing Multiple Objects.\n Changes will be applied to all selected objects.");
+                        ImGui.Separator();
+                        ImGui.BeginChild("MSB_EditingMultipleObjsChild");
+                        PropEditorGeneric(selection, entSelection);
+                        ImGui.EndChild();
+                    }
                 }
-                ImGui.EndChild();
-                ImGui.End();
-                ImGui.PopStyleColor();
-                return;
+                else
+                {
+                    ImGui.Text("Not all selected objects are the same type.");
+                    ImGui.EndChild();
+                    ImGui.End();
+                    ImGui.PopStyleColor();
+                    return;
+                }
+
             }
-            if (entSelection.WrappedObject is Param.Row prow || entSelection.WrappedObject is MergedParamRow)
+            else if (entSelection.Any())
             {
-                PropEditorParamRow(entSelection);
+                var firstEnt = entSelection.First();
+                if (firstEnt.WrappedObject == null)
+                {
+                    ImGui.Text("Select a map object to edit its properties.");
+                    ImGui.EndChild();
+                    ImGui.End();
+                    ImGui.PopStyleColor();
+                    return;
+                }
+                else if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
+                {
+                    PropEditorParamRow(firstEnt);
+                }
+                else
+                {
+                    PropEditorGeneric(selection, entSelection);
+                }
             }
             else
             {
-                PropEditorGeneric(selection, entSelection);
+                ImGui.Text("Select a map object to edit its properties.");
             }
             ImGui.EndChild();
             ImGui.End();

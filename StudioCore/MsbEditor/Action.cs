@@ -1,9 +1,9 @@
-﻿using SoulsFormats;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
@@ -130,6 +130,80 @@ namespace StudioCore.MsbEditor
             {
                 PostExecutionAction.Invoke(true);
             }
+            return ActionEvent.NoEvent;
+        }
+    }
+
+    public class MultipleEntityPropertyChangeAction : Action
+    {
+        private class PropertyChange
+        {
+            public object ChangedObj;
+            public PropertyInfo Property;
+            public object OldValue;
+            public object NewValue;
+            public int ArrayIndex;
+        }
+
+        private List<PropertyChange> Changes = new();
+        private HashSet<Entity> ChangedEnts = new();
+
+        public MultipleEntityPropertyChangeAction(PropertyInfo prop, HashSet<Entity> changedEnts, object newval, int index = -1)
+        {
+            ChangedEnts = changedEnts;
+            foreach (var o in changedEnts)
+            {
+                var propObj = Utils.FindPropertyObject(prop, o.WrappedObject);
+                var change = new PropertyChange
+                {
+                    ChangedObj = propObj,
+                    Property = prop,
+                    OldValue = prop.GetValue(propObj),
+                    NewValue = newval,
+                    ArrayIndex = index
+
+                };
+                Changes.Add(change);
+            }
+        }
+
+        public override ActionEvent Execute()
+        {
+            foreach (var change in Changes)
+            {
+                if (change.Property.PropertyType.IsArray && change.ArrayIndex != -1)
+                {
+                    Array a = (Array)change.Property.GetValue(change.ChangedObj);
+                    a.SetValue(change.NewValue, change.ArrayIndex);
+                }
+                else
+                {
+                    change.Property.SetValue(change.ChangedObj, change.NewValue);
+                }
+            }
+            foreach (var e in ChangedEnts)
+                e.UpdateRenderModel();
+
+            return ActionEvent.NoEvent;
+        }
+
+        public override ActionEvent Undo()
+        {
+            foreach (var change in Changes)
+            {
+                if (change.Property.PropertyType.IsArray && change.ArrayIndex != -1)
+                {
+                    Array a = (Array)change.Property.GetValue(change.ChangedObj);
+                    a.SetValue(change.OldValue, change.ArrayIndex);
+                }
+                else
+                {
+                    change.Property.SetValue(change.ChangedObj, change.OldValue);
+                }
+            }
+            foreach (var e in ChangedEnts)
+                e.UpdateRenderModel();
+
             return ActionEvent.NoEvent;
         }
     }
