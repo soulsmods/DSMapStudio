@@ -519,7 +519,8 @@ namespace SoulsFormats
         public static BND4 DecryptERRegulation(string path)
         {
             byte[] bytes = File.ReadAllBytes(path);
-            if (BND4.IsRead(bytes, out BND4 bnd4)) return bnd4; //Delete this line if you want to use a separate method 
+            if (BND4.IsRead(bytes, out BND4 bnd4)) 
+                return bnd4; //Delete this line if you want to use a separate method 
             bytes = DecryptByteArray(erRegulationKey, bytes);
             return BND4.Read(bytes);
         }
@@ -530,7 +531,8 @@ namespace SoulsFormats
         public static BND4 GetUnencryptedERRegulation(string path) //delete this method if you want to just add the fix to DecryptERRegulation(string path)
         {
             byte[] bytes = File.ReadAllBytes(path);
-            if (BND4.IsRead(bytes, out BND4 bnd4)) return bnd4; 
+            if (BND4.IsRead(bytes, out BND4 bnd4)) 
+                return bnd4; 
             bytes = DecryptByteArray(erRegulationKey, bytes);
             return BND4.Read(bytes);
         }
@@ -538,7 +540,7 @@ namespace SoulsFormats
         /// <summary>
         /// Repacks and encrypts ER's regulation BND4 to the specified path.
         /// </summary>
-        public static void EncryptERRegulation(string path, BND4 bnd) 
+        public static void EncryptERRegulation(string path, BND4 bnd)
         {
             byte[] bytes = bnd.Write();
             bytes = EncryptByteArray(erRegulationKey, bytes);
