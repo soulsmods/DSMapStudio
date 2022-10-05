@@ -728,6 +728,7 @@ namespace StudioCore.MsbEditor
                         object newval = null;
 
                         changed = PropertyRow(typ, oldval, out newval, firstEnt, prop.Name);
+
                         PropertyContextMenu(obj, prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                         {
@@ -857,8 +858,10 @@ namespace StudioCore.MsbEditor
                     {
                         ImGui.TextColored(new Vector4(0.5f, 1.0f, 0.0f, 1.0f), " Editing Multiple Objects.\n Changes will be applied to all selected objects.");
                         ImGui.Separator();
+                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.0f, 0.5f, 0.0f, 0.1f));
                         ImGui.BeginChild("MSB_EditingMultipleObjsChild");
                         PropEditorGeneric(selection, entSelection);
+                        ImGui.PopStyleColor();
                         ImGui.EndChild();
                     }
                 }
