@@ -213,7 +213,9 @@ namespace StudioCore.MsbEditor
                 else
                 {
                     // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
-                    TaskManager.warningList.TryAdd($"{prop.DeclaringType} NullAlphaAttribute", $"Color property in `{prop.DeclaringType}` does not declare if it supports Alpha.");
+#if DEBUG
+                    TaskManager.warningList.TryAdd($"{prop.DeclaringType} NullAlphaAttribute", $"Color property in `{prop.DeclaringType}` does not declare if it supports Alpha.\nAlpha exposed by default.");
+#endif
                     var color = (Color)oldval;
                     Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
                     if (ImGui.ColorEdit4("##value", ref val))
@@ -226,7 +228,7 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                ImGui.Text("ImplementMe");
+                ImGui.Text($"Property type `{prop.Name}` in `{prop.DeclaringType}` has not been implemented. Please report this.");
             }
 
             newval = null;
