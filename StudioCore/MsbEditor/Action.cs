@@ -158,11 +158,19 @@ namespace StudioCore.MsbEditor
                 {
                     ChangedObj = propObj,
                     Property = prop,
-                    OldValue = prop.GetValue(propObj),
                     NewValue = newval,
                     ArrayIndex = index
-
                 };
+                if (index != -1 && prop.PropertyType.IsArray)
+                {
+                    Array a = (Array)change.Property.GetValue(propObj);
+                    change.OldValue = a.GetValue(index);
+                }
+                else
+                {
+                    change.OldValue = prop.GetValue(propObj);
+                }
+
                 Changes.Add(change);
             }
         }
