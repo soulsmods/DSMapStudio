@@ -188,47 +188,21 @@ namespace StudioCore.MsbEditor
         }
 
         private void UpdateProperty(object prop, Entity selection, object obj, object newval,
-            bool changed, bool committed, bool shouldUpdateVisual, bool destroyRenderModel, int arrayindex = -1)
+            bool changed, bool committed, int arrayindex = -1)
         {
+            // TODO2: strip this out in favor of other ChangeProperty
             if (changed)
             {
-                ChangeProperty(prop, selection, obj, newval, ref committed, shouldUpdateVisual, destroyRenderModel, arrayindex);
+                ChangeProperty(prop, selection, obj, newval, ref committed, arrayindex);
             }
             if (committed)
             {
-                CommitProperty(selection, destroyRenderModel);
-            }
-        }
-
-        private void UpdateProperty(object prop, HashSet<Entity> selection, object obj, object newval,
-            bool changed, bool committed, bool shouldUpdateVisual, bool destroyRenderModel, int arrayindex = -1)
-        {
-            if (selection.Count > 1)
-            {
-                if (changed)
-                {
-                    ChangePropertyMultiple(prop, obj, selection, newval, ref committed, arrayindex);
-                }
-                if (committed)
-                {
-                    CommitPropertyMultiple(selection);
-                }
-            }
-            else
-            {
-                if (changed)
-                {
-                    ChangeProperty(prop, selection.First(), obj, newval, ref committed, shouldUpdateVisual, destroyRenderModel, arrayindex);
-                }
-                if (committed)
-                {
-                    CommitProperty(selection.First(), destroyRenderModel);
-                }
+                CommitProperty(selection, false);
             }
         }
 
         private void ChangeProperty(object prop, Entity selection, object obj, object newval,
-            ref bool committed, bool shouldUpdateVisual, bool destroyRenderModel, int arrayindex = -1)
+            ref bool committed, int arrayindex = -1)
         {
             if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
             {
@@ -254,26 +228,10 @@ namespace StudioCore.MsbEditor
                 {
                     action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
                 }
-                if (shouldUpdateVisual && selection != null)
-                {
-                    action.SetPostExecutionAction((undo) =>
-                    {
-                        if (destroyRenderModel)
-                        {
-                            if (selection.RenderSceneMesh != null)
-                            {
-                                selection.RenderSceneMesh.Dispose();
-                                selection.RenderSceneMesh = null;
-                            }
-                        }
-                        selection.UpdateRenderModel();
-                    });
-                }
                 ContextActionManager.ExecuteAction(action);
 
                 _lastUncommittedAction = action;
                 _changingPropery = prop;
-                // ChangingObject = selection.MsbObject;
                 _changingObject = selection != null ? selection.WrappedObject : obj;
             }
         }
@@ -317,14 +275,28 @@ namespace StudioCore.MsbEditor
             _changingObject = null;
         }
 
-        private void ChangePropertyMultiple(object prop, object obj, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1)
+
+        private void UpdateProperty(object prop, HashSet<Entity> selection, object newval,
+            bool changed, bool committed, int arrayindex = -1)
+        {
+            if (changed)
+            {
+                ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex);
+            }
+            if (committed)
+            {
+                CommitPropertyMultiple(selection);
+            }
+        }
+        private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1)
         {
             if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
             {
-                ContextActionManager.UndoAction();
+                //ContextActionManager.UndoAction();
             }
             else
             {
+                // TODO2: Not sure if this is necessary anymore
                 _lastUncommittedAction = null;
             }
             MultipleEntityPropertyChangeAction action;
@@ -338,7 +310,6 @@ namespace StudioCore.MsbEditor
 
             }
             action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex);
-            ContextActionManager.ExecuteAction(action);
 
             _lastUncommittedAction = action;
             _changingPropery = prop;
@@ -346,9 +317,13 @@ namespace StudioCore.MsbEditor
         }
         private void CommitPropertyMultiple(HashSet<Entity> ents)
         {
-            _lastUncommittedAction = null;
-            _changingPropery = null;
-            _changingObject = null;
+            if (_lastUncommittedAction != null)
+            {
+                ContextActionManager.ExecuteAction(_lastUncommittedAction);
+                _lastUncommittedAction = null;
+                _changingPropery = null;
+                _changingObject = null;
+            }
         }
 
         private void PropEditorParamRow(Entity selection)
@@ -418,12 +393,10 @@ namespace StudioCore.MsbEditor
             ImGui.Text(visualName);
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
-            bool changed = false;
 
-            changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
+            bool changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            //bool committed = true;
-            UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed, false, false);
+            UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed);
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
@@ -567,7 +540,6 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 ImGui.SetNextItemWidth(-1);
                                 var oldval = a.GetValue(i);
-                                bool shouldUpdateVisual = false;
                                 bool changed = false;
                                 object newval = null;
 
@@ -578,8 +550,7 @@ namespace StudioCore.MsbEditor
                                     ImGui.SetItemDefaultFocus();
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                                //bool committed = true;
-                                UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
+                                UpdateProperty(prop, entSelection, newval, changed, committed, i);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -618,7 +589,6 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 ImGui.SetNextItemWidth(-1);
                                 var oldval = itemprop.GetValue(l, new object[] { i });
-                                bool shouldUpdateVisual = false;
                                 bool changed = false;
                                 object newval = null;
 
@@ -634,7 +604,7 @@ namespace StudioCore.MsbEditor
                                     changed = true;
                                     committed = true;
                                 }
-                                UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
+                                UpdateProperty(prop, entSelection, newval, changed, committed, i);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -740,8 +710,7 @@ namespace StudioCore.MsbEditor
                             changed = true;
                             committed = true;
                         }
-                        //bool committed = true;
-                        UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false);
+                        UpdateProperty(prop, entSelection, newval, changed, committed);
 
                         ImGui.NextColumn();
                         ImGui.PopID();
