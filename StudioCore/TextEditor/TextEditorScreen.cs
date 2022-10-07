@@ -111,7 +111,7 @@ namespace StudioCore.TextEditor
                 {
                     foreach (var path in folders)
                     {
-                        if (ImGui.MenuItem(path.Key, true))
+                        if (ImGui.MenuItem(path.Key, "", FMGBank.LanguageFolder == path.Key))
                         {
                             ChangeLanguage(path.Key);
                         }
@@ -147,7 +147,7 @@ namespace StudioCore.TextEditor
                     _EntryLabelCacheFiltered = _entryLabelCache;
                     List<FMG.Entry> matches = new();
 
-                    if (_activeFmgInfo.EntryCategory != FMGBank.FmgEntryCategory.None)
+                    if (_activeFmgInfo.GroupedEntry)
                     {
                         // Grouped entries
                         List<FMG.Entry> searchEntries;
