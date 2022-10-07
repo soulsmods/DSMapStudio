@@ -23,8 +23,6 @@ namespace StudioCore.MsbEditor
         private object _changingPropery = null;
         private Action _lastUncommittedAction = null;
 
-        private string _refContextCurrentAutoComplete = "";
-
         public PropertyEditor(ActionManager manager)
         {
             ContextActionManager = manager;
@@ -114,17 +112,21 @@ namespace StudioCore.MsbEditor
                         return true;
                     }
                 }
+                /*
+                // TODO: Set Next Unique Value
+                // (needs prop search to scan through structs)
                 if (obj != null && ImGui.BeginPopupContextItem(propname))
                 {
-                    bool r = false;
                     if (ImGui.Selectable("Set Next Unique Value"))
                     {
                         newval = obj.Container.GetNextUnique(propname, val);
+                        _forceCommit = true;
                         ImGui.EndPopup();
                         return true;
                     }
                     ImGui.EndPopup();
                 }
+                */
             }
             else if (typ == typeof(bool))
             {
@@ -142,7 +144,6 @@ namespace StudioCore.MsbEditor
                 {
                     newval = val;
                     return true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(string))
@@ -165,7 +166,6 @@ namespace StudioCore.MsbEditor
                 {
                     newval = val;
                     return true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(Vector3))
@@ -175,7 +175,6 @@ namespace StudioCore.MsbEditor
                 {
                     newval = val;
                     return true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else
@@ -285,7 +284,13 @@ namespace StudioCore.MsbEditor
             }
             if (committed)
             {
-                CommitPropertyMultiple(selection);
+                if (_lastUncommittedAction != null)
+                {
+                    ContextActionManager.ExecuteAction(_lastUncommittedAction);
+                    _lastUncommittedAction = null;
+                    _changingPropery = null;
+                    _changingObject = null;
+                }
             }
         }
         private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1)
@@ -314,16 +319,6 @@ namespace StudioCore.MsbEditor
             _lastUncommittedAction = action;
             _changingPropery = prop;
             _changingObject = ents;
-        }
-        private void CommitPropertyMultiple(HashSet<Entity> ents)
-        {
-            if (_lastUncommittedAction != null)
-            {
-                ContextActionManager.ExecuteAction(_lastUncommittedAction);
-                _lastUncommittedAction = null;
-                _changingPropery = null;
-                _changingObject = null;
-            }
         }
 
         private void PropEditorParamRow(Entity selection)
@@ -508,7 +503,6 @@ namespace StudioCore.MsbEditor
 
                     ImGui.PushID(id);
                     ImGui.AlignTextToFramePadding();
-                    // ImGui.AlignTextToFramePadding();
                     var typ = prop.PropertyType;
 
                     if (typ.IsArray)
@@ -550,7 +544,6 @@ namespace StudioCore.MsbEditor
                                     ImGui.SetItemDefaultFocus();
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
-
                                 if (ParamRefRow(prop, oldval, ref newval))
                                 {
                                     changed = true;
@@ -699,7 +692,6 @@ namespace StudioCore.MsbEditor
                         ImGui.NextColumn();
                         ImGui.SetNextItemWidth(-1);
                         var oldval = prop.GetValue(obj);
-                        bool shouldUpdateVisual = false;
                         bool changed = false;
                         object newval = null;
 
