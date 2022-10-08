@@ -1122,7 +1122,7 @@ namespace StudioCore.MsbEditor
                     icon = ForkAwesome.Database;
                 }
 
-                return $@"{icon} {Name.Replace("##", "")}"; // Remove ## to prevent ImGui from hiding text.
+                return $@"{icon} {Utils.ImGuiEscape(Name, null)}";
             }
         }
 
