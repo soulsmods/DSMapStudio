@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSParam", "FSParam\FSParam.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioUtils", "StudioUtils\StudioUtils.csproj", "{AD901915-1F68-4774-8D9C-5BD443F933F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "..\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{6266A793-70FF-4930-BC00-03D932D86C1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,10 +119,10 @@ Global
 		{AD901915-1F68-4774-8D9C-5BD443F933F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD901915-1F68-4774-8D9C-5BD443F933F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD901915-1F68-4774-8D9C-5BD443F933F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6266A793-70FF-4930-BC00-03D932D86C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6266A793-70FF-4930-BC00-03D932D86C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6266A793-70FF-4930-BC00-03D932D86C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6266A793-70FF-4930-BC00-03D932D86C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
