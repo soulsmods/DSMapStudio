@@ -37,34 +37,6 @@ namespace StudioCore
             return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
 
-        public static void ResetGraphics()
-        {
-            if (IsEnabled)
-            {
-                Current = new CFG();
-                Save();
-                Load();
-            }
-        }
-
-        public static void ResetControls()
-        {
-            if (IsEnabled)
-            {
-                Save();
-                Load();
-            }
-        }
-
-        public static void ResetDisplay()
-        {
-            if (IsEnabled)
-            {
-                Save();
-                Load();
-            }
-        }
-
         public static void Load()
         {
             if (IsEnabled)
@@ -117,9 +89,6 @@ namespace StudioCore
                 else
                 {
                     Current = new CFG();
-                    ResetControls();
-                    ResetGraphics();
-                    ResetDisplay();
                     Save();
                 }
             }
