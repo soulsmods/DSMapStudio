@@ -1314,7 +1314,7 @@ namespace StudioCore.TextEditor
                     {
                         path = itemPath;
                     }
-                    else if (info.UICategory == FmgUICategory.Item)
+                    else if (info.UICategory == FmgUICategory.Menu)
                     {
                         path = menuPath;
                     }
