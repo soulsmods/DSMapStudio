@@ -646,17 +646,21 @@ namespace StudioCore.MsbEditor
                 }
                 // Support loading maps through commands.
                 // Probably don't support unload here, as there may be unsaved changes.
+                ISelectable target = null;
                 if (initcmd[0] == "load")
                 {
                     string mapid = initcmd[1];
-                    if (Universe.GetLoadedMap(mapid) == null)
+                    if (Universe.GetLoadedMap(mapid) is Map m)
+                    {
+                        target = m.RootObject;
+                    }
+                    else
                     {
                         Universe.LoadMap(mapid, true);
                     }
                 }
                 if (initcmd[0] == "select")
                 {
-                    ISelectable target = null;
                     string mapid = initcmd[1];
                     if (initcmd.Length > 2)
                     {
@@ -679,13 +683,13 @@ namespace StudioCore.MsbEditor
                     {
                         target = new ObjectContainerReference(mapid, Universe).GetSelectionTarget();
                     }
-                    if (target != null)
-                    {
-                        Universe.Selection.ClearSelection();
-                        Universe.Selection.AddSelection(target);
-                        Universe.Selection.GotoTreeTarget = target;
-                        FrameSelection();
-                    }
+                }
+                if (target != null)
+                {
+                    Universe.Selection.ClearSelection();
+                    Universe.Selection.AddSelection(target);
+                    Universe.Selection.GotoTreeTarget = target;
+                    FrameSelection();
                 }
             }
 
