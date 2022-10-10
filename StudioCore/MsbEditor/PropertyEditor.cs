@@ -178,12 +178,76 @@ namespace StudioCore.MsbEditor
                     // shouldUpdateVisual = true;
                 }
             }
+            else if (typ.BaseType == typeof(Enum))
+            {
+                var enumVals = typ.GetEnumValues();
+                var enumNames = typ.GetEnumNames();
+                int[] intVals = new int[enumVals.Length];
+
+                if (typ.GetEnumUnderlyingType() == typeof(byte))
+                {
+                    for (var i = 0; i < enumVals.Length; i++)
+                        intVals[i] = (byte)enumVals.GetValue(i);
+
+                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+                    {
+                        newval = val;
+                        return true;
+                    }
+                }
+                else if (typ.GetEnumUnderlyingType() == typeof(int))
+                {
+                    for (var i = 0; i < enumVals.Length; i++)
+                        intVals[i] = (int)enumVals.GetValue(i);
+
+                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+                    {
+                        newval = val;
+                        return true;
+                    }
+                }
+                else if (typ.GetEnumUnderlyingType() == typeof(uint))
+                {
+                    for (var i = 0; i < enumVals.Length; i++)
+                        intVals[i] = (int)(uint)enumVals.GetValue(i);
+
+                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+                    {
+                        newval = val;
+                        return true;
+                    }
+                }
+                else
+                {
+                    ImGui.Text("ImplementMe");
+                }
+            }
             else
             {
                 ImGui.Text("ImplementMe");
             }
 
             newval = null;
+            return false;
+        }
+
+
+        private bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
+        {
+            val = null;
+
+            for (var i = 0; i < enumNames.Length; i++)
+            {
+                enumNames[i] = $"{intVals[i]}: {enumNames[i]}";
+            }
+
+            int index = Array.IndexOf(enumVals, oldval);
+            if (ImGui.Combo("", ref index, enumNames, enumNames.Length))
+            {
+                val = enumVals.GetValue(index);
+                return true;
+            }
+
             return false;
         }
 
