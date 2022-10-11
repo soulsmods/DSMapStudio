@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>CHR_EDIT_PARAM_BODY_PRESET</ParamType>
   <Unk06>0</Unk06>
@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
+    <Field Def="f32 Head" />
+    <Field Def="f32 Torso" />
+    <Field Def="f32 Waist" />
+    <Field Def="f32 Arms" />
+    <Field Def="f32 Legs" />
   </Fields>
 </PARAMDEF>

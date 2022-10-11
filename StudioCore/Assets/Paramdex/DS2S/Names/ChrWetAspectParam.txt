@@ -1,10 +1,6 @@
-1 UNKNOWN
-2 UNKNOWN
-3 UNKNOWN
-4 UNKNOWN
-5 UNKNOWN
-6 UNKNOWN
-7 UNKNOWN
-8 UNKNOWN
-9 UNKNOWN
-10 UNKNOWN
+1 Water -- 水
+2 Poison wet -- 毒濡れ
+3 Oil wet -- 油濡れ
+4 Steel -- 鋼鉄
+5 Mirror -- 鏡
+6 Petrified -- 石化
