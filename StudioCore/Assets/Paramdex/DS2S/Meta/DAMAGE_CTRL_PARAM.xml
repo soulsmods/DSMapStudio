@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
 <Enums>	
-  <Enum Name="StaggerTypeType">
+  <Enum Name="StaggerTypeCategory">
 		<Option Value="0" Name=" No Effect" />
 		<Option Value="1" Name=" No Effect" />
 		<Option Value="2" Name=" Light Attack" />
@@ -26,12 +26,12 @@
 		<Option Value="21" Name=" Very Long Knockdown" />
 		<Option Value="22" Name=" No Effect" />
 	</Enum>
-	<Enum Name="StaggerModeType">
+	<Enum Name="StaggerModeCategory">
 		<Option Value="0" Name=" Normal" />
 		<Option Value="1" Name=" Ignore Poise" />
 		<Option Value="2" Name=" Ignore Poise and Super Armor" />
 	</Enum>
-  <Enum Name="DamageTypeType">
+  <Enum Name="DamageTypeCategory">
 		<Option Value="0" Name=" Strike" />
 		<Option Value="1" Name=" Thrust" />
 		<Option Value="2" Name=" Slash" />
@@ -40,8 +40,8 @@
 </Enums>	
 <Self Row0Dummy="" />
 <Field>
-  <DamageType Enum="DamageTypeType" /> 
-  <StaggerMode Enum="StaggerModeType" /> 
-  <StaggerType Enum="StaggerTypeType" /> 
+  <DamageType Enum="DamageTypeCategory" /> 
+  <StaggerMode Enum="StaggerModeCategory" /> 
+  <StaggerType Enum="StaggerTypeCategory" /> 
 </Field>
 </PARAMMETA>
