@@ -1,67 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-<Enums>
-	<Enum Name="ItemTypeCategory">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Consumable" />
-		<Option Value="2" Name="Non-Consumable (except Human Effigy)" />
-		<Option Value="3" Name="System (Darksign)" />
-	</Enum>
-	<Enum Name="ItemType2Category">
-		<Option Value="0" Name="Weapon" />
-		<Option Value="1" Name="Shield" />
-		<Option Value="2" Name="Head Armor" />
-		<Option Value="3" Name="Chest Armor" />
-		<Option Value="4" Name="Hands Armor" />
-		<Option Value="5" Name="Legs Armor" />
-		<Option Value="6" Name="Ammunition" />
-		<Option Value="7" Name="Ring" />
-		<Option Value="8" Name="Good" />
-		<Option Value="9" Name="Spell" />
-		<Option Value="10" Name="Gesture" />
-	</Enum>
-	<Enum Name="BuffFlagType">
-		<Option Value="0" Name="Unbuffable" />
-		<Option Value="2" Name="Spells Only" />
-		<Option Value="3" Name="Buffable" />
-	</Enum>
-	<Enum Name="ItemType3Category">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Gesture" />
-		<Option Value="2" Name="Sorcery" />
-		<Option Value="3" Name="Miracles" />
-		<Option Value="4" Name="Pyromancy" />
-		<Option Value="5" Name="Hex" />
-	</Enum>
-	<Enum Name="NewGamePlusBehaviorType">
-		<Option Value="4" Name="Dragon Stone" />
-		<Option Value="8" Name="Limited Item" />
-		<Option Value="9" Name="Remove Ring" />
-		<Option Value="10" Name="Ladder Miniature" />
-		<Option Value="11" Name="Remove Good" />
-		<Option Value="12" Name="No Change" />
-		<Option Value="13" Name="Estus Flask / Aged Feather / Darksign" />
-		<Option Value="15" Name="Champion's Tablet" />
-	</Enum>
-</Enums>	
-<Self Row0Dummy="" />
-<Field>
-<IconID Wiki="Typically found in menu\tex\icon." /> 
-<EffectID Wiki="The effect ID- can be called from EMEVD." /> 
-<WeaponID Refs="WeaponParam" /> 
-<ArmorID Refs="ArmorParam" /> 
-<AmmunitionID Refs="ArrowParam" /> 
-<RingID Refs="RingParam" /> 
-<SpellID Refs="SpellParam" /> 
-<BaseBuyPrice Wiki="Per-merchant pricing can be altered with ShopLineupParam." /> 
-<SellPrice AltName="Sell Price" /> 
-<AnimationSpeed AltName="Animation Speed" /> 
-<ItemUseAnimation AltName="Item Use Animation" /> 
-<ItemUsageID Refs="ItemUsageParam" /> 
-<ItemType Enum="ItemTypeCategory" /> 
-<ItemType2 Enum="ItemType2Category" /> 
-<BuffFlags Enum="BuffFlagType" /> 
-<ItemType3 Enum="ItemType3Category" />
-<NewGamePlusBehavior Enum="NewGamePlusBehaviorType" />
-</Field>
+  <Enums>
+    <Enum Name="ItemTypeCategory">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Consumable" />
+      <Option Value="2" Name="Non-Consumable (except Human Effigy)" />
+      <Option Value="3" Name="System (Darksign)" />
+    </Enum>
+    <Enum Name="ItemType2Category">
+      <Option Value="0" Name="Weapon" />
+      <Option Value="1" Name="Shield" />
+      <Option Value="2" Name="Head Armor" />
+      <Option Value="3" Name="Chest Armor" />
+      <Option Value="4" Name="Hands Armor" />
+      <Option Value="5" Name="Legs Armor" />
+      <Option Value="6" Name="Ammunition" />
+      <Option Value="7" Name="Ring" />
+      <Option Value="8" Name="Good" />
+      <Option Value="9" Name="Spell" />
+      <Option Value="10" Name="Gesture" />
+    </Enum>
+    <Enum Name="BuffFlagType">
+      <Option Value="0" Name="Unbuffable" />
+      <Option Value="2" Name="Spells Only" />
+      <Option Value="3" Name="Buffable" />
+    </Enum>
+    <Enum Name="ItemType3Category">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Gesture" />
+      <Option Value="2" Name="Sorcery" />
+      <Option Value="3" Name="Miracles" />
+      <Option Value="4" Name="Pyromancy" />
+      <Option Value="5" Name="Hex" />
+    </Enum>
+    <Enum Name="NewGamePlusBehaviorType">
+      <Option Value="4" Name="Dragon Stone" />
+      <Option Value="8" Name="Limited Item" />
+      <Option Value="9" Name="Remove Ring" />
+      <Option Value="10" Name="Ladder Miniature" />
+      <Option Value="11" Name="Remove Good" />
+      <Option Value="12" Name="No Change" />
+      <Option Value="13" Name="Estus Flask / Aged Feather / Darksign" />
+      <Option Value="15" Name="Champion's Tablet" />
+    </Enum>
+  </Enums>
+  <Self Row0Dummy="" />
+  <Field>
+    <IconID Wiki="Typically found in menu\tex\icon." />
+    <EffectID Wiki="The effect ID- can be called from EMEVD." />
+    <WeaponID Refs="WeaponParam" />
+    <ArmorID Refs="ArmorParam" />
+    <AmmunitionID Refs="ArrowParam" />
+    <RingID Refs="RingParam" />
+    <SpellID Refs="SpellParam" />
+    <BaseBuyPrice Wiki="Per-merchant pricing can be altered with ShopLineupParam." />
+    <ItemUsageID Refs="ItemUsageParam" />
+    <ItemType Enum="ItemTypeCategory" />
+    <ItemType2 Enum="ItemType2Category" />
+    <BuffFlags Enum="BuffFlagType" />
+    <ItemType3 Enum="ItemType3Category" />
+    <NewGamePlusBehavior Enum="NewGamePlusBehaviorType" />
+  </Field>
 </PARAMMETA>

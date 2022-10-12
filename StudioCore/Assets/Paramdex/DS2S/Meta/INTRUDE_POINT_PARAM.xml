@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-<Self Row0Dummy="" />
-<Field>
-<PlayAreaParamID AltName="Play Area Param ID" /> 
-<IntrusionPointID AltName="Intrusion Point ID" /> 
-</Field>
+  <Self Row0Dummy="" />
+  <Field>
+  </Field>
 </PARAMMETA>

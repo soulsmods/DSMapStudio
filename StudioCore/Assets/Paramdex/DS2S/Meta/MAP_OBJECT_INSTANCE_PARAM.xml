@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-<Enums>
-	<Enum Name="DefaultStateType">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Inactive" />
-		<Option Value="2" Name="Active" />
-	</Enum>
-</Enums>
-<Self Row0Dummy="" />
-<Field>
-<DefaultState Enum="DefaultStateType" /> 
-</Field>
+  <Enums>
+    <Enum Name="DefaultStateType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Inactive" />
+      <Option Value="2" Name="Active" />
+    </Enum>
+  </Enums>
+  <Self Row0Dummy="" />
+  <Field>
+    <DefaultState Enum="DefaultStateType" />
+  </Field>
 </PARAMMETA>
