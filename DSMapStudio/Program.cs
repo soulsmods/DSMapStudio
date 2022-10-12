@@ -36,6 +36,30 @@ namespace DSMapStudio
             {
                 mapStudio.Run();
             }
+            catch (AggregateException e)
+            {
+                List<string> file = new();
+                e = e.Flatten();
+                if (e.InnerExceptions.Count > 1)
+                {
+                    foreach (var ex in e.InnerExceptions)
+                    {
+                        file.Add(ex.Message);
+                        file.Add(ex.StackTrace);
+                        file.Add("\n----------------\n");
+                    }
+                    //Directory.CreateDirectory(mapStudio.);
+                    File.WriteAllLines($"Crash Log {DateTime.Now:yyyy-M-dd--HH-mm-ss}.txt", file);
+                    MessageBox.Show("Multiple errors detected.\nA Crash Log file has been generated.", "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                mapStudio.AttemptSaveOnCrash();
+                mapStudio.CrashShutdown();
+                throw;
+            }
             catch (Exception e)
             {
                 MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -43,9 +67,9 @@ namespace DSMapStudio
                 mapStudio.CrashShutdown();
                 throw;
             }
-            #else
+#else
             mapStudio.Run();
-            #endif
+#endif
         }
 
         static void CrashHandler(object sender, UnhandledExceptionEventArgs args)
