@@ -88,7 +88,8 @@ namespace StudioCore
         public static readonly string ParamFilter =
             "Regulation file (regulation.bin) |REGULATION.BIN|" +
             "Data file (Data0.bdt) |DATA0.BDT|" +
-            "ParamBnd (gameparam.parambnd.dcx) |GAMEPARAM.PARAMBND.DCX";
+            "ParamBndDcx (gameparam.parambnd.dcx) |GAMEPARAM.PARAMBND.DCX|" +
+            "ParamBnd (gameparam.parambnd) |GAMEPARAM.PARAMBND";
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
