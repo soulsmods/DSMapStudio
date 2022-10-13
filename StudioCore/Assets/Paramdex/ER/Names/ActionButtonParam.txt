@@ -157,10 +157,10 @@
 9051 Invade White Mask Varré's world
 9052 Invade Old Knight Istvan's world
 9053 Invade Rileigh the Idle's world
-9054 Invade Juno Hoslow, Knight of Blood's world
+9054 Invade Juno Hoslow Knight of Blood's world
 9055 Invade Vargram the Raging Wolf's world
 9056 Invade Great Horned Tragoth's world
-9057 Be summoned to assist Yura, Hunter of Bloody Fingers
+9057 Be summoned to assist Yura Hunter of Bloody Fingers
 9058 Be summoned to assist Sorceress Sellen
 9059 Be summoned to challenge Sorceress Sellen
 9060 Be summoned to assist Millicent
@@ -214,7 +214,7 @@
 9533 Examine
 9540 Summon Castellan Jerren
 9541 Summon Blaidd the Half-Wolf
-9542 Summon Alexander, Warrior Jar
+9542 Summon Alexander Warrior Jar
 9543 Summon Great Horned Tragoth
 9544 Summon Okina
 9545 Summon Finger Maiden Therolina

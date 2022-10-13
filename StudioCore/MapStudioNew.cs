@@ -21,7 +21,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.03";
+        private static string _version = "version 1.03.1";
         private static string _programTitle = $"Dark Souls Map Studio {_version}";
 
         private Sdl2Window _window;
@@ -374,6 +374,15 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
+        // Try to shutdown things gracefully on a crash
+        public void CrashShutdown()
+        {
+            Tracy.Shutdown();
+            Resource.ResourceManager.Shutdown();
+            _gd.Dispose();
+            System.Windows.Forms.Application.Exit();
+        }
+
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
         {
             _projectSettings = newsettings;
@@ -381,7 +390,6 @@ namespace StudioCore
 
             Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams(newsettings, options);
-            TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.ReloadUniverse();
             _modelEditor.ReloadAssetBrowser();
@@ -389,8 +397,8 @@ namespace StudioCore
             //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
             _modelEditor.OnProjectChanged(_projectSettings);
-            _paramEditor.OnProjectChanged(_projectSettings);
             _textEditor.OnProjectChanged(_projectSettings);
+            _paramEditor.OnProjectChanged(_projectSettings);
         }
 
         public void ApplyStyle()

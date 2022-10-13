@@ -1169,9 +1169,9 @@ namespace SoulsFormats
                 private int RetryPartIndex;
 
                 /// <summary>
-                /// Unknown.
+                /// Flag that must be set for stake to be available.
                 /// </summary>
-                public int UnkT04 { get; set; }
+                public int EventFlagID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1195,7 +1195,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     RetryPartIndex = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
+                    EventFlagID = br.ReadInt32();
                     UnkT08 = br.ReadSingle();
                     RetryRegionIndex = br.ReadInt16();
                     br.AssertInt16(0);
@@ -1204,7 +1204,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(RetryPartIndex);
-                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(EventFlagID);
                     bw.WriteSingle(UnkT08);
                     bw.WriteInt16(RetryRegionIndex);
                     bw.WriteInt16(0);

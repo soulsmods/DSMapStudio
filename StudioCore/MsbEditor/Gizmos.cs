@@ -337,10 +337,6 @@ namespace StudioCore.MsbEditor
                         {
                             OriginalTransform.Position = sel.RenderSceneMesh.GetBounds().GetCenter();
                         }
-                        if (Space == GizmosSpace.World)
-                        {
-                            OriginalTransform.Rotation = Quaternion.Identity;
-                        }
                     }
                     else
                     {
@@ -352,6 +348,10 @@ namespace StudioCore.MsbEditor
                             accumPos += sel.GetRootLocalTransform().Position;
                         }
                         OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, sels.First().GetRootLocalTransform().EulerRotation);
+                    }
+                    if (Space == GizmosSpace.World)
+                    {
+                        OriginalTransform.Rotation = Quaternion.Identity;
                     }
 
                     Axis hoveredAxis = Axis.None;

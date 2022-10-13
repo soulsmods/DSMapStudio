@@ -75,6 +75,8 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
             }
             catch (System.IO.FileNotFoundException) { }
             catch (System.IO.DirectoryNotFoundException) { }
+            // Some DSR FLVERS can't be read due to mismatching layout and vertex sizes
+            catch (InvalidDataException) { }
         }, options);
     }
 }

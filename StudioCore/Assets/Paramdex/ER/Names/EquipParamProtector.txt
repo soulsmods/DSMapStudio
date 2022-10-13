@@ -94,6 +94,7 @@
 151100 Ronin's Armor (Altered)
 160000 Guilty Hood
 160100 Cloth Garb
+160200 Tarnished Wrap
 160300 Cloth Trousers
 170000 Black Wolf Mask
 170100 Blaidd's Armor
@@ -155,8 +156,8 @@
 281100 Royal Knight Armor (Altered)
 290000 Nox Monk Hood
 290100 Nox Monk Armor
-290200 Nox Monk Bracelets
-290300 Nox Monk Greaves
+290200 Nox Bracelets
+290300 Nox Greaves
 291000 Nox Monk Hood (Altered)
 291100 Nox Monk Armor (Altered)
 292000 Nox Swordstress Crown
@@ -235,14 +236,14 @@
 510100 Queen's Robe
 510200 Queen's Bracelets
 510300 Queen's Leggings
-520000 Sanguine Noble Hood
-520100 Sanguine Noble Robe
-520200 Sanguine Noble Bracelets
-520300 Sanguine Noble Trousers
-530000 Godskin Apostle Hood
-530100 Godskin Apostle Robe
-530200 Godskin Apostle Bracelets
-530300 Godskin Apostle Trousers
+520000 Godskin Apostle Hood
+520100 Godskin Apostle Robe
+520200 Godskin Apostle Bracelets
+520300 Godskin Apostle Trousers
+530000 Godskin Noble Hood
+530100 Godskin Noble Robe
+530200 Godskin Noble Bracelets
+530300 Godskin Noble Trousers
 540000 Depraved Perfumer Headscarf
 540100 Depraved Perfumer Robe
 540200 Depraved Perfumer Gloves
@@ -273,6 +274,7 @@
 600200 Twinned Gauntlets
 600300 Twinned Greaves
 601100 Twinned Armor (Altered)
+601300 Twinned Greaves (Altered)
 610000 Ragged Hat
 610100 Ragged Armor
 610200 Ragged Gloves

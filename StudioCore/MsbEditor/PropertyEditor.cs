@@ -512,7 +512,12 @@ namespace StudioCore.MsbEditor
                                     ImGui.SetItemDefaultFocus();
                                 }
                                 bool committed = ImGui.IsItemDeactivatedAfterEdit();
-                                //bool committed = true;
+
+                                if (ParamRefRow(prop, oldval, ref newval))
+                                {
+                                    changed = true;
+                                    committed = true;
+                                }
                                 UpdateProperty(prop, entSelection, obj, newval, changed, committed, shouldUpdateVisual, false, i);
 
                                 ImGui.NextColumn();
