@@ -186,6 +186,20 @@ namespace StudioCore.Editor
                     return (row)=>!cache.Contains(row.ID);
                 }
             )));
+            filterList.Add("mergeable", (0, noArgs((context)=>{
+                string paramName = bank.GetKeyForParam(context);
+                HashSet<int> cache = bank.VanillaDiffCache[paramName];
+                var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName])).ToList();
+                return (row)=>!cache.Contains(row.ID) && auxCaches.Where((x)=>x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                }
+            )));
+            filterList.Add("conflicts", (0, noArgs((context)=>{
+                string paramName = bank.GetKeyForParam(context);
+                HashSet<int> cache = bank.VanillaDiffCache[paramName];
+                var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName])).ToList();
+                return (row)=>cache.Contains(row.ID) && auxCaches.Where((x)=>x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                }
+            )));
             filterList.Add("id", (1, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0].ToLower()) : new Regex($@"^{args[0]}$");
                 return noContext((row)=>rx.Match(row.ID.ToString()).Success);
