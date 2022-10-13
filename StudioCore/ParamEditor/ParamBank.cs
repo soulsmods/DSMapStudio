@@ -705,6 +705,30 @@ namespace StudioCore.ParamEditor
             {
                 newBank.LoadParamsERFromFile(path);
             }
+            else if (locator.Type == GameType.Sekiro)
+            {
+                newBank.LoadParamsBBSekiroFromFile(path);
+            }
+            else if (locator.Type == GameType.DarkSoulsIII)
+            {
+                newBank.LoadParamsDS3FromFile(path, path.Trim().ToLower().EndsWith(".dcx"));
+            }
+            else if (locator.Type == GameType.Bloodborne)
+            {
+                newBank.LoadParamsBBSekiroFromFile(path);
+            }
+            else if (locator.Type == GameType.DarkSoulsRemastered)
+            {
+                newBank.LoadParamsDS1RFromFile(path);
+            }
+            else if (locator.Type == GameType.DarkSoulsPTDE)
+            {
+                newBank.LoadParamsDS1FromFile(path);
+            }
+            else if (locator.Type == GameType.DemonsSouls)
+            {
+                newBank.LoadParamsDESFromFile(path);
+            }
             newBank.ClearParamDiffCaches();
             newBank.IsLoadingParams = false;
             newBank.RefreshParamDiffCaches();

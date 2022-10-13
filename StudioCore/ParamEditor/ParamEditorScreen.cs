@@ -526,7 +526,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Separator();
                 // Only support ER for now
-                if (ImGui.MenuItem("Load Params for comparison...", null, false, _projectSettings.GameType == GameType.EldenRing))
+                if (ImGui.MenuItem("Load Params for comparison...", null, false, _projectSettings.GameType != GameType.DarkSoulsIISOTFS))
                 {
                     try
                     {
@@ -627,7 +627,7 @@ namespace StudioCore.ParamEditor
                     {
                         var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                         {
-                            Filter = AssetLocator.ParamFilter,
+                            Filter = AssetLocator.ERRegulationFilter,
                             ValidateNames = true,
                             CheckFileExists = true,
                             CheckPathExists = true,
