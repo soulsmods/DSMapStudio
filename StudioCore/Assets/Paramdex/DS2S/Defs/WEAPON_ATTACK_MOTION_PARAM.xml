@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>WEAPON_ATTACK_MOTION_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,28 +6,28 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Core Move" />
-    <Field Def="s32 Hit Data" />
+    <Field Def="s32 Animation ID" />
+    <Field Def="s32 Attack Type" />
     <Field Def="f32 Startup Speed" />
-    <Field Def="f32 Attack Tracking" />
-    <Field Def="f32 Self Pushback on Hit" />
     <Field Def="f32 Recovery Speed" />
     <Field Def="f32 Tracking Start" />
     <Field Def="f32 Tracking Mid" />
     <Field Def="f32 Tracking End" />
+    <Field Def="f32 Weapon Orientation -Y" />
+    <Field Def="f32 Tracking End" />
     <Field Def="s32 Weapon Orientation - Y" />
     <Field Def="u8 Unk28" />
     <Field Def="u8 Unk28" />
-    <Field Def="u8 Unk28" />
-    <Field Def="u8 Unk28" />
+    <Field Def="u8 Self Pushback 1" />
+    <Field Def="u8 Self Pushback 2" />
     <Field Def="s32 Damage ID" />
     <Field Def="s32 Hit Data" />
     <Field Def="s32 Unk" />
-    <Field Def="s32 Swing 1 - Bullet on Swing End" />
-    <Field Def="s32 Swing 1 - Bullet on Swing End" />
-    <Field Def="s32 Swing 2 - Bullet on Swing End" />
-    <Field Def="s32 Swing 2 - Bullet on Swing End" />
-    <Field Def="s32 Effect on Self" />
-    <Field Def="s32 Bullet 3" />
+    <Field Def="s32 BulletOnSwing - 0" />
+    <Field Def="s32 BulletOnSwing Damage ID - 0" />
+    <Field Def="s32 BulletOnSwing - 1" />
+    <Field Def="s32 BulletOnSwing Damage ID - 1" />
+    <Field Def="s32 Bullet3 ID" />
+    <Field Def="s32 Bullet3 Damage" />
   </Fields>
 </PARAMDEF>

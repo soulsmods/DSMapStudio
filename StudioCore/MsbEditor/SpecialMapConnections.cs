@@ -219,7 +219,7 @@ namespace StudioCore.MsbEditor
             {
                 return eldenRingOffsets.Count > 0;
             }
-            IReadOnlyDictionary<string, Param> loadedParams = ParamEditor.ParamBank.Params;
+            IReadOnlyDictionary<string, Param> loadedParams = ParamEditor.ParamBank.PrimaryBank.Params;
             // Do not explicitly check ParamBank's game type here, but fail gracefully if the param does not exist
             if (loadedParams == null || !loadedParams.TryGetValue("WorldMapLegacyConvParam", out Param convParam))
             {

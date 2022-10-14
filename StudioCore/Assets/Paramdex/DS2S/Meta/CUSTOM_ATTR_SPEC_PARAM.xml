@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-<Self Row0Dummy="" />
-<Field>
-<AllowedInfusionsFlag AltName="Allowed Infusions Flag" /> 
-</Field>
+  <Self Row0Dummy="" />
+  <Field>
+	  <AllowedInfusions Wiki="This is a bitset of 10 bits. 
+They are, in order from the least significant: 
+Base, Fire, Magic, Lightning, Dark, Poison, Bleed, Raw, Enchanted, Mundane."/>
+  </Field>
 </PARAMMETA>
