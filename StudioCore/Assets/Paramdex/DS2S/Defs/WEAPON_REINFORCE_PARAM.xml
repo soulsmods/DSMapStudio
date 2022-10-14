@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>WEAPON_REINFORCE_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -8,8 +8,8 @@
   <Fields>
     <Field Def="f32 Damage: Physical" />
     <Field Def="f32 Damage: Magic" />
-    <Field Def="f32 Damage: Fire" />
     <Field Def="f32 Damage: Lightning" />
+    <Field Def="f32 Damage: Fire" />
     <Field Def="f32 Damage: Dark" />
     <Field Def="f32 Damage: Poison (Float / 5)" />
     <Field Def="f32 Damage: Bleed (Float / 5)" />
@@ -17,8 +17,8 @@
     <Field Def="f32 Damage: Curse (Float / 5)" />
     <Field Def="f32 Max Damage: Physical" />
     <Field Def="f32 Max Damage: Magic" />
-    <Field Def="f32 Max Damage: Fire" />
     <Field Def="f32 Max Damage: Lightning" />
+    <Field Def="f32 Max Damage: Fire" />
     <Field Def="f32 Max Damage: Dark" />
     <Field Def="f32 Max Damage: Poison (Float / 5)" />
     <Field Def="f32 Max Damage: Bleed (Float / 5)" />
@@ -55,15 +55,15 @@
     <Field Def="f32 Damage %: Bleed" />
     <Field Def="f32 Damage %: Petrify" />
     <Field Def="f32 Damage %: Curse" />
-    <Field Def="f32 UnkC4" />
-    <Field Def="f32 UnkC8" />
-    <Field Def="f32 UnkCC" />
-    <Field Def="f32 UnkD0" />
-    <Field Def="f32 UnkD4" />
-    <Field Def="f32 UnkD8" />
-    <Field Def="f32 UnkDC" />
-    <Field Def="f32 UnkE0" />
-    <Field Def="f32 UnkE4" />
+    <Field Def="f32 Infusion Modifier %: Magic" />
+    <Field Def="f32 Infusion Modifier %: Lightning" />
+    <Field Def="f32 Infusion Modifier %: Fire" />
+    <Field Def="f32 Infusion Modifier %: Dark" />
+    <Field Def="f32 Infusion Modifier %: Poison" />
+    <Field Def="f32 Infusion Modifier %: Bleed" />
+    <Field Def="f32 Infusion Modifier %: Raw" />
+    <Field Def="f32 Infusion Modifier %: Enchanted" />
+    <Field Def="f32 Infusion Modifier %: Mundane" />
     <Field Def="s32 CustomAttrSpecParam ID" />
     <Field Def="s32 CustomAttrCostParam ID" />
     <Field Def="s32 Reinforce Cost ID" />

@@ -408,6 +408,20 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
+                /// <summary>
+                /// Amount of reverb to apply to sounds.
+                /// </summary>
+                public enum SoundSpace : byte
+                {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    NoReverb = 0,
+                    SmallReverb = 1,
+                    MiddleReverb = 2,
+                    LargeReverb = 3,
+                    ExtraLargeReverb = 4
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+
                 private protected override PartType Type => PartType.Collision;
 
                 /// <summary>
@@ -431,9 +445,9 @@ namespace SoulsFormats
                 public int UnkT0C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public byte UnkT10 { get; set; }
+                public SoundSpace SoundSpaceType { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -548,7 +562,7 @@ namespace SoulsFormats
                     UnkT04 = br.ReadInt32();
                     UnkT08 = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
-                    UnkT10 = br.ReadByte();
+                    SoundSpaceType = br.ReadEnum8<SoundSpace>();
                     UnkT11 = br.ReadByte();
                     UnkT12 = br.ReadByte();
                     FilterParamID = br.ReadByte();
@@ -586,7 +600,7 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT04);
                     bw.WriteInt32(UnkT08);
                     bw.WriteInt32(UnkT0C);
-                    bw.WriteByte(UnkT10);
+                    bw.WriteByte((byte)SoundSpaceType);
                     bw.WriteByte(UnkT11);
                     bw.WriteByte(UnkT12);
                     bw.WriteByte(FilterParamID);

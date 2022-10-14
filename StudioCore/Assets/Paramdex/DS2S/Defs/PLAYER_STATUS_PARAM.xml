@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>PLAYER_STATUS_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
+    <Field Def="s32 Body type" />
     <Field Def="u16 Soul Level" />
     <Field Def="u16 Vigor" />
     <Field Def="s32 Unk08" />
@@ -20,7 +20,7 @@
     <Field Def="u16 Adaptability" />
     <Field Def="u16 Unk1C" />
     <Field Def="u16 Unk1C" />
-    <Field Def="u16 Unk20" />
+    <Field Def="u16 Face presets" />
     <Field Def="u16 Unk20" />
     <Field Def="s32 Item 1 ID" />
     <Field Def="s32 Item 2 ID" />
@@ -73,13 +73,13 @@
     <Field Def="u32 Left Weapon 2 Reinforcement" />
     <Field Def="u32 Left Weapon 3 Reinforcement" />
     <Field Def="s32 UnkD8" />
-    <Field Def="s32 Player Status Item ID">
+    <Field Def="s32 Player Status Item ID" >
       <Description>Determines starting inventory.</Description>
     </Field>
-    <Field Def="s32 Player Status Item ID">
+    <Field Def="s32 Player Status Item ID" >
       <Description>Determines starting inventory.</Description>
     </Field>
-    <Field Def="s32 Player Status Item ID">
+    <Field Def="s32 Player Status Item ID" >
       <Description>Determines starting inventory.</Description>
     </Field>
     <Field Def="s32 UnkE8" />
