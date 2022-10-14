@@ -256,13 +256,17 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Copy", "Ctrl+C", false, _activeView._selection.rowSelectionExists())) //TODO: hotkey
+                if (ImGui.MenuItem("Copy", "Ctrl+C", false, _activeView._selection.rowSelectionExists()))
                 {
                     CopySelectionToClipboard();
                 }
-                if (ImGui.MenuItem("Paste", "Ctrl+V", false, _clipboardRows.Any())) //TODO: hotkey
+                if (ImGui.MenuItem("Paste", "Ctrl+V", false, _clipboardRows.Any()))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
+                }
+                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _activeView._selection.rowSelectionExists()))
+                {
+                    DuplicateSelection();
                 }
                 ImGui.Separator();
                 if (ImGui.MenuItem("Mass Edit"))
@@ -660,6 +664,22 @@ namespace StudioCore.ParamEditor
             _currentCtrlVValue = _clipboardBaseRow.ToString();
         }
 
+        public void DuplicateSelection()
+        {
+            Param param = ParamBank.Params[_activeView._selection.getActiveParam()];
+            List<Param.Row> rows = _activeView._selection.getSelectedRows();
+            if (rows.Count == 0)
+                return;
+
+            List<Param.Row> rowsToInsert = new();
+            foreach (Param.Row r in rows)
+            {
+                Param.Row newrow = new(r);
+                rowsToInsert.Add(newrow);
+            }
+            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false, false));
+        }
+
         public void OpenMassEditPopup(string popup)
         {
             ImGui.OpenPopup(popup);
@@ -778,6 +798,10 @@ namespace StudioCore.ParamEditor
                 if (_clipboardRows.Count > 00 && _clipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetControlShortcut(Key.V))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
+                }
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.D))
+                {
+                    DuplicateSelection();
                 }
                 if (!ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(Key.Delete))
                 {
