@@ -534,8 +534,6 @@ namespace StudioCore.ParamEditor
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
                 }
-                if (conflict)
-                    ImGui.PopStyleColor();
             }
             if (showRowCompare)
             {
@@ -546,6 +544,8 @@ namespace StudioCore.ParamEditor
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
+            if (conflict)
+                ImGui.PopStyleColor();
             ImGui.PopStyleColor(2);
 
             if (_editedPropCache != null && _editedPropCache != oldval)
@@ -554,8 +554,6 @@ namespace StudioCore.ParamEditor
             }
 
             UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : row, _editedPropCache, changed, committed);
-            if (diffVanilla)
-                ImGui.PopStyleColor();
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
