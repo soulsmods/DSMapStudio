@@ -665,12 +665,59 @@ namespace StudioCore.MsbEditor
             }
 
             // Parse select commands
-            string propSearchKey = null;
-            if (initcmd != null && initcmd[0] == "propsearch")
+            string[] propSearchCmd = null;
+            if (initcmd != null && initcmd.Length > 1)
             {
-                if (initcmd.Length > 1)
+                if (initcmd[0] == "propsearch")
                 {
-                    propSearchKey = initcmd[1];
+                    propSearchCmd = initcmd.Skip(1).ToArray();
+                }
+                // Support loading maps through commands.
+                // Probably don't support unload here, as there may be unsaved changes.
+                ISelectable target = null;
+                if (initcmd[0] == "load")
+                {
+                    string mapid = initcmd[1];
+                    if (Universe.GetLoadedMap(mapid) is Map m)
+                    {
+                        target = m.RootObject;
+                    }
+                    else
+                    {
+                        Universe.LoadMap(mapid, true);
+                    }
+                }
+                if (initcmd[0] == "select")
+                {
+                    string mapid = initcmd[1];
+                    if (initcmd.Length > 2)
+                    {
+                        if (Universe.GetLoadedMap(mapid) is Map m)
+                        {
+                            string name = initcmd[2];
+                            if (initcmd.Length > 3 && Enum.TryParse(initcmd[3], out MapEntity.MapEntityType entityType))
+                            {
+                                target = m.GetObjectsByName(name)
+                                    .Where(ent => ent is MapEntity me && me.Type == entityType)
+                                    .FirstOrDefault();
+                            }
+                            else
+                            {
+                                target = m.GetObjectByName(name);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        target = new ObjectContainerReference(mapid, Universe).GetSelectionTarget();
+                    }
+                }
+                if (target != null)
+                {
+                    Universe.Selection.ClearSelection();
+                    Universe.Selection.AddSelection(target);
+                    Universe.Selection.GotoTreeTarget = target;
+                    FrameSelection();
                 }
             }
 
@@ -690,7 +737,7 @@ namespace StudioCore.MsbEditor
             }
             PropEditor.OnGui(_selection, _selection.GetSingleFilteredSelection<Entity>(), "mapeditprop", Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(Universe._dispGroupCount);
-            PropSearch.OnGui(propSearchKey);
+            PropSearch.OnGui(propSearchCmd);
 
             // Not usable yet
             if (FeatureFlags.EnableNavmeshBuilder)

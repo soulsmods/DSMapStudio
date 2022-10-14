@@ -139,5 +139,6 @@ namespace StudioCore
         public bool FMG_ShowOriginalNames = false;
 
         public bool EnableEldenRingAutoMapOffset { get; set; } = true;
+        public bool EnableSoapstone { get; set; } = true;
     }
 }
