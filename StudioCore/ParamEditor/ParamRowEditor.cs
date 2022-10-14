@@ -542,8 +542,7 @@ namespace StudioCore.ParamEditor
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));
                 ImGui.NextColumn();
-                AdditionalColumnValue(compareval, propType, bank, RefTypes, 
-                );
+                AdditionalColumnValue(compareval, propType, bank, RefTypes, Enum);
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
@@ -573,9 +572,9 @@ namespace StudioCore.ParamEditor
                     else
                         value = colVal.ToString();
                     ImGui.InputText("", ref value, 256, ImGuiInputTextFlags.ReadOnly);
-                    if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
+                    if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                         EditorDecorations.ParamRefsSelectables(bank, RefTypes, colVal);
-                    if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)
+                    if (CFG.Current.Param_HideEnums == false && Enum != null)
                         EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
                 }
         }
