@@ -532,7 +532,7 @@ namespace StudioCore.ParamEditor
     internal class MEOperationArgument
     {
         static internal MEOperationArgument arg = new MEOperationArgument();
-        Dictionary<string, (int, Func<Param, string, Func<Param.Row, string>>)> argumentGetters = new Dictionary<string, (int, Func<Param, string, Func<Param.Row, string>>)>();
+        Dictionary<string, (int, Func<Param, string[], Func<Param.Row, string>>)> argumentGetters = new Dictionary<string, (int, Func<Param, string[], Func<Param.Row, string>>)>();
         (int, Func<Param, string, Func<Param.Row, string>>) defaultGetter;
 
         private MEOperationArgument()
@@ -543,10 +543,10 @@ namespace StudioCore.ParamEditor
         {
             defaultGetter = (0, (param, value) => ((row) => value));
             argumentGetters.Add("field", (1, (param, field) => {
-                Param.Column? col = param[field];
+                Param.Column? col = param[field[0]];
                 if (col == null)
                 {
-                    throw new Exception($@"Could not locate field {field}");
+                    throw new Exception($@"Could not locate field {field[0]}");
                 }
                 return (row) => {
                     object val = row[col].Value;
@@ -560,13 +560,34 @@ namespace StudioCore.ParamEditor
                 if (paramName == null)
                     throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
                 Param vParam = ParamBank.VanillaBank.Params[paramName];
-                Param.Column? col = vParam?[field];
+                Param.Column? col = vParam?[field[0]];
                 if (col == null)
-                    throw new Exception($@"Could not locate field {field}");
+                    throw new Exception($@"Could not locate field {field[0]}");
                 return (row) => {
                     Param.Row vRow = vParam?[row.ID];
                     if (vRow == null)
                         throw new Exception($@"Could not locate vanilla row {row.ID}");
+                    object val = vRow[col].Value;
+                    if (val.GetType() == typeof(byte[]))
+                        return ParamUtils.Dummy8Write((byte[])val);
+                    return val.ToString();
+                };
+            }));
+            argumentGetters.Add("auxfield", (2, (param, bankAndField) => {
+                ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
+                if (bank == null)
+                    throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
+                string paramName = bank.GetKeyForParam(param);
+                if (paramName == null)
+                    throw new Exception($@"Could not locate aux param for {param.ParamType}");
+                Param vParam = bank.Params[paramName];
+                Param.Column? col = vParam?[bankAndField[1]];
+                if (col == null)
+                    throw new Exception($@"Could not locate field {bankAndField[1]}");
+                return (row) => {
+                    Param.Row vRow = vParam?[row.ID];
+                    if (vRow == null)
+                        throw new Exception($@"Could not locate aux row {row.ID}");
                     object val = vRow[col].Value;
                     if (val.GetType() == typeof(byte[]))
                         return ParamUtils.Dummy8Write((byte[])val);
@@ -584,9 +605,11 @@ namespace StudioCore.ParamEditor
                 string[] arg = opArgs[i].Split(" ", 2);
                 if (argumentGetters.ContainsKey(arg[0].Trim()))
                 {
-                    if (arg.Length == argumentGetters[arg[0]].Item1)
-                        throw new Exception(@$"Contextual value has wrong number of arguments. Expected {argumentGetters[arg[0]].Item1}");
-                    contextualArgs[i] = argumentGetters[arg[0]].Item2.Invoke(param, arg[1]);
+                    var getter = argumentGetters[arg[0]];
+                    string[] opArgArgs = arg[1].Split(" ", getter.Item1);
+                    if (opArgArgs.Length != getter.Item1)
+                        throw new Exception(@$"Contextual value {arg[0]} has wrong number of arguments. Expected {opArgArgs.Length}");
+                    contextualArgs[i] = getter.Item2.Invoke(param, opArgArgs);
                 }
                 else
                 {
