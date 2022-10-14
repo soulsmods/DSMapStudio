@@ -96,6 +96,10 @@ namespace StudioCore
 
         public class RecentProject
         {
+            // Stores info in config file that isn't in class (to retain newer settings in older versions).
+            [JsonExtensionData]
+            private IDictionary<string, JToken> _additionalData;
+
             public string Name;
             public string ProjectFile;
             public GameType GameType;
