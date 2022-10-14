@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>BULLET_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Effect ID" />
+    <Field Def="s32 SFX ID" />
     <Field Def="u8 Spawn Location" />
     <Field Def="u8 Spawn Flag" />
     <Field Def="u8 Is Visible Online" />
@@ -18,14 +18,8 @@
     <Field Def="f32 Shooter Unk Angle" />
     <Field Def="f32 Shooter Vertical Angle" />
     <Field Def="f32 Shooter Unk Angle" />
-    <Field Def="u8 Unk24" />
-    <Field Def="u8 Unk25" />
-    <Field Def="u8 Unk26" />
-    <Field Def="u8 Unk27" />
-    <Field Def="u8 Unk28" />
-    <Field Def="u8 Unk29" />
-    <Field Def="u8 Vertical Angle Randomizer" />
-    <Field Def="u8 Horizontal Angle Randomizer" />
+    <Field Def="f32 Vertical Angle Randomizer" />
+    <Field Def="f32 Horizontal Angle Randomizer" />
     <Field Def="u8 Unk2C" />
     <Field Def="u8 Unk2D" />
     <Field Def="u8 Number to Shoot at Once" />
@@ -65,7 +59,7 @@
     <Field Def="f32 Tracking Time" />
     <Field Def="s32 Unk9C" />
     <Field Def="s32 UnkA0" />
-    <Field Def="s32 UnkA4" />
+    <Field Def="f32 UnkA4" />
     <Field Def="s32 UnkA8" />
     <Field Def="s32 UnkAC" />
     <Field Def="u8 Collision - Character" />
@@ -77,18 +71,18 @@
     <Field Def="u8 UnkB9" />
     <Field Def="u8 UnkBA" />
     <Field Def="u8 UnkBB" />
-    <Field Def="s32 Effect on Collision" />
-    <Field Def="s32 Effect on Death" />
+    <Field Def="s32 Collision SFX" />
+    <Field Def="s32 Timeout SFX" />
     <Field Def="f32 Effect on Death Duration" />
     <Field Def="s32 UnkC8" />
-    <Field Def="s32 Behavior on Collision" />
+    <Field Def="s32 BulletAttachParam ID" />
     <Field Def="s32 UnkD0" />
-    <Field Def="s32 Child Bullet 1 - ID 1" />
-    <Field Def="s32 Child Bullet 1 - ID 2" />
-    <Field Def="s32 Child Bullet 2 - ID 1" />
-    <Field Def="s32 Child Bullet 2 - ID 2" />
-    <Field Def="s32 Child Bullet 3 - ID 1" />
-    <Field Def="s32 Child Bullet 3 - ID 2" />
+    <Field Def="s32 Child Bullet 1 - BulletParam ID" />
+    <Field Def="s32 Child Bullet 1 - DamageParam ID" />
+    <Field Def="s32 Child Bullet 2 - BulletParam ID" />
+    <Field Def="s32 Child Bullet 2 - DamageParam ID" />
+    <Field Def="s32 Child Bullet 3 - BulletParam ID" />
+    <Field Def="s32 Child Bullet 3 - DamageParam ID" />
     <Field Def="u8 Spawn Child Bullets on Collision" />
     <Field Def="u8 Spawn Child Bullets on Timeout" />
     <Field Def="u8 Spawn Child Bullets on ?" />

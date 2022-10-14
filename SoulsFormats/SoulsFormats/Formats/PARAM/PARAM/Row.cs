@@ -326,20 +326,25 @@ namespace SoulsFormats
 
             internal void WriteName(BinaryWriterEx bw, PARAM parent, int i)
             {
-                long nameOffset = 0;
-                if (Name != null)
+                if (Name == null)
+                    Name = string.Empty;
+                parent.StringOffsetDictionary.TryGetValue(Name, out long nameOffset);
+                
+                if (nameOffset == 0) 
                 {
                     nameOffset = bw.Position;
                     if (parent.Format2E.HasFlag(FormatFlags2.UnicodeRowNames))
                         bw.WriteUTF16(Name, true);
                     else
                         bw.WriteShiftJIS(Name, true);
+                    
+                    parent.StringOffsetDictionary.Add(Name, nameOffset);
                 }
 
                 if (parent.Format2D.HasFlag(FormatFlags1.LongDataOffset))
                     bw.FillInt64($"NameOffset{i}", nameOffset);
                 else
-                    bw.FillUInt32($"NameOffset{i}", (uint)nameOffset);
+                    bw.FillUInt32($"NameOffset{i}", (uint) nameOffset);
             }
 
             /// <summary>

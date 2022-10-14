@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ImGuiNET;
+using Veldrid;
 
 namespace StudioCore.MsbEditor
 {
@@ -20,11 +21,17 @@ namespace StudioCore.MsbEditor
         private List<string> _objCache = new List<string>();
         private Dictionary<string, List<string>> _mapModelCache = new Dictionary<string, List<string>>();
 
+        private List<string> _cacheFiltered = new();
+
         private AssetLocator _locator;
 
         private AssetBrowserEventHandler _handler;
 
         private string _selected = null;
+        private string _selectedCache = null;
+
+        private string _searchStr = "";
+        private string _searchStrCache = "";
 
         public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator)
         {
@@ -57,7 +64,6 @@ namespace StudioCore.MsbEditor
             }
         }
 
-
         public void OnGui()
         {
             if (ImGui.Begin($@"Asset Browser##{_id}"))
@@ -72,7 +78,6 @@ namespace StudioCore.MsbEditor
                 {
                     _selected = "Obj";
                 }
-
                 foreach (var m in _mapModelCache.Keys)
                 {
                     if (ImGui.Selectable(m, _selected == m))
@@ -83,29 +88,54 @@ namespace StudioCore.MsbEditor
                 ImGui.EndChild();
                 ImGui.NextColumn();
                 ImGui.BeginChild("AssetList");
+
+                if (InputTracker.GetControlShortcut(Key.F))
+                    ImGui.SetKeyboardFocusHere();
+                ImGui.InputText("Search <Ctrl+F>", ref _searchStr, 255);
+
+                ImGui.Separator();
+
                 if (_selected == "Chr")
                 {
-                    foreach (var chr in _chrCache)
+                    if (_searchStr != _searchStrCache || _selected != _selectedCache)
                     {
-                        if (ImGui.Selectable(chr))
+                        _cacheFiltered = _chrCache;
+                        _searchStrCache = _searchStr;
+                        _selectedCache = _selected;
+                    }
+                    foreach (var chr in _cacheFiltered)
+                    {
+                        if (chr.Contains(_searchStr))
                         {
-                        }
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                        {
-                            _handler.OnInstantiateChr(chr);
+                            if (ImGui.Selectable(chr))
+                            {
+                            }
+                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            {
+                                _handler.OnInstantiateChr(chr);
+                            }
                         }
                     }
                 }
                 else if (_selected == "Obj")
                 {
-                    foreach (var obj in _objCache)
+                    if (_searchStr != _searchStrCache || _selected != _selectedCache)
                     {
-                        if (ImGui.Selectable(obj))
+                        _cacheFiltered = _objCache;
+                        _searchStrCache = _searchStr;
+                        _selectedCache = _selected;
+                    }
+                    foreach (var obj in _cacheFiltered)
+                    {
+                        if (obj.Contains(_searchStr))
                         {
-                        }
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                        {
-                            _handler.OnInstantiateObj(obj);
+                            if (ImGui.Selectable(obj))
+                            {
+                            }
+                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            {
+                                _handler.OnInstantiateObj(obj);
+                            }
                         }
                     }
                 }
@@ -113,15 +143,23 @@ namespace StudioCore.MsbEditor
                 {
                     if (_mapModelCache.ContainsKey(_selected))
                     {
-                        foreach (var model in _mapModelCache[_selected])
+                        if (_searchStr != _searchStrCache || _selected != _selectedCache)
                         {
-                            if (ImGui.Selectable(model))
+                            _cacheFiltered = _mapModelCache[_selected];
+                            _searchStrCache = _searchStr;
+                            _selectedCache = _selected;
+                        }
+                        foreach (var model in _cacheFiltered)
+                        {
+                            if (model.Contains(_searchStr))
                             {
-                            }
-
-                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                            {
-                                _handler.OnInstantiateMapPiece(_selected, model);
+                                if (ImGui.Selectable(model))
+                                {
+                                }
+                                if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                                {
+                                    _handler.OnInstantiateMapPiece(_selected, model);
+                                }
                             }
                         }
                     }

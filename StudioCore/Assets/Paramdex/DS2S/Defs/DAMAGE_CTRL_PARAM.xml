@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>DAMAGE_CTRL_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,22 +6,61 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 Unk00" />
+    <Field Def="u8 Damage Type" >
+      <Description>
+0: Strike
+1: Thrust
+2: Slash
+3: Unknown
+      </Description>
+    </Field>
     <Field Def="u8 Unk01" />
-    <Field Def="u8 Unk02" />
-    <Field Def="u8 Unk03" />
+    <Field Def="u8 Stagger Mode" >
+      <Description>
+0: Normal
+1: Ignore Poise
+2: Ignore Poise and Super Armor
+      </Description>
+    </Field>
+    <Field Def="u8 Disable Parry" />
     <Field Def="f32 Unk04" />
     <Field Def="f32 Unk08" />
     <Field Def="s32 Unk0C" />
-    <Field Def="u8 Unk10" />
+    <Field Def="u8 Stagger Type" >
+      <Description>
+0: No Effect
+1: No Effect
+2: Light Attack
+3: Heavy Attack
+4: Successful Guardbreak
+5: Send Flying
+6: Send Flying
+7: Force Guardbreak Stun
+8: Knockdown
+9: Force Parry (Short Duration)
+10: Normal Stun
+11: Force Guardbreak Stun
+12: Long Guard Break Stun
+13: Unknown Variable Behaviour
+14: Long Stun
+15: Normal Stun
+16: No Effect
+17: Normal Stun
+18: No Effect
+19: No Effect
+20: No Effect
+21: Very Long Knockdown
+22: No Effect
+      </Description>
+    </Field>
     <Field Def="u8 Unk11" />
     <Field Def="u16 Unk12" />
     <Field Def="u16 Unk14" />
     <Field Def="u16 Unk16" />
-    <Field Def="f32 Unk18" />
+    <Field Def="f32 Knockdown Duration Multiplier" />
     <Field Def="f32 Unk1C" />
     <Field Def="f32 Unk20" />
-    <Field Def="f32 Unk24" />
+    <Field Def="f32 Vertical Throw Distance" />
     <Field Def="f32 Unk28" />
     <Field Def="f32 Unk2C" />
     <Field Def="f32 Unk30" />
@@ -56,7 +95,7 @@
     <Field Def="u8 Unk97" />
     <Field Def="f32 Unk98" />
     <Field Def="f32 Unk9C" />
-    <Field Def="f32 UnkA0" />
+    <Field Def="f32 Poise Damage" />
     <Field Def="f32 UnkA4" />
     <Field Def="f32 UnkA8" />
     <Field Def="f32 UnkAC" />

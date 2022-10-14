@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>ITEM_LOT_PARAM2</ParamType>
   <Unk06>0</Unk06>
@@ -50,16 +50,16 @@
     <Field Def="u8 Unk3 - Lot 8" />
     <Field Def="u8 Unk3 - Lot 9" />
     <Field Def="u8 Unk3 - Lot 10" />
-    <Field Def="s32 Lot 1 = 6.051E+07" />
-    <Field Def="s32 Lot 2 = 6.051E+07" />
-    <Field Def="s32 Lot 3 = 6.051E+07" />
-    <Field Def="s32 Lot 4 = 6.051E+07" />
-    <Field Def="s32 Lot 5 = 6.051E+07" />
-    <Field Def="s32 Lot 6 = 6.051E+07" />
-    <Field Def="s32 Lot 7 = 6.051E+07" />
-    <Field Def="s32 Lot 8 = 6.051E+07" />
-    <Field Def="s32 Lot 9 = 6.051E+07" />
-    <Field Def="s32 Lot 10 = 6.051E+07" />
+    <Field Def="s32 Lot 1" />
+    <Field Def="s32 Lot 2" />
+    <Field Def="s32 Lot 3" />
+    <Field Def="s32 Lot 4" />
+    <Field Def="s32 Lot 5" />
+    <Field Def="s32 Lot 6" />
+    <Field Def="s32 Lot 7" />
+    <Field Def="s32 Lot 8" />
+    <Field Def="s32 Lot 9" />
+    <Field Def="s32 Lot 10" />
     <Field Def="f32 Chance - Lot 1" />
     <Field Def="f32 Chance - Lot 2" />
     <Field Def="f32 Chance - Lot 3" />
