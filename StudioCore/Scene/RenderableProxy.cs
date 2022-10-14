@@ -28,7 +28,7 @@ namespace StudioCore.Scene
         Other,
         None,
     }
-    
+
     /// <summary>
     /// Proxy class that represents a connection between the logical scene
     /// heirarchy and the actual underlying renderable representation. Used to handle
@@ -37,7 +37,7 @@ namespace StudioCore.Scene
     public abstract class RenderableProxy : Renderer.IRendererUpdatable, IDisposable
     {
         private bool disposedValue;
-        
+
         public abstract void ConstructRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
         public abstract void DestroyRenderables();
         public abstract void UpdateRenderables(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp);
@@ -138,8 +138,8 @@ namespace StudioCore.Scene
         // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~RenderableProxy()
         {
-             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-             Dispose(disposing: false);
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: false);
         }
 
         public void Dispose()
@@ -178,7 +178,7 @@ namespace StudioCore.Scene
         private Matrix4x4 _world = Matrix4x4.Identity;
 
         private WeakReference<ISelectable> _selectable = null;
-        
+
         public IResourceHandle ResourceHandle
         {
             get
@@ -348,8 +348,8 @@ namespace StudioCore.Scene
         }
 
         public MeshRenderableProxy(
-            MeshRenderables renderables, 
-            MeshProvider provider, 
+            MeshRenderables renderables,
+            MeshProvider provider,
             ModelMarkerType placeholderType = ModelMarkerType.None,
             bool autoregister = true)
         {
@@ -366,7 +366,7 @@ namespace StudioCore.Scene
             }
         }
 
-        public MeshRenderableProxy(MeshRenderableProxy clone) : 
+        public MeshRenderableProxy(MeshRenderableProxy clone) :
             this(clone._renderablesSet, clone._meshProvider, clone._placeholderType)
         {
             DrawFilter = clone._drawfilter;
@@ -411,9 +411,9 @@ namespace StudioCore.Scene
             {
                 c.UnregisterAndRelease();
             }
-            
+
             _placeholderProxy?.UnregisterAndRelease();
-            
+
             if (_meshProvider != null)
             {
                 _meshProvider.Release();
@@ -430,7 +430,7 @@ namespace StudioCore.Scene
             // If we were unregistered before construction time, don't construct now
             if (!_registered)
                 return;
-            
+
             foreach (var c in _submeshes)
             {
                 if (c._registered)
@@ -702,7 +702,7 @@ namespace StudioCore.Scene
             {
                 c.DestroyRenderables();
             }
-            
+
             _placeholderProxy?.DestroyRenderables();
         }
 
@@ -720,7 +720,7 @@ namespace StudioCore.Scene
 
             _placeholderProxy?.SetSelectable(sel);
         }
-        
+
         public void OnProviderAvailable()
         {
             bool needsPlaceholder = _placeholderType != ModelMarkerType.None;
@@ -748,7 +748,7 @@ namespace StudioCore.Scene
                     needsPlaceholder = false;
                 }
             }
-            
+
             if (_meshProvider.HasMeshData())
             {
                 ScheduleRenderableConstruction();
@@ -757,7 +757,7 @@ namespace StudioCore.Scene
                     needsPlaceholder = false;
                 }
             }
-            
+
             if (needsPlaceholder)
             {
                 _placeholderProxy =
@@ -822,7 +822,7 @@ namespace StudioCore.Scene
         public static MeshRenderableProxy MeshRenderableFromFlverResource(
             RenderScene scene, string virtualPath, ModelMarkerType modelType)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, 
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
                 MeshProviderCache.GetFlverMeshProvider(virtualPath), modelType);
             return renderable;
         }
@@ -830,7 +830,7 @@ namespace StudioCore.Scene
         public static MeshRenderableProxy MeshRenderableFromCollisionResource(
             RenderScene scene, string virtualPath, ModelMarkerType modelType)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, 
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
                 MeshProviderCache.GetCollisionMeshProvider(virtualPath), modelType);
             return renderable;
         }
@@ -838,15 +838,15 @@ namespace StudioCore.Scene
         public static MeshRenderableProxy MeshRenderableFromNVMResource(
             RenderScene scene, string virtualPath, ModelMarkerType modelType)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, 
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
                 MeshProviderCache.GetNVMMeshProvider(virtualPath), modelType);
             return renderable;
         }
 
         public static MeshRenderableProxy MeshRenderableFromHavokNavmeshResource(
-            RenderScene scene, string virtualPath, ModelMarkerType modelType, bool temp=false)
+            RenderScene scene, string virtualPath, ModelMarkerType modelType, bool temp = false)
         {
-            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables, 
+            var renderable = new MeshRenderableProxy(scene.OpaqueRenderables,
                 MeshProviderCache.GetHavokNavMeshProvider(virtualPath, temp), modelType);
             return renderable;
         }
@@ -1064,7 +1064,7 @@ namespace StudioCore.Scene
             // If we were unregistered before construction time, don't construct now
             if (!_registered)
                 return;
-            
+
             if (_renderable != -1)
             {
                 _renderablesSet.RemoveRenderable(_renderable);
@@ -1274,6 +1274,9 @@ namespace StudioCore.Scene
         private static DbgPrimWireWallBox? _modelMarkerObj;
         private static DbgPrimWireSpheroidWithArrow? _modelMarkerPlayer;
         private static DbgPrimWireWallBox? _modelMarkerOther;
+        private static DbgPrimWireSphere? _pointLight;
+        private static DbgPrimWireSpotLight? _spotLight;
+        private static DbgPrimWireSpheroidWithArrow? _directionalLight;
 
         /// <summary>
         /// These are initialized explicitly to ensure these meshes are created at startup time so that they don't share
@@ -1291,8 +1294,11 @@ namespace StudioCore.Scene
             _modelMarkerObj = new DbgPrimWireWallBox(Transform.Default, new Vector3(-1.5f, 0.0f, -0.75f), new Vector3(1.5f, 2.5f, 0.75f), Color.Firebrick);
             _modelMarkerPlayer = new DbgPrimWireSpheroidWithArrow(Transform.Default, 0.75f, Color.Firebrick, 1, 6, true);
             _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
+            _pointLight = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 6, 6);
+            _spotLight = new DbgPrimWireSpotLight(Transform.Default, 1.0f, 1.0f, Color.Yellow);
+            _directionalLight = new DbgPrimWireSpheroidWithArrow(Transform.Default, 5.0f, Color.Yellow, 4, 2);
         }
-        
+
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
@@ -1340,7 +1346,7 @@ namespace StudioCore.Scene
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
-        
+
         public static DebugPrimitiveRenderableProxy GetModelMarkerProxy(MeshRenderables renderables, ModelMarkerType type)
         {
             // Model markers are used as placeholders for meshes that would not otherwise render in the editor
@@ -1372,11 +1378,33 @@ namespace StudioCore.Scene
                     selectColor = Color.AntiqueWhite;
                     break;
             }
-            
+
             var r = new DebugPrimitiveRenderableProxy(renderables, prim, false);
             r.BaseColor = baseColor;
             r.HighlightedColor = selectColor;
 
+            return r;
+        }
+
+        public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
+            r.BaseColor = Color.YellowGreen;
+            r.HighlightedColor = Color.Yellow;
+            return r;
+        }
+        public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
+            r.BaseColor = Color.Goldenrod;
+            r.HighlightedColor = Color.Violet;
+            return r;
+        }
+        public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
+        {
+            var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _directionalLight);
+            r.BaseColor = Color.Cyan;
+            r.HighlightedColor = Color.AliceBlue;
             return r;
         }
     }

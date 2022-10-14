@@ -442,6 +442,94 @@ namespace StudioCore
             return ad;
         }
 
+
+        public List<AssetDescription> GetMapBTLs(string mapid, bool writemode = false)
+        {
+            List<AssetDescription> adList = new();
+            if (mapid.Length != 12)
+            {
+                return adList;
+            }
+
+            if (Type is GameType.DarkSoulsIISOTFS)
+            {
+                // DS2 BTL is located inside map's .gibdt file
+                AssetDescription ad = new();
+                var path = $@"model\map\g{mapid[1..]}.gibhd";
+
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}") || (writemode && GameModDirectory != null))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}";
+                }
+                if (ad.AssetPath != null)
+                {
+                    ad.AssetName = $@"g{mapid[1..]}";
+                    ad.AssetVirtualPath = $@"{mapid}\light.btl.dcx";
+                    adList.Add(ad);
+                }
+
+                AssetDescription ad2 = new();
+                path = $@"model_lq\map\g{mapid[1..]}.gibhd";
+
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}") || (writemode && GameModDirectory != null))
+                {
+                    ad2.AssetPath = $@"{GameModDirectory}\{path}";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    ad2.AssetPath = $@"{GameRootDirectory}\{path}";
+                }
+                if (ad2.AssetPath != null)
+                {
+                    ad2.AssetName = $@"g{mapid[1..]}_lq";
+                    ad2.AssetVirtualPath = $@"{mapid}\light.btl.dcx";
+                    adList.Add(ad2);
+                }
+            }
+            else if (Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
+            {
+                string path;
+                if (Type is GameType.EldenRing)
+                    path = $@"map\{mapid[..3]}\{mapid}";
+                else
+                    path = $@"map\{mapid}";
+
+                string[] files;
+                try
+                {
+                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.*");
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    return adList;
+                }
+
+                foreach (var file in files)
+                {
+                    AssetDescription ad = new();
+                    var fileName = file.Split("\\").Last();
+                    if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}\{fileName}") || (writemode && GameModDirectory != null))
+                    {
+                        ad.AssetPath = $@"{GameModDirectory}\{path}\{fileName}";
+                    }
+                    else if (File.Exists($@"{GameRootDirectory}\{path}\{fileName}"))
+                    {
+                        ad.AssetPath = $@"{GameRootDirectory}\{path}\{fileName}";
+                    }
+                    if (ad.AssetPath != null)
+                    {
+                        ad.AssetName = fileName;
+                        adList.Add(ad);
+                    }
+                }
+            }
+            return adList;
+        }
+
         public AssetDescription GetMapNVA(string mapid, bool writemode = false)
         {
             AssetDescription ad = new AssetDescription();
