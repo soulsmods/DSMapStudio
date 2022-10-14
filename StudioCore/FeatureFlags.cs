@@ -15,8 +15,14 @@ namespace StudioCore
         public static bool LoadDS3Navmeshes = true;
 
         public static bool EnableNavmeshBuilder = false;
+        
+        public static bool StrictResourceChecking = true;
 
-        public static bool MBSE_Test = false; //MBSE read/write test
+#if DEBUG
+        public static bool TestMenu = true;
+#else
+        public static bool TestMenu = false;
+#endif
 
         public static bool EnablePartialParam = false;
     }

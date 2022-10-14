@@ -473,7 +473,7 @@ namespace SoulsFormats
                 br.AssertByte(0); // Former lantern ID
                 LodParamID = br.ReadByte();
                 UnkE09 = br.ReadByte();
-                IsPointLightShadowSrc = br.AssertSByte(0, -1); // Seems to be 0 or -1
+                IsPointLightShadowSrc = br.ReadSByte(); // Seems to be 0 or -1
                 UnkE0B = br.ReadByte();
                 IsShadowSrc = br.ReadBoolean();
                 IsStaticShadowSrc = br.ReadByte();
@@ -975,32 +975,62 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float Unk10;
+                public float TransitionTime { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk18;
+                public sbyte Unk18 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk1C;
+                public sbyte Unk19 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk20;
+                public sbyte Unk1A { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk1B { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk1C { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk1D { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk20 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public sbyte Unk21 { get; set; }
 
                 /// <summary>
                 /// Creates a SceneGparamConfig with default values.
                 /// </summary>
                 public SceneGparamConfig()
                 {
-                    Unk10 = 0.0f;
-                    Unk18 = 0;
-                    Unk1C = 0;
-                    Unk20 = 0;
+                    TransitionTime = 0.0f;
+                    Unk18 = -1;
+                    Unk19 = -1;
+                    Unk1A = -1;
+                    Unk1B = -1;
+                    Unk1C = -1;
+                    Unk1D = -1;
+                    Unk20 = -1;
+                    Unk21 = -1;
                 }
 
                 /// <summary>
@@ -1008,28 +1038,47 @@ namespace SoulsFormats
                 /// </summary>
                 public SceneGparamConfig DeepCopy()
                 {
-                    return (SceneGparamConfig)MemberwiseClone();
+                    var config = (SceneGparamConfig)MemberwiseClone();
+                    return config;
                 }
 
                 internal SceneGparamConfig(BinaryReaderEx br)
                 {
                     br.AssertPattern(16, 0x00);
-                    Unk10 = br.ReadSingle();
+                    TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
-                    Unk18 = br.ReadInt32();
-                    Unk1C = br.ReadInt32();
-                    Unk20 = br.ReadInt32();
+                    Unk18 = br.ReadSByte();
+                    Unk19 = br.ReadSByte();
+                    Unk1A = br.ReadSByte();
+                    Unk1B = br.ReadSByte();
+                    Unk1C = br.ReadSByte();
+                    Unk1D = br.ReadSByte();
+                    br.AssertSByte(0);
+                    br.AssertSByte(0);
+                    Unk20 = br.ReadSByte();
+                    Unk21 = br.ReadSByte();
+                    br.AssertSByte(0);
+                    br.AssertSByte(0);
                     br.AssertPattern(44, 0x00);
                 }
 
                 internal void Write(BinaryWriterEx bw)
                 {
                     bw.WritePattern(16, 0x00);
-                    bw.WriteSingle(Unk10);
+                    bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(Unk18);
-                    bw.WriteInt32(Unk1C);
-                    bw.WriteInt32(Unk20);
+                    bw.WriteSByte(Unk18);
+                    bw.WriteSByte(Unk19);
+                    bw.WriteSByte(Unk1A);
+                    bw.WriteSByte(Unk1B);
+                    bw.WriteSByte(Unk1C);
+                    bw.WriteSByte(Unk1D);
+                    bw.WriteSByte(0);
+                    bw.WriteSByte(0);
+                    bw.WriteSByte(Unk20);
+                    bw.WriteSByte(Unk21);
+                    bw.WriteSByte(0);
+                    bw.WriteSByte(0);
                     bw.WritePattern(44, 0x00);
                 }
             }
@@ -1530,7 +1579,7 @@ namespace SoulsFormats
                 public int UnkT28 { get; set; }
 
                 /// <summary>
-                /// an ID in ChrActivateConditionParam that affects enemy appearance conditions
+                /// ID in ChrActivateConditionParam that affects enemy appearance conditions.
                 /// </summary>
                 [MSBParamReference(ParamName = "ChrActivateConditionParam")]
                 public int ChrActivateCondParamID { get; set; }
@@ -1551,24 +1600,10 @@ namespace SoulsFormats
                 public int UnkT3C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Refers to SpEffectSetParam ID. Applies SpEffects to an enemy.
                 /// </summary>
-                public int UnkT40 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT44 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT48 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int UnkT4C { get; set; }
+                [MSBParamReference(ParamName = "SpEffectSetParam")]
+                public int[] SpEffectSetParamID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1581,6 +1616,7 @@ namespace SoulsFormats
                     Gparam = new GparamConfig();
                     Unk8 = new UnkStruct8();
                     Unk10 = new UnkStruct10();
+                    SpEffectSetParamID = new int[4];
                     ThinkParamID = -1;
                     NPCParamID = -1;
                     TalkID = -1;
@@ -1588,6 +1624,7 @@ namespace SoulsFormats
                     PlatoonID = -1;
                     CharaInitID = -1;
                     BackupEventAnimID = -1;
+                    UnkT24 = -1;
                 }
 
                 private protected override void DeepCopyTo(Part part)
@@ -1597,6 +1634,7 @@ namespace SoulsFormats
                     enemy.Gparam = Gparam.DeepCopy();
                     enemy.Unk8 = Unk8.DeepCopy();
                     enemy.Unk10 = Unk10.DeepCopy();
+                    enemy.SpEffectSetParamID = (int[])SpEffectSetParamID.Clone();
                 }
 
                 private protected EnemyBase(BinaryReaderEx br) : base(br) { }
@@ -1615,17 +1653,14 @@ namespace SoulsFormats
                     CollisionPartIndex = br.ReadInt32();
                     WalkRouteIndex = br.ReadInt16();
                     br.AssertInt16(0);
-                    UnkT24 = br.AssertInt32(-1);
+                    UnkT24 = br.ReadInt32();
                     UnkT28 = br.ReadInt32();
                     ChrActivateCondParamID = br.ReadInt32();
                     br.AssertInt32(0);
                     UnkT34 = br.ReadInt32();
                     BackupEventAnimID = br.ReadInt32();
                     UnkT3C = br.ReadInt32();
-                    UnkT40 = br.ReadInt32();
-                    UnkT44 = br.ReadInt32();
-                    UnkT48 = br.ReadInt32();
-                    UnkT4C = br.ReadInt32();
+                    SpEffectSetParamID = br.ReadInt32s(4);
                     br.AssertPattern(40, 0);
                     br.AssertUInt64(0x80);
                     br.AssertInt32(0);
@@ -1668,10 +1703,7 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT34);
                     bw.WriteInt32(BackupEventAnimID);
                     bw.WriteInt32(UnkT3C);
-                    bw.WriteInt32(UnkT40);
-                    bw.WriteInt32(UnkT44);
-                    bw.WriteInt32(UnkT48);
-                    bw.WriteInt32(UnkT4C);
+                    bw.WriteInt32s(SpEffectSetParamID);
                     bw.WritePattern(40, 0x00);
                     bw.WriteInt64(0x80);
                     bw.WriteInt32(0);
@@ -1926,7 +1958,7 @@ namespace SoulsFormats
                 public byte UnkT35 { get; set; }
 
                 /// <summary>
-                /// Disable being able to summon/ride Torrent
+                /// Disable being able to summon/ride Torrent.
                 /// </summary>
                 public bool DisableTorrent { get; set; }
 
@@ -1946,9 +1978,9 @@ namespace SoulsFormats
                 public float UnkT40 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Disables Fast Travel if Event Flag is not set.
                 /// </summary>
-                public int UnkT48 { get; set; }
+                public int EnableFastTravelEventFlagID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2016,7 +2048,7 @@ namespace SoulsFormats
                     UnkT3E = br.ReadInt16();
                     UnkT40 = br.ReadSingle();
                     br.AssertInt32(0);
-                    UnkT48 = br.ReadInt32();
+                    EnableFastTravelEventFlagID = br.ReadInt32();
                     UnkT4C = br.AssertInt16(0, 1);
                     UnkT4E = br.ReadInt16();
                 }
@@ -2057,7 +2089,7 @@ namespace SoulsFormats
                     bw.WriteInt16(UnkT3E);
                     bw.WriteSingle(UnkT40);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(UnkT48);
+                    bw.WriteInt32(EnableFastTravelEventFlagID);
                     bw.WriteInt16(UnkT4C);
                     bw.WriteInt16(UnkT4E);
                 }
@@ -2491,7 +2523,12 @@ namespace SoulsFormats
                     /// <summary>
                     /// Unknown.
                     /// </summary>
-                    public short Unk04 { get; set; }
+                    public bool Unk04 { get; set; }
+
+                    /// <summary>
+                    /// Disable being able to summon/ride Torrent, but only when asset isn't referencing collision DisableTorrent.
+                    /// </summary>
+                    public bool DisableTorrentAssetOnly { get; set; }
 
                     /// <summary>
                     /// Unknown.
@@ -2535,7 +2572,8 @@ namespace SoulsFormats
                     {
                         Unk00 = br.ReadInt16();
                         br.AssertInt16(-1);
-                        Unk04 = br.ReadInt16();
+                        Unk04 = br.ReadBoolean();
+                        DisableTorrentAssetOnly = br.ReadBoolean();
                         br.AssertInt16(-1);
                         br.AssertInt32(0);
                         br.AssertInt32(0);
@@ -2558,7 +2596,8 @@ namespace SoulsFormats
                     {
                         bw.WriteInt16(Unk00);
                         bw.WriteInt16(-1);
-                        bw.WriteInt16(Unk04);
+                        bw.WriteBoolean(Unk04);
+                        bw.WriteBoolean(DisableTorrentAssetOnly);
                         bw.WriteInt16(-1);
                         bw.WriteInt32(0);
                         bw.WriteInt32(0);

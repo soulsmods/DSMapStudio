@@ -1,18 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name="GAITEM_CATEGORY" type="u8">
+        <Option Value="0" Name="None" />
+        <Option Value="1" Name="Protector" />
+        <Option Value="4" Name="Good" />
+        <Option Value="15" Name="Unknown" />
+    </Enum>
+  </Enums>
   <Field>
-    <materialId01 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId02 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId03 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId04 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId05 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId06 Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <isDisableDispNum01 IsBool="" />
-    <isDisableDispNum02 IsBool="" />
-    <isDisableDispNum03 IsBool="" />
-    <isDisableDispNum04 IsBool="" />
-    <isDisableDispNum05 IsBool="" />
-    <isDisableDispNum06 IsBool="" />
+    <materialId01 AltName="Material ID [1]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId02 AltName="Material ID [2]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId03 AltName="Material ID [3]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId04 AltName="Material ID [4]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId05 AltName="Material ID [5]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId06 AltName="Material ID [6]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <pad_id AltName=""/>
+    <itemNum01 AltName="Material Amount [1]" Wiki="The number of material items required to strengthen armor." />
+    <itemNum02 AltName="Material Amount [2]" Wiki="The number of material items required to strengthen armor." />
+    <itemNum03 AltName="Material Amount [3]" Wiki="The number of material items required to strengthen armor." />
+    <itemNum04 AltName="Material Amount [4]" Wiki="The number of material items required to strengthen armor." />
+    <itemNum05 AltName="Material Amount [5]" Wiki="The number of material items required to strengthen armor." />
+    <itemNum06 AltName="Material Amount [6]" Wiki="The number of material items required to strengthen armor." />
+    <pad_num AltName=""/>
+    <materialCate01 AltName="Material Category [1]" Wiki="This is a category of material items required for strengthening armor." Enum="GAITEM_CATEGORY" />
+    <materialCate02 AltName="Material Category [2]" Wiki="This is a category of material items required for strengthening armor." Enum="GAITEM_CATEGORY" />
+    <materialCate03 AltName="Material Category [3]" Wiki="This is a category of material items required for strengthening armor." Enum="GAITEM_CATEGORY" />
+    <materialCate04 AltName="Material Category [4]" Wiki="This is a category of material items required for strengthening armor." Enum="GAITEM_CATEGORY" />
+    <materialCate05 AltName="Material Category [5]" Wiki="This is a category of material items required for strengthening armor." Enum="GAITEM_CATEGORY" />
+    <materialCate06 AltName="Material Category [6]" Wiki="This is a category of material items required for strengthening armor." Enum="GAITEM_CATEGORY" />
+    <pad_cate AltName=""/>
+    <isDisableDispNum01 AltName="Disable Display Number [1]" Wiki="Disable the number display (for enhanced shops)" IsBool="" />
+    <isDisableDispNum02 AltName="Disable Display Number [2]" Wiki="Whether to disable the number display" IsBool="" />
+    <isDisableDispNum03 AltName="Disable Display Number [3]" Wiki="Whether to disable the number display" IsBool="" />
+    <isDisableDispNum04 AltName="Disable Display Number [4]" Wiki="Whether to disable the number display" IsBool="" />
+    <isDisableDispNum05 AltName="Disable Display Number [5]" Wiki="Whether to disable the number display" IsBool="" />
+    <isDisableDispNum06 AltName="Disable Display Number [6]" Wiki="Whether to disable the number display" IsBool="" />
+    <pad AltName=""/>
   </Field>
-  <Self Row0Dummy="" />
+  <Self />
 </PARAMMETA>

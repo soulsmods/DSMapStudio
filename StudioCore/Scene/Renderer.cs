@@ -525,7 +525,7 @@ namespace StudioCore.Scene
 
             MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
             BoneBufferAllocator = new GPUBufferAllocator("bones", 65536 * 64, BufferUsage.StructuredBufferReadWrite, 64, ShaderStages.Vertex);
-            GlobalTexturePool = new TexturePool(device, "globalTextures", 5000);
+            GlobalTexturePool = new TexturePool(device, "globalTextures", 6000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 
             // Initialize default 2D texture at 0
@@ -543,6 +543,10 @@ namespace StudioCore.Scene
             // Default GI envmap texture at 0
             handle = GlobalCubeTexturePool.AllocateTextureDescriptor();
             handle.FillWithColorCube(device, new System.Numerics.Vector4(0.5f, 0.5f, 0.5f, 1.0f));
+            
+            // Initialize global debug primitives
+            // TODO: Make vertex buffer allocation smarter so that we don't need to do this
+            DebugPrimitiveRenderableProxy.InitializeDebugMeshes();
         }
 
         public static void RegisterRenderQueue(RenderQueue queue)

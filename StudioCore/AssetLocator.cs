@@ -83,8 +83,13 @@ namespace StudioCore
         public static readonly string JsonFilter =
             "Project file (project.json) |PROJECT.JSON";
 
-        public static readonly string ParamFilter =
+        public static readonly string ERRegulationFilter =
             "Regulation file (regulation.bin) |REGULATION.BIN";
+        public static readonly string ParamFilter =
+            "Regulation file (regulation.bin) |REGULATION.BIN|" +
+            "Data file (Data0.bdt) |DATA0.BDT|" +
+            "ParamBndDcx (gameparam.parambnd.dcx) |GAMEPARAM.PARAMBND.DCX|" +
+            "ParamBnd (gameparam.parambnd) |GAMEPARAM.PARAMBND";
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -437,6 +442,94 @@ namespace StudioCore
             return ad;
         }
 
+
+        public List<AssetDescription> GetMapBTLs(string mapid, bool writemode = false)
+        {
+            List<AssetDescription> adList = new();
+            if (mapid.Length != 12)
+            {
+                return adList;
+            }
+
+            if (Type is GameType.DarkSoulsIISOTFS)
+            {
+                // DS2 BTL is located inside map's .gibdt file
+                AssetDescription ad = new();
+                var path = $@"model\map\g{mapid[1..]}.gibhd";
+
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}") || (writemode && GameModDirectory != null))
+                {
+                    ad.AssetPath = $@"{GameModDirectory}\{path}";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    ad.AssetPath = $@"{GameRootDirectory}\{path}";
+                }
+                if (ad.AssetPath != null)
+                {
+                    ad.AssetName = $@"g{mapid[1..]}";
+                    ad.AssetVirtualPath = $@"{mapid}\light.btl.dcx";
+                    adList.Add(ad);
+                }
+
+                AssetDescription ad2 = new();
+                path = $@"model_lq\map\g{mapid[1..]}.gibhd";
+
+                if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}") || (writemode && GameModDirectory != null))
+                {
+                    ad2.AssetPath = $@"{GameModDirectory}\{path}";
+                }
+                else if (File.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    ad2.AssetPath = $@"{GameRootDirectory}\{path}";
+                }
+                if (ad2.AssetPath != null)
+                {
+                    ad2.AssetName = $@"g{mapid[1..]}_lq";
+                    ad2.AssetVirtualPath = $@"{mapid}\light.btl.dcx";
+                    adList.Add(ad2);
+                }
+            }
+            else if (Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
+            {
+                string path;
+                if (Type is GameType.EldenRing)
+                    path = $@"map\{mapid[..3]}\{mapid}";
+                else
+                    path = $@"map\{mapid}";
+
+                string[] files;
+                try
+                {
+                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.*");
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    return adList;
+                }
+
+                foreach (var file in files)
+                {
+                    AssetDescription ad = new();
+                    var fileName = file.Split("\\").Last();
+                    if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}\{fileName}") || (writemode && GameModDirectory != null))
+                    {
+                        ad.AssetPath = $@"{GameModDirectory}\{path}\{fileName}";
+                    }
+                    else if (File.Exists($@"{GameRootDirectory}\{path}\{fileName}"))
+                    {
+                        ad.AssetPath = $@"{GameRootDirectory}\{path}\{fileName}";
+                    }
+                    if (ad.AssetPath != null)
+                    {
+                        ad.AssetName = fileName;
+                        adList.Add(ad);
+                    }
+                }
+            }
+            return adList;
+        }
+
         public AssetDescription GetMapNVA(string mapid, bool writemode = false)
         {
             AssetDescription ad = new AssetDescription();
@@ -482,22 +575,42 @@ namespace StudioCore
             return ad;
         }
 
-        //msgbnd
-        public List<string> GetMsgLanguages()
+        /// <summary>
+        /// Get folders with msgbnds used in-game
+        /// </summary>
+        /// <returns>Dictionary with language name and path</returns>
+        public Dictionary<string, string> GetMsgLanguages()
         {
-            List<string> maps = new();
-
-            if (Type == GameType.DarkSoulsIISOTFS)
+            Dictionary<string, string> dict = new();
+            List<string> folders = new();
+            try
             {
-                maps = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
-            }
-            else
-            {
-                //exclude folders that don't have typical msgbnds
-                maps = Directory.GetDirectories(GameRootDirectory + @"\msg").Where((x) => !"common,as,eu,jp,na,uk".Contains(x.Split("\\").Last())).ToList();
-            }
+                if (Type == GameType.DemonsSouls)
+                {
+                    folders = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
+                    // Japanese uses root directory
+                    if (File.Exists(GameRootDirectory + @"\msg\menu.msgbnd.dcx") || File.Exists(GameRootDirectory + @"\msg\item.msgbnd.dcx"))
+                        dict.Add("Japanese", "");
+                }
+                else if (Type == GameType.DarkSoulsIISOTFS)
+                {
+                    folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
+                }
+                else
+                {
+                    // Exclude folders that don't have typical msgbnds
+                    folders = Directory.GetDirectories(GameRootDirectory + @"\msg").Where(x => !"common,as,eu,jp,na,uk,japanese".Contains(x.Split("\\").Last())).ToList();
+                }
 
-            return maps;
+                foreach (var path in folders)
+                {
+                    dict.Add(path.Split("\\").Last(), path);
+                }
+            }
+            catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
+            {
+            }
+            return dict;
         }
 
         /// <summary>
@@ -516,26 +629,35 @@ namespace StudioCore
         }
         public AssetDescription GetMsgbnd(string msgBndType, ref string langFolder, bool writemode = false)
         {
+            AssetDescription ad = new();
             if (langFolder == "")
             {
                 //pick default (english) path
-                foreach (var langStr in GetMsgLanguages())
+                foreach (var lang in GetMsgLanguages())
                 {
-                    string folder = langStr.Split("\\").Last();
-                    if (folder.Contains("eng",StringComparison.CurrentCultureIgnoreCase)) //I believe this is good enough.
+                    string folder = lang.Value.Split("\\").Last();
+                    if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase)) //I believe this is good enough.
                     {
                         langFolder = folder;
                         break;
                     }
                 }
                 if (langFolder == "")
-                    throw new Exception("Could not find english text msgbnd");
+                {
+                    // Could not find default [english] text msgbnd.
+                    return ad;
+                }
             }
 
             string path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
             if (Type == GameType.DemonsSouls)
             {
                 path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
+                // Demon's Souls has msgbnds directly in the msg folder
+                if (!File.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    path = $@"msg\{msgBndType}.msgbnd.dcx";
+                }
             }
             else if (Type == GameType.DarkSoulsPTDE)
             {
@@ -559,7 +681,6 @@ namespace StudioCore
                 path = $@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx";
             }
 
-            AssetDescription ad = new AssetDescription();
             if (writemode)
             {
                 ad.AssetPath = path;

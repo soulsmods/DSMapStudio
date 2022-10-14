@@ -15,7 +15,7 @@ using StudioCore.Editor;
 namespace StudioCore.MsbEditor
 {
     /// <summary>
-    /// A logical map object that can be either a part, a region, or an event. Uses
+    /// A logical map object that can be either a part, region, event, or light. Uses
     /// reflection to access and update properties
     /// </summary>
     public class Entity : Scene.ISelectable, IDisposable
@@ -23,6 +23,8 @@ namespace StudioCore.MsbEditor
         public object WrappedObject { get; set; }
 
         private string CachedName = null;
+
+        public string ExtraSaveInfo = null;
 
         [XmlIgnore]
         public ObjectContainer Container { get; set; } = null;
@@ -143,9 +145,9 @@ namespace StudioCore.MsbEditor
         internal bool UseTempTransform = false;
         internal Transform TempTransform = Transform.Default;
 
+
         public Entity()
         {
-
         }
 
         public Entity(ObjectContainer map, object msbo)
@@ -288,6 +290,7 @@ namespace StudioCore.MsbEditor
             var obj = DuplicateEntity(clone);
             CloneRenderable(obj);
             obj.UseDrawGroups = UseDrawGroups;
+            obj.ExtraSaveInfo = ExtraSaveInfo;
             return obj;
         }
 
@@ -532,11 +535,14 @@ namespace StudioCore.MsbEditor
         /// </summary>
         public virtual Transform GetRootTransform()
         {
-            if (this != Container.RootObject)
+            Transform t = Transform.Default;
+            var parent = Parent;
+            while (parent != null)
             {
-                return Container.RootObject.GetLocalTransform();
+                t += parent.GetLocalTransform();
+                parent = parent.Parent;
             }
-            return Transform.Default;
+            return t;
         }
 
         /// <summary>
@@ -558,6 +564,7 @@ namespace StudioCore.MsbEditor
         public virtual Transform GetLocalTransform()
         {
             var t = Transform.Default;
+
             var pos = GetPropertyValue("Position");
             if (pos != null)
             {
@@ -586,6 +593,7 @@ namespace StudioCore.MsbEditor
             if (rot != null)
             {
                 var r = (Vector3)rot;
+                
                 if (IsRotationPropertyRadians("Rotation"))
                 {
                     if (IsRotationXZY("Rotation"))
@@ -828,14 +836,14 @@ namespace StudioCore.MsbEditor
 
             if (myDrawProp != null && myCollisionNameProp != null)
             {
-                //Found DrawGroups and CollisionName
-                if (partNameArray == null) //didn't get string from UnkPartNames
-                    colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); //get string in collisionName field
+                // Found DrawGroups and CollisionName
+                if (partNameArray == null) // Didn't get string from UnkPartNames
+                    colNameStr = (string)myCollisionNameProp.GetValue(WrappedObject); // Get string in collisionName field
 
-                if (colNameStr != null)
+                if (colNameStr != null && colNameStr != "")
                 {
-                    //CollisionName field is not empty
-                    var colNameEnt = Container.GetObjectByName(colNameStr); //get entity referenced by collisionName
+                    // CollisionName field is not empty
+                    var colNameEnt = Container.GetObjectByName(colNameStr); // Get entity referenced by collisionName
                     if (colNameEnt != null)
                     {
                         //get DrawGroups from CollisionName reference
@@ -877,8 +885,11 @@ namespace StudioCore.MsbEditor
                     }
                     else if (Universe.postLoad)
                     {
-                        //collisionName referenced doesn't exist
-                        TaskManager.warningList.TryAdd($"{Name} colName", $"{Parent.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                        if (colNameStr != "")
+                        {
+                            // CollisionName referenced doesn't exist
+                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Container?.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                        }
                     }
                 }
             }
@@ -1063,6 +1074,7 @@ namespace StudioCore.MsbEditor
             Part,
             Region,
             Event,
+            Light,
             DS2Generator,
             DS2GeneratorRegist,
             DS2Event,
@@ -1101,6 +1113,10 @@ namespace StudioCore.MsbEditor
                 {
                     icon = ForkAwesome.Cube;
                 }
+                else if (Type == MapEntityType.Light)
+                {
+                    icon = ForkAwesome.LightbulbO;
+                }
                 else if (Type == MapEntityType.DS2Generator)
                 {
                     icon = ForkAwesome.Male;
@@ -1122,7 +1138,7 @@ namespace StudioCore.MsbEditor
                     icon = ForkAwesome.Database;
                 }
 
-                return $@"{icon} {Name}";
+                return $@"{icon} {Utils.ImGuiEscape(Name, null)}";
             }
         }
 
@@ -1163,7 +1179,7 @@ namespace StudioCore.MsbEditor
             WrappedObject = msbo;
         }
 
-        public MapEntity(ObjectContainer map, object msbo, MapEntityType type)
+        public MapEntity(ObjectContainer map, object msbo, MapEntityType type, string btlFile = null)
         {
             Container = map;
             WrappedObject = msbo;
@@ -1172,7 +1188,13 @@ namespace StudioCore.MsbEditor
             {
                 CurrentModel = GetPropertyValue<string>("ModelName");
             }
+            if (type is MapEntityType.Light)
+            {
+                ExtraSaveInfo = btlFile;
+                //OffsetBtlLight();
+            }
         }
+
         /// <summary>
         /// Checks if supplied model ID is on the list of models that will not render, and will use a model marker instead.
         /// </summary>
@@ -1231,28 +1253,6 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
-        private bool CheckNoEntitySubmesh()
-        {
-            if (_renderSceneMesh == null)
-            {
-                //null asset
-                return true;
-            }
-
-            var myRenderType = _renderSceneMesh.GetType().Name;
-            var meshType = typeof(MeshRenderableProxy).Name;
-            if (myRenderType == meshType)
-            {
-                //is a mesh proxy
-                var prox = (MeshRenderableProxy)_renderSceneMesh;
-                if (prox.Submeshes.Count == 0 && prox.MeshIndexCount == 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private bool _canLoadPostLoad = true;
         public override void UpdateRenderModel()
         {
@@ -1276,23 +1276,26 @@ namespace StudioCore.MsbEditor
                 }
                 _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
             }
+            else if (Type == MapEntityType.Light && _renderSceneMesh == null)
+            {
+                if (_renderSceneMesh != null)
+                {
+                    _renderSceneMesh.Dispose();
+                }
+                _renderSceneMesh = Universe.GetLightDrawable(ContainingMap, this);
+            }
             else
             {
-
-                //v3
                 var modelProp = GetProperty("ModelName");
                 if (modelProp != null) // Check if ModelName property exists
                 {
                     string model = (string)modelProp.GetValue(WrappedObject);
 
-                    bool modelChanged = false;
-                    if (CurrentModel != model)
-                        modelChanged = true;
+                    bool modelChanged = CurrentModel != model;
 
                     if (modelChanged)
                     {
                         //model name has been changed or this is the initial check
-
                         if (_renderSceneMesh != null)
                         {
                             _renderSceneMesh.Dispose();
@@ -1302,91 +1305,18 @@ namespace StudioCore.MsbEditor
                             _canLoadPostLoad = false;
                         CurrentModel = model;
 
-                        //get model (even if just to check the submeshes)
-                        bool noSubMeshes;
+                        // Get model
                         if (model != null)
                         {
                             _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
-                            noSubMeshes = CheckNoEntitySubmesh();
-                        }
-                        else
-                        {
-                            noSubMeshes = true;
                         }
 
-                        if (Universe.postLoad && noSubMeshes)
-                            {
-                                //should be a model marker
-                                if (_renderSceneMesh != null)
-                                {
-                                    _renderSceneMesh.Dispose();
-                                }
-                                _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                            }
-                        if (Universe.Selection.IsSelected(this))
-                        {
-                            OnSelected();
-                        }
-                    }
-                    else if (Universe.postLoad && _canLoadPostLoad)
-                    {
-                        //post initial load submesh check
-                        _canLoadPostLoad = false;
-
-                        CurrentModel = model;
-                        var noSubMeshes = CheckNoEntitySubmesh();
-
-                        if (noSubMeshes)
-                        {
-                            //should be a model marker
-                            if (_renderSceneMesh != null)
-                            {
-                                _renderSceneMesh.Dispose();
-                            }
-                            _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-                            if (Universe.Selection.IsSelected(this))
-                            {
-                                OnSelected();
-                            }
-                        }
-                    }
-                }
-                //v1
-                /*
-                var model = GetPropertyValue<string>("ModelName");
-                if (model != null)
-                {
-                    if (CheckIfModelMarker(model) && (CurrentModel != model || _renderSceneMesh == null))
-                    {
-                        //render model marker (region mesh)
-                        if (_renderSceneMesh != null)
-                        {
-                            _renderSceneMesh.Dispose();
-                        }
-                        CurrentModel = model;
-                        _renderSceneMesh = Universe.GetRegionDrawable(ContainingMap, this);
-
-                        if (Universe.Selection.IsSelected(this))
-                        {
-                            OnSelected();
-                        }
-                    }
-                    else if (!CheckIfModelMarker(model) && model != null && model != CurrentModel)
-                    {
-                        // Render Model
-                        if (_renderSceneMesh != null)
-                        {
-                            _renderSceneMesh.Dispose();
-                        }
-                        CurrentModel = model;
-                        _renderSceneMesh = Universe.GetModelDrawable(ContainingMap, this, model, true);
                         if (Universe.Selection.IsSelected(this))
                         {
                             OnSelected();
                         }
                     }
                 }
-                */
             }
             base.UpdateRenderModel();
         }
@@ -1449,15 +1379,35 @@ namespace StudioCore.MsbEditor
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
             }
-            /*
-            if (Type == MapEntityType.Part && CheckIfModelMarker(CurrentModel))
+            else if (Type == MapEntityType.Light)
             {
-                // Parts that render via Model Marker
-            }
-            */
+                var lightType = GetPropertyValue("Type");
+                if (lightType != null)
+                {
+                    if (lightType is BTL.LightType.Directional)
+                    {
+                    }
+                    else if (lightType is BTL.LightType.Spot)
+                    {
+                        var rad = (float)GetPropertyValue("Radius");
+                        t.Scale = new Vector3(rad);
 
+                        // TODO: Better transformation (or update primitive) using BTL ConeAngle
+                        /*
+                            var ang = (float)GetPropertyValue("ConeAngle");
+                            t.Scale.X += ang;
+                            t.Scale.Y += ang;
+                        */
+                    }
+                    else if (lightType is BTL.LightType.Point)
+                    {
+                        var rad = (float)GetPropertyValue("Radius");
+                        t.Scale = new Vector3(rad);
+                    }
+                }
+            }
             // DS2 event regions
-            if (Type == MapEntityType.DS2EventLocation)
+            else if (Type == MapEntityType.DS2EventLocation)
             {
                 var sx = GetPropertyValue("ScaleX");
                 var sy = GetPropertyValue("ScaleY");

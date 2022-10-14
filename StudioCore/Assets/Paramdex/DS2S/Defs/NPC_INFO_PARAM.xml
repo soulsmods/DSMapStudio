@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>NPC_INFO_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,17 +6,17 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
+    <Field Def="s32 Tombstone Spawn Delay (seconds)" />
     <Field Def="s32 Unk04" />
-    <Field Def="s32 Unk08" />
-    <Field Def="s32 Unk0C" />
-    <Field Def="s32 Unk10" />
+    <Field Def="s32 NPC Death Event Flag ID" />
+    <Field Def="s32 Revival Cost" />
+    <Field Def="s32 NpcNameSwapParam ID" />
     <Field Def="s32 Unk14" />
-    <Field Def="s32 Unk18" />
-    <Field Def="s32 Unk1C" />
-    <Field Def="s32 Unk20" />
-    <Field Def="s32 Unk24" />
-    <Field Def="s32 Unk28" />
-    <Field Def="s32 Unk2C" />
+    <Field Def="s32 Souls for Gift (Goods Vendor)" />
+    <Field Def="s32 Souls for Gift (Blacksmith)" />
+    <Field Def="s32 INT Requirement for Gift" />
+    <Field Def="s32 FTH Requirement for Gift" />
+    <Field Def="s32 Souls for ShopLineup Update 1" />
+    <Field Def="s32 Souls for ShopLineup Update 2" />
   </Fields>
 </PARAMDEF>

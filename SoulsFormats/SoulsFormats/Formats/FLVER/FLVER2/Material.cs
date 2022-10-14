@@ -67,7 +67,7 @@ namespace SoulsFormats
                 Unk18 = 0;
             }
 
-            internal Material(BinaryReaderEx br, FLVERHeader header, List<GXList> gxLists, Dictionary<int, int> gxListIndices)
+            internal Material(BinaryReaderEx br, FLVER2Header header, List<GXList> gxLists, Dictionary<int, int> gxListIndices)
             {
                 int nameOffset = br.ReadInt32();
                 int mtdOffset = br.ReadInt32();
@@ -151,7 +151,7 @@ namespace SoulsFormats
                     Textures[i].Write(bw, textureIndex + i);
             }
 
-            internal void WriteStrings(BinaryWriterEx bw, FLVERHeader header, int index)
+            internal void WriteStrings(BinaryWriterEx bw, FLVER2Header header, int index)
             {
                 bw.FillInt32($"MaterialName{index}", (int)bw.Position);
                 if (header.Unicode)

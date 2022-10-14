@@ -17,6 +17,7 @@ namespace StudioCore.Scene
         Object = 32,
         Navmesh = 64,
         Region = 128,
+        Light = 256,
         All = 0xFFFFFFF,
     }
 }

@@ -499,6 +499,9 @@ namespace StudioCore.Scene
             internal int _valign;
             internal int _ialign;
 
+            private bool _vfilled = false;
+            private bool _ifilled = false;
+
             public VertexIndexBuffer.Status AllocStatus { get { return _buffer.AllocStatus; } }
 
             public int BufferIndex {
@@ -526,12 +529,14 @@ namespace StudioCore.Scene
 
             public void SetVFilled()
             {
+                _vfilled = true;
                 Interlocked.Increment(ref _buffer._vfillCount);
                 _buffer.FlushIfNeeded();
             }
 
             public void SetIFilled()
             {
+                _ifilled = true;
                 Interlocked.Increment(ref _buffer._ifillCount);
                 _buffer.FlushIfNeeded();
             }
@@ -540,6 +545,8 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    if (_buffer == null)
+                        return;
                     var ctx = Tracy.TracyCZoneN(1, $@"FillVBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
@@ -592,6 +599,11 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    // If the buffer is null when we get here, it's likely that this allocation was
+                    // destroyed by the time the staging is happening.
+                    if (_buffer == null)
+                        return;
+                    
                     var ctx = Tracy.TracyCZoneN(1, $@"FillVBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
@@ -640,6 +652,11 @@ namespace StudioCore.Scene
             {
                 Renderer.AddLowPriorityBackgroundUploadTask((device, cl) =>
                 {
+                    // If the buffer is null when we get here, it's likely that this allocation was
+                    // destroyed by the time the staging is happening.
+                    if (_buffer == null)
+                        return;
+                    
                     var ctx = Tracy.TracyCZoneN(1, $@"FillIBuffer");
                     if (_buffer.AllocStatus == VertexIndexBuffer.Status.Staging)
                     {
@@ -686,21 +703,22 @@ namespace StudioCore.Scene
             {
                 if (!disposedValue)
                 {
-                    if (disposing)
-                    {
-                        _allocator._allocations.Remove(this);
-                    }
-
                     if (_buffer != null)
                     {
+                        _allocator._allocations.Remove(this);
                         _buffer._handleCount--;
-                        if (_buffer._handleCount <= 0)
+                        if (_vfilled)
+                            Interlocked.Decrement(ref _buffer._vfillCount);
+                        if (_ifilled)
+                            Interlocked.Decrement(ref _buffer._ifillCount);
+                        if (_buffer._handleCount <= 0 && _buffer.AllocStatus == VertexIndexBuffer.Status.Resident)
                         {
                             _buffer._backingVertBuffer.Dispose();
                             _buffer._backingIndexBuffer.Dispose();
                             _allocator._buffers[_buffer.BufferIndex] = null;
                         }
                         _buffer = null;
+                        _allocator = null;
                     }
 
                     disposedValue = true;

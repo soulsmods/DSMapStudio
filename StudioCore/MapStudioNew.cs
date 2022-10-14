@@ -11,16 +11,19 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Threading.Tasks;
 using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
+using System.Windows.Forms;
 
 namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.02.4";
+        private static string _version = "version 1.03.1";
+        private static string _programTitle = $"Dark Souls Map Studio {_version}";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -69,7 +72,7 @@ namespace StudioCore
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
-        
+
         public MapStudioNew()
         {
             CFG.AttemptLoadOrDefault();
@@ -87,7 +90,7 @@ namespace StudioCore
                 WindowWidth = CFG.Current.GFX_Display_Width,
                 WindowHeight = CFG.Current.GFX_Display_Height,
                 WindowInitialState = WindowState.Maximized,
-                WindowTitle = "Dark Souls Map Studio " + _version,
+                WindowTitle = $"{_programTitle}",
             };
             GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 
@@ -132,7 +135,8 @@ namespace StudioCore
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
-            ParamEditor.ParamBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
@@ -169,6 +173,9 @@ namespace StudioCore
             var fontIcon = File.ReadAllBytes(fileIcon);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
+
+            var scale = CFG.Current.FontSizeScale;
+
             fixed (byte* p = fontEn)
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
@@ -176,7 +183,7 @@ namespace StudioCore
                 cfg.GlyphMinAdvanceX = 5.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f, cfg, fonts.GetGlyphRangesDefault());
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f * scale, cfg, fonts.GetGlyphRangesDefault());
             }
             fixed (byte* p = fontOther)
             {
@@ -191,20 +198,20 @@ namespace StudioCore
                 glyphJP.AddRanges(fonts.GetGlyphRangesJapanese());
                 Array.ForEach(SpecialCharsJP, c => glyphJP.AddChar(c));
                 glyphJP.BuildRanges(out ImVector glyphRangeJP);
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, glyphRangeJP.Data);
+                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, glyphRangeJP.Data);
                 glyphJP.Destroy();
 
                 if (CFG.Current.FontChinese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesChineseFull());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesChineseFull());
                 if (CFG.Current.FontKorean)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesKorean());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesKorean());
                 if (CFG.Current.FontThai)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesThai());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesThai());
                 if (CFG.Current.FontVietnamese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f, cfg, fonts.GetGlyphRangesVietnamese());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesVietnamese());
                 cfg.GlyphMinAdvanceX = 5.0f;
                 if (CFG.Current.FontCyrillic)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f, cfg, fonts.GetGlyphRangesCyrillic());
+                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f * scale, cfg, fonts.GetGlyphRangesCyrillic());
             }
             fixed (byte* p = fontIcon)
             {
@@ -219,7 +226,7 @@ namespace StudioCore
 
                 fixed (ushort* r = ranges)
                 {
-                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f, cfg, (IntPtr)r);
+                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f * scale, cfg, (IntPtr)r);
                 }
             }
             fonts.Build();
@@ -304,6 +311,9 @@ namespace StudioCore
             Tracy.Startup();
             while (_window.Exists)
             {
+                // Make sure any awaited UI thread work has a chance to complete
+                //await Task.Yield();
+                
                 Tracy.TracyCFrameMark();
 
                 // Limit frame rate when window isn't focused unless we are profiling
@@ -365,6 +375,33 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
+        // Try to shutdown things gracefully on a crash
+        public void CrashShutdown()
+        {
+            Tracy.Shutdown();
+            Resource.ResourceManager.Shutdown();
+            _gd.Dispose();
+            System.Windows.Forms.Application.Exit();
+        }
+
+        private string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
+        public void ExportCrashLog(List<string> exceptionInfo)
+        {
+            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            exceptionInfo.Insert(0, $"Version {_version}");
+            Directory.CreateDirectory($"{CrashLogPath}");
+            File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
+            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public void ExportCrashLog(string exceptionInfo)
+        {
+            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            exceptionInfo.Insert(0, $"Version {_version}");
+            Directory.CreateDirectory($"{CrashLogPath}");
+            File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
+            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
         {
             _projectSettings = newsettings;
@@ -372,7 +409,6 @@ namespace StudioCore
 
             Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams(newsettings, options);
-            TextEditor.FMGBank.ReloadFMGs();
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.ReloadUniverse();
             _modelEditor.ReloadAssetBrowser();
@@ -380,8 +416,8 @@ namespace StudioCore
             //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
             _modelEditor.OnProjectChanged(_projectSettings);
-            _paramEditor.OnProjectChanged(_projectSettings);
             _textEditor.OnProjectChanged(_projectSettings);
+            _paramEditor.OnProjectChanged(_projectSettings);
         }
 
         public void ApplyStyle()
@@ -524,6 +560,8 @@ namespace StudioCore
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
                 CFG.Current.LastProjectFile = filename;
+                _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+
                 if (updateRecents)
                 {
                     var recent = new CFG.RecentProject();
@@ -771,36 +809,52 @@ namespace StudioCore
                         }
                     }
 
-                    if (ImGui.BeginMenu("Additional Language Fonts"))
+                    if (ImGui.BeginMenu("Fonts"))
                     {
-                        ImGui.Text("Additional fonts take more VRAM and increase startup time.");
-                        ImGui.Text("Please restart program for changes to take effect.");
+                        ImGui.Text("Please restart program for font changes to take effect.");
                         ImGui.Separator();
-                        if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+
+                        if (ImGui.SliderFloat("Font Scale", ref CFG.Current.FontSizeScale, 0.5f, 4.0f))
                         {
-                            CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                            CFG.Current.FontSizeScale = (float)Math.Round(CFG.Current.FontSizeScale, 1);
                         }
-                        if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                        if (ImGui.BeginMenu("Additional Language Fonts"))
                         {
-                            CFG.Current.FontKorean = !CFG.Current.FontKorean;
-                        }
-                        if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
-                        {
-                            CFG.Current.FontThai = !CFG.Current.FontThai;
-                        }
-                        if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
-                        {
-                            CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
-                        }
-                        if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
-                        {
-                            CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                            ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                            ImGui.Separator();
+                            if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
+                            {
+                                CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                            }
+                            if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
+                            {
+                                CFG.Current.FontKorean = !CFG.Current.FontKorean;
+                            }
+                            if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
+                            {
+                                CFG.Current.FontThai = !CFG.Current.FontThai;
+                            }
+                            if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
+                            {
+                                CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
+                            }
+                            if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
+                            {
+                                CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                            }
+                            ImGui.EndMenu();
                         }
                         ImGui.EndMenu();
                     }
                     if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
+                    }
+                    if (ImGui.BeginMenu("Map Editor"))
+                    {
+                        ImGui.Checkbox("Pin loaded maps to top of list", ref CFG.Current.Map_PinLoadedMaps);
+                        ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
+                        ImGui.EndMenu();
                     }
                     if (ImGui.BeginMenu("Viewport Settings"))
                     {
@@ -842,6 +896,10 @@ namespace StudioCore
                             CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                         }
                         ImGui.EndMenu();
+                    }
+                    if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
+                    {
+                        CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
                     }
                     ImGui.EndMenu();
                 }
@@ -907,7 +965,7 @@ namespace StudioCore
                     */
                     ImGui.EndMenu();
                 }
-                if (FeatureFlags.MBSE_Test)
+                if (FeatureFlags.TestMenu)
                 {
                     if (ImGui.BeginMenu("Tests"))
                     {
@@ -919,6 +977,10 @@ namespace StudioCore
                         if (ImGui.MenuItem("MSBE read/write test"))
                         {
                             Tests.MSBReadWrite.Run(_assetLocator);
+                        }
+                        if (ImGui.MenuItem("BTL read/write test"))
+                        {
+                            Tests.BTLReadWrite.Run(_assetLocator);
                         }
                         ImGui.EndMenu();
                     }

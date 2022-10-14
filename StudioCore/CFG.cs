@@ -106,9 +106,10 @@ namespace StudioCore
 
         public string LastProjectFile { get; set; } = "";
         public List<RecentProject> RecentProjects { get; set; } = new List<RecentProject>();
+
         public GameType Game_Type { get; set; } = GameType.Undefined;
 
-        public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All;
+        public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All ^ Scene.RenderFilter.Light;
 
         public bool EnableTexturing { get; set; } = false;
 
@@ -123,13 +124,19 @@ namespace StudioCore
         public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
         public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
-        
+
+        public bool Map_AlwaysListLoadedMaps = true;
+        public bool Map_PinLoadedMaps = true;
+
         // Font settings
         public bool FontChinese = false;
         public bool FontKorean = false;
         public bool FontThai = false;
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
+        public float FontSizeScale = 1.0f;
+
+        public bool FMG_ShowOriginalNames = false;
 
         public bool EnableEldenRingAutoMapOffset { get; set; } = true;
     }

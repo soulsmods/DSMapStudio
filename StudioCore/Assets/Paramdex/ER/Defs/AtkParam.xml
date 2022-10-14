@@ -1391,9 +1391,13 @@
       <Maximum>99</Maximum>
       <SortID>1802</SortID>
     </Field>
-    <Field Def="dummy8 pad4[19]">
+    <Field Def="dummy8 pad4[3]">
       <DisplayName>pad</DisplayName>
       <SortID>12005</SortID>
+    </Field>
+    <Field Def="s32 finalDamageRateId">
+    </Field>
+    <Field Def="dummy8 pad7[12]">
     </Field>
   </Fields>
 </PARAMDEF>

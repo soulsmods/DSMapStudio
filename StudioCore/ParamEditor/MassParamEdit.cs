@@ -31,7 +31,7 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
-        internal static object PerformOperation(Param.Row row, Param.Column column, string op, string opparam)
+        internal static object PerformOperation(ParamBank bank, Param.Row row, Param.Column column, string op, string opparam)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace StudioCore.ParamEditor
                     {
                         foreach (string reftype in FieldMetaData.Get(column.Def).RefTypes)
                         {
-                            var p = ParamBank.Params[reftype];
+                            var p = bank.Params[reftype];
                             if (p == null)
                                 continue;
                             foreach (var r in p.Rows)
@@ -151,7 +151,7 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditRegex : MassParamEdit
     {
-        public static (MassEditResult, ActionManager child) PerformMassEdit(string commandsString, ParamEditorSelectionState context)
+        public static (MassEditResult, ActionManager child) PerformMassEdit(ParamBank bank, string commandsString, ParamEditorSelectionState context)
         {
             try
             {
@@ -198,7 +198,7 @@ namespace StudioCore.ParamEditor
                     if (operationstage.Length == 1)
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
 
-                    (var result, var actions) = PerformMassEditCommand(rowSelector==null, paramSelector, rowSelector, cellSelector, editName, operation, operationstage[1], context);
+                    (var result, var actions) = PerformMassEditCommand(bank, rowSelector==null, paramSelector, rowSelector, cellSelector, editName, operation, operationstage[1], context);
                     if (result.Type != MassEditResultType.SUCCESS)
                         return (result, null);
                     changeCount += actions.Count;
@@ -211,7 +211,7 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown parsing error: "+e.ToString()), null);
             }
         }
-        private static (MassEditResult, List<EditorAction>) PerformMassEditCommand(bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, bool editName, string operation, string opargs, ParamEditorSelectionState context)
+        private static (MassEditResult, List<EditorAction>) PerformMassEditCommand(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, bool editName, string operation, string opargs, ParamEditorSelectionState context)
         {
             List<EditorAction> partialActions = new List<EditorAction>();
             try {
@@ -235,7 +235,7 @@ namespace StudioCore.ParamEditor
 
                 if (isParamRowSelector)
                 {
-                    var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs, ParamBank.Params[context.getActiveParam()]);
+                    var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs, bank.Params[context.getActiveParam()]);
                     if (argc != argFuncs.Length)
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}"), null);
                     foreach (Param.Row row in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
@@ -352,13 +352,13 @@ namespace StudioCore.ParamEditor
             return gen;
         }
         
-        public static MassEditResult PerformMassEdit(string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
+        public static MassEditResult PerformMassEdit(ParamBank bank, string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
         {
             #if !DEBUG
             try
             {
             #endif
-                Param p = ParamBank.Params[param];
+                Param p = bank.Params[param];
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
@@ -393,7 +393,7 @@ namespace StudioCore.ParamEditor
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = PerformOperation(row, col, "=", v);
+                        object newval = PerformOperation(bank, row, col, "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
                         var handle = row[col];
@@ -416,11 +416,11 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             #endif
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(string csvString, string param, string field, char separator, bool ignoreMissingRows)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows)
         {
             try
             {
-                Param p = ParamBank.Params[param];
+                Param p = bank.Params[param];
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
@@ -462,7 +462,7 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = PerformOperation(row, col, "=", value);
+                        object newval = PerformOperation(bank, row, col, "=", value);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
                         var handle = row[col];
@@ -481,9 +481,9 @@ namespace StudioCore.ParamEditor
 
     public class MassParamEditOther
     {
-        public static AddParamsAction SortRows(string paramName)
+        public static AddParamsAction SortRows(ParamBank bank, string paramName)
         {
-            Param param = ParamBank.Params[paramName];
+            Param param = bank.Params[paramName];
             List<Param.Row> newRows = new List<Param.Row>(param.Rows);
             newRows.Sort((Param.Row a, Param.Row b)=>{return a.ID - b.ID;});
             return new AddParamsAction(param, paramName, newRows, true, true, false); //appending same params and allowing overwrite
@@ -511,12 +511,12 @@ namespace StudioCore.ParamEditor
         internal static MECellOperation cellOps = new MECellOperation();
         internal override void Setup()
         {
-            operations.Add("=", (1, (ctx, args) => MassParamEdit.PerformOperation(ctx.Item1, ctx.Item2, "=", args[0])));
-            operations.Add("+", (1, (ctx, args) => MassParamEdit.PerformOperation(ctx.Item1, ctx.Item2, "+", args[0])));
-            operations.Add("-", (1, (ctx, args) => MassParamEdit.PerformOperation(ctx.Item1, ctx.Item2, "-", args[0])));
-            operations.Add("*", (1, (ctx, args) => MassParamEdit.PerformOperation(ctx.Item1, ctx.Item2, "*", args[0])));
-            operations.Add("/", (1, (ctx, args) => MassParamEdit.PerformOperation(ctx.Item1, ctx.Item2, "/", args[0])));
-            operations.Add("%", (1, (ctx, args) => MassParamEdit.PerformOperation(ctx.Item1, ctx.Item2, "%", args[0])));
+            operations.Add("=", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "=", args[0])));
+            operations.Add("+", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "+", args[0])));
+            operations.Add("-", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "-", args[0])));
+            operations.Add("*", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "*", args[0])));
+            operations.Add("/", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "/", args[0])));
+            operations.Add("%", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args[0])));
         }
     }
     internal class MERowOperation : MEOperation<Param.Row>
@@ -556,8 +556,11 @@ namespace StudioCore.ParamEditor
                 };
             }));
             argumentGetters.Add("vanillafield", (1, (param, field) => {
-                Param vParam = ParamBank.VanillaParams[ParamBank.GetKeyForParam(param)];
-                Param.Column? col = vParam[field];
+                string paramName = ParamBank.VanillaBank.GetKeyForParam(param);
+                if (paramName == null)
+                    throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
+                Param vParam = ParamBank.VanillaBank.Params[paramName];
+                Param.Column? col = vParam?[field];
                 if (col == null)
                     throw new Exception($@"Could not locate field {field}");
                 return (row) => {
