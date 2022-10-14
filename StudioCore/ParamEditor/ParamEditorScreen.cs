@@ -460,7 +460,7 @@ namespace StudioCore.ParamEditor
                     ParamBank.PrimaryBank.RefreshParamDiffCaches();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Show alternate field names", null, ShowAltNamesPreference))
+                if (ImGui.MenuItem("Show user friendly field names", null, ShowAltNamesPreference))
                     ShowAltNamesPreference = !ShowAltNamesPreference;
                 if (ImGui.MenuItem("Always show original field names", null, AlwaysShowOriginalNamePreference))
                     AlwaysShowOriginalNamePreference = !AlwaysShowOriginalNamePreference;
