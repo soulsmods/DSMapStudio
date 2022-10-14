@@ -574,11 +574,11 @@ namespace StudioCore.ParamEditor
                 };
             }));
             argumentGetters.Add("auxfield", (2, (param, bankAndField) => {
-                ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
-                if (bank == null)
+                if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
                     throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
-                string paramName = bank.GetKeyForParam(param);
-                if (paramName == null)
+                ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
+                string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                if (!bank.Params.ContainsKey(paramName))
                     throw new Exception($@"Could not locate aux param for {param.ParamType}");
                 Param vParam = bank.Params[paramName];
                 Param.Column? col = vParam?[bankAndField[1]];
