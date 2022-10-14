@@ -15,6 +15,7 @@ namespace DSMapStudio
     {
         public static string[] ARGS;
         //public static MapStudio MainInstance;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -38,23 +39,22 @@ namespace DSMapStudio
             }
             catch (AggregateException e)
             {
-                List<string> file = new();
                 e = e.Flatten();
                 if (e.InnerExceptions.Count > 1)
                 {
+                    List<string> log = new();
                     foreach (var ex in e.InnerExceptions)
                     {
-                        file.Add(ex.Message);
-                        file.Add(ex.StackTrace);
-                        file.Add("\n----------------\n");
+                        log.Add(ex.Message);
+                        log.Add(ex.StackTrace);
+                        log.Add("\n----------------\n");
                     }
-                    //Directory.CreateDirectory(mapStudio.);
-                    File.WriteAllLines($"Crash Log {DateTime.Now:yyyy-M-dd--HH-mm-ss}.txt", file);
-                    MessageBox.Show("Multiple errors detected.\nA Crash Log file has been generated.", "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.RemoveAt(log.Count-1);
+                    mapStudio.ExportCrashLog(log);
                 }
                 else
                 {
-                    MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
                 }
                 mapStudio.AttemptSaveOnCrash();
                 mapStudio.CrashShutdown();
@@ -62,7 +62,7 @@ namespace DSMapStudio
             }
             catch (Exception e)
             {
-                MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
                 mapStudio.AttemptSaveOnCrash();
                 mapStudio.CrashShutdown();
                 throw;

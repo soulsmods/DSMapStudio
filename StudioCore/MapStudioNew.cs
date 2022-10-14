@@ -16,6 +16,7 @@ using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
+using System.Windows.Forms;
 
 namespace StudioCore
 {
@@ -380,6 +381,24 @@ namespace StudioCore
             Resource.ResourceManager.Shutdown();
             _gd.Dispose();
             System.Windows.Forms.Application.Exit();
+        }
+
+        private string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
+        public void ExportCrashLog(List<string> exceptionInfo)
+        {
+            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            exceptionInfo.Insert(0, $"Version {_version}");
+            Directory.CreateDirectory($"{CrashLogPath}");
+            File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
+            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public void ExportCrashLog(string exceptionInfo)
+        {
+            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            exceptionInfo.Insert(0, $"Version {_version}");
+            Directory.CreateDirectory($"{CrashLogPath}");
+            File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
+            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
