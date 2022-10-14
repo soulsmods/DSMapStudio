@@ -477,6 +477,8 @@ namespace SoulsFormats
         public static BND4 DecryptDS2Regulation(string path)
         {
             byte[] bytes = File.ReadAllBytes(path);
+            if (BND4.IsRead(bytes, out BND4 bnd4)) 
+                return bnd4; 
             byte[] iv = new byte[16];
             iv[0] = 0x80;
             Array.Copy(bytes, 0, iv, 1, 11);
@@ -496,6 +498,8 @@ namespace SoulsFormats
         public static BND4 DecryptDS3Regulation(string path)
         {
             byte[] bytes = File.ReadAllBytes(path);
+            if (BND4.IsRead(bytes, out BND4 bnd4)) 
+                return bnd4; 
             bytes = DecryptByteArray(ds3RegulationKey, bytes);
             return BND4.Read(bytes);
         }
@@ -519,6 +523,8 @@ namespace SoulsFormats
         public static BND4 DecryptERRegulation(string path)
         {
             byte[] bytes = File.ReadAllBytes(path);
+            if (BND4.IsRead(bytes, out BND4 bnd4)) 
+                return bnd4; 
             bytes = DecryptByteArray(erRegulationKey, bytes);
             return BND4.Read(bytes);
         }

@@ -1,5 +1,5 @@
-1 UNKNOWN
-2 UNKNOWN
-3 UNKNOWN
-4 UNKNOWN
-5 UNKNOWN
+1 Spelling -- スペル
+2 Small -- 小
+3 In -- 中
+4 Large -- 大
+5 Oversized -- 特大

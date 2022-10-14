@@ -1,2 +1,2 @@
-0 UNKNOWN
-1 UNKNOWN
+0 Others -- その他
+1 Anime -- キャラクター

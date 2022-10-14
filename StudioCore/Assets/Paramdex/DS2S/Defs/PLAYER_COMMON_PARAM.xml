@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>PLAYER_COMMON_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -10,7 +10,7 @@
     <Field Def="f32 Unk04" />
     <Field Def="f32 Unk08" />
     <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
+    <Field Def="f32 OutOfStamina State Duration" />
     <Field Def="f32 Unk14" />
     <Field Def="f32 Unk18" />
     <Field Def="f32 Unk1C" />
@@ -74,14 +74,14 @@
     <Field Def="f32 Unk104" />
     <Field Def="f32 Unk108" />
     <Field Def="f32 Unk10C" />
-    <Field Def="f32 Unk110" />
-    <Field Def="f32 Unk114" />
-    <Field Def="f32 Unk118" />
-    <Field Def="f32 Unk11C" />
-    <Field Def="f32 Unk120" />
-    <Field Def="f32 Unk124" />
-    <Field Def="f32 Unk128" />
-    <Field Def="f32 Unk12C" />
+    <Field Def="f32 Base Item Discovery Multiplier" />
+    <Field Def="f32 NG+ Item Discovery Multiplier" />
+    <Field Def="f32 NG+2 Item Discovery Multiplier" />
+    <Field Def="f32 NG+3 Item Discovery Multiplier" />
+    <Field Def="f32 NG+4 Item Discovery Multiplier" />
+    <Field Def="f32 NG+5 Item Discovery Multiplier" />
+    <Field Def="f32 NG+6 Item Discovery Multiplier" />
+    <Field Def="f32 NG+7 Item Discovery Multiplier" />
     <Field Def="f32 Unk130" />
     <Field Def="f32 Unk134" />
     <Field Def="f32 Unk138" />

@@ -16,6 +16,7 @@ using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
+using System.Windows.Forms;
 
 namespace StudioCore
 {
@@ -134,7 +135,8 @@ namespace StudioCore
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
-            ParamEditor.ParamBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
@@ -380,6 +382,24 @@ namespace StudioCore
             Resource.ResourceManager.Shutdown();
             _gd.Dispose();
             System.Windows.Forms.Application.Exit();
+        }
+
+        private string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
+        public void ExportCrashLog(List<string> exceptionInfo)
+        {
+            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            exceptionInfo.Insert(0, $"Version {_version}");
+            Directory.CreateDirectory($"{CrashLogPath}");
+            File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
+            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public void ExportCrashLog(string exceptionInfo)
+        {
+            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            exceptionInfo.Insert(0, $"Version {_version}");
+            Directory.CreateDirectory($"{CrashLogPath}");
+            File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
+            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
@@ -830,6 +850,12 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
+                    if (ImGui.BeginMenu("Map Editor"))
+                    {
+                        ImGui.Checkbox("Pin loaded maps to top of list", ref CFG.Current.Map_PinLoadedMaps);
+                        ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("Viewport Settings"))
                     {
                         if (ImGui.Button("Reset"))
@@ -939,7 +965,7 @@ namespace StudioCore
                     */
                     ImGui.EndMenu();
                 }
-                if (FeatureFlags.MBSE_Test)
+                if (FeatureFlags.TestMenu)
                 {
                     if (ImGui.BeginMenu("Tests"))
                     {
@@ -951,6 +977,10 @@ namespace StudioCore
                         if (ImGui.MenuItem("MSBE read/write test"))
                         {
                             Tests.MSBReadWrite.Run(_assetLocator);
+                        }
+                        if (ImGui.MenuItem("BTL read/write test"))
+                        {
+                            Tests.BTLReadWrite.Run(_assetLocator);
                         }
                         ImGui.EndMenu();
                     }

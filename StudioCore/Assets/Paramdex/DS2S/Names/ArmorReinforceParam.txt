@@ -1,9 +1,9 @@
-0 UNKNOWN
-10 UNKNOWN
-14 UNKNOWN
-20 UNKNOWN
+0 Test -- テストデータ
+10 Balance adjustment armor: head -- バランス調整防具：頭
+14 From adjustment value -- 調整値⇒
+20 Function Test: Head -- 関数テスト：頭
 24 UNKNOWN
-30 UNKNOWN
+30 Function Test: Head -- 関数テスト：頭
 40 UNKNOWN
 100 UNKNOWN
 200 UNKNOWN
@@ -29,14 +29,14 @@
 2100 UNKNOWN
 2200 UNKNOWN
 2300 UNKNOWN
-11001100 UNKNOWN
-11001101 UNKNOWN
-11001102 UNKNOWN
-11001103 UNKNOWN
-11002100 UNKNOWN
-11002101 UNKNOWN
-11002102 UNKNOWN
-11002103 UNKNOWN
+11001100 1001 [Body], Head -- 1001 【素体】・頭
+11001101 1001 [Body], chest -- 1001 【素体】・胸
+11001102 1001 [Body], Arm -- 1001 【素体】・腕
+11001103 1001 [Body], foot -- 1001 【素体】・足
+11002100 1002 [Dummy Body] Head -- 1002 【ダミー素体】・頭
+11002101 1002 [Dummy Body] Chest -- 1002 【ダミー素体】・胸
+11002102 1002 [Dummy Body], Arm -- 1002 【ダミー素体】・腕
+11002103 1002 [Dummy Body], Foot -- 1002 【ダミー素体】・足
 11010100 Pate's Helm
 11010101 Pate's Armor
 11010102 Pate's Gloves
@@ -53,7 +53,7 @@
 11040101 Leather Armor
 11040102 Leather Gloves
 11040103 Leather Boots
-11041100 UNKNOWN
+11041100 1041 [Hunter] Head -- 1041 【狩人】・頭
 11050100 Knight Helm
 11050101 Knight Armor
 11050102 Knight Gauntlets
@@ -118,7 +118,7 @@
 11370101 Monastery Longshirt
 11370102 Monastery Long Gloves
 11370103 Monastery Skirt
-11380103 UNKNOWN
+11380103 1380 [NPC only: Sealer] and feet -- 1380 【NPC専用：封印者】・足
 11390100 Dingy Hood
 11390101 Dingy Robe
 11390102 Dingy Cuffs
@@ -161,10 +161,10 @@
 11690103 Flower Skirt
 11700100 Minotaur Helm
 11710100 Symbol of Avarice
-12020100 UNKNOWN
-12020101 UNKNOWN
-12020102 UNKNOWN
-12020103 UNKNOWN
+12020100 2020 [Kingdom Soldier (Dead)], Head -- 2020 【王国兵士（亡者）】・頭
+12020101 2020 [Kingdom Soldier (Dead)], Chest -- 2020 【王国兵士（亡者）】・胸
+12020102 2020 [Kingdom Soldier (Dead)], Arm -- 2020 【王国兵士（亡者）】・腕
+12020103 2020 [Kingdom Soldier (Dead)], Feet -- 2020 【王国兵士（亡者）】・足
 12021100 Royal Soldier Helm
 12021101 Royal Soldier Armor
 12021102 Royal Soldier Gauntlets
@@ -212,7 +212,7 @@
 12230101 Shadow Top
 12230102 Shadow Gauntlets
 12230103 Shadow Leggings
-12231100 UNKNOWN
+12231100 2231 [Shadow of deformed] head -- 2231 【異形の影】・頭
 12240100 Manikin Mask
 12240101 Manikin Top
 12240102 Manikin Gloves
@@ -281,8 +281,8 @@
 13050103 Smelter Demon Leggings
 13060100 Alonne Captain Helm
 13060101 Alonne Captain Armor
-13060102 UNKNOWN
-13060103 UNKNOWN
+13060102 3060 [Demon Armor: Captain] Arms -- 3060 【デーモン鎧：隊長】・腕
+13060103 3060 [Demon Armor: Captain] Feet -- 3060 【デーモン鎧：隊長】・足
 13061100 Alonne Knight Helm
 13061101 Alonne Knight Armor
 13061102 Alonne Knight Gauntlets
@@ -296,7 +296,7 @@
 13080103 Lion Warrior Skirt
 13081100 Lion Warrior Helm
 13081101 Red Lion Warrior Cape
-13081103 UNKNOWN
+13081103 3081 [Lion Warrior] Feet -- 3081 【獅子戦士】・足
 13120100 Grave Warden Mask
 13120101 Grave Warden Top
 13120102 Grave Warden Cuffs
@@ -456,10 +456,10 @@
 17550101 Mad Warrior Armor
 17550102 Mad Warrior Gauntlets
 17550103 Mad Warrior Leggings
-17630100 UNKNOWN
-17630101 UNKNOWN
-17630102 UNKNOWN
-17630103 UNKNOWN
+17630100 7630 [NPC Bookstore], Head -- 7630 【NPC  本屋】・頭
+17630101 7630 [NPC Bookstore]/Chest -- 7630 【NPC  本屋】・胸
+17630102 7630 [NPC Bookstore], Arm -- 7630 【NPC  本屋】・腕
+17630103 7630 [NPC Bookstore], Foot -- 7630 【NPC  本屋】・足
 17680100 Black Hood
 17680101 Black Robes
 17680102 Black Gloves
@@ -478,25 +478,25 @@
 17710103 Chaos Boots
 17830100 Nahr Alma Hood
 17830101 Nahr Alma Robes
-17830102 UNKNOWN
-17830103 UNKNOWN
+17830102 7830 [Black Phantom Shop] -- 7830 【黒ファントム屋】・腕
+17830103 7830 [Black Phantom Shop] feet -- 7830 【黒ファントム屋】・足
 17950100 Targray's Helm
 17950101 Targray's Armor
 17950102 Targray's Manifers
 17950103 Targray's Leggings
-19000100 UNKNOWN
-19000101 UNKNOWN
-19000102 UNKNOWN
-19000103 UNKNOWN
-19010100 UNKNOWN
-19010101 UNKNOWN
-19010102 UNKNOWN
-19010103 UNKNOWN
-19020100 UNKNOWN
-19020101 UNKNOWN
-19020102 UNKNOWN
-19020103 UNKNOWN
-19030100 UNKNOWN
-19030101 UNKNOWN
-19030102 UNKNOWN
-19030103 UNKNOWN
+19000100 9000 [Phantom - Naked] Head -- 9000 【幻影-裸】・頭
+19000101 9000 [Phantom - Naked] / Chest -- 9000 【幻影-裸】・胸
+19000102 9000 [Phantom - Naked] -- 9000 【幻影-裸】・腕
+19000103 9000 [Phantom - Naked] Feet -- 9000 【幻影-裸】・足
+19010100 9010 [Phantom - Clothes] head -- 9010 【幻影-服】・頭
+19010101 9010 [Phantom - Clothes] Chest -- 9010 【幻影-服】・胸
+19010102 9010 [Phantom - Clothes] -- 9010 【幻影-服】・腕
+19010103 9010 [Phantom - Clothes] feet -- 9010 【幻影-服】・足
+19020100 9020 [Phantom - Light Clothing] Head -- 9020 【幻影-軽装】・頭
+19020101 9020 [Phantom - Light Clothing] Chest -- 9020 【幻影-軽装】・胸
+19020102 9020 [Phantom - Light Clothing] -- 9020 【幻影-軽装】・腕
+19020103 9020 [Phantom - Light Clothing] Feet -- 9020 【幻影-軽装】・足
+19030100 9030 [Phantom - Heavy Wear] Head -- 9030 【幻影-重装】・頭
+19030101 9030 [Phantom - Heavy Wear] Chest -- 9030 【幻影-重装】・胸
+19030102 9030 [Phantom - Heavy Wear] -- 9030 【幻影-重装】・腕
+19030103 9030 [Phantom - Heavy Wear] Feet -- 9030 【幻影-重装】・足

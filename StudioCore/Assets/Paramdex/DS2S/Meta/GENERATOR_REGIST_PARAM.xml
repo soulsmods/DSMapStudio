@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-<Self Row0Dummy="" />
-<Field>
-<EnemyParamID AltName="EnemyParamID" Refs="EnemyParam" /> 
-<LogicParamID AltName="LogicParamID" /> 
-<DefaultLogicParamID AltName="DefaultLogicParamID" Refs="EnemyDefaultLogicParam" /> 
-<SpawnState AltName="SpawnState" Wiki="What position/state the entity takes when spawning." /> 
-<DrawGroup AltName="DrawGroup" Wiki="Determines when the game renders an entity." /> 
-</Field>
+  <Self Row0Dummy="" />
+  <Field>
+    <EnemyParamID Refs="EnemyParam" />
+    <DefaultLogicParamID Refs="EnemyDefaultLogicParam" />
+    <SpawnState Wiki="What position/state the entity takes when spawning." />
+    <DrawGroup Wiki="Determines when the game renders an entity." />
+  </Field>
 </PARAMMETA>
