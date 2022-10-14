@@ -415,7 +415,7 @@ namespace StudioCore.MsbEditor
                 if (registParams.ContainsKey(registid))
                 {
                     var regist = registParams[registid];
-                    var chrid = ParamEditor.ParamBank.GetChrIDForEnemy(
+                    var chrid = ParamEditor.ParamBank.PrimaryBank.GetChrIDForEnemy(
                         (uint)regist.GetCellHandleOrThrow("EnemyParamID").Value);
                     if (chrid != null)
                     {

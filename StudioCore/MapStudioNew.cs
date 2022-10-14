@@ -134,7 +134,8 @@ namespace StudioCore
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
-            ParamEditor.ParamBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
+            ParamEditor.ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
