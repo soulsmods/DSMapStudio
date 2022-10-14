@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>WEAPON_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -10,34 +10,34 @@
     <Field Def="s32 Weapon Model ID" />
     <Field Def="s32 Weapon Reinforce ID" />
     <Field Def="s32 Action Category ID" />
-    <Field Def="s32 Weapon Type ID = -1" />
+    <Field Def="s32 Weapon Type ID" />
     <Field Def="s32 Unk02 = -1" />
-    <Field Def="s16 STR Requirement = -1" />
-    <Field Def="s16 DEX Requirement = -1" />
-    <Field Def="s16 INT Requirement = -1" />
-    <Field Def="s16 FTH Requirement = -1" />
+    <Field Def="s16 STR Requirement" />
+    <Field Def="s16 DEX Requirement" />
+    <Field Def="s16 INT Requirement" />
+    <Field Def="s16 FTH Requirement" />
     <Field Def="f32 Weight" />
     <Field Def="f32 Recovery Animation Weight" />
     <Field Def="f32 Max Durability" />
-    <Field Def="s32 Base Repair Cost = -1" />
+    <Field Def="s32 Base Repair Cost" />
     <Field Def="s32 Unk30 = -1" />
     <Field Def="f32 Stamina Consumption (*10)" />
     <Field Def="f32 Stamina Damage (*10)" />
-    <Field Def="s32 Weapon Stamina Cost ID = -1" />
+    <Field Def="s32 Weapon Stamina Cost ID" />
     <Field Def="f32 Unk40" />
     <Field Def="f32 Unk44" />
     <Field Def="f32 Unk48" />
     <Field Def="f32 Unk4C" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="s32 Player Damage ID: Critical = -1" />
-    <Field Def="f32 Unk74" />
+    <Field Def="s32 Player Damage ID: Backstab Small" />
+    <Field Def="s32 Player Damage ID: Backstab Medium" />
+    <Field Def="s32 Player Damage ID: Backstab Large" />
+    <Field Def="s32 Player Damage ID: Guard Break Stab Small" />
+    <Field Def="s32 Player Damage ID: Guard Break Stab Medium" />
+    <Field Def="s32 Player Damage ID:  Guard Break Stab Large" />
+    <Field Def="s32 Player Damage ID: Riposte Small" />
+    <Field Def="s32 Player Damage ID: Riposte Medium" />
+    <Field Def="s32 Player Damage ID: Riposte Large" />
+    <Field Def="f32 TAE Related" />
     <Field Def="s32 Unk78 = -1" />
     <Field Def="s32 Unk7C = -1" />
     <Field Def="f32 Damage Multiplier" />
@@ -45,15 +45,15 @@
     <Field Def="f32 Guard Break Related" />
     <Field Def="f32 Guard Break Related" />
     <Field Def="f32 Status Effect Amount" />
-    <Field Def="f32 Unk94" />
-    <Field Def="f32 Hitbox Size" />
-    <Field Def="f32 Hitbox Size 2" />
-    <Field Def="f32 Hitbox Wall Cancel" />
-    <Field Def="f32 Hitbox Wall Cancel" />
-    <Field Def="s16 Damage Type = -1" />
-    <Field Def="s16 Poise Damage = -1" />
-    <Field Def="s16 Counter Damage = -1" />
-    <Field Def="s16 Casting Speed = -1" />
+    <Field Def="f32 Posture Damage Multiplier" />
+    <Field Def="f32 Hitbox Radius" />
+    <Field Def="f32 Hitbox Length" />
+    <Field Def="f32 Hitback Radius" />
+    <Field Def="f32 Hitback Length" />
+    <Field Def="s16 Damage Type" />
+    <Field Def="s16 Poise Damage" />
+    <Field Def="s16 Counter Damage" />
+    <Field Def="s16 Casting Speed" />
     <Field Def="f32 UnkB0" />
     <Field Def="f32 Poise Damage (Float / 10)" />
     <Field Def="f32 UnkB8" />

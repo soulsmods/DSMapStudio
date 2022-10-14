@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>CUSTOM_ATTR_SPEC_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,6 +6,12 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Allowed Infusions Flag" />
+    <Field Def="u32 Allowed Infusions" >
+      <Description>
+This is a bitset of 10 bits. 
+They are, in order from the least significant: 
+Base, Fire, Magic, Lightning, Dark, Poison, Bleed, Raw, Enchanted, Mundane.
+      </Description>
+    </Field>
   </Fields>
 </PARAMDEF>
