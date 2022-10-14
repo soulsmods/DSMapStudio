@@ -226,6 +226,16 @@ namespace StudioCore
             return new Transform(a.Position - b, a.EulerRotation);
         }
 
+        public static Transform operator +(Transform a, Transform b)
+        {
+            return new Transform(a.Position + b.Position, a.EulerRotation + b.EulerRotation);
+        }
+
+        public static Transform operator -(Transform a, Transform b)
+        {
+            return new Transform(a.Position - b.Position, a.EulerRotation - b.EulerRotation);
+        }
+
         public static implicit operator Transform(Vector3 v)
         {
             return new Transform(v, Vector3.Zero);

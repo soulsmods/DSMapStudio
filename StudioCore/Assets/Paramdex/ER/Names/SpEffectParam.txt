@@ -2834,16 +2834,16 @@
 1502000 [Sorcery] Fia's Mist
 1504000 [Sorcery] Death Lightning
 1504001 [Sorcery] Death Lightning
-1604000 [Incantation] Flame, Cleanse Me
-1604001 [Incantation] Flame, Cleanse Me
-1604002 [Incantation] Flame, Cleanse Me
-1604003 [Incantation] Flame, Cleanse Me
-1604004 [Incantation] Flame, Cleanse Me
-1604005 [Incantation] Flame, Cleanse Me
-1605000 [Incantation] Flame, Grant Me Strength
-1605001 [Incantation] Flame, Grant Me Strength
-1605002 [Incantation] Flame, Grant Me Strength
-1606000 [Incantation] Flame, Protect Me
+1604000 [Incantation] Flame Cleanse Me
+1604001 [Incantation] Flame Cleanse Me
+1604002 [Incantation] Flame Cleanse Me
+1604003 [Incantation] Flame Cleanse Me
+1604004 [Incantation] Flame Cleanse Me
+1604005 [Incantation] Flame Cleanse Me
+1605000 [Incantation] Flame Grant Me Strength
+1605001 [Incantation] Flame Grant Me Strength
+1605002 [Incantation] Flame Grant Me Strength
+1606000 [Incantation] Flame Protect Me
 1621000 [Incantation] Black Flame
 1623000 [Incantation] Scouring Black Flame
 1624000 [Incantation] Noble Presence
@@ -3022,7 +3022,7 @@
 5301100 Rift Shield - Raise Focus
 5301400 Ice Crest Shield - Raise Robustness
 5301500 Smoldering Shield - Raise Robustness
-5301900 Spiralhorn Shield - Raise Immunity, Robustness and Focus
+5301900 Spiralhorn Shield - Raise Immunity Robustness and Focus
 5302000 Coil Shield - Raise Immunity
 5310900 Twinbird Kite Shield - Boost Absorption and Damage at Low HP
 5310901 Twinbird Kite Shield [Cycle]
@@ -3030,4 +3030,4 @@
 5311700 Shield of the Guilty - Raise Focus
 5321400 Icon Shield - Grant HP Restoration
 5322200 Ant's Skull Plate - Raise Immunity
-5322400 Eclipse Crest Greatshield - Raise Immunity, Robustness and Focus
+5322400 Eclipse Crest Greatshield - Raise Immunity Robustness and Focus

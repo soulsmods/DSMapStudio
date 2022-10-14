@@ -15,6 +15,7 @@ namespace DSMapStudio
     {
         public static string[] ARGS;
         //public static MapStudio MainInstance;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,21 +29,47 @@ namespace DSMapStudio
             //SDL_version version;
             //Sdl2Native.SDL_GetVersion(&version);
 
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+
             var mapStudio = new MapStudioNew();
             #if !DEBUG
             try
             {
                 mapStudio.Run();
             }
-            catch (Exception e)
+            catch (AggregateException e)
             {
-                MessageBox.Show((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e = e.Flatten();
+                if (e.InnerExceptions.Count > 1)
+                {
+                    List<string> log = new();
+                    foreach (var ex in e.InnerExceptions)
+                    {
+                        log.Add(ex.Message);
+                        log.Add(ex.StackTrace);
+                        log.Add("\n----------------\n");
+                    }
+                    log.RemoveAt(log.Count-1);
+                    mapStudio.ExportCrashLog(log);
+                }
+                else
+                {
+                    mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
+                }
                 mapStudio.AttemptSaveOnCrash();
+                mapStudio.CrashShutdown();
                 throw;
             }
-            #else
+            catch (Exception e)
+            {
+                mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
+                mapStudio.AttemptSaveOnCrash();
+                mapStudio.CrashShutdown();
+                throw;
+            }
+#else
             mapStudio.Run();
-            #endif
+#endif
         }
 
         static void CrashHandler(object sender, UnhandledExceptionEventArgs args)

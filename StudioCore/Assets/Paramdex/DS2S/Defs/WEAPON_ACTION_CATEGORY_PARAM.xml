@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>WEAPON_ACTION_CATEGORY_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -61,8 +61,8 @@
     <Field Def="u32 Left - Powerstance - Light #1" />
     <Field Def="u32 Left - Powerstance - Light #2" />
     <Field Def="u32 Left - Powerstance - Heavy" />
-    <Field Def="u32 Guard Break #1" />
-    <Field Def="u32 Guard Break #2" />
+    <Field Def="u32 Guard Break 1H" />
+    <Field Def="u32 Guard Break 2H" />
     <Field Def="u32 Shield Poke 1 #1" />
     <Field Def="u32 Shield Poke 1 #2" />
     <Field Def="u32 Shield Poke 2 #1" />

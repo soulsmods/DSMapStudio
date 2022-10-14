@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>PHYS_STATS_PER_LEVEL_STAT_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -34,11 +34,11 @@
     <Field Def="f32 Unk5C" />
     <Field Def="f32 Unk60" />
     <Field Def="f32 Unk64" />
-    <Field Def="f32 Strike Defence" />
-    <Field Def="f32 Slash Defence" />
-    <Field Def="f32 Thrust Defence" />
+    <Field Def="f32 Related to Agility animation speed" />
+    <Field Def="f32 Roll i-frames" />
+    <Field Def="f32 Related to Agility animation speed" />
     <Field Def="f32 Unk74" />
-    <Field Def="f32 Unk78" />
+    <Field Def="f32 Item use speed" />
     <Field Def="f32 Unk7C" />
     <Field Def="u32 Unk80" />
     <Field Def="u16 Unk84" />

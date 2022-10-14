@@ -59,14 +59,14 @@ namespace StudioCore.Editor
                 ImGui.PopStyleVar();
             }
         }
-        public static void ParamRefsSelectables(List<ParamRef> paramRefs, Param.Row context, dynamic oldval)
+        public static void ParamRefsSelectables(ParamBank bank, List<ParamRef> paramRefs, Param.Row context, dynamic oldval)
         {
             if (paramRefs == null)
                 return;
             // Add named row and context menu
             // Lists located params
             // May span lines
-            List<(Param.Row, string)> matches = resolveRefs(paramRefs, context, oldval);
+            List<(Param.Row, string)> matches = resolveRefs(bank, paramRefs, context, oldval);
             bool entryFound = matches.Count > 0;
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
             ImGui.BeginGroup();
@@ -86,10 +86,10 @@ namespace StudioCore.Editor
             }
             ImGui.EndGroup();
         }
-        private static List<(Param.Row, string)> resolveRefs(List<ParamRef> paramRefs, Param.Row context, dynamic oldval)
+        private static List<(Param.Row, string)> resolveRefs(ParamBank bank, List<ParamRef> paramRefs, Param.Row context, dynamic oldval)
         {
             List<(Param.Row, string)> rows = new List<(Param.Row, string)>();
-            if (ParamBank.Params == null)
+            if (bank.Params == null)
             {
                 return rows;
             }
@@ -102,7 +102,7 @@ namespace StudioCore.Editor
                     continue;
                 string rt = rf.param;
                 string hint = "";
-                if (ParamBank.Params.ContainsKey(rt))
+                if (bank.Params.ContainsKey(rt))
                 {
                     int altval = originalValue;
                     if (rf.offset != 0)
@@ -110,8 +110,8 @@ namespace StudioCore.Editor
                         altval += rf.offset;
                         hint += rf.offset > 0 ? "+" + rf.offset.ToString() : rf.offset.ToString();
                     }
-                    Param param = ParamBank.Params[rt];
-                    ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
+                    Param param = bank.Params[rt];
+                    ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                     if (meta != null && meta.Row0Dummy && altval == 0)
                         continue;
                     Param.Row r = param[altval];
@@ -127,7 +127,7 @@ namespace StudioCore.Editor
                             altval = altval - altval % meta.OffsetSize;
                             hint += "+" + (originalValue % meta.OffsetSize).ToString();
                         }
-                        r = ParamBank.Params[rt][altval];
+                        r = bank.Params[rt][altval];
                     }
                     if (r == null)
                         continue;
@@ -153,12 +153,12 @@ namespace StudioCore.Editor
             ImGui.PopStyleColor();
         }
 
-        public static void VirtualParamRefSelectables(string virtualRefName, object searchValue)
+        public static void VirtualParamRefSelectables(ParamBank bank, string virtualRefName, object searchValue)
         {
             // Add Goto statements
-            if (ParamBank.Params == null)
+            if (bank.Params == null)
                 return;
-            foreach (var param in ParamBank.Params)
+            foreach (var param in bank.Params)
             {
                 PARAMDEF.Field foundfield = null;
                 //get field
@@ -188,7 +188,7 @@ namespace StudioCore.Editor
             }
         }
         
-        public static bool ParamRefEnumContextMenu(object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum)
+        public static bool ParamRefEnumContextMenu(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum)
         {
             if (RefTypes == null && Enum == null)
                 return false;
@@ -196,7 +196,7 @@ namespace StudioCore.Editor
             if (ImGui.BeginPopupContextItem("rowMetaValue"))
             {
                 if (RefTypes != null)
-                    result |= PropertyRowRefsContextItems(RefTypes, context, oldval, ref newval);
+                    result |= PropertyRowRefsContextItems(bank, RefTypes, context, oldval, ref newval);
                 if (Enum != null)
                     result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
                 ImGui.EndPopup();
@@ -204,9 +204,9 @@ namespace StudioCore.Editor
             return result;
         }
 
-        public static bool PropertyRowRefsContextItems(List<ParamRef> reftypes, Param.Row context, dynamic oldval, ref object newval)
+        public static bool PropertyRowRefsContextItems(ParamBank bank, List<ParamRef> reftypes, Param.Row context, dynamic oldval, ref object newval)
         {
-            if (ParamBank.Params == null)
+            if (bank.Params == null)
                 return false;
             // Add Goto statements
             foreach (ParamRef rf in reftypes)
@@ -216,10 +216,10 @@ namespace StudioCore.Editor
                 if (inactiveRef)
                     continue;
                 string rt = rf.param;
-                if (!ParamBank.Params.ContainsKey(rt))
+                if (!bank.Params.ContainsKey(rt))
                     continue;
                 int searchVal = (int)oldval;
-                ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
+                ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                 if (rf.offset != 0 && searchVal > 0)
                 {
                     searchVal = searchVal + rf.offset;
@@ -232,12 +232,12 @@ namespace StudioCore.Editor
                     {
                         searchVal = searchVal + meta.FixedOffset;
                     }
-                    if (meta.OffsetSize > 0 && searchVal > 0 && ParamBank.Params[rt][(int)searchVal] == null)
+                    if (meta.OffsetSize > 0 && searchVal > 0 && bank.Params[rt][(int)searchVal] == null)
                     {
                         searchVal = (int)searchVal - (int)oldval % meta.OffsetSize;
                     }
                 }
-                if (ParamBank.Params[rt][searchVal] != null)
+                if (bank.Params[rt][searchVal] != null)
                 {
                     if (ImGui.Selectable($@"Go to {rt}"))
                         EditorCommandQueue.AddCommand($@"param/select/-1/{rt}/{searchVal}");
@@ -253,11 +253,11 @@ namespace StudioCore.Editor
                 foreach (ParamRef rf in reftypes)
                 {
                     string rt = rf.param;
-                    if (!ParamBank.Params.ContainsKey(rt))
+                    if (!bank.Params.ContainsKey(rt))
                         continue;
-                    ParamMetaData meta = ParamMetaData.Get(ParamBank.Params[rt].AppliedParamdef);
+                    ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                     int maxResultsPerRefType = 15 / reftypes.Count;
-                    List<Param.Row> rows = RowSearchEngine.rse.Search(ParamBank.Params[rt], _refContextCurrentAutoComplete, true, true);
+                    List<Param.Row> rows = RowSearchEngine.rse.Search(bank.Params[rt], _refContextCurrentAutoComplete, true, true);
                     foreach (Param.Row r in rows)
                     {
                         if (maxResultsPerRefType <= 0)
