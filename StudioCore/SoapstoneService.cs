@@ -83,7 +83,7 @@ namespace StudioCore
                         }
                     }
                 }
-                if (ParamBank.Params != null && ParamBank.Params.Count > 0)
+                if (ParamBank.PrimaryBank?.Params != null && ParamBank.PrimaryBank?.Params.Count > 0)
                 {
                     EditorResource paramResource = new EditorResource
                     {
@@ -262,7 +262,7 @@ namespace StudioCore
                 return results;
             }
             if (resource.Type == EditorResourceType.Param
-                && ParamBank.Params is IReadOnlyDictionary<string, Param> paramDict)
+                && ParamBank.PrimaryBank?.Params is IReadOnlyDictionary<string, Param> paramDict)
             {
                 foreach (SoulsKey getKey in keys)
                 {
@@ -385,7 +385,7 @@ namespace StudioCore
             if (resource.Type == EditorResourceType.Param)
             {
                 Predicate<object> fileFilter = search.GetKeyFilter("Param");
-                foreach (KeyValuePair<string, Param> entry in ParamBank.Params ?? new Dictionary<string, Param>())
+                foreach (KeyValuePair<string, Param> entry in ParamBank.PrimaryBank?.Params ?? new Dictionary<string, Param>())
                 {
                     if (!fileFilter(entry.Key))
                     {
