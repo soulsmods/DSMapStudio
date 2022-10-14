@@ -446,9 +446,9 @@ namespace SoulsFormats
                 public byte UnkT12 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Refers to ID of fltparam to determine visual effects.
                 /// </summary>
-                public byte UnkT13 { get; set; }
+                public byte FilterParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -551,7 +551,7 @@ namespace SoulsFormats
                     UnkT10 = br.ReadByte();
                     UnkT11 = br.ReadByte();
                     UnkT12 = br.ReadByte();
-                    UnkT13 = br.ReadByte();
+                    FilterParamID = br.ReadByte();
                     UnkT14 = br.ReadByte();
                     UnkT15 = br.ReadByte();
                     br.AssertByte(0);
@@ -589,7 +589,7 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT10);
                     bw.WriteByte(UnkT11);
                     bw.WriteByte(UnkT12);
-                    bw.WriteByte(UnkT13);
+                    bw.WriteByte(FilterParamID);
                     bw.WriteByte(UnkT14);
                     bw.WriteByte(UnkT15);
                     bw.WriteByte(0);
