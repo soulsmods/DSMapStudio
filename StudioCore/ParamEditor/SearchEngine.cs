@@ -216,7 +216,7 @@ namespace StudioCore.Editor
                         if (cq == null) throw new Exception();
                         Param.Cell c = cq.Value;
                         string term = c.Value.ToString();
-                        if (c.Def.InternalType=="dummy8")
+                        if (c.Value.GetType() == typeof(byte[]))
                             term = ParamUtils.Dummy8Write((byte[])c.Value);
                         return rx.Match(term).Success;
                 });
