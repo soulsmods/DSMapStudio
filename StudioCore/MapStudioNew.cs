@@ -387,19 +387,19 @@ namespace StudioCore
         private string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
         public void ExportCrashLog(List<string> exceptionInfo)
         {
-            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
             exceptionInfo.Insert(0, $"Version {_version}");
             Directory.CreateDirectory($"{CrashLogPath}");
             File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public void ExportCrashLog(string exceptionInfo)
         {
-            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
             exceptionInfo.Insert(0, $"Version {_version}");
             Directory.CreateDirectory($"{CrashLogPath}");
             File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
@@ -635,6 +635,7 @@ namespace StudioCore
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
             Tracy.TracyCZoneEnd(ctx);
             List<string> tasks = Editor.TaskManager.GetLiveThreads();
+            Editor.TaskManager.ThrowTaskExceptions();
             //_window.Title = tasks.Count == 0 ? "Dark Souls Param Studio " + _version : String.Join(", ", tasks);
 
             var command = EditorCommandQueue.GetNextCommand();
