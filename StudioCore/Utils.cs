@@ -65,6 +65,28 @@ namespace StudioCore
             return result;
         }
 
+
+        // Vector rotation functions from John Alexiou at https://stackoverflow.com/questions/69245724/rotate-a-vector-around-an-axis-in-3d-space
+        /// <summary>
+        /// Rotates a vector using the Rodriguez rotation formula
+        /// about an arbitrary axis.
+        /// </summary>
+        public static Vector3 RotateVector(Vector3 vector, Vector3 axis, float angle)
+        {
+            Vector3 vxp = Vector3.Cross(axis, vector);
+            Vector3 vxvxp = Vector3.Cross(axis, vxp);
+            return vector + (float)Math.Sin(angle) * vxp + (1 - (float)Math.Cos(angle)) * vxvxp;
+        }
+        /// <summary>
+        /// Rotates a vector about a point in space.
+        /// </summary>
+        /// <returns>The rotated vector</returns>
+        public static Vector3 RotateVectorAboutPoint(Vector3 vector, Vector3 pivot, Vector3 axis, float angle)
+        {
+            return pivot + RotateVector(vector - pivot, axis, angle);
+        }
+
+
         private static double GetColorComponent(double temp1, double temp2, double temp3)
         {
             double num;
@@ -662,6 +684,23 @@ namespace StudioCore
 
             return res;
         }
+
+        public static void setRegistry(string name, string value)
+        {
+            RegistryKey rkey = Registry.CurrentUser.CreateSubKey($@"Software\DSMapStudio");
+            rkey.SetValue(name, value);
+        }
+
+        public static string readRegistry(string name)
+        {
+            RegistryKey rkey = Registry.CurrentUser.CreateSubKey($@"Software\DSMapStudio");
+            var v = rkey.GetValue(name);
+            return v == null ? null : v.ToString();
+        }
+
+        /// <summary>
+        /// Replace # with fullwidth # to prevent ImGui from hiding text when detecting ## and ###.
+        /// </summary>
         public static string ImGuiEscape(string str, string nullStr)
         {
             return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>INTRUDE_POINT_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -7,7 +7,7 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Play Area Param ID" />
-    <Field Def="s32 Intrusion Point ID">
+    <Field Def="s32 Intrusion Point ID" >
       <Description>This is UnkT00 for the point objects in the msb</Description>
     </Field>
   </Fields>

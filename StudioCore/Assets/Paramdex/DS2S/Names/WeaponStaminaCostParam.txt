@@ -1,15 +1,13 @@
-1 UNKNOWN
-10 Default
-12 UNKNOWN
-15 UNKNOWN
-20 UNKNOWN
-30 UNKNOWN
-40 UNKNOWN
-50 UNKNOWN
-60 UNKNOWN
-70 UNKNOWN
-80 UNKNOWN
-90 UNKNOWN
-100 UNKNOWN
-110 UNKNOWN
-120 UNKNOWN
+1 Bad data (unused) -- 不正データ（未使用）
+10 Basic set -- 基本セット
+12 Two-handed set -- 両手持ちセット
+15 2HIT generation set -- ２HIT発生セット
+20 Bow and Arrow Set -- 弓矢セット
+30 Special strong attack set -- 特殊強攻撃セット
+40 Ricardo's Sting Sword -- リカールの刺剣
+60 Sanctum Crossbow/Repeating Crossbow
+80 Curved Nil Greatsword
+90 Ivory Straight Sword
+100 Ivory King Ultra Greatsword
+110 Sorcerer Twinblade
+120 Great Lances

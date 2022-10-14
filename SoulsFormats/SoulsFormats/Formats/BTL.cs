@@ -186,6 +186,7 @@ namespace SoulsFormats
             /// <summary>
             /// Rotation of a spot light.
             /// </summary>
+            [RotationRadians]
             public Vector3 Rotation { get; set; }
 
             /// <summary>

@@ -33,7 +33,7 @@ namespace SoulsFormats
             MapPointDiscoveryOverride = 38,
             MapPointParticipationOverride = 39,
             Hitset = 40,
-            NPCArea = 41,
+            FastTravelRestriction = 41,
             WeatherCreateAssetPoint = 42,
             PlayArea = 43,
             EnvironmentMapOutput = 44,
@@ -176,7 +176,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public List<Region.NPCArea> NPCAreas { get; set; }
+            public List<Region.FastTravelRestriction> FastTravelRestriction { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -262,7 +262,7 @@ namespace SoulsFormats
                 MapPointDiscoveryOverrides = new List<Region.MapPointDiscoveryOverride>();
                 MapPointParticipationOverrides = new List<Region.MapPointParticipationOverride>();
                 Hitsets = new List<Region.Hitset>();
-                NPCAreas = new List<Region.NPCArea>();
+                FastTravelRestriction = new List<Region.FastTravelRestriction>();
                 WeatherCreateAssetPoints = new List<Region.WeatherCreateAssetPoint>();
                 PlayAreas = new List<Region.PlayArea>();
                 EnvironmentMapOutputs = new List<Region.EnvironmentMapOutput>();
@@ -307,7 +307,7 @@ namespace SoulsFormats
                     case Region.MapPointDiscoveryOverride r: MapPointDiscoveryOverrides.Add(r); break;
                     case Region.MapPointParticipationOverride r: MapPointParticipationOverrides.Add(r); break;
                     case Region.Hitset r: Hitsets.Add(r); break;
-                    case Region.NPCArea r: NPCAreas.Add(r); break;
+                    case Region.FastTravelRestriction r: FastTravelRestriction.Add(r); break;
                     case Region.WeatherCreateAssetPoint r: WeatherCreateAssetPoints.Add(r); break;
                     case Region.PlayArea r: PlayAreas.Add(r); break;
                     case Region.EnvironmentMapOutput r: EnvironmentMapOutputs.Add(r); break;
@@ -339,7 +339,7 @@ namespace SoulsFormats
                     MufflingPortals, SoundRegions, MufflingPlanes, PatrolRoutes,
                     MapPoints, WeatherOverrides, AutoDrawGroupPoints, GroupDefeatRewards,
                     MapPointDiscoveryOverrides, MapPointParticipationOverrides, Hitsets,
-                    NPCAreas, WeatherCreateAssetPoints, PlayAreas, EnvironmentMapOutputs,
+                    FastTravelRestriction, WeatherCreateAssetPoints, PlayAreas, EnvironmentMapOutputs,
                     MountJumps, Dummies, FallPreventionRemovals, NavmeshCuttings, MapNameOverrides,
                     MountJumpFalls, HorseProhibitions, Others);
             }
@@ -422,8 +422,8 @@ namespace SoulsFormats
                     case RegionType.Hitset:
                         return Hitsets.EchoAdd(new Region.Hitset(br));
 
-                    case RegionType.NPCArea:
-                        return NPCAreas.EchoAdd(new Region.NPCArea(br));
+                    case RegionType.FastTravelRestriction:
+                        return FastTravelRestriction.EchoAdd(new Region.FastTravelRestriction(br));
 
                     case RegionType.WeatherCreateAssetPoint:
                         return WeatherCreateAssetPoints.EchoAdd(new Region.WeatherCreateAssetPoint(br));
@@ -2072,34 +2072,34 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Unknown.
+            /// Region that disables fast travel.
             /// </summary>
-            public class NPCArea : Region
+            public class FastTravelRestriction : Region
             {
-                private protected override RegionType Type => RegionType.NPCArea;
+                private protected override RegionType Type => RegionType.FastTravelRestriction;
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Disables fast travel when flag is OFF.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int EventFlagID { get; set; }
 
                 /// <summary>
-                /// Creates a NPCArea with default values.
+                /// Creates a FastTravelRestriction with default values.
                 /// </summary>
-                public NPCArea() : base($"{nameof(Region)}: {nameof(NPCArea)}") { }
+                public FastTravelRestriction() : base($"{nameof(Region)}: {nameof(FastTravelRestriction)}") { }
 
-                internal NPCArea(BinaryReaderEx br) : base(br) { }
+                internal FastTravelRestriction(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    EventFlagID = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(EventFlagID);
                     bw.WriteInt32(0);
                 }
             }

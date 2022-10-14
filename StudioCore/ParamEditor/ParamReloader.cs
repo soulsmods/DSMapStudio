@@ -21,15 +21,15 @@ namespace StudioCore.ParamEditor
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
-        public static bool CanReloadMemoryParams(ProjectSettings projectSettings)
+        public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings)
         {
-            if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing) && ParamBank.IsLoadingParams == false)
+            if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing) && bank.IsLoadingParams == false)
                 return true;
 
             return false;
         }
 
-        public static void ReloadMemoryParams(AssetLocator loc, string[] paramNames)
+        public static void ReloadMemoryParams(ParamBank bank, AssetLocator loc, string[] paramNames)
         {
             TaskManager.Run("PB:LiveParams", true, true, true, ()=>{
                 GameOffsets offsets = GetGameOffsets(loc);
@@ -39,21 +39,21 @@ namespace StudioCore.ParamEditor
                 if (processArray.Any())
                 {
                     SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
-                    ReloadMemoryParamsThreads(offsets, paramNames, memoryHandler);
+                    ReloadMemoryParamsThreads(bank, offsets, paramNames, memoryHandler);
                     memoryHandler.Terminate();
                 } else {
                     throw new Exception("Unable to find running game");
                 }
             });
         }
-        private static void ReloadMemoryParamsThreads(GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
+        private static void ReloadMemoryParamsThreads(ParamBank bank, GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
         {
             List<Thread> threads = new List<Thread>();
             foreach (string param in paramNames)
             {
                 if (param != null && offsets.paramOffsets.ContainsKey(param))
                 {
-                    threads.Add(new Thread(() => WriteMemoryPARAM(offsets, ParamBank.Params[param], offsets.paramOffsets[param], handler)));
+                    threads.Add(new Thread(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
                 }
             }
             foreach (var thread in threads)
