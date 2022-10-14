@@ -453,7 +453,7 @@ namespace StudioCore.MsbEditor
                 {
                     var regist = registParams[registid];
                     var chrid = ParamEditor.ParamBank.PrimaryBank.GetChrIDForEnemy(
-                        (uint)regist.GetCellHandleOrThrow("EnemyParamID").Value);
+                        (int)regist.GetCellHandleOrThrow("EnemyParamID").Value);
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
