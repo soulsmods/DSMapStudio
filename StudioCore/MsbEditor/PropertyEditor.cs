@@ -428,14 +428,14 @@ namespace StudioCore.MsbEditor
         }
         private void PropEditorPropRow(object oldval, ref int id, string visualName, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
         {
-            object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
             ImGui.Text(visualName);
             ImGui.NextColumn();
             ImGui.SetNextItemWidth(-1);
 
-            bool changed = PropertyRow(propType, oldval, out newval, nullableEntity, nullableName);
+            object newval;
+            bool changed = PropertyRow(propType, oldval, out newval, nullableEntity, proprow);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
             UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed);
             ImGui.NextColumn();
@@ -756,21 +756,21 @@ namespace StudioCore.MsbEditor
                                 default:
                                     throw new Exception("Invalid BTL LightType");
                             }
-
-                            var action = new PropertiesChangedAction(prop, obj, newLight);
+                            var action = new PropertiesChangedAction((PropertyInfo)prop, obj, newLight);
                             action.SetPostExecutionAction((undo) =>
                             {
                                 bool selected = false;
-                                if (entSelection.RenderSceneMesh != null)
+                                if (firstEnt.RenderSceneMesh != null)
                                 {
-                                    selected = entSelection.RenderSceneMesh.RenderSelectionOutline;
-                                    entSelection.RenderSceneMesh.Dispose();
-                                    entSelection.RenderSceneMesh = null;
+                                    selected = firstEnt.RenderSceneMesh.RenderSelectionOutline;
+                                    firstEnt.RenderSceneMesh.Dispose();
+                                    firstEnt.RenderSceneMesh = null;
                                 }
 
-                                entSelection.UpdateRenderModel();
-                                entSelection.RenderSceneMesh.RenderSelectionOutline = selected;
+                                firstEnt.UpdateRenderModel();
+                                firstEnt.RenderSceneMesh.RenderSelectionOutline = selected;
                             });
+                            ContextActionManager.ExecuteAction(action);
 
                             ContextActionManager.ExecuteAction(action);
                         }
@@ -806,7 +806,7 @@ namespace StudioCore.MsbEditor
                         bool changed = false;
                         object newval = null;
 
-                        changed = PropertyRow(typ, oldval, out newval, firstEnt, prop.Name);
+                        changed = PropertyRow(typ, oldval, out newval, firstEnt, prop);
 
                         PropertyContextMenu(obj, prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
