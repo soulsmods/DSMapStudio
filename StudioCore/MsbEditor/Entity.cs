@@ -1138,7 +1138,7 @@ namespace StudioCore.MsbEditor
                     icon = ForkAwesome.Database;
                 }
 
-                return $@"{icon} {Name}";
+                return $@"{icon} {Utils.ImGuiEscape(Name, null)}";
             }
         }
 

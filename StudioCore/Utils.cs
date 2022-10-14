@@ -698,6 +698,9 @@ namespace StudioCore
             return v == null ? null : v.ToString();
         }
 
+        /// <summary>
+        /// Replace # with fullwidth # to prevent ImGui from hiding text when detecting ## and ###.
+        /// </summary>
         public static string ImGuiEscape(string str, string nullStr)
         {
             return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
