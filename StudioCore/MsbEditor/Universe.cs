@@ -560,7 +560,7 @@ namespace StudioCore.MsbEditor
             {
                 return false;
             }
-            LoadMapAsync(mapid, selectOnLoad);
+            LoadMapAsync(mapid, selectOnLoad).Wait();
             return true;
 
         }
@@ -595,7 +595,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
+        public async Task LoadMapAsync(string mapid, bool selectOnLoad = false)
         {
             postLoad = false;
             var map = new Map(this, mapid);
