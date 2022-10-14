@@ -202,11 +202,20 @@ namespace SoulsFormats
                 bw.FillInt64("ParamTypeOffset", bw.Position);
                 bw.WriteASCII(ParamType, true);
             }
-
+            
+            StringOffsetDictionary = new Dictionary<string, long>() 
+            {
+                {"", bw.Position}
+            };
+            bw.WriteInt16(0); // null string
+            
             for (int i = 0; i < Rows.Count; i++)
                 Rows[i].WriteName(bw, this, i);
             // DeS and BB sometimes (but not always) include some useless padding here
+            bw.WriteInt16(0); // useless padding at the end
         }
+        
+        public Dictionary<string, long> StringOffsetDictionary;
 
         /// <summary>
         /// Interprets row data according to the given paramdef and stores it for later writing.

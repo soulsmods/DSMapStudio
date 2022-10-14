@@ -2632,7 +2632,13 @@
       <Increment>0.001</Increment>
       <SortID>300040</SortID>
     </Field>
-    <Field Def="dummy8 unk3[8]">
+    <Field Def="f32 unk2">
+      <DisplayName>pad</DisplayName>
+      <DisplayFormat>%f</DisplayFormat>
+      <EditFlags>Wrap</EditFlags>
+      <SortID>470002</SortID>
+    </Field>
+    <Field Def="dummy8 unk3[4]">
       <DisplayName>pad</DisplayName>
       <DisplayFormat>%f</DisplayFormat>
       <EditFlags>Wrap</EditFlags>

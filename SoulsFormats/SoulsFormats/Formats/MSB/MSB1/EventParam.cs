@@ -960,7 +960,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Rotation of the map.
                 /// </summary>
-                public float Degree { get; set; }
+                public float RotationY { get; set; }
 
                 /// <summary>
                 /// Creates a MapOffset with default values.
@@ -972,13 +972,13 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     Position = br.ReadVector3();
-                    Degree = br.ReadSingle();
+                    RotationY = br.ReadSingle();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteVector3(Position);
-                    bw.WriteSingle(Degree);
+                    bw.WriteSingle(RotationY);
                 }
             }
 

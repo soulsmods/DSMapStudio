@@ -1,17 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-<Self Row0Dummy="" />
-<Field>
-<DamageControlID AltName="Damage Control ID" /> 
-<DamageID AltName="Damage ID" /> 
-<BaseDamageID AltName="Base Damage ID" /> 
-<DamageMultiplier AltName="Damage Multiplier" /> 
-<GuardBreakRelated AltName="Guard Break Related" /> 
-<HitboxSize AltName="Hitbox Size" /> 
-<HitboxSize AltName="Hitbox Size" /> 
-<SelfEffect AltName="Self Effect" /> 
-<IsPermanentBuff AltName="Is Permanent Buff" /> 
-<ApplyType AltName="Apply Type" /> 
-<GrabParamID AltName="Grab Param ID" /> 
-</Field>
+  <Enums>
+    <Enum Name="DamageTypeCategory">
+      <Option Value="0" Name="Default" />
+      <Option Value="1" Name="Magic" />
+      <Option Value="2" Name="Lightning" />
+      <Option Value="3" Name="Fire" />
+      <Option Value="4" Name="Dark" />
+      <Option Value="5" Name="Flat Damage" />
+      <Option Value="6" Name="Poison" />
+      <Option Value="7" Name="?" />
+      <Option Value="8" Name="Durability" />
+    </Enum>
+    <Enum Name="HitboxType">
+      <Option Value="0" Name="Sphere" />
+      <Option Value="1" Name="Capsule" />
+    </Enum>
+  </Enums>
+  <Self Row0Dummy="" />
+  <Field>
+    <DamageType0 Enum="DamageTypeCategory" />
+    <DamageType1 Enum="DamageTypeCategory" />
+    <DamageType2 Enum="DamageTypeCategory" />
+    <HitboxShape Enum="HitboxType" />
+  </Field>
 </PARAMMETA>
