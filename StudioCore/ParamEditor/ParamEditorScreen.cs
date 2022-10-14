@@ -671,7 +671,7 @@ namespace StudioCore.ParamEditor
 
         public void DuplicateSelection()
         {
-            Param param = ParamBank.Params[_activeView._selection.getActiveParam()];
+            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
             List<Param.Row> rows = _activeView._selection.getSelectedRows();
             if (rows.Count == 0)
                 return;
