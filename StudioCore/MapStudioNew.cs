@@ -12,6 +12,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Threading.Tasks;
+using SoapstoneLib;
 using StudioCore.ParamEditor;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -22,8 +23,8 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "version 1.03.1";
-        private static string _programTitle = $"Dark Souls Map Studio {_version}";
+        private static string _version = "1.03.1";
+        private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
         private GraphicsDevice _gd;
@@ -60,6 +61,8 @@ namespace StudioCore
         private ParamEditor.ParamEditorScreen _paramEditor;
         private bool _textEditorFocused = false;
         private TextEditor.TextEditorScreen _textEditor;
+
+        private SoapstoneService _soapstoneService;
 
         public static RenderDoc RenderDocManager;
 
@@ -133,6 +136,7 @@ namespace StudioCore
             _modelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
             _paramEditor = new ParamEditor.ParamEditorScreen(_window, _gd);
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
+            _soapstoneService = new SoapstoneService(_version, _assetLocator, _msbEditor);
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
@@ -256,6 +260,11 @@ namespace StudioCore
         {
             SetupCSharpDefaults();
             ManageImGuiConfigBackups();
+
+            if (CFG.Current.EnableSoapstone)
+            {
+                SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService);
+            }
             /*Task.Run(() =>
             {
                 while (true)
@@ -352,19 +361,19 @@ namespace StudioCore
         private string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
         public void ExportCrashLog(List<string> exceptionInfo)
         {
-            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
             exceptionInfo.Insert(0, $"Version {_version}");
             Directory.CreateDirectory($"{CrashLogPath}");
             File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public void ExportCrashLog(string exceptionInfo)
         {
-            var time = $"{DateTime.Now:yyyy - M - dd--HH - mm - ss}";
+            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
             exceptionInfo.Insert(0, $"Version {_version}");
             Directory.CreateDirectory($"{CrashLogPath}");
             File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"Crash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
@@ -562,13 +571,13 @@ namespace StudioCore
                     $@"Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery. " +
                     "You must manually replace your projects with these recovery files should you wish to restore them. " +
                     "Given the program has crashed, these files may be corrupt and you should backup your last good saved " +
-                    "files before attempting to use these.", 
+                    "files before attempting to use these.",
                     "Saved recovery",
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Warning);
             }
         }
-        
+
         private void SaveFocusedEditor()
         {
             if (_projectSettings != null && _projectSettings.ProjectName != null)
@@ -599,14 +608,9 @@ namespace StudioCore
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
             Tracy.TracyCZoneEnd(ctx);
             List<string> tasks = Editor.TaskManager.GetLiveThreads();
-            //_window.Title = tasks.Count == 0 ? "Dark Souls Param Studio " + _version : String.Join(", ", tasks);
+            Editor.TaskManager.ThrowTaskExceptions();
 
-            var command = EditorCommandQueue.GetNextCommand();
-            string[] commandsplit = null;
-            if (command != null)
-            {
-                commandsplit = command.Split($@"/");
-            }
+            string[] commandsplit = EditorCommandQueue.GetNextCommand();
             if (commandsplit != null && commandsplit[0] == "windowFocus")
             {
                 //this is a hack, cannot grab focus except for when un-minimising
@@ -809,10 +813,6 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
-                    {
-                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
-                    }
                     if (ImGui.BeginMenu("Map Editor"))
                     {
                         ImGui.Checkbox("Pin loaded maps to top of list", ref CFG.Current.Map_PinLoadedMaps);
@@ -859,6 +859,21 @@ namespace StudioCore
                             CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                         }
                         ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("Soapstone Server"))
+                    {
+                        string running = SoapstoneServer.GetRunningPort() is int port ? $"running on port {port}" : "not running";
+                        ImGui.Text($"The server is {running}.\nIt is not accessible over the network, only to other programs on this computer.\nPlease restart the program for changes to take effect.");
+                        ImGui.Separator();
+                        if (ImGui.MenuItem("Enable Cross-Editor Features", "", CFG.Current.EnableSoapstone))
+                        {
+                            CFG.Current.EnableSoapstone = !CFG.Current.EnableSoapstone;
+                        }
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
+                    {
+                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
                     if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
                     {

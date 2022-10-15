@@ -453,7 +453,7 @@ namespace StudioCore.MsbEditor
                 {
                     var regist = registParams[registid];
                     var chrid = ParamEditor.ParamBank.PrimaryBank.GetChrIDForEnemy(
-                        (uint)regist.GetCellHandleOrThrow("EnemyParamID").Value);
+                        (int)regist.GetCellHandleOrThrow("EnemyParamID").Value);
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
@@ -560,7 +560,7 @@ namespace StudioCore.MsbEditor
             {
                 return false;
             }
-            LoadMapAsync(mapid, selectOnLoad);
+            LoadMapAsync(mapid, selectOnLoad).Wait();
             return true;
 
         }
@@ -595,7 +595,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
+        public async Task LoadMapAsync(string mapid, bool selectOnLoad = false)
         {
             postLoad = false;
             var map = new Map(this, mapid);

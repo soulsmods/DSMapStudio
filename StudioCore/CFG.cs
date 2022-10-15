@@ -164,5 +164,6 @@ namespace StudioCore
         }
 
         public bool EnableEldenRingAutoMapOffset { get; set; } = true;
+        public bool EnableSoapstone { get; set; } = true;
     }
 }

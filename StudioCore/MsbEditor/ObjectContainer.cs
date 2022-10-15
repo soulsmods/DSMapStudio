@@ -74,6 +74,17 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public IEnumerable<Entity> GetObjectsByName(string name)
+        {
+            foreach (var m in Objects)
+            {
+                if (m.Name == name)
+                {
+                    yield return m;
+                }
+            }
+        }
+
         public byte GetNextUnique(string prop, byte value)
         {
             HashSet<byte> usedvals = new HashSet<byte>();

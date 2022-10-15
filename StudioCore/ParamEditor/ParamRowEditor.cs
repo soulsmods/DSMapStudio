@@ -230,14 +230,13 @@ namespace StudioCore.ParamEditor
                     // shouldUpdateVisual = true;
                 }
             }
-            else if (typ == typeof(Byte[]))
+            else if (typ == typeof(byte[]))
             {
-
-                Byte[] bval = (Byte[])oldval;
+                byte[] bval = (byte[])oldval;
                 string val = ParamUtils.Dummy8Write(bval);
-                if (ImGui.InputText("##value", ref val, 128))
+                if (ImGui.InputText("##value", ref val, 9999))
                 {
-                    Byte[] nval = ParamUtils.Dummy8Read(val, bval.Length);
+                    byte[] nval = ParamUtils.Dummy8Read(val, bval.Length);
                     if (nval!=null)
                     {
                         newval = nval;
