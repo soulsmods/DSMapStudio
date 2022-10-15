@@ -107,6 +107,10 @@ namespace StudioCore.MsbEditor
             }
 
             ViewportUsingKeyboard = Viewport.Update(Window, dt);
+
+            // Throw any exceptions that ocurred during async map loading.
+            if (Universe.LoadMapExceptions != null)
+                throw Universe.LoadMapExceptions;
         }
 
         public void EditorResized(Sdl2Window window, GraphicsDevice device)
