@@ -32,29 +32,36 @@ namespace DSMapStudio
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
 
             var mapStudio = new MapStudioNew();
-            #if !DEBUG
+#if !DEBUG
             try
             {
                 mapStudio.Run();
             }
             catch (AggregateException e)
             {
+                var stackTraceOrigin = e.StackTrace;
                 e = e.Flatten();
                 if (e.InnerExceptions.Count > 1)
                 {
                     List<string> log = new();
-                    foreach (var ex in e.InnerExceptions)
+                    foreach (var inner in e.InnerExceptions)
                     {
-                        log.Add(ex.Message);
-                        log.Add(ex.StackTrace);
+                        log.Add(inner.Message);
+                        if (inner.StackTrace != null)
+                            log.Add(inner.StackTrace);
+                        else
+                            log.Add(stackTraceOrigin);
                         log.Add("\n----------------\n");
                     }
-                    log.RemoveAt(log.Count-1);
+                    log.RemoveAt(log.Count - 1);
                     mapStudio.ExportCrashLog(log);
                 }
                 else
                 {
-                    mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
+                    if (e.StackTrace != null)
+                        mapStudio.ExportCrashLog((e.InnerExceptions[0].Message + "\n" + e.InnerExceptions[0].StackTrace).Replace("\0", "\\0"));
+                    else
+                        mapStudio.ExportCrashLog((e.InnerExceptions[0].Message + "\n" + stackTraceOrigin).Replace("\0", "\\0"));
                 }
                 mapStudio.AttemptSaveOnCrash();
                 mapStudio.CrashShutdown();
