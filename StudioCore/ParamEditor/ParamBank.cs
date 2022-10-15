@@ -1262,7 +1262,7 @@ namespace StudioCore.ParamEditor
                 var list = addedRows[row.ID];
                 
                 // First we see if we match the first target row. If so we can remove it.
-                if (ParamUtils.RowMatches(row, list[0]))
+                if (row.DataEquals(list[0]))
                 {
                     var modrow = list[0];
                     list.RemoveAt(0);
