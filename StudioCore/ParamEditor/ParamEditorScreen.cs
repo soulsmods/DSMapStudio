@@ -497,7 +497,12 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.BeginMenu("Hot Reload Params"))
                 {
+
+                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), "WARNING: Hot Reloader only works for existing row entries.\nGame must be restarted for new rows and modified row IDs.");
+                    ImGui.Separator();
+
                     bool canHotReload = ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
+
                     if (ImGui.MenuItem("Current Param", "F5", false, canHotReload))
                     {
                         ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});

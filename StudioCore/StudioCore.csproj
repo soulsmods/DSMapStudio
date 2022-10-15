@@ -421,6 +421,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj" />
     <ProjectReference Include="..\FSParam\FSParam.csproj" />
     <ProjectReference Include="..\HKX2\HKX2.csproj" />
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
