@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.03.1";
+        private static string _version = "1.04";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -892,19 +892,33 @@ namespace StudioCore
                 }
                 if (ImGui.BeginMenu("Help"))
                 {
+                    if (ImGui.BeginMenu("About"))
+                    {
+                        ImGui.Text("Original Author:\n" +
+                                   "Katalash\n\n" +
+                                   "Core Development Team:\n" +
+                                   "Katalash\n" +
+                                   "Philiquaz\n" +
+                                   "King bore haha (george)\n\n" +
+                                   "Additional Contributors:\n" +
+                                   "Thefifthmatt\n" +
+                                   "Shadowth117\n\n" +
+                                   "Special Thanks:\n" +
+                                   "TKGP\n" +
+                                   "Meowmaritus\n" +
+                                   "Vawser");
+                        ImGui.EndMenu();
+                    }
+                    
                     if (ImGui.BeginMenu("How to use"))
                     {
                         ImGui.Text("Usage of many features is assisted through the symbol (?).\nIn many cases, right clicking items will provide further information and options.");
                         ImGui.EndMenu();
                     }
+                    
                     if (ImGui.BeginMenu("Camera Controls"))
                     {
                         ImGui.Text("Holding click on the viewport will enable camera controls.\nUse WASD to navigate.\nUse right click to rotate the camera.\nHold Shift to temporarily speed up and Ctrl to temporarily slow down.\nScroll the mouse wheel to adjust overall speed.");
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("About"))
-                    {
-                        ImGui.Text("Original Author:\nKatalash\n\nMaintainers:\nKatalash\nPhiliquaz\nKing bore haha (george)");
                         ImGui.EndMenu();
                     }
 
