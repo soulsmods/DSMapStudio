@@ -23,7 +23,7 @@ namespace StudioCore.Editor
 
         internal Dictionary<string, (int, Func<string[], bool, Func<A, Func<B, bool>>>)> filterList = new Dictionary<string, (int, Func<string[], bool, Func<A, Func<B, bool>>>)>();
         internal (int, Func<string[], bool, Func<A, Func<B, bool>>>) defaultFilter;
-        internal Func<A, IReadOnlyList<B>> unpacker;
+        internal Func<A, List<B>> unpacker;
         protected void addExistsFilter() {
             filterList.Add("exists", (0, noArgs(noContext((B)=>true))));
         }
@@ -57,19 +57,12 @@ namespace StudioCore.Editor
 
         public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
         {
-            return Search(new List<A>(new A[]{param}), command, lenient, failureAllOrNone);
-        }
-        public List<B> Search(List<A> param, string command, bool lenient, bool failureAllOrNone)
-        {
             //assumes unpacking doesn't fail
             string[] conditions = command.Split("&&", StringSplitOptions.TrimEntries);
 
-            List<(A, IReadOnlyList<B>)> liveRows = new List<(A, IReadOnlyList<B>)>();
-            List<(A, IReadOnlyList<B>)> originalRows = liveRows;
-            foreach (A p in param)
-            {
-                liveRows.Add((p, unpacker(p)));
-            }
+            List<B> liveRows = new List<B>();
+            liveRows = unpacker(param);
+            List<B> originalRows = liveRows;
 
             try {
                 foreach (string condition in conditions)
@@ -93,32 +86,21 @@ namespace StudioCore.Editor
                         args = condition.Split(" ", argC, StringSplitOptions.TrimEntries);
                     }
                     var filter = method(args, lenient);
-                    List<(A, IReadOnlyList<B>)> rows = new List<(A, IReadOnlyList<B>)>();
-                    foreach ((A p, IReadOnlyList<B> live) in liveRows)
+                    Func<B, bool> criteria = filter(param);
+                    List<B> newRows = new List<B>();
+                    foreach (B row in liveRows)
                     {
-                        Func<B, bool> criteria = filter(p);
-                        List<B> newRows = new List<B>();
-                        foreach (B row in live)
-                        {
-                            if (criteria(row))
-                                newRows.Add(row);
-                        }
-                        rows.Add((p, newRows));
+                        if (criteria(row))
+                            newRows.Add(row);
                     }
-                    liveRows = rows;
+                    liveRows = newRows;
                 }
             }
             catch (Exception e)
             {
-                liveRows = failureAllOrNone ? originalRows : new List<(A, IReadOnlyList<B>)>();
+                liveRows = failureAllOrNone ? originalRows : new List<B>();
             }
-            //assumes serialising doesn't fail
-            List<B> finalRows = new List<B>();
-            foreach ((A p, IReadOnlyList<B> l) in liveRows)
-            {
-                finalRows.AddRange(l);
-            }
-            return finalRows;
+            return liveRows;
         }
     }
     
@@ -173,7 +155,7 @@ namespace StudioCore.Editor
         ParamBank bank;
         internal override void Setup()
         {
-            unpacker = (param) => param.Rows;
+            unpacker = (param) => new List<Param.Row>(param.Rows);
             filterList.Add("modified", (0, noArgs((context)=>{
                     string paramName = bank.GetKeyForParam(context);
                     HashSet<int> cache = bank.VanillaDiffCache[paramName];
