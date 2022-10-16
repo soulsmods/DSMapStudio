@@ -16,20 +16,20 @@ namespace StudioCore
     public class KeyBind
     {
         public Key PrimaryKey;
-        public bool ControlKey = false;
-        public bool AltKey = false;
-        public bool ShiftKey = false;
+        public bool Ctrl_Pressed = false;
+        public bool Alt_Pressed = false;
+        public bool Shift_Pressed = false;
         [JsonIgnore]
         public string KeyShortcutText
         {
             get
             {
                 string str = "";
-                if (ControlKey)
+                if (Ctrl_Pressed)
                     str += "Ctrl+";
-                if (AltKey)
+                if (Alt_Pressed)
                     str += "Alt+";
-                if (ShiftKey)
+                if (Shift_Pressed)
                     str += "Shift+";
                 str += PrimaryKey.ToString();
                 return str;
@@ -38,9 +38,9 @@ namespace StudioCore
         public KeyBind(Key primaryKey, bool ctrlKey = false, bool altKey = false, bool shiftKey = false)
         {
             PrimaryKey = primaryKey;
-            ControlKey = ctrlKey;
-            AltKey = altKey;
-            ShiftKey = shiftKey;
+            Ctrl_Pressed = ctrlKey;
+            Alt_Pressed = altKey;
+            Shift_Pressed = shiftKey;
         }
     }
 
