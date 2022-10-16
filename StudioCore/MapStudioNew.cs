@@ -602,6 +602,7 @@ namespace StudioCore
             }
         }
 
+        private KeyBind _currentKeyBind;
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -645,6 +646,7 @@ namespace StudioCore
 
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
+            bool keyBindGUI = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
             if (ImGui.BeginMainMenuBar())
             {
@@ -776,6 +778,10 @@ namespace StudioCore
                         }
                     }
 
+                    if (ImGui.Selectable("Key bindings"))
+                    {
+                        keyBindGUI = true;
+                    }
                     if (ImGui.BeginMenu("Fonts"))
                     {
                         ImGui.Text("Please restart program for font changes to take effect.");
@@ -1030,6 +1036,55 @@ namespace StudioCore
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
 
+            bool open = true;
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
+
+            if (keyBindGUI)
+                ImGui.OpenPopup("Key Bind Settings");
+            if (ImGui.BeginPopupModal("Key Bind Settings", ref open))
+            {
+                if (InputTracker.GetKeyDown(Key.Escape))
+                {
+                    _currentKeyBind = null;
+                }
+                else if (ImGui.IsAnyItemActive())
+                {
+                    _currentKeyBind = null;
+                }
+
+                ImGui.Columns(2);
+                foreach (var bind in KeyBindings.Current.GetType().GetFields())
+                {
+                    var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
+                    ImGui.Text(bind.Name);
+                    ImGui.NextColumn();
+                    if (_currentKeyBind == bindVal)
+                    {
+                        ImGui.Button("Press Key <Esc - Cancel>");
+                        var newkey = InputTracker.GetNewKeyBind();
+                        if (newkey != null)
+                        {
+                            bind.SetValue(KeyBindings.Current, newkey);
+                            _currentKeyBind = null;
+                        }
+                    }
+                    else if (ImGui.Button($"{bindVal.KeyShortcutText}##{bind.Name}"))
+                    {
+                        _currentKeyBind = bindVal;
+                    }
+                    ImGui.NextColumn();
+                }
+                ImGui.Separator();
+                if (ImGui.Button("Restore Defaults"))
+                {
+                    KeyBindings.ResetKeyBinds();
+                }
+                ImGui.EndPopup();
+            }
+
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
+
             // New project modal
             if (newProject)
             {
@@ -1037,10 +1092,6 @@ namespace StudioCore
                 _newProjectOptions.directory = "";
                 ImGui.OpenPopup("New Project");
             }
-            bool open = true;
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
             if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize)) // The Grey overlay is apparently an imgui bug (that has been fixed in updated builds; in some forks at least).
             {
                 ImGui.AlignTextToFramePadding();
