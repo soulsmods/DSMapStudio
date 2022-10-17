@@ -36,8 +36,8 @@ namespace StudioCore.MsbEditor
 
             ImGui.SetNextWindowSize(new Vector2(100, 100));
 
-            if (InputTracker.GetControlShortcut(Key.R)
-            || InputTracker.GetControlShortcut(Key.G))
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp)
+            || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_ShowAll))
             {
                 ImGui.SetNextWindowFocus();
             }
@@ -56,7 +56,7 @@ namespace StudioCore.MsbEditor
                     dg.AlwaysVisible = false;
                 }
 
-                if (ImGui.Button("Show All <Ctrl+R>") || InputTracker.GetControlShortcut(Key.R))
+                if (ImGui.Button($"Show All <{KeyBindings.Current.Map_RenderGroup_ShowAll.KeyShortcutText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_ShowAll))
                 {
                     for (int i = 0; i < dispCount; i++)
                     {
@@ -76,7 +76,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SameLine(0, 14f);
                 if (sdispgroups == null)
                     ImGui.BeginDisabled();
-                if ((ImGui.Button("Get DispGroups <Ctrl+G>") || InputTracker.GetControlShortcut(Key.G)) && sdispgroups != null)
+                if (ImGui.Button($"Get DispGroups <{KeyBindings.Current.Map_RenderGroup_GetDisp.KeyShortcutText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp) && sdispgroups != null)
                 {
                     for (int i = 0; i < dispCount; i++)
                     {

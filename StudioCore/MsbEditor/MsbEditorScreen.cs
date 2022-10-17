@@ -270,21 +270,21 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginMenu("Edit"))
             {
 
-                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.KeyShortcutText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.KeyShortcutText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
 
-                if (ImGui.MenuItem("Delete", "Delete", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.KeyShortcutText, false, _selection.IsSelection()))
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Map_Duplicate.KeyShortcutText, false, _selection.IsSelection()))
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
@@ -292,11 +292,11 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.BeginMenu("Dummify/Un-Dummify"))
                 {
-                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", "Shift+<", false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_UnDummify.KeyShortcutText, false, _selection.IsSelection()))
                     {
                         UnDummySelection();
                     }
-                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", "Shift+>", false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_Dummify.KeyShortcutText, false, _selection.IsSelection()))
                     {
                         DummySelection();
                     }
@@ -309,23 +309,23 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.BeginMenu("Hide/Unhide"))
                 {
-                    if (ImGui.MenuItem("Hide/Unhide", "Ctrl+H", false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Hide/Unhide", KeyBindings.Current.Map_HideToggle.KeyShortcutText, false, _selection.IsSelection()))
                     {
                         HideShowSelection();
                     }
                     var loadedMap = Universe.LoadedObjectContainers.Values.FirstOrDefault(x => x != null);
-                    if (ImGui.MenuItem("Unhide All", "Alt+H", false, loadedMap != null))
+                    if (ImGui.MenuItem("Unhide All", KeyBindings.Current.Map_UnhideAll.KeyShortcutText, false, loadedMap != null))
                     {
                         UnhideAllObjects();
                     }
                     ImGui.EndMenu();
                 }
 
-                if (ImGui.MenuItem("Frame in Viewport", "F", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Frame in Viewport", KeyBindings.Current.Viewport_FrameSelection.KeyShortcutText, false, _selection.IsSelection()))
                 {
                     FrameSelection();
                 }
-                if (ImGui.MenuItem("Goto in Object List", "G", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Goto in Object List", KeyBindings.Current.Map_GotoSelectionInObjectList.KeyShortcutText, false, _selection.IsSelection()))
                 {
                     GotoSelection();
                 }
@@ -563,37 +563,37 @@ namespace StudioCore.MsbEditor
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
             // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
             {
                 EditorActionManager.UndoAction();
             }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+            if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
             {
                 EditorActionManager.RedoAction();
             }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (InputTracker.GetControlShortcut(Key.D) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Duplicate) && _selection.IsSelection())
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (InputTracker.GetKeyDown(Key.Delete) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete) && _selection.IsSelection())
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (InputTracker.GetKeyDown(Key.W))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_TranslateMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Translate;
                 }
-                if (InputTracker.GetKeyDown(Key.E))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_RotationMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                 }
 
                 // Use home key to cycle between gizmos origin modes
-                if (InputTracker.GetKeyDown(Key.Home))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
                     {
@@ -606,36 +606,36 @@ namespace StudioCore.MsbEditor
                 }
 
                 // Hide/Unhide
-                if (InputTracker.GetControlShortcut(Key.H) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_HideToggle) && _selection.IsSelection())
                 {
                     HideShowSelection();
                 }
 
                 // Unhide all
-                if (InputTracker.GetAltShortcut(Key.H))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnhideAll))
                 {
                     UnhideAllObjects();
                 }
 
                 // F key frames the selection
-                if (InputTracker.GetKeyDown(Key.F))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_FrameSelection))
                 {
                     FrameSelection();
                 }
 
                 // G key jumps in SceneTree
-                if (InputTracker.GetKeyDown(Key.G))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_GotoSelectionInObjectList))
                 {
                     GotoSelection();
                 }
 
                 //Undummify
-                if (InputTracker.GetShiftShortcut(Key.Comma) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
                     UnDummySelection();
                 }
                 //Dummify
-                if (InputTracker.GetShiftShortcut(Key.Period) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnDummify) && _selection.IsSelection())
                 {
                     DummySelection();
                 }

@@ -656,7 +656,7 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
-                    if (ImGui.MenuItem("New Project", "CTRL+N", false, Editor.TaskManager.GetLiveThreads().Count == 0) || InputTracker.GetControlShortcut(Key.N))
+                    if (ImGui.MenuItem("New Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
                         newProject = true;
                     }
@@ -720,7 +720,7 @@ namespace StudioCore
                         focusType = "Text";
                     }
 
-                    if (ImGui.MenuItem($"Save {focusType}", "Ctrl+S"))
+                    if (ImGui.MenuItem($"Save {focusType}", KeyBindings.Current.Core_SaveCurrentEditor.KeyShortcutText))
                     {
                         SaveFocusedEditor();
                     }
@@ -1330,7 +1330,7 @@ namespace StudioCore
             ImGui.End();
 
             // Global shortcut keys
-            if (InputTracker.GetControlShortcut(Key.S) && !_msbEditor.Viewport.ViewportSelected)
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor) && !_msbEditor.Viewport.ViewportSelected)
                 SaveFocusedEditor();
 
             string[] textcmds = null;

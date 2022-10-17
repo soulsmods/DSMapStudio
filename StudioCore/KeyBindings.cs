@@ -62,8 +62,7 @@ namespace StudioCore
 
             // Core
             public KeyBind Core_SaveCurrentEditor = new(Key.S, true);
-            public KeyBind Core_SaveAllEditors = new(Key.S, true, true);
-            public KeyBind Core_NewProject = new(Key.N, true);
+            //public KeyBind Core_SaveAllEditors = new(Key.S, true, true);
             public KeyBind Core_Undo = new(Key.Z, true);
             public KeyBind Core_Redo = new(Key.Y, true);
             public KeyBind Core_Delete = new(Key.Delete);
@@ -89,7 +88,7 @@ namespace StudioCore
             public KeyBind Map_RenderGroup_GetDisp = new(Key.G, true);
             public KeyBind Map_HideToggle = new(Key.H, true);
             public KeyBind Map_UnhideAll = new(Key.H, false, true);
-            public KeyBind Map_Goto = new(Key.G);
+            public KeyBind Map_GotoSelectionInObjectList = new(Key.G);
             public KeyBind Map_UnDummify = new(Key.Comma, false, false, true);
             public KeyBind Map_Dummify = new(Key.Period, false, false, true);
 
@@ -103,6 +102,7 @@ namespace StudioCore
             public KeyBind Param_SearchRow = new(Key.F, true);
             public KeyBind Param_SearchField = new(Key.N, true);
             public KeyBind Param_HotReload = new(Key.F5);
+            public KeyBind Param_HotReloadAll = new(Key.F5, false, false, true);
 
             // Text Editor
             public KeyBind TextFMG_Search = new(Key.F, true);
