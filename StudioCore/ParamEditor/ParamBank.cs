@@ -1445,6 +1445,8 @@ namespace StudioCore.ParamEditor
                     conflictingParams.Add(k, conflicts);
             }
             
+            ulong oldVersion = _paramVersion;
+
             // Set new params
             _params = updatedParams;
             _paramVersion = VanillaBank.ParamVersion;
@@ -1455,6 +1457,49 @@ namespace StudioCore.ParamEditor
             RefreshParamDiffCaches();
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
+        }
+
+        public (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
+        {
+            // Temporary data could be moved somewhere static
+            (ulong, string, string)[] paramUpgradeTasks = new (ulong, string, string)[0];
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
+                paramUpgradeTasks = new (ulong, string, string)[]{
+                    (10701000l, "1.07 - Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
+                    (10701000l, "1.07 - Set swordArtsType to 0", "param SwordArtsParam: modified: swordArtsType: = 0;"),
+                };
+            }
+
+            List<string> performed = new List<string>();
+            List<string> unperformed = new List<string>();
+
+            bool hasFailed = false;
+            foreach (var (version, task, command) in paramUpgradeTasks)
+            {
+                // Don't bother updating modified cache between edits
+                if (version <= startVersion || version > endVersion)
+                    continue;
+                
+                if (!hasFailed)
+                {
+                    try {
+                        var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
+                        if (result.Type != MassEditResultType.SUCCESS)
+                            hasFailed = true;
+                    }
+                    catch (Exception e)
+                    {
+                        hasFailed = true;
+                    }
+                }
+                if (!hasFailed)
+                    performed.Add(task);
+                else
+                    unperformed.Add(task);
+            }
+            return (performed, unperformed);
         }
 
         public string GetChrIDForEnemy(long enemyID)

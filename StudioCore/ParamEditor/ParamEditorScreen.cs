@@ -163,6 +163,9 @@ namespace StudioCore.ParamEditor
         
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
+            var oldVersion = bank.ParamVersion;
+            var newVersion = vanillaBank.ParamVersion;
+
             var conflicts = new Dictionary<string, HashSet<int>>();
             var result = bank.UpgradeRegulation(vanillaBank, oldRegulation, conflicts);
 
@@ -233,6 +236,28 @@ namespace StudioCore.ParamEditor
 
             if (result == ParamBank.ParamUpgradeResult.Success)
             {
+                var msgUpgradeEdits = System.Windows.Forms.MessageBox.Show(
+                    $@"MapStudio can automatically perform several edits to keep your params consistent with updates to vanilla params. " +
+                    "Would you like to perform these edits?", "Regulation upgrade edits",
+                    System.Windows.Forms.MessageBoxButtons.YesNo,
+                    System.Windows.Forms.MessageBoxIcon.Question);
+                if (msgUpgradeEdits == System.Windows.Forms.DialogResult.Yes)
+                {
+                    var (success, fail) = bank.RunUpgradeEdits(oldVersion, newVersion);
+                    if (success.Count > 0 || fail.Count > 0)
+                        System.Windows.Forms.MessageBox.Show(
+                            (success.Count > 0 ? "Successfully performed the following edits:\n" + String.Join('\n', success) : "") +
+                            (success.Count > 0 && fail.Count > 0 ? "\n" : "") + 
+                            (fail.Count > 0 ? "Unable to perform the following edits:\n" + String.Join('\n', fail) : ""),
+                            "Regulation upgrade edits",
+                            System.Windows.Forms.MessageBoxButtons.OK,
+                            System.Windows.Forms.MessageBoxIcon.Information
+                        );
+                    CacheBank.ClearCaches();
+                    bank.RefreshParamDiffCaches();
+                }
+
+
                 var msgRes = System.Windows.Forms.MessageBox.Show(
                     "Upgrade successful",
                     "Success",
