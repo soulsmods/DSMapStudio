@@ -82,19 +82,19 @@ namespace StudioCore.TextEditor
         {
             if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.KeyShortcutText, false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.KeyShortcutText, false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete Entry", KeyBindings.Current.Core_Delete.KeyShortcutText, false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Delete Entry", KeyBindings.Current.Core_Delete.HintText, false, _activeEntryGroup != null))
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (ImGui.MenuItem("Duplicate Entry", KeyBindings.Current.TextFMG_Duplicate.KeyShortcutText, false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Duplicate Entry", KeyBindings.Current.TextFMG_Duplicate.HintText, false, _activeEntryGroup != null))
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
@@ -335,7 +335,7 @@ namespace StudioCore.TextEditor
             // Search
             if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Search))
                 ImGui.SetKeyboardFocusHere();
-            ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.KeyShortcutText}>", ref _searchFilter, 255);
+            ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);
 
             FMGSearchLogic();
 

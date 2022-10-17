@@ -227,7 +227,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SetNextWindowFocus();
             if (ImGui.Begin("Search Properties"))
             {
-                ImGui.Text($"Search Properties By Name <{KeyBindings.Current.Map_PropSearch.KeyShortcutText}>");
+                ImGui.Text($"Search Properties By Name <{KeyBindings.Current.Map_PropSearch.HintText}>");
                 ImGui.Separator();
                 ImGui.Columns(2);
                 ImGui.Text("Property Name");

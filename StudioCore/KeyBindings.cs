@@ -20,7 +20,7 @@ namespace StudioCore
         public bool Alt_Pressed = false;
         public bool Shift_Pressed = false;
         [JsonIgnore]
-        public string KeyShortcutText
+        public string HintText
         {
             get
             {

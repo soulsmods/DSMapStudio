@@ -270,21 +270,21 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginMenu("Edit"))
             {
 
-                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.KeyShortcutText, false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.KeyShortcutText, false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
 
-                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.KeyShortcutText, false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.HintText, false, _selection.IsSelection()))
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Map_Duplicate.KeyShortcutText, false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Map_Duplicate.HintText, false, _selection.IsSelection()))
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
@@ -292,11 +292,11 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.BeginMenu("Dummify/Un-Dummify"))
                 {
-                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_UnDummify.KeyShortcutText, false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_UnDummify.HintText, false, _selection.IsSelection()))
                     {
                         UnDummySelection();
                     }
-                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_Dummify.KeyShortcutText, false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_Dummify.HintText, false, _selection.IsSelection()))
                     {
                         DummySelection();
                     }
@@ -309,23 +309,23 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.BeginMenu("Hide/Unhide"))
                 {
-                    if (ImGui.MenuItem("Hide/Unhide", KeyBindings.Current.Map_HideToggle.KeyShortcutText, false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Hide/Unhide", KeyBindings.Current.Map_HideToggle.HintText, false, _selection.IsSelection()))
                     {
                         HideShowSelection();
                     }
                     var loadedMap = Universe.LoadedObjectContainers.Values.FirstOrDefault(x => x != null);
-                    if (ImGui.MenuItem("Unhide All", KeyBindings.Current.Map_UnhideAll.KeyShortcutText, false, loadedMap != null))
+                    if (ImGui.MenuItem("Unhide All", KeyBindings.Current.Map_UnhideAll.HintText, false, loadedMap != null))
                     {
                         UnhideAllObjects();
                     }
                     ImGui.EndMenu();
                 }
 
-                if (ImGui.MenuItem("Frame in Viewport", KeyBindings.Current.Viewport_FrameSelection.KeyShortcutText, false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Frame in Viewport", KeyBindings.Current.Viewport_FrameSelection.HintText, false, _selection.IsSelection()))
                 {
                     FrameSelection();
                 }
-                if (ImGui.MenuItem("Goto in Object List", KeyBindings.Current.Map_GotoSelectionInObjectList.KeyShortcutText, false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Goto in Object List", KeyBindings.Current.Map_GotoSelectionInObjectList.HintText, false, _selection.IsSelection()))
                 {
                     GotoSelection();
                 }

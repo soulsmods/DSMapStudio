@@ -239,23 +239,23 @@ namespace StudioCore.ParamEditor
             // Menu Options
             if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.KeyShortcutText, false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.KeyShortcutText, false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.KeyShortcutText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     CopySelectionToClipboard();
                 }
-                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.KeyShortcutText, false, _clipboardRows.Any()))
+                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.HintText, false, _clipboardRows.Any()))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
-                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Param_Duplicate.KeyShortcutText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Param_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     DuplicateSelection();
                 }
@@ -491,11 +491,11 @@ namespace StudioCore.ParamEditor
 
                     bool canHotReload = ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
 
-                    if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.KeyShortcutText, false, canHotReload))
+                    if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false, canHotReload))
                     {
                         ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
                     }
-                    if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.KeyShortcutText, false, canHotReload))
+                    if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false, canHotReload))
                     {
                         ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, ParamBank.PrimaryBank.Params.Keys.ToArray());
                     }
@@ -1286,7 +1286,7 @@ namespace StudioCore.ParamEditor
             ImGui.BeginChild("params");
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
-            ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.KeyShortcutText}>", ref _selection.currentParamSearchString, 256);
+            ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
             if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
                 CacheBank.ClearCaches();
@@ -1368,7 +1368,7 @@ namespace StudioCore.ParamEditor
                 scrollTo = 0;
 
                 //Goto ID
-                if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRow.KeyShortcutText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRow)))
+                if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRow.HintText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRow)))
                 {
                     ImGui.OpenPopup("gotoParamRow");
                 }
@@ -1389,7 +1389,7 @@ namespace StudioCore.ParamEditor
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
                     ImGui.SetKeyboardFocusHere();
 
-                ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.KeyShortcutText}>", ref _selection.getCurrentRowSearchString(), 256);
+                ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
                 if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
                 {
                     CacheBank.ClearCaches();

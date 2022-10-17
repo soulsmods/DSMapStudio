@@ -720,7 +720,7 @@ namespace StudioCore
                         focusType = "Text";
                     }
 
-                    if (ImGui.MenuItem($"Save {focusType}", KeyBindings.Current.Core_SaveCurrentEditor.KeyShortcutText))
+                    if (ImGui.MenuItem($"Save {focusType}", KeyBindings.Current.Core_SaveCurrentEditor.HintText))
                     {
                         SaveFocusedEditor();
                     }
@@ -1069,7 +1069,7 @@ namespace StudioCore
                             _currentKeyBind = null;
                         }
                     }
-                    else if (ImGui.Button($"{bindVal.KeyShortcutText}##{bind.Name}"))
+                    else if (ImGui.Button($"{bindVal.HintText}##{bind.Name}"))
                     {
                         _currentKeyBind = bindVal;
                     }
