@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>CHR_COMMON_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,14 +6,14 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
+    <Field Def="s32 Chr Size" />
     <Field Def="s32 Unk04" />
     <Field Def="f32 Unk08" />
     <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="f32 Unk1C" />
+    <Field Def="f32 Out of Stamina State Duration" />
+    <Field Def="f32 Running Stamina Multiplier" />
+    <Field Def="f32 Running Stamina Consumption (lock-on)" />
+    <Field Def="f32 Ladder Sprint Stamina Multiplier" />
     <Field Def="f32 Unk20" />
     <Field Def="f32 Base Action Stamina Consumption (*10)" />
     <Field Def="f32 Backstep Stamina Consumption Multiplier" />
@@ -37,13 +37,13 @@
     <Field Def="u16 Unk70" />
     <Field Def="u16 Unk72" />
     <Field Def="f32 Unk74" />
-    <Field Def="f32 Unk78" />
-    <Field Def="f32 Unk7C" />
+    <Field Def="f32 Low HP State Treshold Max" />
+    <Field Def="f32 Low HP State Treshold Min" />
     <Field Def="f32 Unk80" />
     <Field Def="f32 Unk84" />
     <Field Def="s32 Unk88" />
-    <Field Def="f32 Unk8C" />
-    <Field Def="f32 Unk90" />
+    <Field Def="f32 Collision Capusle Height" />
+    <Field Def="f32 Collision Capsule Radius" />
     <Field Def="f32 Unk94" />
     <Field Def="f32 Unk98" />
     <Field Def="f32 Unk9C" />
@@ -71,18 +71,18 @@
     <Field Def="f32 UnkF4" />
     <Field Def="s32 UnkF8" />
     <Field Def="f32 UnkFC" />
-    <Field Def="f32 Unk100" />
-    <Field Def="f32 Unk104" />
-    <Field Def="f32 Unk108" />
-    <Field Def="f32 Unk10C" />
-    <Field Def="f32 Unk110" />
-    <Field Def="f32 Unk114" />
-    <Field Def="f32 Unk118" />
-    <Field Def="f32 Unk11C" />
-    <Field Def="f32 Unk120" />
-    <Field Def="f32 Unk124" />
-    <Field Def="f32 Unk128" />
-    <Field Def="f32 Unk12C" />
+    <Field Def="f32 Backstab Hitbox Angle XY" />
+    <Field Def="f32 Backstab Hitbox Angle Z" />
+    <Field Def="f32 Backstab Hitbox Height" />
+    <Field Def="f32 Backstab Hitbox Radius" />
+    <Field Def="f32 Ripsote Hitbox Angle XY" />
+    <Field Def="f32 Riposte Hitbox Angle Z" />
+    <Field Def="f32 Riposte Hitbox Height" />
+    <Field Def="f32 Riposte Hitbox Radius" />
+    <Field Def="f32 Guard Break Stab Hitbox Angle XY" />
+    <Field Def="f32 Guard Break Stab Hitbox Angle Z" />
+    <Field Def="f32 Guard Break Stab Hitbox Height" />
+    <Field Def="f32 Guard Break Stab Hitbox Radius" />
     <Field Def="s32 Unk130" />
     <Field Def="f32 Unk134" />
     <Field Def="f32 Unk138" />
@@ -218,9 +218,9 @@
     <Field Def="f32 Unk340" />
     <Field Def="f32 Unk344" />
     <Field Def="s32 Unk348" />
-    <Field Def="f32 Unk34C" />
-    <Field Def="f32 Unk350" />
-    <Field Def="f32 Unk354" />
+    <Field Def="f32 Critical Absorption - Slash" />
+    <Field Def="f32 Critical Absorption - Thrust" />
+    <Field Def="f32 Critical Absorption - Strike" />
     <Field Def="f32 Unk358" />
     <Field Def="f32 Unk35C" />
     <Field Def="f32 Unk360" />
@@ -229,10 +229,10 @@
     <Field Def="f32 Unk36C" />
     <Field Def="f32 Unk370" />
     <Field Def="s32 Unk374" />
-    <Field Def="f32 Unk378" />
-    <Field Def="f32 Unk37C" />
-    <Field Def="f32 Unk380" />
-    <Field Def="f32 Unk384" />
-    <Field Def="f32 Unk388" />
+    <Field Def="f32 Ranged Physical Absorption" />
+    <Field Def="f32 Ranged Magic Absorption" />
+    <Field Def="f32 Ranged Lightning Absorption" />
+    <Field Def="f32 Ranged Fire Absorption" />
+    <Field Def="f32 Ranged Dark Absorption" />
   </Fields>
 </PARAMDEF>

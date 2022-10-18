@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Veldrid;
 using ImGuiNET;
@@ -22,68 +23,68 @@ namespace StudioCore.MsbEditor
             Universe = universe;
         }
 
-        public bool InitializeSearchValue()
+        public bool InitializeSearchValue(string initialValue = null)
         {
             if (PropertyType != null)
             {
                 if (PropertyType == typeof(bool) || PropertyType == typeof(bool[]))
                 {
-                    PropertyValue = false;
+                    PropertyValue = bool.TryParse(initialValue, out bool val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(byte) || PropertyType == typeof(byte[]))
                 {
-                    PropertyValue = (byte)0;
+                    PropertyValue = byte.TryParse(initialValue, out byte val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(char) || PropertyType == typeof(char[]))
                 {
-                    PropertyValue = (char)0;
+                    PropertyValue = char.TryParse(initialValue, out char val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(short) || PropertyType == typeof(short[]))
                 {
-                    PropertyValue = (short)0;
+                    PropertyValue = short.TryParse(initialValue, out short val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(ushort) || PropertyType == typeof(ushort[]))
                 {
-                    PropertyValue = (ushort)0;
+                    PropertyValue = ushort.TryParse(initialValue, out ushort val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(int) || PropertyType == typeof(int[]))
                 {
-                    PropertyValue = (int)0;
+                    PropertyValue = int.TryParse(initialValue, out int val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(uint) || PropertyType == typeof(uint[]))
                 {
-                    PropertyValue = (uint)0;
+                    PropertyValue = uint.TryParse(initialValue, out uint val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(long) || PropertyType == typeof(long[]))
                 {
-                    PropertyValue = (long)0;
+                    PropertyValue = long.TryParse(initialValue, out long val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(ulong) || PropertyType == typeof(ulong[]))
                 {
-                    PropertyValue = (ulong)0;
+                    PropertyValue = ulong.TryParse(initialValue, out ulong val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(float) || PropertyType == typeof(float[]))
                 {
-                    PropertyValue = 0.0f;
+                    PropertyValue = float.TryParse(initialValue, out float val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(double) || PropertyType == typeof(double[]))
                 {
-                    PropertyValue = 0.0d;
+                    PropertyValue = double.TryParse(initialValue, out double val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(string) || PropertyType == typeof(string[]))
                 {
-                    PropertyValue = "";
+                    PropertyValue = initialValue ?? "";
                     return true;
                 }
             }
@@ -208,16 +209,18 @@ namespace StudioCore.MsbEditor
             return ret;
         }
 
-        public void OnGui(string propname=null)
+        public void OnGui(string[] propSearchCmd = null)
         {
             bool searchFieldChanged = false;
-            if (propname != null)
+            bool selectFirstResult = false;
+            if (propSearchCmd != null && propSearchCmd.Length > 0)
             {
                 ImGui.SetNextWindowFocus();
-                PropertyName = propname;
+                PropertyName = propSearchCmd[0];
                 PropertyType = Universe.GetPropertyType(PropertyName);
-                ValidType = InitializeSearchValue();
+                ValidType = InitializeSearchValue(propSearchCmd.Length > 1 ? propSearchCmd[1] : null);
                 searchFieldChanged = true;
+                selectFirstResult = propSearchCmd.Contains("selectFirstResult");
             }
 
             if (InputTracker.GetControlShortcut(Key.F))
@@ -315,6 +318,15 @@ namespace StudioCore.MsbEditor
                                 Entity obj;
                                 if (o.TryGetTarget(out obj))
                                 {
+                                    if (selectFirstResult)
+                                    {
+                                        // TODO: We may also want to frame this result when requested via selectFirstResult.
+                                        Universe.Selection.ClearSelection();
+                                        Universe.Selection.AddSelection(obj);
+                                        selectFirstResult = false;
+                                    }
+                                    // TODO: We may want to frame the result on double-click.
+                                    // Is there a good way to use dependency inversion to handle selection/frame/goto together?
                                     if (ImGui.Selectable(obj.Name, Universe.Selection.GetSelection().Contains(obj), ImGuiSelectableFlags.AllowDoubleClick))
                                     {
                                         if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))

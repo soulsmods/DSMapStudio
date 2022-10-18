@@ -111,7 +111,7 @@ namespace StudioCore.TextEditor
                 {
                     foreach (var path in folders)
                     {
-                        if (ImGui.MenuItem(path.Key, true))
+                        if (ImGui.MenuItem(path.Key, "", FMGBank.LanguageFolder == path.Key))
                         {
                             ChangeLanguage(path.Key);
                         }
@@ -147,7 +147,7 @@ namespace StudioCore.TextEditor
                     _EntryLabelCacheFiltered = _entryLabelCache;
                     List<FMG.Entry> matches = new();
 
-                    if (_activeFmgInfo.EntryCategory != FMGBank.FmgEntryCategory.None)
+                    if (_activeFmgInfo.GroupedEntry)
                     {
                         // Grouped entries
                         List<FMG.Entry> searchEntries;
@@ -485,10 +485,44 @@ namespace StudioCore.TextEditor
                 {
                     // Select FMG
                     doFocus = true;
+                    // Use three possible keys: entry category is for param references,
+                    // binder id and FMG name are for soapstone references.
+                    // This can be revisited as more high-level categories get added.
+                    int? searchId = null;
+                    FMGBank.FmgEntryCategory? searchCategory = null;
+                    string searchName = null;
+                    if (int.TryParse(initcmd[1], out int intId) && intId >= 0)
+                    {
+                        searchId = intId;
+                    }
+                    // Enum.TryParse allows arbitrary ints (thanks C#), so checking definition is required
+                    else if (Enum.TryParse(initcmd[1], out FMGBank.FmgEntryCategory cat)
+                        && Enum.IsDefined(typeof(FMGBank.FmgEntryCategory), cat))
+                    {
+                        searchCategory = cat;
+                    }
+                    else
+                    {
+                        searchName = initcmd[1];
+                    }
                     foreach (var info in FMGBank.FmgInfoBank)
                     {
-                        if (initcmd[1] == info.EntryCategory.ToString() && info.PatchParent == null
+                        bool match = false;
+                        // This matches top-level item FMGs
+                        if (info.EntryCategory.Equals(searchCategory) && info.PatchParent == null
                             && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
+                        {
+                            match = true;
+                        }
+                        else if (searchId is int binderId && binderId == (int)info.FmgID)
+                        {
+                            match = true;
+                        }
+                        else if (info.Name == searchName)
+                        {
+                            match = true;
+                        }
+                        if (match)
                         {
                             _activeFmgInfo = info;
                             break;

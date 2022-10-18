@@ -1,82 +1,82 @@
-1 UNKNOWN
-2 UNKNOWN
-3 UNKNOWN
-10 UNKNOWN
-8182 UNKNOWN
-8183 UNKNOWN
-732000 UNKNOWN
-733000 UNKNOWN
-741000 UNKNOWN
-761000 UNKNOWN
-763000 UNKNOWN
-766000 UNKNOWN
-772000 UNKNOWN
-784000 UNKNOWN
-810000 UNKNOWN
-811000 UNKNOWN
-812000 UNKNOWN
-813000 UNKNOWN
-814000 UNKNOWN
-820000 UNKNOWN
-821000 UNKNOWN
-822000 UNKNOWN
-823000 UNKNOWN
-824000 UNKNOWN
-831000 UNKNOWN
-831100 UNKNOWN
-832000 UNKNOWN
-832100 UNKNOWN
-832200 UNKNOWN
-832201 UNKNOWN
-832300 UNKNOWN
-832301 UNKNOWN
-832400 UNKNOWN
-832401 UNKNOWN
-832500 UNKNOWN
-832600 UNKNOWN
-832700 UNKNOWN
-832701 UNKNOWN
-833000 UNKNOWN
-835000 UNKNOWN
-835001 UNKNOWN
-835100 UNKNOWN
-835200 UNKNOWN
-836000 UNKNOWN
-836001 UNKNOWN
-836100 UNKNOWN
-836200 UNKNOWN
-836300 UNKNOWN
-836301 UNKNOWN
-836400 UNKNOWN
-837000 UNKNOWN
-837100 UNKNOWN
-837200 UNKNOWN
-838000 UNKNOWN
-838100 UNKNOWN
-842000 UNKNOWN
-843000 UNKNOWN
-843001 UNKNOWN
-844000 UNKNOWN
-845000 UNKNOWN
-846000 UNKNOWN
-847000 UNKNOWN
-847100 UNKNOWN
-848000 UNKNOWN
-848100 UNKNOWN
-849000 UNKNOWN
-849100 UNKNOWN
-849200 UNKNOWN
-850000 UNKNOWN
-850001 UNKNOWN
-851000 UNKNOWN
-852000 UNKNOWN
-853000 UNKNOWN
-853100 UNKNOWN
-853200 UNKNOWN
-853300 UNKNOWN
-853400 UNKNOWN
-853500 UNKNOWN
-854000 UNKNOWN
+1 Test -- テスト
+2 Test -- テスト
+3 Test -- テスト
+10 10: Unauthorized data (prohibited) -- 10：不正データ（使用禁止）
+8182 8182: Weapon Color Check -- 8182：武器カラーチェック
+8183 8183: Landing Check -- 8183：着弾チェック
+732000 Sorcerer Sinner 1: The Fire of The Sorcerer -- 呪術師の罪人１：呪術の火
+733000 Sorcerer Sinner 2: The Fire of The Sorcerer -- 呪術師の罪人２：呪術の火
+741000 Heartbroken Blue Warrior: Busted Sword -- 心折れた青教戦士：バスタードソード
+761000 Armor shop: Falcion -- 防具屋：ファルシオン
+763000 Sorcerer: Sorcerer's Wand -- 呪術屋：呪術屋の杖
+766000 Sorcerer: Dark Wizard Lizard Wand -- 魔術屋：ダークウィザードのトカゲ杖
+772000 Curiosity: Size -- 珍品屋：サイズ
+784000 The Teacher of The Sin: The Long Sickle -- 免罪の教戒師：長鎌
+810000 NPC for Multi: Swordsman (Male): Zweiender -- マルチ用NPC：剣士（男）：ツヴァイヘンダー
+811000 NPC for Multi: Archer (Man): Convoy Bow -- マルチ用NPC：弓兵（男）：コンボジットボウ
+812000 NPC for Multi: Sage (Female): Fairy Shrine Maiden's Wand -- マルチ用NPC：賢者（女）：妖精の巫女の杖
+813000 NPC for Multi: Lancer (Female): The Knight's Assault Spear C -- マルチ用NPC：ランサー（女）：彷徨える騎士の突撃槍C
+814000 NPC for Multi: Flesh breaking (female): White Spirit: Great Axe -- マルチ用NPC：肉断ち（女）：白霊：グレートアックス
+820000 NPC for Multi: Spearman (Man): Winged Spear -- マルチ用NPC：槍兵（男）：ウィングドスピア
+821000 NPC for Multi: Reaper (Female): Jabazahat's Two-Handed Sickle -- マルチ用NPC：死神（女）：ジャバザハットの両手鎌
+822000 NPC for Multi: The Magician (Man): Dark Bishop's Wand -- マルチ用NPC：魔導士（男）：ダークビショップの杖
+823000 NPC for Multi: Koryu Swordsman (Male): Old Dragon's Two-Handed Sword -- マルチ用NPC：古龍剣士（男）：古龍の両手剣
+824000 NPC for Multi: The Older Brother of a Female Swordsman: The Swordsman's Two-Handed Sword -- マルチ用NPC：女剣士の兄：女剣士の両手剣
+831000 Saint's Tomb: Abandoned Saint: Queen's Bell -- 聖人墓所：捨てられた聖女：王妃のベル
+831100 Saint's Tomb: Knight of the Saint: King Van Grad's Two-Handed Sword -- 聖人墓所：聖女の騎士：ヴァングラッド王の両手剣
+832000 Old Dark Hole: Abyss 1: Sniper: Compositing Bow -- 古き闇の穴：深淵霊１：スナイパー：コンポジッドボウ
+832100 Old Dark Hole: Abyss 2: Axeman: Demon Heavy Soldier's Two Hands Mallet -- 古き闇の穴：深淵霊２：アックスマン：デーモン重兵士の両手槌
+832200 The Hole of Old Darkness: The Abyss 3: Yellow Husband: The Fire of The Magic -- 古き闇の穴：深淵霊３：黄衣夫：呪術の火
+832201 The Old Dark Hole: The Abyss 3: Yellow Husband: Ibara Whip -- 古き闇の穴：深淵霊３：黄衣夫：イバラ鞭
+832300 The Hole of Old Darkness: The Abyss 4: Yellow Wife: The Fire of The Magic -- 古き闇の穴：深淵霊４：黄衣妻：呪術の火
+832301 The Old Dark Hole: The Abyss 4: Yellow Wife: The Whip -- 古き闇の穴：深淵霊４：黄衣妻：イバラ鞭
+832400 The Hole of Old Darkness: The Abyss 5: Traveler: Dagger -- 古き闇の穴：深淵霊５：旅人：短刀
+832401 The Old Dark Hole: The Abyss 5: Traveler: The Dagger of the Nagain -- 古き闇の穴：深淵霊５：旅人：ナーガの短剣
+832500 Old Dark Hole: Abyss 6: Knight: Ricardo's Sting -- 古き闇の穴：深淵霊６：騎士：リカールの刺剣
+832600 The Hole of The Old Darkness: The Abyss 7: Heavy Warrior: The Great Dragon Fang -- 古き闇の穴：深淵霊７：重戦士：大竜牙
+832700 Old Dark Hole: Abyss 8: Queen: Shorter -- 古き闇の穴：深淵霊８：女王様：ショーテル
+832701 Old Dark Hole: Abyss 8: Queen: Two-Sided Swordsman's Song Sword -- 古き闇の穴：深淵霊８：女王様：両面剣士の曲剣
+833000 Amana's Shrine: Cannibal Keeper: Meat Cleaver -- アマナの祠：人食い番長：肉絶ち包丁
+835000 Enshrinement Hall: Dragon Knight: Old Dragon's Two-Handed Axe -- 祭祀場：竜騎士：古龍の両手斧
+835001 Enshrinement Hall: Painting Guard (Female): The Song of Painting -- 祭祀場：絵画守（女）：絵画守の曲刀
+835100 Enshrinement Hall: Dragon Knight: Old Dragon's One Hand Mallet -- 祭祀場：竜騎士：古龍の片手槌
+835200 Enshrinement Hall: Dragon Knight: Old Dragon's One Hand Sword -- 祭祀場：竜騎士：古龍の片手剣
+836000 Molten Castle: Samurai Sorcerer: Stalker Warrior's Sword -- 熔鉄城：侍ソーサラー：ストーカー戦士の刀
+836001 Molten Castle: Samurai Sorcerer: Stalker Warrior's Sword (for two-sword-style both hands) -- 熔鉄城：侍ソーサラー：ストーカー戦士の刀（二刀流両手用）
+836100 Molten Castle: Bell Guard 1: Great Sword -- 熔鉄城：鐘守１：グレートソード
+836200 Molten Castle: Bell Guard 2: Fire Bow (Averin) -- 熔鉄城：鐘守２：連射ボウ（アヴェリン）
+836300 Ming-iron castle: Bell Guard 3: Dark Wizard's Komori Wand -- 熔鉄城：鐘守３：ダークウィザードのこうもり杖
+836301 Molten Castle: Bell Guard 3: Salamander Spear -- 熔鉄城：鐘守３：サラマンダーの槍
+836400 Molten Castle: Light Heavy Soldier: Daemon Heavy Soldier's Two-Handed Mallet -- 熔鉄城：軽快重兵士：デーモン重兵士の両手槌
+837000 Gap Sinus: Second Lap Hunting: Short Sword -- 隙間の洞：２周目狩り：ショートソード
+837100 Gap Sinus: Tutorial: Broken Straight Sword -- 隙間の洞：チュートリアル：折れた直剣
+837200 Gap Sinus: Tutorial: Short Bow -- 隙間の洞：チュートリアル：ショートボウ
+838000 Forest of Shadows: Phantom Enemy 1: Dagger -- 虚ろの影の森：幻影敵１：ダガー
+838100 Forest of Shadows: Phantom Enemy 2: Long Sword -- 虚ろの影の森：幻影敵２：ロングソード
+842000 The Forest of Decayed Giants: In Front of the King's Door: The Second Lap Red Spirit 1: The Two-Handed Sword of the Elephant -- 朽ちた巨人の森：王の扉前：２周目赤霊１：象人の両手剣
+843000 The Forest of Decayed Giants: In front of the king's door: Second Lap Red Spirit 2: The Straight Sword of the Wandering Knight -- 朽ちた巨人の森：王の扉前：２周目赤霊２：彷徨える騎士の直剣
+843001 Decayed Giant Forest: In Front of the King's Door: Round 2 Red Spirit 2: Dagger -- 朽ちた巨人の森：王の扉前：２周目赤霊２：ダガー
+844000 Decayed Giant Forest: Ground Cracking Square: Round 2 Red Spirit 3: Broad Sword -- 朽ちた巨人の森：地割れ広場：２周目赤霊３：ブロードソード
+845000 Decaying Giant Forest: Second Lap Dark Spirit: Scimiter -- 朽ちた巨人の森：２周目闇霊：シミター
+846000 Kiseki-gai Gerdra: Dark Spirit: Tsurushi -- 輝石街ジェルドラ：闇霊：つるはし
+847000 Heide Great Fire Tower: Second Lap Dark Spirit 1: Silver Chariot Assault Spear -- ハイデ大火塔：２周目闇霊１：シルバーチャリオットの突撃槍
+847100 Heide Great Fire Tower: Second Lap Dark Spirit 2: The Old Woman's Two-Handed Axe -- ハイデ大火塔：２周目闇霊２：聖女の付き人の両手長斧
+848000 Tomb of Immortality: Second Lap Dark Spirit 1: Phantom Mage's One Hand Sword -- 不死廟：２周目闇霊１：ファントムメイジの片手剣
+848100 Tomb of Immortality: Dark Spirit 2 (Ghost): Dagger -- 不死廟：闇霊２（亡霊）：短刀
+849000 King's Castle D'Angheig: Dark Spirit 1 (Ghost): Dagger -- 王城ドラングレイグ：闇霊１（亡霊）：短刀
+849100 King's Castle D'Angheig: The Dark Spirit 2 (Clown): The Fire of The Magic -- 王城ドラングレイグ：闇霊２（ピエロ）：呪術の火
+849200 King's Castle D'Angheig: Dark Spirit 3 (Transparent Armor): Shorter -- 王城ドラングレイグ：闇霊３（透明鎧）：ショーテル
+850000 Anne Deal's House: The Second Lap Dark Spirit (right): A dagger in a deformed shadow -- アン・ディールの館：２周目闇霊（右）：異形の影の短剣
+850001 Anne Deal's House: The Second Lap Dark Spirit (left): Rogue Dagger 2 -- アン・ディールの館：２周目闇霊（左）：ローグの短剣２
+851000 Valley of The Reservoir: Dark Spirit: The Two-Handed Sickle of the Man-Made Immortal -- 溜まりの谷：闇霊：人造不死人の両手鎌
+852000 Hunting Forest: Red Spirit Level 3: The Great Sword -- 狩猟の森：赤霊レベル３：グレートソード
+853000 King Castle D'Angheig: Two-Sword Avalin -- 王城ドラングレイグ：二刀流アヴァリン
+853100 King's Castle D'Angheig: Leroy: Estock -- 王城ドラングレイグ：リロイ：エストック
+853200 King's Castle D'Angheig: Second Lap Dark Spirit 1: Heavy Equipment: Demon Heavy Soldier Warpick -- 王城ドラングレイグ：２周目闇霊１：重装備：デーモン重兵士のウォーピック
+853300 King's Castle D'Angheig: 2 laps Dark Spirit 2: Knight: Long Sword -- 王城ドラングレイグ：２周目闇霊２：騎士：ロングソード
+853400 King's Castle D'Angheig: 2 laps: Dark Spirit 3: Long distance: Dragon Hunting Arch -- 王城ドラングレイグ：２周目闇霊３：遠距離：竜狩りの大弓
+853500 King's Castle D'Angheig: Dark Spirit Key number: Drying Rod -- 王城ドラングレイグ：闇霊鍵番：物干し竿
+854000 Hidden Port: Dark Spirit (Darth Mall): Statuenite's Double-Edged Sword -- 隠れ港：闇霊（ダースモール）：スタチューナイトの双刃剣
 867000 UNKNOWN
 880000 UNKNOWN
 883000 UNKNOWN
@@ -365,35 +365,35 @@
 5640000 Greataxe [Recolor]
 5650000 Great Club [Recolor]
 5660000 Caestus [Recolor]
-6000000 UNKNOWN
+6000000 6000: Torch (Small) -- 6000：松明（小）
 6100000 Binoculars
-6300000 UNKNOWN
-6310000 UNKNOWN
-6320000 UNKNOWN
-6330000 UNKNOWN
-6340000 UNKNOWN
-6350000 UNKNOWN
-6360000 UNKNOWN
-6370000 UNKNOWN
-6380000 UNKNOWN
-6390000 UNKNOWN
-6400000 UNKNOWN
-6410000 UNKNOWN
-6420000 UNKNOWN
-6430000 UNKNOWN
-6440000 UNKNOWN
-6450000 UNKNOWN
-6460000 UNKNOWN
-6470000 UNKNOWN
-6480000 UNKNOWN
-6490000 UNKNOWN
-6500000 UNKNOWN
-6510000 UNKNOWN
-6520000 UNKNOWN
-6530000 UNKNOWN
-6540000 UNKNOWN
-6550000 UNKNOWN
-7010000 UNKNOWN
+6300000 6300: Phantom - Dagger  -- 6300：幻影-短剣
+6310000 6310: Phantom - Swords  -- 6310：幻影-刺剣
+6320000 6320: Phantom - Song Sword -- 6320：幻影-曲剣
+6330000 6330: Phantom-Sword -- 6330：幻影-刀
+6340000 6340: Phantom - Direct Sword -- 6340：幻影-直剣
+6350000 6350: Phantom - Two-Handed Sword  -- 6350：幻影-両手剣
+6360000 6360: Phantom - One-handed battle  -- 6360：幻影-片手戦鎚
+6370000 6370: Phantom - Two-Handed Battle  -- 6370：幻影-両手戦鎚
+6380000 6380: Phantom - One Hand Axe -- 6380：幻影-片手斧
+6390000 6390: Phantom - Two-Handed Axe -- 6390：幻影-両手斧
+6400000 6400: Phantom -Spear -- 6400：幻影-槍
+6410000 6410: Phantom - Two-Handed Sickle -- 6410：幻影-両手鎌
+6420000 6420: Phantom - Two-Handed Long Axe  -- 6420：幻影-両手長斧
+6430000 6430: Phantom - Bare Hands -- 6430：幻影-素手
+6440000 6440: Phantom - Nails -- 6440：幻影-爪
+6450000 6450: Phantom - Torch -- 6450：幻影-松明
+6460000 6460: Phantom-Telescope  -- 6460：幻影-望遠鏡
+6470000 6470: Phantom-Whip  -- 6470：幻影-鞭
+6480000 6480: Phantom - One Hand Wand -- 6480：幻影-片手杖
+6490000 6490: Phantom - One Hand Bell -- 6490：幻影-片手ベル
+6500000 6500: Phantom - Two-Handed Bow -- 6500：幻影-両手弓
+6510000 6510: Phantom - Two Hands Large Bow  -- 6510：幻影-両手大弓
+6520000 6520: Phantom - One Hand Bow  -- 6520：幻影-片手ボウ
+6530000 6530: Phantom - Two-Handed Sword  -- 6530：幻影-両手大曲剣
+6540000 6540: Phantom - Two-Handed Oversized Sword -- 6540：幻影-両手特大剣
+6550000 6550: Phantom - Double Blade  -- 6550：幻影-双刃剣
+7010000 7010: Statue of a man for a cut scene -- 7010：カットシーン用人の像
 11000000 Buckler
 11005000 Benhart's Parma
 11010000 Small Leather Shield
@@ -468,6 +468,6 @@
 11820000 Bound Wooden Shield
 11830000 Homunculus Wooden Shield
 11840000 Transgressor's Leather Shield
-12000000 UNKNOWN
-12010000 UNKNOWN
-12020000 UNKNOWN
+12000000 12000: Phantom - Small Shield -- 12000：幻影-小盾
+12010000 12010: Phantom - Medium Shield -- 12010：幻影-中盾
+12020000 12020: Phantom - Great Shield -- 12020：幻影-大盾

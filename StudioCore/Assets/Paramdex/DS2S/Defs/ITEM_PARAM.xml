@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>ITEM_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -22,22 +22,22 @@
     <Field Def="s32 Sell Price" />
     <Field Def="f32 Animation Speed" />
     <Field Def="s32 Unk3C" />
-    <Field Def="s32 Item Use Animation" />
+    <Field Def="s32 ItemType ID" />
     <Field Def="s32 Item Usage ID" />
     <Field Def="u8 Unk48" />
     <Field Def="u8 Unk49" />
     <Field Def="u16 Max Held" />
-    <Field Def="u8 Unk4C" />
-    <Field Def="u8 Unknown State">
+    <Field Def="u8 SpEffect Type" />
+    <Field Def="u8 Item Type" >
       <Description>Used in items.
 0 - None
 1 - Consumable
 2 - Non-Consumable (except Human Effigy)
 3 - System (Darksign)
-</Description>
+      </Description>
     </Field>
     <Field Def="u8 Unk4E" />
-    <Field Def="u8 Item Type">
+    <Field Def="u8 Item Type 2" >
       <Description>Used in items.
 0 - Weapon
 1 - Shield
@@ -50,16 +50,16 @@
 8 - Good
 9 - Spell
 10 - Gesture
-</Description>
+      </Description>
     </Field>
-    <Field Def="u8 Unknown State">
+    <Field Def="u8 Buff Flags" >
       <Description>Used in items.
-0 - None
-2 - ?
-3 - ?
-</Description>
+0 - Unbuffable
+2 - Spells Only
+3 - Buffable
+      </Description>
     </Field>
-    <Field Def="u8 Spell School">
+    <Field Def="u8 Spell School" >
       <Description>Controls the spell school for the spell.
 0 - None
 2 - Sorcery
@@ -67,7 +67,7 @@
 4 - Pyromancy
 5 - Hexes</Description>
     </Field>
-    <Field Def="u8 Item State">
+    <Field Def="u8 New Game Plus Behavior" >
       <Description>Controls the NG+ handling for the item.
 4 - Dragon Stone
 8 - Limited Item
@@ -77,7 +77,7 @@
 12 - No Change
 13 - Estus Flask / Aged Feather / Darksign
 15 - Champion's Tablet
-</Description>
+      </Description>
     </Field>
     <Field Def="u8 Unk53" />
   </Fields>

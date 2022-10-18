@@ -12,6 +12,12 @@ using System.Xml.Serialization;
 using FSParam;
 using SoulsFormats;
 using StudioCore.Scene;
+using StudioCore.Editor;
+using System.Numerics;
+using SoulsFormats.KF4;
+using System.Windows.Forms.Design;
+using static SoulsFormats.MCP;
+using System.ComponentModel;
 
 namespace StudioCore.MsbEditor
 {
@@ -27,6 +33,7 @@ namespace StudioCore.MsbEditor
         [XmlIgnore]
         public List<Entity> Objects = new List<Entity>();
         public Entity RootObject { get; set; }
+
         [XmlIgnore]
         public Universe Universe { get; protected set; }
 
@@ -41,8 +48,7 @@ namespace StudioCore.MsbEditor
         {
             Name = name;
             Universe = u;
-            var t = new TransformNode();
-            RootObject = new Entity(this, t);
+            RootObject = new Entity(this, new TransformNode());
         }
 
         public void AddObject(Entity obj)
@@ -66,6 +72,17 @@ namespace StudioCore.MsbEditor
                 }
             }
             return null;
+        }
+
+        public IEnumerable<Entity> GetObjectsByName(string name)
+        {
+            foreach (var m in Objects)
+            {
+                if (m.Name == name)
+                {
+                    yield return m;
+                }
+            }
         }
 
         public byte GetNextUnique(string prop, byte value)
@@ -169,9 +186,26 @@ namespace StudioCore.MsbEditor
         public List<GPARAM> GParams { get; private set; }
 
         /// <summary>
-        /// The map offset used to transform light and ds2 generators
+        /// The map offset used to transform BTL lights, DS2 Generators, and Navmesh.
+        /// Only DS2, Bloodborne, DS3, and Sekiro define map offsets.
         /// </summary>
-        public Transform MapOffset { get; set; } = Transform.Default;
+        public Transform MapOffset 
+        { 
+            get
+            {
+                return MapOffsetNode.GetLocalTransform();
+            }
+            set
+            {
+                var node = (TransformNode)MapOffsetNode.WrappedObject;
+                node.Position = value.Position;
+                var x = Utils.RadiansToDeg(value.EulerRotation.X);
+                var y = Utils.RadiansToDeg(value.EulerRotation.Y);
+                var z = Utils.RadiansToDeg(value.EulerRotation.Z);
+                node.Rotation = new Vector3(x, y, z);
+            }
+        }
+        public Entity MapOffsetNode { get; set; }
 
         // This keeps all models that exist when loading a map, so that saves
         // can be byte perfect
@@ -183,6 +217,8 @@ namespace StudioCore.MsbEditor
             Universe = u;
             var t = new TransformNode(mapid);
             RootObject = new MapEntity(this, t, MapEntity.MapEntityType.MapRoot);
+            MapOffsetNode = new MapEntity(this, new TransformNode(mapid));
+            RootObject.AddChild(MapOffsetNode);
         }
 
         public void LoadMSB(IMsb msb)
@@ -209,6 +245,33 @@ namespace StudioCore.MsbEditor
             foreach (var p in msb.Events.GetEntries())
             {
                 var n = new MapEntity(this, p, MapEntity.MapEntityType.Event);
+                if (p is MSB2.Event.MapOffset mo1)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo1.Translation;
+                    MapOffset = t;
+                }
+                else if (p is MSBB.Event.MapOffset mo2)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo2.Position;
+                    t.EulerRotation = new Vector3(0f, Utils.DegToRadians(mo2.RotationY), 0f);
+                    MapOffset = t;
+                }
+                else if (p is MSB3.Event.MapOffset mo3)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo3.Position;
+                    t.EulerRotation = new Vector3(0f, Utils.DegToRadians(mo3.RotationY), 0f);
+                    MapOffset = t;
+                }
+                else if (p is MSBS.Event.MapOffset mo4)
+                {
+                    var t = Transform.Default;
+                    t.Position = mo4.Position;
+                    t.EulerRotation = new Vector3(0f, Utils.DegToRadians(mo4.RotationY), 0f);
+                    MapOffset = t;
+                }
                 Objects.Add(n);
                 RootObject.AddChild(n);
             }
@@ -219,6 +282,28 @@ namespace StudioCore.MsbEditor
             }
             // Add map-level references after all others
             RootObject.BuildReferenceMap();
+        }
+
+        public void LoadBTL(AssetDescription ad, BTL btl)
+        {
+            /*
+            //var t = CreateMapOffsetNode();
+            //var root = new MapEntity(this, t, MapEntity.MapEntityType.MapOffset);
+            //root.Name = $" MapOffset Node - {ad.AssetName}";
+            //RootObject.AddChild(root);
+            foreach (var l in btl.Lights)
+            {
+                var n = new MapEntity(this, l, MapEntity.MapEntityType.Light, ad.AssetName);
+                Objects.Add(n);
+                root.AddChild(n);
+            }
+            */
+            foreach (var l in btl.Lights)
+            {
+                var n = new MapEntity(this, l, MapEntity.MapEntityType.Light, ad.AssetName);
+                Objects.Add(n);
+                MapOffsetNode.AddChild(n);
+            }
         }
 
         private void AddModelDeS(IMsb m, MSBD.Model model, string name)
@@ -669,6 +754,29 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsER(msb);
             }
+        }
+
+        /// <summary>
+        /// Gets all BTL.Light with matching ParentBtlNames.
+        /// </summary>
+        public List<BTL.Light> SerializeBtlLights(string btlName)
+        {
+            List<BTL.Light> lights = new();
+            foreach (var m in Objects)
+            {
+                if (m.ExtraSaveInfo == btlName)
+                {
+                    if (m.WrappedObject != null && m.WrappedObject is BTL.Light light)
+                    {
+                        lights.Add(light);
+                    }
+                    else
+                    {
+                        throw new Exception($"Entity has ParentBTLName `{m.ExtraSaveInfo}`, but WrappedObject `{m.WrappedObject}` is not a BTL Light.");
+                    }
+                }
+            }
+            return lights;
         }
 
         public void SerializeToXML(XmlSerializer serializer, TextWriter writer, GameType game)
