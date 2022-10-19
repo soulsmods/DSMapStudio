@@ -302,9 +302,9 @@ namespace StudioCore.ParamEditor
 
             if (propSearchString != null)
             {
-                if (isActiveView && InputTracker.GetControlShortcut(Key.N))
+                if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchField))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
+                ImGui.InputText($"Search For Field <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
                 ImGui.Separator();
             }
             Regex propSearchRx = null;
