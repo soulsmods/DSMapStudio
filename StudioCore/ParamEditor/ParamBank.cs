@@ -1468,7 +1468,9 @@ namespace StudioCore.ParamEditor
                 // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
                 paramUpgradeTasks = new (ulong, string, string)[]{
                     (10701000l, "1.07 - Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
-                    (10701000l, "1.07 - Set swordArtsType to 0", "param SwordArtsParam: modified: swordArtsType: = 0;"),
+                    (10701000l, "1.07 - Set swordArtsType to 0", "param SwordArtsParam: modified && notadded: swordArtsType: = 0;"),
+                    (10701000l, "1.07 - Set added atkParam finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
+                    (10701000l, "1.07 - Set notadded atkParam finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && notadded: finalDamageRateId: = vanillafield finalDamageRateId;"),
                 };
             }
 
