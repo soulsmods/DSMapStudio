@@ -386,7 +386,7 @@ namespace StudioCore.ParamEditor
                         row = new Param.Row(id, name, p);
                         addedParams.Add(row);
                     }
-                    if (row.Name != null && !row.Name.Equals(name))
+                    if (!name.Equals(row.Name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
                     foreach (Param.Column col in row.Cells)
@@ -452,7 +452,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (field.Equals("Name"))
                     {
-                        if (row.Name != null && !row.Name.Equals(value))
+                        if (!value.Equals(row.Name))
                             actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }
                     else
