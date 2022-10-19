@@ -302,9 +302,9 @@ namespace StudioCore.ParamEditor
 
             if (propSearchString != null)
             {
-                if (isActiveView && InputTracker.GetControlShortcut(Key.N))
+                if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchField))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
+                ImGui.InputText($"Search For Field <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
                 ImGui.Separator();
             }
             Regex propSearchRx = null;
@@ -317,7 +317,7 @@ namespace StudioCore.ParamEditor
             }
             ImGui.BeginChild("Param Fields");
             int columnCount = 2;
-            if (ParamEditorScreen.ShowVanillaParamsPreference)
+            if (CFG.Current.Param_ShowVanillaParams)
                 columnCount++;
             if (showRowCompare)
                 columnCount++;
@@ -328,7 +328,7 @@ namespace StudioCore.ParamEditor
             if (showParamCompare)
                 ImGui.Text("Current");
             ImGui.NextColumn();
-            if (ParamEditorScreen.ShowVanillaParamsPreference)
+            if (CFG.Current.Param_ShowVanillaParams)
             {
                 if (showParamCompare)
                     ImGui.Text("Vanilla");
@@ -366,7 +366,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Separator();
             }
-            List<string> fieldOrder = meta != null && meta.AlternateOrder != null && ParamEditorScreen.AllowFieldReorderPreference ? meta.AlternateOrder : new List<string>();
+            List<string> fieldOrder = meta != null && meta.AlternateOrder != null && CFG.Current.Param_AllowFieldReorder ? meta.AlternateOrder : new List<string>();
             foreach (PARAMDEF.Field field in row.Def.Fields)
             {
                 if (!fieldOrder.Contains(field.InternalName))
@@ -388,7 +388,12 @@ namespace StudioCore.ParamEditor
                 List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
                 List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 for (int i = 0; i < matches.Count; i++)
-                    lastRowExists |= PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
+                    lastRowExists |= PropEditorPropCellRow(bank,
+                    row[matches[i]],
+                    vmatches.Count > i ? vrow?[vmatches[i]] : null,
+                    auxRows.Select((r, j) => auxmatches[j].Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
+                    cmatches != null && cmatches.Count > i ? crow?[cmatches[i]] : null,
+                    showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
             ImGui.EndChild();
@@ -480,7 +485,7 @@ namespace StudioCore.ParamEditor
             bool conflict = diffVanilla && diffAuxPrimaryAndVanilla.Contains(true);
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
-            bool isRef = (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null) || (ParamEditorScreen.HideEnumsPreference == false && Enum != null) || VirtualRef != null;
+            bool isRef = (CFG.Current.Param_HideReferenceRows == false && RefTypes != null) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1f));
             else if (diffVanilla)
@@ -496,12 +501,12 @@ namespace StudioCore.ParamEditor
 
             PropertyRowValueContextMenu(bank, internalName, VirtualRef, oldval);
 
-            if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
+            if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                 EditorDecorations.ParamRefsSelectables(bank, RefTypes, oldval);
-            if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)
+            if (CFG.Current.Param_HideEnums == false && Enum != null)
                 EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
 
-            if (ParamEditorScreen.HideReferenceRowsPreference == false || ParamEditorScreen.HideEnumsPreference == false)
+            if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
             {
                 if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, Enum))
                 {
@@ -510,13 +515,14 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                 }
             }
+
             if (conflict || diffVanilla)
                 ImGui.PopStyleColor();
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1f));
-            if (ParamEditorScreen.ShowVanillaParamsPreference)
+            if (CFG.Current.Param_ShowVanillaParams)
             {
                 ImGui.NextColumn();
                 AdditionalColumnValue(vanillaval, propType, bank, RefTypes, Enum);
@@ -570,9 +576,9 @@ namespace StudioCore.ParamEditor
                     else
                         value = colVal.ToString();
                     ImGui.InputText("", ref value, 256, ImGuiInputTextFlags.ReadOnly);
-                    if (ParamEditorScreen.HideReferenceRowsPreference == false && RefTypes != null)
+                    if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                         EditorDecorations.ParamRefsSelectables(bank, RefTypes, colVal);
-                    if (ParamEditorScreen.HideEnumsPreference == false && Enum != null)
+                    if (CFG.Current.Param_HideEnums == false && Enum != null)
                         EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
                 }
         }
@@ -591,7 +597,7 @@ namespace StudioCore.ParamEditor
             }
             else
             {
-                string printedName = (AltName != null && ParamEditorScreen.ShowAltNamesPreference) ? (ParamEditorScreen.AlwaysShowOriginalNamePreference ? $"{internalName} ({AltName})" : AltName) : internalName;
+                string printedName = (AltName != null && CFG.Current.Param_ShowAltNames) ? (CFG.Current.Param_AlwaysShowOriginalName ? $"{internalName} ({AltName})" : AltName) : internalName;
                 ImGui.TextUnformatted(printedName);
             }
         }
@@ -601,7 +607,7 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f));
             if (ImGui.BeginPopupContextItem("rowName"))
             {
-                if (ParamEditorScreen.ShowAltNamesPreference == true && ParamEditorScreen.AlwaysShowOriginalNamePreference == false)
+                if (CFG.Current.Param_ShowAltNames == true && CFG.Current.Param_AlwaysShowOriginalName == false)
                 {
                     ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
                     ImGui.Separator();

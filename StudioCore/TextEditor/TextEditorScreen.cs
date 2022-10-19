@@ -82,19 +82,19 @@ namespace StudioCore.TextEditor
         {
             if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete Entry", "Delete", false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Delete Entry", KeyBindings.Current.Core_Delete.HintText, false, _activeEntryGroup != null))
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (ImGui.MenuItem("Duplicate Entry", "Ctrl+D", false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Duplicate Entry", KeyBindings.Current.TextFMG_Duplicate.HintText, false, _activeEntryGroup != null))
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
@@ -333,9 +333,9 @@ namespace StudioCore.TextEditor
             ImGui.SameLine();
 
             // Search
-            if (InputTracker.GetControlShortcut(Key.F))
+            if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Search))
                 ImGui.SetKeyboardFocusHere();
-            ImGui.InputText("Search <Ctrl+F>", ref _searchFilter, 255);
+            ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);
 
             FMGSearchLogic();
 
@@ -459,19 +459,19 @@ namespace StudioCore.TextEditor
             if (!ImGui.IsAnyItemActive())
             {
                 // Only allow key shortcuts when an item [text box] is not currently activated
-                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+                if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+                if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (InputTracker.GetKeyDown(Key.Delete) && _activeEntryGroup != null)
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete) && _activeEntryGroup != null)
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (InputTracker.GetControlShortcut(Key.D) && _activeEntryGroup != null)
+                if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Duplicate) && _activeEntryGroup != null)
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }

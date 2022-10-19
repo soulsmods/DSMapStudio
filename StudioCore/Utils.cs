@@ -1,14 +1,15 @@
 //using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
+using Microsoft.Win32;
+using SoulsFormats;
+using StudioCore.MsbEditor;
 using Veldrid;
 using Veldrid.Utilities;
-using System.Numerics;
-using System.IO;
-using SoulsFormats;
-using System.Collections.Generic;
-using Microsoft.Win32;
-using StudioCore.MsbEditor;
 
 namespace StudioCore
 {
@@ -704,6 +705,32 @@ namespace StudioCore
         public static string ImGuiEscape(string str, string nullStr)
         {
             return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
+        }
+
+        /// <summary>
+        /// Search an object's properties and return whichever object has the targeted property.
+        /// </summary>
+        /// <returns>Object that has the property, otherwise null.</returns>
+        public static object FindPropertyObject(PropertyInfo prop, object obj)
+        {
+            foreach (var p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (p.MetadataToken == prop.MetadataToken)
+                    return obj;
+
+                if (p.PropertyType.IsNested)
+                {
+                    var retObj = FindPropertyObject(prop, p.GetValue(obj));
+                    if (retObj != null)
+                        return retObj;
+                }
+            }
+            return null;
+        }
+
+        public static object GetPropertyValue(PropertyInfo prop, object obj)
+        {
+            return prop.GetValue(FindPropertyObject(prop, obj));
         }
     }
 }

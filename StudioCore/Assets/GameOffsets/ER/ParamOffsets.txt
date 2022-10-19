@@ -182,4 +182,5 @@ TutorialParam:0x3328
 BaseChrSelectMenuParam:0x3370
 MimicryEstablishmentTexParam:0x33B8
 SfxBlockResShareParam:0x3400
-HitEffectSeParam:0x3448
+FinalDamageRateParam:0x3448
+HitEffectSeParam:0x3490

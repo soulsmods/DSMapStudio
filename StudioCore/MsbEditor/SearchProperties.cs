@@ -223,17 +223,17 @@ namespace StudioCore.MsbEditor
                 selectFirstResult = propSearchCmd.Contains("selectFirstResult");
             }
 
-            if (InputTracker.GetControlShortcut(Key.F))
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                 ImGui.SetNextWindowFocus();
             if (ImGui.Begin("Search Properties"))
             {
-                ImGui.Text("Search Properties By Name <Ctrl+F>");
+                ImGui.Text($"Search Properties By Name <{KeyBindings.Current.Map_PropSearch.HintText}>");
                 ImGui.Separator();
                 ImGui.Columns(2);
                 ImGui.Text("Property Name");
                 ImGui.NextColumn();
 
-                if (InputTracker.GetControlShortcut(Key.F))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                     ImGui.SetKeyboardFocusHere();
 
                 if (ImGui.InputText("##value", ref PropertyName, 64))

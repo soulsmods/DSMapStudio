@@ -168,27 +168,27 @@ namespace StudioCore.MsbEditor
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
             // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
             {
                 EditorActionManager.UndoAction();
             }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+            if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
             {
                 EditorActionManager.RedoAction();
             }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (InputTracker.GetKeyDown(Key.W))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_TranslateMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Translate;
                 }
-                if (InputTracker.GetKeyDown(Key.E))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_RotationMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                 }
 
                 // Use home key to cycle between gizmos origin modes
-                if (InputTracker.GetKeyDown(Key.Home))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
                     {
@@ -201,7 +201,7 @@ namespace StudioCore.MsbEditor
                 }
 
                 // F key frames the selection
-                if (InputTracker.GetKeyDown(Key.F))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_FrameSelection))
                 {
                     var selected = _selection.GetFilteredSelection<Entity>();
                     bool first = false;
@@ -252,7 +252,7 @@ namespace StudioCore.MsbEditor
             Viewport.OnGui();
             _assetBrowser.OnGui();
             _sceneTree.OnGui();
-            _propEditor.OnGui(_selection, _selection.GetSingleFilteredSelection<Entity>(), "modeleditprop", Viewport.Width, Viewport.Height);
+            _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
 

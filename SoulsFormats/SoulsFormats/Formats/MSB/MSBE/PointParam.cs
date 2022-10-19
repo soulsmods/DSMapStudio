@@ -1928,9 +1928,11 @@ namespace SoulsFormats
                 public int UnkT08 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// References to enemies to defeat to receive the reward.
                 /// </summary>
-                public int[] UnkT14 { get; private set; }
+                [MSBReference(ReferenceType = typeof(Part))]
+                public string[] PartNames { get; private set; }
+                private int[] PartIndices;
 
                 /// <summary>
                 /// Unknown.
@@ -1952,13 +1954,13 @@ namespace SoulsFormats
                 /// </summary>
                 public GroupDefeatReward() : base($"{nameof(Region)}: {nameof(GroupDefeatReward)}")
                 {
-                    UnkT14 = new int[8];
+                    PartNames = new string[8];
                 }
 
                 private protected override void DeepCopyTo(Region region)
                 {
                     var reward = (GroupDefeatReward)region;
-                    reward.UnkT14 = (int[])UnkT14.Clone();
+                    reward.PartNames = (string[])PartNames.Clone();
                 }
 
                 internal GroupDefeatReward(BinaryReaderEx br) : base(br) { }
@@ -1970,7 +1972,7 @@ namespace SoulsFormats
                     UnkT08 = br.ReadInt32();
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
-                    UnkT14 = br.ReadInt32s(8);
+                    PartIndices = br.ReadInt32s(8);
 
                     UnkT34 = br.ReadInt32();
                     UnkT38 = br.ReadInt32();
@@ -1992,7 +1994,7 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT08);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
-                    bw.WriteInt32s(UnkT14);
+                    bw.WriteInt32s(PartIndices);
 
                     bw.WriteInt32(UnkT34);
                     bw.WriteInt32(UnkT38);
@@ -2005,6 +2007,18 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT54);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
+                }
+
+                internal override void GetNames(Entries entries)
+                {
+                    base.GetNames(entries);
+                    PartNames = MSB.FindNames(entries.Parts, PartIndices);
+                }
+
+                internal override void GetIndices(Entries entries)
+                {
+                    base.GetIndices(entries);
+                    PartIndices = MSB.FindIndices(entries.Parts, PartNames);
                 }
             }
 
