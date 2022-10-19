@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.04";
+        private static string _version = "1.04 Beta 1";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -912,7 +912,9 @@ namespace StudioCore
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
-                                   "Vawser");
+                                   "Vawser\n" +
+                                   "Radai\n" +
+                                   "Moonlight Ruin");
                         ImGui.EndMenu();
                     }
                     
