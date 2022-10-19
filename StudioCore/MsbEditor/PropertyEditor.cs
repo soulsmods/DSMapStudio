@@ -396,6 +396,9 @@ namespace StudioCore.MsbEditor
             {
                 if (_lastUncommittedAction != null)
                 {
+                    if (ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
+                        ContextActionManager.UndoAction();
+
                     ContextActionManager.ExecuteAction(_lastUncommittedAction);
                     _lastUncommittedAction = null;
                     _changingPropery = null;
@@ -407,11 +410,10 @@ namespace StudioCore.MsbEditor
         {
             if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
             {
-                //ContextActionManager.UndoAction();
+                ContextActionManager.UndoAction();
             }
             else
             {
-                // TODO2: Not sure if this is necessary anymore
                 _lastUncommittedAction = null;
             }
             MultipleEntityPropertyChangeAction action;
@@ -425,6 +427,7 @@ namespace StudioCore.MsbEditor
 
             }
             action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex);
+            ContextActionManager.ExecuteAction(action);
 
             _lastUncommittedAction = action;
             _changingPropery = prop;
