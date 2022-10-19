@@ -606,11 +606,7 @@ namespace StudioCore.MsbEditor
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
 
-                IOrderedEnumerable<KeyValuePair<string, ObjectContainer>> orderedMaps; 
-                if (CFG.Current.Map_PinLoadedMaps)
-                    orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Value == null).ThenBy(k => k.Key);
-                else
-                    orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
+                var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
                 foreach (var lm in orderedMaps)
                 {
