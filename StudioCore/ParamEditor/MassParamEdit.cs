@@ -556,10 +556,10 @@ namespace StudioCore.ParamEditor
                 };
             }));
             argumentGetters.Add("vanillafield", (1, (param, field) => {
-                string paramName = ParamBank.VanillaBank.GetKeyForParam(param);
-                if (paramName == null)
+                var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
+                if (vParam == null)
                     throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                Param vParam = ParamBank.VanillaBank.Params[paramName];
                 Param.Column? col = vParam?[field[0]];
                 if (col == null)
                     throw new Exception($@"Could not locate field {field[0]}");
