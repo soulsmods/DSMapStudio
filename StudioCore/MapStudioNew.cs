@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.04";
+        private static string _version = "1.04 Beta 1";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -602,6 +602,7 @@ namespace StudioCore
             }
         }
 
+        private KeyBind _currentKeyBind;
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -645,6 +646,7 @@ namespace StudioCore
 
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
+            bool keyBindGUI = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
             if (ImGui.BeginMainMenuBar())
             {
@@ -654,7 +656,7 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
-                    if (ImGui.MenuItem("New Project", "CTRL+N", false, Editor.TaskManager.GetLiveThreads().Count == 0) || InputTracker.GetControlShortcut(Key.N))
+                    if (ImGui.MenuItem("New Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
                         newProject = true;
                     }
@@ -718,7 +720,7 @@ namespace StudioCore
                         focusType = "Text";
                     }
 
-                    if (ImGui.MenuItem($"Save {focusType}", "Ctrl+S"))
+                    if (ImGui.MenuItem($"Save {focusType}", KeyBindings.Current.Core_SaveCurrentEditor.HintText))
                     {
                         SaveFocusedEditor();
                     }
@@ -776,6 +778,10 @@ namespace StudioCore
                         }
                     }
 
+                    if (ImGui.Selectable("Key bindings"))
+                    {
+                        keyBindGUI = true;
+                    }
                     if (ImGui.BeginMenu("Fonts"))
                     {
                         ImGui.Text("Please restart program for font changes to take effect.");
@@ -815,7 +821,6 @@ namespace StudioCore
                     }
                     if (ImGui.BeginMenu("Map Editor"))
                     {
-                        ImGui.Checkbox("Pin loaded maps to top of list", ref CFG.Current.Map_PinLoadedMaps);
                         ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
                         ImGui.EndMenu();
                     }
@@ -906,7 +911,9 @@ namespace StudioCore
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
-                                   "Vawser");
+                                   "Vawser\n" +
+                                   "Radai\n" +
+                                   "Moonlight Ruin");
                         ImGui.EndMenu();
                     }
                     
@@ -1030,6 +1037,55 @@ namespace StudioCore
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
 
+            bool open = true;
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
+
+            if (keyBindGUI)
+                ImGui.OpenPopup("Key Bind Settings");
+            if (ImGui.BeginPopupModal("Key Bind Settings", ref open))
+            {
+                if (InputTracker.GetKeyDown(Key.Escape))
+                {
+                    _currentKeyBind = null;
+                }
+                else if (ImGui.IsAnyItemActive())
+                {
+                    _currentKeyBind = null;
+                }
+
+                ImGui.Columns(2);
+                foreach (var bind in KeyBindings.Current.GetType().GetFields())
+                {
+                    var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
+                    ImGui.Text(bind.Name);
+                    ImGui.NextColumn();
+                    if (_currentKeyBind == bindVal)
+                    {
+                        ImGui.Button("Press Key <Esc - Cancel>");
+                        var newkey = InputTracker.GetNewKeyBind();
+                        if (newkey != null)
+                        {
+                            bind.SetValue(KeyBindings.Current, newkey);
+                            _currentKeyBind = null;
+                        }
+                    }
+                    else if (ImGui.Button($"{bindVal.HintText}##{bind.Name}"))
+                    {
+                        _currentKeyBind = bindVal;
+                    }
+                    ImGui.NextColumn();
+                }
+                ImGui.Separator();
+                if (ImGui.Button("Restore Defaults"))
+                {
+                    KeyBindings.ResetKeyBinds();
+                }
+                ImGui.EndPopup();
+            }
+
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
+
             // New project modal
             if (newProject)
             {
@@ -1037,10 +1093,6 @@ namespace StudioCore
                 _newProjectOptions.directory = "";
                 ImGui.OpenPopup("New Project");
             }
-            bool open = true;
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
             if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize)) // The Grey overlay is apparently an imgui bug (that has been fixed in updated builds; in some forks at least).
             {
                 ImGui.AlignTextToFramePadding();
@@ -1279,7 +1331,7 @@ namespace StudioCore
             ImGui.End();
 
             // Global shortcut keys
-            if (InputTracker.GetControlShortcut(Key.S) && !_msbEditor.Viewport.ViewportSelected)
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor) && !_msbEditor.Viewport.ViewportSelected)
                 SaveFocusedEditor();
 
             string[] textcmds = null;

@@ -302,9 +302,9 @@ namespace StudioCore.ParamEditor
 
             if (propSearchString != null)
             {
-                if (isActiveView && InputTracker.GetControlShortcut(Key.N))
+                if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchField))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText("Search For Field <Ctrl+N>", ref propSearchString, 255);
+                ImGui.InputText($"Search For Field <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
                 ImGui.Separator();
             }
             Regex propSearchRx = null;
@@ -388,7 +388,12 @@ namespace StudioCore.ParamEditor
                 List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
                 List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 for (int i = 0; i < matches.Count; i++)
-                    lastRowExists |= PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
+                    lastRowExists |= PropEditorPropCellRow(bank,
+                    row[matches[i]],
+                    vmatches.Count > i ? vrow?[vmatches[i]] : null,
+                    auxRows.Select((r, j) => auxmatches[j].Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
+                    cmatches != null && cmatches.Count > i ? crow?[cmatches[i]] : null,
+                    showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
             ImGui.EndChild();

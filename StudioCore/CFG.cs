@@ -17,11 +17,12 @@ namespace StudioCore
         private static object _lock_SaveLoadCFG = new();
 
         public const string FolderName = "DSMapStudio";
-        public const string FileName = "DSMapStudio_Config.json";
+        public const string Config_FileName = "DSMapStudio_Config.json";
+        public const string Keybinds_FileName = "DSMapStudio_Keybinds.json";
         public static CFG Current { get; private set; } = null;
         public static CFG Default { get; private set; } = new();
 
-        // Stores info in config file that isn't in class (to retain newer settings in older versions).
+        // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
         [JsonExtensionData]
         private IDictionary<string, JToken> _additionalData;
 
@@ -29,7 +30,11 @@ namespace StudioCore
 
         public static string GetConfigFilePath()
         {
-            return $@"{GetConfigFolderPath()}\{FileName}";
+            return $@"{GetConfigFolderPath()}\{Config_FileName}";
+        }
+        public static string GetBindingsFilePath()
+        {
+            return $@"{GetConfigFolderPath()}\{Keybinds_FileName}";
         }
         public static string GetConfigFolderPath()
         {
@@ -37,30 +42,76 @@ namespace StudioCore
             return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
 
-        public static void Load()
+        private static void LoadConfig()
         {
-            if (IsEnabled)
+            if (!File.Exists(GetConfigFilePath()))
             {
-                lock (_lock_SaveLoadCFG)
+                Current = new CFG();
+                SaveConfig();
+            }
+            else
+            {
+                do
                 {
-                    do
+                    try
                     {
-                        try
+                        Current = JsonConvert.DeserializeObject<CFG>(
+                        File.ReadAllText(GetConfigFilePath()));
+                    }
+                    catch (JsonReaderException e)
+                    {
+                        if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{Config_FileName} Load Error",
+                            MessageBoxButtons.OKCancel) == DialogResult.OK)
                         {
-                            Current = JsonConvert.DeserializeObject<CFG>(
-                            File.ReadAllText(GetConfigFilePath()));
-                        }
-                        catch (JsonReaderException e)
-                        {
-                            if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{FileName} Load Error", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                            {
-                                Current = new CFG();
-                            }
+                            Current = new CFG();
                         }
                     }
-                    while (Current == null);
                 }
+                while (Current == null);
             }
+        }
+
+        private static void LoadKeybinds()
+        {
+            if (!File.Exists(GetBindingsFilePath()))
+            {
+                KeyBindings.Current = new KeyBindings.Bindings();
+                SaveKeybinds();
+            }
+            else
+            {
+                do
+                {
+                    try
+                    {
+                        KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
+                        File.ReadAllText(GetBindingsFilePath()));
+                    }
+                    catch (JsonReaderException e)
+                    {
+                        if (MessageBox.Show($"{e.Message}\n\nReset keybinds?", $"{Keybinds_FileName} Load Error",
+                            MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        {
+                            KeyBindings.Current = new KeyBindings.Bindings();
+                        }
+                    }
+                }
+                while (KeyBindings.Current == null);
+            }
+        }
+
+        private static void SaveConfig()
+        {
+            var json = JsonConvert.SerializeObject(
+                Current, Formatting.Indented);
+            File.WriteAllText(GetConfigFilePath(), json);
+        }
+
+        private static void SaveKeybinds()
+        {
+            var json = JsonConvert.SerializeObject(
+                KeyBindings.Current, Formatting.Indented);
+            File.WriteAllText(GetBindingsFilePath(), json);
         }
 
         public static void Save()
@@ -69,11 +120,11 @@ namespace StudioCore
             {
                 lock (_lock_SaveLoadCFG)
                 {
-                    var json = JsonConvert.SerializeObject(
-                        Current, Formatting.Indented);
                     if (!Directory.Exists(GetConfigFolderPath()))
                         Directory.CreateDirectory(GetConfigFolderPath());
-                    File.WriteAllText(GetConfigFilePath(), json);
+
+                    SaveConfig();
+                    SaveKeybinds();
                 }
             }
         }
@@ -82,21 +133,19 @@ namespace StudioCore
         {
             if (IsEnabled)
             {
-                if (File.Exists(GetConfigFilePath()))
+                lock (_lock_SaveLoadCFG)
                 {
-                    Load();
-                }
-                else
-                {
-                    Current = new CFG();
-                    Save();
+                    if (!Directory.Exists(GetConfigFolderPath()))
+                        Directory.CreateDirectory(GetConfigFolderPath());
+                    LoadConfig();
+                    LoadKeybinds();
                 }
             }
         }
 
         public class RecentProject
         {
-            // Stores info in config file that isn't in class (to retain newer settings in older versions).
+            // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
             [JsonExtensionData]
             private IDictionary<string, JToken> _additionalData;
 
@@ -126,8 +175,8 @@ namespace StudioCore
         public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
 
+        // Map Editor settings
         public bool Map_AlwaysListLoadedMaps = true;
-        public bool Map_PinLoadedMaps = true;
 
         // Font settings
         public bool FontChinese = false;
