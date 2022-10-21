@@ -1469,6 +1469,7 @@ namespace StudioCore.ParamEditor
                 paramUpgradeTasks = new (ulong, string, string)[]{
                     (10701000l, "1.07 - Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
                     (10701000l, "1.07 - Set swordArtsType to 0", "param SwordArtsParam: modified: swordArtsType: = 0;"),
+                    (10701000l, "1.07 - Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified: reserved_124: = [1|173|7|0|10|10|3|4|5|6|7|8|10|11|12|13|14|15|17|18|19|20|21|22|24|25|25|25|25|25|25|25|0|0|22|67|0|0|240|65|0|0|135|67|0|0|240|65|0|0|135|67|0|0|240|65|0|0|135|67|0|0|240|65|0|0|135|67|0|0|240|65|0|0|135|67|0|0|240|65|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0];"),
                 };
             }
 
