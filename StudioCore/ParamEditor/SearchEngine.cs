@@ -139,6 +139,11 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>rx.Match(bank.GetKeyForParam(param) == null ? "" : bank.GetKeyForParam(param)).Success);
             }));
+            filterList.Add("auxparam", (2, (args, lenient)=>{
+                ParamBank auxBank = ParamBank.AuxBanks[args[0]];
+                Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
+                return noContext((param)=>rx.Match(auxBank.GetKeyForParam(param) == null ? "" : auxBank.GetKeyForParam(param)).Success);
+            }));
             defaultFilter = (1, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>rx.Match(bank.GetKeyForParam(param) == null ? "" : bank.GetKeyForParam(param)).Success);
