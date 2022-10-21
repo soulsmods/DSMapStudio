@@ -192,7 +192,6 @@ namespace StudioCore.ParamEditor
                 return PerformMassEditCommandCellStep(bank, true, paramSelector, null, paramstage[1], context);
             }
         }
-
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandRowStep(ParamBank bank, string paramStage, string restOfStages, ParamEditorSelectionState context)
         {
             string[] rowstage = restOfStages.Split(":", 2);
@@ -207,15 +206,29 @@ namespace StudioCore.ParamEditor
             string cellSelector = cellstage[0].Trim();
             if (cellSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
-            PseudoColumn pseudoCol = cellSelector.Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-            return PerformMassEditCommandCellOpStep(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, pseudoCol, cellstage[1], context);
+            
+            if (MERowOperation.rowOps.HandlesCommand(cellSelector))
+            {
+                return PerformMassEditCommandRowOpStep(bank, isParamRowSelector, paramSelector, rowSelector, restOfStages, context);
+            }
+            else
+            {
+                PseudoColumn pseudoCol = cellSelector.Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                return PerformMassEditCommandCellOpStep(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, pseudoCol, cellstage[1], context);
+            }
+        }
+        private static (MassEditResult, List<EditorAction>) PerformMassEditCommandRowOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string restOfStages, ParamEditorSelectionState context)
+        {
+            string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
+            string operation = operationstage[0].Trim();
+            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, null, PseudoColumn.None, operation, operationstage[1], context);
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandCellOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, PseudoColumn pseudoCol, string restOfStages, ParamEditorSelectionState context)
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             string operation = operationstage[0].Trim();
 
-            if (operation.Equals("") || (pseudoCol == PseudoColumn.Name && !MEPseudoCellOperation.rowOps.operations.ContainsKey(operation)) || (pseudoCol != PseudoColumn.Name && !MECellOperation.cellOps.operations.ContainsKey(operation)))
+            if (operation.Equals("") || (pseudoCol == PseudoColumn.Name && !MEPseudoCellOperation.pseudoCellOps.operations.ContainsKey(operation)) || (pseudoCol != PseudoColumn.Name && !MECellOperation.cellOps.operations.ContainsKey(operation)))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             if (operationstage.Length == 1)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
@@ -227,13 +240,20 @@ namespace StudioCore.ParamEditor
             try {
 
                 int argc;
-                Func<Param.Row, string[], object> rowFunc = null;
+                Func<(Param, Param.Row), string[], Param.Row[]> rowFunc = null;
+                Func<Param.Row, string[], object> pseudoCellFunc = null;
                 Func<(Param.Row, Param.Column), string[], object> cellFunc = null; 
-                if (pseudoCol == PseudoColumn.Name)
+                if (cellSelector == null)
                 {
-                    if (!MEPseudoCellOperation.rowOps.operations.ContainsKey(operation))
+                    if (!MERowOperation.rowOps.operations.ContainsKey(operation))
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
-                    (argc, rowFunc) = MEPseudoCellOperation.rowOps.operations[operation];
+                    (argc, rowFunc) = MERowOperation.rowOps.operations[operation];
+                }
+                else if (pseudoCol == PseudoColumn.Name)
+                {
+                    if (!MEPseudoCellOperation.pseudoCellOps.operations.ContainsKey(operation))
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
+                    (argc, pseudoCellFunc) = MEPseudoCellOperation.pseudoCellOps.operations[operation];
                 }
                 else
                 {
@@ -245,16 +265,25 @@ namespace StudioCore.ParamEditor
                 var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
                 if (isParamRowSelector)
                 {
-                    var paramArgFunc = argFuncs.Select((func, i) => func(bank.Params[context.getActiveParam()]));
+                    Param activeParam = bank.Params[context.getActiveParam()];
+                    var paramArgFunc = argFuncs.Select((func, i) => func(activeParam));
                     if (argc != argFuncs.Length)
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}"), null);
                     foreach (Param.Row row in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
                     {
                         var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
-                        if (pseudoCol == PseudoColumn.Name)
+                        if (cellSelector == null)
+                        {
+                            var rowArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.None, null)).ToArray();
+                            var res = rowFunc((activeParam, row), rowArgValues);
+                            if (res == null)
+                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
+                            partialActions.Add(new AddParamsAction(activeParam, "FromMassEdit", res.ToList(), false, true, false));
+                        }
+                        else if (pseudoCol == PseudoColumn.Name)
                         {
                             var cellArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.Name, null)).ToArray();
-                            var res = rowFunc(row, cellArgValues);
+                            var res = pseudoCellFunc(row, cellArgValues);
                             if (res == null)
                                 return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on Name"), null);
                             partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, res));
@@ -282,10 +311,15 @@ namespace StudioCore.ParamEditor
                         foreach (Param.Row row in RowSearchEngine.rse.Search(p, rowSelector, false, false))
                         {
                             var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
-                            if (pseudoCol == PseudoColumn.Name)
+                            if (cellSelector == null)
+                            {
+                                var rowArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.None, null)).ToArray();
+                                var res = pseudoCellFunc(row, rowArgValues);
+                            }
+                            else if (pseudoCol == PseudoColumn.Name)
                             {
                                 var cellArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.Name, null)).ToArray();
-                                var res = rowFunc(row, cellArgValues);
+                                var res = pseudoCellFunc(row, cellArgValues);
                                 if (res == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on Name"), null);
                                 partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, res));
@@ -504,9 +538,9 @@ namespace StudioCore.ParamEditor
         }
     }
 
-    internal class MEOperation<T>
+    internal class MEOperation<T, O>
     {
-        internal Dictionary<string, (int, Func<T, string[], object>)> operations = new Dictionary<string, (int, Func<T, string[], object>)>();
+        internal Dictionary<string, (int, Func<T, string[], O>)> operations = new Dictionary<string, (int, Func<T, string[], O>)>();
         internal MEOperation()
         {
             Setup();
@@ -520,7 +554,24 @@ namespace StudioCore.ParamEditor
         }
 
     }
-    internal class MECellOperation : MEOperation<(Param.Row, Param.Column)>
+    internal class MERowOperation : MEOperation<(Param, Param.Row), Param.Row[]>
+    {
+        internal static MERowOperation rowOps = new MERowOperation();
+        internal override void Setup()
+        {
+            operations.Add("migrate", (0, (paramAndRow, empty) => {
+                Param param = paramAndRow.Item1;
+                Param.Row row = paramAndRow.Item2;
+                string paramKey = ParamBank.PrimaryBank.GetKeyForParam(param);
+                if (paramKey == null)
+                    throw new Exception($@"Could not locate param {paramKey}");
+                if (!ParamBank.PrimaryBank.Params.ContainsKey(paramKey))
+                    throw new Exception($@"Could not locate param {paramKey}");
+                return new Param.Row[]{new Param.Row(row, ParamBank.PrimaryBank.Params[paramKey])};
+            }));            
+        }
+    }
+    internal class MECellOperation : MEOperation<(Param.Row, Param.Column), object>
     {
         internal static MECellOperation cellOps = new MECellOperation();
         internal override void Setup()
@@ -533,9 +584,9 @@ namespace StudioCore.ParamEditor
             operations.Add("%", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args[0])));
         }
     }
-    internal class MEPseudoCellOperation : MEOperation<Param.Row>
+    internal class MEPseudoCellOperation : MEOperation<Param.Row, object>
     {
-        internal static MEPseudoCellOperation rowOps = new MEPseudoCellOperation();
+        internal static MEPseudoCellOperation pseudoCellOps = new MEPseudoCellOperation();
         internal override void Setup()
         {
             operations.Add("=", (1, (row, args) => MassParamEdit.PerformNameOperation(row.Name, "=", args[0])));
@@ -577,6 +628,31 @@ namespace StudioCore.ParamEditor
                     object val = row[col].Value;
                     string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                     return (pc,c) => v;
+                };
+            }));
+            argumentGetters.Add("vanilla", (0, (empty) => {
+                ParamBank bank = ParamBank.VanillaBank;
+                return (param) => {
+                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    if (!bank.Params.ContainsKey(paramName))
+                        throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
+                    Param vParam = bank.Params[paramName];
+                    return (row) => {
+                        Param.Row vRow = vParam?[row.ID];
+                        if (vRow == null)
+                            throw new Exception($@"Could not locate vanilla row {row.ID}");
+                        return (pc, col) => {
+                            if (col != null)
+                            {
+                                object val = vRow[col].Value;
+                                return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                            }
+                            else
+                            {
+                                return vRow.Name;
+                            }
+                        };
+                    };
                 };
             }));
             argumentGetters.Add("vanillafield", (1, (field) => (param) => {
