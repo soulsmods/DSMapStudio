@@ -174,6 +174,12 @@ namespace StudioCore.Editor
                     return (row)=>vanilParam[row.ID] == null;
                 }
             )));
+            filterList.Add("notadded", (0, noArgs((context)=>{
+                    string paramName = bank.GetKeyForParam(context);
+                    Param vanilParam = ParamBank.VanillaBank.Params[paramName];
+                    return (row)=>vanilParam[row.ID] != null;
+                }
+            )));
             filterList.Add("mergeable", (0, noArgs((context)=>{
                 string paramName = bank.GetKeyForParam(context);
                 HashSet<int> cache = bank.VanillaDiffCache[paramName];
