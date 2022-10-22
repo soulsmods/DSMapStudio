@@ -498,10 +498,16 @@ namespace StudioCore
                 else
                     path = $@"map\{mapid}";
 
-                string[] files;
+                List<string> files = new();
                 try
                 {
-                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.*");
+                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl*").Where(f => !f.EndsWith(".bak")).ToList();
+                    if (Directory.Exists($"{GameModDirectory}\\{path}"))
+                    {
+                        // Check for additional BTLs the user has created.
+                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl*").Where(f => !f.EndsWith(".bak")).ToList());
+                        files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
+                    }
                 }
                 catch (DirectoryNotFoundException)
                 {

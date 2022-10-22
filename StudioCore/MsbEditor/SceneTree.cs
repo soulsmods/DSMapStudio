@@ -514,6 +514,26 @@ namespace StudioCore.MsbEditor
                                     {
                                         if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ExtraSaveInfo}", ImGuiTreeNodeFlags.OpenOnArrow))
                                         {
+                                            ImGui.SetItemAllowOverlap();
+                                            bool visible = btlFile.EditorVisible;
+                                            ImGui.SameLine(ImGui.GetContentRegionAvail().X - 18.0f);
+                                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                                            ImGui.PopStyleColor();
+                                            if (ImGui.IsItemClicked(0))
+                                            {
+                                                // Hide/Unhide all lights within this BTL.
+                                                btlFile.EditorVisible = !btlFile.EditorVisible;
+                                                foreach (var obj in typ.Value)
+                                                {
+                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                    {
+                                                        obj.EditorVisible = btlFile.EditorVisible;
+                                                    }
+                                                }
+                                            }
+
                                             foreach (var obj in typ.Value)
                                             {
                                                 if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
@@ -522,6 +542,28 @@ namespace StudioCore.MsbEditor
                                                 }
                                             }
                                             ImGui.TreePop();
+                                        }
+                                        else
+                                        {
+                                            ImGui.SetItemAllowOverlap();
+                                            bool visible = btlFile.EditorVisible;
+                                            ImGui.SameLine(ImGui.GetContentRegionAvail().X - 39.0f);
+                                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                                            ImGui.PopStyleColor();
+                                            if (ImGui.IsItemClicked(0))
+                                            {
+                                                // Hide/Unhide all lights within this BTL.
+                                                btlFile.EditorVisible = !btlFile.EditorVisible;
+                                                foreach (var obj in typ.Value)
+                                                {
+                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                    {
+                                                        obj.EditorVisible = btlFile.EditorVisible;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
