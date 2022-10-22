@@ -390,7 +390,7 @@ namespace StudioCore.ParamEditor
                 for (int i = 0; i < matches.Count; i++)
                     lastRowExists |= PropEditorPropCellRow(bank,
                     row[matches[i]],
-                    vmatches.Count > i ? vrow?[vmatches[i]] : null,
+                    vmatches?.Count > i ? vrow?[vmatches[i]] : null,
                     auxRows.Select((r, j) => auxmatches[j].Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
                     cmatches != null && cmatches.Count > i ? crow?[cmatches[i]] : null,
                     showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
