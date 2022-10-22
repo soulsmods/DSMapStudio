@@ -1,52 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="ItemCategory" type="x32">
-		<Option Value="-1" Name="None" />
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Good" />
-		<Option Value="2" Name="Weapon" />
-		<Option Value="3" Name="Armor" />
-		<Option Value="4" Name="Accessory" />
-		<Option Value="5" Name="Ash of War" />
-		<Option Value="6" Name="Custom Weapon" />
-	  </Enum>
+    <Enum Name="ITEMLOT_ITEMCATEGORY" type="x32">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Good" />
+      <Option Value="2" Name="Weapon" />
+      <Option Value="3" Name="Armor" />
+      <Option Value="4" Name="Accessory" />
+      <Option Value="5" Name="Ash of War" />
+      <Option Value="6" Name="Custom Weapon" />
+    </Enum>
   </Enums>
   <Field>
-	<lotItemCategory01 Enum="ItemCategory" />
-	<lotItemCategory02 Enum="ItemCategory" />
-	<lotItemCategory03 Enum="ItemCategory" />
-	<lotItemCategory04 Enum="ItemCategory" />
-	<lotItemCategory05 Enum="ItemCategory" />
-	<lotItemCategory06 Enum="ItemCategory" />
-	<lotItemCategory07 Enum="ItemCategory" />
-	<lotItemCategory08 Enum="ItemCategory" />
-    <lotItemId01 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId02 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId03 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId04 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId05 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId06 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId07 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId08 Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <enableLuck01 IsBool="" />
-    <enableLuck02 IsBool="" />
-    <enableLuck03 IsBool="" />
-    <enableLuck04 IsBool="" />
-    <enableLuck05 IsBool="" />
-    <enableLuck06 IsBool="" />
-    <enableLuck07 IsBool="" />
-    <enableLuck08 IsBool="" />
-    <cumulateReset01 IsBool="" />
-    <cumulateReset02 IsBool="" />
-    <cumulateReset03 IsBool="" />
-    <cumulateReset04 IsBool="" />
-    <cumulateReset05 IsBool="" />
-    <cumulateReset06 IsBool="" />
-    <cumulateReset07 IsBool="" />
-    <cumulateReset08 IsBool="" />
-    <canExecByFriendlyGhost IsBool="" />
-    <canExecByHostileGhost IsBool="" />
+    <lotItemId01 AltName="Item ID [1]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId02 AltName="Item ID [2]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId03 AltName="Item ID [3]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <lotItemId04 AltName="Item ID [4]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
+    <lotItemId05 AltName="Item ID [5]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
+    <lotItemId06 AltName="Item ID [6]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
+    <lotItemId07 AltName="Item ID [7]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
+    <lotItemId08 AltName="Item ID [8]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
+    <lotItemCategory01 AltName="Item Category [1]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory02 AltName="Item Category [2]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory03 AltName="Item Category [3]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory04 AltName="Item Category [4]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory05 AltName="Item Category [5]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory06 AltName="Item Category [6]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory07 AltName="Item Category [7]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemCategory08 AltName="Item Category [8]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
+    <lotItemBasePoint01 AltName="Item Chance [1]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint02 AltName="Item Chance [2]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint03 AltName="Item Chance [3]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint04 AltName="Item Chance [4]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint05 AltName="Item Chance [5]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint06 AltName="Item Chance [6]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint07 AltName="Item Chance [7]" Wiki="Appearance point at normal time" />
+    <lotItemBasePoint08 AltName="Item Chance [8]" Wiki="Appearance point at normal time" />
+    <cumulateLotPoint01 AltName="Item Accumulate Chance [1]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint02 AltName="Item Accumulate Chance [2]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint03 AltName="Item Accumulate Chance [3]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint04 AltName="Item Accumulate Chance [4]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint05 AltName="Item Accumulate Chance [5]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint06 AltName="Item Accumulate Chance [6]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint07 AltName="Item Accumulate Chance [7]" Wiki="Appearance point at maximum cumulative" />
+    <cumulateLotPoint08 AltName="Item Accumulate Chance [8]" Wiki="Appearance point at maximum cumulative" />
+    <getItemFlagId01 AltName="Item Acquisition Flag [1]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId02 AltName="Item Acquisition Flag [2]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId03 AltName="Item Acquisition Flag [3]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId04 AltName="Item Acquisition Flag [4]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId05 AltName="Item Acquisition Flag [5]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId06 AltName="Item Acquisition Flag [6]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId07 AltName="Item Acquisition Flag [7]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId08 AltName="Item Acquisition Flag [8]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId AltName="Item Acquisition Flag" Wiki="Combined use of acquired flag and crunchy frame (0: flag invalid)" />
+    <cumulateNumFlagId AltName="Item Accumulate Flag [1]" Wiki="For saving the number of lottery (* 8 flag serial number used)" />
+    <cumulateNumMax AltName="Item Accumulate Max" Wiki="Maximum number of lottery cumulative (0: no cumulative)" />
+    <lotItem_Rarity AltName="Item Rarity" Wiki="Specify how valuable items are in the treasure chest. When -1, use the rarity of the equipment para without overwriting" />
+    <lotItemNum01 AltName="Item Amount [1]" Wiki="Number of items that can be acquired" />
+    <lotItemNum02 AltName="Item Amount [2]" Wiki="Number of items that can be acquired" />
+    <lotItemNum03 AltName="Item Amount [3]" Wiki="Number of items that can be acquired" />
+    <lotItemNum04 AltName="Item Amount [4]" Wiki="Number of items that can be acquired" />
+    <lotItemNum05 AltName="Item Amount [5]" Wiki="Number of items that can be acquired" />
+    <lotItemNum06 AltName="Item Amount [6]" Wiki="Number of items that can be acquired" />
+    <lotItemNum07 AltName="Item Amount [7]" Wiki="Number of items that can be acquired" />
+    <lotItemNum08 AltName="Item Amount [8]" Wiki="Number of items that can be acquired" />
+    <enableLuck01 AltName="Affected by Item Discovery [1]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck02 AltName="Affected by Item Discovery [2]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck03 AltName="Affected by Item Discovery [3]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck04 AltName="Affected by Item Discovery [4]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck05 AltName="Affected by Item Discovery [5]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck06 AltName="Affected by Item Discovery [6]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck07 AltName="Affected by Item Discovery [7]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <enableLuck08 AltName="Affected by Item Discovery [8]" Wiki="Whether the probability of lottery reflects the player's luck" IsBool="" />
+    <cumulateReset01 AltName="Accumulate Reset [1]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset02 AltName="Accumulate Reset [2]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset03 AltName="Accumulate Reset [3]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset04 AltName="Accumulate Reset [4]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset05 AltName="Accumulate Reset [5]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset06 AltName="Accumulate Reset [6]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset07 AltName="Accumulate Reset [7]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <cumulateReset08 AltName="Accumulate Reset [8]" Wiki="Whether to reset cumulatively" IsBool="" />
+    <GameClearOffset AltName="Game Clear Offset" Wiki="Offset during lap play" />
+    <canExecByFriendlyGhost AltName="Can Friendly Phantom Acquire" Wiki="Do you draw lots even when you are a cooperating spirit?" IsBool="" />
+    <canExecByHostileGhost AltName="Can Hostile Phantom Acquire" Wiki="Do you draw lots even when you are a hostile spirit?" IsBool="" />
+    <PAD1 AltName="Blank" Wiki="PAD1" />
+    <PAD2 AltName="Blank" Wiki="PAD2" />
   </Field>
-  <Self Row0Dummy="" />
+  <Self />
 </PARAMMETA>

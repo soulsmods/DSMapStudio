@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>ARMOR_REINFORCE_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -30,9 +30,9 @@
     <Field Def="f32 Max Bleed Resist" />
     <Field Def="f32 Max Petrify Resist" />
     <Field Def="f32 Max Curse Resist" />
-    <Field Def="u32 Max Reinforce Level = 10" />
+    <Field Def="u32 Max Reinforce Level" />
     <Field Def="f32 Unk64" />
-    <Field Def="u32 Upgrade Material = 105000" />
+    <Field Def="u32 Upgrade Material" />
     <Field Def="s32 Unk6C" />
     <Field Def="u32 Reinforce Cost ID" />
   </Fields>

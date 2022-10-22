@@ -4311,30 +4311,30 @@
 10600002 Catch Flame
 10600005 Catch Flame
 10600006 Catch Flame
-10600100 O, Flame!
-10600101 O, Flame!
-10600105 O, Flame!
-10600106 O, Flame!
-10600150 O, Flame!
-10600151 O, Flame!
-10600155 O, Flame!
-10600156 O, Flame!
+10600100 O Flame!
+10600101 O Flame!
+10600105 O Flame!
+10600106 O Flame!
+10600150 O Flame!
+10600151 O Flame!
+10600155 O Flame!
+10600156 O Flame!
 10601000 Flame Sling
 10601001 Flame Sling
 10601050 Flame Sling
 10601051 Flame Sling
-10602000 Flame, Fall Upon Them
-10602001 Flame, Fall Upon Them
-10602002 Flame, Fall Upon Them
-10602050 Flame, Fall Upon Them
-10602051 Flame, Fall Upon Them
-10602052 Flame, Fall Upon Them
-10603000 Whirl, O Flame!
-10603050 Whirl, O Flame!
-10603099 Whirl, O Flame!
-10604000 Flame, Cleanse Me
-10604001 Flame, Cleanse Me
-10604002 Flame, Cleanse Me
+10602000 Flame Fall Upon Them
+10602001 Flame Fall Upon Them
+10602002 Flame Fall Upon Them
+10602050 Flame Fall Upon Them
+10602051 Flame Fall Upon Them
+10602052 Flame Fall Upon Them
+10603000 Whirl O Flame!
+10603050 Whirl O Flame!
+10603099 Whirl O Flame!
+10604000 Flame Cleanse Me
+10604001 Flame Cleanse Me
+10604002 Flame Cleanse Me
 10610000 Giantsflame Take Thee
 10610001 Giantsflame Take Thee
 10610050 Giantsflame Take Thee
@@ -4349,23 +4349,23 @@
 10611007 Flame of the Fell God
 10611008 Flame of the Fell God
 10611009 Flame of the Fell God
-10612000 Burn, O Flame!
-10612001 Burn, O Flame!
-10612002 Burn, O Flame!
-10612003 Burn, O Flame!
-10612004 Burn, O Flame!
-10612005 Burn, O Flame!
-10612050 Burn, O Flame!
-10612051 Burn, O Flame!
-10612052 Burn, O Flame!
-10612053 Burn, O Flame!
-10612054 Burn, O Flame!
-10612055 Burn, O Flame!
+10612000 Burn O Flame!
+10612001 Burn O Flame!
+10612002 Burn O Flame!
+10612003 Burn O Flame!
+10612004 Burn O Flame!
+10612005 Burn O Flame!
+10612050 Burn O Flame!
+10612051 Burn O Flame!
+10612052 Burn O Flame!
+10612053 Burn O Flame!
+10612054 Burn O Flame!
+10612055 Burn O Flame!
 10621000 Black Flame
 10621001 Black Flame
 10621050 Black Flame
 10621051 Black Flame
-10622000 Surge, O Flame!
+10622000 Surge O Flame!
 10623000 Scouring Black Flame
 10623001 Scouring Black Flame
 10623050 Scouring Black Flame
@@ -4784,7 +4784,7 @@
 10790099 Fire's Deadly Sin
 10790300 Golden Lightning Fortification
 10790301 Golden Lightning Fortification
-10999999 Rock Blaster / Death Lightning / Whirl, O Flame! / Burn, O Flame! / Scouring Black Flame
+10999999 Rock Blaster / Death Lightning / Whirl O Flame! / Burn O Flame! / Scouring Black Flame
 20000000 Arrow
 20000001 Arrow
 20000005 Arrow

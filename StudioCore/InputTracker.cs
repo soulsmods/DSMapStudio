@@ -23,8 +23,10 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using System.Linq;
 using Veldrid;
 using Veldrid.Sdl2;
+using StudioCore;
 
 namespace StudioCore
 {
@@ -47,10 +49,30 @@ namespace StudioCore
         {
             return _currentlyPressedKeys.Contains(key);
         }
-
         public static bool GetKeyDown(Key key)
         {
             return _newKeysThisFrame.Contains(key);
+        }
+
+        public static bool GetKey(KeyBind key)
+        {
+            if (key.Ctrl_Pressed && !GetKey(Key.LControl) && !GetKey(Key.RControl))
+                return false;
+            if (key.Alt_Pressed && !GetKey(Key.AltLeft) && !GetKey(Key.AltRight))
+                return false;
+            if (key.Shift_Pressed && !GetKey(Key.ShiftLeft) && !GetKey(Key.ShiftRight))
+                return false;
+            return _currentlyPressedKeys.Contains(key.PrimaryKey);
+        }
+        public static bool GetKeyDown(KeyBind key)
+        {
+            if (key.Ctrl_Pressed && !GetKey(Key.LControl) && !GetKey(Key.RControl))
+                return false;
+            if (key.Alt_Pressed && !GetKey(Key.AltLeft) && !GetKey(Key.AltRight))
+                return false;
+            if (key.Shift_Pressed && !GetKey(Key.ShiftLeft) && !GetKey(Key.ShiftRight))
+                return false;
+            return _newKeysThisFrame.Contains(key.PrimaryKey);
         }
 
         public static bool GetControlShortcut(Key key)
@@ -144,6 +166,25 @@ namespace StudioCore
             {
                 _newKeysThisFrame.Add(key);
             }
+        }
+
+        public static KeyBind GetNewKeyBind()
+        {
+            var newkey = GetNextKey();
+            _newKeysThisFrame.Clear(); // Clear to prevent hotkeys from triggering
+
+            if (newkey != Key.Unknown)
+            {
+                var ctrl = GetKey(Key.LControl) || GetKey(Key.RControl);
+                var alt = GetKey(Key.AltLeft) || GetKey(Key.AltRight);
+                var shift = GetKey(Key.ShiftLeft) || GetKey(Key.ShiftRight);
+                return new KeyBind(newkey, ctrl, alt, shift);
+            }
+            return null;
+        }
+        public static Key GetNextKey()
+        {
+            return _newKeysThisFrame.FirstOrDefault(e => e != Key.LControl && e != Key.RControl && e != Key.LAlt && e != Key.RAlt && e != Key.LShift && e != Key.RShift);
         }
     }
 }

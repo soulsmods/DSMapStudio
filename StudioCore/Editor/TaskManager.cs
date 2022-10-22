@@ -51,21 +51,20 @@ namespace StudioCore.Editor
             }
 
             Task t = new Task(() => {
-                if (silentFail)
-                {
-                    try
-                    {
-                        action.Invoke();
-                    }
-                    catch (Exception e)
-                    {
-                        warningList.TryAdd(taskId, ("An error has occurred in task "+taskId+":\n"+e.Message).Replace("\0", "\\0"));
-                    } 
-                }
-                else
+                try
                 {
                     action.Invoke();
-                    //MessageBox.Show(("An error has occurred in task "+taskId+":\n"+e.Message+"\n\n"+e.StackTrace).Replace("\0", "\\0"), "Unhandled Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception e)
+                {
+                    if (silentFail)
+                    {
+                        warningList.TryAdd(taskId, ("An error has occurred in task " + taskId + ":\n" + e.Message).Replace("\0", "\\0"));
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
                 (bool, Task) old;
                 _liveTasks.TryRemove(taskId, out old);
@@ -91,6 +90,19 @@ namespace StudioCore.Editor
         public static List<string> GetLiveThreads()
         {
             return new List<string>(_liveTasks.Keys);
+        }
+
+        public static void ThrowTaskExceptions()
+        {
+            // Allows exceptions in tasks to be caught by crash handler.
+            foreach (var task in _liveTasks)
+            {
+                var ex = task.Value.Item2.Exception;
+                if (ex != null)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

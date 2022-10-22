@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>CHR_NETWORK_PHANTOM_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
+    <Field Def="s32 ChrPhantomParam ID (Phantom Color)" />
     <Field Def="s32 Fully Body SFX ID 1" />
     <Field Def="s32 Fully Body SFX ID 2" />
     <Field Def="s32 Fully Body SFX ID 3" />
@@ -18,14 +18,14 @@
     <Field Def="s32 Physics Texture ID" />
     <Field Def="f32 Unk1C" />
     <Field Def="s32 Dead Type ID" />
-    <Field Def="f32 Unk24" />
+    <Field Def="f32 Alloted Time" />
     <Field Def="f32 Unk28" />
     <Field Def="s32 Unk2C" />
     <Field Def="s32 Unk30" />
-    <Field Def="s32 Unk34" />
+    <Field Def="s32 Probably related to Message Box" />
     <Field Def="f32 Unk38" />
     <Field Def="s32 Unk3C" />
-    <Field Def="s32 Unk40" />
+    <Field Def="s32 Probably related to Message Box" />
     <Field Def="f32 Unk44" />
     <Field Def="f32 Unk48" />
     <Field Def="f32 Unk4C" />

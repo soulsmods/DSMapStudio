@@ -59,8 +59,8 @@
 100120 [Patches] Great Arrow
 100121 [Patches] Ballista Bolt
 100122 [Patches] Horse Crest Wooden Shield
-100126 [D, Hunter of The Dead] Litany of Proper Death
-100127 [D, Hunter of The Dead] Order's Blade
+100126 [D Hunter of The Dead] Litany of Proper Death
+100127 [D Hunter of The Dead] Order's Blade
 100150 [Blackguard Big Boggart] Rya's Necklace
 100155 [Blackguard Big Boggart] Boiled Crab
 100160 [Blackguard Big Boggart] Boiled Prawn
@@ -93,16 +93,16 @@
 100301 [Preceptor Seluvis - Ranni Quest] Dolores the Sleeping Arrow Puppet
 100302 [Preceptor Seluvis - Ranni Quest] Jarwight Puppet
 100310 [Preceptor Seluvis - Dung Eater Quest] Dung Eater Puppet
-100325 [Pidia, Carian Servant] Glintstone Craftsman's Cookbook [7]
-100326 [Pidia, Carian Servant] Ritual Pot
-100329 [Pidia, Carian Servant] Old Fang
-100330 [Pidia, Carian Servant] Slumbering Egg
-100334 [Pidia, Carian Servant] Ash of War: Carian Retaliation
-100335 [Pidia, Carian Servant] Celestial Dew
-100336 [Pidia, Carian Servant] Larval Tear
-100337 [Pidia, Carian Servant] Budding Horn
-100338 [Pidia, Carian Servant] Ripple Blade
-100339 [Pidia, Carian Servant] Black Leather Shield
+100325 [Pidia Carian Servant] Glintstone Craftsman's Cookbook [7]
+100326 [Pidia Carian Servant] Ritual Pot
+100329 [Pidia Carian Servant] Old Fang
+100330 [Pidia Carian Servant] Slumbering Egg
+100334 [Pidia Carian Servant] Ash of War: Carian Retaliation
+100335 [Pidia Carian Servant] Celestial Dew
+100336 [Pidia Carian Servant] Larval Tear
+100337 [Pidia Carian Servant] Budding Horn
+100338 [Pidia Carian Servant] Ripple Blade
+100339 [Pidia Carian Servant] Black Leather Shield
 100350 [Brother Corhyn] Rejection
 100351 [Brother Corhyn] Urgent Heal
 100352 [Brother Corhyn] Heal
@@ -115,7 +115,7 @@
 100359 [Brother Corhyn - Altus Plateau] Lightning Fortification
 100360 [Brother Corhyn - Goldmask] Discus of Light
 100361 [Brother Corhyn - Erdtree Sanctuary] Immutable Shield
-100362 [Brother Corhyn - Fire Monks' Prayerbook] O, Flame!
+100362 [Brother Corhyn - Fire Monks' Prayerbook] O Flame!
 100363 [Brother Corhyn - Fire Monks' Prayerbook] Surge
 100364 [Brother Corhyn - Giant's Prayerbook] Giantsflame Take Thee
 100365 [Brother Corhyn - Giant's Prayerbook] Flame
@@ -141,7 +141,7 @@
 100406 [Miriel] Glintblade Phalanx
 100407 [Miriel] Carian Slicer
 100425 [Miriel] Blessing's Boon
-100426 [Miriel - Fire Monks' Prayerbook] O, Flame!
+100426 [Miriel - Fire Monks' Prayerbook] O Flame!
 100428 [Miriel - Fire Monks' Prayerbook] Surge
 100429 [Miriel - Giant's Prayerbook] Giantsflame Take Thee
 100430 [Miriel - Giant's Prayerbook] Flame

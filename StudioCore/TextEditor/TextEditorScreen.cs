@@ -82,19 +82,19 @@ namespace StudioCore.TextEditor
         {
             if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Delete Entry", "Delete", false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Delete Entry", KeyBindings.Current.Core_Delete.HintText, false, _activeEntryGroup != null))
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (ImGui.MenuItem("Duplicate Entry", "Ctrl+D", false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Duplicate Entry", KeyBindings.Current.Core_Duplicate.HintText, false, _activeEntryGroup != null))
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
@@ -111,7 +111,7 @@ namespace StudioCore.TextEditor
                 {
                     foreach (var path in folders)
                     {
-                        if (ImGui.MenuItem(path.Key, true))
+                        if (ImGui.MenuItem(path.Key, "", FMGBank.LanguageFolder == path.Key))
                         {
                             ChangeLanguage(path.Key);
                         }
@@ -147,7 +147,7 @@ namespace StudioCore.TextEditor
                     _EntryLabelCacheFiltered = _entryLabelCache;
                     List<FMG.Entry> matches = new();
 
-                    if (_activeFmgInfo.EntryCategory != FMGBank.FmgEntryCategory.None)
+                    if (_activeFmgInfo.GroupedEntry)
                     {
                         // Grouped entries
                         List<FMG.Entry> searchEntries;
@@ -333,9 +333,9 @@ namespace StudioCore.TextEditor
             ImGui.SameLine();
 
             // Search
-            if (InputTracker.GetControlShortcut(Key.F))
+            if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Search))
                 ImGui.SetKeyboardFocusHere();
-            ImGui.InputText("Search <Ctrl+F>", ref _searchFilter, 255);
+            ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);
 
             FMGSearchLogic();
 
@@ -459,19 +459,19 @@ namespace StudioCore.TextEditor
             if (!ImGui.IsAnyItemActive())
             {
                 // Only allow key shortcuts when an item [text box] is not currently activated
-                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+                if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+                if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (InputTracker.GetKeyDown(Key.Delete) && _activeEntryGroup != null)
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete) && _activeEntryGroup != null)
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (InputTracker.GetControlShortcut(Key.D) && _activeEntryGroup != null)
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _activeEntryGroup != null)
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
@@ -485,10 +485,44 @@ namespace StudioCore.TextEditor
                 {
                     // Select FMG
                     doFocus = true;
+                    // Use three possible keys: entry category is for param references,
+                    // binder id and FMG name are for soapstone references.
+                    // This can be revisited as more high-level categories get added.
+                    int? searchId = null;
+                    FMGBank.FmgEntryCategory? searchCategory = null;
+                    string searchName = null;
+                    if (int.TryParse(initcmd[1], out int intId) && intId >= 0)
+                    {
+                        searchId = intId;
+                    }
+                    // Enum.TryParse allows arbitrary ints (thanks C#), so checking definition is required
+                    else if (Enum.TryParse(initcmd[1], out FMGBank.FmgEntryCategory cat)
+                        && Enum.IsDefined(typeof(FMGBank.FmgEntryCategory), cat))
+                    {
+                        searchCategory = cat;
+                    }
+                    else
+                    {
+                        searchName = initcmd[1];
+                    }
                     foreach (var info in FMGBank.FmgInfoBank)
                     {
-                        if (initcmd[1] == info.EntryCategory.ToString() && info.PatchParent == null
+                        bool match = false;
+                        // This matches top-level item FMGs
+                        if (info.EntryCategory.Equals(searchCategory) && info.PatchParent == null
                             && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
+                        {
+                            match = true;
+                        }
+                        else if (searchId is int binderId && binderId == (int)info.FmgID)
+                        {
+                            match = true;
+                        }
+                        else if (info.Name == searchName)
+                        {
+                            match = true;
+                        }
+                        if (match)
                         {
                             _activeFmgInfo = info;
                             break;

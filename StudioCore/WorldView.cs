@@ -291,7 +291,7 @@ namespace StudioCore
 
             bool isSpeedupKeyPressed = InputTracker.GetKey(Veldrid.Key.LShift) || InputTracker.GetKey(Veldrid.Key.RShift);
             bool isSlowdownKeyPressed = InputTracker.GetKey(Veldrid.Key.LControl) || InputTracker.GetKey(Veldrid.Key.RControl);
-            bool isResetKeyPressed = InputTracker.GetKey(Veldrid.Key.R);
+            bool isResetKeyPressed = InputTracker.GetKeyDown(KeyBindings.Current.Viewport_Cam_Reset);
             bool isMoveLightKeyPressed = InputTracker.GetKey(Veldrid.Key.Space);
             bool isOrbitCamToggleKeyPressed = false;// keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F);
             bool isPointCamAtObjectKeyPressed = false;// keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.T);
@@ -429,17 +429,17 @@ namespace StudioCore
                 float y = 0;
                 float z = 0;
 
-                if (InputTracker.GetKey(Veldrid.Key.D))
+                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Right))
                     x += 1;
-                if (InputTracker.GetKey(Veldrid.Key.A))
+                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Left))
                     x -= 1;
-                if (InputTracker.GetKey(Veldrid.Key.E))
+                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Up))
                     y += 1;
-                if (InputTracker.GetKey(Veldrid.Key.Q))
+                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Down))
                     y -= 1;
-                if (InputTracker.GetKey(Veldrid.Key.W))
+                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Forward))
                     z += 1;
-                if (InputTracker.GetKey(Veldrid.Key.S))
+                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Back))
                     z -= 1;
 
                 MoveCamera(x, y, z, moveMult);

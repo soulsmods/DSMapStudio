@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>GROUND_MATERIAL_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -8,8 +8,8 @@
   <Fields>
     <Field Def="s32 Unk00" />
     <Field Def="s32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
+    <Field Def="f32 Movement Speed Multiplier" />
+    <Field Def="f32 Turning Speed Multiplier" />
     <Field Def="s32 Unk10" />
     <Field Def="s32 Unk14" />
     <Field Def="s32 Damage ID" />

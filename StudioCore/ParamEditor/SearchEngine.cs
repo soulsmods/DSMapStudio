@@ -23,7 +23,7 @@ namespace StudioCore.Editor
 
         internal Dictionary<string, (int, Func<string[], bool, Func<A, Func<B, bool>>>)> filterList = new Dictionary<string, (int, Func<string[], bool, Func<A, Func<B, bool>>>)>();
         internal (int, Func<string[], bool, Func<A, Func<B, bool>>>) defaultFilter;
-        internal Func<A, IReadOnlyList<B>> unpacker;
+        internal Func<A, List<B>> unpacker;
         protected void addExistsFilter() {
             filterList.Add("exists", (0, noArgs(noContext((B)=>true))));
         }
@@ -57,19 +57,12 @@ namespace StudioCore.Editor
 
         public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
         {
-            return Search(new List<A>(new A[]{param}), command, lenient, failureAllOrNone);
-        }
-        public List<B> Search(List<A> param, string command, bool lenient, bool failureAllOrNone)
-        {
             //assumes unpacking doesn't fail
             string[] conditions = command.Split("&&", StringSplitOptions.TrimEntries);
 
-            List<(A, IReadOnlyList<B>)> liveRows = new List<(A, IReadOnlyList<B>)>();
-            List<(A, IReadOnlyList<B>)> originalRows = liveRows;
-            foreach (A p in param)
-            {
-                liveRows.Add((p, unpacker(p)));
-            }
+            List<B> liveRows = new List<B>();
+            liveRows = unpacker(param);
+            List<B> originalRows = liveRows;
 
             try {
                 foreach (string condition in conditions)
@@ -93,32 +86,21 @@ namespace StudioCore.Editor
                         args = condition.Split(" ", argC, StringSplitOptions.TrimEntries);
                     }
                     var filter = method(args, lenient);
-                    List<(A, IReadOnlyList<B>)> rows = new List<(A, IReadOnlyList<B>)>();
-                    foreach ((A p, IReadOnlyList<B> live) in liveRows)
+                    Func<B, bool> criteria = filter(param);
+                    List<B> newRows = new List<B>();
+                    foreach (B row in liveRows)
                     {
-                        Func<B, bool> criteria = filter(p);
-                        List<B> newRows = new List<B>();
-                        foreach (B row in live)
-                        {
-                            if (criteria(row))
-                                newRows.Add(row);
-                        }
-                        rows.Add((p, newRows));
+                        if (criteria(row))
+                            newRows.Add(row);
                     }
-                    liveRows = rows;
+                    liveRows = newRows;
                 }
             }
             catch (Exception e)
             {
-                liveRows = failureAllOrNone ? originalRows : new List<(A, IReadOnlyList<B>)>();
+                liveRows = failureAllOrNone ? originalRows : new List<B>();
             }
-            //assumes serialising doesn't fail
-            List<B> finalRows = new List<B>();
-            foreach ((A p, IReadOnlyList<B> l) in liveRows)
-            {
-                finalRows.AddRange(l);
-            }
-            return finalRows;
+            return liveRows;
         }
     }
     
@@ -133,46 +115,83 @@ namespace StudioCore.Editor
     }
     class ParamSearchEngine : SearchEngine<bool, Param>
     {
-        public static ParamSearchEngine pse = new ParamSearchEngine();
+        public static ParamSearchEngine pse = new ParamSearchEngine(ParamBank.PrimaryBank);
+
+        private ParamSearchEngine(ParamBank bank)
+        {
+            this.bank = bank;
+        }
+        ParamBank bank;
         internal override void Setup()
         {
-            unpacker = (dummy)=>new List<FSParam.Param>(ParamBank.Params.Values);
+            unpacker = (dummy)=>new List<FSParam.Param>(bank.Params.Values);
             filterList.Add("modified", (0, noArgs(noContext((param)=>{
-                    HashSet<int> cache = ParamBank.DirtyParamCache[ParamBank.GetKeyForParam(param)];
+                    HashSet<int> cache = bank.VanillaDiffCache[bank.GetKeyForParam(param)];
                     return cache.Count>0;
                 }
             ))));
             filterList.Add("original", (0, noArgs(noContext((param)=>{
-                    HashSet<int> cache = ParamBank.DirtyParamCache[ParamBank.GetKeyForParam(param)];
+                    HashSet<int> cache = bank.VanillaDiffCache[bank.GetKeyForParam(param)];
                     return cache.Count==0;
                 }
             ))));
             filterList.Add("param", (1, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((param)=>rx.Match(ParamBank.GetKeyForParam(param) == null ? "" : ParamBank.GetKeyForParam(param)).Success);
+                return noContext((param)=>rx.Match(bank.GetKeyForParam(param) == null ? "" : bank.GetKeyForParam(param)).Success);
             }));
             defaultFilter = (1, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((param)=>rx.Match(ParamBank.GetKeyForParam(param) == null ? "" : ParamBank.GetKeyForParam(param)).Success);
+                return noContext((param)=>rx.Match(bank.GetKeyForParam(param) == null ? "" : bank.GetKeyForParam(param)).Success);
             });
         }
     }
     class RowSearchEngine : SearchEngine<Param, Param.Row>
     {
-        public static RowSearchEngine rse = new RowSearchEngine();
+        public static RowSearchEngine rse = new RowSearchEngine(ParamBank.PrimaryBank);
+        private RowSearchEngine(ParamBank bank)
+        {
+            this.bank = bank;
+        }
+        ParamBank bank;
         internal override void Setup()
         {
-            unpacker = (param) => param.Rows;
+            unpacker = (param) => new List<Param.Row>(param.Rows);
             filterList.Add("modified", (0, noArgs((context)=>{
-                    string paramName = ParamBank.GetKeyForParam(context);
-                    HashSet<int> cache = ParamBank.DirtyParamCache[paramName];
+                    string paramName = bank.GetKeyForParam(context);
+                    HashSet<int> cache = bank.VanillaDiffCache[paramName];
                     return (row)=>cache.Contains(row.ID);
                 }
             )));
             filterList.Add("original", (0, noArgs((context)=>{
-                    string paramName = ParamBank.GetKeyForParam(context);
-                    HashSet<int> cache = ParamBank.DirtyParamCache[paramName];
+                    string paramName = bank.GetKeyForParam(context);
+                    HashSet<int> cache = bank.VanillaDiffCache[paramName];
                     return (row)=>!cache.Contains(row.ID);
+                }
+            )));
+            filterList.Add("added", (0, noArgs((context)=>{
+                    string paramName = bank.GetKeyForParam(context);
+                    Param vanilParam = ParamBank.VanillaBank.Params[paramName];
+                    return (row)=>vanilParam[row.ID] == null;
+                }
+            )));
+            filterList.Add("notadded", (0, noArgs((context)=>{
+                    string paramName = bank.GetKeyForParam(context);
+                    Param vanilParam = ParamBank.VanillaBank.Params[paramName];
+                    return (row)=>vanilParam[row.ID] != null;
+                }
+            )));
+            filterList.Add("mergeable", (0, noArgs((context)=>{
+                string paramName = bank.GetKeyForParam(context);
+                HashSet<int> cache = bank.VanillaDiffCache[paramName];
+                var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName])).ToList();
+                return (row)=>!cache.Contains(row.ID) && auxCaches.Where((x)=>x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                }
+            )));
+            filterList.Add("conflicts", (0, noArgs((context)=>{
+                string paramName = bank.GetKeyForParam(context);
+                HashSet<int> cache = bank.VanillaDiffCache[paramName];
+                var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName])).ToList();
+                return (row)=>cache.Contains(row.ID) && auxCaches.Where((x)=>x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
                 }
             )));
             filterList.Add("id", (1, (args, lenient)=>{
@@ -191,7 +210,7 @@ namespace StudioCore.Editor
                         if (cq == null) throw new Exception();
                         Param.Cell c = cq.Value;
                         string term = c.Value.ToString();
-                        if (c.Def.InternalType=="dummy8")
+                        if (c.Value.GetType() == typeof(byte[]))
                             term = ParamUtils.Dummy8Write((byte[])c.Value);
                         return rx.Match(term).Success;
                 });
@@ -216,7 +235,7 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
-                    List<string> validFields = FieldMetaData.Get(context.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>ParamBank.Params.ContainsKey(p));
+                    List<string> validFields = FieldMetaData.Get(context.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>bank.Params.ContainsKey(p));
                     return (row)=>
                     {
                         Param.Cell? c = row[field];
@@ -224,7 +243,7 @@ namespace StudioCore.Editor
                         int val = (int) c.Value.Value;
                         foreach (string rt in validFields)
                         {
-                            Param.Row r = ParamBank.Params[rt][val];
+                            Param.Row r = bank.Params[rt][val];
                             if (r != null && rx.Match(r.Name ?? "").Success)
                                 return true;
                         }
@@ -238,7 +257,7 @@ namespace StudioCore.Editor
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
                     FMGBank.FmgEntryCategory category = FMGBank.FmgEntryCategory.None;
-                    switch(ParamBank.GetKeyForParam(context))
+                    switch(bank.GetKeyForParam(context))
                     {
                         case "EquipParamAccessory": category = FMGBank.FmgEntryCategory.Rings; break;
                         case "EquipParamGoods": category = FMGBank.FmgEntryCategory.Goods; break;
@@ -253,7 +272,7 @@ namespace StudioCore.Editor
                     Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();
                     foreach (var fmgEntry in fmgEntries)
                     {
-                        _cache.Add(fmgEntry.ID, fmgEntry);
+                        _cache[fmgEntry.ID] = fmgEntry;
                     }
                     return (row)=>{
                         if (!_cache.ContainsKey(row.ID))

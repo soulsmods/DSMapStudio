@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
 using System.Windows.Forms;
+using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
@@ -80,7 +81,7 @@ namespace StudioCore.MsbEditor
         public enum Configuration
         {
             MapEditor,
-            ModelEditor
+            ModelEditor,
         }
 
         private Configuration _configuration;
@@ -112,8 +113,13 @@ namespace StudioCore.MsbEditor
             mapcache.Add(MapEntity.MapEntityType.Part, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.Region, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.Event, new Dictionary<Type, List<MapEntity>>());
-            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+            if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
             {
+                mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
+            }
+            else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
+            {
+                mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
                 mapcache.Add(MapEntity.MapEntityType.DS2Event, new Dictionary<Type, List<MapEntity>>());
                 mapcache.Add(MapEntity.MapEntityType.DS2EventLocation, new Dictionary<Type, List<MapEntity>>());
                 mapcache.Add(MapEntity.MapEntityType.DS2Generator, new Dictionary<Type, List<MapEntity>>());
@@ -501,6 +507,66 @@ namespace StudioCore.MsbEditor
                                         MapObjectSelectable(obj, true);
                                     }
                                 }
+                                else if (cats.Key == MapEntity.MapEntityType.Light)
+                                {
+                                    var btlFiles = typ.Value.DistinctBy(e => e.ExtraSaveInfo); // TODO2: cache this
+                                    foreach (var btlFile in btlFiles)
+                                    {
+                                        if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ExtraSaveInfo}", ImGuiTreeNodeFlags.OpenOnArrow))
+                                        {
+                                            ImGui.SetItemAllowOverlap();
+                                            bool visible = btlFile.EditorVisible;
+                                            ImGui.SameLine(ImGui.GetContentRegionAvail().X - 18.0f);
+                                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                                            ImGui.PopStyleColor();
+                                            if (ImGui.IsItemClicked(0))
+                                            {
+                                                // Hide/Unhide all lights within this BTL.
+                                                btlFile.EditorVisible = !btlFile.EditorVisible;
+                                                foreach (var obj in typ.Value)
+                                                {
+                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                    {
+                                                        obj.EditorVisible = btlFile.EditorVisible;
+                                                    }
+                                                }
+                                            }
+
+                                            foreach (var obj in typ.Value)
+                                            {
+                                                if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                {
+                                                    MapObjectSelectable(obj, true);
+                                                }
+                                            }
+                                            ImGui.TreePop();
+                                        }
+                                        else
+                                        {
+                                            ImGui.SetItemAllowOverlap();
+                                            bool visible = btlFile.EditorVisible;
+                                            ImGui.SameLine(ImGui.GetContentRegionAvail().X - 39.0f);
+                                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                                            ImGui.PopStyleColor();
+                                            if (ImGui.IsItemClicked(0))
+                                            {
+                                                // Hide/Unhide all lights within this BTL.
+                                                btlFile.EditorVisible = !btlFile.EditorVisible;
+                                                foreach (var obj in typ.Value)
+                                                {
+                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                    {
+                                                        obj.EditorVisible = btlFile.EditorVisible;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                                 else if (ImGui.TreeNodeEx(typ.Key.Name, ImGuiTreeNodeFlags.OpenOnArrow))
                                 {
                                     foreach (var obj in typ.Value)
@@ -582,7 +648,9 @@ namespace StudioCore.MsbEditor
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
 
-                foreach (var lm in _universe.LoadedObjectContainers.OrderBy((k) => k.Key))
+                var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
+
+                foreach (var lm in orderedMaps)
                 {
                     string metaName = "";
                     var map = lm.Value;
@@ -595,16 +663,13 @@ namespace StudioCore.MsbEditor
                         metaName = Editor.AliasBank.MapNames[mapid];
                     }
 
-                    if (_mapNameSearchStr != "")
+                    // Map name search filter
+                    if (_mapNameSearchStr != ""
+                        && (!CFG.Current.Map_AlwaysListLoadedMaps || map == null)
+                        && !lm.Key.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase)
+                        && !metaName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (lm.Key.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase) || metaName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
-                        { 
-                            //do nothing
-                        }
-                        else
-                        {
-                            continue; //ID not in search filter
-                        }
+                        continue;
                     }
 
                     Entity mapRoot = map?.RootObject;

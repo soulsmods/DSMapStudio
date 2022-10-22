@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="2">
+  <ParamType>FINAL_DAMAGE_RATE_PARAM_ST</ParamType>
+  <DataVersion>1</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <Field Def="f32 physrate">
+      <DisplayName>Physical Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+    <Field Def="f32 magrate">
+      <DisplayName>Magic Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+    <Field Def="f32 firerate">
+      <DisplayName>Fire Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+    <Field Def="f32 thunrate">
+      <DisplayName>Lightning Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+    <Field Def="f32 darkrate">
+      <DisplayName>Dark Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+    <Field Def="f32 staminarate">
+      <DisplayName>Stamina Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+    <Field Def="f32 sarate">
+      <DisplayName>Super Armor Rate</DisplayName>
+      <Description>Unk</Description>
+    </Field>
+  </Fields>
+</PARAMDEF>

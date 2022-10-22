@@ -1,14 +1,15 @@
 //using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
+using Microsoft.Win32;
+using SoulsFormats;
+using StudioCore.MsbEditor;
 using Veldrid;
 using Veldrid.Utilities;
-using System.Numerics;
-using System.IO;
-using SoulsFormats;
-using System.Collections.Generic;
-using Microsoft.Win32;
-using StudioCore.MsbEditor;
 
 namespace StudioCore
 {
@@ -64,6 +65,28 @@ namespace StudioCore
             System.Numerics.Matrix4x4.Invert(src, out System.Numerics.Matrix4x4 result);
             return result;
         }
+
+
+        // Vector rotation functions from John Alexiou at https://stackoverflow.com/questions/69245724/rotate-a-vector-around-an-axis-in-3d-space
+        /// <summary>
+        /// Rotates a vector using the Rodriguez rotation formula
+        /// about an arbitrary axis.
+        /// </summary>
+        public static Vector3 RotateVector(Vector3 vector, Vector3 axis, float angle)
+        {
+            Vector3 vxp = Vector3.Cross(axis, vector);
+            Vector3 vxvxp = Vector3.Cross(axis, vxp);
+            return vector + (float)Math.Sin(angle) * vxp + (1 - (float)Math.Cos(angle)) * vxvxp;
+        }
+        /// <summary>
+        /// Rotates a vector about a point in space.
+        /// </summary>
+        /// <returns>The rotated vector</returns>
+        public static Vector3 RotateVectorAboutPoint(Vector3 vector, Vector3 pivot, Vector3 axis, float angle)
+        {
+            return pivot + RotateVector(vector - pivot, axis, angle);
+        }
+
 
         private static double GetColorComponent(double temp1, double temp2, double temp3)
         {
@@ -676,9 +699,38 @@ namespace StudioCore
             return v == null ? null : v.ToString();
         }
 
+        /// <summary>
+        /// Replace # with fullwidth # to prevent ImGui from hiding text when detecting ## and ###.
+        /// </summary>
         public static string ImGuiEscape(string str, string nullStr)
         {
             return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
+        }
+
+        /// <summary>
+        /// Search an object's properties and return whichever object has the targeted property.
+        /// </summary>
+        /// <returns>Object that has the property, otherwise null.</returns>
+        public static object FindPropertyObject(PropertyInfo prop, object obj)
+        {
+            foreach (var p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (p.MetadataToken == prop.MetadataToken)
+                    return obj;
+
+                if (p.PropertyType.IsNested)
+                {
+                    var retObj = FindPropertyObject(prop, p.GetValue(obj));
+                    if (retObj != null)
+                        return retObj;
+                }
+            }
+            return null;
+        }
+
+        public static object GetPropertyValue(PropertyInfo prop, object obj)
+        {
+            return prop.GetValue(FindPropertyObject(prop, obj));
         }
     }
 }
