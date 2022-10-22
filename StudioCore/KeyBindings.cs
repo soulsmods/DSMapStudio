@@ -66,6 +66,7 @@ namespace StudioCore
             public KeyBind Core_Undo = new(Key.Z, true);
             public KeyBind Core_Redo = new(Key.Y, true);
             public KeyBind Core_Delete = new(Key.Delete);
+            public KeyBind Core_Duplicate = new(Key.D, true);
 
             // Viewport (Map & Model)
             public KeyBind Viewport_Cam_Forward = new(Key.W);
@@ -82,7 +83,6 @@ namespace StudioCore
 
             // Map
             public KeyBind Map_PropSearch = new(Key.F, true);
-            public KeyBind Map_Duplicate = new(Key.D, true);
             public KeyBind Map_DuplicateToMap = new(Key.D, false, false, true); // TODO2: implement
             public KeyBind Map_RenderGroup_ShowAll = new(Key.R, true);
             public KeyBind Map_RenderGroup_GetDisp = new(Key.G, true);
@@ -96,7 +96,6 @@ namespace StudioCore
             public KeyBind Param_SelectAll = new(Key.A, true);
             public KeyBind Param_Copy = new(Key.C, true);
             public KeyBind Param_Paste = new(Key.V, true);
-            public KeyBind Param_Duplicate = new(Key.D, true);
             public KeyBind Param_GotoRow = new(Key.G, true);
             public KeyBind Param_SearchParam = new(Key.P, true);
             public KeyBind Param_SearchRow = new(Key.F, true);
@@ -106,7 +105,6 @@ namespace StudioCore
 
             // Text Editor
             public KeyBind TextFMG_Search = new(Key.F, true);
-            public KeyBind TextFMG_Duplicate = new(Key.D, true);
         }
     }
 }

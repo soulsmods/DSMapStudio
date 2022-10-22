@@ -280,7 +280,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
-                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Param_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     DuplicateSelection();
                 }
@@ -826,7 +826,7 @@ namespace StudioCore.ParamEditor
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Duplicate))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate))
                 {
                     DuplicateSelection();
                 }

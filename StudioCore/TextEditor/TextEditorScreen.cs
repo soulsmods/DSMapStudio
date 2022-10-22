@@ -94,7 +94,7 @@ namespace StudioCore.TextEditor
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (ImGui.MenuItem("Duplicate Entry", KeyBindings.Current.TextFMG_Duplicate.HintText, false, _activeEntryGroup != null))
+                if (ImGui.MenuItem("Duplicate Entry", KeyBindings.Current.Core_Duplicate.HintText, false, _activeEntryGroup != null))
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
@@ -471,7 +471,7 @@ namespace StudioCore.TextEditor
                 {
                     DeleteFMGEntries(_activeEntryGroup);
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Duplicate) && _activeEntryGroup != null)
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _activeEntryGroup != null)
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
