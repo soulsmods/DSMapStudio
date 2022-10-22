@@ -291,7 +291,7 @@ namespace StudioCore.MsbEditor
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (ImGui.MenuItem("Duplicate (Specific Map)", "Shift+D", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate (Specific Map)", KeyBindings.Current.Map_DuplicateToMap.HintText, false, _selection.IsSelection()))
                 {
                     _openPopupDupeTargetMap = true;
                 }
@@ -631,7 +631,7 @@ namespace StudioCore.MsbEditor
             }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (InputTracker.GetShiftShortcut(Key.D) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_DuplicateToMap) && _selection.IsSelection())
                 {
                     _openPopupDupeTargetMap = true;
                 }

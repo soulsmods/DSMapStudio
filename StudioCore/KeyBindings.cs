@@ -83,7 +83,7 @@ namespace StudioCore
 
             // Map
             public KeyBind Map_PropSearch = new(Key.F, true);
-            public KeyBind Map_DuplicateToMap = new(Key.D, false, false, true); // TODO2: implement
+            public KeyBind Map_DuplicateToMap = new(Key.D, false, false, true);
             public KeyBind Map_RenderGroup_ShowAll = new(Key.R, true);
             public KeyBind Map_RenderGroup_GetDisp = new(Key.G, true);
             public KeyBind Map_HideToggle = new(Key.H, true);
