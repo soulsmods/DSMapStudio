@@ -37,39 +37,10 @@ namespace DSMapStudio
             {
                 mapStudio.Run();
             }
-            catch (AggregateException e)
-            {
-                var stackTraceOrigin = e.StackTrace;
-                e = e.Flatten();
-                if (e.InnerExceptions.Count > 1)
-                {
-                    List<string> log = new();
-                    foreach (var inner in e.InnerExceptions)
-                    {
-                        log.Add(inner.Message);
-                        if (inner.StackTrace != null)
-                            log.Add(inner.StackTrace);
-                        else
-                            log.Add(stackTraceOrigin);
-                        log.Add("\n----------------\n");
-                    }
-                    log.RemoveAt(log.Count - 1);
-                    mapStudio.ExportCrashLog(log);
-                }
-                else
-                {
-                    if (e.StackTrace != null)
-                        mapStudio.ExportCrashLog((e.InnerExceptions[0].Message + "\n" + e.InnerExceptions[0].StackTrace).Replace("\0", "\\0"));
-                    else
-                        mapStudio.ExportCrashLog((e.InnerExceptions[0].Message + "\n" + stackTraceOrigin).Replace("\0", "\\0"));
-                }
-                mapStudio.AttemptSaveOnCrash();
-                mapStudio.CrashShutdown();
-                throw;
-            }
             catch (Exception e)
             {
-                mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
+                List<string> log = LogExceptions(e);
+                mapStudio.ExportCrashLog(log);
                 mapStudio.AttemptSaveOnCrash();
                 mapStudio.CrashShutdown();
                 throw;
@@ -77,6 +48,25 @@ namespace DSMapStudio
 #else
             mapStudio.Run();
 #endif
+        }
+
+        static List<string> LogExceptions(Exception ex)
+        {
+            List<string> log = new();
+            do
+            {
+                if (ex is AggregateException ae)
+                {
+                    ex = ae.Flatten();
+                }
+                log.Add(ex.Message);
+                log.Add(ex.StackTrace);
+                ex = ex.InnerException;
+                log.Add("----------------------\n");
+            }
+            while (ex != null);
+            log.RemoveAt(log.Count - 1);
+            return log;
         }
 
         static void CrashHandler(object sender, UnhandledExceptionEventArgs args)
