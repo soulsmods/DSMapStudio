@@ -396,8 +396,12 @@ namespace StudioCore.MsbEditor
             {
                 if (_lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
                 {
-                    ContextActionManager.UndoAction();
-                    ContextActionManager.ExecuteAction(_lastUncommittedAction);
+                    if (_lastUncommittedAction is MultipleEntityPropertyChangeAction a)
+                    {
+                        ContextActionManager.UndoAction();
+                        a.UpdateRenderModel = true; // Update render model on commit execution, and update on undo/redo.
+                        ContextActionManager.ExecuteAction(a);
+                    }
                     _lastUncommittedAction = null;
                     _changingPropery = null;
                     _changingObject = null;
@@ -502,6 +506,7 @@ namespace StudioCore.MsbEditor
             object newval;
             bool changed = PropertyRow(propType, oldval, out newval, nullableEntity, proprow);
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
+            //bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
             UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed);
             ImGui.NextColumn();
             ImGui.PopID();
@@ -668,7 +673,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     ImGui.SetItemDefaultFocus();
                                 }
-                                bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                                bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
                                 if (ParamRefRow(prop, oldval, ref newval))
                                 {
                                     changed = true;
@@ -722,7 +727,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     ImGui.SetItemDefaultFocus();
                                 }
-                                bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                                bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
                                 if (ParamRefRow(prop, oldval, ref newval))
                                 {
                                     changed = true;
@@ -878,7 +883,7 @@ namespace StudioCore.MsbEditor
                         {
                             ImGui.SetItemDefaultFocus();
                         }
-                        bool committed = ImGui.IsItemDeactivatedAfterEdit();
+                        bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
                         if (ParamRefRow(prop, oldval, ref newval))
                         {
                             changed = true;
