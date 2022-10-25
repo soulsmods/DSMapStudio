@@ -153,19 +153,10 @@ namespace StudioCore.ParamEditor
         }
 
         /// <summary>
-        /// List of target param versions that params are permitted to upgrade into.
+        /// Any version numbers <= this will be allowed to upgrade.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public List<ulong> ParamUpgradeER_TargetWhitelist = new()
-        {
-            10700000L,
-            10701000L,
-        };
-        /// <summary>
-        /// Any version numbers <= this will be allowed to upgrade.
-        /// Does not need to be updated as long as ParamUpgrade_TargetWhitelist is updated.
-        /// </summary>
-        public ulong ParamUpgradeER_TargetWhitelist_Threshold = 10701000L;
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 1079999L;
 
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
@@ -648,7 +639,7 @@ namespace StudioCore.ParamEditor
             {
                 if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing
                     && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
-                    && (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold || ParamUpgradeER_TargetWhitelist.Contains(ParamBank.VanillaBank.ParamVersion)))
+                    && ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
