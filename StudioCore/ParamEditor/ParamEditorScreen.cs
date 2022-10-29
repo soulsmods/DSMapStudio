@@ -291,7 +291,7 @@ namespace StudioCore.ParamEditor
                     DuplicateSelection();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Mass Edit"))
+                if (ImGui.MenuItem($"Mass Edit", KeyBindings.Current.Param_MassEdit.HintText))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                 }
@@ -299,7 +299,7 @@ namespace StudioCore.ParamEditor
                 {
                     DelimiterInputText();
 
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ExportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVExport/Name");
@@ -364,7 +364,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
                 {
                     DelimiterInputText();
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ImportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
@@ -870,6 +870,13 @@ namespace StudioCore.ParamEditor
                 else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
                     ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
             }
+
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_MassEdit))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ImportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ExportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
 
             // Parse commands
             bool doFocus = false;

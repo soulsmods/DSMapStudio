@@ -723,7 +723,7 @@ namespace StudioCore
                     {
                         SaveFocusedEditor();
                     }
-                    if (ImGui.MenuItem("Save All"))
+                    if (ImGui.MenuItem("Save All", KeyBindings.Current.Core_SaveAllEditors.HintText))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -1330,10 +1330,20 @@ namespace StudioCore
             ImGui.End();
 
             // Global shortcut keys
-            if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor) && !_msbEditor.Viewport.ViewportSelected)
-                SaveFocusedEditor();
+            if (!_msbEditor.Viewport.ViewportSelected)
+            {
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor))
+                    SaveFocusedEditor();
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveAllEditors))
+                {
+                    _msbEditor.SaveAll();
+                    _modelEditor.SaveAll();
+                    _paramEditor.SaveAll();
+                    _textEditor.SaveAll();
+                }
+            }
 
-            string[] textcmds = null;
+                string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")
             {
                 textcmds = commandsplit.Skip(1).ToArray();

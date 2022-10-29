@@ -501,11 +501,11 @@ namespace StudioCore.MsbEditor
             {
                 if (ImGui.BeginMenu("Mode"))
                 {
-                    if (ImGui.MenuItem("Translate", "W", Gizmos.Mode == Gizmos.GizmosMode.Translate))
+                    if (ImGui.MenuItem("Translate", KeyBindings.Current.Viewport_TranslateMode.HintText, Gizmos.Mode == Gizmos.GizmosMode.Translate))
                     {
                         Gizmos.Mode = Gizmos.GizmosMode.Translate;
                     }
-                    if (ImGui.MenuItem("Rotate", "E", Gizmos.Mode == Gizmos.GizmosMode.Rotate))
+                    if (ImGui.MenuItem("Rotate", KeyBindings.Current.Viewport_RotationMode.HintText, Gizmos.Mode == Gizmos.GizmosMode.Rotate))
                     {
                         Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                     }
@@ -513,11 +513,11 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Space"))
                 {
-                    if (ImGui.MenuItem("Local", "", Gizmos.Space == Gizmos.GizmosSpace.Local))
+                    if (ImGui.MenuItem("Local", KeyBindings.Current.Viewport_ToggleGizmoSpace.HintText, Gizmos.Space == Gizmos.GizmosSpace.Local))
                     {
                         Gizmos.Space = Gizmos.GizmosSpace.Local;
                     }
-                    if (ImGui.MenuItem("World", "", Gizmos.Space == Gizmos.GizmosSpace.World))
+                    if (ImGui.MenuItem("World", KeyBindings.Current.Viewport_ToggleGizmoSpace.HintText, Gizmos.Space == Gizmos.GizmosSpace.World))
                     {
                         Gizmos.Space = Gizmos.GizmosSpace.World;
                     }
@@ -525,11 +525,11 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Origin"))
                 {
-                    if (ImGui.MenuItem("World", "Home", Gizmos.Origin == Gizmos.GizmosOrigin.World))
+                    if (ImGui.MenuItem("World", KeyBindings.Current.Viewport_ToggleGizmoOrigin.HintText, Gizmos.Origin == Gizmos.GizmosOrigin.World))
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
-                    if (ImGui.MenuItem("Bounding Box", "Home", Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
+                    if (ImGui.MenuItem("Bounding Box", KeyBindings.Current.Viewport_ToggleGizmoOrigin.HintText, Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.BoundingBox;
                     }
@@ -593,7 +593,7 @@ namespace StudioCore.MsbEditor
                 }
 
                 // Use home key to cycle between gizmos origin modes
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleOrigin))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
                     {
@@ -603,6 +603,13 @@ namespace StudioCore.MsbEditor
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
+                {
+                    if (Gizmos.Space == Gizmos.GizmosSpace.Local)
+                        Gizmos.Space = Gizmos.GizmosSpace.World;
+                    else if (Gizmos.Space == Gizmos.GizmosSpace.World)
+                        Gizmos.Space = Gizmos.GizmosSpace.Local;
                 }
 
                 // Hide/Unhide
