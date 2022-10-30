@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.04 Beta 1";
+        private static string _version = "1.04";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -107,7 +107,7 @@ namespace StudioCore
                //VeldridStartup.GetPlatformDefaultBackend(),
                //GraphicsBackend.Metal,
                GraphicsBackend.Vulkan,
-               
+
                //GraphicsBackend.Direct3D11,
                //GraphicsBackend.OpenGL,
                //GraphicsBackend.OpenGLES,
@@ -164,7 +164,7 @@ namespace StudioCore
         /// <summary>
         /// Characters to load that FromSoft use, but aren't included in the ImGui Japanese glyph range.
         /// </summary>
-        private char[] SpecialCharsJP = {'鉤'};
+        private char[] SpecialCharsJP = { '鉤' };
 
         private unsafe void SetupFonts()
         {
@@ -288,7 +288,7 @@ namespace StudioCore
             {
                 // Make sure any awaited UI thread work has a chance to complete
                 //await Task.Yield();
-                
+
                 Tracy.TracyCFrameMark();
 
                 // Limit frame rate when window isn't focused unless we are profiling
@@ -362,18 +362,17 @@ namespace StudioCore
         public void ExportCrashLog(List<string> exceptionInfo)
         {
             var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"Version {_version}");
+            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}");
             Directory.CreateDirectory($"{CrashLogPath}");
-            File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        public void ExportCrashLog(string exceptionInfo)
-        {
-            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"Version {_version}");
-            Directory.CreateDirectory($"{CrashLogPath}");
-            File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            var crashLogPath = $"{CrashLogPath}\\Log {time}.txt";
+            File.WriteAllLines(crashLogPath, exceptionInfo);
+
+            if (exceptionInfo.Count > 10)
+                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
+                    $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
+                    $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)

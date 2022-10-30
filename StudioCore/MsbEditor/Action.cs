@@ -145,6 +145,7 @@ namespace StudioCore.MsbEditor
             public int ArrayIndex;
         }
 
+        public bool UpdateRenderModel = false;
         private List<PropertyChange> Changes = new();
         private HashSet<Entity> ChangedEnts = new();
 
@@ -189,8 +190,11 @@ namespace StudioCore.MsbEditor
                     change.Property.SetValue(change.ChangedObj, change.NewValue);
                 }
             }
-            foreach (var e in ChangedEnts)
-                e.UpdateRenderModel();
+            if (UpdateRenderModel)
+            {
+                foreach (var e in ChangedEnts)
+                    e.UpdateRenderModel();
+            }
 
             return ActionEvent.NoEvent;
         }
@@ -209,8 +213,11 @@ namespace StudioCore.MsbEditor
                     change.Property.SetValue(change.ChangedObj, change.OldValue);
                 }
             }
-            foreach (var e in ChangedEnts)
-                e.UpdateRenderModel();
+            if (UpdateRenderModel)
+            {
+                foreach (var e in ChangedEnts)
+                    e.UpdateRenderModel();
+            }
 
             return ActionEvent.NoEvent;
         }
