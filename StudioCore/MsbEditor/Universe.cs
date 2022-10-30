@@ -949,11 +949,11 @@ namespace StudioCore.MsbEditor
                         object idObj = entityIDProp.GetValue(obj.WrappedObject);
                         if (idObj is not int entityID)
                         {
-                            // EntityID is uint in Elden Ring. Only <2^31 is used in practice,
-                            // and duplicate checking will work even with the cast.
+                            // EntityID is uint in Elden Ring. Only <2^31 is used in practice.
+                            // If really desired, a separate routine could be created.
                             if (idObj is uint uID)
                             {
-                                entityID = (int)uID;
+                                entityID = unchecked((int)uID);
                             }
                             else
                             {
