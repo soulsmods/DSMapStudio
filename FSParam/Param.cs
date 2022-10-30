@@ -646,7 +646,7 @@ namespace FSParam
             // Get the final size and sanity check against our calculated row size
             if (bitOffset != -1)
                 byteOffset += lastSize;
-            if (byteOffset != DetectedSize && byteOffset != DetectedSize - 2)
+            if (byteOffset != DetectedSize)
                 throw new Exception($@"Row size paramdef mismatch for {ParamType}");
 
             Cells = cells;
