@@ -190,10 +190,12 @@ namespace StudioCore.MsbEditor
                     change.Property.SetValue(change.ChangedObj, change.NewValue);
                 }
             }
-            if (UpdateRenderModel)
+            foreach (var e in ChangedEnts)
             {
-                foreach (var e in ChangedEnts)
+                if (UpdateRenderModel)
                     e.UpdateRenderModel();
+                // Clear name cache, forcing it to update.
+                e.Name = null;
             }
 
             return ActionEvent.NoEvent;
@@ -213,10 +215,12 @@ namespace StudioCore.MsbEditor
                     change.Property.SetValue(change.ChangedObj, change.OldValue);
                 }
             }
-            if (UpdateRenderModel)
+            foreach (var e in ChangedEnts)
             {
-                foreach (var e in ChangedEnts)
+                if (UpdateRenderModel)
                     e.UpdateRenderModel();
+                // Clear name cache, forcing it to update.
+                e.Name = null;
             }
 
             return ActionEvent.NoEvent;
