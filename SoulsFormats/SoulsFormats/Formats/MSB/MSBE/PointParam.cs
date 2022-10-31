@@ -542,7 +542,7 @@ namespace SoulsFormats
             /// <summary>
             /// Identifies the region in event scripts.
             /// </summary>
-            public int EntityID { get; set; }
+            public uint EntityID { get; set; }
 
             private protected Region(string name)
             {
@@ -551,7 +551,7 @@ namespace SoulsFormats
                 MapStudioLayer = 0xFFFFFFFF;
                 UnkA = new List<short>();
                 UnkB = new List<short>();
-                EntityID = -1;
+                EntityID = 0;
             }
 
             /// <summary>
@@ -625,7 +625,7 @@ namespace SoulsFormats
 
                 br.Position = start + baseDataOffset3;
                 ActivationPartIndex = br.ReadInt32();
-                EntityID = br.ReadInt32();
+                EntityID = br.ReadUInt32();
                 UnkE08 = br.ReadByte();
                 br.AssertByte(0);
                 br.AssertByte(0);
@@ -698,7 +698,7 @@ namespace SoulsFormats
 
                 bw.FillInt64("EntityDataOffset", bw.Position - start);
                 bw.WriteInt32(ActivationPartIndex);
-                bw.WriteInt32(EntityID);
+                bw.WriteUInt32(EntityID);
                 bw.WriteByte(UnkE08);
                 bw.WriteByte(0);
                 bw.WriteByte(0);
@@ -1163,7 +1163,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Event Flag required to be ON for the message to appear.
                 /// </summary>
-                public int EnableEventFlag { get; set; }
+                public uint EnableEventFlagID { get; set; }
 
                 /// <summary>
                 /// ID of character to render along with the message.
@@ -1204,7 +1204,7 @@ namespace SoulsFormats
                     Hidden = br.AssertInt32(0, 1) == 1;
                     UnkT08 = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
-                    EnableEventFlag = br.ReadInt32();
+                    EnableEventFlagID = br.ReadUInt32();
                     CharacterModelName = br.ReadInt32();
                     NPCParamID = br.ReadInt32();
                     AnimationID = br.ReadInt32();
@@ -1218,7 +1218,7 @@ namespace SoulsFormats
                     bw.WriteInt32(Hidden ? 1 : 0);
                     bw.WriteInt32(UnkT08);
                     bw.WriteInt32(UnkT0C);
-                    bw.WriteInt32(EnableEventFlag);
+                    bw.WriteUInt32(EnableEventFlagID);
                     bw.WriteInt32(CharacterModelName);
                     bw.WriteInt32(NPCParamID);
                     bw.WriteInt32(AnimationID);
@@ -2096,7 +2096,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Disables fast travel when flag is OFF.
                 /// </summary>
-                public int EventFlagID { get; set; }
+                public uint EventFlagID { get; set; }
 
                 /// <summary>
                 /// Creates a FastTravelRestriction with default values.
@@ -2107,13 +2107,13 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    EventFlagID = br.ReadInt32();
+                    EventFlagID = br.ReadUInt32();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(EventFlagID);
+                    bw.WriteUInt32(EventFlagID);
                     bw.WriteInt32(0);
                 }
             }

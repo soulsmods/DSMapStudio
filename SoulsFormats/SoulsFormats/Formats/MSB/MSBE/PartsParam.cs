@@ -208,7 +208,7 @@ namespace SoulsFormats
             /// <summary>
             /// Identifies the part in event scripts.
             /// </summary>
-            public int EntityID { get; set; }
+            public uint EntityID { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -303,7 +303,7 @@ namespace SoulsFormats
             /// <summary>
             /// Allows multiple parts to be identified by the same entity ID.
             /// </summary>
-            public int[] EntityGroupIDs { get; private set; }
+            public uint[] EntityGroupIDs { get; private set; }
 
             /// <summary>
             /// Unknown.
@@ -320,10 +320,8 @@ namespace SoulsFormats
                 Name = name;
                 SibPath = "";
                 Scale = Vector3.One;
-                EntityID = -1;
-                EntityGroupIDs = new int[8];
-                for (int i = 0; i < 8; i++)
-                    EntityGroupIDs[i] = -1;
+                EntityID = 0;
+                EntityGroupIDs = new uint[8];
             }
 
             /// <summary>
@@ -332,7 +330,7 @@ namespace SoulsFormats
             public Part DeepCopy()
             {
                 var part = (Part)MemberwiseClone();
-                part.EntityGroupIDs = (int[])EntityGroupIDs.Clone();
+                part.EntityGroupIDs = (uint[])EntityGroupIDs.Clone();
                 DeepCopyTo(part);
                 return part;
             }
@@ -466,7 +464,7 @@ namespace SoulsFormats
 
             private void ReadEntityData(BinaryReaderEx br)
             {
-                EntityID = br.ReadInt32();
+                EntityID = br.ReadUInt32();
                 UnkE04 = br.ReadByte();
                 br.AssertByte(0);
                 br.AssertByte(0);
@@ -488,7 +486,7 @@ namespace SoulsFormats
                 DisablePointLightEffect = br.ReadBoolean();
                 UnkE17 = br.ReadByte();
                 UnkE18 = br.ReadInt32();
-                EntityGroupIDs = br.ReadInt32s(8);
+                EntityGroupIDs = br.ReadUInt32s(8);
                 UnkE3C = br.ReadInt16();
                 UnkE3E = br.ReadInt16();
                 //br.AssertPattern(0x10, 0x00);
@@ -659,7 +657,7 @@ namespace SoulsFormats
 
             private void WriteEntityData(BinaryWriterEx bw)
             {
-                bw.WriteInt32(EntityID);
+                bw.WriteUInt32(EntityID);
                 bw.WriteByte(UnkE04);
                 bw.WriteByte(0);
                 bw.WriteByte(0);
@@ -681,7 +679,7 @@ namespace SoulsFormats
                 bw.WriteBoolean(DisablePointLightEffect);
                 bw.WriteByte(UnkE17);
                 bw.WriteInt32(UnkE18);
-                bw.WriteInt32s(EntityGroupIDs);
+                bw.WriteUInt32s(EntityGroupIDs);
                 bw.WriteInt16(UnkE3C);
                 bw.WriteInt16(UnkE3E);
                 //bw.WritePattern(0x10, 0x00);
@@ -1980,7 +1978,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Disables Fast Travel if Event Flag is not set.
                 /// </summary>
-                public int EnableFastTravelEventFlagID { get; set; }
+                public uint EnableFastTravelEventFlagID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2048,7 +2046,7 @@ namespace SoulsFormats
                     UnkT3E = br.ReadInt16();
                     UnkT40 = br.ReadSingle();
                     br.AssertInt32(0);
-                    EnableFastTravelEventFlagID = br.ReadInt32();
+                    EnableFastTravelEventFlagID = br.ReadUInt32();
                     UnkT4C = br.AssertInt16(0, 1);
                     UnkT4E = br.ReadInt16();
                 }
@@ -2089,7 +2087,7 @@ namespace SoulsFormats
                     bw.WriteInt16(UnkT3E);
                     bw.WriteSingle(UnkT40);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(EnableFastTravelEventFlagID);
+                    bw.WriteUInt32(EnableFastTravelEventFlagID);
                     bw.WriteInt16(UnkT4C);
                     bw.WriteInt16(UnkT4E);
                 }
