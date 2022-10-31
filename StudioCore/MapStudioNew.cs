@@ -777,7 +777,7 @@ namespace StudioCore
                         }
                     }
 
-                    if (ImGui.Selectable("Key bindings"))
+                    if (ImGui.Selectable("Key Bindings"))
                     {
                         keyBindGUI = true;
                     }
@@ -1044,32 +1044,38 @@ namespace StudioCore
                 ImGui.OpenPopup("Key Bind Settings");
             if (ImGui.BeginPopupModal("Key Bind Settings", ref open))
             {
-                if (InputTracker.GetKeyDown(Key.Escape))
+                if (ImGui.IsAnyItemActive())
                 {
                     _currentKeyBind = null;
                 }
-                else if (ImGui.IsAnyItemActive())
-                {
-                    _currentKeyBind = null;
-                }
-
                 ImGui.Columns(2);
                 foreach (var bind in KeyBindings.Current.GetType().GetFields())
                 {
                     var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
                     ImGui.Text(bind.Name);
                     ImGui.NextColumn();
+                    var keyText = bindVal.HintText;
+                    if (keyText == "")
+                        keyText = "[None]";
                     if (_currentKeyBind == bindVal)
                     {
-                        ImGui.Button("Press Key <Esc - Cancel>");
-                        var newkey = InputTracker.GetNewKeyBind();
-                        if (newkey != null)
+                        ImGui.Button("Press Key <Esc - Clear>");
+                        if (InputTracker.GetKeyDown(Key.Escape))
                         {
-                            bind.SetValue(KeyBindings.Current, newkey);
+                            bind.SetValue(KeyBindings.Current, new KeyBind());
                             _currentKeyBind = null;
                         }
+                        else
+                        {
+                            var newkey = InputTracker.GetNewKeyBind();
+                            if (newkey != null)
+                            {
+                                bind.SetValue(KeyBindings.Current, newkey);
+                                _currentKeyBind = null;
+                            }
+                        }
                     }
-                    else if (ImGui.Button($"{bindVal.HintText}##{bind.Name}"))
+                    else if (ImGui.Button($"{keyText}##{bind.Name}"))
                     {
                         _currentKeyBind = bindVal;
                     }
