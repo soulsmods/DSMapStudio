@@ -1349,7 +1349,7 @@ namespace StudioCore
                 }
             }
 
-                string[] textcmds = null;
+            string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")
             {
                 textcmds = commandsplit.Skip(1).ToArray();
