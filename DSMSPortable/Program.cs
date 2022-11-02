@@ -269,10 +269,12 @@ namespace DSMSPortable
             System.Console.Out.WriteLine("  -M masseditfile1 masseditfile2 ...");
             System.Console.Out.WriteLine("             List of text files (.TXT or .MASSEDIT) containing a script of DS Map Studio MASSEDIT commands.");
             System.Console.Out.WriteLine("             It is highly recommended to use massedit scripts to modify existing params to avoid conflicting edits.");
+            System.Console.Out.WriteLine("             Edit scripts of the same type are processed in the order in which they are specified.");
             System.Console.Out.WriteLine("  -C csvfile1 csvfile2 ...");
             System.Console.Out.WriteLine("             List of csv files (.TXT or .CSV) containing entire rows of params to add.");
             System.Console.Out.WriteLine("             Each file's name must perfectly match the param it is modifying (i.e. SpEffectParam.csv).");
             System.Console.Out.WriteLine("             CSV input must used in order to add new rows.");
+            System.Console.Out.WriteLine("             CSV edits will be always be processed before massedit scripts.");
             System.Console.Out.WriteLine("  -G gametype");
             System.Console.Out.WriteLine("             Code indicating which game is being modified. The default is Elden Ring. Options are as follows:");
             System.Console.Out.WriteLine("             DS1R  Dark Souls Remastered    DS2  Dark Souls 2    DS3     Dark Souls 3");
