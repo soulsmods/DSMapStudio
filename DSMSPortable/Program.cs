@@ -99,10 +99,12 @@ namespace DSMSPortable
                         File.Move($@"{new FileInfo(inputFile).Directory.FullName}\regulation.bin", outputFile);
                         File.Move($@"{new FileInfo(inputFile).Directory.FullName}\regulation.bin.prev", $@"{new FileInfo(inputFile).Directory.FullName}\regulation.bin");
                     }
-                    else
+                    else if (File.Exists($@"{inputFile}.prev"))
                     {
-                        File.Copy(inputFile, outputFile);
+                        File.Move(inputFile, outputFile);
+                        File.Move($@"{inputFile}.prev", inputFile);
                     }
+                    else File.Copy(inputFile, outputFile);
                 }
                 catch (IOException ioe)
                 {
@@ -112,7 +114,7 @@ namespace DSMSPortable
         }
         private static void FindGamepath()
         {
-            if(File.Exists(GAMEPATH_FILE)) 
+            if(gamepath == null && File.Exists(GAMEPATH_FILE)) 
                 gamepath = File.ReadAllText(GAMEPATH_FILE);
             if(gameType == GameType.EldenRing)
             {
