@@ -1599,7 +1599,6 @@ namespace StudioCore
                             return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
                         else
                             return null;
-
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
