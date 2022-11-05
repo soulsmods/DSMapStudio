@@ -442,6 +442,7 @@ namespace StudioCore.TextEditor
             Title = 1,
             Summary = 2,
             Description = 3,
+            ExtraInfo = 4,
         }
 
         /// <summary>
@@ -609,25 +610,31 @@ namespace StudioCore.TextEditor
             //
             TalkMsg_FemalePC_Alt = 4,
             NetworkMessage = 31,
-            ActionButtonText = 32,
             EventTextForTalk = 33,
             EventTextForMap = 34,
             TutorialTitle = 207,
             TutorialBody = 208,
             TextEmbedImageName_win64 = 209,
 
-            // Multiple use cases
+            // Multiple use cases. Differences are applied in ApplyGameDifferences();
+            ReusedFMG_32 = 32,
+            // FMG 32
+            // BB:  GemExtraInfo
+            // DS3: ActionButtonText
+            // SDT: ActionButtonText
+            // ER:  ActionButtonText
             ReusedFMG_210 = 210,
-            // 210
+            // FMG 210
             // DS3: TitleGoods_DLC1
+            // SDT: ?
             // ER:  ToS_win64
             ReusedFMG_205 = 205,
-            // 205
+            // FMG 205
             // DS3: SystemMessage_PS4
             // SDT: TutorialText
             // ER:  LoadingTitle
             ReusedFMG_206 = 206,
-            // 206
+            // FMG 206
             // DS3: SystemMessage_XboxOne 
             // SDT: TutorialTitle
             // ER:  LoadingText
@@ -735,9 +742,6 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleMessage:
                     return FmgEntryCategory.Message;
 
-                case FmgIDType.ActionButtonText:
-                    return FmgEntryCategory.ActionButtonText;
-
                 case FmgIDType.WeaponEffect:
                 default:
                     return FmgEntryCategory.None;
@@ -839,70 +843,8 @@ namespace StudioCore.TextEditor
             }
         }
 
-        /*
         /// <summary>
-        /// Checks if FMG is a patch FMG
-        /// </summary>
-        public static bool IsPatchFMG(FMGInfo info)
-        {
-            switch (info.FmgID)
-            {
-                case FmgIDType.ReusedFMG_210: // Changes per-game. Handled elsewhere.
-                    return false;
-                case FmgIDType.TitleGoods_Patch:
-                case FmgIDType.DescriptionGoods_Patch:
-                case FmgIDType.DescriptionGoods_DLC1:
-                case FmgIDType.DescriptionGoods_DLC2:
-                case FmgIDType.SummaryGoods_Patch:
-                case FmgIDType.SummaryGoods_DLC1:
-                case FmgIDType.SummaryGoods_DLC2:
-                case FmgIDType.TitleGoods:
-                case FmgIDType.TitleGoods_DLC2:
-                case FmgIDType.DescriptionWeapons_DLC1:
-                case FmgIDType.DescriptionWeapons_DLC2:
-                case FmgIDType.TitleWeapons_DLC1:
-                case FmgIDType.TitleWeapons_DLC2:
-                case FmgIDType.DescriptionWeapons_Patch:
-                case FmgIDType.SummaryWeapons_Patch:
-                case FmgIDType.TitleWeapons_Patch:
-                case FmgIDType.DescriptionArmor_DLC1:
-                case FmgIDType.DescriptionArmor_DLC2:
-                case FmgIDType.TitleArmor_DLC1:
-                case FmgIDType.TitleArmor_DLC2:
-                case FmgIDType.DescriptionArmor_Patch:
-                case FmgIDType.SummaryArmor_Patch:
-                case FmgIDType.TitleArmor_Patch:
-                case FmgIDType.DescriptionRings_DLC1:
-                case FmgIDType.DescriptionRings_DLC2:
-                case FmgIDType.SummaryRings_DLC1:
-                case FmgIDType.SummaryRings_DLC2:
-                case FmgIDType.TitleRings_DLC1:
-                case FmgIDType.TitleRings_DLC2:
-                case FmgIDType.DescriptionRings_Patch:
-                case FmgIDType.SummaryRings_Patch:
-                case FmgIDType.TitleRings_Patch:
-                case FmgIDType.DescriptionSpells_DLC1:
-                case FmgIDType.DescriptionSpells_DLC2:
-                case FmgIDType.SummarySpells_DLC1:
-                case FmgIDType.SummarySpells_DLC2:
-                case FmgIDType.TitleSpells_DLC1:
-                case FmgIDType.TitleSpells_DLC2:
-                case FmgIDType.DescriptionSpells_Patch:
-                case FmgIDType.TitleSpells_Patch:
-                case FmgIDType.TitleCharacters_DLC1:
-                case FmgIDType.TitleCharacters_DLC2:
-                case FmgIDType.TitleCharacters_Patch:
-                case FmgIDType.TitleLocations_DLC1:
-                case FmgIDType.TitleLocations_DLC2:
-                case FmgIDType.TitleLocations_Patch:
-                    return true;
-            }
-            return false;
-        }
-        */
-
-        /// <summary>
-        /// Dumb little list for comparing FMG type enum strings for patch FMGs
+        /// List of strings to compare with "FmgIDType" name to identify patch FMGs.
         /// </summary>
         private readonly static List<string> patchStrings = new()
         {
@@ -1111,12 +1053,24 @@ namespace StudioCore.TextEditor
             var gameType = AssetLocator.Type;
             switch (info.FmgID)
             {
-                case FmgIDType.Event:
-                case FmgIDType.Event_Patch:
-                    if (gameType is GameType.DemonsSouls or GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+                case FmgIDType.ReusedFMG_32:
+                    if (gameType == GameType.Bloodborne)
                     {
+                        info.Name = "GemExtraInfo";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.Gem;
+                        //info.EntryType = FmgEntryTextType.ExtraInfo; // TODO
+                    }
+                    else
+                    {
+                        info.Name = "ActionButtonText";
                         info.EntryCategory = FmgEntryCategory.ActionButtonText;
                     }
+                    break;
+                case FmgIDType.Event:
+                case FmgIDType.Event_Patch:
+                    if (gameType is GameType.DemonsSouls or GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered or GameType.Bloodborne)
+                        info.EntryCategory = FmgEntryCategory.ActionButtonText;
                     break;
                 case FmgIDType.ReusedFMG_205:
                     if (gameType == GameType.EldenRing)
