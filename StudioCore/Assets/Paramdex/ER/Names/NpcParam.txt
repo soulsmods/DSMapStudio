@@ -1,5 +1,5 @@
 1 Human
-1000000 Patrol Dummy
+1000000 BuddyStone
 1002000 Patrol Dummy
 1100000 Caravan Dummy
 1200000 Bullet Dummy
@@ -521,22 +521,22 @@
 31811024 Red Wolf of Radagon
 31811032 Red Wolf of the Champion
 31811052 Red Wolf
-32000000 Nomad Trader - Merchant Kal
-32000010 Merchant Kal
-32000012 Nomad Trader - Merchant Kal
-32000020 Nomad Trader - Merchant Kal
-32000030 Nomad Trader - Merchant Kal
-32000032 Merchant Kal
-32000034 Nomad Trader - Merchant Kal
-32000035 Nomad Trader - Merchant Kal
-32000110 Nomad Trader - Merchant Kal
-32000120 Nomad Trader - Merchant Kal
-32000134 Nomad Trader - Merchant Kal
-32000135 Nomad Trader - Merchant Kal
-32000210 Nomad Trader - Merchant Kal
-32000220 Nomad Trader - Merchant Kal
-32000234 Nomad Trader - Merchant Kal
-32001010 Nomad Trader - Merchant Kal
+32000000 Nomad Trader - Merchant Kalé
+32000010 Merchant Kalé
+32000012 Nomad Trader - Merchant Kalé
+32000020 Nomad Trader - Merchant Kalé
+32000030 Nomad Trader - Merchant Kalé
+32000032 Merchant Kalé
+32000034 Nomad Trader - Merchant Kalé
+32000035 Nomad Trader - Merchant Kalé
+32000110 Nomad Trader - Merchant Kalé
+32000120 Nomad Trader - Merchant Kalé
+32000134 Nomad Trader - Merchant Kalé
+32000135 Nomad Trader - Merchant Kalé
+32000210 Nomad Trader - Merchant Kalé
+32000220 Nomad Trader - Merchant Kalé
+32000234 Nomad Trader - Merchant Kalé
+32001010 Nomad Trader - Merchant Kalé
 32001110 Nomadic Merchant
 32001210 Nomadic Merchant
 32001310 Nomadic Merchant
@@ -4488,12 +4488,12 @@
 523000000 Tanith Volcano Manor Proprietress
 523000038 Tanith, Volcano Manor Proprietress
 523000138 Tanith, Volcano Manor Proprietress
-523010000 White Mask Varr
-523010010 White Mask Varr
-523010020 White Mask Varr
-523010068 White Mask Varr
-523010110 White Mask Varr
-523010168 White Mask Varr
+523010000 White Mask Varré
+523010010 White Mask Varré
+523010020 White Mask Varré
+523010068 White Mask Varré
+523010110 White Mask Varré
+523010168 White Mask Varré
 523030000 Guilbert
 523040000 Festering Fingerprint Vyke
 523040012 Roundtable Knight Vyke
