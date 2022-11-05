@@ -265,6 +265,7 @@ namespace StudioCore.Editor
                         case "EquipParamProtector": category = FMGBank.FmgEntryCategory.Armor; break;
                         case "EquipParamGem": category = FMGBank.FmgEntryCategory.Gem; break;
                         case "SwordArtsParam": category = FMGBank.FmgEntryCategory.SwordArts; break;
+                        case "ActionButtonParam": category = FMGBank.FmgEntryCategory.ActionButtonText; break;
                     }
                     if (category == FMGBank.FmgEntryCategory.None)
                         throw new Exception();

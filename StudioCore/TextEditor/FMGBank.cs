@@ -461,6 +461,7 @@ namespace StudioCore.TextEditor
             Message,
             SwordArts,
             Effect,
+            ActionButtonText,
         }
 
         /// <summary>
@@ -733,6 +734,9 @@ namespace StudioCore.TextEditor
 
                 case FmgIDType.TitleMessage:
                     return FmgEntryCategory.Message;
+
+                case FmgIDType.ActionButtonText:
+                    return FmgEntryCategory.ActionButtonText;
 
                 case FmgIDType.WeaponEffect:
                 default:
@@ -1107,6 +1111,13 @@ namespace StudioCore.TextEditor
             var gameType = AssetLocator.Type;
             switch (info.FmgID)
             {
+                case FmgIDType.Event:
+                case FmgIDType.Event_Patch:
+                    if (gameType is GameType.DemonsSouls or GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+                    {
+                        info.EntryCategory = FmgEntryCategory.ActionButtonText;
+                    }
+                    break;
                 case FmgIDType.ReusedFMG_205:
                     if (gameType == GameType.EldenRing)
                         info.Name = "LoadingTitle";
@@ -1188,38 +1199,32 @@ namespace StudioCore.TextEditor
             {
                 ID = id,
             };
-            if (fmgInfo.EntryCategory == FmgEntryCategory.None)
+            foreach (var info in _fmgInfoBank)
             {
-                var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
-                var pair = entryPairs.Find(e => e.Entry.ID == id);
-                eGroup.TextBody = pair.Entry;
-                eGroup.TextBodyInfo = pair.FmgInfo;
-            }
-            else
-            {
-                foreach (var info in _fmgInfoBank)
+                if (info.EntryCategory == fmgInfo.EntryCategory && info.PatchParent == null)
                 {
-                    if (info.EntryCategory == fmgInfo.EntryCategory && info.PatchParent == null)
+                    var entryPairs = info.GetPatchedEntryFMGPairs();
+                    var pair = entryPairs.Find(e => e.Entry.ID == id);
+                    if (pair != null)
                     {
-                        var entryPairs = info.GetPatchedEntryFMGPairs();
-                        var pair = entryPairs.Find(e => e.Entry.ID == id);
-                        if (pair != null)
+                        switch (info.EntryType)
                         {
-                            switch (info.EntryType)
-                            {
-                                case FmgEntryTextType.Title:
-                                    eGroup.Title = pair.Entry;
-                                    eGroup.TitleInfo = pair.FmgInfo;
-                                    break;
-                                case FmgEntryTextType.Summary:
-                                    eGroup.Summary = pair.Entry;
-                                    eGroup.SummaryInfo = pair.FmgInfo;
-                                    break;
-                                case FmgEntryTextType.Description:
-                                    eGroup.Description = pair.Entry;
-                                    eGroup.DescriptionInfo = pair.FmgInfo;
-                                    break;
-                            }
+                            case FmgEntryTextType.Title:
+                                eGroup.Title = pair.Entry;
+                                eGroup.TitleInfo = pair.FmgInfo;
+                                break;
+                            case FmgEntryTextType.Summary:
+                                eGroup.Summary = pair.Entry;
+                                eGroup.SummaryInfo = pair.FmgInfo;
+                                break;
+                            case FmgEntryTextType.Description:
+                                eGroup.Description = pair.Entry;
+                                eGroup.DescriptionInfo = pair.FmgInfo;
+                                break;
+                            case FmgEntryTextType.TextBody:
+                                eGroup.TextBody = pair.Entry;
+                                eGroup.TextBodyInfo = pair.FmgInfo;
+                                break;
                         }
                     }
                 }
