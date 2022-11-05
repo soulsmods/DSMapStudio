@@ -958,7 +958,6 @@ namespace StudioCore.TextEditor
                 }
             }
 
-            ApplyGameDifferences(info);
             ActiveUITypes[info.UICategory] = true;
 
             return info;
@@ -1016,9 +1015,10 @@ namespace StudioCore.TextEditor
             }
 
             foreach (var file in fmgBinder.Files)
-            {
                 _fmgInfoBank.Add(GenerateFMGInfo(file));
-            }
+            foreach (var info in _fmgInfoBank)
+                ApplyGameDifferences(info);
+
             return true;
         }
 
@@ -1100,7 +1100,7 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Checks for FMG info that differs per-game
+        /// Checks and applies FMG info that differs per-game.
         /// </summary>
         private static void ApplyGameDifferences(FMGInfo info)
         {
