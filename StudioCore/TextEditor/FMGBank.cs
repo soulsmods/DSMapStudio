@@ -68,7 +68,7 @@ namespace StudioCore.TextEditor
                 }
 
                 // Check and apply patch entries
-                foreach (var child in PatchChildren)
+                foreach (var child in PatchChildren.OrderBy(e => (int)e.FmgID))
                 {
                     foreach (var entry in child.Fmg.Entries)
                     {
@@ -108,7 +108,7 @@ namespace StudioCore.TextEditor
                 list.AddRange(Fmg.Entries);
 
                 // Check and apply patch entries
-                foreach (var child in PatchChildren)
+                foreach (var child in PatchChildren.OrderBy(e => (int)e.FmgID))
                 {
                     foreach (var entry in child.Fmg.Entries)
                     {
@@ -663,7 +663,6 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummaryGoods_DLC2:
                 case FmgIDType.TitleGoods:
                 case FmgIDType.TitleGoods_Patch:
-                case FmgIDType.ReusedFMG_210:
                 case FmgIDType.TitleGoods_DLC2:
                     return FmgEntryCategory.Goods;
 
@@ -798,7 +797,6 @@ namespace StudioCore.TextEditor
                     return FmgEntryTextType.Summary;
 
                 case FmgIDType.TitleGoods:
-                case FmgIDType.ReusedFMG_210:
                 case FmgIDType.TitleGoods_DLC2:
                 case FmgIDType.TitleWeapons:
                 case FmgIDType.TitleWeapons_DLC1:
@@ -929,7 +927,27 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Loads MSGbnd from path, generates FMGInfo, and fills FmgInfoBank.
+        /// Loads item and menu MsgBnds from paths, generates FMGInfo, and fills FmgInfoBank.
+        /// </summary>
+        /// <returns>True if successful; false otherwise.</returns>
+        private static bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
+        {
+            if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd")
+                || !LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
+            {
+                return false;
+            }
+
+            foreach (var info in _fmgInfoBank)
+                ApplyGameDifferences(info);
+
+            _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
+            HandleDuplicateEntries();
+
+            return true;
+        }
+        /// <summary>
+        /// Loads MsgBnd from path, generates FMGInfo, and fills FmgInfoBank.
         /// </summary>
         /// <returns>True if successful; false otherwise.</returns>
         private static bool LoadMsgBnd(string path, string msgBndType = "UNDEFINED")
@@ -962,8 +980,6 @@ namespace StudioCore.TextEditor
 
             foreach (var file in fmgBinder.Files)
                 _fmgInfoBank.Add(GenerateFMGInfo(file));
-            foreach (var info in _fmgInfoBank)
-                ApplyGameDifferences(info);
 
             return true;
         }
@@ -1000,17 +1016,13 @@ namespace StudioCore.TextEditor
                 var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
 
                 _fmgInfoBank.Clear();
-                if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd")
-                    || !LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
+                if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
                 {
                     _fmgInfoBank.Clear();
                     IsLoaded = false;
                     IsLoading = false;
                     return;
                 }
-
-                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
-                HandleDuplicateEntries();
                 IsLoaded = true;
                 IsLoading = false;
             }
