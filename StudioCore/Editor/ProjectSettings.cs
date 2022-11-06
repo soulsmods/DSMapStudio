@@ -46,6 +46,6 @@ namespace StudioCore.Editor
     {
         public Editor.ProjectSettings settings;
         public string directory = "";
-        public bool loadDefaultNames = false;
+        public bool loadDefaultNames = true;
     }
 }
