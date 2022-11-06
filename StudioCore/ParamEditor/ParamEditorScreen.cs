@@ -447,7 +447,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
                 }
-                if (ImGui.MenuItem("Load Default Row Names", "", false, ParamBank.PrimaryBank.Params != null))
+                if (ImGui.MenuItem("Import Row Names", "", false, ParamBank.PrimaryBank.Params != null))
                 {
                     try {
                         EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames());

@@ -5,6 +5,7 @@ using System.IO;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
+using ImGuiNET;
 using Microsoft.Win32;
 using SoulsFormats;
 using StudioCore.MsbEditor;
@@ -731,6 +732,17 @@ namespace StudioCore
         public static object GetPropertyValue(PropertyInfo prop, object obj)
         {
             return prop.GetValue(FindPropertyObject(prop, obj));
+        }
+
+        public static void ImGuiGenericHelpPopup(string buttonText, string imguiID, string displayText)
+        {
+            if (ImGui.Button(buttonText+"##"+imguiID))
+                ImGui.OpenPopup(imguiID);
+            if (ImGui.BeginPopup(imguiID))
+            {
+                ImGui.Text(displayText);
+                ImGui.EndPopup();
+            }
         }
     }
 }

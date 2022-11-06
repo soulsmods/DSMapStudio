@@ -1097,6 +1097,9 @@ namespace StudioCore
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");
                 ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
+                    "Project's display name. Only affects visuals within DSMS.");
+                ImGui.SameLine();
                 var pname = _newProjectOptions.settings.ProjectName;
                 if (ImGui.InputText("##pname", ref pname, 255))
                 {
@@ -1105,6 +1108,9 @@ namespace StudioCore
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Directory: ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
+                    "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
                 ImGui.SameLine();
                 ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
                 ImGui.SameLine();
@@ -1120,6 +1126,9 @@ namespace StudioCore
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Game Executable:   ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
+                    "The location of the game's .EXE file.\nThe folder with the .EXE will be used to obtain unpacked game data.");
                 ImGui.SameLine();
                 var gname = _newProjectOptions.settings.GameRoot;
                 if (ImGui.InputText("##gdir", ref gname, 255))
@@ -1157,6 +1166,9 @@ namespace StudioCore
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Use Loose Params:  ");
                     ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_LooseParams",
+                        "Default: OFF\nLoad & Save individual .param files instead of .parambnd.");
+                    ImGui.SameLine();
                     var looseparams = _newProjectOptions.settings.UseLooseParams;
                     if (ImGui.Checkbox("##looseparams", ref looseparams))
                     {
@@ -1169,16 +1181,23 @@ namespace StudioCore
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
                     ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("TODO (disbababled)", "##Help_PartialParam",
+                        "TODO: why does this setting exist separately from loose params?");
+                    ImGui.SameLine();
                     var partialReg = _newProjectOptions.settings.PartialParams;
                     if (ImGui.Checkbox("##partialparams", ref partialReg))
                     {
                         _newProjectOptions.settings.PartialParams = partialReg;
                     }
+                    ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
                     ImGui.NewLine();
                 }
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text($@"Load default row names:  ");
+                ImGui.Text($@"Import row names:  ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ImportRowNames",
+                    "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 ImGui.NewLine();
