@@ -171,7 +171,7 @@ namespace StudioCore.TextEditor
                                     matches.Add(entry);
                             }
                         }
-                        foreach (var entry in FMGBank.GetFmgEntriesByType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
+                        foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
                         {
                             // Descriptions
                             if (entry.Text != null)
@@ -184,7 +184,7 @@ namespace StudioCore.TextEditor
                                 }
                             }
                         }
-                        foreach (var entry in FMGBank.GetFmgEntriesByType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
+                        foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
                         {
                             // Summaries
                             if (entry.Text != null)

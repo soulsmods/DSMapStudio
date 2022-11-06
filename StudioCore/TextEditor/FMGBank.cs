@@ -1112,33 +1112,43 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Get patched FMG Entries for the specified category and text type.
+        /// Get patched FMG Entries for the specified category, with TextType Title or TextBody.
         /// </summary>
-        /// <returns>List of entries if found; empty list otherwise.</returns>
-        public static List<FMG.Entry> GetFmgEntriesByType(FmgEntryCategory category, FmgEntryTextType textType, bool sort = true)
+        /// <returns>List of patched entries if found; empty list otherwise.</returns>
+        public static List<FMG.Entry> GetFmgEntriesByCategory(FmgEntryCategory category, bool sort = true)
         {
             foreach (var info in _fmgInfoBank)
             {
-                if (info.EntryCategory == category && info.EntryType == textType)
-                {
+                if (info.EntryCategory == category && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
                     return info.GetPatchedEntries(sort);
-                }
             }
             return new List<FMG.Entry>();
         }
 
         /// <summary>
-        /// Get patched FMG Entries for the specified FMG ID.
+        /// Get patched FMG Entries for the specified category and text type.
         /// </summary>
-        /// <returns>List of entries if found; empty list otherwise.</returns>
-        public static List<FMG.Entry> GetFmgEntriesByID(FmgIDType fmgID, bool sort = true)
+        /// <returns>List of patched entries if found; empty list otherwise.</returns>
+        public static List<FMG.Entry> GetFmgEntriesByCategoryAndTextType(FmgEntryCategory category, FmgEntryTextType textType, bool sort = true)
+        {
+            foreach (var info in _fmgInfoBank)
+            {
+                if (info.EntryCategory == category && info.EntryType == textType)
+                    return info.GetPatchedEntries(sort);
+            }
+            return new List<FMG.Entry>();
+        }
+
+        /// <summary>
+        /// Get patched FMG Entries for the specified FmgIDType.
+        /// </summary>
+        /// <returns>List of patched entries if found; empty list otherwise.</returns>
+        public static List<FMG.Entry> GetFmgEntriesByFmgIDType(FmgIDType fmgID, bool sort = true)
         {
             foreach (var info in _fmgInfoBank)
             {
                 if (info.FmgID == fmgID)
-                {
                     return info.GetPatchedEntries(sort);
-                }
             }
             return new List<FMG.Entry>();
         }
