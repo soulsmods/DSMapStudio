@@ -12,6 +12,7 @@ using ImGuiNET;
 using System.Text;
 using FSParam;
 using StudioCore.Editor;
+using System.Threading.Tasks;
 
 namespace StudioCore.ParamEditor
 {
@@ -48,18 +49,18 @@ namespace StudioCore.ParamEditor
         }
         private static void ReloadMemoryParamsThreads(ParamBank bank, GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
         {
-            List<Thread> threads = new List<Thread>();
+            List<Task> tasks = new List<Task>();
             foreach (string param in paramNames)
             {
                 if (param != null && offsets.paramOffsets.ContainsKey(param))
                 {
-                    threads.Add(new Thread(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
+                    tasks.Add(new Task(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
                 }
             }
-            foreach (var thread in threads)
-                thread.Start();
-            foreach (var thread in threads)
-                thread.Join();
+            foreach (var task in tasks)
+                task.Start();
+            foreach (var task in tasks)
+                task.Wait();
         }
         public static void GiveItemMenu(AssetLocator loc, List<Param.Row> rowsToGib, string param)
         {
