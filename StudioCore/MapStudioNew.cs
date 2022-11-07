@@ -763,10 +763,11 @@ namespace StudioCore
                         if (ImGui.BeginMenu($@"Project Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
                         {
                             bool useLoose = _projectSettings.UseLooseParams;
-                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
-                            {
+                            if (_projectSettings.GameType == GameType.DarkSoulsIISOTFS && ImGui.Checkbox("Use Loose Params", ref useLoose))
                                 _projectSettings.UseLooseParams = useLoose;
-                            }
+                            else if (_projectSettings.GameType == GameType.DarkSoulsIII && ImGui.Checkbox("Use Decrypted Params", ref useLoose))
+                                _projectSettings.UseLooseParams = useLoose;
+
                             bool usepartial = _projectSettings.PartialParams;
                             if ((FeatureFlags.EnablePartialParam || usepartial) &&
                                 _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
@@ -1161,13 +1162,13 @@ namespace StudioCore
                 ImGui.NewLine();
                 ImGui.Separator();
                 ImGui.NewLine();
-                if (_newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS || _newProjectOptions.settings.GameType == GameType.DarkSoulsIII)
+                if (_newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
                 {
                     ImGui.AlignTextToFramePadding();
-                    ImGui.Text($@"Use Loose Params:  ");
+                    ImGui.Text($@"Loose Params:      ");
                     ImGui.SameLine();
-                    Utils.ImGuiGenericHelpPopup("?", "##Help_LooseParams",
-                        "Default: OFF\nLoad & Save individual .param files instead of .parambnd.");
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_LooseParamsDS2",
+                        "Default: OFF\nSave and Load parameters as individual .param files instead of regulation.");
                     ImGui.SameLine();
                     var looseparams = _newProjectOptions.settings.UseLooseParams;
                     if (ImGui.Checkbox("##looseparams", ref looseparams))
@@ -1176,7 +1177,22 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
-                if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
+                else if (_newProjectOptions.settings.GameType == GameType.DarkSoulsIII)
+                {
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text($@"Decrypted Params:  ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_LooseParamsDS3",
+                        "Default: OFF\nSave and Load parameters as decrypted .parambnd instead of regulation.");
+                    ImGui.SameLine();
+                    var decryptParams = _newProjectOptions.settings.UseLooseParams;
+                    if (ImGui.Checkbox("##looseparams", ref decryptParams))
+                    {
+                        _newProjectOptions.settings.UseLooseParams = decryptParams;
+                    }
+                    ImGui.NewLine();
+                }
+                else if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
