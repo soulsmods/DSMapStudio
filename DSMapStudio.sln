@@ -41,6 +41,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMSPortable", "DSMSPortable\DSMSPortable.csproj", "{D1953528-E239-4D2C-B84D-02DE694B2DFE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{22C664BD-877B-44DF-8ECF-2808522469A8} = {22C664BD-877B-44DF-8ECF-2808522469A8}
+		{56C072EE-4011-4A0E-9B72-25A1A47969A0} = {56C072EE-4011-4A0E-9B72-25A1A47969A0}
+		{AD901915-1F68-4774-8D9C-5BD443F933F6} = {AD901915-1F68-4774-8D9C-5BD443F933F6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

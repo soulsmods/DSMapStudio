@@ -9,6 +9,7 @@ namespace DSMSPortable
 {
     class DSMSPortable
     {
+        // Check this file locally for the full gamepath
         static readonly string GAMEPATH_FILE = "gamepath.txt";
         static readonly string DEFAULT_ER_GAMEPATH = "Steam\\steamapps\\common\\ELDEN RING\\Game";
         static string gamepath = null;
@@ -53,6 +54,7 @@ namespace DSMSPortable
             locator.SetFromProjectSettings(settings, new FileInfo(inputFile).Directory.FullName);
             ParamBank.PrimaryBank.SetAssetLocator(locator);
             ParamBank.VanillaBank.SetAssetLocator(locator);
+            // This operation takes time in a separate thread, so just wait and poll it
             ParamBank.ReloadParams(settings, options);
             System.Console.Out.Write("Loading Params");
             while (ParamBank.PrimaryBank.IsLoadingParams)
@@ -63,6 +65,7 @@ namespace DSMSPortable
             System.Console.Out.Write("\n");
             MassEditResult meresult;
             string opstring;
+            // Process CSV edits first
             foreach (string csvfile in csvFiles)
             {
                 opstring = File.ReadAllText(csvfile);
@@ -71,6 +74,7 @@ namespace DSMSPortable
                 else System.Console.Error.WriteLine($@"{Path.GetFileNameWithoutExtension(csvfile)} {meresult.Type}: {meresult.Information}");
                 if (meresult.Information.Contains(" 0 rows added")) System.Console.Out.WriteLine("WARNING: Use MASSEDIT scripts for modifying existing params to avoid conflicts\n");
             }
+            // Then process massedit scripts
             foreach (string mefile in masseditFiles)
             {
                 opstring = File.ReadAllText(mefile).ReplaceLineEndings("\n").Trim();
@@ -87,13 +91,24 @@ namespace DSMSPortable
             }
             catch (SavingFailedException e)
             {
-                System.Console.Error.WriteLine(e.Message);
-                System.Console.Error.WriteLine(e.StackTrace);
+                try
+                {   // Try to stick the landing if SaveParams finds itself unable to overwrite the param file
+                    if (gameType == GameType.EldenRing)
+                    {
+                        File.Move($@"{new FileInfo(inputFile).Directory.FullName}\regulation.bin.temp", $@"{new FileInfo(inputFile).Directory.FullName}\regulation.bin");
+                    }
+                    else File.Move($@"{inputFile}.temp", inputFile);
+                }
+                catch (Exception)
+                {
+                    System.Console.Error.WriteLine(e.Message);
+                    System.Console.Error.WriteLine(e.StackTrace);
+                }
             }
             if (outputFile != null)
             {
                 try
-                {
+                {   // if an output file is specified, wing it by just copying the param file, and renaming the backup
                     if (gameType == GameType.EldenRing)
                     {
                         File.Move($@"{new FileInfo(inputFile).Directory.FullName}\regulation.bin", outputFile);
@@ -286,7 +301,7 @@ namespace DSMSPortable
             System.Console.Out.WriteLine("             Path where the resulting regulation.bin (or equivalent param file) will be saved.");
             System.Console.Out.WriteLine("             If this is not specified, the input file will be overwritten, and a backup will be made if possible.");
         }
-
+        // Indicates what the last read switch was
         private enum ParamMode
         {
             CSV,
@@ -296,7 +311,7 @@ namespace DSMSPortable
             SETGAMEPATH,
             NONE
         }
-
+        // No reason to be anal about the exact switch character used, any of these is fine
         private static bool IsSwitch(string arg)
         {
             return (arg[0] == '\\' || arg[0] == '/' || arg[0] == '-');
