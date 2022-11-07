@@ -257,7 +257,7 @@ namespace StudioCore.MsbEditor
 
             // Up/Down arrow mass selection
             bool arrowKeySelect = false;
-            if (ImGui.IsItemFocused() && !_selection.IsSelected(e)
+            if (ImGui.IsItemFocused()
                 && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
             {
                 doSelect = true;
