@@ -563,16 +563,16 @@ namespace StudioCore.MsbEditor
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
             // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
+            if (!ViewportUsingKeyboard && !ImGui.IsAnyItemActive())
             {
-                EditorActionManager.UndoAction();
-            }
-            if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
-            {
-                EditorActionManager.RedoAction();
-            }
-            if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
-            {
+                if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
+                {
+                    EditorActionManager.UndoAction();
+                }
+                if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
+                {
+                    EditorActionManager.RedoAction();
+                }
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _selection.IsSelection())
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
@@ -592,7 +592,6 @@ namespace StudioCore.MsbEditor
                     Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                 }
 
-                // Use home key to cycle between gizmos origin modes
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
@@ -604,44 +603,33 @@ namespace StudioCore.MsbEditor
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoSpace))
                 {
                     if (Gizmos.Space == Gizmos.GizmosSpace.Local)
                         Gizmos.Space = Gizmos.GizmosSpace.World;
                     else if (Gizmos.Space == Gizmos.GizmosSpace.World)
                         Gizmos.Space = Gizmos.GizmosSpace.Local;
                 }
-
-                // Hide/Unhide
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_HideToggle) && _selection.IsSelection())
                 {
                     HideShowSelection();
                 }
-
-                // Unhide all
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnhideAll))
                 {
                     UnhideAllObjects();
                 }
-
-                // F key frames the selection
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_FrameSelection))
                 {
                     FrameSelection();
                 }
-
-                // G key jumps in SceneTree
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_GotoSelectionInObjectList))
                 {
                     GotoSelection();
                 }
-
-                //Undummify
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
                     UnDummySelection();
                 }
-                //Dummify
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnDummify) && _selection.IsSelection())
                 {
                     DummySelection();

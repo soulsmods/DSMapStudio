@@ -189,6 +189,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
         unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
             // Main selectable
@@ -227,7 +228,8 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                if (ImGui.Selectable(padding + e.PrettyName, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+                _mapEnt_ImGuiID++;
+                if (ImGui.Selectable(padding + e.PrettyName+"##"+ _mapEnt_ImGuiID, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
                 {
                     // If double clicked frame the selection in the viewport
                     if (ImGui.IsMouseDoubleClicked(0))
@@ -255,7 +257,7 @@ namespace StudioCore.MsbEditor
 
             // Up/Down arrow mass selection
             bool arrowKeySelect = false;
-            if (ImGui.IsItemFocused() && !_selection.IsSelected(e) 
+            if (ImGui.IsItemFocused()
                 && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
             {
                 doSelect = true;
@@ -650,6 +652,7 @@ namespace StudioCore.MsbEditor
 
                 var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
+                _mapEnt_ImGuiID = 0;
                 foreach (var lm in orderedMaps)
                 {
                     string metaName = "";
