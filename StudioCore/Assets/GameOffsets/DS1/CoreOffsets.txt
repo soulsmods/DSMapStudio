@@ -1,4 +1,4 @@
-﻿exeName:MODSOULS
+﻿exeName:DARKSOULS
 paramBase:0xF785B4
 paramInnerPath:0x20
 paramCountOffset:0xA

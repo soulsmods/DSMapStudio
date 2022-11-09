@@ -439,20 +439,20 @@ namespace StudioCore.ParamEditor {
 
         internal int GetRowCount(GameOffsets gOffsets, int pOffset) {
             IntPtr ParamPtr = GetParamPtr(gOffsets, pOffset);
-
+    
             if (gOffsets.Is64Bit)
-                return GetRowCount64(gOffsets, ParamPtr);
+                return GetRowCountInt(gOffsets, ParamPtr);
 
-            return GetRowCount32(gOffsets, ParamPtr);;
+            return GetRowCountShort(gOffsets, ParamPtr);;
         }
-        private int GetRowCount64(GameOffsets gOffsets, IntPtr ParamPtr) {
+        private int GetRowCountInt(GameOffsets gOffsets, IntPtr ParamPtr) {
 
             Int32 buffer = 0;
             NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + gOffsets.paramCountOffset, ref buffer);
             return buffer;
         }
         
-        private int GetRowCount32(GameOffsets gOffsets, IntPtr ParamPtr) {
+        private int GetRowCountShort(GameOffsets gOffsets, IntPtr ParamPtr) {
 
             Int16 buffer = 0;
             NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + gOffsets.paramCountOffset, ref buffer);
