@@ -20,7 +20,7 @@ namespace StudioCore.ParamEditor {
 
         public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings) {
             if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing
-                || projectSettings.GameType == GameType.DarkSoulsPTDE) && bank.IsLoadingParams == false)
+                || projectSettings.GameType == GameType.DarkSoulsPTDE || projectSettings.GameType == GameType.DarkSoulsRemastered) && bank.IsLoadingParams == false)
                 return true;
 
             return false;
@@ -329,6 +329,7 @@ namespace StudioCore.ParamEditor {
         internal Dictionary<string, int> paramOffsets;
         internal Dictionary<string, int> itemGibOffsets;
         internal bool Is64Bit;
+        internal GameType type;
 
         internal GameOffsets(GameType type, AssetLocator loc) {
             string dir = loc.GetGameOffsetsAssetsDir();
@@ -347,6 +348,7 @@ namespace StudioCore.ParamEditor {
             paramOffsets = getOffsetsIntFile(dir + "/ParamOffsets.txt");
             itemGibOffsets = getOffsetsIntFile(dir + "/ItemGibOffsets.txt");
             Is64Bit = type != GameType.DarkSoulsPTDE;
+            this.type = type;
         }
 
         private static Dictionary<string, int> getOffsetsIntFile(string dir) {
@@ -440,7 +442,7 @@ namespace StudioCore.ParamEditor {
         internal int GetRowCount(GameOffsets gOffsets, int pOffset) {
             IntPtr ParamPtr = GetParamPtr(gOffsets, pOffset);
     
-            if (gOffsets.Is64Bit)
+            if (gOffsets.type >= GameType.DarkSoulsIII)
                 return GetRowCountInt(gOffsets, ParamPtr);
 
             return GetRowCountShort(gOffsets, ParamPtr);;
