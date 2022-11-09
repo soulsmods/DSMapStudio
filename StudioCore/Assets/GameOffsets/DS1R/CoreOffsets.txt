@@ -1,4 +1,4 @@
-exeName:DarkSoulsRemastered
+exeName:DarkSoulsRemastered.exe
 paramBase:0x1D1B360
 paramInnerPath:0x38
 paramCountOffset:0xA
