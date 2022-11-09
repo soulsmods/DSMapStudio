@@ -1320,7 +1320,7 @@ namespace SoulsFormats
             {
                 ClassNames = new List<HKXClassName>();
                 OffsetClassNamesMap = new Dictionary<uint, HKXClassName>();
-                while (br.Position + 2 < br.Length && br.ReadUInt16() != 0xFFFF)
+                while (br.Position + 2 < br.Length)
                 {
                     br.Position -= 2;
                     uint stringStart = (uint)br.Position + 5;
