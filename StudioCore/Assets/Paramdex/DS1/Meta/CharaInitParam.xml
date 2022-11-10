@@ -42,7 +42,7 @@
     <item_08 Refs="EquipParamGoods" Wiki="Unused (needs testing)" />
     <item_09 Refs="EquipParamGoods" Wiki="Unused (needs testing)" />
     <item_10 Refs="EquipParamGoods" Wiki="Unused (needs testing)" />
-    <npcPlayerFaceGenId />
+    <npcPlayerFaceGenId Refs="FaceGenParam"/>
     <npcPlayerThinkId />
     <baseHp />
     <baseMp />

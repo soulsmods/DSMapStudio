@@ -897,12 +897,8 @@ namespace FSParam
             }
             
             // Write row names
-            Dictionary<string, long> stringOffsetDictionary = new Dictionary<string, long> 
-            {
-                { string.Empty, bw.Position }
-            };
+            Dictionary<string, long> stringOffsetDictionary = new Dictionary<string, long>();
             
-            bw.WriteInt16(0); //Write empty string right after the ParamTypeOffset
             for (int i = 0; i < Rows.Count; i++) 
             {
                 string rowName = Rows[i].Name ?? string.Empty;

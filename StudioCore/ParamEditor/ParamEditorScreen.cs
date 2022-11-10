@@ -56,7 +56,7 @@ namespace StudioCore.ParamEditor
         {
             if (_entryCache.Count == 0 && FMGBank.IsLoaded)
             {
-                var fmgEntries = FMGBank.GetFmgEntriesByType(_category, FMGBank.FmgEntryTextType.Title, false);
+                var fmgEntries = FMGBank.GetFmgEntriesByCategory(_category, false);
                 foreach (var fmgEntry in fmgEntries)
                 {
                     _entryCache[fmgEntry.ID] = fmgEntry;
@@ -150,8 +150,15 @@ namespace StudioCore.ParamEditor
             _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Weapons));
             _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Gem));
             _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.SwordArts));
+            //_decorators.Add("CharacterText", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Characters)); // TODO: Decorators need to be updated to support text references.
         }
-        
+
+        /// <summary>
+        /// Any version numbers <= this will be allowed to upgrade.
+        /// Used to restrict upgrading before DSMS properly supports it.
+        /// </summary>
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 10799999L;
+
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
             var oldVersion = bank.ParamVersion;
@@ -285,7 +292,7 @@ namespace StudioCore.ParamEditor
                     DuplicateSelection();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Mass Edit"))
+                if (ImGui.MenuItem($"Mass Edit", KeyBindings.Current.Param_MassEdit.HintText))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                 }
@@ -293,7 +300,7 @@ namespace StudioCore.ParamEditor
                 {
                     DelimiterInputText();
 
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ExportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVExport/Name");
@@ -358,7 +365,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
                 {
                     DelimiterInputText();
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ImportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
@@ -400,7 +407,7 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name",  CFG.Current.Param_Export_Delimiter[0], false);
+                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
                                 if (r.Type == MassEditResultType.SUCCESS && a != null)
                                     EditorActionManager.ExecuteAction(a);
                                 else
@@ -441,7 +448,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
                 }
-                if (ImGui.MenuItem("Load Default Row Names", "", false, ParamBank.PrimaryBank.Params != null))
+                if (ImGui.MenuItem("Import Row Names", "", false, ParamBank.PrimaryBank.Params != null))
                 {
                     try {
                         EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames());
@@ -518,7 +525,7 @@ namespace StudioCore.ParamEditor
 
                     if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false, canHotReload))
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
+                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
                     }
                     if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false, canHotReload))
                     {
@@ -528,7 +535,7 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem(param, "", false, canHotReload))
                         {
-                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[]{param});
+                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { param });
                         }
                     }
                     ImGui.EndMenu();
@@ -568,7 +575,7 @@ namespace StudioCore.ParamEditor
                     catch (Exception e)
                     {
                         System.Windows.Forms.MessageBox.Show(
-                        $@"Unable to load regulation.\n"+e.Message, 
+                        $@"Unable to load regulation.\n" + e.Message,
                         "Loading error",
                         System.Windows.Forms.MessageBoxButtons.OK,
                         System.Windows.Forms.MessageBoxIcon.Error);
@@ -623,46 +630,52 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
-            
+
             // Param upgrading for Elden Ring
-            if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing &&
-                ParamBank.IsDefsLoaded && ParamBank.PrimaryBank.Params != null && ParamBank.VanillaBank.Params != null &&
-                !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams &&
-                ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
+            if (ParamBank.IsDefsLoaded
+                && ParamBank.PrimaryBank.Params != null
+                && ParamBank.VanillaBank.Params != null
+                && !ParamBank.PrimaryBank.IsLoadingParams
+                && !ParamBank.VanillaBank.IsLoadingParams)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
-                if (ImGui.Button("Upgrade Params"))
+                if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing
+                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
+                    && ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
                 {
-                    var message = System.Windows.Forms.MessageBox.Show(
-                        $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                        $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                        "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                        "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                        "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                        "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                        $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
-                        "in the param editor where you can view and save them, but this operation is not undoable. " +
-                        "Would you like to continue?", "Regulation upgrade",
-                        System.Windows.Forms.MessageBoxButtons.OKCancel,
-                        System.Windows.Forms.MessageBoxIcon.Question);
-                    if (message == System.Windows.Forms.DialogResult.OK)
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                    if (ImGui.Button("Upgrade Params"))
                     {
-                        var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                        var message = System.Windows.Forms.MessageBox.Show(
+                            $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
+                            $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                            "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
+                            "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
+                            "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
+                            "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
+                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
+                            "in the param editor where you can view and save them, but this operation is not undoable. " +
+                            "Would you like to continue?", "Regulation upgrade",
+                            System.Windows.Forms.MessageBoxButtons.OKCancel,
+                            System.Windows.Forms.MessageBoxIcon.Question);
+                        if (message == System.Windows.Forms.DialogResult.OK)
                         {
-                            Filter = AssetLocator.ERRegulationFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                        };
-                            
-                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            var path = rbrowseDlg.FileName;
-                            UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            {
+                                Filter = AssetLocator.ERRegulationFilter,
+                                ValidateNames = true,
+                                CheckFileExists = true,
+                                CheckPathExists = true,
+                            };
+
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                var path = rbrowseDlg.FileName;
+                                UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                            }
                         }
                     }
+                    ImGui.PopStyleColor();
                 }
-                ImGui.PopStyleColor();
             }
         }
 
@@ -858,6 +871,13 @@ namespace StudioCore.ParamEditor
                 else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
                     ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
             }
+
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_MassEdit))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ImportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ExportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
 
             // Parse commands
             bool doFocus = false;

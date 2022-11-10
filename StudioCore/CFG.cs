@@ -41,7 +41,6 @@ namespace StudioCore
             //return $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\{FolderName}";
             return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
-
         private static void LoadConfig()
         {
             if (!File.Exists(GetConfigFilePath()))
@@ -186,13 +185,14 @@ namespace StudioCore
         public bool FontCyrillic = false;
         public float FontSizeScale = 1.0f;
 
+        // FMG Editor settings
         public bool FMG_ShowOriginalNames = false;
 
         // Param settings
         public bool Param_ShowAltNames = true;
         public bool Param_AlwaysShowOriginalName = true;
-        public bool Param_HideReferenceRows = true;
-        public bool Param_HideEnums = true;
+        public bool Param_HideReferenceRows = false;
+        public bool Param_HideEnums = false;
         public bool Param_AllowFieldReorder = true;
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;

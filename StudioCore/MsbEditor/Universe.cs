@@ -946,7 +946,20 @@ namespace StudioCore.MsbEditor
                     var entityIDProp = obj.GetProperty("EntityID");
                     if (entityIDProp != null)
                     {
-                        int entityID = (int)entityIDProp.GetValue(obj.WrappedObject);
+                        object idObj = entityIDProp.GetValue(obj.WrappedObject);
+                        if (idObj is not int entityID)
+                        {
+                            // EntityID is uint in Elden Ring. Only <2^31 is used in practice.
+                            // If really desired, a separate routine could be created.
+                            if (idObj is uint uID)
+                            {
+                                entityID = unchecked((int)uID);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                         if (entityID > 0)
                         {
                             var entryExists = entityIDList.TryGetValue(entityID, out string name);
