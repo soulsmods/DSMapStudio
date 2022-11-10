@@ -36,3 +36,4 @@ SpEffectParam:0x450
 SpEffectVFXParam:0x498
 TalkParam:0x4E0
 WhiteCoolTimeParam:0xA80
+ThrowParam:0x8

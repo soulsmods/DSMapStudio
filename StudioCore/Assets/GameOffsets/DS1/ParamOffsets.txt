@@ -33,3 +33,4 @@ SkeletonParam:0x420
 SpEffectParam:0x228
 SpEffectVFXParam:0x24c
 TalkParam:0x270
+ThrowParam:0x4

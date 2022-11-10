@@ -5,3 +5,4 @@ paramCountOffset:0xA
 paramDataOffset:0x30
 rowPointerOffset:0x4
 rowHeaderSize:0xC
+throwParamBase:0xF785C4
