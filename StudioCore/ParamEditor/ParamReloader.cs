@@ -55,14 +55,15 @@ namespace StudioCore.ParamEditor
             List<Task> tasks = new List<Task>();
             foreach (string param in paramNames)
             {
-                if (param != null && offsets.paramOffsets.ContainsKey(param))
-                {
-                    tasks.Add(new Task(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
-                }
-                else if ((offsets.type == GameType.DarkSoulsPTDE || offsets.type == GameType.DarkSoulsRemastered) && param == "ThrowParam")
+                if ((offsets.type == GameType.DarkSoulsPTDE || offsets.type == GameType.DarkSoulsRemastered) && param == "ThrowParam" && offsets.paramOffsets.ContainsKey(param))
                 {
                     tasks.Add(new Task(() => WriteMemoryThrowPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
                 }
+                else if (param != null && offsets.paramOffsets.ContainsKey(param))
+                {
+                    tasks.Add(new Task(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
+                }
+               
             }
             foreach (var task in tasks)
                 task.Start();
