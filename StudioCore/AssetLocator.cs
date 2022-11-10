@@ -1594,7 +1594,11 @@ namespace StudioCore
                     }
                     else if (Type == GameType.EldenRing)
                     {
-                        return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
+                        // Derive subfolder path from model name (all vanilla AEG are within subfolders)
+                        if (objid.Length >= 6)
+                            return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
+                        else
+                            return null;
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
