@@ -229,7 +229,6 @@ namespace StudioCore.MsbEditor
         }
         private void DummyUndummySelection(string[] sourceTypes, string[] targetTypes)
         {
-            //Incomplete. see action
             Type msbclass;
             switch (AssetLocator.Type)
             {
@@ -264,7 +263,61 @@ namespace StudioCore.MsbEditor
 
             var action = new ChangeMapObjectType(Universe, msbclass, sourceList, sourceTypes, targetTypes, "Part", true);
             EditorActionManager.ExecuteAction(action);
+        }
 
+        private void DuplicateToMapPopup()
+        {
+            if (_openPopupDupeTargetMap)
+            {
+                ImGui.OpenPopup("##DuplicateSelTargetMap");
+                _openPopupDupeTargetMap = false;
+            }
+            if (ImGui.BeginPopup("##DuplicateSelTargetMap"))
+            {
+                ImGui.Text("Duplicate Selection to Targeted Map");
+                ObjectContainer targetMap = null;
+                string name = "None";
+
+                if (_dupeSelectionTargetedMap != null)
+                {
+                    Universe.LoadedObjectContainers.TryGetValue(_dupeSelectionTargetedMap, out targetMap);
+                    if (targetMap != null)
+                    {
+                        name = targetMap.Name;
+                    }
+                    else
+                    {
+                        _dupeSelectionTargetedMap = null;
+                    }
+                }
+                if (ImGui.BeginCombo("Targeted Map", name))
+                {
+                    foreach (var obj in Universe.LoadedObjectContainers)
+                    {
+                        if (obj.Value != null)
+                        {
+                            if (ImGui.Selectable(obj.Key))
+                            {
+                                _dupeSelectionTargetedMap = obj.Key;
+                                break;
+                            }
+                        }
+                    }
+                    ImGui.EndCombo();
+                }
+                var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.BeginDisabled();
+                if (ImGui.Button("Duplicate"))
+                {
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
+                    EditorActionManager.ExecuteAction(action);
+                    ImGui.CloseCurrentPopup();
+                }
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.EndDisabled();
+                ImGui.EndPopup();
+            }
         }
 
         public override void DrawEditorMenu()
@@ -568,58 +621,6 @@ namespace StudioCore.MsbEditor
             var dsid = ImGui.GetID("DockSpace_MapEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
-            if (_openPopupDupeTargetMap)
-            {
-                ImGui.OpenPopup("DuplicateSelTargetMap");
-                _openPopupDupeTargetMap = false;
-            }
-            if (ImGui.BeginPopup("DuplicateSelTargetMap"))
-            {
-                ImGui.Text("Duplicate Selection to Targeted Map");
-                ObjectContainer targetMap = null;
-                string name = "None";
-
-                if (_dupeSelectionTargetedMap != null)
-                {
-                    Universe.LoadedObjectContainers.TryGetValue(_dupeSelectionTargetedMap, out targetMap);
-                    if (targetMap != null)
-                    {
-                        name = targetMap.Name;
-                    }
-                    else
-                    {
-                        _dupeSelectionTargetedMap = null;
-                    }
-                }
-                if (ImGui.BeginCombo("Targeted Map", name))
-                {
-                    foreach (var obj in Universe.LoadedObjectContainers)
-                    {
-                        if (obj.Value != null)
-                        {
-                            if (ImGui.Selectable(obj.Key))
-                            {
-                                _dupeSelectionTargetedMap = obj.Key;
-                                break;
-                            }
-                        }
-                    }
-                    ImGui.EndCombo();
-                }
-                var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
-                if (_dupeSelectionTargetedMap == null)
-                    ImGui.BeginDisabled();
-                if (ImGui.Button("Duplicate"))
-                {
-                    var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
-                    EditorActionManager.ExecuteAction(action);
-                    ImGui.CloseCurrentPopup();
-                }
-                if (_dupeSelectionTargetedMap == null)
-                    ImGui.EndDisabled();
-                ImGui.EndPopup();
-            }
-
             // Keyboard shortcuts
             if (!ViewportUsingKeyboard && !ImGui.IsAnyItemActive())
             {
@@ -724,6 +725,8 @@ namespace StudioCore.MsbEditor
                 }
                 CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
             }
+
+            DuplicateToMapPopup();
 
             // Parse select commands
             string[] propSearchCmd = null;
