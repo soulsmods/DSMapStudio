@@ -13,12 +13,15 @@ using System.Text;
 using FSParam;
 using StudioCore.Editor;
 
-namespace StudioCore.ParamEditor {
-    class ParamReloader {
+namespace StudioCore.ParamEditor
+{
+    class ParamReloader
+    {
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
-        public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings) {
+        public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings)
+        {
             if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing
                 || projectSettings.GameType == GameType.DarkSoulsPTDE || projectSettings.GameType == GameType.DarkSoulsRemastered) && bank.IsLoadingParams == false)
                 return true;
@@ -26,8 +29,10 @@ namespace StudioCore.ParamEditor {
             return false;
         }
 
-        public static void ReloadMemoryParams(ParamBank bank, AssetLocator loc, string[] paramNames) {
-            TaskManager.Run("PB:LiveParams", true, true, true, () => {
+        public static void ReloadMemoryParams(ParamBank bank, AssetLocator loc, string[] paramNames)
+        {
+            TaskManager.Run("PB:LiveParams", true, true, true, () =>
+            {
                 GameOffsets offsets = GetGameOffsets(loc);
                 var processArray = Process.GetProcessesByName(offsets.exeName);
                 if (!processArray.Any())
@@ -38,15 +43,19 @@ namespace StudioCore.ParamEditor {
                     ReloadMemoryParamsThreads(bank, offsets, paramNames, memoryHandler);
                     memoryHandler.Terminate();
                 }
-                else {
+                else
+                {
                     throw new Exception("Unable to find running game");
                 }
             });
         }
-        private static void ReloadMemoryParamsThreads(ParamBank bank, GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler) {
+        private static void ReloadMemoryParamsThreads(ParamBank bank, GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
+        {
             List<Thread> threads = new List<Thread>();
-            foreach (string param in paramNames) {
-                if (param != null && offsets.paramOffsets.ContainsKey(param)) {
+            foreach (string param in paramNames)
+            {
+                if (param != null && offsets.paramOffsets.ContainsKey(param))
+                {
                     threads.Add(new Thread(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
                 }
             }
@@ -124,7 +133,8 @@ namespace StudioCore.ParamEditor {
             {
                 memoryHandler.ReadProcessMemory(BaseDataPtr, ref RowId);
                 memoryHandler.ReadProcessMemory(BaseDataPtr + offsets.rowPointerOffset, ref rowPtr);
-                if (RowId < 0 || rowPtr < 0) {
+                if (RowId < 0 || rowPtr < 0)
+                {
                     BaseDataPtr += offsets.rowHeaderSize;
                     continue;
                 }
@@ -394,14 +404,16 @@ namespace StudioCore.ParamEditor {
         internal bool Is64Bit;
         internal GameType type;
 
-        internal GameOffsets(GameType type, AssetLocator loc) {
+        internal GameOffsets(GameType type, AssetLocator loc)
+        {
             string dir = loc.GetGameOffsetsAssetsDir();
             Dictionary<string, string> basicData = getOffsetFile(dir + "/CoreOffsets.txt");
             exeName = basicData["exeName"];
             paramBase = int.Parse(basicData["paramBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
             string[] innerpath = basicData["paramInnerPath"].Split("/");
             paramInnerPath = new int[innerpath.Length];
-            for (int i = 0; i < innerpath.Length; i++) {
+            for (int i = 0; i < innerpath.Length; i++)
+            {
                 paramInnerPath[i] = int.Parse(innerpath[i].Substring(2), System.Globalization.NumberStyles.HexNumber);
             }
             paramCountOffset = int.Parse(basicData["paramCountOffset"].Substring(2), System.Globalization.NumberStyles.HexNumber);
@@ -437,7 +449,8 @@ namespace StudioCore.ParamEditor {
             return values;
         }
 
-        internal GameOffsets(string exe, int pbase, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff, int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs) {
+        internal GameOffsets(string exe, int pbase, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff, int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs)
+        {
             exeName = exe;
             paramBase = pbase;
             paramInnerPath = path;
@@ -479,13 +492,15 @@ namespace StudioCore.ParamEditor {
             return NativeWrapper.WriteProcessMemoryArray(memoryHandle, baseAddress, buffer);
         }
 
-        internal IntPtr GetParamPtr(GameOffsets offsets, int pOffset) {
+        internal IntPtr GetParamPtr(GameOffsets offsets, int pOffset)
+        {
             if (offsets.Is64Bit)
                 return GetParamPtr64Bit(offsets, pOffset);
 
             return GetParamPtr32Bit(offsets, pOffset);
         }
-        private IntPtr GetParamPtr64Bit(GameOffsets offsets, int pOffset) {
+        private IntPtr GetParamPtr64Bit(GameOffsets offsets, int pOffset)
+        {
 
             IntPtr ParamPtr = IntPtr.Add(gameProcess.MainModule.BaseAddress, offsets.paramBase);
             NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr, ref ParamPtr);
@@ -500,12 +515,14 @@ namespace StudioCore.ParamEditor {
             return ParamPtr;
         }
 
-        private IntPtr GetParamPtr32Bit(GameOffsets offsets, int pOffset) {
+        private IntPtr GetParamPtr32Bit(GameOffsets offsets, int pOffset)
+        {
             int ParamPtr = (int)IntPtr.Add(gameProcess.MainModule.BaseAddress, offsets.paramBase);
             NativeWrapper.ReadProcessMemory(memoryHandle, (IntPtr)ParamPtr, ref ParamPtr);
             ParamPtr = ParamPtr + pOffset;
             NativeWrapper.ReadProcessMemory(memoryHandle, (IntPtr)ParamPtr, ref ParamPtr);
-            foreach (int innerPathPart in offsets.paramInnerPath) {
+            foreach (int innerPathPart in offsets.paramInnerPath)
+            {
                 ParamPtr = ParamPtr + innerPathPart;
                 NativeWrapper.ReadProcessMemory(memoryHandle, (IntPtr)ParamPtr, ref ParamPtr);
             }
@@ -513,29 +530,34 @@ namespace StudioCore.ParamEditor {
             return (IntPtr)ParamPtr;
         }
 
-        internal int GetRowCount(GameOffsets gOffsets, int pOffset) {
+        internal int GetRowCount(GameOffsets gOffsets, int pOffset)
+        {
             IntPtr ParamPtr = GetParamPtr(gOffsets, pOffset);
-    
+
             if (gOffsets.type >= GameType.DarkSoulsIII)
                 return GetRowCountInt(gOffsets, ParamPtr);
 
-            return GetRowCountShort(gOffsets, ParamPtr);;
+            return GetRowCountShort(gOffsets, ParamPtr);
+            ;
         }
-        private int GetRowCountInt(GameOffsets gOffsets, IntPtr ParamPtr) {
+        private int GetRowCountInt(GameOffsets gOffsets, IntPtr ParamPtr)
+        {
 
             Int32 buffer = 0;
             NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + gOffsets.paramCountOffset, ref buffer);
             return buffer;
         }
-        
-        private int GetRowCountShort(GameOffsets gOffsets, IntPtr ParamPtr) {
+
+        private int GetRowCountShort(GameOffsets gOffsets, IntPtr ParamPtr)
+        {
 
             Int16 buffer = 0;
             NativeWrapper.ReadProcessMemory(memoryHandle, ParamPtr + gOffsets.paramCountOffset, ref buffer);
             return buffer;
         }
 
-        internal IntPtr GetToRowPtr(GameOffsets gOffsets, int pOffset) {
+        internal IntPtr GetToRowPtr(GameOffsets gOffsets, int pOffset)
+        {
             var ParamPtr = GetParamPtr(gOffsets, pOffset);
             ParamPtr = IntPtr.Add(ParamPtr, gOffsets.paramDataOffset);
 
@@ -616,10 +638,12 @@ namespace StudioCore.ParamEditor {
 
             ExecuteBufferFunction(buffer, chrNameBytes);
         }
-        internal void PlayerItemGive(GameOffsets offsets, List<Param.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0) {
+        internal void PlayerItemGive(GameOffsets offsets, List<Param.Row> rows, string paramDefParamType, int itemQuantityReceived = 1, int itemDurabilityReceived = -1, int upgradeLevelItemToGive = 0)
+        {
             //Thanks Church Guard for providing the foundation of this.
             //Only supports ds3 as of now
-            if (offsets.itemGibOffsets.ContainsKey(paramDefParamType) && rows.Any()) {
+            if (offsets.itemGibOffsets.ContainsKey(paramDefParamType) && rows.Any())
+            {
                 int paramOffset = offsets.itemGibOffsets[paramDefParamType];
 
                 List<int> intListProcessing = new List<int>();
@@ -640,7 +664,8 @@ namespace StudioCore.ParamEditor {
                 }
 
                 //ItemGib ASM in byte format
-                var itemGibByteFunctionDS3 = new byte[] {
+                var itemGibByteFunctionDS3 = new byte[]
+                {
                     0x48, 0x83, 0xEC, 0x48, 0x4C, 0x8D, 0x01, 0x48, 0x8D, 0x51, 0x10, 0x48, 0xA1, 0x00, 0x23, 0x75, 0x44, 0x01, 0x00, 0x00, 0x00, 0x48, 0x8B, 0xC8, 0xFF, 0x15, 0x02, 0x00, 0x00, 0x00, 0xEB, 0x08,
                     0x70, 0xBA, 0x7B, 0x40, 0x01, 0x00, 0x00, 0x00, 0x48, 0x83, 0xC4, 0x48, 0xC3
                 };
