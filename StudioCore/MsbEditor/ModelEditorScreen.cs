@@ -188,7 +188,7 @@ namespace StudioCore.MsbEditor
                 }
 
                 // Use home key to cycle between gizmos origin modes
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleOrigin))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
                     {
