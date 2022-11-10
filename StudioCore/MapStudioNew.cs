@@ -1,5 +1,4 @@
-﻿using Google.Protobuf;
-using ImGuiNET;
+﻿using ImGuiNET;
 using StudioCore.Editor;
 using StudioCore.Scene;
 using System;
