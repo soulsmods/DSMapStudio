@@ -265,6 +265,15 @@ namespace StudioCore.ParamEditor
             EditorActionManager.Clear();
         }
 
+        private void ParamUndo()
+        {
+            EditorActionManager.UndoAction();
+        }
+        private void ParamRedo()
+        {
+            EditorActionManager.RedoAction();
+        }
+
         public override void DrawEditorMenu()
         {
             // Menu Options
@@ -272,11 +281,11 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
-                    EditorActionManager.UndoAction();
+                    ParamUndo();
                 }
                 if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
-                    EditorActionManager.RedoAction();
+                    ParamRedo();
                 }
                 if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
@@ -815,13 +824,11 @@ namespace StudioCore.ParamEditor
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
                 {
-                    EditorActionManager.UndoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                    ParamUndo();
                 }
                 if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
-                    EditorActionManager.RedoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                    ParamRedo();
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {

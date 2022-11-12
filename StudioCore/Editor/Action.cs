@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using FSParam;
 using StudioCore.TextEditor;
+using StudioCore.ParamEditor;
 
 namespace StudioCore.Editor
 {
@@ -173,11 +174,11 @@ namespace StudioCore.Editor
                 }
                 else
                 {
-                    if (Param[(int) row.ID] != null)
+                    if (Param[(int)row.ID] != null)
                     {
                         if (replParams)
                         {
-                            Param.Row existing = Param[(int) row.ID];
+                            Param.Row existing = Param[(int)row.ID];
                             RemovedIndex.Add(Param.IndexOfRow(existing));
                             Removed.Add(existing);
                             Param.RemoveRow(existing);
@@ -191,10 +192,10 @@ namespace StudioCore.Editor
                                 newID++;
                             }
                             newrow.ID = newID;
-                            Param.InsertRow(Param.IndexOfRow(Param[(int) newID - 1]) + 1, newrow);
+                            Param.InsertRow(Param.IndexOfRow(Param[(int)newID - 1]) + 1, newrow);
                         }
                     }
-                    if (Param[(int) row.ID] == null)
+                    if (Param[(int)row.ID] == null)
                     {
                         newrow.Name = row.Name != null ? row.Name : "";
                         if (appOnly)
@@ -216,6 +217,9 @@ namespace StudioCore.Editor
                 }
                 Clones.Add(newrow);
             }
+
+            // Refresh diff cache
+            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
             return ActionEvent.NoEvent;
         }
 
@@ -271,8 +275,11 @@ namespace StudioCore.Editor
             }
             if (SetSelection)
             {
-                
+
             }
+
+            // Refresh diff cache
+            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
             return ActionEvent.NoEvent;
         }
     }
