@@ -41,6 +41,10 @@ namespace StudioCore.ParamEditor
                 if (processArray.Any())
                 {
                     SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
+                    if (offsets.type == GameType.DarkSoulsPTDE)
+                    {
+                        offsets = GetCorrectPTDEOffsets(offsets, memoryHandler);
+                    }
                     ReloadMemoryParamsThreads(bank, offsets, paramNames, memoryHandler);
                     memoryHandler.Terminate();
                 }
@@ -49,6 +53,22 @@ namespace StudioCore.ParamEditor
                     throw new Exception("Unable to find running game");
                 }
             });
+        }
+        private static GameOffsets GetCorrectPTDEOffsets(GameOffsets offsets, SoulsMemoryHandler memoryHandler)
+        {
+            int version = 0;
+            memoryHandler.ReadProcessMemory(memoryHandler.GetBaseAddress() + 0x3C, ref version);
+            if (version == 0x120)
+            {
+                offsets.paramBase = int.Parse(offsets.coreOffsets["paramBaseDebug"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+                offsets.throwParamBase = int.Parse(offsets.coreOffsets["throwParamBaseDebug"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+                return offsets;
+            }
+            
+            offsets.paramBase = int.Parse(offsets.coreOffsets["paramBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+            offsets.throwParamBase = int.Parse(offsets.coreOffsets["throwParamBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+
+            return offsets;
         }
         private static void ReloadMemoryParamsThreads(ParamBank bank, GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)
         {
@@ -63,7 +83,7 @@ namespace StudioCore.ParamEditor
                 {
                     tasks.Add(new Task(() => WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
                 }
-               
+
             }
             foreach (var task in tasks)
                 task.Start();
@@ -422,6 +442,7 @@ namespace StudioCore.ParamEditor
         internal Dictionary<string, int> itemGibOffsets;
         internal bool Is64Bit;
         internal GameType type;
+        internal Dictionary<string, string> coreOffsets;
 
         internal GameOffsets(GameType type, AssetLocator loc)
         {
@@ -446,6 +467,8 @@ namespace StudioCore.ParamEditor
 
             if (type == GameType.DarkSoulsPTDE || type == GameType.DarkSoulsRemastered)
                 throwParamBase = int.Parse(basicData["throwParamBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
+
+            coreOffsets = basicData;
         }
 
         private static Dictionary<string, int> getOffsetsIntFile(string dir)
