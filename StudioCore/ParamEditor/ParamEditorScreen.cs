@@ -109,7 +109,6 @@ namespace StudioCore.ParamEditor
         private string _clipboardParam = null;
         private List<Param.Row> _clipboardRows = new List<Param.Row>();
         private long _clipboardBaseRow = 0;
-        private bool _ctrlVuseIndex = false;
         private string _currentCtrlVValue = "0";
         private string _currentCtrlVOffset = "0";
 
@@ -1018,11 +1017,11 @@ namespace StudioCore.ParamEditor
                 try
                 {
                     long offset = 0;
-                    ImGui.Checkbox("Paste after selection", ref _ctrlVuseIndex);
+                    ImGui.Checkbox("Paste after selection", ref CFG.Current.Param_PasteAfterSelection);
                     var insertIndex = -1;
-                    if (_ctrlVuseIndex)
+                    if (CFG.Current.Param_PasteAfterSelection)
                     {
-                        ImGui.Text("Note: You may produce out-of-order or duplicate rows. These may confuse later ID-based row additions.");
+                        //ImGui.Text("Note: Allows out-of-order rows, which may confuse later ID-based row additions.");
                     }
                     else
                     {
@@ -1042,10 +1041,10 @@ namespace StudioCore.ParamEditor
                         offset = long.Parse(_currentCtrlVValue);
                         offset = long.Parse(_currentCtrlVOffset);
                     }
-                    if (ImGui.Selectable("Submit"))
+                    if (ImGui.Button("Submit"))
                     {
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
-                        if (!_ctrlVuseIndex)
+                        if (!CFG.Current.Param_PasteAfterSelection)
                         {
                             foreach (Param.Row r in _clipboardRows)
                             {
