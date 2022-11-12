@@ -721,7 +721,7 @@ namespace StudioCore.ParamEditor
                 Param.Row newrow = new(r);
                 rowsToInsert.Add(newrow);
             }
-            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false, false));
+            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false));
         }
 
         public void OpenMassEditPopup(string popup)
@@ -1017,18 +1017,12 @@ namespace StudioCore.ParamEditor
                 _isShortcutPopupOpen = true;
                 try
                 {
-                    int max = -1;
                     long offset = 0;
                     ImGui.Checkbox("Paste after selection", ref _ctrlVuseIndex);
+                    var insertIndex = -1;
                     if (_ctrlVuseIndex)
                     {
                         ImGui.Text("Note: You may produce out-of-order or duplicate rows. These may confuse later ID-based row additions.");
-                        List<Param.Row> rows = _activeView._selection.getSelectedRows();
-                        Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
-                        foreach (Param.Row r in rows)
-                        {
-                            max = param.IndexOfRow(r) > max ? param.IndexOfRow(r) : max;
-                        }
                     }
                     else
                     {
@@ -1048,21 +1042,39 @@ namespace StudioCore.ParamEditor
                         offset = long.Parse(_currentCtrlVValue);
                         offset = long.Parse(_currentCtrlVOffset);
                     }
-                    int index = 1;
                     if (ImGui.Selectable("Submit"))
                     {
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
-                        foreach (Param.Row r in _clipboardRows)
+                        if (!_ctrlVuseIndex)
                         {
-                            Param.Row newrow = new Param.Row(r);// more cloning
-                            if (_ctrlVuseIndex)
-                                newrow.ID = (int) (max+index);
-                            else
-                                newrow.ID = (int) (r.ID + offset);
-                            rowsToInsert.Add(newrow);
-                            index++;
+                            foreach (Param.Row r in _clipboardRows)
+                            {
+                                Param.Row newrow = new Param.Row(r);// more cloning
+                                newrow.ID = (int)(r.ID + offset);
+                                rowsToInsert.Add(newrow);
+                            }
                         }
-                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, _ctrlVuseIndex));
+                        else
+                        {
+                            List<Param.Row> rows = _activeView._selection.getSelectedRows();
+                            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
+                            insertIndex = param.IndexOfRow(rows.Last()) + 1;
+                            foreach (Param.Row r in _clipboardRows)
+                            {
+                                // Determine new ID based on paste target. Increment ID until a free ID is found.
+                                Param.Row newrow = new Param.Row(r);
+                                newrow.ID = _activeView._selection.getSelectedRows().Last().ID;
+                                do
+                                {
+                                    newrow.ID++;
+                                }
+                                while (ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()][newrow.ID] != null || rowsToInsert.Exists(e => e.ID == newrow.ID));
+                                rowsToInsert.Add(newrow);
+                            }
+                            // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
+                            rowsToInsert.Reverse();
+                        }
+                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
                     }
                 }
                 catch

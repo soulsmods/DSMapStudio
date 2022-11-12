@@ -402,7 +402,7 @@ namespace StudioCore.ParamEditor
                 }
                 changeCount = actions.Count;
                 addedCount = addedParams.Count;
-                actions.Add(new AddParamsAction(p, "legacystring", addedParams, appendOnly, replaceParams, false));
+                actions.Add(new AddParamsAction(p, "legacystring", addedParams, appendOnly, replaceParams));
                 if (changeCount != 0 || addedCount != 0)
                     actionManager.ExecuteAction(new CompoundAction(actions));
                 return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} rows added");
@@ -486,7 +486,7 @@ namespace StudioCore.ParamEditor
             Param param = bank.Params[paramName];
             List<Param.Row> newRows = new List<Param.Row>(param.Rows);
             newRows.Sort((Param.Row a, Param.Row b)=>{return a.ID - b.ID;});
-            return new AddParamsAction(param, paramName, newRows, true, true, false); //appending same params and allowing overwrite
+            return new AddParamsAction(param, paramName, newRows, true, true); //appending same params and allowing overwrite
         }
     }
 
