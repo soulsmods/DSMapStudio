@@ -273,16 +273,6 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public byte LodParamID { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte UnkE0E { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
             public byte IsShadowSrc { get; set; }
 
             /// <summary>
@@ -294,6 +284,16 @@ namespace SoulsFormats
             /// Unknown.
             /// </summary>
             public byte IsShadowOnly { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public byte UnkE10 { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public byte UnkE11 { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -394,11 +394,11 @@ namespace SoulsFormats
                 ToneMapID = br.ReadByte();
                 ToneCorrectID = br.ReadByte();
                 LanternID = br.ReadByte();
-                LodParamID = br.ReadByte();
-                UnkE0E = br.ReadByte();
                 IsShadowSrc = br.ReadByte();
                 IsShadowDest = br.ReadByte();
                 IsShadowOnly = br.ReadByte();
+                UnkE10 = br.ReadByte();
+                UnkE11 = br.ReadByte();
                 DrawByReflectCam = br.ReadByte();
                 DrawOnlyReflectCam = br.ReadByte();
                 UseDepthBiasFloat = br.ReadByte();
@@ -456,11 +456,11 @@ namespace SoulsFormats
                 bw.WriteByte(ToneMapID);
                 bw.WriteByte(ToneCorrectID);
                 bw.WriteByte(LanternID);
-                bw.WriteByte(LodParamID);
-                bw.WriteByte(UnkE0E);
                 bw.WriteByte(IsShadowSrc);
                 bw.WriteByte(IsShadowDest);
                 bw.WriteByte(IsShadowOnly);
+                bw.WriteByte(UnkE10);
+                bw.WriteByte(UnkE11);
                 bw.WriteByte(DrawByReflectCam);
                 bw.WriteByte(DrawOnlyReflectCam);
                 bw.WriteByte(UseDepthBiasFloat);

@@ -386,7 +386,7 @@ namespace StudioCore.ParamEditor
                         row = new Param.Row(id, name, p);
                         addedParams.Add(row);
                     }
-                    if (row.Name != null && !row.Name.Equals(name))
+                    if (!name.Equals(row.Name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
                     foreach (Param.Column col in row.Cells)
@@ -452,7 +452,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (field.Equals("Name"))
                     {
-                        if (row.Name != null && !row.Name.Equals(value))
+                        if (!value.Equals(row.Name))
                             actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }
                     else
@@ -556,10 +556,10 @@ namespace StudioCore.ParamEditor
                 };
             }));
             argumentGetters.Add("vanillafield", (1, (param, field) => {
-                string paramName = ParamBank.VanillaBank.GetKeyForParam(param);
-                if (paramName == null)
+                var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
+                if (vParam == null)
                     throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                Param vParam = ParamBank.VanillaBank.Params[paramName];
                 Param.Column? col = vParam?[field[0]];
                 if (col == null)
                     throw new Exception($@"Could not locate field {field[0]}");

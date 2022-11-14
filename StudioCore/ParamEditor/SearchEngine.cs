@@ -168,6 +168,18 @@ namespace StudioCore.Editor
                     return (row)=>!cache.Contains(row.ID);
                 }
             )));
+            filterList.Add("added", (0, noArgs((context)=>{
+                    string paramName = bank.GetKeyForParam(context);
+                    Param vanilParam = ParamBank.VanillaBank.Params[paramName];
+                    return (row)=>vanilParam[row.ID] == null;
+                }
+            )));
+            filterList.Add("notadded", (0, noArgs((context)=>{
+                    string paramName = bank.GetKeyForParam(context);
+                    Param vanilParam = ParamBank.VanillaBank.Params[paramName];
+                    return (row)=>vanilParam[row.ID] != null;
+                }
+            )));
             filterList.Add("mergeable", (0, noArgs((context)=>{
                 string paramName = bank.GetKeyForParam(context);
                 HashSet<int> cache = bank.VanillaDiffCache[paramName];
@@ -256,7 +268,7 @@ namespace StudioCore.Editor
                     }
                     if (category == FMGBank.FmgEntryCategory.None)
                         throw new Exception();
-                    var fmgEntries = FMGBank.GetFmgEntriesByType(category, FMGBank.FmgEntryTextType.Title, false);
+                    var fmgEntries = FMGBank.GetFmgEntriesByCategory(category, false);
                     Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();
                     foreach (var fmgEntry in fmgEntries)
                     {

@@ -306,9 +306,9 @@ namespace SoulsFormats
             public byte[] UnkC0 { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Distance required for a light to transition into view. 0 = always enabled.
             /// </summary>
-            public float UnkC4 { get; set; }
+            public float EnableDist { get; set; }
 
             /// <summary>
             /// Unknown; not present before Sekiro.
@@ -435,7 +435,7 @@ namespace SoulsFormats
                 Width = br.ReadSingle();
                 UnkBC = br.ReadSingle();
                 UnkC0 = br.ReadBytes(4);
-                UnkC4 = br.ReadSingle();
+                EnableDist = br.ReadSingle();
 
                 if (version >= 16)
                 {
@@ -494,7 +494,7 @@ namespace SoulsFormats
                 bw.WriteSingle(Width);
                 bw.WriteSingle(UnkBC);
                 bw.WriteBytes(UnkC0);
-                bw.WriteSingle(UnkC4);
+                bw.WriteSingle(EnableDist);
 
                 if (version >= 16)
                 {

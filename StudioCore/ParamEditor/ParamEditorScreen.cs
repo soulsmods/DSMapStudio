@@ -56,7 +56,7 @@ namespace StudioCore.ParamEditor
         {
             if (_entryCache.Count == 0 && FMGBank.IsLoaded)
             {
-                var fmgEntries = FMGBank.GetFmgEntriesByType(_category, FMGBank.FmgEntryTextType.Title, false);
+                var fmgEntries = FMGBank.GetFmgEntriesByCategory(_category, false);
                 foreach (var fmgEntry in fmgEntries)
                 {
                     _entryCache[fmgEntry.ID] = fmgEntry;
@@ -150,10 +150,20 @@ namespace StudioCore.ParamEditor
             _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Weapons));
             _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Gem));
             _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.SwordArts));
+            //_decorators.Add("CharacterText", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Characters)); // TODO: Decorators need to be updated to support text references.
         }
-        
+
+        /// <summary>
+        /// Any version numbers <= this will be allowed to upgrade.
+        /// Used to restrict upgrading before DSMS properly supports it.
+        /// </summary>
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 10799999L;
+
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
+            var oldVersion = bank.ParamVersion;
+            var newVersion = vanillaBank.ParamVersion;
+
             var conflicts = new Dictionary<string, HashSet<int>>();
             var result = bank.UpgradeRegulation(vanillaBank, oldRegulation, conflicts);
 
@@ -224,6 +234,28 @@ namespace StudioCore.ParamEditor
 
             if (result == ParamBank.ParamUpgradeResult.Success)
             {
+                var msgUpgradeEdits = System.Windows.Forms.MessageBox.Show(
+                    $@"MapStudio can automatically perform several edits to keep your params consistent with updates to vanilla params. " +
+                    "Would you like to perform these edits?", "Regulation upgrade edits",
+                    System.Windows.Forms.MessageBoxButtons.YesNo,
+                    System.Windows.Forms.MessageBoxIcon.Question);
+                if (msgUpgradeEdits == System.Windows.Forms.DialogResult.Yes)
+                {
+                    var (success, fail) = bank.RunUpgradeEdits(oldVersion, newVersion);
+                    if (success.Count > 0 || fail.Count > 0)
+                        System.Windows.Forms.MessageBox.Show(
+                            (success.Count > 0 ? "Successfully performed the following edits:\n" + String.Join('\n', success) : "") +
+                            (success.Count > 0 && fail.Count > 0 ? "\n" : "") + 
+                            (fail.Count > 0 ? "Unable to perform the following edits:\n" + String.Join('\n', fail) : ""),
+                            "Regulation upgrade edits",
+                            System.Windows.Forms.MessageBoxButtons.OK,
+                            System.Windows.Forms.MessageBoxIcon.Information
+                        );
+                    CacheBank.ClearCaches();
+                    bank.RefreshParamDiffCaches();
+                }
+
+
                 var msgRes = System.Windows.Forms.MessageBox.Show(
                     "Upgrade successful",
                     "Success",
@@ -239,28 +271,28 @@ namespace StudioCore.ParamEditor
             // Menu Options
             if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
-                if (ImGui.MenuItem("Copy", "Ctrl+C", false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     CopySelectionToClipboard();
                 }
-                if (ImGui.MenuItem("Paste", "Ctrl+V", false, _clipboardRows.Any()))
+                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.HintText, false, _clipboardRows.Any()))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     DuplicateSelection();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Mass Edit"))
+                if (ImGui.MenuItem($"Mass Edit", KeyBindings.Current.Param_MassEdit.HintText))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                 }
@@ -268,7 +300,7 @@ namespace StudioCore.ParamEditor
                 {
                     DelimiterInputText();
 
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ExportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVExport/Name");
@@ -333,7 +365,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
                 {
                     DelimiterInputText();
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ImportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
@@ -375,7 +407,7 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name",  CFG.Current.Param_Export_Delimiter[0], false);
+                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
                                 if (r.Type == MassEditResultType.SUCCESS && a != null)
                                     EditorActionManager.ExecuteAction(a);
                                 else
@@ -416,7 +448,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
                 }
-                if (ImGui.MenuItem("Load Default Row Names", "", false, ParamBank.PrimaryBank.Params != null))
+                if (ImGui.MenuItem("Import Row Names", "", false, ParamBank.PrimaryBank.Params != null))
                 {
                     try {
                         EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames());
@@ -491,11 +523,11 @@ namespace StudioCore.ParamEditor
 
                     bool canHotReload = ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
 
-                    if (ImGui.MenuItem("Current Param", "F5", false, canHotReload))
+                    if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false, canHotReload))
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[]{_activeView._selection.getActiveParam()});
+                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
                     }
-                    if (ImGui.MenuItem("All Params", "Shift+F5", false, canHotReload))
+                    if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false, canHotReload))
                     {
                         ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, ParamBank.PrimaryBank.Params.Keys.ToArray());
                     }
@@ -503,7 +535,7 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem(param, "", false, canHotReload))
                         {
-                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[]{param});
+                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { param });
                         }
                     }
                     ImGui.EndMenu();
@@ -543,7 +575,7 @@ namespace StudioCore.ParamEditor
                     catch (Exception e)
                     {
                         System.Windows.Forms.MessageBox.Show(
-                        $@"Unable to load regulation.\n"+e.Message, 
+                        $@"Unable to load regulation.\n" + e.Message,
                         "Loading error",
                         System.Windows.Forms.MessageBoxButtons.OK,
                         System.Windows.Forms.MessageBoxIcon.Error);
@@ -598,46 +630,52 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
-            
+
             // Param upgrading for Elden Ring
-            if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing &&
-                ParamBank.IsDefsLoaded && ParamBank.PrimaryBank.Params != null && ParamBank.VanillaBank.Params != null &&
-                !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams &&
-                ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
+            if (ParamBank.IsDefsLoaded
+                && ParamBank.PrimaryBank.Params != null
+                && ParamBank.VanillaBank.Params != null
+                && !ParamBank.PrimaryBank.IsLoadingParams
+                && !ParamBank.VanillaBank.IsLoadingParams)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
-                if (ImGui.Button("Upgrade Params"))
+                if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing
+                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
+                    && ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
                 {
-                    var message = System.Windows.Forms.MessageBox.Show(
-                        $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                        $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                        "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                        "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                        "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                        "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                        $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
-                        "in the param editor where you can view and save them, but this operation is not undoable. " +
-                        "Would you like to continue?", "Regulation upgrade",
-                        System.Windows.Forms.MessageBoxButtons.OKCancel,
-                        System.Windows.Forms.MessageBoxIcon.Question);
-                    if (message == System.Windows.Forms.DialogResult.OK)
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                    if (ImGui.Button("Upgrade Params"))
                     {
-                        var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                        var message = System.Windows.Forms.MessageBox.Show(
+                            $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
+                            $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                            "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
+                            "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
+                            "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
+                            "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
+                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
+                            "in the param editor where you can view and save them, but this operation is not undoable. " +
+                            "Would you like to continue?", "Regulation upgrade",
+                            System.Windows.Forms.MessageBoxButtons.OKCancel,
+                            System.Windows.Forms.MessageBoxIcon.Question);
+                        if (message == System.Windows.Forms.DialogResult.OK)
                         {
-                            Filter = AssetLocator.ERRegulationFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                        };
-                            
-                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            var path = rbrowseDlg.FileName;
-                            UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            {
+                                Filter = AssetLocator.ERRegulationFilter,
+                                ValidateNames = true,
+                                CheckFileExists = true,
+                                CheckPathExists = true,
+                            };
+
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                var path = rbrowseDlg.FileName;
+                                UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                            }
                         }
                     }
+                    ImGui.PopStyleColor();
                 }
-                ImGui.PopStyleColor();
             }
         }
 
@@ -776,36 +814,36 @@ namespace StudioCore.ParamEditor
             if (!_isMEditPopupOpen && !_isShortcutPopupOpen && !_isSearchBarActive)// Are shortcuts active? Presently just checks for massEdit popup.
             {
                 // Keyboard shortcuts
-                if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+                if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
                 {
                     EditorActionManager.UndoAction();
                     TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                 }
-                if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+                if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
                     EditorActionManager.RedoAction();
                     TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetControlShortcut(Key.A))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
                     _clipboardParam = _activeView._selection.getActiveParam();
                     foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true)))
 
                         _activeView._selection.addRowToSelection(row);
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.C))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Copy))
                 {
                     CopySelectionToClipboard();
                 }
-                if (_clipboardRows.Count > 00 && _clipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetControlShortcut(Key.V))
+                if (_clipboardRows.Count > 00 && _clipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetControlShortcut(Key.D))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate))
                 {
                     DuplicateSelection();
                 }
-                if (!ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(Key.Delete))
+                if (!ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete))
                 {
                     if (_activeView._selection.rowSelectionExists())
                     {
@@ -826,13 +864,20 @@ namespace StudioCore.ParamEditor
             }
 
             //Hot Reload shortcut keys
-            if (InputTracker.GetKey(Key.F5) && ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings))
+            if (ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings))
             {
-                if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReloadAll))
                     ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, ParamBank.PrimaryBank.Params.Keys.ToArray());
-                else
+                else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
                     ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
             }
+
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_MassEdit))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ImportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ExportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
 
             // Parse commands
             bool doFocus = false;
@@ -1284,9 +1329,9 @@ namespace StudioCore.ParamEditor
         {
             ImGui.Columns(3);
             ImGui.BeginChild("params");
-            if (isActiveView && InputTracker.GetControlShortcut(Key.P))
+            if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
-            ImGui.InputText("Search <Ctrl+P>", ref _selection.currentParamSearchString, 256);
+            ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
             if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
                 CacheBank.ClearCaches();
@@ -1368,7 +1413,7 @@ namespace StudioCore.ParamEditor
                 scrollTo = 0;
 
                 //Goto ID
-                if (ImGui.Button("Goto ID <Ctrl+G>") || (isActiveView && InputTracker.GetControlShortcut(Key.G)))
+                if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRow.HintText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRow)))
                 {
                     ImGui.OpenPopup("gotoParamRow");
                 }
@@ -1386,10 +1431,10 @@ namespace StudioCore.ParamEditor
                 }
 
                 //Row ID/name search
-                if (isActiveView && InputTracker.GetControlShortcut(Key.F))
+                if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
                     ImGui.SetKeyboardFocusHere();
 
-                ImGui.InputText("Search <Ctrl+F>", ref _selection.getCurrentRowSearchString(), 256);
+                ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
                 if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
                 {
                     CacheBank.ClearCaches();

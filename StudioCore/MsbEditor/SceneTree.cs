@@ -189,6 +189,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
         unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
             // Main selectable
@@ -227,7 +228,8 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                if (ImGui.Selectable(padding + e.PrettyName, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+                _mapEnt_ImGuiID++;
+                if (ImGui.Selectable(padding + e.PrettyName+"##"+ _mapEnt_ImGuiID, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
                 {
                     // If double clicked frame the selection in the viewport
                     if (ImGui.IsMouseDoubleClicked(0))
@@ -255,7 +257,7 @@ namespace StudioCore.MsbEditor
 
             // Up/Down arrow mass selection
             bool arrowKeySelect = false;
-            if (ImGui.IsItemFocused() && !_selection.IsSelected(e) 
+            if (ImGui.IsItemFocused()
                 && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
             {
                 doSelect = true;
@@ -514,6 +516,26 @@ namespace StudioCore.MsbEditor
                                     {
                                         if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ExtraSaveInfo}", ImGuiTreeNodeFlags.OpenOnArrow))
                                         {
+                                            ImGui.SetItemAllowOverlap();
+                                            bool visible = btlFile.EditorVisible;
+                                            ImGui.SameLine(ImGui.GetContentRegionAvail().X - 18.0f);
+                                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                                            ImGui.PopStyleColor();
+                                            if (ImGui.IsItemClicked(0))
+                                            {
+                                                // Hide/Unhide all lights within this BTL.
+                                                btlFile.EditorVisible = !btlFile.EditorVisible;
+                                                foreach (var obj in typ.Value)
+                                                {
+                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                    {
+                                                        obj.EditorVisible = btlFile.EditorVisible;
+                                                    }
+                                                }
+                                            }
+
                                             foreach (var obj in typ.Value)
                                             {
                                                 if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
@@ -522,6 +544,28 @@ namespace StudioCore.MsbEditor
                                                 }
                                             }
                                             ImGui.TreePop();
+                                        }
+                                        else
+                                        {
+                                            ImGui.SetItemAllowOverlap();
+                                            bool visible = btlFile.EditorVisible;
+                                            ImGui.SameLine(ImGui.GetContentRegionAvail().X - 39.0f);
+                                            ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                                                : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                                            ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
+                                            ImGui.PopStyleColor();
+                                            if (ImGui.IsItemClicked(0))
+                                            {
+                                                // Hide/Unhide all lights within this BTL.
+                                                btlFile.EditorVisible = !btlFile.EditorVisible;
+                                                foreach (var obj in typ.Value)
+                                                {
+                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
+                                                    {
+                                                        obj.EditorVisible = btlFile.EditorVisible;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -606,12 +650,9 @@ namespace StudioCore.MsbEditor
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
 
-                IOrderedEnumerable<KeyValuePair<string, ObjectContainer>> orderedMaps; 
-                if (CFG.Current.Map_PinLoadedMaps)
-                    orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Value == null).ThenBy(k => k.Key);
-                else
-                    orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
+                var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
+                _mapEnt_ImGuiID = 0;
                 foreach (var lm in orderedMaps)
                 {
                     string metaName = "";

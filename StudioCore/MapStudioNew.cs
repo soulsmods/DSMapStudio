@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.04";
+        private static string _version = "1.04.1";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -107,7 +107,7 @@ namespace StudioCore
                //VeldridStartup.GetPlatformDefaultBackend(),
                //GraphicsBackend.Metal,
                GraphicsBackend.Vulkan,
-               
+
                //GraphicsBackend.Direct3D11,
                //GraphicsBackend.OpenGL,
                //GraphicsBackend.OpenGLES,
@@ -164,7 +164,7 @@ namespace StudioCore
         /// <summary>
         /// Characters to load that FromSoft use, but aren't included in the ImGui Japanese glyph range.
         /// </summary>
-        private char[] SpecialCharsJP = {'鉤'};
+        private char[] SpecialCharsJP = { '鉤' };
 
         private unsafe void SetupFonts()
         {
@@ -288,7 +288,7 @@ namespace StudioCore
             {
                 // Make sure any awaited UI thread work has a chance to complete
                 //await Task.Yield();
-                
+
                 Tracy.TracyCFrameMark();
 
                 // Limit frame rate when window isn't focused unless we are profiling
@@ -362,18 +362,17 @@ namespace StudioCore
         public void ExportCrashLog(List<string> exceptionInfo)
         {
             var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"Version {_version}");
+            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}");
             Directory.CreateDirectory($"{CrashLogPath}");
-            File.WriteAllLines($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.", $"Multiple Unhandled Errors - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        public void ExportCrashLog(string exceptionInfo)
-        {
-            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"Version {_version}");
-            Directory.CreateDirectory($"{CrashLogPath}");
-            File.WriteAllText($"{CrashLogPath}\\Log {time}.txt", exceptionInfo);
-            MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated in {CrashLogPath}.\n\n{exceptionInfo}", $"Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            var crashLogPath = $"{CrashLogPath}\\Log {time}.txt";
+            File.WriteAllLines(crashLogPath, exceptionInfo);
+
+            if (exceptionInfo.Count > 10)
+                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
+                    $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
+                    $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
@@ -602,6 +601,7 @@ namespace StudioCore
             }
         }
 
+        private KeyBind _currentKeyBind;
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -645,6 +645,7 @@ namespace StudioCore
 
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
+            bool keyBindGUI = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
             if (ImGui.BeginMainMenuBar())
             {
@@ -654,7 +655,7 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
-                    if (ImGui.MenuItem("New Project", "CTRL+N", false, Editor.TaskManager.GetLiveThreads().Count == 0) || InputTracker.GetControlShortcut(Key.N))
+                    if (ImGui.MenuItem("New Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
                         newProject = true;
                     }
@@ -674,6 +675,26 @@ namespace StudioCore
                             AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
+                    if (ImGui.BeginMenu("Open In Explorer", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    {
+                        if (ImGui.MenuItem("Open Project Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0)) 
+                        {
+                            string projectPath = _assetLocator.GameModDirectory;
+                            Process.Start("explorer.exe", projectPath);
+                        }
+                        if (ImGui.MenuItem("Open Game Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0)) 
+                        {
+                            var gamePath = _assetLocator.GameRootDirectory;
+                            Process.Start("explorer.exe", gamePath);
+                        }
+                        if (ImGui.MenuItem("Open Config Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0)) 
+                        {
+                            var configPath = CFG.GetConfigFolderPath();
+                            Process.Start("explorer.exe", configPath);
+                        }
+                        ImGui.EndMenu();
+                    }
+         
                     if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
@@ -718,11 +739,11 @@ namespace StudioCore
                         focusType = "Text";
                     }
 
-                    if (ImGui.MenuItem($"Save {focusType}", "Ctrl+S"))
+                    if (ImGui.MenuItem($"Save {focusType}", KeyBindings.Current.Core_SaveCurrentEditor.HintText))
                     {
                         SaveFocusedEditor();
                     }
-                    if (ImGui.MenuItem("Save All"))
+                    if (ImGui.MenuItem("Save All", KeyBindings.Current.Core_SaveAllEditors.HintText))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -762,10 +783,12 @@ namespace StudioCore
                         if (ImGui.BeginMenu($@"Project Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
                         {
                             bool useLoose = _projectSettings.UseLooseParams;
-                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            if ((_projectSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
+                                && ImGui.Checkbox("Use Loose Params", ref useLoose))
                             {
                                 _projectSettings.UseLooseParams = useLoose;
                             }
+
                             bool usepartial = _projectSettings.PartialParams;
                             if ((FeatureFlags.EnablePartialParam || usepartial) &&
                                 _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
@@ -776,6 +799,10 @@ namespace StudioCore
                         }
                     }
 
+                    if (ImGui.Selectable("Key Bindings"))
+                    {
+                        keyBindGUI = true;
+                    }
                     if (ImGui.BeginMenu("Fonts"))
                     {
                         ImGui.Text("Please restart program for font changes to take effect.");
@@ -815,7 +842,6 @@ namespace StudioCore
                     }
                     if (ImGui.BeginMenu("Map Editor"))
                     {
-                        ImGui.Checkbox("Pin loaded maps to top of list", ref CFG.Current.Map_PinLoadedMaps);
                         ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
                         ImGui.EndMenu();
                     }
@@ -906,7 +932,9 @@ namespace StudioCore
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
-                                   "Vawser");
+                                   "Vawser\n" +
+                                   "Radai\n" +
+                                   "Moonlight Ruin");
                         ImGui.EndMenu();
                     }
                     
@@ -1030,6 +1058,61 @@ namespace StudioCore
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
 
+            bool open = true;
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
+
+            if (keyBindGUI)
+                ImGui.OpenPopup("Key Bind Settings");
+            if (ImGui.BeginPopupModal("Key Bind Settings", ref open))
+            {
+                if (ImGui.IsAnyItemActive())
+                {
+                    _currentKeyBind = null;
+                }
+                ImGui.Columns(2);
+                foreach (var bind in KeyBindings.Current.GetType().GetFields())
+                {
+                    var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
+                    ImGui.Text(bind.Name);
+                    ImGui.NextColumn();
+                    var keyText = bindVal.HintText;
+                    if (keyText == "")
+                        keyText = "[None]";
+                    if (_currentKeyBind == bindVal)
+                    {
+                        ImGui.Button("Press Key <Esc - Clear>");
+                        if (InputTracker.GetKeyDown(Key.Escape))
+                        {
+                            bind.SetValue(KeyBindings.Current, new KeyBind());
+                            _currentKeyBind = null;
+                        }
+                        else
+                        {
+                            var newkey = InputTracker.GetNewKeyBind();
+                            if (newkey != null)
+                            {
+                                bind.SetValue(KeyBindings.Current, newkey);
+                                _currentKeyBind = null;
+                            }
+                        }
+                    }
+                    else if (ImGui.Button($"{keyText}##{bind.Name}"))
+                    {
+                        _currentKeyBind = bindVal;
+                    }
+                    ImGui.NextColumn();
+                }
+                ImGui.Separator();
+                if (ImGui.Button("Restore Defaults"))
+                {
+                    KeyBindings.ResetKeyBinds();
+                }
+                ImGui.EndPopup();
+            }
+
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
+
             // New project modal
             if (newProject)
             {
@@ -1037,14 +1120,13 @@ namespace StudioCore
                 _newProjectOptions.directory = "";
                 ImGui.OpenPopup("New Project");
             }
-            bool open = true;
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
             if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize)) // The Grey overlay is apparently an imgui bug (that has been fixed in updated builds; in some forks at least).
             {
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
+                    "Project's display name. Only affects visuals within DSMS.");
                 ImGui.SameLine();
                 var pname = _newProjectOptions.settings.ProjectName;
                 if (ImGui.InputText("##pname", ref pname, 255))
@@ -1054,6 +1136,9 @@ namespace StudioCore
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Directory: ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
+                    "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
                 ImGui.SameLine();
                 ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
                 ImGui.SameLine();
@@ -1069,6 +1154,9 @@ namespace StudioCore
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Game Executable:   ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
+                    "The location of the game's .EXE file.\nThe folder with the .EXE will be used to obtain unpacked game data.");
                 ImGui.SameLine();
                 var gname = _newProjectOptions.settings.GameRoot;
                 if (ImGui.InputText("##gdir", ref gname, 255))
@@ -1101,10 +1189,15 @@ namespace StudioCore
                 ImGui.NewLine();
                 ImGui.Separator();
                 ImGui.NewLine();
-                if (_newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS || _newProjectOptions.settings.GameType == GameType.DarkSoulsIII)
+                if (_newProjectOptions.settings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
                 {
                     ImGui.AlignTextToFramePadding();
-                    ImGui.Text($@"Use Loose Params:  ");
+                    ImGui.Text($@"Loose Params:      ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_LooseParams",
+                        "Default: OFF\n" +
+                        "DS2: Save and Load parameters as individual .param files instead of regulation.\n" +
+                        "DS3: Save and Load parameters as decrypted .parambnd instead of regulation.");
                     ImGui.SameLine();
                     var looseparams = _newProjectOptions.settings.UseLooseParams;
                     if (ImGui.Checkbox("##looseparams", ref looseparams))
@@ -1113,21 +1206,28 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
-                if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
+                else if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("TODO (disbababled)", "##Help_PartialParam",
+                        "TODO: why does this setting exist separately from loose params?");
                     ImGui.SameLine();
                     var partialReg = _newProjectOptions.settings.PartialParams;
                     if (ImGui.Checkbox("##partialparams", ref partialReg))
                     {
                         _newProjectOptions.settings.PartialParams = partialReg;
                     }
+                    ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
                     ImGui.NewLine();
                 }
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text($@"Load default row names:  ");
+                ImGui.Text($@"Import row names:  ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ImportRowNames",
+                    "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 ImGui.NewLine();
@@ -1279,8 +1379,18 @@ namespace StudioCore
             ImGui.End();
 
             // Global shortcut keys
-            if (InputTracker.GetControlShortcut(Key.S) && !_msbEditor.Viewport.ViewportSelected)
-                SaveFocusedEditor();
+            if (!_msbEditor.Viewport.ViewportSelected)
+            {
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor))
+                    SaveFocusedEditor();
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveAllEditors))
+                {
+                    _msbEditor.SaveAll();
+                    _modelEditor.SaveAll();
+                    _paramEditor.SaveAll();
+                    _textEditor.SaveAll();
+                }
+            }
 
             string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")

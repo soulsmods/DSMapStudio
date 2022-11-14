@@ -1,4 +1,4 @@
-exeName:DarkSoulsIII
+exeName:DarkSoulsIII.exe
 paramBase:0x4782838
 paramInnerPath:0x68/0x68
 paramCountOffset:0xA

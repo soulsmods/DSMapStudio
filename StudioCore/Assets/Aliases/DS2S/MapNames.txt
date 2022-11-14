@@ -1,11 +1,11 @@
-m10_02_00_00 Things Betwixed
+m10_02_00_00 Things Betwixt
 m10_04_00_00 Majula
 m10_10_00_00 Forest of Fallen Giants
 m10_11_00_00 --Shrine of Amana (alt)
-m10_14_00_00 Brightstone Cove Tseldor
+m10_14_00_00 Brightstone Cove Tseldora
 m10_15_00_00 Aldia's Keep
 m10_16_00_00 The Lost Bastille & Belfry Luna
-m10_17_00_00 Harvest Valley
+m10_17_00_00 Harvest Valley & Earthen Peak
 m10_18_00_00 No-man's Wharf
 m10_19_00_00 Iron Keep & Belfry Sol
 m10_21_00_00 --Drangleic Castle (alt)
@@ -34,7 +34,7 @@ m40_03_00_00 Dark Chasm of Old
 m40_50_00_00 --Abyss Map 1
 m40_51_00_00 --Abyss Map 2
 m40_52_00_00 --Abyss Map 3
-m50_35_00_00 Shulva
+m50_35_00_00 Shulva, Sanctum City
 m50_36_00_00 Brume Tower
 m50_37_00_00 Frozen Eleum Loyce
-m50_38_00_00 Memory of Vendrick
+m50_38_00_00 Memory of the King
