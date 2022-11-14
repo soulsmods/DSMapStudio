@@ -13,6 +13,7 @@ using SoulsFormats;
 using Newtonsoft.Json;
 using StudioCore.Scene;
 using StudioCore.Editor;
+using StudioCore.ParamEditor;
 
 namespace StudioCore.MsbEditor
 {
@@ -383,88 +384,94 @@ namespace StudioCore.MsbEditor
             var regparamad = _assetLocator.GetDS2GeneratorRegistParam(mapid);
             var regparam = Param.Read(regparamad.AssetPath);
             var reglayout = _assetLocator.GetParamdefForParam(regparam.ParamType);
-            regparam.ApplyParamdef(reglayout);
-            foreach (var row in regparam.Rows)
+            if (ParamBank.TryApplyParamdef(regparam, reglayout, "regparam"))
             {
-                if (string.IsNullOrEmpty(row.Name))
+                foreach (var row in regparam.Rows)
                 {
-                    row.Name = "regist_" + row.ID;
-                }
-                registParams.Add(row.ID, row);
+                    if (string.IsNullOrEmpty(row.Name))
+                    {
+                        row.Name = "regist_" + row.ID;
+                    }
+                    registParams.Add(row.ID, row);
 
-                var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2GeneratorRegist);
-                map.AddObject(obj);
+                    var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2GeneratorRegist);
+                    map.AddObject(obj);
+                }
             }
 
             var locparamad = _assetLocator.GetDS2GeneratorLocationParam(mapid);
             var locparam = Param.Read(locparamad.AssetPath);
             var loclayout = _assetLocator.GetParamdefForParam(locparam.ParamType);
-            locparam.ApplyParamdef(loclayout);
-            foreach (var row in locparam.Rows)
+            if (ParamBank.TryApplyParamdef(locparam, loclayout, "locparam"))
             {
-                if (string.IsNullOrEmpty(row.Name))
+                foreach (var row in locparam.Rows)
                 {
-                    row.Name = "generator_" + row.ID.ToString();
+                    if (string.IsNullOrEmpty(row.Name))
+                    {
+                        row.Name = "generator_" + row.ID.ToString();
+                    }
+
+                    // Offset the generators by the map offset
+                    row.GetCellHandleOrThrow("PositionX").SetValue(
+                        (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
+                    row.GetCellHandleOrThrow("PositionY").SetValue(
+                        (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
+                    row.GetCellHandleOrThrow("PositionZ").SetValue(
+                        (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
+                    
+                    var mergedRow = new MergedParamRow();
+                    mergedRow.AddRow("generator-loc", row);
+                    generatorParams.Add(row.ID, mergedRow);
+
+                    var obj = new MapEntity(map, mergedRow, MapEntity.MapEntityType.DS2Generator);
+                    generatorObjs.Add(row.ID, obj);
+                    map.AddObject(obj);
                 }
-
-                // Offset the generators by the map offset
-                row.GetCellHandleOrThrow("PositionX").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
-                row.GetCellHandleOrThrow("PositionY").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
-                row.GetCellHandleOrThrow("PositionZ").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
-                
-                var mergedRow = new MergedParamRow();
-                mergedRow.AddRow("generator-loc", row);
-                generatorParams.Add(row.ID, mergedRow);
-
-                var obj = new MapEntity(map, mergedRow, MapEntity.MapEntityType.DS2Generator);
-                generatorObjs.Add(row.ID, obj);
-                map.AddObject(obj);
             }
 
             var chrsToLoad = new HashSet<AssetDescription>();
             var genparamad = _assetLocator.GetDS2GeneratorParam(mapid);
             var genparam = Param.Read(genparamad.AssetPath);
             var genlayout = _assetLocator.GetParamdefForParam(genparam.ParamType);
-            genparam.ApplyParamdef(genlayout);
-            foreach (var row in genparam.Rows)
+            if (ParamBank.TryApplyParamdef(genparam, genlayout, "genparam"))
             {
-                if (row.Name == null || row.Name == "")
+                foreach (var row in genparam.Rows)
                 {
-                    row.Name = "generator_" + row.ID.ToString();
-                }
-
-                if (generatorParams.ContainsKey(row.ID))
-                {
-                    generatorParams[row.ID].AddRow("generator", row);
-                }
-                else
-                {
-                    var mergedRow = new MergedParamRow();
-                    mergedRow.AddRow("generator", row);
-                    generatorParams.Add(row.ID, mergedRow);
-                    var obj = new MapEntity(map, mergedRow, MapEntity.MapEntityType.DS2Generator);
-                    generatorObjs.Add(row.ID, obj);
-                    map.AddObject(obj);
-                }
-
-                uint registid = (uint)row.GetCellHandleOrThrow("GeneratorRegistParam").Value;
-                if (registParams.ContainsKey(registid))
-                {
-                    var regist = registParams[registid];
-                    var chrid = ParamEditor.ParamBank.PrimaryBank.GetChrIDForEnemy(
-                        (int)regist.GetCellHandleOrThrow("EnemyParamID").Value);
-                    if (chrid != null)
+                    if (row.Name == null || row.Name == "")
                     {
-                        var asset = _assetLocator.GetChrModel($@"c{chrid}");
-                        var model = MeshRenderableProxy.MeshRenderableFromFlverResource(
-                            _renderScene, asset.AssetVirtualPath, ModelMarkerType.Enemy);
-                        model.DrawFilter = RenderFilter.Character;
-                        generatorObjs[row.ID].RenderSceneMesh = model;
-                        model.SetSelectable(generatorObjs[row.ID]);
-                        chrsToLoad.Add(asset);
+                        row.Name = "generator_" + row.ID.ToString();
+                    }
+
+                    if (generatorParams.ContainsKey(row.ID))
+                    {
+                        generatorParams[row.ID].AddRow("generator", row);
+                    }
+                    else
+                    {
+                        var mergedRow = new MergedParamRow();
+                        mergedRow.AddRow("generator", row);
+                        generatorParams.Add(row.ID, mergedRow);
+                        var obj = new MapEntity(map, mergedRow, MapEntity.MapEntityType.DS2Generator);
+                        generatorObjs.Add(row.ID, obj);
+                        map.AddObject(obj);
+                    }
+
+                    uint registid = (uint)row.GetCellHandleOrThrow("GeneratorRegistParam").Value;
+                    if (registParams.ContainsKey(registid))
+                    {
+                        var regist = registParams[registid];
+                        var chrid = ParamEditor.ParamBank.PrimaryBank.GetChrIDForEnemy(
+                            (int)regist.GetCellHandleOrThrow("EnemyParamID").Value);
+                        if (chrid != null)
+                        {
+                            var asset = _assetLocator.GetChrModel($@"c{chrid}");
+                            var model = MeshRenderableProxy.MeshRenderableFromFlverResource(
+                                _renderScene, asset.AssetVirtualPath, ModelMarkerType.Enemy);
+                            model.DrawFilter = RenderFilter.Character;
+                            generatorObjs[row.ID].RenderSceneMesh = model;
+                            model.SetSelectable(generatorObjs[row.ID]);
+                            chrsToLoad.Add(asset);
+                        }
                     }
                 }
             }
@@ -472,63 +479,69 @@ namespace StudioCore.MsbEditor
             var evtparamad = _assetLocator.GetDS2EventParam(mapid);
             var evtparam = Param.Read(evtparamad.AssetPath);
             var evtlayout = _assetLocator.GetParamdefForParam(evtparam.ParamType);
-            evtparam.ApplyParamdef(evtlayout);
-            foreach (var row in evtparam.Rows)
+            if (ParamBank.TryApplyParamdef(evtparam, evtlayout, "evtparam"))
             {
-                if (string.IsNullOrEmpty(row.Name))
+                foreach (var row in evtparam.Rows)
                 {
-                    row.Name = "event_" + row.ID.ToString();
-                }
-                eventParams.Add(row.ID, row);
+                    if (string.IsNullOrEmpty(row.Name))
+                    {
+                        row.Name = "event_" + row.ID.ToString();
+                    }
+                    eventParams.Add(row.ID, row);
 
-                var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2Event);
-                map.AddObject(obj);
+                    var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2Event);
+                    map.AddObject(obj);
+                }
             }
 
             var evtlparamad = _assetLocator.GetDS2EventLocationParam(mapid);
             var evtlparam = Param.Read(evtlparamad.AssetPath);
             var evtllayout = _assetLocator.GetParamdefForParam(evtlparam.ParamType);
-            evtlparam.ApplyParamdef(evtllayout);
-            foreach (var row in evtlparam.Rows)
+            if (ParamBank.TryApplyParamdef(evtlparam, evtllayout, "evtlparam"))
             {
-                if (string.IsNullOrEmpty(row.Name))
+                foreach (var row in evtlparam.Rows)
                 {
-                    row.Name = "eventloc_" + row.ID.ToString();
+                    if (string.IsNullOrEmpty(row.Name))
+                    {
+                        row.Name = "eventloc_" + row.ID.ToString();
+                    }
+                    eventLocationParams.Add(row.ID, row);
+
+                    // Offset the generators by the map offset
+                    row.GetCellHandleOrThrow("PositionX").SetValue(
+                        (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
+                    row.GetCellHandleOrThrow("PositionY").SetValue(
+                        (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
+                    row.GetCellHandleOrThrow("PositionZ").SetValue(
+                        (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
+
+                    var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
+                    map.AddObject(obj);
+
+                    // Try rendering as a box for now
+                    var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
+                    mesh.World = obj.GetLocalTransform().WorldMatrix;
+                    obj.RenderSceneMesh = mesh;
+                    mesh.SetSelectable(obj);
                 }
-                eventLocationParams.Add(row.ID, row);
-
-                // Offset the generators by the map offset
-                row.GetCellHandleOrThrow("PositionX").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
-                row.GetCellHandleOrThrow("PositionY").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
-                row.GetCellHandleOrThrow("PositionZ").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
-
-                var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
-                map.AddObject(obj);
-
-                // Try rendering as a box for now
-                var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                mesh.World = obj.GetLocalTransform().WorldMatrix;
-                obj.RenderSceneMesh = mesh;
-                mesh.SetSelectable(obj);
             }
 
             var objparamad = _assetLocator.GetDS2ObjInstanceParam(mapid);
             var objparam = Param.Read(objparamad.AssetPath);
             var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
-            objparam.ApplyParamdef(objlayout);
-            foreach (var row in objparam.Rows)
+            if (ParamBank.TryApplyParamdef(objparam, objlayout, "objparam"))
             {
-                if (string.IsNullOrEmpty(row.Name))
+                foreach (var row in objparam.Rows)
                 {
-                    row.Name = "objinstance_" + row.ID.ToString();
-                }
-                objectInstanceParams.Add(row.ID, row);
+                    if (string.IsNullOrEmpty(row.Name))
+                    {
+                        row.Name = "objinstance_" + row.ID.ToString();
+                    }
+                    objectInstanceParams.Add(row.ID, row);
 
-                var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2ObjectInstance);
-                map.AddObject(obj);
+                    var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2ObjectInstance);
+                    map.AddObject(obj);
+                }
             }
 
             var job = ResourceManager.CreateNewJob($@"Loading chrs");

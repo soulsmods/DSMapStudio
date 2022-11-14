@@ -219,16 +219,23 @@ namespace StudioCore.ParamEditor
                 if (def == null)
                     def = _paramdefs[p.ParamType];
 
-                try
-                {
-                    p.ApplyParamdef(def);
+
+                if (TryApplyParamdef(p, def, f.Name.Split("\\").Last()))
                     paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
-                }
-                catch(Exception e)
-                {
-                    var name = f.Name.Split("\\").Last();
-                    TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
-                }
+            }
+        }
+
+        public static bool TryApplyParamdef(Param p, PARAMDEF d, string name)
+        {
+            try
+            {
+                p.ApplyParamdef(d);
+                return true;
+            }
+            catch(Exception e)
+            {
+                TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
+                return false;
             }
         }
 
@@ -453,10 +460,12 @@ namespace StudioCore.ParamEditor
                     var lp = Param.Read(p);
                     var fname = lp.ParamType;
                     PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
-                    lp.ApplyParamdef(def);
-                    if (!_params.ContainsKey(name))
+                    if (TryApplyParamdef(lp, def, fname.Split("\\").Last()))
                     {
-                        _params.Add(name, lp);
+                        if (!_params.ContainsKey(name))
+                        {
+                            _params.Add(name, lp);
+                        }
                     }
                 }
             }
@@ -485,7 +494,7 @@ namespace StudioCore.ParamEditor
             if (EnemyParam != null)
             {
                 PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
-                EnemyParam.ApplyParamdef(def);
+                TryApplyParamdef(EnemyParam, def, "EnemyParam");
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
         }
