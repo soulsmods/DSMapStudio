@@ -776,7 +776,11 @@ namespace FSParam
             if (Rows.Count > 1)
                 DetectedSize = Rows[1].DataIndex - Rows[0].DataIndex;
             else if (Rows.Count == 1)
+            {
+                if (actualStringsOffset == stringsOffset + 2)
+                    actualStringsOffset -= 2; // Empty name string hack
                 DetectedSize = (actualStringsOffset == 0 ? (uint)stringsOffset : (uint)actualStringsOffset) - Rows[0].DataIndex;
+            }
             else
                 DetectedSize = 0;
 
