@@ -675,26 +675,6 @@ namespace StudioCore
                             AttemptLoadProject(settings, browseDlg.FileName);
                         }
                     }
-                    if (ImGui.BeginMenu("Open In Explorer", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
-                    {
-                        if (ImGui.MenuItem("Open Project Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0)) 
-                        {
-                            string projectPath = _assetLocator.GameModDirectory;
-                            Process.Start("explorer.exe", projectPath);
-                        }
-                        if (ImGui.MenuItem("Open Game Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0)) 
-                        {
-                            var gamePath = _assetLocator.GameRootDirectory;
-                            Process.Start("explorer.exe", gamePath);
-                        }
-                        if (ImGui.MenuItem("Open Config Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0)) 
-                        {
-                            var configPath = CFG.GetConfigFolderPath();
-                            Process.Start("explorer.exe", configPath);
-                        }
-                        ImGui.EndMenu();
-                    }
-         
                     if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
@@ -717,6 +697,25 @@ namespace StudioCore
                             CFG.Current.RecentProjects.Remove(recent);
                             CFG.Current.RecentProjects.Insert(0, recent);
                             CFG.Current.LastProjectFile = recent.ProjectFile;
+                        }
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("Open in Explorer", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    {
+                        if (ImGui.MenuItem("Open Project Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            string projectPath = _assetLocator.GameModDirectory;
+                            Process.Start("explorer.exe", projectPath);
+                        }
+                        if (ImGui.MenuItem("Open Game Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            var gamePath = _assetLocator.GameRootDirectory;
+                            Process.Start("explorer.exe", gamePath);
+                        }
+                        if (ImGui.MenuItem("Open Config Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            var configPath = CFG.GetConfigFolderPath();
+                            Process.Start("explorer.exe", configPath);
                         }
                         ImGui.EndMenu();
                     }
@@ -905,15 +904,6 @@ namespace StudioCore
                     {
                         CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
                     }
-
-                    if (ImGui.Button("Open Config Folder"))
-                    {
-                        if (File.Exists(CFG.GetConfigFilePath()))
-                        {
-                            // Open folder in Windows Explorer
-                            Process.Start(@"explorer.exe", CFG.GetConfigFolderPath());
-                        }
-                    }
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Help"))
@@ -928,7 +918,8 @@ namespace StudioCore
                                    "King bore haha (george)\n\n" +
                                    "Additional Contributors:\n" +
                                    "Thefifthmatt\n" +
-                                   "Shadowth117\n\n" +
+                                   "Shadowth117\n" +
+                                   "Nordgaren\n\n" +
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
