@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections;
+using System.Globalization;
 using StudioCore;
 using StudioCore.Editor;
 using StudioCore.MsbEditor;
@@ -22,6 +23,7 @@ namespace DSMSPortable
         {
             masseditFiles = new ArrayList();
             csvFiles = new ArrayList();
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             try 
             { 
                 ProcessArgs(args);
