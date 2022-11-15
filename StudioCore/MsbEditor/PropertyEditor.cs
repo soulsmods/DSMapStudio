@@ -897,6 +897,8 @@ namespace StudioCore.MsbEditor
                     id++;
                 }
             }
+
+            var refID = 0; // ID for ImGui distinction
             if (decorate && entSelection.Count == 1)
             {
                 ImGui.Columns(1);
@@ -912,7 +914,7 @@ namespace StudioCore.MsbEditor
                             if (n is Entity e)
                             {
                                 var nameWithType = e.PrettyName.Insert(2, e.WrappedObject.GetType().Name + " - ");
-                                if (ImGui.Button(nameWithType))
+                                if (ImGui.Button(nameWithType + "##MSBRefTo" + refID))
                                 {
                                     selection.ClearSelection();
                                     selection.AddSelection(e);
@@ -929,7 +931,7 @@ namespace StudioCore.MsbEditor
                                 {
                                     prettyName += $" <{metaName.Replace("--", "")}>";
                                 }
-                                if (ImGui.Button(prettyName))
+                                if (ImGui.Button(prettyName + "##MSBRefTo" + refID))
                                 {
                                     Scene.ISelectable rootTarget = r.GetSelectionTarget();
                                     selection.ClearSelection();
@@ -960,6 +962,7 @@ namespace StudioCore.MsbEditor
                                     ImGui.EndPopup();
                                 }
                             }
+                            refID++;
                         }
                     }
                 }
@@ -970,11 +973,12 @@ namespace StudioCore.MsbEditor
                 foreach (var m in firstEnt.GetReferencingObjects())
                 {
                     var nameWithType = m.PrettyName.Insert(2, m.WrappedObject.GetType().Name + " - ");
-                    if (ImGui.Button(nameWithType))
+                    if (ImGui.Button(nameWithType + "##MSBRefBy" + refID))
                     {
                         selection.ClearSelection();
                         selection.AddSelection(m);
                     }
+                    refID++;
                 }
                 ImGui.Unindent(10);
             }
