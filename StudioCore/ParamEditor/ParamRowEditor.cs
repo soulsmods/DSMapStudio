@@ -525,7 +525,7 @@ namespace StudioCore.ParamEditor
             if (CFG.Current.Param_ShowVanillaParams)
             {
                 ImGui.NextColumn();
-                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, Enum);
+                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, Enum, "vanilla");
             }
             if (showParamCompare)
             {
@@ -534,7 +534,7 @@ namespace StudioCore.ParamEditor
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));
                     ImGui.NextColumn();
-                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, Enum);
+                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
                 }
@@ -546,7 +546,7 @@ namespace StudioCore.ParamEditor
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));
                 ImGui.NextColumn();
-                AdditionalColumnValue(compareval, propType, bank, RefTypes, Enum);
+                AdditionalColumnValue(compareval, propType, bank, RefTypes, Enum, "compRow");
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
@@ -564,23 +564,23 @@ namespace StudioCore.ParamEditor
             return true;
         }
 
-        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<string> RefTypes, ParamEnum Enum)
+        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<string> RefTypes, ParamEnum Enum, string imguiSuffix)
         {
             if (colVal == null)
-                    ImGui.TextUnformatted("");
+                ImGui.TextUnformatted("");
+            else
+            {
+                string value = "";
+                if (propType == typeof(byte[]))
+                    value = ParamUtils.Dummy8Write((byte[])colVal);
                 else
-                {
-                    string value = "";
-                    if (propType == typeof(byte[]))
-                        value = ParamUtils.Dummy8Write((byte[])colVal);
-                    else
-                        value = colVal.ToString();
-                    ImGui.InputText("", ref value, 256, ImGuiInputTextFlags.ReadOnly);
-                    if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
-                        EditorDecorations.ParamRefsSelectables(bank, RefTypes, colVal);
-                    if (CFG.Current.Param_HideEnums == false && Enum != null)
-                        EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
-                }
+                    value = colVal.ToString();
+                ImGui.InputText("##colval"+imguiSuffix, ref value, 256, ImGuiInputTextFlags.ReadOnly);
+                if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
+                    EditorDecorations.ParamRefsSelectables(bank, RefTypes, colVal);
+                if (CFG.Current.Param_HideEnums == false && Enum != null)
+                    EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
+            }
         }
 
         private void PropertyRowName(ref string internalName, FieldMetaData cellMeta)
@@ -589,7 +589,7 @@ namespace StudioCore.ParamEditor
             if (cellMeta != null && ParamEditorScreen.EditorMode)
             {
                 string EditName = AltName == null ? internalName : AltName;
-                ImGui.InputText("", ref EditName, 128);
+                ImGui.InputText("##editName", ref EditName, 128);
                 if (EditName.Equals(internalName) || EditName.Equals(""))
                     cellMeta.AltName = null;
                 else
