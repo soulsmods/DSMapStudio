@@ -296,7 +296,9 @@ namespace DSMSPortable
             System.Console.Out.WriteLine("             ER    Elden Ring               BB   Bloodborne      SEKIRO  Sekiro");
             System.Console.Out.WriteLine("             DS1   Dark Souls PTDE          DES  Demon's Souls");
             System.Console.Out.WriteLine("  -P gamepath");
-            System.Console.Out.WriteLine("             Path to the vanilla install directory for the selected game. Typically not needed.");
+            System.Console.Out.WriteLine("             Path to the vanilla install directory for the selected game.");
+            System.Console.Out.WriteLine("             If this is the default install directory in Program Files, this will be autodetected.");
+            System.Console.Out.WriteLine("             The gamepath can also be implicitly specified in a gamepath.txt file in the working directory.");
             System.Console.Out.WriteLine("  -O outputpath");
             System.Console.Out.WriteLine("             Path where the resulting regulation.bin (or equivalent param file) will be saved.");
             System.Console.Out.WriteLine("             If this is not specified, the input file will be overwritten, and a backup will be made if possible.");
