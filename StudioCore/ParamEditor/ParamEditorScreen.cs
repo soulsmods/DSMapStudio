@@ -56,7 +56,7 @@ namespace StudioCore.ParamEditor
         {
             if (_entryCache.Count == 0 && FMGBank.IsLoaded)
             {
-                var fmgEntries = FMGBank.GetFmgEntriesByType(_category, FMGBank.FmgEntryTextType.Title, false);
+                var fmgEntries = FMGBank.GetFmgEntriesByCategory(_category, false);
                 foreach (var fmgEntry in fmgEntries)
                 {
                     _entryCache[fmgEntry.ID] = fmgEntry;
@@ -150,13 +150,14 @@ namespace StudioCore.ParamEditor
             _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Weapons));
             _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Gem));
             _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.SwordArts));
+            //_decorators.Add("CharacterText", new FMGItemParamDecorator(FMGBank.FmgEntryCategory.Characters)); // TODO: Decorators need to be updated to support text references.
         }
 
         /// <summary>
         /// Any version numbers <= this will be allowed to upgrade.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 1079999L;
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 10799999L;
 
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
@@ -291,7 +292,7 @@ namespace StudioCore.ParamEditor
                     DuplicateSelection();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Mass Edit"))
+                if (ImGui.MenuItem($"Mass Edit", KeyBindings.Current.Param_MassEdit.HintText))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                 }
@@ -299,7 +300,7 @@ namespace StudioCore.ParamEditor
                 {
                     DelimiterInputText();
 
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ExportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVExport/Name");
@@ -364,7 +365,7 @@ namespace StudioCore.ParamEditor
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
                 {
                     DelimiterInputText();
-                    if (ImGui.MenuItem("All"))
+                    if (ImGui.MenuItem("All", KeyBindings.Current.Param_ImportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
                     if (ImGui.MenuItem("Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
@@ -447,7 +448,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
                 }
-                if (ImGui.MenuItem("Load Default Row Names", "", false, ParamBank.PrimaryBank.Params != null))
+                if (ImGui.MenuItem("Import Row Names", "", false, ParamBank.PrimaryBank.Params != null))
                 {
                     try {
                         EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames());
@@ -870,6 +871,13 @@ namespace StudioCore.ParamEditor
                 else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
                     ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
             }
+
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_MassEdit))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ImportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ExportCSV))
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
 
             // Parse commands
             bool doFocus = false;

@@ -302,8 +302,9 @@ namespace SoulsFormats
 
             /// <summary>
             /// Unknown; 4 bytes.
+            /// Affects if a light appears normally, but details are unknown.
             /// </summary>
-            public byte[] UnkC0 { get; set; }
+            public byte[] EnableState_UnkC0 { get; set; }
 
             /// <summary>
             /// Distance required for a light to transition into view. 0 = always enabled.
@@ -374,7 +375,7 @@ namespace SoulsFormats
                 NearClip = 1;
                 UnkA0 = new byte[4] { 1, 0, 2, 1 };
                 Sharpness = 1;
-                UnkC0 = new byte[4];
+                EnableState_UnkC0 = new byte[4];
             }
 
             /// <summary>
@@ -387,7 +388,7 @@ namespace SoulsFormats
                 clone.Unk64 = (byte[])Unk64.Clone();
                 clone.Unk84 = (byte[])Unk84.Clone();
                 clone.UnkA0 = (byte[])UnkA0.Clone();
-                clone.UnkC0 = (byte[])UnkC0.Clone();
+                clone.EnableState_UnkC0 = (byte[])EnableState_UnkC0.Clone();
                 return clone;
             }
 
@@ -434,7 +435,7 @@ namespace SoulsFormats
                 br.AssertVarint(0);
                 Width = br.ReadSingle();
                 UnkBC = br.ReadSingle();
-                UnkC0 = br.ReadBytes(4);
+                EnableState_UnkC0 = br.ReadBytes(4);
                 EnableDist = br.ReadSingle();
 
                 if (version >= 16)
@@ -493,7 +494,7 @@ namespace SoulsFormats
                 bw.WriteVarint(0);
                 bw.WriteSingle(Width);
                 bw.WriteSingle(UnkBC);
-                bw.WriteBytes(UnkC0);
+                bw.WriteBytes(EnableState_UnkC0);
                 bw.WriteSingle(EnableDist);
 
                 if (version >= 16)

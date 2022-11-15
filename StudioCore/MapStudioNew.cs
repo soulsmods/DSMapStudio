@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.04";
+        private static string _version = "1.04.1";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -700,6 +700,25 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
+                    if (ImGui.BeginMenu("Open in Explorer", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    {
+                        if (ImGui.MenuItem("Open Project Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            string projectPath = _assetLocator.GameModDirectory;
+                            Process.Start("explorer.exe", projectPath);
+                        }
+                        if (ImGui.MenuItem("Open Game Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            var gamePath = _assetLocator.GameRootDirectory;
+                            Process.Start("explorer.exe", gamePath);
+                        }
+                        if (ImGui.MenuItem("Open Config Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        {
+                            var configPath = CFG.GetConfigFolderPath();
+                            Process.Start("explorer.exe", configPath);
+                        }
+                        ImGui.EndMenu();
+                    }
 
                     string focusType = "";
                     if (_msbEditorFocused)
@@ -723,7 +742,7 @@ namespace StudioCore
                     {
                         SaveFocusedEditor();
                     }
-                    if (ImGui.MenuItem("Save All"))
+                    if (ImGui.MenuItem("Save All", KeyBindings.Current.Core_SaveAllEditors.HintText))
                     {
                         _msbEditor.SaveAll();
                         _modelEditor.SaveAll();
@@ -763,10 +782,12 @@ namespace StudioCore
                         if (ImGui.BeginMenu($@"Project Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
                         {
                             bool useLoose = _projectSettings.UseLooseParams;
-                            if ((_projectSettings.GameType == GameType.DarkSoulsIISOTFS || _projectSettings.GameType == GameType.DarkSoulsIII) && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            if ((_projectSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
+                                && ImGui.Checkbox("Use Loose Params", ref useLoose))
                             {
                                 _projectSettings.UseLooseParams = useLoose;
                             }
+
                             bool usepartial = _projectSettings.PartialParams;
                             if ((FeatureFlags.EnablePartialParam || usepartial) &&
                                 _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
@@ -777,7 +798,7 @@ namespace StudioCore
                         }
                     }
 
-                    if (ImGui.Selectable("Key bindings"))
+                    if (ImGui.Selectable("Key Bindings"))
                     {
                         keyBindGUI = true;
                     }
@@ -883,15 +904,6 @@ namespace StudioCore
                     {
                         CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
                     }
-
-                    if (ImGui.Button("Open Config Folder"))
-                    {
-                        if (File.Exists(CFG.GetConfigFilePath()))
-                        {
-                            // Open folder in Windows Explorer
-                            Process.Start(@"explorer.exe", CFG.GetConfigFolderPath());
-                        }
-                    }
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Help"))
@@ -906,7 +918,8 @@ namespace StudioCore
                                    "King bore haha (george)\n\n" +
                                    "Additional Contributors:\n" +
                                    "Thefifthmatt\n" +
-                                   "Shadowth117\n\n" +
+                                   "Shadowth117\n" +
+                                   "Nordgaren\n\n" +
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
@@ -1044,32 +1057,38 @@ namespace StudioCore
                 ImGui.OpenPopup("Key Bind Settings");
             if (ImGui.BeginPopupModal("Key Bind Settings", ref open))
             {
-                if (InputTracker.GetKeyDown(Key.Escape))
+                if (ImGui.IsAnyItemActive())
                 {
                     _currentKeyBind = null;
                 }
-                else if (ImGui.IsAnyItemActive())
-                {
-                    _currentKeyBind = null;
-                }
-
                 ImGui.Columns(2);
                 foreach (var bind in KeyBindings.Current.GetType().GetFields())
                 {
                     var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
                     ImGui.Text(bind.Name);
                     ImGui.NextColumn();
+                    var keyText = bindVal.HintText;
+                    if (keyText == "")
+                        keyText = "[None]";
                     if (_currentKeyBind == bindVal)
                     {
-                        ImGui.Button("Press Key <Esc - Cancel>");
-                        var newkey = InputTracker.GetNewKeyBind();
-                        if (newkey != null)
+                        ImGui.Button("Press Key <Esc - Clear>");
+                        if (InputTracker.GetKeyDown(Key.Escape))
                         {
-                            bind.SetValue(KeyBindings.Current, newkey);
+                            bind.SetValue(KeyBindings.Current, new KeyBind());
                             _currentKeyBind = null;
                         }
+                        else
+                        {
+                            var newkey = InputTracker.GetNewKeyBind();
+                            if (newkey != null)
+                            {
+                                bind.SetValue(KeyBindings.Current, newkey);
+                                _currentKeyBind = null;
+                            }
+                        }
                     }
-                    else if (ImGui.Button($"{bindVal.HintText}##{bind.Name}"))
+                    else if (ImGui.Button($"{keyText}##{bind.Name}"))
                     {
                         _currentKeyBind = bindVal;
                     }
@@ -1097,6 +1116,9 @@ namespace StudioCore
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");
                 ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
+                    "Project's display name. Only affects visuals within DSMS.");
+                ImGui.SameLine();
                 var pname = _newProjectOptions.settings.ProjectName;
                 if (ImGui.InputText("##pname", ref pname, 255))
                 {
@@ -1105,6 +1127,9 @@ namespace StudioCore
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Directory: ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
+                    "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
                 ImGui.SameLine();
                 ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
                 ImGui.SameLine();
@@ -1120,6 +1145,9 @@ namespace StudioCore
 
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Game Executable:   ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
+                    "The location of the game's .EXE file.\nThe folder with the .EXE will be used to obtain unpacked game data.");
                 ImGui.SameLine();
                 var gname = _newProjectOptions.settings.GameRoot;
                 if (ImGui.InputText("##gdir", ref gname, 255))
@@ -1152,10 +1180,15 @@ namespace StudioCore
                 ImGui.NewLine();
                 ImGui.Separator();
                 ImGui.NewLine();
-                if (_newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS || _newProjectOptions.settings.GameType == GameType.DarkSoulsIII)
+                if (_newProjectOptions.settings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
                 {
                     ImGui.AlignTextToFramePadding();
-                    ImGui.Text($@"Use Loose Params:  ");
+                    ImGui.Text($@"Loose Params:      ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_LooseParams",
+                        "Default: OFF\n" +
+                        "DS2: Save and Load parameters as individual .param files instead of regulation.\n" +
+                        "DS3: Save and Load parameters as decrypted .parambnd instead of regulation.");
                     ImGui.SameLine();
                     var looseparams = _newProjectOptions.settings.UseLooseParams;
                     if (ImGui.Checkbox("##looseparams", ref looseparams))
@@ -1164,21 +1197,28 @@ namespace StudioCore
                     }
                     ImGui.NewLine();
                 }
-                if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
+                else if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
                 {
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("TODO (disbababled)", "##Help_PartialParam",
+                        "TODO: why does this setting exist separately from loose params?");
                     ImGui.SameLine();
                     var partialReg = _newProjectOptions.settings.PartialParams;
                     if (ImGui.Checkbox("##partialparams", ref partialReg))
                     {
                         _newProjectOptions.settings.PartialParams = partialReg;
                     }
+                    ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
                     ImGui.NewLine();
                 }
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text($@"Load default row names:  ");
+                ImGui.Text($@"Import row names:  ");
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("?", "##Help_ImportRowNames",
+                    "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 ImGui.NewLine();
@@ -1330,8 +1370,18 @@ namespace StudioCore
             ImGui.End();
 
             // Global shortcut keys
-            if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor) && !_msbEditor.Viewport.ViewportSelected)
-                SaveFocusedEditor();
+            if (!_msbEditor.Viewport.ViewportSelected)
+            {
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor))
+                    SaveFocusedEditor();
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveAllEditors))
+                {
+                    _msbEditor.SaveAll();
+                    _modelEditor.SaveAll();
+                    _paramEditor.SaveAll();
+                    _textEditor.SaveAll();
+                }
+            }
 
             string[] textcmds = null;
             if (commandsplit != null && commandsplit[0] == "text")

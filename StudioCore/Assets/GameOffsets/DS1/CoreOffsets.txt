@@ -1,0 +1,10 @@
+﻿exeName:DARKSOULS.exe
+paramBase:0xF785B4
+paramBaseDebug:0xF7C774
+paramInnerPath:0x20
+paramCountOffset:0xA
+paramDataOffset:0x30
+rowPointerOffset:0x4
+rowHeaderSize:0xC
+throwParamBase:0xF785C4
+throwParamBaseDebug:0xF7C784

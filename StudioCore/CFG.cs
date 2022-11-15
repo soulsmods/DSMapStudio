@@ -41,7 +41,6 @@ namespace StudioCore
             //return $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\{FolderName}";
             return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
-
         private static void LoadConfig()
         {
             if (!File.Exists(GetConfigFilePath()))

@@ -121,7 +121,7 @@ namespace StudioCore.TextEditor
             }
             if (ImGui.BeginMenu("Import/Export", FMGBank.IsLoaded))
             {
-                if (ImGui.MenuItem("Import Files"))
+                if (ImGui.MenuItem("Import Files", KeyBindings.Current.TextFMG_Import.HintText))
                 {
                     if (FMGBank.ImportFMGs())
                     {
@@ -129,7 +129,7 @@ namespace StudioCore.TextEditor
                         ResetActionManager();
                     }
                 }
-                if (ImGui.MenuItem("Export All Text"))
+                if (ImGui.MenuItem("Export All Text", KeyBindings.Current.TextFMG_ExportAll.HintText))
                 {
                     FMGBank.ExportFMGs();
                 }
@@ -171,7 +171,7 @@ namespace StudioCore.TextEditor
                                     matches.Add(entry);
                             }
                         }
-                        foreach (var entry in FMGBank.GetFmgEntriesByType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
+                        foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
                         {
                             // Descriptions
                             if (entry.Text != null)
@@ -184,7 +184,7 @@ namespace StudioCore.TextEditor
                                 }
                             }
                         }
-                        foreach (var entry in FMGBank.GetFmgEntriesByType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
+                        foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
                         {
                             // Summaries
                             if (entry.Text != null)
@@ -456,7 +456,7 @@ namespace StudioCore.TextEditor
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
 
-            if (!ImGui.IsAnyItemActive())
+            if (!ImGui.IsAnyItemActive() && FMGBank.IsLoaded)
             {
                 // Only allow key shortcuts when an item [text box] is not currently activated
                 if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
@@ -475,8 +475,19 @@ namespace StudioCore.TextEditor
                 {
                     DuplicateFMGEntries(_activeEntryGroup);
                 }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Import))
+                {
+                    if (FMGBank.ImportFMGs())
+                    {
+                        ClearTextEditorCache();
+                        ResetActionManager();
+                    }
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_ExportAll))
+                {
+                    FMGBank.ExportFMGs();
+                }
             }
-
             bool doFocus = false;
             // Parse select commands
             if (initcmd != null && initcmd[0] == "select")

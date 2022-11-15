@@ -251,6 +251,15 @@
     <None Remove="Assets\Shaders\SimpleFlver_selected.frag.spv" />
     <None Remove="Assets\Shaders\SimpleFlver_selected.vert.spv" />
     <None Remove="tracy.dll" />
+    <None Update="Assets\GameOffsets\DS1R\CoreOffsets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\GameOffsets\DS1R\ItemGibOffsets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\GameOffsets\DS1R\ParamOffsets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
