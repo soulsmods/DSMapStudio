@@ -65,25 +65,25 @@ namespace StudioCore.ParamEditor
                 }
                 
                 if (column.ValueType == typeof(long))
-                    return PerformBasicOperation<long>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<long>(row, column, op, double.Parse(opparam));
                 if (column.ValueType == typeof(ulong))
-                    return PerformBasicOperation<ulong>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<ulong>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(int))
-                    return PerformBasicOperation<int>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<int>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(uint))
-                    return PerformBasicOperation<uint>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<uint>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(short))
-                    return PerformBasicOperation<short>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<short>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(ushort))
-                    return PerformBasicOperation<ushort>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<ushort>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(sbyte))
-                    return PerformBasicOperation<sbyte>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<sbyte>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(byte))
-                    return PerformBasicOperation<byte>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<byte>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(float))
-                    return PerformBasicOperation<float>(row, column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<float>(row, column, op, double.Parse(opparam));
                 else if (column.ValueType == typeof(double))
-                    return PerformBasicOperation<double>(row,column, op, Double.Parse(opparam, System.Globalization.CultureInfo.InvariantCulture));
+                    return PerformBasicOperation<double>(row,column, op, double.Parse(opparam));
             }
             catch
             {
