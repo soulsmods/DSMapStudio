@@ -1374,11 +1374,17 @@ namespace StudioCore.ParamEditor
 
             foreach (var paramKey in paramKeyList)
             {
+                var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                if (primary != null ? primary.Any() : false)
+                    ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                else
+                    ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
                 if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
                     EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                 }
+                ImGui.PopStyleColor();
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
                 if (ImGui.BeginPopupContextItem())
