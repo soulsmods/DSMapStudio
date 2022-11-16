@@ -305,7 +305,7 @@ namespace StudioCore.MsbEditor
                     if (Clonables[i].Parent != null)
                     {
                         int idx = Clonables[i].Parent.ChildIndex(Clonables[i]);
-                        Clonables[i].Parent.AddChild(newobj, idx);
+                        Clonables[i].Parent.AddChild(newobj, idx + 1);
                     }
                     newobj.UpdateRenderModel();
                     if (newobj.RenderSceneMesh != null)
