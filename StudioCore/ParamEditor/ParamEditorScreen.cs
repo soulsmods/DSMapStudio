@@ -1439,6 +1439,7 @@ namespace StudioCore.ParamEditor
                 {
                     CacheBank.ClearCaches();
                     lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
+                    doFocus = true;
                 }
 
                 if (ImGui.IsItemActive())

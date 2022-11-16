@@ -137,7 +137,7 @@ namespace StudioCore.TextEditor
             }
         }
 
-        private void FMGSearchLogic()
+        private void FMGSearchLogic(ref bool doFocus)
         {
             // Todo: This could be cleaned up.
             if (_entryLabelCache != null)
@@ -229,6 +229,7 @@ namespace StudioCore.TextEditor
 
                     _EntryLabelCacheFiltered = matches;
                     _searchFilterCached = _searchFilter;
+                    doFocus = true;
                 }
                 else if (_entryLabelCache != _EntryLabelCacheFiltered && _searchFilter == "")
                 {
@@ -337,7 +338,7 @@ namespace StudioCore.TextEditor
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);
 
-            FMGSearchLogic();
+            FMGSearchLogic(ref doFocus);
 
             ImGui.BeginChild("Text Entry List");
             if (_activeFmgInfo == null)
