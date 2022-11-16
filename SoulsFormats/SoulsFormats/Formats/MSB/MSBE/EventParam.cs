@@ -216,7 +216,7 @@ namespace SoulsFormats
             /// <summary>
             /// Identifies the Event in event scripts.
             /// </summary>
-            public int EntityID { get; set; }
+            public uint EntityID { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -253,7 +253,7 @@ namespace SoulsFormats
                 Name = name;
                 OtherID = -1;
                 EventID = -1;
-                EntityID = -1;
+                EntityID = 0;
             }
 
             /// <summary>
@@ -296,7 +296,7 @@ namespace SoulsFormats
                 br.Position = start + baseDataOffset;
                 PartIndex = br.ReadInt32();
                 RegionIndex = br.ReadInt32();
-                EntityID = br.ReadInt32();
+                EntityID = br.ReadUInt32();
                 UnkE0C = br.ReadByte();
                 br.AssertByte(0);
                 br.AssertByte(0);
@@ -345,7 +345,7 @@ namespace SoulsFormats
                 bw.FillInt64("BaseDataOffset", bw.Position - start);
                 bw.WriteInt32(PartIndex);
                 bw.WriteInt32(RegionIndex);
-                bw.WriteInt32(EntityID);
+                bw.WriteUInt32(EntityID);
                 bw.WriteByte(UnkE0C);
                 bw.WriteByte(0);
                 bw.WriteByte(0);
@@ -665,7 +665,7 @@ namespace SoulsFormats
                 /// Unknown why objacts need an extra entity ID.
                 /// </summary>
                 [MSBEntityReference]
-                public int ObjActEntityID { get; set; }
+                public uint ObjActEntityID { get; set; }
 
                 /// <summary>
                 /// The part to be interacted with.
@@ -688,29 +688,29 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int EventFlagID { get; set; }
+                public uint EventFlagID { get; set; }
 
                 /// <summary>
                 /// Creates an ObjAct with default values.
                 /// </summary>
                 public ObjAct() : base($"{nameof(Event)}: {nameof(ObjAct)}")
                 {
-                    ObjActEntityID = -1;
+                    ObjActEntityID = 0;
                     ObjActID = -1;
-                    EventFlagID = -1;
+                    EventFlagID = 0;
                 }
 
                 internal ObjAct(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    ObjActEntityID = br.ReadInt32();
+                    ObjActEntityID = br.ReadUInt32();
                     ObjActPartIndex = br.ReadInt32();
                     ObjActID = br.ReadInt32();
                     StateType = br.ReadByte();
                     br.AssertByte(0);
                     br.AssertInt16(0);
-                    EventFlagID = br.ReadInt32();
+                    EventFlagID = br.ReadUInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -718,13 +718,13 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(ObjActEntityID);
+                    bw.WriteUInt32(ObjActEntityID);
                     bw.WriteInt32(ObjActPartIndex);
                     bw.WriteInt32(ObjActID);
                     bw.WriteByte(StateType);
                     bw.WriteByte(0);
                     bw.WriteInt16(0);
-                    bw.WriteInt32(EventFlagID);
+                    bw.WriteUInt32(EventFlagID);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -806,12 +806,12 @@ namespace SoulsFormats
                 /// The NPC whose world you're entering.
                 /// </summary>
                 [MSBEntityReference]
-                public int HostEntityID { get; set; }
+                public uint HostEntityID { get; set; }
 
                 /// <summary>
                 /// Set when inside the event's region, unset when outside it.
                 /// </summary>
-                public int EventFlagID { get; set; }
+                public uint EventFlagID { get; set; }
 
                 /// <summary>
                 /// ID of a goods item that is used to trigger the event.
@@ -848,8 +848,8 @@ namespace SoulsFormats
                 /// </summary>
                 public PseudoMultiplayer() : base($"{nameof(Event)}: {nameof(PseudoMultiplayer)}")
                 {
-                    HostEntityID = -1;
-                    EventFlagID = -1;
+                    HostEntityID = 0;
+                    EventFlagID = 0;
                     ActivateGoodsID = -1;
                     UnkT0C = -1;
                     UnkT10 = -1;
@@ -860,8 +860,8 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    HostEntityID = br.ReadInt32();
-                    EventFlagID = br.ReadInt32();
+                    HostEntityID = br.ReadUInt32();
+                    EventFlagID = br.ReadUInt32();
                     ActivateGoodsID = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
                     UnkT10 = br.ReadInt32();
@@ -873,8 +873,8 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(HostEntityID);
-                    bw.WriteInt32(EventFlagID);
+                    bw.WriteUInt32(HostEntityID);
+                    bw.WriteUInt32(EventFlagID);
                     bw.WriteInt32(ActivateGoodsID);
                     bw.WriteInt32(UnkT0C);
                     bw.WriteInt32(UnkT10);
@@ -1171,7 +1171,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Flag that must be set for stake to be available.
                 /// </summary>
-                public int EventFlagID { get; set; }
+                public uint EventFlagID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1195,7 +1195,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     RetryPartIndex = br.ReadInt32();
-                    EventFlagID = br.ReadInt32();
+                    EventFlagID = br.ReadUInt32();
                     UnkT08 = br.ReadSingle();
                     RetryRegionIndex = br.ReadInt16();
                     br.AssertInt16(0);
@@ -1204,7 +1204,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(RetryPartIndex);
-                    bw.WriteInt32(EventFlagID);
+                    bw.WriteUInt32(EventFlagID);
                     bw.WriteSingle(UnkT08);
                     bw.WriteInt16(RetryRegionIndex);
                     bw.WriteInt16(0);

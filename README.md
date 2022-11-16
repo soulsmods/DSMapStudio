@@ -5,11 +5,11 @@ DS Map Studio is a standalone map editor for all the souls games. It is intended
 ### Game instructions
 * **Dark Souls Prepare to die Edition**: Game must be unpacked with UDSFM before usage with Map Studio (https://www.nexusmods.com/darksouls/mods/1304).
 * **Dark Souls Remastered**: Not officially supported yet, but it's possible to work with if you copy the map files to an unpacked PTDE installation, load from there, do the modifications, and then copy back to the remastered installation.
-* **Dark Souls 2 SOTFS**: Use UXM (https://www.nexusmods.com/sekiro/mods/26) to unpack the game. Params must also be decrypted before use (you can open and save them with Yapped Honey Bear edition (https://github.com/vawser/Yapped-Honey-Bear) until I implement this natively). Vanilla Dark Souls 2 is not supported.
+* **Dark Souls 2 SOTFS**: Use UXM (https://www.nexusmods.com/sekiro/mods/26) to unpack the game. Vanilla Dark Souls 2 is not supported.
 * **Dark Souls 3 and Sekiro**: Use UXM to extract the game files.
 * **Demon's Souls**: I test against the US version, but any valid full game dump of Demon's Souls will probably work out of the box. Make sure to disable the RPCS3 file cache to test changes if using the emulator.
 * **Bloodborne**: Any valid full game dump should work out of the box. Note that some dumps will have the base game (1.0) and the patch as separate, so the patch should be merged on top of the base game before use with map studio. You're on your own for installing mods to console at the moment.
-* **Elden Ring**: Use UXM QuickHack to extract the game files.
+* **Elden Ring**: Use UXM Selective Unpack (https://github.com/Nordgaren/UXM-Selective-Unpack) to extract the game files. It's recommended to unpack everything, but at least the `map`, `asset`, `chr`, and `msg` directories are needed for basic editor usage.
 
 ### Mod projects
 Map studio operates on top of something I call mod projects. These are typically stored in a separate directory from the base game, and all modifies files will be saved there instead of overwriting the base game files. The intended workflow is to install mod engine for your respective game and set the modoverridedirectory in modengine.ini to your mod project directory. This way you don't have to modify base game files (and work on multiple mod projects at a time) and you can easily distribute a mod by zipping up the project directory and uploading it.
@@ -27,12 +27,14 @@ A: That's the goal, but asset pipeline work is still needed to get there. I'm cu
 A: Likely not. Rendering the entirety of the maps for DS3, Bloodborne, and Sekiro are quite challenging. In game they have techniques to limit draw calls, but in the editor context sometimes literally every mesh in the map may end up rendered. I thus use some modern Vulkan features to be able to batch and issue 10's of thousands of draw calls per frame, which unfortunately makes my renderer architecture incompatible with DX11.
 
 ## System Requirements:
-* Windows 7/8/8.1/10 (64-bit only)
-* [Microsoft .Net Core 6.0 **Desktop** Runtime](https://dotnet.microsoft.com/download/dotnet-core/6.0)
-* [Visual C++ Redistributable x64 - INSTALL THIS IF THE PROGRAM CRASHES ON STARTUP](https://aka.ms/vs/16/release/vc_redist.x64.exe)
+* Windows 7/8/8.1/10/11 (64-bit only)
+* Visual C++ Redistributable x64 - INSTALL THIS IF THE PROGRAM CRASHES ON STARTUP (https://aka.ms/vs/16/release/vc_redist.x64.exe)
+* For the error message "You must install or update .NET to run this application", use these exact download links. It is not enough to install the default .NET runtime.
+  * Microsoft .NET Core 6.0 **Desktop** Runtime (https://aka.ms/dotnet/6.0/windowsdesktop-runtime-win-x64.exe)
+  * (if Windows not updated) Microsoft .NET Core 6.0 ASP.NET Core Runtime (https://aka.ms/dotnet/6.0/aspnetcore-runtime-win-x64.exe)
 * **A Vulkan Compatible Graphics Device with support for descriptor indexing**, even if you're just modding DS1: PTDE
 * Intel GPUs currently don't seem to be working properly. At the moment, you will probably need a somewhat recent (2014+) NVIDIA or AMD GPU
-* A 4GB (8GB recommended) graphics card if modding DS3/BB/Sekiro maps due to huge map sizes
+* A 4GB (8GB recommended) graphics card if modding DS3/BB/Sekiro/ER maps due to huge map sizes
 
 ## Credits:
 * Katalash - primary author
