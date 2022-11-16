@@ -166,39 +166,49 @@ namespace StudioCore.Editor
             filterList.Add("modified", (0, noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
                     HashSet<int> cache = bank.VanillaDiffCache[paramName];
-                    return (row)=>cache.Contains(row.ID);
+                    if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
+                        return (row) => true;
+                    return (row) => cache.Contains(row.ID);
                 }
             )));
             filterList.Add("original", (0, noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
+                    if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
+                        return (row) => false;
                     HashSet<int> cache = bank.VanillaDiffCache[paramName];
-                    return (row)=>!cache.Contains(row.ID);
+                    return (row) => !cache.Contains(row.ID);
                 }
             )));
             filterList.Add("added", (0, noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
+                    if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
+                        return (row) => true;
                     Param vanilParam = ParamBank.VanillaBank.Params[paramName];
-                    return (row)=>vanilParam[row.ID] == null;
+                    return (row) => vanilParam[row.ID] == null;
                 }
             )));
             filterList.Add("notadded", (0, noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
+                    if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
+                        return (row) => false;
                     Param vanilParam = ParamBank.VanillaBank.Params[paramName];
-                    return (row)=>vanilParam[row.ID] != null;
+                    return (row) => vanilParam[row.ID] != null;
                 }
             )));
             filterList.Add("mergeable", (0, noArgs((context)=>{
                 string paramName = context.Item1.GetKeyForParam(context.Item2);
+                if (paramName == null)
+                    return (row) => true;
                 HashSet<int> cache = context.Item1.VanillaDiffCache[paramName];
-                var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName])).ToList();
-                return (row)=>!cache.Contains(row.ID) && auxCaches.Where((x)=>x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                var auxCaches = ParamBank.AuxBanks.Select(x=>x.Value.Params.ContainsKey(paramName) ? (x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName]) : (null, null)).ToList();
+                return (row) => !cache.Contains(row.ID) && auxCaches.Where((x) => x != (null, null) && x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
                 }
             )));
             filterList.Add("conflicts", (0, noArgs((context)=>{
                 string paramName = context.Item1.GetKeyForParam(context.Item2);
                 HashSet<int> cache = context.Item1.VanillaDiffCache[paramName];
-                var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName])).ToList();
-                return (row)=>cache.Contains(row.ID) && auxCaches.Where((x)=>x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                var auxCaches = ParamBank.AuxBanks.Select(x=>x.Value.Params.ContainsKey(paramName) ? (x.Value.PrimaryDiffCache[paramName], x.Value.VanillaDiffCache[paramName]) : (null, null)).ToList();
+                return (row)=>cache.Contains(row.ID) && auxCaches.Where((x) => x != (null, null) && x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
                 }
             )));
             filterList.Add("id", (1, (args, lenient)=>{
