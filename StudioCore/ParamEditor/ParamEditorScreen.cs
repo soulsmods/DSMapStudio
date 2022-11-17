@@ -1081,6 +1081,7 @@ namespace StudioCore.ParamEditor
                             rowsToInsert.Reverse();
                         }
                         EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
+                        ImGui.CloseCurrentPopup();
                     }
                 }
                 catch
