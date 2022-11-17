@@ -1516,12 +1516,12 @@ namespace StudioCore.ParamEditor
 
         private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
-            bool diffVanilla = vanillaDiffCache != null && vanillaDiffCache.Contains(r.ID);
-            bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1 != null && cache.Item1.Contains(r.ID)).Count() > 0;
+            bool diffVanilla = vanillaDiffCache.Contains(r.ID);
+            bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
             if (diffVanilla)
             {
                 // If the auxes are changed bu
-                bool auxDiffPrimaryAndVanilla = auxDiffCaches.Where((cache) => cache.Item1 != null && cache.Item2 != null && cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 0;
+                bool auxDiffPrimaryAndVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 0;
                 if (auxDiffVanilla && auxDiffPrimaryAndVanilla)
                     ImGui.PushStyleColor(ImGuiCol.Text, AUXCONFLICTCOLOUR);
                 else
