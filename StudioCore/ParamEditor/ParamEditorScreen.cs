@@ -890,9 +890,7 @@ namespace StudioCore.ParamEditor
                     {
                         doFocus = initcmd[0] == "select";
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(), 
-                                ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.VanillaDiffCache[_activeView._selection.getActiveParam()]);
+                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
 
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
@@ -922,9 +920,7 @@ namespace StudioCore.ParamEditor
                             }
                         }
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
-                                ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.VanillaDiffCache[_activeView._selection.getActiveParam()]);
+                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
 
                     }
                 }
@@ -1403,8 +1399,8 @@ namespace StudioCore.ParamEditor
             else
             {
                 Param para = ParamBank.PrimaryBank.Params[activeParam];
-                HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.VanillaDiffCache[activeParam];
-                List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => bank.Value.Params.ContainsKey(activeParam) ? (bank.Value.VanillaDiffCache[activeParam], bank.Value.PrimaryDiffCache[activeParam]) : (null, null)).ToList();
+                HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
+                List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
                 IParamDecorator decorator = null;
                 if (_paramEditor._decorators.ContainsKey(activeParam))
                 {

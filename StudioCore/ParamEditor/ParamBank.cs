@@ -812,15 +812,16 @@ namespace StudioCore.ParamEditor
             else
                 cache.Remove(row.ID);
         }
-        
-        // In theory this should be called twice for both Vanilla and PrimaryBank. However, as primarybank is the only one to ever change, this is unnecessary.
-        public static void RefreshParamRowDiffCache(Param.Row row, Param otherBankParam, HashSet<int> cache)
+
+        public void RefreshParamRowVanillaDiff(Param.Row row, string param)
         {
-            var otherBankRows = otherBankParam.Rows.Where(cell => cell.ID == row.ID).ToArray();
+            if (!VanillaBank.Params.ContainsKey(param) || VanillaDiffCache == null || !VanillaDiffCache.ContainsKey(param))
+                return; // Don't try for now
+            var otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
             if (IsChanged(row, otherBankRows))
-                cache.Add(row.ID);
+                VanillaDiffCache[param].Add(row.ID);
             else
-                cache.Remove(row.ID);
+                VanillaDiffCache[param].Remove(row.ID);
         }
         
         private static bool IsChanged(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows)
@@ -1534,6 +1535,22 @@ namespace StudioCore.ParamEditor
                     return pair.Value;
             }
             return null;
+        }
+
+        private static HashSet<int> EMPTYSET = new HashSet<int>();
+        public HashSet<int> GetVanillaDiffRows(string param)
+        {
+            var allDiffs = VanillaDiffCache;
+            if (allDiffs == null || !allDiffs.ContainsKey(param))
+                return EMPTYSET;
+            return allDiffs[param];
+        }
+        public HashSet<int> GetPrimaryDiffRows(string param)
+        {
+            var allDiffs = PrimaryDiffCache;
+            if (allDiffs == null || !allDiffs.ContainsKey(param))
+                return EMPTYSET;
+            return allDiffs[param];
         }
     }
 }
