@@ -44,12 +44,12 @@
     </Enum>
   </Enums>
   <Field>
-    <atkId_Bullet Refs="Atk_Param_Npc,AtkParam_Pc" Wiki="ID of AtkParam_Npc or AtkParam_Pc to use on hit targets." />
+    <atkId_Bullet Refs="AtkParam_Npc,AtkParam_Pc" Wiki="ID of AtkParam_Npc or AtkParam_Pc to use on hit targets." />
     <sfxId_Bullet Wiki="Visual/audio effect while bullet is active. Refers to ID of an SFX" />
     <sfxId_Hit Wiki="Visual/audio effect when the bullet expires or hits something. Refers to ID of an SFX" />
     <sfxId_Flick Wiki="Visual/audio effect when the bullet is blocked by a shield? (needs verification) Refers to ID of an SFX" />
     <life Wiki="Duration (in seconds) bullet will last." />
-    <dist Wiki="Arbitrary range threshold (in $quot;meters$quot;) used for swapping between inRange and outRange fields.\nHas misc effects too1." />
+    <dist Wiki="Arbitrary range threshold (in $quot;meters$quot;) used for swapping between inRange and outRange fields.\nHas misc effects too." />
     <shootInterval Wiki="Frequency (in seconds) to generate additional bullets while TAE bullet behavior event remains active.\n0 = do not generate additional bullets" />
     <gravityInRange Wiki="Converts projectile direction downwards/upwards (+/-) by this amount over time while distance is less than the dist threshold.\nAlso increases velocity, but whether this is constant or direction dependent is unknown." />
     <gravityOutRange Wiki="Converts projectile direction downwards/upwards (+/-) by this amount over time while distance is greater than the dist threshold.\nAlso increases velocity, but whether this is constant or direction dependent is unknown." />
