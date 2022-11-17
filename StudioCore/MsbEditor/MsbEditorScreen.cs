@@ -204,12 +204,17 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Map map)
+        /// <summary>
+        /// Adds a new entity to the targeted map. If no parent is specified, RootObject will be used.
+        /// </summary>
+        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Map map, Entity parent = null)
         {
             var newent = typ.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
             var obj = new MapEntity(map, newent, etype);
 
-            var act = new AddMapObjectsAction(Universe, map, RenderScene, new List<MapEntity> { obj }, true);
+            parent ??= map.RootObject;
+
+            var act = new AddMapObjectsAction(Universe, map, RenderScene, new List<MapEntity> { obj }, true, parent);
             EditorActionManager.ExecuteAction(act);
         }
 
@@ -336,7 +341,7 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginMenu("Create"))
             {
                 var loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
-                if (loadedMaps.Count() == 0)
+                if (!loadedMaps.Any())
                 {
                     ImGui.Text("No maps loaded");
                 }
@@ -348,6 +353,29 @@ namespace StudioCore.MsbEditor
 
                     Map map = (Map)loadedMaps.ElementAt(_createEntityMapIndex);
 
+                    if (ImGui.BeginMenu("BTL Lights"))
+                    {
+                        if (!map.BTLParents.Any())
+                        {
+                            ImGui.Text("This map has no BTL files.");
+                        }
+                        else
+                        {
+                            foreach (var btl in map.BTLParents)
+                            {
+                                var ad = (AssetDescription)btl.WrappedObject;
+                                if (ImGui.BeginMenu(ad.AssetName))
+                                {
+                                    if (ImGui.MenuItem("Create Light"))
+                                    {
+                                        AddNewEntity(typeof(BTL.Light), MapEntity.MapEntityType.Light, map, btl);
+                                    }
+                                    ImGui.EndMenu();
+                                }
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("Parts"))
                     {
                         foreach (var p in _partsClasses)

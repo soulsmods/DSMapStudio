@@ -375,16 +375,18 @@ namespace StudioCore.MsbEditor
         private List<MapEntity> Added = new List<MapEntity>();
         private List<ObjectContainer> AddedMaps = new List<ObjectContainer>();
         private bool SetSelection;
+        private Entity Parent;
 
         private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
 
-        public AddMapObjectsAction(Universe univ, Map map, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
+        public AddMapObjectsAction(Universe univ, Map map, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection, Entity parent)
         {
             Universe = univ;
             Map = map;
             Scene = scene;
             Added.AddRange(objects);
             SetSelection = setSelection;
+            Parent = parent;
         }
 
         public override ActionEvent Execute()
@@ -394,7 +396,7 @@ namespace StudioCore.MsbEditor
                 if (Map != null)
                 {
                     Map.Objects.Add(Added[i]);
-                    Map.RootObject.AddChild(Added[i]);
+                    Parent.AddChild(Added[i]);
                     Added[i].UpdateRenderModel();
                     if (Added[i].RenderSceneMesh != null)
                     {
