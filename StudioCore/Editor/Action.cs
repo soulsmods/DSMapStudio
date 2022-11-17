@@ -290,7 +290,7 @@ namespace StudioCore.Editor
 
         public override ActionEvent Execute()
         {
-            NewEntryGroup = EntryGroup.DuplicateEntries();
+            NewEntryGroup = EntryGroup.DuplicateFMGEntries();
             NewEntryGroup.SetNextUnusedID();
             return ActionEvent.NoEvent;
         }
@@ -306,7 +306,6 @@ namespace StudioCore.Editor
     {
         private FMGBank.EntryGroup EntryGroup;
         private FMGBank.EntryGroup BackupEntryGroup = new();
-        private int Index = -1;
 
         public DeleteFMGEntryAction(FMGBank.EntryGroup entryGroup)
         {
@@ -315,8 +314,7 @@ namespace StudioCore.Editor
 
         public override ActionEvent Execute()
         {
-            Index = EntryGroup.GetIndex();
-            BackupEntryGroup = EntryGroup.CopyEntryGroup();
+            BackupEntryGroup = EntryGroup.CloneEntryGroup();
             EntryGroup.DeleteEntries();
             return ActionEvent.NoEvent;
         }
@@ -324,7 +322,7 @@ namespace StudioCore.Editor
         public override ActionEvent Undo()
         {
             EntryGroup = BackupEntryGroup;
-            EntryGroup.InsertEntries(Index);
+            EntryGroup.ImplementEntryGroup();
             return ActionEvent.NoEvent;
         }
     }
