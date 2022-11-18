@@ -1125,6 +1125,16 @@ namespace StudioCore.TextEditor
             {
                 ID = id,
             };
+
+            if (fmgInfo.EntryCategory == FmgEntryCategory.None)
+            {
+                var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
+                var pair = entryPairs.Find(e => e.Entry.ID == id);
+                eGroup.TextBody = pair.Entry;
+                eGroup.TextBodyInfo = pair.FmgInfo;
+                return eGroup;
+            }
+
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == fmgInfo.EntryCategory && info.PatchParent == null)
