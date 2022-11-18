@@ -50,7 +50,7 @@ namespace StudioCore.TextEditor
 
         private void ResetActionManager()
         {
-            EditorActionManager = new();
+            EditorActionManager.Clear();
         }
 
         /// <summary>
