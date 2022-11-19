@@ -40,6 +40,7 @@ namespace StudioCore.TextEditor
         private void ClearTextEditorCache()
         {
             CacheBank.ClearCaches();
+            _entryLabelCache = null;
             _EntryLabelCacheFiltered = null;
             _activeFmgInfo = null;
             _activeEntryGroup = null;
