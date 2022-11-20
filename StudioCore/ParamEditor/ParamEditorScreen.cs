@@ -662,7 +662,7 @@ namespace StudioCore.ParamEditor
                             var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                             {
                                 Title = $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
-                                Filter = AssetLocator.ERRegulationFilter,
+                                Filter = AssetLocator.ERParamUpgradeFilter,
                                 ValidateNames = true,
                                 CheckFileExists = true,
                                 CheckPathExists = true,
