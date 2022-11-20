@@ -658,6 +658,12 @@ namespace StudioCore
                 resource.Dispose();
             }
         }
+        
+        public static float GetUIScale()
+        {
+            // TODO: Multiply with DPI. Seems to always return 1.0
+            return CFG.Current.UIScale * ImGui.GetWindowDpiScale();
+        }
 
         private struct ResourceSetInfo
         {
