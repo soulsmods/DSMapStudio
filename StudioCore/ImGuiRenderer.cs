@@ -661,8 +661,8 @@ namespace StudioCore
         
         public static float GetUIScale()
         {
-            // TODO: Multiply with DPI. Seems to always return 1.0
-            return CFG.Current.UIScale * ImGui.GetWindowDpiScale();
+            // TODO: Multiply by monitor DPI when available.
+            return CFG.Current.UIScale;
         }
 
         private struct ResourceSetInfo
