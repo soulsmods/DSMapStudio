@@ -280,7 +280,7 @@ namespace StudioCore.ParamEditor
                             var (p, rs) = rowFunc((bank, activeParam, row), rowArgValues);
                             if (p == null || rs == null)
                                 return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
-                            partialActions.Add(new AddParamsAction(p, "FromMassEdit", rs.ToList(), false, true, false));
+                            partialActions.Add(new AddParamsAction(p, "FromMassEdit", rs.ToList(), false, true));
                         }
                         else if (pseudoCol == PseudoColumn.Name)
                         {
@@ -319,7 +319,7 @@ namespace StudioCore.ParamEditor
                                 var (p2, rs) = rowFunc((b, p, row), rowArgValues);
                                 if (p2 == null || rs == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
-                                partialActions.Add(new AddParamsAction(p2, "FromMassEdit", rs.ToList(), false, true, false));
+                                partialActions.Add(new AddParamsAction(p2, "FromMassEdit", rs.ToList(), false, true));
                                 }
                             else if (pseudoCol == PseudoColumn.Name)
                             {
