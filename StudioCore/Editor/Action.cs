@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using FSParam;
 using StudioCore.TextEditor;
+using StudioCore.ParamEditor;
 
 namespace StudioCore.Editor
 {
@@ -149,16 +150,16 @@ namespace StudioCore.Editor
         private List<Param.Row> Removed = new List<Param.Row>();
         private bool appOnly = false;
         private bool replParams = false;
-        private bool useIDAsIndex = false;
+        private int InsertIndex;
 
-        public AddParamsAction(Param param, string pstring, List<Param.Row> rows, bool appendOnly, bool replaceParams, bool useIDasIndex)
+        public AddParamsAction(Param param, string pstring, List<Param.Row> rows, bool appendOnly, bool replaceParams, int index = -1)
         {
             Param = param;
             Clonables.AddRange(rows);
             ParamString = pstring;
             appOnly = appendOnly;
             replParams = replaceParams;
-            useIDAsIndex = useIDasIndex;
+            InsertIndex = index;
         }
 
         public override ActionEvent Execute()
@@ -166,17 +167,18 @@ namespace StudioCore.Editor
             foreach (var row in Clonables)
             {
                 var newrow = new Param.Row(row);
-                if (useIDAsIndex)
+                if (InsertIndex > -1)
                 {
-                    Param.InsertRow(newrow.ID, newrow);
+                    newrow.Name = row.Name != null ? row.Name + "_1" : "";
+                    Param.InsertRow(InsertIndex, newrow);
                 }
                 else
                 {
-                    if (Param[(int) row.ID] != null)
+                    if (Param[(int)row.ID] != null)
                     {
                         if (replParams)
                         {
-                            Param.Row existing = Param[(int) row.ID];
+                            Param.Row existing = Param[(int)row.ID];
                             RemovedIndex.Add(Param.IndexOfRow(existing));
                             Removed.Add(existing);
                             Param.RemoveRow(existing);
@@ -190,10 +192,10 @@ namespace StudioCore.Editor
                                 newID++;
                             }
                             newrow.ID = newID;
-                            Param.InsertRow(Param.IndexOfRow(Param[(int) newID - 1]) + 1, newrow);
+                            Param.InsertRow(Param.IndexOfRow(Param[(int)newID - 1]) + 1, newrow);
                         }
                     }
-                    if (Param[(int) row.ID] == null)
+                    if (Param[(int)row.ID] == null)
                     {
                         newrow.Name = row.Name != null ? row.Name : "";
                         if (appOnly)
@@ -215,6 +217,9 @@ namespace StudioCore.Editor
                 }
                 Clones.Add(newrow);
             }
+
+            // Refresh diff cache
+            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
             return ActionEvent.NoEvent;
         }
 
@@ -270,8 +275,11 @@ namespace StudioCore.Editor
             }
             if (SetSelection)
             {
-                
+
             }
+
+            // Refresh diff cache
+            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
             return ActionEvent.NoEvent;
         }
     }

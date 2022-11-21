@@ -196,6 +196,7 @@ namespace StudioCore
         public bool Param_AllowFieldReorder = true;
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;
+        public bool Param_PasteAfterSelection = false;
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";

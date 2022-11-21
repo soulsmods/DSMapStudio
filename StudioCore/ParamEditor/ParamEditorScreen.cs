@@ -109,7 +109,6 @@ namespace StudioCore.ParamEditor
         private string _clipboardParam = null;
         private List<Param.Row> _clipboardRows = new List<Param.Row>();
         private long _clipboardBaseRow = 0;
-        private bool _ctrlVuseIndex = false;
         private string _currentCtrlVValue = "0";
         private string _currentCtrlVOffset = "0";
 
@@ -266,6 +265,15 @@ namespace StudioCore.ParamEditor
             EditorActionManager.Clear();
         }
 
+        private void ParamUndo()
+        {
+            EditorActionManager.UndoAction();
+        }
+        private void ParamRedo()
+        {
+            EditorActionManager.RedoAction();
+        }
+
         public override void DrawEditorMenu()
         {
             // Menu Options
@@ -273,11 +281,11 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
-                    EditorActionManager.UndoAction();
+                    ParamUndo();
                 }
                 if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
-                    EditorActionManager.RedoAction();
+                    ParamRedo();
                 }
                 if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
@@ -721,7 +729,7 @@ namespace StudioCore.ParamEditor
                 Param.Row newrow = new(r);
                 rowsToInsert.Add(newrow);
             }
-            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false, false));
+            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false));
         }
 
         public void OpenMassEditPopup(string popup)
@@ -820,13 +828,11 @@ namespace StudioCore.ParamEditor
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
                 {
-                    EditorActionManager.UndoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                    ParamUndo();
                 }
                 if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
-                    EditorActionManager.RedoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                    ParamRedo();
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
@@ -1021,18 +1027,12 @@ namespace StudioCore.ParamEditor
                 _isShortcutPopupOpen = true;
                 try
                 {
-                    int max = -1;
                     long offset = 0;
-                    ImGui.Checkbox("Paste after selection", ref _ctrlVuseIndex);
-                    if (_ctrlVuseIndex)
+                    ImGui.Checkbox("Paste after selection", ref CFG.Current.Param_PasteAfterSelection);
+                    var insertIndex = -1;
+                    if (CFG.Current.Param_PasteAfterSelection)
                     {
-                        ImGui.Text("Note: You may produce out-of-order or duplicate rows. These may confuse later ID-based row additions.");
-                        List<Param.Row> rows = _activeView._selection.getSelectedRows();
-                        Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
-                        foreach (Param.Row r in rows)
-                        {
-                            max = param.IndexOfRow(r) > max ? param.IndexOfRow(r) : max;
-                        }
+                        //ImGui.Text("Note: Allows out-of-order rows, which may confuse later ID-based row additions.");
                     }
                     else
                     {
@@ -1052,21 +1052,40 @@ namespace StudioCore.ParamEditor
                         offset = long.Parse(_currentCtrlVValue);
                         offset = long.Parse(_currentCtrlVOffset);
                     }
-                    int index = 1;
-                    if (ImGui.Selectable("Submit"))
+                    if (ImGui.Button("Submit"))
                     {
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
-                        foreach (Param.Row r in _clipboardRows)
+                        if (!CFG.Current.Param_PasteAfterSelection)
                         {
-                            Param.Row newrow = new Param.Row(r);// more cloning
-                            if (_ctrlVuseIndex)
-                                newrow.ID = (int) (max+index);
-                            else
-                                newrow.ID = (int) (r.ID + offset);
-                            rowsToInsert.Add(newrow);
-                            index++;
+                            foreach (Param.Row r in _clipboardRows)
+                            {
+                                Param.Row newrow = new Param.Row(r);// more cloning
+                                newrow.ID = (int)(r.ID + offset);
+                                rowsToInsert.Add(newrow);
+                            }
                         }
-                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, _ctrlVuseIndex));
+                        else
+                        {
+                            List<Param.Row> rows = _activeView._selection.getSelectedRows();
+                            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
+                            insertIndex = param.IndexOfRow(rows.Last()) + 1;
+                            foreach (Param.Row r in _clipboardRows)
+                            {
+                                // Determine new ID based on paste target. Increment ID until a free ID is found.
+                                Param.Row newrow = new Param.Row(r);
+                                newrow.ID = _activeView._selection.getSelectedRows().Last().ID;
+                                do
+                                {
+                                    newrow.ID++;
+                                }
+                                while (ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()][newrow.ID] != null || rowsToInsert.Exists(e => e.ID == newrow.ID));
+                                rowsToInsert.Add(newrow);
+                            }
+                            // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
+                            rowsToInsert.Reverse();
+                        }
+                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
+                        ImGui.CloseCurrentPopup();
                     }
                 }
                 catch
