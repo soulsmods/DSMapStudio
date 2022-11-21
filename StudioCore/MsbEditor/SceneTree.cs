@@ -513,13 +513,13 @@ namespace StudioCore.MsbEditor
                                 }
                                 else if (cats.Key == MapEntity.MapEntityType.Light)
                                 {
-                                    var btlFiles = typ.Value.DistinctBy(e => e.ExtraSaveInfo); // TODO2: cache this
-                                    foreach (var btlFile in btlFiles)
+                                    foreach (var parent in map.BTLParents)
                                     {
-                                        if (ImGui.TreeNodeEx($"{typ.Key.Name} {btlFile.ExtraSaveInfo}", ImGuiTreeNodeFlags.OpenOnArrow))
+                                        AssetDescription parentAD = (AssetDescription)parent.WrappedObject;
+                                        if (ImGui.TreeNodeEx($"{typ.Key.Name} {parentAD.AssetName}", ImGuiTreeNodeFlags.OpenOnArrow))
                                         {
                                             ImGui.SetItemAllowOverlap();
-                                            bool visible = btlFile.EditorVisible;
+                                            bool visible = parent.EditorVisible;
                                             ImGui.SameLine(ImGui.GetContentRegionAvail().X - 18.0f);
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
@@ -528,29 +528,18 @@ namespace StudioCore.MsbEditor
                                             if (ImGui.IsItemClicked(0))
                                             {
                                                 // Hide/Unhide all lights within this BTL.
-                                                btlFile.EditorVisible = !btlFile.EditorVisible;
-                                                foreach (var obj in typ.Value)
-                                                {
-                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
-                                                    {
-                                                        obj.EditorVisible = btlFile.EditorVisible;
-                                                    }
-                                                }
+                                                parent.EditorVisible = !parent.EditorVisible;
                                             }
-
-                                            foreach (var obj in typ.Value)
+                                            foreach (var obj in parent.Children)
                                             {
-                                                if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
-                                                {
-                                                    MapObjectSelectable(obj, true);
-                                                }
+                                                MapObjectSelectable(obj, true);
                                             }
                                             ImGui.TreePop();
                                         }
                                         else
                                         {
                                             ImGui.SetItemAllowOverlap();
-                                            bool visible = btlFile.EditorVisible;
+                                            bool visible = parent.EditorVisible;
                                             ImGui.SameLine(ImGui.GetContentRegionAvail().X - 39.0f);
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
@@ -559,14 +548,7 @@ namespace StudioCore.MsbEditor
                                             if (ImGui.IsItemClicked(0))
                                             {
                                                 // Hide/Unhide all lights within this BTL.
-                                                btlFile.EditorVisible = !btlFile.EditorVisible;
-                                                foreach (var obj in typ.Value)
-                                                {
-                                                    if (obj.ExtraSaveInfo == btlFile.ExtraSaveInfo)
-                                                    {
-                                                        obj.EditorVisible = btlFile.EditorVisible;
-                                                    }
-                                                }
+                                                parent.EditorVisible = !parent.EditorVisible;
                                             }
                                         }
                                     }
