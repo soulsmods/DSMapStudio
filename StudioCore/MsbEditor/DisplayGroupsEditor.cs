@@ -4,6 +4,7 @@ using System.Text;
 using System.Numerics;
 using Veldrid;
 using ImGuiNET;
+using System.Reflection;
 
 namespace StudioCore.MsbEditor
 {
@@ -11,11 +12,13 @@ namespace StudioCore.MsbEditor
     {
         private Scene.RenderScene _scene;
         private Selection _selection;
+        private ActionManager _actionManager;
 
-        public DisplayGroupsEditor(Scene.RenderScene scene, Selection sel)
+        public DisplayGroupsEditor(Scene.RenderScene scene, Selection sel, ActionManager manager)
         {
             _scene = scene;
             _selection = sel;
+            _actionManager = manager;
         }
 
         public void OnGui(int dispCount)
@@ -27,10 +30,9 @@ namespace StudioCore.MsbEditor
             {
                 if (sel.UseDrawGroups)
                 {
-                    sdrawgroups = sel.Drawgroups; //Will be CollisionName values (if reference is valid)
+                    sdrawgroups = sel.Drawgroups; // Will be CollisionName values (if reference is valid)
                 }
                 sdispgroups = sel.Dispgroups;
-                //sdispgroups = sel.FakeDispgroups;
             }
 
 
@@ -100,19 +102,17 @@ namespace StudioCore.MsbEditor
                 ImGui.SameLine(0, 14f);
                 if (ImGui.Button($"Give as DrawGroups <{KeyBindings.Current.Map_RenderGroup_GiveDraw.HintText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDraw))
                 {
-                    for (int i = 0; i < dispCount; i++)
-                    {
-                        sel.Drawgroups[i] = dg.RenderGroups[i];
-                    }
+                    var prop = sel.GetType().GetProperty("Drawgroups", BindingFlags.Instance | BindingFlags.Public);
+                    PropertiesChangedAction action = new(prop, sel, dg.RenderGroups.Clone());
+                    _actionManager.ExecuteAction(action);
                 }
 
                 ImGui.SameLine();
                 if (ImGui.Button($"Give as DispGroups <{KeyBindings.Current.Map_RenderGroup_GiveDisp.HintText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDisp))
                 {
-                    for (int i = 0; i < dispCount; i++)
-                    {
-                        sel.Dispgroups[i] = dg.RenderGroups[i];
-                    }
+                    var prop = sel.GetType().GetProperty("Dispgroups", BindingFlags.Instance | BindingFlags.Public);
+                    PropertiesChangedAction action = new(prop, sel, dg.RenderGroups.Clone());
+                    _actionManager.ExecuteAction(action);
                 }
                 if (sdispgroups == null)
                     ImGui.EndDisabled();

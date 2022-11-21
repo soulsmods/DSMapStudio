@@ -81,7 +81,7 @@ namespace StudioCore.MsbEditor
 
             SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection, EditorActionManager, Viewport, AssetLocator);
             PropEditor = new PropertyEditor(EditorActionManager);
-            DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection);
+            DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
             PropSearch = new SearchProperties(Universe);
             NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
