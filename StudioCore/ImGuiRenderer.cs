@@ -658,6 +658,12 @@ namespace StudioCore
                 resource.Dispose();
             }
         }
+        
+        public static float GetUIScale()
+        {
+            // TODO: Multiply by monitor DPI when available.
+            return CFG.Current.UIScale;
+        }
 
         private struct ResourceSetInfo
         {

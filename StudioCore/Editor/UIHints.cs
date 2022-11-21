@@ -124,6 +124,7 @@ Some common tools for mapstudio include:
 
         public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
         {
+            float scale = ImGuiRenderer.GetUIScale();
             bool ret = false;
             ImGui.SameLine();
             /*
@@ -150,7 +151,7 @@ Some common tools for mapstudio include:
                 {
                     if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
                     {
-                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480) * scale);
                         if (ImGui.IsItemDeactivatedAfterEdit())
                             ret = true;
                     }
@@ -171,7 +172,7 @@ Some common tools for mapstudio include:
 
                     if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
                     {
-                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480) * scale);
                         if (ImGui.IsItemDeactivatedAfterEdit())
                             ret = true;
                     }

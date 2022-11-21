@@ -541,12 +541,14 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI(string[] initcmd)
         {
+            float scale = ImGuiRenderer.GetUIScale();
+
             // Docking setup
             //var vp = ImGui.GetMainViewport();
             var wins = ImGui.GetWindowSize();
             var winp = ImGui.GetWindowPos();
-            winp.Y += 20.0f;
-            wins.Y -= 20.0f;
+            winp.Y += 20.0f * scale;
+            wins.Y -= 20.0f * scale;
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
@@ -720,8 +722,8 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            ImGui.SetNextWindowSize(new Vector2(300, 500), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(20, 20), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(300, 500) * scale, ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver);
 
             System.Numerics.Vector3 clear_color = new System.Numerics.Vector3(114f / 255f, 144f / 255f, 154f / 255f);
             //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");

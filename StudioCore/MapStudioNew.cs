@@ -35,6 +35,8 @@ namespace StudioCore
         private bool _windowMoved = true;
         private bool _colorSrgb = false;
 
+        private float _uiScale = 1.0f;
+
         private static double _desiredFrameLengthSeconds = 1.0 / 20.0f;
         private static bool _limitFrameRate = true;
         //private static FrameTimeAverager _fta = new FrameTimeAverager(0.666);
@@ -145,8 +147,9 @@ namespace StudioCore
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
-            SetupFonts();
+            _uiScale = CFG.Current.UIScale;
             ImguiRenderer.OnSetupDone();
+            SetupFonts();
 
             var style = ImGui.GetStyle();
             style.TabBorderSize = 0;
@@ -178,7 +181,7 @@ namespace StudioCore
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
 
-            var scale = CFG.Current.FontSizeScale;
+            float scale = ImGuiRenderer.GetUIScale();
 
             fixed (byte* p = fontEn)
             {
@@ -395,6 +398,9 @@ namespace StudioCore
 
         public void ApplyStyle()
         {
+            float scale = ImGuiRenderer.GetUIScale();
+            var style = ImGui.GetStyle();
+
             // Colors
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
             //ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
@@ -429,14 +435,19 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 1.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.TabRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 0.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(100f,100f));
+            ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(100f, 100f) * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, style.FramePadding * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, style.CellPadding * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, style.IndentSpacing * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemInnerSpacing, style.ItemInnerSpacing * scale);
         }
 
         public void UnapplyStyle()
         {
             ImGui.PopStyleColor(27);
-            ImGui.PopStyleVar(5);
+            ImGui.PopStyleVar(10);
         }
 
         private void DumpFlverLayouts()
@@ -605,6 +616,9 @@ namespace StudioCore
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
+
+            float scale = ImGuiRenderer.GetUIScale();
+
             ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
             Tracy.TracyCZoneEnd(ctx);
             List<string> tasks = Editor.TaskManager.GetLiveThreads();
@@ -802,14 +816,19 @@ namespace StudioCore
                     {
                         keyBindGUI = true;
                     }
-                    if (ImGui.BeginMenu("Fonts"))
+
+                    if (ImGui.BeginMenu("UI"))
                     {
-                        ImGui.Text("Please restart program for font changes to take effect.");
+                        ImGui.Text("Please restart program for UI changes to take effect.");
                         ImGui.Separator();
 
-                        if (ImGui.SliderFloat("Font Scale", ref CFG.Current.FontSizeScale, 0.5f, 4.0f))
+                        ImGui.SliderFloat("UI Scale", ref _uiScale, 0.5f, 4.0f);
+                        if (ImGui.IsItemDeactivatedAfterEdit())
                         {
-                            CFG.Current.FontSizeScale = (float)Math.Round(CFG.Current.FontSizeScale, 1);
+                            // Round to 0.05
+                            float newScale = (float)Math.Round(_uiScale * 20) / 20;
+                            _uiScale = newScale;
+                            CFG.Current.UIScale = newScale;
                         }
                         if (ImGui.BeginMenu("Additional Language Fonts"))
                         {
@@ -1102,7 +1121,7 @@ namespace StudioCore
                 ImGui.EndPopup();
             }
 
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
 
             // New project modal
             if (newProject)
@@ -1223,7 +1242,7 @@ namespace StudioCore
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 ImGui.NewLine();
 
-                if (ImGui.Button("Create", new Vector2(120, 0)))
+                if (ImGui.Button("Create", new Vector2(120, 0) * scale))
                 {
                     bool validated = true;
                     if (_newProjectOptions.settings.GameRoot == null || !File.Exists(_newProjectOptions.settings.GameRoot))
@@ -1296,7 +1315,7 @@ namespace StudioCore
                     }
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Cancel", new Vector2(120, 0)))
+                if (ImGui.Button("Cancel", new Vector2(120, 0) * scale))
                 {
                     ImGui.CloseCurrentPopup();
                 }
@@ -1389,7 +1408,7 @@ namespace StudioCore
                 textcmds = commandsplit.Skip(1).ToArray();
                 ImGui.SetNextWindowFocus();
             }
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4) * scale);
             if (ImGui.Begin("Text Editor"))
             {
                 _textEditor.OnGUI(textcmds);

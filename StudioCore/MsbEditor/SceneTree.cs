@@ -192,6 +192,8 @@ namespace StudioCore.MsbEditor
         private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
         unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
+            float scale = ImGuiRenderer.GetUIScale();
+            
             // Main selectable
             if (e is MapEntity me)
             {
@@ -413,12 +415,12 @@ namespace StudioCore.MsbEditor
                 if (e is MapEntity me2)
                 {
                     ImGui.SetItemAllowOverlap();
-                    ImGui.InvisibleButton(me2.Type.ToString() + e.Name, new Vector2(-1, 3.0f));
+                    ImGui.InvisibleButton(me2.Type.ToString() + e.Name, new Vector2(-1, 3.0f) * scale);
                 }
                 else
                 {
                     ImGui.SetItemAllowOverlap();
-                    ImGui.InvisibleButton(e.Name, new Vector2(-1, 3.0f));
+                    ImGui.InvisibleButton(e.Name, new Vector2(-1, 3.0f) * scale);
                 }
                 if (ImGui.IsItemFocused())
                 {
@@ -598,6 +600,8 @@ namespace StudioCore.MsbEditor
 
         public void OnGui()
         {
+            float scale = ImGuiRenderer.GetUIScale();
+
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             if (_configuration == Configuration.MapEditor)
             {
@@ -605,7 +609,7 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 2.0f));
+                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 2.0f) * scale);
             }
             string titleString = _configuration == Configuration.MapEditor ? $@"Map Object List##{_id}" : $@"Model Hierarchy##{_id}";
             if (ImGui.Begin(titleString))
@@ -624,7 +628,7 @@ namespace StudioCore.MsbEditor
                 if (_configuration == Configuration.MapEditor)
                 {
                     ImGui.Spacing();
-                    ImGui.Indent(30);
+                    ImGui.Indent(30 * scale);
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text("List Sorting Style:");
                     ImGui.SameLine();
@@ -642,7 +646,7 @@ namespace StudioCore.MsbEditor
                     ImGui.SetNextItemWidth(-1);
                     ImGui.InputText("##treeSearch", ref _mapNameSearchStr, 99);
 
-                    ImGui.Unindent(30);
+                    ImGui.Unindent(30 * scale);
                 }
 
                 ImGui.BeginChild("listtree");
@@ -806,11 +810,11 @@ namespace StudioCore.MsbEditor
                     {
                         if (_pendingDragDrop)
                         {
-                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 0.0f));
+                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 0.0f) * scale);
                         }
                         else
                         {
-                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 3.0f));
+                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8.0f, 3.0f) * scale);
                         }
                         if (_viewMode == ViewMode.Hierarchy)
                         {

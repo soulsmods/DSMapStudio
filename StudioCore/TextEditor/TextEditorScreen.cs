@@ -448,11 +448,13 @@ namespace StudioCore.TextEditor
                 return;
             }
 
+            var scale = ImGuiRenderer.GetUIScale();
+
             // Docking setup
             var wins = ImGui.GetWindowSize();
             var winp = ImGui.GetWindowPos();
-            winp.Y += 20.0f;
-            wins.Y -= 20.0f;
+            winp.Y += 20.0f * scale;
+            wins.Y -= 20.0f * scale;
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
 
