@@ -660,7 +660,7 @@ namespace StudioCore.ParamEditor
                             "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
                             "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
                             "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
+                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear" +
                             "in the param editor where you can view and save them, but this operation is not undoable. " +
                             "Would you like to continue?", "Regulation upgrade",
                             System.Windows.Forms.MessageBoxButtons.OKCancel,
@@ -669,7 +669,8 @@ namespace StudioCore.ParamEditor
                         {
                             var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                             {
-                                Filter = AssetLocator.ERRegulationFilter,
+                                Title = $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                Filter = AssetLocator.ERParamUpgradeFilter,
                                 ValidateNames = true,
                                 CheckFileExists = true,
                                 CheckPathExists = true,
