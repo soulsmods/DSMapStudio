@@ -102,18 +102,17 @@ namespace StudioCore.MsbEditor
                 ImGui.SameLine(0, 14f);
                 if (ImGui.Button($"Give as DrawGroups <{KeyBindings.Current.Map_RenderGroup_GiveDraw.HintText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDraw))
                 {
-                    var prop = sel.GetType().GetProperty("Drawgroups", BindingFlags.Instance | BindingFlags.Public);
-                    PropertiesChangedAction action = new(prop, sel, dg.RenderGroups.Clone());
+                    ArrayPropertyCopyAction action = new(dg.RenderGroups, sel.Drawgroups);
                     _actionManager.ExecuteAction(action);
                 }
 
                 ImGui.SameLine();
                 if (ImGui.Button($"Give as DispGroups <{KeyBindings.Current.Map_RenderGroup_GiveDisp.HintText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDisp))
                 {
-                    var prop = sel.GetType().GetProperty("Dispgroups", BindingFlags.Instance | BindingFlags.Public);
-                    PropertiesChangedAction action = new(prop, sel, dg.RenderGroups.Clone());
+                    ArrayPropertyCopyAction action = new(dg.RenderGroups, sel.Dispgroups);
                     _actionManager.ExecuteAction(action);
                 }
+
                 if (sdispgroups == null)
                     ImGui.EndDisabled();
 
