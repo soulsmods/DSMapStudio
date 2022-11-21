@@ -40,6 +40,7 @@ namespace StudioCore.TextEditor
         private void ClearTextEditorCache()
         {
             CacheBank.ClearCaches();
+            _entryLabelCache = null;
             _EntryLabelCacheFiltered = null;
             _activeFmgInfo = null;
             _activeEntryGroup = null;
@@ -50,7 +51,7 @@ namespace StudioCore.TextEditor
 
         private void ResetActionManager()
         {
-            EditorActionManager = new();
+            EditorActionManager.Clear();
         }
 
         /// <summary>
@@ -359,7 +360,7 @@ namespace StudioCore.TextEditor
                 // Entries
                 foreach (var r in _EntryLabelCacheFiltered)
                 {
-                    var text = (r.Text == null) ? "%null%" : r.Text; 
+                    var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length+2)); 
                     if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID))
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
