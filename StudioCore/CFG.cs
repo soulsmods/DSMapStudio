@@ -183,7 +183,7 @@ namespace StudioCore
         public bool FontThai = false;
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
-        public float FontSizeScale = 1.0f;
+        public float UIScale = 1.0f;
 
         // FMG Editor settings
         public bool FMG_ShowOriginalNames = false;
@@ -196,6 +196,7 @@ namespace StudioCore
         public bool Param_AllowFieldReorder = true;
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;
+        public bool Param_PasteAfterSelection = false;
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";

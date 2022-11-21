@@ -587,6 +587,7 @@ namespace StudioCore.MsbEditor
 
         private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true)
         {
+            float scale = ImGuiRenderer.GetUIScale();
             var firstEnt = entSelection.First();
             var obj = (target == null) ? firstEnt.WrappedObject : target;
             var type = obj.GetType();
@@ -906,7 +907,7 @@ namespace StudioCore.MsbEditor
                 {
                     ImGui.NewLine();
                     ImGui.Text("References: ");
-                    ImGui.Indent(10);
+                    ImGui.Indent(10 * scale);
                     foreach (var m in firstEnt.References)
                     {
                         foreach (var n in m.Value)
@@ -966,10 +967,10 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
-                ImGui.Unindent(10);
+                ImGui.Unindent(10 * scale);
                 ImGui.NewLine();
                 ImGui.Text("Objects referencing this object:");
-                ImGui.Indent(10);
+                ImGui.Indent(10 * scale);
                 foreach (var m in firstEnt.GetReferencingObjects())
                 {
                     var nameWithType = m.PrettyName.Insert(2, m.WrappedObject.GetType().Name + " - ");
@@ -980,17 +981,18 @@ namespace StudioCore.MsbEditor
                     }
                     refID++;
                 }
-                ImGui.Unindent(10);
+                ImGui.Unindent(10 * scale);
             }
         }
 
         public void OnGui(Selection selection, string id, float w, float h)
         {
+            float scale = ImGuiRenderer.GetUIScale();
             var entSelection = selection.GetFilteredSelection<Entity>();
 
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
-            ImGui.SetNextWindowSize(new Vector2(350, h - 80), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(w - 370, 20), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(350, h - 80) * scale, ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(w - 370, 20) * scale, ImGuiCond.FirstUseEver);
             ImGui.Begin($@"Properties##{id}");
             ImGui.BeginChild("propedit");
             if (entSelection.Count > 1)

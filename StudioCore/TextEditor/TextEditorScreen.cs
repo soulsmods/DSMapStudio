@@ -40,6 +40,7 @@ namespace StudioCore.TextEditor
         private void ClearTextEditorCache()
         {
             CacheBank.ClearCaches();
+            _entryLabelCache = null;
             _EntryLabelCacheFiltered = null;
             _activeFmgInfo = null;
             _activeEntryGroup = null;
@@ -50,7 +51,7 @@ namespace StudioCore.TextEditor
 
         private void ResetActionManager()
         {
-            EditorActionManager = new();
+            EditorActionManager.Clear();
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace StudioCore.TextEditor
             }
         }
 
-        private void FMGSearchLogic()
+        private void FMGSearchLogic(ref bool doFocus)
         {
             // Todo: This could be cleaned up.
             if (_entryLabelCache != null)
@@ -229,6 +230,7 @@ namespace StudioCore.TextEditor
 
                     _EntryLabelCacheFiltered = matches;
                     _searchFilterCached = _searchFilter;
+                    doFocus = true;
                 }
                 else if (_entryLabelCache != _EntryLabelCacheFiltered && _searchFilter == "")
                 {
@@ -337,7 +339,7 @@ namespace StudioCore.TextEditor
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);
 
-            FMGSearchLogic();
+            FMGSearchLogic(ref doFocus);
 
             ImGui.BeginChild("Text Entry List");
             if (_activeFmgInfo == null)
@@ -359,7 +361,7 @@ namespace StudioCore.TextEditor
                 // Entries
                 foreach (var r in _EntryLabelCacheFiltered)
                 {
-                    var text = (r.Text == null) ? "%null%" : r.Text; 
+                    var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length+2)); 
                     if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID))
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
@@ -448,11 +450,13 @@ namespace StudioCore.TextEditor
                 return;
             }
 
+            var scale = ImGuiRenderer.GetUIScale();
+
             // Docking setup
             var wins = ImGui.GetWindowSize();
             var winp = ImGui.GetWindowPos();
-            winp.Y += 20.0f;
-            wins.Y -= 20.0f;
+            winp.Y += 20.0f * scale;
+            wins.Y -= 20.0f * scale;
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
 

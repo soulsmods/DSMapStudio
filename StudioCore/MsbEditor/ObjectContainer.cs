@@ -34,6 +34,12 @@ namespace StudioCore.MsbEditor
         public List<Entity> Objects = new List<Entity>();
         public Entity RootObject { get; set; }
 
+        /// <summary>
+        /// Parent entities used to organize lights per-BTL file.
+        /// </summary>
+        [XmlIgnore]
+        public List<Entity> BTLParents = new();
+
         [XmlIgnore]
         public Universe Universe { get; protected set; }
 
@@ -41,7 +47,6 @@ namespace StudioCore.MsbEditor
 
         public ObjectContainer()
         {
-
         }
 
         public ObjectContainer(Universe u, string name)
@@ -286,24 +291,15 @@ namespace StudioCore.MsbEditor
 
         public void LoadBTL(AssetDescription ad, BTL btl)
         {
-            /*
-            //var t = CreateMapOffsetNode();
-            //var root = new MapEntity(this, t, MapEntity.MapEntityType.MapOffset);
-            //root.Name = $" MapOffset Node - {ad.AssetName}";
-            //RootObject.AddChild(root);
+            var btlParent = new MapEntity(this, ad, MapEntity.MapEntityType.Editor);
+            MapOffsetNode.AddChild(btlParent);
             foreach (var l in btl.Lights)
             {
-                var n = new MapEntity(this, l, MapEntity.MapEntityType.Light, ad.AssetName);
+                var n = new MapEntity(this, l, MapEntity.MapEntityType.Light);
                 Objects.Add(n);
-                root.AddChild(n);
+                btlParent.AddChild(n);
             }
-            */
-            foreach (var l in btl.Lights)
-            {
-                var n = new MapEntity(this, l, MapEntity.MapEntityType.Light, ad.AssetName);
-                Objects.Add(n);
-                MapOffsetNode.AddChild(n);
-            }
+            BTLParents.Add(btlParent);
         }
 
         private void AddModelDeS(IMsb m, MSBD.Model model, string name)
@@ -762,17 +758,21 @@ namespace StudioCore.MsbEditor
         public List<BTL.Light> SerializeBtlLights(string btlName)
         {
             List<BTL.Light> lights = new();
-            foreach (var m in Objects)
+            foreach (var p in BTLParents)
             {
-                if (m.ExtraSaveInfo == btlName)
+                var ad = (AssetDescription)p.WrappedObject;
+                if (ad.AssetName == btlName)
                 {
-                    if (m.WrappedObject != null && m.WrappedObject is BTL.Light light)
+                    foreach (var e in p.Children)
                     {
-                        lights.Add(light);
-                    }
-                    else
-                    {
-                        throw new Exception($"Entity has ParentBTLName `{m.ExtraSaveInfo}`, but WrappedObject `{m.WrappedObject}` is not a BTL Light.");
+                        if (e.WrappedObject != null && e.WrappedObject is BTL.Light light)
+                        {
+                            lights.Add(light);
+                        }
+                        else
+                        {
+                            throw new Exception($"WrappedObject \"{e.WrappedObject}\" is not a BTL Light.");
+                        }
                     }
                 }
             }

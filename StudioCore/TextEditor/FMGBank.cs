@@ -135,38 +135,18 @@ namespace StudioCore.TextEditor
             /// <summary>
             /// Adds an entry to the end of the FMG.
             /// </summary>
-            public void AddEntry(FMG.Entry entry, bool sort = true)
+            public void AddEntry(FMG.Entry entry)
             {
                 Fmg.Entries.Add(entry);
-                if (sort)
-                    Fmg.Entries.Sort();
             }
 
             /// <summary>
-            /// Inserts an entry into FMG at the specified index.
+            /// Clones an FMG entry.
             /// </summary>
-            public void InsertEntry(int index, FMG.Entry newEntry)
-            {
-                Fmg.Entries.Insert(index, newEntry);
-            }
-
-            /// <summary>
-            /// Copies an entry within the FMG.
-            /// If desired, it will also get and set the next unused entry ID.
-            /// </summary>
-            /// <param name="getUnusedID">If true, get next unused ID and set entry ID to it</param>
-            /// <returns>The new entry</returns>
-            public FMG.Entry CopyEntry(FMG.Entry entry, bool getUnusedID = false)
+            /// <returns>Cloned entry</returns>
+            public FMG.Entry CloneEntry(FMG.Entry entry)
             {
                 FMG.Entry newEntry = new(entry.ID, entry.Text);
-                if (getUnusedID)
-                {
-                    do
-                    {
-                        newEntry.ID++;
-                    }
-                    while (Fmg.Entries.Find(e => e.ID == newEntry.ID) != null);
-                }
                 return newEntry;
             }
 
@@ -267,25 +247,25 @@ namespace StudioCore.TextEditor
             }
 
             /// <summary>
-            /// Inserts all entries into their assigned FMGs.
+            /// Places all entries within this EntryGroup into their assigned FMGs.
             /// </summary>
-            public void InsertEntries(int index)
+            public void ImplementEntryGroup()
             {
                 if (TextBody != null)
                 {
-                    TextBodyInfo.InsertEntry(index, TextBody);
+                    TextBodyInfo.AddEntry(TextBody);
                 }
                 if (Title != null)
                 {
-                    TitleInfo.InsertEntry(index, Title);
+                    TitleInfo.AddEntry(Title);
                 }
                 if (Summary != null)
                 {
-                    SummaryInfo.InsertEntry(index, Summary);
+                    SummaryInfo.AddEntry(Summary);
                 }
                 if (Description != null)
                 {
-                    DescriptionInfo.InsertEntry(index, Description);
+                    DescriptionInfo.AddEntry(Description);
                 }
             }
 
@@ -293,69 +273,64 @@ namespace StudioCore.TextEditor
             /// Duplicates all entries within their assigned FMGs.
             /// New entries are inserted into their assigned FMGs.
             /// </summary>
-            /// <returns>The new EntryGroup</returns>
-            public EntryGroup DuplicateEntries()
+            /// <returns>New EntryGroup.</returns>
+            public EntryGroup DuplicateFMGEntries()
             {
-                var index = GetIndex();
-                if (index == -1)
-                {
-                    throw new Exception($"Could not find EntryGroup entries in assigned FMGs. {this}");
-                }
                 EntryGroup newGroup = new();
                 if (TextBody != null)
                 {
                     newGroup.TextBodyInfo = TextBodyInfo;
-                    newGroup.TextBody = TextBodyInfo.CopyEntry(TextBody);
-                    TextBodyInfo.InsertEntry(index, newGroup.TextBody);
+                    newGroup.TextBody = TextBodyInfo.CloneEntry(TextBody);
+                    TextBodyInfo.AddEntry(newGroup.TextBody);
                 }
                 if (Title != null)
                 {
                     newGroup.TitleInfo = TitleInfo;
-                    newGroup.Title = TitleInfo.CopyEntry(Title);
-                    TitleInfo.InsertEntry(index, newGroup.Title);
+                    newGroup.Title = TitleInfo.CloneEntry(Title);
+                    TitleInfo.AddEntry(newGroup.Title);
                 }
                 if (Summary != null)
                 {
                     newGroup.SummaryInfo = SummaryInfo;
-                    newGroup.Summary = SummaryInfo.CopyEntry(Summary);
-                    SummaryInfo.InsertEntry(index, newGroup.Summary);
+                    newGroup.Summary = SummaryInfo.CloneEntry(Summary);
+                    SummaryInfo.AddEntry(newGroup.Summary);
                 }
                 if (Description != null)
                 {
                     newGroup.DescriptionInfo = DescriptionInfo;
-                    newGroup.Description = DescriptionInfo.CopyEntry(Description);
-                    DescriptionInfo.InsertEntry(index, newGroup.Description);
+                    newGroup.Description = DescriptionInfo.CloneEntry(Description);
+                    DescriptionInfo.AddEntry(newGroup.Description);
                 }
                 newGroup.ID = ID;
                 return newGroup;
             }
 
             /// <summary>
-            /// Copies EntryGroup and returns 
+            /// Clones this EntryGroup and returns a duplicate.
             /// </summary>
-            /// <returns>The new EntryGroup</returns>
-            public EntryGroup CopyEntryGroup()
+            /// <returns>Cloned EntryGroup.</returns>
+            public EntryGroup CloneEntryGroup()
             {
                 EntryGroup newGroup = new();
                 if (TextBody != null)
                 {
                     newGroup.TextBodyInfo = TextBodyInfo;
-                    newGroup.TextBody = TextBodyInfo.CopyEntry(TextBody);
+                    newGroup.TextBody = TextBodyInfo.CloneEntry(TextBody);
                 }
                 if (Title != null)
                 {
                     newGroup.TitleInfo = TitleInfo;
-                    newGroup.Title = TitleInfo.CopyEntry(Title);
+                    newGroup.Title = TitleInfo.CloneEntry(Title);
                 }
                 if (Summary != null)
                 {
                     newGroup.SummaryInfo = SummaryInfo;
-                    newGroup.Summary = SummaryInfo.CopyEntry(Summary);
+                    newGroup.Summary = SummaryInfo.CloneEntry(Summary);
                 }
                 if (Description != null)
                 {
                     newGroup.DescriptionInfo = DescriptionInfo;
-                    newGroup.Description = DescriptionInfo.CopyEntry(Description);
+                    newGroup.Description = DescriptionInfo.CloneEntry(Description);
                 }
                 return newGroup;
             }
@@ -381,31 +356,6 @@ namespace StudioCore.TextEditor
                 {
                     DescriptionInfo.DeleteEntry(Description);
                 }
-            }
-
-            /// <summary>
-            /// Finds shared index of entries in FMGs.
-            /// </summary>
-            /// <returns>The zero-based index if found; otherwise -1.</returns>
-            public int GetIndex()
-            {
-                if (TextBody != null)
-                {
-                    return TextBodyInfo.Fmg.Entries.FindIndex(e => e.ID == TextBody.ID);
-                }
-                else if (Title != null)
-                {
-                    return TitleInfo.Fmg.Entries.FindIndex(e => e.ID == Title.ID);
-                }
-                else if (Summary != null)
-                {
-                    return SummaryInfo.Fmg.Entries.FindIndex(e => e.ID == Summary.ID);
-                }
-                else if (Description != null)
-                {
-                    return DescriptionInfo.Fmg.Entries.FindIndex(e => e.ID == Description.ID);
-                }
-                return -1;
             }
         }
 
@@ -511,9 +461,9 @@ namespace StudioCore.TextEditor
             Event_Patch = 101,
             MenuDialog_Patch = 102,
             Win32Messages_Patch = 103,
-            NpcDialog_Patch = 104,
-            BloodMessage_Patch = 107,
-            MenuOneLine_Patch = 121,
+            TalkMsg_Patch = 104,
+            BloodMsg_Patch = 107,
+            MenuLineHelp_Patch = 121,
             MenuKeyGuide_Patch = 122,
             MenuOther_Patch = 123,
             MenuCommon_Patch = 124,
@@ -1175,6 +1125,16 @@ namespace StudioCore.TextEditor
             {
                 ID = id,
             };
+
+            if (fmgInfo.EntryCategory == FmgEntryCategory.None)
+            {
+                var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
+                var pair = entryPairs.Find(e => e.Entry.ID == id);
+                eGroup.TextBody = pair.Entry;
+                eGroup.TextBodyInfo = pair.FmgInfo;
+                return eGroup;
+            }
+
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == fmgInfo.EntryCategory && info.PatchParent == null)

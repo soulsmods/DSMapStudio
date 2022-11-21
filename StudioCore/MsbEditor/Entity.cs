@@ -24,8 +24,6 @@ namespace StudioCore.MsbEditor
 
         private string CachedName = null;
 
-        public string ExtraSaveInfo = null;
-
         [XmlIgnore]
         public ObjectContainer Container { get; set; } = null;
 
@@ -139,6 +137,8 @@ namespace StudioCore.MsbEditor
                 {
                     RenderSceneMesh.Visible = _EditorVisible;
                 }
+                foreach (var child in Children)
+                    child.EditorVisible = _EditorVisible;
             }
         }
 
@@ -184,7 +184,6 @@ namespace StudioCore.MsbEditor
             {
                 if (Children[i] == child)
                 {
-
                     return i;
                 }
             }
@@ -289,8 +288,6 @@ namespace StudioCore.MsbEditor
             var clone = DeepCopyObject(WrappedObject);
             var obj = DuplicateEntity(clone);
             CloneRenderable(obj);
-            obj.UseDrawGroups = UseDrawGroups;
-            obj.ExtraSaveInfo = ExtraSaveInfo;
             return obj;
         }
 
@@ -1179,7 +1176,7 @@ namespace StudioCore.MsbEditor
             WrappedObject = msbo;
         }
 
-        public MapEntity(ObjectContainer map, object msbo, MapEntityType type, string btlFile = null)
+        public MapEntity(ObjectContainer map, object msbo, MapEntityType type)
         {
             Container = map;
             WrappedObject = msbo;
@@ -1187,11 +1184,6 @@ namespace StudioCore.MsbEditor
             if (!(msbo is Param.Row) && !(msbo is MergedParamRow))
             {
                 CurrentModel = GetPropertyValue<string>("ModelName");
-            }
-            if (type is MapEntityType.Light)
-            {
-                ExtraSaveInfo = btlFile;
-                //OffsetBtlLight();
             }
         }
 

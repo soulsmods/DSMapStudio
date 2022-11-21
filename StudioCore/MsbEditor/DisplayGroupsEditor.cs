@@ -20,6 +20,8 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(int dispCount)
         {
+            float scale = ImGuiRenderer.GetUIScale();
+
             uint[] sdrawgroups = null;
             uint[] sdispgroups = null;
             var sel = _selection.GetSingleFilteredSelection<Entity>();
@@ -34,7 +36,7 @@ namespace StudioCore.MsbEditor
             }
 
 
-            ImGui.SetNextWindowSize(new Vector2(100, 100));
+            ImGui.SetNextWindowSize(new Vector2(100, 100) * scale);
 
             if (InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp)
             || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDraw)
