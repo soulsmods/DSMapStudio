@@ -235,15 +235,17 @@ namespace StudioCore.MsbEditor
         private List<MapEntity> Clones = new List<MapEntity>();
         private List<ObjectContainer> CloneMaps = new List<ObjectContainer>();
         private bool SetSelection;
+        private Map MapTarget;
 
         private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
 
-        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
+        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection, Map mapTarget = null)
         {
             Universe = univ;
             Scene = scene;
             Clonables.AddRange(objects);
             SetSelection = setSelection;
+            MapTarget = mapTarget;
         }
 
         public override ActionEvent Execute()
@@ -254,7 +256,15 @@ namespace StudioCore.MsbEditor
             var objectnames = new Dictionary<string, HashSet<string>>();
             for (int i = 0; i < Clonables.Count(); i++)
             {
-                var m = Universe.GetLoadedMap(Clonables[i].MapID);
+                Map? m;
+                if (MapTarget != null)
+                {
+                    m = Universe.GetLoadedMap(MapTarget.Name);
+                }
+                else
+                {
+                    m = Universe.GetLoadedMap(Clonables[i].MapID);
+                }
                 if (m != null)
                 {
                     // Get list of names that exist so our duplicate names don't trample over them
