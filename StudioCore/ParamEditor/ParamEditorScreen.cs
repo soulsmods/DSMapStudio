@@ -109,7 +109,6 @@ namespace StudioCore.ParamEditor
         private string _clipboardParam = null;
         private List<Param.Row> _clipboardRows = new List<Param.Row>();
         private long _clipboardBaseRow = 0;
-        private bool _ctrlVuseIndex = false;
         private string _currentCtrlVValue = "0";
         private string _currentCtrlVOffset = "0";
 
@@ -266,6 +265,15 @@ namespace StudioCore.ParamEditor
             EditorActionManager.Clear();
         }
 
+        private void ParamUndo()
+        {
+            EditorActionManager.UndoAction();
+        }
+        private void ParamRedo()
+        {
+            EditorActionManager.RedoAction();
+        }
+
         public override void DrawEditorMenu()
         {
             // Menu Options
@@ -273,11 +281,11 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
-                    EditorActionManager.UndoAction();
+                    ParamUndo();
                 }
                 if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
-                    EditorActionManager.RedoAction();
+                    ParamRedo();
                 }
                 if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
@@ -652,7 +660,7 @@ namespace StudioCore.ParamEditor
                             "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
                             "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
                             "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}.\n\n Once done, the upgraded params will appear" +
+                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear" +
                             "in the param editor where you can view and save them, but this operation is not undoable. " +
                             "Would you like to continue?", "Regulation upgrade",
                             System.Windows.Forms.MessageBoxButtons.OKCancel,
@@ -661,7 +669,8 @@ namespace StudioCore.ParamEditor
                         {
                             var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                             {
-                                Filter = AssetLocator.ERRegulationFilter,
+                                Title = $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                Filter = AssetLocator.ERParamUpgradeFilter,
                                 ValidateNames = true,
                                 CheckFileExists = true,
                                 CheckPathExists = true,
@@ -721,7 +730,7 @@ namespace StudioCore.ParamEditor
                 Param.Row newrow = new(r);
                 rowsToInsert.Add(newrow);
             }
-            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false, false));
+            EditorActionManager.ExecuteAction(new AddParamsAction(param, "legacystring", rowsToInsert, false, false));
         }
 
         public void OpenMassEditPopup(string popup)
@@ -732,12 +741,14 @@ namespace StudioCore.ParamEditor
 
         public void MassEditPopups()
         {
+            float scale = ImGuiRenderer.GetUIScale();
+            
             // Popup size relies on magic numbers. Multiline maxlength is also arbitrary.
             if (ImGui.BeginPopup("massEditMenuRegex"))
             {
                 ImGui.Text("param PARAM: id VALUE: FIELD: = VALUE;");
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.MassEditHint);
-                ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
+                ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale);
 
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
@@ -754,23 +765,23 @@ namespace StudioCore.ParamEditor
                     _mEditRegexResult = r.Information;
                 }
                 ImGui.Text(_mEditRegexResult);
-                ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4), ImGuiInputTextFlags.ReadOnly);
+                ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
                 ImGui.EndPopup();
             }
             else if (ImGui.BeginPopup("massEditMenuCSVExport"))
             {
-                ImGui.InputTextMultiline("##MEditOutput", ref _currentMEditCSVOutput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4), ImGuiInputTextFlags.ReadOnly);
+                ImGui.InputTextMultiline("##MEditOutput", ref _currentMEditCSVOutput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
                 ImGui.EndPopup();
             }
             else if (ImGui.BeginPopup("massEditMenuSingleCSVExport"))
             {
                 ImGui.Text(_currentMEditSingleCSVField);
-                ImGui.InputTextMultiline("##MEditOutput", ref _currentMEditCSVOutput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4), ImGuiInputTextFlags.ReadOnly);
+                ImGui.InputTextMultiline("##MEditOutput", ref _currentMEditCSVOutput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
                 ImGui.EndPopup();
             }
             else if (ImGui.BeginPopup("massEditMenuCSVImport"))
             {
-                ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
+                ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale);
                 ImGui.Checkbox("Append new rows instead of ID based insertion (this will create out-of-order IDs)", ref _mEditCSVAppendOnly);
                 if (_mEditCSVAppendOnly)
                     ImGui.Checkbox("Replace existing rows instead of updating them (they will be moved to the end)", ref _mEditCSVReplaceRows);
@@ -790,7 +801,7 @@ namespace StudioCore.ParamEditor
             else if (ImGui.BeginPopup("massEditMenuSingleCSVImport"))
             {
                 ImGui.Text(_currentMEditSingleCSVField);
-                ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4));
+                ImGui.InputTextMultiline("##MEditRegexInput", ref _currentMEditCSVInput, 256 * 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale);
                 DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
@@ -811,18 +822,18 @@ namespace StudioCore.ParamEditor
 
         public void OnGUI(string[] initcmd)
         {
+            float scale = ImGuiRenderer.GetUIScale();
+
             if (!_isMEditPopupOpen && !_isShortcutPopupOpen && !_isSearchBarActive)// Are shortcuts active? Presently just checks for massEdit popup.
             {
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
                 {
-                    EditorActionManager.UndoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                    ParamUndo();
                 }
                 if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
-                    EditorActionManager.RedoAction();
-                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                    ParamRedo();
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
@@ -985,7 +996,7 @@ namespace StudioCore.ParamEditor
                         continue;
                     string name = view._selection.getActiveRow() != null ? view._selection.getActiveRow().Name : null;
                     string toDisplay = (view == _activeView ? "**" : "") + (name == null || name.Trim().Equals("") ? "Param Editor View" : Utils.ImGuiEscape(name, "null")) + (view == _activeView ? "**" : "");
-                    ImGui.SetNextWindowSize(new Vector2(1280.0f, 720.0f), ImGuiCond.Once);
+                    ImGui.SetNextWindowSize(new Vector2(1280.0f, 720.0f) * scale, ImGuiCond.Once);
                     ImGui.SetNextWindowDockID(ImGui.GetID("DockSpace_ParamEditorViews"), ImGuiCond.Once);
                     ImGui.Begin($@"{toDisplay}###ParamEditorView##{view._viewIndex}");
                     if (ImGui.IsItemClicked(ImGuiMouseButton.Left))
@@ -1013,18 +1024,12 @@ namespace StudioCore.ParamEditor
                 _isShortcutPopupOpen = true;
                 try
                 {
-                    int max = -1;
                     long offset = 0;
-                    ImGui.Checkbox("Paste after selection", ref _ctrlVuseIndex);
-                    if (_ctrlVuseIndex)
+                    ImGui.Checkbox("Paste after selection", ref CFG.Current.Param_PasteAfterSelection);
+                    var insertIndex = -1;
+                    if (CFG.Current.Param_PasteAfterSelection)
                     {
-                        ImGui.Text("Note: You may produce out-of-order or duplicate rows. These may confuse later ID-based row additions.");
-                        List<Param.Row> rows = _activeView._selection.getSelectedRows();
-                        Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
-                        foreach (Param.Row r in rows)
-                        {
-                            max = param.IndexOfRow(r) > max ? param.IndexOfRow(r) : max;
-                        }
+                        //ImGui.Text("Note: Allows out-of-order rows, which may confuse later ID-based row additions.");
                     }
                     else
                     {
@@ -1044,21 +1049,40 @@ namespace StudioCore.ParamEditor
                         offset = long.Parse(_currentCtrlVValue);
                         offset = long.Parse(_currentCtrlVOffset);
                     }
-                    int index = 1;
-                    if (ImGui.Selectable("Submit"))
+                    if (ImGui.Button("Submit"))
                     {
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
-                        foreach (Param.Row r in _clipboardRows)
+                        if (!CFG.Current.Param_PasteAfterSelection)
                         {
-                            Param.Row newrow = new Param.Row(r);// more cloning
-                            if (_ctrlVuseIndex)
-                                newrow.ID = (int) (max+index);
-                            else
-                                newrow.ID = (int) (r.ID + offset);
-                            rowsToInsert.Add(newrow);
-                            index++;
+                            foreach (Param.Row r in _clipboardRows)
+                            {
+                                Param.Row newrow = new Param.Row(r);// more cloning
+                                newrow.ID = (int)(r.ID + offset);
+                                rowsToInsert.Add(newrow);
+                            }
                         }
-                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, _ctrlVuseIndex));
+                        else
+                        {
+                            List<Param.Row> rows = _activeView._selection.getSelectedRows();
+                            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
+                            insertIndex = param.IndexOfRow(rows.Last()) + 1;
+                            foreach (Param.Row r in _clipboardRows)
+                            {
+                                // Determine new ID based on paste target. Increment ID until a free ID is found.
+                                Param.Row newrow = new Param.Row(r);
+                                newrow.ID = _activeView._selection.getSelectedRows().Last().ID;
+                                do
+                                {
+                                    newrow.ID++;
+                                }
+                                while (ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()][newrow.ID] != null || rowsToInsert.Exists(e => e.ID == newrow.ID));
+                                rowsToInsert.Add(newrow);
+                            }
+                            // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
+                            rowsToInsert.Reverse();
+                        }
+                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
+                        ImGui.CloseCurrentPopup();
                     }
                 }
                 catch
@@ -1370,11 +1394,17 @@ namespace StudioCore.ParamEditor
 
             foreach (var paramKey in paramKeyList)
             {
+                var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                if (primary != null ? primary.Any() : false)
+                    ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                else
+                    ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
                 if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
                     EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                 }
+                ImGui.PopStyleColor();
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
                 if (ImGui.BeginPopupContextItem())
@@ -1435,6 +1465,7 @@ namespace StudioCore.ParamEditor
                 {
                     CacheBank.ClearCaches();
                     lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
+                    doFocus = true;
                 }
 
                 if (ImGui.IsItemActive())

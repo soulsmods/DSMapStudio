@@ -790,10 +790,12 @@ namespace StudioCore.Resource
         private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
+            float scale = ImGuiRenderer.GetUIScale();
+            
             if (ActiveJobProgress.Count() > 0)
             {
-                ImGui.SetNextWindowSize(new Vector2(400, 310));
-                ImGui.SetNextWindowPos(new Vector2(w - 100, h - 300));
+                ImGui.SetNextWindowSize(new Vector2(400, 310) * scale);
+                ImGui.SetNextWindowPos(new Vector2(w - (100 * scale), h - (300 * scale)));
                 if (!ImGui.Begin("Resource Loading Tasks", ref TaskWindowOpen, ImGuiWindowFlags.NoDecoration))
                 {
                     ImGui.End();
@@ -812,7 +814,7 @@ namespace StudioCore.Resource
                         }
                         else
                         {
-                            ImGui.ProgressBar((float)completed / (float)size, new Vector2(386.0f, 20.0f));
+                            ImGui.ProgressBar((float)completed / (float)size, new Vector2(386.0f, 20.0f) * scale);
                         }
                     }
                 }

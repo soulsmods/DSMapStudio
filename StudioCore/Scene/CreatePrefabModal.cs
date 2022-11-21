@@ -33,9 +33,11 @@ namespace StudioCore.Scene
 
         public void OnGui()
         {
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
+            float scale = ImGuiRenderer.GetUIScale();
+
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f * scale);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
             if (ImGui.BeginPopupModal("Create Prefab", ref _open, ImGuiWindowFlags.AlwaysAutoResize))
             {
                 ImGui.AlignTextToFramePadding();
@@ -48,7 +50,7 @@ namespace StudioCore.Scene
                 }
                 ImGui.NewLine();
 
-                if (ImGui.Button("Create", new Vector2(120, 0)))
+                if (ImGui.Button("Create", new Vector2(120, 0) * scale))
                 {
                     bool validated = true;
 
@@ -59,7 +61,7 @@ namespace StudioCore.Scene
                     }
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Cancel", new Vector2(120, 0)))
+                if (ImGui.Button("Cancel", new Vector2(120, 0) * scale))
                 {
                     ImGui.CloseCurrentPopup();
                 }
