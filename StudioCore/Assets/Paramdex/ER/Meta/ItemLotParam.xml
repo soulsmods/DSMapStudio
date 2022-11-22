@@ -12,14 +12,14 @@
     </Enum>
   </Enums>
   <Field>
-    <lotItemId01 AltName="Item ID [1]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId02 AltName="Item ID [2]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId03 AltName="Item ID [3]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <lotItemId04 AltName="Item ID [4]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
-    <lotItemId05 AltName="Item ID [5]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
-    <lotItemId06 AltName="Item ID [6]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
-    <lotItemId07 AltName="Item ID [7]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
-    <lotItemId08 AltName="Item ID [8]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory,EquipParamCustomWeapon,EquipParamGem,EquipParamGoods,EquipParamProtector,EquipParamWeapon"/>
+    <lotItemId01 AltName="Item ID [1]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory01=4),EquipParamCustomWeapon(lotItemCategory01=6),EquipParamGem(lotItemCategory01=5),EquipParamGoods(lotItemCategory01=1),EquipParamProtector(lotItemCategory01=3),EquipParamWeapon(lotItemCategory01=2)" />
+    <lotItemId02 AltName="Item ID [2]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory02=4),EquipParamCustomWeapon(lotItemCategory02=6),EquipParamGem(lotItemCategory02=5),EquipParamGoods(lotItemCategory02=1),EquipParamProtector(lotItemCategory02=3),EquipParamWeapon(lotItemCategory02=2)" />
+    <lotItemId03 AltName="Item ID [3]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory03=4),EquipParamCustomWeapon(lotItemCategory03=6),EquipParamGem(lotItemCategory03=5),EquipParamGoods(lotItemCategory03=1),EquipParamProtector(lotItemCategory03=3),EquipParamWeapon(lotItemCategory03=2)" />
+    <lotItemId04 AltName="Item ID [4]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory04=4),EquipParamCustomWeapon(lotItemCategory04=6),EquipParamGem(lotItemCategory04=5),EquipParamGoods(lotItemCategory04=1),EquipParamProtector(lotItemCategory04=3),EquipParamWeapon(lotItemCategory04=2)"/>
+    <lotItemId05 AltName="Item ID [5]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory05=4),EquipParamCustomWeapon(lotItemCategory05=6),EquipParamGem(lotItemCategory05=5),EquipParamGoods(lotItemCategory05=1),EquipParamProtector(lotItemCategory05=3),EquipParamWeapon(lotItemCategory05=2)"/>
+    <lotItemId06 AltName="Item ID [6]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory06=4),EquipParamCustomWeapon(lotItemCategory06=6),EquipParamGem(lotItemCategory06=5),EquipParamGoods(lotItemCategory06=1),EquipParamProtector(lotItemCategory06=3),EquipParamWeapon(lotItemCategory06=2)"/>
+    <lotItemId07 AltName="Item ID [7]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory07=4),EquipParamCustomWeapon(lotItemCategory07=6),EquipParamGem(lotItemCategory07=5),EquipParamGoods(lotItemCategory07=1),EquipParamProtector(lotItemCategory07=3),EquipParamWeapon(lotItemCategory07=2)"/>
+    <lotItemId08 AltName="Item ID [8]" Wiki="Item ID that can be obtained" Refs="EquipParamAccessory(lotItemCategory08=4),EquipParamCustomWeapon(lotItemCategory08=6),EquipParamGem(lotItemCategory08=5),EquipParamGoods(lotItemCategory08=1),EquipParamProtector(lotItemCategory08=3),EquipParamWeapon(lotItemCategory08=2)"/>
     <lotItemCategory01 AltName="Item Category [1]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
     <lotItemCategory02 AltName="Item Category [2]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
     <lotItemCategory03 AltName="Item Category [3]" Wiki="Category of items that can be obtained" Enum="ITEMLOT_ITEMCATEGORY" />
@@ -86,5 +86,5 @@
     <PAD1 AltName="Blank" Wiki="PAD1" />
     <PAD2 AltName="Blank" Wiki="PAD2" />
   </Field>
-  <Self />
+  <Self ConsecutiveIDs="" />
 </PARAMMETA>
