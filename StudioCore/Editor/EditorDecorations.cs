@@ -37,22 +37,39 @@ namespace StudioCore.Editor
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
                 ImGui.TextUnformatted($@"  <");
+                List<string> inactiveRefs = new List<string>();
                 bool first = true;
                 foreach (ParamRef r in paramRefs)
                 {
                     Param.Cell? c = context?[r.conditionField];
                     bool inactiveRef = context != null && c != null && Convert.ToInt32(c.Value.Value) != r.conditionValue;
                     if (inactiveRef)
-                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+                    {
+                        inactiveRefs.Add(r.param);
+                    }
+                    else
+                    {
+                        ImGui.SameLine();
+                        if (first)
+                            ImGui.TextUnformatted(r.param);
+                        else
+                            ImGui.TextUnformatted(","+r.param);
+                        first = false;
+                    }
+                }
+
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+                foreach (string inactive in inactiveRefs)
+                {
                     ImGui.SameLine();
                     if (first)
-                        ImGui.TextUnformatted(r.param);
+                        ImGui.TextUnformatted(inactive);
                     else
-                        ImGui.TextUnformatted(","+r.param);
+                        ImGui.TextUnformatted(","+inactive);
                     first = false;
-                    if (inactiveRef)
-                        ImGui.PopStyleColor();
                 }
+                ImGui.PopStyleColor();
+
                 ImGui.SameLine();
                 ImGui.TextUnformatted(">");
                 ImGui.PopStyleColor();
