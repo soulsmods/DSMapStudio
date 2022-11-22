@@ -148,8 +148,8 @@ namespace StudioCore
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
             _uiScale = CFG.Current.UIScale;
-            ImguiRenderer.OnSetupDone();
             SetupFonts();
+            ImguiRenderer.OnSetupDone();
 
             var style = ImGui.GetStyle();
             style.TabBorderSize = 0;
