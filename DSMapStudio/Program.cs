@@ -37,7 +37,7 @@ namespace DSMapStudio
             {
                 mapStudio.Run();
             }
-            catch (AggregateException e)
+            catch (Exception e)
             {
                 List<string> log = LogExceptions(e);
                 mapStudio.ExportCrashLog(log);
@@ -53,6 +53,18 @@ namespace DSMapStudio
         static List<string> LogExceptions(Exception ex)
         {
             List<string> log = new();
+            do
+            {
+                if (ex is AggregateException ae)
+                {
+                    ex = ae.Flatten();
+                }
+                log.Add(ex.Message);
+                log.Add(ex.StackTrace);
+                ex = ex.InnerException;
+                log.Add("----------------------\n");
+            }
+            while (ex != null);
             log.RemoveAt(log.Count - 1);
             return log;
         }

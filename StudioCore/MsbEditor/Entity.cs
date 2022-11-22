@@ -24,8 +24,6 @@ namespace StudioCore.MsbEditor
 
         private string CachedName = null;
 
-        public string ExtraSaveInfo = null;
-
         [XmlIgnore]
         public ObjectContainer Container { get; set; } = null;
 
@@ -1178,7 +1176,7 @@ namespace StudioCore.MsbEditor
             WrappedObject = msbo;
         }
 
-        public MapEntity(ObjectContainer map, object msbo, MapEntityType type, string btlFile = null)
+        public MapEntity(ObjectContainer map, object msbo, MapEntityType type)
         {
             Container = map;
             WrappedObject = msbo;
@@ -1186,11 +1184,6 @@ namespace StudioCore.MsbEditor
             if (!(msbo is Param.Row) && !(msbo is MergedParamRow))
             {
                 CurrentModel = GetPropertyValue<string>("ModelName");
-            }
-            if (type is MapEntityType.Light)
-            {
-                ExtraSaveInfo = btlFile;
-                //OffsetBtlLight();
             }
         }
 

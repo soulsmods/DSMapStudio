@@ -1116,22 +1116,6 @@ namespace StudioCore.TextEditor
         }
 
         /// <summary>
-        /// Get patched FMG Entries for the specified FMG ID.
-        /// </summary>
-        /// <returns>List of entries if found; empty list otherwise.</returns>
-        public static List<FMG.Entry> GetFmgEntriesByID(FmgIDType fmgID, bool sort = true)
-        {
-            foreach (var info in _fmgInfoBank)
-            {
-                if (info.FmgID == fmgID)
-                {
-                    return info.GetPatchedEntries(sort);
-                }
-            }
-            return new List<FMG.Entry>();
-        }
-
-        /// <summary>
         /// Generate a new EntryGroup using a given ID and FMGInfo.
         /// Data is updated using FMGInfo PatchChildren.
         /// </summary>

@@ -267,53 +267,9 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
-            else if (typ == typeof(Color))
-            {
-                var att = prop.GetCustomAttribute<SupportsAlphaAttribute>();
-                if (att != null)
-                {
-                    if (att.Supports == false)
-                    {
-                        var color = (Color)oldval;
-                        Vector3 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
-                        if (ImGui.ColorEdit3("##value", ref val))
-                        {
-                            Color newColor = Color.FromArgb((int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
-                            newval = newColor;
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        var color = (Color)oldval;
-                        Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-                        if (ImGui.ColorEdit4("##value", ref val))
-                        {
-                            Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
-                            newval = newColor;
-                            return true;
-                        }
-                    }
-                }
-                else
-                {
-                    // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
-#if DEBUG
-                    TaskManager.warningList.TryAdd($"{prop.DeclaringType} NullAlphaAttribute", $"Color property in `{prop.DeclaringType}` does not declare if it supports Alpha. Alpha will be exposed by default.");
-#endif
-                    var color = (Color)oldval;
-                    Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-                    if (ImGui.ColorEdit4("##value", ref val))
-                    {
-                        Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
-                        newval = newColor;
-                        return true;
-                    }
-                }
-            }
             else
             {
-                ImGui.Text($"Property type `{prop.Name}` in `{prop.DeclaringType}` has not been implemented. Please report this.");
+                ImGui.Text("ImplementMe");
             }
 
             newval = null;

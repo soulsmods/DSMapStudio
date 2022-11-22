@@ -22,7 +22,7 @@
 20108000 Blaidd the Half-Wolf
 20108500 Baleful Shadow
 20108562 Baleful Shadow
-20109000 Blaidd the Half-Wolf
+20109000 Blaidd the Half-WolfF
 20109010 Blaidd the Half-Wolf
 20109020 Blaidd the Half-Wolf
 20109040 Blaidd the Half-Wolf
@@ -4599,10 +4599,10 @@
 523230135 Dung Eater
 523230179 Dung Eater
 523230279 Dung Eater
-523240000 Sir Gideon Ofnir the All-Knowing
-523240070 Sir Gideon Ofnir the All-Knowing
-523240079 Sir Gideon Ofnir the All-Knowing
-523240179 Sir Gideon Ofnir the All-Knowing
+523240000 Sir Gideon Ofnir, the All-Knowing
+523240070 Sir Gideon Ofnir, the All-Knowing
+523240079 Sir Gideon Ofnir, the All-Knowing
+523240179 Sir Gideon Ofnir, the All-Knowing
 523250000 Sorcerer Rogier
 523250014 Sorcerer Rogier
 523250050 Sorcerer Rogier
