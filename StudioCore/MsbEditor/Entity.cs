@@ -139,6 +139,8 @@ namespace StudioCore.MsbEditor
                 {
                     RenderSceneMesh.Visible = _EditorVisible;
                 }
+                foreach (var child in Children)
+                    child.EditorVisible = _EditorVisible;
             }
         }
 
@@ -184,7 +186,6 @@ namespace StudioCore.MsbEditor
             {
                 if (Children[i] == child)
                 {
-
                     return i;
                 }
             }
@@ -289,8 +290,6 @@ namespace StudioCore.MsbEditor
             var clone = DeepCopyObject(WrappedObject);
             var obj = DuplicateEntity(clone);
             CloneRenderable(obj);
-            obj.UseDrawGroups = UseDrawGroups;
-            obj.ExtraSaveInfo = ExtraSaveInfo;
             return obj;
         }
 

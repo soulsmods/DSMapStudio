@@ -45,6 +45,8 @@ namespace StudioCore.MsbEditor
         public bool AltHeld;
 
         private int _createEntityMapIndex = 0;
+        private bool _openPopupDupeTargetMap = false;
+        private string _dupeSelectionTargetedMap = null;
 
         private static object _lock_PauseUpdate = new object();
         private bool _PauseUpdate;
@@ -107,6 +109,10 @@ namespace StudioCore.MsbEditor
             }
 
             ViewportUsingKeyboard = Viewport.Update(Window, dt);
+
+            // Throw any exceptions that ocurred during async map loading.
+            if (Universe.LoadMapExceptions != null)
+                throw Universe.LoadMapExceptions;
         }
 
         public void EditorResized(Sdl2Window window, GraphicsDevice device)
@@ -200,12 +206,17 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Map map)
+        /// <summary>
+        /// Adds a new entity to the targeted map. If no parent is specified, RootObject will be used.
+        /// </summary>
+        private void AddNewEntity(Type typ, MapEntity.MapEntityType etype, Map map, Entity parent = null)
         {
             var newent = typ.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
             var obj = new MapEntity(map, newent, etype);
 
-            var act = new AddMapObjectsAction(Universe, map, RenderScene, new List<MapEntity> { obj }, true);
+            parent ??= map.RootObject;
+
+            var act = new AddMapObjectsAction(Universe, map, RenderScene, new List<MapEntity> { obj }, true, parent);
             EditorActionManager.ExecuteAction(act);
         }
 
@@ -223,7 +234,6 @@ namespace StudioCore.MsbEditor
         }
         private void DummyUndummySelection(string[] sourceTypes, string[] targetTypes)
         {
-            //Incomplete. see action
             Type msbclass;
             switch (AssetLocator.Type)
             {
@@ -258,7 +268,61 @@ namespace StudioCore.MsbEditor
 
             var action = new ChangeMapObjectType(Universe, msbclass, sourceList, sourceTypes, targetTypes, "Part", true);
             EditorActionManager.ExecuteAction(action);
+        }
 
+        private void DuplicateToMapPopup()
+        {
+            if (_openPopupDupeTargetMap)
+            {
+                ImGui.OpenPopup("##DuplicateSelTargetMap");
+                _openPopupDupeTargetMap = false;
+            }
+            if (ImGui.BeginPopup("##DuplicateSelTargetMap"))
+            {
+                ImGui.Text("Duplicate Selection to Targeted Map");
+                ObjectContainer targetMap = null;
+                string name = "None";
+
+                if (_dupeSelectionTargetedMap != null)
+                {
+                    Universe.LoadedObjectContainers.TryGetValue(_dupeSelectionTargetedMap, out targetMap);
+                    if (targetMap != null)
+                    {
+                        name = targetMap.Name;
+                    }
+                    else
+                    {
+                        _dupeSelectionTargetedMap = null;
+                    }
+                }
+                if (ImGui.BeginCombo("Targeted Map", name))
+                {
+                    foreach (var obj in Universe.LoadedObjectContainers)
+                    {
+                        if (obj.Value != null)
+                        {
+                            if (ImGui.Selectable(obj.Key))
+                            {
+                                _dupeSelectionTargetedMap = obj.Key;
+                                break;
+                            }
+                        }
+                    }
+                    ImGui.EndCombo();
+                }
+                var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.BeginDisabled();
+                if (ImGui.Button("Duplicate"))
+                {
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
+                    EditorActionManager.ExecuteAction(action);
+                    ImGui.CloseCurrentPopup();
+                }
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.EndDisabled();
+                ImGui.EndPopup();
+            }
         }
 
         public override void DrawEditorMenu()
@@ -266,33 +330,37 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginMenu("Edit"))
             {
 
-                if (ImGui.MenuItem("Undo", "Ctrl+Z", false, EditorActionManager.CanUndo()))
+                if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
                 }
-                if (ImGui.MenuItem("Redo", "Ctrl+Y", false, EditorActionManager.CanRedo()))
+                if (ImGui.MenuItem("Redo", KeyBindings.Current.Core_Redo.HintText, false, EditorActionManager.CanRedo()))
                 {
                     EditorActionManager.RedoAction();
                 }
 
-                if (ImGui.MenuItem("Delete", "Delete", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.HintText, false, _selection.IsSelection()))
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (ImGui.MenuItem("Duplicate", "Ctrl+D", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _selection.IsSelection()))
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
+                if (ImGui.MenuItem("Duplicate (Specific Map)", KeyBindings.Current.Map_DuplicateToMap.HintText, false, _selection.IsSelection()))
+                {
+                    _openPopupDupeTargetMap = true;
+                }
 
                 if (ImGui.BeginMenu("Dummify/Un-Dummify"))
                 {
-                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", "Shift+<", false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_UnDummify.HintText, false, _selection.IsSelection()))
                     {
                         UnDummySelection();
                     }
-                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", "Shift+>", false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_Dummify.HintText, false, _selection.IsSelection()))
                     {
                         DummySelection();
                     }
@@ -305,23 +373,23 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.BeginMenu("Hide/Unhide"))
                 {
-                    if (ImGui.MenuItem("Hide/Unhide", "Ctrl+H", false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Hide/Unhide", KeyBindings.Current.Map_HideToggle.HintText, false, _selection.IsSelection()))
                     {
                         HideShowSelection();
                     }
                     var loadedMap = Universe.LoadedObjectContainers.Values.FirstOrDefault(x => x != null);
-                    if (ImGui.MenuItem("Unhide All", "Alt+H", false, loadedMap != null))
+                    if (ImGui.MenuItem("Unhide All", KeyBindings.Current.Map_UnhideAll.HintText, false, loadedMap != null))
                     {
                         UnhideAllObjects();
                     }
                     ImGui.EndMenu();
                 }
 
-                if (ImGui.MenuItem("Frame in Viewport", "F", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Frame in Viewport", KeyBindings.Current.Viewport_FrameSelection.HintText, false, _selection.IsSelection()))
                 {
                     FrameSelection();
                 }
-                if (ImGui.MenuItem("Goto in Object List", "G", false, _selection.IsSelection()))
+                if (ImGui.MenuItem("Goto in Object List", KeyBindings.Current.Map_GotoSelectionInObjectList.HintText, false, _selection.IsSelection()))
                 {
                     GotoSelection();
                 }
@@ -332,7 +400,7 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginMenu("Create"))
             {
                 var loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
-                if (loadedMaps.Count() == 0)
+                if (!loadedMaps.Any())
                 {
                     ImGui.Text("No maps loaded");
                 }
@@ -344,6 +412,29 @@ namespace StudioCore.MsbEditor
 
                     Map map = (Map)loadedMaps.ElementAt(_createEntityMapIndex);
 
+                    if (ImGui.BeginMenu("BTL Lights"))
+                    {
+                        if (!map.BTLParents.Any())
+                        {
+                            ImGui.Text("This map has no BTL files.");
+                        }
+                        else
+                        {
+                            foreach (var btl in map.BTLParents)
+                            {
+                                var ad = (AssetDescription)btl.WrappedObject;
+                                if (ImGui.BeginMenu(ad.AssetName))
+                                {
+                                    if (ImGui.MenuItem("Create Light"))
+                                    {
+                                        AddNewEntity(typeof(BTL.Light), MapEntity.MapEntityType.Light, map, btl);
+                                    }
+                                    ImGui.EndMenu();
+                                }
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.BeginMenu("Parts"))
                     {
                         foreach (var p in _partsClasses)
@@ -497,11 +588,11 @@ namespace StudioCore.MsbEditor
             {
                 if (ImGui.BeginMenu("Mode"))
                 {
-                    if (ImGui.MenuItem("Translate", "W", Gizmos.Mode == Gizmos.GizmosMode.Translate))
+                    if (ImGui.MenuItem("Translate", KeyBindings.Current.Viewport_TranslateMode.HintText, Gizmos.Mode == Gizmos.GizmosMode.Translate))
                     {
                         Gizmos.Mode = Gizmos.GizmosMode.Translate;
                     }
-                    if (ImGui.MenuItem("Rotate", "E", Gizmos.Mode == Gizmos.GizmosMode.Rotate))
+                    if (ImGui.MenuItem("Rotate", KeyBindings.Current.Viewport_RotationMode.HintText, Gizmos.Mode == Gizmos.GizmosMode.Rotate))
                     {
                         Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                     }
@@ -509,11 +600,11 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Space"))
                 {
-                    if (ImGui.MenuItem("Local", "", Gizmos.Space == Gizmos.GizmosSpace.Local))
+                    if (ImGui.MenuItem("Local", KeyBindings.Current.Viewport_ToggleGizmoSpace.HintText, Gizmos.Space == Gizmos.GizmosSpace.Local))
                     {
                         Gizmos.Space = Gizmos.GizmosSpace.Local;
                     }
-                    if (ImGui.MenuItem("World", "", Gizmos.Space == Gizmos.GizmosSpace.World))
+                    if (ImGui.MenuItem("World", KeyBindings.Current.Viewport_ToggleGizmoSpace.HintText, Gizmos.Space == Gizmos.GizmosSpace.World))
                     {
                         Gizmos.Space = Gizmos.GizmosSpace.World;
                     }
@@ -521,11 +612,11 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Origin"))
                 {
-                    if (ImGui.MenuItem("World", "Home", Gizmos.Origin == Gizmos.GizmosOrigin.World))
+                    if (ImGui.MenuItem("World", KeyBindings.Current.Viewport_ToggleGizmoOrigin.HintText, Gizmos.Origin == Gizmos.GizmosOrigin.World))
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
-                    if (ImGui.MenuItem("Bounding Box", "Home", Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
+                    if (ImGui.MenuItem("Bounding Box", KeyBindings.Current.Viewport_ToggleGizmoOrigin.HintText, Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox))
                     {
                         Gizmos.Origin = Gizmos.GizmosOrigin.BoundingBox;
                     }
@@ -537,12 +628,14 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI(string[] initcmd)
         {
+            float scale = ImGuiRenderer.GetUIScale();
+
             // Docking setup
             //var vp = ImGui.GetMainViewport();
             var wins = ImGui.GetWindowSize();
             var winp = ImGui.GetWindowPos();
-            winp.Y += 20.0f;
-            wins.Y -= 20.0f;
+            winp.Y += 20.0f * scale;
+            wins.Y -= 20.0f * scale;
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
@@ -559,37 +652,40 @@ namespace StudioCore.MsbEditor
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
             // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if (!ViewportUsingKeyboard && !ImGui.IsAnyItemActive())
             {
-                EditorActionManager.UndoAction();
-            }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
-            {
-                EditorActionManager.RedoAction();
-            }
-            if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
-            {
-                if (InputTracker.GetControlShortcut(Key.D) && _selection.IsSelection())
+                if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
+                {
+                    EditorActionManager.UndoAction();
+                }
+                if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
+                {
+                    EditorActionManager.RedoAction();
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _selection.IsSelection())
                 {
                     var action = new CloneMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (InputTracker.GetKeyDown(Key.Delete) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_DuplicateToMap) && _selection.IsSelection())
+                {
+                    _openPopupDupeTargetMap = true;
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete) && _selection.IsSelection())
                 {
                     var action = new DeleteMapObjectsAction(Universe, RenderScene, _selection.GetFilteredSelection<MapEntity>().ToList(), true);
                     EditorActionManager.ExecuteAction(action);
                 }
-                if (InputTracker.GetKeyDown(Key.W))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_TranslateMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Translate;
                 }
-                if (InputTracker.GetKeyDown(Key.E))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_RotationMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                 }
 
-                // Use home key to cycle between gizmos origin modes
-                if (InputTracker.GetKeyDown(Key.Home))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
                     {
@@ -600,38 +696,34 @@ namespace StudioCore.MsbEditor
                         Gizmos.Origin = Gizmos.GizmosOrigin.World;
                     }
                 }
-
-                // Hide/Unhide
-                if (InputTracker.GetControlShortcut(Key.H) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoSpace))
+                {
+                    if (Gizmos.Space == Gizmos.GizmosSpace.Local)
+                        Gizmos.Space = Gizmos.GizmosSpace.World;
+                    else if (Gizmos.Space == Gizmos.GizmosSpace.World)
+                        Gizmos.Space = Gizmos.GizmosSpace.Local;
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_HideToggle) && _selection.IsSelection())
                 {
                     HideShowSelection();
                 }
-
-                // Unhide all
-                if (InputTracker.GetAltShortcut(Key.H))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnhideAll))
                 {
                     UnhideAllObjects();
                 }
-
-                // F key frames the selection
-                if (InputTracker.GetKeyDown(Key.F))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_FrameSelection))
                 {
                     FrameSelection();
                 }
-
-                // G key jumps in SceneTree
-                if (InputTracker.GetKeyDown(Key.G))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_GotoSelectionInObjectList))
                 {
                     GotoSelection();
                 }
-
-                //Undummify
-                if (InputTracker.GetShiftShortcut(Key.Comma) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
                     UnDummySelection();
                 }
-                //Dummify
-                if (InputTracker.GetShiftShortcut(Key.Period) && _selection.IsSelection())
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnDummify) && _selection.IsSelection())
                 {
                     DummySelection();
                 }
@@ -664,18 +756,67 @@ namespace StudioCore.MsbEditor
                 CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
             }
 
+            DuplicateToMapPopup();
+
             // Parse select commands
-            string propSearchKey = null;
-            if (initcmd != null && initcmd[0] == "propsearch")
+            string[] propSearchCmd = null;
+            if (initcmd != null && initcmd.Length > 1)
             {
-                if (initcmd.Length > 1)
+                if (initcmd[0] == "propsearch")
                 {
-                    propSearchKey = initcmd[1];
+                    propSearchCmd = initcmd.Skip(1).ToArray();
+                }
+                // Support loading maps through commands.
+                // Probably don't support unload here, as there may be unsaved changes.
+                ISelectable target = null;
+                if (initcmd[0] == "load")
+                {
+                    string mapid = initcmd[1];
+                    if (Universe.GetLoadedMap(mapid) is Map m)
+                    {
+                        target = m.RootObject;
+                    }
+                    else
+                    {
+                        Universe.LoadMap(mapid, true);
+                    }
+                }
+                if (initcmd[0] == "select")
+                {
+                    string mapid = initcmd[1];
+                    if (initcmd.Length > 2)
+                    {
+                        if (Universe.GetLoadedMap(mapid) is Map m)
+                        {
+                            string name = initcmd[2];
+                            if (initcmd.Length > 3 && Enum.TryParse(initcmd[3], out MapEntity.MapEntityType entityType))
+                            {
+                                target = m.GetObjectsByName(name)
+                                    .Where(ent => ent is MapEntity me && me.Type == entityType)
+                                    .FirstOrDefault();
+                            }
+                            else
+                            {
+                                target = m.GetObjectByName(name);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        target = new ObjectContainerReference(mapid, Universe).GetSelectionTarget();
+                    }
+                }
+                if (target != null)
+                {
+                    Universe.Selection.ClearSelection();
+                    Universe.Selection.AddSelection(target);
+                    Universe.Selection.GotoTreeTarget = target;
+                    FrameSelection();
                 }
             }
 
-            ImGui.SetNextWindowSize(new Vector2(300, 500), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(20, 20), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(300, 500) * scale, ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver);
 
             System.Numerics.Vector3 clear_color = new System.Numerics.Vector3(114f / 255f, 144f / 255f, 154f / 255f);
             //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");
@@ -688,9 +829,9 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.SetNextWindowFocus();
             }
-            PropEditor.OnGui(_selection, _selection.GetSingleFilteredSelection<Entity>(), "mapeditprop", Viewport.Width, Viewport.Height);
+            PropEditor.OnGui(_selection, "mapeditprop", Viewport.Width, Viewport.Height);
             DispGroupEditor.OnGui(Universe._dispGroupCount);
-            PropSearch.OnGui(propSearchKey);
+            PropSearch.OnGui(propSearchCmd);
 
             // Not usable yet
             if (FeatureFlags.EnableNavmeshBuilder)

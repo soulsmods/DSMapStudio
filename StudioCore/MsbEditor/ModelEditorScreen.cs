@@ -156,39 +156,40 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI()
         {
+            float scale = ImGuiRenderer.GetUIScale();
             // Docking setup
             //var vp = ImGui.GetMainViewport();
             var wins = ImGui.GetWindowSize();
             var winp = ImGui.GetWindowPos();
-            winp.Y += 20.0f;
-            wins.Y -= 20.0f;
+            winp.Y += 20.0f * scale;
+            wins.Y -= 20.0f * scale;
             ImGui.SetNextWindowPos(winp);
             ImGui.SetNextWindowSize(wins);
             var dsid = ImGui.GetID("DockSpace_ModelEdit");
             ImGui.DockSpace(dsid, new Vector2(0, 0));
 
             // Keyboard shortcuts
-            if (EditorActionManager.CanUndo() && InputTracker.GetControlShortcut(Key.Z))
+            if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
             {
                 EditorActionManager.UndoAction();
             }
-            if (EditorActionManager.CanRedo() && InputTracker.GetControlShortcut(Key.Y))
+            if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
             {
                 EditorActionManager.RedoAction();
             }
             if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
             {
-                if (InputTracker.GetKeyDown(Key.W))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_TranslateMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Translate;
                 }
-                if (InputTracker.GetKeyDown(Key.E))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_RotationMode))
                 {
                     Gizmos.Mode = Gizmos.GizmosMode.Rotate;
                 }
 
                 // Use home key to cycle between gizmos origin modes
-                if (InputTracker.GetKeyDown(Key.Home))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_ToggleGizmoOrigin))
                 {
                     if (Gizmos.Origin == Gizmos.GizmosOrigin.World)
                     {
@@ -201,7 +202,7 @@ namespace StudioCore.MsbEditor
                 }
 
                 // F key frames the selection
-                if (InputTracker.GetKeyDown(Key.F))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_FrameSelection))
                 {
                     var selected = _selection.GetFilteredSelection<Entity>();
                     bool first = false;
@@ -242,8 +243,8 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            ImGui.SetNextWindowSize(new Vector2(300, 500), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(20, 20), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(300, 500) * scale, ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver);
 
             System.Numerics.Vector3 clear_color = new System.Numerics.Vector3(114f / 255f, 144f / 255f, 154f / 255f);
             //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");
@@ -252,7 +253,7 @@ namespace StudioCore.MsbEditor
             Viewport.OnGui();
             _assetBrowser.OnGui();
             _sceneTree.OnGui();
-            _propEditor.OnGui(_selection, _selection.GetSingleFilteredSelection<Entity>(), "modeleditprop", Viewport.Width, Viewport.Height);
+            _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
 

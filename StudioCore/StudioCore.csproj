@@ -251,6 +251,15 @@
     <None Remove="Assets\Shaders\SimpleFlver_selected.frag.spv" />
     <None Remove="Assets\Shaders\SimpleFlver_selected.vert.spv" />
     <None Remove="tracy.dll" />
+    <None Update="Assets\GameOffsets\DS1R\CoreOffsets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\GameOffsets\DS1R\ItemGibOffsets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\GameOffsets\DS1R\ParamOffsets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -421,6 +430,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj" />
     <ProjectReference Include="..\FSParam\FSParam.csproj" />
     <ProjectReference Include="..\HKX2\HKX2.csproj" />
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />

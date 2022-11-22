@@ -1262,7 +1262,7 @@ namespace StudioCore.ParamEditor
                 var list = addedRows[row.ID];
                 
                 // First we see if we match the first target row. If so we can remove it.
-                if (row.Equals(list[0]))
+                if (row.DataEquals(list[0]))
                 {
                     var modrow = list[0];
                     list.RemoveAt(0);
@@ -1445,6 +1445,8 @@ namespace StudioCore.ParamEditor
                     conflictingParams.Add(k, conflicts);
             }
             
+            ulong oldVersion = _paramVersion;
+
             // Set new params
             _params = updatedParams;
             _paramVersion = VanillaBank.ParamVersion;
@@ -1455,6 +1457,57 @@ namespace StudioCore.ParamEditor
             RefreshParamDiffCaches();
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
+        }
+
+        public (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
+        {
+            // Temporary data could be moved somewhere static
+            (ulong, string, string)[] paramUpgradeTasks = new (ulong, string, string)[0];
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
+                paramUpgradeTasks = new (ulong, string, string)[]{
+                    (10701000l, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
+                    (10701000l, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && notadded: swordArtsType: = 0;"),
+                    (10701000l, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
+                    (10701000l, "1.07 - (AtkParam PC/NPC) Set notadded finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && notadded: finalDamageRateId: = vanillafield finalDamageRateId;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && notadded: reserved_124: = vanillafield reserved_124;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
+                };
+            }
+
+            List<string> performed = new List<string>();
+            List<string> unperformed = new List<string>();
+
+            bool hasFailed = false;
+            foreach (var (version, task, command) in paramUpgradeTasks)
+            {
+                // Don't bother updating modified cache between edits
+                if (version <= startVersion || version > endVersion)
+                    continue;
+                
+                if (!hasFailed)
+                {
+                    try {
+                        var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
+                        if (result.Type != MassEditResultType.SUCCESS)
+                            hasFailed = true;
+                    }
+                    catch (Exception e)
+                    {
+                        hasFailed = true;
+                    }
+                }
+                if (!hasFailed)
+                    performed.Add(task);
+                else
+                    unperformed.Add(task);
+            }
+            return (performed, unperformed);
         }
 
         public string GetChrIDForEnemy(long enemyID)
@@ -1469,6 +1522,16 @@ namespace StudioCore.ParamEditor
             {
                 if (param == pair.Value)
                     return pair.Key;
+            }
+            return null;
+        }
+
+        public Param GetParamFromName(string param)
+        {
+            foreach (KeyValuePair<string, Param> pair in Params)
+            {
+                if (param == pair.Key)
+                    return pair.Value;
             }
             return null;
         }

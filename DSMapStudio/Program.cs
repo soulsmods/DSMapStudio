@@ -32,37 +32,15 @@ namespace DSMapStudio
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
 
             var mapStudio = new MapStudioNew();
-            #if !DEBUG
+#if !DEBUG
             try
             {
                 mapStudio.Run();
             }
             catch (AggregateException e)
             {
-                e = e.Flatten();
-                if (e.InnerExceptions.Count > 1)
-                {
-                    List<string> log = new();
-                    foreach (var ex in e.InnerExceptions)
-                    {
-                        log.Add(ex.Message);
-                        log.Add(ex.StackTrace);
-                        log.Add("\n----------------\n");
-                    }
-                    log.RemoveAt(log.Count-1);
-                    mapStudio.ExportCrashLog(log);
-                }
-                else
-                {
-                    mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
-                }
-                mapStudio.AttemptSaveOnCrash();
-                mapStudio.CrashShutdown();
-                throw;
-            }
-            catch (Exception e)
-            {
-                mapStudio.ExportCrashLog((e.Message + "\n" + e.StackTrace).Replace("\0", "\\0"));
+                List<string> log = LogExceptions(e);
+                mapStudio.ExportCrashLog(log);
                 mapStudio.AttemptSaveOnCrash();
                 mapStudio.CrashShutdown();
                 throw;
@@ -70,6 +48,13 @@ namespace DSMapStudio
 #else
             mapStudio.Run();
 #endif
+        }
+
+        static List<string> LogExceptions(Exception ex)
+        {
+            List<string> log = new();
+            log.RemoveAt(log.Count - 1);
+            return log;
         }
 
         static void CrashHandler(object sender, UnhandledExceptionEventArgs args)

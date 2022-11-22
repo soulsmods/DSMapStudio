@@ -22,6 +22,8 @@ namespace StudioCore.MsbEditor
     /// </summary>
     public class Universe
     {
+
+        public Exception LoadMapExceptions = null;
         public Dictionary<string, ObjectContainer> LoadedObjectContainers { get; private set; } = new Dictionary<string, ObjectContainer>();
         private AssetLocator _assetLocator;
         private Scene.RenderScene _renderScene;
@@ -453,7 +455,7 @@ namespace StudioCore.MsbEditor
                 {
                     var regist = registParams[registid];
                     var chrid = ParamEditor.ParamBank.PrimaryBank.GetChrIDForEnemy(
-                        (uint)regist.GetCellHandleOrThrow("EnemyParamID").Value);
+                        (int)regist.GetCellHandleOrThrow("EnemyParamID").Value);
                     if (chrid != null)
                     {
                         var asset = _assetLocator.GetChrModel($@"c{chrid}");
@@ -597,322 +599,331 @@ namespace StudioCore.MsbEditor
 
         public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
         {
-            postLoad = false;
-            var map = new Map(this, mapid);
+            try
+            {
+                postLoad = false;
+                var map = new Map(this, mapid);
 
-            List<Task> tasks = new();
-            Task task;
+                List<Task> tasks = new();
+                Task task;
 
-            var mappiecesToLoad = new HashSet<AssetDescription>();
-            var chrsToLoad = new HashSet<AssetDescription>();
-            var objsToLoad = new HashSet<AssetDescription>();
-            var colsToLoad = new HashSet<AssetDescription>();
-            var navsToLoad = new HashSet<AssetDescription>();
+                var mappiecesToLoad = new HashSet<AssetDescription>();
+                var chrsToLoad = new HashSet<AssetDescription>();
+                var objsToLoad = new HashSet<AssetDescription>();
+                var colsToLoad = new HashSet<AssetDescription>();
+                var navsToLoad = new HashSet<AssetDescription>();
 
-            //drawgroup count
-            switch (_assetLocator.Type)
-            {
-                // imgui checkbox click seems to break at some point after 8 (8*32) checkboxes, so let's just hope that never happens, yeah?
-                case GameType.DemonsSouls:
-                case GameType.DarkSoulsPTDE:
-                case GameType.DarkSoulsRemastered:
-                case GameType.DarkSoulsIISOTFS:
-                    _dispGroupCount = 4;
-                    break;
-                case GameType.Bloodborne:
-                case GameType.DarkSoulsIII:
-                    _dispGroupCount = 8;
-                    break;
-                case GameType.Sekiro:
-                case GameType.EldenRing:
-                    _dispGroupCount = 8; //?
-                    break;
-                default:
-                    throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
-                    //break;
-            }
+                //drawgroup count
+                switch (_assetLocator.Type)
+                {
+                    // imgui checkbox click seems to break at some point after 8 (8*32) checkboxes, so let's just hope that never happens, yeah?
+                    case GameType.DemonsSouls:
+                    case GameType.DarkSoulsPTDE:
+                    case GameType.DarkSoulsRemastered:
+                    case GameType.DarkSoulsIISOTFS:
+                        _dispGroupCount = 4;
+                        break;
+                    case GameType.Bloodborne:
+                    case GameType.DarkSoulsIII:
+                        _dispGroupCount = 8;
+                        break;
+                    case GameType.Sekiro:
+                    case GameType.EldenRing:
+                        _dispGroupCount = 8; //?
+                        break;
+                    default:
+                        throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
+                        //break;
+                }
 
-            var ad = _assetLocator.GetMapMSB(mapid);
-            if (ad.AssetPath == null)
-            {
-                return;
-            }
-            IMsb msb;
-            if (_assetLocator.Type == GameType.DarkSoulsIII)
-            {
-                msb = MSB3.Read(ad.AssetPath);
-            }
-            else if (_assetLocator.Type == GameType.Sekiro)
-            {
-                msb = MSBS.Read(ad.AssetPath);
-            }
-            else if (_assetLocator.Type == GameType.EldenRing)
-            {
-                msb = MSBE.Read(ad.AssetPath);
-            }
-            else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                msb = MSB2.Read(ad.AssetPath);
-            }
-            else if (_assetLocator.Type == GameType.Bloodborne)
-            {
-                msb = MSBB.Read(ad.AssetPath);
-            }
-            else if (_assetLocator.Type == GameType.DemonsSouls)
-            {
-                msb = MSBD.Read(ad.AssetPath);
-            }
-            else
-            {
-                msb = MSB1.Read(ad.AssetPath);
-            }
-
-            map.LoadMSB(msb);
-
-            var amapid = _assetLocator.GetAssetMapID(mapid);
-            foreach (var model in msb.Models.GetEntries())
-            {
-                AssetDescription asset;
-                if (model.Name.StartsWith("m"))
+                var ad = _assetLocator.GetMapMSB(mapid);
+                if (ad.AssetPath == null)
                 {
-                    asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
-                    mappiecesToLoad.Add(asset);
+                    return;
                 }
-                else if (model.Name.StartsWith("c"))
+                IMsb msb;
+                if (_assetLocator.Type == GameType.DarkSoulsIII)
                 {
-                    asset = _assetLocator.GetChrModel(model.Name);
-                    chrsToLoad.Add(asset);
-                    var tasset = _assetLocator.GetChrTextures(model.Name);
-                    if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
-                    {
-                        chrsToLoad.Add(tasset);
-                    }
+                    msb = MSB3.Read(ad.AssetPath);
                 }
-                else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
+                else if (_assetLocator.Type == GameType.Sekiro)
                 {
-                    asset = _assetLocator.GetObjModel(model.Name);
-                    objsToLoad.Add(asset);
+                    msb = MSBS.Read(ad.AssetPath);
                 }
-                else if (model.Name.StartsWith("h"))
+                else if (_assetLocator.Type == GameType.EldenRing)
                 {
-                    asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
-                    colsToLoad.Add(asset);
+                    msb = MSBE.Read(ad.AssetPath);
                 }
-                else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
+                else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
-                    navsToLoad.Add(asset);
+                    msb = MSB2.Read(ad.AssetPath);
                 }
-            }
-
-            foreach (var obj in map.Objects)
-            {
-                if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "" && obj.RenderSceneMesh == null)
+                else if (_assetLocator.Type == GameType.Bloodborne)
                 {
-                    GetModelDrawable(map, obj, mp.ModelName, false); 
+                    msb = MSBB.Read(ad.AssetPath);
                 }
-            }
-
-            // Load BTLs (must be done after MapOffset is set)
-            var BTLs = _assetLocator.GetMapBTLs(mapid);
-            foreach (var btl_ad in BTLs)
-            {
-                var btl = ReturnBTL(btl_ad);
-                if (btl != null)
+                else if (_assetLocator.Type == GameType.DemonsSouls)
                 {
-                    map.LoadBTL(btl_ad, btl);
-                }
-            }
-
-            if (_assetLocator.Type == GameType.EldenRing && CFG.Current.EnableEldenRingAutoMapOffset)
-            {
-                if (SpecialMapConnections.GetEldenMapTransform(mapid, LoadedObjectContainers) is Transform loadTransform)
-                {
-                    map.RootObject.GetUpdateTransformAction(loadTransform).Execute();
-                }
-            }
-
-            if (!LoadedObjectContainers.ContainsKey(mapid))
-            {
-                LoadedObjectContainers.Add(mapid, map);
-            }
-            else
-            {
-                LoadedObjectContainers[mapid] = map;
-            }
-            // Intervene in the UI to change selection if requested.
-            // We want to do this as soon as the RootObject is available, rather than at the end of all jobs.
-            if (selectOnLoad)
-            {
-                Selection.ClearSelection();
-                Selection.AddSelection(map.RootObject);
-            }
-
-            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                LoadDS2Generators(amapid, map);
-            }
-
-            // Temporary DS3 navmesh loading
-            if (FeatureFlags.LoadDS3Navmeshes && _assetLocator.Type == GameType.DarkSoulsIII)
-            {
-                var nvaasset = _assetLocator.GetMapNVA(amapid);
-                if (nvaasset.AssetPath != null)
-                {
-                    NVA nva = NVA.Read(nvaasset.AssetPath);
-                    foreach (var nav in nva.Navmeshes)
-                    {
-                        // TODO2: set parent to MapOffset
-                        var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
-                        map.AddObject(n);
-                        var navid = $@"n{nav.ModelID:D6}";
-                        var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
-                        var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
-                        
-                        var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(
-                            _renderScene, nasset.AssetVirtualPath, ModelMarkerType.Other);
-                        mesh.World = n.GetWorldMatrix();
-                        mesh.SetSelectable(n);
-                        mesh.DrawFilter = RenderFilter.Navmesh;
-                        n.RenderSceneMesh = mesh;
-                    }
-                }
-            }
-
-            var job = ResourceManager.CreateNewJob($@"Loading {amapid} geometry");
-            foreach (var mappiece in mappiecesToLoad)
-            {
-                if (mappiece.AssetArchiveVirtualPath != null)
-                {
-                    job.AddLoadArchiveTask(mappiece.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, Resource.ResourceManager.ResourceType.Flver);
-                }
-                else if (mappiece.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(mappiece.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                }
-            }
-            task = job.Complete();
-            tasks.Add(task);
-
-            if (CFG.Current.EnableTexturing)
-            {
-                job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
-                foreach (var asset in _assetLocator.GetMapTextures(amapid))
-                {
-                    if (asset.AssetArchiveVirtualPath != null)
-                    {
-                        job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
-                    }
-                    else if (asset.AssetVirtualPath != null)
-                    {
-                        job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                    }
-                }
-                task = job.Complete();
-                tasks.Add(task);
-            }
-
-            job = ResourceManager.CreateNewJob($@"Loading {amapid} collisions");
-            string archive = null;
-            HashSet<string> colassets = new HashSet<string>();
-            foreach (var col in colsToLoad)
-            {
-                if (col.AssetArchiveVirtualPath != null)
-                {
-                    //job.AddLoadArchiveTask(col.AssetArchiveVirtualPath, false);
-                    archive = col.AssetArchiveVirtualPath;
-                    colassets.Add(col.AssetVirtualPath);
-                }
-                else if (col.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(col.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                }
-            }
-            if (archive != null)
-            {
-                job.AddLoadArchiveTask(archive, AccessLevel.AccessGPUOptimizedOnly, false, colassets);
-            }
-            task = job.Complete();
-            tasks.Add(task);
-
-            job = ResourceManager.CreateNewJob($@"Loading chrs");
-            foreach (var chr in chrsToLoad)
-            {
-                if (chr.AssetArchiveVirtualPath != null)
-                {
-                    job.AddLoadArchiveTask(chr.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, Resource.ResourceManager.ResourceType.Flver);
-                }
-                else if (chr.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                }
-            }
-            task = job.Complete();
-            tasks.Add(task);
-
-            job = ResourceManager.CreateNewJob($@"Loading objs");
-            foreach (var obj in objsToLoad)
-            {
-                if (obj.AssetArchiveVirtualPath != null)
-                {
-                    job.AddLoadArchiveTask(obj.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, Resource.ResourceManager.ResourceType.Flver);
-                }
-                else if (obj.AssetVirtualPath != null)
-                {
-                    job.AddLoadFileTask(obj.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
-                }
-            }
-            task = job.Complete();
-            tasks.Add(task);
-
-            if (FeatureFlags.LoadNavmeshes)
-            {
-                job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
-                if (_assetLocator.Type == GameType.DarkSoulsIII && FeatureFlags.LoadDS3Navmeshes)
-                {
-                    var nav = _assetLocator.GetHavokNavmeshes(amapid);
-                    job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
+                    msb = MSBD.Read(ad.AssetPath);
                 }
                 else
                 {
-                    foreach (var nav in navsToLoad)
+                    msb = MSB1.Read(ad.AssetPath);
+                }
+
+                map.LoadMSB(msb);
+
+                var amapid = _assetLocator.GetAssetMapID(mapid);
+                foreach (var model in msb.Models.GetEntries())
+                {
+                    AssetDescription asset;
+                    if (model.Name.StartsWith("m"))
                     {
-                        if (nav.AssetArchiveVirtualPath != null)
+                        asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
+                        mappiecesToLoad.Add(asset);
+                    }
+                    else if (model.Name.StartsWith("c"))
+                    {
+                        asset = _assetLocator.GetChrModel(model.Name);
+                        chrsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetChrTextures(model.Name);
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
                         {
-                            job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                            chrsToLoad.Add(tasset);
                         }
-                        else if (nav.AssetVirtualPath != null)
+                    }
+                    else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
+                    {
+                        asset = _assetLocator.GetObjModel(model.Name);
+                        objsToLoad.Add(asset);
+                    }
+                    else if (model.Name.StartsWith("h"))
+                    {
+                        asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
+                        colsToLoad.Add(asset);
+                    }
+                    else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
+                    {
+                        asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
+                        navsToLoad.Add(asset);
+                    }
+                }
+
+                foreach (var obj in map.Objects)
+                {
+                    if (obj.WrappedObject is IMsbPart mp && mp.ModelName != null && mp.ModelName != "" && obj.RenderSceneMesh == null)
+                    {
+                        GetModelDrawable(map, obj, mp.ModelName, false);
+                    }
+                }
+
+                // Load BTLs (must be done after MapOffset is set)
+                var BTLs = _assetLocator.GetMapBTLs(mapid);
+                foreach (var btl_ad in BTLs)
+                {
+                    var btl = ReturnBTL(btl_ad);
+                    if (btl != null)
+                    {
+                        map.LoadBTL(btl_ad, btl);
+                    }
+                }
+
+                if (_assetLocator.Type == GameType.EldenRing && CFG.Current.EnableEldenRingAutoMapOffset)
+                {
+                    if (SpecialMapConnections.GetEldenMapTransform(mapid, LoadedObjectContainers) is Transform loadTransform)
+                    {
+                        map.RootObject.GetUpdateTransformAction(loadTransform).Execute();
+                    }
+                }
+
+                if (!LoadedObjectContainers.ContainsKey(mapid))
+                {
+                    LoadedObjectContainers.Add(mapid, map);
+                }
+                else
+                {
+                    LoadedObjectContainers[mapid] = map;
+                }
+                // Intervene in the UI to change selection if requested.
+                // We want to do this as soon as the RootObject is available, rather than at the end of all jobs.
+                if (selectOnLoad)
+                {
+                    Selection.ClearSelection();
+                    Selection.AddSelection(map.RootObject);
+                }
+
+                if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    LoadDS2Generators(amapid, map);
+                }
+
+                // Temporary DS3 navmesh loading
+                if (FeatureFlags.LoadDS3Navmeshes && _assetLocator.Type == GameType.DarkSoulsIII)
+                {
+                    var nvaasset = _assetLocator.GetMapNVA(amapid);
+                    if (nvaasset.AssetPath != null)
+                    {
+                        NVA nva = NVA.Read(nvaasset.AssetPath);
+                        foreach (var nav in nva.Navmeshes)
                         {
-                            job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                            // TODO2: set parent to MapOffset
+                            var n = new MapEntity(map, nav, MapEntity.MapEntityType.Editor);
+                            map.AddObject(n);
+                            var navid = $@"n{nav.ModelID:D6}";
+                            var navname = "n" + _assetLocator.MapModelNameToAssetName(amapid, navid).Substring(1);
+                            var nasset = _assetLocator.GetHavokNavmeshModel(amapid, navname);
+
+                            var mesh = MeshRenderableProxy.MeshRenderableFromHavokNavmeshResource(
+                                _renderScene, nasset.AssetVirtualPath, ModelMarkerType.Other);
+                            mesh.World = n.GetWorldMatrix();
+                            mesh.SetSelectable(n);
+                            mesh.DrawFilter = RenderFilter.Navmesh;
+                            n.RenderSceneMesh = mesh;
                         }
+                    }
+                }
+
+                var job = ResourceManager.CreateNewJob($@"Loading {amapid} geometry");
+                foreach (var mappiece in mappiecesToLoad)
+                {
+                    if (mappiece.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(mappiece.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, Resource.ResourceManager.ResourceType.Flver);
+                    }
+                    else if (mappiece.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(mappiece.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
                     }
                 }
                 task = job.Complete();
                 tasks.Add(task);
+
+                if (CFG.Current.EnableTexturing)
+                {
+                    job = ResourceManager.CreateNewJob($@"Loading {amapid} textures");
+                    foreach (var asset in _assetLocator.GetMapTextures(amapid))
+                    {
+                        if (asset.AssetArchiveVirtualPath != null)
+                        {
+                            job.AddLoadArchiveTask(asset.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                        }
+                        else if (asset.AssetVirtualPath != null)
+                        {
+                            job.AddLoadFileTask(asset.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                        }
+                    }
+                    task = job.Complete();
+                    tasks.Add(task);
+                }
+
+                job = ResourceManager.CreateNewJob($@"Loading {amapid} collisions");
+                string archive = null;
+                HashSet<string> colassets = new HashSet<string>();
+                foreach (var col in colsToLoad)
+                {
+                    if (col.AssetArchiveVirtualPath != null)
+                    {
+                        //job.AddLoadArchiveTask(col.AssetArchiveVirtualPath, false);
+                        archive = col.AssetArchiveVirtualPath;
+                        colassets.Add(col.AssetVirtualPath);
+                    }
+                    else if (col.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(col.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    }
+                }
+                if (archive != null)
+                {
+                    job.AddLoadArchiveTask(archive, AccessLevel.AccessGPUOptimizedOnly, false, colassets);
+                }
+                task = job.Complete();
+                tasks.Add(task);
+
+                job = ResourceManager.CreateNewJob($@"Loading chrs");
+                foreach (var chr in chrsToLoad)
+                {
+                    if (chr.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(chr.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, Resource.ResourceManager.ResourceType.Flver);
+                    }
+                    else if (chr.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(chr.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    }
+                }
+                task = job.Complete();
+                tasks.Add(task);
+
+                job = ResourceManager.CreateNewJob($@"Loading objs");
+                foreach (var obj in objsToLoad)
+                {
+                    if (obj.AssetArchiveVirtualPath != null)
+                    {
+                        job.AddLoadArchiveTask(obj.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, Resource.ResourceManager.ResourceType.Flver);
+                    }
+                    else if (obj.AssetVirtualPath != null)
+                    {
+                        job.AddLoadFileTask(obj.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                    }
+                }
+                task = job.Complete();
+                tasks.Add(task);
+
+                if (FeatureFlags.LoadNavmeshes)
+                {
+                    job = ResourceManager.CreateNewJob($@"Loading Navmeshes");
+                    if (_assetLocator.Type == GameType.DarkSoulsIII && FeatureFlags.LoadDS3Navmeshes)
+                    {
+                        var nav = _assetLocator.GetHavokNavmeshes(amapid);
+                        job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false, ResourceManager.ResourceType.NavmeshHKX);
+                    }
+                    else
+                    {
+                        foreach (var nav in navsToLoad)
+                        {
+                            if (nav.AssetArchiveVirtualPath != null)
+                            {
+                                job.AddLoadArchiveTask(nav.AssetArchiveVirtualPath, AccessLevel.AccessGPUOptimizedOnly, false);
+                            }
+                            else if (nav.AssetVirtualPath != null)
+                            {
+                                job.AddLoadFileTask(nav.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly);
+                            }
+                        }
+                    }
+                    task = job.Complete();
+                    tasks.Add(task);
+                }
+
+                // Real bad hack
+                EnvMapTextures = _assetLocator.GetEnvMapTextureNames(amapid);
+
+                if (_assetLocator.Type == GameType.DarkSoulsPTDE)
+                {
+                    ResourceManager.ScheduleUDSMFRefresh();
+                }
+                ResourceManager.ScheduleUnloadedTexturesRefresh();
+
+                // After everything loads, do some additional checks:
+                await Task.WhenAll(tasks);
+                postLoad = true;
+
+                // Update models (For checking meshes for Model Markers. & updates `CollisionName` field reference info)
+                foreach (var obj in map.Objects)
+                {
+                    obj.UpdateRenderModel();
+                }
+                // Check for duplicate EntityIDs
+                CheckDupeEntityIDs(map);
+
+                return;
             }
-
-            // Real bad hack
-            EnvMapTextures = _assetLocator.GetEnvMapTextureNames(amapid);
-
-            if (_assetLocator.Type == GameType.DarkSoulsPTDE)
+            catch(Exception e)
             {
-                ResourceManager.ScheduleUDSMFRefresh();
+                // Store async exception so it can be caught by crash handler.
+                LoadMapExceptions = e;
+                return;
             }
-            ResourceManager.ScheduleUnloadedTexturesRefresh();
-
-            // After everything loads, do some additional checks:
-            await Task.WhenAll(tasks);
-            postLoad = true;
-
-            // Update models (For checking meshes for Model Markers. & updates `CollisionName` field reference info)
-            foreach (var obj in map.Objects)
-            {
-                obj.UpdateRenderModel();
-            }
-            // Check for duplicate EntityIDs
-            CheckDupeEntityIDs(map);
-
-            return;
         }
 
         public static void CheckDupeEntityIDs(Map map)
@@ -935,7 +946,20 @@ namespace StudioCore.MsbEditor
                     var entityIDProp = obj.GetProperty("EntityID");
                     if (entityIDProp != null)
                     {
-                        int entityID = (int)entityIDProp.GetValue(obj.WrappedObject);
+                        object idObj = entityIDProp.GetValue(obj.WrappedObject);
+                        if (idObj is not int entityID)
+                        {
+                            // EntityID is uint in Elden Ring. Only <2^31 is used in practice.
+                            // If really desired, a separate routine could be created.
+                            if (idObj is uint uID)
+                            {
+                                entityID = unchecked((int)uID);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                         if (entityID > 0)
                         {
                             var entryExists = entityIDList.TryGetValue(entityID, out string name);

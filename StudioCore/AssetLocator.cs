@@ -85,11 +85,17 @@ namespace StudioCore
 
         public static readonly string ERRegulationFilter =
             "Regulation file (regulation.bin) |REGULATION.BIN";
+        
         public static readonly string ParamFilter =
-            "Regulation file (regulation.bin) |REGULATION.BIN|" +
+            ERRegulationFilter + "|" +
             "Data file (Data0.bdt) |DATA0.BDT|" +
             "ParamBndDcx (gameparam.parambnd.dcx) |GAMEPARAM.PARAMBND.DCX|" +
             "ParamBnd (gameparam.parambnd) |GAMEPARAM.PARAMBND";
+
+        public static readonly string ERParamUpgradeFilter =
+            ERRegulationFilter + "|" +
+            "All Files|*.*";
+            
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -498,10 +504,16 @@ namespace StudioCore
                 else
                     path = $@"map\{mapid}";
 
-                string[] files;
+                List<string> files = new();
                 try
                 {
-                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.*");
+                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl*").Where(f => !f.EndsWith(".bak")).ToList();
+                    if (Directory.Exists($"{GameModDirectory}\\{path}"))
+                    {
+                        // Check for additional BTLs the user has created.
+                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl*").Where(f => !f.EndsWith(".bak")).ToList());
+                        files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
+                    }
                 }
                 catch (DirectoryNotFoundException)
                 {
@@ -1588,7 +1600,11 @@ namespace StudioCore
                     }
                     else if (Type == GameType.EldenRing)
                     {
-                        return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
+                        // Derive subfolder path from model name (all vanilla AEG are within subfolders)
+                        if (objid.Length >= 6)
+                            return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
+                        else
+                            return null;
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }

@@ -201,6 +201,11 @@ Pos=1008,373
 Size=229,128
 Collapsed=0
 
+[Window][Key Bind Settings]
+Pos=296,43
+Size=475,698
+Collapsed=0
+
 [Docking][Data]
 DockSpace       ID=0xA747ECD2 Window=0xEAABAB29 Pos=0,40 Size=1920,987 Split=X
   DockNode      ID=0x00000007 Parent=0xA747ECD2 SizeRef=1531,987 Split=X

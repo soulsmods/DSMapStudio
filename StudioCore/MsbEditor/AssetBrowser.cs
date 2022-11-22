@@ -89,9 +89,9 @@ namespace StudioCore.MsbEditor
                 ImGui.NextColumn();
                 ImGui.BeginChild("AssetList");
 
-                if (InputTracker.GetControlShortcut(Key.F))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText("Search <Ctrl+F>", ref _searchStr, 255);
+                ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStr, 255);
 
                 ImGui.Separator();
 

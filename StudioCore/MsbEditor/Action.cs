@@ -1,9 +1,9 @@
-﻿using SoulsFormats;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using SoulsFormats;
 
 namespace StudioCore.MsbEditor
 {
@@ -134,6 +134,99 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class MultipleEntityPropertyChangeAction : Action
+    {
+        private class PropertyChange
+        {
+            public object ChangedObj;
+            public PropertyInfo Property;
+            public object OldValue;
+            public object NewValue;
+            public int ArrayIndex;
+        }
+
+        public bool UpdateRenderModel = false;
+        private List<PropertyChange> Changes = new();
+        private HashSet<Entity> ChangedEnts = new();
+
+        public MultipleEntityPropertyChangeAction(PropertyInfo prop, HashSet<Entity> changedEnts, object newval, int index = -1)
+        {
+            ChangedEnts = changedEnts;
+            foreach (var o in changedEnts)
+            {
+                var propObj = Utils.FindPropertyObject(prop, o.WrappedObject);
+                var change = new PropertyChange
+                {
+                    ChangedObj = propObj,
+                    Property = prop,
+                    NewValue = newval,
+                    ArrayIndex = index
+                };
+                if (index != -1 && prop.PropertyType.IsArray)
+                {
+                    Array a = (Array)change.Property.GetValue(propObj);
+                    change.OldValue = a.GetValue(index);
+                }
+                else
+                {
+                    change.OldValue = prop.GetValue(propObj);
+                }
+
+                Changes.Add(change);
+            }
+        }
+
+        public override ActionEvent Execute()
+        {
+            foreach (var change in Changes)
+            {
+                if (change.Property.PropertyType.IsArray && change.ArrayIndex != -1)
+                {
+                    Array a = (Array)change.Property.GetValue(change.ChangedObj);
+                    a.SetValue(change.NewValue, change.ArrayIndex);
+                }
+                else
+                {
+                    change.Property.SetValue(change.ChangedObj, change.NewValue);
+                }
+            }
+            foreach (var e in ChangedEnts)
+            {
+                if (UpdateRenderModel)
+                    e.UpdateRenderModel();
+                // Clear name cache, forcing it to update.
+                e.Name = null;
+            }
+
+            return ActionEvent.NoEvent;
+        }
+
+        public override ActionEvent Undo()
+        {
+            foreach (var change in Changes)
+            {
+                if (change.Property.PropertyType.IsArray && change.ArrayIndex != -1)
+                {
+                    Array a = (Array)change.Property.GetValue(change.ChangedObj);
+                    a.SetValue(change.OldValue, change.ArrayIndex);
+                }
+                else
+                {
+                    change.Property.SetValue(change.ChangedObj, change.OldValue);
+                }
+            }
+            foreach (var e in ChangedEnts)
+            {
+                if (UpdateRenderModel)
+                    e.UpdateRenderModel();
+                // Clear name cache, forcing it to update.
+                e.Name = null;
+            }
+
+            return ActionEvent.NoEvent;
+        }
+    }
+
     public class CloneMapObjectsAction : Action
     {
         private Universe Universe;
@@ -142,15 +235,17 @@ namespace StudioCore.MsbEditor
         private List<MapEntity> Clones = new List<MapEntity>();
         private List<ObjectContainer> CloneMaps = new List<ObjectContainer>();
         private bool SetSelection;
+        private Map MapTarget;
 
         private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
 
-        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
+        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection, Map mapTarget = null)
         {
             Universe = univ;
             Scene = scene;
             Clonables.AddRange(objects);
             SetSelection = setSelection;
+            MapTarget = mapTarget;
         }
 
         public override ActionEvent Execute()
@@ -161,7 +256,15 @@ namespace StudioCore.MsbEditor
             var objectnames = new Dictionary<string, HashSet<string>>();
             for (int i = 0; i < Clonables.Count(); i++)
             {
-                var m = Universe.GetLoadedMap(Clonables[i].MapID);
+                Map? m;
+                if (MapTarget != null)
+                {
+                    m = Universe.GetLoadedMap(MapTarget.Name);
+                }
+                else
+                {
+                    m = Universe.GetLoadedMap(Clonables[i].MapID);
+                }
                 if (m != null)
                 {
                     // Get list of names that exist so our duplicate names don't trample over them
@@ -212,7 +315,7 @@ namespace StudioCore.MsbEditor
                     if (Clonables[i].Parent != null)
                     {
                         int idx = Clonables[i].Parent.ChildIndex(Clonables[i]);
-                        Clonables[i].Parent.AddChild(newobj, idx);
+                        Clonables[i].Parent.AddChild(newobj, idx + 1);
                     }
                     newobj.UpdateRenderModel();
                     if (newobj.RenderSceneMesh != null)
@@ -282,16 +385,18 @@ namespace StudioCore.MsbEditor
         private List<MapEntity> Added = new List<MapEntity>();
         private List<ObjectContainer> AddedMaps = new List<ObjectContainer>();
         private bool SetSelection;
+        private Entity Parent;
 
         private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
 
-        public AddMapObjectsAction(Universe univ, Map map, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection)
+        public AddMapObjectsAction(Universe univ, Map map, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection, Entity parent)
         {
             Universe = univ;
             Map = map;
             Scene = scene;
             Added.AddRange(objects);
             SetSelection = setSelection;
+            Parent = parent;
         }
 
         public override ActionEvent Execute()
@@ -301,7 +406,7 @@ namespace StudioCore.MsbEditor
                 if (Map != null)
                 {
                     Map.Objects.Add(Added[i]);
-                    Map.RootObject.AddChild(Added[i]);
+                    Parent.AddChild(Added[i]);
                     Added[i].UpdateRenderModel();
                     if (Added[i].RenderSceneMesh != null)
                     {

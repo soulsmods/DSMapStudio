@@ -9,6 +9,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <PackageVersion>1.03.1</PackageVersion>
     <AssemblyVersion>1.03.1</AssemblyVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

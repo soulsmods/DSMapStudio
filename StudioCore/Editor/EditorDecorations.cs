@@ -32,7 +32,7 @@ namespace StudioCore.Editor
         {
             if (paramRefs == null || paramRefs.Count == 0)
                 return;
-            if (ParamEditor.ParamEditorScreen.HideReferenceRowsPreference == false) //Move preference
+            if (CFG.Current.Param_HideReferenceRows == false) //Move preference
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
@@ -139,7 +139,7 @@ namespace StudioCore.Editor
 
         public static void EnumNameText(string enumName)
         {
-            if (enumName != null && ParamEditor.ParamEditorScreen.HideEnumsPreference == false) //Move preference
+            if (enumName != null && CFG.Current.Param_HideEnums == false) //Move preference
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
                 ImGui.TextUnformatted($@"  {enumName}");
