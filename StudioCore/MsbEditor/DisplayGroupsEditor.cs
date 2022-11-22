@@ -82,7 +82,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SameLine(0, 14f);
                 if (sdispgroups == null)
                     ImGui.BeginDisabled();
-                if (ImGui.Button($"Get DispGroups <{KeyBindings.Current.Map_RenderGroup_GetDisp.HintText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp) && sdispgroups != null)
+                if (ImGui.Button($"Get DispGroups <{KeyBindings.Current.Map_RenderGroup_GetDisp.HintText}>") || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp))
                 {
                     for (int i = 0; i < dispCount; i++)
                     {
