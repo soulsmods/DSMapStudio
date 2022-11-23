@@ -115,10 +115,10 @@ namespace StudioCore.MsbEditor
         protected string CurrentModel = "";
 
         [XmlIgnore]
-        public uint[] Drawgroups;
+        public uint[] Drawgroups { get; set; }
 
         [XmlIgnore]
-        public uint[] Dispgroups;
+        public uint[] Dispgroups { get; set; }
 
         //public uint[] FakeDispgroups; //Used for Viewport dispgroup rendering. Doesn't affect anything else.
 
