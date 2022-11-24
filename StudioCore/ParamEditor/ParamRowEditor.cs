@@ -346,7 +346,7 @@ namespace StudioCore.ParamEditor
                 ImGui.NextColumn();
 
             // This should be rewritten somehow it's super ugly
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.4f, 0.8f, 3.0f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
             PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, nameProp, "Name", ref id);
