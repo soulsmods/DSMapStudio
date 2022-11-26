@@ -1477,10 +1477,6 @@ namespace StudioCore.ParamEditor
                 else
                     _paramEditor._isSearchBarActive = false;
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
-
-                ImGui.Spacing();
-                ImGui.Separator();
-                ImGui.Spacing();
                 
                 ImGui.BeginChild("pinnedRows");
 
