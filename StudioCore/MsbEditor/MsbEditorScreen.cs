@@ -352,13 +352,13 @@ namespace StudioCore.MsbEditor
 
                 if (ImGui.BeginMenu("Dummify/Un-Dummify"))
                 {
-                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_UnDummify.HintText, false, _selection.IsSelection()))
-                    {
-                        UnDummySelection();
-                    }
                     if (ImGui.MenuItem("Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_Dummify.HintText, false, _selection.IsSelection()))
                     {
                         DummySelection();
+                    }
+                    if (ImGui.MenuItem("Un-Dummify Enemies/Objects/Assets", KeyBindings.Current.Map_UnDummify.HintText, false, _selection.IsSelection()))
+                    {
+                        UnDummySelection();
                     }
                     //ImGui.TextColored(new Vector4(1f, .4f, 0f, 1f), "Warning: Converting Assets to Dummy Assets will result in lost property data (Undo will properly restore data)");
                     ImGui.EndMenu();
