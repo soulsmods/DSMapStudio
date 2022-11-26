@@ -74,7 +74,8 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.SameLine();
-                if (ImGui.Button("Hide All"))
+                if (ImGui.Button($"Hide All <{KeyBindings.Current.Map_RenderGroup_HideAll.HintText}>")
+                    || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_HideAll))
                 {
                     for (int i = 0; i < dispCount; i++)
                     {

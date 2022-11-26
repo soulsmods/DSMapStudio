@@ -101,8 +101,8 @@ namespace StudioCore
             public KeyBind Map_HideToggle = new(Key.H, true);
             public KeyBind Map_UnhideAll = new(Key.H, false, true);
             public KeyBind Map_GotoSelectionInObjectList = new(Key.G);
-            public KeyBind Map_UnDummify = new(Key.Comma, false, false, true);
-            public KeyBind Map_Dummify = new(Key.Period, false, false, true);
+            public KeyBind Map_Dummify = new(Key.Comma, false, false, true);
+            public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
 
             // Parameters
             public KeyBind Param_SelectAll = new(Key.A, true);
