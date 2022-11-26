@@ -117,7 +117,7 @@ namespace StudioCore
             for (int i = 0; i < snapshot.KeyEvents.Count; i++)
             {
                 KeyEvent ke = snapshot.KeyEvents[i];
-                if (ke.Down)
+                if (ke.Down && ke.Key != Key.Unknown)
                 {
                     KeyDown(ke.Key);
                 }
