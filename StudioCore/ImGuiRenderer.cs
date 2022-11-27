@@ -382,9 +382,11 @@ namespace StudioCore
         /// <summary>
         /// Updates ImGui input and IO configuration state.
         /// </summary>
-        public void Update(float deltaSeconds, InputSnapshot snapshot)
+        public void Update(float deltaSeconds, InputSnapshot snapshot, Action updateFontAction)
         {
             BeginUpdate(deltaSeconds);
+            if (updateFontAction != null)
+                updateFontAction.Invoke();
             UpdateImGuiInput(snapshot);
             EndUpdate();
         }
@@ -628,11 +630,12 @@ namespace StudioCore
                             (uint)(pcmd.ClipRect.Z - pcmd.ClipRect.X),
                             (uint)(pcmd.ClipRect.W - pcmd.ClipRect.Y));
 
-                        cl.DrawIndexed(pcmd.ElemCount, 1, (uint)idx_offset, vtx_offset, (uint)pcmd.TextureId);
+                        cl.DrawIndexed(pcmd.ElemCount, 1, (uint)idx_offset + pcmd.IdxOffset, vtx_offset, (uint)pcmd.TextureId);
                     }
-
-                    idx_offset += (int)pcmd.ElemCount;
+                    
                 }
+
+                idx_offset += cmd_list.IdxBuffer.Size;
                 vtx_offset += cmd_list.VtxBuffer.Size;
             }
         }

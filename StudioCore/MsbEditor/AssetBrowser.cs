@@ -92,7 +92,7 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                     ImGui.SetKeyboardFocusHere();
                 ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStr, 255);
-
+                
                 ImGui.Spacing();
                 ImGui.Separator();
                 ImGui.Spacing();
