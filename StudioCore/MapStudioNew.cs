@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.04.1";
+        private static string _version = "1.05";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -77,6 +77,8 @@ namespace StudioCore
 
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
+
+        private bool _needsRebuildFont = false;
 
         public MapStudioNew()
         {
@@ -174,25 +176,32 @@ namespace StudioCore
             var fonts = ImGui.GetIO().Fonts;
             var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
             var fontEn = File.ReadAllBytes(fileEn);
+            var fontEnNative = ImGui.MemAlloc((uint)fontEn.Length);
+            Marshal.Copy(fontEn, 0, fontEnNative, fontEn.Length);
             var fileOther = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\NotoSansCJKtc-Light.otf");
             var fontOther = File.ReadAllBytes(fileOther);
+            var fontOtherNative = ImGui.MemAlloc((uint)fontOther.Length);
+            Marshal.Copy(fontOther, 0, fontOtherNative, fontOther.Length);
             var fileIcon = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\forkawesome-webfont.ttf");
             var fontIcon = File.ReadAllBytes(fileIcon);
+            var fontIconNative = ImGui.MemAlloc((uint)fontIcon.Length);
+            Marshal.Copy(fontIcon, 0, fontIconNative, fontIcon.Length);
             //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
 
             float scale = ImGuiRenderer.GetUIScale();
 
-            fixed (byte* p = fontEn)
+            // English fonts
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
                 var cfg = new ImFontConfigPtr(ptr);
                 cfg.GlyphMinAdvanceX = 5.0f;
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontEn.Length, 14.0f * scale, cfg, fonts.GetGlyphRangesDefault());
+                fonts.AddFontFromMemoryTTF(fontEnNative, fontIcon.Length, 14.0f * scale, cfg, fonts.GetGlyphRangesDefault());
             }
-            fixed (byte* p = fontOther)
+            
+            // Other language fonts
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
                 var cfg = new ImFontConfigPtr(ptr);
@@ -201,26 +210,27 @@ namespace StudioCore
                 cfg.OversampleH = 5;
                 cfg.OversampleV = 5;
 
-                var glyphJP = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
-                glyphJP.AddRanges(fonts.GetGlyphRangesJapanese());
-                Array.ForEach(SpecialCharsJP, c => glyphJP.AddChar(c));
-                glyphJP.BuildRanges(out ImVector glyphRangeJP);
-                fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, glyphRangeJP.Data);
-                glyphJP.Destroy();
-
+                var glyphRanges = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
+                glyphRanges.AddRanges(fonts.GetGlyphRangesJapanese());
+                Array.ForEach(SpecialCharsJP, c => glyphRanges.AddChar(c));
+                
                 if (CFG.Current.FontChinese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesChineseFull());
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesChineseFull());
                 if (CFG.Current.FontKorean)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesKorean());
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesKorean());         
                 if (CFG.Current.FontThai)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesThai());
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesThai());         
                 if (CFG.Current.FontVietnamese)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 16.0f * scale, cfg, fonts.GetGlyphRangesVietnamese());
-                cfg.GlyphMinAdvanceX = 5.0f;
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesVietnamese());         
                 if (CFG.Current.FontCyrillic)
-                    fonts.AddFontFromMemoryTTF((IntPtr)p, fontOther.Length, 18.0f * scale, cfg, fonts.GetGlyphRangesCyrillic());
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesCyrillic());         
+                
+                glyphRanges.BuildRanges(out ImVector glyphRange);
+                fonts.AddFontFromMemoryTTF(fontOtherNative, fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
+                glyphRanges.Destroy();
             }
-            fixed (byte* p = fontIcon)
+            
+            // Icon fonts
             {
                 ushort[] ranges = { ForkAwesome.IconMin, ForkAwesome.IconMax, 0 };
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
@@ -233,10 +243,10 @@ namespace StudioCore
 
                 fixed (ushort* r = ranges)
                 {
-                    var f = fonts.AddFontFromMemoryTTF((IntPtr)p, fontIcon.Length, 16.0f * scale, cfg, (IntPtr)r);
+                    var f = fonts.AddFontFromMemoryTTF(fontIconNative, fontIcon.Length, 16.0f * scale, cfg, (IntPtr)r);
                 }
             }
-            fonts.Build();
+            
             ImguiRenderer.RecreateFontDeviceTexture();
         }
 
@@ -329,7 +339,7 @@ namespace StudioCore
                 {
                     break;
                 }
-
+                
                 if (true)//_window.Focused)
                 {
                     ctx = Tracy.TracyCZoneNC(1, "Draw", 0xFFFF0000);
@@ -619,7 +629,16 @@ namespace StudioCore
 
             float scale = ImGuiRenderer.GetUIScale();
 
-            ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot);
+            if (_needsRebuildFont)
+            {
+                ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, SetupFonts);
+                _needsRebuildFont = false;
+            }
+            else
+            {
+                ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, null);
+            }
+
             Tracy.TracyCZoneEnd(ctx);
             List<string> tasks = Editor.TaskManager.GetLiveThreads();
             Editor.TaskManager.ThrowTaskExceptions();
@@ -819,9 +838,6 @@ namespace StudioCore
 
                     if (ImGui.BeginMenu("UI"))
                     {
-                        ImGui.Text("Please restart program for UI changes to take effect.");
-                        ImGui.Separator();
-
                         ImGui.SliderFloat("UI Scale", ref _uiScale, 0.5f, 4.0f);
                         if (ImGui.IsItemDeactivatedAfterEdit())
                         {
@@ -829,6 +845,7 @@ namespace StudioCore
                             float newScale = (float)Math.Round(_uiScale * 20) / 20;
                             _uiScale = newScale;
                             CFG.Current.UIScale = newScale;
+                            _needsRebuildFont = true;
                         }
                         if (ImGui.BeginMenu("Additional Language Fonts"))
                         {
@@ -837,22 +854,27 @@ namespace StudioCore
                             if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
                             {
                                 CFG.Current.FontChinese = !CFG.Current.FontChinese;
+                                _needsRebuildFont = true;
                             }
                             if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
                             {
                                 CFG.Current.FontKorean = !CFG.Current.FontKorean;
+                                _needsRebuildFont = true;
                             }
                             if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
                             {
                                 CFG.Current.FontThai = !CFG.Current.FontThai;
+                                _needsRebuildFont = true;
                             }
                             if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
                             {
                                 CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
+                                _needsRebuildFont = true;
                             }
                             if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
                             {
                                 CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
+                                _needsRebuildFont = true;
                             }
                             ImGui.EndMenu();
                         }
@@ -938,7 +960,8 @@ namespace StudioCore
                                    "Additional Contributors:\n" +
                                    "Thefifthmatt\n" +
                                    "Shadowth117\n" +
-                                   "Nordgaren\n\n" +
+                                   "Nordgaren\n" +
+                                   "ivi\n\n" +
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
@@ -995,13 +1018,6 @@ namespace StudioCore
                             UseShellExecute = true
                         });
                     }
-                    /*
-                    if (ImGui.BeginMenu("Edits aren't sticking!"))
-                    {
-                        ImGui.Text("The mechanism that is used to detect if a field has been changed can stop existing before registering a change.\nThis occurs when switching param, row or using tab between fields.\nI hope to have this fixed soon, however it is a complicated issue.\nTo ensure a change sticks, simply click off the field you are editing.");
-                        ImGui.EndMenu();
-                    }
-                    */
                     ImGui.EndMenu();
                 }
                 if (FeatureFlags.TestMenu)
@@ -1130,7 +1146,7 @@ namespace StudioCore
                 _newProjectOptions.directory = "";
                 ImGui.OpenPopup("New Project");
             }
-            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize)) // The Grey overlay is apparently an imgui bug (that has been fixed in updated builds; in some forks at least).
+            if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize))
             {
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text("Project Name:      ");
