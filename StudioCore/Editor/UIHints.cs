@@ -61,7 +61,7 @@ param EquipParamWeapon: name Dagger.* && idrange 10000 Infinity: throwAtkRate: *
 @"For help with regex or examples, consult the main help menu.
 This searchbar utilise Regex, and words surrounded by ! in commands indicate that a Regex expression may be used instead of plain text.
 All other words in capitals are parameters for the given command.
-Regex searches are case-insensitive and the searched term may appear anywhere in the target rows. To specify an exact match, surround the text with ^ and $ (eg. ^10$) or use proprange.
+Regex searches are case-insensitive and the searched term may appear anywhere in the target rows. To specify an exact match, surround the text with ^ and $ (eg. ^10$) or use a range variant.
 Multiple selectors can be given by separating them with &&.
 
 Row selection is done through any of the following:
