@@ -14,7 +14,7 @@ using StudioCore.Editor;
 
 namespace StudioCore.TextEditor
 {
-    class TextEditorScreen : EditorScreen
+    public class TextEditorScreen : EditorScreen
     {
         public ActionManager EditorActionManager = new ActionManager();
         private readonly PropertyEditor _propEditor = null;
