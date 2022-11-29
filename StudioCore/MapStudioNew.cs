@@ -804,6 +804,11 @@ namespace StudioCore
                     _textEditor.DrawEditorMenu();
                 }
 
+                if (ImGui.MenuItem("Settings"))
+                {
+                    settingsMenuOpen = true;
+                }
+
                 if (ImGui.BeginMenu("Help"))
                 {
                     if (ImGui.BeginMenu("About"))
@@ -927,10 +932,6 @@ namespace StudioCore
                         ImGui.EndMenu();
                     }
                     ImGui.PopStyleColor();
-                }
-                if (ImGui.MenuItem("Settings"))
-                {
-                    settingsMenuOpen = true;
                 }
                 ImGui.EndMainMenuBar();
             }
