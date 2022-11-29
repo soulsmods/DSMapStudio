@@ -1304,6 +1304,7 @@ namespace StudioCore
             {
                 ImGui.BeginTabBar("#SettingsMenuTabBar");
                 ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
+                ImGui.PushItemWidth(300f);
 
                 //
                 if (ImGui.BeginTabItem("Project Settings"))
@@ -1350,27 +1351,7 @@ namespace StudioCore
                 }
 
                 //
-                if (ImGui.BeginTabItem("Param Settings"))
-                {
-                    ImGui.Indent();
-
-                    ImGui.Checkbox("Show alternate field names", ref CFG.Current.Param_ShowAltNames);
-                    ImGui.Checkbox("Always show original field names", ref CFG.Current.Param_AlwaysShowOriginalName);
-                    ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
-                    ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
-                    ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
-                    if (ImGui.Checkbox("Sort Params Alphabetically", ref CFG.Current.Param_AlphabeticalParams))
-                    {
-                        CacheBank.ClearCaches();
-                    }
-                    ImGui.Checkbox("Show Vanilla Params", ref CFG.Current.Param_ShowVanillaParams);
-
-                    ImGui.Unindent();
-                    ImGui.EndTabItem();
-                }
-
-                //
-                if (ImGui.BeginTabItem("Viewport Settings"))
+                if (ImGui.BeginTabItem("Map Settings"))
                 {
                     ImGui.Indent();
 
@@ -1384,7 +1365,7 @@ namespace StudioCore
 
                     ImGui.Separator();
 
-                    if (ImGui.CollapsingHeader("Viewport Camera"))
+                    if (ImGui.CollapsingHeader("Map/Model Viewport Camera"))
                     {
                         ImGui.Indent();
                         float cam_fov = CFG.Current.GFX_Camera_FOV;
@@ -1457,6 +1438,26 @@ namespace StudioCore
 
                         ImGui.Unindent();
                     }
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                //
+                if (ImGui.BeginTabItem("Param Settings"))
+                {
+                    ImGui.Indent();
+
+                    ImGui.Checkbox("Show alternate field names", ref CFG.Current.Param_ShowAltNames);
+                    ImGui.Checkbox("Always show original field names", ref CFG.Current.Param_AlwaysShowOriginalName);
+                    ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
+                    ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
+                    ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
+                    if (ImGui.Checkbox("Sort Params Alphabetically", ref CFG.Current.Param_AlphabeticalParams))
+                    {
+                        CacheBank.ClearCaches();
+                    }
+                    ImGui.Checkbox("Show Vanilla Params", ref CFG.Current.Param_ShowVanillaParams);
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
@@ -1601,10 +1602,12 @@ namespace StudioCore
                     ImGui.EndTabItem();
                 }
 
+                ImGui.PopItemWidth();
                 ImGui.PopStyleColor();
                 ImGui.EndTabBar();
             }
             ImGui.End();
+
             ImGui.PopStyleVar(3);
             ImGui.PopStyleColor();
         }
