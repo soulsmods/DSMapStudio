@@ -24,7 +24,7 @@ namespace DSMapStudio
         static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
-            //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
+            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
 
             //SDL_version version;
             //Sdl2Native.SDL_GetVersion(&version);
