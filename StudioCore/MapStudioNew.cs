@@ -1294,7 +1294,7 @@ namespace StudioCore
             if (!settingsMenuOpen)
                 return;
 
-            ImGui.SetNextWindowSize(new Vector2(900f, 800f));
+            ImGui.SetNextWindowSize(new Vector2(900f, 800f), ImGuiCond.FirstUseEver);
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, .9f));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10f, 10f));
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20f, 10f));
