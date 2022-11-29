@@ -134,6 +134,87 @@ namespace StudioCore.MsbEditor
         }
     }
 
+
+    /// <summary>
+    /// Copies values from one array to another without affecting references.
+    /// </summary>
+    public class ArrayPropertyCopyAction : Action
+    {
+        private class PropertyChange
+        {
+            public Array ChangedObj;
+            public object OldVal;
+            public object NewVal;
+            public int ArrayIndex;
+        }
+
+        private List<PropertyChange> Changes = new List<PropertyChange>();
+        private Action<bool> PostExecutionAction = null;
+
+        public ArrayPropertyCopyAction(Array source, Array target)
+        {
+            for (var i = 0; i < target.Length; i++)
+            {
+                PropertyChange change = new()
+                {
+                    ChangedObj = target,
+                    OldVal = target.GetValue(i),
+                    NewVal = source.GetValue(i),
+                    ArrayIndex = i
+                };
+                Changes.Add(change);
+            }
+        }
+        public ArrayPropertyCopyAction(Array source, List<Array> targetList)
+        {
+            foreach (var target in targetList)
+            {
+                for (var i = 0; i < target.Length; i++)
+                {
+                    PropertyChange change = new()
+                    {
+                        ChangedObj = target,
+                        OldVal = target.GetValue(i),
+                        NewVal = source.GetValue(i),
+                        ArrayIndex = i
+                    };
+                    Changes.Add(change);
+                }
+            }
+        }
+
+        public void SetPostExecutionAction(Action<bool> action)
+        {
+            PostExecutionAction = action;
+        }
+
+        public override ActionEvent Execute()
+        {
+            foreach (var change in Changes)
+            {
+                change.ChangedObj.SetValue(change.NewVal, change.ArrayIndex);
+            }
+            if (PostExecutionAction != null)
+            {
+                PostExecutionAction.Invoke(false);
+            }
+            return ActionEvent.NoEvent;
+        }
+
+        public override ActionEvent Undo()
+        {
+            foreach (var change in Changes)
+            {
+                change.ChangedObj.SetValue(change.OldVal, change.ArrayIndex);
+            }
+            if (PostExecutionAction != null)
+            {
+                PostExecutionAction.Invoke(true);
+            }
+            return ActionEvent.NoEvent;
+        }
+    }
+
     public class MultipleEntityPropertyChangeAction : Action
     {
         private class PropertyChange

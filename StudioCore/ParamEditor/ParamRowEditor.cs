@@ -304,8 +304,10 @@ namespace StudioCore.ParamEditor
             {
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchField))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText($"Search For Field <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
+                ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
+                ImGui.Spacing();
                 ImGui.Separator();
+                ImGui.Spacing();
             }
             Regex propSearchRx = null;
             try
@@ -344,12 +346,13 @@ namespace StudioCore.ParamEditor
                 ImGui.NextColumn();
 
             // This should be rewritten somehow it's super ugly
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
             PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, nameProp, "Name", ref id);
             PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, idProp, "ID", ref id);
             ImGui.PopStyleColor();
+            ImGui.Spacing();
             ImGui.Separator();
 
             List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
@@ -489,9 +492,9 @@ namespace StudioCore.ParamEditor
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
             bool isRef = (CFG.Current.Param_HideReferenceRows == false && RefTypes != null) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
             if (conflict)
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1f));
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             else if (diffVanilla)
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1f));
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1.0f));
             if (isRef)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             else if (matchDefault)
@@ -522,7 +525,7 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
             if (conflict)
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1f));
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             if (CFG.Current.Param_ShowVanillaParams)
             {
                 ImGui.NextColumn();
@@ -533,7 +536,7 @@ namespace StudioCore.ParamEditor
                 for (int i=0; i<auxVals.Count; i++)
                 {
                     if (!conflict && diffAuxVanilla[i])
-                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));
+                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                     ImGui.NextColumn();
                     AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
@@ -545,7 +548,7 @@ namespace StudioCore.ParamEditor
             if (showRowCompare)
             {
                 if(diffCompare)
-                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1f));
+                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                 ImGui.NextColumn();
                 AdditionalColumnValue(compareval, propType, bank, RefTypes, row, Enum, "compRow");
                 if (diffCompare)

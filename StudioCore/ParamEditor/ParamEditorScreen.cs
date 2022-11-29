@@ -1473,7 +1473,7 @@ namespace StudioCore.ParamEditor
                     int gotorow = 0;
                     ImGui.SetKeyboardFocusHere();
                     ImGui.InputInt("Goto Row ID", ref gotorow);
-                    if (ImGui.IsItemDeactivated())
+                    if (ImGui.IsItemDeactivatedAfterEdit())
                     {
                         _gotoParamRow = gotorow;
                         ImGui.CloseCurrentPopup();
@@ -1498,7 +1498,7 @@ namespace StudioCore.ParamEditor
                 else
                     _paramEditor._isSearchBarActive = false;
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
-
+                
                 ImGui.BeginChild("pinnedRows");
 
                 List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
@@ -1608,7 +1608,7 @@ namespace StudioCore.ParamEditor
             }
 
             var selected = _selection.getSelectedRows().Contains(r);
-            if (_gotoParamRow != -1)
+            if (_gotoParamRow != -1 && !isPinned)
             {
                 // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
                 if (r.ID == _gotoParamRow)

@@ -87,13 +87,17 @@ namespace StudioCore.MsbEditor
                 }
                 ImGui.EndChild();
                 ImGui.NextColumn();
-                ImGui.BeginChild("AssetList");
+                ImGui.BeginChild("AssetListSearch");
 
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                     ImGui.SetKeyboardFocusHere();
                 ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStr, 255);
-
+                
+                ImGui.Spacing();
                 ImGui.Separator();
+                ImGui.Spacing();
+
+                ImGui.BeginChild("AssetList");
 
                 if (_selected == "Chr")
                 {
@@ -164,6 +168,7 @@ namespace StudioCore.MsbEditor
                         }
                     }
                 }
+                ImGui.EndChild();
                 ImGui.EndChild();
             }
             ImGui.End();
