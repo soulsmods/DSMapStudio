@@ -212,7 +212,7 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(Vector2))
             {
                 Vector2 val = (Vector2)oldval;
-                if (ImGui.InputFloat2("##value", ref val, 0.1f))
+                if (ImGui.InputFloat2("##value", ref val))
                 {
                     newval = val;
                     _editedPropCache = newval;
@@ -223,7 +223,7 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(Vector3))
             {
                 Vector3 val = (Vector3)oldval;
-                if (ImGui.InputFloat3("##value", ref val, 0.1f))
+                if (ImGui.InputFloat3("##value", ref val))
                 {
                     newval = val;
                     _editedPropCache = newval;
