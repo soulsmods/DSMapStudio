@@ -1605,8 +1605,9 @@ namespace StudioCore.ParamEditor
                         _selection.addRowToSelection(r);
                     }
                     else
-                        //_selection.SetActiveRow(r);
-                        EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{activeParam}/{r.ID}");
+                    {
+                        _selection.SetActiveRow(r, true);
+                    }
                 }
             }
             if (_arrowKeyPressed && ImGui.IsItemFocused()
