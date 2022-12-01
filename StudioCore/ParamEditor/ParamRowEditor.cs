@@ -31,6 +31,7 @@ namespace StudioCore.ParamEditor
         }
 
         private object _editedPropCache;
+        private object _editedTypeCache;
         private object _editedObjCache;
 
         private unsafe (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
@@ -71,10 +72,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(int))
@@ -99,10 +96,6 @@ namespace StudioCore.ParamEditor
                         newval = val;
                         _editedPropCache = newval;
                         isChanged = true;
-                    }
-                    else
-                    {
-                        _editedPropCache = null;
                     }
                 }
             }
@@ -129,10 +122,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(sbyte))
@@ -158,10 +147,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(bool))
@@ -182,7 +167,6 @@ namespace StudioCore.ParamEditor
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(double))
@@ -192,7 +176,7 @@ namespace StudioCore.ParamEditor
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(string))
@@ -217,7 +201,6 @@ namespace StudioCore.ParamEditor
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(Vector3))
@@ -228,7 +211,6 @@ namespace StudioCore.ParamEditor
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(byte[]))
@@ -243,10 +225,6 @@ namespace StudioCore.ParamEditor
                         newval = nval;
                         _editedPropCache = newval;
                         isChanged = true;
-                    }
-                    else
-                    {
-                        _editedPropCache = null;
                     }
                 }
             }
@@ -556,17 +534,18 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleColor(2);
 
-            if (_editedPropCache != null && _editedPropCache != oldval)
-            {
-                changed = true;
-            }
 
             if (changed)
             {
                 _editedObjCache = nullableCell != null ? (object)nullableCell : nullableRow;
+                _editedTypeCache = proprow;
+            }
+            else if (_editedPropCache != null && _editedPropCache != oldval)
+            {
+                changed = true;
             }
 
-            UpdateProperty(proprow, _editedObjCache, _editedPropCache, changed, committed);
+            UpdateProperty(_editedTypeCache, _editedObjCache, _editedPropCache, changed, committed);
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
