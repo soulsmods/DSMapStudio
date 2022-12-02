@@ -306,17 +306,24 @@ namespace StudioCore.MsbEditor
                 ImGui.EndCombo();
             }
             var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
-            if (_dupeSelectionTargetedMap == null)
-                ImGui.BeginDisabled();
-            if (ImGui.Button("Duplicate"))
+            if (sel.Any(e => e.WrappedObject.GetType() == typeof(BTL.Light)))
             {
-                var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
-                EditorActionManager.ExecuteAction(action);
-                // Closes popupo or menu bar
-                ImGui.CloseCurrentPopup();
+                ImGui.Text("Cannot duplicate BTL lights to other maps");
             }
-            if (_dupeSelectionTargetedMap == null)
-                ImGui.EndDisabled();
+            else
+            {
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.BeginDisabled();
+                if (ImGui.Button("Duplicate"))
+                {
+                    var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
+                    EditorActionManager.ExecuteAction(action);
+                    // Closes popupo or menu bar
+                    ImGui.CloseCurrentPopup();
+                }
+                if (_dupeSelectionTargetedMap == null)
+                    ImGui.EndDisabled();
+            }
         }
 
         public override void DrawEditorMenu()

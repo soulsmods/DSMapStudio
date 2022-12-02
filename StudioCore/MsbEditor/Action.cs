@@ -393,7 +393,20 @@ namespace StudioCore.MsbEditor
                     }
 
                     m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
-                    if (Clonables[i].Parent != null)
+                    if (MapTarget != null)
+                    {
+                        // Duping to a targeted map.
+                        // This will cause issues for entities with non-root object parents (like BTL lights), and they should be forbidden from duping to targeted maps.
+                        if (MapTarget.MapOffsetNode != null)
+                        {
+                            MapTarget.MapOffsetNode.AddChild(newobj);
+                        }
+                        else
+                        {
+                            MapTarget.RootObject.AddChild(newobj);
+                        }
+                    }
+                    else if (Clonables[i].Parent != null)
                     {
                         int idx = Clonables[i].Parent.ChildIndex(Clonables[i]);
                         Clonables[i].Parent.AddChild(newobj, idx + 1);
