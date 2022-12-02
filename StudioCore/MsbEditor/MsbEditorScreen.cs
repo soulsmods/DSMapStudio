@@ -45,7 +45,8 @@ namespace StudioCore.MsbEditor
         public bool AltHeld;
 
         private int _createEntityMapIndex = 0;
-        private string _dupeSelectionTargetedMap = null;
+        private (string, ObjectContainer) _dupeSelectionTargetedMap = ("None", null);
+        private (string, Entity) _dupeSelectionTargetedParent = ("None", null);
 
         private static object _lock_PauseUpdate = new object();
         private bool _PauseUpdate;
@@ -275,22 +276,7 @@ namespace StudioCore.MsbEditor
             ImGui.SameLine();
             ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_DuplicateToMap.HintText}>");
 
-            ObjectContainer targetMap = null;
-            string name = "None";
-
-            if (_dupeSelectionTargetedMap != null)
-            {
-                Universe.LoadedObjectContainers.TryGetValue(_dupeSelectionTargetedMap, out targetMap);
-                if (targetMap != null)
-                {
-                    name = targetMap.Name;
-                }
-                else
-                {
-                    _dupeSelectionTargetedMap = null;
-                }
-            }
-            if (ImGui.BeginCombo("Targeted Map", name))
+            if (ImGui.BeginCombo("Targeted Map", _dupeSelectionTargetedMap.Item1))
             {
                 foreach (var obj in Universe.LoadedObjectContainers)
                 {
@@ -298,31 +284,49 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.Selectable(obj.Key))
                         {
-                            _dupeSelectionTargetedMap = obj.Key;
+                            _dupeSelectionTargetedMap = (obj.Key, obj.Value);
                             break;
                         }
                     }
                 }
                 ImGui.EndCombo();
             }
+            if (_dupeSelectionTargetedMap.Item2 == null)
+                return;
+
+            Map targetMap = (Map)_dupeSelectionTargetedMap.Item2;
+
             var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
-            if (sel.Any(e => e.WrappedObject.GetType() == typeof(BTL.Light)))
+
+            if (sel.Any(e => e.WrappedObject is BTL.Light))
             {
-                ImGui.Text("Cannot duplicate BTL lights to other maps");
-            }
-            else
-            {
-                if (_dupeSelectionTargetedMap == null)
-                    ImGui.BeginDisabled();
-                if (ImGui.Button("Duplicate"))
+                if (ImGui.BeginCombo("Targeted BTL", _dupeSelectionTargetedParent.Item1))
                 {
-                    var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, (Map)targetMap);
-                    EditorActionManager.ExecuteAction(action);
-                    // Closes popupo or menu bar
-                    ImGui.CloseCurrentPopup();
+                    foreach (Entity btl in targetMap.BTLParents)
+                    {
+                        var ad = (AssetDescription)btl.WrappedObject;
+                        if (ImGui.Selectable(ad.AssetName))
+                        {
+                            _dupeSelectionTargetedParent = (ad.AssetName, btl);
+                            break;
+                        }
+                    }
+                    ImGui.EndCombo();
                 }
-                if (_dupeSelectionTargetedMap == null)
-                    ImGui.EndDisabled();
+                if (_dupeSelectionTargetedParent.Item2 == null)
+                    return;
+            }
+
+            if (ImGui.Button("Duplicate"))
+            {
+                Entity? targetParent = _dupeSelectionTargetedParent.Item2;
+
+                var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, targetMap, targetParent);
+                EditorActionManager.ExecuteAction(action);
+                _dupeSelectionTargetedMap = ("None", null);
+                _dupeSelectionTargetedParent = ("None", null);
+                // Closes popup/menu bar
+                ImGui.CloseCurrentPopup();
             }
         }
 

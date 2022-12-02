@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using SoulsFormats;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
@@ -316,31 +317,40 @@ namespace StudioCore.MsbEditor
         private List<MapEntity> Clones = new List<MapEntity>();
         private List<ObjectContainer> CloneMaps = new List<ObjectContainer>();
         private bool SetSelection;
-        private Map MapTarget;
+        private Map TargetMap;
+        private Entity TargetBTL;
 
         private static Regex TrailIDRegex = new Regex(@"_(?<id>\d+)$");
 
-        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection, Map mapTarget = null)
+        public CloneMapObjectsAction(Universe univ, Scene.RenderScene scene, List<MapEntity> objects, bool setSelection, Map targetMap = null, Entity targetBTL = null)
         {
             Universe = univ;
             Scene = scene;
             Clonables.AddRange(objects);
             SetSelection = setSelection;
-            MapTarget = mapTarget;
+            TargetMap = targetMap;
+            TargetBTL = targetBTL;
         }
 
         public override ActionEvent Execute()
         {
             bool clonesCached = Clones.Count() > 0;
-            // foreach (var obj in Clonables)
 
             var objectnames = new Dictionary<string, HashSet<string>>();
             for (int i = 0; i < Clonables.Count(); i++)
             {
-                Map? m;
-                if (MapTarget != null)
+                if (Clonables[i].MapID == null)
                 {
-                    m = Universe.GetLoadedMap(MapTarget.Name);
+#if DEBUG
+                    TaskManager.warningList.TryAdd("FailedDupeNoMapID"+Clonables[i].Name, $"DEBUG Failed to dupe {Clonables[i].Name}, as it had no defined MapID");
+#endif
+                    continue;
+                }
+
+                Map? m;
+                if (TargetMap != null)
+                {
+                    m = Universe.GetLoadedMap(TargetMap.Name);
                 }
                 else
                 {
@@ -393,17 +403,20 @@ namespace StudioCore.MsbEditor
                     }
 
                     m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
-                    if (MapTarget != null)
+                    if (TargetBTL != null && newobj.WrappedObject is BTL.Light)
                     {
-                        // Duping to a targeted map.
-                        // This will cause issues for entities with non-root object parents (like BTL lights), and they should be forbidden from duping to targeted maps.
-                        if (MapTarget.MapOffsetNode != null)
+                        TargetBTL.AddChild(newobj);
+                    }
+                    else if (TargetMap != null)
+                    {
+                        // Duping to a targeted map, update parent.
+                        if (TargetMap.MapOffsetNode != null)
                         {
-                            MapTarget.MapOffsetNode.AddChild(newobj);
+                            TargetMap.MapOffsetNode.AddChild(newobj);
                         }
                         else
                         {
-                            MapTarget.RootObject.AddChild(newobj);
+                            TargetMap.RootObject.AddChild(newobj);
                         }
                     }
                     else if (Clonables[i].Parent != null)
