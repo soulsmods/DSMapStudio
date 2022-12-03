@@ -58,7 +58,6 @@
 19000130 Stone Platform
 30000100 Tombsward Catacombs
 30010100 Impaler's Catacombs
-30010100 Impaler's Catacombs
 30020100 Stormfoot Catacombs
 30030100 Road's End Catacombs
 30040100 Murkwater Catacombs

@@ -13,7 +13,7 @@
 21000000 Black Knife Assassin
 21000052 Black Knife Assassin
 21100000 Beast Clergyman
-21101000 Beast Clergyman
+21101000 Maliketh, the Black Blade
 21102000 Beast Clergyman
 21300000 Morgott
 21300500 Morgott
@@ -41,7 +41,7 @@
 22770000 Crab
 25000000 Crucible Knight
 25000010 Crucible Knight
-25000030 Crucible Knight
+25000030 Crucible Knight (Auriza Boss)
 25000100 Crucible Knight
 25001000 Crucible Knight
 25001100 Crucible Knight
@@ -104,7 +104,7 @@
 31800020 Dog
 31810000 Red Wolf of Radagon
 31810052 Red Wolf of Radagon
-32000000 Nomad Trader - Merchant Kal�
+32000000 Nomad Trader - Merchant Kalé
 32009000 Nomad Trader
 32010000 Nomad Trader
 32100000 Nomad Mule
@@ -560,12 +560,12 @@
 44920000 Living Pot - Huge
 45000000 Dragon
 45008000 Dragon
-45010000 Dragon
-45020000 Dragon
-45020920 Dragon
-45030000 Dragon
-45040000 Lesser Elder Dragon
-45050000 Elder Dragon Greyoll
+45010000 Dragon Rot
+45020000 Dragon Magic
+45020920 Dragon Magic
+45030000 Dragon Ice
+45040000 Elder Dragon Greyoll
+45050000 Lesser Elder Dragon
 45100000 Ancient Dragon
 45110000 Lichdragon Fortissax
 45200000 Dragonlord Placidusax
@@ -675,8 +675,8 @@
 70002000 Fallen Hawk Soldier
 70003000 Fallen Hawk Soldier
 70003100 Fallen Hawk Soldier
-71000000 White Mask Assailant
-71000050 White Mask Assailant
+71000000 Ancient Hero
+71000050 Ancient Hero
 80000000 Torrent
 81000000 Ballista
 81100000 Dragon-faced Flamethrower
@@ -757,7 +757,7 @@
 170001000 Greatshield Soldier
 170002000 Archer
 523000000 Tanith Volcano Manor Proprietress
-523010000 White Mask Varr�
+523010000 White Mask Varré
 523040000 Festering Fingerprint Vyke
 523070000 Preceptor Seluvis
 523090000 Patches

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Linq;
 using System.Numerics;
 using ImGuiNET;
 using SoulsFormats;
@@ -20,6 +21,11 @@ namespace StudioCore.ParamEditor
         private string _path;
 
         /// <summary>
+        /// Provides a brief description of the param's usage and behaviour
+        /// </summary>
+        public string Wiki {get; set;}
+
+        /// <summary>
         /// Range of grouped rows (eg weapon infusions, itemlot groups)
         /// </summary>
         public int BlockSize {get; set;}
@@ -28,6 +34,11 @@ namespace StudioCore.ParamEditor
         /// ID at which grouping begins in a param
         /// </summary>
         public int BlockStart {get; set;}
+        
+        /// <summary>
+        /// Indicates the param uses consecutive IDs and thus rows with consecutive IDs should be kept together if moved
+        /// </summary>
+        public bool ConsecutiveIDs {get; set;}
 
         /// <summary>
         /// Max value of trailing digits used for offset, +1
@@ -104,6 +115,11 @@ namespace StudioCore.ParamEditor
             XmlNode self = root.SelectSingleNode("Self");
             if (self != null)
             {
+                XmlAttribute WikiEntry = self.Attributes["Wiki"];
+                if (WikiEntry != null)
+                {
+                    Wiki = WikiEntry.InnerText.Replace("\\n", "\n");
+                }
                 XmlAttribute GroupSize = self.Attributes["BlockSize"];
                 if (GroupSize != null)
                 {
@@ -113,6 +129,11 @@ namespace StudioCore.ParamEditor
                 if (GroupStart != null)
                 {
                     BlockStart = int.Parse(GroupStart.InnerText);
+                }
+                XmlAttribute CIDs = self.Attributes["ConsecutiveIDs"];
+                if (CIDs != null)
+                {
+                    ConsecutiveIDs = true;
                 }
                 XmlAttribute Off = self.Attributes["OffsetSize"];
                 if (Off != null)
@@ -236,6 +257,7 @@ namespace StudioCore.ParamEditor
         {
             if(_xml == null)
                 return;
+            SetStringXmlProperty("Wiki", Wiki, true, _xml, "PARAMMETA", "Self");
             SetIntXmlProperty("OffsetSize", OffsetSize, _xml, "PARAMMETA", "Self");
             SetIntXmlProperty("FixedOffset", FixedOffset, _xml, "PARAMMETA", "Self");
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
@@ -303,7 +325,7 @@ namespace StudioCore.ParamEditor
         /// <summary>
         /// Name of another Param that a Field may refer to.
         /// </summary>
-        public List<string> RefTypes { get; set; }
+        public List<ParamRef> RefTypes { get; set; }
 
         /// <summary>
         /// Name linking fields from multiple params that may share values.
@@ -361,7 +383,7 @@ namespace StudioCore.ParamEditor
             Add(field, this);
             XmlAttribute Ref = fieldMeta.Attributes["Refs"];
             if (Ref != null)
-                RefTypes = new List<string>(Ref.InnerText.Split(","));
+                RefTypes = Ref.InnerText.Split(",").Select((x) => new ParamRef(x)).ToList();
             XmlAttribute VRef = fieldMeta.Attributes["VRef"];
             if (VRef != null)
                 VirtualRef = VRef.InnerText;
@@ -383,7 +405,8 @@ namespace StudioCore.ParamEditor
         {
             if (_parent._xml == null)
                 return;
-            ParamMetaData.SetStringListXmlProperty("Refs", RefTypes, null, _parent._xml, "PARAMMETA", "Field", field);
+            if (RefTypes != null)
+                ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Vref", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
@@ -408,6 +431,34 @@ namespace StudioCore.ParamEditor
             {
                 values.Add(option.Attributes["Value"].InnerText, option.Attributes["Name"].InnerText);
             }
+        }
+    }
+
+    public class ParamRef
+    {
+        public string param;
+        public string conditionField;
+        public int conditionValue;
+        public int offset;
+
+        internal ParamRef(string refString)
+        {
+            string[] conditionSplit = refString.Split('(', 2, StringSplitOptions.TrimEntries);
+            string[] offsetSplit = conditionSplit[0].Split('+', 2);
+            param = offsetSplit[0];
+            if (offsetSplit.Length > 1)
+                offset = int.Parse(offsetSplit[1]);
+            if (conditionSplit.Length > 1 && conditionSplit[1].EndsWith(')'))
+            {
+                string[] condition = conditionSplit[1].Substring(0, conditionSplit[1].Length-1).Split('=', 2, StringSplitOptions.TrimEntries);
+                conditionField = condition[0];
+                conditionValue = int.Parse(condition[1]);
+            }
+        }
+
+        internal string getStringForm()
+        {
+            return param+'('+conditionField+'='+conditionValue+')';
         }
     }
 }

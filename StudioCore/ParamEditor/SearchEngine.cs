@@ -235,15 +235,15 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
-                    List<string> validFields = FieldMetaData.Get(context.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>bank.Params.ContainsKey(p));
+                    List<ParamRef> validFields = FieldMetaData.Get(context.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>bank.Params.ContainsKey(p.param));
                     return (row)=>
                     {
                         Param.Cell? c = row[field];
                         if (c == null) throw new Exception();
                         int val = (int) c.Value.Value;
-                        foreach (string rt in validFields)
+                        foreach (ParamRef rt in validFields)
                         {
-                            Param.Row r = bank.Params[rt][val];
+                            Param.Row r = bank.Params[rt.param][val];
                             if (r != null && rx.Match(r.Name ?? "").Success)
                                 return true;
                         }

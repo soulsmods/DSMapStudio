@@ -14,9 +14,9 @@
 3003 Class - Bandit
 3004 Class - Astrologer
 3005 Class - Prophet
-3006 Class - Samurai
-3007 Class - Prisoner
-3008 Class - Confessor
+3006 Class - Confessor
+3007 Class - Samurai
+3008 Class - Prisoner
 3009 Class - Wretch
 20000 Human
 23000 Tanith
@@ -122,8 +122,8 @@
 23590 Moongrum, Carian Knight
 23600 Vargram the Raging Wolf
 23610 Fia's Champion 1
-23611 Fia's Champion 1
-23612 Fia's Champion 1
+23611 Fia's Champion
+23612 Human
 23613 Fia's Champion 1
 23614 Fia's Champion 1
 23615 Fia's Champion 1
@@ -142,7 +142,7 @@
 23683 Silver Tear
 23690 Recusant Henricus
 23700 Fia's Champion 2
-23701 Fia's Champion 2
+23701 Fia's Champion
 23702 Fia's Champion 2
 23703 Fia's Champion 2
 23704 Fia's Champion 2
@@ -151,7 +151,7 @@
 23707 Fia's Champion 2
 23708 Fia's Champion 2
 23710 Fia's Champion 2
-23711 Fia's Champion 3
+23711 Fia's Champion
 23712 Fia's Champion 3
 23713 Fia's Champion 3
 23714 Fia's Champion 3
@@ -160,7 +160,7 @@
 23717 Fia's Champion 3
 23718 Fia's Champion 3
 23720 Maleigh Marais
-23730 Knight of the Great Jar 1
+23730 Knight of the Great Jar
 23731 Knight of the Great Jar 1
 23732 Knight of the Great Jar 1
 23733 Knight of the Great Jar 1
@@ -169,7 +169,7 @@
 23736 Knight of the Great Jar 1
 23737 Knight of the Great Jar 1
 23738 Knight of the Great Jar 1
-23740 Knight of the Great Jar 2
+23740 Knight of the Great Jar
 23741 Knight of the Great Jar 2
 23742 Knight of the Great Jar 2
 23743 Knight of the Great Jar 2
@@ -178,7 +178,7 @@
 23746 Knight of the Great Jar 2
 23747 Knight of the Great Jar 2
 23748 Knight of the Great Jar 2
-23750 Knight of the Great Jar 3
+23750 Knight of the Great Jar
 23751 Knight of the Great Jar 3
 23752 Knight of the Great Jar 3
 23753 Knight of the Great Jar 3
