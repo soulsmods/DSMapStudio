@@ -39,8 +39,9 @@ namespace StudioCore.ParamEditor
                 {
                     if (column.ValueType == typeof(int))
                     {
-                        foreach (string reftype in FieldMetaData.Get(column.Def).RefTypes)
+                        foreach (ParamRef pRef in FieldMetaData.Get(column.Def).RefTypes)
                         {
+                            string reftype = pRef.param;
                             var p = bank.Params[reftype];
                             if (p == null)
                                 continue;
