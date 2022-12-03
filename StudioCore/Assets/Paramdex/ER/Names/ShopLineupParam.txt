@@ -12,8 +12,6 @@
 100017 [Gatekeeper Gostoc] Bandit Garb
 100018 [Gatekeeper Gostoc] Ancient Dragon Smithing Stone
 100025 Memory Stone
-100025 Memory Stone
-100026 Stonesword Key
 100026 Stonesword Key
 100050 [Sorceress Sellen] Glintstone Pebble
 100051 [Sorceress Sellen] Scholar's Armament
@@ -71,11 +69,11 @@
 100200 [Sorcerer Rogier] Ash of War: Spinning Weapon
 100201 [Sorcerer Rogier] Ash of War: Glintstone Pebble
 100202 [Sorcerer Rogier] Ash of War: Carian Greatsword
-100225 [Sorcerer Rogier] Somber Smithing Stone [1]
-100226 [Sorcerer Rogier] Somber Smithing Stone [2]
-100227 [Sorcerer Rogier] Somber Smithing Stone [3]
-100228 [Sorcerer Rogier] Somber Smithing Stone [4]
-100229 [Sorcerer Rogier] Carian Filigreed Crest
+100225 [Iji] Somber Smithing Stone [1]
+100226 [Iji] Somber Smithing Stone [2]
+100227 [Iji] Somber Smithing Stone [3]
+100228 [Iji] Somber Smithing Stone [4]
+100229 [Iji] Carian Filigreed Crest
 100250 [Preceptor Seluvis] Glintstone Pebble
 100251 [Preceptor Seluvis] Glintstone Arc
 100252 [Preceptor Seluvis] Starlight
@@ -243,8 +241,8 @@
 100633 [Merchant - Liurnia of the Lakes] Astrologer's Staff
 100634 [Merchant - Liurnia of the Lakes] Arrow
 100635 [Merchant - Liurnia of the Lakes] Bolt
-100636 [Merchant - Liurnia of the Lakes] Smithing Stone [1]
-100637 [Merchant - Liurnia of the Lakes] Smithing Stone [2]
+100636 [Merchant - Liurnia of the Lakes] Smithing Stone [2]
+100637 [Merchant - Liurnia of the Lakes] Smithing Stone [3]
 100650 [Isolated Merchant - Weeping Peninsula] Note: Walking Mausoleum
 100652 [Isolated Merchant - Weeping Peninsula] Stonesword Key
 100654 [Isolated Merchant - Weeping Peninsula] Arteria Leaf

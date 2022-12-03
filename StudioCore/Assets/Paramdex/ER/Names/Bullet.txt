@@ -75,7 +75,7 @@
 2235 Axe of Godrick
 2236 Axe of Godrick
 2270 Ruins Greatsword
-2275 Ruins Greatsword
+2275 Ruins Greatsword R2
 2290 Death's Poker
 2291 Death's Poker
 2292 Death's Poker
@@ -127,7 +127,7 @@
 2389 Grafted Dragon
 2390 Grafted Dragon
 2391 Grafted Dragon
-2500 Alabaster Lord's Sword
+2500 Dark Moon Greatsword
 2501 Dark Moon Greatsword
 2520 Carian Knight's Sword - Lazuli Glintstone Sword
 2521 Carian Knight's Sword - Lazuli Glintstone Sword
@@ -357,7 +357,7 @@
 2031100 [Rennala - 2]
 2031110 [Rennala - 2]
 2031115 [Rennala - 2]
-2031130 [Rennala - 2]
+2031130 [Rennala - 2] Comet
 2031150 [Rennala - 2]
 2031151 [Rennala - 2]
 2031152 [Rennala - 2]
@@ -409,7 +409,7 @@
 2040156 [Rennala Student]
 2040157 [Rennala Student]
 2040180 [Rennala Student]
-2041140 [Rennala Student - Bug Form]
+2041140 [Rennala Student - Bug Form] Pest Threads
 2100250 [Black Knife Assassin]
 2100260 [Black Knife Assassin]
 2100261 [Black Knife Assassin]
@@ -435,8 +435,8 @@
 2110255 [Beast Clergyman]
 2110351 [Beast Clergyman]
 2110352 [Beast Clergyman]
-2110421 [Beast Clergyman]
-2110422 [Beast Clergyman]
+2110421 [Maliketh]
+2110422 [Maliketh]
 2110431 [Beast Clergyman]
 2110432 [Beast Clergyman]
 2110433 [Beast Clergyman]
@@ -477,26 +477,26 @@
 2120622 [Malenia]
 2120623 [Malenia]
 2120624 [Malenia]
-2120640 [Malenia]
+2120640 [Malenia] Rot Butterflies
 2120641 [Malenia]
 2120642 [Malenia]
-2120643 [Malenia]
+2120643 [Malenia] Rot Butterflies Explosion
 2120650 [Malenia]
 2120651 [Malenia]
 2120652 [Malenia]
 2120653 [Malenia]
-2130050 [Morgott]
-2130051 [Morgott]
-2130052 [Morgott]
-2130053 [Morgott]
-2130054 [Morgott]
-2130055 [Morgott]
-2130060 [Morgott]
-2130061 [Morgott]
-2130062 [Morgott]
-2130063 [Morgott]
-2130064 [Morgott]
-2130065 [Morgott]
+2130050 [Margit] Floating Swords
+2130051 [Margit] Floating Swords
+2130052 [Margit] Floating Swords VFX Rise
+2130053 [Margit] Floating Swords VFX Stay
+2130054 [Margit] Floating Swords Fall
+2130055 [Margit] Floating Swords fall AoE
+2130060 [Morgott] Flaoating Swords Rise
+2130061 [Morgott] Flaoating Swords Split Emitter
+2130062 [Morgott] Floating Swords VFX Emiied Rise
+2130063 [Morgott] Floating Swords VFX Emiied Stay
+2130064 [Morgott] Floating Swords Fall
+2130065 [Morgott] Floating Swords Linger
 2130070 [Morgott]
 2130071 [Morgott]
 2130072 [Morgott]
@@ -510,27 +510,26 @@
 2130084 [Morgott]
 2130085 [Morgott]
 2130090 [Morgott]
-2130160 [Morgott]
-2130165 [Morgott]
-2130166 [Morgott]
+2130160 [Morgott] Spear Toss
+2130165 [Morgott] Spear Toss
+2130166 [Morgott] Puddle Bubble
 2130167 [Morgott]
-2130167 [Morgott]
-2130175 [Morgott]
-2130176 [Morgott]
-2130177 [Morgott]
+2130175 [Morgott] Puddle
+2130176 [Morgott] Puddle Bubble
+2130177 [Morgott] Puddle Explosion
 2130191 [Morgott]
 2130192 [Morgott]
 2130193 [Morgott]
 2130197 [Morgott]
 2130198 [Morgott]
-2130341 [Morgott]
-2130342 [Morgott]
-2130343 [Morgott]
-2130345 [Morgott]
+2130341 [Morgott] Phase Shift Random Puddles
+2130342 [Morgott] Phase Shift Puddle Bubble
+2130343 [Morgott] Phase Shift Puddle Explosion
+2130345 [Morgott] Phase Shift Self Puddle
 2130480 [Morgott]
-2130595 [Morgott]
-2130596 [Morgott]
-2130771 [Morgott]
+2130595 [Margit] Dagger
+2130596 [Morgott] Dagger Split
+2130771 [Morgott] Hammer Jump
 2130991 [Morgott]
 2140290 [Omen Monstrosity]
 2140291 [Omen Monstrosity]
@@ -543,7 +542,7 @@
 2140521 [Omen Monstrosity]
 2140522 [Omen Monstrosity]
 2140523 [Omen Monstrosity]
-2140530 [Omen Monstrosity]
+2140530 [Omen Monstrosity] Breath
 2180100 [Melina]
 2180101 [Melina]
 2180102 [Melina]
@@ -568,14 +567,14 @@
 2190161 [Radagon]
 2190162 [Radagon]
 2190163 [Radagon]
-2190201 [Radagon]
+2190201 [Radagon] Holy Ground Forward
 2190202 [Radagon]
 2190203 [Radagon]
 2190245 [Radagon]
-2190250 [Radagon]
-2190251 [Radagon]
-2190252 [Radagon]
-2190253 [Radagon]
+2190250 [Radagon] Flying Spear Throw
+2190251 [Radagon] Flying Spear Impact
+2190252 [Radagon] Flying Spear Linger
+2190253 [Radagon] Flying Spear Explode
 2190261 [Radagon]
 2190262 [Radagon]
 2190263 [Radagon]
@@ -587,68 +586,68 @@
 2190292 [Radagon]
 2190293 [Radagon]
 2190294 [Radagon]
-2190295 [Radagon]
-2190296 [Radagon]
-2190310 [Radagon]
-2190311 [Radagon]
+2190295 [Radagon] Holy Floor Linger
+2190296 [Radagon] Holy Floor Explode
+2190310 [Radagon] Spear Placed
+2190311 [Radagon] Spear Placed Explode
 2190312 [Radagon]
-2190313 [Radagon]
-2190330 [Radagon]
+2190313 [Radagon] Spear Linger
+2190330 [Radagon] Small Spear 1
 2190331 [Radagon]
 2190332 [Radagon]
-2190340 [Radagon]
+2190340 [Radagon] Small Spear 1-4x
 2190341 [Radagon]
 2190342 [Radagon]
-2190360 [Radagon]
+2190360 [Radagon] Flying Small Spear 1-3x
 2190361 [Radagon]
 2190362 [Radagon]
-2190365 [Radagon]
+2190365 [Radagon] Flying Small Spear 1-9x
 2190366 [Radagon]
 2190367 [Radagon]
 2190371 [Radagon]
 2190372 [Radagon]
 2190373 [Radagon]
 2190374 [Radagon]
-2190375 [Radagon]
-2190376 [Radagon]
+2190375 [Radagon] Holy Floor Linger
+2190376 [Radagon] Holy Floor Explode
 2190381 [Radagon]
 2190382 [Radagon]
 2190383 [Radagon]
 2190384 [Radagon]
-2190385 [Radagon]
-2190386 [Radagon]
-2190390 [Radagon]
-2190391 [Radagon]
-2190392 [Radagon]
-2190393 [Radagon]
+2190385 [Radagon] Holy Floor Linger
+2190386 [Radagon] Holy Floor Explode
+2190390 [Radagon] Flying Spear Throw
+2190391 [Radagon] Flying Spear Impact
+2190392 [Radagon] Flying Spear Linger
+2190393 [Radagon] Flying Spear Explode
 2190401 [Radagon]
 2190402 [Radagon]
 2190403 [Radagon]
 2190404 [Radagon]
-2190420 [Radagon]
+2190420 [Radagon] Holy Stomp
 2190421 [Radagon]
 2190422 [Radagon]
-2190425 [Radagon]
-2190430 [Radagon]
+2190425 [Radagon] Holy Stomp Explode
+2190430 [Radagon] Shattering 1
 2190431 [Radagon]
 2190432 [Radagon]
 2190433 [Radagon]
 2190434 [Radagon]
 2190435 [Radagon]
-2190440 [Radagon]
+2190440 [Radagon] Shattering 2
 2190441 [Radagon]
 2190442 [Radagon]
 2190443 [Radagon]
-2190450 [Radagon]
-2190451 [Radagon]
+2190450 [Radagon] Shattering 3
+2190451 [Radagon] Shattering 3
 2190452 [Radagon]
 2190453 [Radagon]
 2190460 [Radagon]
-2190510 [Radagon]
+2190510 [Radagon] Shockwave
 2190520 [Radagon]
-2190521 [Radagon]
-2190530 [Radagon]
-2190540 [Radagon]
+2190521 [Radagon] Holy Shockwave
+2190530 [Radagon] Shattering AoE
+2190540 [Radagon] Warp AoE
 2190600 [Radagon]
 2190610 [Radagon]
 2190620 [Radagon]
@@ -656,36 +655,36 @@
 2200101 [Elden Beast]
 2200102 [Elden Beast]
 2200190 [Elden Beast]
-2200191 [Elden Beast]
-2200192 [Elden Beast]
+2200191 [Elden Beast] Purple Star Linger
+2200192 [Elden Beast] Purple Star Burst
 2200212 [Elden Beast]
 2200213 [Elden Beast]
-2200214 [Elden Beast]
-2200221 [Elden Beast]
-2200222 [Elden Beast]
-2200223 [Elden Beast]
-2200224 [Elden Beast]
+2200214 [Elden Beast] Sword Slam
+2200221 [Elden Beast] Swipe Wave 1
+2200222 [Elden Beast] Swipe Wave 1
+2200223 [Elden Beast] Swipe Wave 2
+2200224 [Elden Beast] Swipe Wave 2
 2200225 [Elden Beast]
-2200226 [Elden Beast]
-2200227 [Elden Beast]
+2200226 [Elden Beast] Swipe Wave Explode 1
+2200227 [Elden Beast] Swipe Wave Explode 2
 2200228 [Elden Beast]
-2200230 [Elden Beast]
-2200231 [Elden Beast]
+2200230 [Elden Beast] Down Fire
+2200231 [Elden Beast] Down Fire
 2200232 [Elden Beast]
-2200294 [Elden Beast]
-2200295 [Elden Beast]
-2200296 [Elden Beast]
-2200297 [Elden Beast]
+2200294 [Elden Beast] Sword Beam 1
+2200295 [Elden Beast] Sword Beam 2
+2200296 [Elden Beast] Sword Beam 3
+2200297 [Elden Beast] Sword Beam 4
 2200300 [Elden Beast]
 2200301 [Elden Beast]
-2200310 [Elden Beast]
-2200311 [Elden Beast]
-2200315 [Elden Beast]
-2200316 [Elden Beast]
-2200330 [Elden Beast]
+2200310 [Elden Beast] Sword Stab
+2200311 [Elden Beast] Sword Stab
+2200315 [Elden Beast] Sword Stab Explosion 1
+2200316 [Elden Beast] Sword Stab Explosion 2
+2200330 [Elden Beast] Vertical Sword Beam
 2200360 [Elden Beast]
-2200361 [Elden Beast]
-2200362 [Elden Beast]
+2200361 [Elden Beast] Purple Star Linger
+2200362 [Elden Beast] Purple Star Burst
 2200363 [Elden Beast]
 2200365 [Elden Beast]
 2200366 [Elden Beast]
@@ -694,14 +693,14 @@
 2200370 [Elden Beast]
 2200371 [Elden Beast]
 2200372 [Elden Beast]
-2200390 [Elden Beast]
+2200390 [Elden Beast] Elden Stars
 2200391 [Elden Beast]
 2200392 [Elden Beast]
 2200393 [Elden Beast]
 2200394 [Elden Beast]
 2200395 [Elden Beast]
-2200396 [Elden Beast]
-2200397 [Elden Beast]
+2200396 [Elden Beast] Elden Stars Emitted
+2200397 [Elden Beast] Elden Stars Explosion
 2200402 [Elden Beast]
 2200410 [Elden Beast]
 2200411 [Elden Beast]
@@ -710,8 +709,8 @@
 2200416 [Elden Beast]
 2200417 [Elden Beast]
 2200420 [Elden Beast]
-2200421 [Elden Beast]
-2200422 [Elden Beast]
+2200421 [Elden Beast] Ring 40
+2200422 [Elden Beast] Ring
 2200423 [Elden Beast]
 2200424 [Elden Beast]
 2200425 [Elden Beast]
@@ -719,7 +718,7 @@
 2200427 [Elden Beast]
 2200428 [Elden Beast]
 2200430 [Elden Beast]
-2200450 [Elden Beast]
+2200450 [Elden Beast] Stationary Bombardment
 2200460 [Elden Beast]
 2200510 [Elden Beast]
 2200600 [Elden Beast]
@@ -769,15 +768,15 @@
 3000440 [Castle Exile]
 3000441 [Castle Exile]
 3000501 [Castle Exile]
-3010135 [Banished Knight]
-3010136 [Banished Knight]
-3010185 [Banished Knight]
-3010212 [Banished Knight]
-3010213 [Banished Knight]
-3010225 [Banished Knight]
-3010226 [Banished Knight]
-3010235 [Banished Knight]
-3010245 [Banished Knight]
+3010135 [Banished Knight] Shield AoE
+3010136 [Banished Knight] Shield AoE
+3010185 [Banished Knight] Shield AoE
+3010212 [Banished Knight] Shield AoE
+3010213 [Banished Knight] Shield AoE
+3010225 [Banished Knight] Shield AoE Frost
+3010226 [Banished Knight] Shield AoE Frost
+3010235 [Banished Knight] Shield AoE Frost
+3010245 [Banished Knight] Shield AoE Frost
 3010255 [Banished Knight]
 3010280 [Banished Knight]
 3010281 [Banished Knight]
@@ -793,21 +792,21 @@
 3010877 [Banished Knight]
 3010885 [Banished Knight]
 3010925 [Banished Knight]
-3050400 [Commander]
-3050410 [Commander]
-3050900 [Commander]
-3050905 [Commander]
-3050910 [Commander]
-3050915 [Commander]
-3050920 [Commander]
-3050925 [Commander]
-3050930 [Commander]
-3050935 [Commander]
-3050940 [Commander]
-3050945 [Commander]
-3050950 [Commander]
-3050955 [Commander]
-3061500 [Undead Azula Beastman]
+3050400 [Commander] Glory
+3050410 [Commander] Glory
+3050900 [Commander] Frost AoE
+3050905 [Commander] Rot AoE
+3050910 [Commander] Frost AoE
+3050915 [Commander] Rot AoE
+3050920 [Commander] Frost AoE
+3050925 [Commander] Rot AoE
+3050930 [Commander] Frost AoE Multi
+3050935 [Commander] Rot AoE Multi
+3050940 [Commander] Frost AoE Multi
+3050945 [Commander] Rot AoE Multi
+3050950 [Commander] Frost AoE
+3050955 [Commander] Rot AoE
+3061500 [Undead Beastmariner]
 3070170 [Dominula Celebrant]
 3070200 [Dominula Celebrant]
 3070201 [Dominula Celebrant]
@@ -820,7 +819,7 @@
 3070450 [Dominula Celebrant]
 3070570 [Dominula Celebrant]
 3070900 [Dominula Celebrant]
-3080070 [Imp]
+3080070 [Imp] Throwing Knife
 3080080 [Imp]
 3080100 [Imp]
 3080101 [Imp]
@@ -835,8 +834,8 @@
 3080136 [Imp]
 3100272 [Elemer of the Briar]
 3100410 [Elemer of the Briar]
-3100420 [Elemer of the Briar]
-3100421 [Elemer of the Briar]
+3100420 [Elemer of the Briar] Grab
+3100421 [Elemer of the Briar] Grab
 3150500 [Night's Cavalry]
 3150510 [Night's Cavalry]
 3170000 [Albinauric Archer]
@@ -881,11 +880,11 @@
 3180056 [Dog]
 3180057 [Dog]
 3180800 [Dog]
-3181500 [Red Wolf of Radagon]
-3181501 [Red Wolf of Radagon]
-3181502 [Red Wolf of Radagon]
-3181510 [Red Wolf of Radagon]
-3181520 [Red Wolf of Radagon]
+3181500 [Red Wolf of Radagon] Glintblade
+3181501 [Red Wolf of Radagon] Glintblade
+3181502 [Red Wolf of Radagon] Glintblade
+3181510 [Red Wolf of Radagon] Comet
+3181520 [Red Wolf of Radagon] Howl
 3181800 [Red Wolf of Radagon]
 3200000 [Nomad Trader]
 3200001 [Nomad Trader]
@@ -903,15 +902,15 @@
 3200411 [Nomad Trader]
 3200412 [Nomad Trader]
 3200413 [Nomad Trader]
-3250141 [Draconic Tree Sentinel]
-3250161 [Draconic Tree Sentinel]
-3250181 [Draconic Tree Sentinel]
-3250200 [Draconic Tree Sentinel]
-3250201 [Draconic Tree Sentinel]
-3250210 [Draconic Tree Sentinel]
-3250211 [Draconic Tree Sentinel]
-3250291 [Draconic Tree Sentinel]
-3250301 [Draconic Tree Sentinel]
+3250141 [Draconic Tree Sentinel] Slam AoE
+3250161 [Draconic Tree Sentinel] Slam AoE
+3250181 [Draconic Tree Sentinel] Slam AoE
+3250200 [Draconic Tree Sentinel] Fireball
+3250201 [Draconic Tree Sentinel] Fireball Explosion
+3250210 [Draconic Tree Sentinel] Down Fireball
+3250211 [Draconic Tree Sentinel] Down Fireball Explosion
+3250291 [Draconic Tree Sentinel] Slam AoE
+3250301 [Draconic Tree Sentinel] Slam AoE
 3250311 [Draconic Tree Sentinel]
 3250320 [Draconic Tree Sentinel]
 3250321 [Draconic Tree Sentinel]
@@ -926,22 +925,22 @@
 3250493 [Draconic Tree Sentinel]
 3250494 [Draconic Tree Sentinel]
 3250501 [Draconic Tree Sentinel]
-3250510 [Draconic Tree Sentinel]
-3250511 [Draconic Tree Sentinel]
-3250512 [Draconic Tree Sentinel]
-3250513 [Draconic Tree Sentinel]
-3250514 [Draconic Tree Sentinel]
-3250515 [Draconic Tree Sentinel]
-3250521 [Draconic Tree Sentinel]
+3250510 [Draconic Tree Sentinel] Homing Lightning
+3250511 [Draconic Tree Sentinel] Homing Lightning Fall
+3250512 [Draconic Tree Sentinel] Homing Lightning Spark
+3250513 [Draconic Tree Sentinel] Homing Lightning Damage
+3250514 [Draconic Tree Sentinel] Homing Lightning
+3250515 [Draconic Tree Sentinel] Homing Lightning
+3250521 [Draconic Tree Sentinel] Big AoE
 3250531 [Draconic Tree Sentinel]
-3250550 [Draconic Tree Sentinel]
+3250550 [Draconic Tree Sentinel] Spread Lightning x35
 3250551 [Draconic Tree Sentinel]
 3250552 [Draconic Tree Sentinel]
 3250800 [Draconic Tree Sentinel]
 3251141 [Tree Sentinel]
 3251161 [Tree Sentinel]
-3251241 [Tree Sentinel]
-3251271 [Tree Sentinel]
+3251241 [Tree Sentinel] Huge Shield AoE
+3251271 [Tree Sentinel] Huge Shield AoE
 3251281 [Tree Sentinel]
 3251320 [Tree Sentinel]
 3251321 [Tree Sentinel]
@@ -953,48 +952,48 @@
 3251912 [Tree Sentinel]
 3251913 [Tree Sentinel]
 3251915 [Tree Sentinel]
-3252161 [Fallen Tree Sentinel]
-3252162 [Fallen Tree Sentinel]
-3252210 [Fallen Tree Sentinel]
-3252211 [Fallen Tree Sentinel]
-3252240 [Fallen Tree Sentinel]
-3252241 [Fallen Tree Sentinel]
-3252250 [Fallen Tree Sentinel]
-3252251 [Fallen Tree Sentinel]
-3252310 [Fallen Tree Sentinel]
-3252320 [Fallen Tree Sentinel]
-3252321 [Fallen Tree Sentinel]
-3252330 [Fallen Tree Sentinel]
-3252340 [Fallen Tree Sentinel]
-3252341 [Fallen Tree Sentinel]
-3252350 [Fallen Tree Sentinel]
-3252351 [Fallen Tree Sentinel]
-3252360 [Fallen Tree Sentinel]
-3252361 [Fallen Tree Sentinel]
-3252400 [Fallen Tree Sentinel]
-3252401 [Fallen Tree Sentinel]
-3252405 [Fallen Tree Sentinel]
-3252406 [Fallen Tree Sentinel]
-3252410 [Fallen Tree Sentinel]
-3252411 [Fallen Tree Sentinel]
-3252415 [Fallen Tree Sentinel]
-3252416 [Fallen Tree Sentinel]
-3252420 [Fallen Tree Sentinel]
-3252421 [Fallen Tree Sentinel]
-3252425 [Fallen Tree Sentinel]
-3252426 [Fallen Tree Sentinel]
-3252430 [Fallen Tree Sentinel]
-3252431 [Fallen Tree Sentinel]
-3252440 [Fallen Tree Sentinel]
-3252441 [Fallen Tree Sentinel]
-3252445 [Fallen Tree Sentinel]
-3252446 [Fallen Tree Sentinel]
-3252450 [Fallen Tree Sentinel]
-3252451 [Fallen Tree Sentinel]
-3252460 [Fallen Tree Sentinel]
-3252461 [Fallen Tree Sentinel]
-3252465 [Fallen Tree Sentinel]
-3252466 [Fallen Tree Sentinel]
+3252161 [Fallen Tree Sentinel] Homing Swords
+3252162 [Fallen Tree Sentinel] Homing Swords Launch
+3252210 [Fallen Tree Sentinel] Homing Swords
+3252211 [Fallen Tree Sentinel] Homing Swords Launch
+3252240 [Fallen Tree Sentinel] Homing Swords
+3252241 [Fallen Tree Sentinel] Homing Swords Launch
+3252250 [Fallen Tree Sentinel] Homing Swords
+3252251 [Fallen Tree Sentinel] Homing Swords Launch
+3252310 [Fallen Tree Sentinel] Soul Dart
+3252320 [Fallen Tree Sentinel] Homing Swords
+3252321 [Fallen Tree Sentinel] Homing Swords Launch
+3252330 [Fallen Tree Sentinel] Jumping Soul Dart
+3252340 [Fallen Tree Sentinel] Homing Swords
+3252341 [Fallen Tree Sentinel] Homing Swords Launch
+3252350 [Fallen Tree Sentinel] Greatbow Single
+3252351 [Fallen Tree Sentinel] Greatbow Single Explode
+3252360 [Fallen Tree Sentinel] Jumping Greatbow Single
+3252361 [Fallen Tree Sentinel] Jumping Greatbow Single Explode
+3252400 [Fallen Tree Sentinel] Homing Swords
+3252401 [Fallen Tree Sentinel] Homing Swords Launch
+3252405 [Fallen Tree Sentinel] Homing Swords
+3252406 [Fallen Tree Sentinel] Homing Swords Launch
+3252410 [Fallen Tree Sentinel] Homing Swords
+3252411 [Fallen Tree Sentinel] Homing Swords Launch
+3252415 [Fallen Tree Sentinel] Homing Swords
+3252416 [Fallen Tree Sentinel] Homing Swords Launch
+3252420 [Fallen Tree Sentinel] Homing Swords
+3252421 [Fallen Tree Sentinel] Homing Swords Launch
+3252425 [Fallen Tree Sentinel] Homing Swords
+3252426 [Fallen Tree Sentinel] Homing Swords Launch
+3252430 [Fallen Tree Sentinel] X Soul Dart
+3252431 [Fallen Tree Sentinel] X Soul Dart
+3252440 [Fallen Tree Sentinel] Homing Swords
+3252441 [Fallen Tree Sentinel] Homing Swords Launch
+3252445 [Fallen Tree Sentinel] Homing Swords
+3252446 [Fallen Tree Sentinel] Homing Swords Launch
+3252450 [Fallen Tree Sentinel] Jumping X Soul Dart
+3252451 [Fallen Tree Sentinel] Jumping X Soul Dart
+3252460 [Fallen Tree Sentinel] Homing Swords
+3252461 [Fallen Tree Sentinel] Homing Swords Launch
+3252465 [Fallen Tree Sentinel] Homing Swords
+3252466 [Fallen Tree Sentinel] Homing Swords Launch
 3252470 [Fallen Tree Sentinel]
 3252471 [Fallen Tree Sentinel]
 3252472 [Fallen Tree Sentinel]
@@ -1047,14 +1046,14 @@
 3350447 [Crystalian]
 3350550 [Crystalian]
 3350560 [Crystalian]
-3360320 [Ancestral Follower]
+3360320 [Ancestral Follower] Winged Greathorn
 3360400 [Ancestral Follower]
 3360410 [Ancestral Follower]
-3360490 [Ancestral Follower]
+3360490 [Ancestral Follower] Rot Breath
 3360500 [Ancestral Follower]
-3370120 [Ancestral Follower Shaman]
-3370130 [Ancestral Follower Shaman]
-3370131 [Ancestral Follower Shaman]
+3370120 [Ancestral Follower Shaman] Spit
+3370130 [Ancestral Follower Shaman] Spit
+3370131 [Ancestral Follower Shaman] Spit Puddle
 3370140 [Ancestral Follower Shaman]
 3370141 [Ancestral Follower Shaman]
 3400370 [Grave Warden Duelist]
@@ -1070,8 +1069,8 @@
 3451141 [Misbegotten]
 3460150 [Winged Misbegotten]
 3460151 [Winged Misbegotten]
-3460201 [Winged Misbegotten]
-3460230 [Winged Misbegotten]
+3460201 [Winged Misbegotten] Jump Shockwave
+3460230 [Winged Misbegotten] Holy AoE
 3460241 [Winged Misbegotten]
 3460242 [Winged Misbegotten]
 3470000 [Albinauric]
@@ -1084,16 +1083,16 @@
 3470201 [Albinauric]
 3470202 [Albinauric]
 3470203 [Albinauric]
-3500100 [Skeleton (Curved Sword)]
+3500100 [Skeleton (Curved Sword)] Bolt
 3500101 [Skeleton (Curved Sword)]
-3500340 [Skeleton (Curved Sword)]
-3500341 [Skeleton (Curved Sword)]
+3500340 [Skeleton (Curved Sword)] Ghostflame Skull
+3500341 [Skeleton (Curved Sword)] Ghostflame Skull
 3500350 [Skeleton (Curved Sword)]
 3500351 [Skeleton (Curved Sword)]
 3500352 [Skeleton (Curved Sword)]
-3500353 [Skeleton (Curved Sword)]
-3500550 [Skeleton (Curved Sword)]
-3500551 [Skeleton (Curved Sword)]
+3500353 [Skeleton (Curved Sword)] Exploding Skull
+3500550 [Skeleton (Curved Sword)] Breath
+3500551 [Skeleton (Curved Sword)] Breath
 3500810 [Skeleton (Curved Sword)]
 3500890 [Skeleton (Curved Sword)]
 3500891 [Skeleton (Curved Sword)]
@@ -1101,7 +1100,7 @@
 3510091 [Skeleton (Scimitar)]
 3510092 [Skeleton (Scimitar)]
 3510093 [Skeleton (Scimitar)]
-3510230 [Skeleton (Scimitar)]
+3510230 [Skeleton (Scimitar)] Bolt
 3510700 [Skeleton (Scimitar)]
 3510701 [Skeleton (Scimitar)]
 3510702 [Skeleton (Scimitar)]
@@ -1112,47 +1111,47 @@
 3550293 [Sanguine Noble]
 3550294 [Sanguine Noble]
 3550295 [Sanguine Noble]
-3560198 [Godskin Apostle]
-3560236 [Godskin Apostle]
-3560242 [Godskin Apostle]
-3560243 [Godskin Apostle]
-3560250 [Godskin Apostle]
-3560251 [Godskin Apostle]
-3560260 [Godskin Apostle]
+3560198 [Godskin Apostle] Deflect Windmill
+3560236 [Godskin Apostle] Deflect Windmill
+3560242 [Godskin Apostle] Stretch Fire Spin Drop
+3560243 [Godskin Apostle] Stretch Fire Spin Fire
+3560250 [Godskin Apostle] Fire Spin Circle
+3560251 [Godskin Apostle] Fire Spin Circle Final
+3560260 [Godskin Apostle] Fireball
 3560261 [Godskin Apostle]
-3560270 [Godskin Apostle]
-3560350 [Godskin Apostle]
+3560270 [Godskin Apostle] Phase Shift AoE
+3560350 [Godskin Apostle] Roar
 3570191 [Godskin Noble]
 3570261 [Godskin Noble]
 3570262 [Godskin Noble]
 3570274 [Godskin Noble]
 3570275 [Godskin Noble]
-3570300 [Godskin Noble]
-3570301 [Godskin Noble]
-3570302 [Godskin Noble]
+3570300 [Godskin Noble] Fire Pillars Nine
+3570301 [Godskin Noble] Fire Pillars
+3570302 [Godskin Noble] Fire Pillars Fire
 3570303 [Godskin Noble]
-3570310 [Godskin Noble]
+3570310 [Godskin Noble] Fireball
 3570311 [Godskin Noble]
-3570320 [Godskin Noble]
-3570410 [Godskin Noble]
-3570420 [Godskin Noble]
-3570421 [Godskin Noble]
+3570320 [Godskin Noble] Phase Shift AoE
+3570410 [Godskin Noble] Roar
+3570420 [Godskin Noble] Belly Quick Fire
+3570421 [Godskin Noble] Belly Quick Fire
 3600200 [Alabaster Lord]
 3600201 [Alabaster Lord]
 3600202 [Alabaster Lord]
 3600203 [Alabaster Lord]
 3600204 [Alabaster Lord]
-3600220 [Alabaster Lord]
+3600220 [Alabaster Lord] Gravity Orb Pull
 3600371 [Alabaster Lord]
 3600372 [Alabaster Lord]
-3600373 [Alabaster Lord]
-3600374 [Alabaster Lord]
+3600373 [Alabaster Lord] Meteors
+3600374 [Alabaster Lord] Meteors
 3600400 [Alabaster Lord]
 3600401 [Alabaster Lord]
 3600402 [Alabaster Lord]
 3600403 [Alabaster Lord]
 3600420 [Alabaster Lord]
-3600440 [Alabaster Lord]
+3600440 [Alabaster Lord] Gravity Orb Push
 3600800 [Alabaster Lord]
 3600801 [Alabaster Lord]
 3600810 [Alabaster Lord]
@@ -1170,29 +1169,29 @@
 3600850 [Alabaster Lord]
 3600851 [Alabaster Lord]
 3600852 [Alabaster Lord]
-3600860 [Alabaster Lord]
-3600861 [Alabaster Lord]
+3600860 [Alabaster Lord] Meteors
+3600861 [Alabaster Lord] Meteors
 3610130 [Oracle Envoy]
 3610150 [Oracle Envoy]
 3610151 [Oracle Envoy]
 3610152 [Oracle Envoy]
-3650310 [Erdtree Guardian]
-3650311 [Erdtree Guardian]
-3650312 [Erdtree Guardian]
+3650310 [Erdtree Guardian] Seppuku 1
+3650311 [Erdtree Guardian] Seppuku 2
+3650312 [Erdtree Guardian] Seppuku End
 3650313 [Erdtree Guardian]
-3650314 [Erdtree Guardian]
+3650314 [Erdtree Guardian] Seppuku 3
 3650343 [Erdtree Guardian]
 3650345 [Erdtree Guardian]
 3650410 [Erdtree Guardian]
 3650600 [Erdtree Guardian]
-3650610 [Erdtree Guardian]
-3650611 [Erdtree Guardian]
-3650612 [Erdtree Guardian]
-3650614 [Erdtree Guardian]
+3650610 [Erdtree Guardian] Gas
+3650611 [Erdtree Guardian] Gas
+3650612 [Erdtree Guardian] Gas
+3650614 [Erdtree Guardian] Gas
 3650700 [Erdtree Guardian]
 3650710 [Erdtree Guardian]
 3650800 [Erdtree Guardian]
-3650900 [Erdtree Guardian]
+3650900 [Erdtree Guardian] Spiked Sowrdspear AoE
 3660170 [Devious Commoner]
 3660190 [Devious Commoner]
 3660191 [Devious Commoner]
@@ -1234,8 +1233,8 @@
 3662925 [Putrid Corpse 2]
 3662926 [Putrid Corpse 2]
 3662927 [Putrid Corpse 2]
-3664180 [Cemetery Shade]
-3664181 [Cemetery Shade]
+3664180 [Cemetery Shade] Gas
+3664181 [Cemetery Shade] Ball
 3670100 [Albinauric Lookout]
 3670101 [Albinauric Lookout]
 3670210 [Albinauric Lookout]
@@ -1357,113 +1356,113 @@
 3730100 [Orb of Many Faces]
 3730101 [Orb of Many Faces]
 3730102 [Orb of Many Faces]
-3730110 [Orb of Many Faces]
-3730111 [Orb of Many Faces]
-3730112 [Orb of Many Faces]
+3730110 [Orb of Many Faces] Magic Geyser
+3730111 [Orb of Many Faces] Magic Geyser
+3730112 [Orb of Many Faces] Magic Geyser
 3750240 [Clayman]
 3750241 [Clayman]
 3750320 [Clayman]
 3750321 [Clayman]
 3750330 [Clayman]
 3750331 [Clayman]
-3750340 [Clayman]
+3750340 [Clayman] Large Bubble
 3750341 [Clayman]
 3750350 [Clayman]
 3750351 [Clayman]
 3800195 [Cleanrot Knight]
-3800240 [Cleanrot Knight]
-3800241 [Cleanrot Knight]
+3800240 [Cleanrot Knight] Buff
+3800241 [Cleanrot Knight] Buff
 3800280 [Cleanrot Knight]
 3800281 [Cleanrot Knight]
 3800282 [Cleanrot Knight]
 3800283 [Cleanrot Knight]
 3800284 [Cleanrot Knight]
-3800290 [Cleanrot Knight]
-3800291 [Cleanrot Knight]
+3800290 [Cleanrot Knight] Spit
+3800291 [Cleanrot Knight] Spit Cloud
 3800300 [Cleanrot Knight]
 3800310 [Cleanrot Knight]
 3800311 [Cleanrot Knight]
 3800313 [Cleanrot Knight]
 3800314 [Cleanrot Knight]
-3810190 [Kindred of Rot]
-3810191 [Kindred of Rot]
-3810300 [Kindred of Rot]
-3810301 [Kindred of Rot]
-3810310 [Kindred of Rot]
-3810311 [Kindred of Rot]
-3810312 [Kindred of Rot]
-3810320 [Kindred of Rot]
-3810330 [Kindred of Rot]
-3810331 [Kindred of Rot]
-3810332 [Kindred of Rot]
-3810333 [Kindred of Rot]
-3810334 [Kindred of Rot]
-3810335 [Kindred of Rot]
-3810400 [Kindred of Rot]
-3810410 [Kindred of Rot]
-3810420 [Kindred of Rot]
-3810430 [Kindred of Rot]
-3850070 [Marionette]
-3850071 [Marionette]
-3850075 [Marionette]
-3850076 [Marionette]
-3850080 [Marionette]
-3850081 [Marionette]
-3850085 [Marionette]
-3850086 [Marionette]
-3850100 [Marionette]
-3850101 [Marionette]
-3850110 [Marionette]
-3850111 [Marionette]
-3850120 [Marionette]
-3850121 [Marionette]
-3850130 [Marionette]
-3850131 [Marionette]
-3850310 [Marionette]
-3850311 [Marionette]
-3850312 [Marionette]
-3850320 [Marionette]
-3850321 [Marionette]
-3850322 [Marionette]
-3860170 [Avionette]
-3860171 [Avionette]
-3860175 [Avionette]
-3860176 [Avionette]
-3860270 [Avionette]
-3860271 [Avionette]
-3860275 [Avionette]
-3860276 [Avionette]
-3860400 [Avionette]
-3860401 [Avionette]
-3860405 [Avionette]
+3810190 [Kindred of Rot] Pest Thread
+3810191 [Kindred of Rot] Pest Thread
+3810300 [Kindred of Rot] Pest Thread
+3810301 [Kindred of Rot] Pest Thread
+3810310 [Kindred of Rot] Pest Thread
+3810311 [Kindred of Rot] Pest Thread
+3810312 [Kindred of Rot] Pest Thread
+3810320 [Kindred of Rot] Pest Thread
+3810330 [Kindred of Rot] Pest Thread
+3810331 [Kindred of Rot] Pest Thread
+3810332 [Kindred of Rot] Pest Thread
+3810333 [Kindred of Rot] Pest Thread
+3810334 [Kindred of Rot] Pest Thread
+3810335 [Kindred of Rot] Pest Thread
+3810400 [Kindred of Rot] Pest Thread
+3810410 [Kindred of Rot] Pest Thread
+3810420 [Kindred of Rot] Pest Thread
+3810430 [Kindred of Rot] Pest Thread
+3850070 [Marionette] Fire Pot
+3850071 [Marionette] Fire Pot E
+3850075 [Marionette] Fire Pot
+3850076 [Marionette] Fire Pot E
+3850080 [Marionette] Magic Pot
+3850081 [Marionette] Magic Pot E
+3850085 [Marionette] Magic Pot
+3850086 [Marionette] Magic Pot E
+3850100 [Marionette] Arrow
+3850101 [Marionette] Arrow
+3850110 [Marionette] Arrow
+3850111 [Marionette] Arrow
+3850120 [Marionette] Arrow
+3850121 [Marionette] Arrow
+3850130 [Marionette] Arrow Freak
+3850131 [Marionette] Arrow Freak
+3850310 [Marionette] Moon Ball
+3850311 [Marionette] Moon Ball
+3850312 [Marionette] Moon Ball Crack
+3850320 [Marionette] Moon Ball
+3850321 [Marionette] Moon Ball
+3850322 [Marionette] Moon Ball Crack
+3860170 [Avionette] Fire Pot
+3860171 [Avionette] Fire Pot E
+3860175 [Avionette] Fire Pot
+3860176 [Avionette] Fire Pot E
+3860270 [Avionette] Fire Pot
+3860271 [Avionette] Fire Pot E
+3860275 [Avionette] Fire Pot
+3860276 [Avionette] Fire Pot E
+3860400 [Avionette] Lightning Pot
+3860401 [Avionette] Lightning Pot
+3860405 [Avionette] Lightning Pot E
 3860406 [Avionette]
 3860407 [Avionette]
-3860408 [Avionette]
+3860408 [Avionette] Lightning Pot Aftershock
 3860409 [Avionette]
 3860410 [Avionette]
 3860411 [Avionette]
-3860450 [Avionette]
-3860451 [Avionette]
-3860452 [Avionette]
-3860453 [Avionette]
+3860450 [Avionette] Volcano Pot
+3860451 [Avionette] Volcano Pot E
+3860452 [Avionette] Volcano Pot Stray Lava
+3860453 [Avionette] Volcano Pot Magma
 3900131 [Fire Monk]
-3900200 [Fire Monk]
-3900201 [Fire Monk]
-3900210 [Fire Monk]
-3900211 [Fire Monk]
-3900220 [Fire Monk]
+3900200 [Fire Monk] Combustion
+3900201 [Fire Monk] Combustion
+3900210 [Fire Monk] Great Combustion
+3900211 [Fire Monk] Great Combustion
+3900220 [Fire Monk] Fire Surge
 3900333 [Fire Monk]
 3901131 [Godskin Monk]
-3901200 [Godskin Monk]
-3901201 [Godskin Monk]
-3901210 [Godskin Monk]
-3901211 [Godskin Monk]
-3901220 [Godskin Monk]
+3901200 [Godskin Monk] Combustion
+3901201 [Godskin Monk] Combustion
+3901210 [Godskin Monk] Great Combustion
+3901211 [Godskin Monk] Great Combustion
+3901220 [Godskin Monk] Fire Surge
 3901333 [Godskin Monk]
-3901450 [Godskin Monk]
-3901451 [Godskin Monk]
-3901460 [Godskin Monk]
-3901461 [Godskin Monk]
+3901450 [Godskin Monk] Scouring Black Flame
+3901451 [Godskin Monk] Scouring Black Flame
+3901460 [Godskin Monk] Scouring Black Flame
+3901461 [Godskin Monk] Scouring Black Flame
 3910101 [Fire Prelate]
 3910110 [Fire Prelate]
 3910111 [Fire Prelate]
@@ -1488,16 +1487,16 @@
 3910349 [Fire Prelate]
 3910390 [Fire Prelate]
 3910391 [Fire Prelate]
-3950171 [Man-Serpent]
-3950172 [Man-Serpent]
-3950173 [Man-Serpent]
-3950174 [Man-Serpent]
-3950175 [Man-Serpent]
-3950176 [Man-Serpent]
-3950180 [Man-Serpent]
-3950241 [Man-Serpent]
-3950243 [Man-Serpent]
-3950245 [Man-Serpent]
+3950171 [Man-Serpent] Magma Ball
+3950172 [Man-Serpent] Magma Pool
+3950173 [Man-Serpent] Magma Ball
+3950174 [Man-Serpent] Magma Ball
+3950175 [Man-Serpent] Magma Ball
+3950176 [Man-Serpent] Magma Ball
+3950180 [Man-Serpent] Poison Spit
+3950241 [Man-Serpent] Magma Ball
+3950243 [Man-Serpent] Magma Ball
+3950245 [Man-Serpent] Magma Pool
 3950500 [Man-Serpent]
 3950520 [Man-Serpent]
 3950600 [Man-Serpent]
@@ -1543,12 +1542,12 @@
 4020230 [Royal Revenant]
 4020231 [Royal Revenant]
 4020232 [Royal Revenant]
-4040100 [Slug]
-4040101 [Slug]
-4040150 [Slug]
-4040151 [Slug]
-4040160 [Slug]
-4040170 [Slug]
+4040100 [Slug] Spit
+4040101 [Slug] UN
+4040150 [Slug] Fire
+4040151 [Slug] Fire Pool
+4040160 [Slug] Slow Spit
+4040170 [Slug] Flamethrower
 4070090 [Wolf]
 4070700 [Wolf]
 4070710 [Wolf]
@@ -1579,49 +1578,49 @@
 4130303 [Demi-Human Queen]
 4130304 [Demi-Human Queen]
 4130910 [Demi-Human Queen]
-4140140 [Snail]
+4140140 [Snail] Poison Spit
 4140141 [Snail]
-4140150 [Snail]
+4140150 [Snail] Poison Spit
 4140151 [Snail]
-4140160 [Snail]
-4140161 [Snail]
-4140220 [Snail]
-4140300 [Snail]
+4140160 [Snail] Poison Cloud
+4140161 [Snail] Poison Cloud
+4140220 [Snail] Icecrag
+4140300 [Snail] Magic Spit
 4140301 [Snail]
 4140510 [Snail]
 4140800 [Snail]
-4140801 [Snail]
-4140802 [Snail]
+4140801 [Snail] Crystal Floor
+4140802 [Snail] Crystal Floor
 4140810 [Snail]
 4140811 [Snail]
-4140812 [Snail]
-4140813 [Snail]
+4140812 [Snail] Crystal Floor
+4140813 [Snail] Crystal Floor
 4140820 [Snail]
 4140821 [Snail]
 4140822 [Snail]
-4140823 [Snail]
-4140824 [Snail]
+4140823 [Snail] Crystal Floor
+4140824 [Snail] Crystal Floor
 4140830 [Snail]
 4140831 [Snail]
 4140832 [Snail]
 4140833 [Snail]
-4140834 [Snail]
-4140835 [Snail]
+4140834 [Snail] Crystal Floor
+4140835 [Snail] Crystal Floor
 4140840 [Snail]
 4140841 [Snail]
 4140842 [Snail]
 4140843 [Snail]
 4140844 [Snail]
-4140845 [Snail]
-4140846 [Snail]
+4140845 [Snail] Crystal Floor
+4140846 [Snail] Crystal Floor
 4140850 [Snail]
 4140851 [Snail]
 4140852 [Snail]
 4140853 [Snail]
 4140854 [Snail]
 4140855 [Snail]
-4140856 [Snail]
-4140857 [Snail]
+4140856 [Snail] Crystal Floor
+4140857 [Snail] Crystal Floor
 4140860 [Snail]
 4140861 [Snail]
 4140862 [Snail]
@@ -1629,8 +1628,8 @@
 4140864 [Snail]
 4140865 [Snail]
 4140866 [Snail]
-4140867 [Snail]
-4140868 [Snail]
+4140867 [Snail] Crystal Floor
+4140868 [Snail] Crystal Floor
 4140890 [Snail]
 4140891 [Snail]
 4140892 [Snail]
@@ -1879,7 +1878,7 @@
 4350330 [Castle Knight]
 4350360 [Castle Knight]
 4350550 [Castle Knight]
-4350560 [Castle Knight]
+4350560 [Castle Knight] Wrath
 4350570 [Castle Knight]
 4350571 [Castle Knight]
 4350572 [Castle Knight]
@@ -2130,42 +2129,42 @@
 4490182 [Living Pot - Large]
 4490183 [Living Pot - Large]
 4491300 [Living Pot - Small]
-4500100 [Dragon]
-4500101 [Dragon]
-4500110 [Dragon]
+4500100 [Dragon Fire] Fire Sideways
+4500101 [Dragon Fire] Fire Sideways
+4500110 [Dragon] Fire Forwards
 4500151 [Dragon]
 4500161 [Dragon]
 4500201 [Dragon]
 4500211 [Dragon]
 4500223 [Dragon]
 4500224 [Dragon]
-4500230 [Dragon]
+4500230 [Dragon] Fire Flying
 4500231 [Dragon]
 4500232 [Dragon]
-4500240 [Dragon]
+4500240 [Dragon] Fire Flying
 4500241 [Dragon]
 4500242 [Dragon]
 4500271 [Dragon]
 4500281 [Dragon]
-4500290 [Dragon]
+4500290 [Dragon] Fire Flying Forward
 4500291 [Dragon]
 4500292 [Dragon]
-4500300 [Dragon]
+4500300 [Dragon] Fire Flying Forward
 4500301 [Dragon]
 4500302 [Dragon]
 4500311 [Dragon]
 4500320 [Dragon]
 4500321 [Dragon]
-4500330 [Dragon]
+4500330 [Dragon] Fire Flying Down
 4500331 [Dragon]
 4500332 [Dragon]
-4500340 [Dragon]
+4500340 [Dragon] Fire Flying Down
 4500341 [Dragon]
 4500342 [Dragon]
 4500911 [Dragon]
-4501100 [Dragon 2]
-4501101 [Dragon 2]
-4501110 [Dragon 2]
+4501100 [Dragon Rot] Fire Sideways
+4501101 [Dragon Rot] Fire Sideways
+4501110 [Dragon] Fire Forwards
 4501151 [Dragon 2]
 4501161 [Dragon 2]
 4501201 [Dragon 2]
@@ -2204,9 +2203,9 @@
 4501401 [Dragon 2]
 4501410 [Dragon 2]
 4501411 [Dragon 2]
-4502100 [Dragon 3]
-4502101 [Dragon 3]
-4502110 [Dragon 3]
+4502100 [Dragon Magic] Fire Sideways
+4502101 [Dragon Magic] Fire Sideways
+4502110 [Dragon] Fire Forwards
 4502151 [Dragon 3]
 4502161 [Dragon 3]
 4502201 [Dragon 3]
@@ -2251,9 +2250,9 @@
 4502451 [Dragon 3]
 4502460 [Dragon 3]
 4502461 [Dragon 3]
-4503100 [Dragon 4]
-4503101 [Dragon 4]
-4503110 [Dragon 4]
+4503100 [Dragon Frost] Fire Sideways
+4503101 [Dragon Frost] Fire Sideways
+4503110 [Dragon] Fire Forwards
 4503151 [Dragon 4]
 4503161 [Dragon 4]
 4503201 [Dragon 4]
@@ -2302,50 +2301,50 @@
 4510241 [Ancient Dragon]
 4510252 [Ancient Dragon]
 4510253 [Ancient Dragon]
-4510290 [Ancient Dragon]
-4510330 [Ancient Dragon]
-4510340 [Ancient Dragon]
-4510341 [Ancient Dragon]
-4510390 [Ancient Dragon]
-4510391 [Ancient Dragon]
-4510392 [Ancient Dragon]
-4510393 [Ancient Dragon]
+4510290 [Ancient Dragon] Fire Forward
+4510330 [Ancient Dragon] Fire Breath Down
+4510340 [Ancient Dragon] Fire Breath Down
+4510341 [Ancient Dragon] Fire Breath Down AoE
+4510390 [Ancient Dragon] Death Lightning Spread
+4510391 [Ancient Dragon] Death Lightning Alert
+4510392 [Ancient Dragon] Death Lightning Strike
+4510393 [Ancient Dragon] Death Lightning Cloud
 4510399 [Ancient Dragon]
-4510500 [Ancient Dragon]
-4510501 [Ancient Dragon]
-4510502 [Ancient Dragon]
-4510503 [Ancient Dragon]
-4510504 [Ancient Dragon]
-4510505 [Ancient Dragon]
-4510506 [Ancient Dragon]
-4510507 [Ancient Dragon]
-4510508 [Ancient Dragon]
-4510509 [Ancient Dragon]
-4510510 [Ancient Dragon]
-4510511 [Ancient Dragon]
-4510512 [Ancient Dragon]
-4510513 [Ancient Dragon]
-4510514 [Ancient Dragon]
-4510515 [Ancient Dragon]
-4510516 [Ancient Dragon]
-4510517 [Ancient Dragon]
-4510518 [Ancient Dragon]
-4510519 [Ancient Dragon]
-4510520 [Ancient Dragon]
-4510521 [Ancient Dragon]
-4510522 [Ancient Dragon]
-4510523 [Ancient Dragon]
-4510524 [Ancient Dragon]
-4510525 [Ancient Dragon]
-4510526 [Ancient Dragon]
-4510527 [Ancient Dragon]
-4510528 [Ancient Dragon]
-4510529 [Ancient Dragon]
-4510800 [Ancient Dragon]
-4510801 [Ancient Dragon]
-4510802 [Ancient Dragon]
-4510803 [Ancient Dragon]
-4510804 [Ancient Dragon]
+4510500 [Ancient Dragon] Stake Slam Wave
+4510501 [Ancient Dragon] Stake Slam Wave
+4510502 [Ancient Dragon] Stake Slam Wave
+4510503 [Ancient Dragon] Stake Slam Wave
+4510504 [Ancient Dragon] Stake Slam Wave
+4510505 [Ancient Dragon] Stake Slam Wave
+4510506 [Ancient Dragon] Stake Slam Wave
+4510507 [Ancient Dragon] Stake Slam Wave
+4510508 [Ancient Dragon] Stake Slam Wave
+4510509 [Ancient Dragon] Stake Slam Wave
+4510510 [Ancient Dragon] Stake Slam Wave
+4510511 [Ancient Dragon] Stake Slam Wave
+4510512 [Ancient Dragon] Stake Slam Wave
+4510513 [Ancient Dragon] Stake Slam Wave
+4510514 [Ancient Dragon] Stake Slam Wave
+4510515 [Ancient Dragon] Stake Slam Wave
+4510516 [Ancient Dragon] Stake Slam Wave
+4510517 [Ancient Dragon] Stake Slam Wave
+4510518 [Ancient Dragon] Stake Slam Wave
+4510519 [Ancient Dragon] Stake Slam Wave
+4510520 [Ancient Dragon] Stake Slam Wave
+4510521 [Ancient Dragon] Stake Slam Wave
+4510522 [Ancient Dragon] Stake Slam Wave
+4510523 [Ancient Dragon] Stake Slam Wave
+4510524 [Ancient Dragon] Stake Slam Wave
+4510525 [Ancient Dragon] Stake Slam Wave
+4510526 [Ancient Dragon] Stake Slam Wave
+4510527 [Ancient Dragon] Stake Slam Wave
+4510528 [Ancient Dragon] Stake Slam Wave
+4510529 [Ancient Dragon] Stake Slam Wave
+4510800 [Ancient Dragon] Stake Slame AoE
+4510801 [Ancient Dragon] Stake Slam Wave Direction 1
+4510802 [Ancient Dragon] Stake Slam Wave Direction 2
+4510803 [Ancient Dragon] Stake Slam Wave Direction 3
+4510804 [Ancient Dragon] Stake Slam Wave Direction 4
 4510810 [Ancient Dragon]
 4510811 [Ancient Dragon]
 4510820 [Ancient Dragon]
@@ -2398,17 +2397,17 @@
 4510932 [Ancient Dragon]
 4510935 [Ancient Dragon]
 4510940 [Ancient Dragon]
-4510941 [Ancient Dragon]
+4510941 [Ancient Dragon] Hand Slam AoE
 4510950 [Ancient Dragon]
-4510951 [Ancient Dragon]
-4510960 [Ancient Dragon]
-4510961 [Ancient Dragon]
-4510962 [Ancient Dragon]
-4510963 [Ancient Dragon]
+4510951 [Ancient Dragon] Hand Slam Moving Shockwave
+4510960 [Ancient Dragon] Close Shock Wait
+4510961 [Ancient Dragon] Close Shock Wait
+4510962 [Ancient Dragon] Close Shock Warn
+4510963 [Ancient Dragon] Close Shock Explode
 4510970 [Ancient Dragon]
 4510971 [Ancient Dragon]
 4510972 [Ancient Dragon]
-4510980 [Ancient Dragon]
+4510980 [Ancient Dragon] Close Trigger Shock
 4520105 [Dragonlord Placidusax]
 4520115 [Dragonlord Placidusax]
 4520215 [Dragonlord Placidusax]
@@ -2417,16 +2416,16 @@
 4520275 [Dragonlord Placidusax]
 4520320 [Dragonlord Placidusax]
 4520321 [Dragonlord Placidusax]
-4520325 [Dragonlord Placidusax]
+4520325 [Dragonlord Placidusax] Giant Explosion
 4520330 [Dragonlord Placidusax]
 4520331 [Dragonlord Placidusax]
-4520340 [Dragonlord Placidusax]
-4520341 [Dragonlord Placidusax]
+4520340 [Dragonlord Placidusax] Lightning On Target
+4520341 [Dragonlord Placidusax] Lightning Tell
 4520342 [Dragonlord Placidusax]
 4520343 [Dragonlord Placidusax]
 4520345 [Dragonlord Placidusax]
-4520346 [Dragonlord Placidusax]
-4520347 [Dragonlord Placidusax]
+4520346 [Dragonlord Placidusax] Lightning 6 Spread
+4520347 [Dragonlord Placidusax] Lightning Tell S
 4520348 [Dragonlord Placidusax]
 4520349 [Dragonlord Placidusax]
 4520460 [Dragonlord Placidusax]
@@ -2435,14 +2434,14 @@
 4520465 [Dragonlord Placidusax]
 4520466 [Dragonlord Placidusax]
 4520467 [Dragonlord Placidusax]
-4520500 [Dragonlord Placidusax]
-4520501 [Dragonlord Placidusax]
+4520500 [Dragonlord Placidusax] Fire
+4520501 [Dragonlord Placidusax] Fire
 4520505 [Dragonlord Placidusax]
-4520506 [Dragonlord Placidusax]
-4520510 [Dragonlord Placidusax]
-4520511 [Dragonlord Placidusax]
+4520506 [Dragonlord Placidusax] Fire
+4520510 [Dragonlord Placidusax] Fire
+4520511 [Dragonlord Placidusax] Fire
 4520515 [Dragonlord Placidusax]
-4520516 [Dragonlord Placidusax]
+4520516 [Dragonlord Placidusax] Fire
 4520800 [Dragonlord Placidusax]
 4520801 [Dragonlord Placidusax]
 4520802 [Dragonlord Placidusax]
@@ -2455,9 +2454,9 @@
 4520901 [Dragonlord Placidusax]
 4520902 [Dragonlord Placidusax]
 4520903 [Dragonlord Placidusax]
-4520920 [Dragonlord Placidusax]
+4520920 [Dragonlord Placidusax] Lightning Random Far
 4520921 [Dragonlord Placidusax]
-4520922 [Dragonlord Placidusax]
+4520922 [Dragonlord Placidusax] Lightning Tell R
 4520923 [Dragonlord Placidusax]
 4520930 [Dragonlord Placidusax]
 4520931 [Dragonlord Placidusax]
@@ -2514,12 +2513,12 @@
 4570261 [Wormface]
 4580120 [Wormface 2]
 4580121 [Wormface 2]
-4580122 [Wormface 2]
+4580122 [Wormface 2] Curse Cloud End
 4580130 [Wormface 2]
 4580131 [Wormface 2]
 4580132 [Wormface 2]
 4580133 [Wormface 2]
-4580140 [Wormface 2]
+4580140 [Wormface 2] Giant Falling Cloud
 4580152 [Wormface 2]
 4580166 [Wormface 2]
 4580173 [Wormface 2]
@@ -2611,22 +2610,22 @@
 4600962 [Troll Knight]
 4600970 [Troll Knight]
 4600971 [Troll Knight]
-4620130 [Astel]
-4620220 [Astel]
+4620130 [Astel] Warp Explode
+4620220 [Astel] Laser
 4620261 [Astel]
 4620262 [Astel]
-4620510 [Astel]
+4620510 [Astel] Gravity Quad Pulse 1
 4620511 [Astel]
-4620520 [Astel]
+4620520 [Astel] Gravity Quad Pulse 2
 4620521 [Astel]
 4620522 [Astel]
-4620530 [Astel]
+4620530 [Astel] Gravity Quad Pulse 3
 4620531 [Astel]
 4620532 [Astel]
-4620540 [Astel]
+4620540 [Astel] Gravity Quad Pulse 4
 4620541 [Astel]
 4620542 [Astel]
-4620560 [Astel]
+4620560 [Astel] Meteors
 4620561 [Astel]
 4620562 [Astel]
 4620563 [Astel]
@@ -2634,7 +2633,7 @@
 4620565 [Astel]
 4620566 [Astel]
 4620567 [Astel]
-4620570 [Astel]
+4620570 [Astel] Meteors
 4620571 [Astel]
 4620572 [Astel]
 4620573 [Astel]
@@ -2642,7 +2641,7 @@
 4620575 [Astel]
 4620576 [Astel]
 4620577 [Astel]
-4620580 [Astel]
+4620580 [Astel] Meteors
 4620581 [Astel]
 4620582 [Astel]
 4620583 [Astel]
@@ -2650,7 +2649,7 @@
 4620585 [Astel]
 4620586 [Astel]
 4620587 [Astel]
-4620590 [Astel]
+4620590 [Astel] Meteors
 4620591 [Astel]
 4620592 [Astel]
 4620593 [Astel]
@@ -2663,11 +2662,11 @@
 4620602 [Astel]
 4620603 [Astel]
 4620604 [Astel]
-4620900 [Astel]
+4620900 [Astel] Hand Star Linger
 4620901 [Astel]
 4620902 [Astel]
 4620903 [Astel]
-4620910 [Astel]
+4620910 [Astel] Hand Star Linger
 4620911 [Astel]
 4620912 [Astel]
 4620913 [Astel]
@@ -2718,10 +2717,10 @@
 4650240 [Dragonkin Soldier]
 4650254 [Dragonkin Soldier]
 4650255 [Dragonkin Soldier]
-4650256 [Dragonkin Soldier]
+4650256 [Dragonkin Soldier] Uplift
 4650264 [Dragonkin Soldier]
 4650265 [Dragonkin Soldier]
-4650266 [Dragonkin Soldier]
+4650266 [Dragonkin Soldier] Uplift
 4650271 [Dragonkin Soldier]
 4650281 [Dragonkin Soldier]
 4650297 [Dragonkin Soldier]
@@ -2803,10 +2802,10 @@
 4650681 [Dragonkin Soldier]
 4650694 [Dragonkin Soldier]
 4650695 [Dragonkin Soldier]
-4650696 [Dragonkin Soldier]
+4650696 [Dragonkin Soldier] Uplift
 4650704 [Dragonkin Soldier]
 4650705 [Dragonkin Soldier]
-4650706 [Dragonkin Soldier]
+4650706 [Dragonkin Soldier] Uplift
 4650711 [Dragonkin Soldier]
 4650712 [Dragonkin Soldier]
 4650720 [Dragonkin Soldier]
@@ -2818,9 +2817,9 @@
 4650726 [Dragonkin Soldier]
 4650727 [Dragonkin Soldier]
 4650728 [Dragonkin Soldier]
-4650729 [Dragonkin Soldier]
-4650730 [Dragonkin Soldier]
-4650731 [Dragonkin Soldier]
+4650729 [Dragonkin Soldier] Lightning Spread Emitted Fall
+4650730 [Dragonkin Soldier] Lightning Spread Tell
+4650731 [Dragonkin Soldier] Lightning Spread Explode
 4650740 [Dragonkin Soldier]
 4650741 [Dragonkin Soldier]
 4650742 [Dragonkin Soldier]
@@ -2893,15 +2892,15 @@
 4660756 [Golem]
 4660757 [Golem]
 4660900 [Golem]
-4670160 [Ancestor Spirit]
-4670161 [Ancestor Spirit]
-4670162 [Ancestor Spirit]
+4670160 [Ancestor Spirit] Running Air Spit
+4670161 [Ancestor Spirit] Spit Puddle
+4670162 [Ancestor Spirit] Ground Spit
 4670180 [Ancestor Spirit]
 4670190 [Ancestor Spirit]
 4670191 [Ancestor Spirit]
-4670210 [Ancestor Spirit]
+4670210 [Ancestor Spirit] Stomp AoE
 4670261 [Ancestor Spirit]
-4670290 [Ancestor Spirit]
+4670290 [Ancestor Spirit] Roll
 4670400 [Ancestor Spirit]
 4670401 [Ancestor Spirit]
 4670402 [Ancestor Spirit]
@@ -2910,36 +2909,36 @@
 4670470 [Ancestor Spirit]
 4670900 [Ancestor Spirit]
 4670910 [Ancestor Spirit]
-4680135 [Fallingstar Beast]
-4680136 [Fallingstar Beast]
-4680165 [Fallingstar Beast]
-4680166 [Fallingstar Beast]
-4680185 [Fallingstar Beast]
-4680195 [Fallingstar Beast]
-4680196 [Fallingstar Beast]
-4680205 [Fallingstar Beast]
-4680206 [Fallingstar Beast]
-4680260 [Fallingstar Beast]
-4680261 [Fallingstar Beast]
+4680135 [Fallingstar Beast] Mouth Rock Shower 1
+4680136 [Fallingstar Beast] Mouth Rock Shower 1
+4680165 [Fallingstar Beast] Mouth Rock Shower 2
+4680166 [Fallingstar Beast] Mouth Rock Shower 2
+4680185 [Fallingstar Beast] Feet AoE
+4680195 [Fallingstar Beast] Tail Rock 1
+4680196 [Fallingstar Beast] Tail Rock 1
+4680205 [Fallingstar Beast] Tail Rock 2
+4680206 [Fallingstar Beast] Tail Rock 2
+4680260 [Fallingstar Beast] Gravity Pullup
+4680261 [Fallingstar Beast] Gravity Pullup
 4680262 [Fallingstar Beast]
-4680263 [Fallingstar Beast]
+4680263 [Fallingstar Beast] Gravty Pulldown
 4680270 [Fallingstar Beast]
 4680271 [Fallingstar Beast]
 4680280 [Fallingstar Beast]
 4680281 [Fallingstar Beast]
 4680282 [Fallingstar Beast]
 4680285 [Fallingstar Beast]
-4680290 [Fallingstar Beast]
-4680295 [Fallingstar Beast]
-4680296 [Fallingstar Beast]
+4680290 [Fallingstar Beast] Ground Pullup
+4680295 [Fallingstar Beast] Ground Pullup Small
+4680296 [Fallingstar Beast] Ground Pullup Small
 4680355 [Fallingstar Beast]
 4680356 [Fallingstar Beast]
-4680450 [Fallingstar Beast]
-4680455 [Fallingstar Beast]
-4680456 [Fallingstar Beast]
+4680450 [Fallingstar Beast] Ground Pullup Large
+4680455 [Fallingstar Beast] Ground Pullup Large
+4680456 [Fallingstar Beast] Ground Pullup Large
 4690150 [Grafted Scion]
 4690200 [Grafted Scion]
-4710311 [Writhing Mass]
+4710311 [Writhing Mass] Sword Pullup
 4710500 [Writhing Mass]
 4710501 [Writhing Mass]
 4710502 [Writhing Mass]
@@ -2950,33 +2949,33 @@
 4710513 [Writhing Mass]
 4710514 [Writhing Mass]
 4710530 [Writhing Mass]
-4710540 [Writhing Mass]
-4710541 [Writhing Mass]
-4710545 [Writhing Mass]
-4710550 [Writhing Mass]
-4710551 [Writhing Mass]
-4710555 [Writhing Mass]
+4710540 [Writhing Mass] Spit
+4710541 [Writhing Mass] Spit Gas
+4710545 [Writhing Mass] Spit
+4710550 [Writhing Mass] Ground Pullup
+4710551 [Writhing Mass] Ground Pullup
+4710555 [Writhing Mass] Ground Pullup Close AoE
 4710556 [Writhing Mass]
 4710557 [Writhing Mass]
 4710560 [Writhing Mass]
-4710561 [Writhing Mass]
-4710570 [Writhing Mass]
-4710571 [Writhing Mass]
-4710572 [Writhing Mass]
-4710591 [Writhing Mass]
-4710592 [Writhing Mass]
-4710593 [Writhing Mass]
+4710561 [Writhing Mass] Ground Pullup
+4710570 [Writhing Mass] Fire Blobs
+4710571 [Writhing Mass] Fire Blobs
+4710572 [Writhing Mass] Fire Blobs
+4710591 [Writhing Mass] Fire Blobs 2
+4710592 [Writhing Mass] Fire Blobs 2
+4710593 [Writhing Mass] Fire Blobs 2
 4710600 [Writhing Mass]
-4710601 [Writhing Mass]
+4710601 [Writhing Mass] Lava
 4710610 [Writhing Mass]
 4710611 [Writhing Mass]
-4710620 [Writhing Mass]
-4710621 [Writhing Mass]
-4710622 [Writhing Mass]
-4710623 [Writhing Mass]
-4710624 [Writhing Mass]
-4710625 [Writhing Mass]
-4710626 [Writhing Mass]
+4710620 [Writhing Mass] Long Exploding Skull 1
+4710621 [Writhing Mass] Long Exploding Skull 2
+4710622 [Writhing Mass] Long Exploding Skull 3
+4710623 [Writhing Mass] Long Exploding Skull 4
+4710624 [Writhing Mass] Long Exploding Skull Emitted
+4710625 [Writhing Mass] Long Exploding Emitted Prime
+4710626 [Writhing Mass] Long Exploding Skull Explode
 4710630 [Writhing Mass]
 4710631 [Writhing Mass]
 4710632 [Writhing Mass]
@@ -2986,20 +2985,20 @@
 4710636 [Writhing Mass]
 4710637 [Writhing Mass]
 4710638 [Writhing Mass]
-4710700 [Writhing Mass]
-4710701 [Writhing Mass]
+4710700 [Writhing Mass] Ultimate Slam 1
+4710701 [Writhing Mass] Ultimate Slam 1
 4710710 [Writhing Mass]
 4710711 [Writhing Mass]
 4710720 [Writhing Mass]
 4710721 [Writhing Mass]
-4710730 [Writhing Mass]
-4710750 [Writhing Mass]
-4710751 [Writhing Mass]
+4710730 [Writhing Mass] Hit 1
+4710750 [Writhing Mass] Ultimate Slam 2
+4710751 [Writhing Mass] Ultimate Slam 2
 4710760 [Writhing Mass]
 4710761 [Writhing Mass]
 4710780 [Writhing Mass]
 4710781 [Writhing Mass]
-4710790 [Writhing Mass]
+4710790 [Writhing Mass] Hit 2
 4710810 [Writhing Mass]
 4710811 [Writhing Mass]
 4710812 [Writhing Mass]
@@ -3015,13 +3014,13 @@
 4710830 [Writhing Mass]
 4710831 [Writhing Mass]
 4710832 [Writhing Mass]
-4710833 [Writhing Mass]
+4710833 [Writhing Mass] Skull
 4710834 [Writhing Mass]
 4710835 [Writhing Mass]
 4710900 [Writhing Mass]
 4710960 [Writhing Mass]
 4710961 [Writhing Mass]
-4710962 [Writhing Mass]
+4710962 [Writhing Mass] Lava
 4720112 [Godfrey]
 4720113 [Godfrey]
 4720114 [Godfrey]
@@ -3034,13 +3033,13 @@
 4720202 [Godfrey]
 4720203 [Godfrey]
 4720251 [Godfrey]
-4720281 [Godfrey]
+4720281 [Godfrey] Phase Shift
 4720321 [Godfrey]
 4720351 [Godfrey]
 4720361 [Godfrey]
 4720371 [Godfrey]
 4720381 [Godfrey]
-4720400 [Godfrey]
+4720400 [Godfrey] HUGE 50
 4720500 [Godfrey]
 4721140 [Hoarah Loux]
 4721141 [Hoarah Loux]
@@ -3062,149 +3061,149 @@
 4721472 [Hoarah Loux]
 4721480 [Hoarah Loux]
 4721481 [Hoarah Loux]
-4721600 [Hoarah Loux]
+4721600 [Hoarah Loux] HUGE 50
 4730223 [Starscourge Radahn]
-4730224 [Starscourge Radahn]
+4730224 [Starscourge Radahn] Shockwave AoE
 4730225 [Starscourge Radahn]
-4730226 [Starscourge Radahn]
+4730226 [Starscourge Radahn] Shockwave AoE
 4730233 [Starscourge Radahn]
-4730234 [Starscourge Radahn]
+4730234 [Starscourge Radahn] Shockwave AoE
 4730235 [Starscourge Radahn]
-4730236 [Starscourge Radahn]
-4730331 [Starscourge Radahn]
-4730332 [Starscourge Radahn]
-4730333 [Starscourge Radahn]
-4730334 [Starscourge Radahn]
-4730335 [Starscourge Radahn]
-4730336 [Starscourge Radahn]
-4730337 [Starscourge Radahn]
-4730342 [Starscourge Radahn]
-4730343 [Starscourge Radahn]
-4730344 [Starscourge Radahn]
-4730345 [Starscourge Radahn]
-4730346 [Starscourge Radahn]
+4730236 [Starscourge Radahn] Shockwave AoE
+4730331 [Starscourge Radahn] Small Orbs
+4730332 [Starscourge Radahn] Small Orbs
+4730333 [Starscourge Radahn] Small Orbs
+4730334 [Starscourge Radahn] Small Orbs
+4730335 [Starscourge Radahn] Small Orbs
+4730336 [Starscourge Radahn] Small Orbs Float
+4730337 [Starscourge Radahn] Small Orbs Launched
+4730342 [Starscourge Radahn] Meteor Launch
+4730343 [Starscourge Radahn] Meteor Launch
+4730344 [Starscourge Radahn] Meteor Launch
+4730345 [Starscourge Radahn] Meteor Launch
+4730346 [Starscourge Radahn] Meteor AoE
 4730347 [Starscourge Radahn]
 4730351 [Starscourge Radahn]
-4730352 [Starscourge Radahn]
+4730352 [Starscourge Radahn] Shockwave AoE
 4730353 [Starscourge Radahn]
-4730354 [Starscourge Radahn]
+4730354 [Starscourge Radahn] Shockwave AoE
 4730367 [Starscourge Radahn]
-4730368 [Starscourge Radahn]
+4730368 [Starscourge Radahn] Shockwave AoE
 4730372 [Starscourge Radahn]
-4730373 [Starscourge Radahn]
+4730373 [Starscourge Radahn] Shockwave AoE
 4730374 [Starscourge Radahn]
-4730375 [Starscourge Radahn]
-4730376 [Starscourge Radahn]
-4730377 [Starscourge Radahn]
-4730378 [Starscourge Radahn]
-4730379 [Starscourge Radahn]
-4730380 [Starscourge Radahn]
-4730381 [Starscourge Radahn]
-4730382 [Starscourge Radahn]
-4730383 [Starscourge Radahn]
-4730384 [Starscourge Radahn]
-4730385 [Starscourge Radahn]
+4730375 [Starscourge Radahn] Shockwave AoE 2
+4730376 [Starscourge Radahn] Meteor Spawn 1
+4730377 [Starscourge Radahn] Meteor Spawn 2
+4730378 [Starscourge Radahn] Meteor Spawn 3
+4730379 [Starscourge Radahn] Meteor Spawn 4
+4730380 [Starscourge Radahn] Meteor 1
+4730381 [Starscourge Radahn] Meteor 2
+4730382 [Starscourge Radahn] Meteor 3
+4730383 [Starscourge Radahn] Meteor 4
+4730384 [Starscourge Radahn] Meteor
+4730385 [Starscourge Radahn] Meteor
 4730390 [Starscourge Radahn]
 4730391 [Starscourge Radahn]
 4730392 [Starscourge Radahn]
 4730393 [Starscourge Radahn]
 4730394 [Starscourge Radahn]
-4730401 [Starscourge Radahn]
-4730410 [Starscourge Radahn]
-4730411 [Starscourge Radahn]
+4730401 [Starscourge Radahn] Falling Star
+4730410 [Starscourge Radahn] Scattershot
+4730411 [Starscourge Radahn] Scattershot
 4730420 [Starscourge Radahn]
-4730421 [Starscourge Radahn]
+4730421 [Starscourge Radahn] Arrow Rain Homing
 4730422 [Starscourge Radahn]
 4730423 [Starscourge Radahn]
 4730424 [Starscourge Radahn]
 4730426 [Starscourge Radahn]
-4730430 [Starscourge Radahn]
-4730431 [Starscourge Radahn]
-4730492 [Starscourge Radahn]
-4730643 [Starscourge Radahn]
-4730644 [Starscourge Radahn]
-4730645 [Starscourge Radahn]
-4730653 [Starscourge Radahn]
-4730654 [Starscourge Radahn]
-4730655 [Starscourge Radahn]
-4730732 [Starscourge Radahn]
-4730751 [Starscourge Radahn]
-4730767 [Starscourge Radahn]
+4730430 [Starscourge Radahn] Fast Bolt
+4730431 [Starscourge Radahn] Fast Bolt Crit
+4730492 [Starscourge Radahn] Giant AoE Slam
+4730643 [Starscourge Radahn] Lightning Spawn AoE
+4730644 [Starscourge Radahn] Lightning Spawn AoE
+4730645 [Starscourge Radahn] Lightning Ground Shockwave
+4730653 [Starscourge Radahn] Lightning Spawn AoE
+4730654 [Starscourge Radahn] Lightning Spawn AoE
+4730655 [Starscourge Radahn] Lightning Ground Shockwave
+4730732 [Starscourge Radahn] Lightning Ground Shockwave
+4730751 [Starscourge Radahn] Lightning Ground Shockwave
+4730767 [Starscourge Radahn] Lightning Ground Shockwave
 4750220 [Godrick the Grafted]
 4750221 [Godrick the Grafted]
 4750230 [Godrick the Grafted]
 4750250 [Godrick the Grafted]
 4750262 [Godrick the Grafted]
 4750390 [Godrick the Grafted]
-4750391 [Godrick the Grafted]
+4750391 [Godrick the Grafted] Fire Whirlwind
 4750392 [Godrick the Grafted]
-4750393 [Godrick the Grafted]
+4750393 [Godrick the Grafted] Fire Whirlwind 2
 4750400 [Godrick the Grafted]
-4750401 [Godrick the Grafted]
+4750401 [Godrick the Grafted] Whirlwind
 4750402 [Godrick the Grafted]
-4750403 [Godrick the Grafted]
+4750403 [Godrick the Grafted] Whirlwind 2
 4750410 [Godrick the Grafted]
-4750411 [Godrick the Grafted]
+4750411 [Godrick the Grafted] Rocks
 4750413 [Godrick the Grafted]
-4750414 [Godrick the Grafted]
+4750414 [Godrick the Grafted] Rocks
 4750416 [Godrick the Grafted]
 4750417 [Godrick the Grafted]
 4750418 [Godrick the Grafted]
 4750419 [Godrick the Grafted]
-4750450 [Godrick the Grafted]
-4750451 [Godrick the Grafted]
+4750450 [Godrick the Grafted] Wind Bullet
+4750451 [Godrick the Grafted] Fire Wind Bullet
 4750462 [Godrick the Grafted]
-4750463 [Godrick the Grafted]
-4750470 [Godrick the Grafted]
-4750471 [Godrick the Grafted]
-4750490 [Godrick the Grafted]
-4750491 [Godrick the Grafted]
-4750492 [Godrick the Grafted]
+4750463 [Godrick the Grafted] Explosion
+4750470 [Godrick the Grafted] Wind Bullet
+4750471 [Godrick the Grafted] Fire Wind Bullet
+4750490 [Godrick the Grafted] Fire Volcano
+4750491 [Godrick the Grafted] Fire Volcano
+4750492 [Godrick the Grafted] Fire Volcano Impact
 4750550 [Godrick the Grafted]
-4750551 [Godrick the Grafted]
+4750551 [Godrick the Grafted] Rocks
 4750553 [Godrick the Grafted]
-4750554 [Godrick the Grafted]
+4750554 [Godrick the Grafted] Rocks
 4750556 [Godrick the Grafted]
 4750557 [Godrick the Grafted]
 4750558 [Godrick the Grafted]
 4750559 [Godrick the Grafted]
-4750800 [Godrick the Grafted]
+4750800 [Godrick the Grafted] Whirlwind Deflect
 4750805 [Godrick the Grafted]
 4750900 [Godrick the Grafted]
-4760051 [Fire Giant]
+4760051 [Fire Giant] Snow Pullup
 4760052 [Fire Giant]
 4760053 [Fire Giant]
-4760054 [Fire Giant]
-4760062 [Fire Giant]
-4760080 [Fire Giant]
-4760081 [Fire Giant]
+4760054 [Fire Giant] Snow Pullup Hit
+4760062 [Fire Giant] Stomp AoE
+4760080 [Fire Giant] Fireball
+4760081 [Fire Giant] Fireball Explosion
 4760082 [Fire Giant]
-4760090 [Fire Giant]
+4760090 [Fire Giant] Fell Sun
 4760091 [Fire Giant]
 4760092 [Fire Giant]
 4760093 [Fire Giant]
-4760094 [Fire Giant]
+4760094 [Fire Giant] Fell Sun Explosion
 4760095 [Fire Giant]
 4760096 [Fire Giant]
 4760097 [Fire Giant]
 4760098 [Fire Giant]
-4760099 [Fire Giant]
-4760130 [Fire Giant]
+4760099 [Fire Giant] Fell Sun Linger
+4760130 [Fire Giant] Fire Pillar Spawn
 4760131 [Fire Giant]
 4760132 [Fire Giant]
-4760133 [Fire Giant]
-4760134 [Fire Giant]
-4760135 [Fire Giant]
+4760133 [Fire Giant] Fire Pillar
+4760134 [Fire Giant] Fire Pillar
+4760135 [Fire Giant] Fire Pillar
 4760171 [Fire Giant]
 4760192 [Fire Giant]
 4760200 [Fire Giant]
 4760210 [Fire Giant]
 4760211 [Fire Giant]
 4760212 [Fire Giant]
-4760270 [Fire Giant]
+4760270 [Fire Giant] Fireball 2
 4760271 [Fire Giant]
 4760272 [Fire Giant]
-4760280 [Fire Giant]
+4760280 [Fire Giant] Fell Sun 2
 4760281 [Fire Giant]
 4760282 [Fire Giant]
 4760283 [Fire Giant]
@@ -3214,13 +3213,13 @@
 4760287 [Fire Giant]
 4760288 [Fire Giant]
 4760289 [Fire Giant]
-4760290 [Fire Giant]
+4760290 [Fire Giant] Volcano
 4760291 [Fire Giant]
 4760292 [Fire Giant]
 4760293 [Fire Giant]
 4760294 [Fire Giant]
 4760295 [Fire Giant]
-4760300 [Fire Giant]
+4760300 [Fire Giant] Fire Pillar Spawn
 4760301 [Fire Giant]
 4760302 [Fire Giant]
 4760303 [Fire Giant]
@@ -3257,8 +3256,8 @@
 4770432 [Gargoyle]
 4770433 [Gargoyle]
 4770434 [Gargoyle]
-4770450 [Gargoyle]
-4770451 [Gargoyle]
+4770450 [Gargoyle] Poison Breath - Drop At Feet
+4770451 [Gargoyle] Poison Breath - Large Fog
 4770553 [Gargoyle]
 4770554 [Gargoyle]
 4770555 [Gargoyle]
@@ -3285,12 +3284,12 @@
 4770826 [Gargoyle]
 4770834 [Gargoyle]
 4770842 [Gargoyle]
-4770860 [Gargoyle]
-4770861 [Gargoyle]
-4770862 [Gargoyle]
-4770865 [Gargoyle]
-4770866 [Gargoyle]
-4770880 [Gargoyle]
+4770860 [Gargoyle] Poison Breath - Triple Line
+4770861 [Gargoyle] Poison Breath - Fall
+4770862 [Gargoyle] Poison Breath - Medium Fog
+4770865 [Gargoyle] Poison Breath - Arching Line
+4770866 [Gargoyle] Poison Breath - Small Fog
+4770880 [Gargoyle] Ruin Explosions
 4770881 [Gargoyle]
 4770885 [Gargoyle]
 4770886 [Gargoyle]
@@ -3310,22 +3309,22 @@
 4800001 [Mohg]
 4800002 [Mohg]
 4800010 [Mohg]
-4800020 [Mohg]
-4800030 [Mohg]
-4800040 [Mohg]
+4800020 [Mohg] Blood Puddle
+4800030 [Mohg] Blood Puddle
+4800040 [Mohg] Spear Fire Explosion
 4800050 [Mohg]
 4800110 [Mohg]
-4800210 [Mohg]
-4800211 [Mohg]
+4800210 [Mohg] Hand Explosion Slash
+4800211 [Mohg] Hand Explosion
 4800240 [Mohg]
-4800260 [Mohg]
-4800261 [Mohg]
+4800260 [Mohg] Down Fire Puddle
+4800261 [Mohg] Down Fire Puddle
 4800320 [Mohg]
 4800331 [Mohg]
 4800332 [Mohg]
 4800333 [Mohg]
-4800430 [Mohg]
-4800431 [Mohg]
+4800430 [Mohg] Hand Explosion Thrust
+4800431 [Mohg] Hand Explosion Thrust
 4800561 [Mohg]
 4800571 [Mohg]
 4800581 [Mohg]
@@ -3349,20 +3348,20 @@
 4800900 [Mohg]
 4800990 [Mohg]
 4810161 [Erdtree Avatar]
-4810162 [Erdtree Avatar]
+4810162 [Erdtree Avatar] Holy Orb Explosion
 4810163 [Erdtree Avatar]
 4810164 [Erdtree Avatar]
 4810165 [Erdtree Avatar]
 4810166 [Erdtree Avatar]
-4810167 [Erdtree Avatar]
-4810183 [Erdtree Avatar]
-4810250 [Erdtree Avatar]
-4810263 [Erdtree Avatar]
+4810167 [Erdtree Avatar] Holy Orb
+4810183 [Erdtree Avatar] Butt Slam
+4810250 [Erdtree Avatar] Stomp
+4810263 [Erdtree Avatar] Butt Slam
 4810265 [Erdtree Avatar]
 4810266 [Erdtree Avatar]
 4810267 [Erdtree Avatar]
 4810268 [Erdtree Avatar]
-4810269 [Erdtree Avatar]
+4810269 [Erdtree Avatar] Rot Gas End
 4820500 [Omenkiller]
 4820501 [Omenkiller]
 4820510 [Omenkiller]
@@ -3377,13 +3376,13 @@
 4820531 [Omenkiller]
 4820532 [Omenkiller]
 4820533 [Omenkiller]
-4910130 [Magma Wyrm]
-4910140 [Magma Wyrm]
-4910150 [Magma Wyrm]
-4910151 [Magma Wyrm]
+4910130 [Magma Wyrm] Magma Breath
+4910140 [Magma Wyrm] Crawling Magma Breath
+4910150 [Magma Wyrm] Down Magma
+4910151 [Magma Wyrm] Down Magma
 4910210 [Magma Wyrm]
 4910211 [Magma Wyrm]
-4910270 [Magma Wyrm]
+4910270 [Magma Wyrm] Back Breath
 4910271 [Magma Wyrm]
 4910290 [Magma Wyrm]
 4910310 [Magma Wyrm]
@@ -3391,11 +3390,11 @@
 4910320 [Magma Wyrm]
 4910500 [Magma Wyrm]
 4910501 [Magma Wyrm]
-4910502 [Magma Wyrm]
+4910502 [Magma Wyrm] Magma Linger
 4910510 [Magma Wyrm]
 4910511 [Magma Wyrm]
 4910512 [Magma Wyrm]
-4910520 [Magma Wyrm]
+4910520 [Magma Wyrm] Shockwave
 4910521 [Magma Wyrm]
 4910530 [Magma Wyrm]
 4910630 [Magma Wyrm]
@@ -3411,7 +3410,7 @@
 4910820 [Magma Wyrm]
 4910900 [Magma Wyrm]
 4910901 [Magma Wyrm]
-4910902 [Magma Wyrm]
+4910902 [Magma Wyrm] Magma Linger
 4950105 [Tibia Mariner]
 4950115 [Tibia Mariner]
 4950125 [Tibia Mariner]
@@ -3434,11 +3433,11 @@
 4980200 [Death Rite Bird]
 4980210 [Death Rite Bird]
 4980221 [Death Rite Bird]
-4980240 [Death Rite Bird]
+4980240 [Death Rite Bird] Pull Out Ground
 4980251 [Death Rite Bird]
 4980261 [Death Rite Bird]
 4980291 [Death Rite Bird]
-4980300 [Death Rite Bird]
+4980300 [Death Rite Bird] Blight Scream
 4980322 [Death Rite Bird]
 4980411 [Death Rite Bird]
 4980412 [Death Rite Bird]
@@ -3479,7 +3478,7 @@
 4980650 [Death Rite Bird]
 4980651 [Death Rite Bird]
 4980652 [Death Rite Bird]
-4980660 [Death Rite Bird]
+4980660 [Death Rite Bird] Blight Scream
 4980700 [Death Rite Bird]
 4980701 [Death Rite Bird]
 4980710 [Death Rite Bird]
@@ -3517,15 +3516,15 @@
 7000410 [Fallen Hawk Soldier]
 7000420 [Fallen Hawk Soldier]
 7000421 [Fallen Hawk Soldier]
-7100181 [White Mask Assailant]
-7100190 [White Mask Assailant]
-7100191 [White Mask Assailant]
-7100192 [White Mask Assailant]
-7100193 [White Mask Assailant]
-7100200 [White Mask Assailant]
-7100205 [White Mask Assailant]
-7100206 [White Mask Assailant]
-7100220 [White Mask Assailant]
+7100181 [Ancient Hero] Pullup Ice
+7100190 [Ancient Hero] Floor Ice
+7100191 [Ancient Hero]
+7100192 [Ancient Hero] Floor Ice Linger
+7100193 [Ancient Hero] Floor Ice Explode
+7100200 [Ancient Hero] Ice Storm Aoe
+7100205 [Ancient Hero]
+7100206 [Ancient Hero] Ice Storm Linger
+7100220 [Ancient Hero] Emit Force Ice
 8100000 [Ballista]
 8100001 [Ballista]
 8100010 [Ballista]
@@ -3766,7 +3765,7 @@
 10335001 Bewitching Branch
 10350000 Uplifting Aromatic
 10351000 Spark Aromatic
-10351001 Spark Aromatic [Hit]
+10351001 Spark Aromatic
 10352000 Ironjar Aromatic
 10355000 Bloodboil Aromatic
 10358000 Poison Spraymist
@@ -3779,12 +3778,12 @@
 10400199 Great Glintstone Shard
 10401000 Swift Glintstone Shard
 10402100 Comet
-10402150 Comet
+10402150 Comet [Charged]
 10402151 Comet [Hit]
-10403000 Shard Spiral - Emitter
+10403000 Shard Spiral
 10403001 Shard Spiral - Emitted
-10403050 Shard Spiral
-10403051 Shard Spiral [Hit]
+10403050 Shard Spiral [Charged]
+10403051 Shard Spiral - Emitted
 10404000 Glintstone Stars - Emitter 1
 10404001 Glintstone Stars
 10404002 Glintstone Stars
@@ -3797,7 +3796,7 @@
 10404009 Glintstone Stars
 10404010 Glintstone Stars
 10404011 Glintstone Stars
-10404050 Glintstone Stars - Emitter 2
+10404050 Glintstone Stars - Emitter [Charged]
 10404051 Glintstone Stars
 10404052 Glintstone Stars
 10404053 Glintstone Stars
@@ -3834,7 +3833,7 @@
 10405021 Star Shower
 10405022 Star Shower
 10405023 Star Shower
-10405050 Star Shower - Emitter 2
+10405050 Star Shower - Emitter [Charged]
 10405051 Star Shower
 10405052 Star Shower
 10405053 Star Shower
@@ -3873,18 +3872,18 @@
 10407099 Glintstone Arc
 10408000 Cannon of Haima
 10408001 Cannon of Haima
-10408050 Cannon of Haima
+10408050 Cannon of Haima [Charged]
 10408051 Cannon of Haima
 10409000 Crystal Burst
 10409001 Crystal Burst
 10409002 Crystal Burst
-10409050 Crystal Burst
+10409050 Crystal Burst [Charged]
 10409051 Crystal Burst
 10409052 Crystal Burst
 10410000 Shatter Earth
 10410001 Shatter Earth
 10410002 Shatter Earth
-10411000 Shatter Earth
+10411000 Rock Blaster
 10411010 Rock Blaster
 10411011 Rock Blaster
 10411012 Rock Blaster
@@ -3911,7 +3910,7 @@
 10421006 Founding Rain of Stars
 10421007 Founding Rain of Stars
 10421008 Founding Rain of Stars
-10421050 Founding Rain of Stars
+10421050 Founding Rain of Stars [Charged]
 10421051 Founding Rain of Stars
 10421052 Founding Rain of Stars
 10421053 Founding Rain of Stars
@@ -3952,7 +3951,7 @@
 10422035 Stars of Ruin
 10422036 Stars of Ruin
 10422037 Stars of Ruin
-10422050 Stars of Ruin
+10422050 Stars of Ruin [Charged]
 10422051 Stars of Ruin
 10422052 Stars of Ruin
 10422053 Stars of Ruin
@@ -4004,7 +4003,7 @@
 10437003 Magic Downpour
 10437004 Magic Downpour
 10437005 Magic Downpour
-10437050 Magic Downpour
+10437050 Magic Downpour [Charged]
 10437051 Magic Downpour
 10437052 Magic Downpour
 10437053 Magic Downpour
@@ -4012,7 +4011,7 @@
 10437055 Magic Downpour
 10438000 Loretta's Greatbow
 10438001 Loretta's Greatbow
-10438050 Loretta's Greatbow
+10438050 Loretta's Greatbow [Charged]
 10438051 Loretta's Greatbow
 10438100 Loretta's Mastery
 10438101 Loretta's Mastery
@@ -4020,7 +4019,7 @@
 10438110 Loretta's Mastery
 10438111 Loretta's Mastery
 10438112 Loretta's Mastery
-10438150 Loretta's Mastery
+10438150 Loretta's Mastery [Charged]
 10438151 Loretta's Mastery
 10438152 Loretta's Mastery
 10438160 Loretta's Mastery
@@ -4030,7 +4029,7 @@
 10439001 Magic Glintblade
 10439002 Magic Glintblade
 10439003 Magic Glintblade
-10439050 Magic Glintblade
+10439050 Magic Glintblade [Charged]
 10439051 Magic Glintblade
 10439052 Magic Glintblade
 10439053 Magic Glintblade
@@ -4039,13 +4038,13 @@
 10441001 Zamor Ice Storm
 10441002 Zamor Ice Storm
 10441009 Zamor Ice Storm
-10441050 Zamor Ice Storm
+10441050 Zamor Ice Storm [Charged]
 10441051 Zamor Ice Storm
 10441052 Zamor Ice Storm
 10441059 Zamor Ice Storm
 10442000 Freezing Mist
 10442001 Freezing Mist
-10442050 Freezing Mist
+10442050 Freezing Mist [Charged]
 10442051 Freezing Mist
 10443100 Adula's Moonblade
 10443101 Adula's Moonblade
@@ -4062,7 +4061,7 @@
 10450002 Shattering Crystal
 10450003 Shattering Crystal
 10450004 Shattering Crystal
-10450050 Shattering Crystal
+10450050 Shattering Crystal [Charged]
 10450051 Shattering Crystal
 10450052 Shattering Crystal
 10450053 Shattering Crystal
@@ -4087,7 +4086,7 @@
 10461001 Night Shard
 10462000 Night Comet
 10462001 Night Comet
-10462050 Night Comet
+10462050 Night Comet [Charged]
 10462051 Night Comet
 10463000 Thops's Barrier
 10464000 Carian Retaliation
@@ -4107,45 +4106,45 @@
 10467001 Unseen Form
 10470000 Meteorite
 10470001 Meteorite
-10470002 Meteorite
+10470002 Meteorite - Projectile
 10470003 Meteorite
 10470005 Meteorite
 10470006 Meteorite
-10470007 Meteorite
+10470007 Meteorite - Projectile
 10470008 Meteorite
 10470010 Meteorite
 10470011 Meteorite
-10470012 Meteorite
+10470012 Meteorite - Projectile
 10470013 Meteorite
 10470020 Meteorite
 10470021 Meteorite
-10470022 Meteorite
+10470022 Meteorite - Projectile
 10470023 Meteorite
 10470030 Meteorite
 10470031 Meteorite
-10470032 Meteorite
+10470032 Meteorite - Projectile
 10470033 Meteorite
 10470040 Meteorite
 10470041 Meteorite
-10470042 Meteorite
+10470042 Meteorite - Projectile
 10470043 Meteorite
 10470100 Meteorite of Astel
 10470101 Meteorite of Astel
 10470102 Meteorite of Astel
 10470103 Meteorite of Astel
 10470104 Meteorite of Astel
-10470105 Meteorite of Astel
+10470105 Meteorite of Astel - Projectile
 10470106 Meteorite of Astel
 10470110 Meteorite of Astel
 10470111 Meteorite of Astel
 10470112 Meteorite of Astel
 10470113 Meteorite of Astel
 10470114 Meteorite of Astel
-10470115 Meteorite of Astel
+10470115 Meteorite of Astel - Projectile
 10470120 Meteorite of Astel
 10470121 Meteorite of Astel
 10470122 Meteorite of Astel
-10470125 Meteorite of Astel
+10470125 Meteorite of Astel - Projectile
 10470150 Meteorite of Astel
 10470151 Meteorite of Astel
 10470152 Meteorite of Astel
@@ -4162,7 +4161,7 @@
 10471010 Rock Sling
 10471011 Rock Sling
 10471012 Rock Sling
-10471050 Rock Sling
+10471050 Rock Sling [Charged]
 10471051 Rock Sling
 10471052 Rock Sling
 10471053 Rock Sling
@@ -4176,11 +4175,11 @@
 10471061 Rock Sling
 10471062 Rock Sling
 10472000 Gravity Well
-10472050 Gravity Well
+10472050 Gravity Well [Charged]
 10472100 Collapsing Stars
 10472101 Collapsing Stars
 10472105 Collapsing Stars
-10472150 Collapsing Stars
+10472150 Collapsing Stars [Charged]
 10472151 Collapsing Stars
 10472155 Collapsing Stars
 10480000 Magma Shot
@@ -4188,7 +4187,7 @@
 10480002 Magma Shot
 10480003 Magma Shot
 10480004 Magma Shot
-10480050 Magma Shot
+10480050 Magma Shot [Charged]
 10480051 Magma Shot
 10480052 Magma Shot
 10480053 Magma Shot
@@ -4210,7 +4209,7 @@
 10482005 Roiling Magma
 10482006 Roiling Magma
 10482007 Roiling Magma
-10482050 Roiling Magma
+10482050 Roiling Magma [Charged]
 10482051 Roiling Magma
 10482052 Roiling Magma
 10482053 Roiling Magma
@@ -4248,7 +4247,7 @@
 10500001 Rancorcall
 10500002 Rancorcall
 10500005 Rancorcall
-10500050 Rancorcall
+10500050 Rancorcall [Charged]
 10500051 Rancorcall
 10500052 Rancorcall
 10500055 Rancorcall
@@ -4257,7 +4256,7 @@
 10500101 Ancient Death Rancor
 10500102 Ancient Death Rancor
 10500105 Ancient Death Rancor
-10500150 Ancient Death Rancor
+10500150 Ancient Death Rancor [Charged]
 10500151 Ancient Death Rancor
 10500152 Ancient Death Rancor
 10500155 Ancient Death Rancor
@@ -4276,7 +4275,7 @@
 10501020 Explosive Ghostflame
 10502000 Fia's Mist
 10502001 Fia's Mist
-10502050 Fia's Mist
+10502050 Fia's Mist [Charged]
 10502051 Fia's Mist
 10503000 Tibia's Summons
 10503001 Tibia's Summons
@@ -4290,7 +4289,7 @@
 10504002 Death Lightning
 10504003 Death Lightning
 10504004 Death Lightning
-10504050 Death Lightning
+10504050 Death Lightning [Charged]
 10504051 Death Lightning
 10504052 Death Lightning
 10504053 Death Lightning
@@ -4298,13 +4297,13 @@
 10510000 Oracle Bubbles
 10510001 Oracle Bubbles
 10510002 Oracle Bubbles
-10510050 Oracle Bubbles
+10510050 Oracle Bubbles [Charged]
 10510051 Oracle Bubbles
 10510052 Oracle Bubbles
 10510099 Oracle Bubbles
 10511000 Great Oracular Bubble
 10511001 Great Oracular Bubble
-10511050 Great Oracular Bubble
+10511050 Great Oracular Bubble [Charged]
 10511051 Great Oracular Bubble
 10600000 Catch Flame
 10600001 Catch Flame
@@ -4315,7 +4314,7 @@
 10600101 O Flame!
 10600105 O Flame!
 10600106 O Flame!
-10600150 O Flame!
+10600150 O, Flame! [Charged]
 10600151 O Flame!
 10600155 O Flame!
 10600156 O Flame!
@@ -4326,18 +4325,18 @@
 10602000 Flame Fall Upon Them
 10602001 Flame Fall Upon Them
 10602002 Flame Fall Upon Them
-10602050 Flame Fall Upon Them
+10602050 Flame, Fall Upon Them [Charged]
 10602051 Flame Fall Upon Them
 10602052 Flame Fall Upon Them
 10603000 Whirl O Flame!
-10603050 Whirl O Flame!
+10603050 Whirl, O Flame! [Charged]
 10603099 Whirl O Flame!
 10604000 Flame Cleanse Me
 10604001 Flame Cleanse Me
 10604002 Flame Cleanse Me
 10610000 Giantsflame Take Thee
 10610001 Giantsflame Take Thee
-10610050 Giantsflame Take Thee
+10610050 Giantsflame Take Thee [Charged]
 10610051 Giantsflame Take Thee
 10611000 Flame of the Fell God
 10611001 Flame of the Fell God
@@ -4355,7 +4354,7 @@
 10612003 Burn O Flame!
 10612004 Burn O Flame!
 10612005 Burn O Flame!
-10612050 Burn O Flame!
+10612050 Burn, O Flame! [Charged]
 10612051 Burn O Flame!
 10612052 Burn O Flame!
 10612053 Burn O Flame!
@@ -4363,12 +4362,12 @@
 10612055 Burn O Flame!
 10621000 Black Flame
 10621001 Black Flame
-10621050 Black Flame
+10621050 Black Flame [Charged]
 10621051 Black Flame
 10622000 Surge O Flame!
 10623000 Scouring Black Flame
 10623001 Scouring Black Flame
-10623050 Scouring Black Flame
+10623050 Scouring Black Flame [Charged]
 10623051 Scouring Black Flame
 10624000 Noble Presence
 10624001 Noble Presence
@@ -4378,7 +4377,7 @@
 10625001 Black Flame Ritual
 10625002 Black Flame Ritual
 10625003 Black Flame Ritual
-10625050 Black Flame Ritual
+10625050 Black Flame Ritual [Charged]
 10625051 Black Flame Ritual
 10625052 Black Flame Ritual
 10625053 Black Flame Ritual
@@ -4395,7 +4394,7 @@
 10640000 Rejection
 10640050 Rejection
 10641000 Wrath of Gold
-10641050 Wrath of Gold
+10641050 Wrath of Gold [Charged]
 10642000 Urgent Heal
 10642100 Heal
 10642101 Heal
@@ -4410,16 +4409,16 @@
 10643100 Blessing of the Erdtree
 10643101 Blessing of the Erdtree
 10644000 Cure Poison
-10644100 Cure Poison
+10644100 Lord's Aid
 10644101 Lord's Aid
-10644110 Lord's Aid
-10644111 Lord's Aid
+10644110 Lord's Aid - Allies
+10644111 Lord's Aid - Allies
 10649000 Lord's Divine Fortification
-10649001 Lord's Divine Fortification
+10649001 Lord's Divine Fortification - Allies
 10650000 Night Maiden's Mist
 10650001 Night Maiden's Mist
 10650002 Night Maiden's Mist
-10650050 Night Maiden's Mist
+10650050 Night Maiden's Mist [Charged]
 10650051 Night Maiden's Mist
 10650052 Night Maiden's Mist
 10651001 Assassin's Approach
@@ -4439,7 +4438,7 @@
 10670105 Triple Rings of Light
 10671000 Radagon's Rings of Light
 10671001 Radagon's Rings of Light
-10671050 Radagon's Rings of Light
+10671050 Radagon's Rings of Light [Charged]
 10671051 Radagon's Rings of Light
 10672000 Elden Stars
 10672001 Elden Stars
@@ -4485,7 +4484,7 @@
 10682004 Beast Claw
 10682005 Beast Claw
 10682006 Beast Claw
-10682050 Beast Claw
+10682050 Beast Claw [Charged]
 10682051 Beast Claw
 10682052 Beast Claw
 10682053 Beast Claw
@@ -4513,7 +4512,7 @@
 10690002 Lightning Spear
 10690003 Lightning Spear
 10690004 Lightning Spear
-10690050 Lightning Spear
+10690050 Lightning Spear [Charged]
 10690051 Lightning Spear
 10690052 Lightning Spear
 10690053 Lightning Spear
@@ -4533,12 +4532,8 @@
 10691011 Ancient Dragons' Lightning Strike
 10691012 Ancient Dragons' Lightning Strike
 10691013 Ancient Dragons' Lightning Strike
-10691013 Ancient Dragons' Lightning Strike
-10691014 Ancient Dragons' Lightning Strike
 10691014 Ancient Dragons' Lightning Strike
 10691015 Ancient Dragons' Lightning Strike
-10691015 Ancient Dragons' Lightning Strike
-10691016 Ancient Dragons' Lightning Strike
 10691016 Ancient Dragons' Lightning Strike
 10691020 Ancient Dragons' Lightning Strike
 10691021 Ancient Dragons' Lightning Strike
@@ -4546,7 +4541,7 @@
 10691023 Ancient Dragons' Lightning Strike
 10691024 Ancient Dragons' Lightning Strike
 10691025 Ancient Dragons' Lightning Strike
-10691050 Ancient Dragons' Lightning Strike
+10691050 Ancient Dragons' Lightning Strike [Charged]
 10691051 Ancient Dragons' Lightning Strike
 10691052 Ancient Dragons' Lightning Strike
 10691053 Ancient Dragons' Lightning Strike
@@ -4726,10 +4721,10 @@
 10706003 Dragonclaw
 10709000 Greyoll's Roar
 10709001 Greyoll's Roar
-10720000 Pest Threads
-10720001 Pest Threads
-10720002 Pest Threads
-10720003 Pest Threads
+10720000 Pest Threads (Midleft)
+10720001 Pest Threads (Midright)
+10720002 Pest Threads (Rightmost)
+10720003 Pest Threads (Leftmost)
 10720004 Pest Threads
 10720005 Pest Threads
 10721000 Swarm of Flies
@@ -4764,7 +4759,7 @@
 10731116 Unendurable Frenzy
 10731117 Unendurable Frenzy
 10732000 Frenzied Burst
-10732050 Frenzied Burst
+10732050 Frenzied Burst [Charged]
 10733000 Howl of Shabriri
 10733001 Howl of Shabriri
 10752000 Aspects of the Crucible: Breath
@@ -4779,7 +4774,7 @@
 10753031 Black Blade
 10790000 Fire's Deadly Sin
 10790001 Fire's Deadly Sin
-10790050 Fire's Deadly Sin
+10790050 Fire's Deadly Sin [Charged]
 10790051 Fire's Deadly Sin
 10790099 Fire's Deadly Sin
 10790300 Golden Lightning Fortification
