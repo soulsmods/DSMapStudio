@@ -31,6 +31,8 @@ namespace StudioCore.ParamEditor
         }
 
         private object _editedPropCache;
+        private object _editedTypeCache;
+        private object _editedObjCache;
 
         private unsafe (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
         {
@@ -70,10 +72,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(int))
@@ -98,10 +96,6 @@ namespace StudioCore.ParamEditor
                         newval = val;
                         _editedPropCache = newval;
                         isChanged = true;
-                    }
-                    else
-                    {
-                        _editedPropCache = null;
                     }
                 }
             }
@@ -128,10 +122,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(sbyte))
@@ -157,10 +147,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(bool))
@@ -176,22 +162,21 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(float))
             {
                 float val = (float)oldval;
-                if (ImGui.DragFloat("##value", ref val, 0.1f))
+                if (ImGui.InputFloat("##value", ref val, 0.1f))
                 {
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(double))
             {
                 double val = (double)oldval;
-                if (ImGui.DragScalar("##value", ImGuiDataType.Double, new IntPtr(&val), 0.1f))
+                if (ImGui.InputScalar("##value", ImGuiDataType.Double, new IntPtr(&val)))
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(string))
@@ -211,23 +196,21 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(Vector2))
             {
                 Vector2 val = (Vector2)oldval;
-                if (ImGui.DragFloat2("##value", ref val, 0.1f))
+                if (ImGui.InputFloat2("##value", ref val))
                 {
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(Vector3))
             {
                 Vector3 val = (Vector3)oldval;
-                if (ImGui.DragFloat3("##value", ref val, 0.1f))
+                if (ImGui.InputFloat3("##value", ref val))
                 {
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(byte[]))
@@ -242,10 +225,6 @@ namespace StudioCore.ParamEditor
                         newval = nval;
                         _editedPropCache = newval;
                         isChanged = true;
-                    }
-                    else
-                    {
-                        _editedPropCache = null;
                     }
                 }
             }
@@ -500,7 +479,7 @@ namespace StudioCore.ParamEditor
             else if (matchDefault)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
-            //bool committed = true;
+
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
@@ -556,12 +535,18 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleColor(2);
 
-            if (_editedPropCache != null && _editedPropCache != oldval)
+
+            if (changed)
+            {
+                _editedObjCache = nullableCell != null ? (object)nullableCell : row;
+                _editedTypeCache = proprow;
+            }
+            else if (_editedPropCache != null && _editedPropCache != oldval)
             {
                 changed = true;
             }
 
-            UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : row, _editedPropCache, changed, committed);
+            UpdateProperty(_editedTypeCache, _editedObjCache, _editedPropCache, changed, committed);
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
