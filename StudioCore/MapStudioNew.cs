@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.05";
+        private static string _version = "1.06";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -108,13 +108,7 @@ namespace StudioCore
             VeldridStartup.CreateWindowAndGraphicsDevice(
                windowCI,
                gdOptions,
-               //VeldridStartup.GetPlatformDefaultBackend(),
-               //GraphicsBackend.Metal,
                GraphicsBackend.Vulkan,
-
-               //GraphicsBackend.Direct3D11,
-               //GraphicsBackend.OpenGL,
-               //GraphicsBackend.OpenGLES,
                out _window,
                out _gd);
             _window.Resized += () => _windowResized = true;
@@ -186,7 +180,6 @@ namespace StudioCore
             var fontIcon = File.ReadAllBytes(fileIcon);
             var fontIconNative = ImGui.MemAlloc((uint)fontIcon.Length);
             Marshal.Copy(fontIcon, 0, fontIconNative, fontIcon.Length);
-            //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
 
             float scale = ImGuiRenderer.GetUIScale();

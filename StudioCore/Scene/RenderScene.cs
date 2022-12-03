@@ -92,27 +92,6 @@ namespace StudioCore.Scene
 
         public void Render(Renderer.RenderQueue queue, Renderer.RenderQueue overlayQueue, BoundingFrustum frustum, SceneRenderPipeline pipeline)
         {
-            /*CulledObjects.Clear();
-            lock (SceneUpdateLock)
-            {
-                var watch = Stopwatch.StartNew();
-                Octree.ApplyPendingMoves();
-                Octree.GetContainedObjects(frustum, CulledObjects);
-                watch.Stop();
-                OctreeCullTime = (float)(((double)watch.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);
-            }
-            RenderObjectCount = CulledObjects.Count();
-            var watch2 = Stopwatch.StartNew();
-            foreach (var obj in CulledObjects)
-            {
-                if (((obj.DrawFilter & DrawFilter) > 0 && obj.DrawGroups.IsInDisplayGroup(DisplayGroup) && obj.IsVisible)
-                    || obj.Highlighted)
-                {
-                    obj.SubmitRenderObjects(queue);
-                }
-            }
-            watch2.Stop();
-            CPUDrawTime = (float)(((double)watch2.ElapsedTicks / (double)Stopwatch.Frequency) * 1000.0);*/
             var ctx = Tracy.TracyCZoneNC(1, "Cull", 0xFF00FF00);
             OpaqueRenderables.CullRenderables(frustum);
             OpaqueRenderables.ProcessSceneVisibility(DrawFilter, DisplayGroup);

@@ -128,8 +128,6 @@ namespace StudioCore.DebugPrimitives
         protected void SetBuffers(VertexIndexBufferAllocator.VertexIndexBufferHandle geomBuffer)
         {
             GeometryBuffer = geomBuffer;
-            //NeedToRecreateIndexBuffer = false;
-            //NeedToRecreateVertBuffer = false;
         }
 
         public unsafe void UpdatePerFrameResources(Veldrid.GraphicsDevice device, CommandList cl, Scene.SceneRenderPipeline sp)

@@ -81,14 +81,6 @@ namespace StudioCore.DebugPrimitives
                     }
                 }
 
-                //FinalizeBuffers(true);
-
-                /*GeometryData = new DbgPrimGeometryData()
-                {
-                    VertBuffer = VertBuffer,
-                    IndexBuffer = IndexBuffer,
-                };*/
-
                 Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
                 {
                     UpdatePerFrameResources(d, cl, null);

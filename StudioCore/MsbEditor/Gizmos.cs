@@ -444,9 +444,6 @@ namespace StudioCore.MsbEditor
             // Update gizmos transform and visibility
             if (_selection.IsFilteredSelection<Entity>() && canTransform)
             {
-                //var selected = MsbEditor.Selection.Selected;
-                //var center = selected.RenderSceneMesh.GetBounds().GetCenter();
-                //var center = selected.RenderSceneMesh.WorldMatrix.Translation;
                 Vector3 center;
                 Quaternion rot;
                 if (IsTransforming)
@@ -517,81 +514,5 @@ namespace StudioCore.MsbEditor
             ImGui.Text($@"Angle: {DebugAngle}");
             ImGui.End();
         }
-
-        public void CreateDeviceObjects(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
-        {
-            TranslateGizmoX.CreateDeviceObjects(gd, cl, sp);
-            TranslateGizmoY.CreateDeviceObjects(gd, cl, sp);
-            TranslateGizmoZ.CreateDeviceObjects(gd, cl, sp);
-            RotateGizmoX.CreateDeviceObjects(gd, cl, sp);
-            RotateGizmoY.CreateDeviceObjects(gd, cl, sp);
-            RotateGizmoZ.CreateDeviceObjects(gd, cl, sp);
-        }
-
-        public void DestroyDeviceObjects()
-        {
-            TranslateGizmoX.DestroyDeviceObjects();
-            TranslateGizmoY.DestroyDeviceObjects();
-            TranslateGizmoZ.DestroyDeviceObjects();
-            RotateGizmoX.DestroyDeviceObjects();
-            RotateGizmoY.DestroyDeviceObjects();
-            RotateGizmoZ.DestroyDeviceObjects();
-        }
-
-        /*public void Render(Renderer.IndirectDrawEncoder encoder, SceneRenderPipeline sp)
-        {
-            if (_selection.IsSelection())
-            {
-                switch (Mode)
-                {
-                    case GizmosMode.Translate:
-                        TranslateGizmoX.Render(encoder, sp);
-                        TranslateGizmoY.Render(encoder, sp);
-                        TranslateGizmoZ.Render(encoder, sp);
-                        break;
-                    case GizmosMode.Rotate:
-                        RotateGizmoX.Render(encoder, sp);
-                        RotateGizmoY.Render(encoder, sp);
-                        RotateGizmoZ.Render(encoder, sp);
-                        break;
-                }
-            }
-        }
-
-        public void UpdatePerFrameResources(GraphicsDevice gd, CommandList cl, SceneRenderPipeline sp)
-        {
-            if (_selection.IsSelection())
-            {
-                //var selected = MsbEditor.Selection.Selected;
-                //var center = selected.RenderSceneMesh.GetBounds().GetCenter();
-                //var center = selected.RenderSceneMesh.WorldMatrix.Translation;
-                Vector3 center;
-                Quaternion rot;
-                if (IsTransforming)
-                {
-                    center = CurrentTransform.Position;
-                    rot = CurrentTransform.Rotation;
-                }
-                else
-                {
-                    center = OriginalTransform.Position;
-                    rot = OriginalTransform.Rotation;
-                }
-                float dist = (center - CameraPosition).Length();
-                Vector3 scale = new Vector3(dist * 0.04f);
-                TranslateGizmoX.Transform = new Transform(center, rot, scale);
-                TranslateGizmoY.Transform = new Transform(center, rot, scale);
-                TranslateGizmoZ.Transform = new Transform(center, rot, scale);
-                RotateGizmoX.Transform = new Transform(center, rot, scale);
-                RotateGizmoY.Transform = new Transform(center, rot, scale);
-                RotateGizmoZ.Transform = new Transform(center, rot, scale);
-            }
-            TranslateGizmoX.UpdatePerFrameResources(gd, cl, sp);
-            TranslateGizmoY.UpdatePerFrameResources(gd, cl, sp);
-            TranslateGizmoZ.UpdatePerFrameResources(gd, cl, sp);
-            RotateGizmoX.UpdatePerFrameResources(gd, cl, sp);
-            RotateGizmoY.UpdatePerFrameResources(gd, cl, sp);
-            RotateGizmoZ.UpdatePerFrameResources(gd, cl, sp);
-        }*/
     }
 }
