@@ -1295,7 +1295,7 @@ namespace StudioCore
                 return;
 
             ImGui.SetNextWindowSize(new Vector2(900f, 800f), ImGuiCond.FirstUseEver);
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, .9f));
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, .98f));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10f, 10f));
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20f, 10f));
             ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f);
@@ -1457,6 +1457,7 @@ namespace StudioCore
                     {
                         CacheBank.ClearCaches();
                     }
+                    ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
                     ImGui.Checkbox("Show Vanilla Params", ref CFG.Current.Param_ShowVanillaParams);
 
                     ImGui.Unindent();
