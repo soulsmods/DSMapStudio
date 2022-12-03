@@ -488,26 +488,6 @@ namespace StudioCore.ParamEditor
                     ParamBank.PrimaryBank.RefreshParamDiffCaches();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Show alternate field names", null, CFG.Current.Param_ShowAltNames))
-                    CFG.Current.Param_ShowAltNames = !CFG.Current.Param_ShowAltNames;
-                if (ImGui.MenuItem("Always show original field names", null, CFG.Current.Param_AlwaysShowOriginalName))
-                    CFG.Current.Param_AlwaysShowOriginalName = !CFG.Current.Param_AlwaysShowOriginalName;
-                if (ImGui.MenuItem("Hide field references", null, CFG.Current.Param_HideReferenceRows))
-                    CFG.Current.Param_HideReferenceRows = !CFG.Current.Param_HideReferenceRows;
-                if (ImGui.MenuItem("Hide field enums", null, CFG.Current.Param_HideEnums))
-                    CFG.Current.Param_HideEnums = !CFG.Current.Param_HideEnums;
-                if (ImGui.MenuItem("Allow field reordering", null, CFG.Current.Param_AllowFieldReorder))
-                    CFG.Current.Param_AllowFieldReorder = !CFG.Current.Param_AllowFieldReorder;
-                if (ImGui.MenuItem("Sort Params Alphabetically", null, CFG.Current.Param_AlphabeticalParams))
-                {
-                    CFG.Current.Param_AlphabeticalParams = !CFG.Current.Param_AlphabeticalParams;
-                    CacheBank.ClearCaches();
-                }
-                if (ImGui.MenuItem("DisableRowGrouping", null, CFG.Current.Param_DisableRowGrouping))
-                    CFG.Current.Param_DisableRowGrouping = !CFG.Current.Param_DisableRowGrouping;
-                if (ImGui.MenuItem("Show Vanilla Params", null, CFG.Current.Param_ShowVanillaParams))
-                    CFG.Current.Param_ShowVanillaParams = !CFG.Current.Param_ShowVanillaParams;
-                ImGui.Separator();
                 if (!EditorMode && ImGui.MenuItem("Editor Mode", null, EditorMode))
                     EditorMode = true;
                 if (EditorMode && ImGui.BeginMenu("Editor Mode"))

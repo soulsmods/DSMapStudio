@@ -334,7 +334,6 @@ namespace StudioCore.MsbEditor
         {
             if (ImGui.BeginMenu("Edit"))
             {
-
                 if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false, EditorActionManager.CanUndo()))
                 {
                     EditorActionManager.UndoAction();
@@ -492,41 +491,53 @@ namespace StudioCore.MsbEditor
 
             if (ImGui.BeginMenu("Display"))
             {
+                /*
+                // Does nothing at the moment. Maybe add to settings menu if this is ever implemented
                 if (ImGui.MenuItem("Grid", "", Viewport.DrawGrid))
                 {
                     Viewport.DrawGrid = !Viewport.DrawGrid;
                 }
+                */
                 if (ImGui.BeginMenu("Object Types"))
                 {
-                    if (ImGui.MenuItem("Debug", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Debug)))
+                    bool ticked;
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Debug);
+                    if (ImGui.Checkbox("Debug", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Debug);
                     }
-                    if (ImGui.MenuItem("Map Piece", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.MapPiece)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.MapPiece);
+                    if (ImGui.Checkbox("Map Piece", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.MapPiece);
                     }
-                    if (ImGui.MenuItem("Collision", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Collision)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Collision);
+                    if (ImGui.Checkbox("Collision", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Collision);
                     }
-                    if (ImGui.MenuItem("Object", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Object)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Object);
+                    if (ImGui.Checkbox("Object", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Object);
                     }
-                    if (ImGui.MenuItem("Character", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Character)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Character);
+                    if (ImGui.Checkbox("Character", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Character);
                     }
-                    if (ImGui.MenuItem("Navmesh", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Navmesh)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Navmesh);
+                    if (ImGui.Checkbox("Navmesh", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Navmesh);
                     }
-                    if (ImGui.MenuItem("Region", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Region)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Region);
+                    if (ImGui.Checkbox("Region", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Region);
                     }
-                    if (ImGui.MenuItem("Light", "", RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Light)))
+                    ticked = RenderScene.DrawFilter.HasFlag(Scene.RenderFilter.Light);
+                    if (ImGui.Checkbox("Light", ref ticked))
                     {
                         RenderScene.ToggleDrawFilter(Scene.RenderFilter.Light);
                     }
@@ -534,29 +545,29 @@ namespace StudioCore.MsbEditor
                 }
                 if (ImGui.BeginMenu("Display Presets"))
                 {
-                    if (ImGui.MenuItem("Map Piece/Character/Object", "Ctrl+1"))
+                    if (ImGui.MenuItem(CFG.Current.SceneFilter_Preset_01.Name, "Ctrl+1"))
                     {
-                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                        RenderScene.DrawFilter = CFG.Current.SceneFilter_Preset_01.Filters;
                     }
-                    if (ImGui.MenuItem("Collision/Character/Object", "Ctrl+2"))
+                    if (ImGui.MenuItem(CFG.Current.SceneFilter_Preset_02.Name, "Ctrl+2"))
                     {
-                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                        RenderScene.DrawFilter = CFG.Current.SceneFilter_Preset_02.Filters;
                     }
-                    if (ImGui.MenuItem("Col/Navmesh/Object/Char/Region", "Ctrl+3"))
+                    if (ImGui.MenuItem(CFG.Current.SceneFilter_Preset_03.Name, "Ctrl+3"))
                     {
-                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                        RenderScene.DrawFilter = CFG.Current.SceneFilter_Preset_03.Filters;
                     }
-                    if (ImGui.MenuItem("Light (Map Piece)", "Ctrl+4"))
+                    if (ImGui.MenuItem(CFG.Current.SceneFilter_Preset_04.Name, "Ctrl+4"))
                     {
-                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                        RenderScene.DrawFilter = CFG.Current.SceneFilter_Preset_04.Filters;
                     }
-                    if (ImGui.MenuItem("Light (Collision)", "Ctrl+5"))
+                    if (ImGui.MenuItem(CFG.Current.SceneFilter_Preset_05.Name, "Ctrl+5"))
                     {
-                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                        RenderScene.DrawFilter = CFG.Current.SceneFilter_Preset_05.Filters;
                     }
-                    if (ImGui.MenuItem("All", "Ctrl+6"))
+                    if (ImGui.MenuItem(CFG.Current.SceneFilter_Preset_06.Name, "Ctrl+6"))
                     {
-                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region | Scene.RenderFilter.Light;
+                        RenderScene.DrawFilter = CFG.Current.SceneFilter_Preset_06.Filters;
                     }
                     ImGui.EndMenu();
                 }
