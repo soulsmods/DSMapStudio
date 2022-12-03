@@ -4,17 +4,17 @@
 40010 Great Glintstone Shard
 40070 Glintstone Arc
 40100 Swift Glintstone Shard
-40200 Comet
-40201 Comet
+40200 Glintstone Cometshard
+40201 Glintstone Cometshard [Charged]
 40210 Comet
-40211 Comet
+40211 Comet [Charged]
 40212 Comet [Hit]
-40300 Shard Spiral - Emitted
-40301 Shard Spiral [Hit]
+40300 Shard Spiral
+40301 Shard Spiral [Charged]
 40400 Glintstone Stars
 40401 Glintstone Stars
 40402 Glintstone Stars
-40405 Glintstone Stars
+40405 Glintstone Stars [Charged]
 40406 Glintstone Stars
 40407 Glintstone Stars
 40500 Star Shower
@@ -23,7 +23,7 @@
 40503 Star Shower
 40504 Star Shower
 40505 Star Shower
-40510 Star Shower
+40510 Star Shower [Charged]
 40511 Star Shower
 40512 Star Shower
 40513 Star Shower
@@ -36,14 +36,14 @@
 40805 Cannon of Haima
 40806 Cannon of Haima
 40900 Crystal Burst
-40905 Crystal Burst
+40905 Crystal Burst [Charged]
 41000 Shatter Earth
 41001 Shatter Earth
 41002 Shatter Earth
 41003 Shatter Earth
 41004 Shatter Earth
 41100 Rock Blaster
-41101 Shatter Earth
+41101 Rock Blaster
 41102 Rock Blaster
 41103 Rock Blaster
 41200 Gavel of Haima
@@ -57,7 +57,7 @@
 42003 Comet Azur
 42004 Comet Azur
 42100 Founding Rain of Stars
-42105 Founding Rain of Stars
+42105 Founding Rain of Stars [Charged]
 42200 Stars of Ruin
 42201 Stars of Ruin
 42202 Stars of Ruin
@@ -66,7 +66,7 @@
 42205 Stars of Ruin
 42206 Stars of Ruin
 42207 Stars of Ruin
-42210 Stars of Ruin
+42210 Stars of Ruin [Charged]
 42211 Stars of Ruin
 42212 Stars of Ruin
 42213 Stars of Ruin
@@ -90,7 +90,7 @@
 43703 Magic Downpour
 43704 Magic Downpour
 43705 Magic Downpour
-43706 Magic Downpour
+43706 Magic Downpour [Charged]
 43707 Magic Downpour
 43708 Magic Downpour
 43709 Magic Downpour
@@ -98,21 +98,21 @@
 43711 Magic Downpour
 43800 Loretta's Greatbow
 43801 Loretta's Greatbow
-43805 Loretta's Greatbow
+43805 Loretta's Greatbow [Charged]
 43806 Loretta's Greatbow
-43810 Loretta's Greatbow
+43810 Loretta's Mastery
 43811 Loretta's Mastery
-43815 Loretta's Mastery
+43815 Loretta's Mastery [Charged]
 43816 Loretta's Mastery
 43900 Magic Glintblade
-43905 Magic Glintblade
+43905 Magic Glintblade [Charged]
 44000 Glintstone Icecrag
 44100 Zamor Ice Storm
 44101 Zamor Ice Storm
-44105 Zamor Ice Storm
+44105 Zamor Ice Storm [Charged]
 44106 Zamor Ice Storm
 44200 Freezing Mist
-44205 Freezing Mist
+44205 Freezing Mist [Charged]
 44300 Carian Greatsword
 44301 Carian Greatsword
 44305 Carian Greatsword
@@ -134,13 +134,13 @@
 44408 Carian Slicer
 44500 Carian Piercer
 44501 Carian Piercer
-44505 Carian Piercer
+44505 Carian Piercer [Charged]
 44506 Carian Piercer
 44800 Lucidity
 45000 Shattering Crystal
 45001 Shattering Crystal
 45002 Shattering Crystal
-45005 Shattering Crystal
+45005 Shattering Crystal [Charged]
 45006 Shattering Crystal
 45007 Shattering Crystal
 45100 Crystal Release
@@ -150,7 +150,7 @@
 46000 Ambush Shard
 46100 Night Shard
 46200 Night Comet
-46201 Night Comet
+46201 Night Comet [Charged]
 46202 Night Comet
 46400 Carian Retaliation
 46401 Carian Retaliation
@@ -165,15 +165,15 @@
 47011 Meteorite of Astel
 47100 Rock Sling
 47200 Gravity Well
-47205 Gravity Well
+47205 Gravity Well [Charged]
 47210 Collapsing Stars
 47211 Collapsing Stars
-47215 Collapsing Stars
+47215 Collapsing Stars [Charged]
 47216 Collapsing Stars
 48000 Magma Shot
 48001 Magma Shot
 48003 Magma Shot
-48005 Magma Shot
+48005 Magma Shot [Charged]
 48006 Magma Shot
 48007 Magma Shot
 48100 Gelmir's Fury
@@ -185,7 +185,7 @@
 48204 Roiling Magma
 48205 Roiling Magma
 48206 Roiling Magma
-48210 Roiling Magma
+48210 Roiling Magma [Charged]
 48211 Roiling Magma
 48212 Roiling Magma
 48213 Roiling Magma
@@ -199,55 +199,55 @@
 49100 Briars of Punishment
 49101 Briars of Punishment
 50000 Rancorcall
-50005 Rancorcall
+50005 Rancorcall [Charged]
 50010 Ancient Death Rancor
 50011 Ancient Death Rancor
-50015 Ancient Death Rancor
+50015 Ancient Death Rancor [Charged]
 50016 Ancient Death Rancor
 50100 Explosive Ghostflame
 50101 Explosive Ghostflame
 50200 Fia's Mist
-50205 Fia's Mist
+50205 Fia's Mist[Charged]
 50300 Tibia's Summons
 50400 Death Lightning
 50401 Death Lightning
 50402 Death Lightning
-50405 Death Lightning
+50405 Death Lightning [Charged]
 50406 Death Lightning
 50407 Death Lightning
 51000 Oracle Bubbles
-51005 Oracle Bubbles
+51005 Oracle Bubbles [Charged]
 51010 Great Oracular Bubble
-51015 Great Oracular Bubble
+51015 Great Oracular Bubble [Charged]
 60000 Catch Flame
 60001 Catch Flame
-60010 Catch Flame
-60011 Catch Flame
-60015 Catch Flame
-60016 Catch Flame
+60010 O, Flame!
+60011 O, Flame!
+60015 O, Flame! [Charged]
+60016 O, Flame!
 60100 Flame Sling
 60101 Flame Sling
-60102 Flame Sling
+60102 Flame Sling [Charged]
 60103 Flame Sling
 61000 Giantsflame Take Thee
-61005 Giantsflame Take Thee
+61005 Giantsflame Take Thee [Charged]
 61100 Flame of the Fell God
 61101 Flame of the Fell God
 62100 Black Flame
 62101 Black Flame
-62105 Black Flame
+62105 Black Flame [Charged]
 62106 Black Flame
 62300 Scouring Black Flame
-62305 Scouring Black Flame
+62305 Scouring Black Flame [Charged]
 62400 Noble Presence
 62401 Noble Presence
-62405 Noble Presence
+62405 Noble Presence [Charged]
 62406 Noble Presence
 62500 Black Flame Ritual
 62501 Black Flame Ritual
 62502 Black Flame Ritual
 62503 Black Flame Ritual
-62505 Black Flame Ritual
+62505 Black Flame Ritual [Charged]
 62506 Black Flame Ritual
 62507 Black Flame Ritual
 62508 Black Flame Ritual
@@ -259,9 +259,9 @@
 63400 Protection of the Erdtree
 63401 Protection of the Erdtree
 64000 Rejection
-64005 Rejection
+64005 Rejection [Charged]
 64100 Wrath of Gold
-64105 Wrath of Gold
+64105 Wrath of Gold [Charged]
 64200 Urgent Heal
 64201 Urgent Heal
 64210 Heal
@@ -283,7 +283,7 @@
 64901 Lord's Divine Fortification
 65000 Night Maiden's Mist
 65001 Night Maiden's Mist
-65005 Night Maiden's Mist
+65005 Night Maiden's Mist [Charged]
 65006 Night Maiden's Mist
 65101 Assassin's Approach
 65200 Shadow Bait
@@ -301,7 +301,7 @@
 67013 Triple Rings of Light
 67014 Triple Rings of Light
 67100 Radagon's Rings of Light
-67105 Radagon's Rings of Light
+67105 Radagon's Rings of Light [Charged]
 67200 Elden Stars
 67201 Elden Stars
 67202 Elden Stars
@@ -316,17 +316,17 @@
 68101 Stone of Gurranq
 68200 Beast Claw
 68201 Beast Claw
-68205 Beast Claw
+68205 Beast Claw [Charged]
 68206 Beast Claw
 68300 Gurranq's Beast Claw
 68600 Bestial Constitution
 69000 Lightning Spear
 69001 Lightning Spear
-69005 Lightning Spear
+69005 Lightning Spear [Charged]
 69006 Lightning Spear
 69100 Ancient Dragons' Lightning Strike
 69101 Ancient Dragons' Lightning Strike
-69105 Ancient Dragons' Lightning Strike
+69105 Ancient Dragons' Lightning Strike [Charged]
 69106 Ancient Dragons' Lightning Strike
 69200 Lightning Strike
 69201 Lightning Strike
@@ -381,27 +381,27 @@
 72400 Scarlet Aeonia
 72401 Scarlet Aeonia
 72402 Scarlet Aeonia
-73000 Inescapable Frenzy
-73001 Inescapable Frenzy
-73002 Inescapable Frenzy
-73010 Inescapable Frenzy
+73000 Inescapable Frenzy 1 -Compare-
+73001 Inescapable Frenzy -Compare-
+73002 Inescapable Frenzy 2 -Compare-
+73010 Inescapable Frenzy -Compare-
 73100 The Flame of Frenzy
 73101 The Flame of Frenzy
-73105 The Flame of Frenzy
+73105 The Flame of Frenzy [Charged]
 73106 The Flame of Frenzy
 73109 The Flame of Frenzy
 73110 Unendurable Frenzy
 73111 Unendurable Frenzy
 73112 Unendurable Frenzy
 73200 Frenzied Burst
-73205 Frenzied Burst
+73205 Frenzied Burst [Charged]
 73300 Howl of Shabriri
 73301 Howl of Shabriri
 75000 Aspects of the Crucible: Tail
-75005 Aspects of the Crucible: Tail
+75005 Aspects of the Crucible: Tail [Charged]
 75100 Aspects of the Crucible: Horns
 75101 Aspects of the Crucible: Horns
-75105 Aspects of the Crucible: Horns
+75105 Aspects of the Crucible: Horns [Charged]
 75106 Aspects of the Crucible: Horns
 75200 Aspects of the Crucible: Breath
 75300 Black Blade
@@ -415,7 +415,7 @@
 79000 Fire's Deadly Sin
 79001 Fire's Deadly Sin
 79005 Fire's Deadly Sin
-79006 Fire's Deadly Sin
+79006 Fire's Deadly Sin [Charged]
 79009 Fire's Deadly Sin
 79030 Golden Lightning Fortification
 79031 Golden Lightning Fortification
@@ -473,18 +473,18 @@
 100460 Default - Dagger
 100470 Default - Dagger
 100480 Default - Dagger
-100500 Default - Dagger - Backstab
-100505 Default - Dagger - Backstab (Special)
-100509 Default - Dagger - Backstab (Special)
-100510 Default - Dagger - Riposte
-100515 Default - Dagger - Riposte (Special)
-100516 Default - Dagger - Riposte (Special)
-100520 Default - Dagger
-100530 Default - Dagger
-100540 Default - Dagger
-100550 Default - Dagger
-100560 Default - Dagger
-100561 Default - Dagger
+100500 Backstab - Dagger-(Crit)
+100505 Default - Dagger-(Crit)
+100509 Backstab Attempt - Dagger
+100510 Riposte - Dagger-(Crit)
+100515 Default - Dagger-(Crit)
+100516 Default - Dagger-(Crit)
+100520 Default - Dagger-(Crit)
+100530 Ground Stab - Dagger-(Crit)
+100540 Default - Dagger-(Crit)
+100550 Plunging Throw - Dagger-(Crit)
+100560 Large Throw - Dagger-(Crit)
+100561 Large Throw - Dagger-(Crit)
 100590 Default - Dagger
 100591 Default - Dagger
 100600 Default - Dagger
@@ -583,62 +583,62 @@
 115315 Blade of Calling
 115316 Blade of Calling
 115317 Blade of Calling
-200000 Default - Straight Sword
-200010 Default - Straight Sword
-200020 Default - Straight Sword
-200030 Default - Straight Sword
-200040 Default - Straight Sword
-200100 Default - Straight Sword
-200105 Default - Straight Sword
-200110 Default - Straight Sword
-200115 Default - Straight Sword
-200120 Default - Straight Sword
-200125 Default - Straight Sword
-200130 Default - Straight Sword
-200140 Default - Straight Sword
-200150 Default - Straight Sword
+200000 R1-1 - Straight Sword
+200010 R1-2 - Straight Sword
+200020 R1-3 - Straight Sword
+200030 R1-4 - Straight Sword
+200040 R1-5 - Straight Sword
+200100 R2-1 - Straight Sword
+200105 Charged R2-1 - Straight Sword
+200110 R2-2 - Straight Sword
+200115 Charged R2-2 - Straight Sword
+200120 Running - Straight Sword
+200125 Running Heavy - Straight Sword
+200130 Rolling - Straight Sword
+200140 Backstep - Straight Sword
+200150 Jumping R1 - Straight Sword
 200155 Default - Straight Sword
-200160 Default - Straight Sword
+200160 Jumping R2 - Straight Sword
 200165 Default - Straight Sword
-200180 Default - Straight Sword
-200200 Default - Straight Sword
-200210 Default - Straight Sword
-200220 Default - Straight Sword
-200230 Default - Straight Sword
-200240 Default - Straight Sword
-200300 Default - Straight Sword
-200305 Default - Straight Sword
-200310 Default - Straight Sword
-200315 Default - Straight Sword
-200320 Default - Straight Sword
-200325 Default - Straight Sword
-200330 Default - Straight Sword
-200340 Default - Straight Sword
-200350 Default - Straight Sword
+200180 Guard Counter - Straight Sword
+200200 2H R1-1 - Straight Sword
+200210 2H R1-2 - Straight Sword
+200220 2H R1-3 - Straight Sword
+200230 2H R1-4 - Straight Sword
+200240 2H R1-5 - Straight Sword
+200300 2H R2-1 - Straight Sword
+200305 2H Charged R2-1 - Straight Sword
+200310 2H R2-2 - Straight Sword
+200315 2H Charged R2-2 - Straight Sword
+200320 2H Running - Straight Sword
+200325 2H Running Heavy - Straight Sword
+200330 2H Rolling - Straight Sword
+200340 2H Backstep - Straight Sword
+200350 2H Jumping R1 - Straight Sword
 200355 Default - Straight Sword
-200360 Default - Straight Sword
+200360 2H Jumping R2 - Straight Sword
 200365 Default - Straight Sword
-200380 Default - Straight Sword
+200380 2H Guard Counter - Straight Sword
 200400 Default - Straight Sword
 200410 Default - Straight Sword
 200420 Default - Straight Sword
 200430 Default - Straight Sword
 200440 Default - Straight Sword
 200460 Default - Straight Sword
-200470 Default - Straight Sword
-200480 Default - Straight Sword
-200500 Default - Straight Sword
-200505 Default - Straight Sword
+200470 Block - Straight Sword
+200480 Partial Parry - Straight Sword
+200500 Default - Straight Sword-(Crit)
+200505 Default - Straight Sword-(Crit)
 200509 Default - Straight Sword
-200510 Default - Straight Sword
-200515 Default - Straight Sword
-200516 Default - Straight Sword
-200520 Default - Straight Sword
-200530 Default - Straight Sword
-200540 Default - Straight Sword
-200550 Default - Straight Sword
-200560 Default - Straight Sword
-200561 Default - Straight Sword
+200510 Default - Straight Sword-(Crit)
+200515 Default - Straight Sword-(Crit)
+200516 Default - Straight Sword-(Crit)
+200520 Default - Straight Sword-(Crit)
+200530 Default - Straight Sword-(Crit)
+200540 Default - Straight Sword-(Crit)
+200550 Default - Straight Sword-(Crit)
+200560 Default - Straight Sword-(Crit)
+200561 Default - Straight Sword-(Crit)
 200590 Default - Straight Sword
 200591 Default - Straight Sword
 200600 Default - Straight Sword
@@ -665,22 +665,22 @@
 200750 Default - Straight Sword
 200760 Default - Straight Sword
 200765 Default - Straight Sword
-200800 Default - Straight Sword
-200805 Default - Straight Sword
-200810 Default - Straight Sword
-200815 Default - Straight Sword
-200820 Default - Straight Sword
-200825 Default - Straight Sword
-200830 Default - Straight Sword
-200835 Default - Straight Sword
-200860 Default - Straight Sword
-200865 Default - Straight Sword
-200870 Default - Straight Sword
-200875 Default - Straight Sword
-200880 Default - Straight Sword
-200885 Default - Straight Sword
-200890 Default - Straight Sword
-200895 Default - Straight Sword
+200800 PS R1-1 - Straight Sword
+200805 PS R1-1 - Straight Sword
+200810 PS R1-2 - Straight Sword
+200815 PS R1-2 - Straight Sword
+200820 PS R1-3 - Straight Sword
+200825 PS R1-3 - Straight Sword
+200830 PS R1-4 - Straight Sword
+200835 PS R1-4 - Straight Sword
+200860 PS Running - Straight Sword
+200865 PS Running - Straight Sword
+200870 PS Rolling - Straight Sword
+200875 PS Rolling - Straight Sword
+200880 PS Backstep - Straight Sword
+200885 PS Backstep - Straight Sword
+200890 PS Jumping - Straight Sword
+200895 PS Jumping - Straight Sword
 201100 Broadsword - Cane Sword
 201105 Broadsword - Cane Sword
 201110 Broadsword - Cane Sword
@@ -800,18 +800,18 @@
 300460 Default - Greatsword
 300470 Default - Greatsword
 300480 Default - Greatsword
-300500 Default - Greatsword
-300505 Default - Greatsword
+300500 Default - Greatsword-(Crit)
+300505 Default - Greatsword-(Crit)
 300509 Default - Greatsword
-300510 Default - Greatsword
-300515 Default - Greatsword
-300516 Default - Greatsword
-300520 Default - Greatsword
-300530 Default - Greatsword
-300540 Default - Greatsword
-300550 Default - Greatsword
-300560 Default - Greatsword
-300561 Default - Greatsword
+300510 Default - Greatsword-(Crit)
+300515 Default - Greatsword-(Crit)
+300516 Default - Greatsword-(Crit)
+300520 Default - Greatsword-(Crit)
+300530 Default - Greatsword-(Crit)
+300540 Default - Greatsword-(Crit)
+300550 Default - Greatsword-(Crit)
+300560 Default - Greatsword-(Crit)
+300561 Default - Greatsword-(Crit)
 300590 Default - Greatsword
 300591 Default - Greatsword
 300600 Default - Greatsword
@@ -852,9 +852,9 @@
 300885 Default - Greatsword
 300890 Default - Greatsword
 300895 Default - Greatsword
-301001 Carian Knight's Sword - Lazuli Glintstone Sword
-301002 Dark Moon Greatsword
-301003 Dark Moon Greatsword
+301001 Dark Moon Greatsword
+301002 Dark Moon Greatsword - Charged
+301003 Dark Moon Greatsword - WA Blade
 301100 Dark Moon Greatsword
 301105 Dark Moon Greatsword
 301110 Dark Moon Greatsword
@@ -943,23 +943,23 @@
 400460 Default - Colossal Sword
 400470 Default - Colossal Sword
 400480 Default - Colossal Sword
-400500 Default - Colossal Sword
-400501 Default - Colossal Sword
-400505 Default - Colossal Sword
-400506 Default - Colossal Sword
+400500 Default - Colossal Sword-(Crit)
+400501 Default - Colossal Sword-(Crit)
+400505 Default - Colossal Sword-(Crit)
+400506 Default - Colossal Sword-(Crit)
 400509 Default - Colossal Sword
-400510 Default - Colossal Sword
-400511 Default - Colossal Sword
-400515 Default - Colossal Sword
-400516 Default - Colossal Sword
-400517 Default - Colossal Sword
-400520 Default - Colossal Sword
-400530 Default - Colossal Sword
-400531 Default - Colossal Sword
-400540 Default - Colossal Sword
-400550 Default - Colossal Sword
-400560 Default - Colossal Sword
-400561 Default - Colossal Sword
+400510 Default - Colossal Sword-(Crit)
+400511 Default - Colossal Sword-(Crit)
+400515 Default - Colossal Sword-(Crit)
+400516 Default - Colossal Sword-(Crit)
+400517 Default - Colossal Sword-(Crit)
+400520 Default - Colossal Sword-(Crit)
+400530 Default - Colossal Sword-(Crit)
+400531 Default - Colossal Sword-(Crit)
+400540 Default - Colossal Sword-(Crit)
+400550 Default - Colossal Sword-(Crit)
+400560 Default - Colossal Sword-(Crit)
+400561 Default - Colossal Sword-(Crit)
 400590 Default - Colossal Sword
 400591 Default - Colossal Sword
 400600 Default - Colossal Sword
@@ -1082,18 +1082,18 @@
 500460 Default - Thrusting Sword
 500470 Default - Thrusting Sword
 500480 Default - Thrusting Sword
-500500 Default - Thrusting Sword
-500505 Default - Thrusting Sword
+500500 Default - Thrusting Sword-(Crit)
+500505 Default - Thrusting Sword-(Crit)
 500509 Default - Thrusting Sword
-500510 Default - Thrusting Sword
-500515 Default - Thrusting Sword
-500516 Default - Thrusting Sword
-500520 Default - Thrusting Sword
-500530 Default - Thrusting Sword
-500540 Default - Thrusting Sword
-500550 Default - Thrusting Sword
-500560 Default - Thrusting Sword
-500561 Default - Thrusting Sword
+500510 Default - Thrusting Sword-(Crit)
+500515 Default - Thrusting Sword-(Crit)
+500516 Default - Thrusting Sword-(Crit)
+500520 Default - Thrusting Sword-(Crit)
+500530 Default - Thrusting Sword-(Crit)
+500540 Default - Thrusting Sword-(Crit)
+500550 Default - Thrusting Sword-(Crit)
+500560 Default - Thrusting Sword-(Crit)
+500561 Default - Thrusting Sword-(Crit)
 500590 Default - Thrusting Sword
 500591 Default - Thrusting Sword
 500600 Default - Thrusting Sword
@@ -1218,18 +1218,18 @@
 600460 Default - Heavy Thrusting Sword
 600470 Default - Heavy Thrusting Sword
 600480 Default - Heavy Thrusting Sword
-600500 Default - Heavy Thrusting Sword
-600505 Default - Heavy Thrusting Sword
+600500 Default - Heavy Thrusting Sword-(Crit)
+600505 Default - Heavy Thrusting Sword-(Crit)
 600509 Default - Heavy Thrusting Sword
-600510 Default - Heavy Thrusting Sword
-600515 Default - Heavy Thrusting Sword
-600516 Default - Heavy Thrusting Sword
-600520 Default - Heavy Thrusting Sword
-600530 Default - Heavy Thrusting Sword
-600540 Default - Heavy Thrusting Sword
-600550 Default - Heavy Thrusting Sword
-600560 Default - Heavy Thrusting Sword
-600561 Default - Heavy Thrusting Sword
+600510 Default - Heavy Thrusting Sword-(Crit)
+600515 Default - Heavy Thrusting Sword-(Crit)
+600516 Default - Heavy Thrusting Sword-(Crit)
+600520 Default - Heavy Thrusting Sword-(Crit)
+600530 Default - Heavy Thrusting Sword-(Crit)
+600540 Default - Heavy Thrusting Sword-(Crit)
+600550 Default - Heavy Thrusting Sword-(Crit)
+600560 Default - Heavy Thrusting Sword-(Crit)
+600561 Default - Heavy Thrusting Sword-(Crit)
 600590 Default - Heavy Thrusting Sword
 600591 Default - Heavy Thrusting Sword
 600600 Default - Heavy Thrusting Sword
@@ -1349,18 +1349,18 @@
 700460 Default - Curved Sword
 700470 Default - Curved Sword
 700480 Default - Curved Sword
-700500 Default - Curved Sword
-700505 Default - Curved Sword
+700500 Default - Curved Sword-(Crit)
+700505 Default - Curved Sword-(Crit)
 700509 Default - Curved Sword
-700510 Default - Curved Sword
-700515 Default - Curved Sword
-700516 Default - Curved Sword
-700520 Default - Curved Sword
-700530 Default - Curved Sword
-700540 Default - Curved Sword
-700550 Default - Curved Sword
-700560 Default - Curved Sword
-700561 Default - Curved Sword
+700510 Default - Curved Sword-(Crit)
+700515 Default - Curved Sword-(Crit)
+700516 Default - Curved Sword-(Crit)
+700520 Default - Curved Sword-(Crit)
+700530 Default - Curved Sword-(Crit)
+700540 Default - Curved Sword-(Crit)
+700550 Default - Curved Sword-(Crit)
+700560 Default - Curved Sword-(Crit)
+700561 Default - Curved Sword-(Crit)
 700590 Default - Curved Sword
 700591 Default - Curved Sword
 700600 Default - Curved Sword
@@ -1389,26 +1389,26 @@
 700750 Default - Curved Sword
 700760 Default - Curved Sword
 700765 Default - Curved Sword
-700800 Default - Curved Sword
-700805 Default - Curved Sword
-700810 Default - Curved Sword
-700815 Default - Curved Sword
-700820 Default - Curved Sword
-700825 Default - Curved Sword
-700830 Default - Curved Sword
-700835 Default - Curved Sword
-700860 Default - Curved Sword
-700861 Default - Curved Sword
-700865 Default - Curved Sword
-700866 Default - Curved Sword
-700870 Default - Curved Sword
-700875 Default - Curved Sword
-700880 Default - Curved Sword
-700885 Default - Curved Sword
-700890 Default - Curved Sword
-700891 Default - Curved Sword
-700895 Default - Curved Sword
-700896 Default - Curved Sword
+700800 Default - Curved Sword PStance R1
+700805 Default - Curved Sword PStance R1
+700810 Default - Curved Sword PStance R1
+700815 Default - Curved Sword PStance R1
+700820 Default - Curved Sword PStance R1
+700825 Default - Curved Sword PStance R1
+700830 Default - Curved Sword PStance R1
+700835 Default - Curved Sword PStance R1
+700860 Default - Curved Sword PStance Running
+700861 Default - Curved Sword PStance Running EX
+700865 Default - Curved Sword PStance Running
+700866 Default - Curved Sword PStance Running EX
+700870 Default - Curved Sword PStance Rolling
+700875 Default - Curved Sword PStance Rolling
+700880 Default - Curved Sword PStance Backstep?
+700885 Default - Curved Sword PStance Backstep?
+700890 Default - Curved Sword PStance Jump
+700891 Default - Curved Sword PStance Jump EX
+700895 Default - Curved Sword PStance Jump
+700896 Default - Curved Sword PStance Jump EX
 701150 Beastman's Curved Sword
 701151 Beastman's Curved Sword
 701155 Beastman's Curved Sword
@@ -1542,23 +1542,23 @@
 800460 Default - Curved Greatsword
 800470 Default - Curved Greatsword
 800480 Default - Curved Greatsword
-800500 Default - Curved Greatsword
-800501 Default - Curved Greatsword
-800505 Default - Curved Greatsword
-800506 Default - Curved Greatsword
+800500 Default - Curved Greatsword-(Crit)
+800501 Default - Curved Greatsword-(Crit)
+800505 Default - Curved Greatsword-(Crit)
+800506 Default - Curved Greatsword-(Crit)
 800509 Default - Curved Greatsword
-800510 Default - Curved Greatsword
-800511 Default - Curved Greatsword
-800515 Default - Curved Greatsword
-800516 Default - Curved Greatsword
-800517 Default - Curved Greatsword
-800520 Default - Curved Greatsword
-800530 Default - Curved Greatsword
-800531 Default - Curved Greatsword
-800540 Default - Curved Greatsword
-800550 Default - Curved Greatsword
-800560 Default - Curved Greatsword
-800561 Default - Curved Greatsword
+800510 Default - Curved Greatsword-(Crit)
+800511 Default - Curved Greatsword-(Crit)
+800515 Default - Curved Greatsword-(Crit)
+800516 Default - Curved Greatsword-(Crit)
+800517 Default - Curved Greatsword-(Crit)
+800520 Default - Curved Greatsword-(Crit)
+800530 Default - Curved Greatsword-(Crit)
+800531 Default - Curved Greatsword-(Crit)
+800540 Default - Curved Greatsword-(Crit)
+800550 Default - Curved Greatsword-(Crit)
+800560 Default - Curved Greatsword-(Crit)
+800561 Default - Curved Greatsword-(Crit)
 800590 Default - Curved Greatsword
 800591 Default - Curved Greatsword
 800600 Default - Curved Greatsword
@@ -1666,13 +1666,13 @@
 900460 Default - Katana
 900470 Default - Katana
 900480 Default - Katana
-900500 Default - Katana
+900500 Default - Katana-(Crit)
 900509 Default - Katana
-900510 Default - Katana
-900530 Default - Katana
-900550 Default - Katana
-900560 Default - Katana
-900561 Default - Katana
+900510 Default - Katana-(Crit)
+900530 Default - Katana-(Crit)
+900550 Default - Katana-(Crit)
+900560 Default - Katana-(Crit)
+900561 Default - Katana-(Crit)
 900590 Default - Katana
 900591 Default - Katana
 900600 Default - Katana
@@ -1803,13 +1803,13 @@
 1000460 Default - Twinblade
 1000470 Default - Twinblade
 1000480 Default - Twinblade
-1000500 Default - Twinblade
+1000500 Default - Twinblade-(Crit)
 1000509 Default - Twinblade
-1000510 Default - Twinblade
-1000530 Default - Twinblade
-1000550 Default - Twinblade
-1000560 Default - Twinblade
-1000561 Default - Twinblade
+1000510 Default - Twinblade-(Crit)
+1000530 Default - Twinblade-(Crit)
+1000550 Default - Twinblade-(Crit)
+1000560 Default - Twinblade-(Crit)
+1000561 Default - Twinblade-(Crit)
 1000590 Default - Twinblade
 1000591 Default - Twinblade
 1000600 Default - Twinblade
@@ -1841,9 +1841,9 @@
 1000880 Default - Twinblade
 1000885 Default - Twinblade
 1000890 Default - Twinblade
-1000891 Default - Twinblade
+1000891 Default - Twinblade EX
 1000895 Default - Twinblade
-1000896 Default - Twinblade
+1000896 Default - Twinblade EX
 1001100 Godskin Peeler
 1001105 Godskin Peeler
 1001110 Godskin Peeler
@@ -1931,23 +1931,23 @@
 1100460 Default - Hammer
 1100470 Default - Hammer
 1100480 Default - Hammer
-1100500 Default - Hammer
-1100501 Default - Hammer
-1100505 Default - Hammer
-1100506 Default - Hammer
+1100500 Default - Hammer-(Crit)
+1100501 Default - Hammer-(Crit)
+1100505 Default - Hammer-(Crit)
+1100506 Default - Hammer-(Crit)
 1100509 Default - Hammer
-1100510 Default - Hammer
-1100511 Default - Hammer
-1100515 Default - Hammer
-1100517 Default - Hammer
-1100518 Default - Hammer
-1100520 Default - Hammer
-1100530 Default - Hammer
-1100531 Default - Hammer
-1100540 Default - Hammer
-1100550 Default - Hammer
-1100560 Default - Hammer
-1100561 Default - Hammer
+1100510 Default - Hammer-(Crit)
+1100511 Default - Hammer-(Crit)
+1100515 Default - Hammer-(Crit)
+1100517 Default - Hammer-(Crit)
+1100518 Default - Hammer-(Crit)
+1100520 Default - Hammer-(Crit)
+1100530 Default - Hammer-(Crit)
+1100531 Default - Hammer-(Crit)
+1100540 Default - Hammer-(Crit)
+1100550 Default - Hammer-(Crit)
+1100560 Default - Hammer-(Crit)
+1100561 Default - Hammer-(Crit)
 1100590 Default - Hammer
 1100591 Default - Hammer
 1100600 Default - Hammer
@@ -2084,23 +2084,23 @@
 1200460 Default - Warhammer
 1200470 Default - Warhammer
 1200480 Default - Warhammer
-1200500 Default - Warhammer
-1200501 Default - Warhammer
-1200505 Default - Warhammer
-1200506 Default - Warhammer
+1200500 Default - Warhammer-(Crit)
+1200501 Default - Warhammer-(Crit)
+1200505 Default - Warhammer-(Crit)
+1200506 Default - Warhammer-(Crit)
 1200509 Default - Warhammer
-1200510 Default - Warhammer
-1200511 Default - Warhammer
-1200515 Default - Warhammer
-1200516 Default - Warhammer
-1200517 Default - Warhammer
-1200520 Default - Warhammer
-1200530 Default - Warhammer
-1200531 Default - Warhammer
-1200540 Default - Warhammer
-1200550 Default - Warhammer
-1200560 Default - Warhammer
-1200561 Default - Warhammer
+1200510 Default - Warhammer-(Crit)
+1200511 Default - Warhammer-(Crit)
+1200515 Default - Warhammer-(Crit)
+1200516 Default - Warhammer-(Crit)
+1200517 Default - Warhammer-(Crit)
+1200520 Default - Warhammer-(Crit)
+1200530 Default - Warhammer-(Crit)
+1200531 Default - Warhammer-(Crit)
+1200540 Default - Warhammer-(Crit)
+1200550 Default - Warhammer-(Crit)
+1200560 Default - Warhammer-(Crit)
+1200561 Default - Warhammer-(Crit)
 1200590 Default - Warhammer
 1200591 Default - Warhammer
 1200600 Default - Warhammer
@@ -2192,23 +2192,23 @@
 1203460 Pickaxe
 1203470 Pickaxe
 1203480 Pickaxe
-1203500 Pickaxe
-1203501 Pickaxe
-1203505 Pickaxe
-1203506 Pickaxe
+1203500 Pickaxe-(Crit)
+1203501 Pickaxe-(Crit)
+1203505 Pickaxe-(Crit)
+1203506 Pickaxe-(Crit)
 1203509 Pickaxe
-1203510 Pickaxe
-1203511 Pickaxe
-1203515 Pickaxe
-1203516 Pickaxe
-1203517 Pickaxe
-1203520 Pickaxe
-1203530 Pickaxe
-1203531 Pickaxe
-1203540 Pickaxe
-1203550 Pickaxe
-1203560 Pickaxe
-1203561 Pickaxe
+1203510 Pickaxe-(Crit)
+1203511 Pickaxe-(Crit)
+1203515 Pickaxe-(Crit)
+1203516 Pickaxe-(Crit)
+1203517 Pickaxe-(Crit)
+1203520 Pickaxe-(Crit)
+1203530 Pickaxe-(Crit)
+1203531 Pickaxe-(Crit)
+1203540 Pickaxe-(Crit)
+1203550 Pickaxe-(Crit)
+1203560 Pickaxe-(Crit)
+1203561 Pickaxe-(Crit)
 1203590 Pickaxe
 1203591 Pickaxe
 1203600 Pickaxe
@@ -2290,16 +2290,16 @@
 1300460 Default - Flail
 1300470 Default - Flail
 1300480 Default - Flail
-1300500 Default - Flail
-1300501 Default - Flail
+1300500 Default - Flail-(Crit)
+1300501 Default - Flail-(Crit)
 1300509 Default - Flail
-1300510 Default - Flail
-1300511 Default - Flail
-1300530 Default - Flail
-1300531 Default - Flail
-1300550 Default - Flail
-1300560 Default - Flail
-1300561 Default - Flail
+1300510 Default - Flail-(Crit)
+1300511 Default - Flail-(Crit)
+1300530 Default - Flail-(Crit)
+1300531 Default - Flail-(Crit)
+1300550 Default - Flail-(Crit)
+1300560 Default - Flail-(Crit)
+1300561 Default - Flail-(Crit)
 1300590 Default - Flail
 1300591 Default - Flail
 1300600 Default - Flail
@@ -2379,23 +2379,23 @@
 1400460 Default - Axe
 1400470 Default - Axe
 1400480 Default - Axe
-1400500 Default - Axe
-1400501 Default - Axe
-1400505 Default - Axe
-1400506 Default - Axe
+1400500 Default - Axe-(Crit)
+1400501 Default - Axe-(Crit)
+1400505 Default - Axe-(Crit)
+1400506 Default - Axe-(Crit)
 1400509 Default - Axe
-1400510 Default - Axe
-1400511 Default - Axe
-1400515 Default - Axe
-1400517 Default - Axe
-1400518 Default - Axe
-1400520 Default - Axe
-1400530 Default - Axe
-1400531 Default - Axe
-1400540 Default - Axe
-1400550 Default - Axe
-1400560 Default - Axe
-1400561 Default - Axe
+1400510 Default - Axe-(Crit)
+1400511 Default - Axe-(Crit)
+1400515 Default - Axe-(Crit)
+1400517 Default - Axe-(Crit)
+1400518 Default - Axe-(Crit)
+1400520 Default - Axe-(Crit)
+1400530 Default - Axe-(Crit)
+1400531 Default - Axe-(Crit)
+1400540 Default - Axe-(Crit)
+1400550 Default - Axe-(Crit)
+1400560 Default - Axe-(Crit)
+1400561 Default - Axe-(Crit)
 1400590 Default - Axe
 1400591 Default - Axe
 1400600 Default - Axe
@@ -2540,23 +2540,23 @@
 1500460 Default - Greataxe
 1500470 Default - Greataxe
 1500480 Default - Greataxe
-1500500 Default - Greataxe
-1500501 Default - Greataxe
-1500505 Default - Greataxe
-1500506 Default - Greataxe
+1500500 Default - Greataxe-(Crit)
+1500501 Default - Greataxe-(Crit)
+1500505 Default - Greataxe-(Crit)
+1500506 Default - Greataxe-(Crit)
 1500509 Default - Greataxe
-1500510 Default - Greataxe
-1500511 Default - Greataxe
-1500515 Default - Greataxe
-1500516 Default - Greataxe
-1500517 Default - Greataxe
-1500520 Default - Greataxe
-1500530 Default - Greataxe
-1500531 Default - Greataxe
-1500540 Default - Greataxe
-1500550 Default - Greataxe
-1500560 Default - Greataxe
-1500561 Default - Greataxe
+1500510 Default - Greataxe-(Crit)
+1500511 Default - Greataxe-(Crit)
+1500515 Default - Greataxe-(Crit)
+1500516 Default - Greataxe-(Crit)
+1500517 Default - Greataxe-(Crit)
+1500520 Default - Greataxe-(Crit)
+1500530 Default - Greataxe-(Crit)
+1500531 Default - Greataxe-(Crit)
+1500540 Default - Greataxe-(Crit)
+1500550 Default - Greataxe-(Crit)
+1500560 Default - Greataxe-(Crit)
+1500561 Default - Greataxe-(Crit)
 1500590 Default - Greataxe
 1500591 Default - Greataxe
 1500600 Default - Greataxe
@@ -2652,18 +2652,18 @@
 1600460 Default - Spear
 1600470 Default - Spear
 1600480 Default - Spear
-1600500 Default - Spear
-1600505 Default - Spear
+1600500 Default - Spear-(Crit)
+1600505 Default - Spear-(Crit)
 1600509 Default - Spear
-1600510 Default - Spear
-1600515 Default - Spear
-1600516 Default - Spear
-1600520 Default - Spear
-1600530 Default - Spear
-1600540 Default - Spear
-1600550 Default - Spear
-1600560 Default - Spear
-1600561 Default - Spear
+1600510 Default - Spear-(Crit)
+1600515 Default - Spear-(Crit)
+1600516 Default - Spear-(Crit)
+1600520 Default - Spear-(Crit)
+1600530 Default - Spear-(Crit)
+1600540 Default - Spear-(Crit)
+1600550 Default - Spear-(Crit)
+1600560 Default - Spear-(Crit)
+1600561 Default - Spear-(Crit)
 1600590 Default - Spear
 1600591 Default - Spear
 1600600 Default - Spear
@@ -2751,10 +2751,10 @@
 1611410 Cross-Naginata
 1611420 Cross-Naginata
 1611430 Cross-Naginata
-1700000 Serpent-Hunter
-1700001 Serpent-Hunter
-1700010 Serpent-Hunter
-1700020 Serpent-Hunter
+1700000 Lance
+1700001 Lance
+1700010 Lance
+1700020 Lance
 1700100 Default - Lance
 1700105 Default - Lance
 1700110 Default - Lance
@@ -2773,9 +2773,9 @@
 1700165 Serpent-Hunter
 1700170 Serpent-Hunter
 1700180 Serpent-Hunter
-1700200 Serpent-Hunter
-1700210 Serpent-Hunter
-1700220 Serpent-Hunter
+1700200 Lance
+1700210 Lance
+1700220 Lance
 1700300 Default - Lance
 1700305 Default - Lance
 1700310 Default - Lance
@@ -2799,18 +2799,18 @@
 1700460 Serpent-Hunter
 1700470 Serpent-Hunter
 1700480 Serpent-Hunter
-1700500 Serpent-Hunter
-1700505 Serpent-Hunter
+1700500 Serpent-Hunter-(Crit)
+1700505 Serpent-Hunter-(Crit)
 1700509 Serpent-Hunter
-1700510 Serpent-Hunter
-1700515 Serpent-Hunter
-1700516 Serpent-Hunter
-1700520 Serpent-Hunter
-1700530 Serpent-Hunter
-1700540 Serpent-Hunter
-1700550 Serpent-Hunter
-1700560 Serpent-Hunter
-1700561 Serpent-Hunter
+1700510 Serpent-Hunter-(Crit)
+1700515 Serpent-Hunter-(Crit)
+1700516 Serpent-Hunter-(Crit)
+1700520 Serpent-Hunter-(Crit)
+1700530 Serpent-Hunter-(Crit)
+1700540 Serpent-Hunter-(Crit)
+1700550 Serpent-Hunter-(Crit)
+1700560 Serpent-Hunter-(Crit)
+1700561 Serpent-Hunter-(Crit)
 1700590 Serpent-Hunter
 1700591 Serpent-Hunter
 1700600 Serpent-Hunter
@@ -2839,22 +2839,22 @@
 1700750 Serpent-Hunter
 1700760 Serpent-Hunter
 1700765 Serpent-Hunter
-1700800 Serpent-Hunter
-1700805 Serpent-Hunter
-1700810 Serpent-Hunter
-1700815 Serpent-Hunter
-1700820 Serpent-Hunter
-1700825 Serpent-Hunter
-1700860 Serpent-Hunter
-1700861 Serpent-Hunter
-1700862 Serpent-Hunter
-1700863 Serpent-Hunter
-1700864 Serpent-Hunter
-1700865 Serpent-Hunter
-1700866 Serpent-Hunter
-1700867 Serpent-Hunter
-1700868 Serpent-Hunter
-1700869 Serpent-Hunter
+1700800 Lance
+1700805 Lance
+1700810 Lance
+1700815 Lance
+1700820 Lance
+1700825 Lance
+1700860 Lance
+1700861 Lance
+1700862 Lance
+1700863 Lance
+1700864 Lance
+1700865 Lance
+1700866 Lance
+1700867 Lance
+1700868 Lance
+1700869 Lance
 1700870 Serpent-Hunter
 1700875 Serpent-Hunter
 1700880 Serpent-Hunter
@@ -2938,18 +2938,18 @@
 1800460 Default - Halberd
 1800470 Default - Halberd
 1800480 Default - Halberd
-1800500 Default - Halberd
-1800505 Default - Halberd
+1800500 Default - Halberd-(Crit)
+1800505 Default - Halberd-(Crit)
 1800509 Default - Halberd
-1800510 Default - Halberd
-1800515 Default - Halberd
-1800516 Default - Halberd
-1800520 Default - Halberd
-1800530 Default - Halberd
-1800540 Default - Halberd
-1800550 Default - Halberd
-1800560 Default - Halberd
-1800561 Default - Halberd
+1800510 Default - Halberd-(Crit)
+1800515 Default - Halberd-(Crit)
+1800516 Default - Halberd-(Crit)
+1800520 Default - Halberd-(Crit)
+1800530 Default - Halberd-(Crit)
+1800540 Default - Halberd-(Crit)
+1800550 Default - Halberd-(Crit)
+1800560 Default - Halberd-(Crit)
+1800561 Default - Halberd-(Crit)
 1800590 Default - Halberd
 1800591 Default - Halberd
 1800600 Default - Halberd
@@ -3075,19 +3075,19 @@
 1900460 Default - Scythe
 1900470 Default - Scythe
 1900480 Default - Scythe
-1900500 Default - Scythe
-1900505 Default - Scythe
+1900500 Default - Scythe-(Crit)
+1900505 Default - Scythe-(Crit)
 1900509 Default - Scythe
-1900510 Default - Scythe
-1900515 Default - Scythe
-1900516 Default - Scythe
-1900520 Default - Scythe
-1900530 Default - Scythe
-1900531 Default - Scythe
-1900540 Default - Scythe
-1900550 Default - Scythe
-1900560 Default - Scythe
-1900561 Default - Scythe
+1900510 Default - Scythe-(Crit)
+1900515 Default - Scythe-(Crit)
+1900516 Default - Scythe-(Crit)
+1900520 Default - Scythe-(Crit)
+1900530 Default - Scythe-(Crit)
+1900531 Default - Scythe-(Crit)
+1900540 Default - Scythe-(Crit)
+1900550 Default - Scythe-(Crit)
+1900560 Default - Scythe-(Crit)
+1900561 Default - Scythe-(Crit)
 1900590 Default - Scythe
 1900591 Default - Scythe
 1900600 Default - Scythe
@@ -3288,22 +3288,22 @@
 2100460 Default - Fist
 2100470 Default - Fist
 2100480 Default - Fist
-2100500 Default - Fist
-2100501 Default - Fist
-2100505 Default - Fist
+2100500 Default - Fist-(Crit)
+2100501 Default - Fist-(Crit)
+2100505 Default - Fist-(Crit)
 2100509 Default - Fist
-2100510 Default - Fist
-2100511 Default - Fist
-2100515 Default - Fist
-2100516 Default - Fist
-2100517 Default - Fist
-2100520 Default - Fist
-2100530 Default - Fist
-2100531 Default - Fist
-2100540 Default - Fist
-2100550 Default - Fist
-2100560 Default - Fist
-2100561 Default - Fist
+2100510 Default - Fist-(Crit)
+2100511 Default - Fist-(Crit)
+2100515 Default - Fist-(Crit)
+2100516 Default - Fist-(Crit)
+2100517 Default - Fist-(Crit)
+2100520 Default - Fist-(Crit)
+2100530 Default - Fist-(Crit)
+2100531 Default - Fist-(Crit)
+2100540 Default - Fist-(Crit)
+2100550 Default - Fist-(Crit)
+2100560 Default - Fist-(Crit)
+2100561 Default - Fist-(Crit)
 2100590 Default - Fist
 2100591 Default - Fist
 2100600 Default - Fist
@@ -3334,12 +3334,12 @@
 2100805 Default - Fist
 2100810 Default - Fist
 2100815 Default - Fist
-2100820 Default - Fist
+2100820 Default - Fist (S)
 2100825 Default - Fist
 2100830 Default - Fist
 2100835 Default - Fist
 2100840 Default - Fist
-2100845 Default - Fist
+2100845 Default - Fist (S)
 2100850 Default - Fist
 2100855 Default - Fist
 2100860 Default - Fist
@@ -3435,10 +3435,10 @@
 2101805 Cipher Pata
 2101810 Cipher Pata
 2101815 Cipher Pata
-2101820 Cipher Pata
+2101820 Cipher Pata (S)
 2101830 Cipher Pata
 2101835 Cipher Pata
-2101845 Cipher Pata
+2101845 Cipher Pata (S)
 2101850 Cipher Pata
 2101855 Cipher Pata
 2101860 Cipher Pata
@@ -3526,22 +3526,22 @@
 2200460 Default - Claw
 2200470 Default - Claw
 2200480 Default - Claw
-2200500 Default - Claw
-2200501 Default - Claw
-2200505 Default - Claw
+2200500 Default - Claw-(Crit)
+2200501 Default - Claw-(Crit)
+2200505 Default - Claw-(Crit)
 2200509 Default - Claw
-2200510 Default - Claw
-2200511 Default - Claw
-2200515 Default - Claw
-2200516 Default - Claw
-2200517 Default - Claw
-2200520 Default - Claw
-2200530 Default - Claw
-2200531 Default - Claw
-2200540 Default - Claw
-2200550 Default - Claw
-2200560 Default - Claw
-2200561 Default - Claw
+2200510 Default - Claw-(Crit)
+2200511 Default - Claw-(Crit)
+2200515 Default - Claw-(Crit)
+2200516 Default - Claw-(Crit)
+2200517 Default - Claw-(Crit)
+2200520 Default - Claw-(Crit)
+2200530 Default - Claw-(Crit)
+2200531 Default - Claw-(Crit)
+2200540 Default - Claw-(Crit)
+2200550 Default - Claw-(Crit)
+2200560 Default - Claw-(Crit)
+2200561 Default - Claw-(Crit)
 2200590 Default - Claw
 2200591 Default - Claw
 2200600 Default - Claw
@@ -3574,7 +3574,7 @@
 2200815 Default - Claw
 2200820 Default - Claw
 2200825 Default - Claw
-2200830 Default - Claw
+2200830 Default - Claw (S)
 2200840 Default - Claw
 2200845 Default - Claw
 2200850 Default - Claw
@@ -3646,21 +3646,21 @@
 2300460 Default - Colossal Weapon
 2300470 Default - Colossal Weapon
 2300480 Default - Colossal Weapon
-2300500 Default - Colossal Weapon
-2300501 Default - Colossal Weapon
-2300505 Default - Colossal Weapon
-2300509 Default - Colossal Weapon
-2300510 Default - Colossal Weapon
-2300511 Default - Colossal Weapon
-2300515 Default - Colossal Weapon
-2300516 Default - Colossal Weapon
-2300520 Default - Colossal Weapon
-2300530 Default - Colossal Weapon
-2300531 Default - Colossal Weapon
-2300540 Default - Colossal Weapon
-2300550 Default - Colossal Weapon
-2300560 Default - Colossal Weapon
-2300561 Default - Colossal Weapon
+2300500 Default - Colossal Weapon-(Crit)
+2300501 Default - Colossal Weapon-(Crit)
+2300505 Default - Colossal Weapon-(Crit)
+2300509 Default - Colossal Weapon-(Crit)
+2300510 Default - Colossal Weapon-(Crit)
+2300511 Default - Colossal Weapon-(Crit)
+2300515 Default - Colossal Weapon-(Crit)
+2300516 Default - Colossal Weapon-(Crit)
+2300520 Default - Colossal Weapon-(Crit)
+2300530 Default - Colossal Weapon-(Crit)
+2300531 Default - Colossal Weapon-(Crit)
+2300540 Default - Colossal Weapon-(Crit)
+2300550 Default - Colossal Weapon-(Crit)
+2300560 Default - Colossal Weapon-(Crit)
+2300561 Default - Colossal Weapon-(Crit)
 2300590 Default - Colossal Weapon
 2300591 Default - Colossal Weapon
 2300600 Default - Colossal Weapon
@@ -3784,17 +3784,17 @@
 2400460 Default - Torch
 2400470 Default - Torch
 2400480 Default - Torch
-2400500 Default - Torch
-2400505 Default - Torch
+2400500 Default - Torch-(Crit)
+2400505 Default - Torch-(Crit)
 2400509 Default - Torch
-2400510 Default - Torch
-2400515 Default - Torch
-2400516 Default - Torch
-2400520 Default - Torch
-2400530 Default - Torch
-2400540 Default - Torch
-2400550 Default - Torch
-2400560 Default - Torch
+2400510 Default - Torch-(Crit)
+2400515 Default - Torch-(Crit)
+2400516 Default - Torch-(Crit)
+2400520 Default - Torch-(Crit)
+2400530 Default - Torch-(Crit)
+2400540 Default - Torch-(Crit)
+2400550 Default - Torch-(Crit)
+2400560 Default - Torch-(Crit)
 2400590 Default - Torch
 2400591 Default - Torch
 2400600 Default - Torch
@@ -4062,7 +4062,7 @@
 3400410 Default - Incantation Catalyst
 3400420 Default - Incantation Catalyst
 3400470 Default - Incantation Catalyst
-3400500 Default - Incantation Catalyst
+3400500 Default - Incantation Catalyst-(Crit)
 3400600 Default - Incantation Catalyst
 3400605 Default - Incantation Catalyst
 3400610 Default - Incantation Catalyst
@@ -4078,13 +4078,12 @@
 4100430 Default - Bow
 4100440 Default - Bow
 4100450 Default - Bow
-4100500 Default - Bow
-4100510 Default - Bow
+4100500 Default - Bow-(Crit)
+4100510 Default - Bow-(Crit)
 4100520 Default - Bow
 4100530 Default - Bow
 4100540 Default - Bow
 4100580 Default - Bow
-4100600 Default - Bow
 4100600 Default - Bow
 4100800 Default - Bow
 4200600 Default - Greatbow
@@ -5107,27 +5106,27 @@
 300405926 Starscourge Greatsword
 300405927 Starscourge Greatsword
 300405928 Starscourge Greatsword
-300405930 Starscourge Greatsword
+300405930 Starscourge Greatsword - L1-1
 300405931 Starscourge Greatsword
-300405935 Starscourge Greatsword
+300405935 Starscourge Greatsword - L1-2
 300405936 Starscourge Greatsword
-300405940 Starscourge Greatsword
+300405940 Starscourge Greatsword - L1-3
 300405941 Starscourge Greatsword
-300405945 Starscourge Greatsword
+300405945 Starscourge Greatsword - Run L1
 300405946 Starscourge Greatsword
-300405950 Starscourge Greatsword
+300405950 Starscourge Greatsword - Roll L1
 300405951 Starscourge Greatsword
-300405955 Starscourge Greatsword
+300405955 Starscourge Greatsword - Backstep L1
 300405956 Starscourge Greatsword
-300405960 Starscourge Greatsword
+300405960 Starscourge Greatsword - Jumping L1
 300405961 Starscourge Greatsword
 300406900 Royal Greatsword
 300406905 Royal Greatsword
 300406910 Royal Greatsword
 300406915 Royal Greatsword
-300408900 Maliketh's Black Blade
-300408901 Maliketh's Black Blade
-300408905 Maliketh's Black Blade
+300408900 Maliketh's Black Blade - Hit 1
+300408901 Maliketh's Black Blade - Hit 2
+300408905 Maliketh's Black Blade - Slashes
 300408906 Maliketh's Black Blade
 300408907 Maliketh's Black Blade
 300408910 Maliketh's Black Blade
@@ -5191,9 +5190,9 @@
 300729005 Magma Wyrm's Scalesword
 300729006 Magma Wyrm's Scalesword
 300729007 Magma Wyrm's Scalesword
-300800300 Godslayer's Greatsword
-300800301 Godslayer's Greatsword
-300800305 Godslayer's Greatsword
+300800300 Godslayer's Greatsword - Hit 1
+300800301 Godslayer's Greatsword - Start Hit
+300800305 Godslayer's Greatsword - Hit 2
 300800310 Godslayer's Greatsword
 300800311 Godslayer's Greatsword
 300800315 Godslayer's Greatsword
@@ -5294,10 +5293,10 @@
 300900991 Default - Katana
 300900992 Default - Katana
 300900993 Default - Katana
-301000441 Default - Twinblade
-301000442 Default - Twinblade
-301000443 Default - Twinblade
-301000444 Default - Twinblade
+301000441 Loretta's Slash - Twinblade
+301000442 Loretta's Slash - Twinblade
+301000443 Loretta's Slash - Twinblade
+301000444 Loretta's Slash - Twinblade
 301000490 Default - Twinblade
 301000491 Default - Twinblade
 301000492 Default - Twinblade
@@ -5438,7 +5437,7 @@
 301217900 Cranial Vessel Candlestand
 301217901 Cranial Vessel Candlestand
 301217902 Cranial Vessel Candlestand
-301217905 Cranial Vessel Candlestand
+301217905 Cranial Vessel Candlestand - AoE
 301217910 Cranial Vessel Candlestand
 301217911 Cranial Vessel Candlestand
 301217912 Cranial Vessel Candlestand
@@ -5613,10 +5612,10 @@
 301504935 Axe of Godrick
 301504940 Axe of Godrick
 301511900 Winged Greathorn
-301600441 Default - Spear
-301600442 Default - Spear
-301600443 Default - Spear
-301600444 Default - Spear
+301600441 Loretta's Slash - Spear
+301600442 Loretta's Slash - Spear
+301600443 Loretta's Slash - Spear
+301600444 Loretta's Slash - Spear
 301600950 Default - Spear
 301600951 Default - Spear
 301600952 Default - Spear
@@ -5658,10 +5657,10 @@
 301612910 Death Ritual Spear
 301612911 Death Ritual Spear
 301612915 Death Ritual Spear
-301700441 Default - Lance
-301700442 Default - Lance
-301700443 Default - Lance
-301700444 Default - Lance
+301700441 Loretta's Slash - Lance
+301700442 Loretta's Slash - Lance
+301700443 Loretta's Slash - Lance
+301700444 Loretta's Slash - Lance
 301700950 Default - Lance
 301700951 Default - Lance
 301700952 Default - Lance
@@ -5699,15 +5698,15 @@
 301702920 Siluria's Tree
 301702925 Siluria's Tree
 301702930 Siluria's Tree
-301703900 Serpent-Hunter
-301703901 Serpent-Hunter
-301703905 Serpent-Hunter
-301703950 Serpent-Hunter
-301703951 Serpent-Hunter
-301703955 Serpent-Hunter
-301703970 Serpent-Hunter
-301703971 Serpent-Hunter
-301703975 Serpent-Hunter
+301703900 Serpent-Hunter - Super Great Serpent Hunt
+301703901 Serpent-Hunter - Super Great Serpent Hunt
+301703905 Serpent-Hunter - Super Great Serpent Hunt X
+301703950 Serpent-Hunter - Great Serpent Hunt
+301703951 Serpent-Hunter - Great Serpent Hunt
+301703955 Serpent-Hunter - Great Serpent Hunt X
+301703970 Serpent-Hunter - Great Serpent Hunt
+301703971 Serpent-Hunter - Great Serpent Hunt
+301703975 Serpent-Hunter - Great Serpent Hunt X
 301705900 Vyke's War Spear
 301705901 Vyke's War Spear
 301705902 Vyke's War Spear
@@ -5728,10 +5727,10 @@
 301711935 Mohgwyn's Sacred Spear
 301711940 Mohgwyn's Sacred Spear
 301711945 Mohgwyn's Sacred Spear
-301800441 Default - Halberd
-301800442 Default - Halberd
-301800443 Default - Halberd
-301800444 Default - Halberd
+301800441 Loretta's Slash - Halberd
+301800442 Loretta's Slash - Halberd
+301800443 Loretta's Slash - Halberd
+301800444 Loretta's Slash - Halberd
 301800950 Default - Halberd
 301800951 Default - Halberd
 301800952 Default - Halberd
@@ -5768,10 +5767,10 @@
 301810906 Loretta's War Sickle
 301810910 Loretta's War Sickle
 301810911 Loretta's War Sickle
-301900441 Default - Scythe
-301900442 Default - Scythe
-301900443 Default - Scythe
-301900444 Default - Scythe
+301900441 Loretta's Slash - Scythe
+301900442 Loretta's Slash - Scythe
+301900443 Loretta's Slash - Scythe
+301900444 Loretta's Slash - Scythe
 301900950 Default - Scythe
 301900951 Default - Scythe
 301900952 Default - Scythe
@@ -5980,8 +5979,8 @@
 302301901 Watchdog's Staff
 302301905 Watchdog's Staff
 302305900 Axe of Godfrey
-302305905 Axe of Godfrey
-302305910 Axe of Godfrey
+302305905 Axe of Godfrey - Roar
+302305910 Axe of Godfrey - No FP
 302305915 Axe of Godfrey
 302305920 Axe of Godfrey
 302305925 Axe of Godfrey

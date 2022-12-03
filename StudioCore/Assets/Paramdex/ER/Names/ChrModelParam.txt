@@ -257,7 +257,7 @@
 6091 Turtle Pope
 6100 Rabbitgaroo
 7000 Fallen Hawk Soldier
-7100 White Mask Assailant
+7100 Ancient Hero
 8000 Torrent
 8100 Ballista
 8101 Giant Ballista
