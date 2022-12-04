@@ -33,7 +33,7 @@ namespace SoapstoneLib
         /// 
         /// This can only be done once.
         /// </summary>
-        public static async void RunAsync(KnownServer server, SoapstoneServiceV1 newService, string[] args = null)
+        public static async Task RunAsync(KnownServer server, SoapstoneServiceV1 newService, string[] args = null)
         {
             if (newService == null)
             {
@@ -215,7 +215,7 @@ namespace SoapstoneLib
                                 listenOptions.Protocols = HttpProtocols.Http2;
                             });
                         })
-                        .UseUrls($"http://localhost:{port}");
+                        .UseUrls($"http://127.0.0.1:{port}");
                 });
         }
 

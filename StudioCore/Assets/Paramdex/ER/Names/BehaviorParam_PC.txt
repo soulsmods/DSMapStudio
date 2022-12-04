@@ -256,8 +256,8 @@
 100200430 Default - Straight Sword
 100200440 Default - Straight Sword
 100200460 Default - Straight Sword
-100200470 Default - Straight Sword
-100200480 Default - Straight Sword
+100200470 Block - Straight Sword
+100200480 Partial Parry - Straight Sword
 100200500 Default - Straight Sword
 100200505 Default - Straight Sword
 100200509 Default - Straight Sword
@@ -6318,15 +6318,15 @@
 301702920 Siluria's Tree
 301702925 Siluria's Tree
 301702930 Siluria's Tree
-301703900 Serpent-Hunter
-301703901 Serpent-Hunter
-301703905 Serpent-Hunter
-301703950 Serpent-Hunter
-301703951 Serpent-Hunter
-301703955 Serpent-Hunter
-301703970 Serpent-Hunter
-301703971 Serpent-Hunter
-301703975 Serpent-Hunter
+301703900 Serpent-Hunter - Super Great Serpent Hunt
+301703901 Serpent-Hunter - Super Great Serpent Hunt
+301703905 Serpent-Hunter - Super Great Serpent Hunt
+301703950 Serpent-Hunter - Great Serpent Hunt
+301703951 Serpent-Hunter - Great Serpent Hunt
+301703955 Serpent-Hunter - Great Serpent Hunt
+301703970 Serpent-Hunter - Great Serpent Hunt
+301703971 Serpent-Hunter - Great Serpent Hunt
+301703975 Serpent-Hunter - Great Serpent Hunt
 301705900 Vyke's War Spear
 301705901 Vyke's War Spear
 301705902 Vyke's War Spear

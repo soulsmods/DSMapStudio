@@ -87,9 +87,6 @@ namespace StudioCore.Gui
             _worldView = new WorldView(new Veldrid.Rectangle(0, 0, Width, Height));
             _viewPipeline = new Scene.SceneRenderPipeline(scene, device, width, height);
             ViewportGrid = new DebugPrimitives.DbgPrimWireGrid(Color.Green, Color.DarkGreen, 50, 5.0f);
-            //ViewportGrid.CreateDeviceObjects(device, null, ViewPipeline);
-
-            //RenderScene.AddObject(ViewportGrid);
 
             _projectionMat = Utils.CreatePerspective(device, false, CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, (float)width / (float)height, NearClip, FarClip);
             _frustum = new BoundingFrustum(_projectionMat);
@@ -115,10 +112,6 @@ namespace StudioCore.Gui
 
             // Create gizmos
             _gizmos = new MsbEditor.Gizmos(_actionManager, _selection, _renderScene.OverlayRenderables);
-            Scene.Renderer.AddBackgroundUploadTask((d, cl) =>
-            {
-                _gizmos.CreateDeviceObjects(d, cl, _viewPipeline);
-            });
 
             _clearQuad = new Scene.FullScreenQuad();
             Scene.Renderer.AddBackgroundUploadTask((gd, cl) =>

@@ -23,8 +23,10 @@ namespace StudioCore
         public static CFG Default { get; private set; } = new();
 
         // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
+#pragma warning disable IDE0051
         [JsonExtensionData]
         private IDictionary<string, JToken> _additionalData;
+#pragma warning restore IDE0051
 
         public const int MAX_RECENT_PROJECTS = 10;
 
@@ -38,7 +40,6 @@ namespace StudioCore
         }
         public static string GetConfigFolderPath()
         {
-            //return $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\{FolderName}";
             return $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{FolderName}";
         }
         private static void LoadConfig()
@@ -57,7 +58,7 @@ namespace StudioCore
                         Current = JsonConvert.DeserializeObject<CFG>(
                         File.ReadAllText(GetConfigFilePath()));
                     }
-                    catch (JsonReaderException e)
+                    catch (JsonException e)
                     {
                         if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{Config_FileName} Load Error",
                             MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -86,7 +87,7 @@ namespace StudioCore
                         KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
                         File.ReadAllText(GetBindingsFilePath()));
                     }
-                    catch (JsonReaderException e)
+                    catch (JsonException e)
                     {
                         if (MessageBox.Show($"{e.Message}\n\nReset keybinds?", $"{Keybinds_FileName} Load Error",
                             MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -145,8 +146,10 @@ namespace StudioCore
         public class RecentProject
         {
             // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
+#pragma warning disable IDE0051
             [JsonExtensionData]
             private IDictionary<string, JToken> _additionalData;
+#pragma warning restore IDE0051
 
             public string Name;
             public string ProjectFile;
@@ -160,7 +163,25 @@ namespace StudioCore
 
         public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All ^ Scene.RenderFilter.Light;
 
-        public bool EnableTexturing { get; set; } = false;
+        public class RenderFilterPreset
+        {
+            public string Name;
+            public Scene.RenderFilter Filters;
+            public RenderFilterPreset(string name, Scene.RenderFilter filters)
+            {
+                Name = name;
+                Filters = filters;
+            }
+        }
+
+        public RenderFilterPreset SceneFilter_Preset_01 = new("Map", Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
+        public RenderFilterPreset SceneFilter_Preset_02 = new("Collision", Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
+        public RenderFilterPreset SceneFilter_Preset_03 = new("Collision & Navmesh", Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
+        public RenderFilterPreset SceneFilter_Preset_04 = new("Lighting (Map)", Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light);
+        public RenderFilterPreset SceneFilter_Preset_05 = new("Lighting (Collision)", Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light);
+        public RenderFilterPreset SceneFilter_Preset_06 = new("All", Scene.RenderFilter.All);
+
+        public bool EnableTexturing = false;
 
         public int GFX_Display_Width { get; set; } = 1920;
         public int GFX_Display_Height { get; set; } = 1057;
@@ -197,6 +218,7 @@ namespace StudioCore
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;
         public bool Param_PasteAfterSelection = false;
+        public bool Param_DisableRowGrouping = false;
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";
@@ -213,7 +235,7 @@ namespace StudioCore
             set { _Param_Export_Delimiter = value; }
         }
 
-        public bool EnableEldenRingAutoMapOffset { get; set; } = true;
-        public bool EnableSoapstone { get; set; } = true;
+        public bool EnableEldenRingAutoMapOffset = true;
+        public bool EnableSoapstone = true;
     }
 }

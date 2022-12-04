@@ -488,24 +488,6 @@ namespace StudioCore.ParamEditor
                     ParamBank.PrimaryBank.RefreshParamDiffCaches();
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Show alternate field names", null, CFG.Current.Param_ShowAltNames))
-                    CFG.Current.Param_ShowAltNames = !CFG.Current.Param_ShowAltNames;
-                if (ImGui.MenuItem("Always show original field names", null, CFG.Current.Param_AlwaysShowOriginalName))
-                    CFG.Current.Param_AlwaysShowOriginalName = !CFG.Current.Param_AlwaysShowOriginalName;
-                if (ImGui.MenuItem("Hide field references", null, CFG.Current.Param_HideReferenceRows))
-                    CFG.Current.Param_HideReferenceRows = !CFG.Current.Param_HideReferenceRows;
-                if (ImGui.MenuItem("Hide field enums", null, CFG.Current.Param_HideEnums))
-                    CFG.Current.Param_HideEnums = !CFG.Current.Param_HideEnums;
-                if (ImGui.MenuItem("Allow field reordering", null, CFG.Current.Param_AllowFieldReorder))
-                    CFG.Current.Param_AllowFieldReorder = !CFG.Current.Param_AllowFieldReorder;
-                if (ImGui.MenuItem("Sort Params Alphabetically", null, CFG.Current.Param_AlphabeticalParams))
-                {
-                    CFG.Current.Param_AlphabeticalParams = !CFG.Current.Param_AlphabeticalParams;
-                    CacheBank.ClearCaches();
-                }
-                if (ImGui.MenuItem("Show Vanilla Params", null, CFG.Current.Param_ShowVanillaParams))
-                    CFG.Current.Param_ShowVanillaParams = !CFG.Current.Param_ShowVanillaParams;
-                ImGui.Separator();
                 if (!EditorMode && ImGui.MenuItem("Editor Mode", null, EditorMode))
                     EditorMode = true;
                 if (EditorMode && ImGui.BeginMenu("Editor Mode"))
@@ -1407,11 +1389,30 @@ namespace StudioCore.ParamEditor
                 ImGui.PopStyleColor();
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
                 if (ImGui.BeginPopupContextItem())
                 {
                     if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
                         _paramEditor._projectSettings.PinnedParams.Add(paramKey);
+                    if (ParamEditorScreen.EditorMode && p != null)
+                    {
+                        ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                        if (meta != null && meta.Wiki == null && ImGui.MenuItem("Add wiki..."))
+                            meta.Wiki = "Empty wiki...";
+                        if (meta?.Wiki != null && ImGui.MenuItem("Remove wiki"))
+                            meta.Wiki = null;
+                    }
                     ImGui.EndPopup();
+                }
+                if (p != null)
+                {
+                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                    string Wiki = meta?.Wiki;
+                    if (Wiki != null)
+                    {
+                        if (EditorDecorations.HelpIcon(paramKey+"wiki", ref Wiki, true))
+                            meta.Wiki = Wiki;
+                    }
                 }
             }
 
@@ -1448,7 +1449,7 @@ namespace StudioCore.ParamEditor
                     int gotorow = 0;
                     ImGui.SetKeyboardFocusHere();
                     ImGui.InputInt("Goto Row ID", ref gotorow);
-                    if (ImGui.IsItemDeactivated())
+                    if (ImGui.IsItemDeactivatedAfterEdit())
                     {
                         _gotoParamRow = gotorow;
                         ImGui.CloseCurrentPopup();
@@ -1473,7 +1474,7 @@ namespace StudioCore.ParamEditor
                 else
                     _paramEditor._isSearchBarActive = false;
                 UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
-
+                
                 ImGui.BeginChild("pinnedRows");
 
                 List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
@@ -1512,10 +1513,26 @@ namespace StudioCore.ParamEditor
                 ImGui.BeginChild("rows" + activeParam);
                 List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
 
+                bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
+
                 // Rows
-                foreach (var r in rows)
+                for (int i = 0; i < rows.Count; i++)
                 {
-                    RowColumnEntry(activeParam, rows, r, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
+                    Param.Row currentRow = rows[i];
+                    if (enableGrouping)
+                    {
+                        Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
+                        Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
+                        if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
+                            ImGui.Separator();
+                        RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
+                        if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
+                            ImGui.Separator();
+                    }
+                    else
+                    {
+                        RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
+                    }
                 }
                 if (doFocus)
                     ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
@@ -1567,7 +1584,7 @@ namespace StudioCore.ParamEditor
             }
 
             var selected = _selection.getSelectedRows().Contains(r);
-            if (_gotoParamRow != -1)
+            if (_gotoParamRow != -1 && !isPinned)
             {
                 // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
                 if (r.ID == _gotoParamRow)
@@ -1601,8 +1618,9 @@ namespace StudioCore.ParamEditor
                         _selection.addRowToSelection(r);
                     }
                     else
-                        //_selection.SetActiveRow(r);
-                        EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{activeParam}/{r.ID}");
+                    {
+                        _selection.SetActiveRow(r, true);
+                    }
                 }
             }
             if (_arrowKeyPressed && ImGui.IsItemFocused()

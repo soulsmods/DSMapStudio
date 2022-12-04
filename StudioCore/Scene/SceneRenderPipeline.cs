@@ -18,10 +18,6 @@ namespace StudioCore.Scene
     {
         private RenderScene Scene;
 
-        //public DeviceBuffer ProjectionMatrixBuffer { get; private set; }
-        //public DeviceBuffer ViewMatrixBuffer { get; private set; }
-        //public DeviceBuffer EyePositionBuffer { get; private set; }
-
         public SceneParam SceneParams;
         public DeviceBuffer SceneParamBuffer { get; private set; }
 
@@ -53,10 +49,6 @@ namespace StudioCore.Scene
             Scene = scene;
 
             var factory = device.ResourceFactory;
-            //ProjectionMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
-            //ViewMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
-            //EyePositionBuffer = factory.CreateBuffer(new BufferDescription(16, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
-            //Matrix4x4 proj = Matrix4x4.CreatePerspective(width, height, 0.1f, 100.0f);
 
             // Setup scene param uniform buffer
             SceneParamBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(SceneParam), BufferUsage.UniformBuffer));
@@ -116,7 +108,6 @@ namespace StudioCore.Scene
 
         public unsafe void TestUpdateView(Matrix4x4 proj, Matrix4x4 view, Vector3 eye, int cursorx, int cursory)
         {
-            //cl.UpdateBuffer(ViewMatrixBuffer, 0, ref view, 64);
             Eye = eye;
             Renderer.AddBackgroundUploadTask((d, cl) =>
             {

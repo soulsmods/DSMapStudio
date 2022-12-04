@@ -12,7 +12,7 @@
 103 Grace - Remove Poison
 104 Grace - Remove Scarlet Rot
 105 Grace - Remove Frostbite
-106 Grace - Reload
+106 Grace -
 107 Grace - Remove Madness
 108 Grace - Remove Sleep
 109 Grace - Remove Blight
@@ -21,7 +21,7 @@
 415 Torch Effect
 416 Sentry's Torch - Effect
 420 Oil Pot
-425 Slug - Bullet
+425 Slug - Bullet - Slow
 460 Beast-Repellent Torch Effect
 467 Swarm Pot [Cycle]
 470 Gravity - Pull towards Caster
@@ -53,14 +53,14 @@
 1576 Royal Greatsword - Bullet
 1625 Mohgwyn's Sacred Spear - Bullet
 1768 Commander's Standard - Bullet
-1769 Commander's Standard [Cycle]
-1770 Commander's Standard [Cycle]
-1789 Eclipse Shotel - Bullet
+1769 Commander's Standard - Bullet - Allies
+1770 Commander's Standard - Effect
+1789 Ash of War - Death Flare
 1855 Sword of Milos - Bullet
 1856 Sword of Milos - Bullet
 1885 Sword of St. Trina - Bullet
 1896 Devourer's Scepter - Bullet
-1897 Scepter of the All-Knowing - Bullet
+1897 Scepter of the All-Knowing - Bullet Knowledge Above All
 1910 Carian Regal Scepter - Boost Damage
 1911 Carian Glintstone Staff - Boost Damage
 1912 Carian Glintblade Staff - Boost Damage
@@ -254,11 +254,11 @@
 3970 Silver-Pickled Fowl Foot
 3971 Gold-Pickled Fowl Foot
 4101 Sanguine Noble
-5300 NPC: Damage Level Override
+5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
 5303 NPC: Damage Level Override
-5304 NPC: Damage Level Override
+5304 No Small Stag
 5305 NPC: Damage Level Override
 5306 NPC: Damage Level Override
 5307 NPC: Damage Level Override
@@ -287,30 +287,30 @@
 5352 NPC: Damage Level Override
 5353 NPC: Damage Level Override
 5354 NPC: Damage Level Override
-5360 NPC: Damage Level before Poise Break
-5361 NPC: Damage Level before Poise Break
-5362 NPC: Damage Level before Poise Break
-5363 NPC: Damage Level before Poise Break
-5364 NPC: Damage Level before Poise Break
-5365 NPC: Damage Level before Poise Break
-5366 NPC: Damage Level before Poise Break
-5367 NPC: Damage Level before Poise Break
-5368 NPC: Damage Level before Poise Break
-5369 NPC: Damage Level before Poise Break
-5370 NPC: Damage Level before Poise Break
-5371 NPC: Damage Level before Poise Break
-5372 NPC: Damage Level before Poise Break
-5373 NPC: Damage Level before Poise Break
-5374 NPC: Damage Level before Poise Break
+5360 No Stag
+5361 Light Stag 4 XL Hits + Light 4 Large
+5362 Med Stag 4 XL Hits
+5363 Med Stag 4 XL Hits + Light 4 Large
+5364 Light Stag 4 XL Hits
+5365 X Stag
+5366 Resist Stag
+5367 Heavy Stag 4 XL Hits + Heavy 4 Large
+5368 Same Stag 4 XL Hits
+5369 Heavy Stag 4 XL Hits + Med 4 Large
+5370 No Stag [Armor]
+5371 Light Stag 4 XL Hits + Light 4 Large [Armor]
+5372 Med Stag 4 XL Hits [Armor]
+5373 Med Stag 4 XL Hits + Light 4 Large [Armor]
+5374 Light Stag 4 XL Hits [Armor]
 5600 NPC: Infinite FP
 5601 NPC: Faster Stamina Recovery
 5836 Undead Enemy
 5837 Undead Enemy
-6350 Toughness 1
-6351 Toughness 2
-6352 Toughness 3
-6353 Toughness 4
-6354 Toughness 5
+6350 Toughness 1 (Small/Min)
+6351 Toughness 2 (Medium/Push)
+6352 Toughness 3 (Large)
+6353 Toughness 4 (All)
+6354 Toughness 5 (All)
 6400 Hemorrhage - Type 1 - Special 1
 6401 Hemorrhage - Type 1 - Special 2
 6402 Hemorrhage - Type 1 - Special 3
@@ -369,37 +369,37 @@
 6804 Blight - Type 1 - Special 5
 6805 Blight - Type 1 - Special 6
 6845 Black Knife - Bullet
-6850 [Incantation] Black Blade
+6850 Destined Death - (DoT Main)
 6930 Crystal Dart
-7000 Area Scaling - Tier 1
-7010 Area Scaling - Tier 2
-7020 Area Scaling - Tier 3
-7030 Area Scaling - Tier 4
-7040 Area Scaling - Tier 5
-7050 Area Scaling - Tier 6
-7060 Area Scaling - Tier 7
-7070 Area Scaling - Tier 8
-7080 Area Scaling - Tier 9
-7090 Area Scaling - Tier 10
-7100 Area Scaling - Tier 11
-7110 Area Scaling - Tier 12
-7120 Area Scaling - Tier 13
-7130 Area Scaling - Tier 22
-7140 Area Scaling - Tier 23
-7150 Area Scaling - Tier 24
-7160 Area Scaling - Tier 25
-7170 Area Scaling - Tier 26
-7180 Area Scaling - Tier 27
-7190 Area Scaling - Tier 28
-7200 Area Scaling - Tier 29
-7210 Area Scaling - Tier 14
-7220 Area Scaling - Tier 15
-7230 Area Scaling - Tier 16
-7240 Area Scaling - Tier 17
-7250 Area Scaling - Tier 18
-7260 Area Scaling - Tier 19
-7270 Area Scaling - Tier 20
-7280 Area Scaling - Tier 21
+7000 Area Scaling - Tier 1 (Tutorial Tunnel)
+7010 Area Scaling - Tier 2 (Limgrave Exploration)
+7020 Area Scaling - Tier 3 (South Limgrave Exploration)
+7030 Area Scaling - Tier 4 (North Limgrave Exploration + Bosses)
+7040 Area Scaling - Tier 5 (Stormveil Castle Boss)
+7050 Area Scaling - Tier 6 (Siofra River)
+7060 Area Scaling - Tier 7 (South Liurnia Exploration  + Archives)
+7070 Area Scaling - Tier 8 (North Liurnia Exploration + Archives Latter)
+7080 Area Scaling - Tier 9 (Below Mt. Gelmir + Ainsel River)
+7090 Area Scaling - Tier 10 (Entering Mt. Gelmir + Entering Caelid)
+7100 Area Scaling - Tier 11 (Altus Plateua + Southeast Caelid)
+7110 Area Scaling - Tier 12 (Leyndell + Nokstella)
+7120 Area Scaling - Tier 13 (Volcano Manor + North Caelid)
+7130 Area Scaling - Tier 22 (Leyndell Sewers)
+7140 Area Scaling - Tier 23 (Giant Mountaintops + Farum Azula Weak)
+7150 Area Scaling - Tier 24 (Farum Azula Latter)
+7160 Area Scaling - Tier 25 (Leyndell Ashen + Snowfields)
+7170 Area Scaling - Tier 26 (Final Battle)
+7180 Area Scaling - Tier 27 (Haligtree + Mohgwyn Palace)
+7190 Area Scaling - Tier 28 (Elphael)
+7200 Area Scaling - Tier 29 (Haligtree Roots)
+7210 Area Scaling - Tier 14 (Unusued)
+7220 Area Scaling - Tier 15 (Unusued)
+7230 Area Scaling - Tier 16 (Unusued)
+7240 Area Scaling - Tier 17 (Unusued)
+7250 Area Scaling - Tier 18 (Unusued)
+7260 Area Scaling - Tier 19 (Unusued)
+7270 Area Scaling - Tier 20 (Unusued)
+7280 Area Scaling - Tier 21 (Unusued)
 7400 NG+ Scaling -
 7410 NG+ Scaling -
 7420 NG+ Scaling -
@@ -445,8 +445,8 @@
 10945 Warhawk - Bullet
 11010 Tarnished's Furled Finger
 11030 Duelist's Furled Finger
-11140 Commander - Bullet
-11141 Commander - Bullet
+11140 Commander - Glory Attack
+11141 Commander - Glory Defend
 11657 Nox Swordstress
 11691 Nox Swordstress/Silver Tear - Bullet
 11954 Writhing Mass - Bullet
@@ -462,16 +462,16 @@
 13154 Ancestral Follower - Bullet
 13156 Ancestral Follower Shaman - Bullet
 13164 Ancestral Follower
-13175 Ancestral Follower - Buff
+13175 Ancestral Follower - Winged Greathorn
 13191 Ancestral Follower - HP Restore
 13258 Mad Pumpkin Head/Grinning Torturer - Bullet
 13296 Castle Soldier
 13462 Putrid Corpse - Explosion
-13617 Ancestor Spirit - Bullet
-13780 Tree Sentinel - Bullet
-13782 Tree Sentinel - Bullet
-13855 Cleanrot Knight - Bullet
-13856 Cleanrot Knight - Bullet
+13617 Ancestor Spirit - Drain Attack
+13780 Tree Sentinel - Sacred Vow Self
+13782 Tree Sentinel - Sacred Vow Ally
+13855 Cleanrot Knight - Bullet - Buff
+13856 Cleanrot Knight - Bullet - Buff
 14016 Monstrous Crow - Bullet
 14028 Monstrous Dog - Bullet
 14351 [Rennala]
@@ -479,45 +479,45 @@
 14353 [Rennala]
 14354 [Rennala]
 14386 Rennala Student - Main Target
-14405 Depraved Perfumer - Bullet
+14405 Depraved Perfumer - Shield Bullet
 14406 Depraved Perfumer - Bullet
 14435 Depraved Perfumer
 14439 Depraved Perfumer
 14553 Blaidd the Half-Wolf - Bullet
 14577 Rennala - Bullet
-14596 Rennala 2 - Bullet
-14898 Ancient Dragon - Bullet
+14596 Rennala 2 - Bullet Magic DEF Down
+14898 Ancient Dragon - Lich Close Trigger Shock
 15321 Tibia Mariner - Bullet
 15322 Tibia Mariner - Bullet [Chain]
-15452 Godskin Apostle - Bullet
-15467 Godskin Apostle
+15452 Godskin Apostle - Sleep Awake
+15467 Godskin Apostle - Lifedrain
 15511 Godskin Noble
 16316 Spirit Summon - Fade In
 16414 Elemer of the Briar
-16482 Fallingstar Beast - Bullet
+16482 Fallingstar Beast - Ground AoE Alert
 16488 Fallingstar Beast
 17171 Imp
 17654 Death Rite Bird - Bullet
-18400 NPC: HP Recovery on Hit
-18401 NPC: HP Recovery on Hit
-18402 NPC: HP Recovery on Hit
-18403 NPC: HP Recovery on Hit
-18404 NPC: HP Recovery on Hit
-18405 NPC: HP Recovery on Hit
-18410 NPC: HP Recovery on Hit
-18411 NPC: HP Recovery on Hit
-18412 NPC: HP Recovery on Hit
-18413 NPC: HP Recovery on Hit
-18414 NPC: HP Recovery on Hit
-18415 NPC: HP Recovery on Hit
-18416 NPC: HP Recovery on Hit
-18417 NPC: HP Recovery on Hit
-18418 NPC: HP Recovery on Hit
-18419 NPC: HP Recovery on Hit
-18430 Malenia - Scarlet Rot
-18431 Malenia - Scarlet Rot
-18432 Malenia - Scarlet Rot
-18433 Malenia - Scarlet Rot
+18400 Malenia: HP Recovery on ?
+18401 Malenia: HP Recovery on ?
+18402 Malenia: HP Recovery on ?
+18403 Malenia: HP Recovery on ?
+18404 Malenia: HP Recovery on Phase Change
+18405 Malenia: HP Recovery on ?
+18410 Malenia: HP Recovery on Hit
+18411 Malenia: HP Recovery on Hit
+18412 Malenia: HP Recovery on Hit
+18413 Malenia: HP Recovery on Hit
+18414 Malenia: HP Recovery on Hit
+18415 Malenia: HP Recovery on Hit
+18416 Malenia: HP Recovery on Hit
+18417 Malenia: HP Recovery on Grab
+18418 Malenia: HP Recovery on Hit
+18419 Malenia: HP Recovery on ?
+18430 Malenia: Rot 180
+18431 Malenia: Rot 90
+18432 Malenia: Rot 120
+18433 Malenia: Rot 60
 18454 Malenia - Bullet
 18699 Spirit Summon - Phantom Color
 18731 Melina - HP Recovery
@@ -559,27 +559,27 @@
 20180 NPC: Poison
 20181 NPC: Poison
 20190 NPC: Poison
-20500 NPC: Poison
-20501 NPC: Poison
-20502 NPC: Poison
-20503 NPC: Poison
-20504 NPC: Poison
-20505 NPC: Poison
-20506 NPC: Poison
-20507 NPC: Poison
-20508 NPC: Poison
-20509 NPC: Poison
-20510 NPC: Poison
-20511 NPC: Poison
-20512 NPC: Poison
-20513 NPC: Poison
-20514 NPC: Poison
-20515 NPC: Poison
-20516 NPC: Poison
-20517 NPC: Poison
-20518 NPC: Poison
-20519 NPC: Poison
-20600 NPC: Poison - Affect Self
+20500 NPC: Fast Poison
+20501 NPC: Fast Poison
+20502 NPC: Fast Poison
+20503 NPC: Fast Poison
+20504 NPC: Fast Poison
+20505 NPC: Fast Poison
+20506 NPC: Fast Poison
+20507 NPC: Fast Poison
+20508 NPC: Fast Poison
+20509 NPC: Fast Poison
+20510 NPC: Fast Poison
+20511 NPC: Fast Poison
+20512 NPC: Fast Poison
+20513 NPC: Fast Poison
+20514 NPC: Fast Poison
+20515 NPC: Fast Poison
+20516 NPC: Fast Poison
+20517 NPC: Fast Poison
+20518 NPC: Fast Poison
+20519 NPC: Fast Poison
+20600 NPC: Fast Poison - Affect Self
 21000 NPC: Scarlet Rot
 21001 NPC: Scarlet Rot
 21002 NPC: Scarlet Rot
@@ -729,7 +729,7 @@
 26019 NPC: Madness
 26100 NPC: Madness
 26110 NPC: Madness
-29000 NPC: HP Burn on Hit
+29000 NPC: HP Burn on Hit (DoT Black Flame)
 29001 NPC: HP Burn on Hit
 29002 NPC: HP Burn on Hit
 29003 NPC: HP Burn on Hit
@@ -739,7 +739,7 @@
 29007 NPC: HP Burn on Hit
 29008 NPC: HP Burn on Hit
 29009 NPC: HP Burn on Hit
-29500 NPC: HP Burn on Hit
+29500 NPC: HP Burn on Hit (DoT Small Destined)
 29501 NPC: HP Burn on Hit
 29502 NPC: HP Burn on Hit
 29503 NPC: HP Burn on Hit
@@ -749,25 +749,25 @@
 29507 NPC: HP Burn on Hit
 29508 NPC: HP Burn on Hit
 29509 NPC: HP Burn on Hit
-29510 NPC: HP Burn on Hit
-29511 NPC: HP Burn on Hit
+29510 NPC: HP Burn on Hit (DoT Destined)
+29511 NPC: Max HP Reduction on Hit (Small)
 29515 NPC: HP Burn on Hit
 29516 NPC: HP Burn on Hit
 29517 NPC: HP Burn on Hit
 29520 NPC: Max HP Reduction on Hit
 29521 NPC: Max HP Reduction on Hit
-30000 NPC: Disable Poison
-30010 NPC: Disable Scarlet Rot
-30020 NPC: Disable Hemorrhage
-30030 NPC: Disable Blight
-30040 NPC: Disable Frostbite
-30050 NPC: Disable Sleep
-30060 NPC: Disable Madness
-30100 NPC: Disable All Status
-90000 NPC: Disable Poison - Boolean
-90010 NPC: Disable Scarlet Rot - Boolean
-90020 NPC: Disable Hemorrhage - Boolean
-90030 NPC: Disable Blight - Boolean
+30000 NPC: Cure Poison
+30010 NPC: Cure Scarlet Rot
+30020 NPC: Cure Hemorrhage
+30030 NPC: Cure Blight
+30040 NPC: Cure Frostbite
+30050 NPC: Cure Sleep
+30060 NPC: Cure Madness
+30100 NPC: Cure All Status
+90000 NPC: Disable Poison
+90010 NPC: Disable Scarlet Rot
+90020 NPC: Disable Hemorrhage
+90030 NPC: Disable Blight
 90040 NPC: Disable Frostbite
 90100 NPC: Ignore Fake Targets - All
 90110 NPC: Ignore Fake Targets - Normal
@@ -2844,40 +2844,40 @@
 1605001 [Incantation] Flame Grant Me Strength
 1605002 [Incantation] Flame Grant Me Strength
 1606000 [Incantation] Flame Protect Me
-1621000 [Incantation] Black Flame
-1623000 [Incantation] Scouring Black Flame
+1621000 [Incantation] Black Flame (DoT Black)
+1623000 [Incantation] Scouring Black Flame (DoT Black)
 1624000 [Incantation] Noble Presence
-1624010 [Incantation] Noble Presence
-1625000 [Incantation] Black Flame Ritual
+1624010 [Incantation] Noble Presence (DoT Black)
+1625000 [Incantation] Black Flame Ritual (DoT Black)
 1626000 [Incantation] Black Flame Blade
-1626001 [Incantation] Black Flame Blade [Attack]
+1626001 [Incantation] Black Flame Blade (DoT Black)
 1627000 [Incantation] Black Flame's Protection
 1627001 [Incantation] Black Flame's Protection
-1630000 [Incantation] Bloodflame Talons
+1630000 [Incantation] Bloodflame Talons (Self)
 1630001 [Incantation] Bloodflame Talons [Cycle]
-1631000 [Incantation] Bloodboon
+1631000 [Incantation] Bloodboon (Self)
 1631001 [Incantation] Bloodboon [Cycle]
-1632000 [Incantation] Bloodflame Blade
-1632001 [Incantation] Bloodflame Blade [Attack]
+1632000 [Incantation] Bloodflame Blade (Self)
+1632001 [Incantation] Bloodflame Blade [Cycle]
 1632002 [Incantation] Bloodflame Blade [Cycle]
 1633000 [Incantation] Barrier of Gold
 1634000 [Incantation] Protection of the Erdtree
 1640000 [Incantation] Rejection
 1641000 [Incantation] Wrath of Gold
 1642000 [Incantation] Urgent Heal
-1642001 [Incantation] Urgent Heal
+1642001 [Incantation] Urgent Heal - Allies
 1642100 [Incantation] Heal
-1642101 [Incantation] Heal
+1642101 [Incantation] Heal - Allies
 1642200 [Incantation] Great Heal
-1642201 [Incantation] Great Heal
+1642201 [Incantation] Great Heal - Allies
 1642300 [Incantation] Lord's Heal
-1642301 [Incantation] Lord's Heal
+1642301 [Incantation] Lord's Heal - Allies
 1642400 [Incantation] Erdtree Heal
-1642401 [Incantation] Erdtree Heal
+1642401 [Incantation] Erdtree Heal - Allies
 1643000 [Incantation] Blessing's Boon
-1643001 [Incantation] Blessing's Boon
+1643001 [Incantation] Blessing's Boon - Allies
 1643100 [Incantation] Blessing of the Erdtree
-1643101 [Incantation] Blessing of the Erdtree
+1643101 [Incantation] Blessing of the Erdtree - Allies
 1644000 [Incantation] Cure Poison
 1644001 [Incantation] Cure Poison
 1644100 [Incantation] Lord's Aid
@@ -2897,7 +2897,7 @@
 1647000 [Incantation] Lightning Fortification
 1648000 [Incantation] Divine Fortification
 1649000 [Incantation] Lord's Divine Fortification
-1650000 [Incantation] Night Maiden's Mist
+1650000 [Sorcery] Night Maiden's Mist
 1651000 [Incantation] Assassin's Approach
 1651001 [Incantation] Assassin's Approach [Cycle]
 1651002 [Incantation] Assassin's Approach
@@ -2956,32 +2956,32 @@
 1686001 [Incantation] Bestial Constitution
 1686002 [Incantation] Bestial Constitution
 1686003 [Incantation] Bestial Constitution
-1692100 [Incantation] Frozen Lightning Spear
+1692100 [Incantation] Frozen Lightning Spear (Self)
 1696000 [Incantation] Electrify Armament
 1697000 [Incantation] Vyke's Dragonbolt
 1697001 [Incantation] Vyke's Dragonbolt
 1697002 [Incantation] Vyke's Dragonbolt [Cycle]
 1697100 [Incantation] Dragonbolt Blessing
 1697101 [Incantation] Dragonbolt Blessing [Cycle]
-1702000 [Incantation] Dragonice
-1702100 [Incantation] Borealis's Mist
-1703000 [Incantation] Rotten Breath
-1703100 [Incantation] Ekzykes's Decay
+1702000 [Incantation] Dragonice (Self)
+1702100 [Incantation] Borealis's Mist (Self)
+1703000 [Incantation] Rotten Breath (Self)
+1703100 [Incantation] Ekzyke's Decay (Self)
 1709000 [Incantation] Greyoll's Roar
-1722000 [Incantation] Poison Mist
-1723000 [Incantation] Poison Armament
+1722000 [Incantation] Poison Mist (Self)
+1723000 [Incantation] Poison Armament (Self)
 1723001 [Incantation] Poison Armament
-1724000 [Incantation] Scarlet Aeonia
+1724000 [Incantation] Scarlet Aeonia (Self)
 1724001 [Incantation] Scarlet Aeonia
 1731000 [Incantation] The Flame of Frenzy
 1731001 [Incantation] The Flame of Frenzy
 1731100 [Incantation] Unendurable Frenzy
-1731101 [Incantation] Unendurable Frenzy
+1731101 [Incantation] Unendurable Frenzy (Self)
 1732000 [Incantation] Frenzied Burst
 1732001 [Incantation] Frenzied Burst
 1733000 [Incantation] Howl of Shabriri
 1733001 [Incantation] Howl of Shabriri
-1733002 [Incantation] Howl of Shabriri
+1733002 [Incantation] Howl of Shabriri (Self)
 1733005 [Incantation] Howl of Shabriri
 1733006 [Incantation] Howl of Shabriri
 1733007 [Incantation] Howl of Shabriri
@@ -3006,7 +3006,7 @@
 5120101 Greathorn Hammer [Kill]
 5121300 Celebrant's Skull - Rune Gain on Hit
 5121800 Great Stars - Restore HP on Hit
-5121801 Great Stars - Icon
+5121801 Great Stars - Restore HP on Hit
 5140600 Celebrant's Cleaver - Rune Gain on Hit
 5141000 Highland Axe - Enhance Roar/Breath Attack
 5141100 Sacrificial Axe - Restore FP on Kill
