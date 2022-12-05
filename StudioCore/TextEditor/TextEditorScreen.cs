@@ -102,7 +102,7 @@ namespace StudioCore.TextEditor
                 }
                 ImGui.EndMenu();
             }
-            if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
+            if (ImGui.BeginMenu("Text Language", !FMGBank.IsLoading))
             {
                 var folders = FMGBank.AssetLocator.GetMsgLanguages();
                 if (folders.Count == 0)

@@ -918,15 +918,16 @@ namespace StudioCore.TextEditor
         {
             if (path == null)
             {
-                if (_languageFolder == "")
+                if (_languageFolder != "")
                 {
-                    // Default language folder could not be found.
+                    TaskManager.warningList.TryAdd("FmgPathLoadError" + msgBndType + _languageFolder,
+                        $"Could not find text data files when looking for [{msgBndType}] in [{_languageFolder}] folder.\nText data will not be loaded.");
                 }
                 else
                 {
-                    MessageBox.Show($"Could not find {msgBndType} in language folder \"{_languageFolder}\".\nText data will not be loaded.", "Error");
+                    TaskManager.warningList.TryAdd("FmgDefaultPathLoadError" + msgBndType + _languageFolder,
+                        $"Could not find text data files when looking for [{msgBndType}] in [Default Eng] folder.\nText data will not be loaded. Make sure entire game is unpacked.");
                 }
-                
                 IsLoaded = false;
                 IsLoading = false;
                 return false;
