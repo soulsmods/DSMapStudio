@@ -970,25 +970,15 @@ namespace StudioCore.TextEditor
                 }
                 if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    ReloadDS2FMGs(_languageFolder);
-                    IsLoading = false;
-                    IsLoaded = true;
+                    if (ReloadDS2FMGs())
+                    {
+                        IsLoading = false;
+                        IsLoaded = true;
+                    }
                     return;
                 }
 
-                if (_languageFolder == "")
-                {
-                    // By default, try to find path to English folder.
-                    foreach (var lang in AssetLocator.GetMsgLanguages())
-                    {
-                        string folder = lang.Value.Split("\\").Last();
-                        if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            _languageFolder = folder;
-                            break;
-                        }
-                    }
-                }
+                SetDefaultLanguagePath();
 
                 AssetDescription itemMsgPath = AssetLocator.GetItemMsgbnd(_languageFolder);
                 AssetDescription menuMsgPath = AssetLocator.GetMenuMsgbnd(_languageFolder);
@@ -1007,10 +997,28 @@ namespace StudioCore.TextEditor
             });
         }
 
-        private static void ReloadDS2FMGs(string languageFolder)
+        private static bool ReloadDS2FMGs()
         {
-            _languageFolder = languageFolder;
-            var desc = AssetLocator.GetItemMsgbnd(_languageFolder, true);
+            SetDefaultLanguagePath();
+            AssetDescription desc = AssetLocator.GetItemMsgbnd(_languageFolder, true);
+
+            if (desc.AssetPath == null)
+            {
+                if (_languageFolder != "")
+                {
+                    TaskManager.warningList.TryAdd("FmgPathLoadError" + _languageFolder,
+                        $"Could not find text data files when using [{_languageFolder}] folder.\nText data will not be loaded.");
+                }
+                else
+                {
+                    TaskManager.warningList.TryAdd("FmgDefaultPathLoadError" + _languageFolder,
+                        $"Could not find text data files when using [Default Eng] folder.\nText data will not be loaded. Make sure entire game is unpacked.");
+                }
+                IsLoaded = false;
+                IsLoading = false;
+                return false;
+            }
+
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
             _fmgInfoBank.Clear();
             foreach (var file in files)
@@ -1029,6 +1037,24 @@ namespace StudioCore.TextEditor
             }
             _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
             HandleDuplicateEntries();
+            return true;
+        }
+
+        private static void SetDefaultLanguagePath()
+        {
+            if (_languageFolder == "")
+            {
+                // By default, try to find path to English folder.
+                foreach (var lang in AssetLocator.GetMsgLanguages())
+                {
+                    string folder = lang.Value.Split("\\").Last();
+                    if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        _languageFolder = folder;
+                        break;
+                    }
+                }
+            }
         }
 
         private static void SetFMGInfoPatchParent(FMGInfo info)
