@@ -512,13 +512,13 @@ namespace StudioCore.TextEditor
             Modern_MenuText = 200,
             Modern_LineHelp = 201,
             Modern_KeyGuide = 202,
-            Modern_System_Message_win64 = 203,
+            Modern_SystemMessage_win64 = 203,
             Modern_Dialogues = 204,
             TalkMsg_DLC1 = 230,
             Event_DLC1 = 231,
             Modern_MenuText_DLC1 = 232,
             Modern_LineHelp_DLC1 = 233,
-            Modern_System_Message_win64_DLC1 = 235,
+            Modern_SystemMessage_win64_DLC1 = 235,
             Modern_Dialogues_DLC1 = 236,
             SystemMessage_PS4_DLC1 = 237,
             SystemMessage_XboxOne_DLC1 = 238,
@@ -545,7 +545,7 @@ namespace StudioCore.TextEditor
             Event_DLC2 = 271,
             Modern_MenuText_DLC2 = 272,
             Modern_LineHelp_DLC2 = 273,
-            Modern_System_Message_win64_DLC2 = 275,
+            Modern_SystemMessage_win64_DLC2 = 275,
             Modern_Dialogues_DLC2 = 276,
             SystemMessage_PS4_DLC2 = 277,
             SystemMessage_XboxOne_DLC2 = 278,
@@ -848,15 +848,6 @@ namespace StudioCore.TextEditor
                     break;
             }
 
-            foreach (var parentInfo in _fmgInfoBank)
-            {
-                if (parentInfo.Name == RemovePatchStrings(info.FmgID.ToString()))
-                {
-                    // Patch FMG found
-                    info.AddParent(parentInfo);
-                }
-            }
-
             ActiveUITypes[info.UICategory] = true;
 
             return info;
@@ -901,6 +892,14 @@ namespace StudioCore.TextEditor
                     info.EntryType = FmgEntryTextType.TextBody;
                 }
             }
+            if (!CFG.Current.FMG_NoFmgPatching)
+            {
+                foreach (var info in _fmgInfoBank)
+                {
+                    SetFMGInfoPatchParent(info);
+                }
+            }
+
             if (CFG.Current.FMG_NoGroupedFmgEntries)
                 _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID).ToList();
             else
@@ -910,6 +909,7 @@ namespace StudioCore.TextEditor
 
             return true;
         }
+
         /// <summary>
         /// Loads MsgBnd from path, generates FMGInfo, and fills FmgInfoBank.
         /// </summary>
@@ -1019,6 +1019,25 @@ namespace StudioCore.TextEditor
             }
             _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
             HandleDuplicateEntries();
+        }
+
+        private static void SetFMGInfoPatchParent(FMGInfo info)
+        {
+            string strippedName = RemovePatchStrings(info.Name);
+            if (strippedName != info.Name)
+            {
+                // This is a patch FMG, try to find parent FMG.
+                foreach (var parentInfo in _fmgInfoBank)
+                {
+                    if (parentInfo.Name == strippedName)
+                    {
+                        info.AddParent(parentInfo);
+                        return;
+                    }
+                }
+                TaskManager.warningList.TryAdd("FMGFindParentErr "+info.Name+" "+info.FmgID,
+                    $"Could not find a patch parent for FMG \"{info.Name}\" with ID {info.FmgID}");
+            }
         }
 
         /// <summary>
