@@ -41,5 +41,5 @@
     <heroPoint AltName="Humanity Cost" Wiki="Set the amount of humanity consumed during action" />
     <pad1 AltName=""/>
   </Field>
-  <Self />
+  <Self AlternativeOrder="variationId,behaviorJudgeId,-,category,ezStateBehaviorType_old,-,refId,refType,-,consumeSA,stamina,consumeDurability,heroPoint,-"/>
 </PARAMMETA>

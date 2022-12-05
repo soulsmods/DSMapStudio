@@ -693,5 +693,30 @@
     <consumeLoopMP_forMenu AltName="FP Consumption Loop - For Menu Display" Wiki="MP consumption for menu supplement display" />
     <pad AltName=""/>
   </Field>
-  <Self />
+  <Self AlternativeOrder="yesNoDialogMessageId,opmeMenuType,-,
+sortId,iconId,-,
+aiNotifyType,aiUseJudgeId,-,
+mp,stamina,mp_charge,stamina_charge,consumeSA,-,
+behaviorId,mtrlItemId,overDexterity,ezStateBehaviorType,limitCancelSpEffectId,useLimitCategory,createLimitGroupId,-,
+maxQuantity,slotLength,-,
+requirementIntellect,requirementFaith,requirementLuck,-,
+analogDexterityMin,analogDexterityMax,-,
+spEffectCategory,-,
+refType,-,
+refId1,refId2,refId3,refId4,refId5,refId6,refId7,refId8,refId9,refId10,-,
+refCategory1,refCategory2,refCategory3,refCategory4,refCategory5,refCategory6,refCategory7,refCategory8,refCategory9,refCategory10,-,
+vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11:,vowType12,vowType13,vowType14,vowType15,-,
+enable_multi,enable_multi_only,enable_live,enable_gray,enable_white,enable_black,disableOffline,-,
+isEnchant,isShieldEnchant,-,
+castResonanceMagic,isValidTough_ProtSADmg,isWarpMagic,-,
+enableRiding,disableRiding,-,
+isUseNoAttackRegion,-,
+castSfxId,fireSfxId,effectSfxId,-,
+toughnessCorrectRate,-,
+ReplacementStatusType,ReplacementStatus1,ReplacementStatus2,ReplacementStatus3,ReplacementStatus4,-,
+ReplacementMagic1,ReplacementMagic2,ReplacementMagic3,ReplacementMagic4,-,
+replaceMagicId,hasSpEffectType,replaceCategory,-,
+subCategory1,subCategory2,-,
+consumeType1,consumeType2,consumeType3,consumeType4,consumeType5,consumeType6,consumeType7,consumeType8,consumeType9,consumeType10,-,
+consumeLoopMP_forMenu,-,"/>
 </PARAMMETA>
