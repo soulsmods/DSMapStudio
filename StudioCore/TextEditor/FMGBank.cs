@@ -952,43 +952,47 @@ namespace StudioCore.TextEditor
         {
             try
             {
-                _languageFolder = languageFolder;
-                IsLoaded = false;
-                IsLoading = true;
-
-                ActiveUITypes.Clear();
-                foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
+                TaskManager.Run("FB:Reload", true, false, true, () =>
                 {
-                    ActiveUITypes.Add((FmgUICategory)e, false);
-                }
-
-                //TaskManager.Run("FB:Reload", true, false, true, () =>
-                if (AssetLocator.Type == GameType.Undefined)
-                {
-                    return;
-                }
-
-                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    ReloadDS2FMGs(ref _languageFolder);
-                    IsLoading = false;
-                    IsLoaded = true;
-                    return;
-                }
-
-                var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-                var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
-
-                _fmgInfoBank.Clear();
-                if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
-                {
-                    _fmgInfoBank.Clear();
                     IsLoaded = false;
+                    IsLoading = true;
+                    while (true && !languageFolder.Contains("eng"))
+                    {
+                        _languageFolder = languageFolder;
+                        ActiveUITypes.Clear();
+                        foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
+                        {
+                            ActiveUITypes.Add((FmgUICategory)e, false);
+                        }
+
+                        if (AssetLocator.Type == GameType.Undefined)
+                        {
+                            return;
+                        }
+
+                        if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                        {
+                            ReloadDS2FMGs(ref _languageFolder);
+                            IsLoading = false;
+                            IsLoaded = true;
+                            return;
+                        }
+
+                        var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
+                        var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+
+                        _fmgInfoBank.Clear();
+                        if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
+                        {
+                            _fmgInfoBank.Clear();
+                            IsLoaded = false;
+                            IsLoading = false;
+                            return;
+                        }
+                    }
+                    IsLoaded = true;
                     IsLoading = false;
-                    return;
-                }
-                IsLoaded = true;
-                IsLoading = false;
+                });
             }
             catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
             {
