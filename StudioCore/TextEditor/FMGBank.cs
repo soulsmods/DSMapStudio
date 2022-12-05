@@ -48,7 +48,14 @@ namespace StudioCore.TextEditor
             public FmgUICategory UICategory;
             public FmgEntryCategory EntryCategory;
             public FmgEntryTextType EntryType;
-            public bool GroupedEntry = false;
+
+            public void AddParent(FMGInfo parent)
+            {
+                if (CFG.Current.FMG_NoFmgPatching)
+                    return;
+                PatchParent = parent;
+                parent.PatchChildren.Add(this);
+            }
 
             /// <summary>
             /// Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
@@ -400,7 +407,7 @@ namespace StudioCore.TextEditor
         /// </summary>
         public enum FmgEntryCategory
         {
-            None,
+            None = -1,
             Goods,
             Weapons,
             Armor,
@@ -835,7 +842,6 @@ namespace StudioCore.TextEditor
                 case FmgEntryCategory.Gem:
                 case FmgEntryCategory.SwordArts:
                     info.UICategory = FmgUICategory.Item;
-                    info.GroupedEntry = true;
                     break;
                 default:
                     info.UICategory = FmgUICategory.Menu;
@@ -847,8 +853,7 @@ namespace StudioCore.TextEditor
                 if (parentInfo.Name == RemovePatchStrings(info.FmgID.ToString()))
                 {
                     // Patch FMG found
-                    info.PatchParent = parentInfo;
-                    parentInfo.PatchChildren.Add(info);
+                    info.AddParent(parentInfo);
                 }
             }
 
@@ -889,9 +894,18 @@ namespace StudioCore.TextEditor
             }
 
             foreach (var info in _fmgInfoBank)
+            {
                 ApplyGameDifferences(info);
+                if (CFG.Current.FMG_NoGroupedFmgEntries)
+                {
+                    info.EntryType = FmgEntryTextType.TextBody;
+                }
+            }
+            if (CFG.Current.FMG_NoGroupedFmgEntries)
+                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID).ToList();
+            else
+                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
 
-            _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
             HandleDuplicateEntries();
 
             return true;
@@ -1065,8 +1079,7 @@ namespace StudioCore.TextEditor
                         info.EntryType = FmgEntryTextType.Title;
                         info.EntryCategory = FmgEntryCategory.Goods;
                         var parent = _fmgInfoBank.Find(e => e.FmgID == FmgIDType.TitleGoods);
-                        info.PatchParent = parent;
-                        parent.PatchChildren.Add(info);
+                        info.AddParent(parent);
                     }
                     break;
             }
@@ -1076,9 +1089,12 @@ namespace StudioCore.TextEditor
         /// <summary>
         /// Get patched FMG Entries for the specified category, with TextType Title or TextBody.
         /// </summary>
+        /// <param name="category">FMGEntryCategory. If "None", an empty list will be returned.</param>
         /// <returns>List of patched entries if found; empty list otherwise.</returns>
         public static List<FMG.Entry> GetFmgEntriesByCategory(FmgEntryCategory category, bool sort = true)
         {
+            if (category == FmgEntryCategory.None)
+                return new List<FMG.Entry>();
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == category && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
@@ -1090,9 +1106,12 @@ namespace StudioCore.TextEditor
         /// <summary>
         /// Get patched FMG Entries for the specified category and text type.
         /// </summary>
+        /// <param name="category">FMGEntryCategory . If "None", an empty list will be returned.</param>
         /// <returns>List of patched entries if found; empty list otherwise.</returns>
         public static List<FMG.Entry> GetFmgEntriesByCategoryAndTextType(FmgEntryCategory category, FmgEntryTextType textType, bool sort = true)
         {
+            if (category == FmgEntryCategory.None)
+                return new List<FMG.Entry>();
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == category && info.EntryType == textType)
@@ -1126,7 +1145,7 @@ namespace StudioCore.TextEditor
                 ID = id,
             };
 
-            if (fmgInfo.EntryCategory == FmgEntryCategory.None)
+            if (fmgInfo.EntryCategory == FmgEntryCategory.None || CFG.Current.FMG_NoGroupedFmgEntries)
             {
                 var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
                 var pair = entryPairs.Find(e => e.Entry.ID == id);
