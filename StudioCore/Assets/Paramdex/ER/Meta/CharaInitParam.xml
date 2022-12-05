@@ -25,10 +25,10 @@
     <baseRec_sp AltName="Base Stamina Recovery Time" Wiki="Time to recover 1 point of stamina (first decimal place)" />
     <red_Falldam AltName="Characer Head Land - Damage Reduction" Wiki="Damage reduction amount (%) that can be a cushion when scolded by another character from above (first decimal place)" />
     <soul AltName="Runes" Wiki="The amount of soul you have at the beginning" />
-    <equip_Wep_Right AltName="Equipped Weapon: Right Primary" Wiki="Weapon ID of equipment parameter (right hand slot 1)" Refs="EquipParamWeapon,EquipParamCustomWeapon" />
-    <equip_Subwep_Right AltName="Equipped Weapon: Right Secondary" Wiki="Weapon ID of equipment parameter (right hand slot 2)" Refs="EquipParamWeapon,EquipParamCustomWeapon" />
-    <equip_Wep_Left AltName="Equipped Weapon: Left Primary" Wiki="Weapon ID of equipment parameter (left hand slot 1)" Refs="EquipParamWeapon,EquipParamCustomWeapon" />
-    <equip_Subwep_Left AltName="Equipped Weapon: Left Secondary" Wiki="Weapon ID of equipment parameter (left hand slot 2)" Refs="EquipParamWeapon,EquipParamCustomWeapon" />
+    <equip_Wep_Right AltName="Equipped Weapon: Right Primary" Wiki="Weapon ID of equipment parameter (right hand slot 1)" Refs="EquipParamWeapon(wepParamType_Right1=0),EquipParamCustomWeapon(wepParamType_Right1=1)" />
+    <equip_Subwep_Right AltName="Equipped Weapon: Right Secondary" Wiki="Weapon ID of equipment parameter (right hand slot 2)" Refs="EquipParamWeapon(wepParamType_Right2=0),EquipParamCustomWeapon(wepParamType_Right2=1)" />
+    <equip_Wep_Left AltName="Equipped Weapon: Left Primary" Wiki="Weapon ID of equipment parameter (left hand slot 1)" Refs="EquipParamWeapon(wepParamType_Left1=0),EquipParamCustomWeapon(wepParamType_Left1=1)" />
+    <equip_Subwep_Left AltName="Equipped Weapon: Left Secondary" Wiki="Weapon ID of equipment parameter (left hand slot 2)" Refs="EquipParamWeapon(wepParamType_Left2=0),EquipParamCustomWeapon(wepParamType_Left2=1)" />
     <equip_Helm AltName="Equipped Armor: Head" Wiki="Equipment parameter armor ID (head armor)" Refs="EquipParamProtector" />
     <equip_Armer AltName="Equipped Armor: Chest" Wiki="Equipment parameter armor ID (torso armor)" Refs="EquipParamProtector" />
     <equip_Gaunt AltName="Equipped Armor: Arms" Wiki="Equipment parameter armor ID (arm armor)" Refs="EquipParamProtector" />
@@ -115,8 +115,8 @@
     <wepParamType_Left2 AltName="Weapon Param Type - Left Secondary" Wiki="Parameter reference for left-handed weapon slot 2" Enum="CHARA_INIT_WEP_TYPE" />
     <wepParamType_Left3 AltName="Weapon Param Type - Left Tertiary" Wiki="Parameter reference for left-handed weapon slot 3" Enum="CHARA_INIT_WEP_TYPE" />
     <pad2 AltName=""/>
-    <equip_Subwep_Right3 AltName="Equipped Weapon: Right Tertiary" Wiki="Weapon ID of equipment parameter (right hand slot 3)" Refs="EquipParamWeapon,EquipParamCustomWeapon"/>
-    <equip_Subwep_Left3 AltName="Equipped Weapon: Left Tertiary" Wiki="Weapon ID of equipment parameter (left hand slot 3)" Refs="EquipParamWeapon,EquipParamCustomWeapon"/>
+    <equip_Subwep_Right3 AltName="Equipped Weapon: Right Tertiary" Wiki="Weapon ID of equipment parameter (right hand slot 3)" Refs="EquipParamWeapon(wepParamType_Right3=0),EquipParamCustomWeapon(wepParamType_Right3=1)"/>
+    <equip_Subwep_Left3 AltName="Equipped Weapon: Left Tertiary" Wiki="Weapon ID of equipment parameter (left hand slot 3)" Refs="EquipParamWeapon(wepParamType_Left3=0),EquipParamCustomWeapon(wepParamType_Left3=1)"/>
     <pad3 AltName=""/>
     <secondaryItem_01 AltName="Stored Item: Slot 1" Wiki="Item ID 01 of the second shortcut initial possession" Refs="EquipParamGoods"/>
     <secondaryItem_02 AltName="Stored Item: Slot 2" Wiki="Item ID 02 of the second shortcut initial possession" Refs="EquipParamGoods"/>
