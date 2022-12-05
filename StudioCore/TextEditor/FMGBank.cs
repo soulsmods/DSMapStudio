@@ -950,61 +950,66 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            try
+            TaskManager.Run("FB:Reload", true, false, true, () =>
             {
-                TaskManager.Run("FB:Reload", true, false, true, () =>
+                IsLoaded = false;
+                IsLoading = true;
+
+                _languageFolder = languageFolder;
+
+                ActiveUITypes.Clear();
+                foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
                 {
-                    IsLoaded = false;
-                    IsLoading = true;
-                    while (true && !languageFolder.Contains("eng"))
+                    ActiveUITypes.Add((FmgUICategory)e, false);
+                }
+
+                if (AssetLocator.Type == GameType.Undefined)
+                {
+                    return;
+                }
+                if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    ReloadDS2FMGs(_languageFolder);
+                    IsLoading = false;
+                    IsLoaded = true;
+                    return;
+                }
+
+                if (_languageFolder == "")
+                {
+                    // By default, try to find path to English folder.
+                    foreach (var lang in AssetLocator.GetMsgLanguages())
                     {
-                        _languageFolder = languageFolder;
-                        ActiveUITypes.Clear();
-                        foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
+                        string folder = lang.Value.Split("\\").Last();
+                        if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            ActiveUITypes.Add((FmgUICategory)e, false);
-                        }
-
-                        if (AssetLocator.Type == GameType.Undefined)
-                        {
-                            return;
-                        }
-
-                        if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                        {
-                            ReloadDS2FMGs(ref _languageFolder);
-                            IsLoading = false;
-                            IsLoaded = true;
-                            return;
-                        }
-
-                        var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-                        var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
-
-                        _fmgInfoBank.Clear();
-                        if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
-                        {
-                            _fmgInfoBank.Clear();
-                            IsLoaded = false;
-                            IsLoading = false;
-                            return;
+                            _languageFolder = folder;
+                            break;
                         }
                     }
-                    IsLoaded = true;
-                    IsLoading = false;
-                });
-            }
-            catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
-            {
+                }
+
+                AssetDescription itemMsgPath = AssetLocator.GetItemMsgbnd(_languageFolder);
+                AssetDescription menuMsgPath = AssetLocator.GetMenuMsgbnd(_languageFolder);
+
                 _fmgInfoBank.Clear();
-                IsLoaded = false;
+                if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
+                {
+                    _fmgInfoBank.Clear();
+                    IsLoaded = false;
+                    IsLoading = false;
+                    return;
+                }
+
+                IsLoaded = true;
                 IsLoading = false;
-            }
+            });
         }
 
-        private static void ReloadDS2FMGs(ref string languageFolder)
+        private static void ReloadDS2FMGs(string languageFolder)
         {
-            var desc = AssetLocator.GetItemMsgbnd(ref languageFolder, true);
+            _languageFolder = languageFolder;
+            var desc = AssetLocator.GetItemMsgbnd(_languageFolder, true);
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
             _fmgInfoBank.Clear();
             foreach (var file in files)
@@ -1398,8 +1403,8 @@ namespace StudioCore.TextEditor
             // Load the fmg bnd, replace fmgs, and save
             IBinder fmgBinderItem;
             IBinder fmgBinderMenu;
-            var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-            var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+            var itemMsgPath = AssetLocator.GetItemMsgbnd(_languageFolder);
+            var menuMsgPath = AssetLocator.GetMenuMsgbnd(_languageFolder);
             if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
@@ -1429,8 +1434,8 @@ namespace StudioCore.TextEditor
                 }
             }
 
-            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(ref _languageFolder, true);
-            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(ref _languageFolder, true);
+            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(_languageFolder, true);
+            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(_languageFolder, true);
             if (fmgBinderItem is BND3 bnd3)
             {
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
@@ -1450,7 +1455,6 @@ namespace StudioCore.TextEditor
         public static void SetAssetLocator(AssetLocator l)
         {
             AssetLocator = l;
-            //ReloadFMGs();
         }
     }
 }

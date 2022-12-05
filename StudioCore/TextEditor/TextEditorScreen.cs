@@ -18,6 +18,7 @@ namespace StudioCore.TextEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
         private readonly PropertyEditor _propEditor = null;
+        private ProjectSettings _projectSettings;
 
         private FMGBank.EntryGroup _activeEntryGroup;
         private FMGBank.FMGInfo _activeFmgInfo;
@@ -101,7 +102,7 @@ namespace StudioCore.TextEditor
                 }
                 ImGui.EndMenu();
             }
-            if (ImGui.BeginMenu("Text Language"))
+            if (ImGui.BeginMenu("Text Language", FMGBank.IsLoaded))
             {
                 var folders = FMGBank.AssetLocator.GetMsgLanguages();
                 if (folders.Count == 0)
@@ -533,6 +534,7 @@ namespace StudioCore.TextEditor
 
         private void ChangeLanguage(string path)
         {
+            _projectSettings.LastFmgLanguageUsed = path;
             ClearTextEditorCache();
             ResetActionManager();
             FMGBank.ReloadFMGs(path);
@@ -540,9 +542,10 @@ namespace StudioCore.TextEditor
 
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
+            _projectSettings = newSettings;
             ClearTextEditorCache();
             ResetActionManager();
-            FMGBank.ReloadFMGs();
+            FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
         }
 
         public override void Save()
