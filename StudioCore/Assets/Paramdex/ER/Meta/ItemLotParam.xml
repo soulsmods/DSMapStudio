@@ -86,5 +86,5 @@
     <PAD1 AltName="Blank" Wiki="PAD1" />
     <PAD2 AltName="Blank" Wiki="PAD2" />
   </Field>
-  <Self ConsecutiveIDs="" />
+  <Self Wiki="Defines item lots that can be rolled upon item pickup, enemy death or granted via script.\nWhen doing this, consecutive IDs are also rolled.\nA single result is produced by each row.\nA row will not be rolled if the flag is already set." ConsecutiveIDs="" />
 </PARAMMETA>

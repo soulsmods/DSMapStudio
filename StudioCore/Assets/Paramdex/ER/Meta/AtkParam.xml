@@ -486,7 +486,7 @@
     <finalDamageRateId Refs="FinalDamageRateParam" />
     <pad4 AltName=""/>
   </Field>
-  <Self AlternativeOrder="
+  <Self Wiki="Governs hitboxes and damage of attacks" AlternativeOrder="
 hit0_Radius,hit1_Radius,hit2_Radius,hit3_Radius,
 hit4_Radius,hit5_Radius,hit6_Radius,hit7_Radius,hit8_Radius,hit9_Radius,hit10_Radius,hit11_Radius,hit12_Radius,hit13_Radius,hit14_Radius,hit15_Radius,-,
 hit0_hitType,hit1_hitType,hit2_hitType,hit3_hitType,

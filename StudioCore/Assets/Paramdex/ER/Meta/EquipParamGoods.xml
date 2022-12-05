@@ -644,5 +644,5 @@
     <itemGetTutorialFlagId AltName="Item Get Tutorial Flag ID" Wiki="Event flag ID for the tutorial when you first get the item. Flag ON when item is obtained." />
     <reserve3 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines an item, both consumable and key items.\nNote that many key items are placebo and the item's effect is granted through scripting. Passive effects from ownership are not defined here." />
 </PARAMMETA>

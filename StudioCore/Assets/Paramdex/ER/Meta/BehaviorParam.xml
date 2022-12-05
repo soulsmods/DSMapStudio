@@ -41,5 +41,5 @@
     <heroPoint AltName="Humanity Cost" Wiki="Set the amount of humanity consumed during action" />
     <pad1 AltName=""/>
   </Field>
-  <Self AlternativeOrder="variationId,behaviorJudgeId,-,category,ezStateBehaviorType_old,-,refId,refType,-,consumeSA,stamina,consumeDurability,heroPoint,-"/>
+  <Self Wiki="Handles animation events, including attack frames or firing bullets.\nResponsible for stamina consumption.\nNote that in Elden Ring, SpEffects are applied directly from the animation." AlternativeOrder="variationId,behaviorJudgeId,-,category,ezStateBehaviorType_old,-,refId,refType,-,consumeSA,stamina,consumeDurability,heroPoint,-"/>
 </PARAMMETA>

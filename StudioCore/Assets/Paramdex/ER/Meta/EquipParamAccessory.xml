@@ -95,5 +95,5 @@
     <residentSpEffectId4 AltName="SpEffect ID [4]" Wiki="Resident special effect ID4" Refs="SpEffectParam" />
     <pad1 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines Talismans." />
 </PARAMMETA>

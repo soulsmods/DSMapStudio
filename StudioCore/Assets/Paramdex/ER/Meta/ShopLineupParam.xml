@@ -36,5 +36,5 @@
     <menuIconId AltName="Menu Icon ID" Wiki="Shop menu icon ID (-1: Do not overwrite). This value of the first para found in the para ID range passed when launching the shop is referenced" />
     <pad2 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines trades available in shops.\nAvailable trades in a given shop are determined by a range defined in ESD and by game flags.\nItems sold for less than their sell price will not appear in shops.\nMaterial costs may not be shown in shop variants." />
 </PARAMMETA>

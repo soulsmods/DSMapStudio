@@ -207,5 +207,5 @@
     <nolockTargetDist AltName="Target Range when Unlocked" Wiki="Target range when unlocked (-1: Refer to range, 0: No target)" />
     <pad4 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Governs motion, hitbox and appearance of projetiles. Can reference AtkParam for damage."/>
 </PARAMMETA>

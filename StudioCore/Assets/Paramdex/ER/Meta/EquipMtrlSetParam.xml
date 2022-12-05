@@ -38,5 +38,5 @@
     <isDisableDispNum06 AltName="Disable Display Number [6]" Wiki="Whether to disable the number display" IsBool="" />
     <pad AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines costs associated with trades or upgrades. ID incrementation is used in places." ConsecutiveIDs="" />
 </PARAMMETA>

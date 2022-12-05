@@ -693,7 +693,7 @@
     <consumeLoopMP_forMenu AltName="FP Consumption Loop - For Menu Display" Wiki="MP consumption for menu supplement display" />
     <pad AltName=""/>
   </Field>
-  <Self AlternativeOrder="yesNoDialogMessageId,opmeMenuType,-,
+  <Self Wiki="Defines behaviour data of spells. Do not confuse with version in EquipParamGoods." AlternativeOrder="yesNoDialogMessageId,opmeMenuType,-,
 sortId,iconId,-,
 aiNotifyType,aiUseJudgeId,-,
 mp,stamina,mp_charge,stamina_charge,consumeSA,-,
