@@ -136,7 +136,7 @@
     <voiceType AltName="Voice Type" Wiki="Voice type" />
     <reserve AltName=""/>
   </Field>
-  <Self Wiki="Defines instances of c0000 (player) characters in the game, including starting classes.\nNote that many fields are not used and remain from earlier games, particularly with respect to starting classes." AlternativeOrder="
+  <Self Wiki="Defines instances of c0000 (player) characters in the game, including starting classes.\nNote that many fields are not used and remain from earlier games, particularly with respect to starting classes.\nStarting classes begin at 3000 with consecutive IDs, and starting gifts begin at 2400 likewise." AlternativeOrder="
 baseRec_mp,baseRec_sp,red_Falldam,soul,-,
 equip_Wep_Right,equip_Subwep_Right,equip_Subwep_Right3,equip_Wep_Left,equip_Subwep_Left,equip_Subwep_Left3,-,
 wepParamType_Right1,wepParamType_Right2,wepParamType_Right3,wepParamType_Left1,wepParamType_Left2,wepParamType_Left3,
