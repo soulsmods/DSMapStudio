@@ -62,7 +62,7 @@ namespace StudioCore.ParamEditor
         }
         public static bool IsValueDiff(ref object value, ref object valueBase, Type t)
         {
-            return valueBase != null && !(value.Equals(valueBase) || (t == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])value, (byte[])valueBase)));
+            return value != null && valueBase != null && !(value.Equals(valueBase) || (t == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])value, (byte[])valueBase)));
         }
     }
 }
