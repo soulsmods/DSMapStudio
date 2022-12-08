@@ -301,6 +301,26 @@ namespace StudioCore.MsbEditor
                 TileZ = 32,
                 TileOffset = new Vector3(384, 0, 384),
             };
+            // Colosseums are not connected to any maps, but their in-game map position in emevd matches the overworld colosseums
+            DungeonOffset leyndell = dungeonOffsets["m11_00_00_00"];
+            dungeonOffsets["m45_00_00_00"] = new DungeonOffset
+            {
+                TileX = leyndell.TileX,
+                TileZ = leyndell.TileZ,
+                TileOffset = leyndell.TileOffset + new Vector3(-359.44f, 32.74f, -492.72f),
+            };
+            dungeonOffsets["m45_01_00_00"] = new DungeonOffset
+            {
+                TileX = 47,
+                TileZ = 42,
+                TileOffset = new Vector3(-2.34f, 150.4f, -43.36f),
+            };
+            dungeonOffsets["m45_02_00_00"] = new DungeonOffset
+            {
+                TileX = 42,
+                TileZ = 40,
+                TileOffset = new Vector3(-24.47f, 208.82f, -66.69f),
+            };
 
             eldenRingOffsets = dungeonOffsets;
             return true;
