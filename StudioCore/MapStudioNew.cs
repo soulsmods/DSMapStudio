@@ -23,7 +23,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.05";
+        private static string _version = "1.06";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -108,13 +108,7 @@ namespace StudioCore
             VeldridStartup.CreateWindowAndGraphicsDevice(
                windowCI,
                gdOptions,
-               //VeldridStartup.GetPlatformDefaultBackend(),
-               //GraphicsBackend.Metal,
                GraphicsBackend.Vulkan,
-
-               //GraphicsBackend.Direct3D11,
-               //GraphicsBackend.OpenGL,
-               //GraphicsBackend.OpenGLES,
                out _window,
                out _gd);
             _window.Resized += () => _windowResized = true;
@@ -186,7 +180,6 @@ namespace StudioCore
             var fontIcon = File.ReadAllBytes(fileIcon);
             var fontIconNative = ImGui.MemAlloc((uint)fontIcon.Length);
             Marshal.Copy(fontIcon, 0, fontIconNative, fontIcon.Length);
-            //fonts.AddFontFromFileTTF($@"Assets\Fonts\NotoSansCJKtc-Medium.otf", 20.0f, null, fonts.GetGlyphRangesJapanese());
             fonts.Clear();
 
             float scale = ImGuiRenderer.GetUIScale();
@@ -200,7 +193,7 @@ namespace StudioCore
                 cfg.OversampleV = 5;
                 fonts.AddFontFromMemoryTTF(fontEnNative, fontIcon.Length, 14.0f * scale, cfg, fonts.GetGlyphRangesDefault());
             }
-            
+
             // Other language fonts
             {
                 var ptr = ImGuiNative.ImFontConfig_ImFontConfig();
@@ -213,23 +206,23 @@ namespace StudioCore
                 var glyphRanges = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
                 glyphRanges.AddRanges(fonts.GetGlyphRangesJapanese());
                 Array.ForEach(SpecialCharsJP, c => glyphRanges.AddChar(c));
-                
+
                 if (CFG.Current.FontChinese)
                     glyphRanges.AddRanges(fonts.GetGlyphRangesChineseFull());
                 if (CFG.Current.FontKorean)
-                    glyphRanges.AddRanges(fonts.GetGlyphRangesKorean());         
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesKorean());
                 if (CFG.Current.FontThai)
-                    glyphRanges.AddRanges(fonts.GetGlyphRangesThai());         
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesThai());
                 if (CFG.Current.FontVietnamese)
-                    glyphRanges.AddRanges(fonts.GetGlyphRangesVietnamese());         
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesVietnamese());
                 if (CFG.Current.FontCyrillic)
-                    glyphRanges.AddRanges(fonts.GetGlyphRangesCyrillic());         
-                
+                    glyphRanges.AddRanges(fonts.GetGlyphRangesCyrillic());
+
                 glyphRanges.BuildRanges(out ImVector glyphRange);
                 fonts.AddFontFromMemoryTTF(fontOtherNative, fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
                 glyphRanges.Destroy();
             }
-            
+
             // Icon fonts
             {
                 ushort[] ranges = { ForkAwesome.IconMin, ForkAwesome.IconMax, 0 };
@@ -246,7 +239,7 @@ namespace StudioCore
                     var f = fonts.AddFontFromMemoryTTF(fontIconNative, fontIcon.Length, 16.0f * scale, cfg, (IntPtr)r);
                 }
             }
-            
+
             ImguiRenderer.RecreateFontDeviceTexture();
         }
 
@@ -339,7 +332,7 @@ namespace StudioCore
                 {
                     break;
                 }
-                
+
                 if (true)//_window.Focused)
                 {
                     ctx = Tracy.TracyCZoneNC(1, "Draw", 0xFFFF0000);
@@ -398,7 +391,7 @@ namespace StudioCore
             MsbEditor.MtdBank.ReloadMtds();
             _msbEditor.ReloadUniverse();
             _modelEditor.ReloadAssetBrowser();
-            
+
             //Resources loaded here should be moved to databanks
             _msbEditor.OnProjectChanged(_projectSettings);
             _modelEditor.OnProjectChanged(_projectSettings);
@@ -485,7 +478,7 @@ namespace StudioCore
             }
         }
 
-        private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents=true, NewProjectOptions options=null)
+        private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents = true, NewProjectOptions options = null)
         {
             bool success = true;
 
@@ -678,7 +671,6 @@ namespace StudioCore
 
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
-            bool keyBindGUI = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
             if (ImGui.BeginMainMenuBar())
             {
@@ -804,149 +796,12 @@ namespace StudioCore
                 {
                     _textEditor.DrawEditorMenu();
                 }
-                if (ImGui.BeginMenu("Settings"))
+
+                if (ImGui.MenuItem("Settings"))
                 {
-                    if (_projectSettings == null || _projectSettings.ProjectName == null)
-                    {
-                        ImGui.MenuItem("Project Settings: (No project)", false);
-                    }
-                    else
-                    {
-                        if (ImGui.BeginMenu($@"Project Settings: {_projectSettings.ProjectName}", Editor.TaskManager.GetLiveThreads().Count == 0))
-                        {
-                            bool useLoose = _projectSettings.UseLooseParams;
-                            if ((_projectSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
-                                && ImGui.Checkbox("Use Loose Params", ref useLoose))
-                            {
-                                _projectSettings.UseLooseParams = useLoose;
-                            }
-
-                            bool usepartial = _projectSettings.PartialParams;
-                            if ((FeatureFlags.EnablePartialParam || usepartial) &&
-                                _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
-                            {
-                                _projectSettings.PartialParams = usepartial;
-                            }
-                            ImGui.EndMenu();
-                        }
-                    }
-
-                    if (ImGui.Selectable("Key Bindings"))
-                    {
-                        keyBindGUI = true;
-                    }
-
-                    if (ImGui.BeginMenu("UI"))
-                    {
-                        ImGui.SliderFloat("UI Scale", ref _uiScale, 0.5f, 4.0f);
-                        if (ImGui.IsItemDeactivatedAfterEdit())
-                        {
-                            // Round to 0.05
-                            float newScale = (float)Math.Round(_uiScale * 20) / 20;
-                            _uiScale = newScale;
-                            CFG.Current.UIScale = newScale;
-                            _needsRebuildFont = true;
-                        }
-                        if (ImGui.BeginMenu("Additional Language Fonts"))
-                        {
-                            ImGui.Text("Additional fonts take more VRAM and increase startup time.");
-                            ImGui.Separator();
-                            if (ImGui.MenuItem("Chinese", "", CFG.Current.FontChinese))
-                            {
-                                CFG.Current.FontChinese = !CFG.Current.FontChinese;
-                                _needsRebuildFont = true;
-                            }
-                            if (ImGui.MenuItem("Korean", "", CFG.Current.FontKorean))
-                            {
-                                CFG.Current.FontKorean = !CFG.Current.FontKorean;
-                                _needsRebuildFont = true;
-                            }
-                            if (ImGui.MenuItem("Thai", "", CFG.Current.FontThai))
-                            {
-                                CFG.Current.FontThai = !CFG.Current.FontThai;
-                                _needsRebuildFont = true;
-                            }
-                            if (ImGui.MenuItem("Vietnamese", "", CFG.Current.FontVietnamese))
-                            {
-                                CFG.Current.FontVietnamese = !CFG.Current.FontVietnamese;
-                                _needsRebuildFont = true;
-                            }
-                            if (ImGui.MenuItem("Cyrillic", "", CFG.Current.FontCyrillic))
-                            {
-                                CFG.Current.FontCyrillic = !CFG.Current.FontCyrillic;
-                                _needsRebuildFont = true;
-                            }
-                            ImGui.EndMenu();
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Map Editor"))
-                    {
-                        ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Viewport Settings"))
-                    {
-                        if (ImGui.Button("Reset"))
-                        {
-                            CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
-
-                            _msbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
-                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
-
-                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
-                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
-
-                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
-                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
-
-                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
-                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
-                        }
-                        float cam_fov = CFG.Current.GFX_Camera_FOV;
-                        if (ImGui.SliderFloat("Camera FOV", ref cam_fov, 40.0f, 140.0f))
-                        {
-                            CFG.Current.GFX_Camera_FOV = cam_fov;
-                        }
-                        if (ImGui.SliderFloat("Map Max Render Distance", ref _msbEditor.Viewport.FarClip, 10.0f, 500000.0f))
-                        {
-                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
-                        }
-                        if (ImGui.SliderFloat("Map Camera Speed (Slow)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
-                        {
-                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
-                        }
-                        if (ImGui.SliderFloat("Map Camera Speed (Normal)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
-                        {
-                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
-                        }
-                        if (ImGui.SliderFloat("Map Camera Speed (Fast)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
-                        {
-                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Soapstone Server"))
-                    {
-                        string running = SoapstoneServer.GetRunningPort() is int port ? $"running on port {port}" : "not running";
-                        ImGui.Text($"The server is {running}.\nIt is not accessible over the network, only to other programs on this computer.\nPlease restart the program for changes to take effect.");
-                        ImGui.Separator();
-                        if (ImGui.MenuItem("Enable Cross-Editor Features", "", CFG.Current.EnableSoapstone))
-                        {
-                            CFG.Current.EnableSoapstone = !CFG.Current.EnableSoapstone;
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
-                    {
-                        CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
-                    }
-                    if (ImGui.MenuItem("Show Original FMG Names", "", CFG.Current.FMG_ShowOriginalNames))
-                    {
-                        CFG.Current.FMG_ShowOriginalNames = !CFG.Current.FMG_ShowOriginalNames;
-                    }
-                    ImGui.EndMenu();
+                    settingsMenuOpen = true;
                 }
+
                 if (ImGui.BeginMenu("Help"))
                 {
                     if (ImGui.BeginMenu("About"))
@@ -970,13 +825,13 @@ namespace StudioCore
                                    "Moonlight Ruin");
                         ImGui.EndMenu();
                     }
-                    
+
                     if (ImGui.BeginMenu("How to use"))
                     {
                         ImGui.Text("Usage of many features is assisted through the symbol (?).\nIn many cases, right clicking items will provide further information and options.");
                         ImGui.EndMenu();
                     }
-                    
+
                     if (ImGui.BeginMenu("Camera Controls"))
                     {
                         ImGui.Text("Holding click on the viewport will enable camera controls.\nUse WASD to navigate.\nUse right click to rotate the camera.\nHold Shift to temporarily speed up and Ctrl to temporarily slow down.\nScroll the mouse wheel to adjust overall speed.");
@@ -991,7 +846,7 @@ namespace StudioCore
                             UseShellExecute = true
                         });
                     }
-                    
+
                     if (ImGui.MenuItem("Map ID Reference"))
                     {
                         Process.Start(new ProcessStartInfo
@@ -1000,7 +855,7 @@ namespace StudioCore
                             UseShellExecute = true
                         });
                     }
-                    
+
                     if (ImGui.MenuItem("DSMapStudio Discord"))
                     {
                         Process.Start(new ProcessStartInfo
@@ -1009,7 +864,7 @@ namespace StudioCore
                             UseShellExecute = true
                         });
                     }
-                    
+
                     if (ImGui.MenuItem("FromSoftware Modding Discord"))
                     {
                         Process.Start(new ProcessStartInfo
@@ -1071,72 +926,17 @@ namespace StudioCore
                     }
                     ImGui.PopStyleColor();
                 }
-                /*
-                //Recently completed task
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(.1f, 1f, .4f, 1.0f));
-                ImGui.Spacing();
-                ImGui.Text($"{TaskManager.lastCompletedActionString}");
-                ImGui.PopStyleColor();
-                */
-
                 ImGui.EndMainMenuBar();
             }
+
+            SettingsGUI();
+
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
 
             bool open = true;
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-
-            if (keyBindGUI)
-                ImGui.OpenPopup("Key Bind Settings");
-            if (ImGui.BeginPopupModal("Key Bind Settings", ref open))
-            {
-                if (ImGui.IsAnyItemActive())
-                {
-                    _currentKeyBind = null;
-                }
-                ImGui.Columns(2);
-                foreach (var bind in KeyBindings.Current.GetType().GetFields())
-                {
-                    var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
-                    ImGui.Text(bind.Name);
-                    ImGui.NextColumn();
-                    var keyText = bindVal.HintText;
-                    if (keyText == "")
-                        keyText = "[None]";
-                    if (_currentKeyBind == bindVal)
-                    {
-                        ImGui.Button("Press Key <Esc - Clear>");
-                        if (InputTracker.GetKeyDown(Key.Escape))
-                        {
-                            bind.SetValue(KeyBindings.Current, new KeyBind());
-                            _currentKeyBind = null;
-                        }
-                        else
-                        {
-                            var newkey = InputTracker.GetNewKeyBind();
-                            if (newkey != null)
-                            {
-                                bind.SetValue(KeyBindings.Current, newkey);
-                                _currentKeyBind = null;
-                            }
-                        }
-                    }
-                    else if (ImGui.Button($"{keyText}##{bind.Name}"))
-                    {
-                        _currentKeyBind = bindVal;
-                    }
-                    ImGui.NextColumn();
-                }
-                ImGui.Separator();
-                if (ImGui.Button("Restore Defaults"))
-                {
-                    KeyBindings.ResetKeyBinds();
-                }
-                ImGui.EndPopup();
-            }
-
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
 
             // New project modal
@@ -1450,6 +1250,360 @@ namespace StudioCore
                 FirstFrame = false;
             }
             _firstframe = false;
+        }
+
+        private void SettingsRenderFilterPresetEditor(CFG.RenderFilterPreset preset)
+        {
+            ImGui.PushID($"{preset.Name}##PresetEdit");
+            if (ImGui.CollapsingHeader($"{preset.Name}##Header"))
+            {
+                ImGui.Indent();
+                string nameInput = preset.Name;
+                ImGui.InputText("Preset Name", ref nameInput, 32);
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                    preset.Name = nameInput;
+
+                foreach (RenderFilter e in Enum.GetValues(typeof(RenderFilter)))
+                {
+                    bool ticked = false;
+                    if (preset.Filters.HasFlag(e))
+                        ticked = true;
+                    if (ImGui.Checkbox(e.ToString(), ref ticked))
+                    {
+                        if (ticked)
+                            preset.Filters |= e;
+                        else
+                            preset.Filters &= ~e;
+                    }
+                }
+                ImGui.Unindent();
+            }
+            ImGui.PopID();
+        }
+
+        private bool settingsMenuOpen = false;
+        public void SettingsGUI()
+        {
+            if (!settingsMenuOpen)
+                return;
+
+            ImGui.SetNextWindowSize(new Vector2(900f, 800f), ImGuiCond.FirstUseEver);
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, .98f));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10f, 10f));
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20f, 10f));
+            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f);
+
+            if (ImGui.Begin("Settings Menu##Popup", ref settingsMenuOpen, ImGuiWindowFlags.NoDocking))
+            {
+                ImGui.BeginTabBar("#SettingsMenuTabBar");
+                ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
+                ImGui.PushItemWidth(300f);
+
+                //
+                if (ImGui.BeginTabItem("Project Settings"))
+                {
+                    ImGui.Indent();
+
+                    if (_projectSettings == null || _projectSettings.ProjectName == null)
+                    {
+                        ImGui.Text("No project loaded");
+                    }
+                    else
+                    {
+                        if (Editor.TaskManager.GetLiveThreads().Any())
+                        {
+                            ImGui.Text("Waiting for program tasks to finish...");
+                        }
+                        else
+                        {
+                            ImGui.Text($@"Project: {_projectSettings.ProjectName}");
+                            if (ImGui.Button("Open Project Settings File"))
+                            {
+                                string projectPath = CFG.Current.LastProjectFile;
+                                Process.Start("explorer.exe", projectPath);
+                            }
+
+                            bool useLoose = _projectSettings.UseLooseParams;
+                            if ((_projectSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
+                                && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            {
+                                _projectSettings.UseLooseParams = useLoose;
+                            }
+
+                            bool usepartial = _projectSettings.PartialParams;
+                            if ((FeatureFlags.EnablePartialParam || usepartial) &&
+                                _projectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            {
+                                _projectSettings.PartialParams = usepartial;
+                            }
+                        }
+                    }
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                //
+                if (ImGui.BeginTabItem("Map Settings"))
+                {
+                    ImGui.Indent();
+
+                    if (ImGui.CollapsingHeader("Map Editor"))
+                    {
+                        ImGui.Indent();
+                        ImGui.Checkbox("Enable Texturing (alpha)", ref CFG.Current.EnableTexturing);
+                        ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("Map/Model Viewport Camera"))
+                    {
+                        ImGui.Indent();
+                        float cam_fov = CFG.Current.GFX_Camera_FOV;
+                        if (ImGui.SliderFloat("Camera FOV", ref cam_fov, 40.0f, 140.0f))
+                        {
+                            CFG.Current.GFX_Camera_FOV = cam_fov;
+                        }
+                        if (ImGui.SliderFloat("Map Max Render Distance", ref _msbEditor.Viewport.FarClip, 10.0f, 500000.0f))
+                        {
+                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Slow)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Normal)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        }
+                        if (ImGui.SliderFloat("Map Camera Speed (Fast)", ref _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+                        {
+                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        }
+                        if (ImGui.Button("Reset##ViewportCamera"))
+                        {
+                            CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
+
+                            _msbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
+                            CFG.Current.GFX_RenderDistance_Max = _msbEditor.Viewport.FarClip;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
+                            CFG.Current.GFX_Camera_MoveSpeed_Slow = _msbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
+                            CFG.Current.GFX_Camera_MoveSpeed_Normal = _msbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+
+                            _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
+                            CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        }
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("Map Object Display Presets"))
+                    {
+                        ImGui.Indent();
+
+                        SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_01);
+                        SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_02);
+                        SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_03);
+                        SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_04);
+                        SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_05);
+                        SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_06);
+                        if (ImGui.Button("Reset##DisplayPresets"))
+                        {
+                            CFG.Current.SceneFilter_Preset_01.Name = CFG.Default.SceneFilter_Preset_01.Name;
+                            CFG.Current.SceneFilter_Preset_01.Filters = CFG.Default.SceneFilter_Preset_01.Filters;
+                            CFG.Current.SceneFilter_Preset_02.Name = CFG.Default.SceneFilter_Preset_02.Name;
+                            CFG.Current.SceneFilter_Preset_02.Filters = CFG.Default.SceneFilter_Preset_02.Filters;
+                            CFG.Current.SceneFilter_Preset_03.Name = CFG.Default.SceneFilter_Preset_03.Name;
+                            CFG.Current.SceneFilter_Preset_03.Filters = CFG.Default.SceneFilter_Preset_03.Filters;
+                            CFG.Current.SceneFilter_Preset_04.Name = CFG.Default.SceneFilter_Preset_04.Name;
+                            CFG.Current.SceneFilter_Preset_04.Filters = CFG.Default.SceneFilter_Preset_04.Filters;
+                            CFG.Current.SceneFilter_Preset_05.Name = CFG.Default.SceneFilter_Preset_05.Name;
+                            CFG.Current.SceneFilter_Preset_05.Filters = CFG.Default.SceneFilter_Preset_05.Filters;
+                            CFG.Current.SceneFilter_Preset_06.Name = CFG.Default.SceneFilter_Preset_06.Name;
+                            CFG.Current.SceneFilter_Preset_06.Filters = CFG.Default.SceneFilter_Preset_06.Filters;
+                        }
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                //
+                if (ImGui.BeginTabItem("Param Settings"))
+                {
+                    ImGui.Indent();
+
+                    ImGui.Checkbox("Show alternate field names", ref CFG.Current.Param_ShowAltNames);
+                    ImGui.Checkbox("Always show original field names", ref CFG.Current.Param_AlwaysShowOriginalName);
+                    ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
+                    ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
+                    ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
+                    if (ImGui.Checkbox("Sort Params Alphabetically", ref CFG.Current.Param_AlphabeticalParams))
+                    {
+                        CacheBank.ClearCaches();
+                    }
+                    ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+                    ImGui.Checkbox("Show Vanilla Params", ref CFG.Current.Param_ShowVanillaParams);
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                //
+                if (ImGui.BeginTabItem("Keybinds"))
+                {
+                    ImGui.Indent();
+
+                    if (ImGui.IsAnyItemActive())
+                    {
+                        _currentKeyBind = null;
+                    }
+                    FieldInfo[] binds = KeyBindings.Current.GetType().GetFields();
+                    foreach (FieldInfo bind in binds)
+                    {
+                        var bindVal = (KeyBind)bind.GetValue(KeyBindings.Current);
+                        ImGui.Text(bind.Name);
+
+                        ImGui.SameLine();
+                        ImGui.Indent(250f);
+
+                        var keyText = bindVal.HintText;
+                        if (keyText == "")
+                            keyText = "[None]";
+                        if (_currentKeyBind == bindVal)
+                        {
+                            ImGui.Button("Press Key <Esc - Clear>");
+                            if (InputTracker.GetKeyDown(Key.Escape))
+                            {
+                                bind.SetValue(KeyBindings.Current, new KeyBind());
+                                _currentKeyBind = null;
+                            }
+                            else
+                            {
+                                var newkey = InputTracker.GetNewKeyBind();
+                                if (newkey != null)
+                                {
+                                    bind.SetValue(KeyBindings.Current, newkey);
+                                    _currentKeyBind = null;
+                                }
+                            }
+                        }
+                        else if (ImGui.Button($"{keyText}##{bind.Name}"))
+                        {
+                            _currentKeyBind = bindVal;
+                        }
+
+                        ImGui.Indent(-250f);
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.Button("Restore Defaults"))
+                    {
+                        KeyBindings.ResetKeyBinds();
+                    }
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                //
+                if (ImGui.BeginTabItem("Misc Settings"))
+                {
+                    ImGui.Indent();
+
+                    if (ImGui.CollapsingHeader("Soapstone Server"))
+                    {
+                        ImGui.Indent();
+
+                        string running = SoapstoneServer.GetRunningPort() is int port ? $"running on port {port}" : "not running";
+                        ImGui.Text($"The server is {running}.\nIt is not accessible over the network, only to other programs on this computer.\nPlease restart the program for changes to take effect.");
+                        ImGui.Checkbox("Enable Cross-Editor Features", ref CFG.Current.EnableSoapstone);
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("UI"))
+                    {
+                        ImGui.Indent();
+
+                        ImGui.SliderFloat("UI Scale", ref _uiScale, 0.5f, 4.0f);
+                        if (ImGui.IsItemDeactivatedAfterEdit())
+                        {
+                            // Round to 0.05
+                            float newScale = (float)Math.Round(_uiScale * 20) / 20;
+                            _uiScale = newScale;
+                            CFG.Current.UIScale = newScale;
+                            _needsRebuildFont = true;
+                        }
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("Additional Language Fonts"))
+                    {
+                        ImGui.Indent();
+
+                        ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                        if (ImGui.Checkbox("Chinese", ref CFG.Current.FontChinese))
+                        {
+                            _needsRebuildFont = true;
+                        }
+                        if (ImGui.Checkbox("Korean", ref CFG.Current.FontKorean))
+                        {
+                            _needsRebuildFont = true;
+                        }
+                        if (ImGui.Checkbox("Thai", ref CFG.Current.FontThai))
+                        {
+                            _needsRebuildFont = true;
+                        }
+                        if (ImGui.Checkbox("Vietnamese", ref CFG.Current.FontVietnamese))
+                        {
+                            _needsRebuildFont = true;
+                        }
+                        if (ImGui.Checkbox("Cyrillic", ref CFG.Current.FontCyrillic))
+                        {
+                            _needsRebuildFont = true;
+                        }
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("FMG Text Editor"))
+                    {
+                        ImGui.Indent();
+
+                        ImGui.Checkbox("Show Original FMG Names", ref CFG.Current.FMG_ShowOriginalNames);
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                ImGui.PopItemWidth();
+                ImGui.PopStyleColor();
+                ImGui.EndTabBar();
+            }
+            ImGui.End();
+
+            ImGui.PopStyleVar(3);
+            ImGui.PopStyleColor();
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)

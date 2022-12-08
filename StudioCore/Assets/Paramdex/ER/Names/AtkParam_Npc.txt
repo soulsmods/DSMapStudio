@@ -64,20 +64,20 @@
 2031261 [Rennala - 2]
 2031262 [Rennala - 2]
 2031800 [Rennala - 2]
-2040100 [Rennala Student] Bullet
-2040110 [Rennala Student] Bullet
-2040120 [Rennala Student] Bullet
-2040130 [Rennala Student]
-2040140 [Rennala Student] Bullet
-2040150 [Rennala Student]
+2040100 [Rennala Student] Bullet - Tombstone
+2040110 [Rennala Student] Bullet - Fire Breath
+2040120 [Rennala Student] Bullet - Book
+2040130 [Rennala Student] Bite
+2040140 [Rennala Student] Bullet - Floating Furniture
+2040150 [Rennala Student] Chandelier
 2040500 [Rennala Student]
-2041100 [Rennala Student - Bug Form]
-2041110 [Rennala Student - Bug Form]
-2041120 [Rennala Student - Bug Form]
-2041130 [Rennala Student - Bug Form]
-2041140 [Rennala Student - Bug Form] Bullet
-2041160 [Rennala Student - Bug Form]
-2041170 [Rennala Student - Bug Form]
+2041100 [Rennala Student - Bug Form] Bite
+2041110 [Rennala Student - Bug Form] Hand
+2041120 [Rennala Student - Bug Form] Hand
+2041130 [Rennala Student - Bug Form] Body Slam
+2041140 [Rennala Student - Bug Form] Bullet - Pest Threads
+2041160 [Rennala Student - Bug Form] Double Hand
+2041170 [Rennala Student - Bug Form] Hand
 2100100 [Black Knife Assassin]
 2100110 [Black Knife Assassin]
 2100111 [Black Knife Assassin]
@@ -104,15 +104,15 @@
 2100290 [Black Knife Assassin] Bullet
 2100300 [Black Knife Assassin] Bullet
 2100301 [Black Knife Assassin] Bullet
-2100350 [Black Knife Assassin]
+2100350 [Black Knife Assassin] Destined Death
 2100351 [Black Knife Assassin]
 2100352 [Black Knife Assassin]
-2110100 [Beast Clergyman] Bullet
-2110130 [Beast Clergyman] Bullet
-2110150 [Beast Clergyman] Bullet
-2110151 [Beast Clergyman] Bullet
+2110100 [Beast Clergyman] Bullet - Bestial Sling
+2110130 [Beast Clergyman] Bullet - Stone of Gurranq
+2110150 [Beast Clergyman] Bullet - Beast Claw
+2110151 [Beast Clergyman] Bullet - Beast Claw
 2110160 [Beast Clergyman]
-2110165 [Beast Clergyman]
+2110165 [Beast Clergyman] Arm
 2110170 [Beast Clergyman]
 2110180 [Beast Clergyman]
 2110190 [Beast Clergyman]
@@ -123,47 +123,47 @@
 2110240 [Beast Clergyman]
 2110250 [Beast Clergyman] Bullet
 2110251 [Beast Clergyman] Bullet
-2110260 [Beast Clergyman]
-2110270 [Beast Clergyman]
-2110280 [Beast Clergyman]
-2110290 [Beast Clergyman]
+2110260 [Maliketh]
+2110270 [Maliketh]
+2110280 [Maliketh]
+2110290 [Maliketh]
 2110310 [Beast Clergyman]
 2110311 [Beast Clergyman]
 2110320 [Beast Clergyman]
 2110321 [Beast Clergyman]
 2110322 [Beast Clergyman]
-2110340 [Beast Clergyman]
-2110341 [Beast Clergyman]
-2110350 [Beast Clergyman]
-2110351 [Beast Clergyman] Bullet
-2110370 [Beast Clergyman]
+2110340 [Maliketh]
+2110341 [Maliketh]
+2110350 [Maliketh]
+2110351 [Maliketh] Bullet
+2110370 [Maliketh]
 2110380 [Beast Clergyman]
 2110390 [Beast Clergyman]
 2110391 [Beast Clergyman]
-2110400 [Beast Clergyman] Bullet
-2110401 [Beast Clergyman]
-2110402 [Beast Clergyman]
-2110403 [Beast Clergyman]
-2110420 [Beast Clergyman]
-2110421 [Beast Clergyman] Bullet
+2110400 [Maliketh] Bullet
+2110401 [Maliketh]
+2110402 [Maliketh]
+2110403 [Maliketh]
+2110420 [Maliketh] Standing Omega Sword Beam
+2110421 [Maliketh] Bullet
 2110430 [Beast Clergyman]
 2110440 [Beast Clergyman]
 2110441 [Beast Clergyman]
-2110460 [Beast Clergyman]
+2110460 [Maliketh]
 2110470 [Beast Clergyman]
 2110490 [Beast Clergyman]
 2110600 [Beast Clergyman]
 2110700 [Beast Clergyman]
-2110701 [Beast Clergyman]
-2110720 [Beast Clergyman]
-2110730 [Beast Clergyman]
-2110731 [Beast Clergyman]
-2110740 [Beast Clergyman]
-2110741 [Beast Clergyman]
-2110742 [Beast Clergyman]
-2110743 [Beast Clergyman]
-2110750 [Beast Clergyman]
-2110751 [Beast Clergyman]
+2110701 [Maliketh] Roar
+2110720 [Maliketh]
+2110730 [Maliketh]
+2110731 [Maliketh]
+2110740 [Maliketh] Flip Double 1
+2110741 [Maliketh] Flip Double 2
+2110742 [Maliketh] Flip Double Finish Sword
+2110743 [Maliketh] Flip Double Finish Body
+2110750 [Maliketh]
+2110751 [Maliketh]
 2110752 [Beast Clergyman] Bullet
 2110753 [Beast Clergyman] Bullet
 2110754 [Beast Clergyman] Bullet
@@ -189,19 +189,19 @@
 2120209 [Malenia]
 2120210 [Malenia]
 2120220 [Malenia]
-2120230 [Malenia]
-2120231 [Malenia]
-2120240 [Malenia]
-2120241 [Malenia]
+2120230 [Malenia] Lunge
+2120231 [Malenia] Lunge
+2120240 [Malenia] Lunge
+2120241 [Malenia] Lunge
 2120260 [Malenia]
 2120270 [Malenia]
 2120271 [Malenia]
 2120280 [Malenia]
-2120290 [Malenia]
-2120292 [Malenia] Bullet
-2120293 [Malenia] Bullet
-2120300 [Malenia]
-2120310 [Malenia]
+2120290 [Malenia] Scarlet Aeonia Landing
+2120292 [Malenia] Bullet - Aeonia Bloom
+2120293 [Malenia] Bullet - Aeonia DoT
+2120300 [Malenia] Kick
+2120310 [Malenia] Kick
 2120320 [Malenia]
 2120321 [Malenia]
 2120340 [Malenia]
@@ -216,8 +216,8 @@
 2120410 [Malenia]
 2120450 [Malenia]
 2120460 [Malenia]
-2120470 [Malenia]
-2120471 [Malenia]
+2120470 [Malenia] After Clone Charge
+2120471 [Malenia] After Clone Charge
 2120480 [Malenia]
 2120481 [Malenia]
 2120482 [Malenia]
@@ -230,14 +230,14 @@
 2120489 [Malenia]
 2120490 [Malenia]
 2120491 [Malenia]
-2120500 [Malenia]
-2120501 [Malenia]
-2120502 [Malenia]
-2120510 [Malenia]
-2120520 [Malenia]
-2120530 [Malenia]
-2120531 [Malenia]
-2120532 [Malenia]
+2120500 [Malenia] Clone
+2120501 [Malenia] Clone
+2120502 [Malenia] Clone
+2120510 [Malenia] Clone
+2120520 [Malenia] Clone
+2120530 [Malenia] Clone
+2120531 [Malenia] Clone
+2120532 [Malenia] Clone
 2120643 [Malenia] Bullet
 2120652 [Malenia] Bullet
 2120653 [Malenia] Bullet
@@ -246,14 +246,14 @@
 2120801 [Malenia]
 2120810 [Malenia]
 2120811 [Malenia]
-2120900 [Malenia]
+2120900 [Malenia] Guard
 2130010 [Morgott]
 2130020 [Morgott]
 2130030 [Morgott]
-2130050 [Morgott] Bullet
-2130060 [Morgott] Bullet
-2130100 [Morgott]
-2130105 [Morgott]
+2130050 [Margit] Bullet - Floating Swords Fall
+2130060 [Morgott] Bullet - Floating Swords Lingerfall
+2130100 [Morgott] Slash
+2130105 [Morgott] Holy Buff Slash
 2130110 [Morgott]
 2130115 [Morgott]
 2130120 [Morgott]
@@ -262,8 +262,8 @@
 2130131 [Morgott]
 2130135 [Morgott]
 2130136 [Morgott]
-2130140 [Morgott]
-2130141 [Morgott]
+2130140 [Morgott] Hammer
+2130141 [Morgott] Hammer
 2130142 [Morgott]
 2130146 [Morgott]
 2130147 [Morgott]
@@ -271,15 +271,15 @@
 2130150 [Morgott]
 2130155 [Morgott]
 2130160 [Morgott] Bullet
-2130170 [Morgott]
-2130171 [Morgott]
-2130175 [Morgott] Bullet
+2130170 [Morgott] Hammer
+2130171 [Morgott] Hammer
+2130175 [Morgott] Bullet - Puddle Explosion
 2130176 [Morgott]
 2130177 [Morgott]
-2130190 [Morgott]
+2130190 [Morgott] Bleed Blade
 2130191 [Morgott] Bullet
-2130195 [Morgott]
-2130196 [Morgott]
+2130195 [Morgott] Bleed Blade
+2130196 [Morgott] Bleed Blade
 2130200 [Morgott]
 2130205 [Morgott]
 2130210 [Morgott]
@@ -290,38 +290,38 @@
 2130231 [Morgott]
 2130235 [Morgott]
 2130236 [Morgott]
-2130250 [Morgott]
-2130251 [Morgott]
-2130256 [Morgott]
-2130257 [Morgott]
+2130250 [Morgott] Spear
+2130251 [Morgott] Spear
+2130256 [Morgott] Spear
+2130257 [Morgott] Spear
 2130260 [Morgott]
 2130265 [Morgott]
 2130290 [Morgott]
-2130291 [Morgott]
-2130292 [Morgott]
+2130291 [Morgott] Hammer
+2130292 [Morgott] Hammer
 2130295 [Morgott]
-2130296 [Morgott]
-2130297 [Morgott]
+2130296 [Morgott] Hammer
+2130297 [Morgott] Hammer
 2130300 [Morgott]
-2130301 [Morgott]
+2130301 [Morgott] Hammer
 2130302 [Morgott]
-2130303 [Morgott]
-2130304 [Morgott]
+2130303 [Morgott] Hammer
+2130304 [Morgott] Hammer
 2130305 [Morgott]
-2130306 [Morgott]
-2130307 [Morgott]
-2130308 [Morgott]
+2130306 [Morgott] Hammer
+2130307 [Morgott] Hammer
+2130308 [Morgott] Hammer
 2130309 [Morgott]
 2130330 [Morgott]
-2130340 [Morgott]
-2130341 [Morgott] Bullet
-2130350 [Morgott]
-2130356 [Morgott]
-2130360 [Morgott]
+2130340 [Morgott] Phase Shift AoE
+2130341 [Morgott] Phase Shift Puddle Explosion
+2130350 [Morgott] Spear and Stick
+2130356 [Morgott] Spear and Stick
+2130360 [Morgott] Dagger
 2130361 [Morgott]
-2130362 [Morgott]
-2130363 [Morgott]
-2130364 [Morgott]
+2130362 [Morgott] Sword
+2130363 [Morgott] Hammer
+2130364 [Morgott] Hammer
 2130365 [Morgott]
 2130366 [Morgott]
 2130367 [Morgott]
@@ -331,24 +331,24 @@
 2130381 [Morgott]
 2130385 [Morgott]
 2130386 [Morgott]
-2130390 [Morgott]
-2130391 [Morgott]
-2130392 [Morgott]
-2130393 [Morgott]
+2130390 [Morgott] Spear
+2130391 [Morgott] Spear
+2130392 [Morgott] Spear
+2130393 [Morgott] Spear
 2130394 [Morgott]
 2130395 [Morgott]
-2130396 [Morgott]
-2130397 [Morgott]
-2130398 [Morgott]
-2130399 [Morgott]
+2130396 [Morgott] Spear
+2130397 [Morgott] Spear
+2130398 [Morgott] Spear
+2130399 [Morgott] Spear
 2130420 [Morgott]
-2130421 [Morgott]
+2130421 [Morgott] Sword
 2130422 [Morgott]
-2130423 [Morgott]
+2130423 [Morgott] Sword
 2130424 [Morgott]
 2130425 [Morgott]
-2130426 [Morgott]
-2130427 [Morgott]
+2130426 [Morgott] Sword
+2130427 [Morgott] Sword
 2130428 [Morgott]
 2130429 [Morgott]
 2130430 [Morgott]
@@ -359,129 +359,129 @@
 2130480 [Morgott] Bullet
 2130490 [Morgott]
 2130495 [Morgott]
-2130500 [Morgott]
-2130510 [Morgott]
-2130530 [Morgott]
-2130531 [Morgott]
-2130550 [Morgott]
-2130560 [Morgott]
-2130570 [Morgott]
-2130580 [Morgott]
-2130590 [Morgott]
-2130591 [Morgott]
-2130595 [Morgott] Bullet
-2130600 [Morgott]
-2130610 [Morgott]
-2130620 [Morgott]
-2130640 [Morgott]
-2130641 [Morgott]
-2130650 [Morgott]
-2130680 [Morgott]
-2130681 [Morgott]
-2130700 [Morgott]
-2130720 [Morgott]
-2130725 [Morgott]
-2130726 [Morgott]
-2130730 [Morgott]
-2130740 [Morgott]
-2130750 [Morgott]
-2130760 [Morgott]
-2130770 [Morgott]
-2130771 [Morgott] Bullet
-2130790 [Morgott]
-2130800 [Morgott]
-2130801 [Morgott]
-2130810 [Morgott]
-2130820 [Morgott]
-2130821 [Morgott]
-2130830 [Morgott]
-2130831 [Morgott]
-2130832 [Morgott]
-2130833 [Morgott]
-2130840 [Morgott]
-2130841 [Morgott]
-2130842 [Morgott]
-2130843 [Morgott]
-2130851 [Morgott]
-2130880 [Morgott]
-2130881 [Morgott]
-2130890 [Morgott]
-2130891 [Morgott]
-2130970 [Morgott]
+2130500 [Margit]
+2130510 [Margit]
+2130530 [Margit] Dagger
+2130531 [Margit] Dagger
+2130550 [Margit]
+2130560 [Margit]
+2130570 [Margit]
+2130580 [Margit] Thrust Slam
+2130590 [Margit] Dagger
+2130591 [Margit] Dagger
+2130595 [Margit] Bullet
+2130600 [Margit]
+2130610 [Margit]
+2130620 [Margit]
+2130640 [Margit] Dagger
+2130641 [Margit] Dagger
+2130650 [Margit]
+2130680 [Margit]
+2130681 [Margit]
+2130700 [Margit]
+2130720 [Margit]
+2130725 [Margit]
+2130726 [Margit]
+2130730 [Margit] Thrust Slam
+2130740 [Margit] Tail
+2130750 [Margit]
+2130760 [Margit]
+2130770 [Margit] Hammer Jump
+2130771 [Margit] Bullet - Hammer Jump
+2130790 [Margit] Floating Thrust Slam
+2130800 [Morgott] Sword
+2130801 [Morgott] Sword
+2130810 [Morgott] Sword + Spear
+2130820 [Margit] Sword
+2130821 [Margit] Sword
+2130830 [Margit] Sword
+2130831 [Margit] Sword
+2130832 [Margit] Thrust
+2130833 [Margit] Thrust AoE Stab
+2130840 [Margit] Spin Sword
+2130841 [Margit] Spin Sword
+2130842 [Margit] Spin
+2130843 [Margit] Spin
+2130851 [Margit] Sword Stab Down
+2130880 [Margit] Dagger
+2130881 [Margit] Dagger
+2130890 [Margit] Dagger
+2130891 [Margit] Dagger
+2130970 [Morgott] Blood Grab
 2130980 [Morgott]
 2130990 [Morgott]
-2140100 [Omen Monstrosity]
-2140110 [Omen Monstrosity]
-2140120 [Omen Monstrosity]
-2140130 [Omen Monstrosity]
-2140140 [Omen Monstrosity]
-2140150 [Omen Monstrosity]
-2140160 [Omen Monstrosity]
-2140165 [Omen Monstrosity]
-2140170 [Omen Monstrosity]
-2140175 [Omen Monstrosity]
-2140180 [Omen Monstrosity]
-2140181 [Omen Monstrosity]
-2140185 [Omen Monstrosity]
-2140186 [Omen Monstrosity]
-2140190 [Omen Monstrosity]
-2140195 [Omen Monstrosity]
-2140200 [Omen Monstrosity]
-2140201 [Omen Monstrosity]
-2140210 [Omen Monstrosity]
-2140215 [Omen Monstrosity]
-2140220 [Omen Monstrosity]
-2140230 [Omen Monstrosity]
-2140240 [Omen Monstrosity]
-2140241 [Omen Monstrosity]
-2140246 [Omen Monstrosity]
-2140250 [Omen Monstrosity]
-2140251 [Omen Monstrosity]
-2140252 [Omen Monstrosity]
-2140255 [Omen Monstrosity]
-2140257 [Omen Monstrosity]
-2140260 [Omen Monstrosity]
-2140270 [Omen Monstrosity]
-2140280 [Omen Monstrosity]
-2140281 [Omen Monstrosity]
-2140282 [Omen Monstrosity]
+2140100 [Omen Monstrosity] Curved Sword
+2140110 [Omen Monstrosity] Curved Sword
+2140120 [Omen Monstrosity] Curved Sword
+2140130 [Omen Monstrosity] Curved Sword
+2140140 [Omen Monstrosity] Curved Sword
+2140150 [Omen Monstrosity] Curved Sword
+2140160 [Omen Monstrosity] Axe
+2140165 [Omen Monstrosity] Axe
+2140170 [Omen Monstrosity] Axe
+2140175 [Omen Monstrosity] Axe
+2140180 [Omen Monstrosity] Axe
+2140181 [Omen Monstrosity] Axe
+2140185 [Omen Monstrosity] Axe
+2140186 [Omen Monstrosity] Axe
+2140190 [Omen Monstrosity] Axe
+2140195 [Omen Monstrosity] Axe
+2140200 [Omen Monstrosity] Hug
+2140201 [Omen Monstrosity] Axe
+2140210 [Omen Monstrosity] Axe
+2140215 [Omen Monstrosity] Axe
+2140220 [Omen Monstrosity] Curved Sword
+2140230 [Omen Monstrosity] Curved Sword
+2140240 [Omen Monstrosity] Fist
+2140241 [Omen Monstrosity] Axe
+2140246 [Omen Monstrosity] Axe
+2140250 [Omen Monstrosity] Axe
+2140251 [Omen Monstrosity] Kick
+2140252 [Omen Monstrosity] Axe
+2140255 [Omen Monstrosity] Axe
+2140257 [Omen Monstrosity] Axe
+2140260 [Omen Monstrosity] Curved Sword
+2140270 [Omen Monstrosity] Curved Sword
+2140280 [Omen Monstrosity] Curved Sword
+2140281 [Omen Monstrosity] Curved Sword
+2140282 [Omen Monstrosity] Curved Sword
 2140290 [Omen Monstrosity] Bullet
-2140400 [Omen Monstrosity]
-2140410 [Omen Monstrosity]
-2140420 [Omen Monstrosity]
-2140430 [Omen Monstrosity]
-2140440 [Omen Monstrosity]
-2140500 [Omen Monstrosity]
+2140400 [Omen Monstrosity] Kick
+2140410 [Omen Monstrosity] Fist
+2140420 [Omen Monstrosity] Fist
+2140430 [Omen Monstrosity] Fist
+2140440 [Omen Monstrosity] Body
+2140500 [Omen Monstrosity] Fist
 2140510 [Omen Monstrosity] Bullet
 2140511 [Omen Monstrosity] Bullet
 2140520 [Omen Monstrosity] Bullet
-2140800 [Omen Monstrosity]
-2140810 [Omen Monstrosity]
-2140820 [Omen Monstrosity]
-2140830 [Omen Monstrosity]
-2140840 [Omen Monstrosity]
-2140850 [Omen Monstrosity]
-2140860 [Omen Monstrosity]
-2140870 [Omen Monstrosity]
-2140880 [Omen Monstrosity]
-2140881 [Omen Monstrosity]
-2140890 [Omen Monstrosity]
-2140900 [Omen Monstrosity]
-2140901 [Omen Monstrosity]
-2140910 [Omen Monstrosity]
-2140920 [Omen Monstrosity]
-2140930 [Omen Monstrosity]
-2140940 [Omen Monstrosity]
-2140941 [Omen Monstrosity]
-2140950 [Omen Monstrosity]
-2140951 [Omen Monstrosity]
-2140952 [Omen Monstrosity]
-2140960 [Omen Monstrosity]
-2140970 [Omen Monstrosity]
-2140980 [Omen Monstrosity]
-2140981 [Omen Monstrosity]
-2140982 [Omen Monstrosity]
-2140990 [Omen Monstrosity]
+2140800 [Omen Monstrosity] Curved Sword
+2140810 [Omen Monstrosity] Curved Sword
+2140820 [Omen Monstrosity] Curved Sword
+2140830 [Omen Monstrosity] Curved Sword
+2140840 [Omen Monstrosity] Curved Sword
+2140850 [Omen Monstrosity] Curved Sword
+2140860 [Omen Monstrosity] Axe
+2140870 [Omen Monstrosity] Axe
+2140880 [Omen Monstrosity] Axe
+2140881 [Omen Monstrosity] Axe
+2140890 [Omen Monstrosity] Axe
+2140900 [Omen Monstrosity] Body
+2140901 [Omen Monstrosity] Axe
+2140910 [Omen Monstrosity] Axe
+2140920 [Omen Monstrosity] Curved Sword
+2140930 [Omen Monstrosity] Curved Sword
+2140940 [Omen Monstrosity] Fist
+2140941 [Omen Monstrosity] Axe
+2140950 [Omen Monstrosity] Axe
+2140951 [Omen Monstrosity] Kick
+2140952 [Omen Monstrosity] Axe
+2140960 [Omen Monstrosity] Curved Sword
+2140970 [Omen Monstrosity] Curved Sword
+2140980 [Omen Monstrosity] Curved Sword
+2140981 [Omen Monstrosity] Curved Sword
+2140982 [Omen Monstrosity] Curved Sword
+2140990 [Omen Monstrosity] Body
 2180100 [Melina] Bullet
 2180110 [Melina] Bullet
 2180115 [Melina] Bullet
@@ -540,95 +540,95 @@
 2190241 [Radagon]
 2190242 [Radagon]
 2190245 [Radagon] Bullet
-2190250 [Radagon] Bullet
-2190251 [Radagon] Bullet
-2190252 [Radagon] Bullet
-2190260 [Radagon]
-2190261 [Radagon]
+2190250 [Radagon] Bullet - Holy Spear
+2190251 [Radagon] Bullet - Holy Spear AoE
+2190252 [Radagon] Bullet - Holy Spear AoE 2
+2190260 [Radagon] Stomp AoE Small
+2190261 [Radagon] Stomp AoE Large
 2190280 [Radagon]
-2190281 [Radagon] Bullet
+2190281 [Radagon] Bullet - Flying Holy Slam
 2190290 [Radagon]
 2190291 [Radagon] Bullet
 2190292 [Radagon] Bullet
 2190300 [Radagon]
-2190310 [Radagon] Bullet
-2190311 [Radagon] Bullet
-2190312 [Radagon] Bullet
-2190330 [Radagon] Bullet
-2190331 [Radagon] Bullet
+2190310 [Radagon] Bullet - Spear Placed
+2190311 [Radagon] Bullet - Spear Placed Explode
+2190312 [Radagon] Bullet - Spear Placed Linger
+2190330 [Radagon] Bullet - Small Spear
+2190331 [Radagon] Bullet - Small Spear Explode
 2190350 [Radagon]
-2190360 [Radagon] Bullet
-2190361 [Radagon] Bullet
+2190360 [Radagon] Bullet - Small Spear
+2190361 [Radagon] Bullet - Small Spear Explode
 2190370 [Radagon]
-2190371 [Radagon] Bullet
-2190372 [Radagon] Bullet
+2190371 [Radagon] Bullet - Holy Ground Floor
+2190372 [Radagon] Bullet - Holy Ground Floor
 2190380 [Radagon]
-2190381 [Radagon] Bullet
-2190382 [Radagon] Bullet
-2190390 [Radagon] Bullet
-2190391 [Radagon] Bullet
-2190392 [Radagon] Bullet
-2190420 [Radagon] Bullet
-2190430 [Radagon] Bullet
-2190440 [Radagon] Bullet
+2190381 [Radagon] Bullet - Holy Ground Floor
+2190382 [Radagon] Bullet - Holy Ground Floor
+2190390 [Radagon] Bullet - Large Spear
+2190391 [Radagon] Bullet - Large Spear Impact
+2190392 [Radagon] Bullet - Large Spear Explode
+2190420 [Radagon] Bullet - Holy Stomp Attack
+2190430 [Radagon] Bullet - Shattering Ground
+2190440 [Radagon] Bullet - Shattering Ground 2
 2190460 [Radagon] Bullet
-2190500 [Radagon]
-2190510 [Radagon] Bullet
-2190520 [Radagon] Bullet
-2190530 [Radagon] Bullet
-2190540 [Radagon] Bullet
-2200100 [Elden Beast] Bullet
+2190500 [Radagon] Guard
+2190510 [Radagon] Bullet - Hammer Shockwave
+2190520 [Radagon] Bullet - Hammer Holy Shockwave
+2190530 [Radagon] Bullet - Shattering AoE
+2190540 [Radagon] Bullet - Warp AoE
+2200100 [Elden Beast] Bullet - Hand Slam Explosion
 2200101 [Elden Beast] Bullet
-2200110 [Elden Beast]
-2200120 [Elden Beast]
-2200130 [Elden Beast]
-2200131 [Elden Beast]
-2200140 [Elden Beast]
-2200150 [Elden Beast]
-2200160 [Elden Beast]
-2200170 [Elden Beast]
+2200110 [Elden Beast] Sword
+2200120 [Elden Beast] Sword
+2200130 [Elden Beast] Sword
+2200131 [Elden Beast] Sword
+2200140 [Elden Beast] Sword
+2200150 [Elden Beast] Sword
+2200160 [Elden Beast] Sword
+2200170 [Elden Beast] Sword
 2200190 [Elden Beast] Bullet
-2200200 [Elden Beast]
-2200210 [Elden Beast]
-2200211 [Elden Beast]
+2200200 [Elden Beast] Sword
+2200210 [Elden Beast] Sword
+2200211 [Elden Beast] Sword
 2200212 [Elden Beast] Bullet
-2200213 [Elden Beast]
+2200213 [Elden Beast] Sword
 2200214 [Elden Beast] Bullet
-2200220 [Elden Beast]
-2200221 [Elden Beast] Bullet
-2200222 [Elden Beast] Bullet
+2200220 [Elden Beast] Sword
+2200221 [Elden Beast] Bullet - Swipe Wave Explode 1
+2200222 [Elden Beast] Bullet - Swipe Wave Explode 2
 2200230 [Elden Beast] Bullet
 2200231 [Elden Beast] Bullet
-2200250 [Elden Beast]
-2200251 [Elden Beast]
-2200252 [Elden Beast]
-2200253 [Elden Beast]
-2200260 [Elden Beast]
-2200270 [Elden Beast]
-2200280 [Elden Beast]
-2200281 [Elden Beast]
-2200290 [Elden Beast]
-2200291 [Elden Beast]
-2200292 [Elden Beast]
-2200293 [Elden Beast]
-2200294 [Elden Beast] Bullet
-2200295 [Elden Beast] Bullet
-2200296 [Elden Beast] Bullet
-2200297 [Elden Beast] Bullet
+2200250 [Elden Beast] Grab
+2200251 [Elden Beast] Grab
+2200252 [Elden Beast] Grab
+2200253 [Elden Beast] Grab
+2200260 [Elden Beast] Sword
+2200270 [Elden Beast] Sword
+2200280 [Elden Beast] Sword
+2200281 [Elden Beast] Sword
+2200290 [Elden Beast] Sword
+2200291 [Elden Beast] Sword
+2200292 [Elden Beast] Sword
+2200293 [Elden Beast] Sword
+2200294 [Elden Beast] Bullet - Sword Beam 1
+2200295 [Elden Beast] Bullet - Sword Beam 2
+2200296 [Elden Beast] Bullet - Sword Beam 3
+2200297 [Elden Beast] Bullet - Sword Beam 4
 2200300 [Elden Beast] Bullet
-2200310 [Elden Beast] Bullet
-2200311 [Elden Beast] Bullet
+2200310 [Elden Beast] Bullet - Sword Stab Explosion 1
+2200311 [Elden Beast] Bullet - Sword Stab Explosion 2
 2200330 [Elden Beast] Bullet
 2200360 [Elden Beast] Bullet
-2200371 [Elden Beast] Bullet
-2200380 [Elden Beast]
+2200371 [Elden Beast] Bullet - Explosion
+2200380 [Elden Beast] Sword
 2200391 [Elden Beast] Bullet
 2200392 [Elden Beast] Bullet
-2200400 [Elden Beast]
+2200400 [Elden Beast] Sword
 2200401 [Elden Beast]
 2200402 [Elden Beast] Bullet
 2200410 [Elden Beast] Bullet
-2200420 [Elden Beast] Bullet
+2200420 [Elden Beast] Bullet - Ring Push
 2200430 [Elden Beast] Bullet
 2200440 [Elden Beast]
 2200500 [Elden Beast]
@@ -672,29 +672,29 @@
 2500100 [Crucible Knight]
 2500110 [Crucible Knight]
 2500120 [Crucible Knight]
-2500130 [Crucible Knight]
+2500130 [Crucible Knight] Shield
 2500140 [Crucible Knight]
 2500150 [Crucible Knight]
 2500160 [Crucible Knight]
 2500170 [Crucible Knight]
-2500180 [Crucible Knight] Bullet
+2500180 [Crucible Knight] Bullet - Stomp
 2500181 [Crucible Knight] Bullet
 2500182 [Crucible Knight] Bullet
-2500190 [Crucible Knight]
-2500200 [Crucible Knight]
-2500201 [Crucible Knight]
+2500190 [Crucible Knight] Tail
+2500200 [Crucible Knight] Big Tail
+2500201 [Crucible Knight] Big Tail
 2500210 [Crucible Knight] Bullet
 2500220 [Crucible Knight] Bullet
 2500221 [Crucible Knight] Bullet
 2500222 [Crucible Knight] Bullet
-2500230 [Crucible Knight]
+2500230 [Crucible Knight] Flying Tackle
 2500240 [Crucible Knight] Bullet
 2500250 [Crucible Knight] Bullet
 2500251 [Crucible Knight] Bullet
 2500252 [Crucible Knight] Bullet
-2500254 [Crucible Knight]
-2500260 [Crucible Knight]
-2500261 [Crucible Knight]
+2500254 [Crucible Knight] Two Hand
+2500260 [Crucible Knight] Double Spin
+2500261 [Crucible Knight] Double Spin
 2500270 [Crucible Knight]
 2500271 [Crucible Knight] Bullet
 2500400 [Crucible Knight]
@@ -717,11 +717,11 @@
 2500510 [Crucible Knight]
 2500520 [Crucible Knight]
 2500530 [Crucible Knight]
-2500540 [Crucible Knight]
-2500550 [Crucible Knight]
-2500560 [Crucible Knight]
-2500570 [Crucible Knight]
-2500580 [Crucible Knight]
+2500540 [Crucible Knight] Grab
+2500550 [Crucible Knight] Grab
+2500560 [Crucible Knight] Grab
+2500570 [Crucible Knight] Grab
+2500580 [Crucible Knight] Charge
 2500581 [Crucible Knight]
 2500590 [Crucible Knight] Bullet
 2500591 [Crucible Knight] Bullet
@@ -730,14 +730,14 @@
 2500600 [Crucible Knight]
 2500610 [Crucible Knight] Bullet
 2500620 [Crucible Knight]
-2500900 [Crucible Knight]
+2500900 [Crucible Knight] Guard
 3000100 [Castle Exile]
 3000101 [Castle Exile]
 3000102 [Castle Exile]
 3000110 [Castle Exile]
-3000120 [Castle Exile] Bullet
+3000120 [Castle Exile] Bullet - Firebomb
 3000130 [Castle Exile] Bullet
-3000140 [Castle Exile] Bullet
+3000140 [Castle Exile] Bullet - Firebomb
 3000150 [Castle Exile] Bullet
 3000160 [Castle Exile]
 3000161 [Castle Exile]
@@ -747,129 +747,129 @@
 3000165 [Castle Exile]
 3000170 [Castle Exile]
 3000180 [Castle Exile]
-3000190 [Castle Exile]
-3000200 [Castle Exile] Bullet
+3000190 [Castle Exile] Guard
+3000200 [Castle Exile] Bullet - Bolt
 3000210 [Castle Exile]
 3000300 [Castle Exile]
 3000310 [Castle Exile]
 3000320 [Castle Exile]
 3000330 [Castle Exile]
 3000340 [Castle Exile]
-3000350 [Castle Exile]
+3000350 [Castle Exile] Guard
 3000360 [Castle Exile]
 3000400 [Castle Exile]
 3000410 [Castle Exile]
 3000420 [Castle Exile]
 3000425 [Castle Exile] Bullet
 3000430 [Castle Exile]
-3000440 [Castle Exile] Bullet
+3000440 [Castle Exile] Bullet - Firebomb
 3000450 [Castle Exile]
 3000500 [Castle Exile]
-3000501 [Castle Exile] Bullet
-3010100 [Banished Knight]
-3010110 [Banished Knight]
-3010120 [Banished Knight]
-3010130 [Banished Knight]
-3010131 [Banished Knight]
+3000501 [Castle Exile] Bullet - Wind Sword
+3010100 [Banished Knight] Sword
+3010110 [Banished Knight] Sword
+3010120 [Banished Knight] Sword
+3010130 [Banished Knight] Shield
+3010131 [Banished Knight] Shield
 3010135 [Banished Knight] Bullet
 3010136 [Banished Knight] Bullet
-3010140 [Banished Knight]
-3010150 [Banished Knight]
-3010160 [Banished Knight]
-3010170 [Banished Knight]
-3010180 [Banished Knight]
-3010181 [Banished Knight]
+3010140 [Banished Knight] Sword
+3010150 [Banished Knight] Sword
+3010160 [Banished Knight] Sword
+3010170 [Banished Knight] Sword
+3010180 [Banished Knight] Shield
+3010181 [Banished Knight] Shield
 3010185 [Banished Knight] Bullet
-3010190 [Banished Knight]
-3010210 [Banished Knight]
+3010190 [Banished Knight] Shield
+3010210 [Banished Knight] Parry
 3010211 [Banished Knight]
 3010212 [Banished Knight] Bullet
-3010220 [Banished Knight]
-3010221 [Banished Knight]
+3010220 [Banished Knight] Shield
+3010221 [Banished Knight] Shield
 3010225 [Banished Knight] Bullet
 3010226 [Banished Knight] Bullet
-3010230 [Banished Knight]
-3010231 [Banished Knight]
+3010230 [Banished Knight] Shield
+3010231 [Banished Knight] Shield
 3010235 [Banished Knight] Bullet
-3010240 [Banished Knight]
+3010240 [Banished Knight] Shield
 3010245 [Banished Knight] Bullet
-3010250 [Banished Knight]
+3010250 [Banished Knight] Shield
 3010255 [Banished Knight] Bullet
 3010280 [Banished Knight] Bullet
-3010399 [Banished Knight]
-3010400 [Banished Knight]
-3010410 [Banished Knight]
-3010411 [Banished Knight]
-3010420 [Banished Knight]
-3010421 [Banished Knight]
-3010430 [Banished Knight]
-3010431 [Banished Knight]
-3010440 [Banished Knight]
-3010450 [Banished Knight]
-3010490 [Banished Knight]
-3010491 [Banished Knight]
-3010492 [Banished Knight]
-3010500 [Banished Knight]
-3010501 [Banished Knight]
-3010502 [Banished Knight]
-3010520 [Banished Knight]
+3010399 [Banished Knight] Guard
+3010400 [Banished Knight] Dual Sword 2
+3010410 [Banished Knight] Dual Sword 1
+3010411 [Banished Knight] Dual Sword 1
+3010420 [Banished Knight] Dual Sword 1
+3010421 [Banished Knight] Dual Sword 2
+3010430 [Banished Knight] Dual Sword 2
+3010431 [Banished Knight] Dual Sword 1
+3010440 [Banished Knight] Dual Sword 12
+3010450 [Banished Knight] Dual Sword 12
+3010490 [Banished Knight] Dual Sword 1
+3010491 [Banished Knight] Dual Sword 2
+3010492 [Banished Knight] Dual Sword 1
+3010500 [Banished Knight] Dual Sword 12
+3010501 [Banished Knight] Dual Sword 12
+3010502 [Banished Knight] Dual Sword 1
+3010520 [Banished Knight] Dual Sword 12
 3010525 [Banished Knight] Bullet
-3010530 [Banished Knight]
-3010531 [Banished Knight]
-3010532 [Banished Knight]
-3010540 [Banished Knight]
-3010541 [Banished Knight]
-3010542 [Banished Knight]
-3010560 [Banished Knight]
-3010561 [Banished Knight]
-3010562 [Banished Knight]
-3010570 [Banished Knight]
-3010580 [Banished Knight]
-3010581 [Banished Knight]
-3010582 [Banished Knight]
-3010583 [Banished Knight]
-3010584 [Banished Knight]
-3010585 [Banished Knight]
-3010586 [Banished Knight]
-3010587 [Banished Knight]
-3010588 [Banished Knight]
-3010610 [Banished Knight]
-3010700 [Banished Knight]
-3010710 [Banished Knight]
-3010720 [Banished Knight]
-3010730 [Banished Knight]
-3010740 [Banished Knight]
-3010741 [Banished Knight]
-3010750 [Banished Knight]
-3010760 [Banished Knight]
-3010770 [Banished Knight]
-3010780 [Banished Knight]
-3010781 [Banished Knight]
-3010790 [Banished Knight]
+3010530 [Banished Knight] Dual Sword 12
+3010531 [Banished Knight] Dual Sword 12
+3010532 [Banished Knight] Dual Sword 1
+3010540 [Banished Knight] Dual Sword 12
+3010541 [Banished Knight] Dual Sword 1
+3010542 [Banished Knight] Dual Sword 1
+3010560 [Banished Knight] Dual Sword 12
+3010561 [Banished Knight] Dual Sword 1
+3010562 [Banished Knight] Dual Sword 1
+3010570 [Banished Knight] Dual Sword 12
+3010580 [Banished Knight] Dual Sword 1
+3010581 [Banished Knight] Dual Sword 2
+3010582 [Banished Knight] Dual Sword 1
+3010583 [Banished Knight] Dual Sword 2
+3010584 [Banished Knight] Dual Sword 1
+3010585 [Banished Knight] Dual Sword 2
+3010586 [Banished Knight] Dual Sword 1
+3010587 [Banished Knight] Dual Sword 12
+3010588 [Banished Knight] Dual Sword 12
+3010610 [Banished Knight] Dual Sword 12
+3010700 [Banished Knight] Halberd
+3010710 [Banished Knight] Halberd
+3010720 [Banished Knight] Halberd
+3010730 [Banished Knight] Halberd
+3010740 [Banished Knight] Halberd
+3010741 [Banished Knight] Halberd
+3010750 [Banished Knight] Halberd
+3010760 [Banished Knight] Halberd
+3010770 [Banished Knight] Halberd
+3010780 [Banished Knight] Halberd
+3010781 [Banished Knight] Halberd
+3010790 [Banished Knight] Halberd
 3010795 [Banished Knight] Bullet
-3010800 [Banished Knight]
-3010801 [Banished Knight]
-3010810 [Banished Knight]
+3010800 [Banished Knight] Halberd
+3010801 [Banished Knight] Halberd
+3010810 [Banished Knight] Halberd
 3010815 [Banished Knight] Bullet
 3010820 [Banished Knight] Bullet
-3010830 [Banished Knight]
-3010831 [Banished Knight]
-3010840 [Banished Knight]
-3010841 [Banished Knight]
-3010842 [Banished Knight]
+3010830 [Banished Knight] Halberd
+3010831 [Banished Knight] Halberd
+3010840 [Banished Knight] Halberd
+3010841 [Banished Knight] Halberd
+3010842 [Banished Knight] Halberd
 3010845 [Banished Knight] Bullet
 3010847 [Banished Knight] Bullet
 3010850 [Banished Knight] Bullet
-3010860 [Banished Knight]
-3010861 [Banished Knight]
-3010870 [Banished Knight]
-3010871 [Banished Knight]
-3010872 [Banished Knight]
+3010860 [Banished Knight] Halberd
+3010861 [Banished Knight] Halberd
+3010870 [Banished Knight] Halberd
+3010871 [Banished Knight] Halberd
+3010872 [Banished Knight] Halberd
 3010875 [Banished Knight] Bullet
 3010877 [Banished Knight] Bullet
-3010880 [Banished Knight]
+3010880 [Banished Knight] Halberd
 3010885 [Banished Knight] Bullet
-3010920 [Banished Knight]
+3010920 [Banished Knight] Halberd
 3010925 [Banished Knight] Bullet
 3020100 [Large Castle Exile]
 3020110 [Large Castle Exile]
@@ -878,39 +878,39 @@
 3020140 [Large Castle Exile]
 3020200 [Large Castle Exile]
 3020201 [Large Castle Exile]
-3050100 [Commander]
-3050110 [Commander]
-3050120 [Commander]
-3050130 [Commander]
-3050140 [Commander]
-3050150 [Commander]
-3050160 [Commander]
+3050100 [Commander] Halberd
+3050110 [Commander] Kick
+3050120 [Commander] Halberd
+3050130 [Commander] Halberd
+3050140 [Commander] Halberd
+3050150 [Commander] Halberd
+3050160 [Commander] Halberd
 3050170 [Commander]
 3050180 [Commander]
-3050181 [Commander]
-3050190 [Commander]
-3050195 [Commander]
-3050200 [Commander]
-3050201 [Commander]
-3050202 [Commander]
+3050181 [Commander] Halberd
+3050190 [Commander] Lightning Kick
+3050195 [Commander] Lightning AoE
+3050200 [Commander] Halberd Charge Spin
+3050201 [Commander] Halberd Charge
+3050202 [Commander] Halberd Charge Upper
 3050210 [Commander]
-3050230 [Commander]
-3050235 [Commander]
-3050240 [Commander]
-3050245 [Commander]
-3050250 [Commander]
-3050255 [Commander]
-3050280 [Commander]
-3050281 [Commander]
-3050290 [Commander]
-3050291 [Commander]
-3050310 [Commander]
-3050360 [Commander]
-3050361 [Commander]
-3050362 [Commander]
-3050370 [Commander]
-3050371 [Commander]
-3050372 [Commander]
+3050230 [Commander] Lightning Kick
+3050235 [Commander] Lightning AoE
+3050240 [Commander] Lightning Kick
+3050245 [Commander] Lightning AoE
+3050250 [Commander] Lightning Kick
+3050255 [Commander] Lightning AoE
+3050280 [Commander] Halberd
+3050281 [Commander] Halberd
+3050290 [Commander] Halberd
+3050291 [Commander] Halberd
+3050310 [Commander] Halberd Big Spin
+3050360 [Commander] Halberd
+3050361 [Commander] Halberd
+3050362 [Commander] Halberd
+3050370 [Commander] Halberd
+3050371 [Commander] Halberd
+3050372 [Commander] Halberd
 3050400 [Commander] Bullet
 3050410 [Commander] Bullet
 3050900 [Commander] Bullet
@@ -1029,9 +1029,9 @@
 3080040 [Imp]
 3080050 [Imp]
 3080060 [Imp]
-3080070 [Imp] Bullet
-3080080 [Imp] Bullet
-3080090 [Imp]
+3080070 [Imp] Bullet - Throwing Knife
+3080080 [Imp] Bullet - Throwing Knife
+3080090 [Imp] Grab
 3080100 [Imp] Bullet
 3080110 [Imp]
 3080120 [Imp] Bullet
@@ -1046,39 +1046,39 @@
 3080250 [Imp]
 3080260 [Imp]
 3080270 [Imp]
-3100100 [Elemer of the Briar]
-3100110 [Elemer of the Briar]
-3100120 [Elemer of the Briar]
-3100121 [Elemer of the Briar]
-3100122 [Elemer of the Briar]
-3100123 [Elemer of the Briar]
-3100130 [Elemer of the Briar]
-3100131 [Elemer of the Briar]
-3100132 [Elemer of the Briar]
-3100140 [Elemer of the Briar]
-3100141 [Elemer of the Briar]
-3100150 [Elemer of the Briar]
-3100160 [Elemer of the Briar]
-3100161 [Elemer of the Briar]
-3100170 [Elemer of the Briar]
-3100171 [Elemer of the Briar]
-3100180 [Elemer of the Briar]
-3100190 [Elemer of the Briar]
-3100200 [Elemer of the Briar]
-3100210 [Elemer of the Briar]
-3100220 [Elemer of the Briar]
-3100230 [Elemer of the Briar]
-3100240 [Elemer of the Briar]
-3100250 [Elemer of the Briar]
-3100260 [Elemer of the Briar]
-3100261 [Elemer of the Briar]
-3100270 [Elemer of the Briar]
-3100271 [Elemer of the Briar]
-3100272 [Elemer of the Briar]
-3100280 [Elemer of the Briar]
+3100100 [Elemer of the Briar] S1
+3100110 [Elemer of the Briar] S1
+3100120 [Elemer of the Briar] S1
+3100121 [Elemer of the Briar] Shield
+3100122 [Elemer of the Briar] S1
+3100123 [Elemer of the Briar] S1
+3100130 [Elemer of the Briar] S1
+3100131 [Elemer of the Briar] S1
+3100132 [Elemer of the Briar] S1
+3100140 [Elemer of the Briar] Grab
+3100141 [Elemer of the Briar] Grab Damage
+3100150 [Elemer of the Briar] S1
+3100160 [Elemer of the Briar] Shield
+3100161 [Elemer of the Briar] Shield Pullup
+3100170 [Elemer of the Briar] Shield Charge
+3100171 [Elemer of the Briar] Guard
+3100180 [Elemer of the Briar] S1
+3100190 [Elemer of the Briar] S1
+3100200 [Elemer of the Briar] S1
+3100210 [Elemer of the Briar] S1
+3100220 [Elemer of the Briar] S1
+3100230 [Elemer of the Briar] Return Swipe
+3100240 [Elemer of the Briar] S1
+3100250 [Elemer of the Briar] S1
+3100260 [Elemer of the Briar] Blender
+3100261 [Elemer of the Briar] Blender Final
+3100270 [Elemer of the Briar] Ranged Blender
+3100271 [Elemer of the Briar] Ranged Blender Final
+3100272 [Elemer of the Briar] S1
+3100280 [Elemer of the Briar] Magic Sword
 3100290 [Elemer of the Briar]
-3100300 [Elemer of the Briar]
-3100400 [Elemer of the Briar]
+3100300 [Elemer of the Briar] S1
+3100400 [Elemer of the Briar] Shield Explosion
 3150100 [Night's Cavalry]
 3150110 [Night's Cavalry]
 3150120 [Night's Cavalry]
@@ -1131,13 +1131,13 @@
 3150440 [Night's Cavalry]
 3150441 [Night's Cavalry]
 3150500 [Night's Cavalry] Bullet
-3150501 [Night's Cavalry]
+3150501 [Night's Cavalry] Horse Summon Shockwave
 3150510 [Night's Cavalry] Bullet
-3150511 [Night's Cavalry]
+3150511 [Night's Cavalry] AoE
 3160100 [Night's Cavalry Horse]
 3160110 [Night's Cavalry Horse]
-3160120 [Night's Cavalry Horse]
-3160130 [Night's Cavalry Horse]
+3160120 [Night's Cavalry Horse] Feet
+3160130 [Night's Cavalry Horse] Bash
 3170000 [Albinauric Archer] Bullet
 3170010 [Albinauric Archer] Bullet
 3170020 [Albinauric Archer] Bullet
@@ -1176,18 +1176,18 @@
 3181020 [Red Wolf of Radagon]
 3181030 [Red Wolf of Radagon]
 3181040 [Red Wolf of Radagon]
-3181200 [Red Wolf of Radagon]
-3181201 [Red Wolf of Radagon]
-3181202 [Red Wolf of Radagon]
-3181210 [Red Wolf of Radagon]
-3181211 [Red Wolf of Radagon]
-3181220 [Red Wolf of Radagon]
-3181230 [Red Wolf of Radagon]
-3181240 [Red Wolf of Radagon]
-3181250 [Red Wolf of Radagon]
-3181501 [Red Wolf of Radagon] Bullet
-3181510 [Red Wolf of Radagon] Bullet
-3181520 [Red Wolf of Radagon] Bullet
+3181200 [Red Wolf of Radagon] Sword
+3181201 [Red Wolf of Radagon] Sword
+3181202 [Red Wolf of Radagon] Sword
+3181210 [Red Wolf of Radagon] Sword
+3181211 [Red Wolf of Radagon] Sword
+3181220 [Red Wolf of Radagon] Sword
+3181230 [Red Wolf of Radagon] Sword
+3181240 [Red Wolf of Radagon] Sword
+3181250 [Red Wolf of Radagon] Sword High Jump
+3181501 [Red Wolf of Radagon] Bullet - Glintblade
+3181510 [Red Wolf of Radagon] Bullet - Comet
+3181520 [Red Wolf of Radagon] Bullet - Howl
 3181900 [Red Wolf of Radagon]
 3200000 [Nomad Trader] Bullet
 3200001 [Nomad Trader] Bullet
@@ -1205,176 +1205,176 @@
 3200800 [Nomad Trader]
 3210800 [Nomad Mule]
 3210810 [Nomad Mule]
-3250100 [Draconic Tree Sentinel]
-3250110 [Draconic Tree Sentinel]
-3250120 [Draconic Tree Sentinel]
-3250130 [Draconic Tree Sentinel]
-3250140 [Draconic Tree Sentinel]
-3250141 [Draconic Tree Sentinel] Bullet
-3250150 [Draconic Tree Sentinel]
-3250160 [Draconic Tree Sentinel]
+3250100 [Draconic Tree Sentinel] Axe
+3250110 [Draconic Tree Sentinel] Axe
+3250120 [Draconic Tree Sentinel] Axe
+3250130 [Draconic Tree Sentinel] Axe
+3250140 [Draconic Tree Sentinel] Axe
+3250141 [Draconic Tree Sentinel] Bullet - Slam AoE
+3250150 [Draconic Tree Sentinel] Shield
+3250160 [Draconic Tree Sentinel] Axe
 3250161 [Draconic Tree Sentinel] Bullet
-3250170 [Draconic Tree Sentinel]
-3250180 [Draconic Tree Sentinel]
+3250170 [Draconic Tree Sentinel] Horse
+3250180 [Draconic Tree Sentinel] Axe
 3250181 [Draconic Tree Sentinel] Bullet
-3250190 [Draconic Tree Sentinel]
-3250200 [Draconic Tree Sentinel] Bullet
-3250201 [Draconic Tree Sentinel] Bullet
-3250210 [Draconic Tree Sentinel] Bullet
-3250211 [Draconic Tree Sentinel] Bullet
-3250220 [Draconic Tree Sentinel]
-3250230 [Draconic Tree Sentinel]
-3250240 [Draconic Tree Sentinel]
-3250241 [Draconic Tree Sentinel]
-3250250 [Draconic Tree Sentinel]
-3250260 [Draconic Tree Sentinel]
-3250270 [Draconic Tree Sentinel]
-3250280 [Draconic Tree Sentinel]
-3250290 [Draconic Tree Sentinel]
+3250190 [Draconic Tree Sentinel] Intro Horse
+3250200 [Draconic Tree Sentinel] Bullet - Fireball
+3250201 [Draconic Tree Sentinel] Bullet - Fireball AoE
+3250210 [Draconic Tree Sentinel] Bullet - Down Fireball
+3250211 [Draconic Tree Sentinel] Bullet - Down Fireball AoE
+3250220 [Draconic Tree Sentinel] Shield
+3250230 [Draconic Tree Sentinel] Shield
+3250240 [Draconic Tree Sentinel] Shield
+3250241 [Draconic Tree Sentinel] Shield
+3250250 [Draconic Tree Sentinel] Shield
+3250260 [Draconic Tree Sentinel] Shield
+3250270 [Draconic Tree Sentinel] Shield
+3250280 [Draconic Tree Sentinel] Shield
+3250290 [Draconic Tree Sentinel] Axe
 3250291 [Draconic Tree Sentinel] Bullet
-3250300 [Draconic Tree Sentinel]
+3250300 [Draconic Tree Sentinel] Axe
 3250301 [Draconic Tree Sentinel] Bullet
-3250310 [Draconic Tree Sentinel]
+3250310 [Draconic Tree Sentinel] Axe
 3250311 [Draconic Tree Sentinel] Bullet
 3250320 [Draconic Tree Sentinel] Bullet
 3250321 [Draconic Tree Sentinel] Bullet
-3250330 [Draconic Tree Sentinel]
-3250340 [Draconic Tree Sentinel]
+3250330 [Draconic Tree Sentinel] Shield
+3250340 [Draconic Tree Sentinel] Axe
 3250341 [Draconic Tree Sentinel] Bullet
-3250350 [Draconic Tree Sentinel]
-3250400 [Draconic Tree Sentinel]
-3250410 [Draconic Tree Sentinel]
-3250420 [Draconic Tree Sentinel]
-3250430 [Draconic Tree Sentinel]
-3250440 [Draconic Tree Sentinel]
+3250350 [Draconic Tree Sentinel] Axe
+3250400 [Draconic Tree Sentinel] Lightning Axe
+3250410 [Draconic Tree Sentinel] Axe
+3250420 [Draconic Tree Sentinel] Axe
+3250430 [Draconic Tree Sentinel] Axe
+3250440 [Draconic Tree Sentinel] Axe
 3250441 [Draconic Tree Sentinel] Bullet
-3250450 [Draconic Tree Sentinel]
+3250450 [Draconic Tree Sentinel] Axe
 3250451 [Draconic Tree Sentinel] Bullet
-3250460 [Draconic Tree Sentinel]
+3250460 [Draconic Tree Sentinel] Axe
 3250461 [Draconic Tree Sentinel] Bullet
-3250470 [Draconic Tree Sentinel]
+3250470 [Draconic Tree Sentinel] Axe
 3250471 [Draconic Tree Sentinel] Bullet
-3250480 [Draconic Tree Sentinel]
+3250480 [Draconic Tree Sentinel] Axe
 3250481 [Draconic Tree Sentinel] Bullet
-3250490 [Draconic Tree Sentinel]
+3250490 [Draconic Tree Sentinel] Axe
 3250491 [Draconic Tree Sentinel] Bullet
 3250492 [Draconic Tree Sentinel] Bullet
 3250493 [Draconic Tree Sentinel] Bullet
-3250500 [Draconic Tree Sentinel]
+3250500 [Draconic Tree Sentinel] Axe
 3250501 [Draconic Tree Sentinel] Bullet
 3250510 [Draconic Tree Sentinel] Bullet
 3250511 [Draconic Tree Sentinel] Bullet
 3250512 [Draconic Tree Sentinel] Bullet
-3250513 [Draconic Tree Sentinel] Bullet
+3250513 [Draconic Tree Sentinel] Bullet - Homing Lightning Damage
 3250514 [Draconic Tree Sentinel] Bullet
 3250515 [Draconic Tree Sentinel] Bullet
-3250520 [Draconic Tree Sentinel]
+3250520 [Draconic Tree Sentinel] Axe
 3250521 [Draconic Tree Sentinel] Bullet
-3250530 [Draconic Tree Sentinel]
+3250530 [Draconic Tree Sentinel] Axe
 3250531 [Draconic Tree Sentinel] Bullet
-3250540 [Draconic Tree Sentinel]
+3250540 [Draconic Tree Sentinel] Axe
 3250550 [Draconic Tree Sentinel] Bullet
-3250551 [Draconic Tree Sentinel] Bullet
-3250552 [Draconic Tree Sentinel] Bullet
-3250900 [Draconic Tree Sentinel]
+3250551 [Draconic Tree Sentinel] Bullet - Spread Lightning Damage
+3250552 [Draconic Tree Sentinel] Bullet - Spread Lightning Damage
+3250900 [Draconic Tree Sentinel] Guard
 3250905 [Draconic Tree Sentinel]
-3251100 [Tree Sentinel]
-3251110 [Tree Sentinel]
-3251120 [Tree Sentinel]
-3251130 [Tree Sentinel]
-3251140 [Tree Sentinel]
+3251100 [Tree Sentinel] Halberd
+3251110 [Tree Sentinel] Halberd
+3251120 [Tree Sentinel] Halberd
+3251130 [Tree Sentinel] Halberd
+3251140 [Tree Sentinel] Halberd
 3251141 [Tree Sentinel] Bullet
-3251150 [Tree Sentinel]
-3251160 [Tree Sentinel]
+3251150 [Tree Sentinel] Halberd
+3251160 [Tree Sentinel] Halberd
 3251161 [Tree Sentinel] Bullet
-3251170 [Tree Sentinel]
-3251180 [Tree Sentinel]
-3251190 [Tree Sentinel]
-3251200 [Tree Sentinel]
-3251210 [Tree Sentinel]
-3251220 [Tree Sentinel]
-3251230 [Tree Sentinel]
-3251240 [Tree Sentinel]
-3251241 [Tree Sentinel] Bullet
-3251250 [Tree Sentinel]
-3251260 [Tree Sentinel]
-3251261 [Tree Sentinel]
-3251270 [Tree Sentinel]
-3251271 [Tree Sentinel] Bullet
-3251280 [Tree Sentinel]
+3251170 [Tree Sentinel] Halberd
+3251180 [Tree Sentinel] Shield
+3251190 [Tree Sentinel] Halberd
+3251200 [Tree Sentinel] Halberd
+3251210 [Tree Sentinel] Halberd
+3251220 [Tree Sentinel] Halberd
+3251230 [Tree Sentinel] Halberd
+3251240 [Tree Sentinel] Shield
+3251241 [Tree Sentinel] Bullet - Huge Shield AoE
+3251250 [Tree Sentinel] Torch
+3251260 [Tree Sentinel] Shield
+3251261 [Tree Sentinel] Horse
+3251270 [Tree Sentinel] Shield
+3251271 [Tree Sentinel] Bullet - Huge Shield AoE
+3251280 [Tree Sentinel] Halberd
 3251281 [Tree Sentinel] Bullet
-3251290 [Tree Sentinel]
-3251300 [Tree Sentinel]
-3251310 [Tree Sentinel]
+3251290 [Tree Sentinel] Halberd
+3251300 [Tree Sentinel] Horse
+3251310 [Tree Sentinel] Halberd
 3251320 [Tree Sentinel] Bullet
 3251321 [Tree Sentinel] Bullet
 3251322 [Tree Sentinel] Bullet
 3251323 [Tree Sentinel] Bullet
-3251330 [Tree Sentinel]
-3251340 [Tree Sentinel]
-3251350 [Tree Sentinel]
-3251360 [Tree Sentinel]
-3251370 [Tree Sentinel]
-3251380 [Tree Sentinel]
-3251390 [Tree Sentinel]
-3251400 [Tree Sentinel]
-3251410 [Tree Sentinel]
-3251420 [Tree Sentinel]
-3251430 [Tree Sentinel]
-3251440 [Tree Sentinel]
-3251450 [Tree Sentinel]
+3251330 [Tree Sentinel] Torch
+3251340 [Tree Sentinel] Torch
+3251350 [Tree Sentinel] Torch
+3251360 [Tree Sentinel] Halberd
+3251370 [Tree Sentinel] Shield
+3251380 [Tree Sentinel] Halberd
+3251390 [Tree Sentinel] Halberd
+3251400 [Tree Sentinel] Halberd
+3251410 [Tree Sentinel] Halberd
+3251420 [Tree Sentinel] Halberd
+3251430 [Tree Sentinel] Horse Bash
+3251440 [Tree Sentinel] Halberd
+3251450 [Tree Sentinel] Halberd
 3251451 [Tree Sentinel] Bullet
-3251460 [Tree Sentinel]
-3251470 [Tree Sentinel]
-3251900 [Tree Sentinel]
+3251460 [Tree Sentinel] Halberd
+3251470 [Tree Sentinel] Halberd
+3251900 [Tree Sentinel] Guard
 3251905 [Tree Sentinel]
 3251910 [Tree Sentinel] Bullet
 3251911 [Tree Sentinel] Bullet
-3251912 [Tree Sentinel] Bullet
+3251912 [Tree Sentinel] Bullet - Reflect Magic
 3251913 [Tree Sentinel] Bullet
 3251915 [Tree Sentinel] Bullet
-3252100 [Fallen Tree Sentinel]
-3252110 [Fallen Tree Sentinel]
-3252120 [Fallen Tree Sentinel]
-3252130 [Fallen Tree Sentinel]
-3252140 [Fallen Tree Sentinel]
+3252100 [Fallen Tree Sentinel] Sickle
+3252110 [Fallen Tree Sentinel] Sickle
+3252120 [Fallen Tree Sentinel] Sickle
+3252130 [Fallen Tree Sentinel] Sickle
+3252140 [Fallen Tree Sentinel] Sickle
 3252150 [Fallen Tree Sentinel]
-3252160 [Fallen Tree Sentinel]
+3252160 [Fallen Tree Sentinel] Sickle
 3252161 [Fallen Tree Sentinel] Bullet
 3252162 [Fallen Tree Sentinel] Bullet
-3252170 [Fallen Tree Sentinel]
-3252180 [Fallen Tree Sentinel]
-3252190 [Fallen Tree Sentinel]
-3252191 [Fallen Tree Sentinel]
-3252200 [Fallen Tree Sentinel]
+3252170 [Fallen Tree Sentinel] Sickle
+3252180 [Fallen Tree Sentinel] Sickle
+3252190 [Fallen Tree Sentinel] Magic Halberd
+3252191 [Fallen Tree Sentinel] Magic Halberd
+3252200 [Fallen Tree Sentinel] Buck
 3252210 [Fallen Tree Sentinel] Bullet
 3252211 [Fallen Tree Sentinel] Bullet
-3252220 [Fallen Tree Sentinel]
-3252230 [Fallen Tree Sentinel]
+3252220 [Fallen Tree Sentinel] Sickle
+3252230 [Fallen Tree Sentinel] Sickle
 3252240 [Fallen Tree Sentinel] Bullet
 3252241 [Fallen Tree Sentinel] Bullet
-3252242 [Fallen Tree Sentinel]
+3252242 [Fallen Tree Sentinel] Sickle
 3252250 [Fallen Tree Sentinel] Bullet
 3252251 [Fallen Tree Sentinel] Bullet
-3252252 [Fallen Tree Sentinel]
-3252260 [Fallen Tree Sentinel]
-3252270 [Fallen Tree Sentinel]
-3252280 [Fallen Tree Sentinel]
-3252290 [Fallen Tree Sentinel]
-3252300 [Fallen Tree Sentinel]
-3252310 [Fallen Tree Sentinel] Bullet
+3252252 [Fallen Tree Sentinel] Sickle
+3252260 [Fallen Tree Sentinel] Sickle
+3252270 [Fallen Tree Sentinel] Sickle
+3252280 [Fallen Tree Sentinel] Sickle
+3252290 [Fallen Tree Sentinel] Sickle
+3252300 [Fallen Tree Sentinel] Sickle
+3252310 [Fallen Tree Sentinel] Bullet - Soul Dart
 3252320 [Fallen Tree Sentinel] Bullet
 3252321 [Fallen Tree Sentinel] Bullet
-3252330 [Fallen Tree Sentinel] Bullet
+3252330 [Fallen Tree Sentinel] Bullet - Jumping Soul Dart
 3252340 [Fallen Tree Sentinel] Bullet
 3252341 [Fallen Tree Sentinel] Bullet
 3252350 [Fallen Tree Sentinel] Bullet
 3252351 [Fallen Tree Sentinel] Bullet
 3252360 [Fallen Tree Sentinel] Bullet
 3252361 [Fallen Tree Sentinel] Bullet
-3252370 [Fallen Tree Sentinel]
-3252371 [Fallen Tree Sentinel]
-3252372 [Fallen Tree Sentinel]
+3252370 [Fallen Tree Sentinel] Magic Halberd
+3252371 [Fallen Tree Sentinel] Magic Halberd
+3252372 [Fallen Tree Sentinel] Magic Halberd
 3252400 [Fallen Tree Sentinel] Bullet
 3252401 [Fallen Tree Sentinel] Bullet
 3252405 [Fallen Tree Sentinel] Bullet
@@ -1387,13 +1387,13 @@
 3252421 [Fallen Tree Sentinel] Bullet
 3252425 [Fallen Tree Sentinel] Bullet
 3252426 [Fallen Tree Sentinel] Bullet
-3252430 [Fallen Tree Sentinel] Bullet
+3252430 [Fallen Tree Sentinel] Bullet - X Soul Dart
 3252431 [Fallen Tree Sentinel] Bullet
 3252440 [Fallen Tree Sentinel] Bullet
 3252441 [Fallen Tree Sentinel] Bullet
 3252445 [Fallen Tree Sentinel] Bullet
 3252446 [Fallen Tree Sentinel] Bullet
-3252450 [Fallen Tree Sentinel] Bullet
+3252450 [Fallen Tree Sentinel] Bullet - Jumping X Soul Dart
 3252451 [Fallen Tree Sentinel] Bullet
 3252460 [Fallen Tree Sentinel] Bullet
 3252461 [Fallen Tree Sentinel] Bullet
@@ -1407,8 +1407,8 @@
 3252481 [Fallen Tree Sentinel] Bullet
 3252482 [Fallen Tree Sentinel] Bullet
 3252483 [Fallen Tree Sentinel] Bullet
-3252900 [Fallen Tree Sentinel]
-3252905 [Fallen Tree Sentinel]
+3252900 [Fallen Tree Sentinel] Guard
+3252905 [Fallen Tree Sentinel] Obj
 3300000 [Nox Swordstress 1]
 3300010 [Nox Swordstress 1]
 3300020 [Nox Swordstress 1]
@@ -1434,12 +1434,12 @@
 3300210 [Nox Swordstress 1]
 3300211 [Nox Swordstress 1]
 3300220 [Nox Swordstress 1]
-3300221 [Nox Swordstress 1]
+3300221 [Nox Swordstress 1] Guard
 3300230 [Nox Swordstress 1]
 3300231 [Nox Swordstress 1]
 3300700 Nox Swordstress 1] Bullet
-3300900 [Nox Swordstress 1]
-3300910 [Nox Swordstress 1]
+3300900 [Nox Swordstress 1 Guard]
+3300910 [Nox Swordstress 1] Guard
 3300920 [Nox Swordstress 1]
 3310000 [Nox Swordstress 2]
 3310010 [Nox Swordstress 2]
@@ -1481,79 +1481,79 @@
 3320131 [Silver Tear] Bullet
 3320150 [Silver Tear]
 3320151 [Silver Tear]
-3320200 [Silver Tear]
+3320200 [Silver Tear] Guard
 3320300 [Silver Tear]
 3320301 [Silver Tear]
-3330100 [Silver Tear Orb]
+3330100 [Silver Tear Orb] Direct Hit
 3330101 [Silver Tear Orb]
-3330102 [Silver Tear Orb]
+3330102 [Silver Tear Orb] Glancing Blow
 3330110 [Silver Tear Orb]
-3330200 [Silver Tear Orb]
-3330201 [Silver Tear Orb]
+3330200 [Silver Tear Orb] Wall Hit
+3330201 [Silver Tear Orb] Wall Hit
 3330300 [Silver Tear Orb]
-3350000 [Crystalian]
-3350001 [Crystalian]
-3350010 [Crystalian]
-3350011 [Crystalian]
-3350020 [Crystalian]
-3350021 [Crystalian]
-3350030 [Crystalian]
-3350031 [Crystalian]
-3350032 [Crystalian]
-3350040 [Crystalian]
-3350041 [Crystalian]
+3350000 [Crystalian] Ring
+3350001 [Crystalian] Fist
+3350010 [Crystalian] Ring
+3350011 [Crystalian] Fist
+3350020 [Crystalian] Ring
+3350021 [Crystalian] Head
+3350030 [Crystalian] Ring
+3350031 [Crystalian] Fist
+3350032 [Crystalian] Head
+3350040 [Crystalian] Ring Throw
+3350041 [Crystalian] Ring Throw
 3350050 [Crystalian] Bullet
 3350060 [Crystalian] Bullet
-3350070 [Crystalian]
-3350071 [Crystalian]
-3350072 [Crystalian]
-3350080 [Crystalian]
-3350081 [Crystalian]
-3350090 [Crystalian]
-3350100 [Crystalian]
-3350101 [Crystalian]
-3350110 [Crystalian]
-3350111 [Crystalian]
-3350190 [Crystalian]
-3350191 [Crystalian]
-3350200 [Crystalian]
-3350201 [Crystalian]
-3350210 [Crystalian]
-3350211 [Crystalian]
-3350220 [Crystalian]
-3350221 [Crystalian]
-3350230 [Crystalian]
-3350231 [Crystalian]
-3350240 [Crystalian]
-3350241 [Crystalian]
-3350250 [Crystalian]
-3350251 [Crystalian]
-3350252 [Crystalian]
-3350260 [Crystalian]
-3350261 [Crystalian]
-3350270 [Crystalian]
-3350271 [Crystalian]
-3350280 [Crystalian]
-3350281 [Crystalian]
-3350300 [Crystalian]
-3350301 [Crystalian]
-3350310 [Crystalian]
-3350311 [Crystalian]
-3350320 [Crystalian]
-3350321 [Crystalian]
-3350330 [Crystalian]
-3350331 [Crystalian]
-3350340 [Crystalian]
-3350341 [Crystalian]
-3350350 [Crystalian]
-3350351 [Crystalian]
-3350352 [Crystalian]
-3350360 [Crystalian]
-3350361 [Crystalian]
-3350370 [Crystalian]
-3350371 [Crystalian]
-3350380 [Crystalian]
-3350381 [Crystalian]
+3350070 [Crystalian] Fist
+3350071 [Crystalian] Fist
+3350072 [Crystalian] Head
+3350080 [Crystalian] Ring
+3350081 [Crystalian] Head
+3350090 [Crystalian] Ring
+3350100 [Crystalian] Ring Throw
+3350101 [Crystalian] Ring Throw
+3350110 [Crystalian] Ring Throw
+3350111 [Crystalian] Ring Throw
+3350190 [Crystalian] Ring
+3350191 [Crystalian] Fist
+3350200 [Crystalian] Spear
+3350201 [Crystalian] Spear Hands
+3350210 [Crystalian] Spear
+3350211 [Crystalian] Spear Hands
+3350220 [Crystalian] Spear
+3350221 [Crystalian] Spear Hands
+3350230 [Crystalian] Spear
+3350231 [Crystalian] Spear Hands
+3350240 [Crystalian] Spear Magic
+3350241 [Crystalian] Spear Magic Hands
+3350250 [Crystalian] Spear Magic
+3350251 [Crystalian] Spear Magic
+3350252 [Crystalian] Spear Magic Hands
+3350260 [Crystalian] Spear
+3350261 [Crystalian] Spear Hands
+3350270 [Crystalian] Spear
+3350271 [Crystalian] Spear Hands
+3350280 [Crystalian] Spear
+3350281 [Crystalian] Spear Hands
+3350300 [Crystalian] Spear Rot
+3350301 [Crystalian] Spear Rot Hands
+3350310 [Crystalian] Spear Rot
+3350311 [Crystalian] Spear Rot Hands
+3350320 [Crystalian] Spear Rot
+3350321 [Crystalian] Spear Rot Hands
+3350330 [Crystalian] Spear Rot
+3350331 [Crystalian] Spear Rot Hands
+3350340 [Crystalian] Spear Magic Rot
+3350341 [Crystalian] Spear Magic Rot Hands
+3350350 [Crystalian] Spear Magic Rot
+3350351 [Crystalian] Spear Magic Rot
+3350352 [Crystalian] Spear Magic Rot Hands
+3350360 [Crystalian] Spear Rot
+3350361 [Crystalian] Spear Rot Hands
+3350370 [Crystalian] Spear Rot
+3350371 [Crystalian] Spear Rot Hands
+3350380 [Crystalian] Spear Rot
+3350381 [Crystalian] Spear Rot Hands
 3350400 [Crystalian] Bullet
 3350405 [Crystalian] Bullet
 3350410 [Crystalian] Bullet
@@ -1566,33 +1566,33 @@
 3350431 [Crystalian] Bullet
 3350435 [Crystalian] Bullet
 3350436 [Crystalian] Bullet
-3350450 [Crystalian]
-3350451 [Crystalian]
-3350500 [Crystalian]
-3350501 [Crystalian]
-3350510 [Crystalian]
-3350511 [Crystalian]
-3350520 [Crystalian]
-3350521 [Crystalian]
-3350530 [Crystalian]
-3350531 [Crystalian]
-3350532 [Crystalian]
-3350540 [Crystalian]
-3350541 [Crystalian]
+3350450 [Crystalian] Spear Bullet Poke
+3350451 [Crystalian] Spear Bullet Rot Poke
+3350500 [Crystalian] Ring Rot
+3350501 [Crystalian] Fist Rot
+3350510 [Crystalian] Ring Rot
+3350511 [Crystalian] Fist Rot
+3350520 [Crystalian] Ring Rot
+3350521 [Crystalian] Head Rot
+3350530 [Crystalian] Ring Rot
+3350531 [Crystalian] Fist Rot
+3350532 [Crystalian] Head Rot
+3350540 [Crystalian] Ring Rot Throw
+3350541 [Crystalian] Ring Rot Throw
 3350550 [Crystalian] Bullet
 3350560 [Crystalian] Bullet
-3350570 [Crystalian]
-3350571 [Crystalian]
-3350572 [Crystalian]
-3350580 [Crystalian]
-3350581 [Crystalian]
-3350590 [Crystalian]
-3350600 [Crystalian]
-3350601 [Crystalian]
-3350610 [Crystalian]
-3350611 [Crystalian]
-3350690 [Crystalian]
-3350691 [Crystalian]
+3350570 [Crystalian] Fist Rot
+3350571 [Crystalian] Fist Rot
+3350572 [Crystalian] Head Rot
+3350580 [Crystalian] Ring Rot
+3350581 [Crystalian] Head Rot
+3350590 [Crystalian] Ring Rot
+3350600 [Crystalian] Ring Throw
+3350601 [Crystalian] Ring Throw
+3350610 [Crystalian] Ring Throw
+3350611 [Crystalian] Ring Throw
+3350690 [Crystalian] Ring Rot
+3350691 [Crystalian] Fist Rot
 3360100 [Ancestral Follower]
 3360103 [Ancestral Follower]
 3360104 [Ancestral Follower]
@@ -1634,12 +1634,12 @@
 3360301 [Ancestral Follower]
 3360310 [Ancestral Follower]
 3360320 [Ancestral Follower] Bullet
-3360325 [Ancestral Follower]
+3360325 [Ancestral Follower] Winged Greathron
 3360400 [Ancestral Follower] Bullet
 3360410 [Ancestral Follower] Bullet
 3360480 [Ancestral Follower]
 3360485 [Ancestral Follower]
-3360490 [Ancestral Follower] Bullet
+3360490 [Ancestral Follower] Bullet - Rot Breath
 3360500 [Ancestral Follower] Bullet
 3360600 [Ancestral Follower]
 3360610 [Ancestral Follower]
@@ -1656,8 +1656,8 @@
 3370141 [Ancestral Follower Shaman] Bullet
 3370150 [Ancestral Follower Shaman]
 3370155 [Ancestral Follower Shaman]
-3400100 [Grave Warden Duelist]
-3400110 [Grave Warden Duelist]
+3400100 [Grave Warden Duelist] Chain
+3400110 [Grave Warden Duelist] Axe
 3400120 [Grave Warden Duelist]
 3400130 [Grave Warden Duelist]
 3400140 [Grave Warden Duelist]
@@ -1670,10 +1670,10 @@
 3400170 [Grave Warden Duelist]
 3400180 [Grave Warden Duelist]
 3400181 [Grave Warden Duelist]
-3400190 [Grave Warden Duelist]
+3400190 [Grave Warden Duelist] Guard
 3400191 [Grave Warden Duelist]
 3400192 [Grave Warden Duelist]
-3400200 [Grave Warden Duelist]
+3400200 [Grave Warden Duelist] Hammer
 3400210 [Grave Warden Duelist]
 3400211 [Grave Warden Duelist]
 3400220 [Grave Warden Duelist]
@@ -1694,25 +1694,25 @@
 3400290 [Grave Warden Duelist]
 3400291 [Grave Warden Duelist]
 3400292 [Grave Warden Duelist]
-3400300 [Grave Warden Duelist]
-3400301 [Grave Warden Duelist]
-3400302 [Grave Warden Duelist]
-3400310 [Grave Warden Duelist]
-3400320 [Grave Warden Duelist]
+3400300 [Grave Warden Duelist] Grab
+3400301 [Grave Warden Duelist] Grab Damage
+3400302 [Grave Warden Duelist] Grab Damage
+3400310 [Grave Warden Duelist] Kick
+3400320 [Grave Warden Duelist] Kick
 3400330 [Grave Warden Duelist]
 3400331 [Grave Warden Duelist]
 3400340 [Grave Warden Duelist]
 3400341 [Grave Warden Duelist]
-3400350 [Grave Warden Duelist]
-3400351 [Grave Warden Duelist]
-3400360 [Grave Warden Duelist]
+3400350 [Grave Warden Duelist] AoE
+3400351 [Grave Warden Duelist] AoE
+3400360 [Grave Warden Duelist] AoE
 3400370 [Grave Warden Duelist] Bullet
-3400380 [Grave Warden Duelist] Bullet
+3400380 [Grave Warden Duelist] Bullet - AoE
 3400400 [Grave Warden Duelist]
-3400401 [Grave Warden Duelist]
-3400402 [Grave Warden Duelist]
-3400500 [Grave Warden Duelist] Bullet
-3400510 [Grave Warden Duelist]
+3400401 [Grave Warden Duelist] Grab Damage
+3400402 [Grave Warden Duelist] Grab Damage
+3400500 [Grave Warden Duelist] Bullet - Rot Breath
+3400510 [Grave Warden Duelist] Wall Bounce
 3400600 [Grave Warden Duelist]
 3400610 [Grave Warden Duelist]
 3400620 [Grave Warden Duelist]
@@ -1727,7 +1727,7 @@
 3400670 [Grave Warden Duelist]
 3400680 [Grave Warden Duelist]
 3400681 [Grave Warden Duelist]
-3400690 [Grave Warden Duelist]
+3400690 [Grave Warden Duelist] Guard
 3400691 [Grave Warden Duelist]
 3400692 [Grave Warden Duelist]
 3400700 [Grave Warden Duelist]
@@ -1751,21 +1751,21 @@
 3400790 [Grave Warden Duelist]
 3400791 [Grave Warden Duelist]
 3400792 [Grave Warden Duelist]
-3400800 [Grave Warden Duelist]
-3400801 [Grave Warden Duelist]
-3400802 [Grave Warden Duelist]
-3400810 [Grave Warden Duelist]
-3400820 [Grave Warden Duelist]
+3400800 [Grave Warden Duelist] Grab
+3400801 [Grave Warden Duelist] Grab Damage
+3400802 [Grave Warden Duelist] Grab Damage
+3400810 [Grave Warden Duelist] Kick
+3400820 [Grave Warden Duelist] Kick
 3400830 [Grave Warden Duelist]
 3400831 [Grave Warden Duelist]
 3400840 [Grave Warden Duelist]
 3400841 [Grave Warden Duelist]
-3400850 [Grave Warden Duelist]
-3400851 [Grave Warden Duelist]
-3400860 [Grave Warden Duelist]
+3400850 [Grave Warden Duelist] AoE
+3400851 [Grave Warden Duelist] AoE
+3400860 [Grave Warden Duelist] AoE
 3400900 [Grave Warden Duelist]
-3400901 [Grave Warden Duelist]
-3400902 [Grave Warden Duelist]
+3400901 [Grave Warden Duelist] Grab Damage
+3400902 [Grave Warden Duelist] Grab Damage
 3450100 [Misbegotten]
 3450110 [Misbegotten]
 3450120 [Misbegotten]
@@ -1796,13 +1796,13 @@
 3450411 [Misbegotten]
 3450412 [Misbegotten]
 3451100 [Misbegotten 2]
-3451110 [Misbegotten 2]
+3451110 [Misbegotten 2] Tail
 3451111 [Misbegotten 2]
 3451120 [Misbegotten 2]
 3451130 [Misbegotten 2]
-3451140 [Misbegotten 2]
-3451141 [Misbegotten 2]
-3451150 [Misbegotten 2]
+3451140 [Misbegotten 2] Head Axe Blade
+3451141 [Misbegotten 2] AoE
+3451150 [Misbegotten 2] Head
 3451160 [Misbegotten 2]
 3451170 [Misbegotten 2]
 3451180 [Misbegotten 2]
@@ -1815,18 +1815,18 @@
 3460130 [Winged Misbegotten]
 3460131 [Winged Misbegotten]
 3460140 [Winged Misbegotten]
-3460150 [Winged Misbegotten] Bullet
-3460151 [Winged Misbegotten] Bullet
+3460150 [Winged Misbegotten] Bullet - Roar
+3460151 [Winged Misbegotten] Bullet - Roar
 3460160 [Winged Misbegotten]
 3460170 [Winged Misbegotten]
-3460180 [Winged Misbegotten]
+3460180 [Winged Misbegotten] Stomp
 3460181 [Winged Misbegotten]
-3460190 [Winged Misbegotten]
+3460190 [Winged Misbegotten] Feet
 3460200 [Winged Misbegotten]
-3460201 [Winged Misbegotten] Bullet
+3460201 [Winged Misbegotten] Bullet - Jump Shockwave
 3460210 [Winged Misbegotten]
 3460220 [Winged Misbegotten]
-3460230 [Winged Misbegotten] Bullet
+3460230 [Winged Misbegotten] Bullet - Holy AoE
 3460240 [Winged Misbegotten]
 3460241 [Winged Misbegotten] Bullet
 3460300 [Winged Misbegotten]
@@ -1871,8 +1871,8 @@
 3470056 [Albinauric]
 3470057 [Albinauric]
 3470058 [Albinauric]
-3470060 [Albinauric]
-3470061 [Albinauric]
+3470060 [Albinauric] Guard
+3470061 [Albinauric] Guard
 3470070 [Albinauric]
 3470071 [Albinauric]
 3470072 [Albinauric]
@@ -1901,7 +1901,7 @@
 3500200 [Skeleton (Curved Sword)]
 3500201 [Skeleton (Curved Sword)]
 3500210 [Skeleton (Curved Sword)]
-3500220 [Skeleton (Curved Sword)]
+3500220 [Skeleton (Curved Sword)] Guard
 3500230 [Skeleton (Curved Sword)]
 3500300 [Skeleton (Curved Sword)]
 3500310 [Skeleton (Curved Sword)]
@@ -1951,7 +1951,7 @@
 3510220 [Skeleton (Scimitar)]
 3510230 [Skeleton (Scimitar)] Bullet
 3510240 [Skeleton (Scimitar)]
-3510500 [Skeleton (Scimitar)]
+3510500 [Skeleton (Scimitar)] Guard
 3510510 [Skeleton (Scimitar)]
 3510520 [Skeleton (Scimitar)]
 3510700 [Skeleton (Scimitar)] Bullet
@@ -1999,7 +1999,7 @@
 3560161 [Godskin Apostle]
 3560170 [Godskin Apostle]
 3560180 [Godskin Apostle]
-3560190 [Godskin Apostle]
+3560190 [Godskin Apostle] Windmill Spin
 3560191 [Godskin Apostle]
 3560192 [Godskin Apostle]
 3560193 [Godskin Apostle]
@@ -2007,9 +2007,9 @@
 3560195 [Godskin Apostle]
 3560196 [Godskin Apostle]
 3560197 [Godskin Apostle]
-3560198 [Godskin Apostle] Bullet
+3560198 [Godskin Apostle] Bullet - Deflect
 3560200 [Godskin Apostle]
-3560201 [Godskin Apostle]
+3560201 [Godskin Apostle] Yank
 3560210 [Godskin Apostle]
 3560211 [Godskin Apostle]
 3560212 [Godskin Apostle]
@@ -2022,16 +2022,16 @@
 3560233 [Godskin Apostle]
 3560234 [Godskin Apostle]
 3560235 [Godskin Apostle]
-3560236 [Godskin Apostle] Bullet
+3560236 [Godskin Apostle] Bullet - Deflect
 3560240 [Godskin Apostle]
 3560241 [Godskin Apostle]
-3560242 [Godskin Apostle] Bullet
-3560243 [Godskin Apostle] Bullet
+3560242 [Godskin Apostle] Bullet - Stretch Fire Spin Drop
+3560243 [Godskin Apostle] Bullet - Stretch Fire Spin Fire
 3560250 [Godskin Apostle] Bullet
 3560251 [Godskin Apostle] Bullet
 3560260 [Godskin Apostle] Bullet
 3560261 [Godskin Apostle] Bullet
-3560270 [Godskin Apostle] Bullet
+3560270 [Godskin Apostle] Bullet - Phase Shift AoE
 3560280 [Godskin Apostle]
 3560290 [Godskin Apostle]
 3560291 [Godskin Apostle]
@@ -2058,60 +2058,60 @@
 3570140 [Godskin Noble]
 3570150 [Godskin Noble]
 3570151 [Godskin Noble]
-3570160 [Godskin Noble]
-3570170 [Godskin Noble]
-3570180 [Godskin Noble]
+3570160 [Godskin Noble] Backhand Thrust
+3570170 [Godskin Noble] Tail
+3570180 [Godskin Noble] Tail
 3570190 [Godskin Noble]
-3570191 [Godskin Noble] Bullet
-3570200 [Godskin Noble]
-3570210 [Godskin Noble]
-3570211 [Godskin Noble]
-3570212 [Godskin Noble]
+3570191 [Godskin Noble] Bullet - Rapier Slam AoE
+3570200 [Godskin Noble] Large Thrust
+3570210 [Godskin Noble] Triple
+3570211 [Godskin Noble] Triple
+3570212 [Godskin Noble] Triple
 3570220 [Godskin Noble]
 3570221 [Godskin Noble]
 3570230 [Godskin Noble]
-3570240 [Godskin Noble]
-3570250 [Godskin Noble]
-3570251 [Godskin Noble]
-3570252 [Godskin Noble]
-3570253 [Godskin Noble]
-3570254 [Godskin Noble]
-3570255 [Godskin Noble]
-3570256 [Godskin Noble]
-3570260 [Godskin Noble]
-3570261 [Godskin Noble] Bullet
-3570262 [Godskin Noble] Bullet
-3570270 [Godskin Noble]
-3570271 [Godskin Noble]
-3570272 [Godskin Noble]
-3570273 [Godskin Noble]
-3570274 [Godskin Noble] Bullet
+3570240 [Godskin Noble] Large Thrust
+3570250 [Godskin Noble] Ricard
+3570251 [Godskin Noble] Ricard
+3570252 [Godskin Noble] Ricard
+3570253 [Godskin Noble] Ricard
+3570254 [Godskin Noble] Ricard
+3570255 [Godskin Noble] Ricard
+3570256 [Godskin Noble] Ricard
+3570260 [Godskin Noble] Floating Slam Land
+3570261 [Godskin Noble] Bullet - Floating Slam Knockaway
+3570262 [Godskin Noble] Bullet - Floating Slam AoE Damage
+3570270 [Godskin Noble] Roll Start Slam
+3570271 [Godskin Noble] Roll Start 1
+3570272 [Godskin Noble] Roll Start 2
+3570273 [Godskin Noble] Roll Start 3
+3570274 [Godskin Noble] Bullet - Roll Knockaway
 3570275 [Godskin Noble] Bullet
-3570280 [Godskin Noble]
-3570281 [Godskin Noble]
-3570282 [Godskin Noble]
-3570283 [Godskin Noble]
-3570290 [Godskin Noble]
-3570291 [Godskin Noble]
-3570300 [Godskin Noble] Bullet
+3570280 [Godskin Noble] Roll Continuos 1
+3570281 [Godskin Noble] Roll Continuos 2
+3570282 [Godskin Noble] Roll Continuos 3
+3570283 [Godskin Noble] Roll Continuos 4
+3570290 [Godskin Noble] Roll End 1
+3570291 [Godskin Noble] Roll End 2
+3570300 [Godskin Noble] Bullet - Fire Circle
 3570301 [Godskin Noble] Bullet
 3570302 [Godskin Noble] Bullet
 3570303 [Godskin Noble] Bullet
-3570310 [Godskin Noble] Bullet
+3570310 [Godskin Noble] Bullet - Fireball
 3570311 [Godskin Noble] Bullet
 3570320 [Godskin Noble] Bullet
 3570330 [Godskin Noble]
 3570340 [Godskin Noble]
-3570350 [Godskin Noble]
+3570350 [Godskin Noble] Large Thrust
 3570360 [Godskin Noble]
 3570370 [Godskin Noble]
-3570380 [Godskin Noble]
+3570380 [Godskin Noble] Slap
 3570390 [Godskin Noble]
 3570391 [Godskin Noble]
-3570400 [Godskin Noble]
-3570410 [Godskin Noble] Bullet
-3570420 [Godskin Noble] Bullet
-3570421 [Godskin Noble] Bullet
+3570400 [Godskin Noble] Belly Quick
+3570410 [Godskin Noble] Bullet - Roar
+3570420 [Godskin Noble] Bullet - Belly Quick Fire
+3570421 [Godskin Noble] Bullet - Belly Quick Fire
 3600100 [Alabaster Lord]
 3600101 [Alabaster Lord]
 3600110 [Alabaster Lord]
@@ -2125,16 +2125,16 @@
 3600150 [Alabaster Lord]
 3600160 [Alabaster Lord]
 3600170 [Alabaster Lord]
-3600171 [Alabaster Lord]
+3600171 [Alabaster Lord] Grab Damage
 3600180 [Alabaster Lord]
 3600190 [Alabaster Lord]
 3600191 [Alabaster Lord]
-3600200 [Alabaster Lord] Bullet
-3600201 [Alabaster Lord] Bullet
-3600202 [Alabaster Lord] Bullet
-3600203 [Alabaster Lord] Bullet
+3600200 [Alabaster Lord] Bullet - Pull
+3600201 [Alabaster Lord] Bullet - Pull
+3600202 [Alabaster Lord] Bullet - Pull
+3600203 [Alabaster Lord] Bullet - Pull
 3600210 [Alabaster Lord]
-3600220 [Alabaster Lord] Bullet
+3600220 [Alabaster Lord] Bullet - Gravity Orb Pull
 3600300 [Alabaster Lord]
 3600301 [Alabaster Lord]
 3600310 [Alabaster Lord]
@@ -2147,20 +2147,20 @@
 3600350 [Alabaster Lord]
 3600360 [Alabaster Lord]
 3600370 [Alabaster Lord]
-3600372 [Alabaster Lord] Bullet
+3600372 [Alabaster Lord] Bullet - Meteor
 3600374 [Alabaster Lord]
 3600380 [Alabaster Lord]
 3600390 [Alabaster Lord]
 3600391 [Alabaster Lord]
-3600400 [Alabaster Lord] Bullet
-3600401 [Alabaster Lord] Bullet
-3600402 [Alabaster Lord] Bullet
+3600400 [Alabaster Lord] Bullet - Push
+3600401 [Alabaster Lord] Bullet - Pull
+3600402 [Alabaster Lord] Bullet - Push
 3600410 [Alabaster Lord]
-3600420 [Alabaster Lord] Bullet
-3600430 [Alabaster Lord]
-3600431 [Alabaster Lord]
-3600432 [Alabaster Lord]
-3600440 [Alabaster Lord] Bullet
+3600420 [Alabaster Lord] Bullet - Meteor
+3600430 [Alabaster Lord] UN
+3600431 [Alabaster Lord] UN
+3600432 [Alabaster Lord] UN
+3600440 [Alabaster Lord] Bullet - Gravity Orb Push
 3610100 [Oracle Envoy]
 3610110 [Oracle Envoy]
 3610120 [Oracle Envoy]
@@ -2169,48 +2169,48 @@
 3610150 [Oracle Envoy] Bullet
 3640100 [Unknown]
 3640110 [Unknown]
-3650100 [Erdtree Guardian]
-3650110 [Erdtree Guardian]
-3650120 [Erdtree Guardian]
-3650130 [Erdtree Guardian]
-3650140 [Erdtree Guardian]
-3650150 [Erdtree Guardian]
-3650160 [Erdtree Guardian]
-3650170 [Erdtree Guardian]
-3650171 [Erdtree Guardian]
-3650180 [Erdtree Guardian]
-3650190 [Erdtree Guardian]
-3650191 [Erdtree Guardian]
-3650200 [Erdtree Guardian]
-3650201 [Erdtree Guardian]
-3650210 [Erdtree Guardian]
-3650220 [Erdtree Guardian]
-3650230 [Erdtree Guardian]
-3650240 [Erdtree Guardian]
-3650250 [Erdtree Guardian]
-3650310 [Erdtree Guardian] Bullet
-3650315 [Erdtree Guardian]
-3650316 [Erdtree Guardian]
-3650319 [Erdtree Guardian]
-3650340 [Erdtree Guardian]
+3650100 [Erdtree Guardian] Swordspear
+3650110 [Erdtree Guardian] Swordspear
+3650120 [Erdtree Guardian] Swordspear
+3650130 [Erdtree Guardian] Swordspear
+3650140 [Erdtree Guardian] Swordspear
+3650150 [Erdtree Guardian] Swordspear
+3650160 [Erdtree Guardian] Swordspear
+3650170 [Erdtree Guardian] Swordspear
+3650171 [Erdtree Guardian] Swordspear
+3650180 [Erdtree Guardian] Swordspear
+3650190 [Erdtree Guardian] Swordspear
+3650191 [Erdtree Guardian] Swordspear
+3650200 [Erdtree Guardian] Swordspear
+3650201 [Erdtree Guardian] Swordspear
+3650210 [Erdtree Guardian] Swordspear
+3650220 [Erdtree Guardian] Swordspear
+3650230 [Erdtree Guardian] Swordspear
+3650240 [Erdtree Guardian] Swordspear
+3650250 [Erdtree Guardian] Swordspear
+3650310 [Erdtree Guardian] Bullet - Poison Blood Gas
+3650315 [Erdtree Guardian] Swordspear Seppuku
+3650316 [Erdtree Guardian] Swordspear Seppuku
+3650319 [Erdtree Guardian] Swordspear Seppuku Crit
+3650340 [Erdtree Guardian] Flower Bash
 3650343 [Erdtree Guardian] Bullet
 3650345 [Erdtree Guardian] Bullet
-3650350 [Erdtree Guardian]
+3650350 [Erdtree Guardian] Swordspear Jump
 3650410 [Erdtree Guardian] Bullet
-3650500 [Erdtree Guardian]
-3650510 [Erdtree Guardian]
-3650520 [Erdtree Guardian]
-3650530 [Erdtree Guardian]
-3650540 [Erdtree Guardian]
-3650550 [Erdtree Guardian]
-3650560 [Erdtree Guardian]
-3650570 [Erdtree Guardian]
-3650660 [Erdtree Guardian]
-3650670 [Erdtree Guardian]
-3650671 [Erdtree Guardian]
+3650500 [Erdtree Guardian] Spiked Swordspear
+3650510 [Erdtree Guardian] Spiked Swordspear
+3650520 [Erdtree Guardian] Spiked Swordspear
+3650530 [Erdtree Guardian] Spiked Swordspear
+3650540 [Erdtree Guardian] Spiked Swordspear
+3650550 [Erdtree Guardian] Spiked Swordspear
+3650560 [Erdtree Guardian] Spiked Swordspear
+3650570 [Erdtree Guardian] Spiked Swordspear
+3650660 [Erdtree Guardian] Spiked Swordspear
+3650670 [Erdtree Guardian] Spiked Swordspear Grab
+3650671 [Erdtree Guardian] Spiked Swordspear Grab
 3650710 [Erdtree Guardian] Bullet
 3650800 [Erdtree Guardian] Bullet
-3650900 [Erdtree Guardian] Bullet
+3650900 [Erdtree Guardian] Bullet - Spiked Sowrdspear AoE
 3660100 [Devious Commoner]
 3660110 [Devious Commoner]
 3660120 [Devious Commoner]
@@ -2349,29 +2349,29 @@
 3662925 [Putrid Corpse 2] Bullet
 3662926 [Putrid Corpse 2] Bullet
 3662927 [Putrid Corpse 2] Bullet
-3664100 [Cemetery Shade]
-3664101 [Cemetery Shade]
-3664110 [Cemetery Shade]
-3664111 [Cemetery Shade]
-3664120 [Cemetery Shade]
-3664121 [Cemetery Shade]
-3664130 [Cemetery Shade]
-3664140 [Cemetery Shade]
-3664141 [Cemetery Shade]
-3664142 [Cemetery Shade]
-3664143 [Cemetery Shade]
-3664150 [Cemetery Shade]
-3664160 [Cemetery Shade]
-3664170 [Cemetery Shade]
-3664190 [Cemetery Shade]
-3664191 [Cemetery Shade]
-3664192 [Cemetery Shade]
-3664193 [Cemetery Shade]
-3664194 [Cemetery Shade]
-3664195 [Cemetery Shade]
-3664196 [Cemetery Shade]
-3664197 [Cemetery Shade]
-3664200 [Cemetery Shade]
+3664100 [Cemetery Shade] S2
+3664101 [Cemetery Shade] S1
+3664110 [Cemetery Shade] S1
+3664111 [Cemetery Shade] S2
+3664120 [Cemetery Shade] S12
+3664121 [Cemetery Shade] S12
+3664130 [Cemetery Shade] S1
+3664140 [Cemetery Shade] S1
+3664141 [Cemetery Shade] S2
+3664142 [Cemetery Shade] S1
+3664143 [Cemetery Shade] S2
+3664150 [Cemetery Shade] SE
+3664160 [Cemetery Shade] S12
+3664170 [Cemetery Shade] Grab
+3664190 [Cemetery Shade] S2
+3664191 [Cemetery Shade] S1
+3664192 [Cemetery Shade] S2
+3664193 [Cemetery Shade] S1
+3664194 [Cemetery Shade] S2
+3664195 [Cemetery Shade] S1
+3664196 [Cemetery Shade] S2
+3664197 [Cemetery Shade] S12
+3664200 [Cemetery Shade] Grab Damage
 3670100 [Albinauric Lookout] Bullet
 3670101 [Albinauric Lookout] Bullet
 3670110 [Albinauric Lookout]
@@ -2421,7 +2421,7 @@
 3700300 [Depraved Perfumer]
 3700310 [Depraved Perfumer]
 3700320 [Depraved Perfumer]
-3700330 [Depraved Perfumer]
+3700330 [Depraved Perfumer] Guard
 3700340 [Depraved Perfumer]
 3700341 [Depraved Perfumer]
 3700570 [Depraved Perfumer] Bullet
@@ -2430,23 +2430,23 @@
 3702100 [Raya Lucaria Scholar] Bullet
 3702200 [Raya Lucaria Scholar] Bullet
 3702210 [Raya Lucaria Scholar] Bullet
-3702300 [Raya Lucaria Scholar]
+3702300 [Raya Lucaria Scholar] Magic Sword
 3702301 [Raya Lucaria Scholar] Bullet
 3702400 [Raya Lucaria Scholar] Bullet
 3702401 [Raya Lucaria Scholar] Bullet
 3702402 [Raya Lucaria Scholar] Bullet
-3702403 [Raya Lucaria Scholar]
+3702403 [Raya Lucaria Scholar] Magic Greatsword
 3702500 [Raya Lucaria Scholar]
 3702501 [Raya Lucaria Scholar]
 3702502 [Raya Lucaria Scholar]
 3702503 [Raya Lucaria Scholar]
-3702510 [Raya Lucaria Scholar]
-3702520 [Raya Lucaria Scholar]
-3702600 [Raya Lucaria Scholar]
-3702610 [Raya Lucaria Scholar]
-3702620 [Raya Lucaria Scholar]
-3702630 [Raya Lucaria Scholar]
-3702640 [Raya Lucaria Scholar]
+3702510 [Raya Lucaria Scholar] Guard
+3702520 [Raya Lucaria Scholar] Guard
+3702600 [Raya Lucaria Scholar] Sword
+3702610 [Raya Lucaria Scholar] Sword
+3702620 [Raya Lucaria Scholar] Sword
+3702630 [Raya Lucaria Scholar] Sword
+3702640 [Raya Lucaria Scholar] Sword
 3702700 [Raya Lucaria Scholar]
 3703100 [Noble's Page]
 3703110 [Noble's Page]
@@ -2487,16 +2487,16 @@
 3710120 [Master Azur] Bullet
 3730100 [Orb of Many Faces] Bullet
 3730110 [Orb of Many Faces] Bullet
-3750100 [Clayman]
+3750100 [Clayman] Spear
 3750110 [Clayman]
 3750120 [Clayman]
 3750130 [Clayman]
 3750131 [Clayman]
 3750132 [Clayman]
 3750140 [Clayman]
-3750150 [Clayman]
+3750150 [Clayman] Arm Grab
 3750160 [Clayman]
-3750200 [Clayman]
+3750200 [Clayman] Dagger
 3750210 [Clayman]
 3750220 [Clayman]
 3750230 [Clayman]
@@ -2508,8 +2508,8 @@
 3750241 [Clayman] Bullet
 3750250 [Clayman]
 3750251 [Clayman]
-3750300 [Clayman]
-3750310 [Clayman]
+3750300 [Clayman] Arm Grab
+3750310 [Clayman] Arm Grab
 3750320 [Clayman] Bullet
 3750321 [Clayman] Bullet
 3750330 [Clayman] Bullet
@@ -2518,51 +2518,51 @@
 3750341 [Clayman] Bullet
 3750350 [Clayman] Bullet
 3750351 [Clayman] Bullet
-3800100 [Cleanrot Knight]
-3800110 [Cleanrot Knight]
-3800120 [Cleanrot Knight]
-3800121 [Cleanrot Knight]
-3800130 [Cleanrot Knight]
-3800140 [Cleanrot Knight]
-3800150 [Cleanrot Knight]
-3800160 [Cleanrot Knight]
-3800170 [Cleanrot Knight]
-3800180 [Cleanrot Knight]
-3800181 [Cleanrot Knight]
-3800182 [Cleanrot Knight]
-3800183 [Cleanrot Knight]
-3800185 [Cleanrot Knight]
-3800190 [Cleanrot Knight]
-3800191 [Cleanrot Knight]
-3800192 [Cleanrot Knight]
-3800193 [Cleanrot Knight]
-3800194 [Cleanrot Knight]
-3800200 [Cleanrot Knight]
-3800201 [Cleanrot Knight]
-3800210 [Cleanrot Knight]
-3800211 [Cleanrot Knight]
-3800220 [Cleanrot Knight]
-3800221 [Cleanrot Knight]
-3800230 [Cleanrot Knight]
-3800231 [Cleanrot Knight]
-3800232 [Cleanrot Knight]
-3800233 [Cleanrot Knight]
-3800240 [Cleanrot Knight] Bullet
-3800250 [Cleanrot Knight]
-3800260 [Cleanrot Knight]
-3800270 [Cleanrot Knight]
-3800284 [Cleanrot Knight] Bullet
-3800285 [Cleanrot Knight]
-3800286 [Cleanrot Knight]
-3800287 [Cleanrot Knight]
-3800290 [Cleanrot Knight] Bullet
-3800291 [Cleanrot Knight] Bullet
+3800100 [Cleanrot Knight] Rapier
+3800110 [Cleanrot Knight] Rapier
+3800120 [Cleanrot Knight] Rapier
+3800121 [Cleanrot Knight] Rapier
+3800130 [Cleanrot Knight] Spear
+3800140 [Cleanrot Knight] Spear
+3800150 [Cleanrot Knight] Rapier Spear
+3800160 [Cleanrot Knight] Rapier
+3800170 [Cleanrot Knight] Rapier
+3800180 [Cleanrot Knight] Spear Grab
+3800181 [Cleanrot Knight] Grab
+3800182 [Cleanrot Knight] Grab
+3800183 [Cleanrot Knight] Spear
+3800185 [Cleanrot Knight] Spear Charge
+3800190 [Cleanrot Knight] Guard
+3800191 [Cleanrot Knight] Guard
+3800192 [Cleanrot Knight] Guard
+3800193 [Cleanrot Knight] Push
+3800194 [Cleanrot Knight] Push
+3800200 [Cleanrot Knight] Scythe
+3800201 [Cleanrot Knight] Scythe Blade
+3800210 [Cleanrot Knight] Scythe
+3800211 [Cleanrot Knight] Scythe Blade
+3800220 [Cleanrot Knight] Scythe
+3800221 [Cleanrot Knight] Scythe Blade
+3800230 [Cleanrot Knight] Scythe
+3800231 [Cleanrot Knight] Rapier
+3800232 [Cleanrot Knight] Scythe
+3800233 [Cleanrot Knight] Scythe Blade
+3800240 [Cleanrot Knight] Bullet - Buff
+3800250 [Cleanrot Knight] Rapier
+3800260 [Cleanrot Knight] Rapier
+3800270 [Cleanrot Knight] Spear
+3800284 [Cleanrot Knight] Bullet - Phalanx
+3800285 [Cleanrot Knight] Spear Tip
+3800286 [Cleanrot Knight] Spear Tip
+3800287 [Cleanrot Knight] Spear Base
+3800290 [Cleanrot Knight] Bullet - Spit
+3800291 [Cleanrot Knight] Bullet - Spit Cloud
 3800300 [Cleanrot Knight] Bullet
-3800301 [Cleanrot Knight]
-3800302 [Cleanrot Knight]
-3800310 [Cleanrot Knight] Bullet
-3800311 [Cleanrot Knight]
-3800312 [Cleanrot Knight]
+3800301 [Cleanrot Knight] Scythe Halo Toss
+3800302 [Cleanrot Knight] Scythe Blade Halo Toss
+3800310 [Cleanrot Knight] Bullet - Halo
+3800311 [Cleanrot Knight] Scythe Halo Toss
+3800312 [Cleanrot Knight] Scythe Blade Halo Toss
 3810100 [Kindred of Rot]
 3810110 [Kindred of Rot]
 3810111 [Kindred of Rot]
@@ -2573,202 +2573,202 @@
 3810160 [Kindred of Rot]
 3810170 [Kindred of Rot]
 3810180 [Kindred of Rot]
-3810190 [Kindred of Rot] Bullet
+3810190 [Kindred of Rot] Bullet - Pest Threads
 3810200 [Kindred of Rot]
 3810201 [Kindred of Rot]
 3810210 [Kindred of Rot]
 3810220 [Kindred of Rot]
 3810230 [Kindred of Rot]
 3810240 [Kindred of Rot]
-3810420 [Kindred of Rot] Bullet
-3850000 [Marionette]
-3850001 [Marionette]
-3850002 [Marionette]
-3850003 [Marionette]
-3850010 [Marionette]
-3850011 [Marionette]
-3850012 [Marionette]
-3850013 [Marionette]
-3850020 [Marionette]
-3850030 [Marionette]
-3850040 [Marionette]
-3850041 [Marionette]
-3850050 [Marionette]
-3850051 [Marionette]
-3850052 [Marionette]
-3850053 [Marionette]
-3850054 [Marionette]
-3850055 [Marionette]
-3850056 [Marionette]
-3850057 [Marionette]
-3850058 [Marionette]
-3850059 [Marionette]
-3850060 [Marionette]
-3850070 [Marionette] Bullet
-3850075 [Marionette] Bullet
-3850080 [Marionette] Bullet
-3850085 [Marionette] Bullet
-3850090 [Marionette]
-3850095 [Marionette]
-3850100 [Marionette] Bullet
-3850101 [Marionette] Bullet
-3850110 [Marionette] Bullet
-3850111 [Marionette] Bullet
-3850120 [Marionette] Bullet
-3850121 [Marionette] Bullet
-3850200 [Marionette]
-3850210 [Marionette]
-3850212 [Marionette]
-3850220 [Marionette]
-3850230 [Marionette]
-3850240 [Marionette]
-3850250 [Marionette]
-3850260 [Marionette]
-3850261 [Marionette]
-3850270 [Marionette]
-3850271 [Marionette]
-3850280 [Marionette]
-3850281 [Marionette]
-3850290 [Marionette]
-3850291 [Marionette]
-3850300 [Marionette]
-3850301 [Marionette]
-3850310 [Marionette] Bullet
-3850320 [Marionette] Bullet
-3860100 [Avionette]
-3860101 [Avionette]
-3860110 [Avionette]
-3860111 [Avionette]
-3860120 [Avionette]
-3860121 [Avionette]
-3860122 [Avionette]
-3860123 [Avionette]
-3860130 [Avionette]
-3860131 [Avionette]
-3860140 [Avionette]
-3860141 [Avionette]
-3860150 [Avionette]
-3860151 [Avionette]
-3860160 [Avionette]
-3860170 [Avionette] Bullet
-3860180 [Avionette]
-3860190 [Avionette]
-3860191 [Avionette]
-3860200 [Avionette]
-3860210 [Avionette]
-3860220 [Avionette]
-3860230 [Avionette]
-3860240 [Avionette]
-3860241 [Avionette]
-3860250 [Avionette]
-3860251 [Avionette]
-3860260 [Avionette]
-3860280 [Avionette]
-3860290 [Avionette]
-3860300 [Avionette]
-3860310 [Avionette]
-3860400 [Avionette] Bullet
-3860405 [Avionette] Bullet
-3860450 [Avionette] Bullet
-3860451 [Avionette] Bullet
-3860452 [Avionette] Bullet
-3860500 [Avionette]
-3900100 [Fire Monk 1]
-3900110 [Fire Monk 1]
-3900120 [Fire Monk 1]
-3900130 [Fire Monk 1]
-3900131 [Fire Monk] Bullet
-3900140 [Fire Monk 1]
-3900141 [Fire Monk 1]
-3900150 [Fire Monk 1]
-3900160 [Fire Monk 1]
-3900170 [Fire Monk 1]
-3900180 [Fire Monk 1]
-3900181 [Fire Monk 1]
-3900190 [Fire Monk 1]
-3900200 [Fire Monk] Bullet
-3900201 [Fire Monk] Bullet
-3900202 [Fire Monk 1]
-3900210 [Fire Monk] Bullet
-3900211 [Fire Monk] Bullet
-3900212 [Fire Monk 1]
-3900220 [Fire Monk] Bullet
-3900230 [Fire Monk 1]
-3900240 [Fire Monk 1]
-3900250 [Fire Monk 1]
-3900260 [Fire Monk 1]
-3900270 [Fire Monk 1]
-3900300 [Fire Monk 1]
-3900310 [Fire Monk 1]
-3900320 [Fire Monk 1]
-3900330 [Fire Monk 1]
-3900331 [Fire Monk 1]
-3900332 [Fire Monk 1]
-3900333 [Fire Monk] Bullet
-3900340 [Fire Monk 1]
-3900350 [Fire Monk 1]
-3900360 [Fire Monk 1]
-3900370 [Fire Monk 1]
-3900371 [Fire Monk 1]
-3900380 [Fire Monk 1]
-3900390 [Fire Monk 1]
-3900391 [Fire Monk 1]
-3900400 [Fire Monk 1]
-3900410 [Fire Monk 1]
-3900420 [Fire Monk 1]
-3900421 [Fire Monk 1]
-3900430 [Fire Monk 1]
-3900440 [Fire Monk 1]
-3901100 [Godskin Monk]
-3901110 [Godskin Monk]
-3901120 [Godskin Monk]
-3901130 [Godskin Monk]
-3901131 [Godskin Monk] Bullet
-3901140 [Godskin Monk]
-3901141 [Godskin Monk]
-3901150 [Godskin Monk]
-3901160 [Godskin Monk]
-3901170 [Godskin Monk]
-3901180 [Godskin Monk]
-3901181 [Godskin Monk]
-3901190 [Godskin Monk]
+3810420 [Kindred of Rot] Bullet - Pest Threads
+3850000 [Marionette] Sword 4
+3850001 [Marionette] Sword 6
+3850002 [Marionette] Sword 5
+3850003 [Marionette] Sword 3
+3850010 [Marionette] Sword 3
+3850011 [Marionette] Sword 5
+3850012 [Marionette] Sword 6
+3850013 [Marionette] Sword 4
+3850020 [Marionette] Sword 3456
+3850030 [Marionette] Sword 3456
+3850040 [Marionette] Sword 3456
+3850041 [Marionette] Sword 3456
+3850050 [Marionette] Sword 6
+3850051 [Marionette] Sword 5
+3850052 [Marionette] Sword 5
+3850053 [Marionette] Sword 6
+3850054 [Marionette] Sword 6
+3850055 [Marionette] Sword 345
+3850056 [Marionette] Sword 4
+3850057 [Marionette] Sword 6
+3850058 [Marionette] Sword 345
+3850059 [Marionette] Sword 34
+3850060 [Marionette] Sword 6
+3850070 [Marionette] Bullet - Fire Pot
+3850075 [Marionette] Bullet - Fire Pot
+3850080 [Marionette] Bullet - Magic Pot
+3850085 [Marionette] Bullet - Magic Pot
+3850090 [Marionette] Sword 3456 Freak
+3850095 [Marionette] Sword 3456 Freak
+3850100 [Marionette] Bullet - Arrow
+3850101 [Marionette] Bullet - Arrow
+3850110 [Marionette] Bullet - Arrow
+3850111 [Marionette] Bullet - Arrow
+3850120 [Marionette] Bullet - Arrow
+3850121 [Marionette] Bullet - Arrow
+3850200 [Marionette] Spear 7
+3850210 [Marionette] Spear 7
+3850212 [Marionette] Spear 8
+3850220 [Marionette] Spear 8
+3850230 [Marionette] Spear 78
+3850240 [Marionette] Spear 8
+3850250 [Marionette] Spear 8
+3850260 [Marionette] Spear 7
+3850261 [Marionette] Spear 7
+3850270 [Marionette] Spear 78
+3850271 [Marionette] Spear 78
+3850280 [Marionette] Spear 7
+3850281 [Marionette] Spear 7
+3850290 [Marionette] Spear 7
+3850291 [Marionette] Spear 78
+3850300 [Marionette] Spear 7
+3850301 [Marionette] Spear 8
+3850310 [Marionette] Bullet - Moon Ball
+3850320 [Marionette] Bullet - Moon Ball
+3860100 [Avionette] Dual Swords 1
+3860101 [Avionette] Dual Swords 2
+3860110 [Avionette] Dual Swords 1
+3860111 [Avionette] Dual Swords 2
+3860120 [Avionette] Dual Swords 1
+3860121 [Avionette] Dual Swords 2
+3860122 [Avionette] Dual Swords 1
+3860123 [Avionette] Dual Swords 2
+3860130 [Avionette] Dual Swords 1
+3860131 [Avionette] Dual Swords 2
+3860140 [Avionette] Dual Swords 1
+3860141 [Avionette] Dual Swords 2
+3860150 [Avionette] Dual Swords B
+3860151 [Avionette] Dual Swords B
+3860160 [Avionette] Dual Swords B Head Charge
+3860170 [Avionette] Bullet - Fire Pot
+3860180 [Avionette] Dual Swords B
+3860190 [Avionette] Dual Swords 1 Head Freak
+3860191 [Avionette] Dual Swords 2 Freak
+3860200 [Avionette] Stick
+3860210 [Avionette] Stick
+3860220 [Avionette] Stick
+3860230 [Avionette] Stick
+3860240 [Avionette] Stick
+3860241 [Avionette] Stick
+3860250 [Avionette] Stick Base Charge
+3860251 [Avionette] Stick
+3860260 [Avionette] Stick Base Head
+3860280 [Avionette] Stick Base
+3860290 [Avionette] Stick Head Freak
+3860300 [Avionette] Stick Base
+3860310 [Avionette] Stick
+3860400 [Avionette] Bullet - Lightning Pot
+3860405 [Avionette] Bullet - Lightning Pot Aftershock
+3860450 [Avionette] Bullet - Volcano Pot
+3860451 [Avionette] Bullet - Volcano Pot Stray Lava
+3860452 [Avionette] Bullet - Volcano Pot Magma
+3860500 [Avionette] Head
+3900100 [Fire Monk 1] Hammer
+3900110 [Fire Monk 1] Hammer
+3900120 [Fire Monk 1] Hammer
+3900130 [Fire Monk 1] Hammer
+3900131 [Fire Monk 1] Bullet - Hammer Slam Fire
+3900140 [Fire Monk 1] Hammer
+3900141 [Fire Monk 1] Hammer
+3900150 [Fire Monk 1] Hammer
+3900160 [Fire Monk 1] Hammer
+3900170 [Fire Monk 1] Hammer
+3900180 [Fire Monk 1] Hammer
+3900181 [Fire Monk 1] Hammer
+3900190 [Fire Monk 1] Hammer
+3900200 [Fire Monk 1] Bullet
+3900201 [Fire Monk 1] Bullet
+3900202 [Fire Monk 1] Combustion Hand
+3900210 [Fire Monk 1] Bullet
+3900211 [Fire Monk 1] Bullet
+3900212 [Fire Monk 1] Combustion Hand
+3900220 [Fire Monk 1] Bullet - Fire Surge
+3900230 [Fire Monk 1] Hammer
+3900240 [Fire Monk 1] Hammer
+3900250 [Fire Monk 1] Hammer
+3900260 [Fire Monk 1] Hammer
+3900270 [Fire Monk 1] Hammer
+3900300 [Fire Monk 1] Curved Sword
+3900310 [Fire Monk 1] Curved Sword
+3900320 [Fire Monk 1] Curved Sword
+3900330 [Fire Monk 1] Curved Sword
+3900331 [Fire Monk 1] Curved Sword
+3900332 [Fire Monk 1] Curved Sword
+3900333 [Fire Monk 1] Bullet
+3900340 [Fire Monk 1] Curved Sword
+3900350 [Fire Monk 1] Curved Sword
+3900360 [Fire Monk 1] Curved Sword
+3900370 [Fire Monk 1] Curved Sword
+3900371 [Fire Monk 1] Curved Sword
+3900380 [Fire Monk 1] Curved Sword
+3900390 [Fire Monk 1] Curved Sword
+3900391 [Fire Monk 1] Curved Sword
+3900400 [Fire Monk 1] Curved Sword
+3900410 [Fire Monk 1] Curved Sword
+3900420 [Fire Monk 1] Curved Sword
+3900421 [Fire Monk 1] Curved Sword
+3900430 [Fire Monk 1] Curved Sword
+3900440 [Fire Monk 1] Curved Sword
+3901100 [Godskin Monk] Hammer
+3901110 [Godskin Monk] Hammer
+3901120 [Godskin Monk] Hammer
+3901130 [Godskin Monk] Hammer
+3901131 [Godskin Monk] Bullet - Hammer Slam Fire
+3901140 [Godskin Monk] Hammer
+3901141 [Godskin Monk] Hammer
+3901150 [Godskin Monk] Hammer
+3901160 [Godskin Monk] Hammer
+3901170 [Godskin Monk] Hammer
+3901180 [Godskin Monk] Hammer
+3901181 [Godskin Monk] Hammer
+3901190 [Godskin Monk] Hammer
 3901200 [Godskin Monk] Bullet
 3901201 [Godskin Monk] Bullet
-3901202 [Godskin Monk]
+3901202 [Godskin Monk] Combustion Hand
 3901210 [Godskin Monk] Bullet
 3901211 [Godskin Monk] Bullet
-3901212 [Godskin Monk]
-3901220 [Godskin Monk] Bullet
-3901230 [Godskin Monk]
-3901240 [Godskin Monk]
-3901250 [Godskin Monk]
-3901260 [Godskin Monk]
-3901270 [Godskin Monk]
-3901300 [Godskin Monk]
-3901310 [Godskin Monk]
-3901320 [Godskin Monk]
-3901330 [Godskin Monk]
-3901331 [Godskin Monk]
-3901332 [Godskin Monk]
+3901212 [Godskin Monk] Combustion Hand
+3901220 [Godskin Monk] Bullet - Fire Surge
+3901230 [Godskin Monk] Hammer
+3901240 [Godskin Monk] Hammer
+3901250 [Godskin Monk] Hammer
+3901260 [Godskin Monk] Hammer
+3901270 [Godskin Monk] Hammer
+3901300 [Godskin Monk] Curved Sword
+3901310 [Godskin Monk] Curved Sword
+3901320 [Godskin Monk] Curved Sword
+3901330 [Godskin Monk] Curved Sword
+3901331 [Godskin Monk] Curved Sword
+3901332 [Godskin Monk] Curved Sword
 3901333 [Godskin Monk] Bullet
-3901340 [Godskin Monk]
-3901350 [Godskin Monk]
-3901360 [Godskin Monk]
-3901370 [Godskin Monk]
-3901371 [Godskin Monk]
-3901380 [Godskin Monk]
-3901390 [Godskin Monk]
-3901391 [Godskin Monk]
-3901400 [Godskin Monk]
-3901410 [Godskin Monk]
-3901420 [Godskin Monk]
-3901421 [Godskin Monk]
-3901430 [Godskin Monk]
-3901440 [Godskin Monk]
-3901450 [Godskin Monk] Bullet
-3901451 [Godskin Monk] Bullet
-3901460 [Godskin Monk] Bullet
-3901461 [Godskin Monk] Bullet
+3901340 [Godskin Monk] Curved Sword
+3901350 [Godskin Monk] Curved Sword
+3901360 [Godskin Monk] Curved Sword
+3901370 [Godskin Monk] Curved Sword
+3901371 [Godskin Monk] Curved Sword
+3901380 [Godskin Monk] Curved Sword
+3901390 [Godskin Monk] Curved Sword
+3901391 [Godskin Monk] Curved Sword
+3901400 [Godskin Monk] Curved Sword
+3901410 [Godskin Monk] Curved Sword
+3901420 [Godskin Monk] Curved Sword
+3901421 [Godskin Monk] Curved Sword
+3901430 [Godskin Monk] Curved Sword
+3901440 [Godskin Monk] Curved Sword
+3901450 [Godskin Monk] Bullet - Scouring Black Flame
+3901451 [Godskin Monk] Bullet - Scouring Black Flame
+3901460 [Godskin Monk] Bullet - Scouring Black Flame
+3901461 [Godskin Monk] Bullet - Scouring Black Flame
 3910100 [Fire Prelate]
 3910101 [Fire Prelate] Bullet
 3910110 [Fire Prelate] Bullet
@@ -2854,90 +2854,90 @@
 3910385 [Fire Prelate]
 3910390 [Fire Prelate] Bullet
 3910391 [Fire Prelate] Bullet
-3950100 [Man-Serpent]
-3950101 [Man-Serpent]
-3950102 [Man-Serpent]
-3950105 [Man-Serpent]
-3950106 [Man-Serpent]
-3950107 [Man-Serpent]
-3950110 [Man-Serpent]
-3950111 [Man-Serpent]
-3950112 [Man-Serpent]
-3950115 [Man-Serpent]
-3950116 [Man-Serpent]
-3950117 [Man-Serpent]
-3950120 [Man-Serpent]
-3950121 [Man-Serpent]
-3950122 [Man-Serpent]
-3950125 [Man-Serpent]
-3950126 [Man-Serpent]
-3950127 [Man-Serpent]
-3950130 [Man-Serpent]
-3950131 [Man-Serpent]
-3950132 [Man-Serpent]
-3950135 [Man-Serpent]
-3950136 [Man-Serpent]
-3950137 [Man-Serpent]
-3950140 [Man-Serpent]
-3950141 [Man-Serpent]
-3950142 [Man-Serpent]
-3950145 [Man-Serpent]
-3950146 [Man-Serpent]
-3950147 [Man-Serpent]
-3950150 [Man-Serpent]
-3950151 [Man-Serpent]
-3950160 [Man-Serpent]
-3950161 [Man-Serpent]
-3950170 [Man-Serpent]
-3950171 [Man-Serpent] Bullet
-3950172 [Man-Serpent] Bullet
-3950180 [Man-Serpent] Bullet
-3950200 [Man-Serpent]
-3950201 [Man-Serpent]
-3950210 [Man-Serpent]
-3950211 [Man-Serpent]
-3950220 [Man-Serpent]
-3950221 [Man-Serpent]
-3950230 [Man-Serpent]
-3950231 [Man-Serpent]
-3950235 [Man-Serpent]
-3950236 [Man-Serpent]
-3950240 [Man-Serpent]
-3950241 [Man-Serpent] Bullet
-3950242 [Man-Serpent] Bullet
-3950250 [Man-Serpent]
-3950251 [Man-Serpent]
-3950252 [Man-Serpent]
+3950100 [Man-Serpent] Whip 1
+3950101 [Man-Serpent] Whip 2
+3950102 [Man-Serpent] Whip 3
+3950105 [Man-Serpent] Magma Whip 1
+3950106 [Man-Serpent] Magma Whip 2
+3950107 [Man-Serpent] Magma Whip 3
+3950110 [Man-Serpent] Whip 1
+3950111 [Man-Serpent] Whip 2
+3950112 [Man-Serpent] Whip 3
+3950115 [Man-Serpent] Magma Whip 1
+3950116 [Man-Serpent] Magma Whip 2
+3950117 [Man-Serpent] Magma Whip 3
+3950120 [Man-Serpent] Whip 1
+3950121 [Man-Serpent] Whip 2
+3950122 [Man-Serpent] Whip 3
+3950125 [Man-Serpent] Magma Whip 1
+3950126 [Man-Serpent] Magma Whip 2
+3950127 [Man-Serpent] Magma Whip 3
+3950130 [Man-Serpent] Whip 1
+3950131 [Man-Serpent] Whip 2
+3950132 [Man-Serpent] Whip 3
+3950135 [Man-Serpent] Magma Whip 1
+3950136 [Man-Serpent] Magma Whip 2
+3950137 [Man-Serpent] Magma Whip 3
+3950140 [Man-Serpent] Whip 1
+3950141 [Man-Serpent] Whip 2
+3950142 [Man-Serpent] Whip 3
+3950145 [Man-Serpent] Magma Whip 1
+3950146 [Man-Serpent] Magma Whip 2
+3950147 [Man-Serpent] Magma Whip 3
+3950150 [Man-Serpent] Whip All
+3950151 [Man-Serpent] Magma Whip All
+3950160 [Man-Serpent] Whip All
+3950161 [Man-Serpent] Magma Whip All
+3950170 [Man-Serpent] Magma Whip All
+3950171 [Man-Serpent] Bullet - Whip Magma Ball
+3950172 [Man-Serpent] Bullet - Whip Magma Pool
+3950180 [Man-Serpent] Bullet - Poison Spit
+3950200 [Man-Serpent] Sword
+3950201 [Man-Serpent] Magma Sword
+3950210 [Man-Serpent] Sword
+3950211 [Man-Serpent] Magma Sword
+3950220 [Man-Serpent] Sword
+3950221 [Man-Serpent] Magma Sword
+3950230 [Man-Serpent] Sword
+3950231 [Man-Serpent] Magma Sword
+3950235 [Man-Serpent] Sword
+3950236 [Man-Serpent] Magma Sword
+3950240 [Man-Serpent] Magma Sword
+3950241 [Man-Serpent] Bullet - Sword Magma Ball
+3950242 [Man-Serpent] Bullet - Sword Magma Pool
+3950250 [Man-Serpent] Grab
+3950251 [Man-Serpent] Grab Damage
+3950252 [Man-Serpent] Grab Damage
 3950253 [Man-Serpent]
 3950254 [Man-Serpent]
-3950260 [Man-Serpent]
-3950261 [Man-Serpent]
-3950262 [Man-Serpent]
-3950270 [Man-Serpent]
-3950271 [Man-Serpent]
+3950260 [Man-Serpent] Grab
+3950261 [Man-Serpent] Grab Damage
+3950262 [Man-Serpent] Grab Damage
+3950270 [Man-Serpent] Sword
+3950271 [Man-Serpent] Magma Sword
 3950300 [Man-Serpent]
 3950301 [Man-Serpent]
-3950310 [Man-Serpent]
-3950311 [Man-Serpent]
-3950320 [Man-Serpent]
-3950321 [Man-Serpent]
-3950325 [Man-Serpent]
-3950326 [Man-Serpent]
-3950330 [Man-Serpent]
-3950331 [Man-Serpent]
-3950335 [Man-Serpent]
-3950336 [Man-Serpent]
-3950340 [Man-Serpent]
-3950341 [Man-Serpent]
-3950345 [Man-Serpent]
-3950346 [Man-Serpent]
-3950500 [Man-Serpent] Bullet
-3950520 [Man-Serpent] Bullet
-3950530 [Man-Serpent]
-3950610 [Man-Serpent] Bullet
+3950310 [Man-Serpent] Sword
+3950311 [Man-Serpent] Magma Sword
+3950320 [Man-Serpent] Sword
+3950321 [Man-Serpent] Magma Sword
+3950325 [Man-Serpent] Sword
+3950326 [Man-Serpent] Magma Sword
+3950330 [Man-Serpent] Sword
+3950331 [Man-Serpent] Magma Sword
+3950335 [Man-Serpent] Sword
+3950336 [Man-Serpent] Magma Sword
+3950340 [Man-Serpent] Sword
+3950341 [Man-Serpent] Magma Sword
+3950345 [Man-Serpent] Sword
+3950346 [Man-Serpent] Magma Sword
+3950500 [Man-Serpent] Bullet - Magic Spell
+3950520 [Man-Serpent] Bullet - Big Magic Spell
+3950530 [Man-Serpent] Egg Head Smash
+3950610 [Man-Serpent] Bullet - UN
 3950700 [Man-Serpent] Bullet
-3950800 [Man-Serpent]
-3950850 [Man-Serpent]
+3950800 [Man-Serpent] Guard
+3950850 [Man-Serpent] Neck
 3970100 [Azula Beastman]
 3970110 [Azula Beastman]
 3970120 [Azula Beastman]
@@ -2987,7 +2987,7 @@
 3970700 [Azula Beastman] Bullet
 3970710 [Azula Beastman] Bullet
 3970720 [Azula Beastman] Bullet
-3970900 [Azula Beastman]
+3970900 [Azula Beastman] Guard
 4000100 [Royal Rider]
 4000110 [Royal Rider]
 4000111 [Royal Rider]
@@ -3080,13 +3080,13 @@
 4020482 [Royal Revenant]
 4020483 [Royal Revenant]
 4020484 [Royal Revenant]
-4040100 [Wolf]
-4040110 [Slug]
-4040130 [Slug]
-4040150 [Slug] Bullet
-4040151 [Slug] Bullet
-4040160 [Slug] Bullet
-4040170 [Slug] Bullet
+4040100 [Slug] Bullet - Spit
+4040110 [Slug] Attack
+4040130 [Slug] Attack
+4040150 [Slug] Bullet - Fire
+4040151 [Slug] Bullet - Fire Pool
+4040160 [Slug] Bullet - Slow Spit
+4040170 [Slug] Bullet - Flamethrower
 4050000 [Kaiden Sellsword]
 4050001 [Kaiden Sellsword]
 4050010 [Kaiden Sellsword]
@@ -3123,8 +3123,8 @@
 4050580 [Kaiden Sellsword]
 4050590 [Kaiden Sellsword]
 4050600 [Kaiden Sellsword]
-4050900 [Kaiden Sellsword]
-4050910 [Kaiden Sellsword]
+4050900 [Kaiden Sellsword] Guard
+4050910 [Kaiden Sellsword] Guard
 4050911 [Kaiden Sellsword]
 4060000 [Horse]
 4060010 [Horse]
@@ -3153,38 +3153,38 @@
 4070710 [Wolf] Bullet
 4070730 [Wolf] Bullet
 4080100 [Rat]
-4080101 [Rat]
+4080101 [Rat] Madness
 4080110 [Rat]
-4080111 [Rat]
+4080111 [Rat] Madness
 4080120 [Rat]
 4080130 [Rat]
-4080131 [Rat]
+4080131 [Rat] Madness
 4080140 [Rat]
-4080141 [Rat]
+4080141 [Rat] Madness
 4080150 [Rat]
-4080151 [Rat]
+4080151 [Rat] Madness
 4090100 [Giant Rat]
-4090101 [Giant Rat]
+4090101 [Giant Rat] Madness
 4090110 [Giant Rat]
-4090111 [Giant Rat]
+4090111 [Giant Rat] Madness
 4090120 [Giant Rat]
-4090121 [Giant Rat]
+4090121 [Giant Rat] Madness
 4090130 [Giant Rat]
-4090131 [Giant Rat]
+4090131 [Giant Rat] Madness
 4090140 [Giant Rat]
-4090141 [Giant Rat]
+4090141 [Giant Rat] Madness
 4090150 [Giant Rat]
-4090151 [Giant Rat]
+4090151 [Giant Rat] Madness
 4090160 [Giant Rat]
-4090161 [Giant Rat]
+4090161 [Giant Rat] Madness
 4090170 [Giant Rat]
-4090171 [Giant Rat]
+4090171 [Giant Rat] Madness
 4090180 [Giant Rat]
-4090181 [Giant Rat]
+4090181 [Giant Rat] Madness
 4090190 [Giant Rat]
 4090200 [Giant Rat]
-4090201 [Giant Rat]
-4100100 [Demi-Human]
+4090201 [Giant Rat] Madness
+4100100 [Demi-Human] Guard
 4100110 [Demi-Human]
 4100120 [Demi-Human]
 4100130 [Demi-Human]
@@ -3331,23 +3331,23 @@
 4140110 [Snail]
 4140120 [Snail]
 4140130 [Snail]
-4140140 [Snail] Bullet
-4140150 [Snail] Bullet
-4140160 [Snail] Bullet
+4140140 [Snail] Bullet - Poison Spit
+4140150 [Snail] Bullet - Poison Spit
+4140160 [Snail] Bullet - Poison Cloud
 4140180 [Snail]
 4140185 [Snail]
 4140190 [Snail]
 4140200 [Snail]
-4140220 [Snail] Bullet
+4140220 [Snail] Bullet - Icecrag
 4140230 [Snail]
-4140300 [Snail] Bullet
+4140300 [Snail] Bullet - Magic Spit
 4140310 [Snail]
 4140311 [Snail]
 4140312 [Snail]
 4140320 [Snail]
 4140510 [Snail] Bullet
 4140530 [Snail]
-4140805 [Snail] Bullet
+4140805 [Snail] Bullet - Crystal Floor
 4150100 [Basilisk] Bullet
 4150101 [Basilisk] Bullet
 4150102 [Basilisk] Bullet
@@ -3386,7 +3386,7 @@
 4160200 [Starved Dog 1]
 4160201 [Starved Dog 1]
 4160202 [Starved Dog 1]
-4160210 [Starved Dog 1]
+4160210 [Starved Dog 1] Combo Normal
 4160211 [Starved Dog 1]
 4160212 [Starved Dog 1]
 4160213 [Starved Dog 1]
@@ -3427,7 +3427,7 @@
 4161400 [Starved Dog 2]
 4161401 [Starved Dog 2]
 4161402 [Starved Dog 2]
-4161410 [Starved Dog 2]
+4161410 [Starved Dog 2] Combo Normal
 4161411 [Starved Dog 2]
 4161412 [Starved Dog 2]
 4161413 [Starved Dog 2]
@@ -3695,25 +3695,25 @@
 4230120 [Small Land Octopus]
 4230121 [Small Land Octopus]
 4230130 [Small Land Octopus]
-4240100 [Giant Fingercreeper 1]
-4240101 [Giant Fingercreeper 1]
-4240110 [Giant Fingercreeper 1]
-4240111 [Giant Fingercreeper 1]
-4240112 [Giant Fingercreeper 1]
-4240113 [Giant Fingercreeper 1]
-4240114 [Giant Fingercreeper 1]
+4240100 [Giant Fingercreeper 1] Hand
+4240101 [Giant Fingercreeper 1] Hand
+4240110 [Giant Fingercreeper 1] Hand
+4240111 [Giant Fingercreeper 1] Hand
+4240112 [Giant Fingercreeper 1] Hand
+4240113 [Giant Fingercreeper 1] Hand
+4240114 [Giant Fingercreeper 1] Hand
 4240115 [Giant Fingercreeper 1]
-4240120 [Giant Fingercreeper 1]
-4240121 [Giant Fingercreeper 1]
-4240130 [Giant Fingercreeper 1]
-4240140 [Giant Fingercreeper 1]
-4240200 [Giant Fingercreeper 1]
+4240120 [Giant Fingercreeper 1] Hand
+4240121 [Giant Fingercreeper 1] Hand
+4240130 [Giant Fingercreeper 1] Hand
+4240140 [Giant Fingercreeper 1] Hand
+4240200 [Giant Fingercreeper 1] Hand
 4240201 [Giant Fingercreeper 1]
-4240210 [Giant Fingercreeper 1]
+4240210 [Giant Fingercreeper 1] Hand
 4240211 [Giant Fingercreeper 1]
 4240400 [Giant Fingercreeper 1] Bullet
-4240700 [Giant Fingercreeper 1]
-4240900 [Giant Fingercreeper 1]
+4240700 [Giant Fingercreeper 1] Hand
+4240900 [Giant Fingercreeper 1] Hand
 4241200 [Giant Fingercreeper 2]
 4241210 [Giant Fingercreeper 2]
 4241211 [Giant Fingercreeper 2]
@@ -3758,11 +3758,11 @@
 4260285 [Burial Watchdog]
 4260290 [Burial Watchdog]
 4260295 [Burial Watchdog]
-4260300 [Burial Watchdog]
+4260300 [Burial Watchdog] Floating Fall
 4260301 [Burial Watchdog] Bullet
 4260302 [Burial Watchdog] Bullet
-4260310 [Burial Watchdog] Bullet
-4260320 [Burial Watchdog]
+4260310 [Burial Watchdog] Bullet - Fire Breath
+4260320 [Burial Watchdog] Fire Tail
 4260322 [Burial Watchdog]
 4260324 [Burial Watchdog]
 4260330 [Burial Watchdog] Bullet
@@ -3810,7 +3810,7 @@
 4280140 [Giant Ant] Bullet
 4280150 [Giant Ant]
 4280151 [Giant Ant]
-4280152 [Giant Ant]
+4280152 [Giant Ant] Grab
 4280153 [Giant Ant]
 4280154 [Giant Ant]
 4280155 [Giant Ant]
@@ -3829,10 +3829,10 @@
 4290120 [Bloodhound Knight]
 4290121 [Bloodhound Knight]
 4290130 [Bloodhound Knight]
-4290140 [Bloodhound Knight]
+4290140 [Bloodhound Knight] Claw
 4290150 [Bloodhound Knight]
 4290160 [Bloodhound Knight]
-4290170 [Bloodhound Knight]
+4290170 [Bloodhound Knight] Claw
 4290171 [Bloodhound Knight]
 4290172 [Bloodhound Knight]
 4290180 [Bloodhound Knight]
@@ -3864,87 +3864,87 @@
 4300520 [Wandering Noble]
 4300600 [Wandering Noble] Bullet
 4300700 [Wandering Noble] Bullet
-4310100 [Castle Soldier]
-4310101 [Castle Soldier]
-4310102 [Castle Soldier]
-4310110 [Castle Soldier]
+4310100 [Castle Soldier] Sword Normal
+4310101 [Castle Soldier] Fire
+4310102 [Castle Soldier] Holy
+4310110 [Castle Soldier] Sword Normal
 4310111 [Castle Soldier]
 4310112 [Castle Soldier]
-4310120 [Castle Soldier]
+4310120 [Castle Soldier] Sword Normal
 4310121 [Castle Soldier]
 4310122 [Castle Soldier]
-4310130 [Castle Soldier]
+4310130 [Castle Soldier] Sword Normal
 4310131 [Castle Soldier]
 4310132 [Castle Soldier]
-4310140 [Castle Soldier]
+4310140 [Castle Soldier] Sword Normal
 4310141 [Castle Soldier]
 4310142 [Castle Soldier]
-4310150 [Castle Soldier]
+4310150 [Castle Soldier] Sword Normal
 4310160 [Castle Soldier] Bullet
 4310170 [Castle Soldier] Bullet
-4310180 [Castle Soldier]
+4310180 [Castle Soldier] Sword Normal
 4310181 [Castle Soldier]
 4310182 [Castle Soldier]
 4310183 [Castle Soldier]
-4310200 [Castle Soldier]
-4310201 [Castle Soldier]
-4310210 [Castle Soldier]
+4310200 [Castle Soldier] Pick Normal
+4310201 [Castle Soldier] Fire
+4310210 [Castle Soldier] Pick Normal
 4310211 [Castle Soldier]
-4310220 [Castle Soldier]
+4310220 [Castle Soldier] Pick Normal
 4310221 [Castle Soldier]
-4310230 [Castle Soldier]
+4310230 [Castle Soldier] Pick Normal
 4310231 [Castle Soldier]
-4310240 [Castle Soldier]
-4310250 [Castle Soldier]
-4310260 [Castle Soldier]
-4310300 [Castle Soldier] Bullet
-4310310 [Castle Soldier] Bullet
+4310240 [Castle Soldier] Pick Normal
+4310250 [Castle Soldier] Pick Normal
+4310260 [Castle Soldier] Kick
+4310300 [Castle Soldier] Bullet - Crossbow
+4310310 [Castle Soldier] Bullet - Fire
 4310320 [Castle Soldier] Bullet
 4310400 [Castle Soldier] Bullet
 4310410 [Castle Soldier] Bullet
 4310420 [Castle Soldier] Bullet
-4310500 [Castle Soldier]
+4310500 [Castle Soldier] Torch
 4310510 [Castle Soldier] Bullet
-4310600 [Castle Soldier]
-4310601 [Castle Soldier]
-4310602 [Castle Soldier]
-4310610 [Castle Soldier]
+4310600 [Castle Soldier] Greatsword Normal
+4310601 [Castle Soldier] Fire
+4310602 [Castle Soldier] Holy
+4310610 [Castle Soldier] Greatsword Normal
 4310611 [Castle Soldier]
 4310612 [Castle Soldier]
-4310620 [Castle Soldier]
+4310620 [Castle Soldier] Greatsword Normal
 4310621 [Castle Soldier]
 4310622 [Castle Soldier]
-4310630 [Castle Soldier]
+4310630 [Castle Soldier] Greatsword Normal
 4310631 [Castle Soldier]
 4310632 [Castle Soldier]
-4310640 [Castle Soldier]
+4310640 [Castle Soldier] Greatsword Normal
 4310641 [Castle Soldier]
 4310642 [Castle Soldier]
-4310650 [Castle Soldier] Bullet
+4310650 [Castle Soldier] Bullet - Firebomb
 4310651 [Castle Soldier] Bullet
-4310660 [Castle Soldier]
-4310670 [Castle Soldier]
+4310660 [Castle Soldier] Greatsword Normal
+4310670 [Castle Soldier] Greatsword Normal
 4310672 [Castle Soldier]
-4310680 [Castle Soldier]
+4310680 [Castle Soldier] Greatsword Normal
 4310681 [Castle Soldier]
 4310700 [Castle Soldier]
-4310710 [Castle Soldier]
-4310711 [Castle Soldier]
-4310720 [Castle Soldier]
+4310710 [Castle Soldier] Spear Normal
+4310711 [Castle Soldier] Fire
+4310720 [Castle Soldier] Spear Normal
 4310721 [Castle Soldier]
-4310730 [Castle Soldier]
+4310730 [Castle Soldier] Spear Normal
 4310731 [Castle Soldier]
-4310740 [Castle Soldier]
-4310750 [Castle Soldier]
-4310760 [Castle Soldier]
+4310740 [Castle Soldier] Spear Normal
+4310750 [Castle Soldier] Spear Normal
+4310760 [Castle Soldier] Spear Normal
 4310761 [Castle Soldier]
 4310762 [Castle Soldier]
 4310763 [Castle Soldier]
-4310800 [Castle Soldier]
-4310810 [Castle Soldier]
-4310820 [Castle Soldier]
-4310910 [Castle Soldier] Bullet
-4310920 [Castle Soldier] Bullet
+4310800 [Castle Soldier] Guard
+4310810 [Castle Soldier] Guard
+4310820 [Castle Soldier] Guard
+4310910 [Castle Soldier] Bullet - Firebomb
+4310920 [Castle Soldier] Bullet - Wind Blast
 4310930 [Castle Soldier] Bullet
 4310940 [Castle Soldier] Bullet
 4310941 [Castle Soldier] Bullet
@@ -4047,199 +4047,199 @@
 4341380 [Grinning Torturer]
 4341500 [Grinning Torturer]
 4341510 [Grinning Torturer] Bullet
-4350100 [Castle Knight]
-4350101 [Castle Knight]
-4350102 [Castle Knight]
-4350103 [Castle Knight]
-4350104 [Castle Knight]
-4350106 [Castle Knight]
-4350110 [Castle Knight]
+4350100 [Castle Knight] Sword Normal
+4350101 [Castle Knight] Sword Magic
+4350102 [Castle Knight] Sword Lightning
+4350103 [Castle Knight] Sword Fire
+4350104 [Castle Knight] Sword Holy
+4350106 [Castle Knight] Sword Blight
+4350110 [Castle Knight] Sword Normal
 4350111 [Castle Knight]
 4350112 [Castle Knight]
 4350113 [Castle Knight]
 4350114 [Castle Knight]
 4350116 [Castle Knight]
-4350120 [Castle Knight]
+4350120 [Castle Knight] Sword Normal
 4350121 [Castle Knight]
 4350122 [Castle Knight]
 4350123 [Castle Knight]
 4350124 [Castle Knight]
 4350126 [Castle Knight]
-4350130 [Castle Knight]
-4350140 [Castle Knight]
+4350130 [Castle Knight] Shield Bash
+4350140 [Castle Knight] Sword Normal
 4350141 [Castle Knight]
 4350142 [Castle Knight]
 4350143 [Castle Knight]
 4350144 [Castle Knight]
 4350146 [Castle Knight]
-4350150 [Castle Knight]
+4350150 [Castle Knight] Sword Normal
 4350151 [Castle Knight]
 4350152 [Castle Knight]
 4350153 [Castle Knight]
 4350154 [Castle Knight]
 4350156 [Castle Knight]
-4350160 [Castle Knight]
+4350160 [Castle Knight] Sword Normal
 4350161 [Castle Knight]
 4350162 [Castle Knight]
 4350163 [Castle Knight]
 4350164 [Castle Knight]
 4350166 [Castle Knight]
-4350170 [Castle Knight]
+4350170 [Castle Knight] Sword Normal
 4350171 [Castle Knight]
 4350172 [Castle Knight]
 4350173 [Castle Knight]
 4350174 [Castle Knight]
 4350176 [Castle Knight]
-4350180 [Castle Knight]
+4350180 [Castle Knight] Sword Normal
 4350181 [Castle Knight]
 4350182 [Castle Knight]
 4350183 [Castle Knight]
 4350184 [Castle Knight]
 4350186 [Castle Knight]
-4350190 [Castle Knight]
+4350190 [Castle Knight] Sword Normal
 4350191 [Castle Knight]
 4350192 [Castle Knight]
 4350193 [Castle Knight]
 4350194 [Castle Knight]
 4350196 [Castle Knight]
-4350200 [Castle Knight]
+4350200 [Castle Knight] Sword Normal
 4350201 [Castle Knight]
 4350202 [Castle Knight]
 4350203 [Castle Knight]
 4350204 [Castle Knight]
 4350206 [Castle Knight]
-4350210 [Castle Knight]
+4350210 [Castle Knight] Sword Normal
 4350211 [Castle Knight]
 4350212 [Castle Knight]
 4350213 [Castle Knight]
 4350214 [Castle Knight]
 4350216 [Castle Knight]
 4350220 [Castle Knight] Bullet
-4350230 [Castle Knight]
-4350240 [Castle Knight]
-4350250 [Castle Knight]
-4350260 [Castle Knight]
-4350270 [Castle Knight]
+4350230 [Castle Knight] Sword
+4350240 [Castle Knight] Sword
+4350250 [Castle Knight] Sword
+4350260 [Castle Knight] Sword
+4350270 [Castle Knight] Sword
 4350280 [Castle Knight] Bullet
 4350281 [Castle Knight] Bullet
 4350282 [Castle Knight] Bullet
 4350283 [Castle Knight] Bullet
 4350284 [Castle Knight] Bullet
-4350290 [Castle Knight]
-4350291 [Castle Knight]
-4350300 [Castle Knight]
+4350290 [Castle Knight] Sword
+4350291 [Castle Knight] Sword
+4350300 [Castle Knight] Sword
 4350301 [Castle Knight] Bullet
 4350302 [Castle Knight] Bullet
-4350310 [Castle Knight]
+4350310 [Castle Knight] Sword
 4350315 [Castle Knight] Bullet
 4350316 [Castle Knight] Bullet
 4350317 [Castle Knight] Bullet
 4350318 [Castle Knight] Bullet
-4350320 [Castle Knight]
-4350330 [Castle Knight] Bullet
-4350340 [Castle Knight]
-4350341 [Castle Knight]
-4350350 [Castle Knight]
+4350320 [Castle Knight] Shield Bash
+4350330 [Castle Knight] Bullet - Rejection
+4350340 [Castle Knight] Sword
+4350341 [Castle Knight] Sword
+4350350 [Castle Knight] Sword
 4350360 [Castle Knight] Bullet
-4350400 [Castle Knight]
+4350400 [Castle Knight] Spear Normal
 4350401 [Castle Knight]
 4350402 [Castle Knight]
 4350403 [Castle Knight]
 4350404 [Castle Knight]
 4350406 [Castle Knight]
-4350410 [Castle Knight]
+4350410 [Castle Knight] Spear
 4350411 [Castle Knight]
 4350412 [Castle Knight]
 4350413 [Castle Knight]
 4350414 [Castle Knight]
 4350416 [Castle Knight]
-4350420 [Castle Knight]
+4350420 [Castle Knight] Spear
 4350421 [Castle Knight]
 4350422 [Castle Knight]
 4350423 [Castle Knight]
 4350424 [Castle Knight]
 4350426 [Castle Knight]
-4350430 [Castle Knight]
+4350430 [Castle Knight] Spear
 4350431 [Castle Knight]
 4350432 [Castle Knight]
 4350433 [Castle Knight]
 4350434 [Castle Knight]
 4350436 [Castle Knight]
-4350440 [Castle Knight]
+4350440 [Castle Knight] Spear
 4350441 [Castle Knight]
 4350442 [Castle Knight]
 4350443 [Castle Knight]
 4350444 [Castle Knight]
 4350446 [Castle Knight]
-4350450 [Castle Knight]
+4350450 [Castle Knight] Spear
 4350451 [Castle Knight]
 4350452 [Castle Knight]
 4350453 [Castle Knight]
 4350454 [Castle Knight]
 4350456 [Castle Knight]
-4350460 [Castle Knight]
+4350460 [Castle Knight] Spear
 4350461 [Castle Knight]
 4350462 [Castle Knight]
 4350463 [Castle Knight]
 4350464 [Castle Knight]
 4350466 [Castle Knight]
-4350470 [Castle Knight]
+4350470 [Castle Knight] Spear
 4350471 [Castle Knight]
 4350472 [Castle Knight]
 4350473 [Castle Knight]
 4350474 [Castle Knight]
 4350476 [Castle Knight]
-4350480 [Castle Knight]
+4350480 [Castle Knight] Spear
 4350481 [Castle Knight]
 4350482 [Castle Knight]
 4350483 [Castle Knight]
 4350484 [Castle Knight]
 4350486 [Castle Knight]
-4350490 [Castle Knight]
+4350490 [Castle Knight] Spear
 4350491 [Castle Knight]
 4350492 [Castle Knight]
 4350493 [Castle Knight]
 4350494 [Castle Knight]
 4350496 [Castle Knight]
-4350500 [Castle Knight]
+4350500 [Castle Knight] Spear
 4350501 [Castle Knight]
 4350502 [Castle Knight]
 4350503 [Castle Knight]
 4350504 [Castle Knight]
 4350506 [Castle Knight]
-4350510 [Castle Knight]
+4350510 [Castle Knight] Spear
 4350511 [Castle Knight]
 4350512 [Castle Knight]
 4350513 [Castle Knight]
 4350514 [Castle Knight]
 4350516 [Castle Knight]
-4350520 [Castle Knight]
+4350520 [Castle Knight] Spear
 4350521 [Castle Knight]
 4350522 [Castle Knight]
 4350523 [Castle Knight]
 4350524 [Castle Knight]
 4350526 [Castle Knight]
-4350530 [Castle Knight]
+4350530 [Castle Knight] Spear
 4350531 [Castle Knight]
 4350532 [Castle Knight]
 4350533 [Castle Knight]
 4350534 [Castle Knight]
 4350536 [Castle Knight]
-4350540 [Castle Knight]
+4350540 [Castle Knight] Spear
 4350541 [Castle Knight]
 4350542 [Castle Knight]
-4350543 [Castle Knight]
+4350543 [Castle Knight] Spear
 4350550 [Castle Knight] Bullet
-4350551 [Castle Knight]
+4350551 [Castle Knight] Spear
 4350560 [Castle Knight] Bullet
 4350570 [Castle Knight] Bullet
 4350571 [Castle Knight] Bullet
 4350572 [Castle Knight] Bullet
 4350573 [Castle Knight] Bullet
-4350580 [Castle Knight]
+4350580 [Castle Knight] Shield Bash
 4350590 [Castle Knight] Bullet
-4350600 [Castle Knight]
-4350601 [Castle Knight]
+4350600 [Castle Knight] Spear
+4350601 [Castle Knight] Spear
 4350610 [Castle Knight] Bullet
 4350650 [Castle Knight] Bullet
 4350655 [Castle Knight] Bullet
@@ -4252,61 +4252,61 @@
 4350683 [Castle Knight] Bullet
 4350684 [Castle Knight] Bullet
 4350685 [Castle Knight] Bullet
-4350700 [Castle Knight]
+4350700 [Castle Knight] Horse Spear
 4350701 [Castle Knight]
 4350702 [Castle Knight]
 4350703 [Castle Knight]
 4350704 [Castle Knight]
 4350706 [Castle Knight]
-4350710 [Castle Knight]
+4350710 [Castle Knight] Horse Spear
 4350711 [Castle Knight]
 4350712 [Castle Knight]
 4350713 [Castle Knight]
 4350714 [Castle Knight]
 4350716 [Castle Knight]
-4350720 [Castle Knight]
+4350720 [Castle Knight] Horse Spear
 4350721 [Castle Knight]
 4350722 [Castle Knight]
 4350723 [Castle Knight]
 4350724 [Castle Knight]
 4350726 [Castle Knight]
-4350730 [Castle Knight]
+4350730 [Castle Knight] Horse Spear
 4350731 [Castle Knight]
 4350732 [Castle Knight]
 4350733 [Castle Knight]
 4350734 [Castle Knight]
 4350736 [Castle Knight]
-4350740 [Castle Knight]
+4350740 [Castle Knight] Horse Spear
 4350741 [Castle Knight]
 4350742 [Castle Knight]
 4350743 [Castle Knight]
 4350744 [Castle Knight]
 4350746 [Castle Knight]
-4350750 [Castle Knight]
+4350750 [Castle Knight] Horse Spear
 4350751 [Castle Knight]
 4350752 [Castle Knight]
 4350753 [Castle Knight]
 4350754 [Castle Knight]
 4350756 [Castle Knight]
-4350760 [Castle Knight]
+4350760 [Castle Knight] Horse Spear
 4350761 [Castle Knight]
 4350762 [Castle Knight]
 4350763 [Castle Knight]
 4350764 [Castle Knight]
 4350766 [Castle Knight]
-4350770 [Castle Knight]
+4350770 [Castle Knight] Horse Spear
 4350771 [Castle Knight]
 4350772 [Castle Knight]
 4350773 [Castle Knight]
 4350774 [Castle Knight]
-4350776 [Castle Knight]
+4350776 [Castle Knight] Horse Spear
 4350780 [Castle Knight] Bullet
 4350790 [Castle Knight] Bullet
 4350791 [Castle Knight] Bullet
 4350792 [Castle Knight]
-4350793 [Castle Knight]
-4350800 [Castle Knight]
-4350801 [Castle Knight]
+4350793 [Castle Knight] Horse Spear
+4350800 [Castle Knight] Horse Spear
+4350801 [Castle Knight] Horse Spear
 4350810 [Castle Knight] Bullet
 4350811 [Castle Knight] Bullet
 4350820 [Castle Knight] Bullet
@@ -4314,60 +4314,60 @@
 4350822 [Castle Knight] Bullet
 4350823 [Castle Knight] Bullet
 4350824 [Castle Knight] Bullet
-4350900 [Castle Knight]
+4350900 [Castle Knight] Guard
 4360100 [Castle Knight Horse]
 4360110 [Castle Knight Horse]
-4370100 [Castle Foot Soldier]
-4370105 [Castle Foot Soldier]
+4370100 [Castle Foot Soldier] Longsword
+4370105 [Castle Foot Soldier] Sword
 4370110 [Castle Foot Soldier] Bullet
 4370120 [Castle Foot Soldier]
 4370130 [Castle Foot Soldier] Bullet
 4370131 [Castle Foot Soldier] Bullet
 4370140 [Castle Foot Soldier] Bullet
 4370150 [Castle Foot Soldier] Bullet
-4370200 [Castle Foot Soldier]
-4370210 [Castle Foot Soldier]
-4370220 [Castle Foot Soldier]
-4370230 [Castle Foot Soldier]
-4370240 [Castle Foot Soldier]
-4370250 [Castle Foot Soldier]
-4370260 [Castle Foot Soldier] Bullet
+4370200 [Castle Foot Soldier] Longsword
+4370210 [Castle Foot Soldier] Longsword
+4370220 [Castle Foot Soldier] Longsword
+4370230 [Castle Foot Soldier] Longsword
+4370240 [Castle Foot Soldier] Longsword
+4370250 [Castle Foot Soldier] Longsword
+4370260 [Castle Foot Soldier] Bullet - Holy Suicide
 4370270 [Castle Foot Soldier] Bullet
 4370280 [Castle Foot Soldier] Bullet
 4370290 [Castle Foot Soldier] Bullet
-4370300 [Castle Foot Soldier]
-4370301 [Castle Foot Soldier]
-4370310 [Castle Foot Soldier]
-4370311 [Castle Foot Soldier]
+4370300 [Castle Foot Soldier] Sword
+4370301 [Castle Foot Soldier] Sword
+4370310 [Castle Foot Soldier] Sword
+4370311 [Castle Foot Soldier] Sword
 4370370 [Castle Foot Soldier] Bullet
 4370371 [Castle Foot Soldier] Bullet
-4370500 [Castle Foot Soldier]
-4370501 [Castle Foot Soldier]
-4370505 [Castle Foot Soldier]
-4370506 [Castle Foot Soldier]
-4370510 [Castle Foot Soldier]
-4370511 [Castle Foot Soldier]
-4370512 [Castle Foot Soldier]
-4370513 [Castle Foot Soldier]
-4370515 [Castle Foot Soldier]
-4370516 [Castle Foot Soldier]
-4370517 [Castle Foot Soldier]
-4370518 [Castle Foot Soldier]
-4370600 [Castle Foot Soldier]
-4370601 [Castle Foot Soldier]
-4370610 [Castle Foot Soldier]
-4370611 [Castle Foot Soldier]
-4370620 [Castle Foot Soldier]
-4370621 [Castle Foot Soldier]
-4370700 [Castle Foot Soldier]
-4370701 [Castle Foot Soldier]
-4370702 [Castle Foot Soldier]
-4370703 [Castle Foot Soldier]
+4370500 [Castle Foot Soldier] Staff Tip
+4370501 [Castle Foot Soldier] Staff Base
+4370505 [Castle Foot Soldier] Torch Tip
+4370506 [Castle Foot Soldier] Torch Base
+4370510 [Castle Foot Soldier] Staff Tip
+4370511 [Castle Foot Soldier] Staff Base
+4370512 [Castle Foot Soldier] Staff Tip
+4370513 [Castle Foot Soldier] Staff Base
+4370515 [Castle Foot Soldier] Torch Tip
+4370516 [Castle Foot Soldier] Torch Base
+4370517 [Castle Foot Soldier] Torch Tip
+4370518 [Castle Foot Soldier] Torch Base
+4370600 [Castle Foot Soldier] Staff
+4370601 [Castle Foot Soldier] Staff
+4370610 [Castle Foot Soldier] Staff Tip
+4370611 [Castle Foot Soldier] Staff Base
+4370620 [Castle Foot Soldier] Staff Tip
+4370621 [Castle Foot Soldier] Staff Base
+4370700 [Castle Foot Soldier] Torch Tip
+4370701 [Castle Foot Soldier] Torch Base
+4370702 [Castle Foot Soldier] Torch Tip
+4370703 [Castle Foot Soldier] Torch Base
 4370705 [Castle Foot Soldier] Bullet
-4370710 [Castle Foot Soldier]
-4370711 [Castle Foot Soldier]
-4370720 [Castle Foot Soldier]
-4370721 [Castle Foot Soldier]
+4370710 [Castle Foot Soldier] Torch Tip
+4370711 [Castle Foot Soldier] Torch Base
+4370720 [Castle Foot Soldier] Torch Tip
+4370721 [Castle Foot Soldier] Torch Base
 4370900 [Castle Foot Soldier] Bullet
 4370990 [Castle Foot Soldier]
 4380100 [Starcaller]
@@ -4442,8 +4442,8 @@
 4382121 [Tunnel Miner]
 4382130 [Tunnel Miner]
 4382131 [Tunnel Miner]
-4382140 [Bloodthorn Exile] Bullet
-4382150 [Bloodthorn Exile] Bullet
+4382140 [Tunnel Miner] Bullet
+4382150 [Tunnel Miner] Bullet
 4382160 [Tunnel Miner]
 4382170 [Tunnel Miner]
 4382171 [Tunnel Miner]
@@ -4662,55 +4662,55 @@
 4460800 [Flamethrower Tank]
 4460810 [Flamethrower Tank]
 4460995 [Flamethrower Tank]
-4470100 [Ghiza Torturer]
+4470100 [Ghiza Torturer] Axe 1
 4470101 [Ghiza Torturer]
 4470102 [Ghiza Torturer]
 4470103 [Ghiza Torturer]
-4470110 [Ghiza Torturer]
+4470110 [Ghiza Torturer] Axe 1.5
 4470111 [Ghiza Torturer]
 4470112 [Ghiza Torturer]
 4470113 [Ghiza Torturer]
-4470120 [Ghiza Torturer]
-4470121 [Ghiza Torturer]
-4470130 [Ghiza Torturer]
-4470131 [Ghiza Torturer]
-4470140 [Ghiza Torturer]
+4470120 [Ghiza Torturer] Axe 1
+4470121 [Ghiza Torturer] Axe 1
+4470130 [Ghiza Torturer] Axe 1.5
+4470131 [Ghiza Torturer] Axe 1.5
+4470140 [Ghiza Torturer] Axe 1
 4470141 [Ghiza Torturer]
 4470142 [Ghiza Torturer]
 4470143 [Ghiza Torturer]
 4470144 [Ghiza Torturer]
 4470145 [Ghiza Torturer]
 4470146 [Ghiza Torturer]
-4470150 [Ghiza Torturer]
+4470150 [Ghiza Torturer] Axe 1.5
 4470151 [Ghiza Torturer]
 4470152 [Ghiza Torturer]
 4470153 [Ghiza Torturer]
 4470154 [Ghiza Torturer]
 4470155 [Ghiza Torturer]
 4470156 [Ghiza Torturer]
-4470160 [Ghiza Torturer]
+4470160 [Ghiza Torturer] Axe 1
 4470161 [Ghiza Torturer]
 4470162 [Ghiza Torturer]
 4470163 [Ghiza Torturer]
 4470164 [Ghiza Torturer]
-4470170 [Ghiza Torturer]
+4470170 [Ghiza Torturer] Axe 1.5
 4470171 [Ghiza Torturer]
 4470172 [Ghiza Torturer]
 4470173 [Ghiza Torturer]
 4470174 [Ghiza Torturer]
 4470175 [Ghiza Torturer]
-4470180 [Ghiza Torturer]
+4470180 [Ghiza Torturer] Axe 1
 4470181 [Ghiza Torturer]
 4470182 [Ghiza Torturer]
 4470183 [Ghiza Torturer]
 4470184 [Ghiza Torturer]
 4470185 [Ghiza Torturer]
-4470190 [Ghiza Torturer]
-4470191 [Ghiza Torturer]
-4470192 [Ghiza Torturer]
-4470193 [Ghiza Torturer]
-4470194 [Ghiza Torturer]
-4470250 [Ghiza Torturer]
+4470190 [Ghiza Torturer] Axe 1.5
+4470191 [Ghiza Torturer] Axe 1.5
+4470192 [Ghiza Torturer] Axe 1.5
+4470193 [Ghiza Torturer] Axe 1.5
+4470194 [Ghiza Torturer] Axe 1.5
+4470250 [Ghiza Torturer] Wheel 2
 4470251 [Ghiza Torturer]
 4470252 [Ghiza Torturer]
 4470253 [Ghiza Torturer]
@@ -4718,7 +4718,7 @@
 4470255 [Ghiza Torturer]
 4470256 [Ghiza Torturer]
 4470257 [Ghiza Torturer]
-4470260 [Ghiza Torturer]
+4470260 [Ghiza Torturer] Wheel 3
 4470261 [Ghiza Torturer]
 4470262 [Ghiza Torturer]
 4470263 [Ghiza Torturer]
@@ -4726,43 +4726,43 @@
 4470265 [Ghiza Torturer]
 4470266 [Ghiza Torturer]
 4470267 [Ghiza Torturer]
-4470270 [Ghiza Torturer]
+4470270 [Ghiza Torturer] Wheel 2
 4470271 [Ghiza Torturer]
 4470272 [Ghiza Torturer]
 4470273 [Ghiza Torturer]
 4470274 [Ghiza Torturer]
 4470275 [Ghiza Torturer]
 4470276 [Ghiza Torturer]
-4470280 [Ghiza Torturer]
+4470280 [Ghiza Torturer] Wheel 3
 4470281 [Ghiza Torturer]
 4470282 [Ghiza Torturer]
 4470283 [Ghiza Torturer]
 4470284 [Ghiza Torturer]
 4470285 [Ghiza Torturer]
 4470286 [Ghiza Torturer]
-4470290 [Ghiza Torturer]
+4470290 [Ghiza Torturer] Wheel 2X
 4470291 [Ghiza Torturer]
 4470292 [Ghiza Torturer]
 4470293 [Ghiza Torturer]
 4470294 [Ghiza Torturer]
-4470300 [Ghiza Torturer]
+4470300 [Ghiza Torturer] Wheel 2X
 4470301 [Ghiza Torturer]
 4470302 [Ghiza Torturer]
 4470303 [Ghiza Torturer]
 4470304 [Ghiza Torturer]
 4470305 [Ghiza Torturer]
-4470310 [Ghiza Torturer]
+4470310 [Ghiza Torturer] Wheel 2X
 4470311 [Ghiza Torturer]
 4470312 [Ghiza Torturer]
 4470313 [Ghiza Torturer]
-4470320 [Ghiza Torturer]
+4470320 [Ghiza Torturer] Wheel 2X
 4470321 [Ghiza Torturer]
 4470322 [Ghiza Torturer]
 4470323 [Ghiza Torturer]
 4470324 [Ghiza Torturer]
 4470325 [Ghiza Torturer]
 4470326 [Ghiza Torturer]
-4470330 [Ghiza Torturer]
+4470330 [Ghiza Torturer] Wheel 2
 4470331 [Ghiza Torturer]
 4470332 [Ghiza Torturer]
 4470333 [Ghiza Torturer]
@@ -4772,7 +4772,7 @@
 4470337 [Ghiza Torturer]
 4470338 [Ghiza Torturer]
 4470339 [Ghiza Torturer]
-4470340 [Ghiza Torturer]
+4470340 [Ghiza Torturer] Wheel 2
 4470341 [Ghiza Torturer]
 4470342 [Ghiza Torturer]
 4470343 [Ghiza Torturer]
@@ -4783,7 +4783,7 @@
 4470348 [Ghiza Torturer]
 4470349 [Ghiza Torturer]
 4470350 [Ghiza Torturer]
-4470360 [Ghiza Torturer]
+4470360 [Ghiza Torturer] Wheel 3
 4470361 [Ghiza Torturer]
 4470362 [Ghiza Torturer]
 4470363 [Ghiza Torturer]
@@ -4793,7 +4793,7 @@
 4470367 [Ghiza Torturer]
 4470368 [Ghiza Torturer]
 4470369 [Ghiza Torturer]
-4470370 [Ghiza Torturer]
+4470370 [Ghiza Torturer] Wheel 3
 4470371 [Ghiza Torturer]
 4470372 [Ghiza Torturer]
 4470373 [Ghiza Torturer]
@@ -4803,14 +4803,14 @@
 4470377 [Ghiza Torturer]
 4470378 [Ghiza Torturer]
 4470379 [Ghiza Torturer]
-4470380 [Ghiza Torturer]
-4470390 [Ghiza Torturer]
-4470391 [Ghiza Torturer]
-4470400 [Ghiza Torturer]
-4470401 [Ghiza Torturer]
-4470402 [Ghiza Torturer]
-4470403 [Ghiza Torturer]
-4470410 [Ghiza Torturer]
+4470380 [Ghiza Torturer] Wheel 3
+4470390 [Ghiza Torturer] Grab
+4470391 [Ghiza Torturer] Grab Floor
+4470400 [Ghiza Torturer] Axe 1
+4470401 [Ghiza Torturer] Axe 1
+4470402 [Ghiza Torturer] Axe 1
+4470403 [Ghiza Torturer] Axe 1
+4470410 [Ghiza Torturer] Wheel 3
 4470411 [Ghiza Torturer]
 4470412 [Ghiza Torturer]
 4470413 [Ghiza Torturer]
@@ -4820,13 +4820,13 @@
 4470417 [Ghiza Torturer]
 4470418 [Ghiza Torturer]
 4470419 [Ghiza Torturer]
-4470420 [Ghiza Torturer]
+4470420 [Ghiza Torturer] Wheel 3
 4470421 [Ghiza Torturer]
 4470422 [Ghiza Torturer]
 4470423 [Ghiza Torturer]
-4470430 [Ghiza Torturer]
-4470431 [Ghiza Torturer]
-4470440 [Ghiza Torturer]
+4470430 [Ghiza Torturer] Axe 1
+4470431 [Ghiza Torturer] Axe 1
+4470440 [Ghiza Torturer] Wheel 3
 4470441 [Ghiza Torturer]
 4470442 [Ghiza Torturer]
 4470443 [Ghiza Torturer]
@@ -4836,12 +4836,12 @@
 4470447 [Ghiza Torturer]
 4470448 [Ghiza Torturer]
 4470449 [Ghiza Torturer]
-4470450 [Ghiza Torturer]
-4470451 [Ghiza Torturer]
-4470452 [Ghiza Torturer]
-4470453 [Ghiza Torturer]
-4470454 [Ghiza Torturer]
-4470460 [Ghiza Torturer]
+4470450 [Ghiza Torturer] Axe 1
+4470451 [Ghiza Torturer] Axe 1
+4470452 [Ghiza Torturer] Axe 1
+4470453 [Ghiza Torturer] Axe 1
+4470454 [Ghiza Torturer] Axe 1
+4470460 [Ghiza Torturer] Wheel 3
 4470461 [Ghiza Torturer]
 4470462 [Ghiza Torturer]
 4470463 [Ghiza Torturer]
@@ -4851,16 +4851,16 @@
 4470467 [Ghiza Torturer]
 4470468 [Ghiza Torturer]
 4470469 [Ghiza Torturer]
-4470470 [Ghiza Torturer]
+4470470 [Ghiza Torturer] Wheel 3
 4470471 [Ghiza Torturer]
 4470472 [Ghiza Torturer]
 4470473 [Ghiza Torturer]
 4470474 [Ghiza Torturer]
 4470475 [Ghiza Torturer]
 4470476 [Ghiza Torturer]
-4470480 [Ghiza Torturer]
-4470481 [Ghiza Torturer]
-4470490 [Ghiza Torturer]
+4470480 [Ghiza Torturer] Axe 1
+4470481 [Ghiza Torturer] Axe 1
+4470490 [Ghiza Torturer] Wheel 3
 4470491 [Ghiza Torturer]
 4470492 [Ghiza Torturer]
 4470493 [Ghiza Torturer]
@@ -4868,9 +4868,9 @@
 4470495 [Ghiza Torturer]
 4470496 [Ghiza Torturer]
 4470497 [Ghiza Torturer]
-4470500 [Ghiza Torturer]
-4470501 [Ghiza Torturer]
-4470510 [Ghiza Torturer]
+4470500 [Ghiza Torturer] Axe 1
+4470501 [Ghiza Torturer] Axe 1
+4470510 [Ghiza Torturer] Wheel 3
 4470511 [Ghiza Torturer]
 4470512 [Ghiza Torturer]
 4470513 [Ghiza Torturer]
@@ -4900,80 +4900,80 @@
 4470554 [Ghiza Torturer]
 4470560 [Ghiza Torturer]
 4470561 [Ghiza Torturer]
-4470562 [Ghiza Torturer]
-4470563 [Ghiza Torturer]
-4470564 [Ghiza Torturer]
-4470570 [Ghiza Torturer]
-4470571 [Ghiza Torturer]
-4470572 [Ghiza Torturer]
-4470573 [Ghiza Torturer]
-4470574 [Ghiza Torturer]
-4470600 [Ghiza Torturer]
-4470601 [Ghiza Torturer]
-4470602 [Ghiza Torturer]
-4470603 [Ghiza Torturer]
-4470604 [Ghiza Torturer]
-4470610 [Ghiza Torturer]
-4470611 [Ghiza Torturer]
-4470620 [Ghiza Torturer]
-4470621 [Ghiza Torturer]
-4470622 [Ghiza Torturer]
-4470630 [Ghiza Torturer]
-4470631 [Ghiza Torturer]
-4470632 [Ghiza Torturer]
-4470633 [Ghiza Torturer]
-4470634 [Ghiza Torturer]
-4470635 [Ghiza Torturer]
-4470636 [Ghiza Torturer]
-4470637 [Ghiza Torturer]
-4470638 [Ghiza Torturer]
-4470639 [Ghiza Torturer]
-4470640 [Ghiza Torturer]
-4470645 [Ghiza Torturer]
-4470646 [Ghiza Torturer]
-4470647 [Ghiza Torturer]
-4470648 [Ghiza Torturer]
-4470649 [Ghiza Torturer]
-4470650 [Ghiza Torturer]
-4470651 [Ghiza Torturer]
-4470652 [Ghiza Torturer]
-4470653 [Ghiza Torturer]
-4470654 [Ghiza Torturer]
-4470655 [Ghiza Torturer]
-4470660 [Ghiza Torturer]
-4470661 [Ghiza Torturer]
-4470662 [Ghiza Torturer]
-4470663 [Ghiza Torturer]
-4470664 [Ghiza Torturer]
-4470665 [Ghiza Torturer]
-4470666 [Ghiza Torturer]
-4470667 [Ghiza Torturer]
-4470668 [Ghiza Torturer]
-4470669 [Ghiza Torturer]
-4470670 [Ghiza Torturer]
-4470671 [Ghiza Torturer]
-4470672 [Ghiza Torturer]
-4470673 [Ghiza Torturer]
-4470674 [Ghiza Torturer]
-4470680 [Ghiza Torturer]
-4470681 [Ghiza Torturer]
-4470682 [Ghiza Torturer]
-4470683 [Ghiza Torturer]
-4470684 [Ghiza Torturer]
-4470685 [Ghiza Torturer]
-4470686 [Ghiza Torturer]
-4470687 [Ghiza Torturer]
-4470688 [Ghiza Torturer]
-4470689 [Ghiza Torturer]
-4470690 [Ghiza Torturer]
-4470691 [Ghiza Torturer]
-4470692 [Ghiza Torturer]
-4470693 [Ghiza Torturer]
-4470694 [Ghiza Torturer]
-4470900 [Ghiza Torturer]
+4470562 [Ghiza Torturer] Wheel 2
+4470563 [Ghiza Torturer] Wheel 2
+4470564 [Ghiza Torturer] Wheel 2
+4470570 [Ghiza Torturer] Wheel 2
+4470571 [Ghiza Torturer] Wheel 2
+4470572 [Ghiza Torturer] Wheel 2
+4470573 [Ghiza Torturer] Wheel 2
+4470574 [Ghiza Torturer] Wheel 2
+4470600 [Ghiza Torturer] Wheel 3
+4470601 [Ghiza Torturer] Wheel 2
+4470602 [Ghiza Torturer] Wheel 2X
+4470603 [Ghiza Torturer] Wheel 2X
+4470604 [Ghiza Torturer] Wheel 2X
+4470610 [Ghiza Torturer] Wheel 2X
+4470611 [Ghiza Torturer] Wheel 2X
+4470620 [Ghiza Torturer] Wheel 2X
+4470621 [Ghiza Torturer] Wheel 2X
+4470622 [Ghiza Torturer] Wheel 2X
+4470630 [Ghiza Torturer] Wheel 2
+4470631 [Ghiza Torturer] Wheel 2
+4470632 [Ghiza Torturer] Wheel 2
+4470633 [Ghiza Torturer] Wheel 2
+4470634 [Ghiza Torturer] Wheel 2
+4470635 [Ghiza Torturer] Wheel 2
+4470636 [Ghiza Torturer] Wheel 2
+4470637 [Ghiza Torturer] Wheel 2
+4470638 [Ghiza Torturer] Wheel 2
+4470639 [Ghiza Torturer] Wheel 2
+4470640 [Ghiza Torturer] Wheel 2
+4470645 [Ghiza Torturer] Wheel 3
+4470646 [Ghiza Torturer] Wheel 3
+4470647 [Ghiza Torturer] Wheel 3
+4470648 [Ghiza Torturer] Wheel 3
+4470649 [Ghiza Torturer] Wheel 3
+4470650 [Ghiza Torturer] Wheel 3
+4470651 [Ghiza Torturer] Wheel 3
+4470652 [Ghiza Torturer] Wheel 3
+4470653 [Ghiza Torturer] Wheel 3
+4470654 [Ghiza Torturer] Wheel 3
+4470655 [Ghiza Torturer] Wheel 3
+4470660 [Ghiza Torturer] Wheel 2
+4470661 [Ghiza Torturer] Wheel 2
+4470662 [Ghiza Torturer] Wheel 2
+4470663 [Ghiza Torturer] Wheel 2
+4470664 [Ghiza Torturer] Wheel 2
+4470665 [Ghiza Torturer] Wheel 2
+4470666 [Ghiza Torturer] Wheel 2
+4470667 [Ghiza Torturer] Wheel 2
+4470668 [Ghiza Torturer] Wheel 2
+4470669 [Ghiza Torturer] Wheel 2
+4470670 [Ghiza Torturer] Wheel 2
+4470671 [Ghiza Torturer] Wheel 2
+4470672 [Ghiza Torturer] Wheel 2
+4470673 [Ghiza Torturer] Wheel 2
+4470674 [Ghiza Torturer] Wheel 2
+4470680 [Ghiza Torturer] Wheel 3
+4470681 [Ghiza Torturer] Wheel 3
+4470682 [Ghiza Torturer] Wheel 3
+4470683 [Ghiza Torturer] Wheel 3
+4470684 [Ghiza Torturer] Wheel 3
+4470685 [Ghiza Torturer] Wheel 3
+4470686 [Ghiza Torturer] Wheel 3
+4470687 [Ghiza Torturer] Wheel 3
+4470688 [Ghiza Torturer] Wheel 3
+4470689 [Ghiza Torturer] Wheel 3
+4470690 [Ghiza Torturer] Wheel 3
+4470691 [Ghiza Torturer] Wheel 3
+4470692 [Ghiza Torturer] Wheel 3
+4470693 [Ghiza Torturer] Wheel 3
+4470694 [Ghiza Torturer] Wheel 3
+4470900 [Ghiza Torturer] Grab Damage
 4470910 [Ghiza Torturer]
 4480100 [Giant Miranda Sprout]
-4480130 [Giant Miranda Sprout] Bullet
+4480130 [Giant Miranda Sprout] Bullet - Holy Seekers
 4480180 [Giant Miranda Sprout]
 4480181 [Giant Miranda Sprout]
 4480182 [Giant Miranda Sprout]
@@ -4982,7 +4982,7 @@
 4480185 [Giant Miranda Sprout]
 4480186 [Giant Miranda Sprout]
 4480187 [Giant Miranda Sprout]
-4480190 [Giant Miranda Sprout] Bullet
+4480190 [Giant Miranda Sprout] Bullet - Magic Seekers
 4480400 [Giant Miranda Sprout] Bullet
 4480410 [Giant Miranda Sprout] Bullet
 4480420 [Giant Miranda Sprout] Bullet
@@ -5051,26 +5051,26 @@
 4491240 [Living Pot - Small]
 4491250 [Living Pot - Small]
 4491300 [Living Pot - Small] Bullet
-4500100 [Dragon] Bullet
-4500101 [Dragon] Bullet
-4500110 [Dragon] Bullet
-4500120 [Dragon]
-4500130 [Dragon]
-4500140 [Dragon]
-4500150 [Dragon]
+4500100 [Dragon Fire] Bullet - Fire Sideways
+4500101 [Dragon Fire] Bullet - Fire Sideways
+4500110 [Dragon] Bullet - Fire Forwards
+4500120 [Dragon] Head
+4500130 [Dragon] Head
+4500140 [Dragon] Tail
+4500150 [Dragon] Wing
 4500151 [Dragon] Bullet
-4500160 [Dragon]
+4500160 [Dragon] Wing
 4500161 [Dragon] Bullet
-4500170 [Dragon]
-4500180 [Dragon]
-4500190 [Dragon]
-4500200 [Dragon]
+4500170 [Dragon] Whole Wing
+4500180 [Dragon] Whole Wing
+4500190 [Dragon] Head
+4500200 [Dragon] Stomp
 4500201 [Dragon] Bullet
-4500210 [Dragon]
+4500210 [Dragon] Stomp
 4500211 [Dragon] Bullet
-4500220 [Dragon]
-4500221 [Dragon]
-4500222 [Dragon]
+4500220 [Dragon] Flying Stomp
+4500221 [Dragon] Flying Stomp
+4500222 [Dragon] Flying Body
 4500223 [Dragon] Bullet
 4500224 [Dragon] Bullet
 4500230 [Dragon] Bullet
@@ -5079,12 +5079,12 @@
 4500240 [Dragon] Bullet
 4500241 [Dragon] Bullet
 4500242 [Dragon] Bullet
-4500250 [Dragon]
-4500251 [Dragon]
-4500260 [Dragon]
-4500270 [Dragon]
+4500250 [Dragon] Tail
+4500251 [Dragon] Head
+4500260 [Dragon] Head
+4500270 [Dragon] Stomp
 4500271 [Dragon] Bullet
-4500280 [Dragon]
+4500280 [Dragon] Stomp
 4500281 [Dragon] Bullet
 4500290 [Dragon] Bullet
 4500291 [Dragon] Bullet
@@ -5092,7 +5092,7 @@
 4500300 [Dragon] Bullet
 4500301 [Dragon] Bullet
 4500302 [Dragon] Bullet
-4500310 [Dragon]
+4500310 [Dragon] Forward Stomp
 4500311 [Dragon] Bullet
 4500320 [Dragon] Bullet
 4500321 [Dragon] Bullet
@@ -5105,10 +5105,10 @@
 4500900 [Dragon]
 4500910 [Dragon]
 4500911 [Dragon] Bullet
-4501100 [Dragon 2] Bullet
-4501101 [Dragon 2] Bullet
-4501110 [Dragon 2] Bullet
-4501120 [Dragon 2]
+4501100 [Dragon Rot] Bullet - Fire Sideways
+4501101 [Dragon Rot] Bullet - Fire Sideways
+4501110 [Dragon] Bullet - Fire Forwards
+4501120 [Dragon 2] Head
 4501130 [Dragon 2]
 4501140 [Dragon 2]
 4501150 [Dragon 2]
@@ -5168,10 +5168,10 @@
 4501900 [Dragon 2]
 4501910 [Dragon 2]
 4501911 [Dragon 2]
-4502100 [Dragon 3] Bullet
-4502101 [Dragon 3] Bullet
-4502110 [Dragon 3] Bullet
-4502120 [Dragon 3]
+4502100 [Dragon Magic] Bullet - Fire Sideways
+4502101 [Dragon Magic] Bullet - Fire Sideways
+4502110 [Dragon] Bullet - Fire Forwards
+4502120 [Dragon 3] Head
 4502130 [Dragon 3]
 4502140 [Dragon 3]
 4502150 [Dragon 3]
@@ -5180,7 +5180,7 @@
 4502161 [Dragon 3] Bullet
 4502170 [Dragon 3]
 4502180 [Dragon 3]
-4502190 [Dragon 3]
+4502190 [Dragon 3] Head
 4502200 [Dragon 3]
 4502201 [Dragon 3] Bullet
 4502210 [Dragon 3]
@@ -5238,9 +5238,9 @@
 4502900 [Dragon 3]
 4502910 [Dragon 3]
 4502911 [Dragon 3]
-4503100 [Dragon 4] Bullet
-4503101 [Dragon 4] Bullet
-4503110 [Dragon 4] Bullet
+4503100 [Dragon Frost] Bullet - Fire Sideways
+4503101 [Dragon Frost] Bullet - Fire Sideways
+4503110 [Dragon] Bullet - Fire Forwards
 4503120 [Dragon 4]
 4503130 [Dragon 4]
 4503140 [Dragon 4]
@@ -5301,64 +5301,64 @@
 4503900 [Dragon 4]
 4503910 [Dragon 4]
 4503911 [Dragon 4]
-4510100 [Ancient Dragon]
-4510101 [Ancient Dragon]
-4510110 [Ancient Dragon]
-4510120 [Ancient Dragon]
-4510130 [Ancient Dragon]
-4510140 [Ancient Dragon]
-4510150 [Ancient Dragon]
-4510160 [Ancient Dragon]
-4510161 [Ancient Dragon]
-4510170 [Ancient Dragon]
-4510190 [Ancient Dragon]
-4510191 [Ancient Dragon]
-4510192 [Ancient Dragon]
+4510100 [Ancient Dragon] Arm
+4510101 [Ancient Dragon] Arm
+4510110 [Ancient Dragon] Arm
+4510120 [Ancient Dragon] Arm
+4510130 [Ancient Dragon] Arm
+4510140 [Ancient Dragon] Arm
+4510150 [Ancient Dragon] Lightning Arm
+4510160 [Ancient Dragon] Lightning Arm
+4510161 [Ancient Dragon] Lightning Arm
+4510170 [Ancient Dragon] Lightning Stake
+4510190 [Ancient Dragon] Wing Flap
+4510191 [Ancient Dragon] Wing Flap
+4510192 [Ancient Dragon] Wing Flap
 4510200 [Ancient Dragon] Bullet
-4510240 [Ancient Dragon]
+4510240 [Ancient Dragon] Head
 4510241 [Ancient Dragon] Bullet
-4510250 [Ancient Dragon]
-4510251 [Ancient Dragon]
+4510250 [Ancient Dragon] Head
+4510251 [Ancient Dragon] Head
 4510252 [Ancient Dragon] Bullet
 4510253 [Ancient Dragon] Bullet
-4510260 [Ancient Dragon]
-4510270 [Ancient Dragon]
-4510280 [Ancient Dragon]
-4510290 [Ancient Dragon] Bullet
-4510300 [Ancient Dragon]
-4510310 [Ancient Dragon]
-4510320 [Ancient Dragon]
-4510330 [Ancient Dragon] Bullet
-4510340 [Ancient Dragon] Bullet
-4510350 [Ancient Dragon]
-4510360 [Ancient Dragon]
-4510370 [Ancient Dragon]
-4510380 [Ancient Dragon]
-4510381 [Ancient Dragon]
+4510260 [Ancient Dragon] Lightning Stake
+4510270 [Ancient Dragon] Lightning Stake
+4510280 [Ancient Dragon] Lightning Stake Curvedsword
+4510290 [Ancient Dragon] Bullet - Fire Breath
+4510300 [Ancient Dragon] Lightning Stake Curvedsword
+4510310 [Ancient Dragon] Lightning Stake Curvedsword
+4510320 [Ancient Dragon] Lightning Stake
+4510330 [Ancient Dragon] Bullet - Fire Down
+4510340 [Ancient Dragon] Bullet - Fire Down
+4510350 [Ancient Dragon] Arm
+4510360 [Ancient Dragon] Arm
+4510370 [Ancient Dragon] Tail
+4510380 [Ancient Dragon] Flying Glaive Killer
+4510381 [Ancient Dragon] Landing
 4510390 [Ancient Dragon] Bullet
 4510391 [Ancient Dragon] Bullet
 4510399 [Ancient Dragon] Bullet
-4510400 [Ancient Dragon]
-4510401 [Ancient Dragon]
-4510410 [Ancient Dragon]
-4510420 [Ancient Dragon]
-4510430 [Ancient Dragon]
-4510440 [Ancient Dragon]
-4510650 [Ancient Dragon]
-4510660 [Ancient Dragon]
-4510800 [Ancient Dragon] Bullet
-4510801 [Ancient Dragon] Bullet
+4510400 [Ancient Dragon] Lightning Arm
+4510401 [Ancient Dragon] Lightning Arm
+4510410 [Ancient Dragon] Lightning Arm
+4510420 [Ancient Dragon] Lightning Arm
+4510430 [Ancient Dragon] Lightning Arm
+4510440 [Ancient Dragon] Lightning Arm
+4510650 [Ancient Dragon] Lightning Arm
+4510660 [Ancient Dragon] Lightning Arm
+4510800 [Ancient Dragon] Bullet - Stake Slame AoE
+4510801 [Ancient Dragon] Bullet - Stake Slam Wave
 4510810 [Ancient Dragon] Bullet
 4510820 [Ancient Dragon] Bullet
 4510840 [Ancient Dragon] Bullet
 4510900 [Ancient Dragon] Bullet
-4510901 [Ancient Dragon]
-4510910 [Ancient Dragon] Bullet
+4510901 [Ancient Dragon] Flying Slam
+4510910 [Ancient Dragon] Bullet - Close Shock Explode
 4510920 [Ancient Dragon] Bullet
 4510921 [Ancient Dragon] Bullet
 4510922 [Ancient Dragon] Bullet
 4510923 [Ancient Dragon] Bullet
-4510980 [Ancient Dragon]
+4510980 [Ancient Dragon] Close Trigger Shock
 4510990 [Ancient Dragon]
 4510991 [Ancient Dragon]
 4510992 [Ancient Dragon]
@@ -5409,88 +5409,88 @@
 4520431 [Dragonlord Placidusax]
 4520450 [Dragonlord Placidusax]
 4520451 [Dragonlord Placidusax]
-4520460 [Dragonlord Placidusax] Bullet
-4520468 [Dragonlord Placidusax]
-4520469 [Dragonlord Placidusax]
+4520460 [Dragonlord Placidusax] Bullet - Laser Explosion
+4520468 [Dragonlord Placidusax] Laser
+4520469 [Dragonlord Placidusax] Laser
 4520500 [Dragonlord Placidusax] Bullet
 4520550 [Dragonlord Placidusax]
 4520555 [Dragonlord Placidusax]
-4520900 [Dragonlord Placidusax] Bullet
+4520900 [Dragonlord Placidusax] Bullet - Lightning
 4520950 [Dragonlord Placidusax] Bullet
 4520990 [Dragonlord Placidusax]
 4520991 [Dragonlord Placidusax]
 4520992 [Dragonlord Placidusax]
 4520993 [Dragonlord Placidusax]
-4550100 [Monstrous Dog]
-4550101 [Monstrous Dog]
-4550110 [Monstrous Dog]
-4550111 [Monstrous Dog]
-4550120 [Monstrous Dog]
-4550130 [Monstrous Dog]
+4550100 [Monstrous Dog] Bite
+4550101 [Monstrous Dog] Bite
+4550110 [Monstrous Dog] Bite
+4550111 [Monstrous Dog] Bite
+4550120 [Monstrous Dog] Bite
+4550130 [Monstrous Dog] Bite
 4550131 [Monstrous Dog]
-4550140 [Monstrous Dog]
-4550150 [Monstrous Dog]
-4550160 [Monstrous Dog]
-4550161 [Monstrous Dog]
-4550170 [Monstrous Dog]
-4550171 [Monstrous Dog]
-4550172 [Monstrous Dog]
-4550173 [Monstrous Dog]
-4550174 [Monstrous Dog]
-4550175 [Monstrous Dog]
-4550176 [Monstrous Dog]
-4550177 [Monstrous Dog]
-4550178 [Monstrous Dog]
-4550180 [Monstrous Dog]
-4550190 [Monstrous Dog]
-4550200 [Monstrous Dog]
-4550201 [Monstrous Dog]
-4550210 [Monstrous Dog]
-4550211 [Monstrous Dog]
-4550212 [Monstrous Dog]
-4550213 [Monstrous Dog]
-4550214 [Monstrous Dog]
+4550140 [Monstrous Dog] Bite
+4550150 [Monstrous Dog] Bite
+4550160 [Monstrous Dog] Stomp
+4550161 [Monstrous Dog] Stomp
+4550170 [Monstrous Dog] Bite
+4550171 [Monstrous Dog] Bite
+4550172 [Monstrous Dog] Bite
+4550173 [Monstrous Dog] Bite
+4550174 [Monstrous Dog] Bite
+4550175 [Monstrous Dog] Bite
+4550176 [Monstrous Dog] Bite
+4550177 [Monstrous Dog] Bite
+4550178 [Monstrous Dog] Bite
+4550180 [Monstrous Dog] Bite
+4550190 [Monstrous Dog] Fall
+4550200 [Monstrous Dog] Fall Head
+4550201 [Monstrous Dog] Stomp
+4550210 [Monstrous Dog] Bite
+4550211 [Monstrous Dog] Stomp
+4550212 [Monstrous Dog] Stomp
+4550213 [Monstrous Dog] Bite
+4550214 [Monstrous Dog] Bite
 4550220 [Monstrous Dog]
 4550221 [Monstrous Dog] Bullet
 4550230 [Monstrous Dog] Bullet
 4550231 [Monstrous Dog] Bullet
-4550240 [Monstrous Dog]
-4550241 [Monstrous Dog]
+4550240 [Monstrous Dog] Bite
+4550241 [Monstrous Dog] Stomp
 4550370 [Monstrous Dog] Bullet
 4550900 [Monstrous Dog]
 4550950 [Monstrous Dog] Bullet
 4550951 [Monstrous Dog] Bullet
-4560100 [Monstrous Crow]
-4560110 [Monstrous Crow]
-4560120 [Monstrous Crow]
-4560130 [Monstrous Crow]
-4560131 [Monstrous Crow]
-4560132 [Monstrous Crow]
-4560133 [Monstrous Crow]
-4560140 [Monstrous Crow]
-4560150 [Monstrous Crow]
-4560151 [Monstrous Crow]
-4560160 [Monstrous Crow]
-4560161 [Monstrous Crow]
-4560170 [Monstrous Crow]
-4560171 [Monstrous Crow]
-4560180 [Monstrous Crow]
-4560181 [Monstrous Crow]
-4560190 [Monstrous Crow]
-4560200 [Monstrous Crow]
-4560201 [Monstrous Crow]
-4560210 [Monstrous Crow]
-4560211 [Monstrous Crow]
-4560250 [Monstrous Crow]
-4560251 [Monstrous Crow]
-4560252 [Monstrous Crow]
+4560100 [Monstrous Crow] Peck
+4560110 [Monstrous Crow] Peck
+4560120 [Monstrous Crow] Bite
+4560130 [Monstrous Crow] Peck
+4560131 [Monstrous Crow] Peck
+4560132 [Monstrous Crow] Peck
+4560133 [Monstrous Crow] Peck
+4560140 [Monstrous Crow] Bite
+4560150 [Monstrous Crow] Stomp
+4560151 [Monstrous Crow] Stomp AoE
+4560160 [Monstrous Crow] Stomp
+4560161 [Monstrous Crow] Stomp AoE
+4560170 [Monstrous Crow] Peck
+4560171 [Monstrous Crow] Peck
+4560180 [Monstrous Crow] Stomp
+4560181 [Monstrous Crow] Stomp AoE
+4560190 [Monstrous Crow] Bite
+4560200 [Monstrous Crow] Stomp
+4560201 [Monstrous Crow] Stomp AoE
+4560210 [Monstrous Crow] Stomp
+4560211 [Monstrous Crow] Stomp AoE
+4560250 [Monstrous Crow] Bite
+4560251 [Monstrous Crow] Bite
+4560252 [Monstrous Crow] Bite
 4560253 [Monstrous Crow]
-4560300 [Monstrous Crow]
+4560300 [Monstrous Crow] Bite
 4560301 [Monstrous Crow]
-4560310 [Monstrous Crow]
+4560310 [Monstrous Crow] Peck
 4560500 [Monstrous Crow] Bullet
-4560510 [Monstrous Crow]
-4560511 [Monstrous Crow]
+4560510 [Monstrous Crow] Stomp
+4560511 [Monstrous Crow] Stomp AoE
 4560520 [Monstrous Crow] Bullet
 4560900 [Monstrous Crow]
 4570100 [Wormface]
@@ -5528,8 +5528,8 @@
 4570260 [Wormface] Bullet
 4570261 [Wormface] Bullet
 4570900 [Wormface]
-4580100 [Wormface 2]
-4580110 [Wormface 2]
+4580100 [Wormface 2] Stomp 4
+4580110 [Wormface 2] Stomp 5
 4580120 [Wormface 2] Bullet
 4580121 [Wormface 2] Bullet
 4580122 [Wormface 2] Bullet
@@ -5538,40 +5538,40 @@
 4580132 [Wormface 2] Bullet
 4580133 [Wormface 2] Bullet
 4580140 [Wormface 2] Bullet
-4580150 [Wormface 2]
-4580151 [Wormface 2]
+4580150 [Wormface 2] Head
+4580151 [Wormface 2] Upper Body
 4580152 [Wormface 2] Bullet
-4580160 [Wormface 2]
-4580161 [Wormface 2]
-4580162 [Wormface 2]
-4580163 [Wormface 2]
-4580164 [Wormface 2]
-4580165 [Wormface 2]
+4580160 [Wormface 2] Head
+4580161 [Wormface 2] Head
+4580162 [Wormface 2] Head
+4580163 [Wormface 2] Head
+4580164 [Wormface 2] Upper Body
+4580165 [Wormface 2] Upper Body
 4580166 [Wormface 2] Bullet
-4580170 [Wormface 2]
-4580171 [Wormface 2]
-4580172 [Wormface 2]
+4580170 [Wormface 2] Head
+4580171 [Wormface 2] Head
+4580172 [Wormface 2] Upper Body
 4580173 [Wormface 2] Bullet
-4580180 [Wormface 2]
-4580181 [Wormface 2]
-4580182 [Wormface 2]
+4580180 [Wormface 2] Head
+4580181 [Wormface 2] Head
+4580182 [Wormface 2] Upper Body
 4580183 [Wormface 2] Bullet
 4580190 [Wormface 2] Bullet
 4580191 [Wormface 2] Bullet
 4580200 [Wormface 2] Bullet
 4580201 [Wormface 2] Bullet
-4580210 [Wormface 2]
+4580210 [Wormface 2] Head
 4580211 [Wormface 2] Bullet
-4580220 [Wormface 2]
-4580230 [Wormface 2]
+4580220 [Wormface 2] Grab
+4580230 [Wormface 2] Head
 4580231 [Wormface 2] Bullet
-4580240 [Wormface 2]
+4580240 [Wormface 2] Head
 4580241 [Wormface 2] Bullet
-4580250 [Wormface 2]
-4580260 [Wormface 2]
+4580250 [Wormface 2] Grab
+4580260 [Wormface 2] Grab
 4580270 [Wormface 2] Bullet
 4580271 [Wormface 2] Bullet
-4580280 [Wormface 2]
+4580280 [Wormface 2] Grab Damage
 4580900 [Wormface 2]
 4600100 [Troll Knight]
 4600101 [Troll Knight] Bullet
@@ -5762,66 +5762,66 @@
 4600962 [Troll Knight] Bullet
 4600970 [Troll Knight] Bullet
 4600971 [Troll Knight] Bullet
-4620100 [Astel]
-4620110 [Astel]
-4620120 [Astel]
-4620130 [Astel] Bullet
+4620100 [Astel] Pincers
+4620110 [Astel] Hand Slam
+4620120 [Astel] Hand Slam
+4620130 [Astel] Bullet - Warp Explode
 4620140 [Astel]
 4620150 [Astel]
 4620151 [Astel]
 4620160 [Astel]
 4620161 [Astel]
-4620170 [Astel]
-4620180 [Astel]
+4620170 [Astel] Stinger
+4620180 [Astel] Pincers
 4620190 [Astel]
 4620191 [Astel]
-4620200 [Astel]
-4620201 [Astel]
-4620202 [Astel]
-4620210 [Astel]
-4620211 [Astel]
-4620220 [Astel] Bullet
+4620200 [Astel] Stinger
+4620201 [Astel] Stinger
+4620202 [Astel] Stinger
+4620210 [Astel] Stinger
+4620211 [Astel] Tail
+4620220 [Astel] Bullet - Laser
 4620230 [Astel]
 4620240 [Astel]
-4620250 [Astel]
-4620255 [Astel]
-4620256 [Astel]
-4620257 [Astel]
-4620258 [Astel]
-4620260 [Astel]
-4620261 [Astel] Bullet
-4620262 [Astel] Bullet
+4620250 [Astel] Pincers Grab
+4620255 [Astel] Pincers Grab Damage
+4620256 [Astel] Pincers Grab Damage
+4620257 [Astel] Pincers Grab Damage
+4620258 [Astel] Pincers Grab Damage
+4620260 [Astel] Gravity Grab
+4620261 [Astel] Bullet - Gravity Slam
+4620262 [Astel] Bullet - Gravity Slam
 4620263 [Astel]
-4620270 [Astel]
+4620270 [Astel] Hand Grab
 4620275 [Astel]
 4620276 [Astel]
 4620277 [Astel]
 4620278 [Astel]
 4620290 [Astel]
 4620330 [Astel]
-4620340 [Astel]
-4620341 [Astel]
+4620340 [Astel] Hand Slam
+4620341 [Astel] Hand Slam
 4620350 [Astel]
 4620360 [Astel]
-4620370 [Astel]
-4620371 [Astel]
-4620380 [Astel]
-4620381 [Astel]
-4620500 [Astel] Bullet
-4620510 [Astel] Bullet
+4620370 [Astel] Stinger
+4620371 [Astel] Tail
+4620380 [Astel] Stinger
+4620381 [Astel] Tail
+4620500 [Astel] Bullet - Hand Star Explode
+4620510 [Astel] Bullet - Gravity Pulse
 4620520 [Astel]
 4620560 [Astel] Bullet
 4620561 [Astel] Bullet
 4620600 [Astel] Bullet
-4620800 [Astel]
-4620810 [Astel]
-4620820 [Astel]
+4620800 [Astel] Ceiling Pincer
+4620810 [Astel] Ceiling Pincer
+4620820 [Astel] Ceiling Pincer
 4620995 [Astel]
 4630100 [Runebear]
 4630110 [Runebear]
 4630120 [Runebear]
 4630121 [Runebear]
-4630130 [Runebear]
+4630130 [Runebear] Head
 4630140 [Runebear]
 4630150 [Runebear]
 4630160 [Runebear]
@@ -5829,7 +5829,7 @@
 4630162 [Runebear]
 4630163 [Runebear]
 4630170 [Runebear]
-4630180 [Runebear]
+4630180 [Runebear] Roar
 4630190 [Runebear]
 4630200 [Runebear]
 4630210 [Runebear]
@@ -5837,11 +5837,11 @@
 4630230 [Runebear]
 4630231 [Runebear]
 4630240 [Runebear]
-4630250 [Runebear]
+4630250 [Runebear] Head
 4630260 [Runebear] Bullet
 4630400 [Runebear]
-4630410 [Runebear]
-4630411 [Runebear]
+4630410 [Runebear] AoE
+4630411 [Runebear] AoE Small
 4630430 [Runebear]
 4640110 [Ulcerated Tree Spirit]
 4640120 [Ulcerated Tree Spirit]
@@ -5849,11 +5849,11 @@
 4640145 [Ulcerated Tree Spirit] Bullet
 4640150 [Ulcerated Tree Spirit] Bullet
 4640155 [Ulcerated Tree Spirit] Bullet
-4640160 [Ulcerated Tree Spirit]
-4640200 [Ulcerated Tree Spirit]
+4640160 [Ulcerated Tree Spirit] Head
+4640200 [Ulcerated Tree Spirit] Tail
 4640250 [Ulcerated Tree Spirit]
 4640260 [Ulcerated Tree Spirit]
-4640270 [Ulcerated Tree Spirit]
+4640270 [Ulcerated Tree Spirit] Tail
 4640280 [Ulcerated Tree Spirit] Bullet
 4640285 [Ulcerated Tree Spirit] Bullet
 4640290 [Ulcerated Tree Spirit]
@@ -5864,7 +5864,7 @@
 4640313 [Ulcerated Tree Spirit]
 4640315 [Ulcerated Tree Spirit] Bullet
 4640320 [Ulcerated Tree Spirit]
-4640330 [Ulcerated Tree Spirit]
+4640330 [Ulcerated Tree Spirit] Big Tail
 4640370 [Ulcerated Tree Spirit]
 4640380 [Ulcerated Tree Spirit]
 4640420 [Ulcerated Tree Spirit]
@@ -5923,8 +5923,8 @@
 4640913 [Ulcerated Tree Spirit]
 4640914 [Ulcerated Tree Spirit]
 4640990 [Ulcerated Tree Spirit]
-4650100 [Dragonkin Soldier]
-4650110 [Dragonkin Soldier]
+4650100 [Dragonkin Soldier] RArm
+4650110 [Dragonkin Soldier] LArm
 4650120 [Dragonkin Soldier]
 4650130 [Dragonkin Soldier]
 4650131 [Dragonkin Soldier]
@@ -5941,12 +5941,12 @@
 4650180 [Dragonkin Soldier]
 4650181 [Dragonkin Soldier]
 4650182 [Dragonkin Soldier] Bullet
-4650190 [Dragonkin Soldier]
+4650190 [Dragonkin Soldier] Head
 4650191 [Dragonkin Soldier]
 4650192 [Dragonkin Soldier]
 4650193 [Dragonkin Soldier]
 4650194 [Dragonkin Soldier] Bullet
-4650200 [Dragonkin Soldier]
+4650200 [Dragonkin Soldier] Arms
 4650201 [Dragonkin Soldier] Bullet
 4650210 [Dragonkin Soldier] Bullet
 4650211 [Dragonkin Soldier] Bullet
@@ -5955,15 +5955,15 @@
 4650230 [Dragonkin Soldier]
 4650231 [Dragonkin Soldier] Bullet
 4650240 [Dragonkin Soldier] Bullet
-4650250 [Dragonkin Soldier]
-4650251 [Dragonkin Soldier]
+4650250 [Dragonkin Soldier] Head
+4650251 [Dragonkin Soldier] Body
 4650252 [Dragonkin Soldier]
 4650253 [Dragonkin Soldier]
 4650254 [Dragonkin Soldier] Bullet
 4650255 [Dragonkin Soldier] Bullet
 4650256 [Dragonkin Soldier] Bullet
-4650260 [Dragonkin Soldier]
-4650261 [Dragonkin Soldier]
+4650260 [Dragonkin Soldier] Head
+4650261 [Dragonkin Soldier] Head
 4650262 [Dragonkin Soldier]
 4650263 [Dragonkin Soldier]
 4650264 [Dragonkin Soldier] Bullet
@@ -5973,10 +5973,10 @@
 4650271 [Dragonkin Soldier] Bullet
 4650280 [Dragonkin Soldier]
 4650281 [Dragonkin Soldier] Bullet
-4650290 [Dragonkin Soldier]
+4650290 [Dragonkin Soldier] Head
 4650291 [Dragonkin Soldier]
 4650292 [Dragonkin Soldier]
-4650293 [Dragonkin Soldier]
+4650293 [Dragonkin Soldier] Leg
 4650294 [Dragonkin Soldier]
 4650295 [Dragonkin Soldier]
 4650296 [Dragonkin Soldier]
@@ -5985,8 +5985,8 @@
 4650299 [Dragonkin Soldier] Bullet
 4650300 [Dragonkin Soldier] Bullet
 4650301 [Dragonkin Soldier] Bullet
-4650400 [Dragonkin Soldier]
-4650410 [Dragonkin Soldier]
+4650400 [Dragonkin Soldier] RArm 2
+4650410 [Dragonkin Soldier] LArm 2
 4650420 [Dragonkin Soldier]
 4650430 [Dragonkin Soldier]
 4650431 [Dragonkin Soldier]
@@ -6009,7 +6009,7 @@
 4650493 [Dragonkin Soldier]
 4650494 [Dragonkin Soldier] Bullet
 4650500 [Dragonkin Soldier]
-4650501 [Dragonkin Soldier]
+4650501 [Dragonkin Soldier] Legs 2
 4650502 [Dragonkin Soldier] Bullet
 4650503 [Dragonkin Soldier] Bullet
 4650504 [Dragonkin Soldier] Bullet
@@ -6041,7 +6041,7 @@
 4650536 [Dragonkin Soldier] Bullet
 4650537 [Dragonkin Soldier] Bullet
 4650538 [Dragonkin Soldier] Bullet
-4650580 [Dragonkin Soldier]
+4650580 [Dragonkin Soldier] Arms 2
 4650581 [Dragonkin Soldier]
 4650582 [Dragonkin Soldier] Bullet
 4650583 [Dragonkin Soldier] Bullet
@@ -6074,11 +6074,11 @@
 4650616 [Dragonkin Soldier] Bullet
 4650617 [Dragonkin Soldier] Bullet
 4650618 [Dragonkin Soldier] Bullet
-4650660 [Dragonkin Soldier]
+4650660 [Dragonkin Soldier] Arms 2
 4650661 [Dragonkin Soldier] Bullet
 4650670 [Dragonkin Soldier] Bullet
 4650671 [Dragonkin Soldier] Bullet
-4650680 [Dragonkin Soldier]
+4650680 [Dragonkin Soldier] Arms 2
 4650681 [Dragonkin Soldier] Bullet
 4650690 [Dragonkin Soldier]
 4650691 [Dragonkin Soldier]
@@ -6094,7 +6094,7 @@
 4650704 [Dragonkin Soldier] Bullet
 4650705 [Dragonkin Soldier] Bullet
 4650706 [Dragonkin Soldier] Bullet
-4650710 [Dragonkin Soldier]
+4650710 [Dragonkin Soldier] RArm
 4650711 [Dragonkin Soldier] Bullet
 4650712 [Dragonkin Soldier] Bullet
 4650720 [Dragonkin Soldier] Bullet
@@ -6127,7 +6127,7 @@
 4650756 [Dragonkin Soldier] Bullet
 4650757 [Dragonkin Soldier] Bullet
 4650758 [Dragonkin Soldier] Bullet
-4650780 [Dragonkin Soldier]
+4650780 [Dragonkin Soldier] Arms 2
 4650781 [Dragonkin Soldier] Bullet
 4650790 [Dragonkin Soldier]
 4650791 [Dragonkin Soldier] Bullet
@@ -6202,105 +6202,105 @@
 4660756 [Golem] Bullet
 4660757 [Golem] Bullet
 4660900 [Golem]
-4670100 [Ancestor Spirit]
-4670110 [Ancestor Spirit]
-4670120 [Ancestor Spirit]
+4670100 [Ancestor Spirit] Head
+4670110 [Ancestor Spirit] Head
+4670120 [Ancestor Spirit] Head
 4670121 [Ancestor Spirit]
 4670122 [Ancestor Spirit]
-4670130 [Ancestor Spirit]
-4670140 [Ancestor Spirit]
-4670150 [Ancestor Spirit]
-4670160 [Ancestor Spirit] Bullet
-4670161 [Ancestor Spirit] Bullet
-4670170 [Ancestor Spirit]
+4670130 [Ancestor Spirit] Head
+4670140 [Ancestor Spirit] Head
+4670150 [Ancestor Spirit] Kick
+4670160 [Ancestor Spirit] Bullet - Spit
+4670161 [Ancestor Spirit] Bullet - Spit Puddle
+4670170 [Ancestor Spirit] Head
 4670171 [Ancestor Spirit]
 4670180 [Ancestor Spirit] Bullet
 4670181 [Ancestor Spirit]
 4670190 [Ancestor Spirit] Bullet
-4670191 [Ancestor Spirit]
-4670210 [Ancestor Spirit] Bullet
+4670191 [Ancestor Spirit] Drain Attack
+4670210 [Ancestor Spirit] Bullet - Stomp AoE
 4670220 [Ancestor Spirit] Bullet
 4670230 [Ancestor Spirit]
 4670240 [Ancestor Spirit]
-4670250 [Ancestor Spirit]
+4670250 [Ancestor Spirit] Charge Head
 4670251 [Ancestor Spirit]
-4670252 [Ancestor Spirit]
+4670252 [Ancestor Spirit] Head
 4670253 [Ancestor Spirit]
-4670260 [Ancestor Spirit]
+4670260 [Ancestor Spirit] Bunny Hop
 4670261 [Ancestor Spirit] Bullet
-4670262 [Ancestor Spirit]
-4670290 [Ancestor Spirit] Bullet
-4670291 [Ancestor Spirit]
-4670310 [Ancestor Spirit]
-4670320 [Ancestor Spirit]
-4670330 [Ancestor Spirit]
-4670340 [Ancestor Spirit]
-4670350 [Ancestor Spirit]
-4670360 [Ancestor Spirit]
-4670370 [Ancestor Spirit]
-4670372 [Ancestor Spirit]
+4670262 [Ancestor Spirit] Front Stomp
+4670290 [Ancestor Spirit] Bullet - Roll
+4670291 [Ancestor Spirit] Front Stomp
+4670310 [Ancestor Spirit] Big Head
+4670320 [Ancestor Spirit] Big Head
+4670330 [Ancestor Spirit] Big Head
+4670340 [Ancestor Spirit] Big Head
+4670350 [Ancestor Spirit] Big Head
+4670360 [Ancestor Spirit] Big Head
+4670370 [Ancestor Spirit] Head
+4670372 [Ancestor Spirit] Front Stomp
 4670390 [Ancestor Spirit]
 4670391 [Ancestor Spirit]
 4670500 [Ancestor Spirit]
 4680100 [Fallingstar Beast]
 4680110 [Fallingstar Beast]
-4680111 [Fallingstar Beast]
+4680111 [Fallingstar Beast] Feet
 4680120 [Fallingstar Beast]
-4680121 [Fallingstar Beast]
+4680121 [Fallingstar Beast] Feet
 4680130 [Fallingstar Beast]
-4680131 [Fallingstar Beast]
-4680132 [Fallingstar Beast]
-4680135 [Fallingstar Beast] Bullet
+4680131 [Fallingstar Beast] Feet
+4680132 [Fallingstar Beast] AoE
+4680135 [Fallingstar Beast] Bullet - Mouth Rock Shower
 4680140 [Fallingstar Beast]
-4680141 [Fallingstar Beast]
+4680141 [Fallingstar Beast] Feet
 4680150 [Fallingstar Beast]
-4680151 [Fallingstar Beast]
+4680151 [Fallingstar Beast] Body
 4680160 [Fallingstar Beast]
-4680162 [Fallingstar Beast]
-4680165 [Fallingstar Beast] Bullet
-4680170 [Fallingstar Beast]
-4680180 [Fallingstar Beast]
-4680185 [Fallingstar Beast] Bullet
-4680190 [Fallingstar Beast]
-4680191 [Fallingstar Beast]
-4680195 [Fallingstar Beast] Bullet
-4680200 [Fallingstar Beast]
-4680201 [Fallingstar Beast]
-4680205 [Fallingstar Beast] Bullet
+4680162 [Fallingstar Beast] AoE
+4680165 [Fallingstar Beast] Bullet - Mouth Rock Shower
+4680170 [Fallingstar Beast] Full Body
+4680180 [Fallingstar Beast] Feet
+4680185 [Fallingstar Beast] Bullet - Feet AoE
+4680190 [Fallingstar Beast] Tail
+4680191 [Fallingstar Beast] Tail
+4680195 [Fallingstar Beast] Bullet - Tail Rock
+4680200 [Fallingstar Beast] Tail
+4680201 [Fallingstar Beast] Tail
+4680205 [Fallingstar Beast] Bullet - Tail Rock
 4680210 [Fallingstar Beast]
-4680211 [Fallingstar Beast]
+4680211 [Fallingstar Beast] Feet and Body
 4680220 [Fallingstar Beast]
-4680230 [Fallingstar Beast]
-4680240 [Fallingstar Beast]
+4680230 [Fallingstar Beast] Full Body
+4680240 [Fallingstar Beast] Head Pullup
 4680250 [Fallingstar Beast]
 4680251 [Fallingstar Beast]
 4680252 [Fallingstar Beast]
 4680253 [Fallingstar Beast]
 4680254 [Fallingstar Beast]
-4680261 [Fallingstar Beast] Bullet
+4680261 [Fallingstar Beast] Bullet - Gravity Pullup
 4680262 [Fallingstar Beast] Bullet
-4680263 [Fallingstar Beast] Bullet
-4680264 [Fallingstar Beast]
+4680263 [Fallingstar Beast] Bullet - Gravity Pulldown
+4680264 [Fallingstar Beast] Gravity Pulldown Got Grabbed Damage
 4680271 [Fallingstar Beast] Bullet
 4680281 [Fallingstar Beast] Bullet
 4680285 [Fallingstar Beast] Bullet
-4680295 [Fallingstar Beast] Bullet
-4680300 [Fallingstar Beast]
+4680295 [Fallingstar Beast] Bullet - Ground Pullup
+4680300 [Fallingstar Beast] Tail
 4680310 [Fallingstar Beast]
-4680320 [Fallingstar Beast]
-4680330 [Fallingstar Beast]
-4680340 [Fallingstar Beast]
+4680320 [Fallingstar Beast] Double Mouth
+4680330 [Fallingstar Beast] Tail
+4680340 [Fallingstar Beast] Tail
 4680350 [Fallingstar Beast]
-4680352 [Fallingstar Beast]
+4680352 [Fallingstar Beast] AoE
 4680355 [Fallingstar Beast] Bullet
 4680370 [Fallingstar Beast]
 4680440 [Fallingstar Beast]
-4680455 [Fallingstar Beast] Bullet
+4680455 [Fallingstar Beast] Bullet - Ground Pullup Large
 4680990 [Fallingstar Beast]
-4690100 [Grafted Scion]
-4690101 [Grafted Scion]
-4690105 [Grafted Scion]
-4690106 [Grafted Scion]
+4690100 [Grafted Scion] Sword Arm 1
+4690101 [Grafted Scion] Sword Arm 2
+4690105 [Grafted Scion] Sword Arm 1 Holy
+4690106 [Grafted Scion] Sword Arm 2 Holy
 4690110 [Grafted Scion]
 4690111 [Grafted Scion]
 4690115 [Grafted Scion]
@@ -6320,8 +6320,8 @@
 4690165 [Grafted Scion]
 4690170 [Grafted Scion]
 4690175 [Grafted Scion]
-4690180 [Grafted Scion]
-4690181 [Grafted Scion]
+4690180 [Grafted Scion] Shield Slam
+4690181 [Grafted Scion] AoE
 4690190 [Grafted Scion]
 4690195 [Grafted Scion]
 4690200 [Grafted Scion] Bullet
@@ -6339,7 +6339,7 @@
 4690231 [Grafted Scion]
 4690235 [Grafted Scion]
 4690236 [Grafted Scion]
-4690240 [Grafted Scion]
+4690240 [Grafted Scion] Shield
 4690250 [Grafted Scion]
 4690255 [Grafted Scion]
 4690260 [Grafted Scion]
@@ -6368,7 +6368,7 @@
 4690298 [Grafted Scion]
 4690300 [Grafted Scion]
 4690301 [Grafted Scion]
-4690302 [Grafted Scion]
+4690302 [Grafted Scion] Shield Slam
 4690303 [Grafted Scion]
 4690305 [Grafted Scion]
 4690306 [Grafted Scion]
@@ -6388,7 +6388,7 @@
 4690335 [Grafted Scion]
 4690336 [Grafted Scion]
 4690400 [Grafted Scion]
-4690900 [Grafted Scion]
+4690900 [Grafted Scion] Guard
 4690980 [Grafted Scion]
 4690985 [Grafted Scion]
 4690990 [Grafted Scion]
@@ -6410,38 +6410,38 @@
 4710153 [Writhing Mass]
 4710160 [Writhing Mass]
 4710170 [Writhing Mass]
-4710180 [Writhing Mass]
+4710180 [Writhing Mass] Grab
 4710181 [Writhing Mass]
 4710182 [Writhing Mass]
 4710190 [Writhing Mass]
 4710200 [Writhing Mass]
-4710300 [Writhing Mass]
-4710301 [Writhing Mass]
-4710302 [Writhing Mass]
-4710303 [Writhing Mass]
-4710310 [Writhing Mass]
-4710311 [Writhing Mass] Bullet
+4710300 [Writhing Mass] Sword
+4710301 [Writhing Mass] Sword
+4710302 [Writhing Mass] Sword
+4710303 [Writhing Mass] Sword
+4710310 [Writhing Mass] Sword
+4710311 [Writhing Mass] Bullet - Sword Pullup
 4710320 [Writhing Mass]
 4710330 [Writhing Mass]
 4710331 [Writhing Mass]
 4710340 [Writhing Mass]
 4710341 [Writhing Mass]
 4710350 [Writhing Mass]
-4710360 [Writhing Mass]
-4710370 [Writhing Mass]
-4710380 [Writhing Mass]
-4710390 [Writhing Mass]
-4710391 [Writhing Mass]
-4710500 [Writhing Mass] Bullet
+4710360 [Writhing Mass] Sword
+4710370 [Writhing Mass] Sword
+4710380 [Writhing Mass] Sword
+4710390 [Writhing Mass] Ultimate Slam Sword
+4710391 [Writhing Mass] Ultimate Slam Explosion
+4710500 [Writhing Mass] Bullet - Rykard's Rancor
 4710510 [Writhing Mass]
 4710530 [Writhing Mass] Bullet
-4710540 [Writhing Mass] Bullet
-4710541 [Writhing Mass] Bullet
-4710550 [Writhing Mass] Bullet
-4710555 [Writhing Mass] Bullet
+4710540 [Writhing Mass] Bullet - Spit
+4710541 [Writhing Mass] Bullet - Spit
+4710550 [Writhing Mass] Bullet - Ground Pullup
+4710555 [Writhing Mass] Bullet - Ground Pullup
 4710560 [Writhing Mass] Bullet
 4710570 [Writhing Mass] Bullet
-4710600 [Writhing Mass] Bullet
+4710600 [Writhing Mass] Bullet - Lava
 4710601 [Writhing Mass] Bullet
 4710610 [Writhing Mass] Bullet
 4710611 [Writhing Mass] Bullet
@@ -6450,67 +6450,67 @@
 4710910 [Writhing Mass]
 4710911 [Writhing Mass]
 4710950 [Writhing Mass] Bullet
-4720100 [Godfrey]
-4720101 [Godfrey]
-4720110 [Godfrey]
-4720111 [Godfrey]
-4720112 [Godfrey] Bullet
+4720100 [Godfrey] Axe
+4720101 [Godfrey] Axe
+4720110 [Godfrey] Axe
+4720111 [Godfrey] Foot
+4720112 [Godfrey] Bullet - Stomp
 4720113 [Godfrey] Bullet
 4720114 [Godfrey] Bullet
-4720120 [Godfrey]
-4720130 [Godfrey]
-4720140 [Godfrey]
-4720150 [Godfrey]
-4720160 [Godfrey]
-4720170 [Godfrey]
-4720171 [Godfrey]
+4720120 [Godfrey] Axe
+4720130 [Godfrey] Axe
+4720140 [Godfrey] Axe
+4720150 [Godfrey] Axe
+4720160 [Godfrey] Axe
+4720170 [Godfrey] Foot
+4720171 [Godfrey] Axe
 4720172 [Godfrey] Bullet
-4720180 [Godfrey]
-4720181 [Godfrey]
-4720182 [Godfrey]
-4720190 [Godfrey]
-4720191 [Godfrey]
+4720180 [Godfrey] Axe
+4720181 [Godfrey] Axe
+4720182 [Godfrey] Axe
+4720190 [Godfrey] Axe
+4720191 [Godfrey] Axe
 4720192 [Godfrey] Bullet
 4720193 [Godfrey] Bullet
-4720194 [Godfrey] Bullet
+4720194 [Godfrey] Bullet - Huge Pullup
 4720200 [Godfrey] Bullet
 4720201 [Godfrey] Bullet
 4720202 [Godfrey] Bullet
 4720203 [Godfrey] Bullet
-4720220 [Godfrey]
-4720230 [Godfrey]
-4720231 [Godfrey]
-4720240 [Godfrey]
-4720250 [Godfrey]
+4720220 [Godfrey] Axe
+4720230 [Godfrey] Axe
+4720231 [Godfrey] Axe
+4720240 [Godfrey] Axe
+4720250 [Godfrey] Axe
 4720251 [Godfrey] Bullet
-4720260 [Godfrey]
-4720270 [Godfrey]
-4720271 [Godfrey]
-4720280 [Godfrey]
-4720281 [Godfrey] Bullet
-4720290 [Godfrey]
-4720300 [Godfrey]
-4720310 [Godfrey]
-4720320 [Godfrey]
+4720260 [Godfrey] Axe
+4720270 [Godfrey] Axe
+4720271 [Godfrey] Axe
+4720280 [Godfrey] Axe
+4720281 [Godfrey] Bullet - Phase Shift Stomp
+4720290 [Godfrey] Axe
+4720300 [Godfrey] Axe
+4720310 [Godfrey] Axe
+4720320 [Godfrey] Axe
 4720321 [Godfrey] Bullet
-4720330 [Godfrey]
-4720340 [Godfrey]
-4720341 [Godfrey]
-4720350 [Godfrey]
+4720330 [Godfrey] Axe
+4720340 [Godfrey] Axe
+4720341 [Godfrey] Axe
+4720350 [Godfrey] Foot
 4720351 [Godfrey] Bullet
-4720360 [Godfrey]
+4720360 [Godfrey] Foot
 4720361 [Godfrey] Bullet
-4720370 [Godfrey]
-4720371 [Godfrey] Bullet
-4720380 [Godfrey]
+4720370 [Godfrey] Foot
+4720371 [Godfrey] Bullet - Non Full Screen
+4720380 [Godfrey] Foot
 4720381 [Godfrey] Bullet
-4720400 [Godfrey] Bullet
+4720400 [Godfrey] Bullet - Full Screen
 4721100 [Hoarah Loux]
 4721110 [Hoarah Loux]
 4721111 [Hoarah Loux]
 4721120 [Hoarah Loux]
 4721130 [Hoarah Loux]
-4721140 [Hoarah Loux] Bullet
+4721140 [Hoarah Loux] Bullet - Stomp
 4721141 [Hoarah Loux] Bullet
 4721142 [Hoarah Loux] Bullet
 4721150 [Hoarah Loux]
@@ -6540,8 +6540,8 @@
 4721311 [Hoarah Loux] Bullet
 4721330 [Hoarah Loux]
 4721331 [Hoarah Loux]
-4721340 [Hoarah Loux]
-4721350 [Hoarah Loux] Bullet
+4721340 [Hoarah Loux] keek
+4721350 [Hoarah Loux] Bullet - Roar
 4721360 [Hoarah Loux]
 4721370 [Hoarah Loux] Bullet
 4721380 [Hoarah Loux]
@@ -6569,84 +6569,84 @@
 4721500 [Hoarah Loux]
 4721510 [Hoarah Loux]
 4721520 [Hoarah Loux]
-4721600 [Hoarah Loux] Bullet
-4730100 [Starscourge Radahn]
-4730101 [Starscourge Radahn]
-4730110 [Starscourge Radahn]
-4730120 [Starscourge Radahn]
-4730130 [Starscourge Radahn]
-4730140 [Starscourge Radahn]
-4730150 [Starscourge Radahn]
-4730151 [Starscourge Radahn]
-4730160 [Starscourge Radahn]
-4730170 [Starscourge Radahn]
-4730180 [Starscourge Radahn]
-4730190 [Starscourge Radahn]
-4730191 [Starscourge Radahn]
-4730200 [Starscourge Radahn]
-4730210 [Starscourge Radahn]
-4730211 [Starscourge Radahn]
-4730220 [Starscourge Radahn]
-4730221 [Starscourge Radahn]
-4730222 [Starscourge Radahn]
-4730223 [Starscourge Radahn] Bullet
-4730224 [Starscourge Radahn] Bullet
-4730225 [Starscourge Radahn] Bullet
-4730226 [Starscourge Radahn] Bullet
-4730230 [Starscourge Radahn]
-4730231 [Starscourge Radahn]
-4730232 [Starscourge Radahn]
-4730233 [Starscourge Radahn] Bullet
-4730234 [Starscourge Radahn] Bullet
-4730235 [Starscourge Radahn] Bullet
-4730236 [Starscourge Radahn] Bullet
-4730240 [Starscourge Radahn]
-4730250 [Starscourge Radahn]
-4730260 [Starscourge Radahn]
-4730270 [Starscourge Radahn]
-4730280 [Starscourge Radahn]
-4730290 [Starscourge Radahn]
-4730300 [Starscourge Radahn]
-4730310 [Starscourge Radahn]
-4730311 [Starscourge Radahn]
-4730320 [Starscourge Radahn]
-4730321 [Starscourge Radahn]
-4730330 [Starscourge Radahn]
-4730331 [Starscourge Radahn] Bullet
-4730332 [Starscourge Radahn] Bullet
-4730333 [Starscourge Radahn] Bullet
-4730334 [Starscourge Radahn] Bullet
-4730335 [Starscourge Radahn] Bullet
-4730336 [Starscourge Radahn] Bullet
-4730337 [Starscourge Radahn] Bullet
-4730340 [Starscourge Radahn]
-4730341 [Starscourge Radahn]
-4730342 [Starscourge Radahn] Bullet
-4730343 [Starscourge Radahn] Bullet
-4730344 [Starscourge Radahn] Bullet
-4730345 [Starscourge Radahn] Bullet
-4730346 [Starscourge Radahn] Bullet
+4721600 [Hoarah Loux] Bullet - Full Screen
+4730100 [Starscourge Radahn] R
+4730101 [Starscourge Radahn] L
+4730110 [Starscourge Radahn] R
+4730120 [Starscourge Radahn] R
+4730130 [Starscourge Radahn] L
+4730140 [Starscourge Radahn] L
+4730150 [Starscourge Radahn] R
+4730151 [Starscourge Radahn] L
+4730160 [Starscourge Radahn] R
+4730170 [Starscourge Radahn] L
+4730180 [Starscourge Radahn] R
+4730190 [Starscourge Radahn] R
+4730191 [Starscourge Radahn] L
+4730200 [Starscourge Radahn] L
+4730210 [Starscourge Radahn] L
+4730211 [Starscourge Radahn] R
+4730220 [Starscourge Radahn] L
+4730221 [Starscourge Radahn] R
+4730222 [Starscourge Radahn] RL
+4730223 [Starscourge Radahn] Bullet - Shockwave
+4730224 [Starscourge Radahn] Bullet - Shockwave
+4730225 [Starscourge Radahn] Bullet - Shockwave
+4730226 [Starscourge Radahn] Bullet - Shockwave
+4730230 [Starscourge Radahn] R
+4730231 [Starscourge Radahn] L
+4730232 [Starscourge Radahn] RL
+4730233 [Starscourge Radahn] Bullet - Shockwave
+4730234 [Starscourge Radahn] Bullet - Shockwave
+4730235 [Starscourge Radahn] Bullet - Shockwave
+4730236 [Starscourge Radahn] Bullet - Shockwave
+4730240 [Starscourge Radahn] R
+4730250 [Starscourge Radahn] L
+4730260 [Starscourge Radahn] R
+4730270 [Starscourge Radahn] L
+4730280 [Starscourge Radahn] R
+4730290 [Starscourge Radahn] L
+4730300 [Starscourge Radahn] RL
+4730310 [Starscourge Radahn] L
+4730311 [Starscourge Radahn] R
+4730320 [Starscourge Radahn] L
+4730321 [Starscourge Radahn] R
+4730330 [Starscourge Radahn] 2RL
+4730331 [Starscourge Radahn] Bullet - Orb Creation Explosion
+4730332 [Starscourge Radahn] Bullet - Small Orbs Launched
+4730333 [Starscourge Radahn] Bullet - Small Orbs Launched
+4730334 [Starscourge Radahn] Bullet - Small Orbs Launched
+4730335 [Starscourge Radahn] Bullet - Small Orbs Launched
+4730336 [Starscourge Radahn] Bullet - Small Orbs Launched
+4730337 [Starscourge Radahn] Bullet - Small Orbs Launched
+4730340 [Starscourge Radahn] 2R
+4730341 [Starscourge Radahn] 2L
+4730342 [Starscourge Radahn] Bullet - Metor
+4730343 [Starscourge Radahn] Bullet - Metor
+4730344 [Starscourge Radahn] Bullet - Metor
+4730345 [Starscourge Radahn] Bullet - Metor
+4730346 [Starscourge Radahn] Bullet - Meteor AoE
 4730347 [Starscourge Radahn] Bullet
-4730350 [Starscourge Radahn]
-4730351 [Starscourge Radahn] Bullet
-4730352 [Starscourge Radahn] Bullet
-4730353 [Starscourge Radahn] Bullet
-4730354 [Starscourge Radahn] Bullet
-4730360 [Starscourge Radahn]
-4730361 [Starscourge Radahn]
-4730362 [Starscourge Radahn]
-4730363 [Starscourge Radahn]
-4730364 [Starscourge Radahn]
-4730365 [Starscourge Radahn]
-4730366 [Starscourge Radahn]
-4730367 [Starscourge Radahn] Bullet
-4730368 [Starscourge Radahn] Bullet
-4730370 [Starscourge Radahn]
-4730371 [Starscourge Radahn]
-4730372 [Starscourge Radahn] Bullet
-4730373 [Starscourge Radahn] Bullet
-4730374 [Starscourge Radahn] Bullet
-4730375 [Starscourge Radahn] Bullet
+4730350 [Starscourge Radahn] RL
+4730351 [Starscourge Radahn] Bullet - Magic Shockwave
+4730352 [Starscourge Radahn] Bullet - Magic Shockwave
+4730353 [Starscourge Radahn] Bullet - Magic Shockwave
+4730354 [Starscourge Radahn] Bullet - Magic Shockwave
+4730360 [Starscourge Radahn] R
+4730361 [Starscourge Radahn] L
+4730362 [Starscourge Radahn] R
+4730363 [Starscourge Radahn] L
+4730364 [Starscourge Radahn] R
+4730365 [Starscourge Radahn] RL
+4730366 [Starscourge Radahn] RL
+4730367 [Starscourge Radahn] Bullet - Shockwave
+4730368 [Starscourge Radahn] Bullet - Shockwave
+4730370 [Starscourge Radahn] 2R
+4730371 [Starscourge Radahn] 2L
+4730372 [Starscourge Radahn] Bullet - Weak Shockwave
+4730373 [Starscourge Radahn] Bullet - Weak Shockwave
+4730374 [Starscourge Radahn] Bullet - Magic Shockwave
+4730375 [Starscourge Radahn] Bullet - Magic Shockwave
 4730376 [Starscourge Radahn] Bullet
 4730377 [Starscourge Radahn] Bullet
 4730378 [Starscourge Radahn] Bullet
@@ -6662,113 +6662,113 @@
 4730392 [Starscourge Radahn] Bullet
 4730393 [Starscourge Radahn] Bullet
 4730394 [Starscourge Radahn] Bullet
-4730400 [Starscourge Radahn]
-4730401 [Starscourge Radahn] Bullet
-4730410 [Starscourge Radahn] Bullet
-4730411 [Starscourge Radahn] Bullet
-4730420 [Starscourge Radahn] Bullet
+4730400 [Starscourge Radahn] 2RL
+4730401 [Starscourge Radahn] Bullet - Falling Star
+4730410 [Starscourge Radahn] Bullet - Scattershot
+4730411 [Starscourge Radahn] Bullet - Scattershot
+4730420 [Starscourge Radahn] Bullet - Arrow Rain
 4730421 [Starscourge Radahn] Bullet
 4730422 [Starscourge Radahn] Bullet
 4730423 [Starscourge Radahn] Bullet
 4730424 [Starscourge Radahn] Bullet
-4730426 [Starscourge Radahn] Bullet
-4730430 [Starscourge Radahn] Bullet
-4730431 [Starscourge Radahn] Bullet
-4730440 [Starscourge Radahn]
-4730450 [Starscourge Radahn]
-4730460 [Starscourge Radahn]
-4730470 [Starscourge Radahn]
-4730480 [Starscourge Radahn]
-4730481 [Starscourge Radahn]
-4730482 [Starscourge Radahn]
-4730483 [Starscourge Radahn]
-4730484 [Starscourge Radahn]
-4730485 [Starscourge Radahn]
-4730490 [Starscourge Radahn]
-4730491 [Starscourge Radahn]
-4730492 [Starscourge Radahn] Bullet
-4730500 [Starscourge Radahn]
-4730501 [Starscourge Radahn]
-4730502 [Starscourge Radahn]
-4730503 [Starscourge Radahn]
-4730504 [Starscourge Radahn]
-4730505 [Starscourge Radahn]
-4730506 [Starscourge Radahn]
-4730507 [Starscourge Radahn]
-4730508 [Starscourge Radahn]
-4730510 [Starscourge Radahn]
-4730511 [Starscourge Radahn]
-4730512 [Starscourge Radahn]
-4730513 [Starscourge Radahn]
-4730514 [Starscourge Radahn]
-4730515 [Starscourge Radahn]
-4730516 [Starscourge Radahn]
-4730520 [Starscourge Radahn]
-4730521 [Starscourge Radahn]
-4730530 [Starscourge Radahn]
-4730540 [Starscourge Radahn]
-4730550 [Starscourge Radahn]
-4730560 [Starscourge Radahn]
-4730570 [Starscourge Radahn]
-4730571 [Starscourge Radahn]
-4730580 [Starscourge Radahn]
-4730590 [Starscourge Radahn]
-4730600 [Starscourge Radahn]
-4730610 [Starscourge Radahn]
-4730611 [Starscourge Radahn]
-4730620 [Starscourge Radahn]
-4730630 [Starscourge Radahn]
-4730631 [Starscourge Radahn]
-4730640 [Starscourge Radahn]
-4730641 [Starscourge Radahn]
-4730642 [Starscourge Radahn]
-4730643 [Starscourge Radahn] Bullet
-4730644 [Starscourge Radahn] Bullet
-4730645 [Starscourge Radahn] Bullet
-4730650 [Starscourge Radahn]
-4730651 [Starscourge Radahn]
-4730652 [Starscourge Radahn]
-4730653 [Starscourge Radahn] Bullet
-4730654 [Starscourge Radahn] Bullet
-4730655 [Starscourge Radahn] Bullet
-4730660 [Starscourge Radahn]
-4730670 [Starscourge Radahn]
-4730680 [Starscourge Radahn]
-4730690 [Starscourge Radahn]
-4730700 [Starscourge Radahn]
-4730710 [Starscourge Radahn]
-4730720 [Starscourge Radahn]
-4730730 [Starscourge Radahn]
-4730731 [Starscourge Radahn]
-4730732 [Starscourge Radahn] Bullet
-4730740 [Starscourge Radahn]
-4730741 [Starscourge Radahn]
-4730750 [Starscourge Radahn]
-4730751 [Starscourge Radahn] Bullet
-4730760 [Starscourge Radahn]
-4730761 [Starscourge Radahn]
-4730762 [Starscourge Radahn]
-4730763 [Starscourge Radahn]
-4730764 [Starscourge Radahn]
-4730765 [Starscourge Radahn]
-4730766 [Starscourge Radahn]
-4730767 [Starscourge Radahn] Bullet
-4730770 [Starscourge Radahn]
-4730780 [Starscourge Radahn]
-4730790 [Starscourge Radahn]
-4730800 [Starscourge Radahn]
-4730810 [Starscourge Radahn]
-4730811 [Starscourge Radahn]
-4730812 [Starscourge Radahn]
-4730813 [Starscourge Radahn]
-4730814 [Starscourge Radahn]
-4730815 [Starscourge Radahn]
-4730816 [Starscourge Radahn]
+4730426 [Starscourge Radahn] Bullet - Arrow Rain
+4730430 [Starscourge Radahn] Bullet - Fast Shot
+4730431 [Starscourge Radahn] Bullet - Fast Shot
+4730440 [Starscourge Radahn] R
+4730450 [Starscourge Radahn] L
+4730460 [Starscourge Radahn] R
+4730470 [Starscourge Radahn] L
+4730480 [Starscourge Radahn] Pull
+4730481 [Starscourge Radahn] Pull
+4730482 [Starscourge Radahn] Pull
+4730483 [Starscourge Radahn] Pull
+4730484 [Starscourge Radahn] Pull
+4730485 [Starscourge Radahn] Pull
+4730490 [Starscourge Radahn] 2L
+4730491 [Starscourge Radahn] 2R
+4730492 [Starscourge Radahn] Bullet - Giant AoE Slam
+4730500 [Starscourge Radahn] 2R
+4730501 [Starscourge Radahn] 2R
+4730502 [Starscourge Radahn] 2L
+4730503 [Starscourge Radahn] 2L
+4730504 [Starscourge Radahn] 2R
+4730505 [Starscourge Radahn] 2R
+4730506 [Starscourge Radahn] 2L
+4730507 [Starscourge Radahn] 2L
+4730508 [Starscourge Radahn] 2RL
+4730510 [Starscourge Radahn] L
+4730511 [Starscourge Radahn] R
+4730512 [Starscourge Radahn] L
+4730513 [Starscourge Radahn] L
+4730514 [Starscourge Radahn] R
+4730515 [Starscourge Radahn] L
+4730516 [Starscourge Radahn] R
+4730520 [Starscourge Radahn] 2R
+4730521 [Starscourge Radahn] 2L
+4730530 [Starscourge Radahn] 2R
+4730540 [Starscourge Radahn] 2R
+4730550 [Starscourge Radahn] 2L
+4730560 [Starscourge Radahn] 2L
+4730570 [Starscourge Radahn] 2R
+4730571 [Starscourge Radahn] 2L
+4730580 [Starscourge Radahn] 2R
+4730590 [Starscourge Radahn] 2L
+4730600 [Starscourge Radahn] 2R
+4730610 [Starscourge Radahn] 2R
+4730611 [Starscourge Radahn] 2L
+4730620 [Starscourge Radahn] 2L
+4730630 [Starscourge Radahn] 2L
+4730631 [Starscourge Radahn] 2R
+4730640 [Starscourge Radahn] 2L
+4730641 [Starscourge Radahn] 2R
+4730642 [Starscourge Radahn] 2RL
+4730643 [Starscourge Radahn] Bullet - Lightning Spawn AoE
+4730644 [Starscourge Radahn] Bullet - Lightning Spawn AoE
+4730645 [Starscourge Radahn] Bullet - Ground Lightning
+4730650 [Starscourge Radahn] 2R
+4730651 [Starscourge Radahn] 2L
+4730652 [Starscourge Radahn] 2RL
+4730653 [Starscourge Radahn] Bullet - Lightning Spawn AoE
+4730654 [Starscourge Radahn] Bullet - Lightning Spawn AoE
+4730655 [Starscourge Radahn] Bullet - Ground Lightning
+4730660 [Starscourge Radahn] 2R
+4730670 [Starscourge Radahn] 2L
+4730680 [Starscourge Radahn] 2R
+4730690 [Starscourge Radahn] 2L
+4730700 [Starscourge Radahn] 2R
+4730710 [Starscourge Radahn] 2L
+4730720 [Starscourge Radahn] 2RL
+4730730 [Starscourge Radahn] 2L
+4730731 [Starscourge Radahn] 2R
+4730732 [Starscourge Radahn] Bullet - Ground Lightning
+4730740 [Starscourge Radahn] 2L
+4730741 [Starscourge Radahn] 2R
+4730750 [Starscourge Radahn] 2RL
+4730751 [Starscourge Radahn] Bullet - Ground Lightning
+4730760 [Starscourge Radahn] 2R
+4730761 [Starscourge Radahn] 2L
+4730762 [Starscourge Radahn] 2R
+4730763 [Starscourge Radahn] 2L
+4730764 [Starscourge Radahn] 2R
+4730765 [Starscourge Radahn] 2RL
+4730766 [Starscourge Radahn] 2RL
+4730767 [Starscourge Radahn] Bullet - Ground Lightning
+4730770 [Starscourge Radahn] 2R
+4730780 [Starscourge Radahn] 2L
+4730790 [Starscourge Radahn] 2R
+4730800 [Starscourge Radahn] 2L
+4730810 [Starscourge Radahn] 2L
+4730811 [Starscourge Radahn] 2R
+4730812 [Starscourge Radahn] 2L
+4730813 [Starscourge Radahn] 2L
+4730814 [Starscourge Radahn] 2R
+4730815 [Starscourge Radahn] 2L
+4730816 [Starscourge Radahn] 2R
 4730930 [Starscourge Radahn]
 4750100 [Godrick the Grafted]
 4750110 [Godrick the Grafted]
-4750111 [Godrick the Grafted]
-4750112 [Godrick the Grafted]
+4750111 [Godrick the Grafted] Arm
+4750112 [Godrick the Grafted] Dragon Arm
 4750140 [Godrick the Grafted]
 4750150 [Godrick the Grafted]
 4750160 [Godrick the Grafted]
@@ -6778,49 +6778,49 @@
 4750200 [Godrick the Grafted]
 4750210 [Godrick the Grafted]
 4750220 [Godrick the Grafted] Bullet
-4750225 [Godrick the Grafted]
+4750225 [Godrick the Grafted] Dragon Arm
 4750230 [Godrick the Grafted] Bullet
 4750250 [Godrick the Grafted] Bullet
-4750260 [Godrick the Grafted]
+4750260 [Godrick the Grafted] Dragon Grab
 4750261 [Godrick the Grafted]
 4750262 [Godrick the Grafted] Bullet
 4750263 [Godrick the Grafted]
-4750280 [Godrick the Grafted]
+4750280 [Godrick the Grafted] Dragon Arm
 4750281 [Godrick the Grafted]
 4750330 [Godrick the Grafted]
-4750340 [Godrick the Grafted]
-4750350 [Godrick the Grafted]
+4750340 [Godrick the Grafted] Dragon Arm
+4750350 [Godrick the Grafted] Axe Slam
 4750370 [Godrick the Grafted]
 4750371 [Godrick the Grafted]
 4750380 [Godrick the Grafted]
 4750381 [Godrick the Grafted]
-4750390 [Godrick the Grafted] Bullet
-4750392 [Godrick the Grafted] Bullet
+4750390 [Godrick the Grafted] Bullet - Fire Whirlwind
+4750392 [Godrick the Grafted] Bullet - Fire Whirlwind 2
 4750395 [Godrick the Grafted]
-4750396 [Godrick the Grafted]
-4750400 [Godrick the Grafted] Bullet
-4750402 [Godrick the Grafted] Bullet
+4750396 [Godrick the Grafted] Dragon Arm
+4750400 [Godrick the Grafted] Bullet - Whirlwind
+4750402 [Godrick the Grafted] Bullet - Whirlwind 2
 4750405 [Godrick the Grafted]
-4750406 [Godrick the Grafted]
-4750410 [Godrick the Grafted] Bullet
-4750412 [Godrick the Grafted]
-4750413 [Godrick the Grafted] Bullet
-4750415 [Godrick the Grafted]
-4750450 [Godrick the Grafted] Bullet
-4750451 [Godrick the Grafted] Bullet
-4750455 [Godrick the Grafted]
-4750460 [Godrick the Grafted]
-4750462 [Godrick the Grafted] Bullet
-4750470 [Godrick the Grafted] Bullet
-4750471 [Godrick the Grafted] Bullet
-4750475 [Godrick the Grafted]
-4750490 [Godrick the Grafted] Bullet
+4750406 [Godrick the Grafted] Arm
+4750410 [Godrick the Grafted] Bullet - Rocks Triple
+4750412 [Godrick the Grafted] Rocks
+4750413 [Godrick the Grafted] Bullet - Rocks Triple
+4750415 [Godrick the Grafted] Rocks
+4750450 [Godrick the Grafted] Bullet - Wind Bullet
+4750451 [Godrick the Grafted] Bullet - Fire Wind Bullet
+4750455 [Godrick the Grafted] Wind Bullet Melee
+4750460 [Godrick the Grafted] After Wind Jump Attack
+4750462 [Godrick the Grafted] Bullet - Explosion
+4750470 [Godrick the Grafted] Bullet - Wind Bullet 2
+4750471 [Godrick the Grafted] Bullet - Fire Wind Bullet 2
+4750475 [Godrick the Grafted] Wind Bullet Melee 2
+4750490 [Godrick the Grafted] Bullet - Fire Volcano
 4750495 [Godrick the Grafted]
 4750496 [Godrick the Grafted]
 4750497 [Godrick the Grafted]
-4750550 [Godrick the Grafted] Bullet
-4750552 [Godrick the Grafted]
-4750553 [Godrick the Grafted] Bullet
+4750550 [Godrick the Grafted] Bullet - Rocks Doubble
+4750552 [Godrick the Grafted] Rocks
+4750553 [Godrick the Grafted] Bullet - Rocks Doubble
 4750560 [Godrick the Grafted]
 4750561 [Godrick the Grafted]
 4750562 [Godrick the Grafted]
@@ -6828,7 +6828,7 @@
 4750564 [Godrick the Grafted]
 4750565 [Godrick the Grafted]
 4750566 [Godrick the Grafted]
-4750600 [Godrick the Grafted]
+4750600 [Godrick the Grafted] Phase Shift
 4760000 [Fire Giant]
 4760001 [Fire Giant]
 4760010 [Fire Giant]
@@ -6837,32 +6837,32 @@
 4760031 [Fire Giant]
 4760040 [Fire Giant]
 4760050 [Fire Giant]
-4760051 [Fire Giant] Bullet
-4760060 [Fire Giant]
-4760061 [Fire Giant]
+4760051 [Fire Giant] Bullet - Snow Pullup
+4760060 [Fire Giant] Stomp
+4760061 [Fire Giant] Stomp
 4760062 [Fire Giant] Bullet
 4760070 [Fire Giant]
 4760071 [Fire Giant]
-4760080 [Fire Giant] Bullet
-4760090 [Fire Giant] Bullet
-4760091 [Fire Giant] Bullet
+4760080 [Fire Giant] Bullet - Fireball
+4760090 [Fire Giant] Bullet - Fell Sun Explosion
+4760091 [Fire Giant] Bullet - Fell Sun Linger
 4760100 [Fire Giant]
 4760101 [Fire Giant]
 4760110 [Fire Giant]
 4760120 [Fire Giant]
-4760130 [Fire Giant] Bullet
-4760131 [Fire Giant]
+4760130 [Fire Giant] Bullet - Fire Pillars
+4760131 [Fire Giant] Fire Hand Crush
 4760140 [Fire Giant]
 4760141 [Fire Giant]
-4760142 [Fire Giant]
-4760143 [Fire Giant]
-4760144 [Fire Giant]
+4760142 [Fire Giant] Head
+4760143 [Fire Giant] Body
+4760144 [Fire Giant] Body
 4760145 [Fire Giant]
 4760146 [Fire Giant]
 4760147 [Fire Giant]
 4760150 [Fire Giant]
 4760160 [Fire Giant]
-4760170 [Fire Giant]
+4760170 [Fire Giant] Stomp
 4760171 [Fire Giant] Bullet
 4760180 [Fire Giant]
 4760181 [Fire Giant]
@@ -6925,141 +6925,141 @@
 4760904 [Fire Giant] Bullet
 4760905 [Fire Giant] Bullet
 4760906 [Fire Giant] Bullet
-4770100 [Gargoyle]
-4770110 [Gargoyle]
-4770120 [Gargoyle]
-4770150 [Gargoyle]
-4770160 [Gargoyle]
+4770100 [Gargoyle] Sword
+4770110 [Gargoyle] Sword
+4770120 [Gargoyle] Sword
+4770150 [Gargoyle] Sword
+4770160 [Gargoyle] Sword
 4770161 [Gargoyle] Bullet
-4770170 [Gargoyle]
-4770180 [Gargoyle]
-4770190 [Gargoyle]
-4770210 [Gargoyle]
-4770230 [Gargoyle]
-4770231 [Gargoyle]
-4770232 [Gargoyle]
-4770233 [Gargoyle]
-4770234 [Gargoyle]
-4770240 [Gargoyle]
-4770250 [Gargoyle]
-4770251 [Gargoyle]
-4770252 [Gargoyle] Bullet
-4770260 [Gargoyle]
-4770261 [Gargoyle]
-4770270 [Gargoyle]
-4770280 [Gargoyle]
-4770290 [Gargoyle]
-4770300 [Gargoyle]
+4770170 [Gargoyle] Halberd
+4770180 [Gargoyle] Sword
+4770190 [Gargoyle] Sword
+4770210 [Gargoyle] Sword
+4770230 [Gargoyle] Sword
+4770231 [Gargoyle] Sword
+4770232 [Gargoyle] Sword
+4770233 [Gargoyle] Sword
+4770234 [Gargoyle] Sword
+4770240 [Gargoyle] Sword
+4770250 [Gargoyle] Foot
+4770251 [Gargoyle] Axe
+4770252 [Gargoyle] Bullet - Stomp AoE
+4770260 [Gargoyle] Axe
+4770261 [Gargoyle] Axe
+4770270 [Gargoyle] Axe
+4770280 [Gargoyle] Axe
+4770290 [Gargoyle] Axe
+4770300 [Gargoyle] Axe
 4770320 [Gargoyle] Bullet
-4770321 [Gargoyle]
+4770321 [Gargoyle] Axe
 4770322 [Gargoyle] Bullet
-4770330 [Gargoyle]
-4770331 [Gargoyle]
-4770335 [Gargoyle]
-4770336 [Gargoyle]
-4770350 [Gargoyle]
-4770351 [Gargoyle]
+4770330 [Gargoyle] Twinblade
+4770331 [Gargoyle] Twinblade
+4770335 [Gargoyle] Twinblade
+4770336 [Gargoyle] Twinblade
+4770350 [Gargoyle] Axe
+4770351 [Gargoyle] Axe
 4770352 [Gargoyle] Bullet
-4770360 [Gargoyle]
+4770360 [Gargoyle] Axe
 4770380 [Gargoyle] Bullet
-4770381 [Gargoyle]
+4770381 [Gargoyle] Axe
 4770382 [Gargoyle] Bullet
-4770390 [Gargoyle]
-4770391 [Gargoyle]
+4770390 [Gargoyle] Axe
+4770391 [Gargoyle] Axe
 4770392 [Gargoyle] Bullet
-4770420 [Gargoyle]
-4770421 [Gargoyle]
-4770430 [Gargoyle]
+4770420 [Gargoyle] Sword
+4770421 [Gargoyle] Sword
+4770430 [Gargoyle] Sword
 4770431 [Gargoyle] Bullet
-4770450 [Gargoyle] Bullet
-4770451 [Gargoyle] Bullet
-4770500 [Gargoyle]
-4770501 [Gargoyle]
-4770510 [Gargoyle]
-4770511 [Gargoyle]
-4770512 [Gargoyle]
-4770520 [Gargoyle]
-4770530 [Gargoyle]
-4770540 [Gargoyle]
-4770541 [Gargoyle]
-4770550 [Gargoyle]
-4770551 [Gargoyle]
-4770552 [Gargoyle]
+4770450 [Gargoyle] Bullet - Poison Breath
+4770451 [Gargoyle] Bullet - Poison Breath
+4770500 [Gargoyle] Halberd
+4770501 [Gargoyle] Halberd
+4770510 [Gargoyle] Halberd
+4770511 [Gargoyle] Halberd
+4770512 [Gargoyle] Halberd
+4770520 [Gargoyle] Halberd
+4770530 [Gargoyle] Halberd
+4770540 [Gargoyle] Halberd
+4770541 [Gargoyle] Halberd
+4770550 [Gargoyle] Halberd
+4770551 [Gargoyle] Halberd
+4770552 [Gargoyle] Halberd
 4770553 [Gargoyle] Bullet
 4770554 [Gargoyle] Bullet
 4770555 [Gargoyle] Bullet
-4770560 [Gargoyle]
-4770590 [Gargoyle]
-4770600 [Gargoyle]
+4770560 [Gargoyle] Halberd
+4770590 [Gargoyle] Sword
+4770600 [Gargoyle] Halberd
 4770605 [Gargoyle] Bullet
-4770620 [Gargoyle]
-4770630 [Gargoyle]
+4770620 [Gargoyle] Halberd
+4770630 [Gargoyle] Halberd
 4770635 [Gargoyle] Bullet
-4770650 [Gargoyle]
-4770651 [Gargoyle]
-4770652 [Gargoyle]
-4770660 [Gargoyle]
-4770661 [Gargoyle]
-4770662 [Gargoyle]
-4770663 [Gargoyle]
-4770680 [Gargoyle]
-4770681 [Gargoyle]
-4770690 [Gargoyle]
-4770691 [Gargoyle]
-4770720 [Gargoyle]
-4770721 [Gargoyle]
-4770722 [Gargoyle]
-4770723 [Gargoyle]
+4770650 [Gargoyle] Twinblade
+4770651 [Gargoyle] Twinblade
+4770652 [Gargoyle] Twinblade
+4770660 [Gargoyle] Twinblade
+4770661 [Gargoyle] Twinblade
+4770662 [Gargoyle] Twinblade
+4770663 [Gargoyle] Twinblade
+4770680 [Gargoyle] Twinblade
+4770681 [Gargoyle] Twinblade
+4770690 [Gargoyle] Twinblade
+4770691 [Gargoyle] Twinblade
+4770720 [Gargoyle] Twinblade
+4770721 [Gargoyle] Twinblade
+4770722 [Gargoyle] Twinblade
+4770723 [Gargoyle] Twinblade
 4770724 [Gargoyle] Bullet
 4770730 [Gargoyle]
 4770731 [Gargoyle] Bullet
 4770732 [Gargoyle] Bullet
-4770740 [Gargoyle]
-4770741 [Gargoyle]
+4770740 [Gargoyle] Twinblade
+4770741 [Gargoyle] Twinblade
 4770750 [Gargoyle]
 4770751 [Gargoyle] Bullet
 4770752 [Gargoyle] Bullet
-4770760 [Gargoyle]
-4770761 [Gargoyle]
-4770770 [Gargoyle]
-4770771 [Gargoyle]
-4770780 [Gargoyle]
-4770790 [Gargoyle]
-4770791 [Gargoyle]
+4770760 [Gargoyle] Twinblade
+4770761 [Gargoyle] Twinblade
+4770770 [Gargoyle] Twinblade
+4770771 [Gargoyle] Twinblade
+4770780 [Gargoyle] Twinblade
+4770790 [Gargoyle] Twinblade
+4770791 [Gargoyle] Twinblade
 4770792 [Gargoyle] Bullet
-4770800 [Gargoyle]
-4770820 [Gargoyle]
-4770821 [Gargoyle]
-4770822 [Gargoyle]
+4770800 [Gargoyle] Twinblade
+4770820 [Gargoyle] Halberd
+4770821 [Gargoyle] Halberd
+4770822 [Gargoyle] Halberd
 4770823 [Gargoyle] Bullet
 4770824 [Gargoyle] Bullet
 4770825 [Gargoyle] Bullet
-4770830 [Gargoyle]
-4770831 [Gargoyle]
-4770832 [Gargoyle]
-4770833 [Gargoyle]
+4770830 [Gargoyle] Twinblade
+4770831 [Gargoyle] Twinblade
+4770832 [Gargoyle] Twinblade
+4770833 [Gargoyle] Twinblade
 4770834 [Gargoyle] Bullet
-4770840 [Gargoyle]
-4770841 [Gargoyle]
+4770840 [Gargoyle] Twinblade
+4770841 [Gargoyle] Twinblade
 4770842 [Gargoyle] Bullet
 4770850 [Gargoyle]
 4770851 [Gargoyle]
 4770852 [Gargoyle]
 4770853 [Gargoyle]
 4770854 [Gargoyle]
-4770860 [Gargoyle] Bullet
-4770865 [Gargoyle] Bullet
-4770880 [Gargoyle] Bullet
+4770860 [Gargoyle] Bullet - Poison Breath
+4770865 [Gargoyle] Bullet - Poison Breath
+4770880 [Gargoyle] Bullet - Aromatic
 4770900 [Gargoyle]
 4770901 [Gargoyle] Bullet
-4770905 [Gargoyle]
+4770905 [Gargoyle] Sword
 4770910 [Gargoyle]
 4770911 [Gargoyle] Bullet
 4770920 [Gargoyle] Bullet
 4770930 [Gargoyle] Bullet
 4800000 [Mohg] Bullet
-4800020 [Mohg] Bullet
-4800030 [Mohg] Bullet
+4800020 [Mohg] Bullet - Fire Pool
+4800030 [Mohg] Bullet - Fire Pool
 4800040 [Mohg] Bullet
 4800110 [Mohg] Bullet
 4800125 [Mohg]
@@ -7069,16 +7069,16 @@
 4800170 [Mohg]
 4800180 [Mohg]
 4800190 [Mohg]
-4800195 [Mohg]
+4800195 [Mohg] Body
 4800200 [Mohg]
 4800201 [Mohg]
 4800210 [Mohg] Bullet
 4800220 [Mohg]
 4800230 [Mohg]
-4800240 [Mohg] Bullet
-4800260 [Mohg] Bullet
-4800300 [Mohg]
-4800305 [Mohg]
+4800240 [Mohg] Bullet - Blood Launch Forward
+4800260 [Mohg] Bullet - Down Fire Puddle
+4800300 [Mohg] Charge
+4800305 [Mohg] Charge
 4800310 [Mohg]
 4800320 [Mohg] Bullet
 4800330 [Mohg]
@@ -7121,69 +7121,69 @@
 4800900 [Mohg] Bullet
 4800990 [Mohg]
 4800995 [Mohg]
-4810100 [Erdtree Avatar]
-4810110 [Erdtree Avatar]
-4810120 [Erdtree Avatar]
-4810130 [Erdtree Avatar]
-4810150 [Erdtree Avatar]
-4810160 [Erdtree Avatar]
-4810163 [Erdtree Avatar] Bullet
-4810168 [Erdtree Avatar] Bullet
-4810170 [Erdtree Avatar]
-4810180 [Erdtree Avatar]
-4810183 [Erdtree Avatar] Bullet
-4810200 [Erdtree Avatar]
-4810210 [Erdtree Avatar]
-4810220 [Erdtree Avatar]
-4810250 [Erdtree Avatar] Bullet
-4810260 [Erdtree Avatar]
-4810263 [Erdtree Avatar] Bullet
-4810265 [Erdtree Avatar] Bullet
-4810269 [Erdtree Avatar] Bullet
+4810100 [Erdtree Avatar] Hammer
+4810110 [Erdtree Avatar] Hammer
+4810120 [Erdtree Avatar] Hammer
+4810130 [Erdtree Avatar] Hammer
+4810150 [Erdtree Avatar] Hammer
+4810160 [Erdtree Avatar] Hammer
+4810163 [Erdtree Avatar] Bullet - Holy Orb Initial Explosion
+4810168 [Erdtree Avatar] Bullet - Holy Orb
+4810170 [Erdtree Avatar] Hammer
+4810180 [Erdtree Avatar] Butt Slam
+4810183 [Erdtree Avatar] Bullet - Butt Slam AoE
+4810200 [Erdtree Avatar] Hammer
+4810210 [Erdtree Avatar] Hammer
+4810220 [Erdtree Avatar] Hammer
+4810250 [Erdtree Avatar] Bullet - Stomp
+4810260 [Erdtree Avatar] Rot Butt Slam
+4810263 [Erdtree Avatar] Bullet - Butt Slam AoE
+4810265 [Erdtree Avatar] Bullet - Rot Gas Rot
+4810269 [Erdtree Avatar] Bullet - Rot Gas Rot
 4810990 [Erdtree Avatar]
-4820100 [Omenkiller]
-4820110 [Omenkiller]
-4820120 [Omenkiller]
-4820130 [Omenkiller]
-4820140 [Omenkiller]
-4820150 [Omenkiller]
-4820180 [Omenkiller]
-4820190 [Omenkiller]
-4820191 [Omenkiller]
+4820100 [Omenkiller] 1
+4820110 [Omenkiller] 2
+4820120 [Omenkiller] B
+4820130 [Omenkiller] 2
+4820140 [Omenkiller] B
+4820150 [Omenkiller] 2
+4820180 [Omenkiller] 2
+4820190 [Omenkiller] 2
+4820191 [Omenkiller] 1
 4820500 [Omenkiller] Bullet
 4820510 [Omenkiller] Bullet
-4910100 [Magma Wyrm]
-4910110 [Magma Wyrm]
-4910111 [Magma Wyrm]
-4910120 [Magma Wyrm]
-4910121 [Magma Wyrm]
+4910100 [Magma Wyrm] Sword
+4910110 [Magma Wyrm] Sword
+4910111 [Magma Wyrm] Sword Pull
+4910120 [Magma Wyrm] Sword
+4910121 [Magma Wyrm] Arm
 4910122 [Magma Wyrm]
-4910141 [Magma Wyrm]
-4910142 [Magma Wyrm]
-4910143 [Magma Wyrm]
-4910144 [Magma Wyrm]
-4910145 [Magma Wyrm]
-4910170 [Magma Wyrm]
-4910171 [Magma Wyrm]
-4910180 [Magma Wyrm]
-4910181 [Magma Wyrm]
+4910141 [Magma Wyrm] Crawling Body
+4910142 [Magma Wyrm] Crawling Leg R
+4910143 [Magma Wyrm] Crawling Leg L
+4910144 [Magma Wyrm] Crawling Arm R
+4910145 [Magma Wyrm] Crawling Arm L
+4910170 [Magma Wyrm] PH2 Crush
+4910171 [Magma Wyrm] PH2 Crush AoE
+4910180 [Magma Wyrm] PH2 Sword
+4910181 [Magma Wyrm] PH2 Sword
 4910200 [Magma Wyrm]
-4910240 [Magma Wyrm]
+4910240 [Magma Wyrm] PH2 Sword
 4910241 [Magma Wyrm]
-4910250 [Magma Wyrm]
-4910260 [Magma Wyrm]
-4910280 [Magma Wyrm]
-4910281 [Magma Wyrm]
-4910291 [Magma Wyrm]
-4910300 [Magma Wyrm]
-4910330 [Magma Wyrm]
-4910331 [Magma Wyrm]
-4910340 [Magma Wyrm]
-4910501 [Magma Wyrm] Bullet
+4910250 [Magma Wyrm] Giant Leap
+4910260 [Magma Wyrm] PH2 Sword
+4910280 [Magma Wyrm] PH2 Sword
+4910281 [Magma Wyrm] PH2 Sword
+4910291 [Magma Wyrm] PH2 Sword
+4910300 [Magma Wyrm] PH2 Sword Poke
+4910330 [Magma Wyrm] Crush
+4910331 [Magma Wyrm] Crush AoE
+4910340 [Magma Wyrm] PH2 Sword
+4910501 [Magma Wyrm] Bullet - Magma Linger
 4910512 [Magma Wyrm] Bullet
 4910513 [Magma Wyrm]
 4910515 [Magma Wyrm]
-4910520 [Magma Wyrm] Bullet
+4910520 [Magma Wyrm] Bullet - Magma Shot
 4910600 [Magma Wyrm]
 4910900 [Magma Wyrm] Bullet
 4950100 [Tibia Mariner]
@@ -7199,7 +7199,7 @@
 4950180 [Tibia Mariner] Bullet
 4950181 [Tibia Mariner] Bullet
 4950185 [Tibia Mariner]
-4950210 [Tibia Mariner] Bullet
+4950210 [Tibia Mariner] Bullet - Ally Skeleton Thing
 4950220 [Tibia Mariner] Bullet
 4950225 [Tibia Mariner] Bullet
 4960100 [Giant Skeleton Torso]
@@ -7233,7 +7233,7 @@
 4960820 [Giant Skeleton Torso] Bullet
 4960830 [Giant Skeleton Torso] Bullet
 4960900 [Giant Skeleton Torso] Bullet
-4980100 [Death Rite Bird]
+4980100 [Death Bird]
 4980110 [Death Rite Bird]
 4980120 [Death Rite Bird]
 4980130 [Death Rite Bird]
@@ -7247,22 +7247,22 @@
 4980181 [Death Rite Bird] Bullet
 4980190 [Death Rite Bird]
 4980191 [Death Rite Bird]
-4980200 [Death Rite Bird] Bullet
-4980210 [Death Rite Bird] Bullet
+4980200 [Death Rite Bird] Bullet - Peck
+4980210 [Death Rite Bird] Bullet - Peck
 4980220 [Death Rite Bird]
 4980221 [Death Rite Bird] Bullet
 4980230 [Death Rite Bird]
-4980240 [Death Rite Bird] Bullet
+4980240 [Death Rite Bird] Bullet - Pull Out Ground
 4980250 [Death Rite Bird]
 4980251 [Death Rite Bird] Bullet
 4980260 [Death Rite Bird]
 4980261 [Death Rite Bird] Bullet
 4980270 [Death Rite Bird]
 4980271 [Death Rite Bird]
-4980280 [Death Rite Bird]
+4980280 [Death Rite Bird] Grab
 4980281 [Death Rite Bird]
 4980282 [Death Rite Bird]
-4980290 [Death Rite Bird]
+4980290 [Death Rite Bird] Hand
 4980291 [Death Rite Bird] Bullet
 4980300 [Death Rite Bird] Bullet
 4980310 [Death Rite Bird]
@@ -7289,8 +7289,8 @@
 4980481 [Death Rite Bird]
 4980490 [Death Rite Bird]
 4980491 [Death Rite Bird]
-4980500 [Death Rite Bird]
-4980510 [Death Rite Bird]
+4980500 [Death Rite Bird] Bullet - Peck
+4980510 [Death Rite Bird] Bullet - Peck
 4980520 [Death Rite Bird]
 4980521 [Death Rite Bird] Bullet
 4980530 [Death Rite Bird]
@@ -7301,12 +7301,12 @@
 4980561 [Death Rite Bird] Bullet
 4980570 [Death Rite Bird]
 4980571 [Death Rite Bird] Bullet
-4980580 [Death Rite Bird]
+4980580 [Death Rite Bird] Grab
 4980581 [Death Rite Bird]
 4980582 [Death Rite Bird]
 4980590 [Death Rite Bird]
 4980591 [Death Rite Bird] Bullet
-4980600 [Death Rite Bird]
+4980600 [Death Rite Bird] Stomp
 4980610 [Death Rite Bird]
 4980611 [Death Rite Bird]
 4980620 [Death Rite Bird] Bullet
@@ -7369,7 +7369,7 @@
 7000100 [Fallen Hawk Soldier]
 7000110 [Fallen Hawk Soldier]
 7000120 [Fallen Hawk Soldier]
-7000190 [Fallen Hawk Soldier]
+7000190 [Fallen Hawk Soldier] Guard
 7000200 [Fallen Hawk Soldier] Bullet
 7000210 [Fallen Hawk Soldier] Bullet
 7000220 [Fallen Hawk Soldier] Bullet
@@ -7379,49 +7379,49 @@
 7000410 [Fallen Hawk Soldier] Bullet
 7000420 [Fallen Hawk Soldier] Bullet
 7000510 [Fallen Hawk Soldier]
-7000590 [Fallen Hawk Soldier]
-7100100 [White Mask Assailant]
-7100101 [White Mask Assailant]
-7100110 [White Mask Assailant]
-7100111 [White Mask Assailant]
-7100120 [White Mask Assailant]
-7100121 [White Mask Assailant]
-7100130 [White Mask Assailant]
-7100131 [White Mask Assailant]
-7100140 [White Mask Assailant]
-7100141 [White Mask Assailant]
-7100142 [White Mask Assailant]
-7100143 [White Mask Assailant]
-7100150 [White Mask Assailant]
-7100151 [White Mask Assailant]
-7100160 [White Mask Assailant]
-7100170 [White Mask Assailant]
-7100171 [White Mask Assailant]
-7100172 [White Mask Assailant]
-7100173 [White Mask Assailant]
-7100180 [White Mask Assailant]
-7100181 [White Mask Assailant] Bullet
-7100190 [White Mask Assailant] Bullet
-7100191 [White Mask Assailant] Bullet
-7100192 [White Mask Assailant] Bullet
-7100193 [White Mask Assailant] Bullet
-7100200 [White Mask Assailant] Bullet
-7100205 [White Mask Assailant] Bullet
-7100206 [White Mask Assailant] Bullet
-7100210 [White Mask Assailant]
-7100211 [White Mask Assailant]
-7100220 [White Mask Assailant] Bullet
-7100230 [White Mask Assailant]
-7100231 [White Mask Assailant]
-7100240 [White Mask Assailant]
-7100250 [White Mask Assailant]
-7100251 [White Mask Assailant]
-7100260 [White Mask Assailant]
-7100261 [White Mask Assailant]
-7100270 [White Mask Assailant]
-7100280 [White Mask Assailant]
-7100281 [White Mask Assailant]
-7100282 [White Mask Assailant]
+7000590 [Fallen Hawk Soldier] Guard
+7100100 [Ancient Hero]
+7100101 [Ancient Hero]
+7100110 [Ancient Hero]
+7100111 [Ancient Hero]
+7100120 [Ancient Hero]
+7100121 [Ancient Hero]
+7100130 [Ancient Hero]
+7100131 [Ancient Hero]
+7100140 [Ancient Hero]
+7100141 [Ancient Hero]
+7100142 [Ancient Hero]
+7100143 [Ancient Hero]
+7100150 [Ancient Hero]
+7100151 [Ancient Hero]
+7100160 [Ancient Hero]
+7100170 [Ancient Hero]
+7100171 [Ancient Hero]
+7100172 [Ancient Hero]
+7100173 [Ancient Hero]
+7100180 [Ancient Hero]
+7100181 [Ancient Hero] Bullet - Pullup Ice
+7100190 [Ancient Hero] Bullet
+7100191 [Ancient Hero] Bullet
+7100192 [Ancient Hero] Bullet - Floor Ice Linger
+7100193 [Ancient Hero] Bullet - Floor Ice Explode
+7100200 [Ancient Hero] Bullet - Ice Storm AoE
+7100205 [Ancient Hero] Bullet
+7100206 [Ancient Hero] Bullet - Ice Storm Linger
+7100210 [Ancient Hero]
+7100211 [Ancient Hero]
+7100220 [Ancient Hero] Bullet - Emit Force Ice
+7100230 [Ancient Hero]
+7100231 [Ancient Hero]
+7100240 [Ancient Hero]
+7100250 [Ancient Hero]
+7100251 [Ancient Hero]
+7100260 [Ancient Hero]
+7100261 [Ancient Hero]
+7100270 [Ancient Hero]
+7100280 [Ancient Hero]
+7100281 [Ancient Hero]
+7100282 [Ancient Hero]
 8000000 [Torrent]
 8000001 [Torrent]
 8000002 [Torrent]

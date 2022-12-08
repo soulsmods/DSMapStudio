@@ -31,6 +31,8 @@ namespace StudioCore.ParamEditor
         }
 
         private object _editedPropCache;
+        private object _editedTypeCache;
+        private object _editedObjCache;
 
         private unsafe (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
         {
@@ -70,10 +72,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(int))
@@ -98,10 +96,6 @@ namespace StudioCore.ParamEditor
                         newval = val;
                         _editedPropCache = newval;
                         isChanged = true;
-                    }
-                    else
-                    {
-                        _editedPropCache = null;
                     }
                 }
             }
@@ -128,10 +122,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(sbyte))
@@ -157,10 +147,6 @@ namespace StudioCore.ParamEditor
                         _editedPropCache = newval;
                         isChanged = true;
                     }
-                    else
-                    {
-                        _editedPropCache = null;
-                    }
                 }
             }
             else if (typ == typeof(bool))
@@ -176,22 +162,21 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(float))
             {
                 float val = (float)oldval;
-                if (ImGui.DragFloat("##value", ref val, 0.1f))
+                if (ImGui.InputFloat("##value", ref val, 0.1f))
                 {
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(double))
             {
                 double val = (double)oldval;
-                if (ImGui.DragScalar("##value", ImGuiDataType.Double, new IntPtr(&val), 0.1f))
+                if (ImGui.InputScalar("##value", ImGuiDataType.Double, new IntPtr(&val)))
                 {
                     newval = val;
                     _editedPropCache = newval;
-                    return (true, ImGui.IsItemDeactivatedAfterEdit());
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(string))
@@ -211,23 +196,21 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(Vector2))
             {
                 Vector2 val = (Vector2)oldval;
-                if (ImGui.DragFloat2("##value", ref val, 0.1f))
+                if (ImGui.InputFloat2("##value", ref val))
                 {
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(Vector3))
             {
                 Vector3 val = (Vector3)oldval;
-                if (ImGui.DragFloat3("##value", ref val, 0.1f))
+                if (ImGui.InputFloat3("##value", ref val))
                 {
                     newval = val;
                     _editedPropCache = newval;
                     isChanged = true;
-                    // shouldUpdateVisual = true;
                 }
             }
             else if (typ == typeof(byte[]))
@@ -242,10 +225,6 @@ namespace StudioCore.ParamEditor
                         newval = nval;
                         _editedPropCache = newval;
                         isChanged = true;
-                    }
-                    else
-                    {
-                        _editedPropCache = null;
                     }
                 }
             }
@@ -365,7 +344,7 @@ namespace StudioCore.ParamEditor
                     List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
                     List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                     for (int i = 0; i < matches.Count; i++)
-                        PropEditorPropCellRow(bank, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, true);
+                        PropEditorPropCellRow(bank, row, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, true);
                 }
                 ImGui.Separator();
             }
@@ -392,6 +371,7 @@ namespace StudioCore.ParamEditor
                 List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                 for (int i = 0; i < matches.Count; i++)
                     lastRowExists |= PropEditorPropCellRow(bank,
+                    row,
                     row[matches[i]],
                     vmatches?.Count > i ? vrow?[vmatches[i]] : null,
                     auxRows.Select((r, j) => auxmatches[j].Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
@@ -424,7 +404,7 @@ namespace StudioCore.ParamEditor
                 null,
                 false);
         }
-        private bool PropEditorPropCellRow(ParamBank bank, Param.Cell cell, Param.Cell? vcell, List<Param.Cell?> auxCells, Param.Cell? ccell, bool showParamCompare, bool showRowCompare, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Cell cell, Param.Cell? vcell, List<Param.Cell?> auxCells, Param.Cell? ccell, bool showParamCompare, bool showRowCompare, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
         {
             return PropEditorPropRow(
                 bank,
@@ -434,19 +414,20 @@ namespace StudioCore.ParamEditor
                 ccell?.Value,
                 showParamCompare,
                 showRowCompare,
-                ref id, cell.Def.InternalName,
+                ref id,
+                cell.Def.InternalName,
                 FieldMetaData.Get(cell.Def),
                 cell.Value.GetType(),
                 cell.GetType().GetProperty("Value"),
                 cell,
-                null,
+                row,
                 propSearchRx,
                 activeParam,
                 isPinned);
         }
-        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, List<object> auxVals, object compareval, bool showParamCompare, bool showRowCompare, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? nullableRow, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, List<object> auxVals, object compareval, bool showParamCompare, bool showRowCompare, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? row, Regex propSearchRx, string activeParam, bool isPinned)
         {
-            List<string> RefTypes = cellMeta?.RefTypes;
+            List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
@@ -472,7 +453,7 @@ namespace StudioCore.ParamEditor
                     cellMeta.Wiki = Wiki;
             }
 
-            EditorDecorations.ParamRefText(RefTypes);
+            EditorDecorations.ParamRefText(RefTypes, row);
             EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
 
             //PropertyRowMetaDefContextMenu();
@@ -498,27 +479,26 @@ namespace StudioCore.ParamEditor
             else if (matchDefault)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
-            //bool committed = true;
+
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
             PropertyRowValueContextMenu(bank, internalName, VirtualRef, oldval);
 
             if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
-                EditorDecorations.ParamRefsSelectables(bank, RefTypes, oldval);
+                EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
             if (CFG.Current.Param_HideEnums == false && Enum != null)
                 EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
 
             if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
             {
-                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, Enum))
+                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, Enum))
                 {
                     changed = true;
                     committed = true;
                     _editedPropCache = newval;
                 }
             }
-
             if (conflict || diffVanilla)
                 ImGui.PopStyleColor();
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
@@ -528,7 +508,7 @@ namespace StudioCore.ParamEditor
             if (CFG.Current.Param_ShowVanillaParams)
             {
                 ImGui.NextColumn();
-                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, Enum, "vanilla");
+                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, row, Enum, "vanilla");
             }
             if (showParamCompare)
             {
@@ -537,7 +517,7 @@ namespace StudioCore.ParamEditor
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                     ImGui.NextColumn();
-                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, Enum, i.ToString());
+                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
                 }
@@ -549,25 +529,31 @@ namespace StudioCore.ParamEditor
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                 ImGui.NextColumn();
-                AdditionalColumnValue(compareval, propType, bank, RefTypes, Enum, "compRow");
+                AdditionalColumnValue(compareval, propType, bank, RefTypes, row, Enum, "compRow");
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
             ImGui.PopStyleColor(2);
 
-            if (_editedPropCache != null && _editedPropCache != oldval)
+
+            if (changed)
+            {
+                _editedObjCache = nullableCell != null ? (object)nullableCell : row;
+                _editedTypeCache = proprow;
+            }
+            else if (_editedPropCache != null && _editedPropCache != oldval)
             {
                 changed = true;
             }
 
-            UpdateProperty(proprow, nullableCell != null ? (object)nullableCell : nullableRow, _editedPropCache, changed, committed);
+            UpdateProperty(_editedTypeCache, _editedObjCache, _editedPropCache, changed, committed);
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
             return true;
         }
 
-        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<string> RefTypes, ParamEnum Enum, string imguiSuffix)
+        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum, string imguiSuffix)
         {
             if (colVal == null)
                 ImGui.TextUnformatted("");
@@ -580,7 +566,7 @@ namespace StudioCore.ParamEditor
                     value = colVal.ToString();
                 ImGui.InputText("##colval"+imguiSuffix, ref value, 256, ImGuiInputTextFlags.ReadOnly);
                 if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
-                    EditorDecorations.ParamRefsSelectables(bank, RefTypes, colVal);
+                    EditorDecorations.ParamRefsSelectables(bank, RefTypes, context, colVal);
                 if (CFG.Current.Param_HideEnums == false && Enum != null)
                     EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
             }
@@ -640,17 +626,17 @@ namespace StudioCore.ParamEditor
                             if (ImGui.MenuItem(p+"##add"+p))
                             {
                                 if (cellMeta.RefTypes == null)
-                                    cellMeta.RefTypes = new List<string>();
-                                cellMeta.RefTypes.Add(p);
+                                    cellMeta.RefTypes = new List<ParamRef>();
+                                cellMeta.RefTypes.Add(new ParamRef(p));
                             }
                         }
                         ImGui.EndMenu();
                     }
                     if (cellMeta.RefTypes != null && ImGui.BeginMenu("Remove Reference"))
                     {
-                        foreach (string p in cellMeta.RefTypes)
+                        foreach (ParamRef p in cellMeta.RefTypes)
                         {
-                            if (ImGui.MenuItem(p+"##remove"+p))
+                            if (ImGui.MenuItem(p.param+"##remove"+p.param))
                             {
                                 cellMeta.RefTypes.Remove(p);
                                 if (cellMeta.RefTypes.Count == 0)

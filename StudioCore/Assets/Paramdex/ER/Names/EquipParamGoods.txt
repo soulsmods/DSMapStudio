@@ -518,7 +518,7 @@
 8221 Zorayas's Letter
 8222 Alexander's Innards
 8223 Rogier's Letter
-8224 Note: The Preceptor's Secret
+8224 Note: The Preceptor's Secrets
 8225 Weathered Map
 8226 Note: The Preceptor's Secret
 8227 Weathered Map
@@ -601,7 +601,7 @@
 8917 Miriel's Bell Bearing
 8918 Gostoc's Bell Bearing
 8919 Thops's Bell Bearing
-8920 Kale's Bell Bearing
+8920 Kalé's Bell Bearing
 8921 Nomadic Merchant's Bell Bearing [1]
 8922 Nomadic Merchant's Bell Bearing [2]
 8923 Nomadic Merchant's Bell Bearing [3]
