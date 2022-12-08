@@ -1312,33 +1312,8 @@ namespace StudioCore.ParamEditor
             Param dest = new Param(newVanilla);
             
             // Now try to build the destination from the new regulation with the edit operations in mind
-            var pendingAdds = addedRows.Keys.OrderBy(e => e).ToArray();
-            int currPendingAdd = 0;
-            int lastID = 0;
             foreach (var row in newVanilla.Rows)
             {
-                // See if we have any pending adds we can slot in
-                while (currPendingAdd < pendingAdds.Length && 
-                       pendingAdds[currPendingAdd] >= lastID && 
-                       pendingAdds[currPendingAdd] < row.ID)
-                {
-                    if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
-                    {
-                        currPendingAdd++;
-                        continue;
-                    }
-                    foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
-                    {
-                        dest.AddRow(new Param.Row(arow, dest));
-                    }
-
-                    addedRows.Remove(pendingAdds[currPendingAdd]);
-                    editOperations.Remove(pendingAdds[currPendingAdd]);
-                    currPendingAdd++;
-                }
-
-                lastID = row.ID;
-                
                 if (!editOperations.ContainsKey(row.ID))
                 {
                     // No edit operations for this ID, so just add it (likely a new row in the update)
@@ -1393,17 +1368,14 @@ namespace StudioCore.ParamEditor
                         renamedRows.Remove(row.ID);
                 }
             }
-            
-            // Take care of any more pending adds
-            for (; currPendingAdd < pendingAdds.Length; currPendingAdd++)
-            {
-                foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
-                {
-                    dest.AddRow(new Param.Row(arow, dest));
-                }
 
-                addedRows.Remove(pendingAdds[currPendingAdd]);
-                editOperations.Remove(pendingAdds[currPendingAdd]);
+            // Take care of any more pending adds
+            foreach (var arow in addedRows)
+            {
+                foreach (var row in arow.Value)
+                {
+                    dest.AddRow(new Param.Row(row, dest));
+                }
             }
 
             return dest;
