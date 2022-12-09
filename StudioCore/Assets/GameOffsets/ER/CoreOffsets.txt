@@ -1,5 +1,5 @@
 exeName:eldenring.exe
-paramBase:0x3c66d18
+paramBase:0x3CF5788
 paramInnerPath:0x80/0x80
 paramCountOffset:0xA
 paramDataOffset:0x40
