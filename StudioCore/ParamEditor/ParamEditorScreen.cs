@@ -1337,15 +1337,6 @@ namespace StudioCore.ParamEditor
             ImGui.Columns(3);
             ImGui.BeginChild("params");
 
-            if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
-                or GameType.DarkSoulsPTDE
-                or GameType.DarkSoulsRemastered)
-            {
-                // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
-                if (ImGui.Checkbox("Edit Drawparams", ref _drawParamView))
-                    CacheBank.ClearCaches();
-            }
-
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
@@ -1353,6 +1344,16 @@ namespace StudioCore.ParamEditor
             {
                 CacheBank.ClearCaches();
                 lastParamSearch = _selection.currentParamSearchString;
+            }
+
+            if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+                or GameType.DarkSoulsPTDE
+                or GameType.DarkSoulsRemastered)
+            {
+                // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
+                if (ImGui.Checkbox("Edit Drawparams", ref _drawParamView))
+                    CacheBank.ClearCaches();
+                ImGui.Separator();
             }
 
             List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
