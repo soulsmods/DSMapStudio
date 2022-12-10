@@ -8,5 +8,5 @@
     <reinforceLv AltName="Reinforcement Level" Wiki="Enhancement value" />
     <pad AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines a pairing of Weapon and Ash of War (Gem) for use from CharaInitParam.\nFor loot and shops, change the default AoW/Gem on the weapon." />
 </PARAMMETA>

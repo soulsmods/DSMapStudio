@@ -81,5 +81,5 @@
     <InfluenceLuckCorrectRate_byDark AltName="Holy Correction Ratio: ARC" Wiki="The rate of influence of the correction factor." />
     <pad2 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Governs which damage types scale with which stats. Includes correction values." />
 </PARAMMETA>

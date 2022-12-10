@@ -113,7 +113,7 @@ namespace StudioCore.ParamEditor
                 foreach (var f in pfiles)
                 {
                     var pdef = PARAMDEF.XmlDeserialize(f);
-                    defPairs.Add((pdef.ParamType, pdef));
+                    defPairs.Add((f, pdef));
                     if (!_patchParamdefs.ContainsKey(pdef.ParamType))
                     {
                         _patchParamdefs[pdef.ParamType] = new Dictionary<ulong, PARAMDEF>();

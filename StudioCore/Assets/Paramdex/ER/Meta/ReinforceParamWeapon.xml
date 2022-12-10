@@ -43,5 +43,5 @@
     <madnessGuardDefRate AltName="Guard Absorption %: Madness" Wiki="Correction value of mad attack cut rate when guarding" />
     <baseAtkRate AltName="Base Damage %: Overall" Wiki="Additional attack power multiplier" />
   </Field>
-  <Self />
+  <Self ConsecutiveIDs="" Wiki="Defines upgrades of weapons, include stat changes and upgrade cost (EquipMtrlSetParam id offset)"/>
 </PARAMMETA>
