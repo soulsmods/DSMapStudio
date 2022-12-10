@@ -537,7 +537,7 @@ namespace StudioCore.MsbEditor
                 ImGui.NextColumn();
                 var id = oldval; //oldval cannot always be casted to int
                 Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, id);
-                return Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, id, ref newObj, refs, null, null);
+                return Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, id, ref newObj, refs, null, null, null);
             }
             return false;
         }

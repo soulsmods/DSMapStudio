@@ -429,6 +429,7 @@ namespace StudioCore.ParamEditor
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
+            string FmgRef = cellMeta?.FmgRef;
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
@@ -454,6 +455,7 @@ namespace StudioCore.ParamEditor
             }
 
             EditorDecorations.ParamRefText(RefTypes, row);
+            EditorDecorations.FmgRefText(FmgRef);
             EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
 
             //PropertyRowMetaDefContextMenu();
@@ -469,7 +471,7 @@ namespace StudioCore.ParamEditor
             bool conflict = diffVanilla && diffAuxPrimaryAndVanilla.Contains(true);
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
-            bool isRef = (CFG.Current.Param_HideReferenceRows == false && RefTypes != null) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
+            bool isRef = (CFG.Current.Param_HideReferenceRows == false && (RefTypes != null || FmgRef != null)) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             else if (diffVanilla)
@@ -487,12 +489,15 @@ namespace StudioCore.ParamEditor
 
             if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                 EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
+            if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
+                EditorDecorations.FmgRefSelectable(FmgRef, oldval);
             if (CFG.Current.Param_HideEnums == false && Enum != null)
                 EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
 
             if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
             {
-                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, Enum))
+                var fmgInfo = TextEditor.FMGBank.FmgInfoBank.Find((x) => x.Name == FmgRef);
+                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, fmgInfo, Enum))
                 {
                     changed = true;
                     committed = true;
@@ -508,7 +513,7 @@ namespace StudioCore.ParamEditor
             if (CFG.Current.Param_ShowVanillaParams)
             {
                 ImGui.NextColumn();
-                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, row, Enum, "vanilla");
+                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, FmgRef, row, Enum, "vanilla");
             }
             if (showParamCompare)
             {
@@ -517,7 +522,7 @@ namespace StudioCore.ParamEditor
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                     ImGui.NextColumn();
-                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, row, Enum, i.ToString());
+                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
                 }
@@ -529,7 +534,7 @@ namespace StudioCore.ParamEditor
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                 ImGui.NextColumn();
-                AdditionalColumnValue(compareval, propType, bank, RefTypes, row, Enum, "compRow");
+                AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
@@ -553,7 +558,7 @@ namespace StudioCore.ParamEditor
             return true;
         }
 
-        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum, string imguiSuffix)
+        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, string FmgRef, Param.Row context, ParamEnum Enum, string imguiSuffix)
         {
             if (colVal == null)
                 ImGui.TextUnformatted("");
@@ -567,6 +572,8 @@ namespace StudioCore.ParamEditor
                 ImGui.InputText("##colval"+imguiSuffix, ref value, 256, ImGuiInputTextFlags.ReadOnly);
                 if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                     EditorDecorations.ParamRefsSelectables(bank, RefTypes, context, colVal);
+                if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
+                    EditorDecorations.FmgRefSelectable(FmgRef, colVal);
                 if (CFG.Current.Param_HideEnums == false && Enum != null)
                     EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
             }

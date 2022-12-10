@@ -1204,6 +1204,8 @@ namespace StudioCore.TextEditor
             {
                 var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
                 var pair = entryPairs.Find(e => e.Entry.ID == id);
+                if (pair == null)
+                    return eGroup;
                 eGroup.TextBody = pair.Entry;
                 eGroup.TextBodyInfo = pair.FmgInfo;
                 return eGroup;
