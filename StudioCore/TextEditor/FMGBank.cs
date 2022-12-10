@@ -48,7 +48,14 @@ namespace StudioCore.TextEditor
             public FmgUICategory UICategory;
             public FmgEntryCategory EntryCategory;
             public FmgEntryTextType EntryType;
-            public bool GroupedEntry = false;
+
+            public void AddParent(FMGInfo parent)
+            {
+                if (CFG.Current.FMG_NoFmgPatching)
+                    return;
+                PatchParent = parent;
+                parent.PatchChildren.Add(this);
+            }
 
             /// <summary>
             /// Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
@@ -400,7 +407,7 @@ namespace StudioCore.TextEditor
         /// </summary>
         public enum FmgEntryCategory
         {
-            None,
+            None = -1,
             Goods,
             Weapons,
             Armor,
@@ -505,13 +512,13 @@ namespace StudioCore.TextEditor
             Modern_MenuText = 200,
             Modern_LineHelp = 201,
             Modern_KeyGuide = 202,
-            Modern_System_Message_win64 = 203,
+            Modern_SystemMessage_win64 = 203,
             Modern_Dialogues = 204,
             TalkMsg_DLC1 = 230,
             Event_DLC1 = 231,
             Modern_MenuText_DLC1 = 232,
             Modern_LineHelp_DLC1 = 233,
-            Modern_System_Message_win64_DLC1 = 235,
+            Modern_SystemMessage_win64_DLC1 = 235,
             Modern_Dialogues_DLC1 = 236,
             SystemMessage_PS4_DLC1 = 237,
             SystemMessage_XboxOne_DLC1 = 238,
@@ -538,7 +545,7 @@ namespace StudioCore.TextEditor
             Event_DLC2 = 271,
             Modern_MenuText_DLC2 = 272,
             Modern_LineHelp_DLC2 = 273,
-            Modern_System_Message_win64_DLC2 = 275,
+            Modern_SystemMessage_win64_DLC2 = 275,
             Modern_Dialogues_DLC2 = 276,
             SystemMessage_PS4_DLC2 = 277,
             SystemMessage_XboxOne_DLC2 = 278,
@@ -835,21 +842,10 @@ namespace StudioCore.TextEditor
                 case FmgEntryCategory.Gem:
                 case FmgEntryCategory.SwordArts:
                     info.UICategory = FmgUICategory.Item;
-                    info.GroupedEntry = true;
                     break;
                 default:
                     info.UICategory = FmgUICategory.Menu;
                     break;
-            }
-
-            foreach (var parentInfo in _fmgInfoBank)
-            {
-                if (parentInfo.Name == RemovePatchStrings(info.FmgID.ToString()))
-                {
-                    // Patch FMG found
-                    info.PatchParent = parentInfo;
-                    parentInfo.PatchChildren.Add(info);
-                }
             }
 
             ActiveUITypes[info.UICategory] = true;
@@ -889,13 +885,31 @@ namespace StudioCore.TextEditor
             }
 
             foreach (var info in _fmgInfoBank)
+            {
                 ApplyGameDifferences(info);
+                if (CFG.Current.FMG_NoGroupedFmgEntries)
+                {
+                    info.EntryType = FmgEntryTextType.TextBody;
+                }
+            }
+            if (!CFG.Current.FMG_NoFmgPatching)
+            {
+                foreach (var info in _fmgInfoBank)
+                {
+                    SetFMGInfoPatchParent(info);
+                }
+            }
 
-            _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
+            if (CFG.Current.FMG_NoGroupedFmgEntries)
+                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID).ToList();
+            else
+                _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
+
             HandleDuplicateEntries();
 
             return true;
         }
+
         /// <summary>
         /// Loads MsgBnd from path, generates FMGInfo, and fills FmgInfoBank.
         /// </summary>
@@ -904,15 +918,16 @@ namespace StudioCore.TextEditor
         {
             if (path == null)
             {
-                if (_languageFolder == "")
+                if (_languageFolder != "")
                 {
-                    // Default language folder could not be found.
+                    TaskManager.warningList.TryAdd("FmgPathLoadError" + msgBndType + _languageFolder,
+                        $"Could not find text data files when looking for [{msgBndType}] in [{_languageFolder}] folder.\nText data will not be loaded.");
                 }
                 else
                 {
-                    MessageBox.Show($"Could not find {msgBndType} in language folder \"{_languageFolder}\".\nText data will not be loaded.", "Error");
+                    TaskManager.warningList.TryAdd("FmgDefaultPathLoadError" + msgBndType + _languageFolder,
+                        $"Could not find text data files when looking for [{msgBndType}] in [Default Eng] folder.\nText data will not be loaded. Make sure entire game is unpacked.");
                 }
-                
                 IsLoaded = false;
                 IsLoading = false;
                 return false;
@@ -936,11 +951,12 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            try
+            TaskManager.Run("FB:Reload", true, false, true, () =>
             {
-                _languageFolder = languageFolder;
                 IsLoaded = false;
                 IsLoading = true;
+
+                _languageFolder = languageFolder;
 
                 ActiveUITypes.Clear();
                 foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
@@ -948,22 +964,24 @@ namespace StudioCore.TextEditor
                     ActiveUITypes.Add((FmgUICategory)e, false);
                 }
 
-                //TaskManager.Run("FB:Reload", true, false, true, () =>
                 if (AssetLocator.Type == GameType.Undefined)
                 {
                     return;
                 }
-
                 if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    ReloadDS2FMGs(ref _languageFolder);
-                    IsLoading = false;
-                    IsLoaded = true;
+                    if (ReloadDS2FMGs())
+                    {
+                        IsLoading = false;
+                        IsLoaded = true;
+                    }
                     return;
                 }
 
-                var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-                var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+                SetDefaultLanguagePath();
+
+                AssetDescription itemMsgPath = AssetLocator.GetItemMsgbnd(_languageFolder);
+                AssetDescription menuMsgPath = AssetLocator.GetMenuMsgbnd(_languageFolder);
 
                 _fmgInfoBank.Clear();
                 if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
@@ -973,20 +991,34 @@ namespace StudioCore.TextEditor
                     IsLoading = false;
                     return;
                 }
+
                 IsLoaded = true;
                 IsLoading = false;
-            }
-            catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
-            {
-                _fmgInfoBank.Clear();
-                IsLoaded = false;
-                IsLoading = false;
-            }
+            });
         }
 
-        private static void ReloadDS2FMGs(ref string languageFolder)
+        private static bool ReloadDS2FMGs()
         {
-            var desc = AssetLocator.GetItemMsgbnd(ref languageFolder, true);
+            SetDefaultLanguagePath();
+            AssetDescription desc = AssetLocator.GetItemMsgbnd(_languageFolder, true);
+
+            if (desc.AssetPath == null)
+            {
+                if (_languageFolder != "")
+                {
+                    TaskManager.warningList.TryAdd("FmgPathLoadError" + _languageFolder,
+                        $"Could not find text data files when using [{_languageFolder}] folder.\nText data will not be loaded.");
+                }
+                else
+                {
+                    TaskManager.warningList.TryAdd("FmgDefaultPathLoadError" + _languageFolder,
+                        $"Could not find text data files when using [Default Eng] folder.\nText data will not be loaded. Make sure entire game is unpacked.");
+                }
+                IsLoaded = false;
+                IsLoading = false;
+                return false;
+            }
+
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
             _fmgInfoBank.Clear();
             foreach (var file in files)
@@ -1005,6 +1037,43 @@ namespace StudioCore.TextEditor
             }
             _fmgInfoBank = _fmgInfoBank.OrderBy(e => e.Name).ToList();
             HandleDuplicateEntries();
+            return true;
+        }
+
+        private static void SetDefaultLanguagePath()
+        {
+            if (_languageFolder == "")
+            {
+                // By default, try to find path to English folder.
+                foreach (var lang in AssetLocator.GetMsgLanguages())
+                {
+                    string folder = lang.Value.Split("\\").Last();
+                    if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        _languageFolder = folder;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static void SetFMGInfoPatchParent(FMGInfo info)
+        {
+            string strippedName = RemovePatchStrings(info.Name);
+            if (strippedName != info.Name)
+            {
+                // This is a patch FMG, try to find parent FMG.
+                foreach (var parentInfo in _fmgInfoBank)
+                {
+                    if (parentInfo.Name == strippedName)
+                    {
+                        info.AddParent(parentInfo);
+                        return;
+                    }
+                }
+                TaskManager.warningList.TryAdd("FMGFindParentErr "+info.Name+" "+info.FmgID,
+                    $"Could not find a patch parent for FMG \"{info.Name}\" with ID {info.FmgID}");
+            }
         }
 
         /// <summary>
@@ -1065,8 +1134,7 @@ namespace StudioCore.TextEditor
                         info.EntryType = FmgEntryTextType.Title;
                         info.EntryCategory = FmgEntryCategory.Goods;
                         var parent = _fmgInfoBank.Find(e => e.FmgID == FmgIDType.TitleGoods);
-                        info.PatchParent = parent;
-                        parent.PatchChildren.Add(info);
+                        info.AddParent(parent);
                     }
                     break;
             }
@@ -1076,9 +1144,12 @@ namespace StudioCore.TextEditor
         /// <summary>
         /// Get patched FMG Entries for the specified category, with TextType Title or TextBody.
         /// </summary>
+        /// <param name="category">FMGEntryCategory. If "None", an empty list will be returned.</param>
         /// <returns>List of patched entries if found; empty list otherwise.</returns>
         public static List<FMG.Entry> GetFmgEntriesByCategory(FmgEntryCategory category, bool sort = true)
         {
+            if (category == FmgEntryCategory.None)
+                return new List<FMG.Entry>();
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == category && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
@@ -1090,9 +1161,12 @@ namespace StudioCore.TextEditor
         /// <summary>
         /// Get patched FMG Entries for the specified category and text type.
         /// </summary>
+        /// <param name="category">FMGEntryCategory . If "None", an empty list will be returned.</param>
         /// <returns>List of patched entries if found; empty list otherwise.</returns>
         public static List<FMG.Entry> GetFmgEntriesByCategoryAndTextType(FmgEntryCategory category, FmgEntryTextType textType, bool sort = true)
         {
+            if (category == FmgEntryCategory.None)
+                return new List<FMG.Entry>();
             foreach (var info in _fmgInfoBank)
             {
                 if (info.EntryCategory == category && info.EntryType == textType)
@@ -1126,10 +1200,12 @@ namespace StudioCore.TextEditor
                 ID = id,
             };
 
-            if (fmgInfo.EntryCategory == FmgEntryCategory.None)
+            if (fmgInfo.EntryCategory == FmgEntryCategory.None || CFG.Current.FMG_NoGroupedFmgEntries)
             {
                 var entryPairs = fmgInfo.GetPatchedEntryFMGPairs();
                 var pair = entryPairs.Find(e => e.Entry.ID == id);
+                if (pair == null)
+                    return eGroup;
                 eGroup.TextBody = pair.Entry;
                 eGroup.TextBodyInfo = pair.FmgInfo;
                 return eGroup;
@@ -1356,8 +1432,8 @@ namespace StudioCore.TextEditor
             // Load the fmg bnd, replace fmgs, and save
             IBinder fmgBinderItem;
             IBinder fmgBinderMenu;
-            var itemMsgPath = AssetLocator.GetItemMsgbnd(ref _languageFolder);
-            var menuMsgPath = AssetLocator.GetMenuMsgbnd(ref _languageFolder);
+            var itemMsgPath = AssetLocator.GetItemMsgbnd(_languageFolder);
+            var menuMsgPath = AssetLocator.GetMenuMsgbnd(_languageFolder);
             if (AssetLocator.Type == GameType.DemonsSouls || AssetLocator.Type == GameType.DarkSoulsPTDE || AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
@@ -1387,8 +1463,8 @@ namespace StudioCore.TextEditor
                 }
             }
 
-            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(ref _languageFolder, true);
-            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(ref _languageFolder, true);
+            var itemMsgPathDest = AssetLocator.GetItemMsgbnd(_languageFolder, true);
+            var menuMsgPathDest = AssetLocator.GetMenuMsgbnd(_languageFolder, true);
             if (fmgBinderItem is BND3 bnd3)
             {
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
@@ -1408,7 +1484,6 @@ namespace StudioCore.TextEditor
         public static void SetAssetLocator(AssetLocator l)
         {
             AssetLocator = l;
-            //ReloadFMGs();
         }
     }
 }

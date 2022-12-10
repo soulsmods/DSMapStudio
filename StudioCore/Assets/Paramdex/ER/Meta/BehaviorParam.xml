@@ -33,7 +33,7 @@
     <ezStateBehaviorType_old AltName="State Behavior Type" Wiki="For ID calculation rules" Enum="STATE_BEHAVIOR_TYPE" />
     <refType AltName="Reference Type" Wiki="Specify the reference ID so that it is correct." Enum="BEHAVIOR_REF_TYPE" />
     <pad2 AltName=""/>
-    <refId AltName="Reference ID" Wiki="It can be used properly according to the attack power, missile, ID of special effect parameter, and refType." Refs="AtkParam_Pc,AtkParam_Npc,Bullet,SpEffectParam" />
+    <refId AltName="Reference ID" Wiki="It can be used properly according to the attack power, missile, ID of special effect parameter, and refType." Refs="AtkParam_Pc(refType=0),AtkParam_Npc(refType=0),Bullet(refType=1),SpEffectParam(refType=2)" />
     <consumeSA AltName="Poise Cost" Wiki="Set the amount of SA consumed during action." />
     <stamina AltName="Stamina Cost" Wiki="Set the amount of stamina consumed during action." />
     <consumeDurability AltName="Durability Cost" Wiki="Set the durability of weapons consumed during action." />
@@ -41,5 +41,5 @@
     <heroPoint AltName="Humanity Cost" Wiki="Set the amount of humanity consumed during action" />
     <pad1 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Handles animation events, including attack frames or firing bullets.\nResponsible for stamina consumption.\nNote that in Elden Ring, SpEffects are applied directly from the animation." AlternativeOrder="variationId,behaviorJudgeId,-,category,ezStateBehaviorType_old,-,refId,refType,-,consumeSA,stamina,consumeDurability,heroPoint,-"/>
 </PARAMMETA>

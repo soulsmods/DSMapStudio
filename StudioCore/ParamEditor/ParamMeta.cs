@@ -333,6 +333,11 @@ namespace StudioCore.ParamEditor
         public string VirtualRef {get; set;}
 
         /// <summary>
+        /// Name of an FMG that a Field may refer to.
+        /// </summary>
+        public string FmgRef {get; set;}
+
+        /// <summary>
         /// Set of generally acceptable values, named
         /// </summary>
         public ParamEnum EnumType {get; set;}
@@ -387,6 +392,9 @@ namespace StudioCore.ParamEditor
             XmlAttribute VRef = fieldMeta.Attributes["VRef"];
             if (VRef != null)
                 VirtualRef = VRef.InnerText;
+            XmlAttribute FMGRef = fieldMeta.Attributes["FmgRef"];
+            if (FMGRef != null)
+                FmgRef = FMGRef.InnerText;
             XmlAttribute Enum = fieldMeta.Attributes["Enum"];
             if (Enum != null)
                 EnumType = parent.enums.GetValueOrDefault(Enum.InnerText, null);
@@ -408,6 +416,7 @@ namespace StudioCore.ParamEditor
             if (RefTypes != null)
                 ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Vref", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
+            ParamMetaData.SetStringXmlProperty("FmgRef", FmgRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Wiki", Wiki, true, _parent._xml, "PARAMMETA", "Field", field);

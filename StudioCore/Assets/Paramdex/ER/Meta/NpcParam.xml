@@ -545,5 +545,5 @@
     <lockScoreOffset AltName="Lock Score Offset" Wiki="Lock score correction value" />
     <pad12 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines the stats for a given enemy or group of enemies. Does not determine model or location.\nStats are often affected greatly by attached SpEffects." />
 </PARAMMETA>

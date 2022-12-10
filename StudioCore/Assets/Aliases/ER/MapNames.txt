@@ -74,6 +74,9 @@ m34_14_00_00 Divine Tower of East Altus
 m34_15_00_00 Isolated Divine Tower
 m35_00_00_00 Subterranean Shunning-Grounds
 m39_20_00_00 Ruin-Strewn Precipice
+m45_00_00_00 Royal Colosseum
+m45_01_00_00 Caelid Colosseum
+m45_02_00_00 Limgrave Colosseum
 m60_08_10_02 Southwest Liurnia
 m60_16_20_01 Southwest Moonlight Altar
 m60_33_40_00 Moonlight Altar - Altar South, Chelona's Rise

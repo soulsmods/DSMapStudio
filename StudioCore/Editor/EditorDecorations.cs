@@ -14,6 +14,7 @@ using FSParam;
 using StudioCore;
 using StudioCore.Editor;
 using StudioCore.ParamEditor;
+using StudioCore.TextEditor;
 
 namespace StudioCore.Editor
 {
@@ -72,6 +73,23 @@ namespace StudioCore.Editor
 
                 ImGui.SameLine();
                 ImGui.TextUnformatted(">");
+                ImGui.PopStyleColor();
+                ImGui.PopStyleVar();
+            }
+        }
+        public static void FmgRefText(string fmgRef)
+        {
+            if (fmgRef == null)
+                return;
+            if (CFG.Current.Param_HideReferenceRows == false) //Move preference
+            {
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
+                ImGui.TextUnformatted($@"  [");
+                ImGui.SameLine();
+                ImGui.TextUnformatted(fmgRef);
+                ImGui.SameLine();
+                ImGui.TextUnformatted("]");
                 ImGui.PopStyleColor();
                 ImGui.PopStyleVar();
             }
@@ -153,7 +171,21 @@ namespace StudioCore.Editor
             }
             return rows;
         }
-
+        public static void FmgRefSelectable(string fmgName, dynamic oldval)
+        {
+            if (fmgName == null || !FMGBank.IsLoaded)
+                return;
+            FMGBank.FMGInfo fmgInfo = FMGBank.FmgInfoBank.Find((x) => x.Name == fmgName);
+            if (fmgInfo == null)
+                return;
+            FMG.Entry entry = fmgInfo.GetPatchedEntries().Find((x) => x.ID == (int)oldval);
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
+            if (entry == null || entry.Text == null || entry.Text.Trim().Equals(""))
+                ImGui.TextUnformatted("%null%");
+            else
+                ImGui.TextUnformatted(entry.Text);
+            ImGui.PopStyleColor();
+        }
         public static void EnumNameText(string enumName)
         {
             if (enumName != null && CFG.Current.Param_HideEnums == false) //Move preference
@@ -205,9 +237,9 @@ namespace StudioCore.Editor
             }
         }
         
-        public static bool ParamRefEnumContextMenu(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum)
+        public static bool ParamRefEnumContextMenu(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, FMGBank.FMGInfo fmgInfo, ParamEnum Enum)
         {
-            if (RefTypes == null && Enum == null)
+            if (RefTypes == null && Enum == null && fmgInfo == null)
                 return false;
             bool result = false;
             if (ImGui.BeginPopupContextItem("rowMetaValue"))
@@ -216,6 +248,8 @@ namespace StudioCore.Editor
                     result |= PropertyRowRefsContextItems(bank, RefTypes, context, oldval, ref newval);
                 if (Enum != null)
                     result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
+                if (fmgInfo != null && ImGui.Selectable($@"Goto {fmgInfo.Name} Text"))
+                    EditorCommandQueue.AddCommand($@"text/select/{fmgInfo.Name}/{(int)oldval}");
                 ImGui.EndPopup();
             }
             return result;
