@@ -883,9 +883,9 @@ namespace StudioCore.ParamEditor
                     {
                         doFocus = initcmd[0] == "select";
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(), 
-                                ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.VanillaDiffCache[_activeView._selection.getActiveParam()]);
+                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
+                                ParamBank.VanillaBank.Params.GetValueOrDefault(_activeView._selection.getActiveParam()),
+                                ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(_activeView._selection.getActiveParam()));
 
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
@@ -916,8 +916,8 @@ namespace StudioCore.ParamEditor
                         }
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
                             ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
-                                ParamBank.VanillaBank.Params[_activeView._selection.getActiveParam()],
-                                ParamBank.PrimaryBank.VanillaDiffCache[_activeView._selection.getActiveParam()]);
+                                ParamBank.VanillaBank.Params.GetValueOrDefault(_activeView._selection.getActiveParam()),
+                                ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(_activeView._selection.getActiveParam()));
 
                     }
                 }
@@ -1316,6 +1316,7 @@ namespace StudioCore.ParamEditor
         private int _gotoParamRow = -1;
         private bool _arrowKeyPressed = false;
         private bool _focusRows = false;
+        private bool _drawParamView = false;
 
         internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
@@ -1335,6 +1336,16 @@ namespace StudioCore.ParamEditor
         {
             ImGui.Columns(3);
             ImGui.BeginChild("params");
+
+            if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+                or GameType.DarkSoulsPTDE
+                or GameType.DarkSoulsRemastered)
+            {
+                // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
+                if (ImGui.Checkbox("Edit Drawparams", ref _drawParamView))
+                    CacheBank.ClearCaches();
+            }
+
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
@@ -1373,6 +1384,17 @@ namespace StudioCore.ParamEditor
             List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
                 var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                 var keyList = list.Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param)).ToList();
+
+                if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+                    or GameType.DarkSoulsPTDE
+                    or GameType.DarkSoulsRemastered)
+                {
+                    if (_drawParamView)
+                        keyList = keyList.FindAll(p => p.EndsWith("Bank"));
+                    else
+                        keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
+                }
+
                 if (CFG.Current.Param_AlphabeticalParams)
                     keyList.Sort();
                 return keyList;
@@ -1553,10 +1575,11 @@ namespace StudioCore.ParamEditor
             else
             {
                 ImGui.BeginChild("columns" + activeParam);
+                Param vanillaParam = ParamBank.VanillaBank.Params?.GetValueOrDefault(activeParam);
                 _propEditor.PropEditorParamRow(
                     ParamBank.PrimaryBank,
                     activeRow,
-                    ParamBank.VanillaBank.Params?[activeParam][activeRow.ID],
+                    vanillaParam?[activeRow.ID],
                     ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?[activeParam][activeRow.ID])).ToList(),
                     _selection.getCompareRow(),
                     ref _selection.getCurrentPropSearchString(),
