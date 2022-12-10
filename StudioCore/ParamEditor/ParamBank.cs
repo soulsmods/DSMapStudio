@@ -173,7 +173,7 @@ namespace StudioCore.ParamEditor
             // _params = new Dictionary<string, PARAM>();
             foreach (var f in parambnd.Files)
             {
-                if (!f.Name.ToUpper().EndsWith(".PARAM") || Path.GetFileNameWithoutExtension(f.Name).StartsWith("default_"))
+                if (!f.Name.ToUpper().EndsWith(".PARAM"))
                 {
                     continue;
                 }
