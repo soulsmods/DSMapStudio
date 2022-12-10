@@ -598,7 +598,7 @@
     <properLuck AltName="Requirement: ARC" Wiki="Equipment appropriate value." />
     <freezeGuardResist AltName="Guard Resist: Frostbite" Wiki="How much to cut the attack power (set to the special effect parameter) to cool down" />
     <autoReplenishType AltName="Auto Replenish Type" Wiki="Controls whether or not to automatically replenish and default settings" Enum="AUTO_REPLENISH_TYPE" />
-    <swordArtsParamId AltName="Sword Arts Param ID" Wiki="Arts parameter ID" Refs="swordArtsParam" />
+    <swordArtsParamId AltName="Sword Arts Param ID" Wiki="Arts parameter ID" Refs="SwordArtsParam" />
     <correctLuck AltName="Correction: ARC" Wiki="Charapara correction value." />
     <arrowBoltEquipId AltName="Ammunition Equip ID" Wiki="Equipment number of the quiver (magazine) display model. In the case of a bow, it is displayed as a quiver, and in the case of a crossbow, it is displayed as a magazine." />
     <DerivationLevelType AltName="Derivation Level Type" Wiki="Type of how to set the enhancement level when returning or deriving a weapon" Enum="WEAPON_DERIVATION_LEVEL_TYPE" />
@@ -637,7 +637,7 @@
     <attainmentWepStatusMag AltName="Unique R2 Attack - INT Requirement" Wiki="To change the R2 attack into a special action when the status is X or higher when using a specific weapon." />
     <attainmentWepStatusFai AltName="Unique R2 Attack - FTH Requirement" Wiki="This is to change the R2 attack into a special action when the status is X or higher when using a specific weapon." />
     <attainmentWepStatusLuc AltName="Unique R2 Attack - ARC Requirement" Wiki="This is to change the R2 attack into a special action when the status is X or higher when using a specific weapon." />
-    <attackElementCorrectId AltName="Attack Element Correct ID" Wiki="ID of the parameter that corrects the attack attribute" Refs="attackElementCorrectParam" />
+    <attackElementCorrectId AltName="Attack Element Correct ID" Wiki="ID of the parameter that corrects the attack attribute" Refs="AttackElementCorrectParam" />
     <saleValue AltName="Sale Value" Wiki="Selling price" />
     <reinforceShopCategory AltName="Reinforcement Menu Type" Wiki="Enhanced shop category" Enum="REINFORCE_SHOP_CATEGORY" />
     <maxArrowQuantity AltName="Max Ammunition Held" Wiki="Maximum number of arrows" />
@@ -680,7 +680,7 @@
     <vsPlayerDmgCorrectRate_Curse AltName="Vs. Player - Blight Damage %" Wiki="Only attacks on the player will correct the damage done." />
     <pad AltName=""/>
   </Field>
-  <Self OffsetSize="100" AlternativeOrder="sortId,trophySGradeId,-,
+  <Self Wiki="Defines weapon types and each affinity.\nIncludes arrows and bolts. Responsible for scaling shown on certain consumables.\nIDs not ending in a multiple of 100 are ignored.\nPermitting affinities on a weapon without affinity rows at the correct IDs will result in the nearest 10000 being used.\nSpEffects specified here can be modified by upgrades in ReinforceParamWeapon." OffsetSize="100" AlternativeOrder="sortId,trophySGradeId,-,
 behaviorVariationId,swordArtsParamId,wepmotionCategory,guardmotionCategory,wepmotionOneHandId,wepmotionBothHandId,-,
 equipModelId,iconId,equipModelCategory,equipModelGender,wepType,weaponCategory,isNormalAttackType,isBlowAttackType,isSlashAttackType,isThrustAttackType,-,
 weight,weaponWeightRate,-,

@@ -18,6 +18,7 @@ namespace StudioCore.TextEditor
     {
         public ActionManager EditorActionManager = new ActionManager();
         private readonly PropertyEditor _propEditor = null;
+        private ProjectSettings _projectSettings;
 
         private FMGBank.EntryGroup _activeEntryGroup;
         private FMGBank.FMGInfo _activeFmgInfo;
@@ -101,7 +102,7 @@ namespace StudioCore.TextEditor
                 }
                 ImGui.EndMenu();
             }
-            if (ImGui.BeginMenu("Text Language"))
+            if (ImGui.BeginMenu("Text Language", !FMGBank.IsLoading))
             {
                 var folders = FMGBank.AssetLocator.GetMsgLanguages();
                 if (folders.Count == 0)
@@ -140,94 +141,63 @@ namespace StudioCore.TextEditor
 
         private void FMGSearchLogic(ref bool doFocus)
         {
-            // Todo: This could be cleaned up.
             if (_entryLabelCache != null)
             {
                 if (_searchFilter != _searchFilterCached)
                 {
-                    _EntryLabelCacheFiltered = _entryLabelCache;
                     List<FMG.Entry> matches = new();
+                    _EntryLabelCacheFiltered = _entryLabelCache;
 
-                    if (_activeFmgInfo.GroupedEntry)
-                    {
-                        // Grouped entries
-                        List<FMG.Entry> searchEntries;
-                        if (_searchFilter.Length > _searchFilterCached.Length)
-                            searchEntries = _EntryLabelCacheFiltered;
-                        else
-                            searchEntries = _entryLabelCache;
-
-                        foreach (var entry in searchEntries)
-                        {
-                            // Titles
-                            if (entry.ID.ToString().Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                // ID search
-                                matches.Add(entry);
-                            }
-                            else if (entry.Text != null)
-                            {
-                                // Text search
-                                if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
-                                    matches.Add(entry);
-                            }
-                        }
-                        foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
-                        {
-                            // Descriptions
-                            if (entry.Text != null)
-                            {
-                                if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
-                                    if (search != null)
-                                        matches.Add(search);
-                                }
-                            }
-                        }
-                        foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
-                        {
-                            // Summaries
-                            if (entry.Text != null)
-                            {
-                                if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
-                                    if (search != null)
-                                        matches.Add(search);
-                                }
-                            }
-                        }
-                    }
+                    List<FMG.Entry> mainEntries;
+                    if (_searchFilter.Length > _searchFilterCached.Length)
+                        mainEntries = _EntryLabelCacheFiltered;
                     else
-                    {
-                        // Non-grouped entries
-                        List<FMG.Entry> searchEntries;
-                        if (_searchFilter.Length > _searchFilterCached.Length)
-                            searchEntries = _EntryLabelCacheFiltered;
-                        else
-                            searchEntries = _entryLabelCache;
+                        mainEntries = _entryLabelCache;
 
-                        foreach (var entry in searchEntries)
+                    // Title/Textbody
+                    foreach (var entry in mainEntries)
+                    {
+                        if (entry.ID.ToString().Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (entry.ID.ToString().Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                // ID search
+                            // ID search
+                            matches.Add(entry);
+                        }
+                        else if (entry.Text != null)
+                        {
+                            // Text search
+                            if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
                                 matches.Add(entry);
-                            }
-                            else if (entry.Text != null)
+                        }
+                    }
+
+                    // Descriptions
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
+                    {
+                        if (entry.Text != null)
+                        {
+                            if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
                             {
-                                // Text search
-                                if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
-                                    if (search != null)
-                                        matches.Add(search);
-                                }
+                                var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                if (search != null)
+                                    matches.Add(search);
                             }
                         }
                     }
 
+                    // Summaries
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
+                    {
+                        if (entry.Text != null)
+                        {
+                            if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                if (search != null)
+                                    matches.Add(search);
+                            }
+                        }
+                    }
+                   
                     _EntryLabelCacheFiltered = matches;
                     _searchFilterCached = _searchFilter;
                     doFocus = true;
@@ -247,14 +217,18 @@ namespace StudioCore.TextEditor
                     && info.UICategory == uiType 
                     && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
                 {
-                    string displayName;
+                    string displayName = "";
                     if (CFG.Current.FMG_ShowOriginalNames)
                     {
                         displayName = info.FileName;
                     }
                     else
                     {
-                        displayName = info.Name.Replace("Title", "");
+                        if (!CFG.Current.FMG_NoGroupedFmgEntries)
+                            displayName = info.Name.Replace("Title", "");
+                        else
+                            displayName = info.Name;
+
                         displayName = displayName.Replace("Modern_", "");
                     }
                     if (ImGui.Selectable($@" {displayName}", info == _activeFmgInfo))
@@ -560,6 +534,7 @@ namespace StudioCore.TextEditor
 
         private void ChangeLanguage(string path)
         {
+            _projectSettings.LastFmgLanguageUsed = path;
             ClearTextEditorCache();
             ResetActionManager();
             FMGBank.ReloadFMGs(path);
@@ -567,9 +542,10 @@ namespace StudioCore.TextEditor
 
         public override void OnProjectChanged(ProjectSettings newSettings)
         {
+            _projectSettings = newSettings;
             ClearTextEditorCache();
             ResetActionManager();
-            FMGBank.ReloadFMGs();
+            FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
         }
 
         public override void Save()

@@ -208,6 +208,8 @@ namespace StudioCore
 
         // FMG Editor settings
         public bool FMG_ShowOriginalNames = false;
+        public bool FMG_NoGroupedFmgEntries = false;
+        public bool FMG_NoFmgPatching = false;
 
         // Param settings
         public bool Param_ShowAltNames = true;

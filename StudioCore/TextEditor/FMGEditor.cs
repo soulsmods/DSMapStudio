@@ -272,6 +272,7 @@ namespace StudioCore.TextEditor
         }
 
         private int _idCache = 0;
+        private FMGBank.EntryGroup _eGroupCache;
         public void PropIDFMG(FMGBank.EntryGroup eGroup, List<FMG.Entry> entryCache)
         {
             var oldID = eGroup.ID;
@@ -279,6 +280,7 @@ namespace StudioCore.TextEditor
             if (ImGui.InputInt("##id", ref id))
             {
                 _idCache = id;
+                _eGroupCache = eGroup;
             }
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
             if (committed)
@@ -286,9 +288,9 @@ namespace StudioCore.TextEditor
                 if (_idCache != oldID)
                 {
                     // Forbid duplicate IDs
-                    if (entryCache.Find(e => e.ID == id) == null)
+                    if (entryCache.Find(e => e.ID == _idCache) == null)
                     {
-                        UpdateProperty(eGroup.GetType().GetProperty("ID"), eGroup, _idCache);
+                        UpdateProperty(_eGroupCache.GetType().GetProperty("ID"), _eGroupCache, _idCache);
                     }
                 }
             }

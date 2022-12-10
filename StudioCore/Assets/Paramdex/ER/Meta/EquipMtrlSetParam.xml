@@ -9,12 +9,12 @@
     </Enum>
   </Enums>
   <Field>
-    <materialId01 AltName="Material ID [1]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId02 AltName="Material ID [2]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId03 AltName="Material ID [3]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId04 AltName="Material ID [4]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId05 AltName="Material ID [5]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
-    <materialId06 AltName="Material ID [6]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods,EquipParamProtector,EquipParamCustomWeapon,EquipParamGem,EquipParamWeapon" />
+    <materialId01 AltName="Material ID [1]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods(materialCate01=4),EquipParamProtector(materialCate01=1),EquipParamGem(materialCate01=3),EquipParamWeapon(materialCate01=0)" />
+    <materialId02 AltName="Material ID [2]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods(materialCate02=4),EquipParamProtector(materialCate02=1),EquipParamGem(materialCate02=3),EquipParamWeapon(materialCate02=0)" />
+    <materialId03 AltName="Material ID [3]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods(materialCate03=4),EquipParamProtector(materialCate03=1),EquipParamGem(materialCate03=3),EquipParamWeapon(materialCate03=0)" />
+    <materialId04 AltName="Material ID [4]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods(materialCate04=4),EquipParamProtector(materialCate04=1),EquipParamGem(materialCate04=3),EquipParamWeapon(materialCate04=0)" />
+    <materialId05 AltName="Material ID [5]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods(materialCate05=4),EquipParamProtector(materialCate05=1),EquipParamGem(materialCate05=3),EquipParamWeapon(materialCate05=0)" />
+    <materialId06 AltName="Material ID [6]" Wiki="Material item ID required to strengthen armor." Refs="EquipParamGoods(materialCate06=4),EquipParamProtector(materialCate06=1),EquipParamGem(materialCate06=3),EquipParamWeapon(materialCate06=0)" />
     <pad_id AltName=""/>
     <itemNum01 AltName="Material Amount [1]" Wiki="The number of material items required to strengthen armor." />
     <itemNum02 AltName="Material Amount [2]" Wiki="The number of material items required to strengthen armor." />
@@ -38,5 +38,5 @@
     <isDisableDispNum06 AltName="Disable Display Number [6]" Wiki="Whether to disable the number display" IsBool="" />
     <pad AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines costs associated with trades or upgrades. ID incrementation is used in places." ConsecutiveIDs="" />
 </PARAMMETA>

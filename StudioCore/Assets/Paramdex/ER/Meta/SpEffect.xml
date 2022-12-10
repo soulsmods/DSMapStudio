@@ -992,7 +992,7 @@ Requires State Info 66" />
     <goodsConsumptionRate AltName="Item FP Consumption %" Wiki="Item consumption MP multiplier" />
     <pad3 AltName=""/>
   </Field>
-  <Self Row0Dummy="" AlternativeOrder="iconId,-,
+  <Self Wiki="Defines various effects that can be applied to the player and to enemies.\nCan define passive, activated, single-use and repeated or continuous application effects with indefinite duration.\nSuccessful application may depend on spCategory or invocationConditions." Row0Dummy="" AlternativeOrder="iconId,-,
 conditionHp,conditionHpRate,-,
 effectEndurance,motionInterval,-,
 maxHpRate,maxMpRate,maxStaminaRate,changeHpRate,changeHpPoint,changeMpRate,changeMpPoint,mpRecoverChangeSpeed,changeStaminaRate,changeStaminaPoint,staminaRecoverChangeSpeed,lifeReductionRate,hpRecoverRate,bCurrHPIndependeMaxHP,lifeReductionType,isContractSpEffectLife,-,

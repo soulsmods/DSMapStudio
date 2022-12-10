@@ -1516,6 +1516,21 @@ namespace StudioCore
                 }
 
                 //
+                if (ImGui.BeginTabItem("FMG Text Settings"))
+                {
+                    ImGui.Indent();
+
+                    ImGui.Checkbox("Show Original FMG Names", ref CFG.Current.FMG_ShowOriginalNames);
+                    if (ImGui.Checkbox("Separate Related FMGs and Entries", ref CFG.Current.FMG_NoGroupedFmgEntries))
+                        _textEditor.OnProjectChanged(_projectSettings);
+                    if (ImGui.Checkbox("Separate Patch FMGs", ref CFG.Current.FMG_NoFmgPatching))
+                        _textEditor.OnProjectChanged(_projectSettings);
+
+                    ImGui.Unindent();
+                    ImGui.EndTabItem();
+                }
+
+                //
                 if (ImGui.BeginTabItem("Misc Settings"))
                 {
                     ImGui.Indent();
@@ -1577,17 +1592,6 @@ namespace StudioCore
                         {
                             _needsRebuildFont = true;
                         }
-
-                        ImGui.Unindent();
-                    }
-
-                    ImGui.Separator();
-
-                    if (ImGui.CollapsingHeader("FMG Text Editor"))
-                    {
-                        ImGui.Indent();
-
-                        ImGui.Checkbox("Show Original FMG Names", ref CFG.Current.FMG_ShowOriginalNames);
 
                         ImGui.Unindent();
                     }

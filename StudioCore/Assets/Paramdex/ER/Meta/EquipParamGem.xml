@@ -123,5 +123,5 @@
     <mountWepTextId AltName="Mount Weapon Text ID" Wiki="Corresponding Weapon Type Overwrite Text ID (-1: Do not overwrite) [Menu Text]" />
     <pad6 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines an Ash of War item. Determines what weapons it can be applied to and with what affinities.\nDoes not manage unique Ashes of War. Ashes of war may not immediately function on arbitrary weapons." />
 </PARAMMETA>

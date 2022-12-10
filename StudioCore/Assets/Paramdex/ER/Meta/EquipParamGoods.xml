@@ -527,7 +527,7 @@
     <disableParam_NT AltName="Disable Param - Network Test" Wiki="Parameters marked with  are excluded in the NT version package." IsBool="" />
     <disableParamReserve1 AltName=""/>
     <disableParamReserve2 AltName=""/>
-    <refId_default AltName="Reference ID" Wiki="ID0 called from the item (default)" Refs="AtkParam_Pc,Bullet,SpEffectParam" />
+    <refId_default AltName="Reference ID" Wiki="ID0 called from the item (default)" Refs="Bullet(refCategory=1),SpEffectParam(refCategory=2)" />
     <sfxVariationId AltName="SFX Variation ID" Wiki="Specify SFX variation (used to identify SFX in combination with TimeActEditor ID)" />
     <weight AltName="Weight" Wiki="Weight [kg]" />
     <basicPrice AltName="Basic Price" Wiki="Basic price" />
@@ -584,7 +584,7 @@
     <isEnableFastUseItem AltName="Can Cancel Application Early" Wiki="Is it possible to cancel early?" IsBool="" />
     <isApplySpecialEffect AltName="Apply SpEffect Modifiers" Wiki="Whether to reflect special effects (such as ability value correction)" IsBool="" />
     <syncNumVaryId AltName="Synchronized Item Usage ID" Wiki="When the number of items is changed, the items with the same ID will be changed at the same time. 0 Not synchronized" />
-    <refId_1 AltName="Reference ID - Left Hand" Wiki="ID1 called from the item" Refs="AtkParam_Pc,Bullet,SpEffectParam" />
+    <refId_1 AltName="Reference ID - Left Hand" Wiki="ID1 called from the item" Refs="Bullet(refCategory=1),SpEffectParam(refCategory=2)" />
     <refVirtualWepId AltName="Weapon Reference ID" Wiki="Weapon ID to refer to when using the tool" Refs="EquipParamWeapon" />
     <vagrantItemLotId AltName="Vagrant Item Lot ID" Wiki="-1 No vagrant 0 No lottery 1  With lottery" />
     <vagrantBonusEneDropItemLotId AltName="Vagrant Enemy Item Lot ID" Wiki="-1 No drop 0 No lottery 1  With lottery" />
@@ -644,5 +644,5 @@
     <itemGetTutorialFlagId AltName="Item Get Tutorial Flag ID" Wiki="Event flag ID for the tutorial when you first get the item. Flag ON when item is obtained." />
     <reserve3 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines an item, both consumable and key items.\nNote that many key items are placebo and the item's effect is granted through scripting. Passive effects from ownership are not defined here." />
 </PARAMMETA>

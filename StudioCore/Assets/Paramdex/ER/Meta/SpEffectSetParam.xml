@@ -8,5 +8,5 @@
     <spEffectId3 AltName="SpEffect ID [3]" Wiki="Special effect ID3" Refs="SpEffectParam"/>
     <spEffectId4 AltName="SpEffect ID [4]" Wiki="Special effect ID4" Refs="SpEffectParam"/>
   </Field>
-  <Self />
+  <Self Wiki="Defines a set of SpEffects to be applied to a specific enemy from MSB (map)."/>
 </PARAMMETA>
