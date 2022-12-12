@@ -3,9 +3,14 @@
 10 Duelist's Furled Finger - Create Invasion Sign
 11 Bloody Finger - Attempt Invasion
 16 Festering/Recusant Finger - Attempt Invasion
+30 (HKS) Function Unknown - Does Not Allow Throws (Grab Attacks)
 31 [Behavior] Counter Frames
+32 (HKS) Function Unknown - Does Not Allow Throws (Grab Attacks)
 70 Blight Effect
 81 Spectral Steed Whistle
+89 (HKS) Set Damage Level To 1 If Damage Level Below EXLarge And 0 If Damage Level Is Middle Or Small
+90 (HKS) Unknown Function - Jump Attack Landing Determination
+98 (HKS) Unknown Function - Jump Attack Landing Determination - Possible Light Landing If No SpEffect 140
 100 Grace - Restore HP
 101 Grace - Remove All Status
 102 Grace - Remove Hemorrhage
@@ -18,10 +23,34 @@
 109 Grace - Remove Blight
 125 Torrent
 126 Torrent
+131 (HKS) Unknown Function - Something To Do With Ride Attacks And Movement
+132 (HKS) Unknown Function - Heavy Attack Transition Logic
+133 (HKS) Enables Heavy Attack Transition - Forces Transition aXX_03X501 to aXX_03X500 - Applicable on WC and BR
+134 (HKS) Disables Heavy Attack Transition - Heavy Attacks Straight To aXX_03X500 - Applicable on WC and BR
+135 (HKS) Unknown Function - Light Attack SubStartType SpEffect
+136 (HKS) Unknown Function - Light Attack SubStartType SpEffect
+137 (HKS) Unknown Function - Light Attack SubStartType SpEffect
+138 (HKS) Unknown Function - Light Attack SubStartType SpEffect
+140 (HKS) Unknown Function - Jump Attack Landing Determination
+141 (HKS) Unknown Function - Jump Attack Landing Determination - Possible Light Landing
+142 (HKS) Unknown Function - Jump Attack Landing Determination - Possible Light Landing
+143 (HKS) Unknown Function - Jump Attack Landing Determination - Possible Light Landing
+144 (HKS) Unknown Function - Jump Attack Landing Determination - Possible Heavy Landing
+145 (HKS) Unknown Function - Jump Attack Looping
+146 (HKS) Unknown Function - Jump Attack Landing Determination - Possible Heavy Landing
+170 (HKS) Unknown Function - Something To Do With Guarding
+171 (HKS) If Damage Level Lower Than 3 Set Damage Level To 3
+172 (HKS) Guard Start Type 1
+173 (HKS) Guard Counter Enabler
+174 (HKS) Guard Counter Enabler
+175 (HKS) Disables Transition To Post-Struck Block Animation - Used For Parries
+176 (HKS) Unknown But Seems To Disable Transition To Post-Struck Block Animation
+183 (HKS) Unknown But Has To Do With env(500) And Act 2002
+185 (HKS) Unknown But Has To Do With Riding And Death
 415 Torch Effect
 416 Sentry's Torch - Effect
 420 Oil Pot
-425 Slug - Bullet - Slow
+425 (HKS) Slug - Bullet - Slow - JumpLevel 0 (Fat Roll)
 460 Beast-Repellent Torch Effect
 467 Swarm Pot [Cycle]
 470 Gravity - Pull towards Caster
@@ -46,16 +75,27 @@
 534 Small Golden Effigy - Send Summon Sign to Summoning Pool
 535 Small Red Effigy - Send Invasion Sign to Summoning Pool
 536 Phantom Bloody/Recusant Finger - Attempt Invasion
+560 (HKS) Returns False on ExecDeath
 860 Gargoyle's Blackblade - Bullet
 870 Reduvia - Bullet
 1525 Erdtree Greatshield - Bullet
 1545 Winged Greathorn - Bullet
 1576 Royal Greatsword - Bullet
 1625 Mohgwyn's Sacred Spear - Bullet
+1680 (HKS) Barbaric Roar Right Hand Enabler
+1681 (HKS) Barbaric Roar 3X600-3X615 Altered Heavy Attack 
+1682 (HKS) Barbaric Roar Left Hand Enabler
+1683 (HKS) Barbaric Roar 3X600-3X615 Altered Heavy Attack 
+1716 (HKS) Golden Tempering 3X600-3X615 Altered Heavy Attack 
+1721 (HKS) Dark Moon Greatsword 3X600-3X615 Altered Heavy Attack 
 1768 Commander's Standard - Bullet
 1769 Commander's Standard - Bullet - Allies
 1770 Commander's Standard - Effect
 1789 Ash of War - Death Flare
+1810 (HKS) War Cry Right Hand Enabler
+1811 (HKS) War Cry HKS aXX_3X620-3X635 Altered Heavy Attack 
+1812 (HKS) War Cry Left Hand Enabler
+1813 (HKS) War Cry HKS aXX_3X620-3X635 Altered Heavy Attack 
 1855 Sword of Milos - Bullet
 1856 Sword of Milos - Bullet
 1885 Sword of St. Trina - Bullet
@@ -144,7 +184,7 @@
 3197 Drawstring Blood Grease - Left [Attack]
 3200 Holy Water Pot
 3240 Telescope
-3245 Lantern - Right
+3245 (HKS) Lantern - Right - HalfBlend
 3246 Lantern - Left
 3260 Dragonwound Grease - Right
 3262 Dragonwound Grease - Left
@@ -253,7 +293,8 @@
 3963 Dappled Cured Meat
 3970 Silver-Pickled Fowl Foot
 3971 Gold-Pickled Fowl Foot
-4101 Sanguine Noble
+4100 (HKS) JumpLevel 0 (Fat Roll)
+4101 (HKS) Sanguine Noble - JumpLevel 0 (Fat Roll)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
@@ -302,6 +343,7 @@
 5372 Med Stag 4 XL Hits [Armor]
 5373 Med Stag 4 XL Hits + Light 4 Large [Armor]
 5374 Light Stag 4 XL Hits [Armor]
+5520 JumpLevel 0 (Fat Roll)
 5600 NPC: Infinite FP
 5601 NPC: Faster Stamina Recovery
 5836 Undead Enemy
@@ -429,6 +471,8 @@
 7660 NG+ Scaling -
 7670 NG+ Scaling -
 7680 NG+ Scaling -
+8001 (HKS) Turns Is_Stealth To True When Applied - Enables Crouch Attacks Under Certain Conditions
+9642 (HKS) Unknown But Has Something To With Act 2002
 10000 Castle Exile - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
@@ -440,6 +484,7 @@
 10165 Dragon-faced Flamethrower - Bullet
 10317 Fallen Hawk Soldier - Bullet
 10318 Fallen Hawk Soldier - Bullet [Chain]
+10665 (HKS) Unknown Function - I Geniuinely Do Not Know
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
 10945 Warhawk - Bullet
@@ -779,8 +824,52 @@
 90161 NPC: Ignore Fake Targets - Animal
 90162 NPC: Ignore Fake Targets - Undead and Animal
 90200 NPC: Enable Charm
-100620 Hand Style - Right Hand
-100621 Hand Style - Left Hand
+100000 (HKS) Unknown Function - Player Is Moving
+100001 (HKS) Unknown Function - Player Is Moving
+100002 (HKS) Unknown Function - Something To Do With Rolling And Locking On - Player Is Moving
+100010 (HKS) Unknown Function - Something To Do Player Lower Body Quick Turn
+100020 (HKS) Unknown Function - Something To Do With Movement Speed and Stick Level - Slows One Down On Horseback
+100050 (HKS) AoW Enable R2 Inputs For Combo Ender
+100051 (HKS) AoW Enable R2 Inputs For Combo Ender 2
+100052 (HKS) AoW Request R2 Inputs For Combo Ender 1
+100053 (HKS) AoW Request R2 Inputs For Combo Ender 2
+100054 (HKS) AoW Enable R1 Inputs For Combo Ender
+100055 (HKS) AoW Enable R1 Inputs For Combo Ender 2
+100130 (HKS) Change Legs To StanceType 1 - Square Off
+100140 (HKS) Change Legs To StanceType 2 - Unknown
+100150 (HKS) Change Legs To StanceType 0 - Unsheathe
+100160 (HKS) Change Legs To StanceType 3 - Unknown
+100170 (HKS) Unknown Function - Something To Do With Stopping And Attacking
+100200 (HKS) Unknown Function - Do Not Stop If Already Stopped And This SpEffect Not Applied
+100220 (HKS) Unknown Function - Something To Do With Movement Speed While Using Quick Enchant Items - Something To Do With Toggling Dash
+100250 (HKS) Unknown Function - Something To Do With Stances And Heavy Attacks
+100280 (HKS) Heavy Attack Button Early Release aXX_3XXX0 to aXX_3XXX5 - Also Applicable on WC and BR - Also Applicable on Bows Though Function is Unknown
+100285 (HKS) AoW Early Button Release aXXX_040000 to aXXX_040005
+100286 (HKS) AoW Early Button Release aXXX_040000 to aXXX_040006
+100290 (HKS) Heavy Attack Dodge aXX_3X500 to aXX_3X950 - aXX_3X500 to aXX_3X950 - Also Applicable on WC and BR
+100301 (HKS) Unknown Function - Something To Do With Movement Speed And Toggling Dash - Used In Conjunction With 100002
+100390 (HKS) Unknown Function - When Rolling Reset Damage Count
+100410 (HKS) Unknown Function - Changes Guard Condition To TO_GUARDON
+100500 (HKS) Raptors of the Mist - Execute Dodge When Struck
+100530 (HKS) Unknown Function - Related To Ash Of War Stance SpEffects
+100540 (HKS) Unknown Function - Related To Ash Of War Stance SpEffects But With 180
+100540 (HKS) Unknown Function - Related To Ash Of War Stance SpEffects But With 90
+100600 (HKS) Magic SpEffect - Enables Right Riding Combo 1 - Right Magic Combo 2 HalfBlend
+100601 (HKS) Magic SpEffect - Enables Right Riding Combo 2 - Right Magic Combo 3 HalfBlend
+100605 (HKS) Magic SpEffect - Enables Left Riding Combo 1 - Left Magic Combo 2 HalfBlend
+100606 (HKS) Magic SpEffect - Enables Left Riding Combo 2 - Left Magic Combo 3 HalfBlend
+100610 (HKS) Magic SpEffect - Ends Chargeable Magic Early aXXX_X45X10 to aXXX_X45X11 If Button Released
+100620 (HKS) Hand Style - Right Hand - Related To Act 2002
+100621 (HKS) Hand Style - Left Hand - Related To Act 2002
+100630 (HKS) Forces Jumping Attacks
+100640 (HKS) Set Damage Level To 1 If Damage Level Below EXLarge And 0 If Damage Level Is Middle Or Small
+100660 (HKS) Ground Slam - Golden Slam - Erdtree Slam - Ends Looping Falling Animation aXXX_040003 to aXXX_040004 If Touching Ground
+100670 (HKS) Gold Breaker - Ends Looping Falling Animation a829_040000 to a829_040004 If Touching Ground
+100700 (HKS) Sea of Magma - Ends Upper Body Looping Animation a806_040003 to a806_040004 If Button Released
+100800 (HKS) Night Bell Half Blend
+100901 (HKS) Unknown But Has Something To Do With Riding And Dashing
+100902 (HKS) Unknown But Has Something To Do With Riding And Double Jump
+100903 (HKS) Unknown But Has Something To Do With Riding And Dashing
 105000 Hemorrhage - Low - Addition +0
 105001 Hemorrhage - Low - Addition +1
 105002 Hemorrhage - Low - Addition +2
@@ -2751,14 +2840,14 @@
 502160 Pureblood Knight's Medal [Chain]
 502161 Pureblood Knight's Medal
 502190 Miquella's Needle
-503040 Mimic's Veil
+503040 (HKS) Mimic's Veil - Enable Mimicry
 503311 Frenzyflame Stone
 503312 Frenzyflame Stone
 503313 Frenzyflame Stone
 503314 Frenzyflame Stone
-503315 Frenzyflame Stone
+503315 (HKS) Frenzyflame Stone - Unknown But Has Something To Do With Act 2002
 503316 Frenzyflame Stone
-503317 Frenzyflame Stone
+503317 (HKS) Frenzyflame Stone - Unknown But Has Something To Do With Act 2002 And 503315 And 9642
 503320 Scriptstone
 503321 Scriptstone [Cycle]
 503350 Bewitching Branch
@@ -2768,7 +2857,7 @@
 503362 Radiant Baldachin's Blessing [Cycle]
 503500 Uplifting Aromatic
 503501 Uplifting Aromatic
-503520 Ironjar Aromatic
+503520 (HKS) Ironjar Aromatic - JumpLevel 0 (Fat Roll)
 503521 Ironjar Aromatic [Cycle]
 503522 Ironjar Aromatic [Cycle]
 503523 Ironjar Aromatic [Cycle]
